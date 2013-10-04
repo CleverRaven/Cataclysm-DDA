@@ -434,7 +434,7 @@ void initOptions() {
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
     OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete world"),
-                                             _("Delete world upon player death."),
+                                             _("Delete the world when the last active character dies."),
                                              "no,yes,query", "no"
                                             );
 
@@ -826,3 +826,10 @@ void save_options()
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
 }
 
+bool use_narrow_sidebar()
+{
+    if (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow") {
+        return true;
+    }
+    return false;
+}

@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include "cata_tiles.h"
 #include "get_version.h"
+#include "init.h"
 //
 
 #ifdef _MSC_VER
@@ -81,6 +82,7 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
+std::map< std::string,std::vector<int> > consolecolors;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -907,7 +909,7 @@ WINDOW *curses_init(void)
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
 
-    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+    const int SidebarWidth = use_narrow_sidebar() ? 45 : 55;
     WindowWidth= (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
     WindowWidth *= fontwidth;
@@ -1001,26 +1003,79 @@ inline SDL_Color BGR(int b, int g, int r)
     return result;
 }
 
+void load_colors(JsonObject &jsobj)
+{
+    std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
+    "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
+    JsonArray jsarr;
+    for(int c=0;c<16;c++)
+    {
+        jsarr = jsobj.get_array(colors[c]);
+        if(jsarr.size()<3)continue;
+        consolecolors[colors[c]].clear();
+        consolecolors[colors[c]].push_back(jsarr.get_int(2));
+        consolecolors[colors[c]].push_back(jsarr.get_int(1));
+        consolecolors[colors[c]].push_back(jsarr.get_int(0));
+    }
+}
+
+#define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
 int curses_start_color(void)
 {
-    colorpairs=new pairs[100];
-    windowsPalette[0]= BGR(0,0,0); // Black
-    windowsPalette[1]= BGR(0, 0, 255); // Red
-    windowsPalette[2]= BGR(0,110,0); // Green
-    windowsPalette[3]= BGR(23,51,92); // Brown???
-    windowsPalette[4]= BGR(200, 0, 0); // Blue
-    windowsPalette[5]= BGR(98, 58, 139); // Purple
-    windowsPalette[6]= BGR(180, 150, 0); // Cyan
-    windowsPalette[7]= BGR(150, 150, 150);// Gray
-    windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
-    windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
-    windowsPalette[10]= BGR(0, 255, 0); // Bright Green
-    windowsPalette[11]= BGR(0, 255, 255); // Yellow
-    windowsPalette[12]= BGR(255, 100, 100); // Light Blue
-    windowsPalette[13]= BGR(240, 0, 255); // Pink
-    windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
-    windowsPalette[15]= BGR(255, 255, 255); //White
-    //SDL_SetColors(screen,windowsPalette,0,256);
+    colorpairs = new pairs[100];
+    //Load the console colors from colors.json
+    std::ifstream colorfile("data/json/colors.json", std::ifstream::in | std::ifstream::binary);
+    try{
+        JsonIn jsin(&colorfile);
+        char ch;
+        // Manually load the colordef object because the json handler isn't loaded yet.
+        jsin.eat_whitespace();
+        ch = jsin.peek();
+        if( ch == '[' ) {
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                jsin.eat_whitespace();
+                char ch = jsin.peek();
+                if (ch != '{') {
+                    std::stringstream err;
+                    err << jsin.line_number() << ": ";
+                    err << "expected array of objects but found '";
+                    err << ch << "', not '{'";
+                    throw err.str();
+                }
+                JsonObject jo = jsin.get_object();
+                load_colors(jo);
+                jo.finish();
+            }
+        } else {
+            // not an array?
+            std::stringstream err;
+            err << jsin.line_number() << ": ";
+            err << "expected object or array, but found '" << ch << "'";
+            throw err.str();
+        }
+    }
+    catch(std::string e){
+        throw "data/json/colors.json: " + e;
+    }
+    if(consolecolors.empty())return 0;
+    windowsPalette[0]  = BGR(ccolor("BLACK"));
+    windowsPalette[1]  = BGR(ccolor("RED"));
+    windowsPalette[2]  = BGR(ccolor("GREEN"));
+    windowsPalette[3]  = BGR(ccolor("BROWN"));
+    windowsPalette[4]  = BGR(ccolor("BLUE"));
+    windowsPalette[5]  = BGR(ccolor("MAGENTA"));
+    windowsPalette[6]  = BGR(ccolor("CYAN"));
+    windowsPalette[7]  = BGR(ccolor("GRAY"));
+    windowsPalette[8]  = BGR(ccolor("DGRAY"));
+    windowsPalette[9]  = BGR(ccolor("LRED"));
+    windowsPalette[10] = BGR(ccolor("LGREEN"));
+    windowsPalette[11] = BGR(ccolor("YELLOW"));
+    windowsPalette[12] = BGR(ccolor("LBLUE"));
+    windowsPalette[13] = BGR(ccolor("LMAGENTA"));
+    windowsPalette[14] = BGR(ccolor("LCYAN"));
+    windowsPalette[15] = BGR(ccolor("WHITE"));
     return 0;
 }
 

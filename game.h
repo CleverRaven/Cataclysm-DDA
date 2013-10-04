@@ -68,7 +68,6 @@ enum quit_status {
  QUIT_SUICIDE, // Quit with 'Q'
  QUIT_SAVED,   // Saved and quit
  QUIT_DIED,     // Actual death
- QUIT_DELETE_WORLD,  // Quit and delete world
  QUIT_ERROR
 };
 
@@ -111,6 +110,7 @@ class game
   bool unserialize_legacy(std::ifstream & fin); // for old load
   void save();
   void delete_save();
+  std::vector<std::string> list_active_characters();
   void write_memorial_file();
   void cleanup_at_end();
   bool do_turn();

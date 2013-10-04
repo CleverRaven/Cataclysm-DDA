@@ -3834,6 +3834,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "shot_flechette",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "gun", 2 ],
+  "difficulty": 3,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "boltcutters", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 25 ]
+    ],
+    [
+      [ "shotgun_primer", 25 ]
+    ],
+    [
+      [ "gunpowder", 300 ]
+    ],
+    [
+      [ "nail", 200 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "water_clean",
   "category": "CC_DRINK",
   "skill_used": "cooking",
@@ -10764,7 +10801,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "crowbar",
+  "result": "makeshift_crowbar",
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 0,
@@ -13661,6 +13698,66 @@
      [ "scrap", 12 ]
      ]
     ]
+},{
+        "type" : "recipe",
+  "result": "q_staff",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "requires_skills": [ "bashing", 2 ],
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hatchet", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "i_staff",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    [
+      ["tongs", -1]
+    ],
+    [
+      ["anvil", -1]
+    ],
+    [
+      ["forge", 150], ["char_forge", 30]
+      ]
+    ],
+  "components": [
+    [
+      [ "q_staff", 1 ]
+    ],
+    [
+      [ "scrap", 6 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "wrench",
