@@ -683,7 +683,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else
   target = -1; // No monsters in range, don't use target, reset to -1
 
- int sideStyle = (OPTIONS["SIDEBAR_STYLE"] == "narrow");
+ bool sideStyle = use_narrow_sidebar();
  int height = 13;
  int width  = getmaxx(w_messages);
  int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));

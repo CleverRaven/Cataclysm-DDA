@@ -171,8 +171,20 @@ c_unset       = COLOR_PAIR(31),
 
 int color_to_int(nc_color col);
 nc_color int_to_color(int key);
+
+nc_color hilite(nc_color c);
+nc_color invert_color(nc_color c);
+nc_color red_background(nc_color c);
+nc_color white_background(nc_color c);
+nc_color green_background(nc_color c);
+nc_color yellow_background(nc_color c);
+nc_color magenta_background(nc_color c);
+nc_color cyan_background(nc_color c);
+nc_color rand_color();
+
 nc_color color_from_string(std::string color);
 nc_color bgcolor_from_string(std::string color);
+nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 
 void setattr(nc_color &col, col_attribute attr);
 void load_colors(JsonObject &jo);
