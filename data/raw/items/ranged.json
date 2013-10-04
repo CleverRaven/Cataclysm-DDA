@@ -2531,7 +2531,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "magenta",
-    "name": "Fusion blaster rifle",
+    "name": "fusion blaster rifle",
     "description": "A cyborg's fusion blaster arm, cannibalized and converted into a rifle. This improvised weapon is powered by a standard UPS connection.",
     "price": 6200,
     "material": ["steel", "plastic"],
