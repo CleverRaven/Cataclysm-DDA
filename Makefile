@@ -89,7 +89,7 @@ ifdef CLANG
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
   OTHERS = --std=c++98
-  WARNINGS = -Wall
+  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
