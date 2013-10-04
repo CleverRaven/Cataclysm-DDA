@@ -211,7 +211,7 @@ ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus, t_tree_fungal,
+    t_marloss, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
     t_water_sh, t_water_dp, t_water_pool, t_sewage,
     t_lava,
@@ -358,7 +358,9 @@ void set_ter_ids() {
     t_railing_h=terfind("t_railing_h");
     t_marloss=terfind("t_marloss");
     t_fungus=terfind("t_fungus");
+    t_shrub_fungal=terfind("t_shrub_fungal");
     t_tree_fungal=terfind("t_tree_fungal");
+    t_tree_fungal_young=terfind("t_tree_fungal_young");
     t_water_sh=terfind("t_water_sh");
     t_water_dp=terfind("t_water_dp");
     t_water_pool=terfind("t_water_pool");

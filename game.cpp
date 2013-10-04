@@ -10868,12 +10868,15 @@ bool game::spread_fungus(int x, int y)
                 m.ter_set(x, y, t_fungus);
                 return true;
             }
-        } else if (m.has_flag("SHRUB", x, y) {
+        } else if (m.has_flag("SHRUB", x, y)) {
             if (x_in_y(growth, 200)) {
                 m.ter_set(x, y, t_shrub_fungal);
             } else if (x_in_y(growth, 1000)) {
                 m.ter_set(x, y, t_marloss);
+            }
             return true;
+        }
+    }
     return false;
 }
 

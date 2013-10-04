@@ -330,7 +330,7 @@ extern ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus, t_tree_fungal,
+    t_marloss, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
     t_water_sh, t_water_dp, t_water_pool, t_sewage,
     t_lava,
