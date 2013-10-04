@@ -12,6 +12,7 @@
       ["pockknife", 14],
       ["umbrella", 5],
       ["novel_coa", 10],
+      ["child_book", 50],
       ["mag_comic", 20]
     ]
   },{
@@ -92,6 +93,7 @@
       ["mag_bashing", 10],
       ["mag_cutting", 10],
       ["mag_stabbing", 5],
+      ["child_book", 50],
       ["mag_unarmed", 10],
       ["tailor_portfolio", 1],
       ["trappers_companion", 1],
@@ -417,6 +419,7 @@
       ["manual_speech", 50],
       ["manual_business", 40],
       ["manual_computers", 20],
+      ["child_book", 20],
       ["tailor_portfolio", 1],
       ["laptop", 10],
       ["cell_phone", 40],
@@ -2297,6 +2300,7 @@
       ["sunglasses", 90],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
+      ["child_book", 60],
       ["lighter", 60],
       ["ref_lighter", 4],
       ["matches", 60],
@@ -2628,6 +2632,7 @@
       ["manual_carpentry", 10],
       ["manual_bashing", 1],
       ["mag_mechanics", 15],
+      ["child_book", 1],
       ["lighter", 60],
       ["ref_lighter", 5],
       ["matches", 60],
@@ -3485,6 +3490,7 @@
       ["jar_3l_glass", 8],
       ["flyer", 10],
       ["gasoline_lantern", 10],
+      ["child_book", 4],
       ["umbrella",1],
       ["pocketwatch", 1]
     ]
@@ -3498,6 +3504,7 @@
       ["mag_porn", 20],
       ["rag", 1],
       ["flyer", 10],
+      ["child_book", 2],
       ["lsd", 1]
     ]
   },{
@@ -3589,6 +3596,7 @@
       ["tac_helmet", 5],
       ["lsd", 4],
       ["pocketwatch", 5],
+      ["child_book", 20],
       ["pur_tablets", 10]
     ]
   },{
