@@ -316,7 +316,7 @@
     "active"     :    true,
     "cost"       :    1,
     "time"       :    6,
-    "description":    "Powerful heatsinks supermaterials are woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees fahrenheit.  Note that this does not affect your internal temperature."
+    "description":    "Powerful heatsinks and supermaterials are woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees fahrenheit.  Note that this does not affect your internal temperature."
 },
 {
     "type"       :    "bionic",
