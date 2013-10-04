@@ -94,17 +94,13 @@ void load_recipe(JsonObject &jsobj)
         std::string name = quality_data.get_string("name");
         int level=1;
         int amount=1;
-        int consumed=-1;
         if(quality_data.has_member("level")){
           level = quality_data.get_int("level");
         }
         if(quality_data.has_member("amount")){
           amount = quality_data.get_int("amount");
         }
-        if(quality_data.has_member("consumed")){
-          consumed = quality_data.get_int("consumed");
-        }
-        rec->qualities.push_back(quality_requirement(name, level, amount, consumed));
+        rec->qualities.push_back(quality_requirement(name, level, amount));
     }
 
     jsarr = jsobj.get_array("tools");
@@ -197,6 +193,24 @@ bool game::can_make(recipe *r)
     }
     // under the assumption that all comp and tool's array contains
     // all the required stuffs at the start of the array
+
+    // check all tool_quality requirements
+    // this is an alternate method of checking for tools by using the tools qualities instead of the specific tool
+    // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
+    std::vector<quality_requirement> &qualities = r->qualities;
+    std::vector<quality_requirement>::iterator quality_iter = qualities.begin();
+    while(quality_iter != qualities.end()){
+        std::string name = quality_iter->name;
+        int amount = quality_iter->count;
+        int level = quality_iter->level;
+        if(crafting_inv.has_items_with_quality(name, level, amount)){
+            quality_iter->available = true;
+        } else {
+            quality_iter->available = false;
+            RET_VAL = false;
+        }
+        ++quality_iter;
+    }
 
     // check all tools
     std::vector<std::vector<component> > &tools = r->tools;

@@ -27,17 +27,15 @@ struct quality_requirement
 {
   std::string name;
   int count;
-  int available;
+  bool available;
   int level;
-  int consumed;
 
-  quality_requirement() { name = "UNKNOWN"; count = 0; available = -1; level = 0;}
-  quality_requirement(std::string new_name, int new_count, int new_level, int new_consumed){ 
+  quality_requirement() { name = "UNKNOWN"; count = 0; available = false; level = 0;}
+  quality_requirement(std::string new_name, int new_count, int new_level){ 
     name = new_name; 
     count = new_count;
     level = new_level;
-    consumed = new_consumed;
-    available = -1; 
+    available = false; 
   }
 };
 
