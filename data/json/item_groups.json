@@ -775,6 +775,7 @@
       ["novel_horror", 18],
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
+      ["novel_erotic", 4],
       ["mag_dodge", 20],
       ["mag_comic", 20],
       ["mag_throwing", 20],
@@ -1819,6 +1820,7 @@
       ["cookbook_human", 1],
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
+      ["novel_erotic", 4],
       ["novel_horror", 18],
       ["ZSG", 5]
     ]
@@ -2247,6 +2249,7 @@
       ["novel_drama", 40],
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
+      ["novel_erotic", 4],
       ["novel_horror", 18],
       ["ZSG", 2],
       ["chocolate", 50],
