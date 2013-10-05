@@ -132,7 +132,7 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     const std::string default_tileset = "gfx/tinytile.png";
 
     std::vector<std::string> files;
-    files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.tif)
+    files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
 
     for(std::vector<std::string>::iterator it = files.begin(); it !=files.end(); ++it) {    // iterate through every file found
         std::ifstream fin;
