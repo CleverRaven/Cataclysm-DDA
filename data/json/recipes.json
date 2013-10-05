@@ -539,6 +539,27 @@
   ]
 },{
         "type" : "recipe",
+  "result": "reinforced_glass_sheet",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "reinforced_glass_pane", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "makeshift_machete",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -8028,6 +8049,37 @@
     ],
     [
       [ "cable", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "reinforced_solar_panel",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 35 ],
+      [ "welder_crude", 52 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "solar_panel", 1 ]
+    ],
+    [
+      [ "reinforced_glass_pane", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
     ]
   ]
 },{
