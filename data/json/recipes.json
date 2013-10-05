@@ -13839,7 +13839,7 @@
   "result": "crowbar",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 4,
+  "difficulty": 3,
   "time": 300000,
   "reversible": false,
   "autolearn": true,
@@ -13857,7 +13857,7 @@
       ["crucible", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 150], ["char_forge", 30]
       ]
       ],
   "components":
