@@ -70,9 +70,9 @@ private:
 
     void load_basic_info(JsonObject &jo, itype *new_item);
     void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
-    void set_qualities_from_json(JsonObject &jo, std::string member, Item_tag new_id);
+    void set_qualities_from_json(JsonObject &jo, std::string member, itype *new_item);
     unsigned flags_from_json(JsonObject &jo, std::string member, std::string flag_type="");
-    void set_material_from_json(JsonObject &jo, std::string member, Item_tag new_id);
+    void set_material_from_json(JsonObject &jo, std::string member, itype *new_item);
     bool is_mod_target(JsonObject &jo, std::string member, std::string weapon);
 
     void set_intvar(std::string tag, unsigned int & var, int min, int max);

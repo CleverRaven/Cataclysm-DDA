@@ -484,7 +484,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     new_item_template->color = color_from_string(jo.get_string("color"));
     new_item_template->description = _(jo.get_string("description").c_str());
     if(jo.has_member("material")){
-      set_material_from_json(jo, "material", new_id);
+      set_material_from_json(jo, "material", new_item_template);
     } else {
       new_item_template->m1 = "null";
       new_item_template->m2 = "null";
@@ -531,7 +531,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     }
 
     if( jo.has_member("qualities") ){
-        set_qualities_from_json(jo, "qualities", new_id);
+        set_qualities_from_json(jo, "qualities", new_item_template);
     }
 
     if (jo.has_member("techniques")){
@@ -557,18 +557,17 @@ void Item_factory::tags_from_json(JsonObject& jo, std::string member, std::set<s
     }
 }
 
-void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, Item_tag new_id)
+void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, itype* new_item_template)
 {
-    itype* temp = find_template(new_id);
 
     try{
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()){
             JsonArray curr = jarr.next_array();
-            temp->qualities.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            new_item_template->qualities.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
         }
     }catch(std::string ex){
-        debugmsg("Qualities list for item %s not an array", new_id.c_str());
+        debugmsg("Qualities list for item %s not an array", new_item_template->id.c_str());
     }
 }
 
@@ -591,7 +590,7 @@ unsigned Item_factory::flags_from_json(JsonObject& jo, std::string member, std::
     return flag;
 }
 
-void Item_factory::set_material_from_json(JsonObject& jo, std::string member, Item_tag new_id)
+void Item_factory::set_material_from_json(JsonObject& jo, std::string member, itype* new_item_template)
 {
     //If the value isn't found, just return a group of null materials
     std::string material_list[2] = {"null", "null"};
@@ -599,7 +598,7 @@ void Item_factory::set_material_from_json(JsonObject& jo, std::string member, It
     try{
         JsonArray jarr = jo.get_array(member);
         if (jarr.size() > 2){
-            debugmsg("Too many materials provided for item %s", new_id.c_str());
+            debugmsg("Too many materials provided for item %s", new_item_template->id.c_str());
         }
         material_list[0] = jarr.get_string(0);
         material_list[1] = jarr.get_string(1);
@@ -607,9 +606,8 @@ void Item_factory::set_material_from_json(JsonObject& jo, std::string member, It
         material_list[0] = jo.get_string(member);
     }
 
-    itype* temp = find_template(new_id);
-    temp->m1 = material_list[0];
-    temp->m2 = material_list[1];
+    new_item_template->m1 = material_list[0];
+    new_item_template->m2 = material_list[1];
 }
 
 bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string weapon)
