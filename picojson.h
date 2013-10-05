@@ -40,6 +40,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <locale>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -563,6 +564,7 @@ namespace picojson {
 
   template <typename Iter> inline bool _parse_number(double& out, input<Iter>& in) {
     std::string num_str;
+    
     while (1) {
       int ch = in.getc();
       if (('0' <= ch && ch <= '9') || ch == '+' || ch == '-' || ch == '.'
@@ -734,9 +736,12 @@ namespace picojson {
   }
 
   inline std::string parse(value& out, std::istream& is) {
+    char *origlocale;
+    origlocale = setlocale(LC_NUMERIC, "C");
     std::string err;
     parse(out, std::istreambuf_iterator<char>(is.rdbuf()),
           std::istreambuf_iterator<char>(), &err);
+    setlocale(LC_NUMERIC, origlocale);
     return err;
   }
 
