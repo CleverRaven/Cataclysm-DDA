@@ -115,7 +115,7 @@ void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- g->open_gate(g,examx,examy, (old_ter_id)m->oldter(examx,examy));
+ g->open_gate(g,examx,examy, (ter_id)m->ter(examx,examy));
 }
 
 void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
