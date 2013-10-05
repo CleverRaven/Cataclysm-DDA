@@ -852,6 +852,7 @@
             {"x": 1, "y": -2, "part": "windshield"},
             {"x": -1, "y": 0, "part": "frame_horizontal"},
             {"x": -1, "y": 0, "part": "trunk"},
+            {"x": -1, "y": 0, "part": "roof"},
             {"x": -1, "y": 1, "part": "frame_cross"},
             {"x": -1, "y": 1, "part": "wheel"},
             {"x": -1, "y": 1, "part": "windshield"},
