@@ -609,6 +609,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
  }
 
+ if ( type->qualities.size() > 0){
+    for(std::map<std::string, int>::const_iterator quality = type->qualities.begin(); quality!=type->qualities.end();++quality){
+        dump->push_back( iteminfo("QUALITIES", "", string_format(_("Has %s quality of level %d."),quality->first.c_str(),quality->second) ));
+    }
+ }
+
  if ( showtext && !is_null() ) {
     if (is_stationary()) {
        // Just use the dynamic description
