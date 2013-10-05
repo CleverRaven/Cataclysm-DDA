@@ -49,6 +49,16 @@ public:
     item create_random(int created_at);
     Item_list create_random(int created_at, int quantity);
 
+    void load_ammo      (JsonObject &jo);
+    void load_gun       (JsonObject &jo);
+    void load_armor     (JsonObject &jo);
+    void load_tool      (JsonObject &jo);
+    void load_book      (JsonObject &jo);
+    void load_comestible(JsonObject &jo);
+    void load_container (JsonObject &jo);
+    void load_gunmod    (JsonObject &jo);
+    void load_generic   (JsonObject &jo);
+
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;
@@ -65,6 +75,14 @@ private:
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);
     phase_id phase_from_tag(Item_tag name);
+
+    void load_basic_info(JsonObject &jo, itype *new_item);
+    void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
+    void set_qualities_from_json(JsonObject &jo, std::string member, Item_tag new_id);
+    unsigned flags_from_json(JsonObject &jo, std::string member, std::string flag_type="");
+    void set_material_from_json(JsonObject &jo, std::string member, Item_tag new_id);
+    bool is_mod_target(JsonObject &jo, std::string member, std::string weapon);
+
 
     void set_intvar(std::string tag, unsigned int & var, int min, int max);
 

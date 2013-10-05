@@ -590,6 +590,262 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
     }
 }
 
+void Item_factory::load_ammo(JsonObject& jo)
+{
+    it_ammo* ammo_template = new it_ammo();
+    ammo_template->type = jo.get_string("ammo_type");
+    if(jo.has_member("casing")) {
+        ammo_template->casing = jo.get_string("casing");
+    }
+    ammo_template->damage = jo.get_int("damage");
+    ammo_template->pierce = jo.get_int("pierce");
+    ammo_template->range = jo.get_int("range");
+    ammo_template->dispersion =
+        jo.get_int("dispersion");
+    ammo_template->recoil = jo.get_int("recoil");
+    ammo_template->count = jo.get_int("count");
+    if(jo.has_member("stack_size")) {
+        ammo_template->stack_size = jo.get_int("stack_size");
+    } else {
+        ammo_template->stack_size = ammo_template->count;
+    }
+    if( jo.has_member("effects") ) {
+        tags_from_json(jo,"effects", ammo_template->ammo_effects);
+    }
+
+    itype *new_item_template = ammo_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_gun(JsonObject& jo)
+{
+    it_gun* gun_template = new it_gun();
+    gun_template->ammo = jo.get_string("ammo");
+    gun_template->skill_used = Skill::skill(jo.get_string("skill"));
+    gun_template->dmg_bonus = jo.get_int("ranged_damage");
+    gun_template->range = jo.get_int("range");
+    gun_template->dispersion = jo.get_int("dispersion");
+    gun_template->recoil = jo.get_int("recoil");
+    gun_template->durability = jo.get_int("durability");
+    gun_template->burst = jo.get_int("burst");
+    gun_template->clip = jo.get_int("clip_size");
+    gun_template->reload_time = jo.get_int("reload");
+    gun_template->pierce = jo.has_member("pierce") ? jo.get_int("pierce") : 0;
+    if( jo.has_member("ammo_effects") ) {
+        tags_from_json(jo, "ammo_effects", gun_template->ammo_effects);
+    }
+
+    itype *new_item_template = gun_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_armor(JsonObject& jo)
+{
+    it_armor* armor_template = new it_armor();
+
+    armor_template->encumber = jo.get_int("encumbrance");
+    armor_template->coverage = jo.get_int("coverage");
+    armor_template->thickness = jo.get_int("material_thickness");
+    armor_template->env_resist = jo.get_int("enviromental_protection");
+    armor_template->warmth = jo.get_int("warmth");
+    armor_template->storage = jo.get_int("storage");
+    armor_template->power_armor = jo.has_member("power_armor") ? jo.get_bool("power_armor") : false;
+    armor_template->covers = jo.has_member("covers") ?
+        flags_from_json(jo, "covers", "bodyparts") : 0;
+
+    itype *new_item_template = armor_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_tool(JsonObject& jo)
+{
+    it_tool* tool_template = new it_tool();
+    tool_template->ammo = jo.get_string("ammo");
+    tool_template->max_charges = jo.get_int("max_charges");
+    tool_template->def_charges = jo.get_int("initial_charges");
+    tool_template->charges_per_use = jo.get_int("charges_per_use");
+    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
+    tool_template->revert_to = jo.get_string("revert_to");
+
+    itype *new_item_template = tool_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_book(JsonObject& jo)
+{
+    it_book* book_template = new it_book();
+
+    book_template->level = jo.get_int("max_level");
+    book_template->req = jo.get_int("required_level");
+    book_template->fun = jo.get_int("fun");
+    book_template->intel = jo.get_int("intelligence");
+    book_template->time = jo.get_int("time");
+    book_template->type = Skill::skill(jo.get_string("skill"));
+
+    itype *new_item_template = book_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_comestible(JsonObject& jo)
+{
+    it_comest* comest_template = new it_comest();
+    comest_template->comesttype = jo.get_string("comestible_type");
+    comest_template->tool = jo.get_string("tool", "null");
+    comest_template->container = jo.get_string("container", "null");
+    comest_template->quench = jo.get_int("quench", 0);
+    comest_template->nutr = jo.get_int("nutrition", 0);
+    comest_template->spoils = jo.get_int("spoils_in", 0);
+    comest_template->addict = jo.get_int("addiction_potential", 0);
+    comest_template->charges = jo.get_int("charges", 0);
+    if(jo.has_member("stack_size")) {
+      comest_template->stack_size = jo.get_int("stack_size");
+    } else {
+      comest_template->stack_size = comest_template->charges;
+    }
+    comest_template->stim = jo.get_int("stim", 0);
+    comest_template->healthy = jo.get_int("heal", 0);
+    comest_template->fun = jo.get_int("fun", 0);
+    comest_template->add = addiction_type(jo.get_string("addiction_type"));
+
+    itype *new_item_template = comest_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_container(JsonObject &jo)
+{
+    it_container* container_template = new it_container();
+
+    container_template->contains = jo.get_int("contains");
+
+    itype *new_item_template = container_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_gunmod(JsonObject& jo)
+{
+    it_gunmod* gunmod_template = new it_gunmod();
+    gunmod_template->damage = jo.get_int("damage_modifier", 0);
+    gunmod_template->loudness = jo.get_int("loudness_modifier", 0);
+    gunmod_template->newtype = jo.get_string("ammo_modifier");
+    gunmod_template->used_on_pistol = is_mod_target(jo, "mod_targets", "pistol");
+    gunmod_template->used_on_shotgun = is_mod_target(jo, "mod_targets", "shotgun");
+    gunmod_template->used_on_smg = is_mod_target(jo, "mod_targets", "smg");
+    gunmod_template->used_on_rifle = is_mod_target(jo, "mod_targets", "rifle");
+    gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
+    gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
+    gunmod_template->burst = jo.get_int("burst_modifier", 0);
+    gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
+    if( jo.has_member("acceptable_ammo") ) {
+        tags_from_json(jo, "acceptable_ammo",
+                        gunmod_template->acceptible_ammo_types );
+    }
+
+    itype *new_item_template = gunmod_template;
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_generic(JsonObject& jo)
+{
+    itype *new_item_template = new itype();
+    load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
+{
+    std::string new_id = jo.get_string("id");
+    new_item_template->id = new_id;
+    m_templates[new_id] = new_item_template;
+
+    // And then proceed to assign the correct field
+    new_item_template->price = jo.get_int("price");
+    new_item_template->name = _(jo.get_string("name").c_str());
+    new_item_template->sym = jo.get_string("symbol")[0];
+    new_item_template->color = color_from_string(jo.get_string("color"));
+    new_item_template->description = _(jo.get_string("description").c_str());
+    if(jo.has_member("material")){
+      set_material_from_json(jo, "material", new_id);
+    } else {
+      new_item_template->m1 = "null";
+      new_item_template->m2 = "null";
+    }
+    Item_tag new_phase = "solid";
+    if(jo.has_member("phase")){
+        new_phase = jo.get_string("phase");
+    }
+    new_item_template->phase = phase_from_tag(new_phase);
+    new_item_template->volume = jo.get_int("volume");
+    new_item_template->weight = jo.get_int("weight");
+    new_item_template->melee_dam = jo.get_int("bashing");
+    new_item_template->melee_cut = jo.get_int("cutting");
+    new_item_template->m_to_hit = jo.get_int("to_hit");
+
+    new_item_template->light_emission = 0;
+    if( jo.has_member("flags") ){
+        tags_from_json(jo, "flags", new_item_template->item_tags);
+        /*
+        List of current flags
+        FIT - Reduces encumbrance by one
+        VARSIZE - Can be made to fit via tailoring
+        OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
+        HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
+        POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+        WATCH - Shows the current time, instead of sun/moon position
+        ALARMCLOCK - Has an alarmclock feature
+        FANCY - Less than practical clothing meant primarily to convey a certain image.
+        SUPER_FANCY - Clothing suitable for the most posh of events.
+        LIGHT_* - light emission, sets cached int light_emission
+        USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
+
+        Container-only flags:
+        SEALS
+        RIGID
+        WATERTIGHT
+        */
+        if ( new_item_template->item_tags.size() > 0 ) {
+            for( std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
+            it != new_item_template->item_tags.end(); ++it ) {
+                set_intvar(std::string(*it), new_item_template->light_emission, 1, 10000);
+            }
+        }
+    }
+
+    if( jo.has_member("qualities") ){
+        set_qualities_from_json(jo, "qualities", new_id);
+    }
+
+    if (jo.has_member("techniques")){
+        tags_from_json(jo, "techniques", new_item_template->techniques);
+    }
+    new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
+                              use_from_string(jo.get_string("use_action")));
+}
+
+void Item_factory::tags_from_json(JsonObject& jo, std::string member, std::set<std::string>& tags)
+{
+
+}
+
+void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, Item_tag new_id)
+{
+
+}
+
+unsigned Item_factory::flags_from_json(JsonObject& jo, std::string member, std::string flag_type)
+{
+    return 0;
+}
+
+void Item_factory::set_material_from_json(JsonObject& jo, std::string member, Item_tag new_id)
+{
+
+}
+
+bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string weapon)
+{
+    return false;
+}
+
+
 // Load an item group from JSON
 void Item_factory::load_item_group(JsonObject &jsobj)
 {

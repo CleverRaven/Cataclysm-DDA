@@ -1,5 +1,6 @@
 [
   {
+    "type":"GENERIC",
     "id": "wrapper",
     "symbol": ",",
     "color": "light_gray",
@@ -15,6 +16,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "withered",
     "symbol": "t",
     "color": "light_gray",
@@ -30,6 +32,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "fur",
     "symbol": ",",
     "color": "brown",
@@ -45,6 +48,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "leather",
     "symbol": ",",
     "color": "red",
@@ -60,6 +64,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "superglue",
     "symbol": ",",
     "color": "white",
@@ -75,6 +80,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "id_science",
     "symbol": ",",
     "color": "pink",
@@ -90,6 +96,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "id_military",
     "symbol": ",",
     "color": "pink",
@@ -105,6 +112,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "electrohack",
     "symbol": ",",
     "color": "green",
@@ -120,6 +128,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "string_6",
     "symbol": ",",
     "color": "light_gray",
@@ -135,6 +144,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "string_36",
     "symbol": ",",
     "color": "light_gray",
@@ -150,6 +160,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "rope_30",
     "symbol": ",",
     "color": "yellow",
@@ -165,6 +176,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "processor",
     "symbol": ",",
     "color": "light_cyan",
@@ -180,6 +192,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "RAM",
     "symbol": ",",
     "color": "light_cyan",
@@ -195,6 +208,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "power_supply",
     "symbol": ",",
     "color": "light_cyan",
@@ -210,6 +224,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "amplifier",
     "symbol": ",",
     "color": "light_cyan",
@@ -225,6 +240,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "transponder",
     "symbol": ",",
     "color": "light_cyan",
@@ -240,6 +256,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "receiver",
     "symbol": ",",
     "color": "light_cyan",
@@ -255,6 +272,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "small_lcd_screen",
     "symbol": ",",
     "color": "light_cyan",
@@ -270,6 +288,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "lens",
     "symbol": ".",
     "color": "light_cyan",
@@ -285,6 +304,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "burnt_out_bionic",
     "symbol": ",",
     "color": "light_red",
@@ -300,6 +320,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "antenna",
     "symbol": ",",
     "color": "light_cyan",
@@ -315,6 +336,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "circuit",
     "symbol": ",",
     "color": "green",
@@ -330,6 +352,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "e_scrap",
     "symbol": ",",
     "color": "green",
@@ -345,6 +368,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "steel_chunk",
     "symbol": ",",
     "color": "light_blue",
@@ -360,6 +384,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "steel_lump",
     "symbol": ",",
     "color": "light_blue",
@@ -375,6 +400,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "scrap",
     "symbol": ",",
     "color": "light_blue",
@@ -390,6 +416,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "glass_sheet",
     "symbol": "]",
     "color": "light_cyan",
@@ -405,6 +432,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "reinforced_glass_sheet",
     "symbol": "]",
     "color": "light_blue",
@@ -435,6 +463,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "manhole_cover",
     "symbol": "]",
     "color": "dark_gray",
@@ -450,6 +479,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "stick",
     "symbol": "/",
     "color": "brown",
@@ -465,6 +495,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "q_staff",
     "symbol": "/",
     "color": "brown",
@@ -481,6 +512,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "i_staff",
     "symbol": "/",
     "color": "brown",
@@ -497,6 +529,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "hatchet",
     "symbol": ";",
     "color": "light_gray",
@@ -514,6 +547,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "pot",
     "symbol": ")",
     "color": "light_gray",
@@ -529,6 +563,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "pan",
     "symbol": ")",
     "color": "light_gray",
@@ -544,6 +579,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "knife_butter",
     "symbol": ";",
     "color": "light_cyan",
@@ -560,6 +596,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "chitin_piece",
     "symbol": ",",
     "color": "red",
@@ -575,6 +612,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "biollante_bud",
     "symbol": ",",
     "color": "magenta",
@@ -590,6 +628,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "canister_empty",
     "symbol": "*",
     "color": "light_gray",
@@ -605,6 +644,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "gold",
     "symbol": "/",
     "color": "yellow",
@@ -620,6 +660,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "coal",
     "symbol": "/",
     "color": "dark_gray",
@@ -635,6 +676,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "petrified_eye",
     "symbol": "*",
     "color": "dark_gray",
@@ -650,6 +692,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "spiral_stone",
     "symbol": "*",
     "color": "pink",
@@ -665,6 +708,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "binoculars",
     "symbol": ";",
     "color": "light_gray",
@@ -680,6 +724,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "usb_drive",
     "symbol": ",",
     "color": "white",
@@ -695,6 +740,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
@@ -710,6 +756,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
@@ -725,6 +772,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "blade",
     "symbol": "/",
     "color": "blue",
@@ -740,6 +788,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "wire",
     "symbol": ";",
     "color": "blue",
@@ -755,6 +804,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "wire_barbed",
     "symbol": ";",
     "color": "blue",
@@ -770,6 +820,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "rebar",
     "symbol": "/",
     "color": "light_red",
@@ -785,6 +836,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "log",
     "symbol": "/",
     "color": "brown",
@@ -800,6 +852,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "splinter",
     "symbol": "/",
     "color": "light_red",
@@ -815,6 +868,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "skewer",
     "symbol": ",",
     "color": "brown",
@@ -830,6 +884,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "torch_done",
     "symbol": "/",
     "color": "brown",
@@ -845,6 +900,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "spring",
     "symbol": ",",
     "color": "light_gray",
@@ -860,6 +916,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "lawnmower",
     "symbol": ";",
     "color": "red",
@@ -875,6 +932,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "sheet",
     "symbol": ";",
     "color": "dark_gray",
@@ -890,6 +948,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "broketent",
     "symbol": ";",
     "color": "green",
@@ -905,6 +964,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "element",
     "symbol": ",",
     "color": "cyan",
@@ -920,6 +980,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -935,6 +996,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "pilot_light",
     "symbol": ",",
     "color": "cyan",
@@ -950,6 +1012,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "toaster",
     "symbol": ",",
     "color": "cyan",
@@ -965,6 +1028,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "microwave",
     "symbol": ",",
     "color": "cyan",
@@ -980,6 +1044,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "laptop",
     "symbol": ",",
     "color": "cyan",
@@ -995,6 +1060,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "fan",
     "symbol": ",",
     "color": "cyan",
@@ -1010,6 +1076,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "ceramic_plate",
     "symbol": ",",
     "color": "cyan",
@@ -1025,6 +1092,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "ceramic_bowl",
     "symbol": ",",
     "color": "cyan",
@@ -1040,6 +1108,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "ceramic_cup",
     "symbol": ",",
     "color": "cyan",
@@ -1055,6 +1124,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "glass_plate",
     "symbol": ",",
     "color": "cyan",
@@ -1070,6 +1140,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "glass_bowl",
     "symbol": ",",
     "color": "cyan",
@@ -1085,6 +1156,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "glass",
     "symbol": ",",
     "color": "cyan",
@@ -1100,6 +1172,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "tin_plate",
     "symbol": ",",
     "color": "cyan",
@@ -1115,6 +1188,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "fork",
     "symbol": ";",
     "color": "light_cyan",
@@ -1131,6 +1205,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "spoon",
     "symbol": ";",
     "color": "light_cyan",
@@ -1146,6 +1221,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "spork",
     "symbol": ";",
     "color": "light_cyan",
@@ -1162,6 +1238,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "foon",
     "symbol": ";",
     "color": "light_cyan",
@@ -1178,6 +1255,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "rag_bloody",
     "symbol": ",",
     "color": "red",
@@ -1193,6 +1271,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "clock",
     "symbol": ";",
     "color": "light_cyan",
@@ -1208,6 +1287,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "clockworks",
     "symbol": ";",
     "color": "light_cyan",
@@ -1223,6 +1303,7 @@
   },
 
   {
+    "type":"GENERIC",
     "id": "rock_pot",
     "symbol": ";",
     "color": "dark_gray",
@@ -1237,7 +1318,8 @@
     "to_hit": -1
   },
 
-  { "id":"rock",
+  { "type":"GENERIC",
+ "id":"rock",
     "symbol": "*",
     "color": "light_gray",
     "name":"rock",
@@ -1254,6 +1336,7 @@
     ]
   },
   {
+    "type":"GENERIC",
     "id": "baseball",
     "symbol": "*",
     "color": "white",
@@ -1268,6 +1351,7 @@
     "to_hit": 3
   },
   {
+    "type":"GENERIC",
     "id": "puck",
     "symbol": "*",
     "color": "dark_gray",
@@ -1285,6 +1369,7 @@
     ]
   },
   {
+    "type":"GENERIC",
     "id": "football",
     "symbol": "*",
     "color": "red",
@@ -1298,7 +1383,8 @@
     "cutting": 0,
     "to_hit": 5
   },
-  { "id":"fertilizer",
+  { "type":"GENERIC",
+ "id":"fertilizer",
     "symbol": "*",
     "color": "green",
     "name":"fertilizer",
@@ -1311,7 +1397,8 @@
     "cutting": 0,
     "to_hit": 0
   },
-  { "id": "syringe",
+  { "type":"GENERIC",
+ "id": "syringe",
     "symbol": ",",
     "color": "light_cyan",
     "name": "syringe",
@@ -1325,7 +1412,8 @@
     "to_hit": -2,
     "flags": "SPEAR"
   },
-  { "id": "pointy_stick",
+  { "type":"GENERIC",
+ "id": "pointy_stick",
     "symbol" : "/",
     "color": "light_red",
     "name": "pointy stick",
@@ -1340,7 +1428,8 @@
     "flags": "SPEAR",
     "techniques": ["WBLOCK_1"]
   },
-   { "id": "sword_wood",
+   { "type":"GENERIC",
+ "id": "sword_wood",
     "symbol" : "!",
     "color": "light_red",
     "name": "2-by-sword",
@@ -1354,7 +1443,8 @@
     "to_hit": 1,
     "techniques": ["WBLOCK_1"]
   },
-   { "id": "sword_nail",
+   { "type":"GENERIC",
+ "id": "sword_nail",
     "symbol" : "!",
     "color": "red",
     "name": "nord",
@@ -1369,7 +1459,8 @@
 	"flags" : ["CHOP"],
     "techniques": ["WBLOCK_1"]
   },
-  { "id": "sword_crude",
+  { "type":"GENERIC",
+ "id": "sword_crude",
     "symbol" : "!",
     "color": "green",
     "name": "crude sword",
@@ -1383,7 +1474,8 @@
     "to_hit": -1,
     "techniques": ["WBLOCK_1"]
   },
-   { "id": "sword_forged",
+   { "type":"GENERIC",
+ "id": "sword_forged",
     "symbol" : "!",
     "color": "green",
     "name": "forged sword",
@@ -1398,6 +1490,7 @@
     "techniques": ["WBLOCK_2"]
   },
     {
+        "type":"GENERIC",
         "id" : "rope_6",
         "name" : "rope - 6 ft",
         "description" : "A short piece of nylon rope. Too small to be of much use.",
@@ -1413,6 +1506,7 @@
         "price" : 45
     },
     {
+        "type":"GENERIC",
         "id" : "chain",
         "name" : "steel chain",
         "description" : "A heavy steel chain. Useful as a weapon, or for crafting. It has a chance to wrap around your target, allowing for a bonus unarmed attack.",
@@ -1429,6 +1523,7 @@
         "price" : 80
     },
     {
+        "type":"GENERIC",
         "id" : "broom",
         "name" : "broom",
         "description" : "A long-handled broom. Makes a terrible weapon unless you're chasing cats.",
@@ -1444,6 +1539,7 @@
         "price" : 24
     },
     {
+        "type":"GENERIC",
         "id" : "hammer_sledge",
         "name" : "sledge hammer",
         "description" : "A large, heavy hammer. Makes a good melee weapon for the very strong, but is nearly useless in the hands of the weak.",
@@ -1459,6 +1555,7 @@
         "price" : 120
     },
     {
+        "type":"GENERIC",
         "id" : "nailboard",
         "name" : "nail board",
         "description" : "A long piece of wood with several nails through one end; essentially a simple mace. Makes a great melee weapon.",
@@ -1475,6 +1572,7 @@
         "price" : 80
     },
     {
+        "type":"GENERIC",
         "id" : "nailbat",
         "name" : "nail bat",
         "description" : "A baseball bat with several nails driven through it, an excellent melee weapon.",
@@ -1491,6 +1589,7 @@
         "price" : 160
     },
     {
+        "type":"GENERIC",
         "id" : "2x4",
         "name" : "two by four",
         "description" : "A plank of wood. Makes a decent melee weapon, and can be used to board up doors and windows if you have a hammer and nails.",
@@ -1506,6 +1605,7 @@
         "price" : 80
     },
     {
+        "type":"GENERIC",
         "id" : "muffler",
         "name" : "muffler",
         "description" : "A muffler from a car. Very unwieldy as a weapon. Useful in a few crafting recipes.",
@@ -1521,6 +1621,7 @@
         "price" : 30
     },
     {
+        "type":"GENERIC",
         "id" : "pipe",
         "name" : "pipe",
         "description" : "A steel pipe, makes a good melee weapon. Useful in a few crafting recipes.",
@@ -1536,6 +1637,7 @@
         "price" : 75
     },
     {
+        "type":"GENERIC",
         "id" : "bat",
         "name" : "baseball bat",
         "description" : "A sturdy wood bat. Makes a great melee weapon.",
@@ -1551,6 +1653,7 @@
         "price" : 160
     },
     {
+        "type":"GENERIC",
         "id" : "bat_metal",
         "name" : "aluminium bat",
         "description" : "An aluminium baseball bat, smaller and lighter than a wooden bat and a little less damaging as a result.",
@@ -1566,6 +1669,7 @@
         "price" : 160
     },
     {
+        "type":"GENERIC",
         "id" : "spear_wood",
         "name" : "wood spear",
         "description" : "A stout pole with an improvised grip and a fire-hardened point.",
@@ -1582,6 +1686,7 @@
         "price" : 40
     },
     {
+        "type":"GENERIC",
         "id" : "baton",
         "name" : "expandable baton",
         "description" : "A telescoping baton that collapses for easy storage. Makes an excellent melee weapon.",
@@ -1597,6 +1702,7 @@
         "price" : 175
     },
     {
+        "type":"GENERIC",
         "id" : "bee_sting",
         "name" : "bee sting",
         "description" : "A six-inch stinger from a giant bee. Makes a good melee weapon.",
@@ -1613,6 +1719,7 @@
         "price" : 70
     },
     {
+        "type":"GENERIC",
         "id" : "wasp_sting",
         "name" : "wasp sting",
         "description" : "A six-inch stinger from a giant wasp. Makes a good melee weapon.",
@@ -1629,6 +1736,7 @@
         "price" : 90
     },
     {
+        "type":"GENERIC",
         "id" : "cane",
         "name" : "walking cane",
         "description" : "Handicapped or not, you always walk in style. Consisting of a metal headpiece and a wooden body, this makes a great bashing weapon in a pinch.",
@@ -1644,6 +1752,7 @@
         "price" : 160
     },
     {
+        "type":"GENERIC",
         "id" : "mace",
         "name" : "mace",
         "description" : "A medieval weapon consisting of a wood handle with a heavy iron end. It is heavy and slow, but its crushing damage is devastating.",
@@ -1659,6 +1768,7 @@
         "price" : 1000
     },
     {
+        "type":"GENERIC",
         "id" : "morningstar",
         "name" : "morningstar",
         "description" : "A medieval weapon consisting of a wood handle with a heavy, spiked iron ball on the end. It deals devastating crushing damage, with a small amount of piercing to boot.",
@@ -1675,6 +1785,7 @@
         "price" : 1200
     },
     {
+        "type":"GENERIC",
         "id" : "pool_cue",
         "name" : "pool cue",
         "description" : "A hard-wood stick designed for hitting colorful balls around a felt table. Truly, the coolest of sports.",
@@ -1690,6 +1801,7 @@
         "price" : 80
     },
     {
+        "type":"GENERIC",
         "id" : "spike",
         "name" : "spike",
         "description" : "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
@@ -1705,6 +1817,7 @@
         "price" : 0
     },
     {
+        "type":"GENERIC",
         "id" : "javelin",
         "name" : "wooden javelin",
         "description" : "A wooden spear, honed to a sharper point and fire hardened for toughness. The grip area has also be carved and covered for better grip.",
@@ -1721,6 +1834,7 @@
         "price" : 40
     },
     {
+        "type":"GENERIC",
         "id" : "frame",
         "name" : "steel frame",
         "description" : "A large frame made of steel. Useful for crafting.",
@@ -1736,6 +1850,7 @@
         "price" : 55
     },
     {
+        "type":"GENERIC",
         "id" : "seat",
         "name" : "seat",
         "description" : "A soft car seat covered with leather.",
@@ -1750,6 +1865,7 @@
         "price" : 250
     },
     {
+        "type":"GENERIC",
         "id" : "saddle",
         "name" : "saddle",
         "description" : "A leather-covered seat designed to be straddled.",
@@ -1764,6 +1880,7 @@
         "price" : 25
     },
     {
+        "type":"GENERIC",
         "id" : "vehicle_controls",
         "name" : "vehicle controls",
         "description" : "A set of various vehicle controls. Useful for crafting.",
@@ -1778,6 +1895,7 @@
         "price" : 400
     },
     {
+        "type":"GENERIC",
         "id" : "motor",
         "name" : "electric motor",
         "description" : "A powerful electric motor. Useful for crafting.",
@@ -1792,6 +1910,7 @@
         "price" : 120
     },
     {
+        "type":"GENERIC",
         "id" : "motor_large",
         "name" : "large electric motor",
         "description" : "A large and very powerful electric motor. Useful for crafting.",
@@ -1806,6 +1925,7 @@
         "price" : 220
     },
     {
+        "type":"GENERIC",
         "id" : "plasma_engine",
         "name" : "plasma engine",
         "description" : "High technology engine, working on hydrogen fuel.",
@@ -1820,6 +1940,7 @@
         "price" : 900
     },
     {
+        "type":"GENERIC",
         "id" : "foot_crank",
         "name" : "foot crank",
         "description" : "The pedal and gear assembly from a bicycle.",
@@ -1834,6 +1955,7 @@
         "price" : 90
     },
     {
+        "type":"GENERIC",
         "id" : "metal_tank",
         "name" : "metal tank",
         "description" : "A metal tank for holding liquids. Useful for crafting.",
@@ -1848,6 +1970,7 @@
         "price" : 40
     },
     {
+        "type":"GENERIC",
         "id" : "storage_battery",
         "name" : "storage battery",
         "description" : "A large storage battery. Useful for crafting.",
@@ -1862,6 +1985,7 @@
         "price" : 80
     },
     {
+        "type":"GENERIC",
         "id" : "minireactor",
         "name" : "minireactor",
         "description" : "A small portable plutonium reactor. Handle with great care!",
@@ -1876,6 +2000,7 @@
         "price" : 900
     },
     {
+        "type":"GENERIC",
         "id" : "solar_panel",
         "name" : "solar panel",
         "description" : "Electronic device that can convert solar radiation into electric power. Useful for crafting.",
@@ -1890,6 +2015,7 @@
         "price" : 900
     },
     {
+        "type":"GENERIC",
         "id" : "reinforced_solar_panel",
         "name" : "reinforced solar panel",
         "description" : "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  Useful for crafting.",
@@ -1904,6 +2030,7 @@
         "price" : 900
     },
     {
+        "type":"GENERIC",
         "id" : "solar_cell",
         "name" : "solar cell",
         "description" : "A small electronic device that can convert solar radiation into electric power. Useful for crafting.",
@@ -1918,6 +2045,7 @@
         "price" : 50
     },
     {
+        "type":"GENERIC",
         "id" : "sheet_metal",
         "name" : "sheet metal",
         "description" : "A thin sheet of metal.",
@@ -1932,6 +2060,7 @@
         "price" : 60
     },
     {
+        "type":"GENERIC",
         "id" : "steel_plate",
         "name" : "steel plating",
         "description" : "A piece of armor plating made of steel.",
@@ -1946,6 +2075,7 @@
         "price" : 120
     },
     {
+        "type":"GENERIC",
         "id" : "alloy_plate",
         "name" : "superalloy plating",
         "description" : "A piece of armor plating made of sturdy superalloy.",
@@ -1960,6 +2090,7 @@
         "price" : 185
     },
     {
+        "type":"GENERIC",
         "id" : "alloy_sheet",
         "name" : "superalloy sheet",
         "description" : "A sheet sturdy superalloy, incredibly hard, yet incredibly malleable.",
@@ -1974,6 +2105,7 @@
         "price" : 85
     },
     {
+        "type":"GENERIC",
         "id" : "spiked_plate",
         "name" : "spiked plating",
         "description" : "A piece of armor plating made of steel. It is covered by menacing spikes.",
@@ -1989,6 +2121,7 @@
         "price" : 185
     },
     {
+        "type":"GENERIC",
         "id" : "hard_plate",
         "name" : "hard plating",
         "description" : "A piece of very thick armor plating made of steel.",
@@ -2003,6 +2136,7 @@
         "price" : 160
     },
     {
+        "type":"GENERIC",
         "id" : "kitchen_unit",
         "name" : "RV kitchen unit",
         "description" : "A vehicle mountable electric range and sink unit with integrated tool storage for cooking utensils.",
@@ -2017,6 +2151,7 @@
         "price" : 400
     },
     {
+        "type":"GENERIC",
         "id" : "weldrig",
         "name" : "vehicle welding rig",
         "description" : "A welding rig made to run off a vehicle's storage battery.  It has a soldering iron attachment for delicate work, and a compartment to store your extra tools in.",
@@ -2031,6 +2166,7 @@
         "price" : 400
     },
     {
+        "type":"GENERIC",
         "id" : "poppy_flower",
         "name" : "poppy flower",
         "description" : "A poppy stalk with some petals.",
@@ -2045,6 +2181,7 @@
         "price" : 400
     },
     {
+        "type":"GENERIC",
         "id" : "poppy_bud",
         "name" : "a poppy bud",
         "description" : "Contains some substances commonly produced by mutated poppy flower",
@@ -2059,6 +2196,7 @@
         "price" : 400
     },
     {
+        "type":"GENERIC",
         "id" : "bio_claws_weapon",
         "name" : "adamantite claws",
         "description" : "Short and sharp claws made from a high-tech metal.",
@@ -2074,6 +2212,7 @@
         "price" : 0
     },
     {
+        "type":"GENERIC",
         "id" : "punch_dagger",
         "name" : "punch dagger",
         "description" : "A short and sharp double edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
@@ -2089,6 +2228,7 @@
         "price" : 0
     },
   {
+    "type":"GENERIC",
     "id": "bag_bundle_10",
     "symbol": ",",
     "color": "light_gray",
@@ -2103,6 +2243,7 @@
     "to_hit": 1
   },
   {
+    "type":"GENERIC",
     "id" : "money_bundle",
     "name" : "money bundle",
     "description" : "A bundle holding many 20 dollar bills, pretty useless now though",
@@ -2121,6 +2262,7 @@
     "price" : 0
   },
   {
+    "type":"GENERIC",
     "id" : "cell_phone",
     "name" : "cell phone",
     "description" : "A simple cell phone. Nowadays only useful for telling the time or as an alarm clock. Can also be disassembled into some useful parts.",
@@ -2136,6 +2278,7 @@
     "flags" : ["WATCH", "ALARMCLOCK"]
   },
   {
+    "type":"GENERIC",
     "id" : "pocketwatch",
     "name" : "pocket watch",
     "description" : "An old fashioned pocket watch. This one tells you the time and looks good doing it. Can also be disassembled into some useful parts.",
@@ -2151,6 +2294,7 @@
     "flags" : ["WATCH"]
   },
   {
+    "type":"GENERIC",
     "id" : "umbrella",
     "symbol" : "/",
     "color": "magenta",
@@ -2167,6 +2311,7 @@
     "techniques": ["WBLOCK_1"]
   },
   {
+    "type":"GENERIC",
     "id": "fish_bowl",
     "symbol": "u",
     "color": "light_cyan",
@@ -2180,7 +2325,8 @@
     "cutting": 0,
     "to_hit": -2
   },
-  { "id": "knuckle_steel",
+  { "type":"GENERIC",
+ "id": "knuckle_steel",
     "symbol" : "3",
     "color": "red",
     "name": "steel knuckles",
@@ -2195,7 +2341,8 @@
     "to_hit": 0
   },
 
-  { "id": "knuckle_katar",
+  { "type":"GENERIC",
+ "id": "knuckle_katar",
     "symbol" : "!",
     "color": "light_red",
     "name": "razorbar katar",
@@ -2210,7 +2357,8 @@
     "flags" : ["UNARMED_WEAPON"],
     "techniques": ["WBLOCK_1"]
   },
-  { "id": "cestus",
+  { "type":"GENERIC",
+ "id": "cestus",
     "symbol" : "3",
     "color": "red",
     "name": "cestus",
@@ -2224,7 +2372,8 @@
     "flags" : ["UNARMED_WEAPON"],
     "to_hit": 0
   },
-  { "id": "knuckle_brass",
+  { "type":"GENERIC",
+ "id": "knuckle_brass",
     "symbol" : "3",
     "color": "red",
     "name": "brass knuckles",
@@ -2239,6 +2388,7 @@
     "to_hit": 0
   },
   {
+    "type":"GENERIC",
     "id": "hockey_stick",
     "symbol": ";",
     "color": "light_blue",
@@ -2253,6 +2403,7 @@
     "to_hit": 2
   },
   {
+    "type":"GENERIC",
     "id": "golf_club",
     "symbol": ";",
     "color": "light_gray",
@@ -2267,6 +2418,7 @@
     "to_hit": 1
   },
   {
+    "type":"GENERIC",
     "id": "rock_sock",
     "symbol": ";",
     "color": "light_blue",
@@ -2281,6 +2433,7 @@
     "to_hit": 1
   },
   {
+    "type":"GENERIC",
     "id": "char_kiln",
     "symbol": ";",
     "color": "dark_gray",
@@ -2295,6 +2448,7 @@
     "to_hit": -2
   },
   {
+    "type":"GENERIC",
     "id" : "cu_pipe",
     "name" : "copper tubing",
     "description" : "A copper tube, too thin to be much use ad a melee weapon, but will do if nothing else is available. Useful in a few crafting recipes.",
