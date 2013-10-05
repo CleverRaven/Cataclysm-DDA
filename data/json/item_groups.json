@@ -13,6 +13,7 @@
       ["umbrella", 5],
       ["novel_coa", 10],
       ["child_book", 50],
+      ["tall_tales", 20],
       ["mag_comic", 20]
     ]
   },{
@@ -94,6 +95,7 @@
       ["mag_cutting", 10],
       ["mag_stabbing", 5],
       ["child_book", 50],
+      ["tall_tales", 10],
       ["mag_unarmed", 10],
       ["tailor_portfolio", 1],
       ["trappers_companion", 1],
@@ -420,6 +422,7 @@
       ["manual_business", 40],
       ["manual_computers", 20],
       ["child_book", 20],
+      ["tall_tales", 10],
       ["tailor_portfolio", 1],
       ["laptop", 10],
       ["cell_phone", 40],
@@ -1849,6 +1852,7 @@
       ["novel_fantasy", 20],
       ["novel_erotic", 4],
       ["poetry_book", 10],
+      ["tall_tales", 10],
       ["novel_thriller", 18],
       ["novel_coa", 10],
       ["novel_crime", 20],
