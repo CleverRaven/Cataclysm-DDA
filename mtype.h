@@ -144,7 +144,7 @@ MF_HEARS, // It can hear you
 MF_GOODHEARING, // Pursues sounds more than most monsters
 MF_SMELLS, // It can smell you
 MF_KEENNOSE, //Keen sense of smell
-MF_STUMBLES,/ / Stumbles in its movement
+MF_STUMBLES, // Stumbles in its movement
 MF_WARM, // Warm blooded, also affects temperature resistance
 MF_COLD, // Cold blooded, affects temperature resistance
 MF_INSECT_BLOOD, // Like cold blooded, but colder
