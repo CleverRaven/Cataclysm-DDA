@@ -114,7 +114,6 @@ game::game() :
  init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
- init_parrot_speech();        // Set up Mi-Go parrot speech       (SEE monattack.cpp)
  init_savedata_translation_tables();
  inp_mngr.init();            // Load input config JSON
  } catch(std::string &error_message)

@@ -48,6 +48,8 @@ class NameGenerator {
     return generator;
   }
 
+  void load_name(JsonObject &jo);
+
   std::string generateName(bool male);
 
   std::vector<std::string> filteredNames(uint32_t searchFlags);
