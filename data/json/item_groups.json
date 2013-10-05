@@ -804,6 +804,7 @@
       ["novel_fantasy", 20],
       ["novel_erotic", 4],
       ["poetry_book", 10],
+      ["essay_book", 6],
       ["plays_book", 8],
       ["mag_dodge", 20],
       ["mag_comic", 20],
@@ -1860,6 +1861,7 @@
       ["novel_fantasy", 20],
       ["novel_erotic", 4],
       ["poetry_book", 10],
+      ["essay_book", 6],
       ["plays_book", 8],
       ["tall_tales", 10],
       ["novel_pulp", 16],
@@ -2312,6 +2314,7 @@
       ["novel_fantasy", 20],
       ["novel_erotic", 4],
       ["poetry_book", 10],
+      ["essay_book", 6],
       ["plays_book", 8],
       ["novel_horror", 18],
       ["novel_tragedy", 8],
@@ -2344,6 +2347,8 @@
       ["cane", 10],
       ["candlestick", 80],
       ["umbrella", 50],
+      ["essay_book", 6],
+      ["poetry_book", 6],
       ["pocketwatch", 10]
     ]
   },{
