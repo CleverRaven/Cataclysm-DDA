@@ -814,11 +814,20 @@ nc_color vehicle::part_color (int p)
     }
 }
 
-void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
+/**
+ * Prints a list of all parts to the screen inside of a boxed window, possibly
+ * highlighting a selected one.
+ * @param w The window to draw in.
+ * @param y1 The y-coordinate to start drawing at.
+ * @param width The width of the window.
+ * @param p The index of the part being examined.
+ * @param hl Whether or not to use a highlight.
+ */
+void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
 {
-    WINDOW *win = (WINDOW *) w;
-    if (p < 0 || p >= parts.size())
+    if (p < 0 || p >= parts.size()) {
         return;
+    }
     std::vector<int> pl = internal_parts (p);
     pl.insert (pl.begin(), p);
     int y = y1;
@@ -826,21 +835,20 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
     {
         int dur = part_info (pl[i]).durability;
         int per_cond = parts[pl[i]].hp * 100 / (dur < 1? 1 : dur);
-        nc_color col_cond = c_dkgray;
-        if (parts[pl[i]].hp >= dur)
+        nc_color col_cond;
+        if (parts[pl[i]].hp >= dur) {
             col_cond = c_green;
-        else
-        if (per_cond >= 80)
+        } else if (per_cond >= 80) {
             col_cond = c_ltgreen;
-        else
-        if (per_cond >= 50)
+        } else if (per_cond >= 50) {
             col_cond = c_yellow;
-        else
-        if (per_cond >= 20)
+        } else if (per_cond >= 20) {
             col_cond = c_ltred;
-        else
-        if (parts[pl[i]].hp > 0)
+        } else if (parts[pl[i]].hp > 0) {
             col_cond = c_red;
+        } else { //Broken
+            col_cond = c_dkgray;
+        }
 
         std::string partname;
         // part bigness, if that's relevant.
