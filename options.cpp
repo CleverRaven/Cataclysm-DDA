@@ -846,7 +846,7 @@ std::string get_tileset_names(std::string dir_path)
 {
     const std::string defaultTilesets = "hoder,deon";
 
-    const std::string filename = "tileset.tif";                             // tileset-info-file
+    const std::string filename = "tileset.txt";                             // tileset-info-file
     std::vector<std::string> files;
     files = file_finder::get_files_from_path(filename, dir_path, true);     // search it
 

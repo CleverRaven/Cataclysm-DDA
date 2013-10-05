@@ -127,7 +127,7 @@ void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
     DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
-    const std::string filename = "tileset.tif";                 // tileset-information-file
+    const std::string filename = "tileset.txt";                 // tileset-information-file
     const std::string default_json = "gfx/tile_config.json";    // defaults
     const std::string default_tileset = "gfx/tinytile.png";
 
