@@ -585,18 +585,8 @@
   "time": 800,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -3857,16 +3847,16 @@
   ],
   "components": [
     [
-      [ "shot_hull", 25 ]
+      [ "shot_hull", 10 ]
     ],
     [
-      [ "shotgun_primer", 25 ]
+      [ "shotgun_primer", 10 ]
     ],
     [
-      [ "gunpowder", 300 ]
+      [ "gunpowder", 120 ]
     ],
     [
-      [ "nail", 200 ]
+      [ "nail", 160 ]
     ]
   ]
 },{
