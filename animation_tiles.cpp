@@ -196,6 +196,26 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 
     tilecontext->init_draw_line(x,y,vPoint,"line_trail", false);
 }
+
+/*
+*	Add this function is to solve the problem that the first point is not right, 
+*	when "@" is not in the center of the screen by using the "draw_line(const int x, const int y, std::vector<point> vPoint)" 
+*	function in the ASCII version , so add a version with center param.
+*/
+void game::draw_line(const int x, const int y, std::vector<point> vPoint, const point center){
+
+    for (int i = 1; i < vPoint.size(); i++)
+    {
+        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
+    }
+
+    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
+                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+
+	tilecontext->init_draw_line(x,y,vPoint,"line_trail", false);
+}
+
+
 //*/
 void game::draw_weather(weather_printable wPrint)
 {

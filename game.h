@@ -352,6 +352,7 @@ void load_artifacts(); // Load artifact data
   void draw_hit_player(player *p, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
+  void draw_line(const int x, const int y, std::vector<point> vPoint, const point center);
   void draw_weather(weather_printable wPrint);
 
  private:

@@ -6866,13 +6866,7 @@ void game::draw_trail_to_square(int x, int y)
     point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
     std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
 
-    for (int i = 1; i < vPoint.size(); i++)
-    {
-        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
-    }
-
-    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
-                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+	draw_line(u.posx, u.posy, vPoint, center);
 
     wrefresh(w_terrain);
 }
