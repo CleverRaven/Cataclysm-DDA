@@ -2885,6 +2885,7 @@
       ["plut_cell", 10],
       ["manual_electronics", 20],
       ["textbook_electronics", 6],
+      ["radio_book", 16],
       ["advanced_electronics", 6],
       ["small_lcd_screen", 20],
       ["battery_compartment", 20],
@@ -4007,6 +4008,7 @@
       ["textbook_computers", 8],
       ["computer_science", 6],
       ["textbook_electronics", 6],
+      ["radio_book", 16],
       ["advanced_electronics", 6],
       ["textbook_chemistry", 11],
       ["adv_chemistry", 4],
@@ -4270,6 +4272,7 @@
       ["textbook_weapwest", 2],
       ["textbook_weapeast", 2],
       ["textbook_armwest", 2],
+      ["radio_book", 22],
       ["textbook_armeast", 2]
     ]
   },{
