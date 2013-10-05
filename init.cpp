@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include "json.h"
-#include "file_finder.h"
 
 #include "material.h"
 #include "bionics.h"
@@ -67,7 +66,32 @@ void init_data_mappings() {
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
-    std::vector<std::string> ret = file_finder::get_files_from_path(".json", dirname, true);
+    std::vector<std::string> ret;
+
+    ret.push_back("data/json/materials.json");
+    ret.push_back("data/json/bionics.json");
+    ret.push_back("data/json/professions.json");
+    ret.push_back("data/json/skills.json");
+    ret.push_back("data/json/dreams.json");
+    ret.push_back("data/json/mutations.json");
+    ret.push_back("data/json/snippets.json");
+    ret.push_back("data/json/item_groups.json");
+    ret.push_back("data/json/recipes.json");
+    ret.push_back("data/json/lab_notes.json");
+    ret.push_back("data/json/hints.json");
+    ret.push_back("data/json/furniture.json");
+    ret.push_back("data/json/terrain.json");
+
+    ret.push_back("data/json/items/ammo.json");
+    ret.push_back("data/json/items/archery.json");
+    ret.push_back("data/json/items/armor.json");
+    ret.push_back("data/json/items/books.json");
+    ret.push_back("data/json/items/comestibles.json");
+    ret.push_back("data/json/items/containers.json");
+    ret.push_back("data/json/items/melee.json");
+    ret.push_back("data/json/items/mods.json");
+    ret.push_back("data/json/items/ranged.json");
+    ret.push_back("data/json/items/tools.json");
 
     return ret;
 }
@@ -90,8 +114,6 @@ void null_load_target(JsonObject &jo){}
 
 void init_data_structures()
 {
-    // static target for unimplemented types that are available for use.
-    StaticFunctionAccessor *NullTarget = new StaticFunctionAccessor(&null_load_target);
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -108,11 +130,6 @@ void init_data_structures()
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
-    // we want to skip colors, so this one will always be a nulltarget
-    type_function_map["colordef"] = NullTarget;
-
-    // we don't actually use these right now, so keep them as NullTarget until we do
-    type_function_map["INSTRUMENT"] = NullTarget;
 
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
