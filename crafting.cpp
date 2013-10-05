@@ -87,7 +87,7 @@ void load_recipe(JsonObject &jsobj)
         rec->components.push_back(component_choices);
     }
 
-    jsarr = jsobj.get_array("tool_groups");
+    jsarr = jsobj.get_array("qualities");
     while(jsarr.has_more()){
         std::vector<quality_requirement> tool_choices;
         JsonObject quality_data = jsarr.next_object();
