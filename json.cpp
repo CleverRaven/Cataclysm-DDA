@@ -90,6 +90,17 @@ JsonObject::JsonObject(JsonIn *j)
     end = jsin->tell();
 }
 
+JsonObject JsonObject::get_object(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        jsin->seek(start);
+        throw jsin->line_number() + ": member not found: " + name;
+    }
+    jsin->seek(pos);
+    return jsin->get_object();
+}
+
 void JsonObject::finish()
 {
     jsin->seek(end);
@@ -108,6 +119,32 @@ std::string JsonObject::line_number()
 {
     jsin->seek(start);
     return jsin->line_number();
+}
+
+bool JsonObject::is_member_X(std::string member, json_value_type jvt)
+{
+    int pos = positions[member];
+    if (pos <= start){
+        jsin->seek(start);
+        return false;
+    }
+    jsin->seek(pos);
+    return (jvt == jsin->get_next_type());
+}
+json_value_type JsonObject::get_member_type(std::string member)
+{
+    int pos = positions[member];
+    if (pos <= start){
+        jsin->seek(start);
+        return JVT_UNKNOWN;
+    }
+    jsin->seek(pos);
+    return jsin->get_next_type();
+}
+
+bool JsonObject::is_bool(std::string member)
+{
+    return is_member_X(member, JVT_BOOL);
 }
 
 bool JsonObject::get_bool(std::string name)
@@ -129,6 +166,11 @@ bool JsonObject::get_bool(std::string name, bool fallback)
     }
     jsin->seek(pos);
     return jsin->get_bool();
+}
+
+bool JsonObject::is_number(std::string member)
+{
+    return is_member_X(member, JVT_NUMBER);
 }
 
 int JsonObject::get_int(std::string name)
@@ -173,6 +215,10 @@ double JsonObject::get_float(std::string name, double fallback)
     return jsin->get_float();
 }
 
+bool JsonObject::is_string(std::string member)
+{
+    return is_member_X(member, JVT_STRING);
+}
 std::string JsonObject::get_string(std::string name)
 {
     int pos = positions[name];
@@ -194,6 +240,11 @@ std::string JsonObject::get_string(std::string name, std::string fallback)
     return jsin->get_string();
 }
 
+bool JsonObject::is_array(std::string member)
+{
+    return is_member_X(member, JVT_ARRAY);
+}
+
 JsonArray JsonObject::get_array(std::string name)
 {
     int pos = positions[name];
@@ -202,6 +253,11 @@ JsonArray JsonObject::get_array(std::string name)
     }
     jsin->seek(pos);
     return JsonArray(jsin);
+}
+
+bool JsonObject::is_object(std::string member)
+{
+    return is_member_X(member, JVT_OBJECT);
 }
 
 
@@ -245,6 +301,13 @@ void JsonArray::verify_index(int i)
     }
 }
 
+json_value_type JsonArray::get_next_type()
+{
+    verify_index(index);
+    jsin->seek(positions[index++]);
+    return jsin->get_next_type();
+}
+
 bool JsonArray::next_bool()
 {
     verify_index(index);
@@ -285,6 +348,13 @@ JsonObject JsonArray::next_object()
     verify_index(index);
     jsin->seek(positions[index++]);
     return jsin->get_object();
+}
+
+json_value_type JsonArray::get_index_type(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->get_next_type();
 }
 
 bool JsonArray::get_bool(int i)
@@ -393,6 +463,45 @@ void JsonIn::skip_string()
     skip_separator();
 }
 
+json_value_type JsonIn::get_next_type()
+{
+    json_value_type jvt = JVT_UNKNOWN;
+
+    char ch;
+    eat_whitespace();
+    ch = peek();
+
+    // it's either a string '"'
+    if (ch == '"') {
+        jvt = JVT_STRING;
+    // or an object '{'
+    } else if (ch == '{') {
+        jvt = JVT_OBJECT;
+    // or an array '['
+    } else if (ch == '[') {
+        jvt = JVT_ARRAY;
+    // or a number (-0123456789)
+    } else if (ch == '-' || (ch >= '0' && ch <= '9')) {
+        jvt = JVT_NUMBER;
+    // or "true", "false" or "null"
+    } else if (ch == 't' || ch == 'f') {
+        try{
+            bool b = get_bool();
+            jvt = JVT_BOOL;
+        }catch(std::string ex){
+            // nothing to do, jvt is still JVT_UNKNOWN
+        }
+    } else if (ch == 'n') {
+        try{
+            skip_null();
+            jvt = JVT_NULL;
+        }catch(std::string ex){
+            // nothing to do, jvt is still JVT_UNKNOWN
+        }
+    }
+
+    return jvt;
+}
 void JsonIn::skip_value()
 {
     char ch;
