@@ -124,6 +124,8 @@ void load_recipe(JsonObject &jsobj)
         if (item_controller->find_template(book_name)->is_book()) {
             it_book* book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
             book_def->recipes[rec] = book_level;
+        } else {
+            debugmsg("recipe '%s': no such book '%s'",rec_name.c_str(),book_name.c_str());
         }
     }
 
