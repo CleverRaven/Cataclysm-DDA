@@ -67,6 +67,7 @@ void init_data_mappings() {
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
+
     ret.push_back("data/json/materials.json");
     ret.push_back("data/json/bionics.json");
     ret.push_back("data/json/professions.json");
@@ -80,6 +81,18 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/hints.json");
     ret.push_back("data/json/furniture.json");
     ret.push_back("data/json/terrain.json");
+
+    ret.push_back("data/json/items/ammo.json");
+    ret.push_back("data/json/items/archery.json");
+    ret.push_back("data/json/items/armor.json");
+    ret.push_back("data/json/items/books.json");
+    ret.push_back("data/json/items/comestibles.json");
+    ret.push_back("data/json/items/containers.json");
+    ret.push_back("data/json/items/melee.json");
+    ret.push_back("data/json/items/mods.json");
+    ret.push_back("data/json/items/ranged.json");
+    ret.push_back("data/json/items/tools.json");
+
     return ret;
 }
 
@@ -96,6 +109,8 @@ void load_object(JsonObject &jo)
         throw err.str();
     }
 }
+
+void null_load_target(JsonObject &jo){}
 
 void init_data_structures()
 {
@@ -116,10 +131,19 @@ void init_data_structures()
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
 
-
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
+
+    type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
+    type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
+    type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);
+    type_function_map["TOOL"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_tool);
+    type_function_map["BOOK"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_book);
+    type_function_map["COMESTIBLE"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_comestible);
+    type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
+    type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
+    type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
 
     mutations_category[""].clear();
     init_mutation_parts();
