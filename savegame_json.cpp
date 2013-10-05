@@ -1368,9 +1368,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picojson::object &data = parsed.get<picojson::object>();
 
     int fdir, mdir;
-   
+
     picostring(data,"type",type);
-    picoint(data, "posx", posx);   
+    picoint(data, "posx", posx);
     picoint(data, "posy", posy);
     picoint(data, "faceDir", fdir);
     picoint(data, "moveDir", mdir);
@@ -1405,7 +1405,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 }
                 vehicle_part new_part;
                 new_part.id = pid;
-               
+
                 picoint(pdata, "mount_dx", new_part.mount_dx);
                 picoint(pdata, "mount_dy", new_part.mount_dy);
                 picoint(pdata, "hp", new_part.hp );
@@ -1414,9 +1414,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 picoint(pdata, "bigness", new_part.bigness );
                 if ( picoint(pdata, "flags", pflag ) ) {
                     new_part.flags = pflag;
-                }               
+                }
                 picoint(pdata, "passenger_id", new_part.passenger_id );
-               
+
                 picojson::array * piarray=pgetarray(pdata,"items");
                 new_part.items.clear();
                 if ( piarray != NULL ) {
@@ -1425,13 +1425,16 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                             new_part.items.push_back( item( *pit, g ) );
                         }
                     }
-                }           
+                }
                 parts.push_back (new_part);
             }
         }
         parray = NULL;
     }
     find_external_parts ();
+    find_horns ();
+    find_lights ();
+    find_fuel_tanks ();
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
@@ -1460,8 +1463,8 @@ picojson::value vehicle::json_save( bool save_contents ) {
 
     data["cruise_on"] = pv ( cruise_on );
     data["lights_on"] = pv ( lights_on );
-    data["turret_mode"] = pv ( turret_mode );
     data["skidding"] = pv ( skidding );
+    data["turret_mode"] = pv ( turret_mode );
 
     data["of_turn_carry"] = pv ( of_turn_carry );
     data["name"] = pv ( name );
