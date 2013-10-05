@@ -159,9 +159,17 @@ void load_json_dir(std::string const &dirname)
     for (it = dir.begin(); it != dir.end(); it++) {
         // open the file as a stream
         std::ifstream infile(it->c_str(), std::ifstream::in | std::ifstream::binary);
+        // and stuff it into ram
+        std::istringstream iss(
+            std::string(
+                (std::istreambuf_iterator<char>(infile)),
+                std::istreambuf_iterator<char>()
+            )
+        );
+        infile.close();
         // parse it
         try {
-            JsonIn jsin(&infile);
+            JsonIn jsin(&iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
             throw *(it) + ": " + e;
