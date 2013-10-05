@@ -821,7 +821,7 @@ nc_color vehicle::part_color (int p)
  * @param y1 The y-coordinate to start drawing at.
  * @param width The width of the window.
  * @param p The index of the part being examined.
- * @param hl Whether or not to use a highlight.
+ * @param hl The index of the part to highlight (if any).
  */
 void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
 {
@@ -867,9 +867,18 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
         }
 
         bool armor = part_flag(pl[i], "ARMOR");
+        std::string left_sym, right_sym;
+        if(armor) {
+            left_sym = "("; right_sym = ")";
+        } else if(i == 0) { //First part in list
+            left_sym = "["; right_sym = "]";
+        } else {
+            left_sym = "-"; right_sym = "-";
+        }
+        
+        mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, left_sym.c_str());
         mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
-        mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, armor? "(" : (i? "-" : "["));
-        mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, armor? ")" : (i? "-" : "]"));
+        mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, right_sym.c_str());
 //         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
         if (i == 0 && is_inside(pl[i])) {
