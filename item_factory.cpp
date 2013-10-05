@@ -573,15 +573,21 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     }
                 }
 
-                if (entry.has("techniques"))
+                if( entry.has("qualities") ){
+                  set_qualities_from_json(new_id, entry.get("qualities"));
+                }
+
+                if (entry.has("techniques")){
                   new_item_template->techniques = entry.get("techniques").as_tags();
+                }
                 new_item_template->use = (!entry.has("use_action") ? &iuse::none :
                                           use_from_string(entry.get("use_action").as_string()));
             }
         }
     }
-    if(!json_good())
+    if(!json_good()){
         throw "There was an error reading " + file_name;
+    }
 }
 
 // Load an item group from JSON
@@ -724,6 +730,21 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     itype* temp = find_template(new_id);
     temp->m1 = material_list[0];
     temp->m2 = material_list[1];
+}
+
+void Item_factory::set_qualities_from_json(Item_tag new_id, catajson quality_list){
+    itype* temp = find_template(new_id);
+    if (quality_list.is_array())
+    {
+        for (quality_list.set_begin(); quality_list.has_curr(); quality_list.next())
+        {
+            temp->qualities.insert( std::pair<std::string, int>(quality_list.curr().get(0).as_string(), quality_list.curr().get(1).as_int()) );
+        }
+    }
+    else
+    {
+        debugmsg("Qualities list for item %s not an array", new_id.c_str());
+    }
 }
 
 

@@ -23,6 +23,22 @@ struct component
  component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
 };
 
+struct quality_requirement
+{
+  std::string name;
+  int count;
+  bool available;
+  int level;
+
+  quality_requirement() { name = "UNKNOWN"; count = 0; available = false; level = 0;}
+  quality_requirement(std::string new_name, int new_count, int new_level){ 
+    name = new_name; 
+    count = new_count;
+    level = new_level;
+    available = false; 
+  }
+};
+
 struct recipe {
   std::string ident;
   int id;
@@ -37,6 +53,7 @@ struct recipe {
   int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
 
   std::vector<std::vector<component> > tools;
+  std::vector<quality_requirement> qualities;
   std::vector<std::vector<component> > components;
 
   //Create a string list to describe the skill requirements fir this recipe

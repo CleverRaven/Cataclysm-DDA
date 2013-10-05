@@ -33,7 +33,8 @@ struct iteminfo{
   std::string sPlus; //number +
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
-
+  
+  //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
   iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) {
     sType = sIn0;
     sName = sIn1;
@@ -116,6 +117,8 @@ public:
  int damage_bash();
  int damage_cut() const;
  bool has_flag(std::string f) const;
+ bool has_quality(std::string quality_name) const;
+ bool has_quality(std::string quality_name, int quality_value) const;
  bool has_technique(std::string t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();

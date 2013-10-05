@@ -60,6 +60,7 @@ private:
 
     Use_function use_from_string(std::string name);
     void tags_from_json(catajson tag_list, std::set<std::string> &tags);
+    void set_qualities_from_json(Item_tag new_id, catajson quality_list);
     unsigned flags_from_json(catajson flags, std::string flag_type="");
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);

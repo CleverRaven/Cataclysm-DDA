@@ -601,6 +601,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   }
  }
 
+ if ( type->qualities.size() > 0){
+    for(std::map<std::string, int>::const_iterator quality = type->qualities.begin(); quality!=type->qualities.end();++quality){
+        dump->push_back( iteminfo("QUALITIES", "", string_format(_("Has %s quality of level %d."),quality->first.c_str(),quality->second) ));
+    }
+ }
+
  if ( showtext && !is_null() ) {
     if (is_stationary()) {
        // Just use the dynamic description
@@ -1017,6 +1023,19 @@ bool item::has_flag(std::string f) const
 
     // now check for item specific flags
     ret = item_tags.count(f);
+    return ret;
+}
+
+bool item::has_quality(std::string quality_name) const {
+    return has_quality(quality_name, 1);
+}
+
+bool item::has_quality(std::string quality_name, int quality_value) const {
+    bool ret = false;
+
+    if(type->qualities.size() > 0){
+      ret = true;
+    }
     return ret;
 }
 
