@@ -796,6 +796,7 @@
       ["mag_archery", 20],
       ["manual_archery", 7],
       ["novel_horror", 18],
+      ["novel_tragedy", 8],
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
       ["novel_erotic", 4],
@@ -1861,6 +1862,7 @@
       ["novel_coa", 10],
       ["novel_crime", 20],
       ["novel_horror", 18],
+      ["novel_tragedy", 8],
       ["ZSG", 5]
     ]
   },{
@@ -2305,6 +2307,7 @@
       ["novel_erotic", 4],
       ["poetry_book", 10],
       ["novel_horror", 18],
+      ["novel_tragedy", 8],
       ["ZSG", 2],
       ["chocolate", 50],
       ["cookies", 50],
