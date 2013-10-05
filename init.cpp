@@ -76,7 +76,6 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/mutations.json");
     ret.push_back("data/json/snippets.json");
     ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/recipes.json");
     ret.push_back("data/json/lab_notes.json");
     ret.push_back("data/json/hints.json");
     ret.push_back("data/json/furniture.json");
@@ -93,6 +92,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/items/ranged.json");
     ret.push_back("data/json/items/tools.json");
 
+    ret.push_back("data/json/recipes.json");
     return ret;
 }
 
@@ -123,8 +123,6 @@ void init_data_structures()
     type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
     type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation);
-    type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
-    type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
     type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
@@ -144,6 +142,9 @@ void init_data_structures()
     type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
+
+    type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
+    type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
 
     mutations_category[""].clear();
     init_mutation_parts();
