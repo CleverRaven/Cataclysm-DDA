@@ -585,7 +585,7 @@
   "time": 800,
   "reversible": false,
   "autolearn": true,
-  "tool_groups":[
+  "qualities":[
     {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
