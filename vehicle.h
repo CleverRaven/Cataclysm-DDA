@@ -47,6 +47,12 @@ struct veh_collision {
  veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
+struct vehicle_prototype
+{
+    std::string id, name;
+    std::vector<std::pair<point, std::string> > parts;
+};
+
 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)

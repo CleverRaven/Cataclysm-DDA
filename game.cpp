@@ -85,6 +85,11 @@ game::game() :
  om_diag(NULL),
  gamemode(NULL)
 {
+    // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
+    // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
+}
+void game::init_data()
+{
  dout() << "Game initialized.";
 
  try {
@@ -110,12 +115,14 @@ game::game() :
  init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
  init_missions();             // Set up mission templates         (SEE missiondef.cpp)
  init_construction();         // Set up constructables            (SEE construction.cpp)
- init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
- init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
+ //init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
+ //init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();             // Set up autosave
  init_diseases();             // Set up disease lookup table
  init_savedata_translation_tables();
  inp_mngr.init();            // Load input config JSON
+
+ finalize_vehicles();
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;

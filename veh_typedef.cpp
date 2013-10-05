@@ -30,6 +30,59 @@ std::map<std::string, vpart_info> vehicle_part_types;
 // the following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
+void game::load_vehiclepart(JsonObject &jo)
+{
+    vpart_info next_part;
+
+    next_part.id = jo.get_string("id");
+    next_part.name = _(jo.get_string("name").c_str());
+    next_part.sym = jo.get_string("symbol")[0];
+    next_part.color = color_from_string(jo.get_string("color"));
+    next_part.sym_broken = jo.get_string("broken_symbol")[0];
+    next_part.color_broken = color_from_string(jo.get_string("broken_color"));
+    next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
+    next_part.durability = jo.get_int("durability");
+    //Handle the par1 union as best we can by accepting any ONE of its elements
+    int element_count = (jo.has_member("par1") ? 1 : 0)
+                      + (jo.has_member("power") ? 1 : 0)
+                      + (jo.has_member("size") ? 1 : 0)
+                      + (jo.has_member("wheel_width") ? 1 : 0)
+                      + (jo.has_member("bonus") ? 1 : 0);
+    if(element_count == 0) {
+      //If not specified, assume 0
+      next_part.par1 = 0;
+    } else if(element_count == 1) {
+      if(jo.has_member("par1")) {
+        next_part.par1 = jo.get_int("par1");
+      } else if(jo.has_member("power")) {
+        next_part.par1 = jo.get_int("power");
+      } else if(jo.has_member("size")) {
+        next_part.par1 = jo.get_int("size");
+      } else if(jo.has_member("wheel_width")) {
+        next_part.par1 = jo.get_int("wheel_width");
+      } else { //bonus
+        next_part.par1 = jo.get_int("bonus");
+      }
+    } else {
+      //Too many
+      debugmsg("Error parsing vehicle part '%s': \
+               Use AT MOST one of: par1, power, size, wheel_width, bonus",
+               next_part.name.c_str());
+      //Keep going to produce more messages if other parts are wrong
+      next_part.par1 = 0;
+    }
+    next_part.fuel_type = jo.has_member("fuel_type") ? jo.get_string("fuel_type") : "NULL";
+    next_part.item = jo.get_string("item");
+    next_part.difficulty = jo.get_int("difficulty");
+
+    JsonArray jarr = jo.get_array("flags");
+    while (jarr.has_more()){
+        next_part.flags.insert(jarr.next_string());
+    }
+
+    vehicle_part_types[next_part.id] = next_part;
+}
+
 /**
  * Reads in the vehicle parts from a json file.
  */
@@ -125,6 +178,54 @@ void game::init_vehicle_parts()
 
 }
 
+// loads JsonObject vehicle definition into a cached state so that it can be held until after itypes have been initialized
+void game::load_vehicle(JsonObject &jo)
+{
+    vehicle_prototype *vproto = new vehicle_prototype;
+
+    vproto->id = jo.get_string("id");
+    vproto->name = jo.get_string("name");
+    JsonArray parts = jo.get_array("parts");
+
+    while (parts.has_more()){
+        JsonObject part = parts.next_object();
+        vproto->parts.push_back(std::pair<point, std::string>(point(part.get_int("x"), part.get_int("y")), part.get_string("part")));
+    }
+    vehprototypes.push(vproto);
+}
+void game::finalize_vehicles()
+{
+    int part_x = 0, part_y = 0;
+    std::string part_id = "";
+    vehicle *next_vehicle;
+
+    while (vehprototypes.size() > 0){
+        vehicle_prototype *proto = vehprototypes.front();
+        vehprototypes.pop();
+
+        next_vehicle = new vehicle(this, proto->id.c_str());
+        next_vehicle->name = _(proto->name.c_str());
+
+        for (int i = 0; i < proto->parts.size(); ++i)
+        {
+            point p = proto->parts[i].first;
+            part_x = p.x;
+            part_y = p.y;
+
+            part_id = proto->parts[i].second;
+
+            if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
+                debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
+                        next_vehicle->name.c_str(), part_id.c_str(),
+                        next_vehicle->parts.size(), part_x, part_y);
+            }
+        }
+
+        vtypes[next_vehicle->type] = next_vehicle;
+        delete proto;
+    }
+}
+
 void game::init_vehicles()
 {
   catajson vehicles_json("data/raw/vehicles.json", true);
@@ -146,7 +247,7 @@ void game::init_vehicles()
     catajson parts_list = next_json.get("parts");
 
     for(parts_list.set_begin(); parts_list.has_curr() && json_good(); parts_list.next()) {
-      
+
       //See vehicle_parts.json for a list of part ids
       catajson next_part = parts_list.curr();
       part_x = next_part.get("x").as_int();
@@ -157,7 +258,7 @@ void game::init_vehicles()
                     next_vehicle->name.c_str(), part_id.c_str(),
                     next_vehicle->parts.size(), part_x, part_y);
       }
-      
+
     }
 
     vtypes[next_vehicle->type] = next_vehicle;

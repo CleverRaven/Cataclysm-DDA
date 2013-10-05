@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include <vector>
 #include <map>
+#include <queue>
 #include <list>
 #include <stdarg.h>
 
@@ -100,6 +101,7 @@ class game
  public:
   game();
   ~game();
+  void init_data();
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
@@ -356,7 +358,12 @@ void load_artifacts(); // Load artifact data
 
 // Mi-Go speech bubble loading
   void load_migo_speech(JsonObject &jo);
+// Vehicle related JSON loaders and variables
+  void load_vehiclepart(JsonObject &jo);
+  void load_vehicle(JsonObject &jo);
+  void finalize_vehicles();
 
+  std::queue<vehicle_prototype*> vehprototypes;
 
  private:
 // Game-start procedures
