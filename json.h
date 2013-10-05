@@ -6,6 +6,17 @@
 #include <istream>
 #include <map>
 
+enum json_value_type
+{
+    JVT_UNKNOWN = 0, // used to handle errors
+    JVT_BOOL,
+    JVT_STRING,
+    JVT_NUMBER,
+    JVT_ARRAY,
+    JVT_OBJECT,
+    JVT_NULL
+};
+
 class JsonIn;
 class JsonObject;
 class JsonArray;
@@ -18,6 +29,8 @@ private:
     int start;
     int end;
     JsonIn *jsin;
+
+    bool is_member_X(std::string member, json_value_type jvt);
 public:
     JsonObject(JsonIn *jsin);
 
@@ -36,8 +49,17 @@ public:
     std::string get_string(std::string name);
     std::string get_string(std::string name, std::string fallback);
 
+    // Type checking functions, should maybe add an is_char in there as well, and a get_char function so we don't need to do get_string(member)[0]
+    bool is_bool(std::string member);
+    bool is_number(std::string member);
+    bool is_string(std::string member);
+    bool is_array(std::string member);
+    bool is_object(std::string member);
+
+    json_value_type get_member_type(std::string member);
+
     JsonArray get_array(std::string name); // returns empty array if not found
-    //JsonObject get_object(std::string name);
+    JsonObject get_object(std::string name);
 
     // useful debug info
     std::string line_number(); // for occasional use only
@@ -74,6 +96,10 @@ public:
     std::string get_string(int index);
     JsonArray get_array(int index);
     JsonObject get_object(int index);
+
+    // type acquisition
+    json_value_type get_next_type();
+    json_value_type get_index_type(int index);
 };
 
 class JsonIn {
@@ -117,6 +143,7 @@ public:
 
     // useful debug info
     std::string line_number(int offset_modifier=0); // for occasional use only
+    json_value_type get_next_type();
 };
 
 #endif // _JSON_H_
