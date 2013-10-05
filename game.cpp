@@ -7298,11 +7298,12 @@ void game::pickup(int posx, int posy, int min)
                     {
                         if (query_yn(_("Use hotplate?")))
                         {
+                            npc tmp;
                             item tmp_hotplate( g->itypes["hotplate"], 0 );
                             // Drain a ton of power
                             tmp_hotplate.charges = veh->drain( "battery", 100 );
                             item &hotplate_ref = tmp.i_add(tmp_hotplate);
-                            iuse::hotplate;
+                            //line to use hotplate
                             // Return whatever is left.
                             veh->refill( "battery", hotplate_ref.charges );
                         }
