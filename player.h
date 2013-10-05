@@ -41,11 +41,13 @@ struct stats
     int squares_walked;
     int damage_taken;
     int damage_healed;
+    int headshots;
 
     void reset() {
         squares_walked = 0;
         damage_taken = 0;
         damage_healed = 0;
+        headshots = 0;
     }
 
     stats() {

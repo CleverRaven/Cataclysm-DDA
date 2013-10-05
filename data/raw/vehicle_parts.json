@@ -903,6 +903,22 @@
         ]
     },
     {
+        "id": "reinforced_solar_panel",
+        "name": "solar panel",
+        "symbol": "#",
+        "color": "light_blue",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "damage_modifier": 80,
+        "durability": 300,
+        "power": 30,
+        "item": "reinforced_solar_panel",
+        "difficulty": 6,
+        "flags": [
+            "OVER", "SOLAR_PANEL"
+        ]
+    },
+    {
         "id": "kitchen_unit",
         "name": "kitchen unit",
         "symbol": "&",

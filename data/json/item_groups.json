@@ -147,6 +147,7 @@
       ["laptop", 10],
       ["pda", 3],
       ["gum", 30],
+      ["flask_hip", 5],
       ["nic_gum", 2]
     ]
   },{
@@ -248,6 +249,7 @@
       ["jar_meat_pickled", 4],
       ["tongs", 25],
       ["char_smoker", 25],
+      ["flask_hip", 5],
       ["charcoal", 5]
     ]
   },{
@@ -446,6 +448,7 @@
       ["clownshoes", 1],
       ["bondage_suit", 5],
       ["bondage_mask", 5],
+      ["flask_hip", 5],
       ["corset", 15]
     ]
   },{
@@ -579,6 +582,7 @@
       ["socks", 70],
       ["socks_wool", 30],
       ["pocketwatch", 5],
+      ["flask_hip", 2],
       ["wristwatch", 15]
     ]
   },{
@@ -611,6 +615,7 @@
       ["cookies", 80],
       ["tea_raw", 10],
       ["coffee_raw", 15],
+      ["choco_coffee_beans", 10],
       ["chips2", 65],
       ["chips3", 65],
       ["salt", 10],
@@ -711,6 +716,7 @@
       ["coffee_raw", 15],
       ["coffee_raw", 15],
       ["coffee_raw", 15],
+      ["choco_coffee_beans", 10],
       ["salt", 10]
     ]
   },{
@@ -4029,6 +4035,7 @@
       ["u_shotgun", 4],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
+      ["flask_hip", 10],
       ["pocketwatch", 2]
     ]
   },{
