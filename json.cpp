@@ -486,7 +486,7 @@ json_value_type JsonIn::get_next_type()
     // or "true", "false" or "null"
     } else if (ch == 't' || ch == 'f') {
         try{
-            bool b = get_bool();
+            get_bool();
             jvt = JVT_BOOL;
         }catch(std::string ex){
             // nothing to do, jvt is still JVT_UNKNOWN
