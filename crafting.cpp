@@ -87,7 +87,7 @@ void load_recipe(JsonObject &jsobj)
         rec->components.push_back(component_choices);
     }
 
-    jsarr = jsobj.get_array("tool_groups");
+    jsarr = jsobj.get_array("qualities");
     while(jsarr.has_more()){
         std::vector<quality_requirement> tool_choices;
         JsonObject quality_data = jsarr.next_object();
@@ -682,7 +682,7 @@ recipe* game::select_crafting_recipe()
                     }
                     
                     std::stringstream qualinfo;
-                    qualinfo << "Requires " << iter->count << " tools with " << iter->name << " of " << iter->level << " or more.";
+                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, iter->name.c_str(), iter->level);
                     mvwprintz(w_data, ypos, xpos, toolcol, qualinfo.str().c_str());
                 }
                 // Loop to print the required tools
