@@ -5623,6 +5623,10 @@ int game::npc_by_id(const int id) const
 
 bool game::add_zombie(monster& m)
 {
+    if (m.type->id == mon_null){ // Don't wanna spawn null monsters o.O
+        debugmsg("add_zombie: trying to add a mon_null at %d,%d", m.posx(), m.posy());
+        return false;
+    }
     if (-1 != mon_at(m.posx(), m.posy())) {
         debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
         return false;
