@@ -708,7 +708,7 @@ recipe* game::select_crafting_recipe()
                     }
                     
                     std::stringstream qualinfo;
-                    qualinfo << "Requires " << iter->count << " tools with " << iter->name << " of " << iter->level << " or more.";
+                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, iter->name.c_str(), iter->level);
                     mvwprintz(w_data, ypos, xpos, toolcol, qualinfo.str().c_str());
                 }
                 // Loop to print the required tools
