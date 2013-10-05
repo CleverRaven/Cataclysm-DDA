@@ -828,8 +828,7 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
     if (p < 0 || p >= parts.size()) {
         return;
     }
-    std::vector<int> pl = internal_parts (p);
-    pl.insert (pl.begin(), p);
+    std::vector<int> pl = this->parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
     int y = y1;
     for (int i = 0; i < pl.size(); i++)
     {
