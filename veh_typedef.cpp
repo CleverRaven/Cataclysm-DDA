@@ -30,6 +30,9 @@ std::map<std::string, vpart_info> vehicle_part_types;
 // the following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
+/**
+ * Reads in a vehicle part from a JsonObject.
+ */
 void game::load_vehiclepart(JsonObject &jo)
 {
     vpart_info next_part;
@@ -83,8 +86,9 @@ void game::load_vehiclepart(JsonObject &jo)
     vehicle_part_types[next_part.id] = next_part;
 }
 
+
 /**
- * Reads in the vehicle parts from a json file.
+ *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
 void game::init_vehicle_parts()
 {
@@ -193,6 +197,9 @@ void game::load_vehicle(JsonObject &jo)
     }
     vehprototypes.push(vproto);
 }
+/**
+ *Works through cached vehicle definitions and creates vehicle objects from them.
+ */
 void game::finalize_vehicles()
 {
     int part_x = 0, part_y = 0;
@@ -225,44 +232,3 @@ void game::finalize_vehicles()
         delete proto;
     }
 }
-
-void game::init_vehicles()
-{
-  catajson vehicles_json("data/raw/vehicles.json", true);
-
-  if (!json_good()) {
-    throw (std::string)"data/raw/vehicles.json wasn't found";
-  }
-
-  int part_x = 0;
-  int part_y = 0;
-  std::string part_id;
-  vehicle *next_vehicle;
-  for (vehicles_json.set_begin(); vehicles_json.has_curr() && json_good(); vehicles_json.next())
-  {
-    catajson next_json = vehicles_json.curr();
-
-    next_vehicle = new vehicle(this, next_json.get("id").as_string().c_str());
-    next_vehicle->name = _(next_json.get("name").as_string().c_str());
-    catajson parts_list = next_json.get("parts");
-
-    for(parts_list.set_begin(); parts_list.has_curr() && json_good(); parts_list.next()) {
-
-      //See vehicle_parts.json for a list of part ids
-      catajson next_part = parts_list.curr();
-      part_x = next_part.get("x").as_int();
-      part_y = next_part.get("y").as_int();
-      part_id = next_part.get("part").as_string();
-      if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
-        debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                    next_vehicle->name.c_str(), part_id.c_str(),
-                    next_vehicle->parts.size(), part_x, part_y);
-      }
-
-    }
-
-    vtypes[next_vehicle->type] = next_vehicle;
-
-  }
-}
-

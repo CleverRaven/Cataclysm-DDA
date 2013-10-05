@@ -403,8 +403,6 @@ void load_artifacts(); // Load artifact data
   void init_traps();        // Initializes trap types
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_vehicle_parts();       // Initializes vehicle part types
-  void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_savedata_translation_tables();
