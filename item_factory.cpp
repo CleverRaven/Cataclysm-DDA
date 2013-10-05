@@ -124,6 +124,8 @@ void Item_factory::init(){
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
     iuse_function_list["GRENADE"] = &iuse::grenade;
     iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
+    iuse_function_list["FREEZE_GRENADE"] = &iuse::freeze_grenade;
+    iuse_function_list["FREEZE_GRENADE_ACT"] = &iuse::freeze_grenade_act;
     iuse_function_list["GRANADE"] = &iuse::granade;
     iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
     iuse_function_list["FLASHBANG"] = &iuse::flashbang;
@@ -143,6 +145,8 @@ void Item_factory::init(){
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
+    iuse_function_list["ICE_MOLOTOV"] = &iuse::ice_molotov;
+    iuse_function_list["ICE_MOLOTOV_LIT"] = &iuse::ice_molotov_lit;
     iuse_function_list["MATCHBOMB"] = &iuse::matchbomb;
     iuse_function_list["MATCHBOMB_ACT"] = &iuse::matchbomb_act;
     iuse_function_list["DYNAMITE"] = &iuse::dynamite;

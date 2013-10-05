@@ -145,16 +145,20 @@ MF_GOODHEARING, // Pursues sounds more than most monsters
 MF_SMELLS, // It can smell you
 MF_KEENNOSE, //Keen sense of smell
 MF_STUMBLES, // Stumbles in its movement
-MF_WARM, // Warm blooded
+MF_WARM, // Warm blooded, also affects temperature resistance
+MF_COLD, // Cold blooded, affects temperature resistance
+MF_INSECT_BLOOD, // Like cold blooded, but colder
+MF_ICE, // Immune to freezing temps
+MF_FIRE, // Immune to scorching temps
 MF_NOHEAD, // Headshots not allowed!
-MF_HARDTOSHOOT, // Some shots are actually misses
+MF_HARDTOSHOOT,	// Some shots are actually misses
 MF_GRABS, // Its attacks may grab us!
 MF_BASHES, // Bashes down doors
 MF_DESTROYS, // Bashes down walls and more
 MF_POISON, // Poisonous to eat
 MF_VENOM, // Attack may poison the player
 MF_BADVENOM, // Attack may SEVERELY poison the player
-MF_BLEED,       // Causes player to bleed
+MF_BLEED, // Causes player to bleed
 MF_WEBWALK, // Doesn't destroy webs
 MF_DIGS, // Digs through the ground
 MF_FLIES, // Can fly (over water, etc)

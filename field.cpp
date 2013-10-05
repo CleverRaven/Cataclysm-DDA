@@ -157,6 +157,24 @@ void game::init_fields()
             {0,0,0}
         },
 
+        { // Ice mist
+            {_("cold mist"),	_("ice mist"), _("ice fog")},		'8',
+            {c_ltblue, c_cyan, c_blue},	{true, true, false},{false, false, true},  500,
+            {0,0,0}
+        },
+
+        { // Ice on the floor
+            {_("thin ice"),	_("smooth ice"), _("pristine ice")},		'#',
+            {c_ltblue, c_cyan, c_blue},	{true, true, true}, {false, false, true},  750,
+            {0,0,0}
+        },
+
+        { // Snow on the floor
+            {_("frost"),	_("dusting of snow"), _("snow")},		'#',
+            {c_white, c_white, c_white},	{true, true, true}, {false, false, false},  600,
+            {0,0,0}
+        },
+
         { // plasma glow (for plasma weapons)
             {_("faint plasma"), _("glowing plasma"), _("burning plasma")}, '9',
             {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
@@ -196,14 +214,14 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
 
     std::vector <point> spread;
     // Pick all eligible points to spread to.
+    // An eligible point must have less density.
     for( int a = -1; a <= 1; a++ ) {
         for( int b = -1; b <= 1; b++ ) {
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
             field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
-            // Candidates are existing non-max-strength fields or navigable tiles with no field.
-            if( ( tmpfld && tmpfld->getFieldDensity() < 3 ) ||
-                ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
+            if ( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
+            ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
         }
@@ -225,6 +243,15 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
     }
 }
 
+
+/*
+Function: age_ice
+Helper function that returns how much a tile that melts should age due to temperature
+*/
+static int age_ice( int temperature )
+{
+    return (temperature - 32)/4;
+}
 
 bool map::process_fields(game *g)
 {
@@ -257,6 +284,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
     field_id curtype; //Holds cur->getFieldType() as thats what the old system used before rewrite.
 
     bool skipIterIncr = false; // keep track on when not to increment it[erator]
+
+    // For use with temperature related tiles
+    int temperature = g->get_temperature();
 
     //Loop through all tiles in this submap indicated by gridn
     for (int locx = 0; locx < SEEX; locx++) {
@@ -378,7 +408,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 // cook off ammo instead of just burning it.
                                 for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
                                     //Blow up with half the ammos damage in force, for each bullet.
-                                    g->explosion(x, y, ammo_type->damage / 2, true, false);
+                                    g->explosion(x, y, ammo_type->damage / 2, true, NO_ELEMENT);
                                 }
                                 it->charges -= rounds_exploded; //Get rid of the spent ammo.
                                 if(it->charges == 0) {
@@ -489,7 +519,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 ter_set(x, y, ter_id(int(ter(x, y)) + 1));
                                 cur->setFieldAge(0); //Fresh level 3 fire.
                                 cur->setFieldDensity(3);
-                                g->explosion(x, y, 40, 0, true); //Boom.
+                                g->explosion(x, y, 40, 0, HAS_FIRE); //Boom.
 
                             } else if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
@@ -613,7 +643,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     if (has_flag("EXPLODES", fx, fy) && one_in(8 - cur->getFieldDensity()) &&
                                         tr_brazier != tr_at(x, y) && (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
                                         ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
-                                        g->explosion(fx, fy, 40, 0, true); //Nearby explodables? blow em up.
+                                        g->explosion(fx, fy, 40, 0, HAS_FIRE); //Nearby explodables? blow em up.
                                     } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 200 &&
                                                tr_brazier != tr_at(x, y) &&
                                                (has_flag("FIRE_CONTAINER", x, y) != true ) &&
@@ -904,6 +934,37 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         }
                         break;
 
+                    case fd_ice_mist:
+                        spread_gas( this, cur, x, y, curtype, 40, 50 );
+                        // Avoid negative ages, otherwise modify age depending on temperature
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
+                        break;
+
+                    case fd_ice_floor: {
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
+                    }
+                    break;
+
+                    case fd_snow_floor: {
+                        if ( cur->getFieldAge() < 1 ) {
+                            cur->setFieldAge(1);
+                        }
+                        else {
+                            cur->setFieldAge(cur->getFieldAge() + age_ice(temperature));
+                        }
+                    }
+                    break;
+
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
@@ -1172,6 +1233,22 @@ void map::step_in_field(int x, int y, game *g)
             //Stepping on an acid vent shuts it down.
             field_list_it = curfield.removeField( fd_acid_vent );
             continue;
+
+        case fd_ice_mist:
+            // This stuff is taken care of in game::get_temperature() and player::update_bodytemp()
+            break;
+
+        case fd_ice_floor:
+            g->u.add_disease("onice", 1, cur->getFieldDensity(), 3);
+            break;
+
+        case fd_snow_floor:
+            switch (cur->getFieldDensity()) {
+                case 3: g->u.moves -= 40; break;
+                case 2: g->u.moves -= 20; break;
+                case 1: g->u.moves -= 10; break;
+            }
+            break;
         }
         ++field_list_it;
     }
@@ -1400,6 +1477,26 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             }
             break;
 
+        case fd_ice_mist:
+            if (!z->has_flag(MF_ICE)) {
+                switch (cur->getFieldDensity()) {
+                    case 1: z->moves -= rng(10, 20); break;
+                    case 2: z->moves -= rng(20, 40); break;
+                    case 3: z->moves -= rng(40, 80); break;
+                }
+            }
+            break;
+
+        case fd_ice_floor:
+            if (!z->has_flag(MF_ICE)) {
+                switch (cur->getFieldDensity()) {
+                    // TODO : add something more interesting. More chance to miss? To stumble?
+                    case 1: z->moves -= rng(10, 20); break;
+                    case 2: z->moves -= rng(20, 40); break;
+                    case 3: z->moves -= rng(40, 80); break;
+                }
+            }
+            break;
         }
         ++field_list_it;
     }

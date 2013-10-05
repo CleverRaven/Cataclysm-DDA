@@ -1874,7 +1874,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
 
  case old_t_gas_pump:
   if (makesound && one_in(3))
-   g->explosion(x, y, 40, 0, true);
+   g->explosion(x, y, 40, 0, HAS_FIRE);
   else {
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
@@ -2028,7 +2028,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
 
  default:
   if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
-   g->explosion(x, y, 40, 0, true);
+   g->explosion(x, y, 40, 0, HAS_FIRE);
   }
   ter_set(x, y, t_rubble);
  }
@@ -2209,7 +2209,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 if (dam > 15)
                 {
                     if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
-                        g->explosion(x, y, 40, 0, true);
+                        g->explosion(x, y, 40, 0, HAS_FIRE);
                     else
                     {
                         for (int i = x - 2; i <= x + 2; i++)
@@ -2247,6 +2247,13 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 
     if (ammo_effects.count("TRAIL") && !one_in(4))
         add_field(g, x, y, fd_smoke, rng(1, 2));
+
+    if (ammo_effects.count("FROST_TRAIL") && !one_in(5)) {
+        if (one_in(2)) 
+            add_field(g, x, y, fd_ice_mist, rng(1, 2));
+        else
+            add_field(g, x, y, fd_snow_floor, 1);
+    }
 
     if (ammo_effects.count("LIGHTNING"))
         add_field(g, x, y, fd_electricity, rng(2, 3));

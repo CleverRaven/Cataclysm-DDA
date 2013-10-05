@@ -29,6 +29,7 @@
 #include "init.h"
 #include "help.h"
 #include "action.h"
+#include <stdlib.h>
 #include <map>
 #include <set>
 #include <algorithm>
@@ -1209,11 +1210,108 @@ void game::update_weather()
 int game::get_temperature()
 {
     point location = om_location();
+
+    return get_temperature(location);
+}
+
+int game::get_temperature(point location)
+{
+    // Fetch temperature due to weather
     int tmp_temperature = temperature;
 
+    // Add temperature due to submap
     tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
+}
+
+int game::get_radiante_energy(int posx, int posy)
+{
+    // Need to find a way to calculate distance between monster and tile
+
+    // Implicitly, this always calculates the tile from the POV of the player
+    // because of the use of "u_see"
+
+    int felt_radiante_energy = 0;
+
+    /**
+     *  Sun energy (distance is constant due to its sheer magnitude)
+     */
+
+    if (weather == WEATHER_SUNNY && is_in_sunlight(posx, posy))
+    {
+        felt_radiante_energy += 1000;
+    }
+    if (weather == WEATHER_CLEAR && is_in_sunlight(posx, posy))
+    {
+        felt_radiante_energy += 500;
+    }
+
+    int tile_distance = 1;
+    int tile_energy = 0;
+    // Four intensities of fire, in DDA units
+    // Values taken from wikipedia and divided by 4
+    int fire_temperature_level[4] = {13500, 20500, 27500, 35000};
+    int lava_temperature = fire_temperature_level[3];
+
+    for (int j = -6 ; j <= 6 ; j++)
+    {
+        for (int k = -6 ; k <= 6 ; k++)
+        {
+            // Skip things you can't see
+            if ( !u_see(posx + j, posy + k) ) {
+                // DEBUG
+                felt_radiante_energy += 1;
+                continue;
+            }
+            field &tile_field = m.field_at(posx + j, posy + k);
+            tile_distance = std::max(1, std::max(abs(j), abs(k)));
+            int felt_tile_energy = 0;
+
+            /**
+             *  Fire energy
+             *      Find the felt_radiante temperatue of the player
+             *      ISSUE : fire "size" should also incorporate number of tiles ...
+             *          Current fix : fire temp definitions are divided by 4
+             *      BUG : Sometimes, when the player is close, and he takes a step, the radiante energy is zero
+             *          because he loses sight
+             */
+
+            if ( tile_field.findField(fd_fire) ) {
+                switch (tile_field.findField(fd_fire)->getFieldDensity()) {
+                    case 1: 
+                        tile_energy = fire_temperature_level[1]; break;
+                    case 2:
+                        tile_energy = fire_temperature_level[2]; break;
+                    case 3:
+                        tile_energy = fire_temperature_level[3]; break;
+                    case 4:
+                        tile_energy = fire_temperature_level[4]; break;
+                }
+                felt_tile_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
+            }
+
+            /**
+             * Lava energy
+             *      ISSUE : Cannot use tile_field because lava is a type of terrain
+             *      How to make this prettier?
+             */
+
+            if ( m.tr_at(posx + j, posy + k) == tr_lava ) {
+                tile_energy = lava_temperature;
+
+                felt_tile_energy += exp(0.004) * (tile_energy / (tile_distance * tile_distance));
+            }
+
+            /**
+             * Total energy felt
+             */
+
+            felt_radiante_energy += felt_tile_energy;
+        }
+    }
+
+    return felt_radiante_energy;
 }
 
 int game::assign_mission_id()
@@ -4711,7 +4809,7 @@ void game::monmove()
     }
     z.dead = true;
    } else
-    z.receive_moves();
+    z.receive_moves(g, m);
   }
  }
 
@@ -4905,12 +5003,12 @@ void game::draw_footsteps()
  return;
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
+void game::explosion(int x, int y, int power, int shrapnel, int element)
 {
  int radius = int(sqrt(double(power / 4)));
  int dam;
  std::string junk;
- int noise = power * (has_fire ? 2 : 10);
+ int noise = power * (element == NO_ELEMENT ? 2 : 10);
 
  if (power >= 30)
   sound(x, y, noise, _("a huge explosion!"));
@@ -4966,14 +5064,24 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
-   if (has_fire) {
+   if (element == HAS_FIRE) {
     m.add_field(this, i, j, fd_fire, dam / 10);
+   }
+   if (element == HAS_ICE) {
+    m.add_field(this, i, j, fd_snow_floor, dam / 10);
+    if (one_in(3)) 
+     m.add_field(this, i, j, fd_ice_floor, dam / 10);
+    if (one_in(2))
+     m.add_field(this, i, j, fd_ice_mist, dam / 10);
    }
   }
  }
 
 // Draw the explosion
- draw_explosion(x, y, radius, c_red);
+ if (element == HAS_FIRE)
+  draw_explosion(x, y, radius, c_red);
+ if (element == HAS_ICE)
+  draw_explosion(x, y, radius, c_blue);
 
 // The rest of the function is shrapnel
  if (shrapnel <= 0)
@@ -5518,7 +5626,9 @@ void game::resonance_cascade(int x, int y)
     m.destroy(this, i, j, true);
     break;
    case 19:
-    explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
+    int element = NO_ELEMENT;
+    if (one_in(4)) element = HAS_FIRE;
+    explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), element);
     break;
    }
   }

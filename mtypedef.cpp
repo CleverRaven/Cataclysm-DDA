@@ -253,7 +253,7 @@ mon(_("ant larva"),species_insect, 'a', c_white, MS_SMALL, "flesh",
 The size of a large cat, this pulsating mass\n\
 of glistening white flesh turns your stomach.")
 );
-FLAGS(MF_SMELLS, MF_POISON);
+FLAGS(MF_SMELLS, MF_POISON, MF_INSECT_BLOOD);
 
 mon(_("giant ant"),species_insect, 'a', c_brown, MS_MEDIUM, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -263,7 +263,7 @@ A red ant the size of a crocodile. It is\n\
 covered in chitinous armor, and has a pair of\n\
 vicious mandibles.")
 );
-FLAGS(MF_SMELLS, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("soldier ant"),species_insect, 'a', c_blue,  MS_MEDIUM, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -273,7 +273,7 @@ Darker in color than the other ants, this\n\
 more aggresive variety has even larger\n\
 mandibles.")
 );
-FLAGS(MF_SMELLS, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("queen ant"),species_insect, 'a', c_ltred, MS_LARGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -284,7 +284,7 @@ with hundreds of small ant eggs.  It moves\n\
 slowly, tending to nearby eggs and laying\n\
 still more.")
 );
-FLAGS(MF_SMELLS, MF_QUEEN, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_QUEEN, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("fungal insect"),species_fungus, 'a',c_ltgray, MS_MEDIUM, "veggy",
 //  dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -303,7 +303,7 @@ mon(_("giant fly"),species_insect, 'a', c_ltgray, MS_SMALL, "flesh",
 A large housefly the size of a small dog.\n\
 It buzzes around incessantly.")
 );
-FLAGS(MF_SMELLS, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("giant bee"),species_insect, 'a', c_yellow, MS_SMALL, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -313,7 +313,7 @@ A honey bee the size of a small dog. It\n\
 buzzes angrily through the air, dagger-\n\
 sized sting pointed forward.")
 );
-FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_VENOM, MF_FLIES, MF_STUMBLES, MF_HIT_AND_RUN, MF_CHITIN, MF_INSECT_BLOOD);
 ANGER(MTRIG_HURT, MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE);
 
 mon(_("giant wasp"),species_insect, 'a',  c_red,  MS_MEDIUM, "flesh",
@@ -323,7 +323,7 @@ mon(_("giant wasp"),species_insect, 'a',  c_red,  MS_MEDIUM, "flesh",
 An evil-looking, slender-bodied wasp with\n\
 a vicious sting on its abdomen.")
 );
-FLAGS(MF_SMELLS, MF_POISON, MF_VENOM, MF_FLIES, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_POISON, MF_VENOM, MF_FLIES, MF_CHITIN, MF_INSECT_BLOOD);
 ANGER(MTRIG_HURT, MTRIG_FRIEND_DIED, MTRIG_PLAYER_CLOSE, MTRIG_SOUND);
 
 // GIANT WORMS
@@ -368,7 +368,7 @@ body glistens as it oozes its way along the ground. Eye stalks occassionally pus
 way out of the oily mass and look around.")
 );
 FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
-MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE);
+MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE, MF_COLD);
 
 
 // ZOMBIES
@@ -514,7 +514,7 @@ A skeleton picked clean of all but a few\n\
 rotten scraps of flesh, somehow still in\n\
 motion.")
 );
-FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_HARDTOSHOOT, MF_NO_BREATHE, MF_VIS30);
+FLAGS(MF_SEES, MF_HEARS, MF_BLEED, MF_HARDTOSHOOT, MF_NO_BREATHE, MF_VIS30, MF_COLD);
 
 mon(_("zombie necromancer"),species_zombie, 'Z',c_dkgray, MS_MEDIUM, "flesh",
 //  dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -617,7 +617,7 @@ with one thick, bark-coated stalk\n\
 supporting a flower-like head with a sharp\n\
 sting within.")
 );
-FLAGS(MF_HEARS, MF_SMELLS, MF_BASHES, MF_NOHEAD);
+FLAGS(MF_HEARS, MF_SMELLS, MF_BASHES, MF_NOHEAD, MF_COLD);
 
 mon(_("young triffid"),species_plant, 'f', c_ltgreen, MS_SMALL, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -627,7 +627,7 @@ A small triffid, only a few feet tall. It\n\
 has not yet developed bark, but its sting\n\
 is still sharp and deadly.")
 );
-FLAGS(MF_HEARS, MF_SMELLS, MF_NOHEAD);
+FLAGS(MF_HEARS, MF_SMELLS, MF_NOHEAD, MF_COLD);
 
 mon(_("queen triffid"),species_plant, 'F', c_red,  MS_LARGE, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -638,7 +638,7 @@ vicious sting and thick bark.  As it\n\
 moves, plant matter drops off its body\n\
 and immediately takes root.")
 );
-FLAGS(MF_HEARS, MF_SMELLS, MF_BASHES, MF_NOHEAD);
+FLAGS(MF_HEARS, MF_SMELLS, MF_BASHES, MF_NOHEAD, MF_COLD);
 
 mon(_("creeper hub"),species_plant, 'V', c_dkgray, MS_MEDIUM, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -648,7 +648,7 @@ A thick stalk, rooted to the ground.\n\
 It rapidly sprouts thorny vines in all\n\
 directions.")
 );
-FLAGS(MF_NOHEAD, MF_IMMOBILE);
+FLAGS(MF_NOHEAD, MF_IMMOBILE, MF_COLD);
 
 mon(_("creeping vine"),species_plant, 'v', c_green, MS_TINY, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -657,7 +657,7 @@ mon(_("creeping vine"),species_plant, 'v', c_green, MS_TINY, "veggy",
 A thorny vine.  It twists wildly as\n\
 it grows, spreading rapidly.")
 );
-FLAGS(MF_NOHEAD, MF_HARDTOSHOOT, MF_PLASTIC, MF_IMMOBILE);
+FLAGS(MF_NOHEAD, MF_HARDTOSHOOT, MF_PLASTIC, MF_IMMOBILE, MF_COLD);
 
 mon(_("biollante"),species_plant, 'F', c_magenta, MS_LARGE, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -667,7 +667,7 @@ A thick stalk topped with a purple\n\
 flower.  The flower's petals are closed,\n\
 and pulsate ominously.")
 );
-FLAGS(MF_NOHEAD, MF_IMMOBILE);
+FLAGS(MF_NOHEAD, MF_IMMOBILE, MF_COLD);
 
 mon(_("vinebeast"),species_plant, 'V', c_red,  MS_LARGE, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -679,7 +679,7 @@ tangled that you cannot see what lies in\n\
 the middle.")
 );
 FLAGS(MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_HARDTOSHOOT, MF_GRABS,
-      MF_SWIMS, MF_PLASTIC);
+      MF_SWIMS, MF_PLASTIC, MF_COLD);
 
 mon(_("triffid heart"),species_plant, 'T', c_red,  MS_HUGE, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -689,7 +689,7 @@ A knot of roots that looks bizarrely like a\n\
 heart.  It beats slowly with sap, powering\n\
 the root walls around it.")
 );
-FLAGS(MF_NOHEAD, MF_IMMOBILE, MF_QUEEN);
+FLAGS(MF_NOHEAD, MF_IMMOBILE, MF_QUEEN, MF_COLD);
 
 mon(_("fungaloid"),species_fungus, 'F', c_ltgray, MS_MEDIUM, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -701,7 +701,7 @@ tendrils extend from the base, allowing\n\
 mobility and a weak attack.")
 );
 ANGER(MTRIG_PLAYER_CLOSE, MTRIG_PLAYER_WEAK);
-FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
+FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD, MF_COLD);
 
 // This is a "dormant" fungaloid that doesn't waste CPU cycles ;)
 mon(_("fungaloid"),species_fungus, 'F', c_ltgray, MS_MEDIUM, "veggy",
@@ -713,7 +713,7 @@ supporting a bloom at the top. A few\n\
 tendrils extend from the base, allowing\n\
 mobility and a weak attack.")
 );
-FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
+FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD, MF_COLD);
 
 mon(_("young fungaloid"),species_fungus, 'f',c_ltgray, MS_SMALL, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -724,7 +724,7 @@ exterior is hardened into a leathery bark and\n\
 covered in thorns; it also moves faster than\n\
 full-grown fungaloids.")
 );
-FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
+FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD, MF_COLD);
 
 mon(_("spore"), species_fungus, 'o', c_ltgray, MS_TINY, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -743,7 +743,7 @@ An enormous fungal spire, towering 30 feet\n\
 above the ground.  It pulsates slowly,\n\
 continuously growing new defenses.")
 );
-FLAGS(MF_NOHEAD, MF_POISON, MF_IMMOBILE, MF_NO_BREATHE, MF_QUEEN);
+FLAGS(MF_NOHEAD, MF_POISON, MF_IMMOBILE, MF_NO_BREATHE, MF_QUEEN, MF_COLD);
 
 mon(_("fungal wall"),species_fungus, 'F', c_dkgray, MS_HUGE, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -754,7 +754,7 @@ natural defense by the fungal spire. It\n\
 looks very tough, and spews spores at an\n\
 alarming rate.")
 );
-FLAGS(MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_IMMOBILE);
+FLAGS(MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_IMMOBILE, MF_COLD);
 
 // BLOBS & SLIMES &c
 mon(_("blob"), species_nether, 'O', c_dkgray, MS_MEDIUM, "null",
@@ -765,7 +765,7 @@ A black blob of viscous goo that oozes\n\
 across the ground like a mass of living\n\
 oil.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF);
+FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF, MF_COLD);
 mtypes[mon_blob]->phase = LIQUID;
 
 mon(_("small blob"),species_nether, 'o', c_dkgray, MS_SMALL, "null",
@@ -776,7 +776,7 @@ A small blob of viscous goo that oozes\n\
 across the ground like a mass of living\n\
 oil."
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF);
+FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF, MF_COLD);
 mtypes[mon_blob_small]->phase = LIQUID;
 
 // CHUDS & SUBWAY DWELLERS
@@ -860,7 +860,7 @@ An enormous mosquito, fluttering erratically,\n\
 its face dominated by a long, spear-tipped\n\
 proboscis.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_STUMBLES, MF_VENOM, MF_FLIES, MF_HIT_AND_RUN, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_STUMBLES, MF_VENOM, MF_FLIES, MF_HIT_AND_RUN, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("giant dragonfly"),species_insect, 'y',c_ltgreen, MS_SMALL, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -869,7 +869,7 @@ mon(_("giant dragonfly"),species_insect, 'y',c_ltgreen, MS_SMALL, "flesh",
 A ferocious airborne predator, flying swiftly\n\
 through the air, its mouth a cluster of fangs.")
 );
-FLAGS(MF_SEES, MF_SMELLS, MF_FLIES, MF_HIT_AND_RUN, MF_VIS40, MF_CHITIN);
+FLAGS(MF_SEES, MF_SMELLS, MF_FLIES, MF_HIT_AND_RUN, MF_VIS40, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("giant centipede"),species_insect, 'a',c_ltgreen, MS_MEDIUM, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -879,7 +879,7 @@ A meter-long centipede, moving swiftly on\n\
 dozens of thin legs, a pair of venomous\n\
 pincers attached to its head.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_POISON, MF_VENOM, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_POISON, MF_VENOM, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("giant frog"),species_none, 'F', c_green, MS_LARGE, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -888,7 +888,7 @@ mon(_("giant frog"),species_none, 'F', c_green, MS_LARGE, "flesh",
 A thick-skinned green frog.  It eyes you\n\
 much as you imagine it might eye an insect.")
 );
-FLAGS(MF_SEES, MF_SMELLS, MF_HEARS, MF_SWIMS, MF_LEATHER, MF_VIS40, MF_BONES);
+FLAGS(MF_SEES, MF_SMELLS, MF_HEARS, MF_SWIMS, MF_LEATHER, MF_VIS40, MF_BONES, MF_COLD);
 FEARS(MTRIG_HURT);
 
 mon(_("giant slug"),species_none, 'S', c_yellow, MS_HUGE, "flesh",
@@ -899,7 +899,7 @@ A gigantic slug, the size of a small car.\n\
 It moves slowly, dribbling acidic goo from\n\
 its fang-lined mouth.")
 );
-FLAGS(MF_SEES, MF_SMELLS, MF_BASHES, MF_ACIDPROOF, MF_ACIDTRAIL, MF_VIS30);
+FLAGS(MF_SEES, MF_SMELLS, MF_BASHES, MF_ACIDPROOF, MF_ACIDTRAIL, MF_VIS30, MF_COLD);
 FEARS(MTRIG_HURT, MTRIG_PLAYER_CLOSE);
 
 mon(_("dermatik larva"),species_insect, 'i',c_white, MS_TINY, "flesh",
@@ -932,7 +932,7 @@ mon(_("wolf spider"),species_insect, 's', c_brown, MS_MEDIUM, "flesh",
 A large, brown spider, which moves quickly\n\
 and aggresively.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("web spider"),species_insect, 's', c_yellow, MS_SMALL, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -942,7 +942,7 @@ A yellow spider the size of a dog.  It lives\n\
 in webs, waiting for prey to become\n\
 entangled before pouncing and biting.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("jumping spider"),species_insect, 's',c_white, MS_SMALL, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -953,7 +953,7 @@ leaps so quickly that it almost appears to\n\
 instantaneously move from one place to\n\
 another.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_HIT_AND_RUN, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_HIT_AND_RUN, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("trap door spider"),species_insect, 's',c_blue, MS_MEDIUM, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -964,7 +964,7 @@ creates a subterranean nest and lies in\n\
 wait for prey to fall in and become trapped\n\
 in its webs.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN);
+FLAGS(MF_SMELLS, MF_HEARS, MF_VENOM, MF_WEBWALK, MF_CHITIN, MF_INSECT_BLOOD);
 
 mon(_("black widow"),species_insect, 's', c_dkgray, MS_SMALL, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -1112,7 +1112,7 @@ A shapeless blob the size of a cow.  It\n\
 oozes slowly across the ground, small\n\
 chunks falling off of its sides.")
 );
-FLAGS(MF_SMELLS, MF_HEARS, MF_PLASTIC, MF_NO_BREATHE, MF_NOHEAD);
+FLAGS(MF_SMELLS, MF_HEARS, MF_PLASTIC, MF_NO_BREATHE, MF_NOHEAD, MF_COLD);
 mtypes[mon_gelatin]->phase = LIQUID;
 
 mon(_("flaming eye"),species_nether, 'E', c_red,  MS_MEDIUM, "flesh",
@@ -1123,7 +1123,7 @@ An eyeball the size of an easy chair and\n\
 covered in rolling blue flames. It floats\n\
 through the air.")
 );
-FLAGS(MF_SEES, MF_WARM, MF_FLIES, MF_FIREY, MF_NO_BREATHE, MF_NOHEAD);
+FLAGS(MF_SEES, MF_WARM, MF_FLIES, MF_FIREY, MF_NO_BREATHE, MF_NOHEAD, MF_FIRE);
 
 mon(_("kreck"), species_nether, 'h', c_ltred, MS_SMALL, "flesh",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq

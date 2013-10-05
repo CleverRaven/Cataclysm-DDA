@@ -3156,7 +3156,7 @@ void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
   if (one_in(10) && g->u_see(pos.x, pos.y))
    g->add_msg(_("The pipe bomb fizzles out."));
   else
-   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
+   g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), NO_ELEMENT);
  }
 }
 
@@ -3175,8 +3175,31 @@ void iuse::grenade_act(game *g, player *p, item *it, bool t)
   return;
  if (t) // Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
- else // When that timer runs down...
-  g->explosion(pos.x, pos.y, 12, 28, false);
+ else	// When that timer runs down...
+  g->explosion(pos.x, pos.y, 12, 28, NO_ELEMENT);
+}
+
+void iuse::freeze_grenade(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,_("You push the detonator on the grenade."));
+ it->make(g->itypes["freeze_grenade_act"]);
+ it->charges = 5;
+ it->active = true;
+}
+
+void iuse::freeze_grenade_act(game *g, player *p, item *it, bool t)
+{
+ point pos = g->find_item(it);
+ if (pos.x == -999 || pos.y == -999)
+  return;
+ if (t) // Simple timer effects
+  if ( one_in(2) ) {
+    g->sound(pos.x, pos.y, 0, _("Beep."));	// Vol 0 = only heard if you hold it
+  } else {
+    g->sound(pos.x, pos.y, 0, _("Boop."));	// Vol 0 = only heard if you hold it
+  }
+ else	// When that timer runs down...
+  g->explosion(pos.x, pos.y, 12, 0, HAS_ICE);
 }
 
 void iuse::granade(game *g, player *p, item *it, bool t)
@@ -3343,7 +3366,7 @@ void iuse::c4armed(game *g, player *p, item *it, bool t)
  if (t) // Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
  else // When that timer runs down...
-  g->explosion(pos.x, pos.y, 40, 3, false);
+  g->explosion(pos.x, pos.y, 40, 3, NO_ELEMENT);
 }
 
 void iuse::EMPbomb(game *g, player *p, item *it, bool t)
@@ -3519,7 +3542,35 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
     } else {
         point pos = g->find_item(it);
         if (!t)
-            g->explosion(pos.x, pos.y, 8, 0, true);
+            g->explosion(pos.x, pos.y, 8, 0, HAS_FIRE);
+    }
+}
+
+void iuse::ice_molotov(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p,_("You remove the canister from its casing."));
+ p->moves -= 150;
+ it->make(g->itypes["ice_molotov_lit"]);
+ it->bday = int(g->turn);
+ it->active = true;
+}
+
+void iuse::ice_molotov_lit(game *g, player *p, item *it, bool t)
+{
+    int age = int(g->turn) - it->bday;
+    if (p->has_item(it)) {
+        it->charges += 1;
+        if (age >= 5) { // More than 5 turns old = chance of going out
+            if (rng(1, 50) < age) {
+                g->add_msg_if_player(p,_("Your liquid nitrogen evaporates."));
+                it->make(g->itypes["canister_empty"]);
+                it->active = false;
+            }
+        }
+    } else {
+        point pos = g->find_item(it);
+        if (!t)
+            g->explosion(pos.x, pos.y, 8, 0, HAS_ICE);
     }
 }
 
@@ -3544,7 +3595,7 @@ void iuse::dynamite_act(game *g, player *p, item *it, bool t)
     // Simple timer effects
     if (t) { g->sound(pos.x, pos.y, 0, _("ssss..."));
     // When that timer runs down...
-    } else { g->explosion(pos.x, pos.y, 60, 0, false); }
+    } else { g->explosion(pos.x, pos.y, 60, 0, HAS_FIRE); }
 }
 
 void iuse::matchbomb(game *g, player *p, item *it, bool t) {
@@ -3565,7 +3616,7 @@ void iuse::matchbomb_act(game *g, player *p, item *it, bool t) {
     // Simple timer effects
     if (t) { g->sound(pos.x, pos.y, 0, _("ssss..."));
      // When that timer runs down...
-    } else { g->explosion(pos.x, pos.y, 24, 0, false); }
+    } else { g->explosion(pos.x, pos.y, 24, 0, HAS_FIRE); }
 }
 
 void iuse::firecracker_pack(game *g, player *p, item *it, bool t)
@@ -3708,7 +3759,7 @@ void iuse::mininuke_act(game *g, player *p, item *it, bool t)
  if (t)  // Simple timer effects
   g->sound(pos.x, pos.y, 2, _("Tick."));
  else { // When that timer runs down...
-  g->explosion(pos.x, pos.y, 200, 0, false);
+  g->explosion(pos.x, pos.y, 200, 0, NO_ELEMENT);
   int junk;
   for (int i = -4; i <= 4; i++) {
    for (int j = -4; j <= 4; j++) {
@@ -5058,7 +5109,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_FIREBALL: {
    point fireball = g->look_around();
    if (fireball.x != -1 && fireball.y != -1)
-    g->explosion(fireball.x, fireball.y, 8, 0, true);
+    g->explosion(fireball.x, fireball.y, 8, 0, HAS_FIRE);
   } break;
 
   case AEA_ADRENALINE:
