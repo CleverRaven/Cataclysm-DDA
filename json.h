@@ -4,13 +4,16 @@
 #include <string>
 #include <vector>
 #include <istream>
+#include <ostream>
 #include <map>
+#include <set>
 
-class JsonIn;
-class JsonObject;
-class JsonArray;
+class JsonIn; // JSON input
+class JsonObject; // convenience interface for a JSON object inside a JsonIn
+class JsonArray; // convenience interface for a JSON array inside a JsonIn
+class JsonOut; // JSON output
 
-bool is_whitespace(char ch);
+bool is_whitespace(char ch); // TODO: move this elsewhere
 
 class JsonObject {
 private:
@@ -117,6 +120,60 @@ public:
 
     // useful debug info
     std::string line_number(int offset_modifier=0); // for occasional use only
+};
+
+class JsonOut {
+private:
+    std::ostream *stream;
+    bool need_separator;
+
+public:
+    JsonOut(std::ostream *stream); // TODO: pretty-printing
+
+    // punctuation
+    void write_separator();
+    void write_member_separator();
+    void start_object();
+    void end_object();
+    void start_array();
+    void end_array();
+
+    // write data to the output stream as JSON
+    void write_null();
+    void write(const bool &b);
+    void write(const int &i);
+    void write(const unsigned &u);
+    void write(const double &f);
+    void write(const std::string &s);
+    // vector ~> array
+    template <typename T> void write(const std::vector<T> &v)
+    {
+        start_array();
+        for (int i = 0; i < v.size(); ++i) {
+            write(v[i]);
+        }
+        end_array();
+    }
+    // set ~> array
+    template <typename T> void write(const std::set<T> &v)
+    {
+        start_array();
+        typename std::set<T>::iterator it;
+        for (it = v.begin(); it != v.end(); ++it) {
+            write(*it);
+        }
+        end_array();
+    }
+
+    // convenience methods for writing named object members
+    void member(const std::string &name); // TODO: enforce value after
+    void null_member(const std::string &name);
+    template <typename T> void member(const std::string &name, const T &value)
+    {
+        member(name);
+        write(value);
+    }
+    // map ~> object?
 };
 
 #endif // _JSON_H_

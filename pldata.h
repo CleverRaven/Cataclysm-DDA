@@ -5,6 +5,7 @@
 #include "translations.h"
 #include "picofunc.h"
 #include "bodypart.h"
+#include "json.h"
 #include <sstream>
 #include <vector>
 #include <map>
@@ -121,6 +122,7 @@ struct player_activity
 
  picojson::value json_save(); // found in gamesave_json.cpp
  bool json_load(picojson::value & parsed);
+    void json_save(JsonOut &jsout); // savegame_json.cpp
 
  void load_legacy(std::stringstream &dump);
 };

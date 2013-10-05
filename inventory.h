@@ -2,6 +2,7 @@
 #define _INVENTORY_H_
 
 #include "item.h"
+#include "json.h"
 #include <string>
 #include <vector>
 #include <list>
@@ -121,6 +122,8 @@ class inventory
 
   picojson::value json_save_invcache() const;
   picojson::value json_save_items() const;
+    void json_save_invcache(JsonOut &jsout) const; // savegame_json.cpp
+    void json_save_items(JsonOut &jsout) const; // savegame_json.cpp
 
   item nullitem;
   std::list<item> nullstack;

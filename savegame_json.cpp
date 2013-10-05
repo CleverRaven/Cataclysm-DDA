@@ -25,6 +25,7 @@
 #include "disease.h"
 #include "crafting.h"
 #include "get_version.h"
+#include "json.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -68,6 +69,28 @@ picojson::value player_activity::json_save() {
     pvector.clear();
 
     return pv ( data );
+}
+
+void player_activity::json_save(JsonOut &jsout)
+{
+    jsout.start_object();
+
+    jsout.member("moves_left", moves_left);
+    jsout.member("type", type);
+    jsout.member("index", index);
+    jsout.member("invlet", (int)invlet);
+    jsout.member("name", name);
+
+    jsout.member("placement");
+    jsout.start_array();
+    jsout.write(placement.x);
+    jsout.write(placement.y);
+    jsout.end_array();
+
+    jsout.member("values", values);
+    jsout.member("str_values", str_values);
+
+    jsout.end_object();
 }
 
 /*
@@ -119,6 +142,29 @@ picojson::value SkillLevel::json_save() {
     data["istraining"] = pv( isTraining() );
     data["lastpracticed"] = pv( int ( lastPracticed() ) );
     return pv ( data );
+}
+
+void SkillLevel::json_save(JsonOut &jsout)
+{
+    // TODO: skip default values? 0, 0, true, 0 || initial_time
+    jsout.start_object();
+    jsout.member("level", level());
+    jsout.member("exercise", exercise(true));
+    jsout.member("istraining", isTraining());
+    jsout.member("lastpracticed", int(lastPracticed()));
+    jsout.end_object();
+}
+
+void SkillLevel::json_load(JsonObject &jsobj)
+{
+    // TODO: give these default values? 0, 0, true, 0
+    _level = jsobj.get_int("level");
+    _exercise = jsobj.get_int("exercise");
+    _isTraining = jsobj.get_bool("istraining");
+    _lastPracticed = jsobj.get_int("lastpracticed");
+    if (_lastPracticed == 0) {
+        _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
+    }
 }
 
 bool SkillLevel::json_load(std::map<std::string, picojson::value> & data ){
@@ -408,6 +454,118 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
     ptmpvect.clear();
 }
 
+void player::json_save_common_variables(JsonOut &jsout)
+{
+    // assume we're already writing to the appropriate object,
+    // no need to start one
+
+    // positional data
+    jsout.member("posx", posx);
+    jsout.member("posy", posy);
+
+    // attributes, current / max levels
+    jsout.member("str_cur", str_cur);
+    jsout.member("str_max", str_max);
+    jsout.member("dex_cur", dex_cur);
+    jsout.member("dex_max", dex_max);
+    jsout.member("int_cur", int_cur);
+    jsout.member("int_max", int_max);
+    jsout.member("per_cur", per_cur);
+    jsout.member("per_max", per_max);
+
+    // om-noms or lack thereof
+    jsout.member("hunger", hunger);
+    jsout.member("thirst", thirst);
+    // energy
+    jsout.member("fatigue", fatigue);
+    jsout.member("stim", stim);
+    // pain
+    jsout.member("pain", pain);
+    jsout.member("pkill", pkill);
+    // misc levels
+    jsout.member("radiation", radiation);
+    jsout.member("scent", scent);
+
+    // initiative type stuff
+    jsout.member("moves", moves);
+    jsout.member("dodges_left", dodges_left);
+
+    // breathing
+    jsout.member("underwater", underwater);
+    jsout.member("oxygen", oxygen);
+
+    // gender
+    jsout.member("male", male);
+
+    jsout.member("cash", cash);
+    jsout.member("recoil", recoil);
+
+    // potential incompatibility with future expansion
+    // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
+    jsout.member("hp_cur", std::vector<int>(hp_cur, hp_cur+num_hp_parts));
+    jsout.member("hp_max", std::vector<int>(hp_max, hp_max+num_hp_parts));
+
+    // npc; unimplemented
+    jsout.member("power_level", power_level);
+    jsout.member("max_power_level", max_power_level);
+
+    // traits: permanent 'mutations' more or less
+    jsout.member("traits", my_traits);
+
+    // skills
+    jsout.member("skills");
+    jsout.start_object();
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+        jsout.member((*aSkill)->ident());
+        skillLevel(*aSkill).json_save(jsout);
+    }
+    jsout.end_object();
+
+    // martial arts
+    jsout.member("ma_styles", ma_styles);
+
+    // disease
+    jsout.member("illness");
+    jsout.start_array();
+    for (int i = 0; i < illness.size();  i++) {
+        jsout.start_object();
+        jsout.member("type", illness[i].type);
+        jsout.member("duration", illness[i].duration);
+        jsout.member("intensity", illness[i].intensity);
+        jsout.member("bp", illness[i].bp);
+        jsout.member("side", illness[i].side);
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
+    jsout.member("addictions");
+    jsout.start_array();
+    for (int i = 0; i < addictions.size();  i++) {
+        jsout.start_object();
+        jsout.member("type_enum", addictions[i].type);
+        jsout.member("intensity", addictions[i].intensity);
+        jsout.member("sated", addictions[i].sated);
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    // "Fracking Toasters" - Saul Tigh, toaster
+    jsout.member("my_bionics");
+    jsout.start_array();
+    for (int i = 0; i < my_bionics.size();  i++) {
+        jsout.start_object();
+        jsout.member("id", my_bionics[i].id);
+        jsout.member("invlet", my_bionics[i].invlet);
+        jsout.member("powered", my_bionics[i].powered);
+        jsout.member("charge", my_bionics[i].charge);
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    // assume inline, no need to close anything
+}
+
 /*
  * save worn item pseudo-inventory
  */
@@ -419,6 +577,16 @@ picojson::value json_save_worn(player * p) {
     }
     return pv ( data );
 }
+
+void json_save_worn(JsonOut &jsout, player *p)
+{
+    jsout.start_array();
+    for (int i = 0; i < p->worn.size(); i++) {
+        p->worn[i].json_save(jsout, true);
+    }
+    jsout.end_array();
+}
+
 /*
  * load worn items
  */
@@ -439,106 +607,112 @@ bool json_load_worn(picojson::value & parsed, player * p, game * g) {
  * Prepare a json object for player, including player specific data, and data common to
    players and npcs ( which json_save_actor_data() handles ).
  */
-picojson::value player::json_save(bool save_contents)
+void player::json_save(JsonOut &jsout, bool save_contents)
 {
-    std::map<std::string, picojson::value> data;
+    // wrap it all in a big {}
+    jsout.start_object();
 
-    std::vector<picojson::value> ptmpvect;
-    std::map <std::string, picojson::value> ptmpmap;
-
-    json_save_common_variables( data );
+    json_save_common_variables(jsout);
 
     // player-specific specifics
-    data["profession"] = pv( prof->ident() );
+    jsout.member("profession", prof->ident());
 
     // someday, npcs may drive
-    data["driving_recoil"] = pv( int(driving_recoil) );
-    data["in_vehicle"] = pv( in_vehicle );
-    data["controlling_vehicle"] = pv( controlling_vehicle );
+    jsout.member("driving_recoil", int(driving_recoil));
+    jsout.member("in_vehicle", in_vehicle);
+    jsout.member("controlling_vehicle", controlling_vehicle);
 
     // shopping carts etc
-    std::vector<picojson::value> pgrab;
-    pgrab.push_back( pv( grab_point.x ) );
-    pgrab.push_back( pv( grab_point.y ) );
-    data["grab_point"] = pv( pgrab );
+    jsout.member("grab_point");
+    jsout.start_array();
+    jsout.write(grab_point.x);
+    jsout.write(grab_point.y);
+    jsout.end_array();
 
     // misc player specific stuff
-    data["blocks_left"] = pv( blocks_left );
-    data["focus_pool"] = pv( focus_pool );
-    data["style_selected"] = pv( style_selected );
+    jsout.member("blocks_left", blocks_left);
+    jsout.member("focus_pool", focus_pool);
+    jsout.member("style_selected", style_selected);
 
     // possibly related to illness[] ?
-    data["health"] = pv( health );
+    jsout.member("health", health);
 
     // crafting etc
-    data["activity"] = activity.json_save();
-    data["backlog"] = activity.json_save();
+    jsout.member("activity");
+    activity.json_save(jsout);
+    jsout.member("backlog");
+    activity.json_save(jsout);
 
     // mutations; just like traits but can be removed.
-    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-       ptmpvect.push_back( pv ( *iter ) );
-    }
-    data["mutations"] = pv( ptmpvect );
-    ptmpvect.clear();
+    jsout.member("mutations", my_mutations);
 
     // "The cold wakes you up."
-    data["temp_cur"] = json_wrapped_vector ( std::vector<int>( temp_cur, temp_cur + num_bp ) );
-    data["temp_conv"] = json_wrapped_vector ( std::vector<int>( temp_conv, temp_conv + num_bp ) );
-    data["frostbite_timer"] = json_wrapped_vector ( std::vector<int>( frostbite_timer, frostbite_timer + num_bp ) );
+    jsout.member("temp_cur", std::vector<int>(temp_cur, temp_cur + num_bp));
+    jsout.member("temp_conv", std::vector<int>(temp_conv, temp_conv + num_bp));
+    jsout.member("frostbite_timer", std::vector<int>(frostbite_timer, frostbite_timer + num_bp));
 
     // npc: unimplemented, potentially useful
+    jsout.member("learned_recipes");
+    jsout.start_array();
     for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin(); iter != learned_recipes.end(); ++iter) {
-        ptmpvect.push_back( pv( iter->first ) );
+        jsout.write(iter->first);
     }
-    data["learned_recipes"] = pv ( ptmpvect );
-    ptmpvect.clear();
+    jsout.end_array();
 
     // :(
+    jsout.member("morale");
+    jsout.start_array();
     for (int i = 0; i < morale.size();  i++) {
-        ptmpmap[ "type_enum" ] = pv ( morale[i].type );
+        jsout.start_object();
+        jsout.member("type_enum", morale[i].type);
         if (morale[i].item_type != NULL) {
-            ptmpmap[ "item_type" ] = pv ( morale[i].item_type->id );
+            jsout.member("item_type", morale[i].item_type->id);
         }
-        ptmpmap[ "bonus" ] = pv ( morale[i].bonus );
-        ptmpmap[ "duration" ] = pv ( morale[i].duration );
-        ptmpmap[ "decay_start" ] = pv ( morale[i].decay_start );
-        ptmpmap[ "age" ] = pv ( morale[i].age );
-        ptmpvect.push_back ( pv ( ptmpmap ) );
-        ptmpmap.clear();
+        jsout.member("bonus", morale[i].bonus);
+        jsout.member("duration", morale[i].duration);
+        jsout.member("decay_start", morale[i].decay_start);
+        jsout.member("age", morale[i].age);
+        jsout.end_object();
     }
-    data["morale"] = pv ( ptmpvect );
-    ptmpvect.clear();
+    jsout.end_array();
 
     // mission stuff
-    data["active_mission"] = pv( active_mission );
+    jsout.member("active_mission", active_mission);
 
-    data["active_missions"] = json_wrapped_vector ( active_missions );
-    data["completed_missions"] = json_wrapped_vector ( completed_missions );
-    data["failed_missions"] = json_wrapped_vector ( failed_missions );
+    jsout.member("active_missions", active_missions);
+    jsout.member("completed_missions", completed_missions);
+    jsout.member("failed_missions", failed_missions);
 
-    ptmpmap.clear();
-    ptmpmap["squares_walked"] = pv( (*lifetime_stats()).squares_walked );
-    ptmpmap["damage_taken"] = pv( (*lifetime_stats()).damage_taken );
-    ptmpmap["damage_healed"] = pv( (*lifetime_stats()).damage_healed );
-    data["player_stats"] = pv (ptmpmap);
+    // player stats
+    jsout.member("player_stats");
+    jsout.start_object();
+    jsout.member("squares_walked", (*lifetime_stats()).squares_walked);
+    jsout.member("damage_taken", (*lifetime_stats()).damage_taken);
+    jsout.member("damage_healed", (*lifetime_stats()).damage_healed);
+    jsout.end_object();
 
-    if ( save_contents ) {
-        data["worn"] = json_save_worn(this);
-        data["inv"] = inv.json_save_items();
-        data["invcache"] = inv.json_save_invcache();
+    if (save_contents) {
+        jsout.member("worn");
+        json_save_worn(jsout, this);
+        jsout.member("inv");
+        inv.json_save_items(jsout);
+        jsout.member("invcache");
+        inv.json_save_invcache(jsout);
         if (!weapon.is_null()) {
-            data["weapon"] = weapon.json_save(true);
-        }       
-//FIXME: seperate function, better still another file       
-  /*      for(int i = 0; i < memorial_log.size(); i++) {
-            ptmpvect.push_back(pv(memorial_log[i]));
+            jsout.member("weapon");
+            weapon.json_save(jsout, true);
         }
-        data["memorial"]=pv(ptmpvect);
+//FIXME: seperate function, better still another file
+  /*      jsout.member("memorial");
+        jsout.start_array();
+        for(int i = 0; i < memorial_log.size(); i++) {
+            jsout.write(memorial_log[i]);
+        }
+        jsout.end_array();
 */
-        ptmpvect.clear();
-
     }
-    return picojson::value(data);
+
+    jsout.end_object();
 }
 
 /*
@@ -976,6 +1150,22 @@ picojson::value npc::json_save(bool save_contents) {
 /*
  * Save invlet cache
  */
+void inventory::json_save_invcache(JsonOut &jsout) const
+{
+    jsout.start_array();
+    for (std::map<std::string, std::vector<char> >::const_iterator invlet_id =  invlet_cache.begin(); invlet_id != invlet_cache.end(); ++invlet_id) {
+        jsout.start_object();
+        jsout.member(invlet_id->first);
+        jsout.start_array();
+        for (std::vector<char>::const_iterator sym = invlet_id->second.begin(); sym != invlet_id->second.end(); ++sym) {
+            jsout.write(int(*sym));
+        }
+        jsout.end_array();
+        jsout.end_object();
+    }
+    jsout.end_array();
+}
+
 picojson::value inventory::json_save_invcache() const {
     std::vector<picojson::value> data;
     std::map<std::string, picojson::value> pent; // why? because picojson sorts maps. Derp.
@@ -1020,6 +1210,20 @@ void inventory::json_load_invcache(picojson::value & parsed) {
 /*
  * save all items. Just this->items, invlet cache saved seperately
  */
+void inventory::json_save_items(JsonOut &jsout) const
+{
+    jsout.start_array();
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
+        for (std::list<item>::const_iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            stack_iter->json_save(jsout, true);
+        }
+    }
+    jsout.end_array();
+}
+
 picojson::value inventory::json_save_items() const {
     std::vector<picojson::value> data;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
@@ -1032,7 +1236,6 @@ picojson::value inventory::json_save_items() const {
     }
     return pv( data );
 }
-
 
 void inventory::json_load_items(picojson::value & parsed, game * g) {
     if ( ! parsed.is<picojson::array>() ) {
@@ -1269,6 +1472,91 @@ bool item::json_load(picojson::value & parsed, game * g)
     }
 
     return true;
+}
+
+void item::json_save(JsonOut &jsout, bool save_contents) const
+{
+    jsout.start_object();
+    /////
+    if (type == NULL) {
+        debugmsg("Tried to save an item with NULL type!");
+    }
+    itype_id ammotmp = "null";
+
+    /* TODO: This causes a segfault sometimes, even though we check to make sure
+     * curammo isn't NULL.  The crashes seem to occur most frequently when saving an
+     * NPC, or when saving map data containing an item an NPC has dropped.
+     */
+    if (curammo != NULL) {
+        ammotmp = curammo->id;
+    }
+    if( std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(),
+                  ammotmp) != unreal_itype_ids.end()  &&
+        std::find(artifact_itype_ids.begin(), artifact_itype_ids.end(),
+                  ammotmp) != artifact_itype_ids.end()
+      ) {
+        ammotmp = "null"; //Saves us from some bugs, apparently?
+    }
+
+    /////
+    jsout.member("invlet", int(invlet));
+    jsout.member("typeid", typeId());
+    jsout.member("bday", bday);
+
+    if (charges != -1)     jsout.member("charges", int(charges));
+    if (damage != 0)       jsout.member("damage", int(damage));
+    if (burnt != 0)        jsout.member("burnt", burnt);
+    if (poison != 0)       jsout.member("poison", poison);
+    if (ammotmp != "null") jsout.member("curammo", ammotmp);
+    if (mode != "NULL")    jsout.member("mode", mode);
+    if (active == true)    jsout.member("active", true);
+    if (corpse != NULL)    jsout.member("corpse", corpse->id);
+
+    if (owned != -1)       jsout.member("owned", owned);
+    if (player_id != -1)   jsout.member("player_id", player_id);
+    if (mission_id != -1)  jsout.member("mission_id", mission_id);
+
+    if (!item_tags.empty()) {
+        jsout.member("item_tags");
+        jsout.start_array();
+        for( std::set<std::string>::const_iterator it = item_tags.begin();
+             it != item_tags.end(); ++it ) {
+            jsout.write(*it);
+        }
+        jsout.end_array();
+    }
+
+    if (!item_vars.empty()) {
+        jsout.member("item_vars");
+        jsout.start_object();
+        for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
+            jsout.member(it->first, it->second);
+        }
+        jsout.end_object();
+    }
+
+    if ( name != type->name ) {
+        jsout.member("name", name);
+    }
+
+    if ( light.luminance != 0 ) {
+        jsout.member("light", int(light.luminance));
+        if ( light.width != 0 ) {
+            jsout.member("light_width", int(light.width));
+            jsout.member("light_dir", int(light.direction));
+        }
+    }
+
+    if (save_contents && contents.size() > 0) {
+        jsout.member("contents");
+        jsout.start_array();
+        for (int k = 0; k < contents.size(); k++) {
+            contents[k].json_save(jsout, false); // no matryoshka dolls
+        }
+        jsout.end_array();
+    }
+
+    jsout.end_object();
 }
 
 picojson::value item::json_save(bool save_contents) const
