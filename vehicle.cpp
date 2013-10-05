@@ -2193,11 +2193,12 @@ void vehicle::find_exhaust ()
 void vehicle::refresh_insides ()
 {
     insides_dirty = false;
-    for (int ep = 0; ep < external_parts.size(); ep++)
+    for (int p = 0; p < parts.size(); p++)
     {
-        int p = external_parts[ep];
-        if (part_with_feature(p, "ROOF") < 0 || parts[p].hp <= 0)
-        { // if there's no roof (or it's broken) -- it's outside!
+        /* If there's no roof, or there is a roof but it's broken, it's outside.
+         * (Use short-circuiting && so broken frames don't screw this up) */
+        if ( !(part_with_feature(p, "ROOF") >= 0 && parts[p].hp > 0) )
+        {
 /*            debugmsg ("part%d/%d(%s)%d,%d no roof=false", p, external_parts.size(),
                       part_info(p).name, parts[p].mount_dx, parts[p].mount_dy);*/
             parts[p].inside = false;
@@ -2214,16 +2215,13 @@ void vehicle::refresh_insides ()
             for (int j = 0; j < parts_n3ar.size(); j++)
             {
                 int pn = parts_n3ar[j];
-                if (parts[pn].hp <= 0) {
-                    continue;   // it's broken = can't cover
-                }
-                if (part_flag(pn, "ROOF"))
+                if (part_flag(pn, "ROOF") && parts[pn].hp > 0)
                 { // another roof -- cover
                     cover = true;
                     break;
                 }
                 else
-                if (part_flag(pn, "OBSTACLE"))
+                if (part_flag(pn, "OBSTACLE") && parts[pn].hp > 0)
                 { // found an obstacle, like board or windshield or door
                     if (parts[pn].inside || (part_flag(pn, "OPENABLE") && parts[pn].open)) {
                         continue; // door and it's open -- can't cover
@@ -2231,6 +2229,7 @@ void vehicle::refresh_insides ()
                     cover = true;
                     break;
                 }
+                //Otherwise keep looking, there might be another part in that square
             }
             if (!cover)
             {
