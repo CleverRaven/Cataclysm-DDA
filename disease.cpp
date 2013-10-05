@@ -1841,7 +1841,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         case 2:
             stream << _(
             "Melee - 1;   Dodge - 1\n"
-            "The ice bellow your feet is slippery.");
+            "The ice below your feet is slippery.");
         case 3:
             stream << _(
             "Melee - 2;   Dodge -2\n"

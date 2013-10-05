@@ -407,7 +407,7 @@ void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
 void trapfunc::landmine(game *g, int x, int y)
 {
  g->add_msg(_("You trigger a land mine!"));
- g->u.add_memorial_log(_("Stepped on a lane mine."));
+ g->u.add_memorial_log(_("Stepped on a land mine."));
  g->explosion(x, y, 10, 8, NO_ELEMENT);
  g->m.remove_trap(x, y);
 }

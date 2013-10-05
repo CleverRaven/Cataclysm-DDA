@@ -5005,18 +5005,6 @@ void game::draw_footsteps()
 
 void game::explosion(int x, int y, int power, int shrapnel, int element)
 {
- bool has_fire = false;
- bool has_ice  = false;
- bool has_element = false;
- if (element == "fire") {
-    has_fire = true;
-    has_element = true;
- }
- else if (element == "ice") {
-    has_ice  = true;
-    has_element = true;
- }
-
  int radius = int(sqrt(double(power / 4)));
  int dam;
  std::string junk;

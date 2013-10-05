@@ -2029,6 +2029,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
  default:
   if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
    g->explosion(x, y, 40, 0, HAS_FIRE);
+  }
   ter_set(x, y, t_rubble);
  }
 

@@ -5537,7 +5537,7 @@ bool player::use_charges_if_avail(itype_id it, int quantity)
     return false;
 }
 
-bool player::HAS_FIRE(const int quantity)
+bool player::has_fire(const int quantity)
 {
 // TODO: Replace this with a "tool produces fire" flag.
 
@@ -5879,7 +5879,7 @@ bool player::has_charges(itype_id it, int quantity)
 {
     if (it == "fire" || it == "apparatus")
     {
-        return HAS_FIRE(quantity);
+        return has_fire(quantity);
     }
     return (charges_of(it) >= quantity);
 }
