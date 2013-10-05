@@ -13836,6 +13836,40 @@
     ]
 },{
         "type" : "recipe",
+  "result": "crowbar",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["crucible", -1]
+      ],
+      [
+      ["forge", 200], ["char_forge", 40]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "hacksaw",
   "category": "CC_MISC",
   "skill_used": "fabrication",
