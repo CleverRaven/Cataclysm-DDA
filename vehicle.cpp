@@ -524,50 +524,52 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
 
 bool vehicle::can_unmount (int p)
 {
-    int dx = parts[p].mount_dx;
-    int dy = parts[p].mount_dy;
-    if (!dx && !dy)
-    { // central point
-        bool is_ext = false;
-        for (int ep = 0; ep < external_parts.size(); ep++)
-        {
-            if (external_parts[ep] == p)
-            {
-                is_ext = true;
-                break;
-            }
-        }
-        if (external_parts.size() > 1 && is_ext) {
-            return false; // unmounting 0, 0 part only allowed as last part
-        }
+    if(p < 0 || p > parts.size()) {
+        return false;
     }
 
-    if (!part_flag (p, "MOUNT_POINT")) {
-        return true;
+    int dx = parts[p].mount_dx;
+    int dy = parts[p].mount_dy;
+
+    std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+
+    //Can't remove a seat if there's still a seatbelt there
+    if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT")) {
+        return false;
     }
-    for (int i = 0; i < 4; i++)
-    {
-        int ndx = i < 2? (i == 0? -1 : 1) : 0;
-        int ndy = i < 2? 0 : (i == 2? - 1: 1);
-        if (!(dx + ndx) && !(dy + ndy)) {
-            continue; // 0, 0 point is main mount
-        }
-        if (parts_at_relative (dx + ndx, dy + ndy).size() > 0)
-        {
-            int cnt = 0;
-            for (int j = 0; j < 4; j++)
-            {
-                int jdx = j < 2? (j == 0? -1 : 1) : 0;
-                int jdy = j < 2? 0 : (j == 2? - 1: 1);
-                std::vector<int> pc = parts_at_relative (dx + ndx + jdx, dy + ndy + jdy);
-                if (!pc.empty() && part_with_feature (pc[0], "MOUNT_POINT") >= 0)
-                    cnt++;
-            }
-            if (cnt < 2) {
+
+    //Structural parts have extra requirements
+    if(part_info(p).location == "structure") {
+
+        /* To remove a structural part, there can be only structural parts left
+         * in that square (might be more than one in the case of wreckage) */
+        for(int part_index = 0; part_index < parts_in_square.size(); part_index++) {
+            if(part_info(parts_in_square[part_index]).location != "structure") {
                 return false;
             }
         }
+
+        /* If we get here and it's the last part of the vehicle, we're taking
+         * the vehicle apart completely, so skip the next check. */
+        if(parts.size() == 1) {
+            return true;
+        }
+
+        //If it's the last part in the square...
+        if(parts_in_square.size() == 1) {
+
+            /* This is the tricky part: We can't remove a part that would cause
+             * the vehicle to 'break into two' (like removing the middle section
+             * of a quad bike, for instance). This basically requires doing some
+             * breadth-first searches to ensure previously connected parts are
+             * still connected. */
+            //Tune in next commit for the implementation!
+
+        }
+
     }
+
+    //Anything not explicitly denied is permitted
     return true;
 }
 
