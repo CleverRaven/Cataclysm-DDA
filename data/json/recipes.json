@@ -549,7 +549,8 @@
   "autolearn": false,
   "tools": [
     [
-      [ "hacksaw", -1 ]
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
     ]
   ],
   "components": [
