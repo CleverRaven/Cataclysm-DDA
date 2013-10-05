@@ -1541,6 +1541,8 @@ void player::memorial( std::ofstream &memorial_file )
                        << player_stats.damage_taken << _(" Damage") << "\n";
     memorial_file << indent << _("Damage Healed: ")
                        << player_stats.damage_healed << _(" Damage") << "\n";
+    memorial_file << indent << _("Headshots: ")
+                       << player_stats.headshots << "\n";
     memorial_file << "\n";
 
     //History
