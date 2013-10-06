@@ -6348,9 +6348,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 25 ],
-      [ "hotplate", 25 ],
-      [ "toolset", 2 ]
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6365,6 +6365,36 @@
     ],
     [
       [ "charcoal", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "incendiary",
+  "category": "CC_AMMO",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oxy_powder", 200 ]
+    ],
+    [
+      [ "plastic_chunk", 4 ]
+    ],
+    [
+      [ "sugar", 1 ]
     ]
   ]
 },
