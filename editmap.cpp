@@ -540,6 +540,29 @@ void editmap::update_view(bool update_info)
     }
 
 }
+
+int get_alt_ter(bool isvert, ter_id sel_ter) {
+    std::map<std::string, std::string> alts;
+    alts["_v"]="_h";
+    alts["_vertical"]="_horizontal";
+    alts["_v_alarm"]="_h_alarm";
+    const std::string tersid = terlist[sel_ter].id;
+    const int sidlen = tersid.size();
+    for(std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end(); ++it) {
+         const std::string suffix = ( isvert ? it->first : it->second );
+         const std::string asuffix = ( isvert ? it->second : it->first );
+         const int slen = suffix.size();
+         if ( sidlen > slen && tersid.substr( sidlen - slen, slen) == suffix ) {
+             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
+             if ( termap.find(terasid) != termap.end() ) {
+                 return termap[terasid].loadid;
+             }
+         }
+    }
+    return -1;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// edit terrain type / furniture
 int editmap::edit_ter(point coords)
@@ -735,8 +758,42 @@ int editmap::edit_ter(point coords)
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
+                bool isvert=false;
+                bool ishori=false;
+                bool doalt=false;
+                ter_id teralt=-1;
+                int alta=-1;
+                int altb=-1;
+                if(editshape == editmap_rect) {
+                    if ( terlist[sel_ter].sym == LINE_XOXO || terlist[sel_ter].sym == '|' ) {
+                        isvert=true;
+                        teralt=get_alt_ter(isvert, (ter_id)sel_ter );
+                    } else if ( terlist[sel_ter].sym == LINE_OXOX || terlist[sel_ter].sym == '-' ) {
+                        ishori=true;
+                        teralt=get_alt_ter(isvert, (ter_id)sel_ter );
+                    }
+                    if ( teralt != -1 ) {
+                        if ( isvert ) {
+                            alta = target.y;
+                            altb = origin.y;
+                        } else {
+                            alta = target.x;
+                            altb = origin.x;
+                        }
+                        doalt=true;
+                    }
+                }
+
                 for(int t = 0; t < target_list.size(); t++ ) {
-                    g->m.ter_set(target_list[t].x, target_list[t].y, (ter_id)sel_ter);
+                    int wter=sel_ter;
+                    if ( doalt ) {
+                        if ( isvert && ( target_list[t].y == alta || target_list[t].y == altb ) ) {
+                            wter=teralt;
+                        } else if ( ishori && ( target_list[t].x == alta || target_list[t].x == altb ) ) {
+                            wter=teralt;
+                        }
+                    }
+                    g->m.ter_set(target_list[t].x, target_list[t].y, (ter_id)wter);
                 }
                 if ( subch == 'g' ) {
                     subch = KEY_ESCAPE;
