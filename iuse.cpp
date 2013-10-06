@@ -472,7 +472,7 @@ static hp_part use_healing_item(game *g, player *p, item *it, int normal_power, 
             }
         }
     } else { // Player--present a menu
-        healed = body_window(p, it, item_name, normal_bonus, head_bonus, 
+        healed = body_window(p, it, item_name, normal_bonus, head_bonus,
                              torso_bonus, bleed, bite, infect, force);
         if (healed == num_hp_parts) {
             return healed;
@@ -1023,7 +1023,12 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
      it->charges++;
      return false;
    }
-
+   if(g->m.field_at(posx, posy).findField(fd_fire))        // check if there's already a fire
+   {
+       g->add_msg_if_player(p, _("There is already a fire."));
+       it->charges++;
+       return false;
+   }
    if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag("FLAMMABLE", posx, posy) || g->m.has_flag("FLAMMABLE_ASH", posx, posy)))
    {
      g->add_msg_if_player(p,_("There's nothing to light there."));
@@ -1038,10 +1043,11 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 {
-    if (g->m.add_field(g, point(posx, posy), fd_fire, 1, 100)) {
-        g->add_msg_if_player(p, _("You successfully light a fire."));
-    }
+        if (g->m.add_field(g, point(posx, posy), fd_fire, 1, 100)) {
+            g->add_msg_if_player(p, _("You successfully light a fire."));
+        }
 }
+
 
 void iuse::lighter(game *g, player *p, item *it, bool t)
 {
