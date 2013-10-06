@@ -658,7 +658,11 @@ int editmap::edit_ter(point coords)
         if( ter_frn_mode == 0 ) { // unless furniture is selected
             ter_t pttype = terlist[sel_ter];
 
-            mvwprintw(w_pickter, 0, 2, "< %s[%d]: %s >-----------", pttype.id.c_str(), sel_ter, pttype.name.c_str());
+            for ( int i = 1; i < width-2; i++ ) {
+                mvwaddch(w_pickter, 0, i, LINE_OXOX);
+            }
+            
+            mvwprintw(w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), sel_ter, pttype.name.c_str());
             mvwprintz(w_pickter, off, 2, c_white, _("movecost %d"), pttype.movecost);
             std::string extras = "";
             if(pttype.has_flag("INDOORS")) {
@@ -709,7 +713,11 @@ int editmap::edit_ter(point coords)
 
             furn_t pftype = furnlist[sel_frn];
 
-            mvwprintw(w_pickter, 0, 2, "< %d: %s >-----------", sel_frn, pftype.name.c_str());
+            for ( int i = 1; i < width-2; i++ ) {
+                mvwaddch(w_pickter, 0, i, LINE_OXOX);
+            }
+
+            mvwprintw(w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), sel_frn, pftype.name.c_str());
             mvwprintz(w_pickter, off, 2, c_white, _("movecost %d"), pftype.movecost);
             std::string fextras = "";
             if(pftype.has_flag("INDOORS")) {
