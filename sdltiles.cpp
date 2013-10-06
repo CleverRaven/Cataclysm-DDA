@@ -955,7 +955,7 @@ WINDOW *curses_init(void)
     DebugLog() << "Initializing SDL Tiles context\n";
     IMG_Init(IMG_INIT_PNG);
     tilecontext = new cata_tiles;
-    tilecontext->init(screen, "data/gfx.txt");
+    tilecontext->init(screen, "gfx");
 #else
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
 #endif
