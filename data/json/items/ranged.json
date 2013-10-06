@@ -2325,7 +2325,7 @@
     "description": "A multistroke pneumatic rifle handcrafted from scrap. It is very quiet and deadly.",
     "price": 3000,
     "material": ["iron", "wood"],
-    "flags": ["MODE_BURST", "STR_RELOAD"],
+    "flags": ["MODE_BURST", "STR_RELOAD", "RELOAD_ONE"],
     "skill": "rifle",
     "ammo": "pebble",
     "weight": 6000,
@@ -2340,7 +2340,7 @@
     "durability": 8,
     "burst": 5,
     "clip_size": 15,
-    "reload": 1200
+    "reload": 140
   },
   {
     "id": "helsing",
