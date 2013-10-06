@@ -4542,7 +4542,7 @@
     "color": "blue",
     "symbol": ";",
     "name": "chemistry set",
-    "description": "This chemistry set stored in a bag contains some glass containers, some metal wire, a hotplate, and safety glasses. It might be used to craft some chems if you\u0027re so inclined.",
+    "description": "This chemistry set stored in a bag contains glass containers, hoses, metal wire, a hotplate, and safety glasses. It might be used to craft some chemistry projects if you're so inclined.",
     "price": 5000,
     "material": ["glass", "cotton"],
     "weight": 5200,
