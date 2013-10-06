@@ -507,9 +507,11 @@
             {"x": -4, "y": 0, "part": "door_shutter"},
             {"x": -4, "y": 1, "part": "frame_horizontal"},
             {"x": -4, "y": 1, "part": "door_shutter"},
-            {"x": -4, "y": -2, "part": "frame_horizontal"},
+            {"x": -4, "y": -2, "part": "frame_sw"},
+            {"x": -4, "y": -2, "part": "board_sw"},
             {"x": -4, "y": -2, "part": "wheel_wide"},
-            {"x": -4, "y": 2, "part": "frame_horizontal"},
+            {"x": -4, "y": 2, "part": "frame_se"},
+            {"x": -4, "y": 2, "part": "board_se"},
             {"x": -4, "y": 2, "part": "wheel_wide"}
         ]
     },
