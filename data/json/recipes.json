@@ -8771,7 +8771,7 @@
 },{
         "type" : "recipe",
   "result": "union_suit",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 3000,
@@ -8792,7 +8792,7 @@
 },{
         "type" : "recipe",
   "result": "arm_warmers",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
@@ -8812,7 +8812,7 @@
 },{
         "type" : "recipe",
   "result": "leg_warmers",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
