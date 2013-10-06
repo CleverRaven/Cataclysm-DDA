@@ -1220,15 +1220,9 @@ bool map::has_adjacent_furniture(const int x, const int y)
     {
         const int adj_x = x + cx[i];
         const int adj_y = y + cy[i];
-
-        switch( oldfurn(adj_x, adj_y) )
-        {
-        case old_f_fridge:
-        case old_f_glass_fridge:
-        case old_f_dresser:
-        case old_f_rack:
-        case old_f_bookcase:
-        case old_f_locker:
+        furn_id fid = furn(adj_x, adj_y);
+        if ( fid == f_fridge || fid == f_glass_fridge || fid == f_dresser ||
+            fid == f_rack || fid == f_bookcase || fid == old_f_locker ) {
             return true;
         }
     }
