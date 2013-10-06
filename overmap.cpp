@@ -2653,9 +2653,9 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
   return;
 
  std::priority_queue<node> nodes[2];
- bool closed[OMAPX][OMAPY] = {false};
- int open[OMAPX][OMAPY] = {0};
- int dirs[OMAPX][OMAPY] = {0};
+ bool closed[OMAPX][OMAPY] = {{false}};
+ int open[OMAPX][OMAPY] = {{0}};
+ int dirs[OMAPX][OMAPY] = {{0}};
  int dx[4]={1, 0, -1, 0};
  int dy[4]={0, 1, 0, -1};
  int i = 0;
@@ -3446,6 +3446,8 @@ void overmap::place_radios()
   Supplies are limited, please bring supplemental food, water, and bedding.\
   This is FEMA camp %d%d.  A designated long-term emergency shelter."), i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
+     break;
+    default:
      break;
    }
   }

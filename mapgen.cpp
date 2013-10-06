@@ -5222,6 +5222,7 @@ ff.......|....|WWWWWWWW|\n\
       doorx = rng(bx1 + 1, bx2 - 1);
       doory = by2;
       break;
+     default: break;
     }
     for (int i = doorx - 1; i <= doorx + 1; i++) {
      for (int j = doory - 1; j <= doory + 1; j++) {
@@ -6017,6 +6018,7 @@ ff.......|....|WWWWWWWW|\n\
         case EAST:  p = point(SEEX * 2 - rng(2, 6), rng(1, SEEY * 2 - 2));break;
         case SOUTH: p = point(rng(1, SEEX * 2 - 2), SEEY * 2 - rng(2, 6));break;
         case WEST:  p = point(rng(1, 5)           , rng(1, SEEY * 2 - 2));break;
+        default: break;
        }
        ter_set(p.x, p.y, t_rock_floor);
        add_spawn(mon_dark_wyrm, 1, p.x, p.y);
@@ -6092,6 +6094,7 @@ ff.......|....|WWWWWWWW|\n\
       square(this, t_rock_floor, 6, SEEY - 3, SEEX, SEEY + 2);
       line(this, t_slope_down, 6, SEEY - 2, 6, SEEY + 1);
       break;
+     default: break;
     }
    }
   } // Done building a slope down
@@ -6143,6 +6146,7 @@ ff.......|....|WWWWWWWW|\n\
      case WEST:
       line(this, t_slope_up, 6, SEEY - 2, 6, SEEY + 1);
       break;
+     default: break;
     }
    }
   } // Done building a slope up
@@ -6244,6 +6248,7 @@ ff.......|....|WWWWWWWW|\n\
       square(this, t_rock, 0, 0, 4, SEEY * 2 - 1);
       line(this, t_fault, 4, 4, 4, SEEY * 2 - 5);
       break;
+     default: break;
     }
 
     ter_set(SEEX, SEEY, t_console);
@@ -11649,6 +11654,7 @@ case ot_farm_field:
       square(this, t_dirt, nodex - 2, nodey + 1, nodex - 1, nodey + 2);
       node--;
       break;
+     default: break;
     }
    }
   } while (!done);
@@ -13290,6 +13296,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
         if (!((m->ter(x2-3, y2-2)==t_wall_v)||(m->ter(x2-3, y2-2)==t_wall_h))) {
         m->furn_set(x2-3, y2-2, f_sink); }
   break;
+ default: break;
  }
  m->place_items(placed, chance, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
 }
@@ -13560,6 +13567,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     science_room(m, x1, w2 + 1, x2, y2, 0);
    }
    break;
+  default: break;
  }
 }
 
@@ -13813,6 +13821,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    door_point.x = x1;
    door_point.y = midy;
    break;
+  default: break;
  }
  square(m, t_floor, x1, y1, x2, y2);
  line(m, t_wall_h, x1, y1, x2, y1);
@@ -13895,6 +13904,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    case EAST:  line(m, t_floor, x2, y1 + 1, x2, y2 - 1); break;
    case SOUTH: line(m, t_floor, x1, y2    , x2, y2    ); break;
    case WEST:  line(m, t_floor, x1, y1 + 1, x1, y2 - 1); break;
+   default: break;
   }
  } else {
   if (type == room_mine_storage) // Storage has a locked door
@@ -14295,6 +14305,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
     m->furn_set(x2, y2, f_indoor_plant);
 
   break;
+ default: break;
  }
 }
 
@@ -14674,7 +14685,8 @@ void map::add_extra(map_extra type, game *g)
   spawn_artifact(center.x, center.y, g->new_natural_artifact(prop), 0);
  } break;
 
- } // switch (prop)
+ default: break;
+ }
 }
 
 void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
@@ -14789,7 +14801,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
    create_anomaly(cx + 4, cy - 4,
                artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
    break;
-
+  default: break;
  }
 }
 
