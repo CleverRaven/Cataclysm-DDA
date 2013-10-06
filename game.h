@@ -288,7 +288,7 @@ class game
   weather_type weather;   // Weather pattern--SEE weather.h
 
   std::list<weather_segment> future_weather;
-
+std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have
   overmap *cur_om;
   map m;

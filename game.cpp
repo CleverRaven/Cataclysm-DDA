@@ -3312,10 +3312,21 @@ Current turn: %d; Next spawn %d.\n\
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
       }
+weather_menu.addentry(-1,false,-1,"===== %d =====",(int)turn);
+for(std::list<weather_segment>::const_iterator it = future_weather.begin(); it != future_weather.end(); it++) {
+   weather_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
+(*it).deadline.days(),(*it).deadline.hours(),
+(int)(*it).deadline, 
+weather_data[int((*it).weather)].name.c_str(),
+(*it).weather,
+(int)(*it).temperature
+);
+}
+
 
       weather_menu.query();
 
-      if(weather_menu.ret > 0) {
+      if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
         add_msg("%d", weather_menu.selected);
 
         int selected_weather = weather_menu.selected + 1;
