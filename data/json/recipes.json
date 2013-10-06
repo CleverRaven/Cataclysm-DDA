@@ -519,20 +519,9 @@
   "time": 1000,
   "reversible": true,
   "autolearn": false,
-  "tools": [
-    [
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ],
-      [ "screwdriver", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],  "components": [
     [
       [ "amplifier", 1 ]
     ]
@@ -627,15 +616,8 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -657,18 +639,8 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -687,18 +659,8 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -718,21 +680,13 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -765,21 +719,13 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -838,18 +784,8 @@
   "time": 15000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -871,18 +807,8 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -904,18 +830,8 @@
   "time": 15000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -937,18 +853,8 @@
   "time": 25000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -1152,14 +1058,10 @@
   "time": 30000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
-    [
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
@@ -1295,18 +1197,10 @@
   "time": 45000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -1945,18 +1839,8 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -2023,18 +1907,8 @@
   "time" : 1000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2055,18 +1929,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2141,18 +2005,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-        [ "knife_steak", -1 ],
-        [ "knife_combat", -1 ],
-        [ "knife_butcher", -1 ],
-        [ "pockknife", -1 ],
-        [ "scalpel", -1 ],
-        [ "machete", -1 ],
-        [ "broadsword", -1 ],
-        [ "toolset", -1 ]
-          ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2174,21 +2028,13 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2205,18 +2051,10 @@
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "rock", -1 ],
       [ "primitive_hammer", -1 ],
@@ -2246,18 +2084,8 @@
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2280,18 +2108,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2311,18 +2129,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2342,18 +2150,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2388,18 +2186,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2450,21 +2238,13 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2484,18 +2264,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2521,18 +2291,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2555,18 +2315,10 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
@@ -2735,18 +2487,8 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -2785,6 +2527,41 @@
         ["scrap", 6],
         ["steel_chunk", 2]
       ]
+  ]
+},{
+         "type" : "recipe",
+  "result": "bolt_explosive",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": ["archery", 3],
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        ["hacksaw", -1],
+        ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["bolt_metal", 1],
+        ["bolt_steel", 1]
+    ],
+    [
+      [ "superglue", 1 ]
+    ],
+    [
+        ["smpistol_primer", 1 ],
+        ["lgpistol_primer", 1],
+        ["smrifle_primer", 1],
+        ["lgrfile_primer", 1],
+        ["shotgun_primer", 1]
+    ],
+    [
+      [ "gunpowder", 20 ]
+    ]
   ]
 },{
          "type" : "recipe",
@@ -4040,18 +3817,10 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       [ "char_smoker", 2 ]
     ],
@@ -4139,18 +3908,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       [ "char_smoker", 2 ]
     ],
@@ -5585,18 +5346,10 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
@@ -11885,19 +11638,9 @@
    "time": 25000,
    "reversible": false,
    "autolearn": true,
-   "tools": [
-      [
-        ["hatchet", -1],
-        ["knife_steak", -1],
-        ["knife_combat", -1],
-        ["knife_butcher", -1],
-        ["pockknife", -1],
-        ["scalpel", -1],
-        ["machete", -1],
-        ["broadsword", -1],
-        ["toolset", -1]
-      ]
-    ],
+   "qualities" : [
+     {"name":"CUT","level":1,"amount":1},
+   ],
    "components": [
      [
        ["2x4", 2]
@@ -11913,18 +11656,10 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      ["hatchet", -1],
-      ["knife_steak", -1],
-      ["knife_combat", -1],
-      ["knife_butcher", -1],
-      ["pockknife", -1],
-      ["scalpel", -1],
-      ["machete", -1],
-      ["broadsword", -1],
-      ["toolset", -1]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       ["rock", -1],
       ["primitive_hammer", -1],
@@ -13832,6 +13567,40 @@
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
      [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "crowbar",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["crucible", -1]
+      ],
+      [
+      ["forge", 150], ["char_forge", 30]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
      ]
     ]
 },{

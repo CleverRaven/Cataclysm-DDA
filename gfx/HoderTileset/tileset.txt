@@ -1,0 +1,9 @@
+#HODER'S TILESET
+#Name of the tileset
+NAME: hoder
+#Viewing (Option) name of the tileset
+VIEW: Hoder's
+#JSON Path - Default of gfx/tile_config.json
+JSON: gfx/HoderTileset/tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+TILESET: gfx/HoderTileset/hodertiles.png

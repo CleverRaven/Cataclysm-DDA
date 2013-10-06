@@ -199,17 +199,6 @@ bool player::create(game *g, character_type type, std::string tempname)
     }
     if (has_trait("SMELLY"))
         scent = 800;
-    if (has_trait("ANDROID")) {
-        bionic_id first_bio;
-        do {
-            first_bio = g->random_good_bionic();
-        } while (bionics[first_bio]->power_cost > 10);
-        add_bionic(first_bio);
-        // Power Source
-        add_bionic( bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]) );
-        max_power_level = 10;
-        power_level = 10;
-    }
 
     if (has_trait("MARTIAL_ARTS")) {
         matype_id ma_type;
@@ -282,6 +271,27 @@ bool player::create(game *g, character_type type, std::string tempname)
         if (Skill::skill(iter->first))
         {
             g->u.boost_skill_level(iter->first, iter->second);
+        }
+    }
+
+    // Get CBMs
+    std::vector<std::string> prof_CBMs = g->u.prof->CBMs();
+    for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
+         iter != prof_CBMs.end(); ++iter)
+    {
+        if (*iter == "bio_power_storage")
+        {
+            max_power_level += 4;
+            power_level += 4;
+        }
+        else if (*iter == "bio_power_storage_mkII")
+        {
+            max_power_level += 10;
+            power_level += 10;
+        }
+        else
+        {
+            add_bionic(*iter);
         }
     }
 

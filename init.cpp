@@ -80,6 +80,8 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/hints.json");
     ret.push_back("data/json/furniture.json");
     ret.push_back("data/json/terrain.json");
+    ret.push_back("data/json/migo_speech.json");
+    ret.push_back("data/json/names.json");
 
     ret.push_back("data/json/items/ammo.json");
     ret.push_back("data/json/items/archery.json");
@@ -132,6 +134,8 @@ void init_data_structures()
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
+    type_function_map["migo_speech"] = new ClassFunctionAccessor<game>(g, &game::load_migo_speech);
+    type_function_map["NAME"] = new ClassFunctionAccessor<NameGenerator>(&NameGenerator::generator(), &NameGenerator::load_name);
 
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);

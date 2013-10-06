@@ -25,11 +25,13 @@ private:
     signed int _point_cost;
     std::vector<std::string> _starting_items;
     std::vector<addiction> _starting_addictions;
+    std::vector<std::string> _starting_CBMs;
     std::set<std::string> flags; // flags for some special properties of the profession
     StartingSkillList  _starting_skills;
 
     void add_item(std::string item);
     void add_addiction(add_type, int);
+    void add_CBM(std::string CBM);
     // Starting skills will boost the players level in those skills by a 
     // given amount.
     void add_skill(const std::string& skill_name, const int level);
@@ -57,6 +59,7 @@ public:
     signed int point_cost() const;
     std::vector<std::string> items() const;
     std::vector<addiction> addictions() const;
+    std::vector<std::string> CBMs() const;
     const StartingSkillList skills() const;
 
     /**

@@ -354,6 +354,10 @@ void load_artifacts(); // Load artifact data
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
+// Mi-Go speech bubble loading
+  void load_migo_speech(JsonObject &jo);
+
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -396,7 +400,6 @@ void load_artifacts(); // Load artifact data
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
-  void init_parrot_speech() throw (std::string);  // Initializes Mi-Go parrot speech
   void init_savedata_translation_tables();
   void create_factions(); // Creates new factions (for a new game world)
   void load_npcs(); //Make any nearby NPCs from the overmap active.

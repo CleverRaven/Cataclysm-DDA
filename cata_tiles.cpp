@@ -124,60 +124,80 @@ void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
     // send this information to old init to avoid redundant code
     init(screen, json_path, tileset_path);
 }
-void cata_tiles::get_tile_information(std::string file_path, std::string &json_path, std::string &tileset_path)
+void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
-    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << file_path << "]\n";
-    const std::string default_json = "gfx/tile_config.json";
+    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
+    const std::string filename = "tileset.txt";                 // tileset-information-file
+    const std::string default_json = "gfx/tile_config.json";    // defaults
     const std::string default_tileset = "gfx/tinytile.png";
 
-    std::ifstream fin;
-    fin.open(file_path.c_str());
-    if(!fin.is_open()) {
-        fin.close();
-        DebugLog() << "\tCould not read ."<<file_path<<" -- Setting to default values!\n";
-        json_path = default_json;
-        tileset_path = default_tileset;
-        return;
-    }
+    std::vector<std::string> files;
+    files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
+
+    for(std::vector<std::string>::iterator it = files.begin(); it !=files.end(); ++it) {    // iterate through every file found
+        std::ifstream fin;
+        fin.open(it->c_str());
+        if(!fin.is_open()) {
+            fin.close();
+            DebugLog() << "\tCould not read ."<<*it<<" -- Setting to default values!\n";
+            json_path = default_json;
+            tileset_path = default_tileset;
+            return;
+        }
 // should only have 2 values inside it, otherwise is going to only load the last 2 values
-    while(!fin.eof()) {
-        std::string sOption;
-        fin >> sOption;
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
 
         //DebugLog() << "\tCurrent: " << sOption << " -- ";
 
-        if(sOption == "") {
-            getline(fin, sOption);    // Empty line, chomp it
-            //DebugLog() << "Empty line, skipping\n";
-        } else if(sOption[0] == '#') { // # indicates a comment
-            getline(fin, sOption);
-            //DebugLog() << "Comment line, skipping\n";
-        } else {
-            //std::string sValue;
+            if(sOption == "") {
+                getline(fin, sOption);    // Empty line, chomp it
+                //DebugLog() << "Empty line, skipping\n";
+            } else if(sOption[0] == '#') { // # indicates a comment
+                getline(fin, sOption);
+                //DebugLog() << "Comment line, skipping\n";
+            } else {
+                //std::string sValue;
 
 
-            //DebugLog() << "Value [" << sValue << "]\n";
-/*
-std::size_t found = str.find(str2);
-  if (found!=std::string::npos)
-    std::cout << "first 'needle' found at: " << found << '\n';
+                //DebugLog() << "Value [" << sValue << "]\n";
+    /*
+    std::size_t found = str.find(str2);
+    if (found!=std::string::npos)
+        std::cout << "first 'needle' found at: " << found << '\n';
 
-*/          if (sOption.find("JSON") != std::string::npos)
-            {
-                fin >> json_path;
-                //json_path = sValue;
-                DebugLog() << "\tJSON path set to [" << json_path <<"].\n";
-            }
-            else if (sOption.find("TILESET") != std::string::npos)
-            {
-                fin >> tileset_path;
-                //tileset_path = sValue;
-                DebugLog() << "\tTILESET path set to [" << tileset_path <<"].\n";
+    */          if (sOption.find("NAME") != std::string::npos)
+                {
+                    std::string tileset_name;
+                    tileset_name = "";
+                    fin >> tileset_name;
+                    if(tileset_name != OPTIONS["TILES"].getValue())     // if the current tileset name isn't the same
+                    {                                                   // as the current one in the options break
+                        break;                                          // out of the while loop, close the file and
+                    }                                                   // continue with the next file
+                }
+                else if (sOption.find("VIEW") != std::string::npos)     // we don't need the view name here
+                {
+                    getline(fin, sOption);                              // so we just skip it
+                }
+                else if (sOption.find("JSON") != std::string::npos)
+                {
+                    fin >> json_path;
+                    //json_path = sValue;
+                    DebugLog() << "\tJSON path set to [" << json_path <<"].\n";
+                }
+                else if (sOption.find("TILESET") != std::string::npos)
+                {
+                    fin >> tileset_path;
+                    //tileset_path = sValue;
+                    DebugLog() << "\tTILESET path set to [" << tileset_path <<"].\n";
+                }
             }
         }
-    }
 
-    fin.close();
+        fin.close();
+    }
     if (json_path == "")
     {
         json_path = default_json;
@@ -265,7 +285,7 @@ void cata_tiles::load_tilejson(std::string path)
         return;
     }
 
-    /** 1) Mae sure that the loaded file has the "tile_info" section */
+    /** 1) Make sure that the loaded file has the "tile_info" section */
     if (!config.has("tile_info"))
     {
         DebugLog() << (std::string)"ERROR: "+path+ (std::string)" --\"tile_info\" missing\n";
