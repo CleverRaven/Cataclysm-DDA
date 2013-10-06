@@ -16296,7 +16296,75 @@
         [ "cu_pipe", 2 ]
       ]
     ]
-  },
+  },{
+        "type" : "recipe",
+  "result": "depowered_helmet",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "requires_skills": ["electronics",  4],
+  "difficulty": 8,
+  "time": 80000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      ["soldering_iron", 50],
+      ["toolset", 10]
+    ]
+  ],
+  "components": [
+    [
+        ["power_armor_helmet_basic", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "depowered_armor",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "requires_skills": ["electronics",  5],
+  "difficulty": 7,
+  "time": 80000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      ["soldering_iron", 100],
+      ["toolset", 20]
+    ]
+  ],
+  "components": [
+    [
+        ["power_armor_basic", 1]
+    ]
+  ]
+},
 
   {
     "type" : "recipe",
