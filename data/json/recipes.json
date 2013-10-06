@@ -6315,6 +6315,97 @@
   ]
 },{
         "type" : "recipe",
+  "result": "disinfectant",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 3 ],
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bleach", 1 ]
+    ],
+    [
+      [ "water", 1 ]
+    ],
+    [
+      [ "oxy_powder", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iodine",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "disinfectant", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pur_tablets",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "iodine", 10 ]
+    ],
+    [
+      [ "aspirin", 1 ]
+    ],
+    [
+      [ "bleach", 1 ],
+      [ "oxy_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "oxy_powder",
   "category": "CC_CHEM",
   "skill_used": "cooking",
