@@ -2788,6 +2788,41 @@
   ]
 },{
          "type" : "recipe",
+  "result": "bolt_explosive",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": ["archery", 3],
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        ["hacksaw", -1],
+        ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["bolt_metal", 1],
+        ["bolt_steel", 1]
+    ],
+    [
+      [ "superglue", 1 ]
+    ],
+    [
+        ["smpistol_primer", 1 ],
+        ["lgpistol_primer", 1],
+        ["smrifle_primer", 1],
+        ["lgrfile_primer", 1],
+        ["shotgun_primer", 1]
+    ],
+    [
+      [ "gunpowder", 20 ]
+    ]
+  ]
+},{
+         "type" : "recipe",
   "result": "9mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
