@@ -110,7 +110,7 @@ class editmap
             blink = false;
             altblink = false;
             moveall = false;
-            editshape = editmap_rect_filled;
+            editshape = editmap_rect;
 
             tmaxx = getmaxx(g->w_terrain);
             tmaxy = getmaxy(g->w_terrain);
