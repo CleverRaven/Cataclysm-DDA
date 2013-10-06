@@ -2340,7 +2340,7 @@
     "durability": 8,
     "burst": 5,
     "clip_size": 15,
-    "reload": 180
+    "reload": 280
   },
   {
     "id": "helsing",
