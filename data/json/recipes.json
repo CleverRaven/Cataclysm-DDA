@@ -6514,7 +6514,7 @@
   "result": "salt",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "difficulty": 4,
+  "difficulty": 6,
   "time": 48000,
   "reversible": false,
   "autolearn": true,
@@ -6530,6 +6530,40 @@
     [
       [ "lye_powder", 100 ],
       [ "bleach", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sugar",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "strawberries", 2 ],
+      [ "blueberries", 2 ],
+      [ "corn", 3 ],
+      [ "honeycomb", 1 ],
+    ],
+    [
+      [ "lye_powder", 20 ]
     ],
     [
       [ "water_clean", 1 ],
