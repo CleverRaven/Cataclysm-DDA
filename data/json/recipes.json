@@ -6559,11 +6559,15 @@
     [
       [ "strawberries", 2 ],
       [ "blueberries", 2 ],
+      [ "apple", 2 ],
       [ "corn", 3 ],
       [ "honeycomb", 1 ],
-      [ "cola", 4 ],
-      [ "rootbeer", 4 ],
-      [ "purple_drink", 4 ]
+      [ "cola", 6 ],
+      [ "rootbeer", 6 ],
+      [ "purple_drink", 6 ],
+      [ "syrup", 4 ],
+      [ "coffee_syrup", 5 ],
+      [ "con_milk", 1 ]
     ],
     [
       [ "lye_powder", 20 ]
