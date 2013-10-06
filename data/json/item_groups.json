@@ -4142,6 +4142,7 @@
       ["bio_blood_filter", 10],
       ["software_useless", 10],
       ["canteen", 10],
+      ["chemistry_set", 4],
       ["pur_tablets", 10]
     ]
   },{
@@ -4351,6 +4352,7 @@
       ["RPG", 1],
       ["RPG-7_ammo", 1],
       ["flask_hip", 10],
+      ["chemistry_set", 2],
       ["pocketwatch", 2]
     ]
   },{
