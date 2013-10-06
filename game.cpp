@@ -5917,14 +5917,17 @@ void game::open()
 
     int vpart;
     vehicle *veh = m.veh_at(openx, openy, vpart);
-    if (veh && veh->part_flag(vpart, "OPENABLE")) {
-        if (veh->parts[vpart].open) {
-            add_msg(_("That door is already open."));
-            u.moves += 100;
-        } else {
-            veh->open(vpart);
+    if (veh) {
+        int door = veh->part_with_feature(vpart, "OPENABLE");
+        if(door >= 0) {
+            if (veh->parts[door].open) {
+                add_msg(_("That door is already open."));
+                u.moves += 100;
+            } else {
+                veh->open(door);
+            }
+            return;
         }
-        return;
     }
 
     if (m.is_outside(u.posx, u.posy))
@@ -5965,10 +5968,16 @@ void game::close()
         monster &z = _active_monsters[zid];
         add_msg(_("There's a %s in the way!"), z.name().c_str());
     }
-    else if (veh && veh->part_flag(vpart, "OPENABLE") &&
-             veh->parts[vpart].open) {
-        veh->close(vpart);
-        didit = true;
+    else if (veh) {
+        int door = veh->part_with_feature(vpart, "OPENABLE");
+        if(door >= 0) {
+            if(veh->parts[door].open) {
+                veh->close(door);
+                didit = true;
+            } else {
+                add_msg(_("That door is already closed."));
+            }
+        }
     } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
         add_msg(_("There's %s in the way!"), m.i_at(closex, closey).size() == 1 ?
                 m.i_at(closex, closey)[0].tname(this).c_str() : _("some stuff"));

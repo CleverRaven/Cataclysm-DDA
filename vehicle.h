@@ -165,7 +165,11 @@ private:
     game *g;
 
     bool can_stack_vpart_flag(std::string vpart_flag);
+    bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
+    int part_displayed_at(int local_x, int local_y);
+    bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
+    void add_missing_frames();
 
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
@@ -254,7 +258,7 @@ public:
     nc_color part_color (int p);
 
 // Vehicle parts description
-    void print_part_desc (void *w, int y1, int width, int p, int hl = -1);
+    void print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1);
 
 // Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
     void print_fuel_indicator (void *w, int y, int x, bool fullsize = false, bool verbose = false);

@@ -9,7 +9,7 @@
         "durability": 100,
         "item": "NULL",
         "difficulty": 0,
-        "flags": []
+        "flags": ["NOINSTALL"]
     },
     {
         "id": "seat",
@@ -23,8 +23,9 @@
         "size": 400,
         "item": "seat",
         "difficulty": 1,
+        "location": "center",
         "flags": [
-            "OVER", "SEAT", "BOARDABLE", "CARGO", "NO_REINFORCE", "ANCHOR_POINT"
+            "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
         ]
     },
     {
@@ -38,8 +39,9 @@
         "durability": 200,
         "item": "saddle",
         "difficulty": 1,
+        "location": "center",
         "flags": [
-            "OVER", "SEAT", "BOARDABLE", "NO_REINFORCE"
+            "SEAT", "BOARDABLE"
         ]
     },
     {
@@ -54,8 +56,9 @@
         "size": 400,
         "item": "seat",
         "difficulty": 1,
+        "location": "center",
         "flags": [
-            "OVER", "BED", "BOARDABLE", "CARGO", "NO_REINFORCE"
+            "BED", "BOARDABLE", "CARGO"
         ]
     },
     {
@@ -68,9 +71,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_vertical",
@@ -82,9 +84,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_cross",
@@ -96,9 +97,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_nw",
@@ -110,9 +110,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_ne",
@@ -124,9 +123,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_se",
@@ -138,9 +136,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_sw",
@@ -152,9 +149,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_horizontal_2",
@@ -166,9 +162,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_vertical_2",
@@ -180,9 +175,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_cover",
@@ -194,9 +188,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "frame_handle",
@@ -208,9 +201,8 @@
         "durability": 300,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER"
-        ]
+        "location": "structure",
+        "flags": []
     },
     {
         "id": "board_horizontal",
@@ -222,9 +214,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
-        ]
+        "location": "center",
+        "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
         "id": "board_vertical",
@@ -236,9 +227,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
-        ]
+        "location": "center",
+        "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
         "id": "board_nw",
@@ -250,9 +240,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
-        ]
+        "location": "center",
+        "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
         "id": "board_ne",
@@ -264,9 +253,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
-        ]
+        "location": "center",
+        "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
         "id": "board_se",
@@ -278,9 +266,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
-        ]
+        "location": "center",
+        "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
         "id": "board_sw",
@@ -292,9 +279,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "OPAQUE", "OBSTACLE"
-        ]
+        "location": "center",
+        "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
         "id": "aisle_horizontal",
@@ -306,9 +292,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "OVER", "NO_REINFORCE", "AISLE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["AISLE", "BOARDABLE"]
     },
     {
         "id": "aisle_vertical",
@@ -320,9 +305,8 @@
         "durability": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "OVER", "NO_REINFORCE", "AISLE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["AISLE", "BOARDABLE"]
     },
     {
         "id": "trunk_floor",
@@ -335,9 +319,8 @@
         "size": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "OVER", "NO_REINFORCE", "AISLE", "BOARDABLE", "CARGO"
-        ]
+        "location": "center",
+        "flags": ["AISLE", "BOARDABLE", "CARGO"]
     },
     {
         "id": "roof",
@@ -349,9 +332,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "ROOF"
-        ]
+        "location": "roof",
+        "flags": ["ROOF"]
     },
     {
         "id": "door",
@@ -364,9 +346,8 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "OBSTACLE", "OPENABLE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["OBSTACLE", "OPENABLE", "BOARDABLE"]
     },
     {
         "id": "door_opaque",
@@ -379,9 +360,8 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"]
     },
     {
         "id": "door_internal",
@@ -394,9 +374,8 @@
         "durability": 75,
         "item": "frame",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "NO_REINFORCE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"]
     },
     {
         "id": "windshield",
@@ -409,9 +388,8 @@
         "durability": 50,
         "item": "glass_sheet",
         "difficulty": 1,
-        "flags": [
-            "OVER", "OBSTACLE", "NO_REINFORCE"
-        ]
+        "location": "center",
+        "flags": ["OVER", "OBSTACLE"]
     },
     {
         "id": "blade_horizontal",
@@ -424,9 +402,8 @@
         "durability": 100,
         "item": "blade",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "UNMOUNT_ON_DAMAGE", "SHARP", "NO_REINFORCE"
-        ]
+        "location": "structure",
+        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },
     {
         "id": "blade_vertical",
@@ -439,9 +416,8 @@
         "durability": 100,
         "item": "blade",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "UNMOUNT_ON_DAMAGE", "SHARP", "NO_REINFORCE"
-        ]
+        "location": "structure",
+        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },
     {
         "id": "spike",
@@ -454,9 +430,8 @@
         "durability": 100,
         "item": "spike",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "UNMOUNT_ON_DAMAGE", "SHARP", "NO_REINFORCE"
-        ]
+        "location": "structure",
+        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },
     {
         "id": "wheel",
@@ -470,9 +445,8 @@
         "wheel_width": 9,
         "item": "wheel",
         "difficulty": 4,
-        "flags": [
-            "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-        ]
+        "location": "under",
+        "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
         "id": "wheel_wide",
@@ -486,9 +460,8 @@
         "wheel_width": 14,
         "item": "wheel_wide",
         "difficulty": 5,
-        "flags": [
-            "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-        ]
+        "location": "under",
+        "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
         "id": "wheel_underbody",
@@ -502,9 +475,8 @@
         "wheel_width": 14,
         "item": "wheel_wide",
         "difficulty": 6,
-        "flags": [
-            "EXTERNAL", "MOUNT_INNER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-        ]
+        "location": "under",
+        "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
         "id": "wheel_bicycle",
@@ -518,9 +490,8 @@
         "wheel_width": 2,
         "item": "wheel_bicycle",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-        ]
+        "location": "under",
+        "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
         "id": "wheel_motorbike",
@@ -534,9 +505,8 @@
         "wheel_width": 4,
         "item": "wheel_motorbike",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-        ]
+        "location": "under",
+        "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
         "id": "wheel_small",
@@ -550,9 +520,8 @@
         "wheel_width": 6,
         "item": "wheel_small",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-        ]
+        "location": "under",
+        "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
         "id": "wheel_caster",
@@ -566,9 +535,8 @@
         "wheel_width": 6,
         "item": "wheel_caster",
         "difficulty": 1,
-        "flags": [
-            "EXTERNAL", "MOUNT_POINT", "MOUNT_INNER", "WHEEL", "VARIABLE_SIZE"
-        ]
+        "location": "under",
+        "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
         "id": "engine_1cyl",
@@ -583,9 +551,8 @@
         "fuel_type": "gasoline",
         "item": "1cyl_combustion",
         "difficulty": 2,
-        "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
         "id": "engine_vtwin",
@@ -600,9 +567,8 @@
         "fuel_type": "gasoline",
         "item": "v2_combustion",
         "difficulty": 2,
-        "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
         "id": "engine_inline4",
@@ -616,9 +582,8 @@
         "fuel_type": "gasoline",
         "item": "i4_combustion",
         "difficulty": 3,
-        "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
         "id": "engine_v6",
@@ -633,9 +598,8 @@
         "fuel_type": "gasoline",
         "item": "v6_combustion",
         "difficulty": 4,
-        "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
         "id": "engine_v8",
@@ -650,9 +614,8 @@
         "fuel_type": "gasoline",
         "item": "v8_combustion",
         "difficulty": 4,
-        "flags": [
-            "INTERNAL", "ENGINE", "VARIABLE_SIZE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
         "id": "engine_electric",
@@ -667,9 +630,8 @@
         "fuel_type": "battery",
         "item": "motor",
         "difficulty": 3,
-        "flags": [
-            "INTERNAL", "ENGINE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE"]
     },
     {
         "id": "engine_electric_large",
@@ -684,9 +646,8 @@
         "fuel_type": "battery",
         "item": "motor_large",
         "difficulty": 4,
-        "flags": [
-            "INTERNAL", "ENGINE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE"]
     },
     {
         "id": "engine_plasma",
@@ -701,9 +662,8 @@
         "fuel_type": "plasma",
         "item": "plasma_engine",
         "difficulty": 6,
-        "flags": [
-            "INTERNAL", "ENGINE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE"]
     },
     {
         "id": "foot_pedals",
@@ -718,9 +678,8 @@
         "fuel_type": "muscle",
         "item": "foot_crank",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "ENGINE"
-        ]
+        "location": "engine_block",
+        "flags": ["ENGINE"]
     },
     {
         "id": "gas_tank",
@@ -735,9 +694,8 @@
         "fuel_type": "gasoline",
         "item": "metal_tank",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "FUEL_TANK"
-        ]
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
     },
     {
         "id": "storage_battery",
@@ -752,9 +710,8 @@
         "fuel_type": "battery",
         "item": "storage_battery",
         "difficulty": 2,
-        "flags": [
-            "INTERNAL", "FUEL_TANK"
-        ]
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
     },
     {
         "id": "minireactor",
@@ -769,9 +726,8 @@
         "fuel_type": "plutonium",
         "item": "minireactor",
         "difficulty": 7,
-        "flags": [
-            "INTERNAL", "FUEL_TANK"
-        ]
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
     },
     {
         "id": "hydrogen_tank",
@@ -786,9 +742,8 @@
         "fuel_type": "plasma",
         "item": "metal_tank",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "FUEL_TANK"
-        ]
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
     },
     {
         "id": "water_tank",
@@ -803,9 +758,8 @@
         "fuel_type": "water",
         "item": "metal_tank",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "FUEL_TANK"
-        ]
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
     },
     {
         "id": "trunk",
@@ -819,9 +773,8 @@
         "size": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "OVER", "CARGO"
-        ]
+        "location": "center",
+        "flags": ["CARGO"]
     },
     {
         "id": "box",
@@ -835,9 +788,8 @@
         "size": 400,
         "item": "frame",
         "difficulty": 1,
-        "flags": [
-            "OVER", "CARGO", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["CARGO", "BOARDABLE"]
     },
     {
         "id": "controls",
@@ -850,9 +802,7 @@
         "durability": 250,
         "item": "vehicle_controls",
         "difficulty": 3,
-        "flags": [
-            "INTERNAL", "CONTROLS"
-        ]
+        "flags": ["CONTROLS"]
     },
     {
         "id": "muffler",
@@ -866,9 +816,7 @@
         "bonus": 40,
         "item": "muffler",
         "difficulty": 2,
-        "flags": [
-            "INTERNAL", "MUFFLER"
-        ]
+        "flags": ["MUFFLER"]
     },
     {
         "id": "seatbelt",
@@ -882,9 +830,8 @@
         "bonus": 25,
         "item": "rope_6",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "SEATBELT"
-        ]
+        "location": "on_seat",
+        "flags": ["SEATBELT"]
     },
     {
         "id": "solar_panel",
@@ -898,9 +845,8 @@
         "power": 30,
         "item": "solar_panel",
         "difficulty": 6,
-        "flags": [
-            "OVER", "SOLAR_PANEL"
-        ]
+        "location": "on_roof",
+        "flags": ["SOLAR_PANEL"]
     },
     {
         "id": "reinforced_solar_panel",
@@ -930,9 +876,8 @@
         "size": 400,
         "item": "kitchen_unit",
         "difficulty": 4,
-        "flags": [
-            "OVER", "CARGO", "NO_REINFORCE", "OBSTACLE", "KITCHEN"
-        ]
+        "location": "center",
+        "flags": ["CARGO", "OBSTACLE", "KITCHEN"]
     },
     {
         "id": "welding_rig",
@@ -946,9 +891,8 @@
         "size": 400,
         "item": "weldrig",
         "difficulty": 4,
-        "flags": [
-            "OVER", "CARGO", "NO_REINFORCE", "OBSTACLE", "WELDRIG"
-        ]
+        "location": "center",
+        "flags": ["CARGO", "OBSTACLE", "WELDRIG"]
     },
     {
         "id": "m249",
@@ -963,9 +907,8 @@
         "item": "m249",
         "size" : 40,
         "difficulty": 6,
-        "flags": [
-            "OVER", "TURRET", "CARGO"
-        ]
+        "location": "on_roof",
+        "flags": ["TURRET"]
     },
     {
         "id": "flamethrower",
@@ -979,9 +922,8 @@
         "fuel_type": "gasoline",
         "item": "flamethrower",
         "difficulty": 7,
-        "flags": [
-            "OVER", "TURRET"
-        ]
+        "location": "on_roof",
+        "flags": ["TURRET"]
     },
     {
         "id": "plasma_gun",
@@ -995,9 +937,8 @@
         "fuel_type": "plasma",
         "item": "plasma_rifle",
         "difficulty": 7,
-        "flags": [
-            "OVER", "TURRET"
-        ]
+        "location": "on_roof",
+        "flags": ["TURRET"]
     },
     {
         "id": "fusion_gun",
@@ -1012,9 +953,8 @@
         "item": "ftk93",
         "difficulty": 7,
 	"size": 10,
-        "flags": [
-            "OVER", "TURRET", "CARGO"
-        ]
+        "location": "on_roof",
+        "flags": ["TURRET", "CARGO"]
     },
     {
         "id": "plating_steel",
@@ -1026,9 +966,8 @@
         "durability": 1000,
         "item": "steel_plate",
         "difficulty": 3,
-        "flags": [
-            "INTERNAL", "ARMOR"
-        ]
+        "location": "center",
+        "flags": ["ARMOR", "OBSTACLE"]
     },
     {
         "id": "plating_superalloy",
@@ -1040,9 +979,8 @@
         "durability": 900,
         "item": "alloy_plate",
         "difficulty": 4,
-        "flags": [
-            "INTERNAL", "ARMOR"
-        ]
+        "location": "center",
+        "flags": ["ARMOR", "OBSTACLE"]
     },
     {
         "id": "plating_spiked",
@@ -1055,9 +993,8 @@
         "durability": 900,
         "item": "spiked_plate",
         "difficulty": 3,
-        "flags": [
-            "INTERNAL", "ARMOR", "SHARP"
-        ]
+        "location": "center",
+        "flags": ["ARMOR", "SHARP", "OBSTACLE"]
     },
     {
         "id": "plating_hard",
@@ -1069,9 +1006,8 @@
         "durability": 2300,
         "item": "hard_plate",
         "difficulty": 4,
-        "flags": [
-            "INTERNAL", "ARMOR"
-        ]
+        "location": "center",
+        "flags": ["ARMOR", "OBSTACLE"]
     },
     {
         "id": "headlight",
@@ -1085,9 +1021,7 @@
         "par1": 480,
         "item": "flashlight",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL", "LIGHT"
-        ]
+        "flags": ["LIGHT"]
     },
     {
         "id": "reinforced_windshield",
@@ -1100,9 +1034,8 @@
         "durability": 300,
         "item": "reinforced_glass_sheet",
         "difficulty": 6,
-        "flags": [
-            "OVER", "OBSTACLE", "NO_REINFORCE"
-        ]
+        "location": "center",
+        "flags": ["OBSTACLE"]
     },
     {
         "id": "horn_bicycle",
@@ -1116,9 +1049,7 @@
         "bonus": 15,
         "item": "horn_bicycle",
         "difficulty": 1,
-        "flags": [
-            "INTERNAL","HORN"
-        ]
+        "flags": ["HORN"]
     },
     {
         "id": "horn_car",
@@ -1132,9 +1063,7 @@
         "bonus": 30,
         "item": "horn_car",
         "difficulty": 3,
-        "flags": [
-            "INTERNAL","HORN"
-        ]
+        "flags": ["HORN"]
     },
     {
         "id": "horn_big",
@@ -1148,9 +1077,7 @@
         "bonus": 45,
         "item": "horn_big",
         "difficulty": 3,
-        "flags": [
-            "INTERNAL","HORN"
-        ]
+        "flags": ["HORN"]
     },
     {
         "id": "door_trunk",
@@ -1163,9 +1090,8 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },
     {
         "id": "door_shutter",
@@ -1178,9 +1104,8 @@
         "durability": 200,
         "item": "steel_plate",
         "difficulty": 3,
-        "flags": [
-            "EXTERNAL", "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },
     {
         "id": "door_sliding",
@@ -1193,8 +1118,7 @@
         "durability": 200,
         "item": "frame",
         "difficulty": 2,
-        "flags": [
-            "EXTERNAL", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"
-        ]
+        "location": "center",
+        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     }
 ]

@@ -31,7 +31,10 @@ struct vpart_info
     std::string fuel_type;  // engine, fuel tank
     itype_id item;      // corresponding item
     int difficulty;     // installation difficulty (mechanics requirement)
+    std::string location;   //Where in the vehicle this part goes
     std::set<std::string> flags;    // flags
+
+    int z_order;        // z-ordering, inferred from location, cached here
 
     bool has_flag(const std::string flag) {
         return flags.count(flag) != 0;

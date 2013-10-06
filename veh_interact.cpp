@@ -525,7 +525,7 @@ void veh_interact::do_remove(int reason)
         return;
     case 3:
         mvwprintz(w_msg, 0, 1, c_ltred,
-                  _("You cannot remove mount point while something is attached to it."));
+                  _("You cannot remove that part while something is attached to it."));
         wrefresh (w_msg);
         return;
     case 4:
@@ -535,7 +535,7 @@ void veh_interact::do_remove(int reason)
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
-    int first = parts_here.size() > 1? 1 : 0;
+    int first = 0;
     int pos = first;
     while (true)
     {
@@ -548,8 +548,15 @@ void veh_interact::do_remove(int reason)
         get_direction (dx, dy, ch);
         if (ch == '\n' || ch == ' ')
         {
-            sel_cmd = 'o';
-            return;
+            if(veh->can_unmount(parts_here[pos])) {
+                sel_cmd = 'o';
+                return;
+            } else {
+                mvwprintz(w_msg, 0, 1, c_ltred,
+                  _("You cannot remove that part while something is attached to it."));
+                wrefresh (w_msg);
+                return;
+            }
         }
         else
             if (ch == KEY_ESCAPE || ch == 'q' )
@@ -776,9 +783,7 @@ void veh_interact::move_cursor (int dx, int dy)
     wheel = NULL;
     if (cpart >= 0)
     {
-        //Misleading, internal_parts actually returns all parts at that square
-        parts_here = veh->internal_parts(cpart);
-        parts_here.insert (parts_here.begin(), cpart);
+        parts_here = veh->parts_at_relative(veh->parts[cpart].mount_dx, veh->parts[cpart].mount_dy);
         for (int i = 0; i < parts_here.size(); i++)
         {
             int p = parts_here[i];
