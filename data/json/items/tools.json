@@ -4998,6 +4998,30 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
+  
+  {
+        "type": "TOOL",
+        "id" : "wrapped_rad_badge",
+        "name" : "wrapped radiation badge",
+        "price" : 1000,
+        "material" : ["plastic", "null"],
+        "volume" : 0,
+        "weight" : 20,
+        "symbol": ",",
+        "color": "light_blue",
+        "description" : "A badge that detects radiation dosage sealed in a radiation-blocking bag.  Activate to remove from the bag.",
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "revert_to": "null",
+        "phase" : "solid",
+        "use_action" : "RAD_BADGE"
+  },
 
   {
     "id": "jack",
