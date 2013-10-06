@@ -6340,6 +6340,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gunpowder",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oxidizer", 200 ]
+    ],
+    [
+      [ "ammonia", 2 ]
+    ],
+    [
+      [ "charcoal", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "antenna",
   "category": "CC_ELECTRONIC",
   "difficulty": 0,
