@@ -16304,7 +16304,7 @@
   "requires_skills": ["electronics",  4],
   "difficulty": 8,
   "time": 80000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -16338,7 +16338,7 @@
   "requires_skills": ["electronics",  5],
   "difficulty": 7,
   "time": 80000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
