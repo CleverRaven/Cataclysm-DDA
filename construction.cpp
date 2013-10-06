@@ -394,7 +394,7 @@ void game::init_construction()
  CONSTRUCT(_("Start vehicle construction"), 0, &construct::able_empty, &construct::done_vehicle);
   STAGE(10);
    COMP("frame", 1);
-   
+
  CONSTRUCT(_("Start cart construction"), 0, &construct::able_empty, &construct::done_cart);
   STAGE(10);
    COMP("wheel_caster", 1);
@@ -520,6 +520,8 @@ void game::construction_menu()
       mes = "";
     posy++;
     mvwprintz(w_con, posy, 31, color_stage, _("Stage %1$d: %2$s"), n + 1, mes);
+    posy++;
+    mvwprintz(w_con, posy, 31, color_stage, _("Time: %1d minutes"), current_con->stages[n].time);
 // Print tools
     construction_stage stage = current_con->stages[n];
     bool has_tool[10] = {stage.tools[0].empty(),
