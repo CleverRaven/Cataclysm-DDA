@@ -6542,7 +6542,7 @@
   "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 12000,
+  "time": 24000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -6561,6 +6561,9 @@
       [ "blueberries", 2 ],
       [ "corn", 3 ],
       [ "honeycomb", 1 ],
+      [ "cola", 4 ],
+      [ "rootbeer", 4 ],
+      [ "purple_drink", 4 ]
     ],
     [
       [ "lye_powder", 20 ]
@@ -12754,13 +12757,6 @@
   "time": 50000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      ["hammer", -1],
-      ["toolset", -1],
-      ["screwdriver", -1]
-    ]
-  ],
   "components": [
     [
       ["wire", 5],
@@ -12771,6 +12767,9 @@
     ],
     [
       ["glasses_safety", 1]
+    ],
+    [
+      ["hose", 3]
     ],
     [
       ["bottle_glass", 4],
