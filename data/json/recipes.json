@@ -6423,10 +6423,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ],
-      [ "hotplate", 75 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
+      [ "chemistry_set", 75 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6448,10 +6445,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ],
-      [ "hotplate", 75 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
+      [ "chemistry_set", 75 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6466,7 +6460,8 @@
       [ "scrap", 1 ]
     ],
     [
-      [ "charcoal", 1 ]
+      [ "charcoal", 1 ],
+      [ "lye_powder", 20 ]
     ]
   ]
 },{
@@ -6491,6 +6486,33 @@
   "components": [
     [
       [ "bleach", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "salt",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 48000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lye_powder", 100 ],
+      [ "bleach", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
     ]
   ]
 },{
