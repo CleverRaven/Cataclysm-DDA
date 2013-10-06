@@ -1743,10 +1743,12 @@
   ],
   "components": [
     [
-      [ "bleach", 2 ]
+      [ "bleach", 2 ],
+      [ "oxy_powder", 200 ]
     ],
     [
-      [ "ammonia", 2 ]
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
     ],
     [
       [ "canister_empty", 1 ],
@@ -5821,6 +5823,7 @@
     ],
     [
       [ "bleach", 2 ],
+      [ "oxy_powder", 200 ],
       [ "purifier", 1 ]
     ]
   ]
@@ -5884,10 +5887,12 @@
       [ "leg", 2 ]
     ],
     [
-      [ "bleach", 2 ]
+      [ "bleach", 2 ],
+      [ "oxy_powder", 200 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -5919,7 +5924,8 @@
       [ "veggy_tainted", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -5953,7 +5959,8 @@
       [ "wasp_sting", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -5985,7 +5992,8 @@
       [ "chitin_piece", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6017,7 +6025,8 @@
       [ "sewage", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6052,7 +6061,8 @@
       [ "can_herring", 1 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6084,7 +6094,8 @@
       [ "meat_tainted", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6116,7 +6127,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6148,7 +6160,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6181,7 +6194,8 @@
       [ "can_chowder", 1 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6213,7 +6227,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6245,7 +6260,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6277,7 +6293,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6307,10 +6324,12 @@
       [ "mutagen", 2 ]
     ],
     [
-      [ "bleach", 3 ]
+      [ "bleach", 3 ],
+      [ "oxy_powder", 300 ]
     ],
     [
-      [ "ammonia", 2 ]
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
     ]
   ]
 },{
@@ -6374,7 +6393,9 @@
   ],
   "components": [
     [
-      [ "disinfectant", 2 ]
+      [ "disinfectant", 2 ],
+      [ "salt", 5 ]
+    ]
     ],
     [
       [ "aspirin", 10 ]
@@ -6568,7 +6589,8 @@
       [ "oxy_powder", 200 ]
     ],
     [
-      [ "ammonia", 2 ]
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
     ],
     [
       [ "charcoal", 5 ]
@@ -10972,6 +10994,7 @@
     ],
     [
       [ "bleach", 1 ],
+      [ "lye_powder", 100 ],
       [ "ant_egg", 1 ]
     ]
   ]
@@ -13021,7 +13044,7 @@
     [ [ "water", 1 ] ],
     [ [ "meal_bone", 2 ] ],
     [ [ "meal_chitin_piece", 1 ] ],
-    [ [ "ammonia", 1 ] ]
+    [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
   ]
 },{
         "type" : "recipe",
@@ -15610,7 +15633,8 @@
       [ "chitin_piece", 6 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
