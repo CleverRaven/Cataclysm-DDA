@@ -909,7 +909,9 @@ WINDOW *curses_init(void)
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
 
-    const int SidebarWidth = use_narrow_sidebar() ? 45 : 55;
+    // const int SidebarWidth = use_narrow_sidebar() ? 45 : 55;
+    const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+
     WindowWidth= (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
     if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
     WindowWidth *= fontwidth;
@@ -951,13 +953,15 @@ WINDOW *curses_init(void)
 
 #ifdef SDLTILES
     // Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.  // Most definitely should not be doing this multiple times...
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
+    //mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
     DebugLog() << "Initializing SDL Tiles context\n";
     IMG_Init(IMG_INIT_PNG);
     tilecontext = new cata_tiles;
     tilecontext->init(screen, "gfx");
 #else
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+    //mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
 #endif
     return mainwin;   //create the 'stdscr' window and return its ref
 }
