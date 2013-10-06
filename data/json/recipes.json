@@ -6318,8 +6318,8 @@
   "result": "disinfectant",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 3 ],
-  "difficulty": 6,
+  "requires_skills": [ "firstaid", 2 ],
+  "difficulty": 4,
   "time": 24000,
   "reversible": false,
   "autolearn": true,
@@ -6336,10 +6336,16 @@
   ],
   "components": [
     [
+      [ "whiskey", 7 ],
+      [ "vodka", 7 ],
+      [ "rum", 7 ],
+      [ "tequila", 7 ],
+      [ "gin", 7 ],
+      [ "triple_sec", 7 ],
       [ "bleach", 1 ]
     ],
     [
-      [ "water", 1 ]
+      [ "water_clean", 1 ]
     ],
     [
       [ "oxy_powder", 20 ]
@@ -6379,7 +6385,6 @@
   "result": "pur_tablets",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
   "difficulty": 6,
   "time": 24000,
   "reversible": false,
@@ -6405,6 +6410,28 @@
     [
       [ "bleach", 1 ],
       [ "oxy_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bleach",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 1 ]
     ]
   ]
 },{
