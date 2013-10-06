@@ -6633,7 +6633,7 @@
   "category": "CC_AMMO",
   "skill_used": "fabrication",
   "requires_skills": [ "cooking", 2 ],
-  "difficulty": 8,
+  "difficulty": 7,
   "time": 45000,
   "reversible": false,
   "autolearn": true,
@@ -6734,6 +6734,9 @@
       ["anvil", -1]
       ],
       [
+      ["press", -1]
+      ],
+      [
       ["forge", 50], ["char_forge", 50]
       ]
     ],
@@ -6766,6 +6769,9 @@
       ],
       [
       ["anvil", -1]
+      ],
+      [
+      ["press", -1]
       ],
       [
       ["forge", 50], ["char_forge", 50]
@@ -6802,6 +6808,9 @@
       ["anvil", -1]
       ],
       [
+      ["press", -1]
+      ],
+      [
       ["forge", 50], ["char_forge", 50]
       ]
     ],
@@ -6836,6 +6845,9 @@
       ["anvil", -1]
       ],
       [
+      ["press", -1]
+      ],
+      [
       ["forge", 50], ["char_forge", 50]
       ]
     ],
@@ -6868,6 +6880,9 @@
       ],
       [
       ["anvil", -1]
+      ],
+      [
+      ["press", -1]
       ],
       [
       ["forge", 50], ["char_forge", 50]
