@@ -75,12 +75,46 @@ void vehicle::load (std::ifstream &stin)
         } else {
             json_load(pdata, g);
         }
-        return;
     } else {
         load_legacy(stin);
     }
+
+    /* After loading, check if the vehicle is from the old rules and is missing
+     * frames. */
+    add_missing_frames();
+
 }
 
+/** Checks all parts to see if frames are missing (as they might be when
+ * loading from a game saved before the vehicle construction rules overhaul). */
+void vehicle::add_missing_frames()
+{
+    //No need to check the same (x, y) spot more than once
+    std::set< std::pair<int, int> > locations_checked;
+    for(std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); it++) {
+        int next_x = it->mount_dx;
+        int next_y = it->mount_dy;
+        std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
+
+        if(locations_checked.count(mount_location) == 0) {
+            std::vector<int> parts_here = parts_at_relative(next_x, next_y);
+            bool found = false;
+            for(std::vector<int>::iterator here = parts_here.begin();
+                    here != parts_here.end(); here++) {
+                if(part_info(*here).location == "structure") {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                //No frame here! Install one.
+                install_part(next_x, next_y, "frame_vertical", -1, true);
+            }
+        }
+
+        locations_checked.insert(mount_location);
+    }
+}
 
 void vehicle::save (std::ofstream &stout)
 {
@@ -975,7 +1009,7 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
         std::string left_sym, right_sym;
         if(armor) {
             left_sym = "("; right_sym = ")";
-        } else if(i == 0) { //First part in list
+        } else if(part_info(pl[i]).location == "structure") {
             left_sym = "["; right_sym = "]";
         } else {
             left_sym = "-"; right_sym = "-";
