@@ -6423,7 +6423,10 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
+      [ "chemistry_set", 75 ],
+      [ "hotplate", 75 ],
+      [ "toolset", 6 ],
+      [ "fire", -1 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6445,7 +6448,10 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
+      [ "chemistry_set", 75 ],
+      [ "hotplate", 75 ],
+      [ "toolset", 6 ],
+      [ "fire", -1 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6485,6 +6491,34 @@
   "components": [
     [
       [ "bleach", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lye_powder",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "charcoal", 10 ]
+    ],
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
     ]
   ]
 },{
