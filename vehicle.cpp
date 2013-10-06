@@ -534,12 +534,19 @@ bool vehicle::can_unmount (int p)
     std::vector<int> parts_in_square = parts_at_relative(dx, dy);
 
     //Can't remove a seat if there's still a seatbelt there
-    if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT")) {
+    if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
         return false;
     }
 
     //Structural parts have extra requirements
     if(part_info(p).location == "structure") {
+
+        /* Can't unmount the last structural part at (0, 0) unless it is the
+         * last part of the whole vehicle, as the map relies on vehicles having
+         * a part at (0, 0) to locate them with. */
+        if(dx == 0 && dy == 0 && parts_in_square.size() == 1 && parts.size() > 1) {
+            return false;
+        }
 
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
@@ -547,12 +554,6 @@ bool vehicle::can_unmount (int p)
             if(part_info(parts_in_square[part_index]).location != "structure") {
                 return false;
             }
-        }
-
-        /* If we get here and it's the last part of the vehicle, we're taking
-         * the vehicle apart completely, so skip the next check. */
-        if(parts.size() == 1) {
-            return true;
         }
 
         //If it's the last part in the square...
@@ -563,7 +564,38 @@ bool vehicle::can_unmount (int p)
              * of a quad bike, for instance). This basically requires doing some
              * breadth-first searches to ensure previously connected parts are
              * still connected. */
-            //Tune in next commit for the implementation!
+
+            //First, find all the squares connected to the one we're removing
+            std::vector<vehicle_part> connected_parts;
+
+            for(int i = 0; i < 4; i++) {
+                int next_x = i < 2 ? (i == 0 ? -1 : 1) : 0;
+                int next_y = i < 2 ? 0 : (i == 2 ? -1 : 1);
+                std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y);
+                //Ignore empty squares
+                if(parts_over_there.size() > 0) {
+                    //Just need one part from the square to track the x/y
+                    connected_parts.push_back(parts[parts_over_there[0]]);
+                }
+            }
+
+            /* If size = 0, it's the last part of the whole vehicle, so we're OK
+             * If size = 1, it's one protruding part (ie, bicycle wheel), so OK
+             * Otherwise, it gets complicated... */
+            if(connected_parts.size() > 1) {
+
+                /* We'll take connected_parts[0] to be the target part.
+                 * Every other part must have some path (that doesn't involve
+                 * the part about to be removed) to the target part, in order
+                 * for the part to be legally removable. */
+                for(int next_part = 1; next_part < connected_parts.size(); next_part++) {
+                    if(!is_connected(connected_parts[0], connected_parts[next_part], parts[p])) {
+                        //Removing that part would break the vehicle in two
+                        return false;
+                    }
+                }
+
+            }
 
         }
 
@@ -571,6 +603,87 @@ bool vehicle::can_unmount (int p)
 
     //Anything not explicitly denied is permitted
     return true;
+}
+
+/**
+ * Performs a breadth-first search from one part to another, to see if a path
+ * exists between the two without going through the excluded part. Used to see
+ * if a part can be legally removed.
+ * @param to The part to reach.
+ * @param from The part to start the search from.
+ * @param excluded The part that is being removed and, therefore, should not
+ *        be included in the path.
+ * @return true if a path exists without the excluded part, false otherwise.
+ */
+bool vehicle::is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded)
+{
+    int target_x = to.mount_dx;
+    int target_y = to.mount_dy;
+
+    int excluded_x = excluded.mount_dx;
+    int excluded_y = excluded.mount_dy;
+
+    //Breadth-first-search components
+    std::list<vehicle_part> discovered;
+    vehicle_part current_part;
+    std::list<vehicle_part> searched;
+
+    //We begin with just the start point
+    discovered.push_back(from);
+
+    while(!discovered.empty()) {
+        current_part = discovered.front();
+        discovered.pop_front();
+        int current_x = current_part.mount_dx;
+        int current_y = current_part.mount_dy;
+
+        for(int i = 0; i < 4; i++) {
+            int next_x = current_x + (i < 2 ? (i == 0 ? -1 : 1) : 0);
+            int next_y = current_y + (i < 2 ? 0 : (i == 2 ? -1 : 1));
+
+            if(next_x == target_x && next_y == target_y) {
+                //Success!
+                return true;
+            } else if(next_x == excluded_x && next_y == excluded_y) {
+                //There might be a path, but we're not allowed to go that way
+                continue;
+            }
+
+            std::vector<int> parts_there = parts_at_relative(next_x, next_y);
+
+            if(!parts_there.empty()) {
+                vehicle_part next_part = parts[parts_there[0]];
+                //Only add the part if we haven't been here before
+                bool found = false;
+                for(std::list<vehicle_part>::iterator it = discovered.begin();
+                        it != discovered.end(); it++) {
+                    if(it->mount_dx == next_x && it->mount_dy == next_y) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    for(std::list<vehicle_part>::iterator it = searched.begin();
+                        it != searched.end(); it++) {
+                        if(it->mount_dx == next_x && it->mount_dy == next_y) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if(!found) {
+                    discovered.push_back(next_part);
+                }
+            }
+        }
+
+        //Now that that's done, we've finished exploring here
+        searched.push_back(current_part);
+
+    }
+
+    //If we completely exhaust the discovered list, there's no path
+    return false;
 }
 
 /**
@@ -676,21 +789,12 @@ std::vector<int> vehicle::parts_at_relative (int dx, int dy)
     return res;
 }
 
-std::vector<int> vehicle::internal_parts (int p)
-{
-    std::vector<int> res;
-    for (int i = p + 1; i < parts.size(); i++)
-        if (parts[i].mount_dx == parts[p].mount_dx && parts[i].mount_dy == parts[p].mount_dy)
-            res.push_back (i);
-    return res;
-}
-
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
 {
     if (part_flag(part, flag)) {
         return part;
     }
-    std::vector<int> parts_here = internal_parts (part);
+    std::vector<int> parts_here = parts_at_relative(parts[part].mount_dx, parts[part].mount_dy);
     for (int i = 0; i < parts_here.size(); i++) {
         if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
             return parts_here[i];
@@ -2278,8 +2382,7 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
         return dmg;
     }
 
-    std::vector<int> pl = internal_parts (p);
-    pl.insert (pl.begin(), p);
+    std::vector<int> pl = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
     if (!aimed)
     {
         bool found_obs = false;

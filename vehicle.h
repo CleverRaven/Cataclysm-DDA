@@ -168,6 +168,7 @@ private:
     bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
     int part_displayed_at(int local_x, int local_y);
+    bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
 
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
