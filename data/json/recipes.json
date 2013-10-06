@@ -6423,7 +6423,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 50 ]
+      [ "chemistry_set", 75 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6431,7 +6431,36 @@
   ],
   "components": [
     [
-      [ "salt_water", 1 ]
+      [ "salt_water", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "ammonia",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 75 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "charcoal", 1 ]
     ]
   ]
 },{
