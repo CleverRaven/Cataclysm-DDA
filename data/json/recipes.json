@@ -6341,7 +6341,8 @@
         "type" : "recipe",
   "result": "gunpowder",
   "category": "CC_AMMO",
-  "skill_used": "cooking",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 1 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
@@ -6371,7 +6372,8 @@
         "type" : "recipe",
   "result": "incendiary",
   "category": "CC_AMMO",
-  "skill_used": "cooking",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 1 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -6397,13 +6399,98 @@
       [ "sugar", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "8mm_bootleg",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 2 ],
+  "difficulty": 8,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "press", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "press", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 5 ]
+    ],
+    [
+      [ "oxy_powder", 100 ]
+    ],
+    [
+      [ "incendiary", 100 ]
+    ],
+    [
+      [ "lead", 75 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "8mm_bootleg_jsp",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 2 ],
+  "difficulty": 8,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "press", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "press", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 5 ]
+    ],
+    [
+      [ "oxy_powder", 100 ]
+    ],
+    [
+      [ "incendiary", 100 ]
+    ],
+    [
+      [ "lead", 75 ]
+    ],
+    [
+      [ "cu_pipe", 5]
+    ]
+  ]
 },
   {
     "type" : "recipe",
     "result": "smpistol_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "requires_skills": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -6437,7 +6524,7 @@
     "result": "lgpistol_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "requires_skills": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -6471,7 +6558,7 @@
     "result": "smrifle_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "requires_skills": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -6505,7 +6592,7 @@
     "result": "lgrifle_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "requires_skills": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -6539,7 +6626,7 @@
     "result": "shotgun_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "requires_skills": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
