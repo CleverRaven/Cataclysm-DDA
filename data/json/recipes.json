@@ -5810,6 +5810,11 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
   "components": [
     [
       [ "honeycomb", 1 ]
@@ -5861,9 +5866,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -5893,9 +5902,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -5921,9 +5934,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -5951,9 +5968,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -5979,9 +6000,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6007,9 +6032,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6038,9 +6067,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6066,9 +6099,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6094,9 +6131,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6122,9 +6163,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6151,9 +6196,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6179,9 +6228,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6207,9 +6260,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6235,9 +6292,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -12087,6 +12148,9 @@
       ["cable", 5]
     ],
     [
+      ["hotplate", 1]
+    ],
+    [
       ["glasses_safety", 1]
     ],
     [
@@ -12095,6 +12159,7 @@
     ],
     [
       ["backpack", 1],
+      ["backpack_leather", 1],
       ["rucksack", 1],
       ["duffelbag", 1]
     ]

@@ -4542,20 +4542,21 @@
     "color": "blue",
     "symbol": ";",
     "name": "chemistry set",
-    "description": "This chemistry set stored in a bag contains some glass containers, some metal wire and safety glasses. It might be used to craft some chems if you\u0027re so inclined.",
+    "description": "This chemistry set stored in a bag contains some glass containers, some metal wire, a hotplate, and safety glasses. It might be used to craft some chems if you\u0027re so inclined.",
     "price": 5000,
-    "material": "glass",
+    "material": ["glass", "cotton"],
     "weight": 40,
     "volume": 30,
     "to_hit": -5,
     "cutting": 0,
-    "bashing": -8,
-    "turns_per_charge": 0,
-    "charges_per_use": 0,
+    "bashing": -8,,
+    "max_charges": 200,
     "initial_charges": 0,
-    "max_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
     "revert_to": "null",
-    "ammo": "NULL"
+    "use_action": "HOTPLATE"
   },
   
   {
