@@ -89,8 +89,11 @@ void game::init_vehicle_parts()
     next_part.location = next_json.has("location") ? next_json.get("location").as_string() : "";
     next_part.flags = next_json.get("flags").as_tags();
 
+    //Plating shouldn't actually be shown; another part will be.
     //Calculate and cache z-ordering based off of location
-    if(next_part.location == "on_roof") {
+    if(next_part.has_flag("ARMOR")) {
+        next_part.z_order = -2;
+    } else if(next_part.location == "on_roof") {
         next_part.z_order = 8;
     } else if(next_part.location == "center") {
         next_part.z_order = 7;
