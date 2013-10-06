@@ -6318,7 +6318,7 @@
   "result": "oxy_powder",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "difficulty": 10,
+  "difficulty": 8,
   "time": 12000,
   "reversible": false,
   "autolearn": true,
@@ -6326,8 +6326,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6341,18 +6340,17 @@
 },{
         "type" : "recipe",
   "result": "gunpowder",
-  "category": "CC_CHEM",
+  "category": "CC_AMMO",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 12000,
+  "time": 8000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "chemistry_set", -1 ]
@@ -6360,7 +6358,7 @@
   ],
   "components": [
     [
-      [ "oxidizer", 200 ]
+      [ "oxy_powder", 200 ]
     ],
     [
       [ "ammonia", 2 ]
