@@ -6369,6 +6369,9 @@
   "components": [
     [
       [ "disinfectant", 2 ]
+    ],
+    [
+      [ "aspirin", 10 ]
     ]
   ]
 },{
@@ -6397,7 +6400,7 @@
       [ "iodine", 10 ]
     ],
     [
-      [ "aspirin", 1 ]
+      [ "aspirin", 10 ]
     ],
     [
       [ "bleach", 1 ],
