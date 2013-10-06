@@ -6252,7 +6252,35 @@
       [ "ammonia", 2 ]
     ]
   ]
-},{
+},
+  {
+    "type" : "recipe",
+    "result": "lead",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 1 ],
+    "difficulty": 2,
+    "time": 30000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+      [ "press", -1 ]
+      ],
+      [
+      ["crucible", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 10]
+      ]
+    ],
+    "components": [
+      [
+        [ "steel_chunk", 7 ],
+        [ "scrap", 20 ]
+      ]
+    ]
+  },{
         "type" : "recipe",
   "result": "antenna",
   "category": "CC_ELECTRONIC",
