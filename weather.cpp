@@ -12,8 +12,13 @@
 void weather_effect::glare(game *g)
 {
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses") &&
-     !g->u.has_bionic("bio_sunglasses"))
-  g->u.infect("glare", bp_eyes, 1, 2, g);
+     !g->u.has_bionic("bio_sunglasses")) {
+        if(!g->u.has_disease("glare")) {
+            g->u.infect("glare", bp_eyes, 2, 2, g);
+        } else {
+            g->u.infect("glare", bp_eyes, 2, 1, g);
+        }
+    }
 }
 
 void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
