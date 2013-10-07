@@ -2548,9 +2548,9 @@
         "dispersion": 0,
         "recoil": 0,
         "durability": 9,
-        "burst": 10,
+        "burst": 5,
         "clip_size": 100,
-        "reload": 550
+        "reload": 600
       },
   {
     "id": "unbio_blaster_gun",
