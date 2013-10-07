@@ -111,17 +111,16 @@ void game::serialize(std::ofstream & fout) {
 
         // save killcounts.
         std::map<std::string, picojson::value> killmap;
-        for (int i = 0; i < num_monsters; i++) {
-            if ( kills[i] > 0 ) {
-                killmap[ monster_names[ i ] ] = pv ( kills[i] );
-            }
+        for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
+            killmap[kill->first] = pv(kill->second);
         }
+
         fout << pv( killmap ).serialize() << std::endl;
 
         // And finally the player.
         // u.save_info dumps player + contents in a single json line, followed by memorial log
         // one entry per line starting with '|'
-        fout << u.save_info() << std::endl; 
+        fout << u.save_info() << std::endl;
 
         fout << std::endl;
         ////////
@@ -249,19 +248,16 @@ void game::unserialize(std::ifstream & fin) {
                 } else {
                     picojson::object &pkdata = kdata.get<picojson::object>();
                     for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
-                        if ( monster_ints.find(it->first) != monster_ints.end() && it->second.is<double>() ) {
-                            kills[ monster_ints[it->first] ] = (int)it->second.get<double>();
-                        }
+                        kills[it->first] = (int)it->second.get<double>();
                     }
                 }
             } else {
                 for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                     if ( kk < 126 ) { // see legacy_mon_id
                         // load->int->str->int (possibly shifted)
-                        kk = monster_ints[ legacy_mon_id[ kk ] ];
-                        linein >> kills[kk];
+                        linein >> kills[legacy_mon_id[kk]];
                     } else {
-                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id. 
+                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
                     }
                 }
             }
