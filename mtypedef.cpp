@@ -693,15 +693,14 @@ FLAGS(MF_NOHEAD, MF_IMMOBILE, MF_QUEEN);
 
 mon(_("fungaloid"),species_fungus, 'F', c_ltgray, MS_MEDIUM, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-  12,  0,100, 45,  4,  1,  2,  0,  0,  4,  0,  0, 80, 25,
+  12,-50,100, 45,  4,  1,  2,  0,  0,  4,  0,  0, 80, 25,
  &mdeath::fungus, &mattack::fungus, _("\
 A pale white fungus, one meaty gray stalk\n\
 supporting a bloom at the top. A few\n\
 tendrils extend from the base, allowing\n\
 mobility and a weak attack.")
 );
-ANGER(MTRIG_PLAYER_CLOSE, MTRIG_PLAYER_WEAK);
-FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
+FLAGS(MF_POISON, MF_STUMBLES, MF_NO_BREATHE, MF_NOHEAD);
 
 //TODO: Remove dormant fungaloid when it won't break save compatibility
 mon(_("fungaloid"),species_fungus, 'F', c_ltgray, MS_MEDIUM, "veggy",
@@ -728,7 +727,7 @@ FLAGS(MF_HEARS, MF_SMELLS, MF_POISON, MF_NO_BREATHE, MF_NOHEAD);
 
 mon(_("spore"), species_fungus, 'o', c_ltgray, MS_TINY, "veggy",
 // dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-   1,-50,100,100,  0,  0,  0,  0,  6,  0,  0,  0,  5, 500,
+   1,-50,100,100,  0,  0,  0,  0,  4,  0,  0,  0,  5, 500,
  &mdeath::disintegrate, &mattack::plant, _("\
 A wispy spore, about the size of a fist,\n\
 wafting on the breeze.")

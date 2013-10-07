@@ -868,7 +868,6 @@ void mattack::plant(game *g, monster *z)
                        z->name().c_str());
         }
         z->hp = 0;
-        //g->kill_mon(g->mon_at(z->posx(), z->posy()), false);
     }
 }
 

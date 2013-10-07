@@ -7281,5 +7281,27 @@
         "stack_size" : 18,
         "bashing" : 0,
         "fun" : 0
+    },
+    {   "type" : "AMMO",
+        "id" : "fungal_seeds",
+        "price" : 1,
+        "name" : "fungal seeds",
+        "symbol" : ".",
+        "color" : "dkgray",
+        "description" : "Some fungal seeds.",
+        "material" : "veggy",
+        "volume" : 1,
+        "weight" : 1,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1,
+        "flags": ["SEED"]
     }
 ]

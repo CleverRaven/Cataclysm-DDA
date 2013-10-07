@@ -301,7 +301,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -310,7 +310,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -319,7 +319,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -329,7 +329,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
     },
     {
@@ -340,7 +340,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT"],
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "WALL"],
     },
     {
         "type": "terrain",
@@ -350,7 +350,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT"
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT", "WALL"
         ],
     },
     {
@@ -370,7 +370,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -379,7 +379,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -388,7 +388,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -398,7 +398,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
     },
     {
@@ -408,7 +408,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -417,7 +417,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -426,7 +426,7 @@
         "symbol": "LINE_XOXO",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -435,7 +435,7 @@
         "symbol": "LINE_OXOX",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -444,7 +444,7 @@
         "symbol": "LINE_XOXO",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -453,7 +453,7 @@
         "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -462,7 +462,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -471,7 +471,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -481,7 +481,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"],
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -491,7 +491,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"],
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -500,7 +500,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -509,7 +509,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -518,7 +518,7 @@
         "symbol": "\"",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -527,7 +527,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "open": "t_door_o",
     },
     {
@@ -538,7 +538,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
     },
     {
@@ -558,7 +558,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -567,7 +567,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "WALL"],
         "open": "t_door_o",
     },
     {
@@ -578,7 +578,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF"],
+            "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "open": "t_door_o",
     },
     {
@@ -597,7 +597,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -606,7 +606,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "WALL"],
         "open": "t_fencegate_o",
     },
     {
@@ -627,7 +627,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "WALL"],
         "open": "t_chaingate_o",
     },
     {
@@ -647,7 +647,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -656,7 +656,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
         "open": "t_door_metal_o",
     },
     {
@@ -677,7 +677,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -687,7 +687,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "open": "t_door_bar_o",
         "close": "t_door_bar_locked",
     },
@@ -709,7 +709,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -718,7 +718,7 @@
         "symbol": "+",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF"
+        "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
         "open": "t_door_glass_o",
     },
@@ -739,7 +739,7 @@
         "symbol": "&",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM"],
+        "flags": ["NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -759,7 +759,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "WALL"
         ],
     },
     {
@@ -770,7 +770,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "WALL"
         ],
     },
     {
@@ -781,7 +781,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "WALL"
         ],
         "close": "t_window_curtains",
         "open": "t_window_open",
@@ -795,7 +795,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "WALL"
         ],
     },
     {
@@ -805,7 +805,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE" ],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "WALL" ],
         "close": "t_window_domestic",
     },
     {
@@ -816,7 +816,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE" ],
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "WALL" ],
         "open": "t_window_domestic",
     },
     {
@@ -827,7 +827,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
     },
     {
@@ -838,7 +838,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "ALARMED", "REDUCE_SCENT"
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "ALARMED", "REDUCE_SCENT", "WALL"
         ],
     },
     {
@@ -848,7 +848,7 @@
         "symbol": "0",
         "color": "yellow",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -858,7 +858,7 @@
         "color": "ltcyan",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -867,7 +867,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -876,7 +876,7 @@
         "symbol": "\"",
         "color": "ltgreen",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -885,7 +885,7 @@
         "symbol": "\"",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -894,7 +894,7 @@
         "symbol": "\"",
         "color": "ltblue",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -903,7 +903,7 @@
         "symbol": "#",
         "color": "white",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -912,7 +912,7 @@
         "symbol": "#",
         "color": "magenta",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
         "examine_action": "fault"
     },
     {
@@ -922,7 +922,7 @@
         "symbol": "#",
         "color": "white",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -1015,7 +1015,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
     },
     {
         "type": "terrain",
@@ -1024,7 +1024,7 @@
         "symbol": "#",
         "color": "yellow",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -1162,9 +1162,77 @@
         "id": "t_fungus",
         "name": "fungal bed",
         "symbol": ".",
-        "color": "dkgray",
+        "color": "ltgray",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_fungus_floor_in",
+        "name": "fungal floor",
+        "comment": "roofed",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS"
+        ],
+    },
+    {
+        "type": "terrain",
+        "id": "t_fungus_floor_sup",
+        "name": "fungal floor",
+        "comment": "supports",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_fungus_floor_out",
+        "name": "fungal floor",
+        "comment": "outside",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_fungus_wall",
+        "name": "fungal wall",
+        "symbol": "O",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_fungus_wall_v",
+        "name": "fungal wall",
+        "symbol": "LINE_XOXO",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_fungus_wall_h",
+        "name": "fungal wall",
+        "symbol": "LINE_OXOX",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS"],
+    },
+    {
+        "type": "terrain",
+        "id": "t_fungus_mound",
+        "name": "fungal mound",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS"],
     },
     {
         "type": "terrain",
@@ -1174,7 +1242,7 @@
         "color": "dkgray",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS",
         ],
     },
     {
@@ -1279,7 +1347,7 @@
         "symbol": "7",
         "color": "red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "DECONSTRUCT", "WALL"],
     },
     {
         "type": "terrain",
@@ -1288,7 +1356,7 @@
         "symbol": "&",
         "color": "red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "SEALED", "CONTAINER"],
+        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "SEALED", "CONTAINER", "WALL"],
         "examine_action": "gaspump"
     },
     {
@@ -1298,7 +1366,7 @@
         "symbol": "&",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -1307,7 +1375,7 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -1410,7 +1478,7 @@
         "symbol": "1",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "WALL"],
     },
     {
         "type": "terrain",
@@ -1419,7 +1487,7 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM"],
+        "flags": ["NOITEM", "WALL"],
     },
     {
         "type": "terrain",
@@ -1428,7 +1496,7 @@
         "symbol": "{",
         "color": "magenta",
         "move_cost": 0,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "WALL"],
     },
     {
         "type": "terrain",
@@ -1437,7 +1505,7 @@
         "symbol": "1",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE"],
+        "flags": ["FLAMMABLE", "WALL"],
     },
     {
         "type": "terrain",
@@ -1446,7 +1514,7 @@
         "symbol": "0",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM", "WALL"],
     },
     {
         "type": "terrain",

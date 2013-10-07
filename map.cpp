@@ -1121,6 +1121,16 @@ bool map::has_flag(std::string flag, const int x, const int y)
  return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
 }
 
+bool map::has_flag_ter(std::string flag, const int x, const int y)
+{
+ return terlist[ter(x, y)].has_flag(flag);
+}
+
+bool map::has_flag_furn(std::string flag, const int x, const int y)
+{
+ return furnlist[furn(x, y)].has_flag(flag);
+}
+
 bool map::has_flag_ter_or_furn(std::string flag, const int x, const int y)
 {
  return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));

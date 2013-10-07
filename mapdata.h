@@ -70,6 +70,11 @@ class monster;
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
  * PLANT - A "furniture" that grows and fruits
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
+ *
+ * Currently only used for Fungal conversions
+ * WALL - This terrain is an upright obstacle
+ * ORGANIC - This furniture is partly organic
+ * FLOWER - This furniture is a flower
  * SHRUB - This terrain is a shrub
  * TREE - This terrain is a tree
  * YOUNG - This terrain is a young tree
@@ -330,7 +335,8 @@ extern ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
+    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
     t_water_sh, t_water_dp, t_water_pool, t_sewage,
     t_lava,
@@ -380,7 +386,7 @@ extern furn_id f_null,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     num_furniture_types;

@@ -236,6 +236,8 @@ class map
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag_ter(std::string flag, const int x, const int y);  // checks terrain
+ bool has_flag_furn(std::string flag, const int x, const int y);  // checks furniture
  bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
  bool has_flag_ter_and_furn(std::string flag, const int x, const int y); // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
