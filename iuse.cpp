@@ -4809,6 +4809,13 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  gunpowder.charges = 10*multiply;
  lead.charges = 6*multiply;
  }
+ else if (pull->type->id == "5x50" || pull->type->id == "5x50dart") {
+ casing.make(g->itypes["5x50_hull"]);
+ primer.make(g->itypes["smrifle_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 3*multiply;
+ lead.charges = 2*multiply;
+ }
  else {
  g->add_msg(_("You cannot disassemble that."));
   return;

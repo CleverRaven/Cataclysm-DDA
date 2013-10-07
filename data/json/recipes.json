@@ -16324,7 +16324,43 @@
         [ "cu_pipe", 2 ]
       ]
     ]
-  },
+  },{
+        "type" : "recipe",
+  "result": "5x50dart",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "gun", 5 ],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "5x50_hull", 100 ]
+    ],
+    [
+      [ "smrifle_primer", 100 ]
+    ],
+    [
+      [ "gunpowder", 300 ]
+    ],
+    [
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "nail", 100 ]
+    ]
+  ]
+},
 
   {
     "type" : "recipe",
