@@ -3386,7 +3386,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "spaghetti_cooked",
-        "name" : "cooked noodles",
+        "name" : "boiled noodles",
         "weight" : 681,
         "color" : "yellow",
         "addiction_type" : "none",
