@@ -16298,13 +16298,13 @@
     ]
   },{
         "type" : "recipe",
-  "result": "depowered_helmet",
-  "category": "CC_ARMOR",
+  "result": "power_armor_helmet_basic",
+  "category": "CC_NONCRAFT",
   "skill_used": "fabrication",
   "requires_skills": ["electronics",  4],
   "difficulty": 8,
   "time": 80000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "tools": [
     [
@@ -16320,25 +16320,39 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "welder", 50 ],
-      ["soldering_iron", 50],
-      ["toolset", 10]
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
     ]
   ],
   "components": [
     [
-        ["power_armor_helmet_basic", 1]
+        ["depowered_helmet", 1]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "element", 1 ]
+    ],
+    [
+      [ "small_lcd_screen", 2 ]
+    ],
+    [
+      [ "circuit", 2 ]
+    ],
+    [
+      [ "RAM", 1 ]
     ]
   ]
 },{
         "type" : "recipe",
-  "result": "depowered_armor",
-  "category": "CC_ARMOR",
+  "result": "power_armor_basic",
+  "category": "CC_NONCRAFT",
   "skill_used": "fabrication",
   "requires_skills": ["electronics",  5],
   "difficulty": 7,
   "time": 80000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "tools": [
     [
@@ -16354,14 +16368,28 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "welder", 100 ],
-      ["soldering_iron", 100],
-      ["toolset", 20]
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
     ]
   ],
   "components": [
     [
-        ["power_armor_basic", 1]
+      ["depowered_armor", 1]
+    ],
+    [
+      [ "power_supply", 6 ]
+    ],
+    [
+      [ "element", 2 ]
+    ],
+    [
+      [ "cable", 12 ]
+    ],
+    [
+      [ "circuit", 6 ]
+    ],
+    [
+      [ "transponder", 1 ]
     ]
   ]
 },

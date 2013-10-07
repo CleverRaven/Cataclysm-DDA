@@ -4634,7 +4634,7 @@
         "bashing" : 1,
         "flags" : ["WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 9
+        "material_thickness" : 8
     },
     {
         "type" : "ARMOR",
@@ -4658,7 +4658,7 @@
         "encumbrance" : 4,
         "bashing" : 1,
         "coverage" : 100,
-        "material_thickness" : 9,
+        "material_thickness" : 8,
         "flags" : ["WATERPROOF"]
     },
     {
