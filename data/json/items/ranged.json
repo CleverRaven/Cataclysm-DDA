@@ -2537,7 +2537,7 @@
         "material": ["steel", "kevlar"],
         "flags": "MODE_BURST",
         "skill": "smg",
-        "ammo": "5mm_dart",
+        "ammo": "5x50",
         "weight": 2102,
         "volume": 9,
         "bashing": 15,
