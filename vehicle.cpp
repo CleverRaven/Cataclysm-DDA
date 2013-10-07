@@ -1467,9 +1467,8 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    for (int i = 0; i < external_parts.size(); i++)
+    for (int p = 0; p < parts.size(); p++)
     {
-        int p = external_parts[i];
         if (!part_flag(p, "WHEEL") ||
             parts[p].hp <= 0) {
             continue;
@@ -1479,14 +1478,18 @@ bool vehicle::valid_wheel_config ()
             x1 = x2 = parts[p].mount_dx;
             y1 = y2 = parts[p].mount_dy;
         }
-        if (parts[p].mount_dx < x1)
+        if (parts[p].mount_dx < x1) {
             x1 = parts[p].mount_dx;
-        if (parts[p].mount_dx > x2)
+        }
+        if (parts[p].mount_dx > x2) {
             x2 = parts[p].mount_dx;
-        if (parts[p].mount_dy < y1)
+        }
+        if (parts[p].mount_dy < y1) {
             y1 = parts[p].mount_dy;
-        if (parts[p].mount_dy > y2)
+        }
+        if (parts[p].mount_dy > y2) {
             y2 = parts[p].mount_dy;
+        }
         count++;
     }
     if (count < 2) {
