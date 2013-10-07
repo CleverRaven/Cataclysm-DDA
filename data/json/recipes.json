@@ -6763,7 +6763,7 @@
     "time": 45000,
     "reversible": false,
     "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
       ],
@@ -6800,7 +6800,7 @@
     "time": 45000,
     "reversible": false,
     "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
       [
       ["tongs", -1]
       ],
@@ -6937,8 +6937,36 @@
         [ "matches", 10 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "lead",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 1 ],
+    "difficulty": 2,
+    "time": 30000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+      [ "press", -1 ]
+      ],
+      [
+      ["crucible", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 10]
+      ]
+    ],
+    "components": [
+      [
+        [ "steel_chunk", 7 ],
+        [ "scrap", 20 ]
+      ]
+    ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "antenna",
   "category": "CC_ELECTRONIC",
   "difficulty": 0,
@@ -6957,7 +6985,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "directional_antenna",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
@@ -6992,7 +7020,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "amplifier",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
@@ -7022,7 +7050,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "power_supply",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
@@ -8771,7 +8799,7 @@
 },{
         "type" : "recipe",
   "result": "union_suit",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 3000,
@@ -8792,7 +8820,7 @@
 },{
         "type" : "recipe",
   "result": "arm_warmers",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
@@ -8812,7 +8840,7 @@
 },{
         "type" : "recipe",
   "result": "leg_warmers",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,

@@ -93,7 +93,7 @@ void mapbuffer::save()
  fout << "# version " << savegame_version << std::endl;
 
  std::map<std::string, picojson::value> metadata;
- metadata["listsize"] = pv ( submap_list.size() );
+ metadata["listsize"] = pv ( static_cast<unsigned int>(submap_list.size()) );
 
  // To keep load speedy, we're saving ints, but since these are ints that will change with
  // revisions and loaded mods, we're also including a rosetta stone.
