@@ -101,4 +101,6 @@ std::string weather_forecast(game *g, radio_tower tower);
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature(float fahrenheit, int decimals = 0);
 
+bool weather_is_slippery(weather_type);
+
 #endif // _WEATHER_H_

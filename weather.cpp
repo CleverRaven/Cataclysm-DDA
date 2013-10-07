@@ -401,3 +401,18 @@ std::string print_temperature(float fahrenheit, int decimals)
     }
 
 }
+
+bool weather_is_slippery(weather_type w)
+{
+    switch(w)
+    {
+    case WEATHER_RAINY:
+    case WEATHER_THUNDER:
+    case WEATHER_LIGHTNING:
+    case WEATHER_SNOW:
+    case WEATHER_SNOWSTORM:
+        return true;
+    default:
+        return false;
+    }
+}
