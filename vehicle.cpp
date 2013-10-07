@@ -91,9 +91,9 @@ void vehicle::add_missing_frames()
 {
     //No need to check the same (x, y) spot more than once
     std::set< std::pair<int, int> > locations_checked;
-    for(std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); it++) {
-        int next_x = it->mount_dx;
-        int next_y = it->mount_dy;
+    for (int i = 0; i < parts.size(); i++) {
+        int next_x = parts[i].mount_dx;
+        int next_y = parts[i].mount_dy;
         std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
 
         if(locations_checked.count(mount_location) == 0) {
