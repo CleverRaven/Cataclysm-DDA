@@ -24,6 +24,7 @@
 #include "disease.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "output.h"
 
 #include <ctime>
 
@@ -116,7 +117,8 @@ player::player() : name("")
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
  movecounter = 0;
- oxygen = 0;
+ lung_damage = 0;
+ blood_oxygen = 950;
  next_climate_control_check=0;
  last_climate_control_ret=false;
  active_mission = -1;
@@ -226,7 +228,9 @@ player& player::operator= (const player & rhs)
  health = rhs.health;
 
  underwater = rhs.underwater;
- oxygen = rhs.oxygen;
+ lung_damage = rhs.lung_damage;
+ blood_oxygen = rhs.blood_oxygen;
+
  next_climate_control_check=rhs.next_climate_control_check;
  last_climate_control_ret=rhs.last_climate_control_ret;
 
@@ -1259,6 +1263,11 @@ void player::set_underwater(bool u)
         underwater = u;
         recalc_sight_limits();
     }
+}
+
+void player::set_smoke(int intensity)
+{
+    smoke_density = intensity;
 }
 
 
@@ -4314,6 +4323,110 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     }
 }
 
+void player::damage_lungs(int dam)
+{
+    if (one_in(20)) 
+    {
+        g->add_msg(_("You have chest pains."));
+    }
+
+    lung_damage += dam;
+}
+
+
+void player::breath(game *g, int times)
+{
+    int inhaled = 0;
+    for (int i=0; i<times; i++)
+    {
+        if (underwater)
+        {
+            if (has_trait("GILLS"))
+            {
+                inhaled += 10;
+            }
+            else if (blood_oxygen < 950)
+            {
+                if (has_bionic("bio_gills") && power_level > 0)
+                {
+                    inhaled += 10;
+                    power_level--;
+                }
+                else if (blood_oxygen < 900)
+                {
+                    g->add_msg(_("You're drowning!"));
+                }
+            }
+        }
+        else 
+        {
+            if (fatigue > 383 && one_in(20)) 
+            {
+                inhaled += 25;
+                g->add_msg(_("You yawn."));
+            }
+            else if (smoke_density > 0)
+            {
+                // for now, limit inhaled amount if we would 'infect'
+                // if we are in very light smoke, low chance of very small inhale. 
+                int smoke_chance = (smoke_density == 1 && one_in(2)) ? 1 : dice(smoke_density, 3);
+                if (smoke_chance > dice(resist(bp_mouth), 3)) {
+                    inhaled += 3;
+                }
+                else {
+                    inhaled += 5;
+                }
+                
+            }
+            else
+            {
+                inhaled += 10;
+            }
+
+            // if we have our mouth covered, its harder to breath
+            // maybe should be more fine grained but not sure how. 
+            // dust masks and the like are different than a motorbike helmet. 
+            if (encumb(bp_mouth)) 
+            {
+                if (one_in(50))
+                {
+                    // remind the player about ecumberment causing breathing problems
+                    g->add_msg(_("You have difficulty breathing."));
+                }
+                inhaled = inhaled * 0.75;
+            }
+
+            // apply lung damage, the more lung damage, less you inhale
+            inhaled = inhaled * std::max(1.0 - (lung_damage / 100.0), 0.0);
+
+            if (lung_damage > 50 && one_in(50)) 
+            {
+                g->add_msg(_("You have difficulty breathing."));
+            }
+        }
+
+        blood_oxygen += inhaled;
+        blood_oxygen = std::min(blood_oxygen, 950);
+    }
+}
+
+// basically just shorthand for removing blood oxygen 
+void player::exhaust(game *g, int amount)
+{
+    // message the user about changes in blood oxygen level when we cross thresholds
+    if (blood_oxygen > 920 && blood_oxygen - amount <= 920)
+    {
+        g->add_msg(_("You feel lightheaded.")); // intentionally confusing.
+    }
+    if (blood_oxygen > 900 && blood_oxygen - amount <= 900)
+    {
+        g->add_msg(_("You feel faint. Maybe you should take a breather"));
+    }
+
+    blood_oxygen -= amount; 
+    blood_oxygen = std::min(blood_oxygen, 950);
+}
+
 void player::suffer(game *g)
 {
     for (int i = 0; i < my_bionics.size(); i++)
@@ -4323,26 +4436,7 @@ void player::suffer(game *g)
             activate_bionic(i, g);
         }
     }
-    if (underwater)
-    {
-        if (!has_trait("GILLS"))
-        {
-            oxygen--;
-        }
-        if (oxygen < 0)
-        {
-            if (has_bionic("bio_gills") && power_level > 0)
-            {
-                oxygen += 5;
-                power_level--;
-            }
-            else
-            {
-                g->add_msg(_("You're drowning!"));
-                hurt(g, bp_torso, 0, rng(1, 4));
-            }
-        }
-    }
+    
     for (int i = 0; i < illness.size(); i++)
     {
         dis_effect(*this, illness[i]);
@@ -4592,7 +4686,6 @@ void player::suffer(game *g)
  if (has_trait("ASTHMA") && one_in(3600 - stim * 50)) {
   bool auto_use = has_charges("inhaler", 1);
   if (underwater) {
-   oxygen = int(oxygen / 2);
    auto_use = false;
   }
   if (has_disease("sleep")) {

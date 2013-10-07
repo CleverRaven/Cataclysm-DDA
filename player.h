@@ -235,6 +235,8 @@ public:
  void hurt (game *g, body_part bphurt, int side, int  dam);
  void hurt (hp_part hurt, int dam);
 
+ void damage_lungs(int dam);
+
  void heal(body_part healed, int side, int dam);
  void heal(hp_part healed, int dam);
  void healall(int dam);
@@ -271,6 +273,9 @@ public:
  void rem_addiction(add_type type);
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
+
+ void breath(game *g, int times=1);
+ void exhaust(game *g, int amount);
 
  bool siphon(game *g, vehicle *veh, ammotype desired_liquid);
  void suffer(game *g);
@@ -426,16 +431,17 @@ public:
  int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
  int hunger, thirst, fatigue, health;
- int oxygen;
  unsigned int recoil;
  unsigned int driving_recoil;
  unsigned int scent;
  int dodges_left, blocks_left;
  int stim, pain, pkill, radiation;
+ int blood_oxygen;
  int cash;
  int moves;
  int movecounter;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
+ int lung_damage;   // seperate from hp_parts because you can't repair lungs with bandages
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
@@ -491,6 +497,8 @@ public:
  bool is_underwater() const;
  void set_underwater(bool);
 
+ void set_smoke(int density);
+ 
  void environmental_revert_effect();
 
 protected:
@@ -499,6 +507,8 @@ protected:
     std::vector<bionic> my_bionics;
     std::vector<disease> illness;
     bool underwater;
+
+    int smoke_density;
 
     int sight_max;
     int sight_boost;

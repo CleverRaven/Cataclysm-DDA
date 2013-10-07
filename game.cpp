@@ -597,6 +597,37 @@ bool game::do_turn()
             add_msg(_("You haven't eaten in over a week!"));
         }
     }
+  
+    // we can do a check here to figure out if there are negative effects of our
+    // oxygen level
+    if (u.blood_oxygen < 890) 
+    {
+        if(one_in(20) && !u.has_disease("sleep")) 
+        {
+            // fall unconcious 
+            int time = rng(3, 600);
+            u.add_disease("sleep", time+10);
+            u.add_disease("unconscious", time);
+            
+            // if you are underwater, you surface 
+            if (u.is_underwater())
+            {
+                u.set_underwater(false);
+                add_msg(_("You float to the surface"));
+            }
+        }
+    }
+    if (u.blood_oxygen < 800)
+    {
+        // below 800 blood oxygen level every turn is playing dice with death
+        if (one_in(10))
+        {
+            // die
+            add_msg(_("You have died from a low blood oxygen level"));
+            u.add_memorial_log(_("Died from lack of oxygen"));
+            u.hp_cur[hp_torso] = 0;
+        }
+    }
 
     // Check if we're dying of thirst
     if (u.thirst >= 600){
@@ -775,6 +806,9 @@ void game::process_activity()
 {
  it_book* reading;
  bool no_recipes;
+
+ int previous_moves_left = u.activity.moves_left;
+
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 150 == 0) {
    draw();
@@ -837,6 +871,7 @@ void game::process_activity()
    }
    u.pause(this);
   } else {
+   u.exhaust(this, 2);
    u.activity.moves_left -= u.moves;
    u.moves = 0;
   }
@@ -1040,6 +1075,22 @@ void game::process_activity()
    }
   }
  }
+ else {
+    // Null activity, probably sleeping. 
+    if (u.has_disease("sleep")) {
+        u.exhaust(this, 5);
+        u.breath(this);
+    }
+ }
+
+ // for every 100 turns, exhaust and breath.
+ for (int i = previous_moves_left; i > u.activity.moves_left; i-=100)
+ {
+    u.exhaust(this, 5);
+    u.breath(this);
+ }
+
+
 }
 
 void game::cancel_activity()
@@ -2244,11 +2295,18 @@ bool game::handle_action()
  }
 
  gamemode->post_action(this, act);
-
  u.movecounter = before_action_moves - u.moves;
 
+ for (int i = u.movecounter ; i > 0; i-=100)
+ {
+    // for every 100 turns, breath and exhaust the standard amounts
+    u.exhaust(this, 5);
+    u.breath(this);
+ }
+ 
  return true;
 }
+
 
 #define SCENT_RADIUS 40
 
@@ -6121,6 +6179,7 @@ void game::smash()
             }
             u.remove_weapon();
         }
+        u.exhaust(this, 2);
     }
     else
     {
@@ -9374,6 +9433,7 @@ void game::plmove(int dx, int dy)
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,z,z.dead);
+         //exhaust on attack
          return;
      } else {
          displace = true;
@@ -9859,10 +9919,9 @@ void game::plswim(int x, int y)
   if (!u.is_underwater()) {
     add_msg(_("You sink like a rock!"));
    u.set_underwater(true);
-   u.oxygen = 30 + 2 * u.str_cur;
   }
  }
- if (u.oxygen <= 5 && u.is_underwater()) {
+ if (u.blood_oxygen <= 900 && u.is_underwater()) {
   if (movecost < 500)
     popup(_("You need to breathe! (%s to surface.)"),
           press_x(ACTION_MOVE_UP).c_str());
@@ -9882,6 +9941,8 @@ void game::plswim(int x, int y)
    drenchFlags |= mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_hands);
 
  u.drench(this, 100, drenchFlags);
+
+ u.exhaust(this, 5);
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)
@@ -10040,7 +10101,6 @@ void game::vertical_move(int movez, bool force)
     return;
    }
    u.set_underwater(true);
-   u.oxygen = 30 + 2 * u.str_cur;
    add_msg(_("You dive underwater!"));
   } else {
    if (u.swim_speed() < 500) {

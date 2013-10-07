@@ -960,6 +960,9 @@ void map::step_in_field(int x, int y, game *g)
         inside = (veh && veh->is_inside(veh_part));
     }
 
+    // reset the smoke density before checking the tile
+    g->u.set_smoke(0);
+
     // Iterate through all field effects on this tile.
     // When removing a field, do field_list_it = curfield.removeField(type) and continue
     // This ensures proper iteration through the fields.
@@ -1087,6 +1090,7 @@ void map::step_in_field(int x, int y, game *g)
             } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
                 g->u.infect("smoke", bp_mouth, 1, 2, g);
             }
+            g->u.set_smoke(cur->getFieldDensity());
             break;
 
         case fd_tear_gas:

@@ -23,7 +23,7 @@ enum dis_type_enum {
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+ DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING, DI_UNCONSCIOUS,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
@@ -63,7 +63,7 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int volume = 12);
+static void handle_cough(player& p);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -90,6 +90,7 @@ void game::init_diseases() {
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
+    disease_type_lookup["unconscious"] = DI_UNCONSCIOUS;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
@@ -187,6 +188,9 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_BOOMERED:
         g->add_msg(_("You're covered in bile!"));
+        break;
+    case DI_UNCONSCIOUS:
+        g->add_msg(_("Your vision dulls and you fall unconscious."));
         break;
     case DI_SAP:
         g->add_msg(_("You're coated in sap!"));
@@ -782,6 +786,18 @@ void dis_effect(player &p, disease &dis) {
             }
             if (dis.duration == 1 && !p.has_disease("sleep")) {
                 g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
+            }
+            break;
+
+        case DI_UNCONSCIOUS:
+            if (p.has_disease("sleep")) {
+                if (dis.duration == 1) {
+                    p.rem_disease("sleep");
+                    g->add_msg(_("You regain consciousness some time later."));
+                }
+            }
+            else {
+                dis.duration = 1;
             }
             break;
 
@@ -2090,6 +2106,8 @@ void manage_fungal_infection(player& p, disease& dis) {
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
+
+    bool deep_sleep = p.has_disease("unconscious");
     if(int(g->turn) % 25 == 0) {
         if (p.fatigue > 0) {
             p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
@@ -2104,7 +2122,7 @@ void manage_sleep(player& p, disease& dis) {
             p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
         }
 
-        if (p.fatigue <= 0 && p.fatigue > -20) {
+        if (p.fatigue <= 0 && p.fatigue > -20 && !deep_sleep) {
             p.fatigue = -25;
             g->add_msg(_("You feel well rested."));
             dis.duration = dice(3, 100);
@@ -2142,7 +2160,7 @@ void manage_sleep(player& p, disease& dis) {
     }
 
     int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
-    if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+    if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2)) && !deep_sleep) {
         g->add_msg(_("The light wakes you up."));
         dis.duration = 1;
         return;
@@ -2150,26 +2168,29 @@ void manage_sleep(player& p, disease& dis) {
 
     // Cold or heat may wake you up.
     // Player will sleep through cold or heat if fatigued enough
-    for (int i = 0 ; i < num_bp ; i++) {
-        if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2) {
-            if (one_in(5000)) {
-                g->add_msg(_("You toss and turn trying to keep warm."));
-            }
-            if (p.temp_cur[i] < BODYTEMP_FREEZING - p.fatigue/2 ||
-                                (one_in(p.temp_cur[i] + 5000))) {
-                g->add_msg(_("The cold wakes you up."));
-                dis.duration = 1;
-                return;
-            }
-        } else if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2) {
-            if (one_in(5000)) {
-                g->add_msg(_("You toss and turn in the heat."));
-            }
-            if (p.temp_cur[i] > BODYTEMP_SCORCHING + p.fatigue/2 ||
-                                (one_in(15000 - p.temp_cur[i]))) {
-                g->add_msg(_("The heat wakes you up."));
-                dis.duration = 1;
-                return;
+    if (!deep_sleep)
+    {
+        for (int i = 0 ; i < num_bp ; i++) {
+            if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2) {
+                if (one_in(5000)) {
+                    g->add_msg(_("You toss and turn trying to keep warm."));
+                }
+                if (p.temp_cur[i] < BODYTEMP_FREEZING - p.fatigue/2 ||
+                                    (one_in(p.temp_cur[i] + 5000))) {
+                    g->add_msg(_("The cold wakes you up."));
+                    dis.duration = 1;
+                    return;
+                }
+            } else if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2) {
+                if (one_in(5000)) {
+                    g->add_msg(_("You toss and turn in the heat."));
+                }
+                if (p.temp_cur[i] > BODYTEMP_SCORCHING + p.fatigue/2 ||
+                                    (one_in(15000 - p.temp_cur[i]))) {
+                    g->add_msg(_("The heat wakes you up."));
+                    dis.duration = 1;
+                    return;
+                }
             }
         }
     }
@@ -2405,18 +2426,26 @@ static void handle_recovery(player& p, disease& dis) {
     }
 }
 
-static void handle_cough(player &p, int loudness) {
+static void handle_cough(player &p) {
+    int loudness = rng(4, 20);
     if (!p.is_npc()) {
-        g->add_msg(_("You cough heavily."));
+        if (loudness < 5) { 
+            g->add_msg(_("You cough discreetly."));
+        } else if (loudness < 11) {
+            g->add_msg(_("You cough."));
+        } else if (loudness < 18) {
+           g->add_msg(_("You cough heavily."));
+        } else {
+            g->add_msg(_("You have a coughing fit."));
+            p.moves -= 80;
+            p.damage_lungs(1);
+        } 
         g->sound(p.posx, p.posy, loudness, "");
     } else {
         g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
     }
-    p.moves -= 80;
-    if (!one_in(4)) {
-        p.hurt(g, bp_torso, 0, 1);
-    }
-    if (p.has_disease("sleep")) {
+    p.moves -= 6 * loudness;
+    if (one_in(10) && p.has_disease("sleep")) {
         p.rem_disease("sleep");
         g->add_msg_if_player(&p,_("You wake up coughing."));
     }

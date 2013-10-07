@@ -595,7 +595,7 @@ void player::load_legacy(game *g, std::stringstream & dump) {
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
-         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
+         underwater >> dodges_left >> blocks_left >> blood_oxygen >> lung_damage >> active_mission >>
          focus_pool >> male >> prof_ident >> health >> styletmp;
 
  if (profession::exists(prof_ident)) {
@@ -768,7 +768,7 @@ void npc::load_legacy(game *g, std::stringstream & dump) {
  dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> hunger >> thirst >>
          fatigue >> stim >> pain >> pkill >> radiation >> cash >> recoil >>
-         scent >> moves >> underwater >> dodges_left >> oxygen >> deathtmp >>
+         scent >> moves >> underwater >> dodges_left >> blood_oxygen >> lung_damage >> deathtmp >>
          deadtmp >> classtmp >> patience;
 
  if (deathtmp == 1)
