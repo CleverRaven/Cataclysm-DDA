@@ -1324,7 +1324,7 @@
         "type" : "ARMOR",
         "id" : "armor_plate",
         "name" : "ornamental plate armor",
-        "weight" : 20000,
+        "weight" : 18000,
         "color" : "yellow",
         "covers" : ["TORSO", "LEGS", "ARMS"],
         "to_hit" : -5,
