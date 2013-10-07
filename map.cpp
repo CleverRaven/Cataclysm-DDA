@@ -1034,28 +1034,35 @@ std::string map::features(const int x, const int y)
 
 int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
 {
- int vpart = -1;
- vehicle *veh = veh_at(x, y, vpart);
- if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
-  const int dpart = veh->part_with_feature(vpart, "OBSTACLE");
-  if (dpart >= 0 && (!veh->part_flag(dpart, "OPENABLE") || !veh->parts[dpart].open)) {
-   return 0;
-  } else {
-    const int ipart = veh->part_with_feature(vpart, "AISLE");
-    if (ipart >= 0)
-      return 2;
-   return 8;
-  }
- }
- int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
- cost+= field_at(x,y).move_cost();
- return cost > 0 ? cost : 0;
+    if (terlist[ter(x, y)].movecost == 0 || furnlist[furn(x, y)].movecost < 0) {
+        return 0;
+    }
+    int vpart = -1;
+    vehicle *veh = veh_at(x, y, vpart);
+    if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
+        const int dpart = veh->part_with_feature(vpart, "OBSTACLE");
+        if (dpart >= 0 && (!veh->part_flag(dpart, "OPENABLE") || !veh->parts[dpart].open)) {
+        return 0;
+        } else {
+            const int ipart = veh->part_with_feature(vpart, "AISLE");
+            if (ipart >= 0) {
+                return 2;
+            }
+            return 8;
+        }
+    }
+    int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+    cost+= field_at(x,y).move_cost();
+    return cost > 0 ? cost : 0;
 }
 
 int map::move_cost_ter_furn(const int x, const int y)
 {
- int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
- return cost > 0 ? cost : 0;
+    if (terlist[ter(x, y)].movecost == 0 || furnlist[furn(x, y)].movecost < 0) {
+        return 0;
+    }
+    int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+    return cost > 0 ? cost : 0;
 }
 
 int map::combined_movecost(const int x1, const int y1,
