@@ -563,6 +563,7 @@
       ["rifle_scope", 17],
       ["improve_sights", 20],
       ["cu_pipe", 10],
+      ["5x50_hull", 8],
       ["u_shotgun", 5]
     ]
   },{
@@ -1736,6 +1737,7 @@
       ["holo_sight", 20],
       ["rifle_scope", 16],
       ["cu_pipe", 10],
+      ["5x50_hull", 8],
       ["improve_sights", 20]
     ]
   },{
