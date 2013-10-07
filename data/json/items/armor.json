@@ -4629,11 +4629,11 @@
         "to_hit" : 1,
         "power_armor" : false,
         "storage" : 0,
-        "warmth" : 60,
+        "warmth" : 50,
         "encumbrance" : 4,
         "bashing" : 1,
         "flags" : ["WATERPROOF"],
-        "coverage" : 100,
+        "coverage" : 95,
         "material_thickness" : 8
     },
     {
@@ -4654,10 +4654,10 @@
         "to_hit" : 1,
         "power_armor" : false,
         "storage" : 0,
-        "warmth" : 60,
+        "warmth" : 50,
         "encumbrance" : 4,
         "bashing" : 1,
-        "coverage" : 100,
+        "coverage" : 95,
         "material_thickness" : 8,
         "flags" : ["WATERPROOF"]
     },
