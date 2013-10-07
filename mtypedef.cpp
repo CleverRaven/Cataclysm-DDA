@@ -7,10 +7,10 @@
 
  // Default constructor
  mtype::mtype () {
-  id = 0;
+  id = "mon_null";
   name = _("human");
   description = "";
-  species = species_none;
+  //species = species_none;
   sym = ' ';
   color = c_white;
   size = MS_MEDIUM;
@@ -32,7 +32,8 @@
   item_chance = 0;
   dies = NULL;
   sp_attack = NULL;
-  flags.push_back(MF_HUMAN);
+  luminance = 0;
+  flags.insert(MF_HUMAN);
  }
  // Non-default (messy)
  mtype::mtype (int pid, std::string pname, monster_species pspecies, char psym,
@@ -46,6 +47,7 @@
         void (mdeath::*pdies)      (game *, monster *),
         void (mattack::*psp_attack)(game *, monster *),
         std::string pdescription ) {
+  /*
   id = pid;
   name = pname;
   species = pspecies;
@@ -73,21 +75,40 @@
 
   anger = default_anger(species);
   fear = default_fears(species);
+  */
  }
 
  bool mtype::has_flag(m_flag flag) const
  {
   return bitflags[flag];
  }
-
- bool mtype::in_category(m_category category) const
+ bool mtype::has_anger_trigger(monster_trigger trig) const
  {
-  for (int i = 0; i < categories.size(); i++) {
-   if (categories[i] == category)
-    return true;
-  }
-  return false;
+     return bitanger[trig];
  }
+ bool mtype::has_fear_trigger(monster_trigger trig) const
+ {
+     return bitfear[trig];
+ }
+ bool mtype::has_placate_trigger(monster_trigger trig) const
+ {
+     return bitplacate[trig];
+ }
+
+bool mtype::in_category(std::string category) const
+{
+    if (categories.find(category) != categories.end()){
+        return true;
+    }
+    return false;
+}
+bool mtype::in_species(std::string spec) const
+{
+    if (species.find(spec) != species.end()){
+        return true;
+    }
+    return false;
+}
 
 // This function populates the master list of monster types.
 // If you edit this function, you'll also need to edit:
@@ -103,7 +124,7 @@ void game::init_mtypes ()
  int id = 0;
 // Null monster named "None".
  mtypes.push_back(new mtype);
-
+/*
 #define mon(name, species, sym, color, size, mat,\
             diff, agro, morale, speed, melee_skill, melee_dice,\
             melee_sides, melee_cut, dodge, arm_bash, arm_cut, item_chance, HP,\
@@ -367,7 +388,7 @@ A sluglike creature, eight feet long and the width of a refrigerator, its black 
 body glistens as it oozes its way along the ground. Eye stalks occassionally push their \
 way out of the oily mass and look around.")
 );
-FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
+FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30,
 MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE);
 
 
@@ -1464,6 +1485,7 @@ FEARS(MTRIG_FIRE);
             mtypes[i]->bitflags[mtypes[i]->flags[j]] = true;
         }
     }
+*/
 }
 
 
