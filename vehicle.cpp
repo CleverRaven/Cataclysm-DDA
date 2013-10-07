@@ -78,11 +78,6 @@ void vehicle::load (std::ifstream &stin)
     } else {
         load_legacy(stin);
     }
-
-    /* After loading, check if the vehicle is from the old rules and is missing
-     * frames. */
-    add_missing_frames();
-
 }
 
 /** Checks all parts to see if frames are missing (as they might be when
@@ -108,7 +103,15 @@ void vehicle::add_missing_frames()
             }
             if(!found) {
                 //No frame here! Install one.
-                install_part(next_x, next_y, "frame_vertical", -1, true);
+                vehicle_part new_part;
+                new_part.id = "frame_vertical";
+                new_part.mount_dx = next_x;
+                new_part.mount_dy = next_y;
+                new_part.hp = vehicle_part_types["frame_vertical"].durability;
+                new_part.amount = 0;
+                new_part.blood = 0;
+                new_part.bigness = 0;
+                parts.push_back (new_part);
             }
         }
 

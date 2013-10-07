@@ -1431,6 +1431,11 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
         }
         parray = NULL;
     }
+    /* After loading, check if the vehicle is from the old rules and is missing
+     * frames. */
+    if ( savegame_loading_version < 11 ) {
+        add_missing_frames();
+    }
     find_external_parts ();
     find_exhaust ();
     insides_dirty = true;
