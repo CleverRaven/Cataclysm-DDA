@@ -405,6 +405,7 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "thread" )       return "thread";
     if( guntype == "water" )        return "water_clean";
     if( guntype == "charcoal"  )    return "charcoal";
+    if( guntype == "8x40mm"  )      return "8mm_caseless";
     if( guntype == "UPS"  )         return _("UPS");
     if( guntype == "components"  )  return _("components");
     return "null";
