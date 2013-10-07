@@ -14672,7 +14672,7 @@ void map::add_extra(map_extra type, game *g)
      if (ter(i, j) == t_marloss)
       spawn_item(x, y, "marloss_berry", g->turn);
      if (one_in(15)) {
-      monster creature(GetMType(rng(0, 5)));
+      monster creature(GetMType(monids[rng(0, 5)]));
       creature.spawn(i, j);
       g->add_zombie(creature);
      }
