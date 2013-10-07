@@ -77,74 +77,12 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.fuel_type = jo.has_member("fuel_type") ? jo.get_string("fuel_type") : "NULL";
     next_part.item = jo.get_string("item");
     next_part.difficulty = jo.get_int("difficulty");
+    next_part.location = jo.has_member("location") ? jo.get_string("location") : "";
 
     JsonArray jarr = jo.get_array("flags");
     while (jarr.has_more()){
         next_part.flags.insert(jarr.next_string());
     }
-
-    vehicle_part_types[next_part.id] = next_part;
-}
-
-
-/**
- *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
- */
-void game::init_vehicle_parts()
-{
-  catajson vehicle_parts_json("data/raw/vehicle_parts.json", true);
-
-  if (!json_good()) {
-    throw (std::string)"data/raw/vehicle_parts.json wasn't found";
-  }
-
-  for (vehicle_parts_json.set_begin(); vehicle_parts_json.has_curr() && json_good(); vehicle_parts_json.next())
-  {
-    catajson next_json = vehicle_parts_json.curr();
-    vpart_info next_part;
-
-    next_part.id = next_json.get("id").as_string();
-    next_part.name = _(next_json.get("name").as_string().c_str());
-    next_part.sym = next_json.get("symbol").as_char();
-    next_part.color = color_from_string(next_json.get("color").as_string());
-    next_part.sym_broken = next_json.get("broken_symbol").as_char();
-    next_part.color_broken = color_from_string(next_json.get("broken_color").as_string());
-    next_part.dmg_mod = next_json.has("damage_modifier") ? next_json.get("damage_modifier").as_int() : 100;
-    next_part.durability = next_json.get("durability").as_int();
-    //Handle the par1 union as best we can by accepting any ONE of its elements
-    int element_count = (next_json.has("par1") ? 1 : 0)
-                      + (next_json.has("power") ? 1 : 0)
-                      + (next_json.has("size") ? 1 : 0)
-                      + (next_json.has("wheel_width") ? 1 : 0)
-                      + (next_json.has("bonus") ? 1 : 0);
-    if(element_count == 0) {
-      //If not specified, assume 0
-      next_part.par1 = 0;
-    } else if(element_count == 1) {
-      if(next_json.has("par1")) {
-        next_part.par1 = next_json.get("par1").as_int();
-      } else if(next_json.has("power")) {
-        next_part.par1 = next_json.get("power").as_int();
-      } else if(next_json.has("size")) {
-        next_part.par1 = next_json.get("size").as_int();
-      } else if(next_json.has("wheel_width")) {
-        next_part.par1 = next_json.get("wheel_width").as_int();
-      } else { //bonus
-        next_part.par1 = next_json.get("bonus").as_int();
-      }
-    } else {
-      //Too many
-      debugmsg("Error parsing vehicle part '%s': \
-               Use AT MOST one of: par1, power, size, wheel_width, bonus",
-               next_part.name.c_str());
-      //Keep going to produce more messages if other parts are wrong
-      next_part.par1 = 0;
-    }
-    next_part.fuel_type = next_json.has("fuel_type") ? next_json.get("fuel_type").as_string() : "NULL";
-    next_part.item = next_json.get("item").as_string();
-    next_part.difficulty = next_json.get("difficulty").as_int();
-    next_part.location = next_json.has("location") ? next_json.get("location").as_string() : "";
-    next_part.flags = next_json.get("flags").as_tags();
 
     //Plating shouldn't actually be shown; another part will be.
     //Calculate and cache z-ordering based off of location
@@ -174,14 +112,11 @@ void game::init_vehicle_parts()
     }
 
     vehicle_part_types[next_part.id] = next_part;
-  }
-
-  if(!json_good()) {
-    exit(1);
-  }
-
 }
 
+/**
+ *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
+ */
 // loads JsonObject vehicle definition into a cached state so that it can be held until after itypes have been initialized
 void game::load_vehicle(JsonObject &jo)
 {
