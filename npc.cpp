@@ -11,6 +11,7 @@
 #include "line.h"
 #include "item_factory.h"
 #include "translations.h"
+#include "monstergenerator.h"
 #include <algorithm>
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
@@ -1944,7 +1945,7 @@ void npc::die(game *g, bool your_fault)
     }
 
     item my_body;
-    my_body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
+    my_body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
     my_body.name = name;
     g->m.add_item_or_charges(posx, posy, my_body);
     std::vector<item *> dump;
