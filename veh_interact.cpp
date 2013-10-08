@@ -1205,7 +1205,7 @@ void complete_vehicle (game *g)
             int delta_y = headlight_target.y - (veh->global_y() + gy);
 
             const double PI = 3.14159265358979f;
-            int dir = int(atan2(delta_y, delta_x) * 180.0 / PI);
+            int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
             dir -= veh->face.dir();
             while(dir < 0)
             {

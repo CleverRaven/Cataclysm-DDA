@@ -5294,7 +5294,7 @@ void player::process_active_items(game *g)
                     g->add_msg(_("Your %s beeps alarmingly."), weapon.tname().c_str());
                 }
             } else { // We're chargin it up!
-                if ( use_charges_if_avail("adv_UPS_on", ceil((1 + weapon.charges) / 2)) ||
+                if ( use_charges_if_avail("adv_UPS_on", ceil(static_cast<float>(1 + weapon.charges) / 2)) ||
                      use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
                     weapon.poison++;
                 } else {
