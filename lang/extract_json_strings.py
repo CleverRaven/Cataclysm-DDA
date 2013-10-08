@@ -11,6 +11,9 @@ import os
 # some .json files have no translatable strings. ignore them.
 ignore = ["item_groups.json", "monstergroups.json", "recipes.json", "sokoban.txt"]
 
+# keep a list of the files that have been extracted
+extracted = []
+
 ## PREPARATION
 
 # allow running from main directory, or from script subdirectory
@@ -57,19 +60,42 @@ def tlcomment(fs, string):
     fs.write(string)
     fs.write("\n")
 
-# extract "name" and "description" fields from json to fake-python
+# extract commonly translatable data from json to fake-python
 def convert(infilename, outfile):
-    "open infilename, read data, write names and descriptions to outfile."
+    "Open infilename, read data, write translatables to outfile."
     jsondata = json.loads(open(infilename).read())
-    names = [item["name"] for item in jsondata]
-    descriptions = [item["description"] for item in jsondata]
-    for n, d in zip(names, descriptions):
-        writestr(outfile, n)
-        writestr(outfile, d)
+    for item in jsondata:
+        if "name" in item:
+            writestr(outfile, item["name"])
+        if "description" in item:
+            writestr(outfile, item["description"])
+        if "sound" in item:
+            writestr(outfile, item["sound"])
+        if "text" in item:
+            writestr(outfile, item["text"])
+        if "messages" in item:
+            for message in item["messages"]:
+                writestr(outfile, message)
+
+def autoextract(name):
+    "Automatically extract from the named json file in data/json."
+    infilename = name + ".json"
+    outfilename = os.path.join(to_folder, "json_" + name + ".py")
+    with open(outfilename, 'w') as py_out:
+        jsonfile = os.path.join(json_folder, infilename)
+        convert(jsonfile, py_out)
+    extracted.append(infilename)
 
 ## EXTRACTION
 
-extracted = []
+# automatically extractable files in data/json
+autoextract("skills")
+autoextract("professions")
+autoextract("bionics")
+autoextract("snippets")
+autoextract("mutations")
+autoextract("dreams")
+autoextract("migo_speech")
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
@@ -77,32 +103,6 @@ with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
         jsonfile = os.path.join(json_folder, "items", filename)
         convert(jsonfile, items_jtl)
 extracted.append("items")
-
-# data/json/skills.json
-with open(os.path.join(to_folder, "json_skills.py"), 'w') as skills_jtl:
-    jsonfile = os.path.join(json_folder, "skills.json")
-    convert(jsonfile, skills_jtl)
-extracted.append("skills.json")
-
-# data/json/professions.json
-with open(os.path.join(to_folder,"json_professions.py"), 'w') as prof_jtl:
-    prof_json = os.path.join(json_folder, "professions.json")
-    convert(prof_json, prof_jtl)
-extracted.append("professions.json")
-
-# data/json/bionics.json
-with open(os.path.join(to_folder,"json_bionics.py"), 'w') as bio_jtl:
-    bio_json = os.path.join(json_folder, "bionics.json")
-    convert(bio_json, bio_jtl)
-extracted.append("bionics.json")
-
-# data/json/snippets.json
-with open(os.path.join(to_folder,"json_snippets.py"), 'w') as snip_jtl:
-    jsonfile = os.path.join(json_folder, "snippets.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        writestr(snip_jtl, item["text"])
-extracted.append("snippets.json")
 
 # data/json/materials.json
 with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
@@ -138,24 +138,6 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
         writestr(name_jtl, "<name>" + item["name"])
 extracted.append("names.json")
 
-# data/json/mutations.json
-with open(os.path.join(to_folder,"json_mutations.py"), 'w') as mut_jtl:
-    jsonfile = os.path.join(json_folder, "mutations.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        writestr(mut_jtl, item["name"])
-        writestr(mut_jtl, item["description"])
-extracted.append("mutations.json")
-
-# data/json/dreams.json
-with open(os.path.join(to_folder,"json_dreams.py"), 'w') as dream_jtl:
-    jsonfile = os.path.join(json_folder, "dreams.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        for message in item["messages"]:
-            writestr(dream_jtl, message)
-extracted.append("dreams.json")
-
 # data/raw/vehicle_parts.json
 with open(os.path.join(to_folder,"json_vehicle_parts.py"),'w') as veh_jtl:
     jsonfile = os.path.join(raw_folder, "vehicle_parts.json")
@@ -163,14 +145,6 @@ with open(os.path.join(to_folder,"json_vehicle_parts.py"),'w') as veh_jtl:
     for item in jsondata:
         writestr(veh_jtl, item["name"])
 extracted.append("vehicle_parts.json")
-
-# data/json/migo_speech.json
-with open(os.path.join(to_folder,"json_migo_speech.py"),'w') as migo_jtl:
-    jsonfile = os.path.join(json_folder, "migo_speech.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        writestr(migo_jtl, item["sound"])
-extracted.append("migo_speech.json")
 
 # data/raw/vehicles.json
 with open(os.path.join(to_folder,"json_vehicles.py"),'w') as veh_jtl:
