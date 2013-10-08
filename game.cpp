@@ -2694,7 +2694,13 @@ void game::load(std::string name)
      load_weather(fin);
  }
  fin.close();
- //
+ // log
+ std::string mfile = std::string( "save/" + base64_encode(u.name) + ".log" );
+ fin.open(mfile.c_str());
+ if (fin.is_open()) {
+      u.load_memorial_file( fin );
+ }
+ fin.close(); 
  // Now that the player's worn items are updated, their sight limits need to be
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
@@ -2777,6 +2783,10 @@ void game::save()
  // weather
  fout.open( std::string("save/" + base64_encode(u.name) + ".weather").c_str() );
  save_weather(fout);
+ fout.close();
+ // log
+ fout.open( std::string("save/" + base64_encode(u.name) + ".log").c_str() );
+ fout << u.dump_memorial();
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules

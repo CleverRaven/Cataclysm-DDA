@@ -63,9 +63,7 @@ void game::init_savedata_translation_tables() {
  */
 void game::serialize(std::ofstream & fout) {
 /*
- * Format version 9: Hybrid format. Ordered, line by line mix of json chunks, and stringstream bits that don't
- * really make sense as json. New data can be added to the basic game state json, or tacked onto the end as a
- * new line.
+ * Format version 12: Fully json, save the header. Weather and memorial exist elsewhere.
  * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
  */
         // Header
@@ -88,10 +86,9 @@ void game::serialize(std::ofstream & fout) {
         data["levz"] = pv( levz );
         data["om_x"] = pv( cur_om->pos().x );
         data["om_y"] = pv( cur_om->pos().y );
-        fout << pv(data).serialize();
-        fout << std::endl;
 
         // Next, the scent map.
+        std::stringstream rle_out;
         int rle_lastval = -1;
         int rle_count = 0;
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
@@ -101,37 +98,34 @@ void game::serialize(std::ofstream & fout) {
                    rle_count++;
                } else {
                    if ( rle_count ) {
-                       fout << rle_count << " ";
+                       rle_out << rle_count << " ";
                    }
-                   fout << val << " ";
+                   rle_out << val << " ";
                    rle_lastval = val;
                    rle_count = 1;
                }
             }
         }
-        fout << rle_count << std::endl;
+        rle_out << rle_count;
+        data["grscent"] = pv ( rle_out.str() );
 
-        // Now save all monsters. First the amount
-        fout << num_zombies() << std::endl;
-        // Then each monster + inv in a 1 line json string
+        // Then each monster
+        std::vector<picojson::value> amdata;
         for (int i = 0; i < num_zombies(); i++) {
-            fout << _active_monsters[i].save_info() << std::endl;
+            amdata.push_back( _active_monsters[i].json_save(true) );
         }
+        data["active_monsters"] = pv( amdata );
 
         // save killcounts.
         std::map<std::string, picojson::value> killmap;
         for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
             killmap[kill->first] = pv(kill->second);
         }
+        data["kills"] = pv( killmap );
 
-        fout << pv( killmap ).serialize() << std::endl;
+        data["player"] = pv( u.json_save(true) );
 
-        // And finally the player.
-        // u.save_info dumps player + contents in a single json line, followed by memorial log
-        // one entry per line starting with '|'
-        fout << u.save_info() << std::endl;
-
-        fout << std::endl;
+        fout << pv(data).serialize() << std::endl;
         ////////
 }
 
@@ -173,7 +167,7 @@ void game::unserialize(std::ifstream & fin) {
            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
-       // Format version 11. After radical compatibility breaking changes, raise savegame_version, cut below and add to
+       // Format version 12. After radical compatibility breaking changes, raise savegame_version, cut below and add to
        // unserialize_legacy in savegame_legacy.cpp
             std::string linebuf;
             std::stringstream linein;
@@ -181,7 +175,7 @@ void game::unserialize(std::ifstream & fin) {
 
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
             picojson::value pval;
-            parseline() >> pval;
+            fin >> pval;
             std::string jsonerr = picojson::get_last_error();
             if ( ! jsonerr.empty() ) {
                 debugmsg("Bad save json\n%s", jsonerr.c_str() );
@@ -217,67 +211,40 @@ void game::unserialize(std::ifstream & fin) {
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             last_target = tmptar;
 
-            // Next, the scent map.
-            parseline();
+            linebuf="";
+            if ( picostring(pdata,"grscent",linebuf) ) {
+                linein.clear();
+                linein.str(linebuf);
 
-            int stmp;
-            int count = 0;
-            for (int i = 0; i < SEEX *MAPSIZE; i++) {
-                for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                    if (count == 0) {
-                        linein >> stmp >> count;
+                int stmp;
+                int count = 0;
+                for (int i = 0; i < SEEX *MAPSIZE; i++) {
+                    for (int j = 0; j < SEEY * MAPSIZE; j++) {
+                        if (count == 0) {
+                            linein >> stmp >> count;
+                        }
+                        count--;
+                        grscent[i][j] = stmp;
                     }
-                    count--;
-                    grscent[i][j] = stmp;
                 }
             }
 
-            // Now the number of monsters...
-            int nummon;
-            parseline() >> nummon;
-
-            // ... and the data on each one.
-            std::string data;
+            picojson::array * vdata = pgetarray(pdata,"active_monsters");
             clear_zombies();
             monster montmp;
-            for (int i = 0; i < nummon; i++)
-            {
-                getline(fin, data);
-                montmp.load_info(data, &mtypes);
+            for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
+                montmp.json_load( *pit, &mtypes );
                 add_zombie(montmp);
             }
 
-            // And the kill counts;
-            parseline();
-            int kk; int kscrap;
-            if ( linein.peek() == '{' ) {
-                picojson::value kdata;
-                linein >> kdata;
-                std::string jsonerr = picojson::get_last_error();
-                if ( ! jsonerr.empty() ) {
-                    debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
-                } else {
-                    picojson::object &pkdata = kdata.get<picojson::object>();
-                    for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
-                        kills[it->first] = (int)it->second.get<double>();
-                    }
-                }
-            } else {
-                for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                    if ( kk < 126 ) { // see legacy_mon_id
-                        // load->int->str->int (possibly shifted)
-                        linein >> kills[legacy_mon_id[kk]];
-                    } else {
-                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
-                    }
-                }
+            picojson::object * odata = pgetmap(pdata,"kills");
+            for( picojson::object::const_iterator it = odata->begin(); it != odata->end(); ++it) {
+                kills[it->first] = (int)it->second.get<double>();
             }
-            // Finally, the data on the player.
-            getline(fin, data);
-            u.load_info(this, data);
-            u.load_memorial_file( fin );
-            // end .sav version 9
+
+            u.json_load( pdata["player"], this);
 }
+
 ///// weather
 void game::load_weather(std::ifstream & fin) {
    if ( fin.peek() == '#' ) {
