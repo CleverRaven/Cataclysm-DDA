@@ -760,6 +760,7 @@
     <ClCompile Include="..\event.cpp" />
     <ClCompile Include="..\faction.cpp" />
     <ClCompile Include="..\field.cpp" />
+    <ClCompile Include="..\file_finder.cpp" />
     <ClCompile Include="..\game.cpp" />
     <ClCompile Include="..\gamemode.cpp" />
     <ClCompile Include="..\gamesave.cpp" />
@@ -767,6 +768,7 @@
     <ClCompile Include="..\help.cpp" />
     <ClCompile Include="..\helper.cpp" />
     <ClCompile Include="..\iexamine.cpp" />
+    <ClCompile Include="..\init.cpp" />
     <ClCompile Include="..\input.cpp" />
     <ClCompile Include="..\inventory.cpp" />
     <ClCompile Include="..\inventory_ui.cpp" />
@@ -779,6 +781,7 @@
     <ClCompile Include="..\iuse_software_kitten.cpp" />
     <ClCompile Include="..\iuse_software_snake.cpp" />
     <ClCompile Include="..\iuse_software_sokoban.cpp" />
+    <ClCompile Include="..\json.cpp" />
     <ClCompile Include="..\keypress.cpp" />
     <ClCompile Include="..\lightmap.cpp" />
     <ClCompile Include="..\line.cpp" />
@@ -789,6 +792,7 @@
     <ClCompile Include="..\mapdata.cpp" />
     <ClCompile Include="..\mapgen.cpp" />
     <ClCompile Include="..\mapgenformat.cpp" />
+    <ClCompile Include="..\martialarts.cpp" />
     <ClCompile Include="..\material.cpp" />
     <ClCompile Include="..\melee.cpp" />
     <ClCompile Include="..\mission.cpp" />
@@ -803,6 +807,7 @@
     <ClCompile Include="..\monitemsdef.cpp" />
     <ClCompile Include="..\monmove.cpp" />
     <ClCompile Include="..\monster.cpp" />
+    <ClCompile Include="..\monstergenerator.cpp" />
     <ClCompile Include="..\mtypedef.cpp" />
     <ClCompile Include="..\mutation.cpp" />
     <ClCompile Include="..\mutation_data.cpp" />
@@ -821,6 +826,8 @@
     <ClCompile Include="..\profession.cpp" />
     <ClCompile Include="..\ranged.cpp" />
     <ClCompile Include="..\rng.cpp" />
+    <ClCompile Include="..\savegame_json.cpp" />
+    <ClCompile Include="..\savegame_legacy.cpp" />
     <ClCompile Include="..\sdltiles.cpp" />
     <ClCompile Include="..\settlement.cpp" />
     <ClCompile Include="..\setvector.cpp" />
@@ -835,6 +842,7 @@
     <ClCompile Include="..\veh_interact.cpp" />
     <ClCompile Include="..\veh_typedef.cpp" />
     <ClCompile Include="..\version.cpp" />
+    <ClCompile Include="..\wcwidth.c" />
     <ClCompile Include="..\weather.cpp" />
     <ClCompile Include="..\weather_data.cpp" />
     <ClCompile Include="..\wincurse.cpp" />
@@ -859,6 +867,7 @@
     <ClInclude Include="..\color.h" />
     <ClInclude Include="..\computer.h" />
     <ClInclude Include="..\construction.h" />
+    <ClInclude Include="..\coordinates.h" />
     <ClInclude Include="..\crafting.h" />
     <ClInclude Include="..\cursesdef.h" />
     <ClInclude Include="..\debug.h" />
@@ -869,12 +878,15 @@
     <ClInclude Include="..\event.h" />
     <ClInclude Include="..\faction.h" />
     <ClInclude Include="..\field.h" />
+    <ClInclude Include="..\file_finder.h" />
     <ClInclude Include="..\game.h" />
     <ClInclude Include="..\gamemode.h" />
     <ClInclude Include="..\get_version.h" />
     <ClInclude Include="..\graffiti.h" />
+    <ClInclude Include="..\help.h" />
     <ClInclude Include="..\helper.h" />
     <ClInclude Include="..\iexamine.h" />
+    <ClInclude Include="..\init.h" />
     <ClInclude Include="..\input.h" />
     <ClInclude Include="..\inventory.h" />
     <ClInclude Include="..\item.h" />
@@ -886,6 +898,7 @@
     <ClInclude Include="..\iuse_software_kitten.h" />
     <ClInclude Include="..\iuse_software_snake.h" />
     <ClInclude Include="..\iuse_software_sokoban.h" />
+    <ClInclude Include="..\json.h" />
     <ClInclude Include="..\keypress.h" />
     <ClInclude Include="..\lightmap.h" />
     <ClInclude Include="..\line.h" />
@@ -894,12 +907,14 @@
     <ClInclude Include="..\mapdata.h" />
     <ClInclude Include="..\mapgenformat.h" />
     <ClInclude Include="..\mapitems.h" />
+    <ClInclude Include="..\martialarts.h" />
     <ClInclude Include="..\material.h" />
     <ClInclude Include="..\mission.h" />
     <ClInclude Include="..\monattack.h" />
     <ClInclude Include="..\mondeath.h" />
     <ClInclude Include="..\mongroup.h" />
     <ClInclude Include="..\monster.h" />
+    <ClInclude Include="..\monstergenerator.h" />
     <ClInclude Include="..\morale.h" />
     <ClInclude Include="..\moraledata.h" />
     <ClInclude Include="..\mtype.h" />
@@ -918,6 +933,7 @@
     <ClInclude Include="..\posix_time.h" />
     <ClInclude Include="..\profession.h" />
     <ClInclude Include="..\rng.h" />
+    <ClInclude Include="..\savegame.h" />
     <ClInclude Include="..\SDLMain.h" />
     <ClInclude Include="..\settlement.h" />
     <ClInclude Include="..\setvector.h" />
@@ -939,6 +955,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CataclysmWin.cbp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
