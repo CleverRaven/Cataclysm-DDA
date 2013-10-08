@@ -299,6 +299,9 @@ void dis_effect(player &p, disease &dis) {
     switch(disType) {
         case DI_GLARE:
             p.per_cur -= 1;
+            if (one_in(200)) {
+                g->add_msg(_("The sunlight's glare makes it hard to see."));
+            }
             break;
 
         case DI_WET:
