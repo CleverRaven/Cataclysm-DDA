@@ -1221,7 +1221,7 @@ int coord2angle ( const int x, const int y, const int tgtx, const int tgty ) {
   const double DBLRAD2DEG = 57.2957795130823f;
   //const double PI = 3.14159265358979f;
   const double DBLPI = 6.28318530717958f;
-  double rad = atan2 ( tgty - y, tgtx - x );
+  double rad = atan2 ( static_cast<double>(tgty - y), static_cast<double>(tgtx - x) );
   if ( rad < 0 ) rad = DBLPI - (0 - rad);
   return int( rad * DBLRAD2DEG );
 }
