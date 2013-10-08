@@ -72,12 +72,16 @@ private:
     void display_veh ();
     void display_stats ();
     void display_mode (char mode);
-    void display_list (int pos);
+    void display_list (int pos, std::vector<vpart_info> list);
 
     /* Vector of all vpart TYPES that can be mounted in the current square.
      * Can be converted to a vector<vpart_info>.
      * Updated whenever the cursor moves. */
     std::vector<vpart_info> can_mount;
+
+    /* Vector of all wheel types. Used for changing wheels, so it only needs
+     * to be built once. */
+    std::vector<vpart_info> wheel_types;
 
     /* Vector of vparts in the current square that can be repaired. Strictly a
      * subset of parts_here.
