@@ -62,6 +62,116 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
 bool game::unserialize_legacy(std::ifstream & fin) {
 
    switch (savegame_loading_version) {
+       case 10:
+       case 9: {
+       // Format version 9. After radical compatibility breaking changes, raise savegame_version, cut below and add to
+       // unserialize_legacy in savegame_legacy.cpp
+            std::string linebuf;
+            std::stringstream linein;
+
+
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
+            picojson::value pval;
+            parseline() >> pval;
+            std::string jsonerr = picojson::get_last_error();
+            if ( ! jsonerr.empty() ) {
+                debugmsg("Bad save json\n%s", jsonerr.c_str() );
+            }
+            picojson::object &pdata = pval.get<picojson::object>();
+
+            picoint(pdata,"turn",tmpturn);
+            picoint(pdata,"last_target",tmptar);
+            picoint(pdata,"run_mode", tmprun);
+            picoint(pdata,"mostseen", mostseen);
+            picoint(pdata,"nextinv", tmpinv);
+            nextinv = (char)tmpinv;
+            picoint(pdata,"next_npc_id", next_npc_id);
+            picoint(pdata,"next_faction_id", next_faction_id);
+            picoint(pdata,"next_mission_id", next_mission_id);
+            picoint(pdata,"nextspawn",tmpspawn);
+
+            getline(fin, linebuf); // Does weather need to be loaded in this order? Probably not,
+            load_legacy_future_weather(linebuf); // but better safe than jackie chan expressions later
+
+            picoint(pdata,"levx",levx);
+            picoint(pdata,"levy",levy);
+            picoint(pdata,"levz",levz);
+            picoint(pdata,"om_x",comx);
+            picoint(pdata,"om_y",comy);
+
+            turn = tmpturn;
+            nextspawn = tmpspawn;
+
+            cur_om = &overmap_buffer.get(this, comx, comy);
+            m.load(this, levx, levy, levz);
+
+            run_mode = tmprun;
+            if (OPTIONS["SAFEMODE"] && run_mode == 0) {
+                run_mode = 1;
+            }
+            autosafemode = OPTIONS["AUTOSAFEMODE"];
+            last_target = tmptar;
+
+            // Next, the scent map.
+            parseline();
+
+            for (int i = 0; i < SEEX *MAPSIZE; i++) {
+                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+                    linein >> grscent[i][j];
+                }
+            }
+
+            // Now the number of monsters...
+            int nummon;
+            parseline() >> nummon;
+
+            // ... and the data on each one.
+            std::string data;
+            clear_zombies();
+            monster montmp;
+            for (int i = 0; i < nummon; i++)
+            {
+                getline(fin, data);
+                montmp.load_info(data, &mtypes);
+                add_zombie(montmp);
+            }
+
+            // And the kill counts;
+            parseline();
+            int kk; int kscrap;
+            if ( linein.peek() == '{' ) {
+                picojson::value kdata;
+                linein >> kdata;
+                std::string jsonerr = picojson::get_last_error();
+                if ( ! jsonerr.empty() ) {
+                    debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
+                } else {
+                    picojson::object &pkdata = kdata.get<picojson::object>();
+                    for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
+                        if ( monster_ints.find(it->first) != monster_ints.end() && it->second.is<double>() ) {
+                            kills[ monster_ints[it->first] ] = (int)it->second.get<double>();
+                        }
+                    }
+                }
+            } else {
+                for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
+                    if ( kk < 126 ) { // see legacy_mon_id
+                        // load->int->str->int (possibly shifted)
+                        kk = monster_ints[ legacy_mon_id[ kk ] ];
+                        linein >> kills[kk];
+                    } else {
+                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id. 
+                    }
+                }
+            }
+            // Finally, the data on the player.
+            getline(fin, data);
+            u.load_info(this, data);
+            u.load_memorial_file( fin );
+            // end .sav version 9
+
+            return true;
+       } break;
 
        case 7:
        case 5:
@@ -77,7 +187,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
-            load_weather(linebuf);
+            load_legacy_future_weather(linebuf);
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
@@ -193,7 +303,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
-            load_weather(linebuf);
+            load_legacy_future_weather(linebuf);
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
@@ -308,7 +418,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
              next_faction_id >> next_mission_id >> tmpspawn;
 
-         load_weather(fin);
+         load_legacy_future_weather(fin);
 
          fin >> levx >> levy >> levz >> comx >> comy;
 
@@ -402,6 +512,36 @@ original 'structure', which globs game/weather/location & killcount/player data 
         } break;
     }
     return false;
+}
+
+void game::load_legacy_future_weather(std::string data)
+{
+    weather_log.clear();
+    std::istringstream fin;
+    fin.str(data);
+    load_legacy_future_weather(fin);
+
+}
+
+void game::load_legacy_future_weather(std::istream &fin)
+{
+    int tmpnextweather, tmpweather, tmptemp, num_segments;
+    weather_segment new_segment;
+
+    fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
+
+    weather = weather_type(tmpweather);
+    temperature = tmptemp;
+    nextweather = tmpnextweather;
+
+    for( int i = 0; i < num_segments - 1; ++i)
+    {
+        fin >> tmpnextweather >> tmpweather >> tmptemp;
+        new_segment.weather = weather_type(tmpweather);
+        new_segment.temperature = tmptemp;
+        new_segment.deadline = tmpnextweather;
+        weather_log[ tmpnextweather ] = new_segment;
+    }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*

@@ -316,9 +316,8 @@ std::string weather_forecast(game *g, radio_tower tower)
     calendar start_time = g->turn;
     int period_start = g->turn.hours();
     // TODO wind direction and speed
-    for( std::list<weather_segment>::iterator period = g->future_weather.begin();
-         period != g->future_weather.end(); ++period )
-    {
+    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(g->turn) ); it != g->weather_log.end(); ++it ) {
+        weather_segment * period = &(it->second);
         int period_deadline = period->deadline.hours();
         signed char period_temperature = period->temperature;
         weather_type period_weather = period->weather;

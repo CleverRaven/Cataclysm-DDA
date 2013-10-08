@@ -520,7 +520,7 @@ void game::cleanup_at_end(){
     }
 
     // Clear the future weather for future projects
-    future_weather.clear();
+    weather_log.clear();
 
     if (uquit == QUIT_DIED)
     {
@@ -1124,11 +1124,9 @@ void game::update_weather()
     season_type season;
     // Default to current weather, and update to the furthest future weather if any.
     weather_segment prev_weather = {temperature, weather, nextweather};
-    if( !future_weather.empty() )
-    {
-        prev_weather = future_weather.back();
+    if ( !weather_log.empty() ) {
+        prev_weather = weather_log.rbegin()->second;
     }
-
     while( prev_weather.deadline < turn + HOURS(MAX_FUTURE_WEATHER) )
     {
         weather_segment new_weather;
@@ -1197,16 +1195,17 @@ void game::update_weather()
             new_weather.temperature += rng(-1, 2);
         }
         prev_weather = new_weather;
-        future_weather.push_back(new_weather);
+        weather_log[ (int)new_weather.deadline ] = new_weather;
     }
 
     if( turn >= nextweather )
     {
         weather_type old_weather = weather;
-        weather = future_weather.front().weather;
-        temperature = future_weather.front().temperature;
-        nextweather = future_weather.front().deadline;
-        future_weather.pop_front();
+        weather_segment  new_weather = weather_log.lower_bound((int)nextweather)->second;
+        weather = new_weather.weather;
+        temperature = new_weather.temperature;
+        nextweather = new_weather.deadline;
+        
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy))
         {
@@ -2665,50 +2664,6 @@ void game::load_artifacts()
     }
 }
 
-// removing soon
-void game::load_weather(std::string data)
-{
-    std::stringstream fin;
-    fin.str(data);
-    int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
-
-    fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
-
-    weather = weather_type(tmpweather);
-    temperature = tmptemp;
-    nextweather = tmpnextweather;
-
-    for( int i = 0; i < num_segments - 1; ++i)
-    {
-        fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        future_weather.push_back(new_segment);
-    }
-}
-
-void game::load_weather(std::ifstream &fin)
-{
-    int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
-
-    fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
-
-    weather = weather_type(tmpweather);
-    temperature = tmptemp;
-    nextweather = tmpnextweather;
-
-    for( int i = 0; i < num_segments - 1; ++i)
-    {
-        fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        future_weather.push_back(new_segment);
-    }
-}
 
 void game::load(std::string name)
 {
@@ -2729,6 +2684,15 @@ void game::load(std::string name)
  unserialize(fin);
  fin.close();
 
+ // weather
+ std::string wfile = std::string( "save/" + base64_encode(u.name) + ".weather" );
+ fin.open(wfile.c_str());
+ if (fin.is_open()) {
+     weather_log.clear();
+     load_weather(fin);
+ }
+ fin.close();
+ //
  // Now that the player's worn items are updated, their sight limits need to be
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
@@ -2799,21 +2763,6 @@ void game::save_uistate() {
     uistate.errdump="";
 }
 
-std::string game::save_weather() const
-{
-    std::stringstream weather_string;
-    weather_string << future_weather.size() + 1 << " ";
-    weather_string << int(nextweather) << " " << weather << " " << int(temperature) << " ";
-    for( std::list<weather_segment>::const_iterator current_weather = future_weather.begin();
-         current_weather != future_weather.end(); ++current_weather )
-    {
-        weather_string << int(current_weather->deadline) << " ";
-        weather_string << current_weather->weather << " ";
-        weather_string << int(current_weather->temperature) << " ";
-    }
-    return weather_string.str();
-}
-
 void game::save()
 {
  std::stringstream playerfile;
@@ -2822,6 +2771,10 @@ void game::save()
 
  fout.open(playerfile.str().c_str());
  serialize(fout);
+ fout.close();
+ // weather
+ fout.open( std::string("save/" + base64_encode(u.name) + ".weather").c_str() );
+ save_weather(fout);
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
@@ -3312,18 +3265,7 @@ Current turn: %d; Next spawn %d.\n\
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
       }
-weather_menu.addentry(-1,false,-1,"===== %d =====",(int)turn);
-for(std::list<weather_segment>::const_iterator it = future_weather.begin(); it != future_weather.end(); it++) {
-   weather_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
-(*it).deadline.days(),(*it).deadline.hours(),
-(int)(*it).deadline, 
-weather_data[int((*it).weather)].name.c_str(),
-(*it).weather,
-(int)(*it).temperature
-);
-}
-
-
+      weather_menu.addentry(-10,true,'v',"View weather log");
       weather_menu.query();
 
       if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
@@ -3331,6 +3273,18 @@ weather_data[int((*it).weather)].name.c_str(),
 
         int selected_weather = weather_menu.selected + 1;
         weather = (weather_type) selected_weather;
+      } else if(weather_menu.ret == -10) {
+          uimenu weather_log_menu;
+          for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {
+              weather_log_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
+                  it->second.deadline.days(),it->second.deadline.hours(),
+                  it->first,
+                  weather_data[int(it->second.weather)].name.c_str(),
+                  it->second.weather,
+                  (int)it->second.temperature
+              );
+          }
+          weather_log_menu.query();
       }
   }
   break;

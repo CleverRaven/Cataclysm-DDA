@@ -35,7 +35,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 10;
+const int savegame_version = 11;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -91,19 +91,28 @@ void game::serialize(std::ofstream & fout) {
         fout << pv(data).serialize();
         fout << std::endl;
 
-        // Weather. todo: move elsewhere
-        fout << save_weather();
-        fout << std::endl;
-
         // Next, the scent map.
+        int rle_lastval = -1;
+        int rle_count = 0;
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
             for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                fout << grscent[i][j] << " ";
+               int val = grscent[i][j];
+               if (val == rle_lastval) {
+                   rle_count++;
+               } else {
+                   if ( rle_count ) {
+                       fout << rle_count << " ";
+                   }
+                   fout << val << " ";
+                   rle_lastval = val;
+                   rle_count = 1;
+               }
             }
         }
+        fout << rle_count << std::endl;
 
         // Now save all monsters. First the amount
-        fout << std::endl << num_zombies() << std::endl;
+        fout << num_zombies() << std::endl;
         // Then each monster + inv in a 1 line json string
         for (int i = 0; i < num_zombies(); i++) {
             fout << _active_monsters[i].save_info() << std::endl;
@@ -165,7 +174,7 @@ void game::unserialize(std::ifstream & fin) {
            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
-       // Format version 9. After radical compatibility breaking changes, raise savegame_version, cut below and add to
+       // Format version 11. After radical compatibility breaking changes, raise savegame_version, cut below and add to
        // unserialize_legacy in savegame_legacy.cpp
             std::string linebuf;
             std::stringstream linein;
@@ -190,10 +199,6 @@ void game::unserialize(std::ifstream & fin) {
             picoint(pdata,"next_faction_id", next_faction_id);
             picoint(pdata,"next_mission_id", next_mission_id);
             picoint(pdata,"nextspawn",tmpspawn);
-
-            getline(fin, linebuf); // Does weather need to be loaded in this order? Probably not,
-            load_weather(linebuf); // but better safe than jackie chan expressions later
-
             picoint(pdata,"levx",levx);
             picoint(pdata,"levy",levy);
             picoint(pdata,"levz",levz);
@@ -216,9 +221,15 @@ void game::unserialize(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
+            int stmp;
+            int count = 0;
             for (int i = 0; i < SEEX *MAPSIZE; i++) {
                 for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> grscent[i][j];
+                    if (count == 0) {
+                        linein >> stmp >> count;
+                    }
+                    count--;
+                    grscent[i][j] = stmp;
                 }
             }
 
@@ -271,7 +282,54 @@ void game::unserialize(std::ifstream & fin) {
             u.load_memorial_file( fin );
             // end .sav version 9
 }
+///// weather
+void game::load_weather(std::ifstream & fin) {
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+     
+     while(!fin.eof()) {
+        std::string data;
+        getline(fin, data);
 
+        std::stringstream wl;
+        wl.str(data);
+        int inturn, intemp, inweather, inzone;
+        wl >> inturn >> intemp >> inweather >> inzone;
+        weather_segment wtm;
+        wtm.weather = (weather_type)inweather;
+        wtm.temperature = intemp;
+        wtm.deadline = inturn;
+        if ( inzone == 0 ) {
+           weather_log[inturn] = wtm;
+        } else {
+           debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
+        }
+     }
+    weather_segment cur = weather_log.upper_bound( (int)turn )->second;
+    weather = cur.weather;
+    temperature = cur.temperature;
+    nextweather = cur.deadline;
+}
+
+void game::save_weather(std::ofstream & fout) {
+    fout << "# version " << savegame_version << std::endl;
+    const int climatezone = 0;
+    for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
+      fout << it->first
+        << " " << int(it->second.temperature)
+        << " " << it->second.weather
+        << " " << climatezone << std::endl;
+    }
+}
 ///// overmap
 void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plrfilename,
                           std::string const & terfilename) {

@@ -287,8 +287,7 @@ class game
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
 
-  std::list<weather_segment> future_weather;
-std::map<int, weather_segment> weather_log;
+  std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have
   overmap *cur_om;
   map m;
@@ -365,7 +364,6 @@ void load_artifacts(); // Load artifact data
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master(); // Load the master data file, with factions &c
   void load_weather(std::ifstream &fin);
-  void load_weather(std::string line);
   void load(std::string name); // Load a player-specific save file
   void start_game(); // Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
@@ -374,7 +372,9 @@ void load_artifacts(); // Load artifact data
   void save_factions_missions_npcs();
   void save_artifacts();
   void save_maps();
-  std::string save_weather() const;
+  void save_weather(std::ofstream &fout);
+  void load_legacy_future_weather(std::string data);
+  void load_legacy_future_weather(std::istream &fin);
   void save_uistate();
   void load_uistate();
 // Data Initialization
