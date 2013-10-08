@@ -2515,7 +2515,7 @@
         "name" : "RA110 5x50mm flechette",
         "symbol" : "=",
         "color" : "light_red",
-        "description" : "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized tungsten alloy penetrator.",
+        "description" : "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 3,
