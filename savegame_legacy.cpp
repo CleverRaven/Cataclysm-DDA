@@ -149,22 +149,20 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 } else {
                     picojson::object &pkdata = kdata.get<picojson::object>();
                     for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
-                        if ( monster_ints.find(it->first) != monster_ints.end() && it->second.is<double>() ) {
-                            kills[ monster_ints[it->first] ] = (int)it->second.get<double>();
-                        }
+                        kills[it->first] = (int)it->second.get<double>();
                     }
                 }
             } else {
                 for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                     if ( kk < 126 ) { // see legacy_mon_id
                         // load->int->str->int (possibly shifted)
-                        kk = monster_ints[ legacy_mon_id[ kk ] ];
-                        linein >> kills[kk];
+                        linein >> kills[legacy_mon_id[kk]];
                     } else {
-                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id. 
+                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
                     }
                 }
             }
+
             // Finally, the data on the player.
             getline(fin, data);
             u.load_info(this, data);
