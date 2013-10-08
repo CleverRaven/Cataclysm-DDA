@@ -789,7 +789,7 @@ std::string item::tname(game *g)
             maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
         else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
     } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == mon_null)
+        if (corpse == NULL || corpse->id == "mon_null")
             maintext = rm_prefix(_("<item_name>human blood"));
         else
             maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
@@ -2036,7 +2036,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
          ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
          amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
              std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
                 std::string(namelen,' ')
              ).substr(0,namelen).c_str(),
              ammo_def->damage, ammo_def->pierce, ammo_def->range,
@@ -2157,7 +2157,7 @@ bool item::reload(player &u, char ammo_invlet)
   }
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on") {
       int charges_per_plut = 500;
-      int max_plut = std::floor( (max_load - reload_target->charges) / charges_per_plut );
+      int max_plut = std::floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
       int charges_used = std::min(ammo_to_use->charges, max_plut);
       reload_target->charges += (charges_used * charges_per_plut);
       ammo_to_use->charges -= charges_used;

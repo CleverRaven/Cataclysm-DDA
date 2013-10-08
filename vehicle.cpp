@@ -78,11 +78,6 @@ void vehicle::load (std::ifstream &stin)
     } else {
         load_legacy(stin);
     }
-
-    /* After loading, check if the vehicle is from the old rules and is missing
-     * frames. */
-    add_missing_frames();
-
 }
 
 /** Checks all parts to see if frames are missing (as they might be when
@@ -91,9 +86,9 @@ void vehicle::add_missing_frames()
 {
     //No need to check the same (x, y) spot more than once
     std::set< std::pair<int, int> > locations_checked;
-    for(std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); it++) {
-        int next_x = it->mount_dx;
-        int next_y = it->mount_dy;
+    for (int i = 0; i < parts.size(); i++) {
+        int next_x = parts[i].mount_dx;
+        int next_y = parts[i].mount_dy;
         std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
 
         if(locations_checked.count(mount_location) == 0) {
@@ -108,7 +103,15 @@ void vehicle::add_missing_frames()
             }
             if(!found) {
                 //No frame here! Install one.
-                install_part(next_x, next_y, "frame_vertical", -1, true);
+                vehicle_part new_part;
+                new_part.id = "frame_vertical";
+                new_part.mount_dx = next_x;
+                new_part.mount_dy = next_y;
+                new_part.hp = vehicle_part_types["frame_vertical"].durability;
+                new_part.amount = 0;
+                new_part.blood = 0;
+                new_part.bigness = 0;
+                parts.push_back (new_part);
             }
         }
 
@@ -1467,9 +1470,8 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    for (int i = 0; i < external_parts.size(); i++)
+    for (int p = 0; p < parts.size(); p++)
     {
-        int p = external_parts[i];
         if (!part_flag(p, "WHEEL") ||
             parts[p].hp <= 0) {
             continue;
@@ -1479,14 +1481,18 @@ bool vehicle::valid_wheel_config ()
             x1 = x2 = parts[p].mount_dx;
             y1 = y2 = parts[p].mount_dy;
         }
-        if (parts[p].mount_dx < x1)
+        if (parts[p].mount_dx < x1) {
             x1 = parts[p].mount_dx;
-        if (parts[p].mount_dx > x2)
+        }
+        if (parts[p].mount_dx > x2) {
             x2 = parts[p].mount_dx;
-        if (parts[p].mount_dy < y1)
+        }
+        if (parts[p].mount_dy < y1) {
             y1 = parts[p].mount_dy;
-        if (parts[p].mount_dy > y2)
+        }
+        if (parts[p].mount_dy > y2) {
             y2 = parts[p].mount_dy;
+        }
         count++;
     }
     if (count < 2) {

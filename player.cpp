@@ -24,6 +24,7 @@
 #include "disease.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "monstergenerator.h"
 
 #include <ctime>
 
@@ -479,7 +480,7 @@ void player::apply_persistent_morale()
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
     }
 
-    // The stylish get a morale bonus for each body part covered in an item 
+    // The stylish get a morale bonus for each body part covered in an item
     // with the FANCY or SUPER_FANCY tag.
     if (has_trait("STYLISH"))
     {
@@ -574,7 +575,7 @@ int player::calc_focus_equilibrium()
     // Factor in pain, since it's harder to rest your mind while your body hurts.
     int eff_morale = morale_level() - pain;
     int focus_gain_rate = 100;
-    
+
     if (activity.type == ACT_READ)
     {
         it_book* reading;
@@ -1396,12 +1397,13 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Kills:") << "\n";
 
     int total_kills = 0;
-    for(int i = 0; i < num_monsters; i++) {
-        if(g->kill_count( (mon_id)(g->mtypes[i]->id) ) > 0) {
-        memorial_file << "  " << (char) g->mtypes[i]->sym << " - " << g->mtypes[i]->name <<
-            " x" << g->kill_count( (mon_id)(g->mtypes[i]->id) ) << "\n";
-        total_kills += g->kill_count( (mon_id)(g->mtypes[i]->id) );
-      }
+
+    const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
+    for (std::map<std::string, mtype*>::const_iterator mon = monids.begin(); mon != monids.end(); ++mon){
+        if (g->kill_count(mon->first) > 0){
+            memorial_file << "  " << (char)mon->second->sym << " - " << mon->second->name << " x" << g->kill_count(mon->first) << "\n";
+            total_kills += g->kill_count(mon->first);
+        }
     }
     if(total_kills == 0) {
       memorial_file << indent << _("No monsters were killed.") << "\n";
@@ -3571,7 +3573,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    g->add_msg(_("A snake sprouts from your body!"));
   else if (snakes >= 2)
    g->add_msg(_("Some snakes sprout from your body!"));
-  monster snake(g->mtypes[mon_shadow_snake]);
+  monster snake(GetMType("mon_shadow_snake"));
   for (int i = 0; i < snakes; i++) {
    int index = rng(0, valid.size() - 1);
    point sp = valid[index];
@@ -4107,7 +4109,7 @@ void player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity,
-                         body_part part, int side, bool main_parts_only, 
+                         body_part part, int side, bool main_parts_only,
                          int additive)
 {
     if (duration <= 0) {
@@ -5292,7 +5294,7 @@ void player::process_active_items(game *g)
                     g->add_msg(_("Your %s beeps alarmingly."), weapon.tname().c_str());
                 }
             } else { // We're chargin it up!
-                if ( use_charges_if_avail("adv_UPS_on", ceil((1 + weapon.charges) / 2)) ||
+                if ( use_charges_if_avail("adv_UPS_on", ceil(static_cast<float>(1 + weapon.charges) / 2)) ||
                      use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
                     weapon.poison++;
                 } else {

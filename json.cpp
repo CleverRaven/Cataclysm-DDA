@@ -845,7 +845,7 @@ double JsonIn::get_float()
     }
     skip_separator();
     // now put it all together!
-    return i * pow(10, e + mod_e);
+    return i * pow(10.0f, static_cast<float>(e + mod_e));
 }
 
 bool JsonIn::get_bool()

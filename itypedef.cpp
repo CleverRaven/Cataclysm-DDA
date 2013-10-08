@@ -1,6 +1,7 @@
 #include "itype.h"
 #include "game.h"
 #include "setvector.h"
+#include "monstergenerator.h"
 #include <fstream>
 
 // Armor colors
@@ -41,7 +42,7 @@ void game::init_itypes ()
             0, 0, 1);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
- itypes["corpse"]->corpse=this->mtypes[mon_null];
+ itypes["corpse"]->corpse=GetMType("mon_null");
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, _("nearby fire"),
@@ -363,6 +364,7 @@ std::string ammo_name(ammotype t)
     if( t == "plasma" )     return _("hydrogen");
     if( t == "water" )      return _("clean water");
     if( t == "8x40mm" )     return _("8x40mm caseless");
+    if( t == "5x50" )       return _("5x50mm flechette");
     if( t == "charcoal" )   return _("charcoal");
     if( t == "UPS" )        return _("UPS");
     if( t == "components" ) return _("components");
@@ -405,6 +407,8 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "thread" )       return "thread";
     if( guntype == "water" )        return "water_clean";
     if( guntype == "charcoal"  )    return "charcoal";
+    if( guntype == "8x40mm"  )      return "8mm_caseless";
+    if( guntype == "5x50"  )        return  "5x50dart";
     if( guntype == "UPS"  )         return _("UPS");
     if( guntype == "components"  )  return _("components");
     return "null";

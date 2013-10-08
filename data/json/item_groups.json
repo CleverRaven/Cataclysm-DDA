@@ -251,6 +251,7 @@
       ["soup_meat", 15],
       ["spaghetti_raw", 40],
       ["macaroni_raw", 40],
+	  ["noodles_fast", 30],
       ["ravioli", 25],
       ["sauce_red", 20],
       ["sauce_pesto", 15],
@@ -563,6 +564,7 @@
       ["rifle_scope", 17],
       ["improve_sights", 20],
       ["cu_pipe", 10],
+      ["5x50_hull", 8],
       ["u_shotgun", 5]
     ]
   },{
@@ -718,7 +720,8 @@
       ["cheeseburger", 35],
       ["hamburger", 30],
       ["bacon", 25],
-      ["cheese", 30]
+      ["cheese", 30],
+	  ["noodles_fast", 30]
     ]
   },{
     "type":"item_group",
@@ -919,6 +922,7 @@
     "items":[
       ["spaghetti_raw", 40],
       ["macaroni_raw", 40],
+	  ["noodles_fast", 30],
       ["ravioli", 25],
       ["sauce_red", 20],
       ["sauce_pesto", 15],
@@ -1503,6 +1507,7 @@
       ["8mm_fmj", 2],
       ["8mm_caseless", 4],
       ["8mm_hvp", 2],
+      ["5x50dart", 6],
       ["8mm_inc", 2]
     ]
   },{
@@ -1568,6 +1573,7 @@
       ["TDI", 4],
       ["fn_p90", 7],
       ["hk_mp7", 5],
+      ["needlegun", 4],
       ["rm2000_smg", 1]
     ]
   },{
@@ -1648,6 +1654,7 @@
       ["rm2000_smg", 1],
       ["rm99_pistol", 2],
       ["rm103a_pistol", 1],
+      ["needlegun", 4],
       ["blowgun", 5]
     ]
   },{
@@ -1733,6 +1740,7 @@
       ["holo_sight", 20],
       ["rifle_scope", 16],
       ["cu_pipe", 10],
+      ["5x50_hull", 8],
       ["improve_sights", 20]
     ]
   },{
@@ -3146,6 +3154,8 @@
       ["rm88_battle_rifle", 1],
       ["rm2000_smg", 1],
       ["laser_sight", 15],
+      ["needlegun", 4],
+      ["5x50dart", 8],
       ["improve_sights", 5]
     ]
   },{
@@ -4078,6 +4088,8 @@
       ["pur_tablets", 10],
       ["hazmat_suit", 5],
       ["8mm_hvp", 2],
+      ["needlegun", 4],
+      ["5x50dart", 8],
       ["quikclot", 20]
     ]
   },{

@@ -575,15 +575,44 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     windowsPalette = new RGBQUAD[16];
+
     //Load the console colors from colors.json
     std::ifstream colorfile("data/json/colors.json", std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(&colorfile);
-        load_all_from_json(jsin);
+        char ch;
+        // Manually load the colordef object because the json handler isn't loaded yet.
+        jsin.eat_whitespace();
+        ch = jsin.peek();
+        if( ch == '[' ) {
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                jsin.eat_whitespace();
+                char ch = jsin.peek();
+                if (ch != '{') {
+                    std::stringstream err;
+                    err << jsin.line_number() << ": ";
+                    err << "expected array of objects but found '";
+                    err << ch << "', not '{'";
+                    throw err.str();
+                }
+                JsonObject jo = jsin.get_object();
+                load_colors(jo);
+                jo.finish();
+            }
+        } else {
+            // not an array?
+            std::stringstream err;
+            err << jsin.line_number() << ": ";
+            err << "expected object or array, but found '" << ch << "'";
+            throw err.str();
+        }
     }
     catch(std::string e){
         throw "data/json/colors.json: " + e;
     }
+
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
     windowsPalette[0]  = BGR(ccolor("BLACK"));
     windowsPalette[1]  = BGR(ccolor("RED"));

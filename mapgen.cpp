@@ -12,6 +12,7 @@
 #include "mapgenformat.h"
 #include "overmapbuffer.h"
 #include "enums.h"
+#include "monstergenerator.h"
 
 #include <algorithm>
 #include <cassert>
@@ -327,8 +328,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       for (int l = -1; l <= 1; l++)
        ter_set(i + k, j + l, t_floor_wax);
      }
-     add_spawn(mon_bee, 2, i, j);
-     add_spawn(mon_beekeeper, 1, i, j);
+     add_spawn("mon_bee", 2, i, j);
+     add_spawn("mon_beekeeper", 1, i, j);
      ter_set(i    , j - 3, t_floor_wax);
      ter_set(i    , j + 3, t_floor_wax);
      ter_set(i - 1, j - 2, t_floor_wax);
@@ -503,7 +504,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    }
   }
   square(this, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
-  add_spawn(mon_fungaloid_queen, 1, 12, 12);
+  add_spawn("mon_fungaloid_queen", 1, 12, 12);
   break;
 
  case ot_road_ns:
@@ -1350,7 +1351,7 @@ t   t\n\
        ter_set(podx + x, pody + y, t_paper);
      }
     }
-    add_spawn(mon_wasp, 1, podx, pody);
+    add_spawn("mon_wasp", 1, podx, pody);
    }
    place_items("rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
@@ -1359,7 +1360,7 @@ t   t\n\
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_floor) {
       if (one_in(15)) {
-       add_spawn(mon_spider_widow, rng(1, 2), i, j);
+       add_spawn("mon_spider_widow", rng(1, 2), i, j);
        for (int x = i - 1; x <= i + 1; x++) {
         for (int y = j - 1; y <= j + 1; y++) {
          if (ter(x, y) == t_floor)
@@ -1475,7 +1476,7 @@ t   t\n\
 ........................\n",
    mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
    mapf::basic_bind( "n", f_dive_block));
-   add_spawn(mon_zombie_swimmer, rng(1, 6), SEEX, SEEY);
+   add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY);
  } break;
 
  case ot_park: {
@@ -1543,7 +1544,7 @@ t   t\n\
   mapf::basic_bind("#", f_bench));
   rotate(rng(0, 3));
   }
-  add_spawn(mon_zombie_child, rng(2, 8), SEEX, SEEY);
+  add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
  } break;
 
  case ot_s_gas_north:
@@ -1805,7 +1806,7 @@ case ot_apartments_con_tower_1_entrance:{
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   else
-    add_spawn(mon_zombie, rng(1,8), 15, 10);
+    add_spawn("mon_zombie", rng(1,8), 15, 10);
   if (t_north == ot_apartments_con_tower_1 && t_west == ot_apartments_con_tower_1)
    rotate(3);
   else if (t_north == ot_apartments_con_tower_1 && t_east == ot_apartments_con_tower_1)
@@ -1875,7 +1876,7 @@ case ot_apartments_con_tower_1:{
      if (density > 1)
        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
      else
-       add_spawn(mon_zombie, rng(1,8), 15, 10);
+       add_spawn("mon_zombie", rng(1,8), 15, 10);
      if (t_west == ot_apartments_con_tower_1_entrance)
             rotate(1);
      if (t_north == ot_apartments_con_tower_1_entrance)
@@ -1940,7 +1941,7 @@ ss                      \n",
      if (density > 1)
        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
      else
-       add_spawn(mon_zombie, rng(1,8), 15, 10);
+       add_spawn("mon_zombie", rng(1,8), 15, 10);
      if (t_north == ot_apartments_con_tower_1_entrance)
             rotate(1);
      if (t_east == ot_apartments_con_tower_1_entrance)
@@ -2006,7 +2007,7 @@ ss                      \n",
      if (density > 1)
        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
      else
-       add_spawn(mon_zombie, rng(1,8), 15, 10);
+       add_spawn("mon_zombie", rng(1,8), 15, 10);
      if (t_west == ot_apartments_con_tower_1 && t_north == ot_apartments_con_tower_1){
             rotate(1);}
      else if (t_east == ot_apartments_con_tower_1 && t_north == ot_apartments_con_tower_1){
@@ -2072,7 +2073,7 @@ case ot_apartments_mod_tower_1_entrance:{
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   else
-    add_spawn(mon_zombie, rng(1,8), 15, 10);
+    add_spawn("mon_zombie", rng(1,8), 15, 10);
   if (t_north == ot_apartments_mod_tower_1 && t_west == ot_apartments_mod_tower_1)
    rotate(3);
   else if (t_north == ot_apartments_mod_tower_1 && t_east == ot_apartments_mod_tower_1)
@@ -2142,7 +2143,7 @@ case ot_apartments_mod_tower_1:{
      if (density > 1)
        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
      else
-       add_spawn(mon_zombie, rng(1,8), 15, 10);
+       add_spawn("mon_zombie", rng(1,8), 15, 10);
      if (t_west == ot_apartments_mod_tower_1_entrance)
             rotate(1);
      if (t_north == ot_apartments_mod_tower_1_entrance)
@@ -2207,7 +2208,7 @@ ss                      \n",
      if (density > 1)
        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
      else
-       add_spawn(mon_zombie, rng(1,8), 15, 10);
+       add_spawn("mon_zombie", rng(1,8), 15, 10);
      if (t_north == ot_apartments_mod_tower_1_entrance)
             rotate(1);
      if (t_east == ot_apartments_mod_tower_1_entrance)
@@ -2273,7 +2274,7 @@ EE|.+..........e|ssR    \n\
      if (density > 1)
        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
      else
-       add_spawn(mon_zombie, rng(1,8), 15, 10);
+       add_spawn("mon_zombie", rng(1,8), 15, 10);
      if (t_west == ot_apartments_mod_tower_1 && t_north == ot_apartments_mod_tower_1){
             rotate(1);}
      else if (t_east == ot_apartments_mod_tower_1 && t_north == ot_apartments_mod_tower_1){
@@ -2319,9 +2320,9 @@ ssssss______ss______ssss\n",
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 12, 3, density);
   else {
-    if (x_in_y(1,2)){add_spawn(mon_zombie, 2, 15, 7);}
-    if (x_in_y(1,2)){add_spawn(mon_zombie, rng(1,8), 22, 1);}
-    if (x_in_y(1,2)){add_spawn(mon_zombie_cop, 1, 22, 4);}
+    if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
+    if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 22, 1);}
+    if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 1, 22, 4);}
     }
   if (t_north == ot_office_tower_1 && t_west == ot_office_tower_1)
    rotate(3);
@@ -2369,8 +2370,8 @@ ss%|rrrr|...|.R.|EEED...\n",
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 2, 8, density);
      else {
-        add_spawn(mon_zombie, rng(0,5), 15, 7);
-        if (x_in_y(1,1)){add_spawn(mon_zombie, 2, 5, 20);}
+        add_spawn("mon_zombie", rng(0,5), 15, 7);
+        if (x_in_y(1,1)){add_spawn("mon_zombie", 2, 5, 20);}
       }
      place_items("office", 75, 4, 23, 7, 23, false, 0);
      place_items("office", 75, 4, 19, 7, 19, false, 0);
@@ -2430,8 +2431,8 @@ ssssssssssssssssssssssss\n",
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 14, 10, density);
      else {
-        add_spawn(mon_zombie, rng(0,15), 14, 10);
-        if (x_in_y(1,2)){add_spawn(mon_zombie_cop, 2, 10, 10);}
+        add_spawn("mon_zombie", rng(0,15), 14, 10);
+        if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 2, 10, 10);}
      }
      if (t_north == ot_office_tower_1_entrance)
             rotate(1);
@@ -2482,7 +2483,7 @@ ssssssssssssssssssssssss\n\
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
      else {
-        add_spawn(mon_zombie, rng(0,5), 9, 15);
+        add_spawn("mon_zombie", rng(0,5), 9, 15);
       }
      if (t_west == ot_office_tower_1 && t_north == ot_office_tower_1){
             rotate(1);}
@@ -2526,7 +2527,7 @@ ssssssssssssssssssssssss\n",
   if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   else {
-        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+        add_spawn("mon_zombie", rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
       }
   if (t_north == ot_office_tower_b && t_west == ot_office_tower_b)
    rotate(3);
@@ -2574,7 +2575,7 @@ sss|........|.R.|EEED___\n",
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
      else {
-        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+        add_spawn("mon_zombie", rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
       }
      if (t_west == ot_office_tower_b_entrance){
             rotate(1);
@@ -2635,7 +2636,7 @@ ssssssssssssssssssssssss\n",
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
      else {
-        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+        add_spawn("mon_zombie", rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
       }
      if (t_north == ot_office_tower_b_entrance){
             rotate(1);
@@ -2694,7 +2695,7 @@ ___DEEE|.R.|...,,...|sss\n",
      if (density > 1)
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
      else {
-        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+        add_spawn("mon_zombie", rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
       }
      if (t_west == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(1);
@@ -3157,7 +3158,7 @@ case ot_cathedral_b:{
             place_items("cannedfood", 40,  i,  j, i,  j, false, 0);
        }
      }
-     add_spawn(mon_blank, rng(1,3), 23, 5);
+     add_spawn("mon_blank", rng(1,3), 23, 5);
      if (t_west == ot_cathedral_b_entrance)
             rotate(1);
      else if (t_north == ot_cathedral_b_entrance)
@@ -3249,7 +3250,7 @@ C..C..C...|hhh|#########\n\
      mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor, t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,         t_pavement_y, t_pavement, t_floor, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_column, t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,  f_null,     f_null,        f_null,      f_null, f_null,              f_null,         f_makeshift_bed, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,                 f_null,               f_toilet, f_sink,  f_fridge, f_null,   f_chair, f_counter, f_desk,  f_locker, f_null));
      spawn_item(0, 3, "small_relic", 0);
-     add_spawn(mon_blank, rng(1,3), 0, 5);
+     add_spawn("mon_blank", rng(1,3), 0, 5);
      if (t_west == ot_cathedral_b && t_north == ot_cathedral_b)
             rotate(1);
      else if (t_east == ot_cathedral_b && t_north == ot_cathedral_b)
@@ -4238,7 +4239,7 @@ case ot_lmoe_under:
    science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
    science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
 
-   add_spawn(mon_turret, 1, SEEX, 5);
+   add_spawn("mon_turret", 1, SEEX, 5);
 
    if (t_east > ot_road_null && t_east <= ot_road_nesw_manhole)
     rotate(1);
@@ -4347,7 +4348,7 @@ case ot_lmoe_under:
      tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 6);
      tmpcomp = add_computer(15, 12, _("Magazine Entrance"), 6);
      tmpcomp->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 7);
-   if (one_in(2)) add_spawn(mon_zombie_soldier, rng(1,4), 12, 12);
+   if (one_in(2)) add_spawn("mon_zombie_soldier", rng(1,4), 12, 12);
   } else{ //human containment
    mapf::formatted_set_simple(this, 0, 0,
 "\
@@ -4401,16 +4402,16 @@ case ot_lmoe_under:
     tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
     add_trap(19, 19, tr_dissector);
     item body;
-    body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
     if (one_in(2))add_item(1, 1, body);
-    else add_spawn(mon_zombie_shrieker, 1, 1, 1);
+    else add_spawn("mon_zombie_shrieker", 1, 1, 1);
     if (one_in(2))add_item(9, 3, body);
-    else add_spawn(mon_zombie_brute, 1, 9, 3);
+    else add_spawn("mon_zombie_brute", 1, 9, 3);
     if (one_in(2))add_item(14, 4, body);
-    else add_spawn(mon_zombie_child, 1, 14, 4);
+    else add_spawn("mon_zombie_child", 1, 14, 4);
     if (one_in(2))add_item(19, 9, body);
-    else add_spawn(mon_zombie_grabber, 1, 19, 9);
-    if (one_in(2)) add_spawn(mon_zombie_scientist, rng(1,2), 12, 14);
+    else add_spawn("mon_zombie_grabber", 1, 19, 9);
+    if (one_in(2)) add_spawn("mon_zombie_scientist", rng(1,2), 12, 14);
    }
    if (bw == 2){
     rotate(2);}
@@ -4651,11 +4652,11 @@ case ot_lmoe_under:
     mapf::basic_bind("l A r d C h 6 x g G , . - | + D t c S", t_rock_floor, t_floor,   t_rock_floor, t_rock_floor, t_centrifuge, t_rock_floor, t_console, t_console_broken, t_reinforced_glass_v, t_reinforced_glass_h, t_floor_blue, t_rock_floor, t_concrete_h, t_concrete_v, t_door_metal_c, t_door_metal_locked, t_rock_floor, t_rock_floor, t_rock_floor),
     mapf::basic_bind("l A r d C h 6 x g G , . - | + D t c S", f_locker,     f_crate_c, f_rack,       f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,               f_null,               f_null,       f_null,       f_null,       f_null,       f_null,         f_null ,             f_table,      f_counter,    f_sink));
     add_trap(19, 3, tr_dissector);
-    if (one_in(3)) add_spawn(mon_mi_go, 1, 12, 12);
-    else add_spawn(mon_zombie_brute,1 ,12,12);
-    if (one_in(3)) add_spawn(mon_kreck, 1, 2, 2);
-    if (one_in(3)) add_spawn(mon_crawler, 1, 2, 7);
-    if (one_in(2)) add_spawn(mon_zombie_scientist, rng(1,3), 12, 18);
+    if (one_in(3)) add_spawn("mon_mi_go", 1, 12, 12);
+    else add_spawn("mon_zombie_brute",1 ,12,12);
+    if (one_in(3)) add_spawn("mon_kreck", 1, 2, 2);
+    if (one_in(3)) add_spawn("mon_crawler", 1, 2, 7);
+    if (one_in(2)) add_spawn("mon_zombie_scientist", rng(1,3), 12, 18);
     for (int i = 0; i <= 23; i++) {
       for (int j = 0; j <= 23; j++) {
       if (this->furn(i,j) == f_counter)
@@ -4663,7 +4664,7 @@ case ot_lmoe_under:
       else if (this->furn(i,j) == f_locker)
           place_items("science", 60,  i,  j, i,  j, false, 0);
       item body;
-      body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+      body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
       if (one_in(500) && this->ter(i,j) == t_rock_floor)add_item(i, j, body);
       }
      }
@@ -4716,9 +4717,9 @@ A......D.........|dh...|\n\
          place_items("cleaning", 60,  i,  j, i,  j, false, 0);
      else if (this->furn(i,j) == f_rack)
          place_items("mine_equipment", 30,  i,  j, i,  j, false, 0);
-     if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn(mon_zombie, 1, i, j);
+     if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn("mon_zombie", 1, i, j);
      item body;
-     body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+     body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
      if (one_in(500) && this->ter(i,j) == t_rock_floor)add_item(i, j, body);
      }
     }
@@ -4758,11 +4759,11 @@ ff.......|....|WWWWWWWW|\n\
          place_items("science", 60,  i,  j, i,  j, false, 0);
      else if (this->furn(i,j) == f_fridge)
          place_items("fridge", 50,  i,  j, i,  j, false, 0);
-     if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn(mon_zombie, 1, i, j);
+     if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn("mon_zombie", 1, i, j);
     }
    }
    item body;
-   body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+   body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
    add_item(17, 15, body);
    add_item(8, 3, body);
    add_item(10, 3, body);
@@ -4803,9 +4804,9 @@ ff.......|....|WWWWWWWW|\n\
        if (this->furn(i,j) == f_counter){
          place_items("cubical_office", 30,  i,  j, i,  j, false, 0);
        }
-       if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn(mon_zombie, 1, i, j);
+       if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn("mon_zombie", 1, i, j);
        item body;
-       body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+       body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
        if (one_in(400) && this->ter(i,j) == t_rock_floor) add_item(i, j, body);
       }
      }
@@ -4935,10 +4936,10 @@ ff.......|....|WWWWWWWW|\n\
 
   switch (rng(1, 3)) {
   case 1: // Weapons testing
-   add_spawn(mon_secubot, 1,            6,            6);
-   add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
-   add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
-   add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+   add_spawn("mon_secubot", 1,            6,            6);
+   add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
+   add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
+   add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);
    add_trap(SEEX - 2, SEEY - 2, tr_dissector);
    add_trap(SEEX + 1, SEEY - 2, tr_dissector);
    add_trap(SEEX - 2, SEEY + 1, tr_dissector);
@@ -4971,6 +4972,8 @@ ff.......|....|WWWWWWWW|\n\
 
   case 2: { // Netherworld access
    if (!one_in(4)) { // Trapped netherworld monsters
+    std::string nethercreatures[10] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin",
+ "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank", "mon_gozu"};
     tw = rng(SEEY + 3, SEEY + 5);
     bw = tw + 4;
     lw = rng(SEEX - 6, SEEX - 2);
@@ -4987,7 +4990,7 @@ ff.......|....|WWWWWWWW|\n\
       else if (j == tw + 2)
        ter_set(i, j, t_concrete_h);
       else { // Empty space holds monsters!
-       mon_id type = mon_id(rng(mon_flying_polyp, mon_gozu));
+       std::string type = nethercreatures[(rng(0, 10))];
        add_spawn(type, 1, i, j);
       }
      }
@@ -5007,10 +5010,10 @@ ff.......|....|WWWWWWWW|\n\
    } break;
 
   case 3: // Bionics
-   add_spawn(mon_secubot, 1,            6,            6);
-   add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
-   add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
-   add_spawn(mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7);
+   add_spawn("mon_secubot", 1,            6,            6);
+   add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
+   add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
+   add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);
    add_trap(SEEX - 2, SEEY - 2, tr_dissector);
    add_trap(SEEX + 1, SEEY - 2, tr_dissector);
    add_trap(SEEX - 2, SEEY + 1, tr_dissector);
@@ -5082,8 +5085,8 @@ ff.......|....|WWWWWWWW|\n\
    for (int i = 9; i <= 13; i += 2) {
     line(this, t_wall_metal_h,  9, i, 10, i);
     line(this, t_wall_metal_h, 13, i, 14, i);
-    add_spawn(mon_turret, 1, 9, i + 1);
-    add_spawn(mon_turret, 1, 14, i + 1);
+    add_spawn("mon_turret", 1, 9, i + 1);
+    add_spawn("mon_turret", 1, 14, i + 1);
    }
    ter_set(13, 16, t_card_military);
   } else { // Below ground!
@@ -5256,24 +5259,24 @@ ff.......|....|WWWWWWWW|\n\
    ter_set( 2, 12, t_concrete_v);
 
 // Place turrets by (possible) entrances
-  add_spawn(mon_turret, 1,  3, 11);
-  add_spawn(mon_turret, 1,  3, 12);
-  add_spawn(mon_turret, 1, 20, 11);
-  add_spawn(mon_turret, 1, 20, 12);
-  add_spawn(mon_turret, 1, 11,  3);
-  add_spawn(mon_turret, 1, 12,  3);
-  add_spawn(mon_turret, 1, 11, 20);
-  add_spawn(mon_turret, 1, 12, 20);
+  add_spawn("mon_turret", 1,  3, 11);
+  add_spawn("mon_turret", 1,  3, 12);
+  add_spawn("mon_turret", 1, 20, 11);
+  add_spawn("mon_turret", 1, 20, 12);
+  add_spawn("mon_turret", 1, 11,  3);
+  add_spawn("mon_turret", 1, 12,  3);
+  add_spawn("mon_turret", 1, 11, 20);
+  add_spawn("mon_turret", 1, 12, 20);
 
 // Finally, scatter dead bodies / mil zombies
   for (int i = 0; i < 20; i++) {
    int rnx = rng(3, 20), rny = rng(3, 20);
    if (move_cost(rnx, rny) != 0) {
     if (one_in(5)) // Military zombie
-     add_spawn(mon_zombie_soldier, 1, rnx, rny);
+     add_spawn("mon_zombie_soldier", 1, rnx, rny);
     else if (one_in(2)) {
      item body;
-     body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+     body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
      add_item(rnx, rny, body);
      place_items("launchers",  10, rnx, rny, rnx, rny, true, 0);
      place_items("mil_rifles", 30, rnx, rny, rnx, rny, true, 0);
@@ -5404,10 +5407,10 @@ ff.......|....|WWWWWWWW|\n\
 
     case 2: // Spreading water
      square(this, t_water_dp, 4, 4, 5, 5);
-     add_spawn(mon_sewer_snake, 1, 4, 4);
+     add_spawn("mon_sewer_snake", 1, 4, 4);
 
      square(this, t_water_dp, SEEX * 2 - 5, 4, SEEX * 2 - 4, 6);
-     add_spawn(mon_sewer_snake, 1, SEEX * 2 - 5, 4);
+     add_spawn("mon_sewer_snake", 1, SEEX * 2 - 5, 4);
 
      square(this, t_water_dp, 4, SEEY * 2 - 5, 6, SEEY * 2 - 4);
 
@@ -5987,7 +5990,7 @@ ff.......|....|WWWWWWWW|\n\
       } while (body.x == -1 && tries < 10);
       if (tries < 10) {
        item miner;
-       miner.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+       miner.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
        add_item(body.x, body.y, miner);
        place_items("mine_equipment", 60, body.x, body.y, body.x, body.y,
                    false, 0);
@@ -6008,7 +6011,7 @@ ff.......|....|WWWWWWWW|\n\
       if (w_fac == 6)
        sides.push_back(WEST);
       if (sides.empty()) {
-       add_spawn(mon_dark_wyrm, 1, SEEX, SEEY);
+       add_spawn("mon_dark_wyrm", 1, SEEX, SEEY);
        i = num_worms;
       } else {
        direction side = sides[rng(0, sides.size() - 1)];
@@ -6021,7 +6024,7 @@ ff.......|....|WWWWWWWW|\n\
         default: break;
        }
        ter_set(p.x, p.y, t_rock_floor);
-       add_spawn(mon_dark_wyrm, 1, p.x, p.y);
+       add_spawn("mon_dark_wyrm", 1, p.x, p.y);
       }
      }
     } break;
@@ -6035,7 +6038,7 @@ ff.......|....|WWWWWWWW|\n\
      line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
      ter_set(orx + 3, ory + 3, t_rock);
      item miner;
-     miner.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+     miner.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
      add_item(orx + 2, ory + 3, miner);
      place_items("mine_equipment", 60, orx + 2, ory + 3, orx + 2, ory + 3,
                  false, 0);
@@ -6200,14 +6203,14 @@ ff.......|....|WWWWWWWW|\n\
 
    case 2: { // The Thing dog
     item miner;
-    miner.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+    miner.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
     int num_bodies = rng(4, 8);
     for (int i = 0; i < num_bodies; i++) {
      int x = rng(4, SEEX * 2 - 5), y = rng(4, SEEX * 2 - 5);
      add_item(x, y, miner);
      place_items("mine_equipment", 60, x, y, x, y, false, 0);
     }
-    add_spawn(mon_dog_thing, 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
+    add_spawn("mon_dog_thing", 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
     spawn_artifact(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), g->new_artifact(), 0);
    } break;
 
@@ -6638,7 +6641,7 @@ ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(20, 60), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(20, 60), SEEX, SEEY);
   if (t_north == ot_school_2)
    rotate(3);
   else if (t_east == ot_school_2)
@@ -6679,8 +6682,8 @@ ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(5, 20), SEEX, SEEY);
-     add_spawn(mon_zombie, rng(0, 8), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(5, 20), SEEX, SEEY);
+     add_spawn("mon_zombie", rng(0, 8), SEEX, SEEY);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
@@ -6729,7 +6732,7 @@ ss$$   $$_______$$   $$s\n\
 sssssssss_______ssssssss\n",
   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-  add_spawn(mon_zombie_child, rng(0, 8), SEEX, SEEY);
+  add_spawn("mon_zombie_child", rng(0, 8), SEEX, SEEY);
   if (t_north == ot_school_2){
    rotate(1);
    if (x_in_y(1,7)){add_vehicle (g, "schoolbus", 19, 10, 0);}}
@@ -6774,8 +6777,8 @@ sssssssss_______ssssssss\n",
  |l..ttt..|.............\n",
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-     add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(0, 20), SEEX, SEEY);
+     add_spawn("mon_zombie", rng(0, 4), SEEX, SEEY);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
@@ -6824,8 +6827,8 @@ sssssssss_______ssssssss\n",
 ........l|l.l|^...ccl|$ \n",
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(0, 15), SEEX, SEEY);
-     add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(0, 15), SEEX, SEEY);
+     add_spawn("mon_zombie", rng(0, 4), SEEX, SEEY);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
@@ -6879,8 +6882,8 @@ sssssssss_______ssssssss\n",
 ssssssssssssssssssssssss\n",
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-     add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(0, 20), SEEX, SEEY);
+     add_spawn("mon_zombie", rng(0, 4), SEEX, SEEY);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
@@ -6929,8 +6932,8 @@ ssssssssssssssssssssssss\n",
  |l..hd...|....|.h.h.h.h\n",
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-     add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(0, 20), SEEX, SEEY);
+     add_spawn("mon_zombie", rng(0, 4), SEEX, SEEY);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_desk)
@@ -6979,8 +6982,8 @@ w                       \n\
 |....................+.l\n",
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(0, 4), SEEX, SEEY);
-     add_spawn(mon_zombie, rng(0, 1), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(0, 4), SEEX, SEEY);
+     add_spawn("mon_zombie", rng(0, 1), SEEX, SEEY);
   place_items("cleaning", 80,  22, 23, 23,  23, false, 0);
   spawn_item(12, 15, "american_flag", 0);
   if (t_north == ot_school_5)
@@ -7022,8 +7025,8 @@ wd.d.d.d.|....|----|-|-|\n\
 |h.h.h.h.|....|.h.h.h.hw\n",
      mapf::basic_bind("e r _ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_floor,  t_floor, t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("e r _ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_fridge, f_rack,  f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-     add_spawn(mon_zombie, rng(3, 10), SEEX, SEEY);
+     add_spawn("mon_zombie_child", rng(0, 20), SEEX, SEEY);
+     add_spawn("mon_zombie", rng(3, 10), SEEX, SEEY);
      place_items("cleaning", 80,  15,  15, 15,  15, false, 0);
      place_items("cannedfood", 95,  17,  15, 17,  15, false, 0);
      place_items("fast_food", 95,  18,  11, 19,  12, false, 0);
@@ -7083,9 +7086,9 @@ wd.d.d.d.|....|----|-|-|\n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
        }
        }
      }
@@ -7134,13 +7137,13 @@ fffffffffHHHHHHfffffffff\n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
        }
        }
      }
-     add_spawn(mon_eyebot, 1, rng(5,18), rng(12,18));
+     add_spawn("mon_eyebot", 1, rng(5,18), rng(12,18));
   if (t_north == ot_prison_5)
    rotate(0);
   else if (t_east == ot_prison_5)
@@ -7186,9 +7189,9 @@ fffffffffffffffff|,,| % \n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
        }
        }
      }
@@ -7237,9 +7240,9 @@ fffffffffffffffff|,,| % \n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
         }
         if (this->furn(i,j) == f_desk){
             place_items("magazines", 30,  i,  j, i,  j, false, 0);
@@ -7287,8 +7290,8 @@ bb| ss____________ss |bb\n\
 ,,|ss______________ss|,,\n",
      mapf::basic_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", t_stairs_down, t_floor, t_floor,    t_reinforced_glass_h, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor, t_door_bar_locked, t_floor, t_bars, t_concrete_h, t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_floor),
      mapf::basic_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench, f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
-     add_spawn(mon_secubot, rng(1, 2), 11, 7);
-     add_spawn(mon_zombie_cop, rng(0, 3), rng(12,18), rng(4,19));
+     add_spawn("mon_secubot", rng(1, 2), 11, 7);
+     add_spawn("mon_zombie_cop", rng(0, 3), rng(12,18), rng(4,19));
      place_items("pistols", 30,  11,  1, 12,  1, false, 0);
      place_items("ammo", 50,  11,  1, 12,  1, false, 0);
      for (int i = 0; i <= 23; i++) {
@@ -7296,9 +7299,9 @@ bb| ss____________ss |bb\n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
        }
         if (this->furn(i,j) == f_desk){
             place_items("magazines", 40,  i,  j, i,  j, false, 0);
@@ -7351,9 +7354,9 @@ bb| ss____________ss |bb\n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
         }
         if (this->furn(i,j) == f_desk){
             place_items("magazines", 30,  i,  j, i,  j, false, 0);
@@ -7406,9 +7409,9 @@ bb| ss____________ss |bb\n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
        }
        }
      }
@@ -7457,16 +7460,16 @@ bb|o,,,,|,,,,,l|,,,,,|bb\n",
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
         }
         if (this->ter(i,j) == t_sidewalk){
             if (one_in(200)){
                 if (!one_in(3))
-                    add_spawn(mon_zombie, 1, i, j);
+                    add_spawn("mon_zombie", 1, i, j);
                 else
-                    add_spawn(mon_zombie_brute, 1, i, j);
+                    add_spawn("mon_zombie_brute", 1, i, j);
             }
         }
         if (this->furn(i,j) == f_locker){
@@ -7523,9 +7526,9 @@ fffffffffffffffff|,,| % \n\
         if (this->furn(i,j) == f_bed){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
        }
        }
      }
@@ -7574,9 +7577,9 @@ bb|#####################\n\
         if (this->furn(i,j) == f_toilet){
             place_items("novels", 30,  i,  j, i,  j, false, 0);
             if (!one_in(3))
-                add_spawn(mon_zombie, rng(0, 1), i, j);
+                add_spawn("mon_zombie", rng(0, 1), i, j);
             else
-                add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                add_spawn("mon_zombie_brute", rng(0, 1), i, j);
        }
        }
      }
@@ -7730,17 +7733,17 @@ bb|,,,,,,,,,,,,,,,,,,|##\n\
 ,,|,,,,,,,,,,,,,,,,,,|##\n",
     mapf::basic_bind("t > O # E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_floor, t_stairs_up, t_column, t_rock, t_floor,    t_reinforced_glass_h, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor, t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_h, t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_floor),
     mapf::basic_bind("t > O # E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_table, f_null,      f_null,   f_null, f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
-    add_spawn(mon_zombie_cop, rng(0, 2), 2, 0);
-    add_spawn(mon_zombie_cop, rng(0, 2), 2, 23);
+    add_spawn("mon_zombie_cop", rng(0, 2), 2, 0);
+    add_spawn("mon_zombie_cop", rng(0, 2), 2, 23);
     place_items("pistols", 30,  11,  1, 12,  1, false, 0);
     place_items("ammo", 40,  11,  1, 12,  1, false, 0);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_chair){
             if (one_in(4)) {
-                    if (!one_in(3)) add_spawn(mon_zombie, 1, i, j);
-                    else if (one_in(10)) add_spawn(mon_zombie_cop, 1, i, j);
-                    else add_spawn(mon_zombie_brute, 1, i, j);
+                    if (!one_in(3)) add_spawn("mon_zombie", 1, i, j);
+                    else if (one_in(10)) add_spawn("mon_zombie_cop", 1, i, j);
+                    else add_spawn("mon_zombie_brute", 1, i, j);
             }
         }
        }
@@ -7783,7 +7786,7 @@ h,h,g,,,|###############\n\
      mapf::basic_bind("D W # t g r + = h c l w s _ o d x T b G . , B - | % f F S", t_floor, t_floor,  t_rock, t_floor, t_reinforced_glass_v, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor, t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_h, t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_floor),
      mapf::basic_bind("D W # t g r + = h c l w s _ o d x T b G . , B - | % f F S", f_dryer, f_washer, f_null, f_table, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
      spawn_item(7, 11, "visions_solitude", 0);
-     add_spawn(mon_zombie_brute, 1, 6, 13);
+     add_spawn("mon_zombie_brute", 1, 6, 13);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_locker || this->furn(i,j) == f_rack ){
@@ -7872,7 +7875,7 @@ h,h,g,,,|###############\n\
 ##|t,,,,|cScScc|o,,,,,,,\n",
     mapf::basic_bind("t e o > O # E g r + = h c l w s _ d x T b G . , B - | % f F S", t_floor, t_floor,  t_floor, t_stairs_up, t_column, t_rock, t_floor,    t_reinforced_glass_h, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,  t_window, t_sidewalk, t_pavement, t_floor, t_console_broken, t_floor,  t_floor, t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_h, t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_floor),
     mapf::basic_bind("t e o > O # E g r + = h c l w s _ d x T b G . , B - | % f F S", f_table, f_fridge, f_oven,  f_null,      f_null,   f_null, f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
-    add_spawn(mon_zombie_cop, rng(0, 2), 12, 19);
+    add_spawn("mon_zombie_cop", rng(0, 2), 12, 19);
     if (t_east != ot_prison_b)
         rotate(1);
     else if (t_south != ot_prison_b)
@@ -7927,10 +7930,10 @@ ee|,,,,,,r|#############\n\
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_toilet){
-            if (one_in(3)) add_spawn(mon_zombie_brute, rng(0, 1), i, j);
-            else if (one_in(3)) add_spawn(mon_zombie_grabber, rng(0, 1), i, j);
-            else if (one_in(3)) add_spawn(mon_zombie_electric, rng(0, 1), i, j);
-            else add_spawn(mon_zombie, rng(0, 1), i, j);
+            if (one_in(3)) add_spawn("mon_zombie_brute", rng(0, 1), i, j);
+            else if (one_in(3)) add_spawn("mon_zombie_grabber", rng(0, 1), i, j);
+            else if (one_in(3)) add_spawn("mon_zombie_electric", rng(0, 1), i, j);
+            else add_spawn("mon_zombie", rng(0, 1), i, j);
             }
         if (this->furn(i,j) == f_bed)
             place_items("novels", 30,  i,  j, i,  j, false, 0);
@@ -8177,8 +8180,8 @@ ________________________\n\
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   else {
-    if (x_in_y(1,2)){add_spawn(mon_zombie, 2, 15, 7);}
-    if (x_in_y(1,2)){add_spawn(mon_zombie, rng(1,8), 12, 11);}
+    if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
+    if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 12, 11);}
     }
   if (t_north == ot_hotel_tower_1_2)
    rotate(2);
@@ -8280,7 +8283,7 @@ s    |c....|c....|c....|\n",
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   else {
-    add_spawn(mon_zombie, rng(0,12), 14, 11);
+    add_spawn("mon_zombie", rng(0,12), 14, 11);
     }
   if (t_north == ot_hotel_tower_1_8)
    rotate(3);
@@ -8333,7 +8336,7 @@ c...d|t.........t|....c|\n",
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 23, 23, 3, density);
   else {
-    add_spawn(mon_zombie, rng(1,18), 12, 12);
+    add_spawn("mon_zombie", rng(1,18), 12, 12);
     }
   if (t_north == ot_hotel_tower_1_5)
    rotate(2);
@@ -8386,7 +8389,7 @@ h....|h....|h....|    s \n\
   if (density > 1)
     place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   else {
-    add_spawn(mon_zombie, rng(1,8), 12, 12);
+    add_spawn("mon_zombie", rng(1,8), 12, 12);
     }
   if (t_north == ot_hotel_tower_1_8)
    rotate(1);
@@ -8429,7 +8432,7 @@ h....|h....|h....|    s \n\
   mapf::basic_bind("E < H V G C x ^ . - | # t + = D w T S e o h c d l s", t_floor,    t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,   t_floor,  t_sidewalk),
   mapf::basic_bind("E < H V G C x ^ . - | # t + = D w T S e o h c d l s", f_exercise, f_null,      f_null,         f_null,         f_null,         f_null,   f_null,           f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_dresser, f_locker, f_null));
   place_items("snacks", 60,  15,  2, 16,  2, false, 0);
-  add_spawn(mon_sewer_snake, rng(0, 3), SEEX, SEEY);
+  add_spawn("mon_sewer_snake", rng(0, 3), SEEX, SEEY);
   if (t_north == ot_hotel_tower_b_2)
    rotate(3);
   else if (t_east == ot_hotel_tower_b_2)
@@ -8476,7 +8479,7 @@ T+...|l..l...rrr.|...+T|\n\
             place_items("cleaning", 60,  i,  j, i,  j, false, 0);
        }
      }
-     add_spawn(mon_sewer_snake, rng(0, 10), SEEX, SEEY);
+     add_spawn("mon_sewer_snake", rng(0, 10), SEEX, SEEY);
   if (t_north == ot_hotel_tower_b_1)
    rotate(1);
   else if (t_east == ot_hotel_tower_b_1)
@@ -8532,7 +8535,7 @@ tth.............^|..|###\n\
        }
       }
     }
-  add_spawn(mon_sewer_snake, rng(0, 3), SEEX, SEEY);
+  add_spawn("mon_sewer_snake", rng(0, 3), SEEX, SEEY);
   if (t_north == ot_hotel_tower_b_2)
    rotate(1);
   else if (t_east == ot_hotel_tower_b_2)
@@ -8675,7 +8678,7 @@ case ot_haz_sar_entrance:{
   place_items("cleaning", 90,  7,  3, 7,  5, false, 0);
   place_items("toxic_dump_equipment", 85,  19,  1, 19,  3, false, 0);
   place_items("toxic_dump_equipment", 85,  19,  5, 19,  7, false, 0);
-  if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 10, 5);}
+  if (x_in_y(1,2)){add_spawn("mon_hazmatbot", 1, 10, 5);}
 //lazy radiation mapping
   for (int x = 0; x <= 23; x++) {
     for (int y = 0; y <= 23; y++)
@@ -8727,8 +8730,8 @@ case ot_haz_sar:{
      place_items("cleaning", 85,  6,  11, 6,  14, false, 0);
      place_items("tools", 85,  10,  6, 13,  6, false, 0);
      place_items("toxic_dump_equipment", 85,  22,  14, 23,  15, false, 0);
-     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 22, 12);}
-     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 23, 18);}
+     if (x_in_y(1,2)){add_spawn("mon_hazmatbot", 1, 22, 12);}
+     if (x_in_y(1,2)){add_spawn("mon_hazmatbot", 1, 23, 18);}
      //lazy radiation mapping
      for (int x = 0; x <= 23; x++) {
        for (int y = 0; y <= 23; y++)
@@ -8828,8 +8831,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
      place_items("office", 85,  16,  23, 18,  23, false, 0);
      place_items("cleaning", 85,  11,  23, 12,  23, false, 0);
      place_items("robots", 90,  2,  11, 3,  11, false, 0);
-     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 7, 10);}
-     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 11, 16);}
+     if (x_in_y(1,2)){add_spawn("mon_hazmatbot", 1, 7, 10);}
+     if (x_in_y(1,2)){add_spawn("mon_hazmatbot", 1, 11, 16);}
      //lazy radiation mapping
      for (int x = 0; x <= 23; x++) {
        for (int y = 0; y <= 23; y++)
@@ -8892,10 +8895,10 @@ case ot_haz_sar_entrance_b1:{
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
-            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -8906,9 +8909,9 @@ case ot_haz_sar_entrance_b1:{
             place_items("trash", 50,  i,  j, i,  j, false, 0);
             place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
-                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-                else add_spawn(mon_zombie, 1, i, j);
+                if (one_in(10))add_spawn("mon_zombie_child", 1, i, j);
+                else if (one_in(15))add_spawn("mon_zombie_fast", 1, i, j);
+                else add_spawn("mon_zombie", 1, i, j);
             }
         }
        }
@@ -8962,10 +8965,10 @@ case ot_haz_sar_b1:{
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
-            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -8976,9 +8979,9 @@ case ot_haz_sar_b1:{
             place_items("trash", 50,  i,  j, i,  j, false, 0);
             place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
-                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-                else add_spawn(mon_zombie, 1, i, j);
+                if (one_in(10))add_spawn("mon_zombie_child", 1, i, j);
+                else if (one_in(15))add_spawn("mon_zombie_fast", 1, i, j);
+                else add_spawn("mon_zombie", 1, i, j);
             }
         }
        }
@@ -9026,10 +9029,10 @@ case ot_haz_sar_b1:{
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
-            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -9040,9 +9043,9 @@ case ot_haz_sar_b1:{
             place_items("trash", 50,  i,  j, i,  j, false, 0);
             place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
-                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-                else add_spawn(mon_zombie, 1, i, j);
+                if (one_in(10))add_spawn("mon_zombie_child", 1, i, j);
+                else if (one_in(15))add_spawn("mon_zombie_fast", 1, i, j);
+                else add_spawn("mon_zombie", 1, i, j);
             }
         }
        }
@@ -9096,10 +9099,10 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
-            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -9110,9 +9113,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             place_items("trash", 50,  i,  j, i,  j, false, 0);
             place_items("sewer", 50,  i,  j, i,  j, false, 0);
             if (one_in(5)){
-                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-                else add_spawn(mon_zombie, 1, i, j);
+                if (one_in(10))add_spawn("mon_zombie_child", 1, i, j);
+                else if (one_in(15))add_spawn("mon_zombie_fast", 1, i, j);
+                else add_spawn("mon_zombie", 1, i, j);
             }
         }
        }
@@ -9152,14 +9155,14 @@ $$$$-|-|=HH-|-HHHH-|####\n",
 
    switch (rng(1, 3)) { // What type of cave is it?
    case 1: // Bear cave
-    add_spawn(mon_bear, 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
+    add_spawn("mon_bear", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
     if (one_in(4))
-     add_spawn(mon_bear, 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
+     add_spawn("mon_bear", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
     place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     break;
    case 2: // Wolf cave!
     do
-     add_spawn(mon_wolf, 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
+     add_spawn("mon_wolf", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
     while (one_in(2));
     place_items("ant_food", 86, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     break;
@@ -9170,7 +9173,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
     for (int ii = 0; ii < bloodline.size(); ii++)
      add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
     item body;
-    body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
+    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
     add_item(hermx, hermy, body);
     place_items("rare", 25, hermx - 1, hermy - 1, hermx + 1, hermy + 1,true,0);
    } break;
@@ -9209,10 +9212,10 @@ $$$$-|-|=HH-|-HHHH-|####\n",
    for (int i = SEEX - 4; i <= SEEX + 4; i++) {
     for (int j = SEEY - 4; j <= SEEY + 4; j++) {
      if ((i <= SEEX - 2 || i >= SEEX + 2) && (j <= SEEY - 2 || j >= SEEY + 2))
-      add_spawn(mon_sewer_rat, 1, i, j);
+      add_spawn("mon_sewer_rat", 1, i, j);
     }
    }
-   add_spawn(mon_rat_king, 1, SEEX, SEEY);
+   add_spawn("mon_rat_king", 1, SEEX, SEEY);
    place_items("rare", 75, SEEX - 4, SEEY - 4, SEEX + 4, SEEY + 4, true, 0);
   } else { // Level 1
    int cavex = SEEX, cavey = SEEY * 2 - 3;
@@ -9227,7 +9230,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
       if (one_in(10))
        add_field(g, cx, cy, fd_blood, rng(1, 3));
       if (one_in(20))
-       add_spawn(mon_sewer_rat, 1, cx, cy);
+       add_spawn("mon_sewer_rat", 1, cx, cy);
      }
     }
     if (cavey == SEEY - 1)
@@ -9244,7 +9247,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
        if (one_in(10))
         add_field(g, cx, cy, fd_blood, rng(1, 3));
        if (one_in(20))
-        add_spawn(mon_sewer_rat, 1, cx, cy);
+        add_spawn("mon_sewer_rat", 1, cx, cy);
       }
      }
     }
@@ -9446,7 +9449,7 @@ case ot_cabin:
         place_items("dresser", 50, 19, 4, 19, 4, false, 0);
         place_items("softdrugs", 60, 8, 4, 9, 7, false, 0);
         place_items("livingroom", 50, 14, 12, 17, 15, false, 0);
-        add_spawn(mon_zombie, rng(1, 5), 11, 12);
+        add_spawn("mon_zombie", rng(1, 5), 11, 12);
 
     } else {
         square(this, t_wall_log, 4, 2, 10, 6);
@@ -9484,7 +9487,7 @@ case ot_cabin:
         place_items("dresser", 70, 16, 10, 16, 10, false, 0);
         place_items("dresser", 70, 19, 10, 19, 10, false, 0);
         place_items("tools", 70, 5, 3, 9, 3, false, 0);
-        add_spawn(mon_zombie, rng(1, 5), 7, 4);
+        add_spawn("mon_zombie", rng(1, 5), 7, 4);
     }
 
     break;
@@ -9583,9 +9586,9 @@ case ot_cabin:
                 place_items("subway",  10, i, j, i, j, true, 0);
        }
      }
-    add_spawn(mon_dementia, rng(3, 6), 4, 12);
-    add_spawn(mon_dementia, rng(1, 4), 19, 2);
-    add_spawn(mon_blood_sacrifice, 1, 4, 21);
+    add_spawn("mon_dementia", rng(3, 6), 4, 12);
+    add_spawn("mon_dementia", rng(1, 4), 19, 2);
+    add_spawn("mon_blood_sacrifice", 1, 4, 21);
  } break;
 
  case ot_farm:{
@@ -9629,9 +9632,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         place_items("bigtools", 50, 1, 11, 6, 18, true, 0);
         place_items("homeguns", 20, 1, 11, 6, 18, true, 0);
         if (one_in(2)) {
-         add_spawn(mon_zombie, rng(1, 6), 4, 14);
+         add_spawn("mon_zombie", rng(1, 6), 4, 14);
         } else {
-         add_spawn(mon_zombie, rng(1, 6), 12, 17);
+         add_spawn("mon_zombie", rng(1, 6), 12, 17);
         }
     } else {
         fill_background(this, &grass_or_dirt);
@@ -9748,7 +9751,7 @@ case ot_farm_field:
         place_items("home_hw", 50, 4, 19, 7, 19, true, 0);
         place_items("tools", 50, 4, 19, 7, 19, true, 0);
         if (one_in(10)) {
-            add_spawn(mon_zombie, rng(3, 6), 12, 12);
+            add_spawn("mon_zombie", rng(3, 6), 12, 12);
         }
 
     } else {
@@ -10347,7 +10350,7 @@ case ot_farm_field:
   for (int i = 0; i < 10; i++) {
    int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
    if (ter(x, y) == t_floor)
-    add_spawn(mon_zombie, 1, x, y);
+    add_spawn("mon_zombie", 1, x, y);
   }
 // Finally, figure out where the road is; contruct our entrance facing that.
   std::vector<direction> faces_road;
@@ -10461,7 +10464,7 @@ case ot_farm_field:
   for (int i = 0; i < 15; i++) {
    int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
    if (ter(x, y) == t_floor)
-    add_spawn(mon_zombie, 1, x, y);
+    add_spawn("mon_zombie", 1, x, y);
   }
 // Rotate randomly...
   rotate(rng(0, 3));
@@ -10536,7 +10539,7 @@ case ot_farm_field:
   rn = rng(10, 15);
   for (int i = 0; i < rn; i++) {
    item body;
-   body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
+   body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
    int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
    if (ter(zx, zy) == t_bed || one_in(3))
     add_item(zx, zy, body);
@@ -10865,17 +10868,17 @@ case ot_farm_field:
   rn = rng(15, 20);
   for (int i = 0; i < rn; i++) {
    item body;
-   body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
+   body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
    int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
    if (move_cost(zx, zy) > 0) {
      if (furn(zx, zy) == f_bed || one_in(3)) {
       add_item(zx, zy, body);
      } else {
-      mon_id zom = mon_zombie;
+      std::string zom = "mon_zombie";
       if (one_in(6)) {
-       zom = mon_zombie_spitter;
+       zom = "mon_zombie_spitter";
       } else if (!one_in(3)) {
-       zom = mon_boomer;
+       zom = "mon_boomer";
       }
       add_spawn(zom, 1, zx, zy);
      }
@@ -10919,7 +10922,7 @@ case ot_farm_field:
     // add zombies
     if (one_in(3))
     {
-        add_spawn(mon_zombie, rng(1,8), 12, 12);
+        add_spawn("mon_zombie", rng(1,8), 12, 12);
     }
  } break;
 
@@ -11123,7 +11126,7 @@ case ot_farm_field:
     // add zombies
     if (one_in(2))
     {
-        add_spawn(mon_zombie, rng(4,8), 12, 12);
+        add_spawn("mon_zombie", rng(4,8), 12, 12);
     }
   break;
 
@@ -11147,7 +11150,7 @@ case ot_farm_field:
   line_furn(this, f_chair, 7, 16, 7, 18);
   place_items("office", 80, 3, 16, 3, 18, false, 0);
   place_items("office", 80, 6, 16, 6, 18, false, 0);
-  add_spawn(mon_zombie_soldier, rng(1, 6), 4, 17);
+  add_spawn("mon_zombie_soldier", rng(1, 6), 4, 17);
 
   // Rotate to face the road
   if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
@@ -11204,9 +11207,9 @@ case ot_farm_field:
   place_items("harddrugs", 50, 14, 5, 17, 5, false, 0);
   place_items("hospital_samples", 50, 6, 5, 9, 5, false, 0);
   place_items("hospital_samples", 50, 14, 5, 17, 5, false, 0);
-  add_spawn(mon_zombie_scientist, rng(1, 6), 11, 12);
+  add_spawn("mon_zombie_scientist", rng(1, 6), 11, 12);
   if(one_in(2))
-  add_spawn(mon_zombie_brute, 1, 16, 17);
+  add_spawn("mon_zombie_brute", 1, 16, 17);
   }
   else if (t_west == ot_fema_entrance) {
 
@@ -11239,7 +11242,7 @@ case ot_farm_field:
   place_items("hardware", 90, 5, 16, 7, 17, false, 0);
   place_items("mil_rifles", 90, 18, 9, 18, 14, false, 0);
   place_items("office", 80, 10, 11, 13, 12, false, 0);
-  add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
+  add_spawn("mon_zombie_soldier", rng(1, 6), 12, 14);
 
    }
 
@@ -11275,7 +11278,7 @@ case ot_farm_field:
   line_furn(this, f_fema_groundsheet, 14, 5, 14, 18);
   line_furn(this, f_fema_groundsheet, 16, 5, 16, 18);
   place_items("livingroom", 80, 5, 5, 18, 18, false, 0);
-  add_spawn(mon_zombie, rng(1, 5), 11, 12);
+  add_spawn("mon_zombie", rng(1, 5), 11, 12);
 
 
 
@@ -11320,7 +11323,7 @@ case ot_farm_field:
   place_items("dining", 80, 13, 16, 17, 16, false, 0);
   place_items("dining", 80, 6, 12, 10, 12, false, 0);
   place_items("dining", 80, 6, 16, 10, 16, false, 0);
-  add_spawn(mon_zombie, rng(1, 5), 11, 12);
+  add_spawn("mon_zombie", rng(1, 5), 11, 12);
 
 
    break;
@@ -11330,7 +11333,7 @@ case ot_farm_field:
   square(this, t_fence_barbed, 4, 4, 19, 19);
   square(this, t_dirt, 5, 5, 18, 18);
   square(this, t_pit_corpsed, 6, 6, 17, 17);
-  add_spawn(mon_zombie, rng(5, 20), 11, 12);
+  add_spawn("mon_zombie", rng(5, 20), 11, 12);
 
    break;
 
@@ -11354,7 +11357,7 @@ case ot_farm_field:
   }
   ter_set(rng(3, SEEX * 2 - 4), rng(3, SEEY * 2 - 4), t_slope_up);
   place_items("spider", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0);
-  add_spawn(mon_spider_trapdoor, 1, rng(3, SEEX * 2 - 5), rng(3, SEEY * 2 - 4));
+  add_spawn("mon_spider_trapdoor", 1, rng(3, SEEX * 2 - 5), rng(3, SEEY * 2 - 4));
   break;
 
  case ot_anthill:
@@ -11563,7 +11566,7 @@ case ot_farm_field:
    }
   }
 
-  add_spawn(mon_blob, 8, SEEX, SEEY);
+  add_spawn("mon_blob", 8, SEEX, SEEY);
   place_items("sewer", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 
   break;
@@ -11580,10 +11583,10 @@ case ot_farm_field:
     int x = rng(rad + 1, 22 - rad), y = (one_in(2) ? rad : 23 - rad);
     ter_set(x, y, t_dirt);
    }
-   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, rad + 1, rad + 1);
-   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, 22 - rad, rad + 1);
-   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, rad + 1, 22 - rad);
-   add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, 22 - rad, 22 - rad);
+   add_spawn( (one_in(3) ? "mon_biollante" : "mon_triffid"), 1, rad + 1, rad + 1);
+   add_spawn( (one_in(3) ? "mon_biollante" : "mon_triffid"), 1, 22 - rad, rad + 1);
+   add_spawn( (one_in(3) ? "mon_biollante" : "mon_triffid"), 1, rad + 1, 22 - rad);
+   add_spawn( (one_in(3) ? "mon_biollante" : "mon_triffid"), 1, 22 - rad, 22 - rad);
   }
   square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
   break;
@@ -11607,17 +11610,17 @@ case ot_farm_field:
     int monrng = rng(1, 20);
     int spawnx = nodex + rng(0, 3), spawny = nodey + rng(0, 3);
     if (monrng <= 5)
-     add_spawn(mon_triffid, rng(1, 4), spawnx, spawny);
+     add_spawn("mon_triffid", rng(1, 4), spawnx, spawny);
     else if (monrng <= 13)
-     add_spawn(mon_creeper_hub, 1, spawnx, spawny);
+     add_spawn("mon_creeper_hub", 1, spawnx, spawny);
     else if (monrng <= 19)
-     add_spawn(mon_biollante, 1, spawnx, spawny);
+     add_spawn("mon_biollante", 1, spawnx, spawny);
     else {
      for (int webx = nodex; webx <= nodex + 3; webx++) {
       for (int weby = nodey; weby <= nodey + 3; weby++)
        add_field(g, webx, weby, fd_web, rng(1, 3));
      }
-     add_spawn(mon_spider_web, 1, spawnx, spawny);
+     add_spawn("mon_spider_web", 1, spawnx, spawny);
     }
    }
 // TODO: Non-monster hazards?
@@ -11676,11 +11679,11 @@ case ot_farm_field:
 
    if (chance >= 10 && one_in(10)) { // Add a spawn
     if (one_in(2))
-     add_spawn(mon_biollante, 1, x, y);
+     add_spawn("mon_biollante", 1, x, y);
     else if (!one_in(4))
-     add_spawn(mon_creeper_hub, 1, x, y);
+     add_spawn("mon_creeper_hub", 1, x, y);
     else
-     add_spawn(mon_triffid, 1, x, y);
+     add_spawn("mon_triffid", 1, x, y);
    }
 
    if (rng(0, 99) < chance) { // Force movement down or to the right
@@ -11720,7 +11723,7 @@ case ot_farm_field:
    } // Done with drunken walk
   } while (x < 19 || y < 19);
   square(this, t_slope_up, 1, 1, 2, 2);
-  add_spawn(mon_triffid_heart, 1, 21, 21);
+  add_spawn("mon_triffid_heart", 1, 21, 21);
  } break;
 
  case ot_basement:
@@ -12211,9 +12214,9 @@ case ot_farm_field:
   else
    place_items("ant_egg",  98, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
   if (terrain_type == ot_ants_queen)
-   add_spawn(mon_ant_queen, 1, SEEX, SEEY);
+   add_spawn("mon_ant_queen", 1, SEEX, SEEY);
   else if (terrain_type == ot_ants_larvae)
-   add_spawn(mon_ant_larva, 10, SEEX, SEEY);
+   add_spawn("mon_ant_larva", 10, SEEX, SEEY);
   break;
 
  case ot_tutorial:
@@ -12523,7 +12526,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
    } while( move_cost(x, y) == 0 && tries );
 
    // Pick a monster type
-   mon_id monster = MonsterGroupManager::GetMonsterFromGroup( group, &g->mtypes, &num );
+   std::string monster = MonsterGroupManager::GetMonsterFromGroup( group, &g->mtypes, &num );
 
    add_spawn(monster, 1, x, y);
   }
@@ -12592,21 +12595,21 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn, in
  }
 }
 
-void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
+void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
                     int faction_id, int mission_id, std::string name)
 {
  if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
-  debugmsg("Bad add_spawn(%d, %d, %d, %d)", type, count, x, y);
+  debugmsg("Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y);
   return;
  }
  int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
  if(!grid[nonant]){
-  debugmsg("centadodecamonant doesn't exist in grid; within add_spawn(%d, %d, %d, %d)",
-            type, count, x, y);
+  debugmsg("centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
+            type.c_str(), count, x, y);
   return;
  }
- if( OPTIONS["CLASSIC_ZOMBIES"] && !g->mtypes[type]->in_category(MC_CLASSIC) &&
-     !g->mtypes[type]->in_category(MC_WILDLIFE) ) {
+ if( OPTIONS["CLASSIC_ZOMBIES"] && !GetMType(type)->in_category("CLASSIC") &&
+     !GetMType(type)->in_category("WILDLIFE") ) {
      // Don't spawn non-classic monsters in classic zombie mode.
      return;
  }
@@ -12633,7 +12636,7 @@ void map::add_spawn(monster *mon)
   spawny += SEEY;
  spawnx %= SEEX;
  spawny %= SEEY;
- add_spawn(mon_id(mon->type->id), 1, spawnx, spawny, (mon->friendly < 0),
+ add_spawn(mon->type->id, 1, spawnx, spawny, (mon->friendly < 0),
            mon->faction_id, mon->mission_id, spawnname);
 }
 
@@ -13358,7 +13361,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
-    m->add_spawn(mon_turret, 1, int((x1 + x2) / 2), desk);
+    m->add_spawn("mon_turret", 1, int((x1 + x2) / 2), desk);
    } else {
     int desk = x1 + rng(int(height / 2) - int(height / 4), int(height / 2) + 1);
     for (int y = y1 + int(width / 4); y < y2 - int(width / 4); y++)
@@ -13370,7 +13373,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
     tmpcomp->add_failure(COMPFAIL_DAMAGE);
-    m->add_spawn(mon_turret, 1, desk, int((y1 + y2) / 2));
+    m->add_spawn("mon_turret", 1, desk, int((y1 + y2) / 2));
    }
    break;
   case room_chemistry:
@@ -14318,7 +14321,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2)
 void map::add_extra(map_extra type, game *g)
 {
  item body;
- body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
+ body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
 
  switch (type) {
 
@@ -14590,6 +14593,7 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_portal:
  {
+     std::string spawncreatures[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
   int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++)
@@ -14598,7 +14602,7 @@ void map::add_extra(map_extra type, game *g)
   add_trap(x, y, tr_portal);
   int num_monsters = rng(0, 4);
   for (int i = 0; i < num_monsters; i++) {
-   mon_id type = mon_id( rng(mon_gelatin, mon_blank) );
+   std::string type = spawncreatures[( rng(0, 5) )];
    int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
    ter_set(mx, my, t_rubble);
    add_spawn(type, 1, mx, my);
@@ -14626,11 +14630,11 @@ void map::add_extra(map_extra type, game *g)
  break;
 
  case mx_wolfpack:
-  add_spawn(mon_wolf, rng(3, 6), SEEX, SEEY);
+  add_spawn("mon_wolf", rng(3, 6), SEEX, SEEY);
   break;
 
   case mx_cougar:
-  add_spawn(mon_cougar, 1, SEEX, SEEY);
+  add_spawn("mon_cougar", 1, SEEX, SEEY);
   break;
 
  case mx_crater:
@@ -14658,6 +14662,7 @@ void map::add_extra(map_extra type, game *g)
 
  case mx_portal_in:
  {
+     std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
   int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
   add_field(g, x, y, fd_fatigue, 3);
   for (int i = x - 5; i <= x + 5; i++) {
@@ -14667,7 +14672,7 @@ void map::add_extra(map_extra type, game *g)
      if (ter(i, j) == t_marloss)
       spawn_item(x, y, "marloss_berry", g->turn);
      if (one_in(15)) {
-      monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
+      monster creature(GetMType(monids[rng(0, 5)]));
       creature.spawn(i, j);
       g->add_zombie(creature);
      }
@@ -14740,9 +14745,9 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
    for (int i = cx - 1; i <= cx + 1; i++) {
     for (int j = cy - 1; j <= cy + 1; j++)
      if (i == cx && j == cy)
-      add_spawn(mon_breather_hub, 1, i, j);
+      add_spawn("mon_breather_hub", 1, i, j);
      else
-      add_spawn(mon_breather, 1, i, j);
+      add_spawn("mon_breather", 1, i, j);
    }
    break;
 
@@ -14865,7 +14870,7 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad)
 void add_corpse(game *g, map *m, int x, int y)
 {
  item body;
- body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+ body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
  m->add_item(x, y, body);
  m->put_items_from("shoes",  1, x, y, 0, 0, 0);
  m->put_items_from("pants",  1, x, y, 0, 0, 0);

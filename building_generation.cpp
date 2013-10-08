@@ -381,7 +381,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
     }
 
     if (one_in(10000)) {  //1-2 per overmap, very bad day for low level characters
-        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY);
+        m->add_spawn("mon_jabberwock", 1, SEEX, SEEY);
     }
 
 
@@ -398,6 +398,6 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 }
             }
         }
-        m->add_spawn(mon_spider_web, rng(1, 2), SEEX, SEEY);
+        m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
     }
 }

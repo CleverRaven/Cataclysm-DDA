@@ -7,6 +7,7 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "translations.h"
+#include "monstergenerator.h"
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
@@ -939,7 +940,7 @@ std::string map::furnname(const int x, const int y) {
  * the same across revisions; it is a load order, and can change when mods
  * are loaded or removed. The old t_floor style constants will still work but
  * are -not- guaranteed; if a mod removes t_lava, t_lava will equal t_null;
- * New terrains added to the core game generally do not need this, it's 
+ * New terrains added to the core game generally do not need this, it's
  * retained for high performance comparisons, save/load, and gradual transition
  * to string terrain.id
  */
@@ -3349,8 +3350,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
   show_items = false; // Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
- if (curr_trap != tr_null &&
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility) {
+ if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
+     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
   tercol = (*traps)[curr_trap]->color;
   if ((*traps)[curr_trap]->sym == '%') {
    switch(rng(1, 5)) {
@@ -3718,7 +3719,7 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
- set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx, 
+ set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
 // Special case of 0-shift; refresh the map
@@ -3973,7 +3974,7 @@ void map::spawn_monsters(game *g)
     for (int j = 0; j < grid[n]->spawns[i].count; j++) {
      int tries = 0;
      int mx = grid[n]->spawns[i].posx, my = grid[n]->spawns[i].posy;
-     monster tmp(g->mtypes[grid[n]->spawns[i].type]);
+     monster tmp(GetMType(grid[n]->spawns[i].type));
      tmp.spawnmapx = g->levx + gx;
      tmp.spawnmapy = g->levy + gy;
      tmp.faction_id = grid[n]->spawns[i].faction_id;

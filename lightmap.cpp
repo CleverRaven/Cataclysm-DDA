@@ -148,19 +148,8 @@ void map::generate_lightmap(game* g)
    // TODO: [lightmap] Attach natural light brightness to creatures
    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
    // TODO: [lightmap] Allow creatures to have facing and arc lights
-   switch (g->zombie(i).type->id) {
-    case mon_zombie_electric:
-     apply_light_source(mx, my, 1, trigdist);
-     break;
-    case mon_turret:
-     apply_light_source(mx, my, 2, trigdist);
-     break;
-    case mon_flaming_eye:
-     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT, trigdist);
-     break;
-    case mon_manhack:
-     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL, trigdist);
-     break;
+   if (g->zombie(i).type->luminance > 0){
+        apply_light_source(mx, my, g->zombie(i).type->luminance, trigdist);
    }
   }
  }
