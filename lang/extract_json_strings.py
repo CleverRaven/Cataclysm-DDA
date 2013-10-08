@@ -14,16 +14,16 @@ ignore = ["item_groups.json", "monstergroups.json", "recipes.json", "sokoban.txt
 ## PREPARATION
 
 # allow running from main directory, or from script subdirectory
-if os.path.exists("data/raw"):
+if os.path.exists("data/json"):
     raw_folder = "data/raw"
     json_folder = "data/json"
     to_folder = "lang/json"
-elif os.path.exists("../data/raw"):
+elif os.path.exists("../data/json"):
     raw_folder = "../data/raw"
     json_folder = "../data/json"
     to_folder = "../lang/json"
 else:
-    print("Error: Couldn't find the 'data/raw' subdirectory.")
+    print("Error: Couldn't find the 'data/json' subdirectory.")
     exit(1)
 
 # create the output directory, if it does not already exist
@@ -71,10 +71,10 @@ def convert(infilename, outfile):
 
 extracted = []
 
-# data/raw/items/*
+# data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
-    for filename in os.listdir(os.path.join(raw_folder,"items")):
-        jsonfile = os.path.join(raw_folder, "items", filename)
+    for filename in os.listdir(os.path.join(json_folder,"items")):
+        jsonfile = os.path.join(json_folder, "items", filename)
         convert(jsonfile, items_jtl)
 extracted.append("items")
 
@@ -122,9 +122,9 @@ with open(os.path.join(to_folder,"json_materials.py"), 'w') as mat_jtl:
         writestr(mat_jtl, d[3])
 extracted.append("materials.json")
 
-# data/raw/names.json
+# data/json/names.json
 with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
-    jsonfile = os.path.join(raw_folder, "names.json")
+    jsonfile = os.path.join(json_folder, "names.json")
     jsondata = json.loads(open(jsonfile).read())
     for item in jsondata:
         if not "name" in item: continue # it probably is
@@ -164,13 +164,13 @@ with open(os.path.join(to_folder,"json_vehicle_parts.py"),'w') as veh_jtl:
         writestr(veh_jtl, item["name"])
 extracted.append("vehicle_parts.json")
 
-# data/raw/parrot.json
-with open(os.path.join(to_folder,"json_parrot.py"),'w') as parrot_jtl:
-    jsonfile = os.path.join(raw_folder, "parrot.json")
+# data/json/migo_speech.json
+with open(os.path.join(to_folder,"json_migo_speech.py"),'w') as migo_jtl:
+    jsonfile = os.path.join(json_folder, "migo_speech.json")
     jsondata = json.loads(open(jsonfile).read())
     for item in jsondata:
-        writestr(parrot_jtl, item["sound"])
-extracted.append("parrot.json")
+        writestr(migo_jtl, item["sound"])
+extracted.append("migo_speech.json")
 
 # data/raw/vehicles.json
 with open(os.path.join(to_folder,"json_vehicles.py"),'w') as veh_jtl:
