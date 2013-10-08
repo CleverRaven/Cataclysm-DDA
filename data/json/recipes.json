@@ -4281,13 +4281,24 @@
   ],
   "components": [
     [
-      ["blueberries", 4],
-      ["apple", 4],
-      ["apple_canned", 4],
-      ["apple_vac", 4],
-      ["strawberries", 4],
-      ["orange", 4],
-      ["lemon", 4]
+      [ "blueberries", 4 ],
+      [ "apple", 4 ],
+      [ "apple_canned", 4 ],
+      [ "apple_vac", 4 ],
+      [ "strawberries", 4 ],
+      [ "orange", 4 ],
+      [ "lemon", 4 ],
+	  [ "pear", 4 ],
+	  [ "grapefruit", 4 ],
+	  [ "cherries", 4 ],
+	  [ "plums", 4 ],
+	  [ "grapes", 4 ],
+	  [ "pineapple", 4],
+	  [ "peach", 4 ],
+	  [ "cranberries", 4 ],
+	  [ "melon", 4 ],
+	  [ "raspberries", 4 ],
+	  [ "blackberries", 4 ]
     ],
     [
       [ "sugar", 1 ]
@@ -5395,7 +5406,7 @@
       [ "orange", 1 ],
       [ "lemon", 1 ],
       [ "banana", 1 ],
-      [ "apple", 1 ].
+      [ "apple", 1 ],
 	  [ "pear", 1 ],
 	  [ "grapefruit", 1 ],
 	  [ "cherries", 1 ],
@@ -5461,8 +5472,22 @@
       [ "jam_strawberries", 1 ],
       [ "blueberries", 1 ],
       [ "jam_blueberries", 1 ],
+	  [ "jam_fruit", 1 ]
       [ "banana", 1 ],
       [ "apple", 1 ]
+	  [ "orange", 1 ],
+	  [ "lemon", 1 ],
+	  [ "pear", 1 ],
+	  [ "grapefruit", 1 ],
+	  [ "cherries", 1 ],
+	  [ "plums", 1 ],
+	  [ "grapes", 1 ],
+	  [ "pineapple", 1],
+	  [ "peach", 1 ],
+	  [ "cranberries", 1 ],
+	  [ "melon", 1 ],
+	  [ "raspberries", 1 ],
+	  [ "blackberries", 1 ]
     ]
   ]
 },{
@@ -12124,7 +12149,22 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "apple", 3 ]
+      [ "apple", 3 ],
+	  [ "orange", 3 ],
+	  [ "lemon", 3 ],
+	  [ "strawberries", 3 ],
+	  [ "blueberries", 3 ],
+	  [ "pear", 3 ],
+	  [ "grapefruit", 3 ],
+	  [ "cherries", 3 ],
+	  [ "plums", 3 ],
+	  [ "grapes", 3 ],
+	  [ "pineapple", 3],
+	  [ "peach", 3 ],
+	  [ "cranberries", 3 ],
+	  [ "melon", 3 ],
+	  [ "raspberries", 3 ],
+	  [ "blackberries", 3 ]
     ]
   ]
 },{
@@ -12273,7 +12313,24 @@
       [ "bag_plastic", 1 ]
     ],
     [
-      [ "apple", 3 ]
+      [ "apple", 3 ],
+	  [ "strawberries", 3 ],
+	  [ "blueberries", 3 ],
+	  [ "orange", 3 ],
+	  [ "lemon", 3 ],
+	  [ "banana", 3 ],
+	  [ "pear", 3 ],
+	  [ "grapefruit", 3 ],
+	  [ "cherries", 3 ],
+	  [ "plums", 3 ],
+	  [ "grapes", 3 ],
+	  [ "pineapple", 3],
+	  [ "peach", 3 ],
+	  [ "cranberries", 3 ],
+	  [ "watermelon", 3 ],
+	  [ "melon", 3 ],
+	  [ "raspberries", 3 ],
+	  [ "blackberries", 3 ]
     ],
     [
       [ "sugar", 4 ]
@@ -12690,34 +12747,45 @@
   "autolearn": true,
   "tools": [
     [
-      ["hotplate", 2],
+      [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      ["toolset", 1],
-      ["fire", -1]
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
     ],
     [
-      ["vac_sealer", 10]
+      [ "vac_sealer", 10 ]
     ],
     [
-      ["pot", -1],
-      ["rock_pot", -1]
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
     [
-      ["jar_3l_glass", 1]
+      [ "jar_3l_glass", 1 ]
     ],
     [
-      ["blueberries", 4],
-      ["apple", 4],
-      ["apple_canned", 4],
-      ["apple_vac", 4],
-      ["strawberries", 4],
-      ["orange", 4],
-      ["lemon", 4]
+      [ "blueberries", 4 ],
+      [ "apple", 4 ],
+      [ "apple_canned", 4 ],
+      [ "apple_vac", 4 ],
+      [ "strawberries", 4 ],
+      [ "orange", 4 ],
+      [ "lemon", 4 ],
+	  [ "pear", 4 ],
+	  [ "grapefruit", 4 ],
+	  [ "cherries", 4 ],
+	  [ "plums", 4 ],
+	  [ "grapes", 4 ],
+	  [ "pineapple", 4],
+	  [ "peach", 4 ],
+	  [ "cranberries", 4 ],
+	  [ "melon", 4 ],
+	  [ "raspberries", 4 ],
+	  [ "blackberries", 4 ]
     ],
     [
-      ["sugar", 1]
+      [ "sugar", 1]
     ],
     [
       ["water", 12],
