@@ -14,21 +14,25 @@
 #include <cstdio>
 #include <libintl.h>
 #include <clocale>
+#include <string>
 #define _(STRING) gettext(STRING)
-inline static const char *
-pgettext_aux (const char *domain,
-              const char *msg_ctxt_id, const char *msgid,
-              int category)
+inline const char * pgettext(const char *context, const char *msgid)
 {
-    const char *translation = dcgettext (domain, msg_ctxt_id, category);
+    // need to construct the string manually,
+    // to correctly handle strings loaded from json.
+    // could probably do this more efficiently without using std::string.
+    std::string context_id(context);
+    context_id += '\004';
+    context_id += msgid;
+    // null domain, uses global translation domain
+    const char *msg_ctxt_id = context_id.c_str();
+    const char *translation = dcgettext(NULL, msg_ctxt_id, LC_MESSAGES);
     if (translation == msg_ctxt_id) {
         return msgid;
     } else {
         return translation;
     }
 }
-#define pgettext(STRING1, STRING2) \
-    pgettext_aux(NULL, STRING1 "\004" STRING2, STRING2, LC_MESSAGES)
 
 #else // !LOCALIZE
 
