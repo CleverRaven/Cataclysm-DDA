@@ -1293,7 +1293,7 @@
         "encumbrance" : 2,
         "bashing" : 0,
         "flags" : ["VARSIZE"],
-        "coverage" : 95,
+        "coverage" : 100,
         "material_thickness" : 4
     },
     {
@@ -4869,7 +4869,7 @@
         "encumbrance" : 1,
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
-        "coverage" : 95,
+        "coverage" : 100,
         "material_thickness" : 4
     },
     {
@@ -5021,7 +5021,7 @@
         "type" : "ARMOR",
         "id" : "helmet_survivor",
         "name" : "survivor helmet",
-        "weight" : 1512,
+        "weight" : 1612,
         "color" : "dark_gray",
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
@@ -5030,17 +5030,17 @@
         "symbol" : "[",
         "description" : "A customized, heavily armored helmet, modified to provide maximum comfort and protection from harm.",
         "price" : 580,
-        "material" : ["steel", "kevlar"],
+        "material" : ["kevlar", "steel"],
         "volume" : 17,
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
         "enviromental_protection" : 1,
-        "encumbrance" : 1,
+        "encumbrance" : 3,
         "bashing" : 10,
-        "flags" : ["WATERPROOF"],
-        "coverage" : 95,
-        "material_thickness" : 5
+        "flags" : ["VARSIZE", "WATERPROOF"],
+        "coverage" : 100,
+        "material_thickness" : 6
     },
     {
         "type" : "ARMOR",
