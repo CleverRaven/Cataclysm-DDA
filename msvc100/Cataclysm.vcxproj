@@ -347,7 +347,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
@@ -507,7 +507,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
