@@ -2366,7 +2366,7 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 8,
-    "reload": 700
+    "reload": 400
   },
   {
     "id": "ashot",
