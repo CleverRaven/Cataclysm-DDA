@@ -723,7 +723,7 @@ void mattack::fungus_sprout(game *g, monster *z)
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             if (g->u.posx == x && g->u.posy == y) {
                 g->add_msg(_("You're shoved away as a fungal wall grows!"));
-                g->teleport();
+                g->fling_player_or_monster(&g->u, 0, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx, g->u.posy), rng(10, 50));
             }
             if (g->is_empty(x, y)) {
                 monster wall(GetMType("mon_fungal_wall"));
