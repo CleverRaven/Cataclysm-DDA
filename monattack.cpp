@@ -719,19 +719,19 @@ void mattack::fungus_growth(game *g, monster *z)
 
 void mattack::fungus_sprout(game *g, monster *z)
 {
- for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
-  for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-   if (g->u.posx == x && g->u.posy == y) {
-    g->add_msg(_("You're shoved away as a fungal wall grows!"));
-    g->teleport();
-   }
-   if (g->is_empty(x, y)) {
-    monster wall(GetMType("mon_fungal_wall"));
-    wall.spawn(x, y);
-    g->add_zombie(wall);
-   }
-  }
- }
+    for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
+        for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
+            if (g->u.posx == x && g->u.posy == y) {
+                g->add_msg(_("You're shoved away as a fungal wall grows!"));
+                g->teleport();
+            }
+            if (g->is_empty(x, y)) {
+                monster wall(GetMType("mon_fungal_wall"));
+                wall.spawn(x, y);
+                g->add_zombie(wall);
+            }
+        }
+    }
 }
 
 void mattack::leap(game *g, monster *z)
