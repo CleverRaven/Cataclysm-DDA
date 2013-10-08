@@ -3654,7 +3654,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "can_pineapple",
-        "name" : "pineapple",
+        "name" : "canned pineapple",
         "weight" : 674,
         "color" : "cyan",
         "addiction_type" : "none",
