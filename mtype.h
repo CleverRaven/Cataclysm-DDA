@@ -6,6 +6,7 @@
 #include <bitset>
 #include <string>
 #include <vector>
+#include <set>
 #include <math.h>
 #include "mondeath.h"
 #include "monattack.h"
@@ -198,22 +199,18 @@ MC_MAX // Size of flag array.
 };
 
 struct mtype {
- int id;
- std::string name;
- std::string description;
- monster_species species;
- long sym; // Symbol on the map
- nc_color color;// Color of symbol (see color.h)
+    std::string id, name, description;
+    std::set<std::string> species, categories;
+    long sym;
+    nc_color color;
+    m_size size;
+    std::string mat;
+    phase_id phase;
+    std::set<m_flag> flags;
+    std::set<monster_trigger> anger, placate, fear;
 
- m_size size;
- std::string mat; // See materials.json for material list.  Generally, flesh; veggy?
- phase_id phase;
- std::vector<m_flag> flags;
- std::bitset<MF_MAX> bitflags;
- std::vector<m_category> categories;
- std::vector<monster_trigger> anger;   // What angers us?
- std::vector<monster_trigger> placate; // What reduces our anger?
- std::vector<monster_trigger> fear;    // What are we afraid of?
+    std::bitset<MF_MAX> bitflags;
+    std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
     int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
     int agro;       // How likely to attack; -100 to 100
@@ -229,29 +226,33 @@ struct mtype {
     unsigned char armor_cut;   // Natural armor vs. cut
     signed char item_chance;   // Higher # means higher chance of loot
                                // Negative # means one item gen'd, tops
+    float luminance;           // 0 is default, >0 gives luminance to lightmap
     int hp;
     unsigned char sp_freq;     // How long sp_attack takes to charge
     void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
     void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
 
+    // Default constructor
+    mtype ();
+    // Non-default (messy)
+    mtype (int pid, std::string pname, monster_species pspecies, char psym,
+            nc_color pcolor, m_size psize, std::string pmat,
+            unsigned int pdiff, signed char pagro,
+            signed char pmorale, unsigned int pspeed, unsigned char pml_skill,
+            unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
+            unsigned char pdodge, unsigned char parmor_bash,
+            unsigned char parmor_cut, signed char pitem_chance, int php,
+            unsigned char psp_freq,
+            void (mdeath::*pdies)      (game *, monster *),
+            void (mattack::*psp_attack)(game *, monster *),
+            std::string pdescription );
 
- // Default constructor
- mtype ();
- // Non-default (messy)
- mtype (int pid, std::string pname, monster_species pspecies, char psym,
-        nc_color pcolor, m_size psize, std::string pmat,
-        unsigned int pdiff, signed char pagro,
-        signed char pmorale, unsigned int pspeed, unsigned char pml_skill,
-        unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
-        unsigned char pdodge, unsigned char parmor_bash,
-        unsigned char parmor_cut, signed char pitem_chance, int php,
-        unsigned char psp_freq,
-        void (mdeath::*pdies)      (game *, monster *),
-        void (mattack::*psp_attack)(game *, monster *),
-        std::string pdescription );
-
- bool has_flag(m_flag flag) const;
- bool in_category(m_category category) const;
+    bool has_flag(m_flag flag) const;
+    bool has_anger_trigger(monster_trigger trigger) const;
+    bool has_fear_trigger(monster_trigger trigger) const;
+    bool has_placate_trigger(monster_trigger trigger) const;
+    bool in_category(std::string category) const;
+    bool in_species(std::string _species) const;
 };
 
 #endif

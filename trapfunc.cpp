@@ -1,6 +1,7 @@
 #include "game.h"
 #include "trap.h"
 #include "rng.h"
+#include "monstergenerator.h"
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness(game *g, int x, int y)
@@ -493,11 +494,11 @@ void trapfunc::goo(game *g, int x, int y)
 
 void trapfuncm::goo(game *g, monster *z, int x, int y)
 {
- if (z->type->id == mon_blob) {
+ if (z->type->id == "mon_blob") {
   z->speed += 15;
   z->hp = z->speed;
  } else {
-  z->poly(g->mtypes[mon_blob]);
+  z->poly(GetMType("mon_blob"));
   z->speed -= 15;
   z->hp = z->speed;
  }
@@ -856,7 +857,7 @@ void trapfuncm::hum(game *g, monster *z, int x, int y)
 void trapfunc::shadow(game *g, int x, int y)
 {
  g->u.add_memorial_log(_("Triggered a shadow trap."));
- monster spawned(g->mtypes[mon_shadow]);
+ monster spawned(GetMType("mon_shadow"));
  int tries = 0, monx, mony, junk;
  do {
   if (one_in(2)) {
@@ -894,7 +895,7 @@ void trapfunc::snake(game *g, int x, int y)
 {
  g->u.add_memorial_log(_("Triggered a shadow snake trap."));
  if (one_in(3)) {
-  monster spawned(g->mtypes[mon_shadow_snake]);
+  monster spawned(GetMType("mon_shadow_snake"));
   int tries = 0, monx, mony, junk;
   do {
    if (one_in(2)) {

@@ -14,6 +14,7 @@
 #include "help.h"
 #include "mapdata.h"
 #include "color.h"
+#include "monstergenerator.h"
 
 #include <string>
 #include <vector>
@@ -83,6 +84,8 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/migo_speech.json");
     ret.push_back("data/json/names.json");
 
+    ret.push_back("data/json/monsters.json");
+
     ret.push_back("data/json/items/ammo.json");
     ret.push_back("data/json/items/archery.json");
     ret.push_back("data/json/items/armor.json");
@@ -146,6 +149,9 @@ void init_data_structures()
     type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
+
+    type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
+    type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);

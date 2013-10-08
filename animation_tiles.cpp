@@ -74,7 +74,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
     if (use_tiles)
     {
         //int iTimeout = 0;
-        tilecontext->init_draw_hit(x, y, monster_names[m.type->id]);
+        tilecontext->init_draw_hit(x, y, m.type->id);
         wrefresh(w_terrain);
 
         timespec tspec;

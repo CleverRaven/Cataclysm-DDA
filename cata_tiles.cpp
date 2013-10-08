@@ -932,7 +932,7 @@ bool cata_tiles::draw_entity(int x, int y)
         monster m = g->zombie(g->mon_at(x,y));
         if (!m.dead)
         {
-            ent_name = monster_names[m.type->id];
+            ent_name = m.type->id;
             entity_here = true;
         }
     }

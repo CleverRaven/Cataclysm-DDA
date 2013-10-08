@@ -7,6 +7,7 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "translations.h"
+#include "monstergenerator.h"
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
@@ -939,7 +940,7 @@ std::string map::furnname(const int x, const int y) {
  * the same across revisions; it is a load order, and can change when mods
  * are loaded or removed. The old t_floor style constants will still work but
  * are -not- guaranteed; if a mod removes t_lava, t_lava will equal t_null;
- * New terrains added to the core game generally do not need this, it's 
+ * New terrains added to the core game generally do not need this, it's
  * retained for high performance comparisons, save/load, and gradual transition
  * to string terrain.id
  */
@@ -3711,7 +3712,7 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
- set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx, 
+ set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
 // Special case of 0-shift; refresh the map
@@ -3966,7 +3967,7 @@ void map::spawn_monsters(game *g)
     for (int j = 0; j < grid[n]->spawns[i].count; j++) {
      int tries = 0;
      int mx = grid[n]->spawns[i].posx, my = grid[n]->spawns[i].posy;
-     monster tmp(g->mtypes[grid[n]->spawns[i].type]);
+     monster tmp(GetMType(grid[n]->spawns[i].type));
      tmp.spawnmapx = g->levx + gx;
      tmp.spawnmapy = g->levy + gy;
      tmp.faction_id = grid[n]->spawns[i].faction_id;
