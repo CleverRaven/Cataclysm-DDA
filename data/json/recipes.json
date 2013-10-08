@@ -15357,6 +15357,176 @@
   ]
 },{
         "type" : "recipe",
+  "result": "helmet_survivor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 3 ]
+    ],
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "helmet_liner", 1 ],
+      [ "hat_cotton", 1 ],
+      [ "rag", 3 ]
+      ],
+      [
+      [ "kevlar_plate", 6 ]
+      ],
+      [
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
+      ],
+      [
+      [ "duct_tape", 75 ]
+      ],
+      [
+      [ "tac_helmet", 1 ],
+      [ "helmet_army", 1 ],
+      [ "helmet_riot", 1 ],
+      [ "helmet_motor", 1 ],
+      [ "helmet_football", 1 ],
+      [ "helmet_ball", 1 ],
+      [ "helmet_skid", 1 ],
+      [ "helmet_bike", 1 ],
+      [ "hat_hard", 1 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_survivor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "needle_bone", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 2 ]
+      ],
+      [
+      [ "leather", 2 ]
+      ],
+      [
+      [ "scrap", 4 ]
+      ],
+      [
+      [ "duct_tape", 50 ]
+      ],
+      [
+      [ "gloves_tactical", 1 ], 
+      [ "kevlar_plate", 4 ]
+      ],
+      [
+      [ "gloves_leather", 1 ],
+      [ "gloves_light", 1 ],
+      [ "gloves_liner", 1 ],
+      [ "wetsuit_gloves", 1 ],
+      [ "fire_gauntlets", 1 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_survivor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
+  "difficulty": 6,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 42 ],
+      [ "soldering_iron", 42 ],
+      [ "toolset", 3 ]
+    ],
+    [
+      [ "needle_bone", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 4 ]
+      ],
+      [
+      [ "leather", 4 ]
+      ],
+      [
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
+      ],
+      [
+      [ "duct_tape", 100 ]
+      ],
+      [
+      [ "boots_combat", 1 ],
+      [ "boots_steel", 1 ],
+      [ "boots_hiking", 1 ],
+      [ "boots", 1 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "aep_suit",
   "category": "CC_ARMOR",
   "skill_used": "fabrication",
