@@ -4983,14 +4983,14 @@
         "material" : ["kevlar", "fur"],
         "volume" : 36,
         "cutting" : 0,
-        "warmth" : 70,
+        "warmth" : 80,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 3,
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
         "coverage" : 100,
-        "material_thickness" : 5
+        "material_thickness" : 6
     },
     {
         "type" : "ARMOR",

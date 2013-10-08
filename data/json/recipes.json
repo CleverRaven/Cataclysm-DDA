@@ -15390,13 +15390,13 @@
   ],
   "components": [
       [
-      [ "rag", 20 ]
+      [ "rag", 10 ]
       ],
       [
       [ "leather", 20 ]
       ],
       [
-      [ "fur", 10 ]
+      [ "fur", 20 ]
       ],
       [
       [ "coat_rain", 1 ]
