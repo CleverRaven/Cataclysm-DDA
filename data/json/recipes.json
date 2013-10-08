@@ -16417,5 +16417,130 @@
         [ "cu_pipe", 3 ]
       ]
     ]
-  }
+  },{
+        "type" : "recipe",
+  "result": "fruit_cooked",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 2],
+      [ "char_smoker", 1 ],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+       ["apple", 1],
+	   ["orange", 1],
+	   ["lemon", 1],
+	   ["banana", 1],
+	   ["pear", 1],
+	   ["grapefruit", 1],
+	   ["cherries", 1],
+	   ["plums", 1],
+	   ["grapes", 1],
+	   ["pineapple", 1],
+	   ["peach", 1],
+	   ["cranberries", 1],
+	   ["watermelon", 1],
+	   ["melon", 1],
+	   ["raspberries", 1],
+	   ["blackberries", 1],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "jam_fruit",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 2],
+      [ "char_smoker", 1 ],
+      ["toolset", 1],
+      ["fire", -1]
+    ],
+    [
+      ["pot", -1],
+      ["rock_pot", -1],
+      ["pan", -1]
+    ]
+  ],
+  "components": [
+    [
+       ["apple", 1],
+	   ["orange", 1],
+	   ["lemon", 1],
+	   ["banana", 1],
+	   ["pear", 1],
+	   ["grapefruit", 1],
+	   ["cherries", 1],
+	   ["plums", 1],
+	   ["grapes", 1],
+	   ["pineapple", 1],
+	   ["peach", 1],
+	   ["cranberries", 1],
+	   ["watermelon", 1],
+	   ["melon", 1],
+	   ["raspberries", 1],
+	   ["blackberries", 1],
+    ],
+    [
+      ["sugar", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "juice",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+       ["apple", 2],
+	   ["blueberries", 2]
+	   ["orange", 2],
+	   ["lemon", 2],
+	   ["banana", 2],
+	   ["pear", 2],
+	   ["grapefruit", 2],
+	   ["cherries", 2],
+	   ["plums", 2],
+	   ["pineapple", 2],
+	   ["peach", 2],
+	   ["watermelon", 1],
+	   ["melon", 2],
+	   ["raspberries", 2],
+	   ["blackberries", 2],
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+}
 ]
