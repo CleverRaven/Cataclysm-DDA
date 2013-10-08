@@ -11,6 +11,8 @@ Global
 		Debug SDL Localized|Win64 = Debug SDL Localized|Win64
 		Debug SDL|Win32 = Debug SDL|Win32
 		Debug SDL|Win64 = Debug SDL|Win64
+		Debug TILES Localized|Win32 = Debug TILES Localized|Win32
+		Debug TILES Localized|Win64 = Debug TILES Localized|Win64
 		Debug|Win32 = Debug|Win32
 		Debug|Win64 = Debug|Win64
 		Release Localized|Win32 = Release Localized|Win32
@@ -34,6 +36,9 @@ Global
 		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug SDL|Win32.ActiveCfg = Debug SDL|Win32
 		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug SDL|Win32.Build.0 = Debug SDL|Win32
 		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug SDL|Win64.ActiveCfg = Debug SDL|Win32
+		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug TILES Localized|Win32.ActiveCfg = Debug TILES Localized|Win32
+		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug TILES Localized|Win32.Build.0 = Debug TILES Localized|Win32
+		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug TILES Localized|Win64.ActiveCfg = Debug TILES Localized|Win32
 		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug|Win32.ActiveCfg = Debug|Win32
 		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug|Win32.Build.0 = Debug|Win32
 		{FE1372AC-5F90-447E-BBCA-1B253836EB77}.Debug|Win64.ActiveCfg = Debug|Win32
