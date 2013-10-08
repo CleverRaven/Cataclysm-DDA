@@ -290,7 +290,8 @@
 		<Unit filename="monmove.cpp" />
 		<Unit filename="monster.cpp" />
 		<Unit filename="monster.h" />
-		<Unit filename="monster_factory.h" />
+		<Unit filename="monstergenerator.cpp" />
+		<Unit filename="monstergenerator.h" />
 		<Unit filename="morale.h" />
 		<Unit filename="moraledata.h" />
 		<Unit filename="mtype.h" />

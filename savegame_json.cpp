@@ -25,6 +25,7 @@
 #include "disease.h"
 #include "crafting.h"
 #include "get_version.h"
+#include "monstergenerator.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -206,7 +207,7 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
              } else {
                   // FIXME: error on type failures?
              }
-        }       
+        }
     } else {
         debugmsg("player/npc:: no 'traits' array!");
     }
@@ -413,7 +414,7 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
  */
 picojson::value json_save_worn(player * p) {
     std::vector<picojson::value> data;
-   
+
     for (int i = 0; i < p->worn.size(); i++) {
         data.push_back( p->worn[i].json_save(true) );
     }
@@ -520,6 +521,7 @@ picojson::value player::json_save(bool save_contents)
     ptmpmap["squares_walked"] = pv( (*lifetime_stats()).squares_walked );
     ptmpmap["damage_taken"] = pv( (*lifetime_stats()).damage_taken );
     ptmpmap["damage_healed"] = pv( (*lifetime_stats()).damage_healed );
+    ptmpmap["headshots"] = pv( (*lifetime_stats()).headshots );
     data["player_stats"] = pv (ptmpmap);
 
     if ( save_contents ) {
@@ -528,8 +530,8 @@ picojson::value player::json_save(bool save_contents)
         data["invcache"] = inv.json_save_invcache();
         if (!weapon.is_null()) {
             data["weapon"] = weapon.json_save(true);
-        }       
-//FIXME: seperate function, better still another file       
+        }
+//FIXME: seperate function, better still another file
   /*      for(int i = 0; i < memorial_log.size(); i++) {
             ptmpvect.push_back(pv(memorial_log[i]));
         }
@@ -568,7 +570,7 @@ void player::json_load(picojson::value & parsed, game *g) {
 
         backlog.json_load( actfind->second );
     }
-   
+
     picouint(data,"driving_recoil",driving_recoil);
     picobool(data,"in_vehicle",in_vehicle);
     picobool(data,"controlling_vehicle",controlling_vehicle);
@@ -629,7 +631,7 @@ void player::json_load(picojson::value & parsed, game *g) {
                learned_recipes[ pstr ] = recipe_by_name( pstr );
            }
         }
-    }   
+    }
 
     // todo: morale_point::json_save/load
     parray = pgetarray(data,"morale");
@@ -670,7 +672,8 @@ void player::json_load(picojson::value & parsed, game *g) {
         picoint(*pmap,"squares_walked", pstats.squares_walked );
         picoint(*pmap,"damage_taken", pstats.damage_taken );
         picoint(*pmap,"damage_healed", pstats.damage_healed );
-    }   
+        picoint(*pmap,"headshots", pstats.headshots );
+    }
 
     inv.clear();
     if ( data.find("inv") != data.end() ) {
@@ -714,8 +717,8 @@ bool npc_combat_rules::json_load(std::map<std::string, picojson::value> & data) 
 
 picojson::value npc_chatbin::json_save() {
     std::map<std::string, picojson::value> data;
-    data["first_topic"] = pv ( (int)first_topic );   
-    data["mission_selected"] = pv ( mission_selected );   
+    data["first_topic"] = pv ( (int)first_topic );
+    data["mission_selected"] = pv ( mission_selected );
     data["tempvalue"] = pv ( tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
     if ( skill ) {
         data["skill"] = pv ( skill->ident() );
@@ -854,7 +857,7 @@ void npc::json_load(picojson::value & parsed, game * g) {
     picojson::object * pmap=pgetmap(data,"personality");
     if ( pmap != NULL ) {
         personality.json_load( *pmap );
-    }   
+    }
 
     picoint(data,"wandx",wandx);
     picoint(data,"wandy",wandy);
@@ -884,7 +887,7 @@ void npc::json_load(picojson::value & parsed, game * g) {
     if ( picoint(data, "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
     }
-   
+
     inv.clear();
     if ( data.find("inv") != data.end() ) {
         inv.json_load_items( data.find("inv")->second, g );
@@ -1010,7 +1013,7 @@ void inventory::json_load_invcache(picojson::value & parsed) {
                 std::vector<char> vect;
                 for( picojson::array::const_iterator pvit = pvect.begin(); pvit != pvect.end(); ++pvit) {
                     vect.push_back ( char((*pvit).get<double>()) );
-                }                
+                }
                 invlet_cache[ peit->first ] = vect;
             }
         }
@@ -1062,7 +1065,7 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
         picoint(data, "typeid", iidtmp);
         sidtmp = legacy_mon_id[ iidtmp ];
     }
-    type = (*mtypes)[ monster_ints[sidtmp] ];
+    type = GetMType(sidtmp);
     picoint(data, "posx", _posx);
     picoint(data, "posy", _posy);
     picoint(data, "wandx", wandx);
@@ -1124,7 +1127,7 @@ picojson::value monster::json_save(bool save_contents)
 {
     std::map<std::string, picojson::value> data;
 
-    data["typeid"] = pv( monster_names[ type->id ] );
+    data["typeid"] = pv( type->id );
     data["posx"] = pv(_posx);
     data["posy"] = pv(_posy);
     data["wandx"] = pv(wandx);
@@ -1176,7 +1179,7 @@ bool item::json_load(picojson::value & parsed, game * g)
     std::string idtmp="";
     std::string ammotmp="null";
     int lettmp = 0;
-    int corptmp = -1;
+    std::string corptmp = "null";
     int damtmp = 0;
 
     if ( ! picostring(data, "typeid", idtmp) ) {
@@ -1195,10 +1198,18 @@ bool item::json_load(picojson::value & parsed, game * g)
     picoint(data, "mission_id", mission_id);
     picoint(data, "player_id", player_id);
 
-
-    picoint(data, "corpse", corptmp); // todo: make optional in save?
-    if (corptmp != -1) {
-        corpse = g->mtypes[corptmp];
+    if (!picostring(data, "corpse", corptmp)){
+        int ctmp = -1;
+        picoint(data, "corpse", ctmp);
+        if (ctmp != -1){
+            corptmp = legacy_mon_id[ctmp];
+        }
+        else{
+            corptmp = "null";
+        }
+    }
+    if (corptmp != "null") {
+        corpse = GetMType(corptmp);
     } else {
         corpse = NULL;
     }
@@ -1366,9 +1377,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picojson::object &data = parsed.get<picojson::object>();
 
     int fdir, mdir;
-   
+
     picostring(data,"type",type);
-    picoint(data, "posx", posx);   
+    picoint(data, "posx", posx);
     picoint(data, "posy", posy);
     picoint(data, "faceDir", fdir);
     picoint(data, "moveDir", mdir);
@@ -1403,7 +1414,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 }
                 vehicle_part new_part;
                 new_part.id = pid;
-               
+
                 picoint(pdata, "mount_dx", new_part.mount_dx);
                 picoint(pdata, "mount_dy", new_part.mount_dy);
                 picoint(pdata, "hp", new_part.hp );
@@ -1412,9 +1423,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                 picoint(pdata, "bigness", new_part.bigness );
                 if ( picoint(pdata, "flags", pflag ) ) {
                     new_part.flags = pflag;
-                }               
+                }
                 picoint(pdata, "passenger_id", new_part.passenger_id );
-               
+
                 picojson::array * piarray=pgetarray(pdata,"items");
                 new_part.items.clear();
                 if ( piarray != NULL ) {
@@ -1423,7 +1434,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                             new_part.items.push_back( item( *pit, g ) );
                         }
                     }
-                }           
+                }
                 parts.push_back (new_part);
             }
         }

@@ -40,6 +40,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <locale>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -82,6 +83,7 @@ namespace picojson {
     explicit value(double n);
     explicit value(int n);
     explicit value(unsigned int n);
+    explicit value(unsigned long n);
     explicit value(const std::string& s);
     explicit value(const array& a);
     explicit value(const object& o);
@@ -136,6 +138,10 @@ namespace picojson {
   }
 
   inline value::value(unsigned int n) : type_(number_type) {
+    number_ = (double)n;
+  }
+
+  inline value::value(unsigned long n) : type_(number_type) {
     number_ = (double)n;
   }
 
@@ -558,6 +564,7 @@ namespace picojson {
 
   template <typename Iter> inline bool _parse_number(double& out, input<Iter>& in) {
     std::string num_str;
+    
     while (1) {
       int ch = in.getc();
       if (('0' <= ch && ch <= '9') || ch == '+' || ch == '-' || ch == '.'
@@ -716,7 +723,7 @@ namespace picojson {
         if (ch == -1 || ch == '\n') {
           break;
         } else if (ch >= ' ') {
-          err->push_back(ch);
+          err->push_back(static_cast<int>(ch));
         }
       }
     }
@@ -729,9 +736,12 @@ namespace picojson {
   }
 
   inline std::string parse(value& out, std::istream& is) {
+    char *origlocale;
+    origlocale = setlocale(LC_NUMERIC, "C");
     std::string err;
     parse(out, std::istreambuf_iterator<char>(is.rdbuf()),
           std::istreambuf_iterator<char>(), &err);
+    setlocale(LC_NUMERIC, origlocale);
     return err;
   }
 

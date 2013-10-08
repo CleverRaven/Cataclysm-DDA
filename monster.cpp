@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <algorithm>
 #include "cursesdef.h"
+#include "monstergenerator.h"
 
 #include "picofunc.h"
 
@@ -150,7 +151,7 @@ std::string monster::name()
 std::string monster::name_with_armor()
 {
  std::string ret;
- if (type->species == species_insect) {
+ if (type->in_species("INSECT")) {
      ret = string_format(_("%s's carapace"), type->name.c_str());
  }
  else {
@@ -325,7 +326,7 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
 
 /*
  * save serialized monster data to a line.
- * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt 
+ * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt
  */
 std::string monster::save_info()
 {
@@ -377,8 +378,8 @@ monster_attitude monster::attitude(player *u)
 
  if (u != NULL) {
 
-  if (((type->species == species_mammal && u->has_trait("PHEROMONE_MAMMAL")) ||
-       (type->species == species_insect && u->has_trait("PHEROMONE_INSECT")))&&
+  if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
+       (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT")))&&
       effective_anger >= 10)
    effective_anger -= 20;
 
@@ -423,60 +424,57 @@ void monster::process_triggers(game *g)
 // This Adjustes anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
- for (int i = 0; i < type->anger.size(); i++) {
-  if (type->anger[i] == trig)
-   anger += amount;
- }
- for (int i = 0; i < type->placate.size(); i++) {
-  if (type->placate[i] == trig)
-   anger -= amount;
- }
- for (int i = 0; i < type->fear.size(); i++) {
-  if (type->fear[i] == trig)
-   morale -= amount;
- }
+    if (type->has_anger_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger += amount;
+    }
+    if (type->has_fear_trigger(MTRIG_FRIEND_ATTACKED)){
+        morale -= amount;
+    }
+    if (type->has_placate_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger -= amount;
+    }
 }
 
 
-int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
+int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
 {
  int ret = 0;
  bool check_terrain = false, check_meat = false, check_fire = false;
- for (int i = 0; i < triggers->size(); i++) {
+ for (std::set<monster_trigger>::iterator trig = triggers->begin(); trig != triggers->end(); ++trig)
+ {
+     switch (*trig){
+      case MTRIG_STALK:
+       if (anger > 0 && one_in(20))
+        ret++;
+       break;
 
-  switch ((*triggers)[i]) {
-  case MTRIG_STALK:
-   if (anger > 0 && one_in(20))
-    ret++;
-   break;
+      case MTRIG_MEAT:
+       check_terrain = true;
+       check_meat = true;
+       break;
 
-  case MTRIG_MEAT:
-   check_terrain = true;
-   check_meat = true;
-   break;
+      case MTRIG_PLAYER_CLOSE:
+       if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5)
+        ret += 5;
+       for (int i = 0; i < g->active_npc.size(); i++) {
+        if (rl_dist(_posx, _posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
+         ret += 5;
+       }
+       break;
 
-  case MTRIG_PLAYER_CLOSE:
-   if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5)
-    ret += 5;
-   for (int i = 0; i < g->active_npc.size(); i++) {
-    if (rl_dist(_posx, _posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
-     ret += 5;
-   }
-   break;
+      case MTRIG_FIRE:
+       check_terrain = true;
+       check_fire = true;
+       break;
 
-  case MTRIG_FIRE:
-   check_terrain = true;
-   check_fire = true;
-   break;
+      case MTRIG_PLAYER_WEAK:
+       if (g->u.hp_percentage() <= 70)
+        ret += 10 - int(g->u.hp_percentage() / 10);
+       break;
 
-  case MTRIG_PLAYER_WEAK:
-   if (g->u.hp_percentage() <= 70)
-    ret += 10 - int(g->u.hp_percentage() / 10);
-   break;
-
-  default:
-   break; // The rest are handled when the impetus occurs
-  }
+      default:
+       break; // The rest are handled when the impetus occurs
+    }
  }
 
  if (check_terrain) {
@@ -675,7 +673,7 @@ void monster::die(game *g)
                      g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
                  for (int i = 0; i < groups.size(); i++) {
                      if (MonsterGroupManager::IsMonsterInGroup
-                         (groups[i]->type, mon_id(type->id)))
+                         (groups[i]->type, (type->id)))
                          groups[i]->dying = true;
                  }
           }
@@ -701,18 +699,16 @@ void monster::die(game *g)
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
- for (int i = 0; i < type->anger.size(); i++) {
-  if (type->anger[i] == MTRIG_FRIEND_DIED)
-   anger_adjust += 15;
+ if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+    anger_adjust += 15;
  }
- for (int i = 0; i < type->placate.size(); i++) {
-  if (type->placate[i] == MTRIG_FRIEND_DIED)
-   anger_adjust -= 15;
+ if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+    morale_adjust -= 15;
  }
- for (int i = 0; i < type->fear.size(); i++) {
-  if (type->fear[i] == MTRIG_FRIEND_DIED)
-   morale_adjust -= 15;
+ if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+    anger_adjust -= 15;
  }
+
  if (anger_adjust != 0 && morale_adjust != 0) {
   int light = g->light_level();
   for (int i = 0; i < g->num_zombies(); i++) {
@@ -834,36 +830,35 @@ void monster::process_effects(game *g)
 
 bool monster::make_fungus(game *g)
 {
- switch (mon_id(type->id)) {
- case mon_ant:
- case mon_ant_soldier:
- case mon_ant_queen:
- case mon_fly:
- case mon_bee:
- case mon_dermatik:
-  poly(g->mtypes[mon_ant_fungus]);
-  return true;
- case mon_zombie:
- case mon_zombie_shrieker:
- case mon_zombie_electric:
- case mon_zombie_spitter:
- case mon_zombie_fast:
- case mon_zombie_brute:
- case mon_zombie_hulk:
-  poly(g->mtypes[mon_zombie_fungus]);
-  return true;
- case mon_boomer:
-  poly(g->mtypes[mon_boomer_fungus]);
-  return true;
- case mon_triffid:
- case mon_triffid_young:
- case mon_triffid_queen:
-  poly(g->mtypes[mon_fungaloid]);
-  return true;
- default:
-  return true;
- }
- return false;
+    char polypick = 0;
+    std::string tid = type->id;
+    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" || tid == "mon_bee" || tid == "mon_dermatik")
+    {
+        polypick = 1;
+    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_fast" ||
+              tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
+        polypick = 2;
+    }else if (tid == "mon_boomer"){
+        polypick = 3;
+    }else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen"){
+        polypick = 4;
+    }
+    switch (polypick) {
+        case 1: // bugs, why do they all turn into fungal ants?
+            poly(GetMType("mon_ant_fungus"));
+            return true;
+        case 2: // zombies, non-boomer
+            poly(GetMType("mon_zombie_fungus"));
+            return true;
+        case 3:
+            poly(GetMType("mon_boomer_fungus"));
+            return true;
+        case 4:
+            poly(GetMType("mon_fungaloid"));
+            return true;
+        default:
+            return true;
+    }
 }
 
 void monster::make_friendly()

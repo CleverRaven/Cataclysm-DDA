@@ -4,6 +4,7 @@
 #include "setvector.h"
 #include "catajson.h"
 #include "options.h"
+#include "monstergenerator.h"
 
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
@@ -40,17 +41,17 @@ void game::init_mongroups() throw (std::string)
    }
 }
 
-mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
+std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
                                                  int *quantity, int turn )
 {
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[it->first]->difficulty))) &&
+        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->first)->difficulty))) &&
            (!OPTIONS["CLASSIC_ZOMBIES"] ||
-            (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
-            (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
+            GetMType(it->first)->in_category("CLASSIC") ||
+            GetMType(it->first)->in_category("WILDLIFE")))
         {   //Not too hard for us (or we dont care)
             if(it->second.first >= roll)
             {
@@ -60,10 +61,10 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
             else { roll -= it->second.first; }
         }
     }
-    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[g.defaultMonster]->difficulty))
+    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(g.defaultMonster)->difficulty))
         && (!OPTIONS["STATIC_SPAWN"]))
     {
-        return mon_null;
+        return "mon_null";
     }
     else
     {
@@ -71,7 +72,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
     }
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(std::string group, mon_id monster)
+bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
 {
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
@@ -81,7 +82,7 @@ bool MonsterGroupManager::IsMonsterInGroup(std::string group, mon_id monster)
     return false;
 }
 
-std::string MonsterGroupManager::Monster2Group(mon_id monster)
+std::string MonsterGroupManager::Monster2Group(std::string monster)
 {
     for (std::map<std::string, MonsterGroup>::const_iterator it = monsterGroupMap.begin(); it != monsterGroupMap.end(); ++it)
     {
@@ -93,11 +94,11 @@ std::string MonsterGroupManager::Monster2Group(mon_id monster)
     return "GROUP_NULL";
 }
 
-std::vector<mon_id> MonsterGroupManager::GetMonstersFromGroup(std::string group)
+std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string group)
 {
     MonsterGroup g = GetMonsterGroup(group);
 
-    std::vector<mon_id> monsters;
+    std::vector<std::string> monsters;
 
     monsters.push_back(g.defaultMonster);
 
@@ -136,7 +137,7 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     picojson::value jsonval;
     std::vector<picojson::value> jsonarray;
     g.name = GetString("name", jsonobj);
-    g.defaultMonster = monStr2monId[GetString("default", jsonobj)];
+    g.defaultMonster = GetString("default", jsonobj);
 
     if(jsonobj->find("monsters")->second.is<picojson::array>())
         jsonarray = jsonobj->find("monsters")->second.get<picojson::array>();
@@ -150,7 +151,7 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     {
         jsonmonster = it_mons->get<picojson::object>();
 // todo: Bannination
-        g.monsters[monStr2monId[GetString("monster",&jsonmonster)]] =
+        g.monsters[GetString("monster",&jsonmonster)] =
             std::pair<int,int>(GetInt("freq",&jsonmonster), GetInt("multiplier",&jsonmonster));
     }
 

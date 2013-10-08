@@ -6,6 +6,7 @@
 #include "text_snippets.h"
 #include "helper.h"
 #include "uistate.h"
+#include "monstergenerator.h"
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
@@ -118,7 +119,7 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
             line2 += 2;
-            
+
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
                       traits[vTraits[ entnum ]].points,
                       traits[vTraits[ entnum ]].visibility,
@@ -255,7 +256,7 @@ class wish_monster_callback: public uimenu_callback
             }
             if (entnum != lastent) {
                 lastent = entnum;
-                tmp = monster(g->mtypes[entnum]);
+                tmp = monster(GetMType(entnum));
                 if (friendly) {
                     tmp.friendly = -1;
                 }
@@ -264,7 +265,7 @@ class wish_monster_callback: public uimenu_callback
             werase(w_info);
             tmp.print_info(g, w_info);
 
-            std::string header = string_format("#%d: %s", entnum, g->mtypes[entnum]->name.c_str()
+            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->name.c_str()
                                               );
             mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str()
@@ -289,6 +290,8 @@ class wish_monster_callback: public uimenu_callback
 
 void game::wishmonster(int x, int y)
 {
+    const std::map<std::string, mtype*> montypes = MonsterGenerator::generator().get_all_mtypes();
+
     uimenu wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
@@ -299,17 +302,19 @@ void game::wishmonster(int x, int y)
     wish_monster_callback *cb = new wish_monster_callback();
     wmenu.callback = cb;
 
-    for (int i = 0; i < mtypes.size(); i++) {
-        wmenu.addentry( i, true, 0, "%s", mtypes[i]->name.c_str() );
-        wmenu.entries[i].extratxt.txt = string_format("%c", mtypes[i]->sym);
-        wmenu.entries[i].extratxt.color = mtypes[i]->color;
+    int i = 0;
+    for (std::map<std::string, mtype*>::const_iterator mon = montypes.begin(); mon != montypes.end(); ++mon){
+        wmenu.addentry( i, true, 0, "%s", mon->second->name.c_str() );
+        wmenu.entries[i].extratxt.txt = string_format("%c", mon->second->sym);
+        wmenu.entries[i].extratxt.color = mon->second->color;
         wmenu.entries[i].extratxt.left = 1;
+        ++i;
     }
 
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            monster mon = monster(g->mtypes[wmenu.ret]);
+            monster mon = monster(GetMType(wmenu.ret));
             if (cb->friendly) {
                 mon.friendly = -1;
             }

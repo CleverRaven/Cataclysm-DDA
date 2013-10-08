@@ -15,6 +15,7 @@
 #include "line.h"
 #include "player.h"
 #include "translations.h"
+#include "monstergenerator.h"
 #include <sstream>
 #include <algorithm>
 
@@ -115,7 +116,7 @@ void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- g->open_gate(g,examx,examy, (old_ter_id)m->oldter(examx,examy));
+ g->open_gate(g,examx,examy, (ter_id)m->ter(examx,examy));
 }
 
 void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
@@ -130,7 +131,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
      }
   }
   for (int i = 0; i < g->num_zombies(); i++) {
-   if (g->zombie(i).type->id == mon_turret) {
+   if (g->zombie(i).type->id == "mon_turret") {
     g->remove_zombie(i);
     i--;
    }
@@ -533,67 +534,67 @@ void iexamine::pedestal_temple(game *g, player *p, map *m, int examx, int examy)
 large semi-spherical indentation at the top."));
 }
 
-void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn(_("Flip the %s?"),m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
-  return;
- }
-
-  p->moves -= 100;
-  for (int y = examy; y <= examy + 5; y++) {
-   for (int x = 0; x < SEEX * MAPSIZE; x++) {
-    switch (m->oldter(examx, examy)) {
-     case old_t_switch_rg:
-      if (m->ter(x, y) == t_rock_red)
-       m->ter_set(x, y, t_floor_red);
-       else if (m->ter(x, y) == t_floor_red)
-        m->ter_set(x, y, t_rock_red);
-        else if (m->ter(x, y) == t_rock_green)
-         m->ter_set(x, y, t_floor_green);
-         else if (m->ter(x, y) == t_floor_green)
-          m->ter_set(x, y, t_rock_green);
-          break;
-     case old_t_switch_gb:
-      if (m->ter(x, y) == t_rock_blue)
-       m->ter_set(x, y, t_floor_blue);
-       else if (m->ter(x, y) == t_floor_blue)
-        m->ter_set(x, y, t_rock_blue);
-        else if (m->ter(x, y) == t_rock_green)
-         m->ter_set(x, y, t_floor_green);
-         else if (m->ter(x, y) == t_floor_green)
-          m->ter_set(x, y, t_rock_green);
-          break;
-     case old_t_switch_rb:
-      if (m->ter(x, y) == t_rock_blue)
-       m->ter_set(x, y, t_floor_blue);
-       else if (m->ter(x, y) == t_floor_blue)
-        m->ter_set(x, y, t_rock_blue);
-        else if (m->ter(x, y) == t_rock_red)
-         m->ter_set(x, y, t_floor_red);
-         else if (m->ter(x, y) == t_floor_red)
-          m->ter_set(x, y, t_rock_red);
-          break;
-     case old_t_switch_even:
-      if ((y - examy) % 2 == 1) {
-       if (m->ter(x, y) == t_rock_red)
-        m->ter_set(x, y, t_floor_red);
-        else if (m->ter(x, y) == t_floor_red)
-         m->ter_set(x, y, t_rock_red);
-         else if (m->ter(x, y) == t_rock_green)
-          m->ter_set(x, y, t_floor_green);
-          else if (m->ter(x, y) == t_floor_green)
-           m->ter_set(x, y, t_rock_green);
-           else if (m->ter(x, y) == t_rock_blue)
-            m->ter_set(x, y, t_floor_blue);
-            else if (m->ter(x, y) == t_floor_blue)
-             m->ter_set(x, y, t_rock_blue);
-             }
-      break;
+void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy)
+{
+    if(!query_yn(_("Flip the %s?"), m->tername(examx, examy).c_str())) {
+        none(g, p, m, examx, examy);
+        return;
     }
-   }
-  }
-  g->add_msg(_("You hear the rumble of rock shifting."));
-  g->add_event(EVENT_TEMPLE_SPAWN, g->turn + 3);
+    ter_id terid = m->ter(examx, examy);
+    p->moves -= 100;
+    for (int y = examy; y <= examy + 5; y++) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++) {
+            if ( terid == t_switch_rg ) {
+                if (m->ter(x, y) == t_rock_red) {
+                    m->ter_set(x, y, t_floor_red);
+                } else if (m->ter(x, y) == t_floor_red) {
+                    m->ter_set(x, y, t_rock_red);
+                } else if (m->ter(x, y) == t_rock_green) {
+                    m->ter_set(x, y, t_floor_green);
+                } else if (m->ter(x, y) == t_floor_green) {
+                    m->ter_set(x, y, t_rock_green);
+                }
+            } else if ( terid == t_switch_gb ) {
+                if (m->ter(x, y) == t_rock_blue) {
+                    m->ter_set(x, y, t_floor_blue);
+                } else if (m->ter(x, y) == t_floor_blue) {
+                    m->ter_set(x, y, t_rock_blue);
+                } else if (m->ter(x, y) == t_rock_green) {
+                    m->ter_set(x, y, t_floor_green);
+                } else if (m->ter(x, y) == t_floor_green) {
+                    m->ter_set(x, y, t_rock_green);
+                }
+            } else if ( terid == t_switch_rb ) {
+                if (m->ter(x, y) == t_rock_blue) {
+                    m->ter_set(x, y, t_floor_blue);
+                } else if (m->ter(x, y) == t_floor_blue) {
+                    m->ter_set(x, y, t_rock_blue);
+                } else if (m->ter(x, y) == t_rock_red) {
+                    m->ter_set(x, y, t_floor_red);
+                } else if (m->ter(x, y) == t_floor_red) {
+                    m->ter_set(x, y, t_rock_red);
+                }
+            } else if ( terid == t_switch_even ) {
+                if ((y - examy) % 2 == 1) {
+                    if (m->ter(x, y) == t_rock_red) {
+                        m->ter_set(x, y, t_floor_red);
+                    } else if (m->ter(x, y) == t_floor_red) {
+                        m->ter_set(x, y, t_rock_red);
+                    } else if (m->ter(x, y) == t_rock_green) {
+                        m->ter_set(x, y, t_floor_green);
+                    } else if (m->ter(x, y) == t_floor_green) {
+                        m->ter_set(x, y, t_rock_green);
+                    } else if (m->ter(x, y) == t_rock_blue) {
+                        m->ter_set(x, y, t_floor_blue);
+                    } else if (m->ter(x, y) == t_floor_blue) {
+                        m->ter_set(x, y, t_rock_blue);
+                    }
+                }
+            }
+        }
+    }
+    g->add_msg(_("You hear the rumble of rock shifting."));
+    g->add_event(EVENT_TEMPLE_SPAWN, g->turn + 3);
 }
 
 void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
@@ -626,7 +627,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
 
 void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
-    monster spore(g->mtypes[mon_spore]);
+    monster spore(GetMType("mon_spore"));
     int mondex;
     //~ the sound of a fungus releasing spores
     g->add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
@@ -636,7 +637,7 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
             if (g->m.move_cost(i, j) > 0 && ((i == examx && j == examy) || one_in(2))) {
                 if (mondex != -1) { // Spores hit a monster
                     if (g->u_see(i, j) && 
-                            g->zombie(mondex).type->species != species_fungus) {
+                            !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
                     }

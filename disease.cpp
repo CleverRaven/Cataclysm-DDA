@@ -5,6 +5,7 @@
 #include "weather.h"
 #include "translations.h"
 #include "martialarts.h"
+#include "monstergenerator.h"
 #include <stdlib.h>
 #include <sstream>
 #include <algorithm>
@@ -1124,8 +1125,8 @@ void dis_effect(player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    mon_id montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                    monster beast(g->mtypes[montype]);
+                    std::string montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                    monster beast(GetMType(montype));
                     int x, y;
                     int tries = 0;
                     do {
@@ -1191,8 +1192,9 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_ATTENTION:
             if (one_in(100000 / dis.duration) && one_in(100000 / dis.duration) && one_in(250)) {
-                mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                monster beast(g->mtypes[type]);
+                std::string type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                monster beast(GetMType(type));
+
                 int x, y;
                 int tries = 0;
                 do {
@@ -1536,7 +1538,7 @@ std::string dis_name(disease& dis)
     {
         std::string status = "";
         if (dis.duration > 2401) {status = _("Bite - ");
-        } else { status = _("Painful Bite - "); 
+        } else { status = _("Painful Bite - ");
         }
         switch (dis.bp) {
             case bp_head:
@@ -2072,7 +2074,7 @@ void manage_fungal_infection(player& p, disease& dis) {
 
         p.moves = -500;
         int sporex, sporey;
-        monster spore(g->mtypes[mon_spore]);
+        monster spore(GetMType("mon_spore"));
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0) {
@@ -2084,7 +2086,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                     const int zid = g->mon_at(sporex, sporey);
                     if (zid >= 0) {  // Spores hit a monster
                         if (g->u_see(sporex, sporey) &&
-                              g->zombie(zid).type->species != species_fungus) {
+                              !g->zombie(zid).type->in_species("FUNGUS")) {
                             g->add_msg(_("The %s is covered in tiny spores!"),
                                        g->zombie(zid).name().c_str());
                         }
@@ -2600,7 +2602,7 @@ static void handle_insect_parasites(player& p, disease& dis) {
                 _("Insects begin to emerge from <npcname>'s skin!") );
 
             p.moves -= 600;
-            monster grub(g->mtypes[mon_dermatik_larva]);
+            monster grub(GetMType("mon_dermatik_larva"));
             while (!valid_spawns.empty() && num_insects > 0) {
                 num_insects--;
                 // Hurt the player

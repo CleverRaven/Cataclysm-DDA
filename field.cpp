@@ -2,6 +2,7 @@
 #include "map.h"
 #include "field.h"
 #include "game.h"
+#include "monstergenerator.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -778,15 +779,17 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         }
                         break;
 
-                    case fd_fatigue:
+                    case fd_fatigue:{
+                        std::string monids[9] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
                         if (cur->getFieldDensity() < 3 && int(g->turn) % 3600 == 0 && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
-                            monster creature(g->mtypes[type]);
+                            std::string type = monids[(rng(0, 9))];
+                            monster creature(GetMType(type));
                             creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
                             g->add_zombie(creature);
                         }
+                    }
                         break;
 
                     case fd_push_items: {

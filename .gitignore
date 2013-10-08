@@ -37,3 +37,6 @@ gmon.out
 # System Files
 Thumbs.db
 .DS_Store
+core
+tags
+cscope.*

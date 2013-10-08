@@ -601,6 +601,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   }
  }
 
+ if ( type->qualities.size() > 0){
+    for(std::map<std::string, int>::const_iterator quality = type->qualities.begin(); quality!=type->qualities.end();++quality){
+        dump->push_back( iteminfo("QUALITIES", "", string_format(_("Has %s quality of level %d."),quality->first.c_str(),quality->second) ));
+    }
+ }
+
  if ( showtext && !is_null() ) {
     if (is_stationary()) {
        // Just use the dynamic description
@@ -783,7 +789,7 @@ std::string item::tname(game *g)
             maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
         else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
     } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == mon_null)
+        if (corpse == NULL || corpse->id == "mon_null")
             maintext = rm_prefix(_("<item_name>human blood"));
         else
             maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
@@ -1017,6 +1023,19 @@ bool item::has_flag(std::string f) const
 
     // now check for item specific flags
     ret = item_tags.count(f);
+    return ret;
+}
+
+bool item::has_quality(std::string quality_name) const {
+    return has_quality(quality_name, 1);
+}
+
+bool item::has_quality(std::string quality_name, int quality_value) const {
+    bool ret = false;
+
+    if(type->qualities.size() > 0){
+      ret = true;
+    }
     return ret;
 }
 
@@ -2017,7 +2036,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
          ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
          amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
              std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
                 std::string(namelen,' ')
              ).substr(0,namelen).c_str(),
              ammo_def->damage, ammo_def->pierce, ammo_def->range,

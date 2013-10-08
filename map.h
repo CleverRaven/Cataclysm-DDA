@@ -338,7 +338,7 @@ class map
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
  void spawn_item(const int x, const int y, item new_item, const int birthday,
                  const int quantity, const int charges, const int damlevel);
- void add_spawn(mon_id type, const int count, const int x, const int y, bool friendly = false,
+ void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
  void add_spawn(monster *mon);
@@ -361,7 +361,7 @@ class map
  };
  point getabs(const int x=0, const int y=0 );
  point getlocal(const int x, const int y );
- 
+
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 
@@ -401,7 +401,7 @@ protected:
  point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
  point abs_min; // same as above in absolute coordinates (submap(x,y) * 12)
  point abs_max; // same as abs_min + ( my_MAPSIZE * 12 )
- int world_z;   // same as 
+ int world_z;   // same as
  void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
 
 private:

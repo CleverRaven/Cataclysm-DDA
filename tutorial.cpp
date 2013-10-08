@@ -4,6 +4,7 @@
 #include "tutorial.h"
 #include "overmapbuffer.h"
 #include "translations.h"
+#include "monstergenerator.h"
 
 bool tutorial_game::init(game *g)
 {
@@ -123,7 +124,7 @@ void tutorial_game::post_action(game *g, action_id act)
  switch (act) {
  case ACTION_RELOAD:
   if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
-   monster tmp(g->mtypes[mon_zombie], g->u.posx, g->u.posy - 6);
+   monster tmp(GetMType("mon_zombie"), g->u.posx, g->u.posy - 6);
    g->add_zombie(tmp);
    tmp.spawn(g->u.posx + 2, g->u.posy - 5);
    g->add_zombie(tmp);
@@ -201,6 +202,9 @@ void tutorial_game::post_action(game *g, action_id act)
    add_message(g, LESSON_OVERLOADED);
  } break;
 
+ default: //TODO: add more actions here
+  break;
+
  }
 }
 
@@ -212,7 +216,7 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
    switch (lesson) {
     case LESSON_INTRO: lesson = LESSON_MOVE; break;
     case LESSON_MOVE:  lesson = LESSON_LOOK; break;
-    case LESSON_LOOK:  lesson = NUM_LESSONS; break;
+    default:  lesson = NUM_LESSONS; break;
    }
   }
   if (lesson == NUM_LESSONS)

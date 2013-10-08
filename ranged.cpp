@@ -580,6 +580,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 message = _("Headshot!");
                 dam = rng(dam, dam * 3);
                 p.practice(turn, "throw", 5);
+                p.lifetime_stats()->headshots++;
             }
             else if (goodhit < .2)
             {
@@ -1141,6 +1142,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
       message = _("Headshot!");
       adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
       p.practice(g->turn, firing->skill_used, 5);
+      p.lifetime_stats()->headshots++;
   } else if (goodhit <= .2) {
       message = _("Critical!");
       adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);

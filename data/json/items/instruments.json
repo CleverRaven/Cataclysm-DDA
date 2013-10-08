@@ -1,5 +1,6 @@
 [
-  { "id":"GUITAR",
+  { "type":"INSTRUMENT",
+    "id":"GUITAR",
     "symbol": "$",
     "color": "red",
     "name":"Guitar",
@@ -16,7 +17,8 @@
       }
     ]
   }, 
-  { "id":"DRUM",
+  { "type":"INSTRUMENT",
+    "id":"DRUM",
     "symbol": "o",
     "color": "green",
     "name":"Bongo",

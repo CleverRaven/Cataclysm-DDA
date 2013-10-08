@@ -519,22 +519,32 @@
   "time": 1000,
   "reversible": true,
   "autolearn": false,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],  "components": [
+    [
+      [ "amplifier", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "reinforced_glass_sheet",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
   "tools": [
     [
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ],
-      [ "screwdriver", -1 ]
-        ]
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
   ],
   "components": [
     [
-      [ "amplifier", 1 ]
+      [ "reinforced_glass_pane", 4 ]
     ]
   ]
 },{
@@ -585,18 +595,8 @@
   "time": 800,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -616,15 +616,8 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -646,18 +639,8 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -676,18 +659,8 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -707,21 +680,13 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -754,21 +719,13 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -827,18 +784,8 @@
   "time": 15000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -860,18 +807,8 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -893,18 +830,8 @@
   "time": 15000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -926,18 +853,8 @@
   "time": 25000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -1141,14 +1058,10 @@
   "time": 30000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
-    [
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
@@ -1284,18 +1197,10 @@
   "time": 45000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -1838,10 +1743,12 @@
   ],
   "components": [
     [
-      [ "bleach", 2 ]
+      [ "bleach", 2 ],
+      [ "oxy_powder", 200 ]
     ],
     [
-      [ "ammonia", 2 ]
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
     ],
     [
       [ "canister_empty", 1 ],
@@ -1934,18 +1841,8 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -2012,18 +1909,8 @@
   "time" : 1000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2044,18 +1931,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2130,18 +2007,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-        [ "knife_steak", -1 ],
-        [ "knife_combat", -1 ],
-        [ "knife_butcher", -1 ],
-        [ "pockknife", -1 ],
-        [ "scalpel", -1 ],
-        [ "machete", -1 ],
-        [ "broadsword", -1 ],
-        [ "toolset", -1 ]
-          ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2163,21 +2030,13 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2194,18 +2053,10 @@
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "rock", -1 ],
       [ "primitive_hammer", -1 ],
@@ -2235,18 +2086,8 @@
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2269,18 +2110,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2300,18 +2131,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2331,18 +2152,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2377,18 +2188,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2439,21 +2240,13 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities":[
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
     [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
       [ "fire", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2473,18 +2266,8 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2510,18 +2293,8 @@
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components" : [
     [
@@ -2544,18 +2317,10 @@
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
   "tools" : [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
@@ -2724,18 +2489,8 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-        ]
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
   ],
   "components": [
     [
@@ -2774,6 +2529,41 @@
         ["scrap", 6],
         ["steel_chunk", 2]
       ]
+  ]
+},{
+         "type" : "recipe",
+  "result": "bolt_explosive",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": ["archery", 3],
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        ["hacksaw", -1],
+        ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["bolt_metal", 1],
+        ["bolt_steel", 1]
+    ],
+    [
+      [ "superglue", 1 ]
+    ],
+    [
+        ["smpistol_primer", 1 ],
+        ["lgpistol_primer", 1],
+        ["smrifle_primer", 1],
+        ["lgrfile_primer", 1],
+        ["shotgun_primer", 1]
+    ],
+    [
+      [ "gunpowder", 20 ]
+    ]
   ]
 },{
          "type" : "recipe",
@@ -3857,16 +3647,16 @@
   ],
   "components": [
     [
-      [ "shot_hull", 25 ]
+      [ "shot_hull", 10 ]
     ],
     [
-      [ "shotgun_primer", 25 ]
+      [ "shotgun_primer", 10 ]
     ],
     [
-      [ "gunpowder", 300 ]
+      [ "gunpowder", 120 ]
     ],
     [
-      [ "nail", 200 ]
+      [ "nail", 160 ]
     ]
   ]
 },{
@@ -4029,18 +3819,10 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       [ "char_smoker", 2 ]
     ],
@@ -4128,18 +3910,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       [ "char_smoker", 2 ]
     ],
@@ -4274,7 +4048,9 @@
   ],
   "components": [
     [
-      [ "spaghetti_raw", 1 ]
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3]
     ],
     [
       [ "water", 1 ],
@@ -4308,7 +4084,7 @@
   "result": "macaroni_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
-  "difficulty": 0,
+  "difficulty": 1,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -4326,9 +4102,15 @@
   ],
   "components": [
     [
-      [ "macaroni_raw", 1 ]
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3]
     ],
     [
+      [ "cheese", 1 ],
+      [ "can_cheese", 1 ]
+    ],
+	[
       [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
@@ -5016,7 +4798,9 @@
       [ "broth", 2 ]
     ],
     [
-      [ "macaroni_raw", 1 ],
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
     ],
@@ -5054,7 +4838,9 @@
       [ "broth", 2 ]
     ],
     [
-      [ "macaroni_raw", 1 ],
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
     ],
@@ -5127,7 +4913,9 @@
       [ "broth", 2 ]
     ],
     [
-      [ "macaroni_raw", 1 ],
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3],
       [ "potato_raw", 1 ]
     ],
     [
@@ -5574,18 +5362,10 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hatchet", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
@@ -6046,12 +5826,18 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
   "components": [
     [
       [ "honeycomb", 1 ]
     ],
     [
       [ "bleach", 2 ],
+      [ "oxy_powder", 200 ],
       [ "purifier", 1 ]
     ]
   ]
@@ -6097,9 +5883,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6111,10 +5901,12 @@
       [ "leg", 2 ]
     ],
     [
-      [ "bleach", 2 ]
+      [ "bleach", 2 ],
+      [ "oxy_powder", 200 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6129,9 +5921,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6142,7 +5938,8 @@
       [ "veggy_tainted", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6157,9 +5954,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6172,7 +5973,8 @@
       [ "wasp_sting", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6187,9 +5989,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6200,7 +6006,8 @@
       [ "chitin_piece", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6215,9 +6022,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6228,7 +6039,8 @@
       [ "sewage", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6243,9 +6055,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6259,7 +6075,8 @@
       [ "can_herring", 1 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6274,9 +6091,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6287,7 +6108,8 @@
       [ "meat_tainted", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6302,9 +6124,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6315,7 +6141,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6330,9 +6157,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6343,7 +6174,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6358,9 +6190,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6372,7 +6208,8 @@
       [ "can_chowder", 1 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6387,9 +6224,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6400,7 +6241,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6415,9 +6257,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6428,7 +6274,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6443,9 +6290,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6456,7 +6307,8 @@
       [ "meat", 3 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -6471,9 +6323,13 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6482,14 +6338,649 @@
       [ "mutagen", 2 ]
     ],
     [
-      [ "bleach", 3 ]
+      [ "bleach", 3 ],
+      [ "oxy_powder", 300 ]
     ],
     [
-      [ "ammonia", 2 ]
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
     ]
   ]
 },{
         "type" : "recipe",
+  "result": "disinfectant",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 2 ],
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "whiskey", 7 ],
+      [ "vodka", 7 ],
+      [ "rum", 7 ],
+      [ "tequila", 7 ],
+      [ "gin", 7 ],
+      [ "triple_sec", 7 ],
+      [ "bleach", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "oxy_powder", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "iodine",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "disinfectant", 2 ],
+      [ "salt", 5 ]
+    ],
+    [
+      [ "aspirin", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pur_tablets",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "iodine", 10 ]
+    ],
+    [
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "bleach", 1 ],
+      [ "oxy_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bleach",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 75 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "ammonia",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 75 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "charcoal", 1 ],
+      [ "lye_powder", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "oxy_powder",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 8,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bleach", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "salt",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 48000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lye_powder", 100 ],
+      [ "bleach", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sugar",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "strawberries", 2 ],
+      [ "blueberries", 2 ],
+      [ "apple", 2 ],
+      [ "corn", 3 ],
+      [ "honeycomb", 1 ],
+      [ "cola", 6 ],
+      [ "rootbeer", 6 ],
+      [ "purple_drink", 6 ],
+      [ "syrup", 4 ],
+      [ "coffee_syrup", 5 ],
+      [ "con_milk", 1 ]
+    ],
+    [
+      [ "lye_powder", 20 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lye_powder",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "charcoal", 10 ]
+    ],
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gunpowder",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 1 ],
+  "difficulty": 4,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oxy_powder", 200 ]
+    ],
+    [
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
+    ],
+    [
+      [ "charcoal", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "incendiary",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 1 ],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oxy_powder", 200 ]
+    ],
+    [
+      [ "plastic_chunk", 4 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "8mm_bootleg",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 2 ],
+  "difficulty": 7,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "press", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "press", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 5 ]
+    ],
+    [
+      [ "oxy_powder", 100 ]
+    ],
+    [
+      [ "incendiary", 100 ]
+    ],
+    [
+      [ "lead", 75 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "8mm_bootleg_jsp",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "cooking", 2 ],
+  "difficulty": 8,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 50 ],
+      [ "press", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "press", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 5 ]
+    ],
+    [
+      [ "oxy_powder", 100 ]
+    ],
+    [
+      [ "incendiary", 100 ]
+    ],
+    [
+      [ "lead", 75 ]
+    ],
+    [
+      [ "cu_pipe", 5]
+    ]
+  ]
+},
+  {
+    "type" : "recipe",
+    "result": "smpistol_primer",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["press", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 50]
+      ]
+    ],
+    "components": [
+      [
+        [ "scrap", 4 ]
+      ],
+      [
+        [ "oxy_powder", 100 ],
+        [ "matches", 10 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "lgpistol_primer",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["press", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 50]
+      ]
+    ],
+    "components": [
+      [
+        [ "scrap", 4 ]
+      ],
+      [
+        [ "oxy_powder", 100 ],
+        [ "matches", 10 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "smrifle_primer",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["press", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 50]
+      ]
+    ],
+    "components": [
+      [
+        [ "scrap", 4 ]
+      ],
+      [
+        [ "oxy_powder", 100 ],
+        [ "matches", 10 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "lgrifle_primer",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["press", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 50]
+      ]
+    ],
+    "components": [
+      [
+        [ "scrap", 4 ]
+      ],
+      [
+        [ "oxy_powder", 100 ],
+        [ "matches", 10 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "shotgun_primer",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["press", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 50]
+      ]
+    ],
+    "components": [
+      [
+        [ "scrap", 4 ]
+      ],
+      [
+        [ "oxy_powder", 100 ],
+        [ "matches", 10 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lead",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "requires_skills": [ "gun", 1 ],
+    "difficulty": 2,
+    "time": 30000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+      [ "press", -1 ]
+      ],
+      [
+      ["crucible", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 10]
+      ]
+    ],
+    "components": [
+      [
+        [ "steel_chunk", 7 ],
+        [ "scrap", 20 ]
+      ]
+    ]
+  },{
+  "type" : "recipe",
   "result": "antenna",
   "category": "CC_ELECTRONIC",
   "difficulty": 0,
@@ -6508,7 +6999,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "directional_antenna",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
@@ -6543,7 +7034,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "amplifier",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
@@ -6573,7 +7064,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "power_supply",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
@@ -8042,6 +8533,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "reinforced_solar_panel",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 35 ],
+      [ "welder_crude", 52 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "solar_panel", 1 ]
+    ],
+    [
+      [ "reinforced_glass_pane", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "teleporter",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
@@ -8291,7 +8813,7 @@
 },{
         "type" : "recipe",
   "result": "union_suit",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 3000,
@@ -8312,7 +8834,7 @@
 },{
         "type" : "recipe",
   "result": "arm_warmers",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
@@ -8332,7 +8854,7 @@
 },{
         "type" : "recipe",
   "result": "leg_warmers",
-  "category": "CC_MISC",
+  "category": "CC_ARMOR",
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 5000,
@@ -10569,6 +11091,7 @@
     ],
     [
       [ "bleach", 1 ],
+      [ "lye_powder", 100 ],
       [ "ant_egg", 1 ]
     ]
   ]
@@ -11843,19 +12366,9 @@
    "time": 25000,
    "reversible": false,
    "autolearn": true,
-   "tools": [
-      [
-        ["hatchet", -1],
-        ["knife_steak", -1],
-        ["knife_combat", -1],
-        ["knife_butcher", -1],
-        ["pockknife", -1],
-        ["scalpel", -1],
-        ["machete", -1],
-        ["broadsword", -1],
-        ["toolset", -1]
-      ]
-    ],
+   "qualities" : [
+     {"name":"CUT","level":1,"amount":1},
+   ],
    "components": [
      [
        ["2x4", 2]
@@ -11871,18 +12384,10 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      ["hatchet", -1],
-      ["knife_steak", -1],
-      ["knife_combat", -1],
-      ["knife_butcher", -1],
-      ["pockknife", -1],
-      ["scalpel", -1],
-      ["machete", -1],
-      ["broadsword", -1],
-      ["toolset", -1]
-    ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1},
+  ],
+  "tools" : [
     [
       ["rock", -1],
       ["primitive_hammer", -1],
@@ -12297,20 +12802,19 @@
   "time": 50000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      ["hammer", -1],
-      ["toolset", -1],
-      ["screwdriver", -1]
-    ]
-  ],
   "components": [
     [
       ["wire", 5],
       ["cable", 5]
     ],
     [
+      ["hotplate", 1]
+    ],
+    [
       ["glasses_safety", 1]
+    ],
+    [
+      ["hose", 3]
     ],
     [
       ["bottle_glass", 4],
@@ -12318,6 +12822,7 @@
     ],
     [
       ["backpack", 1],
+      ["backpack_leather", 1],
       ["rucksack", 1],
       ["duffelbag", 1]
     ]
@@ -12632,7 +13137,7 @@
     [ [ "water", 1 ] ],
     [ [ "meal_bone", 2 ] ],
     [ [ "meal_chitin_piece", 1 ] ],
-    [ [ "ammonia", 1 ] ]
+    [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
   ]
 },{
         "type" : "recipe",
@@ -13790,6 +14295,40 @@
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
      [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "crowbar",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["crucible", -1]
+      ],
+      [
+      ["forge", 150], ["char_forge", 30]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
      ]
     ]
 },{
@@ -15187,7 +15726,8 @@
       [ "chitin_piece", 6 ]
     ],
     [
-      [ "ammonia", 1 ]
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
     ]
   ]
 },{
@@ -15798,7 +16338,46 @@
         [ "cu_pipe", 2 ]
       ]
     ]
-  },
+  },{
+        "type" : "recipe",
+  "result": "5x50dart",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "gun", 5 ],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "5x50_hull", 100 ]
+    ],
+    [
+      [ "plastic_chunk", 5 ]
+    ],
+    [
+      [ "smrifle_primer", 100 ]
+    ],
+    [
+      [ "gunpowder", 300 ]
+    ],
+    [
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "nail", 100 ]
+    ]
+  ]
+},
 
   {
     "type" : "recipe",

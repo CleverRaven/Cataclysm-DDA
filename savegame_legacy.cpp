@@ -27,6 +27,7 @@
 #include "debug.h"
 #include "artifactdata.h"
 #include "weather.h"
+#include "monstergenerator.h"
 // for legacy classdata loaders
 #include "inventory.h"
 #include "item.h"
@@ -133,8 +134,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                 if ( kk < 126 ) { // see legacy_mon_id
                     // load->int->str->int (possibly shifted)
-                    kk = monster_ints[ legacy_mon_id[ kk ] ];
-                    linein >> kills[kk];
+                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
+                    linein >> kills[legacy_mon_id[kk]];
                 } else {
                     linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
                 }
@@ -249,8 +250,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                 if ( kk < 126 ) { // see legacy_mon_id
                     // load->int->str->int (possibly shifted)
-                    kk = monster_ints[ legacy_mon_id[ kk ] ];
-                    linein >> kills[kk];
+                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
+                    linein >> kills[legacy_mon_id[kk]];
                 } else {
                     linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
                 }
@@ -358,7 +359,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
          for (int i = 0; i < num_monsters; i++)
-          fin >> kills[i];
+          fin >> kills[legacy_mon_id[i]];
         // Finally, the data on the player.
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
@@ -545,7 +546,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             int tmpfac = -1, tmpmis = -1;
             std::string spawnname;
             fin >> t >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
-            spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
+            spawn_point tmp(legacy_mon_id[t], a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
                             spawnname);
             sm->spawns.push_back(tmp);
            } else if (string_identifier == "V") {
@@ -959,7 +960,7 @@ void item::load_legacy(game * g, std::stringstream & dump) {
     dump >> burnt >> poison >> ammotmp >> owned >> bday >>
          mode >> acttmp >> corp >> mission_id >> player_id;
     if (corp != -1)
-        corpse = g->mtypes[corp];
+        corpse = GetMType(legacy_mon_id[corp]);
     else
         corpse = NULL;
     getline(dump, name);

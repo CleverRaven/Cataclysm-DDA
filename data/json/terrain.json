@@ -783,7 +783,7 @@
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "WALL"
         ],
-        "close": "t_window_curtains",
+        "close": "t_curtains",
         "open": "t_window_open",
     },
     {

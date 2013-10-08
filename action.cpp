@@ -289,8 +289,9 @@ std::string action_ident(action_id act)
             return "debug_mode";
         case ACTION_NULL:
             return "null";
+        default:
+            return "unkown";
         }
-    return "unknown";
     }
 
 action_id look_up_action(std::string ident)
@@ -467,8 +468,9 @@ std::string action_name(action_id act)
             return _("Toggle Debug Messages");
         case ACTION_NULL:
             return _("No Action");
+        default:
+            return "Someone forgot to name an action.";
     }
-    return "Someone forgot to name an action.";
 }
 
 void get_direction(int &x, int &y, char ch)

@@ -99,22 +99,6 @@ void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string ti
     load_tileset(tileset_path);
     DebugLog() << "Attempting to Create Rotation Cache\n";
     create_rotation_cache();
-// may be useless, figure out and remove if necessary
-// removed for now since it's not used currently
-/*
-    // getting to here assumes that everything went okay, so figure out how many tiles we need to fill the screen
-    num_tiles = WindowWidth * WindowHeight;
-    screen_tiles = new tile[num_tiles];
-
-    for (int y = 0; y < WindowHeight; ++y)
-    {
-        for (int x = 0; x < WindowWidth; ++x)
-        {
-            tile t(x, y, 0, 0);
-            screen_tiles[x + y * WindowWidth] = t;
-        }
-    }
-*/
 }
 void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
 {
@@ -124,60 +108,66 @@ void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
     // send this information to old init to avoid redundant code
     init(screen, json_path, tileset_path);
 }
-void cata_tiles::get_tile_information(std::string file_path, std::string &json_path, std::string &tileset_path)
+void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
-    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << file_path << "]\n";
-    const std::string default_json = "gfx/tile_config.json";
+    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
+    const std::string filename = "tileset.txt";                 // tileset-information-file
+    const std::string default_json = "gfx/tile_config.json";    // defaults
     const std::string default_tileset = "gfx/tinytile.png";
 
-    std::ifstream fin;
-    fin.open(file_path.c_str());
-    if(!fin.is_open()) {
-        fin.close();
-        DebugLog() << "\tCould not read ."<<file_path<<" -- Setting to default values!\n";
-        json_path = default_json;
-        tileset_path = default_tileset;
-        return;
-    }
+    std::vector<std::string> files;
+    files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
+
+    for(std::vector<std::string>::iterator it = files.begin(); it !=files.end(); ++it) {    // iterate through every file found
+        std::ifstream fin;
+        fin.open(it->c_str());
+        if(!fin.is_open()) {
+            fin.close();
+            DebugLog() << "\tCould not read ."<<*it<<" -- Setting to default values!\n";
+            json_path = default_json;
+            tileset_path = default_tileset;
+            return;
+        }
 // should only have 2 values inside it, otherwise is going to only load the last 2 values
-    while(!fin.eof()) {
-        std::string sOption;
-        fin >> sOption;
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
 
-        //DebugLog() << "\tCurrent: " << sOption << " -- ";
+            if(sOption == "") {
+                getline(fin, sOption);    // Empty line, chomp it
+            } else if(sOption[0] == '#') { // # indicates a comment
+                getline(fin, sOption);
+            } else {
 
-        if(sOption == "") {
-            getline(fin, sOption);    // Empty line, chomp it
-            //DebugLog() << "Empty line, skipping\n";
-        } else if(sOption[0] == '#') { // # indicates a comment
-            getline(fin, sOption);
-            //DebugLog() << "Comment line, skipping\n";
-        } else {
-            //std::string sValue;
-
-
-            //DebugLog() << "Value [" << sValue << "]\n";
-/*
-std::size_t found = str.find(str2);
-  if (found!=std::string::npos)
-    std::cout << "first 'needle' found at: " << found << '\n';
-
-*/          if (sOption.find("JSON") != std::string::npos)
-            {
-                fin >> json_path;
-                //json_path = sValue;
-                DebugLog() << "\tJSON path set to [" << json_path <<"].\n";
-            }
-            else if (sOption.find("TILESET") != std::string::npos)
-            {
-                fin >> tileset_path;
-                //tileset_path = sValue;
-                DebugLog() << "\tTILESET path set to [" << tileset_path <<"].\n";
+                if (sOption.find("NAME") != std::string::npos)
+                {
+                    std::string tileset_name;
+                    tileset_name = "";
+                    fin >> tileset_name;
+                    if(tileset_name != OPTIONS["TILES"].getValue())     // if the current tileset name isn't the same
+                    {                                                   // as the current one in the options break
+                        break;                                          // out of the while loop, close the file and
+                    }                                                   // continue with the next file
+                }
+                else if (sOption.find("VIEW") != std::string::npos)     // we don't need the view name here
+                {
+                    getline(fin, sOption);                              // so we just skip it
+                }
+                else if (sOption.find("JSON") != std::string::npos)
+                {
+                    fin >> json_path;
+                    DebugLog() << "\tJSON path set to [" << json_path <<"].\n";
+                }
+                else if (sOption.find("TILESET") != std::string::npos)
+                {
+                    fin >> tileset_path;
+                    DebugLog() << "\tTILESET path set to [" << tileset_path <<"].\n";
+                }
             }
         }
-    }
 
-    fin.close();
+        fin.close();
+    }
     if (json_path == "")
     {
         json_path = default_json;
@@ -265,15 +255,13 @@ void cata_tiles::load_tilejson(std::string path)
         return;
     }
 
-    /** 1) Mae sure that the loaded file has the "tile_info" section */
+    /** 1) Make sure that the loaded file has the "tile_info" section */
     if (!config.has("tile_info"))
     {
         DebugLog() << (std::string)"ERROR: "+path+ (std::string)" --\"tile_info\" missing\n";
-        //throw (std::string)"ERROR: "+path+ (std::string)" --\"tile_info\" missing";
         return;
     }
     catajson info = config.get("tile_info");
-    //int tilecount = 0;
 
     for (info.set_begin(); info.has_curr(); info.next())
     {
@@ -286,18 +274,10 @@ void cata_tiles::load_tilejson(std::string path)
         tile_height = curr_info.get("height").as_int();
         tile_width = curr_info.get("width").as_int();
     }
-    /*
-    if (!info.has("height") || !info.has("width") || !info.get("height").is_number() || !info.get("width").is_number())
-    {
-        throw (std::string)"ERROR: "+path+ (std::string)" --malformed \"height\" or \"width\" gat in \"tile_info\"";
-    }
-    tile_height = info.get("height").as_int();
-    tile_width = info.get("width").as_int();
-    */
+
     /** 2) Load tile information if available */
     if (!config.has("tiles"))
     {
-        //throw (std::string)"ERROR: "+path+ (std::string)" --No tiles to load";
         return;
     }
     catajson tiles = config.get("tiles");
@@ -309,7 +289,6 @@ void cata_tiles::load_tilejson(std::string path)
         {
             continue;
         }
-//popup_nowait(_("Please wait as the tileset loads [%3d]"), tilecount++);
 
         tile_type *curr_tile = new tile_type();
         std::string t_id = entry.get("id").as_string();
@@ -327,7 +306,6 @@ void cata_tiles::load_tilejson(std::string path)
         if (entry.has("multitile") && entry.get("multitile").is_bool())
         {
             t_multi = entry.get("multitile").as_bool();
-            //DebugLog() << "Multitile Definition Found: \""<<t_id << "\"\n";
         }
         if (t_multi)
         {
@@ -336,27 +314,10 @@ void cata_tiles::load_tilejson(std::string path)
             {
                 DebugLog() << "--Explosion is Multitile\n";
             }
-/*
-catajson compList = curr.get("components");
-for (compList.set_begin(); compList.has_curr(); compList.next())
-{
-    ++cl;
-    std::vector<component> component_choices;
-    catajson comp = compList.curr();
-    // interchangable components
-    for (comp.set_begin(); comp.has_curr(); comp.next())
-    {
-        std::string name = comp.curr().get(0).as_string();
-        int quant = comp.curr().get(1).as_int();
-        component_choices.push_back(component(name, quant));
-    }
-    last_rec->components.push_back(component_choices);
-}
-*/
+
             // fetch additional tiles
             if (entry.has("additional_tiles"))
             {
-                //DebugLog() << "Tile: \"" << t_id << "\" has Subtiles!\n";
                 catajson subentries = entry.get("additional_tiles");
 
                 for (subentries.set_begin(); subentries.has_curr(); subentries.next())
@@ -389,9 +350,9 @@ for (compList.set_begin(); compList.has_curr(); compList.next())
                     curr_tile->available_subtiles.push_back(s_id);
                     if (t_id == "explosion")
                     {
-                        DebugLog() << "--Explosion subtile ID Added: ["<< s_id << "] with value: [" << m_id << "]\n";
+                        DebugLog() << "--Explosion subtile ID Added: ["<< s_id <<
+                            "] with value: [" << m_id << "]\n";
                     }
-                    //DebugLog() << "\tSubtile: \""<<s_id<<"\" written\n";
                 }
             }
         }
@@ -424,17 +385,6 @@ void cata_tiles::create_rotation_cache()
     2 is a South rotation
     3 is a West rotation
     These rotations are stored in a map<tile number, vector<SDL_Surface*> > with 3 values relating to east, south, and west in that order
-    */
-    /*
-    if (fg >= 0 && fg < tile_values->size())
-    {
-        // get rect
-        SDL_Rect *fgrect = (*tile_values)[fg];
-        // get new surface of just the rotated fgrect and blit it to the screen
-        SDL_Surface *rotatile = rotate_tile(tile_atlas, fgrect, rota);
-        SDL_BlitSurface(rotatile, NULL, buffer, &destination);
-        SDL_FreeSurface(rotatile);
-    }
     */
     for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it)
     {
@@ -517,7 +467,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
             if (!draw_terrain(x,y))
             {
-                //DebugLog() << "Terrain Failed to load at <"<<x<<", "<<y<<">\n";
                 continue;
             }
             draw_furniture(x,y);
@@ -555,14 +504,12 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         }
     }
     // check to see if player is located at ter
-    else if (g->u.posx + g->u.view_offset_x != g->ter_view_x || g->u.posy + g->u.view_offset_y != g->ter_view_y)
+    else if (g->u.posx + g->u.view_offset_x != g->ter_view_x ||
+             g->u.posy + g->u.view_offset_y != g->ter_view_y)
     {
         draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
-        //draw_explosion_frame(1, 1, 1, 0, 0);
-        //draw_from_id_string("explosion", posx - 1, posy - 1, corner, 0);
-    }
+     }
 
-    //extern SDL_Surface *screen;
     SDL_Rect srcrect = {0, 0, (Uint16)width, (Uint16)height};
     SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
@@ -595,20 +542,11 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
         std::vector<std::string> display_subtiles = display_tile->available_subtiles;
         if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end())
         {
-            //DebugLog() << "Changing tile ID from <" << id << "> to ";
             // append subtile name to tile and re-find display_tile
             id += "_" + multitile_keys[subtile];
             //DebugLog() << "<"<< id << ">\n";
             return draw_from_id_string(id, x, y, -1, rota);
         }
-        /*
-        if (display_tile->available_subtiles.find(multitile_keys[subtile]) != display_tile->available_subtiles.end())
-        {
-            // append subtile name to tile and re-find display_tile
-            id += "_" + multitile_keys[subtile];
-            draw_from_id_string(id, x, y, -1, rota);
-        }
-        */
     }
 
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
@@ -630,7 +568,6 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
         screen_x = x * tile_width;
         screen_y = y * tile_width;
     }
-//DebugLog() << "Drawing Tile: [" << id << "] at <" << x << ", " << y << "> FG: "<< display_tile->fg << " BG: " << display_tile->bg << "\n";
     // call to draw_tile
     return draw_tile_at(display_tile, screen_x, screen_y, rota);
 }
@@ -667,15 +604,11 @@ bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
         if (fg >= 0 && fg < tile_values->size())
         {
             // get rect
-            //SDL_Rect *fgrect = (*tile_values)[fg];
-            //DebugLog() << "Drawing rotated tile [" << fg << "] with rotation value ["<< rota << "]\n";
+
             // get new surface of just the rotated fgrect and blit it to the screen
             std::vector<SDL_Surface*> fgtiles = rotation_cache[fg];
-            //DebugLog() << "\tAvailable Rotation tiles [" << fgtiles.size() << "]\n";
             SDL_Surface *rotatile = fgtiles[rota - 1];
-            //SDL_Surface *rotatile = rotate_tile(tile_atlas, fgrect, rota);
             SDL_BlitSurface(rotatile, NULL, buffer, &destination);
-            //SDL_FreeSurface(rotatile);
         }
     }
 
@@ -823,7 +756,6 @@ bool cata_tiles::draw_terrain(int x, int y)
 
     // need to check for walls, and then deal with wallfication details!
     int s = terlist[t].sym;
-    //bool wallchange = false;
 
     //char alteration = 0;
     int subtile = 0, rotation = 0;
@@ -832,7 +764,6 @@ bool cata_tiles::draw_terrain(int x, int y)
     if (s == LINE_XOXO /*vertical*/ || s == LINE_OXOX /*horizontal*/)
     {
         get_wall_values(x, y, LINE_XOXO, LINE_OXOX, subtile, rotation);
-        //wallchange = true;
     }
     // check windows and doors for wall connections, may or may not have a subtile available, but should be able to rotate to some extent
     else if (s == '"' || s == '+' || s == '\'')
@@ -1001,7 +932,7 @@ bool cata_tiles::draw_entity(int x, int y)
         monster m = g->zombie(g->mon_at(x,y));
         if (!m.dead)
         {
-            ent_name = monster_names[m.type->id];
+            ent_name = m.type->id;
             entity_here = true;
         }
     }
@@ -1111,9 +1042,6 @@ void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int cen
     int subtile, rotation;
     const int mx = exp_pos_x, my = exp_pos_y;
 
-    //mx = exp_pos_x;// + offset_x;
-    //my = exp_pos_y;// + offset_y;
-
     for (int i = 1; i < exp_rad; ++i)
     {
         subtile = corner;
@@ -1209,46 +1137,25 @@ LIGHTING cata_tiles::light_at(int x, int y)
 {
     /** Logic */
     const int dist = rl_dist(g->u.posx, g->u.posy, x, y);
-    /*
-    int sight_range = sightrange_light;
-    int low_sight_range = sightrange_lowlight;
-
-    if (!g->m.is_outside(x, y))
-    {
-        sight_range = sightrange_natural;
-    }
-    else if (dist <= g->u.sight_range(g_lightlevel))
-    {
-        low_sight_range = std::max(g_lightlevel, sightrange_natural);
-    }
-    */
 
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
     int distance_to_look = real_max_sight_range;
 
-    if (true)
-    //if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0)
-    {
-        distance_to_look = DAYLIGHT_LEVEL;
-    }
+    distance_to_look = DAYLIGHT_LEVEL;
 
     bool can_see = g->m.pl_sees(g->u.posx, g->u.posy, x, y, distance_to_look);
     lit_level lit = g->m.light_at(x, y);
 
-    if (true)
-    //if (OPTIONS[OPT_GRADUAL_NIGHT_LIGHT] > 0)
+    if (lit != LL_BRIGHT && dist > real_max_sight_range)
     {
-        if (lit != LL_BRIGHT && dist > real_max_sight_range)
-        {
-            int intlit = (int)lit - (dist - real_max_sight_range)/2;
-            if (intlit < 0) intlit = LL_DARK;
-            lit = (lit_level)intlit;
-        }
+        int intlit = (int)lit - (dist - real_max_sight_range)/2;
+        if (intlit < 0) intlit = LL_DARK;
+        lit = (lit_level)intlit;
+    }
 
-        if (lit > LL_DARK && real_max_sight_range > 1)
-        {
-            real_max_sight_range = distance_to_look;
-        }
+    if (lit > LL_DARK && real_max_sight_range > 1)
+    {
+        real_max_sight_range = distance_to_look;
     }
 
     /** Conditional Returns */
@@ -1399,7 +1306,6 @@ void cata_tiles::get_wall_values(const int x, const int y, const long vertical_w
         }
     }
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
-    //DebugLog() << "Expected Wall Tile: <" << multitile_keys[subtile] << "-" << rotation << "> at <" << x << ", " << y << ">\n";
 }
 
 void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &rotation)

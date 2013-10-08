@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "keypress.h"
 #include "translations.h"
+#include "file_finder.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -310,6 +311,9 @@ void initOptions() {
 
     OPTIONS.clear();
 
+    std::string tileset_names;
+    tileset_names = get_tileset_names("gfx");      //get the tileset names and set the optionNames
+
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
     OPTIONS["USE_CELSIUS"] =            cOpt("interface", _("Temperature units"),
@@ -455,7 +459,7 @@ void initOptions() {
 
     OPTIONS["CITY_SIZE"] =              cOpt("general", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
-                                             4, 16, 4
+                                             1, 16, 4
                                             );
 
     OPTIONS["INITIAL_TIME"] =           cOpt("debug", _("Initial time"),
@@ -566,6 +570,10 @@ void initOptions() {
                                              _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
                                              true
                                              );
+
+    OPTIONS["TILES"] =                  cOpt("interface", _("Choose tileset"),
+                                             _("Choose the tileset you want to use. Only applicable on SDL builds. Requires restart."),
+                                             tileset_names, "hoder");   // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (int i=0; i < vPages.size(); ++i) {
@@ -832,4 +840,77 @@ bool use_narrow_sidebar()
         return true;
     }
     return false;
+}
+
+std::string get_tileset_names(std::string dir_path)
+{
+    const std::string defaultTilesets = "hoder,deon";
+
+    const std::string filename = "tileset.txt";                             // tileset-info-file
+    std::vector<std::string> files;
+    files = file_finder::get_files_from_path(filename, dir_path, true);     // search it
+
+    std::string tileset_names;
+    bool first_tileset_name = true;
+
+    for(std::vector<std::string>::iterator it = files.begin(); it !=files.end(); ++it) {
+        std::ifstream fin;
+        fin.open(it->c_str());
+        if(!fin.is_open()) {
+            fin.close();
+            DebugLog() << "\tCould not read ."<<*it;
+            optionNames["deon"] = _("Deon's");          // just setting some standards
+            optionNames["hoder"] = _("Hoder's");
+            return defaultTilesets;
+        }
+        std::string tileset_name;
+// should only have 2 values inside it, otherwise is going to only load the last 2 values
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
+
+        //DebugLog() << "\tCurrent: " << sOption << " -- ";
+
+            if(sOption == "") {
+                getline(fin, sOption);    // Empty line, chomp it
+                //DebugLog() << "Empty line, skipping\n";
+            } else if(sOption[0] == '#') { // # indicates a comment
+                getline(fin, sOption);
+                //DebugLog() << "Comment line, skipping\n";
+            } else {
+
+         if (sOption.find("NAME") != std::string::npos)
+                {
+                    tileset_name = "";
+                    fin >> tileset_name;
+                    if(first_tileset_name)
+                    {
+                        first_tileset_name = false;
+                        tileset_names += tileset_name;
+                    }
+                    else
+                    {
+                        tileset_names += std::string(",");
+                        tileset_names += tileset_name;
+                    }
+                }
+         else if (sOption.find("VIEW") != std::string::npos)
+                {
+                    std::string viewName = "";
+                    fin >> viewName;
+                    optionNames[tileset_name] = viewName;
+                    break;
+                }
+            }
+        }
+        fin.close();
+    }
+    if(tileset_names == "")
+    {
+        optionNames["deon"] = _("Deon's");          // more standards
+        optionNames["hoder"] = _("Hoder's");
+        return defaultTilesets;
+
+    }
+    return tileset_names;
 }

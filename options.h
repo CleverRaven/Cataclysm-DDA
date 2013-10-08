@@ -92,4 +92,7 @@ void show_options();
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
 
+std::string get_tileset_names(std::string dir_path);
+
+
 #endif

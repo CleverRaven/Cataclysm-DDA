@@ -14,6 +14,7 @@
 #include "help.h"
 #include "mapdata.h"
 #include "color.h"
+#include "monstergenerator.h"
 
 #include <string>
 #include <vector>
@@ -67,6 +68,7 @@ void init_data_mappings() {
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
+
     ret.push_back("data/json/materials.json");
     ret.push_back("data/json/bionics.json");
     ret.push_back("data/json/professions.json");
@@ -75,11 +77,27 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/mutations.json");
     ret.push_back("data/json/snippets.json");
     ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/recipes.json");
     ret.push_back("data/json/lab_notes.json");
     ret.push_back("data/json/hints.json");
     ret.push_back("data/json/furniture.json");
     ret.push_back("data/json/terrain.json");
+    ret.push_back("data/json/migo_speech.json");
+    ret.push_back("data/json/names.json");
+
+    ret.push_back("data/json/monsters.json");
+
+    ret.push_back("data/json/items/ammo.json");
+    ret.push_back("data/json/items/archery.json");
+    ret.push_back("data/json/items/armor.json");
+    ret.push_back("data/json/items/books.json");
+    ret.push_back("data/json/items/comestibles.json");
+    ret.push_back("data/json/items/containers.json");
+    ret.push_back("data/json/items/melee.json");
+    ret.push_back("data/json/items/mods.json");
+    ret.push_back("data/json/items/ranged.json");
+    ret.push_back("data/json/items/tools.json");
+
+    ret.push_back("data/json/recipes.json");
     return ret;
 }
 
@@ -97,6 +115,8 @@ void load_object(JsonObject &jo)
     }
 }
 
+void null_load_target(JsonObject &jo){}
+
 void init_data_structures()
 {
     // all of the applicable types that can be loaded, along with their loading functions
@@ -108,18 +128,33 @@ void init_data_structures()
     type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
     type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation);
-    type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
-    type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
     type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
 
-
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
+    type_function_map["migo_speech"] = new ClassFunctionAccessor<game>(g, &game::load_migo_speech);
+    type_function_map["NAME"] = new ClassFunctionAccessor<NameGenerator>(&NameGenerator::generator(), &NameGenerator::load_name);
+
+    type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
+    type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
+    type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);
+    type_function_map["TOOL"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_tool);
+    type_function_map["BOOK"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_book);
+    type_function_map["COMESTIBLE"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_comestible);
+    type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_container);
+    type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
+    type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
+
+    type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
+    type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
+
+    type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
+    type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
 
     mutations_category[""].clear();
     init_mutation_parts();
@@ -134,9 +169,17 @@ void load_json_dir(std::string const &dirname)
     for (it = dir.begin(); it != dir.end(); it++) {
         // open the file as a stream
         std::ifstream infile(it->c_str(), std::ifstream::in | std::ifstream::binary);
+        // and stuff it into ram
+        std::istringstream iss(
+            std::string(
+                (std::istreambuf_iterator<char>(infile)),
+                std::istreambuf_iterator<char>()
+            )
+        );
+        infile.close();
         // parse it
         try {
-            JsonIn jsin(&infile);
+            JsonIn jsin(&iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
             throw *(it) + ": " + e;

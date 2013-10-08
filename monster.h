@@ -74,7 +74,7 @@ class monster {
  void json_load(picojson::value parsed, game * g);
  void load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump);
  void load_info(std::string data, std::vector<mtype*> *mtypes);
- 
+
  virtual picojson::value json_save(bool save_contents = false);
  std::string save_info();    // String of all data, for save files
  void debug(player &u);      // Gives debug info
@@ -160,7 +160,7 @@ class monster {
     int morale_level(player &u); // Looks at our HP etc.
     void process_triggers(game *g); // Process things that anger/scare us
     void process_trigger(monster_trigger trig, int amount); // Single trigger
-    int trigger_sum(game *g, std::vector<monster_trigger> *triggers);
+    int trigger_sum(game *g, std::set<monster_trigger> *triggers);
     int  hit(game *g, player &p, body_part &bp_hit); // Returns a damage
     void hit_monster(game *g, int i);
     // Deals this dam damage; returns true if we dead

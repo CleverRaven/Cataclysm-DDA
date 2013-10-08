@@ -23,6 +23,7 @@
 #include "mapdata.h"
 #include "tile_id_data.h"
 #include "enums.h"
+#include "file_finder.h"
 
 
 
@@ -163,7 +164,7 @@ class cata_tiles
         void init(SDL_Surface *screen, std::string json_path, std::string tileset_path);
         /* initialize from an outside file */
         void init(SDL_Surface *screen, std::string load_file_path);
-        void get_tile_information(std::string file_path, std::string &json_path, std::string &tileset_path);
+        void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
         LIGHTING light_at(int x, int y);
