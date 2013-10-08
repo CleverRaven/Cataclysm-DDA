@@ -14768,9 +14768,13 @@ void map::add_road_vehicles(bool city, int facing)
             int vy = rng(0, 3) * 4 + 5;
             int car_type = rng(1, 100);
             if (car_type <= 35) {
-                add_vehicle(g, "car_chassis", vx, vy, facing, -1, 1);
-            } else if (car_type <= 55) {
                 add_vehicle(g, "car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 45) {
+                add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
+            } else if (car_type <= 50) {
+                add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
+            } else if (car_type <= 55) {
+                add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
             } else if (car_type <= 65) {
                 add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
             } else if (car_type <= 70) {
@@ -14782,7 +14786,7 @@ void map::add_road_vehicles(bool city, int facing)
             } else if (car_type <= 95) {
                 add_vehicle(g, "rv", vx, vy, facing, -1, 1);
             } else {
-                add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
+                add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
             }
         }
     } else {
