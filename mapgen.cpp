@@ -517,54 +517,13 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   else
    rn = 0;
 
-  if (terrain_type == ot_road_ew)
+  if (terrain_type == ot_road_ew) {
    veh_spawn_heading = (one_in(2)? 0 : 180);
-  else
+  } else {
    veh_spawn_heading = (one_in(2)? 270 : 90);
-
-  // spawn city car wrecks
-  if (rn > 0) {
-   int maxwrecks = rng (0,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 35) {
-        add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 55) {
-        add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 65) {
-        add_vehicle (g, "hippie_van", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 70) {
-        add_vehicle (g, "cube_van", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 80) {
-        add_vehicle (g, "electric_car", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 90) {
-        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 95) {
-        add_vehicle (g, "rv", vx, vy, veh_spawn_heading, -1, 1);
-    } else {
-        add_vehicle (g, "motorcycle", vx, vy, veh_spawn_heading, -1, 1);
-    }
-   }
   }
 
-  // spawn regular road out of fuel vehicles
-  if (rn == 0) {
-   if (one_in(40)) {
-    int vx = rng (8, 16);
-    int vy = rng (8, 16);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, veh_spawn_heading, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, veh_spawn_heading, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, veh_spawn_heading, 0, -1);
-   }
-  }
+  add_road_vehicles(rn > 0, veh_spawn_heading);
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -600,43 +559,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   else
    rn = 0;
 
-  // spawn city car wrecks
-  if (rn > 0) {
-   int maxwrecks = rng (0,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 50)
-     add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 70)
-     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 80)
-     add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 90)
-     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 95)
-     add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else
-     add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
-   }
-  }
-  // spawn regular road out of fuel vehicles
-  if (rn == 0) {
-   if (one_in(40)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-     add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-     add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
-  }
+  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -677,43 +600,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   else
    rn = 0;
 
-  // spawn city car wrecks
-  if (rn > 0) {
-   int maxwrecks = rng (0,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 50)
-        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 70)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 80)
-        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 90)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 95)
-        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else
-        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
-   }
-  }
-  // spawn regular road out of fuel vehicles
-  if (rn == 0) {
-   if (one_in(20)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(0, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
-  }
+  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -754,26 +641,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
   // spawn city car wrecks
   if (rn > 0) {
-   int maxwrecks = rng (1,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 50)
-        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 70)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 80)
-        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 90)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 95)
-        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 96)
-        add_vehicle (g, "shopping_cart", vx, vy, one_in(2)? 90 : 180);
-    else
-        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, -1);
-   }
+    add_road_vehicles(true, one_in(2) ? 90 : 180);
   }
 
   for (int i = 0; i < SEEX * 2; i++) {
@@ -14879,4 +14747,59 @@ void add_corpse(game *g, map *m, int x, int y)
   m->put_items_from("jackets", 1, x, y, 0, 0, 0);
  if (one_in(15))
   m->put_items_from("bags", 1, x, y, 0, 0, 0);
+}
+
+/**
+ * Adds vehicles to the current submap, selected from a random weighted
+ * distribution of possible vehicles. If the road has a pavement, then set the
+ * 'city' flag to true to spawn wrecks. If it doesn't (ie, highway or country
+ * road,) then set 'city' to false to spawn far fewer vehicles that are out
+ * of gas instead of wrecked.
+ * @param city Whether or not to spawn city wrecks.
+ * @param facing The direction the spawned car should face (multiple of 90).
+ */
+void map::add_road_vehicles(bool city, int facing)
+{
+    if (city) {
+        // spawn city car wrecks
+        int maxwrecks = rng(0, 3);
+        for (int nv = 0; nv < maxwrecks; nv++) {
+            int vx = rng(0, 3) * 4 + 5;
+            int vy = rng(0, 3) * 4 + 5;
+            int car_type = rng(1, 100);
+            if (car_type <= 35) {
+                add_vehicle(g, "car_chassis", vx, vy, facing, -1, 1);
+            } else if (car_type <= 55) {
+                add_vehicle(g, "car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 65) {
+                add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
+            } else if (car_type <= 70) {
+                add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
+            } else if (car_type <= 80) {
+                add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 90) {
+                add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
+            } else if (car_type <= 95) {
+                add_vehicle(g, "rv", vx, vy, facing, -1, 1);
+            } else {
+                add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
+            }
+        }
+    } else {
+        // spawn regular road out of fuel vehicles
+        if (one_in(40)) {
+            int vx = rng(8, 16);
+            int vy = rng(8, 16);
+            int car_type = rng(1, 10);
+            if (car_type <= 5) {
+                add_vehicle(g, "car", vx, vy, facing, 0, -1);
+            } else if (car_type <= 8) {
+                add_vehicle(g, "flatbed_truck", vx, vy, facing, 0, -1);
+            } else if (car_type <= 9) {
+                add_vehicle(g, "semi_truck", vx, vy, facing, 0, -1);
+            } else {
+                add_vehicle(g, "armored_car", vx, vy, facing, 0, -1);
+            }
+        }
+    }
 }
