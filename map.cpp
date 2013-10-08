@@ -3343,8 +3343,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
   show_items = false; // Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
- if (curr_trap != tr_null &&
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility) {
+ if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
+     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
   tercol = (*traps)[curr_trap]->color;
   if ((*traps)[curr_trap]->sym == '%') {
    switch(rng(1, 5)) {
