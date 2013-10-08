@@ -533,12 +533,14 @@ bool map::vehproceed(game* g){
         veh->turn (one_in(2) ? -15 : 15);
     }
     // handle wet weather - more wheel surface area reduces the chance of slipping
-    if(weather_is_slippery(g->weather) && one_in(45 + veh->wheels_area())) {
-        if(one_in(3)) {
-            veh->skidding = true;
+    if (veh->velocity > 2000 && weather_is_wet(g->weather)) {   // 2000 == 20mph
+        if (x_in_y((veh->velocity * 0.01) - (veh->wheels_area() * 0.5), 250 / weather_get_wetness(g->weather) + 1)) {
+            if (one_in(3)) {
+                veh->skidding = true;
+            }
+            veh->turn(one_in(2) ? -15 : 15);
+            g->add_msg(_("The %s's wheels slip in the wet!"), veh->name.c_str());
         }
-        veh->turn(one_in(2) ? -15 : 15);
-        g->add_msg(_("The %s's wheels slip in the wet!"), veh->name.c_str());
     }
     // eventually send it skidding if no control
     if (!veh->boarded_parts().size() && one_in (10)) {
@@ -3671,7 +3673,7 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(game *g, const int wx, const int wy, const int wz, const int sx, const int sy)
 {
- set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx, 
+ set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
 // Special case of 0-shift; refresh the map
