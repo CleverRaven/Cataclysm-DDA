@@ -15357,6 +15357,70 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wsurvivor_suit",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 7,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "scissors", -1 ],
+      [ "knife_steak", -1 ],
+      [ "knife_combat", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "pockknife", -1 ],
+      [ "scalpel", -1 ],
+      [ "machete", -1 ],
+      [ "broadsword", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 2
+      ]
+    ],
+    [
+      [ "needle_bone", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+      [
+      [ "rag", 20 ]
+      ],
+      [
+      [ "leather", 20 ]
+      ],
+      [
+      [ "fur", 10 ]
+      ],
+      [
+      [ "coat_rain", 1 ]
+      ],
+      [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 6 ],
+      [ "leather_pouch", 4 ],
+      [ "fanny", 2 ]
+      ],
+      [
+      [ "duct_tape", 300 ]
+      ],
+      [
+      [ "kevlar", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 24 ]
+      ]
+  ]
+},{
+        "type" : "recipe",
   "result": "helmet_survivor",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
