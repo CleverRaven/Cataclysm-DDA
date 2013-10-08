@@ -2770,7 +2770,7 @@ void iuse::zweifire_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          _("Was willst du tun?"), _("Die Flamme erl�schen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
+                          _("Was willst du tun?"), _("Die Flamme erloschen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
         switch (choice)
         {
             if (choice == 2)
