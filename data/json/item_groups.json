@@ -251,6 +251,7 @@
       ["soup_meat", 15],
       ["spaghetti_raw", 40],
       ["macaroni_raw", 40],
+	  ["noodles_fast", 30],
       ["ravioli", 25],
       ["sauce_red", 20],
       ["sauce_pesto", 15],
@@ -719,7 +720,8 @@
       ["cheeseburger", 35],
       ["hamburger", 30],
       ["bacon", 25],
-      ["cheese", 30]
+      ["cheese", 30],
+	  ["noodles_fast", 30]
     ]
   },{
     "type":"item_group",
@@ -920,6 +922,7 @@
     "items":[
       ["spaghetti_raw", 40],
       ["macaroni_raw", 40],
+	  ["noodles_fast", 30],
       ["ravioli", 25],
       ["sauce_red", 20],
       ["sauce_pesto", 15],

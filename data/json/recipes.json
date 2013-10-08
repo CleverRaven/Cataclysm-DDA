@@ -4048,7 +4048,9 @@
   ],
   "components": [
     [
-      [ "spaghetti_raw", 1 ]
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3]
     ],
     [
       [ "water", 1 ],
@@ -4082,7 +4084,7 @@
   "result": "macaroni_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
-  "difficulty": 0,
+  "difficulty": 1,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -4100,9 +4102,15 @@
   ],
   "components": [
     [
-      [ "macaroni_raw", 1 ]
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3]
     ],
     [
+      [ "cheese", 1 ],
+      [ "can_cheese", 1 ]
+    ],
+	[
       [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
@@ -4790,7 +4798,9 @@
       [ "broth", 2 ]
     ],
     [
-      [ "macaroni_raw", 1 ],
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
     ],
@@ -4828,7 +4838,9 @@
       [ "broth", 2 ]
     ],
     [
-      [ "macaroni_raw", 1 ],
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ]
     ],
@@ -4901,7 +4913,9 @@
       [ "broth", 2 ]
     ],
     [
-      [ "macaroni_raw", 1 ],
+      [ "spaghetti_raw", 1 ],
+	  [ "macaroni_raw", 1],
+	  [ "noodles_fast", 3],
       [ "potato_raw", 1 ]
     ],
     [
