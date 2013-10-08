@@ -86,6 +86,14 @@
     },{
         "type" : "snippet",
         "category" : "flier",
+        "text" : "This is an advertisement for the Rivtech brand Muscle Augmentation CBM. It shows a picture of an athlete engaged in weight lifting. The weights are absurdly large, but the smiling athlete appears to be lifting them with ease. The caption reads:  \"Rivtech neuroreactive myomer bionics. Unlock the Olympian inside.\" and \"Rivtech Bionics, guaranteed for life.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is an advertisement for the Rivtech brand Wired Reflexes CBM. It shows a picture of a stylized, snarling black cat against a red background. The caption reads:  \"Rivtech neuroelectric stimulation bionics. The next level in quantum inductive piezochemical nerve stimulation technology.\" and \"Rivtech Bionics, guaranteed for life.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
         "text" : "This is an advertisement for Rivtech brand ammunition. It shows a picture of an armored steel plate with a gaping hole blasted through the middle. Sitting beside the plate is a block of brightly colored caseless ammunition. The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
     }
 ]

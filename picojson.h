@@ -723,7 +723,7 @@ namespace picojson {
         if (ch == -1 || ch == '\n') {
           break;
         } else if (ch >= ' ') {
-          err->push_back(ch);
+          err->push_back(static_cast<int>(ch));
         }
       }
     }

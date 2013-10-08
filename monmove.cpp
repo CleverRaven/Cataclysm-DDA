@@ -700,27 +700,16 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 
     // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0, morale_adjust = 0;
-    for (int i = 0; i < type->anger.size(); i++)
-    {
-        if (type->anger[i] == MTRIG_FRIEND_ATTACKED)
-        {
-            anger_adjust += 15;
-        }
+    if (type->has_anger_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger_adjust += 15;
     }
-    for (int i = 0; i < type->placate.size(); i++)
-    {
-        if (type->placate[i] == MTRIG_FRIEND_ATTACKED)
-        {
-            anger_adjust -= 15;
-        }
+    if (type->has_fear_trigger(MTRIG_FRIEND_ATTACKED)){
+        morale_adjust -= 15;
     }
-    for (int i = 0; i < type->fear.size(); i++)
-    {
-        if (type->fear[i] == MTRIG_FRIEND_ATTACKED)
-        {
-            morale_adjust -= 15;
-        }
+    if (type->has_placate_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger_adjust -= 15;
     }
+
     if (anger_adjust != 0 && morale_adjust != 0)
     {
         for (int i = 0; i < g->num_zombies(); i++)

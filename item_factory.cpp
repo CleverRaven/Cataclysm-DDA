@@ -543,16 +543,12 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
 void Item_factory::tags_from_json(JsonObject& jo, std::string member, std::set<std::string>& tags)
 {
-    // first try to get the tags as an array
-    try{
-        // will throw if it is not an array
+    if ( jo.is_array(member) ) {
         JsonArray jarr = jo.get_array(member);
-
         while (jarr.has_more()){
             tags.insert(jarr.next_string());
         }
-    }catch(std::string ex){
-        // since an error was thrown, we know that the member exists and that it is not an array. Parse as string
+    } else if ( jo.is_string(member) ){
         tags.insert(jo.get_string(member));
     }
 }
@@ -560,13 +556,13 @@ void Item_factory::tags_from_json(JsonObject& jo, std::string member, std::set<s
 void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, itype* new_item_template)
 {
 
-    try{
+    if ( jo.is_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()){
             JsonArray curr = jarr.next_array();
             new_item_template->qualities.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
         }
-    }catch(std::string ex){
+    } else {
         debugmsg("Qualities list for item %s not an array", new_item_template->id.c_str());
     }
 }
@@ -576,13 +572,12 @@ unsigned Item_factory::flags_from_json(JsonObject& jo, std::string member, std::
     //If none is found, just use the standard none action
     unsigned flag = 0;
     //Otherwise, grab the right label to look for
-    try{
+    if ( jo.is_array(member) ) {
         JsonArray jarr = jo.get_array(member);
-
         while (jarr.has_more()){
             set_flag_by_string(flag, jarr.next_string(), flag_type);
         }
-    }catch(std::string ex){
+    } else if ( jo.is_string(member) ) {
         //we should have gotten a string, if not an array
         set_flag_by_string(flag, jo.get_string(member), flag_type);
     }
@@ -594,18 +589,16 @@ void Item_factory::set_material_from_json(JsonObject& jo, std::string member, it
 {
     //If the value isn't found, just return a group of null materials
     std::string material_list[2] = {"null", "null"};
-
-    try{
+    if( jo.is_array(member) ) {
         JsonArray jarr = jo.get_array(member);
-        if (jarr.size() > 2){
+        if (jarr.size() > 2) {
             debugmsg("Too many materials provided for item %s", new_item_template->id.c_str());
         }
         material_list[0] = jarr.get_string(0);
         material_list[1] = jarr.get_string(1);
-    }catch(std::string ex){
+    } else if ( jo.is_string(member) ) {
         material_list[0] = jo.get_string(member);
     }
-
     new_item_template->m1 = material_list[0];
     new_item_template->m2 = material_list[1];
 }
@@ -615,14 +608,14 @@ bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string
     //If none is found, just use the standard none action
     unsigned is_included = false;
     //Otherwise, grab the right label to look for
-    try{
+    if ( jo.is_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more() && is_included == false){
             if (jarr.next_string() == weapon){
                 is_included = true;
             }
         }
-    }catch(std::string ex){
+    } else {
         if (jo.get_string(member) == weapon){
             is_included = true;
         }
