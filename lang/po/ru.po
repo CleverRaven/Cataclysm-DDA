@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-15 19:22-0500\n"
-"PO-Revision-Date: 2013-09-24 19:43+0000\n"
-"Last-Translator: iKlim <igoreklim@yahoo.com>\n"
+"PO-Revision-Date: 2013-09-19 07:19+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-09-24 20:18+0000\n"
-"X-Generator: Launchpad (build 16771)\n"
+"X-Launchpad-Export-Date: 2013-10-08 03:15+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: action.cpp:311 npcmove.cpp:2072
 msgid "Pause"
@@ -743,7 +743,7 @@ msgstr "Сколько нужно перенести? (0 - отмена)"
 #: advanced_inv.cpp:904
 #, c-format
 msgid "Destination can only hold %d! Move how many? (0 to cancel) "
-msgstr ""
+msgstr "Туда поместится только %d! Сколько переместить? (0 для отмены) "
 
 #: advanced_inv.cpp:933 advanced_inv.cpp:940
 #, c-format
@@ -1659,7 +1659,7 @@ msgstr[2] "%1$d предметов подходит: %2$s"
 
 #: auto_pickup.cpp:355
 msgid "Won't display damaged, fits and can/bottle items"
-msgstr ""
+msgstr "Не показаны повреждение предметов, в пору и канистры/бутылки."
 
 #: bionics.cpp:47
 #, c-format
@@ -7647,7 +7647,7 @@ msgstr "Агрессия: "
 
 #: game.cpp:3233
 msgid " Collector: "
-msgstr ""
+msgstr " Собиратель: "
 
 #: game.cpp:3234
 msgid " Altruism: "
@@ -8026,7 +8026,7 @@ msgstr "какие-то предметы"
 
 #: game.cpp:5969
 msgid "There's some buffoon in the way!"
-msgstr ""
+msgstr "На пути какой-то шут!"
 
 #: game.cpp:5972
 msgid ""
@@ -8980,7 +8980,7 @@ msgstr "%s ударяется о что-то"
 
 #: game.cpp:9574
 msgid "No vehicle at grabbed point."
-msgstr ""
+msgstr "Здесь нет техники, чтобы её схватить."
 
 #: game.cpp:9598 game.cpp:9600
 #, c-format
@@ -9038,15 +9038,17 @@ msgid ""
 "You try to quantum tunnel through the barrier but are reflected! Try again "
 "with more energy!"
 msgstr ""
+"Вы попытались открыть квантовый туннель сквозь барьер, но были отражены! "
+"Попробуйте использовать больше энергии!"
 
 #: game.cpp:9771
 msgid "It's too dangerous to tunnel that far!"
-msgstr ""
+msgstr "Слишком опасно создавать такой длинный туннель!"
 
 #: game.cpp:9784
 #, c-format
 msgid "You quantum tunnel through the %d-tile wide barrier!"
-msgstr ""
+msgstr "квантовый туннель переместил вас через %d-тайлов!"
 
 #: game.cpp:9797
 #, c-format
@@ -9073,7 +9075,7 @@ msgstr "Эта дверь закрыта!"
 
 #: game.cpp:9822
 msgid "You rattle the bars but the door is locked!"
-msgstr ""
+msgstr "Вы гремите решеткой, но дверь закрыта!"
 
 #: game.cpp:9848
 msgid "You sink like a rock!"
@@ -9193,12 +9195,12 @@ msgstr "Вы неудачно упали, получив %d очков повр�
 #: game.cpp:10407
 #, c-format
 msgid "A %s comes down the %s!"
-msgstr ""
+msgstr "%s спускается в %s!"
 
 #: game.cpp:10410
 #, c-format
 msgid "A %s comes up the %s!"
-msgstr ""
+msgstr "%s поднимается на %s!"
 
 #: game.cpp:10624
 msgid "Wait for how long?"
@@ -9277,7 +9279,7 @@ msgstr "Вы телепортируетесь в центр %s!"
 #: game.cpp:10804
 #, c-format
 msgid "Teleported into a %s."
-msgstr ""
+msgstr "Перемещается в %s."
 
 #: game.cpp:10806 game.cpp:10820
 #, c-format
@@ -10902,11 +10904,11 @@ msgstr "Дверь плавно уходит в пол."
 
 #: iexamine.cpp:143
 msgid "Use electrohack on the reader?"
-msgstr ""
+msgstr "Использовать электрохак на считывателе?"
 
 #: iexamine.cpp:146
 msgid "Use fingerhack on the reader?"
-msgstr ""
+msgstr "Использовать электрохак на считывателе?"
 
 #: iexamine.cpp:159
 msgid "You cause a short circuit!"
@@ -10918,7 +10920,7 @@ msgstr "Ваш электрохак сломан!"
 
 #: iexamine.cpp:165
 msgid "Your power is drained!"
-msgstr ""
+msgstr "Ваша энергия истощена."
 
 #: iexamine.cpp:173
 msgid "You activate the panel!"
@@ -10963,11 +10965,11 @@ msgstr "Вы собираете палатку."
 #: iexamine.cpp:248
 #, c-format
 msgid "Take down %s?"
-msgstr ""
+msgstr "Собрать %s?"
 
 #: iexamine.cpp:256
 msgid "You take down the shelter"
-msgstr ""
+msgstr "Вы собираете убежище"
 
 #: iexamine.cpp:267
 msgid "Clear up that wreckage?"
@@ -10991,7 +10993,7 @@ msgstr "Вы кладёте доску поперёк разлома."
 
 #: iexamine.cpp:340
 msgid "Remove cover?"
-msgstr ""
+msgstr "Убрать крышу?"
 
 #: iexamine.cpp:347
 msgid "You remove the plank."
@@ -11123,7 +11125,7 @@ msgstr "Перевернуть %s?"
 
 #: iexamine.cpp:600
 msgid "You hear the rumble of rock shifting."
-msgstr ""
+msgstr "Вы слышите грохот движущихся камней."
 
 #: iexamine.cpp:605 iexamine.cpp:731 iexamine.cpp:768
 #, c-format
@@ -11182,7 +11184,7 @@ msgstr "Удобрить растение?"
 
 #: iexamine.cpp:776
 msgid "Lumps"
-msgstr ""
+msgstr "Куски"
 
 #: iexamine.cpp:776
 msgid "Recycle metal into?:"
@@ -11218,7 +11220,7 @@ msgstr "Переработчик сигналит: \"Нет стали для о
 
 #: iexamine.cpp:820
 msgid "Ka-klunk!"
-msgstr ""
+msgstr "Ка-кланк!"
 
 #: iexamine.cpp:839 iexamine.cpp:852 iexamine.cpp:863
 msgid "The recycler beeps: \"Insufficient steel!\""
@@ -11509,7 +11511,7 @@ msgstr "Покрытие: "
 
 #: item.cpp:756
 msgid "<num> (fits)"
-msgstr ""
+msgstr "<num> (в пору)"
 
 #: item.cpp:756 item.cpp:761
 msgid "Encumberment: "
@@ -11647,7 +11649,7 @@ msgstr "<veh_adj>%s-л "
 #: item.cpp:980
 #, c-format
 msgid "<veh_adj>%d\" "
-msgstr ""
+msgstr "<veh_adj>%d\" "
 
 #: item.cpp:986
 msgid "<burnt_adj>badly burnt "
@@ -11674,7 +11676,7 @@ msgstr "<item_name>человеческая кровь"
 #: item.cpp:999
 #, c-format
 msgid "<item_name>%s blood"
-msgstr ""
+msgstr "<item_name>%s кровь"
 
 #: item.cpp:1010
 #, c-format
@@ -11689,7 +11691,7 @@ msgstr "<item_name>%s (%s)"
 #: item.cpp:1016
 #, c-format
 msgid "<item_name>%s, full"
-msgstr ""
+msgstr "<item_name>%s, полный"
 
 #: item.cpp:1037
 msgid " (fresh)"
@@ -11705,7 +11707,7 @@ msgstr " (протух)"
 
 #: item.cpp:1045
 msgid " (fits)"
-msgstr ""
+msgstr " (в пору)"
 
 #: item.cpp:1049
 msgid " (owned)"
@@ -11713,7 +11715,7 @@ msgstr ""
 
 #: item.cpp:2433
 msgid "Sweep attack"
-msgstr ""
+msgstr "Размашистая атака"
 
 #: item.cpp:2434
 msgid "Precision attack"
@@ -11733,7 +11735,7 @@ msgstr "Быстрая атака"
 
 #: item.cpp:2439
 msgid "Feint"
-msgstr ""
+msgstr "Ложный удар"
 
 #: item.cpp:2440
 msgid "Throw"
@@ -11745,7 +11747,7 @@ msgstr "Блок"
 
 #: item.cpp:2442
 msgid "Leg block"
-msgstr ""
+msgstr "Блок ног"
 
 #: item.cpp:2443
 msgid "Weak block"
@@ -11838,11 +11840,11 @@ msgstr "Довольно маленькое колесо. Возможно от 
 
 #: itypedef.cpp:93 lang/json/json_vehicle_parts.py:39
 msgid "casters"
-msgstr ""
+msgstr "колёсики"
 
 #: itypedef.cpp:95
 msgid "A set of casters, like on a shopping cart."
-msgstr ""
+msgstr "Набор колёсиков, как на магазинной тележке."
 
 #: itypedef.cpp:99 lang/json/json_vehicle_parts.py:40
 msgid "1-cylinder engine"
@@ -11862,7 +11864,7 @@ msgstr "2-цилиндровый, 4-тактный двигатель внутр
 
 #: itypedef.cpp:111 lang/json/json_vehicle_parts.py:42
 msgid "Inline-4 engine"
-msgstr ""
+msgstr "двигатель с 4 цилиндрами"
 
 #: itypedef.cpp:113
 msgid "A small, yet powerful 4-cylinder combustion engine."
@@ -11954,7 +11956,7 @@ msgstr "рекламная листовка"
 
 #: itypedef.cpp:329
 msgid "laser finger"
-msgstr ""
+msgstr "палец-лазер"
 
 #: itypedef.cpp:339
 msgid "fusion blaster"
@@ -12087,6 +12089,9 @@ msgid ""
 "the\n"
 "force of an attack makes your Perception decrease damage further on a block."
 msgstr ""
+"Не смотря на то, что тайцзи часто рассматривается как вид ментального\n"
+"и физического упражнения, он так же является полноправным боевым\n"
+"искусством для самозащиты. Ваше Восприятие понижает получаемый урон."
 
 #: itypedef.cpp:396
 msgid "tai chi"
@@ -12117,27 +12122,27 @@ msgstr "капоэйра"
 
 #: itypedef.cpp:411
 msgid "%1$s bluff %4$s"
-msgstr ""
+msgstr "%1$s обманывает %4$s"
 
 #: itypedef.cpp:411
 msgid "%1$s bluffs %4$s"
-msgstr ""
+msgstr "%1$s обманывает %4$s"
 
 #: itypedef.cpp:412
 msgid "%1$s low kick %4$s"
-msgstr ""
+msgstr "%1$s бьет лоукик %4$s"
 
 #: itypedef.cpp:412
 msgid "%1$s low kicks %4$s"
-msgstr ""
+msgstr "%1$s бьет лоукик %4$s"
 
 #: itypedef.cpp:413
 msgid "%1$s spin and hit %4$s"
-msgstr ""
+msgstr "%1$s бьет с разворота %4$s"
 
 #: itypedef.cpp:413
 msgid "%1$s spins and hits %4$s"
-msgstr ""
+msgstr "%1$s бьет с разворота %4$s"
 
 #: itypedef.cpp:414 itypedef.cpp:465 itypedef.cpp:516
 msgid "%1$s spin-kick %4$s"
@@ -12165,21 +12170,21 @@ msgstr "крав-мага"
 
 #: itypedef.cpp:425 itypedef.cpp:452 itypedef.cpp:463
 msgid "%1$s jab %4$s"
-msgstr ""
+msgstr "%1$s бьет джебом %4$s"
 
 #: itypedef.cpp:425 itypedef.cpp:452 itypedef.cpp:463
 msgid "%1$s jabs %4$s"
-msgstr ""
+msgstr "%1$s бьет джебом %4$s"
 
 #: itypedef.cpp:428 itypedef.cpp:443 itypedef.cpp:493 itypedef.cpp:515
 #: itypedef.cpp:554 itypedef.cpp:572
 msgid "%1$s counter-attack %4$s"
-msgstr ""
+msgstr "%1$s контр атакует %4$s"
 
 #: itypedef.cpp:428 itypedef.cpp:443 itypedef.cpp:493 itypedef.cpp:515
 #: itypedef.cpp:554 itypedef.cpp:572
 msgid "%1$s counter-attacks %4$s"
-msgstr ""
+msgstr "%1$s контр атакует %4$s"
 
 #: itypedef.cpp:434
 msgid ""
@@ -12197,19 +12202,19 @@ msgstr "тайский бокс"
 
 #: itypedef.cpp:439
 msgid "%1$s slap %4$s"
-msgstr ""
+msgstr "%1$s хлопает %4$s"
 
 #: itypedef.cpp:439
 msgid "%1$s slaps %4$s"
-msgstr ""
+msgstr "%1$s хлопает %4$s"
 
 #: itypedef.cpp:442
 msgid "%1$s power-kick %4$s"
-msgstr ""
+msgstr "%1$s наносит сильный удар %4$s"
 
 #: itypedef.cpp:442
 msgid "%1$s power-kicks %4$s"
-msgstr ""
+msgstr "%1$s наносит сильный удар %4$s"
 
 #: itypedef.cpp:446
 msgid ""
@@ -12217,10 +12222,14 @@ msgid ""
 "It focuses on rapid, precise, silent strikes. Ninjutsu is entirely silent.\n"
 "It also provides small combat bonuses the turn after moving a tile."
 msgstr ""
+"Ниндзюцу является боевым искусством, которое использовали ниндзя\n"
+"феодальной Японии.  Абсолютно бесшумный стиль ведения боя,\n"
+"позволяющий наносить быстрые точные удары. Так же даёт небольшой \n"
+"бонус после перемещения на тайл."
 
 #: itypedef.cpp:446
 msgid "ninjutsu"
-msgstr ""
+msgstr "ниндзюцу"
 
 #: itypedef.cpp:456
 msgid ""
@@ -12239,11 +12248,11 @@ msgstr "тхэквондо"
 
 #: itypedef.cpp:464
 msgid "%1$s brutally kick %4$s"
-msgstr ""
+msgstr "%1$s жестоко бьёт %4$s"
 
 #: itypedef.cpp:464
 msgid "%1$s brutally kicks %4$s"
-msgstr ""
+msgstr "%1$s жестоко бьёт %4$s"
 
 #: itypedef.cpp:468
 msgid ""
@@ -12277,11 +12286,11 @@ msgstr "стиль журавля"
 
 #: itypedef.cpp:484
 msgid "%1$s hand-peck %4$s"
-msgstr ""
+msgstr "%1$s клюёт рукой %4$s"
 
 #: itypedef.cpp:484
 msgid "%1$s hand-pecks %4$s"
-msgstr ""
+msgstr "%1$s клюёт рукой %4$s"
 
 #: itypedef.cpp:487
 msgid ""
@@ -12304,15 +12313,15 @@ msgstr "%1$s тыкает %4$s"
 
 #: itypedef.cpp:492 itypedef.cpp:502
 msgid "%1$s swiftly jabs %4$s"
-msgstr ""
+msgstr "%1$s тыкает %4$s"
 
 #: itypedef.cpp:494
 msgid "%1$s strike %4$s with leopard fist"
-msgstr ""
+msgstr "%1$s бьёте %4$s кистью леопарда"
 
 #: itypedef.cpp:494
 msgid "%1$s strikes %4$s with leopard fist"
-msgstr ""
+msgstr "%1$s бьёт %4$s кистью леопарда"
 
 #: itypedef.cpp:497
 msgid ""
@@ -12331,11 +12340,11 @@ msgstr "стиль змеи"
 
 #: itypedef.cpp:504
 msgid "%1$s snakebite %4$s"
-msgstr ""
+msgstr "%1$s бьёт ударом змеи %4$s"
 
 #: itypedef.cpp:504
 msgid "%1$s snakebites %4$s"
-msgstr ""
+msgstr "%1$s бьёт ударом змеи %4$s"
 
 #: itypedef.cpp:505 itypedef.cpp:536
 msgid "%1$s writhe free from %4$s"
@@ -12362,11 +12371,11 @@ msgstr "стиль дракона"
 
 #: itypedef.cpp:517
 msgid "%1$s use dragon strike on %4$s"
-msgstr ""
+msgstr "%1$s бьёт ударом дракона %4$s"
 
 #: itypedef.cpp:517
 msgid "%1$s uses dragon strike on %4$s"
-msgstr ""
+msgstr "%1$s бьёт ударом дракона %4$s"
 
 #: itypedef.cpp:520
 msgid ""
@@ -12385,11 +12394,11 @@ msgstr "стиль многоножки"
 
 #: itypedef.cpp:525
 msgid "%1$s swiftly hit %4$s"
-msgstr ""
+msgstr "%1$s наносит быстрый удар %4$s"
 
 #: itypedef.cpp:525
 msgid "%1$s swiftly hits %4$s"
-msgstr ""
+msgstr "%1$s наносит быстрый удар %4$s"
 
 #: itypedef.cpp:529
 msgid ""
@@ -12424,11 +12433,11 @@ msgstr "стиль скорпиона"
 
 #: itypedef.cpp:545
 msgid "%1$s strike %4$s with spincer fist"
-msgstr ""
+msgstr "%1$s бьет %4$s закрученным кулаком"
 
 #: itypedef.cpp:545
 msgid "%1$s strikes %4$s with spincer fist"
-msgstr ""
+msgstr "%1$s бьет %4$s закрученным кулаком"
 
 #: itypedef.cpp:548
 msgid ""
@@ -12468,10 +12477,14 @@ msgid ""
 "of\n"
 "attacks with no penalty."
 msgstr ""
+"Так же известный как \"пьяный мастер\", Зуй-Цуань имитирует движения "
+"пьяного,\n"
+"чтобы сбить противника с толку. В течение хода, следующего за вашей атакой,\n"
+"вы можете увернуться от любого количества ударов противника без штрафов."
 
 #: itypedef.cpp:566
 msgid "zui quan"
-msgstr ""
+msgstr "зуй-цуань"
 
 #: itypedef.cpp:571
 msgid "%1$s stumble and leer at %4$s"
@@ -12487,7 +12500,7 @@ msgstr "гвозди"
 
 #: itypedef.cpp:580
 msgid "BBs"
-msgstr ""
+msgstr "пластиковые пульки"
 
 #: itypedef.cpp:581
 msgid "bolts"
@@ -12503,7 +12516,7 @@ msgstr "галька"
 
 #: itypedef.cpp:584
 msgid "shot"
-msgstr ""
+msgstr "12 калибр"
 
 #: itypedef.cpp:585
 msgid ".22"
@@ -12571,15 +12584,15 @@ msgstr "40мм граната"
 
 #: itypedef.cpp:601
 msgid "High Explosive Anti Tank warhead"
-msgstr ""
+msgstr "фугасная противотанковая боеголовка"
 
 #: itypedef.cpp:602
 msgid "84mm recoilless projectile"
-msgstr ""
+msgstr "84мм безоткатный снаряд"
 
 #: itypedef.cpp:603
 msgid "M235 Incendiary TPA"
-msgstr ""
+msgstr "М235 зажигательный снаряд"
 
 #: itypedef.cpp:604 lang/json/json_items.py:994
 msgid "gasoline"
@@ -12603,7 +12616,7 @@ msgstr "мускулатура"
 
 #: itypedef.cpp:609
 msgid "fusion cell"
-msgstr ""
+msgstr "ядерная батарея"
 
 #: itypedef.cpp:610
 msgid "12mm slugs"
@@ -12619,7 +12632,7 @@ msgstr "чистая вода"
 
 #: itypedef.cpp:613 lang/json/json_items.py:1002
 msgid "8x40mm caseless"
-msgstr ""
+msgstr "8х40мм безгильзовые"
 
 #: itypedef.cpp:614 lang/json/json_items.py:1019
 msgid "charcoal"
@@ -12659,7 +12672,7 @@ msgstr "%s что?"
 #: iuse.cpp:121
 #, c-format
 msgid "%s on what?"
-msgstr ""
+msgstr "%s на что?"
 
 #: iuse.cpp:124 iuse.cpp:955 iuse.cpp:1130 iuse.cpp:1160 iuse.cpp:1509
 #: iuse.cpp:1685 iuse.cpp:3978 iuse.cpp:4121 iuse.cpp:4317 iuse.cpp:5103
@@ -12674,11 +12687,11 @@ msgstr "Вы не можете сделать ничего интересног�
 
 #: iuse.cpp:141
 msgid "Ate a sewage sample."
-msgstr ""
+msgstr "Вы съели нечистоты."
 
 #: iuse.cpp:160
 msgid "You feel cleansed inside!"
-msgstr ""
+msgstr "Вы чувствуете себя очищенным!"
 
 #: iuse.cpp:164
 msgid "Your sight returns!"
@@ -12748,7 +12761,7 @@ msgstr "Бинт"
 
 #: iuse.cpp:390
 msgid "Stop Bleeding"
-msgstr ""
+msgstr "Остановить кровотечение"
 
 #: iuse.cpp:392
 msgid "You stopped the bleeding."
@@ -12781,7 +12794,7 @@ msgstr "Вы приняли %s."
 
 #: iuse.cpp:433
 msgid "You shoot up."
-msgstr ""
+msgstr "Вы стреляете вверх."
 
 #: iuse.cpp:480
 msgid "You light a cigarette and smoke it."
@@ -12951,7 +12964,7 @@ msgstr "Вы чувствуете себя очищенным."
 msgid ""
 "As you eat the berry, you have a near-religious experience, feeling at one "
 "with your surroundings..."
-msgstr ""
+msgstr "Съев ягоду, вы почувствовали единение с окружением..."
 
 #: iuse.cpp:835
 msgid "This berry tastes extremely strange!"
@@ -12959,7 +12972,7 @@ msgstr "Эта ягода очень странная на вкус!"
 
 #: iuse.cpp:838
 msgid "This berry makes you feel better all over."
-msgstr ""
+msgstr "Эта ягода заставила вас почувствовать себя лучше."
 
 #: iuse.cpp:844
 msgid "This berry is delicious, and very filling!"
@@ -12967,7 +12980,7 @@ msgstr "Эта ягода великолепна и очень освежает.
 
 #: iuse.cpp:847
 msgid "You take one bite, and immediately vomit!"
-msgstr ""
+msgstr "Вы сделали один укус и вас тут же стошнило!"
 
 #: iuse.cpp:850
 msgid "You feel a strange warmth spreading throughout your body..."
@@ -13107,7 +13120,7 @@ msgstr "Что модифицировать?"
 
 #: iuse.cpp:1135
 msgid "You can only mod tools with this battery mod."
-msgstr ""
+msgstr "Эта модификация подходит только для инструментов."
 
 #: iuse.cpp:1142
 msgid "That item does not use batteries!"
@@ -13120,16 +13133,18 @@ msgstr "У этого предмета уже удвоенна ёмкость б
 #: iuse.cpp:1153
 #, c-format
 msgid "You double the battery capacity of your %s!"
-msgstr ""
+msgstr "Ёмкость батарей %s удвоена!"
 
 #: iuse.cpp:1165
 msgid "You cannot cut that, you must disassemble it using the disassemble key"
 msgstr ""
+"Вы не можете разрезать эту вещь, вы должны разобрать её используя пункт "
+"\"разобрать\"."
 
 #: iuse.cpp:1169 iuse.cpp:4038
 #, c-format
 msgid "There's no point in cutting a %s."
-msgstr ""
+msgstr "Нет смысла резать %s."
 
 #: iuse.cpp:1173
 msgid "You can only slice items made of cotton or leather."
@@ -13138,7 +13153,7 @@ msgstr "Вы можете разрезать только вещи из хлоп
 #: iuse.cpp:1202
 #, c-format
 msgid "You clumsily cut the %s into useless ribbons."
-msgstr ""
+msgstr "Вы неуклюже порезали %s на бесполезные куски."
 
 #: iuse.cpp:1203
 #, c-format
@@ -13168,12 +13183,12 @@ msgstr "Что разрубить?"
 #: iuse.cpp:1277
 #, c-format
 msgid "The %s is sprayed!"
-msgstr ""
+msgstr "%s распылён!"
 
 #: iuse.cpp:1280
 #, c-format
 msgid "The %s is frozen!"
-msgstr ""
+msgstr "%s замёрз!"
 
 #: iuse.cpp:1307 iuse.cpp:2118
 msgid "Pry"
@@ -13185,7 +13200,7 @@ msgstr "Вы пытаетесь ударить себя молотком."
 
 #: iuse.cpp:1313
 msgid "But you can't touch this."
-msgstr ""
+msgstr "Но вы не можете дотронуться."
 
 #: iuse.cpp:1341
 msgid "Hammers can only remove boards from windows, doors and fences."
@@ -13284,7 +13299,7 @@ msgstr "кевларовые пластины"
 
 #: iuse.cpp:1528
 msgid "plastic chunks"
-msgstr ""
+msgstr "куски пластика"
 
 #: iuse.cpp:1533 lang/json/json_items.py:1067
 msgid "scrap metal"
@@ -13437,7 +13452,7 @@ msgstr "Вы добавили местонахождение %s на свою к
 #: iuse.cpp:2011
 #, c-format
 msgid "It's %d squares to the %s"
-msgstr ""
+msgstr "Осталось%d клеток до %s"
 
 #: iuse.cpp:2013
 msgid "You can't find a hospital near your location."
@@ -13471,20 +13486,20 @@ msgstr ""
 
 #: iuse.cpp:2076
 msgid "The door swings open..."
-msgstr ""
+msgstr "Дверь распахнулась..."
 
 #: iuse.cpp:2078
 msgid "That door isn't locked."
-msgstr ""
+msgstr "Дверь не заперта."
 
 #: iuse.cpp:2081
 msgid "That cannot be picked."
-msgstr ""
+msgstr "Это нельзя подобрать."
 
 #: iuse.cpp:2091
 #, c-format
 msgid "With a satisfying click, the lock on the %s opens."
-msgstr ""
+msgstr "С приятным щелчком, замок на %s открывается."
 
 #: iuse.cpp:2096
 msgid "<door_status>damage"
@@ -13496,15 +13511,15 @@ msgstr "<door_status>сломали"
 
 #: iuse.cpp:2104
 msgid "The lock stumps your efforts to pick it."
-msgstr ""
+msgstr "Замок сопротивляется вашим попыткам взломать его."
 
 #: iuse.cpp:2122
 msgid "You attempt to pry open your wallet"
-msgstr ""
+msgstr "Вы пытаетесь заглянуть в ваш кошелёк"
 
 #: iuse.cpp:2123
 msgid "but alas. You are just too miserly."
-msgstr ""
+msgstr "но увы. Вы слишком бедны."
 
 #: iuse.cpp:2134 iuse.cpp:2140
 msgid "You pry open the door."
@@ -13516,19 +13531,19 @@ msgstr "Вы пытаетесь, но не можете взломать две�
 
 #: iuse.cpp:2146
 msgid "You lift the manhole cover."
-msgstr ""
+msgstr "Вы поднимаете крышку люка."
 
 #: iuse.cpp:2147
 msgid "You pry, but cannot lift the manhole cover."
-msgstr ""
+msgstr "Вы пытаетесь открыть люк, но у вас не получается."
 
 #: iuse.cpp:2152
 msgid "You pop open the crate."
-msgstr ""
+msgstr "Вы открываете ящик."
 
 #: iuse.cpp:2153
 msgid "You pry, but cannot pop open the crate."
-msgstr ""
+msgstr "Вы пытаетесь открыть ящик, но у вас не получается."
 
 #: iuse.cpp:2157
 msgid "You pry open the window."
@@ -13559,15 +13574,15 @@ msgstr "звон разбитого стекла!"
 
 #: iuse.cpp:2242
 msgid "You churn up the earth here."
-msgstr ""
+msgstr "Вы вспахиваете землю."
 
 #: iuse.cpp:2246
 msgid "You can't churn up this ground."
-msgstr ""
+msgstr "Вы не можете пахать здесь."
 
 #: iuse.cpp:2252
 msgid "You can dig a pit via the construction menu--hit *"
-msgstr ""
+msgstr "Вы можете выкопать яму через меню постройки (нажмите *)."
 
 #: iuse.cpp:2259
 msgid "Siphon from"
@@ -13583,7 +13598,7 @@ msgstr "В машине нет топлива."
 
 #: iuse.cpp:2283
 msgid "With a roar, the chainsaw leaps to life!"
-msgstr ""
+msgstr "Бензопила оживает с громким рыком!"
 
 #: iuse.cpp:2287
 msgid "You yank the cord, but nothing happens."
@@ -13591,7 +13606,7 @@ msgstr "Вы дёрнули шнур, но ничего не произошло.
 
 #: iuse.cpp:2294
 msgid "Your chainsaw rumbles."
-msgstr ""
+msgstr "Ваша бензопила шумит."
 
 #: iuse.cpp:2296
 msgid "Your chainsaw dies."
@@ -13599,31 +13614,31 @@ msgstr "Бензопила заглохла."
 
 #: iuse.cpp:2305
 msgid "Bring the heat!"
-msgstr ""
+msgstr "Жги!"
 
 #: iuse.cpp:2305
 msgid "Cut 'em up!"
-msgstr ""
+msgstr "Режь их!"
 
 #: iuse.cpp:2305
 msgid "I'm good."
-msgstr ""
+msgstr "Я в норме."
 
 #: iuse.cpp:2305 iuse.cpp:2354
 msgid "What's the plan?"
-msgstr ""
+msgstr "Какой план?"
 
 #: iuse.cpp:2316
 msgid "Let's dance Zeds!"
-msgstr ""
+msgstr "Потанцуем!"
 
 #: iuse.cpp:2322
 msgid "Aw, dangit."
-msgstr ""
+msgstr "Чёрт побери!"
 
 #: iuse.cpp:2336
 msgid "Your shishkebab crackles!"
-msgstr ""
+msgstr "Шишкебаб потрескивает!"
 
 #: iuse.cpp:2340
 msgid "Bummer man, wipeout!"
@@ -13631,11 +13646,11 @@ msgstr ""
 
 #: iuse.cpp:2347
 msgid "Uncool, outta gas."
-msgstr ""
+msgstr "Круто, газ кончился."
 
 #: iuse.cpp:2354
 msgid "Chill out"
-msgstr ""
+msgstr "Расслабься"
 
 #: iuse.cpp:2354
 msgid "Keep groovin'"
@@ -13651,139 +13666,139 @@ msgstr ""
 
 #: iuse.cpp:2382 iuse.cpp:2429
 msgid "No. 9"
-msgstr ""
+msgstr "№9"
 
 #: iuse.cpp:2382
 msgid "Turn on"
-msgstr ""
+msgstr "Включить"
 
 #: iuse.cpp:2382
 msgid "Use as a knife"
-msgstr ""
+msgstr "Использовать как нож"
 
 #: iuse.cpp:2393
 msgid "Your No. 9 glows!"
-msgstr ""
+msgstr "Ваш №9 светится!"
 
 #: iuse.cpp:2399
 msgid "Click."
-msgstr ""
+msgstr "Клац!"
 
 #: iuse.cpp:2413
 msgid "Your No. 9 hisses."
-msgstr ""
+msgstr "Ваш №9 шипит."
 
 #: iuse.cpp:2416
 msgid "Your No. 9 cuts out!"
-msgstr ""
+msgstr "Ваш №9 отключается!"
 
 #: iuse.cpp:2429
 msgid "Light something"
-msgstr ""
+msgstr "Зажечь что-нибудь"
 
 #: iuse.cpp:2436
 msgid "Your No. 9 goes dark."
-msgstr ""
+msgstr "Ваш №9 темнеет."
 
 #: iuse.cpp:2457
 msgid "Perform peasant work?"
-msgstr ""
+msgstr "Выполнить крестьянскую работу?"
 
 #: iuse.cpp:2457
 msgid "Ready for battle!"
-msgstr ""
+msgstr "Готов к битве!"
 
 #: iuse.cpp:2457
 msgid "Reconsider thy strategy"
-msgstr ""
+msgstr "Подумать над стратегией"
 
 #: iuse.cpp:2457 iuse.cpp:2498
 msgid "What will thou do?"
-msgstr ""
+msgstr "Что они будут делать?"
 
 #: iuse.cpp:2468
 msgid "Charge!!"
-msgstr ""
+msgstr "В бой!!"
 
 #: iuse.cpp:2473
 msgid "No strength to fight!"
-msgstr ""
+msgstr "Нет сил драться!"
 
 #: iuse.cpp:2487
 msgid "Your blade burns for combat!"
-msgstr ""
+msgstr "Ваш клинок горит для боя!"
 
 #: iuse.cpp:2491
 msgid "Thy strength fades!"
-msgstr ""
+msgstr "Их силы истощены!"
 
 #: iuse.cpp:2498
 msgid "Burn and Pillage!"
-msgstr ""
+msgstr "Жги! Круши!"
 
 #: iuse.cpp:2498
 msgid "Keep Fighting!"
-msgstr ""
+msgstr "Не сдаваться!"
 
 #: iuse.cpp:2498
 msgid "Retreat!"
-msgstr ""
+msgstr "Отступаем!"
 
 #: iuse.cpp:2505
 msgid "Run away!"
-msgstr ""
+msgstr "Бежим!"
 
 #: iuse.cpp:2526
 msgid "Daybreak"
-msgstr ""
+msgstr "Рассвет"
 
 #: iuse.cpp:2526
 msgid "Eternal Night"
-msgstr ""
+msgstr "Глубокая ночь"
 
 #: iuse.cpp:2526
 msgid "The Dark of Night."
-msgstr ""
+msgstr "Тёмная ночь."
 
 #: iuse.cpp:2526
 msgid "The Moonlight's Edge"
-msgstr ""
+msgstr "Лунный свет"
 
 #: iuse.cpp:2537
 msgid "The Sun rises."
-msgstr ""
+msgstr "Солнце встаёт."
 
 #: iuse.cpp:2542
 msgid "Time stands still."
-msgstr ""
+msgstr "Время замерло."
 
 #: iuse.cpp:2556
 msgid "The Sun shines brightly."
-msgstr ""
+msgstr "Солнце ярко сияет."
 
 #: iuse.cpp:2560
 msgid "The Light Fades."
-msgstr ""
+msgstr "Свет слабеет."
 
 #: iuse.cpp:2567
 msgid "Blazing Heat"
-msgstr ""
+msgstr "Обжигающая жара"
 
 #: iuse.cpp:2567
 msgid "Endless Day"
-msgstr ""
+msgstr "Бесконечный день"
 
 #: iuse.cpp:2567
 msgid "Nightfall"
-msgstr ""
+msgstr "Ночь"
 
 #: iuse.cpp:2567
 msgid "The Light of Day."
-msgstr ""
+msgstr "Дневной свет."
 
 #: iuse.cpp:2574
 msgid "The Sun sets."
-msgstr ""
+msgstr "Солнце заходит."
 
 #: iuse.cpp:2595
 msgid "Drill"
@@ -13791,11 +13806,11 @@ msgstr "Сверлить"
 
 #: iuse.cpp:2599
 msgid "My god! Let's talk it over OK?"
-msgstr ""
+msgstr "Жуть! Может поговорим об этом?"
 
 #: iuse.cpp:2600
 msgid "Don't do anything rash.."
-msgstr ""
+msgstr "Не делай ничего в спешке..."
 
 #. ~ the sound of a jackhammer
 #: iuse.cpp:2608 iuse.cpp:2613
@@ -13812,7 +13827,7 @@ msgstr ""
 
 #: iuse.cpp:2627
 msgid "Direction invalide"
-msgstr ""
+msgstr "Неправильное нарпавление"
 
 #: iuse.cpp:2631
 msgid "Mon dieu! Nous allons en parler OK?"
@@ -13859,16 +13874,16 @@ msgstr "Чертовский умный ход."
 #: iuse.cpp:2674
 #, c-format
 msgid "You can't place a %s there."
-msgstr ""
+msgstr "Вы не можете разместить %s здесь."
 
 #: iuse.cpp:2678
 #, c-format
 msgid "You can't place a %s there. It contains a trap already."
-msgstr ""
+msgstr "Тут уже есть ловушка, поэтому %s не получится разместить здесь."
 
 #: iuse.cpp:2690
 msgid "You unfold the cot and place it on the ground."
-msgstr ""
+msgstr "Вы разбираете и устанавливаете раскладушку."
 
 #: iuse.cpp:2694
 msgid "You unroll the mat and lay it on the ground."
@@ -13880,7 +13895,7 @@ msgstr "Вы установили мангал."
 
 #: iuse.cpp:2702
 msgid "You set the boobytrap up and activate the grenade."
-msgstr ""
+msgstr "Вы устанавливаете растяжку и активируете гранату."
 
 #: iuse.cpp:2706
 msgid "You set the bubblewrap on the ground, ready to be popped."
@@ -13904,15 +13919,15 @@ msgstr "Вы разместили воронку и стали ждать пок
 
 #: iuse.cpp:2725
 msgid "You place the makeshift funnel, waiting to collect rain."
-msgstr ""
+msgstr "Самодельная воронка установлена."
 
 #: iuse.cpp:2738
 msgid "You string up the tripwire."
-msgstr ""
+msgstr "Вы натягиваете растяжку."
 
 #: iuse.cpp:2742
 msgid "You must place the tripwire between two solid tiles."
-msgstr ""
+msgstr "Вы можете установить растяжку только между двумя твердыми клетками."
 
 #: iuse.cpp:2746
 msgid "You set the crossbow trap."
@@ -13925,6 +13940,7 @@ msgstr "Вы установили ловушку с дробовиком."
 #: iuse.cpp:2759
 msgid "That trap needs a 3x3 space to be clear, centered two tiles from you."
 msgstr ""
+"Эта ловушка требует пустого места размером 3 на 3 в двух клетках от вас."
 
 #: iuse.cpp:2764
 msgid "You set the blade trap two squares away."
@@ -14804,7 +14820,7 @@ msgstr ""
 
 #: iuse.cpp:5132
 msgid "You open the vacuum pack, exposing it to the atmosphere."
-msgstr ""
+msgstr "Вы вскрыли вакуумную упаковку."
 
 #: iuse.cpp:5153
 msgid ""
@@ -14840,7 +14856,7 @@ msgstr "Этот предмет не подходит для ваших боти
 #: iuse.cpp:5193
 #, c-format
 msgid "You put the %s in your boot."
-msgstr ""
+msgstr "Вы спрятали %s за голенищем."
 
 #: iuse.cpp:5204
 #, c-format
@@ -14850,15 +14866,15 @@ msgstr ""
 #: iuse.cpp:5208
 #, c-format
 msgid "You are already dry, %s has no effect"
-msgstr ""
+msgstr "Вы не промокли, %s не имеет эффекта."
 
 #: iuse.cpp:5227
 msgid "You painstakingly unfold the bicycle and make it ready to ride."
-msgstr ""
+msgstr "Вы кропотливо раскладываете велосипед, и он готов ехать."
 
 #: iuse.cpp:5231
 msgid "There's no room to unfold the bicycle."
-msgstr ""
+msgstr "Здесь не хватает места, чтобы разложить велосипед."
 
 #: iuse.cpp:5253
 msgid "The adrenaline causes your asthma to clear."
@@ -14866,7 +14882,7 @@ msgstr ""
 
 #: iuse_software.cpp:45
 msgid "You found kitten!"
-msgstr ""
+msgstr "Вы нашли котенка!"
 
 #: iuse_software.cpp:83
 #, c-format
@@ -14906,6 +14922,9 @@ msgid ""
 "for the highly successful CBM: Power Storage.  Increases you power capacity "
 "by 10 units."
 msgstr ""
+"Компактный модуль, разработанный DoubleTech Industries, как замена весьма "
+"успешного КБМ: Доп. аккумулятор. Увеличивает ёмкость вашего аккумулятора на "
+"10."
 
 #: lang/json/json_bionics.py:7
 msgid "Battery System"
@@ -15041,7 +15060,7 @@ msgstr ""
 
 #: lang/json/json_bionics.py:29
 msgid "Cerebral Booster"
-msgstr ""
+msgstr "Встроенный сопроцессор"
 
 #: lang/json/json_bionics.py:30
 msgid ""
@@ -15060,6 +15079,8 @@ msgid ""
 "Your eyes have a thin membrane that closes over your eyes while underwater, "
 "negating any vision penalties."
 msgstr ""
+"Ваши глаза имеют тонкую мембрану, которая защищает их под водой, убирая все "
+"сложности обзора."
 
 #: lang/json/json_bionics.py:33
 msgid "Targeting System"
@@ -15071,6 +15092,8 @@ msgid ""
 "that of your arms, to a degree.  Shots you fire will be much more accurate, "
 "particularly at long range."
 msgstr ""
+"Ваши глаза снабжены дальномером и синхронизированы с передвижением ваших "
+"рук. Это делает вашу стрельбу точнее, особенно на дальние дистанции."
 
 #: lang/json/json_bionics.py:35
 msgid "Membrane Oxygenator"
@@ -15081,6 +15104,8 @@ msgid ""
 "An oxygen interchange system automatically switches on while underwater, "
 "slowly draining your energy reserves but providing oxygen."
 msgstr ""
+"Система выработки кислорода автоматически включается под водой, производя "
+"кислород, расходуя энергию."
 
 #: lang/json/json_bionics.py:37
 msgid "Air Filtration System"
@@ -15091,6 +15116,8 @@ msgid ""
 "Implanted in your trachea is an advanced filtration system.  If toxins find "
 "their way into your windpipe, the filter will attempt to remove them."
 msgstr ""
+"В вашу трахею имплантирована дополнительная система фильтрации. Фильтры "
+"активируются, при обнаружении токсинов во вдыхаемом воздухе."
 
 #: lang/json/json_bionics.py:39
 msgid "Internal Climate Control"
@@ -15101,6 +15128,8 @@ msgid ""
 "Throughout your body lies a network of thermal piping which eases the "
 "effects of high and low ambient temperatures."
 msgstr ""
+"Ваше тело пронизывает сеть температурный каналов, который снижают эффекты "
+"перепадов окружающей температуры."
 
 #: lang/json/json_bionics.py:41
 msgid "Internal Storage"
@@ -15624,6 +15653,8 @@ msgstr "Искусственный генератор ночи"
 #: lang/json/json_bionics.py:138
 msgid "Destructive interference eliminates all light within a 15 tile radius."
 msgstr ""
+"Разрушительная интерференционная волна уничтожает все источники света в "
+"радиусе 15 клеток."
 
 #: lang/json/json_bionics.py:139
 msgid "Uncanny Dodge"
@@ -15634,6 +15665,8 @@ msgid ""
 "Your nervous system has been augmented with bionic processors, allowing you "
 "to dodge attacks beyond normal human capability, including bullets."
 msgstr ""
+"Ваша нервная система соединена с процессором, который позволяет уклоняться "
+"от атак быстрее чем обычный человек, в то числе от пуль."
 
 #: lang/json/json_bionics.py:141
 msgid "Electrical Discharge"
@@ -16575,7 +16608,7 @@ msgstr "хоккейный свитер"
 msgid ""
 "A shirt made of thick material imprinted with the name and logo of a sports "
 "team."
-msgstr ""
+msgstr "Крепкая футболка с логотипом и названием спортивной команды."
 
 #: lang/json/json_items.py:131
 msgid "under armor"
@@ -16768,6 +16801,7 @@ msgid ""
 "A light vest covered in webbing, pockets and straps. This variety is favored "
 "by the military."
 msgstr ""
+"Легкий жилет со стропами, карманами и подсумками. Такие обожают военные."
 
 #: lang/json/json_items.py:173
 msgid "lab coat"
@@ -17092,7 +17126,7 @@ msgstr ""
 
 #: lang/json/json_items.py:239
 msgid "ballistic glasses"
-msgstr ""
+msgstr "баллистические очки"
 
 #: lang/json/json_items.py:240
 msgid ""
@@ -17408,7 +17442,7 @@ msgstr ""
 
 #: lang/json/json_items.py:307
 msgid "large quiver"
-msgstr ""
+msgstr "большой колчан"
 
 #: lang/json/json_items.py:308
 msgid ""
@@ -17417,6 +17451,9 @@ msgid ""
 "Historically used by horse archers, rather than foot archers, but neither of "
 "THEM had to fight zombies."
 msgstr ""
+"Большой кожаный колчан, укрепленный металлом. Носится за спиной, вмещает 80 "
+"стрел. Исторически использовался конными лучниками, реже пешими, но НИКОГДА "
+"не использовался для борьбы с зомби."
 
 #: lang/json/json_items.py:309
 msgid "pouch"
@@ -17631,6 +17668,8 @@ msgid ""
 "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I. "
 "Offers excellent protection from both attacks and environmental hazards."
 msgstr ""
+"Основной шлем для силовой брони Мк.I DoubleTech. Обеспечивает отличную "
+"защиту от повреждений и вредной среды."
 
 #: lang/json/json_items.py:353
 msgid "light power armor"
@@ -17699,7 +17738,7 @@ msgstr "шина на руку"
 
 #: lang/json/json_items.py:364 lang/json/json_items.py:366
 msgid "A tool to help set bones and hold them in place."
-msgstr ""
+msgstr "Помогает зафиксировать сломанные кости."
 
 #: lang/json/json_items.py:365
 msgid "leg splint"
@@ -17771,7 +17810,7 @@ msgstr "В крайнем случае, на них можно поиграть 
 
 #: lang/json/json_items.py:381
 msgid "scrap suit"
-msgstr ""
+msgstr "жилет из мусора"
 
 #: lang/json/json_items.py:382
 msgid ""
@@ -17785,17 +17824,19 @@ msgstr ""
 
 #: lang/json/json_items.py:383
 msgid "bookplate"
-msgstr ""
+msgstr "бумажная броня"
 
 #: lang/json/json_items.py:384
 msgid ""
 "A crude form of armor made from stacked paper and rolls of duct tape, this "
 "breastplate offers a surprising amount of protection."
 msgstr ""
+"Броня сделанная из бумаги перемотанной скотчем. Обеспечивает, на удивление, "
+"хорошую защиту."
 
 #: lang/json/json_items.py:385
 msgid "light survivor suit"
-msgstr ""
+msgstr "легкий костюм важивальщика"
 
 #: lang/json/json_items.py:386
 msgid ""
@@ -17803,10 +17844,12 @@ msgid ""
 "vest and a reinforced jumpsuit made out of fabric. Protects from the "
 "elements as well as from harm."
 msgstr ""
+"Самодельная легкая броня, сделанная из бронежилета и усиленного комбинезона. "
+"Защищает от вредной среды и повреждений."
 
 #: lang/json/json_items.py:387
 msgid "survivor suit"
-msgstr ""
+msgstr "жилет выживальщика"
 
 #: lang/json/json_items.py:388
 msgid ""
@@ -17814,6 +17857,8 @@ msgid ""
 "jumpsuit made out of leather. Protects from the elements as well as from "
 "harm."
 msgstr ""
+"Самодельный жилет, сделанный из бронежилета и усиленного комбинезона. "
+"Защищает от вредной среды и повреждений."
 
 #: lang/json/json_items.py:389
 msgid "plate armor boots"
@@ -17833,7 +17878,7 @@ msgstr "Комплект очень тяжёлых доспешных перча
 
 #: lang/json/json_items.py:393
 msgid "heavy survivor suit"
-msgstr ""
+msgstr "тяжелый костюм выживальщика"
 
 #: lang/json/json_items.py:394
 msgid ""
@@ -17841,16 +17886,18 @@ msgid ""
 "and a metal armor plated jumpsuit made out of leather. Protects from the "
 "elements as well as from harm."
 msgstr ""
+"Самодельная тяжелая броня, сделанная из бронежилета и усиленного металлом "
+"комбинезона. Защищает от вредной среды и повреждений."
 
 #: lang/json/json_items.py:395
 msgid "SWAT armor"
-msgstr ""
+msgstr "броня SWAT"
 
 #: lang/json/json_items.py:396
 msgid ""
 "A suit of black bulletproof armor with lots of pockets. The word SWAT is "
 "emblazoned across the back."
-msgstr ""
+msgstr "Черный броне костюм с набором карманов. На спине большая надпись SWAT."
 
 #: lang/json/json_items.py:397
 msgid "tactical helmet"
@@ -23690,8 +23737,8 @@ msgstr "пиво"
 msgid ""
 "Best served cold, in a glass, and with a lime - but you're not that lucky."
 msgstr ""
-"Лучше всего подавать холодным, в стеклянных бокалах, с лаймом. Но вам не "
-"настолько везёт."
+"Лучше всего подавать холодным, в стеклянных бокалах, с лаймом... Но это если "
+"повезёт."
 
 #: lang/json/json_items.py:1513
 msgid "bleach"
