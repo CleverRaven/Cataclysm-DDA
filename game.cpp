@@ -86,6 +86,11 @@ game::game() :
  om_diag(NULL),
  gamemode(NULL)
 {
+    // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
+    // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
+}
+void game::init_data()
+{
  dout() << "Game initialized.";
 
  try {
@@ -94,31 +99,30 @@ game::game() :
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
     load_json_dir("data/json"); // load it, load it all!
- init_npctalk();
- init_artifacts();
- init_weather();
- init_overmap();
- init_fields();
- init_faction_data();
- init_morale();
- init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
- init_techniques();           // Set up techniques                (SEE martialarts.cpp)
- init_itypes();               // Set up item types                (SEE itypedef.cpp)
- init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
- item_controller->init(this); //Item manager
- init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
- init_traps();                // Set up the trap types            (SEE trapdef.cpp)
- init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
- init_missions();             // Set up mission templates         (SEE missiondef.cpp)
- init_construction();         // Set up constructables            (SEE construction.cpp)
- init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
- init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
- init_autosave();             // Set up autosave
- init_diseases();             // Set up disease lookup table
- init_savedata_translation_tables();
- inp_mngr.init();            // Load input config JSON
+    init_npctalk();
+    init_artifacts();
+    init_weather();
+    init_overmap();
+    init_fields();
+    init_faction_data();
+    init_morale();
+    init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+    init_techniques();           // Set up techniques                (SEE martialarts.cpp)
+    init_itypes();               // Set up item types                (SEE itypedef.cpp)
+    init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
+    item_controller->init(this); //Item manager
+    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
+    init_traps();                // Set up the trap types            (SEE trapdef.cpp)
+    init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
+    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
+    init_construction();         // Set up constructables            (SEE construction.cpp)
+    init_autosave();             // Set up autosave
+    init_diseases();             // Set up disease lookup table
+    init_savedata_translation_tables();
+    inp_mngr.init();            // Load input config JSON
 
- MonsterGenerator::generator().finalize_mtypes();
+    MonsterGenerator::generator().finalize_mtypes();
+    finalize_vehicles();
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;

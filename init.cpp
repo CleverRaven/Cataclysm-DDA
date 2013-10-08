@@ -83,6 +83,8 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/terrain.json");
     ret.push_back("data/json/migo_speech.json");
     ret.push_back("data/json/names.json");
+    ret.push_back("data/json/vehicle_parts.json");
+    ret.push_back("data/json/vehicles.json");
 
     ret.push_back("data/json/monsters.json");
 
@@ -140,6 +142,8 @@ void init_data_structures()
     type_function_map["migo_speech"] = new ClassFunctionAccessor<game>(g, &game::load_migo_speech);
     type_function_map["NAME"] = new ClassFunctionAccessor<NameGenerator>(&NameGenerator::generator(), &NameGenerator::load_name);
 
+    type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
+    type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
     type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);
