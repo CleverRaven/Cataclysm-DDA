@@ -13841,7 +13841,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   } break;
 
   case room_mine_office:
-   line(m, f_counter, midx, y1 + 2, midx, y2 - 2);
+   line_furn(m, f_counter, midx, y1 + 2, midx, y2 - 2);
    line(m, t_window, midx - 1, y1, midx + 1, y1);
    line(m, t_window, midx - 1, y2, midx + 1, y2);
    line(m, t_window, x1, midy - 1, x1, midy + 1);
@@ -14144,30 +14144,30 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_kitchen:
-    line(m, f_counter, cx_hi - 2, y1 + 1, cx_hi - 2, y2 - 1);
-    line(m, f_counter, cx_hi,     y1 + 1, cx_hi,     y2 - 1);
+    line_furn(m, f_counter, cx_hi - 2, y1 + 1, cx_hi - 2, y2 - 1);
+    line_furn(m, f_counter, cx_hi,     y1 + 1, cx_hi,     y2 - 1);
     m->place_items("kitchen",  60, cx_hi - 2, y1 + 1, cx_hi, y2 - 1, false, 0);
 
-    line(m, f_fridge, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1);
+    line_furn(m, f_fridge, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1);
     m->place_items("fridge",  80, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1, false, 0);
 
     m->furn_set(cx_hi + 2, cy_hi, f_oven);
 
-    line(m, f_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
+    line_furn(m, f_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
     m->place_items("cannedfood",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
     m->place_items("pasta",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
   break;
 
  case room_mansion_dining:
   if (dx < dy || (dx == dy && one_in(2))) { // vertically-aligned table
-   line(m, f_table, cx_low, y1 + 2, cx_low, y2 - 2);
-   line(m, f_bench, cx_low - 1, y1 + 2, cx_low - 1, y2 - 2);
-   line(m, f_bench, cx_low + 1, y1 + 2, cx_low + 1, y2 - 2);
+   line_furn(m, f_table, cx_low, y1 + 2, cx_low, y2 - 2);
+   line_furn(m, f_bench, cx_low - 1, y1 + 2, cx_low - 1, y2 - 2);
+   line_furn(m, f_bench, cx_low + 1, y1 + 2, cx_low + 1, y2 - 2);
    m->place_items("dining", 78, cx_low, y1 + 2, cx_low, y2 - 2, false, 0);
   } else { // horizontally-aligned table
-   line(m, f_table, x1 + 2, cy_low, x2 - 2, cy_low);
-   line(m, f_bench, x1 + 2, cy_low - 1, x2 - 2, cy_low - 1);
-   line(m, f_bench, x1 + 2, cy_low + 1, x2 - 2, cy_low + 1);
+   line_furn(m, f_table, x1 + 2, cy_low, x2 - 2, cy_low);
+   line_furn(m, f_bench, x1 + 2, cy_low - 1, x2 - 2, cy_low - 1);
+   line_furn(m, f_bench, x1 + 2, cy_low + 1, x2 - 2, cy_low + 1);
    m->place_items("dining", 78, x1 + 2, cy_low, x2 - 2, cy_low, false, 0);
   }
     m->furn_set(x1, y1, f_indoor_plant);
@@ -14189,7 +14189,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
 
     if (one_in(2))
     {
-        line(m, f_sofa, x1 + 1, cy_low - 1, x1 + 1, cy_low + 1);
+        line_furn(m, f_sofa, x1 + 1, cy_low - 1, x1 + 1, cy_low + 1);
         m->furn_set(x1 + 1, cy_low - 2, f_table);
         m->place_items("coffee_shop", 70, x1 + 1, cy_low + 2, x1 + 1, cy_low + 2, false, 0);
         m->place_items("magazines", 50, x1 + 1, cy_low + 2, x1 + 1, cy_low + 2, false, 0);
@@ -14199,7 +14199,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
     }
     else
     {
-        line(m, f_sofa, cx_low - 1, y1 + 1, cx_low + 1, y1 + 1);
+        line_furn(m, f_sofa, cx_low - 1, y1 + 1, cx_low + 1, y1 + 1);
         m->furn_set(cx_low - 2, y1 + 1, f_table);
         m->place_items("coffee_shop", 70, cx_low - 2, y1 + 1, cx_low - 2, y1 + 1, false, 0);
         m->place_items("magazines", 50, cx_low - 2, y1 + 1, cx_low - 2, y1 + 1, false, 0);
