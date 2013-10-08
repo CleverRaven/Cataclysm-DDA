@@ -170,7 +170,7 @@ struct itype
 
  std::string dmg_adj(int dam) { return material_type::find_material(m1)->dmg_adj(dam); }
 
- void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
+ int (iuse::*use)(game *, player *, item *, bool);// Special effects of use
 
  itype() : id("null"), name("none"), m1("null"), m2("null") {
   price = 0;
@@ -251,7 +251,7 @@ struct it_comest : public itype
     signed char pquench, unsigned char pnutr, signed char pspoils,
     signed char pstim, signed char phealthy, unsigned char paddict,
     unsigned char pcharges, signed char pfun, itype_id pcontainer,
-    itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
+    itype_id ptool, int (iuse::*puse)(game *, player *, item *, bool),
     add_type padd, std::string pcomesttype)
     : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
@@ -618,7 +618,7 @@ struct it_tool : public itype
          unsigned int pmax_charges, unsigned int pdef_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
-         void (iuse::*puse)(game *, player *, item *, bool))
+         int (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   max_charges = pmax_charges;
@@ -667,7 +667,7 @@ struct it_macguffin : public itype
               signed char pm_to_hit,
 
               bool preadable,
-              void (iuse::*puse)(game *, player *, item *, bool))
+              int (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   readable = preadable;

@@ -26,6 +26,7 @@
 #include "crafting.h"
 
 #include <ctime>
+#include <algorithm>
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
@@ -6126,6 +6127,8 @@ bool player::eat(game *g, signed char ch)
     if (eaten == NULL)
         return false;
 
+    bool eatit = true;
+
     if (eaten->is_ammo())   // For when bionics let you eat fuel
     {
         const int factor = 20;
@@ -6260,7 +6263,7 @@ bool player::eat(game *g, signed char ch)
         iuse use;
         if (comest->use != &iuse::none)
         {
-            (use.*comest->use)(g, this, eaten, false);
+            eatit = 0 < (use.*comest->use)(g, this, eaten, false);
         }
         add_addiction(comest->add, comest->addict);
         if (addiction_craving(comest->add) != MORALE_NULL)
@@ -6325,7 +6328,9 @@ bool player::eat(game *g, signed char ch)
         }
     }
 
-    eaten->charges--;
+    if( eatit ) {
+        eaten->charges--;
+    }
     if (eaten->charges <= 0)
     {
         if (which == -1)
@@ -7465,8 +7470,12 @@ void player::use(game *g, char let)
   it_tool *tool = dynamic_cast<it_tool*>(used->type);
   if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
    iuse use;
-   (use.*tool->use)(g, this, used, false);
-   used->charges -= tool->charges_per_use;
+   int charges_used = (use.*tool->use)(g, this, used, false);
+   if( charges_used == 1 ) {
+       used->charges -= std::min(used->charges, (int)tool->charges_per_use);
+   } else if ( charges_used > 1 ) {
+       used->charges -= std::min(used->charges, charges_used);
+   }
   } else
    g->add_msg(_("Your %s has %d charges but needs %d."), used->tname(g).c_str(),
               used->charges, tool->charges_per_use);

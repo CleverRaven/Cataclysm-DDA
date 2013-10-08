@@ -748,10 +748,12 @@ void npc::use_escape_item(game *g, signed char invlet, int target)
  if (used->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(used->type);
   iuse use;
-  (use.*tool->use)(g, this, used, false);
-  used->charges -= tool->charges_per_use;
-  if (used->invlet == 0) // is that ever going to happen?
-   inv.remove_item(used);
+  if( (use.*tool->use)(g, this, used, false) ) {
+      used->charges -= tool->charges_per_use;
+      if (used->invlet == 0) {
+          inv.remove_item(used);
+      }
+  }
   return;
  }
 
@@ -1637,11 +1639,11 @@ void npc::activate_item(game *g, char invlet)
  item *it = &(inv.item_by_letter(invlet));
  iuse use;
  if (it->is_tool()) {
-  it_tool* tool = dynamic_cast<it_tool*>(it->type);
-  (use.*tool->use)(g, this, it, false);
+     it_tool* tool = dynamic_cast<it_tool*>(it->type);
+     (use.*tool->use)(g, this, it, false);
  } else if (it->is_food()) {
-  it_comest* comest = dynamic_cast<it_comest*>(it->type);
-  (use.*comest->use)(g, this, it, false);
+     it_comest* comest = dynamic_cast<it_comest*>(it->type);
+     (use.*comest->use)(g, this, it, false);
  }
 }
 
