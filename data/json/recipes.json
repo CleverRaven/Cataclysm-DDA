@@ -4298,7 +4298,10 @@
 	  [ "cranberries", 4 ],
 	  [ "melon", 4 ],
 	  [ "raspberries", 4 ],
-	  [ "blackberries", 4 ]
+	  [ "blackberries", 4 ],
+	  [ "pomegranate", 4 ],
+	  [ "mango", 4 ],
+	  [ "rhubarb", 4 ]
     ],
     [
       [ "sugar", 1 ]
@@ -5188,17 +5191,18 @@
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
-      [ "strawberries", 1 ],
       [ "jam_strawberries", 1 ],
-      [ "blueberries", 1 ],
       [ "jam_blueberries", 1 ],
 	  [ "jam_fruit", 1 ],
+	  [ "strawberries", 1 ],
+	  [ "blueberries", 1 ],
 	  [ "cherries", 1 ],
 	  [ "plums", 1 ],
 	  [ "grapes", 1 ],
 	  [ "cranberries", 1 ],
 	  [ "raspberries", 1 ],
-	  [ "blackberries", 1 ]
+	  [ "blackberries", 1 ],
+	  [ "pomegranate", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -5363,11 +5367,11 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "strawberries", 1 ],
       [ "jam_strawberries", 1 ],
-      [ "blueberries", 1 ],
       [ "jam_blueberries", 1 ]
 	  [ "jam_fruit", 1 ],
+	  [ "strawberries", 1 ],
+	  [ "blueberries", 1 ],
 	  [ "cherries", 1 ],
 	  [ "plums", 1 ],
 	  [ "grapes", 1 ],
@@ -5418,7 +5422,9 @@
 	  [ "watermelon", 1 ],
 	  [ "melon", 1 ],
 	  [ "raspberries", 1 ],
-	  [ "blackberries", 1 ]
+	  [ "blackberries", 1 ],
+	  [ "pomegranate", 1 ],
+	  [ "mango", 1 ]
     ],
     [
       [ "sugar", 1 ],
@@ -5468,26 +5474,27 @@
     [
       [ "candy", 3 ],
       [ "chocolate", 1 ],
-      [ "strawberries", 1 ],
       [ "jam_strawberries", 1 ],
-      [ "blueberries", 1 ],
       [ "jam_blueberries", 1 ],
-	  [ "jam_fruit", 1 ]
-      [ "banana", 1 ],
-      [ "apple", 1 ]
+	  [ "jam_fruit", 1 ],
+	  [ "strawberries", 1 ],
+	  [ "blueberries", 1 ],
+	  [ "cherries", 1 ],
+	  [ "plums", 1 ],
+	  [ "grapes", 1 ],
+      [ "raspberries", 1 ],
+	  [ "blackberries", 1 ],
+	  [ "apple", 1 ],
+	  [ "banana", 1 ],
 	  [ "orange", 1 ],
 	  [ "lemon", 1 ],
 	  [ "pear", 1 ],
 	  [ "grapefruit", 1 ],
-	  [ "cherries", 1 ],
-	  [ "plums", 1 ],
-	  [ "grapes", 1 ],
 	  [ "pineapple", 1],
 	  [ "peach", 1 ],
-	  [ "cranberries", 1 ],
 	  [ "melon", 1 ],
-	  [ "raspberries", 1 ],
-	  [ "blackberries", 1 ]
+	  [ "pomegranate", 1 ],
+	  [ "mango", 1 ]
     ]
   ]
 },{
@@ -5569,7 +5576,10 @@
 	  [ "watermelon", 2 ],
 	  [ "melon", 2 ],
 	  [ "raspberries", 2 ],
-	  [ "blackberries", 2 ]
+	  [ "blackberries", 2 ],
+	  [ "pomegranate", 2 ],
+	  [ "mango", 2 ],
+	  [ "rhubarb", 2 ]
     ],
     [
       [ "sugar", 2 ]
@@ -12164,7 +12174,8 @@
 	  [ "cranberries", 3 ],
 	  [ "melon", 3 ],
 	  [ "raspberries", 3 ],
-	  [ "blackberries", 3 ]
+	  [ "blackberries", 3 ],
+	  [ "mango", 3 ]
     ]
   ]
 },{
@@ -12330,7 +12341,9 @@
 	  [ "watermelon", 3 ],
 	  [ "melon", 3 ],
 	  [ "raspberries", 3 ],
-	  [ "blackberries", 3 ]
+	  [ "blackberries", 3 ],
+	  [ "pomegranate", 3 ],
+	  [ "mango", 3 ],
     ],
     [
       [ "sugar", 4 ]
@@ -12782,7 +12795,10 @@
 	  [ "cranberries", 4 ],
 	  [ "melon", 4 ],
 	  [ "raspberries", 4 ],
-	  [ "blackberries", 4 ]
+	  [ "blackberries", 4 ],
+	  [ "pomegranate", 4 ],
+	  [ "mango", 4 ],
+	  [ "rhubarb", 4 ]
     ],
     [
       [ "sugar", 1]
@@ -16563,7 +16579,9 @@
 	   [ "watermelon", 1 ],
 	   [ "melon", 1 ],
 	   [ "raspberries", 1 ],
-	   [ "blackberries", 1 ]
+	   [ "blackberries", 1 ],
+	   [ "pomegranate", 1 ],
+	   [ "mango", 1 ]
     ]
   ]
 },{
@@ -16605,7 +16623,10 @@
 	   [ "watermelon", 1 ],
 	   [ "melon", 1 ],
 	   [ "raspberries", 1 ],
-	   [ "blackberries", 1 ]
+	   [ "blackberries", 1 ],
+	   [ "pomegranate", 1 ],
+	   [ "mango", 1 ],
+	   [ "rhubarb", 1 ]
     ],
     [
       [ "sugar", 1 ]
@@ -16642,7 +16663,9 @@
 	   [ "watermelon", 1 ],
 	   [ "melon", 2 ],
 	   [ "raspberries", 2 ],
-	   [ "blackberries", 2 ]
+	   [ "blackberries", 2 ],
+	   [ "pomegranate", 2 ],
+	   [ "mango", 2 ],
     ],
     [
       [ "water", 1 ],
