@@ -1228,15 +1228,6 @@ void mattack::tazer(game *g, monster *z)
  g->u.moves -= shock * 20;
 }
 
-int coord2angle ( const int x, const int y, const int tgtx, const int tgty ) {
-  const double DBLRAD2DEG = 57.2957795130823f;
-  //const double PI = 3.14159265358979f;
-  const double DBLPI = 6.28318530717958f;
-  double rad = atan2 ( tgty - y, tgtx - x );
-  if ( rad < 0 ) rad = DBLPI - (0 - rad);
-  return int( rad * DBLRAD2DEG );
-}
-
 void mattack::smg(game *g, monster *z)
 {
  int t, fire_t = 0;
@@ -1254,7 +1245,7 @@ void mattack::smg(game *g, monster *z)
       g->sees_u(z->posx(), z->posy(), t) ) {
       iff_trig = true;
       if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity
-      u_angle = coord2angle (z->posx(), z->posy(), g->u.posx, g->u.posy );
+      u_angle = g->m.coord_to_angle (z->posx(), z->posy(), g->u.posx, g->u.posy );
   }
   for (int i = 0; i < g->num_zombies(); i++) {
     if ( g->m.sees(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy(), 18, t) ) {
@@ -1262,7 +1253,7 @@ void mattack::smg(game *g, monster *z)
       if (g->zombie(i).friendly == 0 ) {
         bool safe_target=true;
         if ( iff_trig ) {
-          int tangle = coord2angle (z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy() );
+          int tangle = g->m.coord_to_angle (z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy() );
           int diff = abs ( u_angle - tangle );
           if ( diff + iff_hangle > 360 || diff < iff_hangle ) {
               safe_target=false;

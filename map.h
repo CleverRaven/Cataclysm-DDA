@@ -171,6 +171,7 @@ class map
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty,
                           const bool bash = true);
 
+ int coord_to_angle (const int x, const int y, const int tgtx, const int tgty);
 // vehicles
  VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
