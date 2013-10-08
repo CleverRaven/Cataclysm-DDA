@@ -4301,7 +4301,8 @@
 	  [ "blackberries", 4 ],
 	  [ "pomegranate", 4 ],
 	  [ "mango", 4 ],
-	  [ "rhubarb", 4 ]
+	  [ "rhubarb", 4 ],
+	  [ "apricot", 4 ]
     ],
     [
       [ "sugar", 1 ]
@@ -5424,7 +5425,10 @@
 	  [ "raspberries", 1 ],
 	  [ "blackberries", 1 ],
 	  [ "pomegranate", 1 ],
-	  [ "mango", 1 ]
+	  [ "mango", 1 ],
+	  [ "papaya", 1 ],
+	  [ "apricot", 1 ],
+	  [ "kiwi", 1 ]
     ],
     [
       [ "sugar", 1 ],
@@ -5494,7 +5498,8 @@
 	  [ "peach", 1 ],
 	  [ "melon", 1 ],
 	  [ "pomegranate", 1 ],
-	  [ "mango", 1 ]
+	  [ "mango", 1 ],
+	  [ "apricot", 1 ]
     ]
   ]
 },{
@@ -5579,7 +5584,10 @@
 	  [ "blackberries", 2 ],
 	  [ "pomegranate", 2 ],
 	  [ "mango", 2 ],
-	  [ "rhubarb", 2 ]
+	  [ "rhubarb", 2 ],
+	  [ "papaya", 2 ],
+	  [ "apricot", 2 ],
+	  [ "kiwi", 2 ]
     ],
     [
       [ "sugar", 2 ]
@@ -12175,7 +12183,10 @@
 	  [ "melon", 3 ],
 	  [ "raspberries", 3 ],
 	  [ "blackberries", 3 ],
-	  [ "mango", 3 ]
+	  [ "mango", 3 ],
+	  [ "papaya", 3 ],
+	  [ "apricot", 3 ],
+	  [ "kiwi", 3 ]
     ]
   ]
 },{
@@ -12344,6 +12355,9 @@
 	  [ "blackberries", 3 ],
 	  [ "pomegranate", 3 ],
 	  [ "mango", 3 ],
+	  [ "papaya", 3 ],
+	  [ "apricot", 3 ],
+	  [ "kiwi", 3 ]
     ],
     [
       [ "sugar", 4 ]
@@ -12798,7 +12812,9 @@
 	  [ "blackberries", 4 ],
 	  [ "pomegranate", 4 ],
 	  [ "mango", 4 ],
-	  [ "rhubarb", 4 ]
+	  [ "rhubarb", 4 ],
+	  [ "apricot", 4 ]
+
     ],
     [
       [ "sugar", 1]
@@ -16581,7 +16597,10 @@
 	   [ "raspberries", 1 ],
 	   [ "blackberries", 1 ],
 	   [ "pomegranate", 1 ],
-	   [ "mango", 1 ]
+	   [ "mango", 1 ],
+	   [ "papaya", 1 ],
+	   [ "apricot", 1 ],
+	   [ "kiwi", 1 ]
     ]
   ]
 },{
@@ -16626,7 +16645,10 @@
 	   [ "blackberries", 1 ],
 	   [ "pomegranate", 1 ],
 	   [ "mango", 1 ],
-	   [ "rhubarb", 1 ]
+	   [ "rhubarb", 1 ],
+	   [ "papaya", 1 ],
+	   [ "apricot", 1 ],
+	   [ "kiwi", 1 ]
     ],
     [
       [ "sugar", 1 ]
@@ -16666,6 +16688,9 @@
 	   [ "blackberries", 2 ],
 	   [ "pomegranate", 2 ],
 	   [ "mango", 2 ],
+	   [ "papaya", 2 ],
+	   [ "apricot", 2 ],
+	   [ "kiwi", 2 ]
     ],
     [
       [ "water", 1 ],
