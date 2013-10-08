@@ -108,6 +108,9 @@ class game
   void serialize(std::ofstream & fout); // for save
   void unserialize(std::ifstream & fin); // for load
   bool unserialize_legacy(std::ifstream & fin); // for old load
+  void unserialize_master(std::ifstream & fin); // for load
+  bool unserialize_master_legacy(std::ifstream & fin); // for old load
+
   void save();
   void delete_save();
   std::vector<std::string> list_active_characters();
@@ -372,6 +375,7 @@ void load_artifacts(); // Load artifact data
 
   //private save functions.
   void save_factions_missions_npcs();
+  void serialize_master(std::ofstream &fout);
   void save_artifacts();
   void save_maps();
   std::string save_weather() const;

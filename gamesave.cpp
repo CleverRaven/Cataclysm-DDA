@@ -12,6 +12,8 @@
 #include "output.h"
 #include "item_factory.h"
 #include "artifact.h"
+#include "mission.h"
+#include "faction.h"
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
@@ -141,6 +143,20 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
  * Convenience macro for the above
  */
 #define parseline() stream_line(fin,linein,linebuf)
+
+void chkversion(std::istream & fin) {
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+}
 
 /*
  * Parse an open .sav file.
@@ -522,3 +538,69 @@ void overmap::save()
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mapbuffer
+
+///////////////////////////////////////////////////////////////////////////////////////
+///// master.gsav
+
+void game::unserialize_master(std::ifstream &fin) {
+   savegame_loading_version = 0;
+   chkversion(fin);
+   if (savegame_loading_version != savegame_version) {
+       if ( unserialize_master_legacy(fin) == true ) {
+            return;
+       } else {
+           popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+       }
+   }
+    picojson::value pval;
+    fin >> pval;
+    std::string jsonerr = picojson::get_last_error();
+    if ( ! jsonerr.empty() ) {
+        debugmsg("Bad save json\n%s", jsonerr.c_str() );
+    }
+    picojson::object &data = pval.get<picojson::object>();
+    picoint(data, "next_mission_id", next_mission_id);
+    picoint(data, "next_faction_id", next_faction_id);
+    picoint(data, "next_npc_id", next_npc_id);
+
+    picojson::array * vdata = pgetarray(data,"active_missions");
+    if(vdata != NULL) {
+        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
+            mission tmp;
+            tmp.json_load( *pit, this );
+            active_missions.push_back(tmp);
+        }
+    }
+
+    vdata = pgetarray(data,"factions");
+    if(vdata != NULL) {
+        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
+            faction tmp;
+            tmp.json_load( *pit, this );
+            factions.push_back(tmp);
+        }
+    }
+    
+}
+
+void game::serialize_master(std::ofstream &fout) {
+    fout << "# version " << savegame_version << std::endl;
+    std::map<std::string, picojson::value> data;
+    data["next_mission_id"] = pv ( next_mission_id );
+    data["next_faction_id"] = pv ( next_faction_id );
+    data["next_npc_id"] = pv ( next_npc_id );
+
+    std::vector<picojson::value> vdata;
+    for (int i = 0; i < active_missions.size(); i++) {
+        vdata.push_back( pv( active_missions[i].json_save() ) );
+    }
+    data["active_missions"] = pv( vdata );
+    vdata.clear();
+
+    for (int i = 0; i < factions.size(); i++) {
+        vdata.push_back( pv( factions[i].json_save() ) );
+    }
+    data["factions"] = pv( vdata );
+    vdata.clear();
+    fout << pv( data ).serialize() << std::endl;
+}

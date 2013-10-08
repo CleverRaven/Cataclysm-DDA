@@ -2460,33 +2460,11 @@ bool game::load_master()
 {
  std::ifstream fin;
  std::string data;
- char junk;
  fin.open("save/master.gsav");
  if (!fin.is_open())
   return false;
 
-// First, get the next ID numbers for each of these
- fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
-
- fin >> num_missions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(this, fin);
-  active_missions.push_back(tmpmiss);
- }
-
- fin >> num_factions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_factions; i++) {
-  getline(fin, data);
-  faction tmp;
-  tmp.load_info(data);
-  factions.push_back(tmp);
- }
+unserialize_master(fin);
  fin.close();
  return true;
 }
@@ -2746,7 +2724,6 @@ void game::load(std::string name)
 }
 
 //Saves all factions and missions and npcs.
-//Requires a valid std:stringstream masterfile to save the
 void game::save_factions_missions_npcs ()
 {
     std::stringstream masterfile;
@@ -2754,16 +2731,7 @@ void game::save_factions_missions_npcs ()
     masterfile << "save/master.gsav";
 
     fout.open(masterfile.str().c_str());
-
-    fout << next_mission_id << " " << next_faction_id << " " << next_npc_id <<
-        " " << active_missions.size() << " ";
-    for (int i = 0; i < active_missions.size(); i++)
-        fout << active_missions[i].save_info() << " ";
-
-    fout << factions.size() << std::endl;
-    for (int i = 0; i < factions.size(); i++)
-        fout << factions[i].save_info() << std::endl;
-
+    serialize_master(fout);
     fout.close();
 }
 

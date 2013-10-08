@@ -189,6 +189,9 @@ struct mission {
  std::string save_info();
  void load_info(game *g, std::ifstream &info);
 
+ void json_load(picojson::value parsed, game * g);
+ picojson::value json_save(bool save_contents = false);
+
  mission()
  {
   type = NULL;
