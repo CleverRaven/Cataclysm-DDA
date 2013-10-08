@@ -319,6 +319,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -340,12 +341,13 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalDependencies>winmm.lib;libSDL.dll.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
@@ -361,6 +363,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -382,6 +385,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -401,6 +405,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -420,6 +425,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -441,6 +447,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -466,6 +473,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -491,6 +499,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -498,7 +507,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>winmm.lib;libSDL.dll.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;SDLMain.lib;SDL_ttf.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
@@ -516,6 +525,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -541,6 +551,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -566,6 +577,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;SDLTILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -591,6 +603,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -616,6 +629,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -641,6 +655,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -666,6 +681,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -691,6 +707,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -716,6 +733,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;LOCALIZE;SDLTILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
