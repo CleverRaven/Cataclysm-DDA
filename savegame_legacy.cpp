@@ -40,6 +40,8 @@
 #include "skill.h"
 #include "vehicle.h"
 //
+#include "mission.h"
+#include "faction.h"
 #include "savegame.h"
 /*
  * Properly reuse a stringstream object for line by line parsing
@@ -1075,4 +1077,33 @@ void vehicle::load_legacy(std::ifstream &stin) {
         tags.insert( vehicle_tag );
     }
     getline(stin, databuff); // Clear EoL
+}
+
+
+bool game::unserialize_master_legacy(std::ifstream & fin) { 
+// First, get the next ID numbers for each of these
+ std::string data;
+ char junk;
+ fin >> next_mission_id >> next_faction_id >> next_npc_id;
+ int num_missions, num_factions;
+
+ fin >> num_missions;
+ if (fin.peek() == '\n')
+  fin.get(junk); // Chomp that pesky endline
+ for (int i = 0; i < num_missions; i++) {
+  mission tmpmiss;
+  tmpmiss.load_info(this, fin);
+  active_missions.push_back(tmpmiss);
+ }
+
+ fin >> num_factions;
+ if (fin.peek() == '\n')
+  fin.get(junk); // Chomp that pesky endline
+ for (int i = 0; i < num_factions; i++) {
+  getline(fin, data);
+  faction tmp;
+  tmp.load_info(data);
+  factions.push_back(tmp);
+ }
+ return true;
 }
