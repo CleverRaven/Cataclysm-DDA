@@ -9,7 +9,8 @@ import os
 ## DATA
 
 # some .json files have no translatable strings. ignore them.
-ignore = ["item_groups.json", "monstergroups.json", "recipes.json", "sokoban.txt"]
+ignore = ["item_groups.json", "monstergroups.json", "recipes.json",
+          "sokoban.txt", "colors.json"]
 
 # keep a list of the files that have been extracted
 extracted = []
@@ -76,6 +77,7 @@ def convert(infilename, outfile):
         if "messages" in item:
             for message in item["messages"]:
                 writestr(outfile, message)
+        # perhaps this should warn if nothing found?
 
 def autoextract(name):
     "Automatically extract from the named json file in data/json."
@@ -96,6 +98,11 @@ autoextract("snippets")
 autoextract("mutations")
 autoextract("dreams")
 autoextract("migo_speech")
+autoextract("lab_notes")
+autoextract("hints")
+autoextract("furniture")
+autoextract("terrain")
+autoextract("monsters")
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
@@ -153,6 +160,40 @@ with open(os.path.join(to_folder,"json_vehicles.py"),'w') as veh_jtl:
     for item in jsondata:
         writestr(veh_jtl, item["name"])
 extracted.append("vehicles.json")
+
+# data/raw/keybindings.json
+with open(os.path.join(to_folder,"json_keybindings.py"),'w') as keys_jtl:
+    jsonfile = os.path.join(raw_folder, "keybindings.json")
+    convert(jsonfile, keys_jtl)
+extracted.append("keybindings.json")
+
+# data/raw/martialarts.json
+with open(os.path.join(to_folder,"json_martialarts.py"),'w') as martial_jtl:
+    jsonfile = os.path.join(raw_folder, "martialarts.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        writestr(martial_jtl, item["name"])
+        writestr(martial_jtl, item["desc"])
+        onhit_buffs = item.get("onhit_buffs", list())
+        static_buffs = item.get("static_buffs", list())
+        buffs = onhit_buffs + static_buffs
+        for buff in buffs:
+            writestr(martial_jtl, buff["name"])
+            writestr(martial_jtl, buff["desc"])
+extracted.append("martialarts.json")
+
+# data/raw/techniques.json
+with open(os.path.join(to_folder,"json_techniques.py"),'w') as tec_jtl:
+    jsonfile = os.path.join(raw_folder, "techniques.json")
+    jsondata = json.loads(open(jsonfile).read())
+    for item in jsondata:
+        writestr(tec_jtl, item["name"])
+        if "verb_you" in item:
+            writestr(tec_jtl, item["verb_you"])
+        if "verb_npc" in item:
+            writestr(tec_jtl, item["verb_npc"])
+extracted.append("techniques.json")
+
 
 ## please add any new .json files to extract just above here.
 ## make sure you extract the right thing from the right place.
