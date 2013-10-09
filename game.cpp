@@ -780,6 +780,7 @@ void game::process_events()
 void game::process_activity()
 {
  it_book* reading;
+ item* book_item;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 150 == 0) {
@@ -869,14 +870,19 @@ void game::process_activity()
     break;
 
    case ACT_READ:
-    if (u.activity.index == -2)
-     reading = dynamic_cast<it_book*>(u.weapon.type);
-    else
-     reading = dynamic_cast<it_book*>(u.inv.item_by_letter(u.activity.invlet).type);
+    book_item = &(u.weapon.invlet == u.activity.invlet ?
+                            u.weapon : u.inv.item_by_letter(u.activity.invlet));
+    reading = dynamic_cast<it_book*>(book_item->type);
 
     if (reading->fun != 0) {
-     u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, 60, 30,
-                  true, reading);
+        //Penalty for re-reading old fun books, 1 = no penalty
+        int penalty = book_item->charges == 0 ? 4 : 1;
+        u.add_morale(MORALE_BOOK, (reading->fun * 5) / penalty,
+                     reading->fun * 15, 60, 30, true, reading);
+    }
+
+    if(book_item->charges > 0) {
+        book_item->charges--;
     }
 
     no_recipes = true;
