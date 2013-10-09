@@ -4983,7 +4983,7 @@
         "material" : ["kevlar", "fur"],
         "volume" : 36,
         "cutting" : 0,
-        "warmth" : 80,
+        "warmth" : 70,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 3,
