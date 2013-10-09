@@ -853,5 +853,17 @@
             "bio_power_storage_mkII"
         ],
         "points": 0
+    },
+    {
+        "type" : "profession",
+        "ident" : "hitchhiker",
+        "name" : "Hitchhiker",
+        "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
+        "items" : [
+            "house_coat",
+            "towel"
+            "guidebook"
+        ],
+        "points" : 0
     }
 ]
