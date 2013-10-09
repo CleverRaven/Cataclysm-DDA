@@ -29,20 +29,8 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-void game::init_mongroups() throw (std::string)
-{
-   try
-   {
-       MonsterGroupManager::LoadJSONGroups();
-   }
-   catch(std::string &error_message)
-   {
-       throw;
-   }
-}
-
 std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
-                                                 int *quantity, int turn )
+                                                      int *quantity, int turn )
 {
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupMap[group];
@@ -124,105 +112,30 @@ MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 }
 
 //json loading
-const char *monGroupFilePath = "data/raw/monstergroups.json";
 std::map<std::string, mon_id> monStr2monId;
-void init_translation();
-std::string GetString(std::string, picojson::object *);
-int GetInt(std::string, picojson::object *);
 
-MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
+void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 {
     MonsterGroup g;
-    picojson::object jsonmonster;
-    picojson::value jsonval;
-    std::vector<picojson::value> jsonarray;
-    g.name = GetString("name", jsonobj);
-    g.defaultMonster = GetString("default", jsonobj);
 
-    if(jsonobj->find("monsters")->second.is<picojson::array>())
-        jsonarray = jsonobj->find("monsters")->second.get<picojson::array>();
-    else
-    {
-        printf("Fatal error, cannot get monster group array in %s", monGroupFilePath);
-        exit(1);
+    g.name = jo.get_string("name");
+    g.defaultMonster = monStr2monId[jo.get_string("default")];
+
+    if (jo.is_array("monsters")){
+        JsonArray monarr = jo.get_array("monsters");
+
+        const int monnum = monarr.size();
+        for (int i = 0; i < monnum; ++i){
+            if (monarr.get_index_type(i) == JVT_OBJECT){
+                JsonObject mon = monarr.get_object(i);
+
+                g.monsters[mon.get_string("monster")] =
+                    std::pair<int,int>(mon.get_int("freq"), mon.get_int("multiplier"));
+            }
+        }
     }
 
-    for (picojson::array::const_iterator it_mons = jsonarray.begin(); it_mons != jsonarray.end(); ++it_mons)
-    {
-        jsonmonster = it_mons->get<picojson::object>();
-// todo: Bannination
-        g.monsters[GetString("monster",&jsonmonster)] =
-            std::pair<int,int>(GetInt("freq",&jsonmonster), GetInt("multiplier",&jsonmonster));
-    }
-
-    return g;
-}
-
-void MonsterGroupManager::LoadJSONGroups() throw (std::string)
-{
-    //open the file
-    std::ifstream file;
-    file.open(monGroupFilePath);
-    if(!file.good())
-    {
-        throw (std::string)"Unable to load file " + monGroupFilePath;
-    }
-
-    //load the data
-    picojson::value groupsRaw;
-    file >> groupsRaw;
-
-    /*std::string error = picojson::get_last_error();
-    if(! error.empty())
-    {
-        printf("'%s' : %s", monGroupFilePath, error.c_str());
-        return;
-    }*/
-
-    //check the data
-    if (! groupsRaw.is<picojson::array>()) {
-        throw (std::string)"The monster group file " + monGroupFilePath +
-              (std::string)" does not contain the expected JSON data";
-    }
-
-    init_translation();
-    picojson::object jsonobj;
-    MonsterGroup g;
-
-    const picojson::array& groups = groupsRaw.get<picojson::array>();
-    for (picojson::array::const_iterator it_groups = groups.begin(); it_groups != groups.end(); ++it_groups)
-    {
-        jsonobj = it_groups->get<picojson::object>();
-        g = GetMGroupFromJSON(&jsonobj);
-        monsterGroupMap[g.name] = g;
-    }
-    if(!json_good())
-    {
-        throw (std::string)"There was an error reading " + monGroupFilePath;
-    }
-}
-
-
-std::string GetString(std::string key, picojson::object *obj)
-{
-    if(obj->find(key)->second.is<std::string>())
-        return obj->find(key)->second.get<std::string>();
-    else
-    {
-        printf("Cannot get string '%s' in '%s'",key.c_str(), monGroupFilePath);
-    }
-    return "";
-}
-
-int GetInt(std::string key, picojson::object *obj)
-{
-    if(obj->find(key)->second.is<double>())
-        return obj->find(key)->second.get<double>();
-    else
-    {
-        printf("Cannot get number '%s' in '%s'",key.c_str(), monGroupFilePath);
-        return 0;
-    }
+    monsterGroupMap[g.name] = g;
 }
 
 void init_translation()

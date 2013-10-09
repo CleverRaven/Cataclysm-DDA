@@ -12,8 +12,13 @@
 void weather_effect::glare(game *g)
 {
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses") &&
-     !g->u.has_bionic("bio_sunglasses"))
-  g->u.infect("glare", bp_eyes, 1, 2, g);
+     !g->u.has_bionic("bio_sunglasses")) {
+        if(!g->u.has_disease("glare")) {
+            g->u.infect("glare", bp_eyes, 2, 2, g);
+        } else {
+            g->u.infect("glare", bp_eyes, 2, 1, g);
+        }
+    }
 }
 
 void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
@@ -316,9 +321,8 @@ std::string weather_forecast(game *g, radio_tower tower)
     calendar start_time = g->turn;
     int period_start = g->turn.hours();
     // TODO wind direction and speed
-    for( std::list<weather_segment>::iterator period = g->future_weather.begin();
-         period != g->future_weather.end(); ++period )
-    {
+    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(g->turn) ); it != g->weather_log.end(); ++it ) {
+        weather_segment * period = &(it->second);
         int period_deadline = period->deadline.hours();
         signed char period_temperature = period->temperature;
         weather_type period_weather = period->weather;

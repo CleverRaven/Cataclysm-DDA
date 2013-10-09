@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include <vector>
 #include <map>
+#include <queue>
 #include <list>
 #include <stdarg.h>
 
@@ -100,6 +101,7 @@ class game
  public:
   game();
   ~game();
+  void init_data();
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
@@ -108,6 +110,9 @@ class game
   void serialize(std::ofstream & fout); // for save
   void unserialize(std::ifstream & fin); // for load
   bool unserialize_legacy(std::ifstream & fin); // for old load
+  void unserialize_master(std::ifstream & fin); // for load
+  bool unserialize_master_legacy(std::ifstream & fin); // for old load
+
   void save();
   void delete_save();
   std::vector<std::string> list_active_characters();
@@ -287,8 +292,7 @@ class game
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
 
-  std::list<weather_segment> future_weather;
-
+  std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have
   overmap *cur_om;
   map m;
@@ -356,7 +360,12 @@ void load_artifacts(); // Load artifact data
 
 // Mi-Go speech bubble loading
   void load_migo_speech(JsonObject &jo);
+// Vehicle related JSON loaders and variables
+  void load_vehiclepart(JsonObject &jo);
+  void load_vehicle(JsonObject &jo);
+  void finalize_vehicles();
 
+  std::queue<vehicle_prototype*> vehprototypes;
 
  private:
 // Game-start procedures
@@ -365,16 +374,18 @@ void load_artifacts(); // Load artifact data
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master(); // Load the master data file, with factions &c
   void load_weather(std::ifstream &fin);
-  void load_weather(std::string line);
   void load(std::string name); // Load a player-specific save file
   void start_game(); // Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
   void save_factions_missions_npcs();
+  void serialize_master(std::ofstream &fout);
   void save_artifacts();
   void save_maps();
-  std::string save_weather() const;
+  void save_weather(std::ofstream &fout);
+  void load_legacy_future_weather(std::string data);
+  void load_legacy_future_weather(std::istream &fin);
   void save_uistate();
   void load_uistate();
 // Data Initialization
@@ -396,8 +407,6 @@ void load_artifacts(); // Load artifact data
   void init_traps();        // Initializes trap types
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_vehicle_parts();       // Initializes vehicle part types
-  void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_savedata_translation_tables();

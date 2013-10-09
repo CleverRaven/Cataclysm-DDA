@@ -25,6 +25,7 @@
 #include "get_version.h"
 #include "crafting.h"
 #include "monstergenerator.h"
+#include "help.h" // get_hint
 
 #include <ctime>
 
@@ -5294,7 +5295,7 @@ void player::process_active_items(game *g)
                     g->add_msg(_("Your %s beeps alarmingly."), weapon.tname().c_str());
                 }
             } else { // We're chargin it up!
-                if ( use_charges_if_avail("adv_UPS_on", ceil((1 + weapon.charges) / 2)) ||
+                if ( use_charges_if_avail("adv_UPS_on", ceil(static_cast<float>(1 + weapon.charges) / 2)) ||
                      use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
                     weapon.poison++;
                 } else {
@@ -7768,7 +7769,13 @@ void player::read(game *g, char ch)
     }
     else if (tmp->type == NULL)
     {
-        /* No-op, there's no associated skill. */
+        // special guidebook effect: print a misc. hint when read
+        if (tmp->id == "guidebook") {
+            g->add_msg(get_hint().c_str());
+            moves -= 100;
+            return;
+        }
+        // otherwise do nothing as there's no associated skill
     }
     else if (skillLevel(tmp->type) < (int)tmp->req)
     {

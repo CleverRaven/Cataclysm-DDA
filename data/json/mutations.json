@@ -4,7 +4,7 @@
         "id": "FLEET",
         "name": "Fleet-Footed",
         "points": 3,
-        "description": "You can run more quickly than most, resulting in a 15%% speed bonus on sure footing.",
+        "description": "You can run more quickly than most, resulting in a 15% speed bonus on sure footing.",
         "starting_trait": true,
         "cancels": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
         "changes_to": ["FLEET2"],
@@ -22,7 +22,7 @@
         "id": "QUICK",
         "name": "Quick",
         "points": 3,
-        "description": "You're just generally quick! You get a 10%% bonus to action points.",
+        "description": "You're just generally quick! You get a 10% bonus to action points.",
         "starting_trait": true,
         "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },{
@@ -89,7 +89,7 @@
         "id": "TOUGH",
         "name": "Tough",
         "points": 3,
-        "description": "It takes a lot to bring you down! You get a 20%% bonus to all hit points.",
+        "description": "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
         "starting_trait": true,
         "valid": false,
         "cancels": ["HARDCORE", "GLASSJAW"]
@@ -122,7 +122,7 @@
         "id": "PACKMULE",
         "name": "Packmule",
         "points": 3,
-        "description": "You can manage to find space for anything! You can carry 40%% more volume.",
+        "description": "You can manage to find space for anything! You can carry 40% more volume.",
         "starting_trait": true,
         "valid": false
     },{
@@ -319,7 +319,7 @@
         "id": "BADBACK",
         "name": "Bad Back",
         "points": -3,
-        "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%%.",
+        "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
         "starting_trait": true,
         "category": ["MUTCAT_BIRD"]
     },{
@@ -361,7 +361,7 @@
         "id": "GLASSJAW",
         "name": "Glass Jaw",
         "points": -3,
-        "description": "Your head can't take much abuse. Its maximum HP is 20%% lower than usual.",
+        "description": "Your head can't take much abuse. Its maximum HP is 20% lower than usual.",
         "starting_trait": true,
         "category": ["MUTCAT_BIRD"],
         "cancels": ["TOUGH"]
@@ -492,7 +492,7 @@
         "id": "HARDCORE",
         "name": "Hardcore",
         "points": -6,
-        "description": "Your whole body can't take much abuse. Its maximum HP is 75%% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
+        "description": "Your whole body can't take much abuse. Its maximum HP is 75% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
         "starting_trait": true,
         "valid": false,
         "cancels": ["TOUGH"]
@@ -706,7 +706,7 @@
         "id": "LIGHT_BONES",
         "name": "Light Bones",
         "points": 2,
-        "description": "Your bones are very light. This enables you to run and attack 10%% faster, but also reduces your carrying weight by 20%% and makes bashing attacks hurt a little more.",
+        "description": "Your bones are very light. This enables you to run and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
         "changes_to": ["HOLLOW_BONES"]
     },{
         "type" : "mutation",
@@ -1074,7 +1074,7 @@
         "name": "Padded Feet",
         "points": 1,
         "visibility": 1,
-        "description": "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10%% bonus when running barefoot. Slightly decreases wet penalties.",
+        "description": "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
         "cancels": ["HOOVES", "LEG_TENTACLES"],
         "category": ["MUTCAT_BEAST"],
         "wet_protection":[
@@ -1175,7 +1175,7 @@
         "id": "FLEET2",
         "name": "Road-Runner",
         "points": 4,
-        "description": "Your legs are extremely limber and fast-moving. You run 30%% faster on flat surfaces.",
+        "description": "Your legs are extremely limber and fast-moving. You run 30% faster on flat surfaces.",
         "prereqs": ["FLEET"],
         "cancels": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
         "category": ["MUTCAT_BIRD"]
@@ -1661,7 +1661,7 @@
         "id": "HOLLOW_BONES",
         "name": "Hollow Bones",
         "points": -6,
-        "description": "You have Avian Bone Syndrome--your bones are nearly hollow. Your body is very light as a result, enabling you to run and attack 20%% faster, but also frail; you can carry 40%% less, and bashing attacks injure you more.",
+        "description": "You have Avian Bone Syndrome--your bones are nearly hollow. Your body is very light as a result, enabling you to run and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
         "prereqs": ["LIGHT_BONES"],
         "category": ["MUTCAT_BIRD", "MUTCAT_SLIME"]
     },{
@@ -1890,7 +1890,7 @@
         "id": "PONDEROUS1",
         "name": "Ponderous",
         "points": -3,
-        "description": "Your muscles are generally slow to move. You run 10%% slower.",
+        "description": "Your muscles are generally slow to move. You run 10% slower.",
         "cancels": ["FLEET", "FLEET2"],
         "changes_to": ["PONDEROUS2"]
     },{
@@ -1898,7 +1898,7 @@
         "id": "PONDEROUS2",
         "name": "Very Ponderous",
         "points": -5,
-        "description": "Your muscles are quite slow to move. You run 20%% slower.",
+        "description": "Your muscles are quite slow to move. You run 20% slower.",
         "cancels": ["FLEET", "FLEET2"],
         "prereqs": ["PONDEROUS1"],
         "changes_to": ["PONDEROUS3"],
@@ -1908,7 +1908,7 @@
         "id": "PONDEROUS3",
         "name": "Extremely Ponderous",
         "points": -8,
-        "description": "Your muscles are very slow to move. You run 30%% slower.",
+        "description": "Your muscles are very slow to move. You run 30% slower.",
         "cancels": ["FLEET", "FLEET2"],
         "prereqs": ["PONDEROUS2"],
         "category": ["MUTCAT_PLANT"]
@@ -1917,14 +1917,14 @@
         "id": "SUNLIGHT_DEPENDENT",
         "name": "Sunlight dependent",
         "points": -5,
-        "description": "You feel very sluggish when not in direct sunlight. You suffer a 5%% drop in speed when in shade, and a 10%% drop in speed when in the dark.",
+        "description": "You feel very sluggish when not in direct sunlight. You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
         "cancels": ["TROGLO", "TROGLO2", "TROGLO3"]
     },{
         "type" : "mutation",
         "id": "COLDBLOOD",
         "name": "Heat dependent",
         "points": -2,
-        "description": "Your muscle response is dependent on ambient temperatures. You lose 1%% of your speed for every 5 degrees below 65 F.",
+        "description": "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
         "changes_to": ["COLDBLOOD2"],
         "category": ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
@@ -1932,7 +1932,7 @@
         "id": "COLDBLOOD2",
         "name": "Very Heat dependent",
         "points": -3,
-        "description": "Your muscle response is highly dependent on ambient temperatures. You lose 1%% of your speed for every 3 degrees below 65 F.",
+        "description": "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
         "prereqs": ["COLDBLOOD"],
         "changes_to": ["COLDBLOOD3"],
         "category": ["MUTCAT_LIZARD", "MUTCAT_FISH"]
@@ -1941,7 +1941,7 @@
         "id": "COLDBLOOD3",
         "name": "Cold Blooded",
         "points": -5,
-        "description": "You are cold-blooded and rely on heat to keep moving. Your lose 1%% of your speed for every 2 degrees below 65 F.",
+        "description": "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
         "prereqs": ["COLDBLOOD2"],
         "category": ["MUTCAT_INSECT"]
     },{
@@ -2066,7 +2066,7 @@
         "points": -3,
         "visibility": 8,
         "ugliness": 4,
-        "description": "Your legs have transformed into six tentacles. This decreases your speed on land by 20%%, but makes your movement silent. However, they also increase your swimming speed. Somewhat decreases wet penalties.",
+        "description": "Your legs have transformed into six tentacles. This decreases your speed on land by 20%, but makes your movement silent. However, they also increase your swimming speed. Somewhat decreases wet penalties.",
         "cancels": ["PADDED_FEET", "HOOVES"],
         "category": ["MUTCAT_CEPHALOPOD"],
         "wet_protection":[

@@ -6,7 +6,7 @@
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
-
+#include "picojson.h"
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
@@ -97,6 +97,8 @@ struct faction {
  ~faction();
  std::string save_info();
  void load_info(std::string data);
+ void json_load(picojson::value parsed, game * g);
+ picojson::value json_save(bool save_contents = false);
 
  void randomize();
  void make_army();

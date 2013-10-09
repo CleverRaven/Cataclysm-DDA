@@ -86,6 +86,11 @@ game::game() :
  om_diag(NULL),
  gamemode(NULL)
 {
+    // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
+    // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
+}
+void game::init_data()
+{
  dout() << "Game initialized.";
 
  try {
@@ -94,31 +99,29 @@ game::game() :
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
     load_json_dir("data/json"); // load it, load it all!
- init_npctalk();
- init_artifacts();
- init_weather();
- init_overmap();
- init_fields();
- init_faction_data();
- init_morale();
- init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
- init_techniques();           // Set up techniques                (SEE martialarts.cpp)
- init_itypes();               // Set up item types                (SEE itypedef.cpp)
- init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
- item_controller->init(this); //Item manager
- init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
- init_traps();                // Set up the trap types            (SEE trapdef.cpp)
- init_mongroups();            // Set up monster groupings         (SEE mongroupdef.cpp)
- init_missions();             // Set up mission templates         (SEE missiondef.cpp)
- init_construction();         // Set up constructables            (SEE construction.cpp)
- init_vehicle_parts();        // Set up vehicle parts             (SEE veh_typedef.cpp)
- init_vehicles();             // Set up vehicles                  (SEE veh_typedef.cpp)
- init_autosave();             // Set up autosave
- init_diseases();             // Set up disease lookup table
- init_savedata_translation_tables();
- inp_mngr.init();            // Load input config JSON
+    init_npctalk();
+    init_artifacts();
+    init_weather();
+    init_overmap();
+    init_fields();
+    init_faction_data();
+    init_morale();
+    init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
+    init_techniques();           // Set up techniques                (SEE martialarts.cpp)
+    init_itypes();               // Set up item types                (SEE itypedef.cpp)
+    init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
+    item_controller->init(this); //Item manager
+    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
+    init_traps();                // Set up the trap types            (SEE trapdef.cpp)
+    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
+    init_construction();         // Set up constructables            (SEE construction.cpp)
+    init_autosave();             // Set up autosave
+    init_diseases();             // Set up disease lookup table
+    init_savedata_translation_tables();
+    inp_mngr.init();            // Load input config JSON
 
- MonsterGenerator::generator().finalize_mtypes();
+    MonsterGenerator::generator().finalize_mtypes();
+    finalize_vehicles();
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -523,7 +526,7 @@ void game::cleanup_at_end(){
     }
 
     // Clear the future weather for future projects
-    future_weather.clear();
+    weather_log.clear();
 
     if (uquit == QUIT_DIED)
     {
@@ -1127,11 +1130,9 @@ void game::update_weather()
     season_type season;
     // Default to current weather, and update to the furthest future weather if any.
     weather_segment prev_weather = {temperature, weather, nextweather};
-    if( !future_weather.empty() )
-    {
-        prev_weather = future_weather.back();
+    if ( !weather_log.empty() ) {
+        prev_weather = weather_log.rbegin()->second;
     }
-
     while( prev_weather.deadline < turn + HOURS(MAX_FUTURE_WEATHER) )
     {
         weather_segment new_weather;
@@ -1200,16 +1201,17 @@ void game::update_weather()
             new_weather.temperature += rng(-1, 2);
         }
         prev_weather = new_weather;
-        future_weather.push_back(new_weather);
+        weather_log[ (int)new_weather.deadline ] = new_weather;
     }
 
     if( turn >= nextweather )
     {
         weather_type old_weather = weather;
-        weather = future_weather.front().weather;
-        temperature = future_weather.front().temperature;
-        nextweather = future_weather.front().deadline;
-        future_weather.pop_front();
+        weather_segment  new_weather = weather_log.lower_bound((int)nextweather)->second;
+        weather = new_weather.weather;
+        temperature = new_weather.temperature;
+        nextweather = new_weather.deadline;
+        
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy))
         {
@@ -2460,33 +2462,11 @@ bool game::load_master()
 {
  std::ifstream fin;
  std::string data;
- char junk;
  fin.open("save/master.gsav");
  if (!fin.is_open())
   return false;
 
-// First, get the next ID numbers for each of these
- fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
-
- fin >> num_missions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(this, fin);
-  active_missions.push_back(tmpmiss);
- }
-
- fin >> num_factions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_factions; i++) {
-  getline(fin, data);
-  faction tmp;
-  tmp.load_info(data);
-  factions.push_back(tmp);
- }
+unserialize_master(fin);
  fin.close();
  return true;
 }
@@ -2667,50 +2647,6 @@ void game::load_artifacts()
     }
 }
 
-// removing soon
-void game::load_weather(std::string data)
-{
-    std::stringstream fin;
-    fin.str(data);
-    int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
-
-    fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
-
-    weather = weather_type(tmpweather);
-    temperature = tmptemp;
-    nextweather = tmpnextweather;
-
-    for( int i = 0; i < num_segments - 1; ++i)
-    {
-        fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        future_weather.push_back(new_segment);
-    }
-}
-
-void game::load_weather(std::ifstream &fin)
-{
-    int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
-
-    fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
-
-    weather = weather_type(tmpweather);
-    temperature = tmptemp;
-    nextweather = tmpnextweather;
-
-    for( int i = 0; i < num_segments - 1; ++i)
-    {
-        fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        future_weather.push_back(new_segment);
-    }
-}
 
 void game::load(std::string name)
 {
@@ -2731,6 +2667,21 @@ void game::load(std::string name)
  unserialize(fin);
  fin.close();
 
+ // weather
+ std::string wfile = std::string( "save/" + base64_encode(u.name) + ".weather" );
+ fin.open(wfile.c_str());
+ if (fin.is_open()) {
+     weather_log.clear();
+     load_weather(fin);
+ }
+ fin.close();
+ // log
+ std::string mfile = std::string( "save/" + base64_encode(u.name) + ".log" );
+ fin.open(mfile.c_str());
+ if (fin.is_open()) {
+      u.load_memorial_file( fin );
+ }
+ fin.close(); 
  // Now that the player's worn items are updated, their sight limits need to be
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
@@ -2746,7 +2697,6 @@ void game::load(std::string name)
 }
 
 //Saves all factions and missions and npcs.
-//Requires a valid std:stringstream masterfile to save the
 void game::save_factions_missions_npcs ()
 {
     std::stringstream masterfile;
@@ -2754,16 +2704,7 @@ void game::save_factions_missions_npcs ()
     masterfile << "save/master.gsav";
 
     fout.open(masterfile.str().c_str());
-
-    fout << next_mission_id << " " << next_faction_id << " " << next_npc_id <<
-        " " << active_missions.size() << " ";
-    for (int i = 0; i < active_missions.size(); i++)
-        fout << active_missions[i].save_info() << " ";
-
-    fout << factions.size() << std::endl;
-    for (int i = 0; i < factions.size(); i++)
-        fout << factions[i].save_info() << std::endl;
-
+    serialize_master(fout);
     fout.close();
 }
 
@@ -2801,21 +2742,6 @@ void game::save_uistate() {
     uistate.errdump="";
 }
 
-std::string game::save_weather() const
-{
-    std::stringstream weather_string;
-    weather_string << future_weather.size() + 1 << " ";
-    weather_string << int(nextweather) << " " << weather << " " << int(temperature) << " ";
-    for( std::list<weather_segment>::const_iterator current_weather = future_weather.begin();
-         current_weather != future_weather.end(); ++current_weather )
-    {
-        weather_string << int(current_weather->deadline) << " ";
-        weather_string << current_weather->weather << " ";
-        weather_string << int(current_weather->temperature) << " ";
-    }
-    return weather_string.str();
-}
-
 void game::save()
 {
  std::stringstream playerfile;
@@ -2824,6 +2750,14 @@ void game::save()
 
  fout.open(playerfile.str().c_str());
  serialize(fout);
+ fout.close();
+ // weather
+ fout.open( std::string("save/" + base64_encode(u.name) + ".weather").c_str() );
+ save_weather(fout);
+ fout.close();
+ // log
+ fout.open( std::string("save/" + base64_encode(u.name) + ".log").c_str() );
+ fout << u.dump_memorial();
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
  save_auto_pickup(true); // Save character auto pickup rules
@@ -3314,14 +3248,26 @@ Current turn: %d; Next spawn %d.\n\
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
       }
-
+      weather_menu.addentry(-10,true,'v',"View weather log");
       weather_menu.query();
 
-      if(weather_menu.ret > 0) {
+      if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
         add_msg("%d", weather_menu.selected);
 
         int selected_weather = weather_menu.selected + 1;
         weather = (weather_type) selected_weather;
+      } else if(weather_menu.ret == -10) {
+          uimenu weather_log_menu;
+          for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {
+              weather_log_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
+                  it->second.deadline.days(),it->second.deadline.hours(),
+                  it->first,
+                  weather_data[int(it->second.weather)].name.c_str(),
+                  it->second.weather,
+                  (int)it->second.temperature
+              );
+          }
+          weather_log_menu.query();
       }
   }
   break;
@@ -6660,8 +6606,8 @@ point game::look_around()
    // mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1],
    //           "%s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
 
-   if (m.tr_at(lx, ly) != tr_null &&
-       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(lx, ly)]->visibility)
+   if (m.tr_at(lx, ly) != tr_null && (traps[m.tr_at(lx, ly)]->visibility == -1 ||
+       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(lx, ly)]->visibility))
     mvwprintz(w_look, ++off, 1, traps[m.tr_at(lx, ly)]->color, "%s",
               traps[m.tr_at(lx, ly)]->name.c_str());
 

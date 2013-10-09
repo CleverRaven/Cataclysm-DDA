@@ -7,7 +7,7 @@
         "color": "white",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "furniture",
@@ -17,7 +17,7 @@
         "bgcolor": "brown",
         "move_cost_mod": 3,
         "required_str": 6,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH"]
     },
     {
         "type": "furniture",
@@ -25,7 +25,7 @@
         "name": "bulletin board",
         "symbol": "6",
         "color": "blue",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "DECONSTRUCT"],
         "examine_action": "bulletin_board"
@@ -38,7 +38,7 @@
         "color": "green",
         "move_cost_mod": 2,
         "required_str": 5,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -48,7 +48,7 @@
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -69,7 +69,7 @@
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": 12,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -79,7 +79,7 @@
         "color": "white",
         "move_cost_mod": 2,
         "required_str": 18,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -89,7 +89,7 @@
         "color": "dkgray",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER"],
+        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER"]
     },
     {
         "type": "furniture",
@@ -99,7 +99,7 @@
         "bgcolor": "red",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -109,7 +109,7 @@
         "bgcolor": "white",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -119,7 +119,7 @@
         "color": "white",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -129,7 +129,7 @@
         "color": "brown",
         "move_cost_mod": 1,
         "required_str": 6,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -139,7 +139,7 @@
         "color": "green",
         "move_cost_mod": 1,
         "required_str": 7,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -149,7 +149,7 @@
         "bgcolor": "red",
         "move_cost_mod": 1,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -159,7 +159,7 @@
         "color": "blue",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -169,7 +169,7 @@
         "color": "ltcyan",
         "move_cost_mod": 1,
         "required_str": 5,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -179,7 +179,7 @@
         "color": "ltred",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -189,7 +189,7 @@
         "color": "dkgray",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -199,7 +199,7 @@
         "color": "brown",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -209,7 +209,7 @@
         "color": "red",
         "move_cost_mod": 2,
         "required_str": 9,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -219,7 +219,7 @@
         "color": "green",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -229,7 +229,7 @@
         "color": "blue",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -237,9 +237,9 @@
         "name": "refrigerator",
         "symbol": "{",
         "color": "ltcyan",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["CONTAINER", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -247,9 +247,9 @@
         "name": "glass door fridge",
         "symbol": "{",
         "color": "ltcyan",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -257,9 +257,9 @@
         "name": "dresser",
         "symbol": "{",
         "color": "brown",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -267,9 +267,9 @@
         "name": "locker",
         "symbol": "{",
         "color": "ltgray",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"],
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -277,9 +277,9 @@
         "name": "display rack",
         "symbol": "{",
         "color": "ltgray",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"]
     },
     {
         "type": "furniture",
@@ -287,9 +287,9 @@
         "name": "book case",
         "symbol": "{",
         "color": "brown",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -297,9 +297,9 @@
         "name": "washing machine",
         "symbol": "{",
         "bgcolor": "white",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -307,9 +307,9 @@
         "name": "dryer",
         "symbol": "{",
         "bgcolor": "white",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -317,9 +317,9 @@
         "name": "dumpster",
         "symbol": "{",
         "color": "green",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -327,9 +327,9 @@
         "name": "diving block",
         "symbol": "O",
         "color": "ltgray",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "furniture",
@@ -337,9 +337,9 @@
         "name": "crate",
         "symbol": "X",
         "bgcolor": "brown",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "DECONSTRUCT", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -347,9 +347,9 @@
         "name": "open crate",
         "symbol": "O",
         "bgcolor": "brown",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 12,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM"]
     },
     {
         "type": "furniture",
@@ -357,9 +357,9 @@
         "name": "canvas wall",
         "symbol": "#",
         "color": "blue",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"]
     },
     {
         "type": "furniture",
@@ -367,10 +367,10 @@
         "name": "canvas flap",
         "symbol": "+",
         "color": "blue",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
-        "open": "f_canvas_door_o",
+        "open": "f_canvas_door_o"
     },
     {
         "type": "furniture",
@@ -381,7 +381,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT"],
-        "close": "f_canvas_door",
+        "close": "f_canvas_door"
     },
     {
         "type": "furniture",
@@ -402,7 +402,7 @@
         "color": "green",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "INDOORS"],
+        "flags": ["TRANSPARENT", "INDOORS"]
     },
     {
         "type": "furniture",
@@ -410,9 +410,9 @@
         "name": "animalskin wall",
         "symbol": "#",
         "color": "brown",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"]
     },
     {
         "type": "furniture",
@@ -420,10 +420,10 @@
         "name": "animalskin flap",
         "symbol": "+",
         "color": "white",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
-        "open": "f_skin_door_o",
+        "open": "f_skin_door_o"
     },
     {
         "type": "furniture",
@@ -434,7 +434,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT"],
-        "close": "f_skin_door",
+        "close": "f_skin_door"
     },
     {
         "type": "furniture",
@@ -464,10 +464,10 @@
         "name": "safe",
         "symbol": "X",
         "color": "ltgray",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 14,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM"],
-        "open": "f_safe",
+        "open": "f_safe"
     },
     {
         "type": "furniture",
@@ -475,7 +475,7 @@
         "name": "safe",
         "symbol": "X",
         "color": "ltgray",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 14,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM"],
         "examine_action": "safe"
@@ -486,10 +486,10 @@
         "name": "open safe",
         "symbol": "O",
         "color": "ltgray",
-        "move_cost_mod": -10,
+        "move_cost_mod": -1,
         "required_str": 14,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "PLACE_ITEM"],
-        "close": "f_safe",
+        "close": "f_safe"
     },
     {
         "type": "furniture",

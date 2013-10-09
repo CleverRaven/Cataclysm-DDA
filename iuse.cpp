@@ -1625,7 +1625,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
         {
             if(it->charges <= 0)
             {
-                g->add_msg_if_player(p,_("You don't have enough batteries!"));
+                g->add_msg_if_player(p,_("Your repair tool does not have enough charges to do that."));
                 return;
             }
 
@@ -2770,7 +2770,7 @@ void iuse::zweifire_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          _("Was willst du tun?"), _("Die Flamme erl�schen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
+                          _("Was willst du tun?"), _("Die Flamme erloschen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
         switch (choice)
         {
             if (choice == 2)

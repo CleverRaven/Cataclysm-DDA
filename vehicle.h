@@ -47,6 +47,12 @@ struct veh_collision {
  veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
+struct vehicle_prototype
+{
+    std::string id, name;
+    std::vector<std::pair<point, std::string> > parts;
+};
+
 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
@@ -164,7 +170,6 @@ class vehicle
 private:
     game *g;
 
-    bool can_stack_vpart_flag(std::string vpart_flag);
     bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
     int part_displayed_at(int local_x, int local_y);

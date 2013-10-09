@@ -78,11 +78,6 @@ void vehicle::load (std::ifstream &stin)
     } else {
         load_legacy(stin);
     }
-
-    /* After loading, check if the vehicle is from the old rules and is missing
-     * frames. */
-    add_missing_frames();
-
 }
 
 /** Checks all parts to see if frames are missing (as they might be when
@@ -91,9 +86,9 @@ void vehicle::add_missing_frames()
 {
     //No need to check the same (x, y) spot more than once
     std::set< std::pair<int, int> > locations_checked;
-    for(std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); it++) {
-        int next_x = it->mount_dx;
-        int next_y = it->mount_dy;
+    for (int i = 0; i < parts.size(); i++) {
+        int next_x = parts[i].mount_dx;
+        int next_y = parts[i].mount_dy;
         std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
 
         if(locations_checked.count(mount_location) == 0) {
@@ -108,7 +103,15 @@ void vehicle::add_missing_frames()
             }
             if(!found) {
                 //No frame here! Install one.
-                install_part(next_x, next_y, "frame_vertical", -1, true);
+                vehicle_part new_part;
+                new_part.id = "frame_vertical";
+                new_part.mount_dx = next_x;
+                new_part.mount_dy = next_y;
+                new_part.hp = vehicle_part_types["frame_vertical"].durability;
+                new_part.amount = 0;
+                new_part.blood = 0;
+                new_part.bigness = 0;
+                parts.push_back (new_part);
             }
         }
 
@@ -440,37 +443,6 @@ int vehicle::part_power (int index){
    {
       return part_info(index).power;
    }
-}
-
-/**
- * Returns whether or not the specified flag is allowed to be stacked. For
- * example, you can have multiple INTERNAL or OPAQUE parts, but only one
- * WHEEL or ENGINE per square.
- * @param vpart_flag The flag to check.
- * @return true if multiple parts with that flag can be placed in the same
- *         square, false if not.
- */
-bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
-
-  if (vpart_flag == "EXTERNAL" ||
-          vpart_flag == "INTERNAL" ||
-          vpart_flag == "MOUNT_POINT" ||
-          vpart_flag == "MOUNT_INNER" ||
-          vpart_flag == "MOUNT_OVER" ||
-          vpart_flag == "ANCHOR_POINT" ||
-          vpart_flag == "VARIABLE_SIZE" ||
-          vpart_flag == "OPAQUE" ||
-          vpart_flag == "OBSTACLE" ||
-          vpart_flag == "OPENABLE" ||
-          vpart_flag == "NO_REINFORCE" ||
-          vpart_flag == "SHARP" ||
-          vpart_flag == "UNMOUNT_ON_DAMAGE" ||
-          vpart_flag == "BOARDABLE") {
-    return true;
-  } else {
-    return false;
-  }
-
 }
 
 bool vehicle::has_structural_part(int dx, int dy)

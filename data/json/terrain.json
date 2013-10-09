@@ -6,7 +6,7 @@
         "symbol": " ",
         "color": "white",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "DIGGABLE"]
     },
     {
         "type": "terrain",
@@ -16,7 +16,7 @@
         "color": "black",
         "move_cost": 2,
         "trap": "ledge",
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -25,7 +25,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
     },
     {
         "type": "terrain",
@@ -34,7 +34,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
     },
     {
         "type": "terrain",
@@ -53,7 +53,7 @@
         "symbol": "0",
         "color": "yellow",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "DIGGABLE"]
     },
     {
         "type": "terrain",
@@ -73,7 +73,7 @@
         "symbol": "#",
         "color": "green",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "DIGGABLE"]
     },
     {
         "type": "terrain",
@@ -113,7 +113,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
     },
     {
         "type": "terrain",
@@ -162,7 +162,7 @@
         "symbol": ".",
         "color": "green",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
     },
     {
         "type": "terrain",
@@ -171,7 +171,7 @@
         "symbol": ".",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
     },
     {
         "type": "terrain",
@@ -180,7 +180,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"]
     },
     {
         "type": "terrain",
@@ -189,7 +189,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"]
     },
     {
         "type": "terrain",
@@ -198,7 +198,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"]
     },
     {
         "type": "terrain",
@@ -207,7 +207,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"]
     },
     {
         "type": "terrain",
@@ -218,7 +218,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -229,7 +229,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -238,7 +238,7 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -247,7 +247,7 @@
         "symbol": "~",
         "color": "green",
         "move_cost": 6,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -256,7 +256,7 @@
         "symbol": "#",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -268,7 +268,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -280,7 +280,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -292,7 +292,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -301,7 +301,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -310,7 +310,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -319,7 +319,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -330,7 +330,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -340,7 +340,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT"],
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -351,7 +351,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -361,7 +361,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "FLAT"]
     },
     {
         "type": "terrain",
@@ -370,7 +370,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -379,7 +379,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -388,7 +388,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -399,7 +399,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -408,7 +408,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -417,7 +417,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -426,7 +426,7 @@
         "symbol": "LINE_XOXO",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -435,7 +435,7 @@
         "symbol": "LINE_OXOX",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -444,7 +444,7 @@
         "symbol": "LINE_XOXO",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -453,7 +453,7 @@
         "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -462,7 +462,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -471,7 +471,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -481,7 +481,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"],
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -491,7 +491,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"],
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -500,7 +500,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -509,7 +509,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -518,7 +518,7 @@
         "symbol": "\"",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -528,7 +528,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF"],
-        "open": "t_door_o",
+        "open": "t_door_o"
     },
     {
         "type": "terrain",
@@ -539,7 +539,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -549,7 +549,7 @@
         "color": "brown",
         "move_cost": 2,
         "flags": ["FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
-        "close": "t_door_c",
+        "close": "t_door_c"
     },
     {
         "type": "terrain",
@@ -558,7 +558,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -568,7 +568,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE"],
-        "open": "t_door_o",
+        "open": "t_door_o"
     },
     {
         "type": "terrain",
@@ -579,7 +579,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF"],
-        "open": "t_door_o",
+        "open": "t_door_o"
     },
     {
         "type": "terrain",
@@ -588,7 +588,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"]
     },
     {
         "type": "terrain",
@@ -597,7 +597,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -607,7 +607,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH"],
-        "open": "t_fencegate_o",
+        "open": "t_fencegate_o"
     },
     {
         "type": "terrain",
@@ -618,7 +618,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "FLAT"],
-        "close": "t_fencegate_c",
+        "close": "t_fencegate_c"
     },
     {
         "type": "terrain",
@@ -628,7 +628,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF"],
-        "open": "t_chaingate_o",
+        "open": "t_chaingate_o"
     },
     {
         "type": "terrain",
@@ -638,7 +638,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
-        "close": "t_chaingate_c",
+        "close": "t_chaingate_c"
     },
     {
         "type": "terrain",
@@ -647,7 +647,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -657,7 +657,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF"],
-        "open": "t_door_metal_o",
+        "open": "t_door_metal_o"
     },
     {
         "type": "terrain",
@@ -667,7 +667,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
-        "close": "t_door_metal_c",
+        "close": "t_door_metal_c"
     },
     {
         "type": "terrain",
@@ -677,7 +677,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -689,7 +689,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
         "open": "t_door_bar_o",
-        "close": "t_door_bar_locked",
+        "close": "t_door_bar_locked"
     },
     {
         "type": "terrain",
@@ -699,7 +699,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
-        "close": "t_door_bar_c",
+        "close": "t_door_bar_c"
     },
     {
         "type": "terrain",
@@ -709,7 +709,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -720,7 +720,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF"
         ],
-        "open": "t_door_glass_o",
+        "open": "t_door_glass_o"
     },
     {
         "type": "terrain",
@@ -730,7 +730,7 @@
         "color": "ltcyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
-        "close": "t_door_glass_c",
+        "close": "t_door_glass_c"
     },
     {
         "type": "terrain",
@@ -739,7 +739,7 @@
         "symbol": "&",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM"],
+        "flags": ["NOITEM"]
     },
     {
         "type": "terrain",
@@ -760,7 +760,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -771,7 +771,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -784,7 +784,7 @@
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE"
         ],
         "close": "t_curtains",
-        "open": "t_window_open",
+        "open": "t_window_open"
     },
     {
         "type": "terrain",
@@ -796,7 +796,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -806,7 +806,7 @@
         "color": "ltcyan",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE" ],
-        "close": "t_window_domestic",
+        "close": "t_window_domestic"
     },
     {
         "type": "terrain",
@@ -817,7 +817,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE" ],
-        "open": "t_window_domestic",
+        "open": "t_window_domestic"
     },
     {
         "type": "terrain",
@@ -828,7 +828,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -839,7 +839,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "ALARMED", "REDUCE_SCENT"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -848,7 +848,7 @@
         "symbol": "0",
         "color": "yellow",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -858,7 +858,7 @@
         "color": "ltcyan",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -867,7 +867,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -876,7 +876,7 @@
         "symbol": "\"",
         "color": "ltgreen",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -885,7 +885,7 @@
         "symbol": "\"",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -894,7 +894,7 @@
         "symbol": "\"",
         "color": "ltblue",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -903,7 +903,7 @@
         "symbol": "#",
         "color": "white",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -922,7 +922,7 @@
         "symbol": "#",
         "color": "white",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -931,7 +931,7 @@
         "symbol": "7",
         "color": "green",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -940,7 +940,7 @@
         "symbol": "1",
         "color": "green",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -973,7 +973,7 @@
         "move_cost": 8,
         "flags": [
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -1006,7 +1006,7 @@
         "symbol": "1",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE"]
     },
     {
         "type": "terrain",
@@ -1015,7 +1015,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF"]
     },
     {
         "type": "terrain",
@@ -1024,7 +1024,7 @@
         "symbol": "#",
         "color": "yellow",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1033,7 +1033,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT"]
     },
     {
         "type": "terrain",
@@ -1044,7 +1044,7 @@
         "move_cost": 3,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -1055,7 +1055,7 @@
         "move_cost": 3,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE"
-        ],
+        ]
     },
     {
         "type": "terrain",
@@ -1088,7 +1088,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE"]
     },
     {
         "type": "terrain",
@@ -1137,7 +1137,7 @@
         "symbol": "|",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
     },
     {
         "type": "terrain",
@@ -1146,7 +1146,7 @@
         "symbol": "-",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE"]
     },
     {
         "type": "terrain",
@@ -1155,7 +1155,7 @@
         "symbol": "1",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH"],
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH"]
     },
     {
         "type": "terrain",
@@ -1164,7 +1164,7 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE"]
     },
     {
         "type": "terrain",
@@ -1173,7 +1173,7 @@
         "symbol": "7",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -1223,7 +1223,7 @@
         "color": "red",
         "move_cost": 4,
         "trap": "lava",
-        "flags": ["TRANSPARENT", "LIQUID", "DESTROY_ITEM"],
+        "flags": ["TRANSPARENT", "LIQUID", "DESTROY_ITEM"]
     },
     {
         "type": "terrain",
@@ -1232,7 +1232,7 @@
         "symbol": "#",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },
     {
         "type": "terrain",
@@ -1241,7 +1241,7 @@
         "symbol": "#",
         "color": "ltcyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },
     {
         "type": "terrain",
@@ -1250,7 +1250,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },
     {
         "type": "terrain",
@@ -1259,7 +1259,7 @@
         "symbol": "7",
         "color": "red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "DECONSTRUCT"]
     },
     {
         "type": "terrain",
@@ -1278,7 +1278,7 @@
         "symbol": "&",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -1287,7 +1287,7 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -1296,7 +1296,7 @@
         "symbol": "#",
         "color": "ltblue",
         "move_cost": 0,
-        "flags": ["EXPLODES", "NOITEM"],
+        "flags": ["EXPLODES", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -1305,7 +1305,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM"],
+        "flags": ["NOITEM"]
     },
     {
         "type": "terrain",
@@ -1314,7 +1314,7 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM"],
+        "flags": ["NOITEM"]
     },
     {
         "type": "terrain",
@@ -1323,7 +1323,7 @@
         "symbol": "6",
         "color": "green",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM"]
     },
     {
         "type": "terrain",
@@ -1332,7 +1332,7 @@
         "symbol": "6",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "INDOORS"],
+        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "INDOORS"]
     },
     {
         "type": "terrain",
@@ -1341,7 +1341,7 @@
         "symbol": "6",
         "color": "blue",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "COLLAPSES", "INDOORS"],
+        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "COLLAPSES", "INDOORS"]
     },
     {
         "type": "terrain",
@@ -1390,7 +1390,7 @@
         "symbol": "1",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -1399,7 +1399,7 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM"],
+        "flags": ["NOITEM"]
     },
     {
         "type": "terrain",
@@ -1408,7 +1408,7 @@
         "symbol": "{",
         "color": "magenta",
         "move_cost": 0,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -1417,7 +1417,7 @@
         "symbol": "1",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE"],
+        "flags": ["FLAMMABLE"]
     },
     {
         "type": "terrain",
@@ -1426,7 +1426,7 @@
         "symbol": "0",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1435,7 +1435,7 @@
         "symbol": ">",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1444,7 +1444,7 @@
         "symbol": "<",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1453,7 +1453,7 @@
         "symbol": ">",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1462,7 +1462,7 @@
         "symbol": "<",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1471,7 +1471,7 @@
         "symbol": ">",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1480,7 +1480,7 @@
         "symbol": ">",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "GOES_DOWN", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1489,7 +1489,7 @@
         "symbol": "<",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "GOES_UP", "PLACE_ITEM"]
     },
     {
         "type": "terrain",
@@ -1498,7 +1498,7 @@
         "symbol": "<",
         "color": "white",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "GOES_UP"],
+        "flags": ["TRANSPARENT", "GOES_UP"]
     },
     {
         "type": "terrain",
@@ -1507,7 +1507,7 @@
         "symbol": "0",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -1538,7 +1538,7 @@
         "symbol": "6",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM"],
+        "flags": ["NOITEM"]
     },
     {
         "type": "terrain",
@@ -1567,7 +1567,7 @@
         "symbol": "6",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "INDOORS"],
+        "flags": ["NOITEM", "INDOORS"]
     },
     {
         "type": "terrain",
@@ -1576,7 +1576,7 @@
         "symbol": ".",
         "color": "magenta",
         "move_cost": 2,
-        "flags": ["INDOORS", "TRANSPARENT"],
+        "flags": ["INDOORS", "TRANSPARENT"]
     },
     {
         "type": "terrain",
@@ -1606,7 +1606,7 @@
         "color": "red",
         "move_cost": 0,
         "move_cost": 0,
-        "flags": [],
+        "flags": []
     },
     {
         "type": "terrain",
@@ -1616,7 +1616,7 @@
         "color": "green",
         "move_cost": 0,
         "move_cost": 0,
-        "flags": [],
+        "flags": []
     },
     {
         "type": "terrain",
@@ -1626,7 +1626,7 @@
         "color": "blue",
         "move_cost": 0,
         "move_cost": 0,
-        "flags": [],
+        "flags": []
     },
     {
         "type": "terrain",
@@ -1635,7 +1635,7 @@
         "symbol": ".",
         "color": "red",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"]
     },
     {
         "type": "terrain",
@@ -1644,7 +1644,7 @@
         "symbol": ".",
         "color": "green",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"]
     },
     {
         "type": "terrain",
@@ -1653,7 +1653,7 @@
         "symbol": ".",
         "color": "blue",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"]
     },
     {
         "type": "terrain",

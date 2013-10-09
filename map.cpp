@@ -1035,28 +1035,35 @@ std::string map::features(const int x, const int y)
 
 int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
 {
- int vpart = -1;
- vehicle *veh = veh_at(x, y, vpart);
- if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
-  const int dpart = veh->part_with_feature(vpart, "OBSTACLE");
-  if (dpart >= 0 && (!veh->part_flag(dpart, "OPENABLE") || !veh->parts[dpart].open)) {
-   return 0;
-  } else {
-    const int ipart = veh->part_with_feature(vpart, "AISLE");
-    if (ipart >= 0)
-      return 2;
-   return 8;
-  }
- }
- int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
- cost+= field_at(x,y).move_cost();
- return cost > 0 ? cost : 0;
+    if (terlist[ter(x, y)].movecost == 0 || furnlist[furn(x, y)].movecost < 0) {
+        return 0;
+    }
+    int vpart = -1;
+    vehicle *veh = veh_at(x, y, vpart);
+    if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
+        const int dpart = veh->part_with_feature(vpart, "OBSTACLE");
+        if (dpart >= 0 && (!veh->part_flag(dpart, "OPENABLE") || !veh->parts[dpart].open)) {
+        return 0;
+        } else {
+            const int ipart = veh->part_with_feature(vpart, "AISLE");
+            if (ipart >= 0) {
+                return 2;
+            }
+            return 8;
+        }
+    }
+    int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+    cost+= field_at(x,y).move_cost();
+    return cost > 0 ? cost : 0;
 }
 
 int map::move_cost_ter_furn(const int x, const int y)
 {
- int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
- return cost > 0 ? cost : 0;
+    if (terlist[ter(x, y)].movecost == 0 || furnlist[furn(x, y)].movecost < 0) {
+        return 0;
+    }
+    int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+    return cost > 0 ? cost : 0;
 }
 
 int map::combined_movecost(const int x1, const int y1,
@@ -1079,7 +1086,7 @@ bool map::trans(const int x, const int y)
  vehicle *veh = veh_at(x, y, vpart);
  bool tertr;
  if (veh) {
-  tertr = !veh->part_flag(vpart, "OPAQUE") || veh->parts[vpart].hp <= 0;
+  tertr = !veh->part_with_feature(vpart, "OPAQUE") || veh->parts[vpart].hp <= 0;
   if (!tertr) {
    const int dpart = veh->part_with_feature(vpart, "OPENABLE");
    if (dpart >= 0 && veh->parts[dpart].open)
@@ -3343,8 +3350,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
   show_items = false; // Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
- if (curr_trap != tr_null &&
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility) {
+ if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
+     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
   tercol = (*traps)[curr_trap]->color;
   if ((*traps)[curr_trap]->sym == '%') {
    switch(rng(1, 5)) {
@@ -4225,16 +4232,15 @@ void map::build_map_cache(game *g)
  // Cache all the vehicle stuff in one loop
  VehicleList vehs = get_vehicles();
  for(int v = 0; v < vehs.size(); ++v) {
-  for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-       part != vehs[v].v->external_parts.end(); ++part) {
-   int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
-   int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+  for (int part = 0; part < vehs[v].v->parts.size(); part++) {
+   int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
+   int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
    if(INBOUNDS(px, py)) {
-    if (vehs[v].v->is_inside(*part)) {
+    if (vehs[v].v->is_inside(part)) {
      outside_cache[px][py] = false;
     }
-    if (vehs[v].v->part_flag(*part, "OPAQUE") && vehs[v].v->parts[*part].hp > 0) {
-     int dpart = vehs[v].v->part_with_feature(*part , "OPENABLE");
+    if (vehs[v].v->part_flag(part, "OPAQUE") && vehs[v].v->parts[part].hp > 0) {
+     int dpart = vehs[v].v->part_with_feature(part , "OPENABLE");
      if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
       transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
      }
