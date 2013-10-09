@@ -33577,21 +33577,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Aaliyah"
-msgstr "<name>Aaliyah"
+msgstr "Aaliyah"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:4
 #, fuzzy
 msgctxt "Given Name"
 msgid "Aaron"
-msgstr "<name>Aaron"
+msgstr "Aaron"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:6
 #, fuzzy
 msgctxt "Given Name"
 msgid "Abigail"
-msgstr "<name>Abigail"
+msgstr "Abigail"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:8
@@ -33604,35 +33604,35 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Adams"
-msgstr "<name>Adams"
+msgstr "Adams"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:12
 #, fuzzy
 msgctxt "Given Name"
 msgid "Addison"
-msgstr "<name>Addison"
+msgstr "Addison"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:14
 #, fuzzy
 msgctxt "Given Name"
 msgid "Adrian"
-msgstr "<name>Adrian"
+msgstr "Adrian"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:16
 #, fuzzy
 msgctxt "Given Name"
 msgid "Aidan"
-msgstr "<name>Aidan"
+msgstr "Aidan"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:18
 #, fuzzy
 msgctxt "Given Name"
 msgid "Aiden"
-msgstr "<name>Aiden"
+msgstr "Aiden"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:20
@@ -33657,98 +33657,98 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Alexa"
-msgstr "<name>Alexa"
+msgstr "Alexa"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:28
 #, fuzzy
 msgctxt "Given Name"
 msgid "Alexander"
-msgstr "<name>Alexander"
+msgstr "Alexander"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:30
 #, fuzzy
 msgctxt "Family Name"
 msgid "Alexander"
-msgstr "<name>Alexander"
+msgstr "Alexander"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:32
 #, fuzzy
 msgctxt "Given Name"
 msgid "Alexandra"
-msgstr "<name>Alexandra"
+msgstr "Alexandra"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:34
 #, fuzzy
 msgctxt "Given Name"
 msgid "Alexis"
-msgstr "<name>Alexis"
+msgstr "Alexis"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:36
 #, fuzzy
 msgctxt "Family Name"
 msgid "Allen"
-msgstr "<name>Allen"
+msgstr "Allen"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:38
 #, fuzzy
 msgctxt "Given Name"
 msgid "Allison"
-msgstr "<name>Allison"
+msgstr "Allison"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:40
 #, fuzzy
 msgctxt "Given Name"
 msgid "Alyssa"
-msgstr "<name>Alyssa"
+msgstr "Alyssa"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:42
 #, fuzzy
 msgctxt "Given Name"
 msgid "Amelia"
-msgstr "<name>Amelia"
+msgstr "Amelia"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:44
 #, fuzzy
 msgctxt "Family Name"
 msgid "Anderson"
-msgstr "<name>Anderson"
+msgstr "Anderson"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:46
 #, fuzzy
 msgctxt "Given Name"
 msgid "Andrea"
-msgstr "<name>Andrea"
+msgstr "Andrea"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:48
 #, fuzzy
 msgctxt "Given Name"
 msgid "Andrew"
-msgstr "<name>Andrew"
+msgstr "Andrew"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:50
 #, fuzzy
 msgctxt "Given Name"
 msgid "Angel"
-msgstr "<name>Angel"
+msgstr "Angel"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:52
 #, fuzzy
 msgctxt "Given Name"
 msgid "Angelina"
-msgstr "<name>Angelina"
+msgstr "Angelina"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:54
@@ -33761,49 +33761,49 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Anthony"
-msgstr "<name>Anthony"
+msgstr "Anthony"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:58
 #, fuzzy
 msgctxt "Given Name"
 msgid "Ariana"
-msgstr "<name>Ariana"
+msgstr "Ariana"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:60
 #, fuzzy
 msgctxt "Given Name"
 msgid "Arianna"
-msgstr "<name>Arianna"
+msgstr "Arianna"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:62
 #, fuzzy
 msgctxt "Given Name"
 msgid "Ashley"
-msgstr "<name>Ashley"
+msgstr "Ashley"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:64
 #, fuzzy
 msgctxt "Given Name"
 msgid "Aubrey"
-msgstr "<name>Aubrey"
+msgstr "Aubrey"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:66
 #, fuzzy
 msgctxt "Given Name"
 msgid "Audrey"
-msgstr "<name>Audrey"
+msgstr "Audrey"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:68
 #, fuzzy
 msgctxt "Given Name"
 msgid "Austin"
-msgstr "<name>Austin"
+msgstr "Austin"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:70
@@ -33823,42 +33823,42 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Avery"
-msgstr "<name>Avery"
+msgstr "Avery"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:76
 #, fuzzy
 msgctxt "Given Name"
 msgid "Ayden"
-msgstr "<name>Ayden"
+msgstr "Ayden"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:78
 #, fuzzy
 msgctxt "Given Name"
 msgid "Bailey"
-msgstr "<name>Bailey"
+msgstr "Bailey"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:80
 #, fuzzy
 msgctxt "Family Name"
 msgid "Bailey"
-msgstr "<name>Bailey"
+msgstr "Bailey"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:82
 #, fuzzy
 msgctxt "Family Name"
 msgid "Baker"
-msgstr "<name>Baker"
+msgstr "Baker"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:84
 #, fuzzy
 msgctxt "Family Name"
 msgid "Barnes"
-msgstr "<name>Barnes"
+msgstr "Barnes"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:86
@@ -33871,77 +33871,77 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Benjamin"
-msgstr "<name>Benjamin"
+msgstr "Benjamin"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:90
 #, fuzzy
 msgctxt "Family Name"
 msgid "Bennett"
-msgstr "<name>Bennett"
+msgstr "Bennett"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:92
 #, fuzzy
 msgctxt "Given Name"
 msgid "Blake"
-msgstr "<name>Blake"
+msgstr "Blake"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:94
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brady"
-msgstr "<name>Brady"
+msgstr "Brady"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:96
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brandon"
-msgstr "<name>Brandon"
+msgstr "Brandon"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:98
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brayden"
-msgstr "<name>Brayden"
+msgstr "Brayden"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:100
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brian"
-msgstr "<name>Brian"
+msgstr "Brian"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:102
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brianna"
-msgstr "<name>Brianna"
+msgstr "Brianna"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:104
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brody"
-msgstr "<name>Brody"
+msgstr "Brody"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:106
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brooke"
-msgstr "<name>Brooke"
+msgstr "Brooke"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:108
 #, fuzzy
 msgctxt "Given Name"
 msgid "Brooklyn"
-msgstr "<name>Brooklyn"
+msgstr "Brooklyn"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:110
@@ -33955,154 +33955,154 @@ msgstr "livres"
 #, fuzzy
 msgctxt "Family Name"
 msgid "Brown"
-msgstr "<name>Brown"
+msgstr "Brown"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:114
 #, fuzzy
 msgctxt "Given Name"
 msgid "Bryan"
-msgstr "<name>Bryan"
+msgstr "Bryan"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:116
 #, fuzzy
 msgctxt "Family Name"
 msgid "Bryant"
-msgstr "<name>Bryant"
+msgstr "Bryant"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:118
 #, fuzzy
 msgctxt "Family Name"
 msgid "Butler"
-msgstr "<name>Butler"
+msgstr "Butler"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:120
 #, fuzzy
 msgctxt "Given Name"
 msgid "Caden"
-msgstr "<name>Caden"
+msgstr "Caden"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:122
 #, fuzzy
 msgctxt "Given Name"
 msgid "Caleb"
-msgstr "<name>Caleb"
+msgstr "Caleb"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:124
 #, fuzzy
 msgctxt "Given Name"
 msgid "Cameron"
-msgstr "<name>Cameron"
+msgstr "Cameron"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:126
 #, fuzzy
 msgctxt "Given Name"
 msgid "Camilla"
-msgstr "<name>Camilla"
+msgstr "Camilla"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:128
 #, fuzzy
 msgctxt "Family Name"
 msgid "Campbell"
-msgstr "<name>Campbell"
+msgstr "Campbell"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:130
 #, fuzzy
 msgctxt "Given Name"
 msgid "Carlos"
-msgstr "<name>Carlos"
+msgstr "Carlos"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:132
 #, fuzzy
 msgctxt "Given Name"
 msgid "Caroline"
-msgstr "<name>Caroline"
+msgstr "Caroline"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:134
 #, fuzzy
 msgctxt "Given Name"
 msgid "Carson"
-msgstr "<name>Carson"
+msgstr "Carson"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:136
 #, fuzzy
 msgctxt "Given Name"
 msgid "Carter"
-msgstr "<name>Carter"
+msgstr "Carter"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:138
 #, fuzzy
 msgctxt "Family Name"
 msgid "Carter"
-msgstr "<name>Carter"
+msgstr "Carter"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:140
 #, fuzzy
 msgctxt "Given Name"
 msgid "Charles"
-msgstr "<name>Charles"
+msgstr "Charles"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:142
 #, fuzzy
 msgctxt "Given Name"
 msgid "Charlotte"
-msgstr "<name>Charlotte"
+msgstr "Charlotte"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:144
 #, fuzzy
 msgctxt "Given Name"
 msgid "Chase"
-msgstr "<name>Chase"
+msgstr "Chase"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:146
 #, fuzzy
 msgctxt "Given Name"
 msgid "Chloe"
-msgstr "<name>Chloe"
+msgstr "Chloe"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:148
 #, fuzzy
 msgctxt "Given Name"
 msgid "Christian"
-msgstr "<name>Christian"
+msgstr "Christian"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:150
 #, fuzzy
 msgctxt "Given Name"
 msgid "Christopher"
-msgstr "<name>Christopher"
+msgstr "Christopher"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:152
 #, fuzzy
 msgctxt "Given Name"
 msgid "Claire"
-msgstr "<name>Claire"
+msgstr "Claire"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:154
 #, fuzzy
 msgctxt "Family Name"
 msgid "Clark"
-msgstr "<name>Clark"
+msgstr "Clark"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:156
@@ -34115,28 +34115,28 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Coleman"
-msgstr "<name>Coleman"
+msgstr "Coleman"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:160
 #, fuzzy
 msgctxt "Family Name"
 msgid "Collins"
-msgstr "<name>Collins"
+msgstr "Collins"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:162
 #, fuzzy
 msgctxt "Given Name"
 msgid "Colton"
-msgstr "<name>Colton"
+msgstr "Colton"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:164
 #, fuzzy
 msgctxt "Given Name"
 msgid "Connor"
-msgstr "<name>Connor"
+msgstr "Connor"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:166
@@ -34149,14 +34149,14 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Cooper"
-msgstr "<name>Cooper"
+msgstr "Cooper"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:170
 #, fuzzy
 msgctxt "Family Name"
 msgid "Cooper"
-msgstr "<name>Cooper"
+msgstr "Cooper"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:172
@@ -34175,28 +34175,28 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Daniel"
-msgstr "<name>Daniel"
+msgstr "Daniel"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:178
 #, fuzzy
 msgctxt "Given Name"
 msgid "David"
-msgstr "<name>David"
+msgstr "David"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:180
 #, fuzzy
 msgctxt "Family Name"
 msgid "Davis"
-msgstr "<name>Davis"
+msgstr "Davis"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:182
 #, fuzzy
 msgctxt "Given Name"
 msgid "Destiny"
-msgstr "<name>Destiny"
+msgstr "Destiny"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:184
@@ -34209,21 +34209,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Diego"
-msgstr "<name>Diego"
+msgstr "Diego"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:188
 #, fuzzy
 msgctxt "Given Name"
 msgid "Dominic"
-msgstr "<name>Dominic"
+msgstr "Dominic"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:190
 #, fuzzy
 msgctxt "Given Name"
 msgid "Dylan"
-msgstr "<name>Dylan"
+msgstr "Dylan"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:192
@@ -34236,7 +34236,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Edwards"
-msgstr "<name>Edwards"
+msgstr "Edwards"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:196
@@ -34249,14 +34249,14 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Elijah"
-msgstr "<name>Elijah"
+msgstr "Elijah"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:200
 #, fuzzy
 msgctxt "Given Name"
 msgid "Elizabeth"
-msgstr "<name>Elizabeth"
+msgstr "Elizabeth"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:202
@@ -34288,7 +34288,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Ethan"
-msgstr "<name>Ethan"
+msgstr "Ethan"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:212
@@ -34301,28 +34301,28 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Evans"
-msgstr "<name>Evans"
+msgstr "Evans"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:216
 #, fuzzy
 msgctxt "Given Name"
 msgid "Evelyn"
-msgstr "<name>Evelyn"
+msgstr "Evelyn"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:218
 #, fuzzy
 msgctxt "Given Name"
 msgid "Faith"
-msgstr "<name>Faith"
+msgstr "Faith"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:220
 #, fuzzy
 msgctxt "Family Name"
 msgid "Flores"
-msgstr "<name>Flores"
+msgstr "Flores"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:222
@@ -34336,35 +34336,35 @@ msgstr "holster"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Gabriel"
-msgstr "<name>Gabriel"
+msgstr "Gabriel"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:226
 #, fuzzy
 msgctxt "Given Name"
 msgid "Gabriella"
-msgstr "<name>Gabriella"
+msgstr "Gabriella"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:228
 #, fuzzy
 msgctxt "Given Name"
 msgid "Gabrielle"
-msgstr "<name>Gabrielle"
+msgstr "Gabrielle"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:230
 #, fuzzy
 msgctxt "Family Name"
 msgid "Garcia"
-msgstr "<name>Garcia"
+msgstr "Garcia"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:232
 #, fuzzy
 msgctxt "Given Name"
 msgid "Gavin"
-msgstr "<name>Gavin"
+msgstr "Gavin"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:234
@@ -34377,42 +34377,42 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Genesis"
-msgstr "<name>Genesis"
+msgstr "Genesis"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:238
 #, fuzzy
 msgctxt "Given Name"
 msgid "Gianna"
-msgstr "<name>Gianna"
+msgstr "Gianna"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:240
 #, fuzzy
 msgctxt "Family Name"
 msgid "Gonzales"
-msgstr "<name>Gonzales"
+msgstr "Gonzales"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:242
 #, fuzzy
 msgctxt "Family Name"
 msgid "Gonzalez"
-msgstr "<name>Gonzalez"
+msgstr "Gonzalez"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:244
 #, fuzzy
 msgctxt "Given Name"
 msgid "Grace"
-msgstr "<name>Grace"
+msgstr "Grace"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:246
 #, fuzzy
 msgctxt "Given Name"
 msgid "Gracie"
-msgstr "<name>Gracie"
+msgstr "Gracie"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:248
@@ -34425,21 +34425,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Green"
-msgstr "<name>Green"
+msgstr "Green"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:252
 #, fuzzy
 msgctxt "Family Name"
 msgid "Griffin"
-msgstr "<name>Griffin"
+msgstr "Griffin"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:254
 #, fuzzy
 msgctxt "Given Name"
 msgid "Hailey"
-msgstr "<name>Hailey"
+msgstr "Hailey"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:256
@@ -34452,7 +34452,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Hannah"
-msgstr "<name>Hannah"
+msgstr "Hannah"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:260
@@ -34466,14 +34466,14 @@ msgstr "Les guerriers"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Hayden"
-msgstr "<name>Hayden"
+msgstr "Hayden"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:264
 #, fuzzy
 msgctxt "Family Name"
 msgid "Hayes"
-msgstr "<name>Hayes"
+msgstr "Hayes"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:266
@@ -34487,21 +34487,21 @@ msgstr "autres"
 #, fuzzy
 msgctxt "Family Name"
 msgid "Henderson"
-msgstr "<name>Henderson"
+msgstr "Henderson"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:270
 #, fuzzy
 msgctxt "Given Name"
 msgid "Henry"
-msgstr "<name>Henry"
+msgstr "Henry"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:272
 #, fuzzy
 msgctxt "Family Name"
 msgid "Hernandez"
-msgstr "<name>Hernandez"
+msgstr "Hernandez"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:274
@@ -34520,14 +34520,14 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Howard"
-msgstr "<name>Howard"
+msgstr "Howard"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:280
 #, fuzzy
 msgctxt "Family Name"
 msgid "Hughes"
-msgstr "<name>Hughes"
+msgstr "Hughes"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:282
@@ -34548,35 +34548,35 @@ msgstr "Interieur"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Isaac"
-msgstr "<name>Isaac"
+msgstr "Isaac"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:288
 #, fuzzy
 msgctxt "Given Name"
 msgid "Isabel"
-msgstr "<name>Isabel"
+msgstr "Isabel"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:290
 #, fuzzy
 msgctxt "Given Name"
 msgid "Isabella"
-msgstr "<name>Isabella"
+msgstr "Isabella"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:292
 #, fuzzy
 msgctxt "Given Name"
 msgid "Isabelle"
-msgstr "<name>Isabelle"
+msgstr "Isabelle"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:294
 #, fuzzy
 msgctxt "Given Name"
 msgid "Isaiah"
-msgstr "<name>Isaiah"
+msgstr "Isaiah"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:296
@@ -34589,42 +34589,42 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jackson"
-msgstr "<name>Jackson"
+msgstr "Jackson"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:300
 #, fuzzy
 msgctxt "Family Name"
 msgid "Jackson"
-msgstr "<name>Jackson"
+msgstr "Jackson"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:302
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jacob"
-msgstr "<name>Jacob"
+msgstr "Jacob"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:304
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jaden"
-msgstr "<name>Jaden"
+msgstr "Jaden"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:306
 #, fuzzy
 msgctxt "Given Name"
 msgid "James"
-msgstr "<name>James"
+msgstr "James"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:308
 #, fuzzy
 msgctxt "Family Name"
 msgid "James"
-msgstr "<name>James"
+msgstr "James"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:310
@@ -34638,14 +34638,14 @@ msgstr "Examiner"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jason"
-msgstr "<name>Jason"
+msgstr "Jason"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:314
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jayden"
-msgstr "<name>Jayden"
+msgstr "Jayden"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:316
@@ -34659,49 +34659,49 @@ msgstr "Hommes"
 #, fuzzy
 msgctxt "Family Name"
 msgid "Jenkins"
-msgstr "<name>Jenkins"
+msgstr "Jenkins"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:320
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jennifer"
-msgstr "<name>Jennifer"
+msgstr "Jennifer"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:322
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jeremiah"
-msgstr "<name>Jeremiah"
+msgstr "Jeremiah"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:324
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jessica"
-msgstr "<name>Jessica"
+msgstr "Jessica"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:326
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jessie"
-msgstr "<name>Jessie"
+msgstr "Jessie"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:328
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jesus"
-msgstr "<name>Jesus"
+msgstr "Jesus"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:330
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jocelyn"
-msgstr "<name>Jocelyn"
+msgstr "Jocelyn"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:332
@@ -34714,28 +34714,28 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Johnson"
-msgstr "<name>Johnson"
+msgstr "Johnson"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:336
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jonathan"
-msgstr "<name>Jonathan"
+msgstr "Jonathan"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:338
 #, fuzzy
 msgctxt "Family Name"
 msgid "Jones"
-msgstr "<name>Jones"
+msgstr "Jones"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:340
 #, fuzzy
 msgctxt "Given Name"
 msgid "Jordan"
-msgstr "<name>Jordan"
+msgstr "Jordan"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:342
@@ -34748,21 +34748,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Joseph"
-msgstr "<name>Joseph"
+msgstr "Joseph"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:346
 #, fuzzy
 msgctxt "Given Name"
 msgid "Joshua"
-msgstr "<name>Joshua"
+msgstr "Joshua"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:348
 #, fuzzy
 msgctxt "Given Name"
 msgid "Josiah"
-msgstr "<name>Josiah"
+msgstr "Josiah"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:350
@@ -34775,28 +34775,28 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Julia"
-msgstr "<name>Julia"
+msgstr "Julia"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:354
 #, fuzzy
 msgctxt "Given Name"
 msgid "Julian"
-msgstr "<name>Julian"
+msgstr "Julian"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:356
 #, fuzzy
 msgctxt "Given Name"
 msgid "Justin"
-msgstr "<name>Justin"
+msgstr "Justin"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:358
 #, fuzzy
 msgctxt "Given Name"
 msgid "Kaden"
-msgstr "<name>Kaden"
+msgstr "Kaden"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:360
@@ -34809,35 +34809,35 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Kaitlin"
-msgstr "<name>Kaitlin"
+msgstr "Kaitlin"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:364
 #, fuzzy
 msgctxt "Given Name"
 msgid "Katelyn"
-msgstr "<name>Katelyn"
+msgstr "Katelyn"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:366
 #, fuzzy
 msgctxt "Given Name"
 msgid "Katie"
-msgstr "<name>Katie"
+msgstr "Katie"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:368
 #, fuzzy
 msgctxt "Given Name"
 msgid "Kayla"
-msgstr "<name>Kayla"
+msgstr "Kayla"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:370
 #, fuzzy
 msgctxt "Given Name"
 msgid "Kaylee"
-msgstr "<name>Kaylee"
+msgstr "Kaylee"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:372
@@ -34857,7 +34857,7 @@ msgstr "gelée"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Kevin"
-msgstr "<name>Kevin"
+msgstr "Kevin"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:378
@@ -34871,7 +34871,7 @@ msgstr "Royaume"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Kimberly"
-msgstr "<name>Kimberly"
+msgstr "Kimberly"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:382
@@ -34897,7 +34897,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Kylie"
-msgstr "<name>Kylie"
+msgstr "Kylie"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:390
@@ -34910,21 +34910,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Landon"
-msgstr "<name>Landon"
+msgstr "Landon"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:394
 #, fuzzy
 msgctxt "Given Name"
 msgid "Lauren"
-msgstr "<name>Lauren"
+msgstr "Lauren"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:396
 #, fuzzy
 msgctxt "Given Name"
 msgid "Layla"
-msgstr "<name>Layla"
+msgstr "Layla"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:398
@@ -34943,7 +34943,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Lewis"
-msgstr "<name>Lewis"
+msgstr "Lewis"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:404
@@ -34956,7 +34956,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Lillian"
-msgstr "<name>Lillian"
+msgstr "Lillian"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:408
@@ -34969,7 +34969,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Logan"
-msgstr "<name>Logan"
+msgstr "Logan"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:412
@@ -34982,14 +34982,14 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Lopez"
-msgstr "<name>Lopez"
+msgstr "Lopez"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:416
 #, fuzzy
 msgctxt "Given Name"
 msgid "Lucas"
-msgstr "<name>Lucas"
+msgstr "Lucas"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:418
@@ -35008,28 +35008,28 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Madeline"
-msgstr "<name>Madeline"
+msgstr "Madeline"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:424
 #, fuzzy
 msgctxt "Given Name"
 msgid "Madelyn"
-msgstr "<name>Madelyn"
+msgstr "Madelyn"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:426
 #, fuzzy
 msgctxt "Given Name"
 msgid "Madison"
-msgstr "<name>Madison"
+msgstr "Madison"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:428
 #, fuzzy
 msgctxt "Given Name"
 msgid "Makayla"
-msgstr "<name>Makayla"
+msgstr "Makayla"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:430
@@ -35050,14 +35050,14 @@ msgstr "Paria"
 #, fuzzy
 msgctxt "Family Name"
 msgid "Martin"
-msgstr "<name>Martin"
+msgstr "Martin"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:436
 #, fuzzy
 msgctxt "Family Name"
 msgid "Martinez"
-msgstr "<name>Martinez"
+msgstr "Martinez"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:438
@@ -35070,14 +35070,14 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Mason"
-msgstr "<name>Mason"
+msgstr "Mason"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:442
 #, fuzzy
 msgctxt "Given Name"
 msgid "Matthew"
-msgstr "<name>Matthew"
+msgstr "Matthew"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:444
@@ -35090,14 +35090,14 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Megan"
-msgstr "<name>Megan"
+msgstr "Megan"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:448
 #, fuzzy
 msgctxt "Given Name"
 msgid "Melanie"
-msgstr "<name>Melanie"
+msgstr "Melanie"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:450
@@ -35111,7 +35111,7 @@ msgstr "Mafia"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Michael"
-msgstr "<name>Michael"
+msgstr "Michael"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:454
@@ -35125,42 +35125,42 @@ msgstr "Les Tueurs"
 #, fuzzy
 msgctxt "Family Name"
 msgid "Mitchell"
-msgstr "<name>Mitchell"
+msgstr "Mitchell"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:458
 #, fuzzy
 msgctxt "Family Name"
 msgid "Moore"
-msgstr "<name>Moore"
+msgstr "Moore"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:460
 #, fuzzy
 msgctxt "Given Name"
 msgid "Morgan"
-msgstr "<name>Morgan"
+msgstr "Morgan"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:462
 #, fuzzy
 msgctxt "Family Name"
 msgid "Morgan"
-msgstr "<name>Morgan"
+msgstr "Morgan"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:464
 #, fuzzy
 msgctxt "Family Name"
 msgid "Morris"
-msgstr "<name>Morris"
+msgstr "Morris"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:466
 #, fuzzy
 msgctxt "Family Name"
 msgid "Murphy"
-msgstr "<name>Murphy"
+msgstr "Murphy"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:468
@@ -35173,21 +35173,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Natalie"
-msgstr "<name>Natalie"
+msgstr "Natalie"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:472
 #, fuzzy
 msgctxt "Given Name"
 msgid "Nathan"
-msgstr "<name>Nathan"
+msgstr "Nathan"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:474
 #, fuzzy
 msgctxt "Given Name"
 msgid "Nathaniel"
-msgstr "<name>Nathaniel"
+msgstr "Nathaniel"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:476
@@ -35200,21 +35200,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Nelson"
-msgstr "<name>Nelson"
+msgstr "Nelson"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:480
 #, fuzzy
 msgctxt "Given Name"
 msgid "Nevaeh"
-msgstr "<name>Nevaeh"
+msgstr "Nevaeh"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:482
 #, fuzzy
 msgctxt "Given Name"
 msgid "Nicholas"
-msgstr "<name>Nicholas"
+msgstr "Nicholas"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:484
@@ -35233,7 +35233,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Olivia"
-msgstr "<name>Olivia"
+msgstr "Olivia"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:490
@@ -35246,56 +35246,56 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Paige"
-msgstr "<name>Paige"
+msgstr "Paige"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:494
 #, fuzzy
 msgctxt "Family Name"
 msgid "Parker"
-msgstr "<name>Parker"
+msgstr "Parker"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:496
 #, fuzzy
 msgctxt "Family Name"
 msgid "Patterson"
-msgstr "<name>Patterson"
+msgstr "Patterson"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:498
 #, fuzzy
 msgctxt "Given Name"
 msgid "Payton"
-msgstr "<name>Payton"
+msgstr "Payton"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:500
 #, fuzzy
 msgctxt "Family Name"
 msgid "Perez"
-msgstr "<name>Perez"
+msgstr "Perez"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:502
 #, fuzzy
 msgctxt "Family Name"
 msgid "Perry"
-msgstr "<name>Perry"
+msgstr "Perry"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:504
 #, fuzzy
 msgctxt "Family Name"
 msgid "Peterson"
-msgstr "<name>Peterson"
+msgstr "Peterson"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:506
 #, fuzzy
 msgctxt "Family Name"
 msgid "Phillips"
-msgstr "<name>Phillips"
+msgstr "Phillips"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:508
@@ -35309,21 +35309,21 @@ msgstr "serviette"
 #, fuzzy
 msgctxt "Family Name"
 msgid "Price"
-msgstr "<name>Price"
+msgstr "Price"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:512
 #, fuzzy
 msgctxt "Given Name"
 msgid "Rachel"
-msgstr "<name>Rachel"
+msgstr "Rachel"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:514
 #, fuzzy
 msgctxt "Family Name"
 msgid "Ramirez"
-msgstr "<name>Ramirez"
+msgstr "Ramirez"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:516
@@ -35336,21 +35336,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Richardson"
-msgstr "<name>Richardson"
+msgstr "Richardson"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:520
 #, fuzzy
 msgctxt "Given Name"
 msgid "Riley"
-msgstr "<name>Riley"
+msgstr "Riley"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:522
 #, fuzzy
 msgctxt "Family Name"
 msgid "Rivera"
-msgstr "<name>Rivera"
+msgstr "Rivera"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:524
@@ -35371,21 +35371,21 @@ msgstr "Cape"
 #, fuzzy
 msgctxt "Family Name"
 msgid "Robinson"
-msgstr "<name>Robinson"
+msgstr "Robinson"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:530
 #, fuzzy
 msgctxt "Family Name"
 msgid "Rodriguez"
-msgstr "<name>Rodriguez"
+msgstr "Rodriguez"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:532
 #, fuzzy
 msgctxt "Family Name"
 msgid "Rogers"
-msgstr "<name>Rogers"
+msgstr "Rogers"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:534
@@ -35398,7 +35398,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Russell"
-msgstr "<name>Russell"
+msgstr "Russell"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:538
@@ -35411,28 +35411,28 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Sabastian"
-msgstr "<name>Sabastian"
+msgstr "Sabastian"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:542
 #, fuzzy
 msgctxt "Given Name"
 msgid "Samantha"
-msgstr "<name>Samantha"
+msgstr "Samantha"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:544
 #, fuzzy
 msgctxt "Given Name"
 msgid "Samuel"
-msgstr "<name>Samuel"
+msgstr "Samuel"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:546
 #, fuzzy
 msgctxt "Family Name"
 msgid "Sanchez"
-msgstr "<name>Sanchez"
+msgstr "Sanchez"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:548
@@ -35452,21 +35452,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Sarah"
-msgstr "<name>Sarah"
+msgstr "Sarah"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:554
 #, fuzzy
 msgctxt "Given Name"
 msgid "Savannah"
-msgstr "<name>Savannah"
+msgstr "Savannah"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:556
 #, fuzzy
 msgctxt "Family Name"
 msgid "Scott"
-msgstr "<name>Scott"
+msgstr "Scott"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:558
@@ -35479,42 +35479,42 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Simmons"
-msgstr "<name>Simmons"
+msgstr "Simmons"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:562
 #, fuzzy
 msgctxt "Family Name"
 msgid "Smith"
-msgstr "<name>Smith"
+msgstr "Smith"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:564
 #, fuzzy
 msgctxt "Given Name"
 msgid "Sofia"
-msgstr "<name>Sofia"
+msgstr "Sofia"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:566
 #, fuzzy
 msgctxt "Given Name"
 msgid "Sophie"
-msgstr "<name>Sophie"
+msgstr "Sophie"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:568
 #, fuzzy
 msgctxt "Family Name"
 msgid "Stewart"
-msgstr "<name>Stewart"
+msgstr "Stewart"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:570
 #, fuzzy
 msgctxt "Given Name"
 msgid "Sydney"
-msgstr "<name>Sydney"
+msgstr "Sydney"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:572
@@ -35527,70 +35527,70 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Taylor"
-msgstr "<name>Taylor"
+msgstr "Taylor"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:576
 #, fuzzy
 msgctxt "Given Name"
 msgid "Thomas"
-msgstr "<name>Thomas"
+msgstr "Thomas"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:578
 #, fuzzy
 msgctxt "Family Name"
 msgid "Thomas"
-msgstr "<name>Thomas"
+msgstr "Thomas"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:580
 #, fuzzy
 msgctxt "Family Name"
 msgid "Thompson"
-msgstr "<name>Thompson"
+msgstr "Thompson"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:582
 #, fuzzy
 msgctxt "Family Name"
 msgid "Torres"
-msgstr "<name>Torres"
+msgstr "Torres"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:584
 #, fuzzy
 msgctxt "Given Name"
 msgid "Trinity"
-msgstr "<name>Trinity"
+msgstr "Trinity"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:586
 #, fuzzy
 msgctxt "Given Name"
 msgid "Tristan"
-msgstr "<name>Tristan"
+msgstr "Tristan"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:588
 #, fuzzy
 msgctxt "Family Name"
 msgid "Turner"
-msgstr "<name>Turner"
+msgstr "Turner"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:590
 #, fuzzy
 msgctxt "Given Name"
 msgid "Tyler"
-msgstr "<name>Tyler"
+msgstr "Tyler"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:592
 #, fuzzy
 msgctxt "Given Name"
 msgid "Valeria"
-msgstr "<name>Valeria"
+msgstr "Valeria"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:594
@@ -35603,21 +35603,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Vanessa"
-msgstr "<name>Vanessa"
+msgstr "Vanessa"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:598
 #, fuzzy
 msgctxt "Given Name"
 msgid "Victoria"
-msgstr "<name>Victoria"
+msgstr "Victoria"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:600
 #, fuzzy
 msgctxt "Family Name"
 msgid "Walker"
-msgstr "<name>Walker"
+msgstr "Walker"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:602
@@ -35630,21 +35630,21 @@ msgstr ""
 #, fuzzy
 msgctxt "Family Name"
 msgid "Washington"
-msgstr "<name>Washington"
+msgstr "Washington"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:606
 #, fuzzy
 msgctxt "Family Name"
 msgid "Watson"
-msgstr "<name>Watson"
+msgstr "Watson"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:608
 #, fuzzy
 msgctxt "Family Name"
 msgid "White"
-msgstr "<name>White"
+msgstr "White"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:610
@@ -35658,21 +35658,21 @@ msgstr "Ouest"
 #, fuzzy
 msgctxt "Given Name"
 msgid "William"
-msgstr "<name>William"
+msgstr "William"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:614
 #, fuzzy
 msgctxt "Family Name"
 msgid "Williams"
-msgstr "<name>Williams"
+msgstr "Williams"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:616
 #, fuzzy
 msgctxt "Family Name"
 msgid "Wilson"
-msgstr "<name>Wilson"
+msgstr "Wilson"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:618
@@ -35693,21 +35693,21 @@ msgstr "Lumineux"
 #, fuzzy
 msgctxt "Given Name"
 msgid "Wyatt"
-msgstr "<name>Wyatt"
+msgstr "Wyatt"
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py:624
 #, fuzzy
 msgctxt "Given Name"
 msgid "Xavier"
-msgstr "<name>Xavier"
+msgstr "Xavier"
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py:626
 #, fuzzy
 msgctxt "Family Name"
 msgid "Young"
-msgstr "<name>Young"
+msgstr "Young"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:628
@@ -35720,7 +35720,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Given Name"
 msgid "Zachary"
-msgstr "<name>Zachary"
+msgstr "Zachary"
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py:632
@@ -35776,7 +35776,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Trianna"
-msgstr "<name>Arianna"
+msgstr "Arianna"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:650
@@ -35934,7 +35934,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Nathaniel Ford"
-msgstr "<name>Nathaniel"
+msgstr "Nathaniel"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:702
@@ -36164,7 +36164,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Reno Parker"
-msgstr "<name>Parker"
+msgstr "Parker"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:778
@@ -36280,7 +36280,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Steven Peterson"
-msgstr "<name>Peterson"
+msgstr "Peterson"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:816
@@ -36347,7 +36347,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Christopher Fallins"
-msgstr "<name>Christopher"
+msgstr "Christopher"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:838
@@ -36480,7 +36480,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Charlotte Hall"
-msgstr "<name>Charlotte"
+msgstr "Charlotte"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:882
@@ -36554,7 +36554,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Matt Williams"
-msgstr "<name>Williams"
+msgstr "Williams"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:906
@@ -36567,7 +36567,7 @@ msgstr ""
 #, fuzzy
 msgctxt "Full Name"
 msgid "Alexander Weeks"
-msgstr "<name>Alexander"
+msgstr "Alexander"
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py:910
@@ -36580,119 +36580,119 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Abbot"
-msgstr "<name>Abbot"
+msgstr "Abbot"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:914
 #, fuzzy
 msgctxt "City Name"
 msgid "Abington"
-msgstr "<name>Abington"
+msgstr "Abington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:916
 #, fuzzy
 msgctxt "City Name"
 msgid "Acton"
-msgstr "<name>Acton"
+msgstr "Acton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:918
 #, fuzzy
 msgctxt "City Name"
 msgid "Acushnet"
-msgstr "<name>Acushnet"
+msgstr "Acushnet"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:920
 #, fuzzy
 msgctxt "City Name"
 msgid "Acworth"
-msgstr "<name>Acworth"
+msgstr "Acworth"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:922
 #, fuzzy
 msgctxt "City Name"
 msgid "Adams"
-msgstr "<name>Adams"
+msgstr "Adams"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:924
 #, fuzzy
 msgctxt "City Name"
 msgid "Addison"
-msgstr "<name>Addison"
+msgstr "Addison"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:926
 #, fuzzy
 msgctxt "City Name"
 msgid "Agawam"
-msgstr "<name>Agawam"
+msgstr "Agawam"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:928
 #, fuzzy
 msgctxt "City Name"
 msgid "Albany"
-msgstr "<name>Albany"
+msgstr "Albany"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:930
 #, fuzzy
 msgctxt "City Name"
 msgid "Albion"
-msgstr "<name>Albion"
+msgstr "Albion"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:932
 #, fuzzy
 msgctxt "City Name"
 msgid "Alburg"
-msgstr "<name>Alburg"
+msgstr "Alburg"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:934
 #, fuzzy
 msgctxt "City Name"
 msgid "Alexander"
-msgstr "<name>Alexander"
+msgstr "Alexander"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:936
 #, fuzzy
 msgctxt "City Name"
 msgid "Alexandria"
-msgstr "<name>Alexandria"
+msgstr "Alexandria"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:938
 #, fuzzy
 msgctxt "City Name"
 msgid "Alford"
-msgstr "<name>Alford"
+msgstr "Alford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:940
 #, fuzzy
 msgctxt "City Name"
 msgid "Alfred"
-msgstr "<name>Alfred"
+msgstr "Alfred"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:942
 #, fuzzy
 msgctxt "City Name"
 msgid "Allagash"
-msgstr "<name>Allagash"
+msgstr "Allagash"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:944
 #, fuzzy
 msgctxt "City Name"
 msgid "Allenstown"
-msgstr "<name>Allenstown"
+msgstr "Allenstown"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:946
@@ -36705,189 +36705,189 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Alstead"
-msgstr "<name>Alstead"
+msgstr "Alstead"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:950
 #, fuzzy
 msgctxt "City Name"
 msgid "Alton"
-msgstr "<name>Alton"
+msgstr "Alton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:952
 #, fuzzy
 msgctxt "City Name"
 msgid "Amesbury"
-msgstr "<name>Amesbury"
+msgstr "Amesbury"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:954
 #, fuzzy
 msgctxt "City Name"
 msgid "Amherst"
-msgstr "<name>Amherst"
+msgstr "Amherst"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:956
 #, fuzzy
 msgctxt "City Name"
 msgid "Amity"
-msgstr "<name>Amity"
+msgstr "Amity"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:958
 #, fuzzy
 msgctxt "City Name"
 msgid "Andover"
-msgstr "<name>Andover"
+msgstr "Andover"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:960
 #, fuzzy
 msgctxt "City Name"
 msgid "Anson"
-msgstr "<name>Anson"
+msgstr "Anson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:962
 #, fuzzy
 msgctxt "City Name"
 msgid "Ansonia"
-msgstr "<name>Ansonia"
+msgstr "Ansonia"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:964
 #, fuzzy
 msgctxt "City Name"
 msgid "Antrim"
-msgstr "<name>Antrim"
+msgstr "Antrim"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:966
 #, fuzzy
 msgctxt "City Name"
 msgid "Appleton"
-msgstr "<name>Appleton"
+msgstr "Appleton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:968
 #, fuzzy
 msgctxt "City Name"
 msgid "Aquinnah"
-msgstr "<name>Aquinnah"
+msgstr "Aquinnah"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:970
 #, fuzzy
 msgctxt "City Name"
 msgid "Argyle"
-msgstr "<name>Argyle"
+msgstr "Argyle"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:972
 #, fuzzy
 msgctxt "City Name"
 msgid "Arlington"
-msgstr "<name>Arlington"
+msgstr "Arlington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:974
 #, fuzzy
 msgctxt "City Name"
 msgid "Arrowsic"
-msgstr "<name>Arrowsic"
+msgstr "Arrowsic"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:976
 #, fuzzy
 msgctxt "City Name"
 msgid "Arundel"
-msgstr "<name>Arundel"
+msgstr "Arundel"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:978
 #, fuzzy
 msgctxt "City Name"
 msgid "Ashburnham"
-msgstr "<name>Ashburnham"
+msgstr "Ashburnham"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:980
 #, fuzzy
 msgctxt "City Name"
 msgid "Ashby"
-msgstr "<name>Ashby"
+msgstr "Ashby"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:982
 #, fuzzy
 msgctxt "City Name"
 msgid "Ashfield"
-msgstr "<name>Ashfield"
+msgstr "Ashfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:984
 #, fuzzy
 msgctxt "City Name"
 msgid "Ashford"
-msgstr "<name>Ashford"
+msgstr "Ashford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:986
 #, fuzzy
 msgctxt "City Name"
 msgid "Ashland"
-msgstr "<name>Ashland"
+msgstr "Ashland"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:988
 #, fuzzy
 msgctxt "City Name"
 msgid "Athens"
-msgstr "<name>Athens"
+msgstr "Athens"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:990
 #, fuzzy
 msgctxt "City Name"
 msgid "Athol"
-msgstr "<name>Athol<name>Athol"
+msgstr "AtholAthol"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:992
 #, fuzzy
 msgctxt "City Name"
 msgid "Atkinson"
-msgstr "<name>Atkinson"
+msgstr "Atkinson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:994
 #, fuzzy
 msgctxt "City Name"
 msgid "Attleboro"
-msgstr "<name>Attleboro"
+msgstr "Attleboro"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:996
 #, fuzzy
 msgctxt "City Name"
 msgid "Auburn"
-msgstr "<name>Auburn"
+msgstr "Auburn"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:998
 #, fuzzy
 msgctxt "City Name"
 msgid "Augusta"
-msgstr "<name>Augusta"
+msgstr "Augusta"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1000
 #, fuzzy
 msgctxt "City Name"
 msgid "Aurora"
-msgstr "<name>Aurora"
+msgstr "Aurora"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1002
@@ -36906,119 +36906,119 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Baileyville"
-msgstr "<name>Baileyville"
+msgstr "Baileyville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1008
 #, fuzzy
 msgctxt "City Name"
 msgid "Bakersfield"
-msgstr "<name>Bakersfield"
+msgstr "Bakersfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1010
 #, fuzzy
 msgctxt "City Name"
 msgid "Baldwin"
-msgstr "<name>Baldwin"
+msgstr "Baldwin"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1012
 #, fuzzy
 msgctxt "City Name"
 msgid "Baltimore"
-msgstr "<name>Baltimore"
+msgstr "Baltimore"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1014
 #, fuzzy
 msgctxt "City Name"
 msgid "Bancroft"
-msgstr "<name>Bancroft"
+msgstr "Bancroft"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1016
 #, fuzzy
 msgctxt "City Name"
 msgid "Bangor"
-msgstr "<name>Bangor"
+msgstr "Bangor"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1018
 #, fuzzy
 msgctxt "City Name"
 msgid "Bar Harbor"
-msgstr "<name>Bar Harbor"
+msgstr "Bar Harbor"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1020
 #, fuzzy
 msgctxt "City Name"
 msgid "Baring Plantation"
-msgstr "<name>Baring Plantation"
+msgstr "Baring Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1022
 #, fuzzy
 msgctxt "City Name"
 msgid "Barkhamsted"
-msgstr "<name>Barkhamsted"
+msgstr "Barkhamsted"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1024
 #, fuzzy
 msgctxt "City Name"
 msgid "Barnard"
-msgstr "<name>Barnard"
+msgstr "Barnard"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1026
 #, fuzzy
 msgctxt "City Name"
 msgid "Barnet"
-msgstr "<name>Barnet"
+msgstr "Barnet"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1028
 #, fuzzy
 msgctxt "City Name"
 msgid "Barnstable"
-msgstr "<name>Barnstable"
+msgstr "Barnstable"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1030
 #, fuzzy
 msgctxt "City Name"
 msgid "Barnstead"
-msgstr "<name>Barnstead"
+msgstr "Barnstead"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1032
 #, fuzzy
 msgctxt "City Name"
 msgid "Barre"
-msgstr "<name>Barre"
+msgstr "Barre"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1034
 #, fuzzy
 msgctxt "City Name"
 msgid "Barrington"
-msgstr "<name>Barrington"
+msgstr "Barrington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1036
 #, fuzzy
 msgctxt "City Name"
 msgid "Bartlett"
-msgstr "<name>Bartlett"
+msgstr "Bartlett"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1038
 #, fuzzy
 msgctxt "City Name"
 msgid "Barton"
-msgstr "<name>Barton"
+msgstr "Barton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1040
@@ -37031,280 +37031,280 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Beacon Falls"
-msgstr "<name>Beacon Falls"
+msgstr "Beacon Falls"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1044
 #, fuzzy
 msgctxt "City Name"
 msgid "Beals"
-msgstr "<name>Beals"
+msgstr "Beals"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1046
 #, fuzzy
 msgctxt "City Name"
 msgid "Beaver Cove"
-msgstr "<name>Beaver Cove"
+msgstr "Beaver Cove"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1048
 #, fuzzy
 msgctxt "City Name"
 msgid "Becket"
-msgstr "<name>Becket"
+msgstr "Becket"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1050
 #, fuzzy
 msgctxt "City Name"
 msgid "Beddington"
-msgstr "<name>Beddington"
+msgstr "Beddington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1052
 #, fuzzy
 msgctxt "City Name"
 msgid "Bedford"
-msgstr "<name>Bedford"
+msgstr "Bedford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1054
 #, fuzzy
 msgctxt "City Name"
 msgid "Belchertown"
-msgstr "<name>Belchertown"
+msgstr "Belchertown"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1056
 #, fuzzy
 msgctxt "City Name"
 msgid "Belfast"
-msgstr "<name>Belfast"
+msgstr "Belfast"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1058
 #, fuzzy
 msgctxt "City Name"
 msgid "Belgrade"
-msgstr "<name>Belgrade"
+msgstr "Belgrade"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1060
 #, fuzzy
 msgctxt "City Name"
 msgid "Bellingham"
-msgstr "<name>Bellingham"
+msgstr "Bellingham"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1062
 #, fuzzy
 msgctxt "City Name"
 msgid "Belmont"
-msgstr "<name>Belmont"
+msgstr "Belmont"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1064
 #, fuzzy
 msgctxt "City Name"
 msgid "Belvidere"
-msgstr "<name>Belvidere"
+msgstr "Belvidere"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1066
 #, fuzzy
 msgctxt "City Name"
 msgid "Benedicta"
-msgstr "<name>Benedicta"
+msgstr "Benedicta"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1068
 #, fuzzy
 msgctxt "City Name"
 msgid "Bennington"
-msgstr "<name>Bennington"
+msgstr "Bennington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1070
 #, fuzzy
 msgctxt "City Name"
 msgid "Benson"
-msgstr "<name>Benson"
+msgstr "Benson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1072
 #, fuzzy
 msgctxt "City Name"
 msgid "Benton"
-msgstr "<name>Benton"
+msgstr "Benton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1074
 #, fuzzy
 msgctxt "City Name"
 msgid "Berkley"
-msgstr "<name>Berkley"
+msgstr "Berkley"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1076
 #, fuzzy
 msgctxt "City Name"
 msgid "Berkshire"
-msgstr "<name>Berkshire"
+msgstr "Berkshire"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1078
 #, fuzzy
 msgctxt "City Name"
 msgid "Berlin"
-msgstr "<name>Berlin"
+msgstr "Berlin"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1080
 #, fuzzy
 msgctxt "City Name"
 msgid "Bernardston"
-msgstr "<name>Bernardston"
+msgstr "Bernardston"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1082
 #, fuzzy
 msgctxt "City Name"
 msgid "Berwick"
-msgstr "<name>Berwick"
+msgstr "Berwick"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1084
 #, fuzzy
 msgctxt "City Name"
 msgid "Bethany"
-msgstr "<name>Bethany"
+msgstr "Bethany"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1086
 #, fuzzy
 msgctxt "City Name"
 msgid "Bethel"
-msgstr "<name>Bethel"
+msgstr "Bethel"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1088
 #, fuzzy
 msgctxt "City Name"
 msgid "Bethlehem"
-msgstr "<name>Bethlehem"
+msgstr "Bethlehem"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1090
 #, fuzzy
 msgctxt "City Name"
 msgid "Beverly"
-msgstr "<name>Beverly"
+msgstr "Beverly"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1092
 #, fuzzy
 msgctxt "City Name"
 msgid "Biddeford"
-msgstr "<name>Biddeford"
+msgstr "Biddeford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1094
 #, fuzzy
 msgctxt "City Name"
 msgid "Billerica"
-msgstr "<name>Billerica"
+msgstr "Billerica"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1096
 #, fuzzy
 msgctxt "City Name"
 msgid "Bingham"
-msgstr "<name>Bingham"
+msgstr "Bingham"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1098
 #, fuzzy
 msgctxt "City Name"
 msgid "Blackstone"
-msgstr "<name>Blackstone"
+msgstr "Blackstone"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1100
 #, fuzzy
 msgctxt "City Name"
 msgid "Blaine"
-msgstr "<name>Blaine"
+msgstr "Blaine"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1102
 #, fuzzy
 msgctxt "City Name"
 msgid "Blanchard"
-msgstr "<name>Blanchard"
+msgstr "Blanchard"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1104
 #, fuzzy
 msgctxt "City Name"
 msgid "Blandford"
-msgstr "<name>Blandford"
+msgstr "Blandford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1106
 #, fuzzy
 msgctxt "City Name"
 msgid "Bloomfield"
-msgstr "<name>Bloomfield"
+msgstr "Bloomfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1108
 #, fuzzy
 msgctxt "City Name"
 msgid "Blue Hill"
-msgstr "<name>Blue Hill"
+msgstr "Blue Hill"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1110
 #, fuzzy
 msgctxt "City Name"
 msgid "Bolton"
-msgstr "<name>Bolton"
+msgstr "Bolton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1112
 #, fuzzy
 msgctxt "City Name"
 msgid "Boothbay"
-msgstr "<name>Boothbay"
+msgstr "Boothbay"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1114
 #, fuzzy
 msgctxt "City Name"
 msgid "Boothbay Harbor"
-msgstr "<name>Boothbay Harbor"
+msgstr "Boothbay Harbor"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1116
 #, fuzzy
 msgctxt "City Name"
 msgid "Boscawen"
-msgstr "<name>Boscawen"
+msgstr "Boscawen"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1118
 #, fuzzy
 msgctxt "City Name"
 msgid "Boston"
-msgstr "<name>Boston"
+msgstr "Boston"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1120
 #, fuzzy
 msgctxt "City Name"
 msgid "Bourne"
-msgstr "<name>Bourne"
+msgstr "Bourne"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1122
@@ -37317,147 +37317,147 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Bowdoin"
-msgstr "<name>Bowdoin"
+msgstr "Bowdoin"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1126
 #, fuzzy
 msgctxt "City Name"
 msgid "Bowdoinham"
-msgstr "<name>Bowdoinham"
+msgstr "Bowdoinham"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1128
 #, fuzzy
 msgctxt "City Name"
 msgid "Bowerbank"
-msgstr "<name>Bowerbank"
+msgstr "Bowerbank"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1130
 #, fuzzy
 msgctxt "City Name"
 msgid "Boxborough"
-msgstr "<name>Boxborough"
+msgstr "Boxborough"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1132
 #, fuzzy
 msgctxt "City Name"
 msgid "Boxford"
-msgstr "<name>Boxford"
+msgstr "Boxford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1134
 #, fuzzy
 msgctxt "City Name"
 msgid "Boylston"
-msgstr "<name>Boylston"
+msgstr "Boylston"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1136
 #, fuzzy
 msgctxt "City Name"
 msgid "Bozrah"
-msgstr "<name>Bozrah"
+msgstr "Bozrah"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1138
 #, fuzzy
 msgctxt "City Name"
 msgid "Bradford"
-msgstr "<name>Bradford"
+msgstr "Bradford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1140
 #, fuzzy
 msgctxt "City Name"
 msgid "Bradley"
-msgstr "<name>Bradley"
+msgstr "Bradley"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1142
 #, fuzzy
 msgctxt "City Name"
 msgid "Braintree"
-msgstr "<name>Braintree"
+msgstr "Braintree"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1144
 #, fuzzy
 msgctxt "City Name"
 msgid "Brandon"
-msgstr "<name>Brandon"
+msgstr "Brandon"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1146
 #, fuzzy
 msgctxt "City Name"
 msgid "Branford"
-msgstr "<name>Branford"
+msgstr "Branford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1148
 #, fuzzy
 msgctxt "City Name"
 msgid "Brattleboro"
-msgstr "<name>Brattleboro"
+msgstr "Brattleboro"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1150
 #, fuzzy
 msgctxt "City Name"
 msgid "Bremen"
-msgstr "<name>Bremen"
+msgstr "Bremen"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1152
 #, fuzzy
 msgctxt "City Name"
 msgid "Brentwood"
-msgstr "<name>Brentwood"
+msgstr "Brentwood"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1154
 #, fuzzy
 msgctxt "City Name"
 msgid "Brewer"
-msgstr "<name>Brewer"
+msgstr "Brewer"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1156
 #, fuzzy
 msgctxt "City Name"
 msgid "Brewster"
-msgstr "<name>Brewster"
+msgstr "Brewster"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1158
 #, fuzzy
 msgctxt "City Name"
 msgid "Bridgeport"
-msgstr "<name>Bridgeport"
+msgstr "Bridgeport"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1160
 #, fuzzy
 msgctxt "City Name"
 msgid "Bridgewater"
-msgstr "<name>Bridgewater"
+msgstr "Bridgewater"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1162
 #, fuzzy
 msgctxt "City Name"
 msgid "Bridgton"
-msgstr "<name>Bridgton"
+msgstr "Bridgton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1164
 #, fuzzy
 msgctxt "City Name"
 msgid "Bridport"
-msgstr "<name>Bridport"
+msgstr "Bridport"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1166
@@ -37471,56 +37471,56 @@ msgstr "Lumineux"
 #, fuzzy
 msgctxt "City Name"
 msgid "Brighton Plantation"
-msgstr "<name>Brighton Plantation"
+msgstr "Brighton Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1170
 #, fuzzy
 msgctxt "City Name"
 msgid "Brimfield"
-msgstr "<name>Brimfield"
+msgstr "Brimfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1172
 #, fuzzy
 msgctxt "City Name"
 msgid "Bristol"
-msgstr "<name>Bristol"
+msgstr "Bristol"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1174
 #, fuzzy
 msgctxt "City Name"
 msgid "Brockton"
-msgstr "<name>Brockton"
+msgstr "Brockton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1176
 #, fuzzy
 msgctxt "City Name"
 msgid "Brookfield"
-msgstr "<name>Brookfield"
+msgstr "Brookfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1178
 #, fuzzy
 msgctxt "City Name"
 msgid "Brooklin"
-msgstr "<name>Brooklin"
+msgstr "Brooklin"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1180
 #, fuzzy
 msgctxt "City Name"
 msgid "Brookline"
-msgstr "<name>Brookline"
+msgstr "Brookline"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1182
 #, fuzzy
 msgctxt "City Name"
 msgid "Brooklyn"
-msgstr "<name>Brooklyn"
+msgstr "Brooklyn"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1184
@@ -37534,308 +37534,308 @@ msgstr "livres"
 #, fuzzy
 msgctxt "City Name"
 msgid "Brooksville"
-msgstr "<name>Brooksville"
+msgstr "Brooksville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1188
 #, fuzzy
 msgctxt "City Name"
 msgid "Brookton"
-msgstr "<name>Brookton"
+msgstr "Brookton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1190
 #, fuzzy
 msgctxt "City Name"
 msgid "Brownfield"
-msgstr "<name>Brownfield"
+msgstr "Brownfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1192
 #, fuzzy
 msgctxt "City Name"
 msgid "Brownington"
-msgstr "<name>Brownington"
+msgstr "Brownington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1194
 #, fuzzy
 msgctxt "City Name"
 msgid "Brownville"
-msgstr "<name>Brownville"
+msgstr "Brownville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1196
 #, fuzzy
 msgctxt "City Name"
 msgid "Brunswick"
-msgstr "<name>Brunswick"
+msgstr "Brunswick"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1198
 #, fuzzy
 msgctxt "City Name"
 msgid "Buckfield"
-msgstr "<name>Buckfield"
+msgstr "Buckfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1200
 #, fuzzy
 msgctxt "City Name"
 msgid "Buckland"
-msgstr "<name>Buckland"
+msgstr "Buckland"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1202
 #, fuzzy
 msgctxt "City Name"
 msgid "Bucksport"
-msgstr "<name>Bucksport"
+msgstr "Bucksport"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1204
 #, fuzzy
 msgctxt "City Name"
 msgid "Burke"
-msgstr "<name>Burke"
+msgstr "Burke"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1206
 #, fuzzy
 msgctxt "City Name"
 msgid "Burlington"
-msgstr "<name>Burlington"
+msgstr "Burlington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1208
 #, fuzzy
 msgctxt "City Name"
 msgid "Burnham"
-msgstr "<name>Burnham"
+msgstr "Burnham"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1210
 #, fuzzy
 msgctxt "City Name"
 msgid "Burrillville"
-msgstr "<name>Burrillville"
+msgstr "Burrillville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1212
 #, fuzzy
 msgctxt "City Name"
 msgid "Buxton"
-msgstr "<name>Buxton"
+msgstr "Buxton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1214
 #, fuzzy
 msgctxt "City Name"
 msgid "Byron"
-msgstr "<name>Byron"
+msgstr "Byron"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1216
 #, fuzzy
 msgctxt "City Name"
 msgid "Cabot"
-msgstr "<name>Cabot"
+msgstr "Cabot"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1218
 #, fuzzy
 msgctxt "City Name"
 msgid "Calais"
-msgstr "<name>Calais"
+msgstr "Calais"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1220
 #, fuzzy
 msgctxt "City Name"
 msgid "Cambridge"
-msgstr "<name>Cambridge"
+msgstr "Cambridge"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1222
 #, fuzzy
 msgctxt "City Name"
 msgid "Camden"
-msgstr "<name>Camden"
+msgstr "Camden"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1224
 #, fuzzy
 msgctxt "City Name"
 msgid "Campton"
-msgstr "<name>Campton"
+msgstr "Campton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1226
 #, fuzzy
 msgctxt "City Name"
 msgid "Canaan"
-msgstr "<name>Canaan"
+msgstr "Canaan"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1228
 #, fuzzy
 msgctxt "City Name"
 msgid "Candia"
-msgstr "<name>Candia"
+msgstr "Candia"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1230
 #, fuzzy
 msgctxt "City Name"
 msgid "Canterbury"
-msgstr "<name>Canterbury"
+msgstr "Canterbury"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1232
 #, fuzzy
 msgctxt "City Name"
 msgid "Canton"
-msgstr "<name>Canton"
+msgstr "Canton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1234
 #, fuzzy
 msgctxt "City Name"
 msgid "Cape Elizabeth"
-msgstr "<name>Cape Elizabeth"
+msgstr "Cape Elizabeth"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1236
 #, fuzzy
 msgctxt "City Name"
 msgid "Caratunk"
-msgstr "<name>Caratunk"
+msgstr "Caratunk"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1238
 #, fuzzy
 msgctxt "City Name"
 msgid "Caribou"
-msgstr "<name>Caribou"
+msgstr "Caribou"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1240
 #, fuzzy
 msgctxt "City Name"
 msgid "Carlisle"
-msgstr "<name>Carlisle"
+msgstr "Carlisle"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1242
 #, fuzzy
 msgctxt "City Name"
 msgid "Carmel"
-msgstr "<name>Carmel"
+msgstr "Carmel"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1244
 #, fuzzy
 msgctxt "City Name"
 msgid "Carrabassett Valley"
-msgstr "<name>Carrabassett Valley"
+msgstr "Carrabassett Valley"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1246
 #, fuzzy
 msgctxt "City Name"
 msgid "Carroll"
-msgstr "<name>Carroll"
+msgstr "Carroll"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1248
 #, fuzzy
 msgctxt "City Name"
 msgid "Carroll Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1250
 #, fuzzy
 msgctxt "City Name"
 msgid "Carthage"
-msgstr "<name>Carthage"
+msgstr "Carthage"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1252
 #, fuzzy
 msgctxt "City Name"
 msgid "Carver"
-msgstr "<name>Carver"
+msgstr "Carver"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1254
 #, fuzzy
 msgctxt "City Name"
 msgid "Cary Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1256
 #, fuzzy
 msgctxt "City Name"
 msgid "Casco"
-msgstr "<name>Casco"
+msgstr "Casco"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1258
 #, fuzzy
 msgctxt "City Name"
 msgid "Castine"
-msgstr "<name>Castine"
+msgstr "Castine"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1260
 #, fuzzy
 msgctxt "City Name"
 msgid "Castle Hill"
-msgstr "<name>Castle Hill"
+msgstr "Castle Hill"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1262
 #, fuzzy
 msgctxt "City Name"
 msgid "Castleton"
-msgstr "<name>Castleton"
+msgstr "Castleton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1264
 #, fuzzy
 msgctxt "City Name"
 msgid "Caswell"
-msgstr "<name>Caswell"
+msgstr "Caswell"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1266
 #, fuzzy
 msgctxt "City Name"
 msgid "Cavendish"
-msgstr "<name>Cavendish"
+msgstr "Cavendish"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1268
 #, fuzzy
 msgctxt "City Name"
 msgid "Center Harbor"
-msgstr "<name>Center Harbor"
+msgstr "Center Harbor"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1270
 #, fuzzy
 msgctxt "City Name"
 msgid "Centerville"
-msgstr "<name>Centerville"
+msgstr "Centerville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1272
 #, fuzzy
 msgctxt "City Name"
 msgid "Central Falls"
-msgstr "<name>Central Falls"
+msgstr "Central Falls"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1274
@@ -37861,7 +37861,7 @@ msgstr "citron"
 #, fuzzy
 msgctxt "City Name"
 msgid "Charleston"
-msgstr "<name>Charles"
+msgstr "Charles"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1282
@@ -37874,7 +37874,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Charlotte"
-msgstr "<name>Charlotte"
+msgstr "Charlotte"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1286
@@ -37936,7 +37936,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Chesterville"
-msgstr "<name>Centerville"
+msgstr "Centerville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1306
@@ -37994,7 +37994,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Clarksville"
-msgstr "<name>Brooksville"
+msgstr "Brooksville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1324
@@ -38013,7 +38013,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Codyville Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1330
@@ -38063,7 +38063,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Connor"
-msgstr "<name>Connor"
+msgstr "Connor"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1346
@@ -38076,14 +38076,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Cooper"
-msgstr "<name>Cooper"
+msgstr "Cooper"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1350
 #, fuzzy
 msgctxt "City Name"
 msgid "Coplin Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1352
@@ -38196,14 +38196,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Cyr Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1388
 #, fuzzy
 msgctxt "City Name"
 msgid "Dallas Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1390
@@ -38296,7 +38296,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Deerfield"
-msgstr "<name>Bakersfield"
+msgstr "Bakersfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1420
@@ -38420,7 +38420,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Drew Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1460
@@ -38490,14 +38490,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "East Bridgewater"
-msgstr "<name>Bridgewater"
+msgstr "Bridgewater"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1482
 #, fuzzy
 msgctxt "City Name"
 msgid "East Brookfield"
-msgstr "<name>Brookfield"
+msgstr "Brookfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1484
@@ -38638,7 +38638,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Eddington"
-msgstr "<name>Beddington"
+msgstr "Beddington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1528
@@ -38837,7 +38837,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Farmington"
-msgstr "<name>Abington"
+msgstr "Abington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1592
@@ -38921,14 +38921,14 @@ msgstr "holster"
 #, fuzzy
 msgctxt "City Name"
 msgid "Foxborough"
-msgstr "<name>Boxborough"
+msgstr "Boxborough"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1618
 #, fuzzy
 msgctxt "City Name"
 msgid "Framingham"
-msgstr "<name>Bingham"
+msgstr "Bingham"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1620
@@ -39036,7 +39036,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Garfield Plantation"
-msgstr "<name>Baring Plantation"
+msgstr "Baring Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1654
@@ -39109,7 +39109,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Glenwood Plantation"
-msgstr "<name>Baring Plantation"
+msgstr "Baring Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1678
@@ -39208,7 +39208,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Great Barrington"
-msgstr "<name>Barrington"
+msgstr "Barrington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1710
@@ -39332,7 +39332,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Hamilton"
-msgstr "<name>Alton"
+msgstr "Alton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1750
@@ -39358,21 +39358,21 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Hampstead"
-msgstr "<name>Alstead"
+msgstr "Alstead"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1758
 #, fuzzy
 msgctxt "City Name"
 msgid "Hampton"
-msgstr "<name>Campton"
+msgstr "Campton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1760
 #, fuzzy
 msgctxt "City Name"
 msgid "Hampton Falls"
-msgstr "<name>Beacon Falls"
+msgstr "Beacon Falls"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1762
@@ -39385,7 +39385,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Hanover"
-msgstr "<name>Andover"
+msgstr "Andover"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1766
@@ -39418,7 +39418,7 @@ msgstr "Harpe"
 #, fuzzy
 msgctxt "City Name"
 msgid "Harrington"
-msgstr "<name>Barrington"
+msgstr "Barrington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1776
@@ -39432,7 +39432,7 @@ msgstr "Les guerriers"
 #, fuzzy
 msgctxt "City Name"
 msgid "Harrisville"
-msgstr "<name>Burrillville"
+msgstr "Burrillville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1780
@@ -39538,7 +39538,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Highland Plantation"
-msgstr "<name>Brighton Plantation"
+msgstr "Brighton Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1814
@@ -39563,7 +39563,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Hingham"
-msgstr "<name>Bingham"
+msgstr "Bingham"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1822
@@ -39768,7 +39768,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Jackson"
-msgstr "<name>Jackson"
+msgstr "Jackson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1888
@@ -39787,7 +39787,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Jamestown"
-msgstr "<name>Allenstown"
+msgstr "Allenstown"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1894
@@ -39812,14 +39812,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Johnson"
-msgstr "<name>Johnson"
+msgstr "Johnson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1902
 #, fuzzy
 msgctxt "City Name"
 msgid "Johnston"
-msgstr "<name>Johnson"
+msgstr "Johnson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1904
@@ -39862,7 +39862,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Kensington"
-msgstr "<name>Washington"
+msgstr "Washington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1918
@@ -39907,7 +39907,7 @@ msgstr "Royaume"
 #, fuzzy
 msgctxt "City Name"
 msgid "Kingsbury Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1932
@@ -39953,7 +39953,7 @@ msgstr "orange"
 #, fuzzy
 msgctxt "City Name"
 msgid "Lake View Plantation"
-msgstr "<name>Baring Plantation"
+msgstr "Baring Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1946
@@ -39991,7 +39991,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Lanesborough"
-msgstr "<name>Boxborough"
+msgstr "Boxborough"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1958
@@ -40042,7 +40042,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Lemington"
-msgstr "<name>Abington"
+msgstr "Abington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1974
@@ -40086,7 +40086,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Lexington"
-msgstr "<name>Abington"
+msgstr "Abington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1988
@@ -40117,7 +40117,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Limington"
-msgstr "<name>Abington"
+msgstr "Abington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:1998
@@ -40130,7 +40130,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Lincoln Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2002
@@ -40252,7 +40252,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Lyndeborough"
-msgstr "<name>Boxborough"
+msgstr "Boxborough"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2042
@@ -40289,7 +40289,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Macwahoc Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2054
@@ -40308,7 +40308,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Madison"
-msgstr "<name>Madison"
+msgstr "Madison"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2060
@@ -40321,7 +40321,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Magalloway Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2064
@@ -40360,7 +40360,7 @@ msgstr "Manoir"
 #, fuzzy
 msgctxt "City Name"
 msgid "Mapleton"
-msgstr "<name>Appleton"
+msgstr "Appleton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2076
@@ -40410,7 +40410,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Marshfield"
-msgstr "<name>Ashfield"
+msgstr "Ashfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2092
@@ -40430,7 +40430,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Mason"
-msgstr "<name>Mason"
+msgstr "Mason"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2098
@@ -40493,7 +40493,7 @@ msgstr "Prendre en main"
 #, fuzzy
 msgctxt "City Name"
 msgid "Medford"
-msgstr "<name>Bedford"
+msgstr "Bedford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2118
@@ -40676,7 +40676,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Monkton"
-msgstr "<name>Monkton"
+msgstr "Monkton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2178
@@ -40690,49 +40690,49 @@ msgstr "bouche"
 #, fuzzy
 msgctxt "City Name"
 msgid "Monroe"
-msgstr "<name>Monroe"
+msgstr "Monroe"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2182
 #, fuzzy
 msgctxt "City Name"
 msgid "Monson"
-msgstr "<name>Monson"
+msgstr "Monson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2184
 #, fuzzy
 msgctxt "City Name"
 msgid "Mont Vernon"
-msgstr "<name>Mont Vernon"
+msgstr "Mont Vernon"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2186
 #, fuzzy
 msgctxt "City Name"
 msgid "Montague"
-msgstr "<name>Montague"
+msgstr "Montague"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2188
 #, fuzzy
 msgctxt "City Name"
 msgid "Monterey"
-msgstr "<name>Monterey"
+msgstr "Monterey"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2190
 #, fuzzy
 msgctxt "City Name"
 msgid "Montgomery"
-msgstr "<name>Montgomery"
+msgstr "Montgomery"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2192
 #, fuzzy
 msgctxt "City Name"
 msgid "Monticello"
-msgstr "<name>Monticello"
+msgstr "Monticello"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2194
@@ -40763,14 +40763,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Morgan"
-msgstr "<name>Morgan"
+msgstr "Morgan"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2204
 #, fuzzy
 msgctxt "City Name"
 msgid "Moro Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2206
@@ -40783,7 +40783,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Morris"
-msgstr "<name>Morris"
+msgstr "Morris"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2210
@@ -40832,14 +40832,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Mount Vernon"
-msgstr "<name>Mont Vernon"
+msgstr "Mont Vernon"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2226
 #, fuzzy
 msgctxt "City Name"
 msgid "Mount Washington"
-msgstr "<name>Washington"
+msgstr "Washington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2228
@@ -40876,7 +40876,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Nashville Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2240
@@ -40903,35 +40903,35 @@ msgstr "Besoins:"
 #, fuzzy
 msgctxt "City Name"
 msgid "Nelson"
-msgstr "<name>Nelson"
+msgstr "Nelson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2248
 #, fuzzy
 msgctxt "City Name"
 msgid "New Ashford"
-msgstr "<name>Ashford"
+msgstr "Ashford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2250
 #, fuzzy
 msgctxt "City Name"
 msgid "New Bedford"
-msgstr "<name>Bedford"
+msgstr "Bedford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2252
 #, fuzzy
 msgctxt "City Name"
 msgid "New Boston"
-msgstr "<name>Boston"
+msgstr "Boston"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2254
 #, fuzzy
 msgctxt "City Name"
 msgid "New Braintree"
-msgstr "<name>Braintree"
+msgstr "Braintree"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2256
@@ -40944,7 +40944,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "New Canaan"
-msgstr "<name>Canaan"
+msgstr "Canaan"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2260
@@ -41115,7 +41115,7 @@ msgstr "<w>Prendre en main"
 #, fuzzy
 msgctxt "City Name"
 msgid "Newington"
-msgstr "<name>Brownington"
+msgstr "Brownington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2316
@@ -41204,7 +41204,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "North Brookfield"
-msgstr "<name>Brookfield"
+msgstr "Brookfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2344
@@ -41468,7 +41468,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Orrington"
-msgstr "<name>Barrington"
+msgstr "Barrington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2426
@@ -41561,7 +41561,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Parsonsfield"
-msgstr "<name>Brownfield"
+msgstr "Brownfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2456
@@ -41648,7 +41648,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Perry"
-msgstr "<name>Perry"
+msgstr "Perry"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2484
@@ -41673,14 +41673,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Phillips"
-msgstr "<name>Phillips"
+msgstr "Phillips"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2492
 #, fuzzy
 msgctxt "City Name"
 msgid "Phillipston"
-msgstr "<name>Phillips"
+msgstr "Phillips"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2494
@@ -41742,7 +41742,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Pleasant Ridge Plantation"
-msgstr "<name>Baring Plantation"
+msgstr "Baring Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2514
@@ -41897,7 +41897,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Rangeley Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2564
@@ -41937,7 +41937,7 @@ msgstr "Lire"
 #, fuzzy
 msgctxt "City Name"
 msgid "Reed Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2576
@@ -41993,7 +41993,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Robbinston"
-msgstr "<name>Robinson"
+msgstr "Robinson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2594
@@ -42067,7 +42067,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Royalston"
-msgstr "<name>Boylston"
+msgstr "Boylston"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2618
@@ -42098,7 +42098,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Russell"
-msgstr "<name>Russell"
+msgstr "Russell"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2628
@@ -42135,7 +42135,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Saint John Plantation"
-msgstr "<name>Brighton Plantation"
+msgstr "Brighton Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2640
@@ -42185,7 +42185,7 @@ msgstr "sandwich à la viande"
 #, fuzzy
 msgctxt "City Name"
 msgid "Sandy River Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2656
@@ -42198,7 +42198,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Sangerville"
-msgstr "<name>Centerville"
+msgstr "Centerville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2660
@@ -42271,7 +42271,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Seboeis Plantation"
-msgstr "<name>Baring Plantation"
+msgstr "Baring Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2684
@@ -42432,7 +42432,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Somerville"
-msgstr "<name>Brownville"
+msgstr "Brownville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2736
@@ -42459,7 +42459,7 @@ msgstr "Sud-Ouest"
 #, fuzzy
 msgctxt "City Name"
 msgid "South Burlington"
-msgstr "<name>Burlington"
+msgstr "Burlington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2744
@@ -42631,7 +42631,7 @@ msgstr "Baton"
 #, fuzzy
 msgctxt "City Name"
 msgid "Stamford"
-msgstr "<name>Alford"
+msgstr "Alford"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2796
@@ -42901,7 +42901,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Tamworth"
-msgstr "<name>Acworth"
+msgstr "Acworth"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2882
@@ -42921,7 +42921,7 @@ msgstr "Nom du modèle :"
 #, fuzzy
 msgctxt "City Name"
 msgid "Templeton"
-msgstr "<name>Appleton"
+msgstr "Appleton"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2888
@@ -42946,14 +42946,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Thomaston"
-msgstr "<name>Thompson"
+msgstr "Thompson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2896
 #, fuzzy
 msgctxt "City Name"
 msgid "Thompson"
-msgstr "<name>Thompson"
+msgstr "Thompson"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2898
@@ -43016,7 +43016,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Torrington"
-msgstr "<name>Barrington"
+msgstr "Barrington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2918
@@ -43085,7 +43085,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Turner"
-msgstr "<name>Turner"
+msgstr "Turner"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2940
@@ -43178,7 +43178,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Vershire"
-msgstr "<name>Berkshire"
+msgstr "Berkshire"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:2970
@@ -43315,7 +43315,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Warwick"
-msgstr "<name>Berwick"
+msgstr "Berwick"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3014
@@ -43328,7 +43328,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Washington"
-msgstr "<name>Washington"
+msgstr "Washington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3018
@@ -43363,7 +43363,7 @@ msgstr "Eau"
 #, fuzzy
 msgctxt "City Name"
 msgid "Waterville"
-msgstr "<name>Centerville"
+msgstr "Centerville"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3028
@@ -43395,7 +43395,7 @@ msgstr "Enfiler un vêtement"
 #, fuzzy
 msgctxt "City Name"
 msgid "Weathersfield"
-msgstr "<name>Bakersfield"
+msgstr "Bakersfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3038
@@ -43408,7 +43408,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Webster Plantation"
-msgstr "<name>Cary Plantation"
+msgstr "Cary Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3042
@@ -43433,7 +43433,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Wellington"
-msgstr "<name>Arlington"
+msgstr "Arlington"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3050
@@ -43477,21 +43477,21 @@ msgstr "Ouest"
 #, fuzzy
 msgctxt "City Name"
 msgid "West Boylston"
-msgstr "<name>Boylston"
+msgstr "Boylston"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3064
 #, fuzzy
 msgctxt "City Name"
 msgid "West Bridgewater"
-msgstr "<name>Bridgewater"
+msgstr "Bridgewater"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3066
 #, fuzzy
 msgctxt "City Name"
 msgid "West Brookfield"
-msgstr "<name>Brookfield"
+msgstr "Brookfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3068
@@ -43670,7 +43670,7 @@ msgstr "Ouest"
 #, fuzzy
 msgctxt "City Name"
 msgid "Wethersfield"
-msgstr "<name>Bakersfield"
+msgstr "Bakersfield"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3124
@@ -43742,14 +43742,14 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Williamsburg"
-msgstr "<name>Williams"
+msgstr "Williams"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3146
 #, fuzzy
 msgctxt "City Name"
 msgid "Williamstown"
-msgstr "<name>Williams"
+msgstr "Williams"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3148
@@ -43848,7 +43848,7 @@ msgstr ""
 #, fuzzy
 msgctxt "City Name"
 msgid "Winter Harbor"
-msgstr "<name>Bar Harbor"
+msgstr "Bar Harbor"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3180
@@ -43862,7 +43862,7 @@ msgstr "Hiver"
 #, fuzzy
 msgctxt "City Name"
 msgid "Winterville Plantation"
-msgstr "<name>Carroll Plantation"
+msgstr "Carroll Plantation"
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py:3184
@@ -56390,222 +56390,6 @@ msgstr "Objet obtenu, choisissez en un autre ou 'q' pour quitter."
 
 #~ msgid "I am looking for a master to train my fighting techniques."
 #~ msgstr "Je cherche un maître pour entrainer mes techniques de combat."
-
-#~ msgid "Wagon"
-#~ msgstr "Wagon"
-
-#~ msgid "<name>Monmouth"
-#~ msgstr "<name>Monmouth"
-
-#~ msgid "<name>Brighton"
-#~ msgstr "<name>Brighton"
-
-#~ msgid "<name>Bow"
-#~ msgstr "<name>Bow"
-
-#~ msgid "<name>Bath"
-#~ msgstr "<name>Bath"
-
-#~ msgid "<name>Ayer"
-#~ msgstr "<name>Ayer"
-
-#~ msgid "<name>Avon"
-#~ msgstr "<name>Avon"
-
-#~ msgid "<name>Alna"
-#~ msgstr "<name>Alna"
-
-#~ msgid "<name>Zoey"
-#~ msgstr "<name>Zoey"
-
-#~ msgid "<name>Zoe"
-#~ msgstr "<name>Zoe"
-
-#~ msgid "<name>Wright"
-#~ msgstr "<name>Wright"
-
-#~ msgid "<name>Wood"
-#~ msgstr "<name>Wood"
-
-#~ msgid "<name>Ward"
-#~ msgstr "<name>Ward"
-
-#~ msgid "<name>Sean"
-#~ msgstr "<name>Sean"
-
-#~ msgid "<name>Sara"
-#~ msgstr "<name>Sara"
-
-#~ msgid "<name>Sanders"
-#~ msgstr "<name>Sanders"
-
-#~ msgid "<name>Ryan"
-#~ msgstr "<name>Ryan"
-
-#~ msgid "<name>Ross"
-#~ msgstr "<name>Ross"
-
-#~ msgid "<name>Roberts"
-#~ msgstr "<name>Roberts"
-
-#~ msgid "<name>Robert"
-#~ msgstr "<name>Robert"
-
-#~ msgid "<name>Reed"
-#~ msgstr "<name>Reed"
-
-#~ msgid "<name>Powell"
-#~ msgstr "<name>Powell"
-
-#~ msgid "<name>Owen"
-#~ msgstr "<name>Owen"
-
-#~ msgid "<name>Noah"
-#~ msgstr "<name>Noah"
-
-#~ msgid "<name>Miller"
-#~ msgstr "<name>Miller"
-
-#~ msgid "<name>Mia"
-#~ msgstr "<name>Mia"
-
-#~ msgid "<name>Maya"
-#~ msgstr "<name>Maya"
-
-#~ msgid "<name>Mary"
-#~ msgstr "<name>Mary"
-
-#~ msgid "<name>Mariah"
-#~ msgstr "<name>Mariah"
-
-#~ msgid "<name>Maria"
-#~ msgstr "<name>Maria"
-
-#~ msgid "<name>Luke"
-#~ msgstr "<name>Luke"
-
-#~ msgid "<name>Luis"
-#~ msgstr "<name>Luis"
-
-#~ msgid "<name>Long"
-#~ msgstr "<name>Long"
-
-#~ msgid "<name>Lily"
-#~ msgstr "<name>Lily"
-
-#~ msgid "<name>Liam"
-#~ msgstr "<name>Liam"
-
-#~ msgid "<name>Lee"
-#~ msgstr "<name>Lee"
-
-#~ msgid "<name>Leah"
-#~ msgstr "<name>Leah"
-
-#~ msgid "<name>Kyle"
-#~ msgstr "<name>Kyle"
-
-#~ msgid "<name>King"
-#~ msgstr "<name>King"
-
-#~ msgid "<name>Kim"
-#~ msgstr "<name>Kim"
-
-#~ msgid "<name>Kelly"
-#~ msgstr "<name>Kelly"
-
-#~ msgid "<name>Juan"
-#~ msgstr "<name>Juan"
-
-#~ msgid "<name>Jose"
-#~ msgstr "<name>Jose"
-
-#~ msgid "<name>John"
-#~ msgstr "<name>John"
-
-#~ msgid "<name>Jen"
-#~ msgstr "<name>Jen"
-
-#~ msgid "<name>Jasmine"
-#~ msgstr "<name>Jasmine"
-
-#~ msgid "<name>Jack"
-#~ msgstr "<name>Jack"
-
-#~ msgid "<name>Ian"
-#~ msgstr "<name>Ian"
-
-#~ msgid "<name>Hunter"
-#~ msgstr "<name>Hunter"
-
-#~ msgid "<name>Hill"
-#~ msgstr "<name>Hill"
-
-#~ msgid "<name>Harris"
-#~ msgstr "<name>Harris"
-
-#~ msgid "<name>Hall"
-#~ msgstr "<name>Hall"
-
-#~ msgid "<name>Gray"
-#~ msgstr "<name>Gray"
-
-#~ msgid "<name>Foster"
-#~ msgstr "<name>Foster"
-
-#~ msgid "<name>Evan"
-#~ msgstr "<name>Evan"
-
-#~ msgid "<name>Eric"
-#~ msgstr "<name>Eric"
-
-#~ msgid "<name>Emma"
-#~ msgstr "<name>Emma"
-
-#~ msgid "<name>Emily"
-#~ msgstr "<name>Emily"
-
-#~ msgid "<name>Ella"
-#~ msgstr "<name>Ella"
-
-#~ msgid "<name>Eli"
-#~ msgstr "<name>Eli"
-
-#~ msgid "<name>Eben"
-#~ msgstr "<name>Eben"
-
-#~ msgid "<name>Diaz"
-#~ msgstr "<name>Diaz"
-
-#~ msgid "<name>Cox"
-#~ msgstr "<name>Cox"
-
-#~ msgid "<name>Cook"
-#~ msgstr "<name>Cook"
-
-#~ msgid "<name>Cole"
-#~ msgstr "<name>Cole"
-
-#~ msgid "<name>Brooks"
-#~ msgstr "<name>Brooks"
-
-#~ msgid "<name>Bell"
-#~ msgstr "<name>Bell"
-
-#~ msgid "<name>Ava"
-#~ msgstr "<name>Ava"
-
-#~ msgid "<name>Autumn"
-#~ msgstr "<name>Autumn"
-
-#~ msgid "<name>Anna"
-#~ msgstr "<name>Anna"
-
-#~ msgid "<name>Alex"
-#~ msgstr "<name>Alex"
-
-#~ msgid "<name>Adam"
-#~ msgstr "<name>Adam"
 
 #~ msgid "cooked spaghetti"
 #~ msgstr "spaghetti cuit"
