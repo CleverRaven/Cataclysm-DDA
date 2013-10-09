@@ -450,7 +450,9 @@ picojson::value player::json_save(bool save_contents)
     json_save_common_variables( data );
 
     // player-specific specifics
-    data["profession"] = pv( prof->ident() );
+    if ( prof != NULL ) {
+        data["profession"] = pv( prof->ident() );
+    }
 
     // someday, npcs may drive
     data["driving_recoil"] = pv( int(driving_recoil) );
