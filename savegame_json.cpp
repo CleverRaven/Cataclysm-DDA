@@ -809,14 +809,18 @@ picojson::value npc_opinion::json_save() {
 
 bool npc_favor::json_load(std::map<std::string, picojson::value> & data) {
    int tmptype, tmpskill;
-   std::string tmpitem;
+   std::string tmpitem, tmpskillstr;
    if ( picoint(data,"type",tmptype) &&
       picoint(data,"value",value) &&
-      picostring(data,"itype_id",tmpitem) &&
-      picoint(data,"skill_id",tmpskill) ) {
+      picostring(data,"itype_id",tmpitem) ) {
       type = npc_favor_type(tmptype);
       item_id = tmpitem;
-      skill =  Skill::skill(tmpskill);
+      skill = NULL;
+      if ( picoint(data, "skill_id", tmpskill ) ) {
+          skill =  Skill::skill(tmpskill);
+      } else if ( picostring(data, "skill_id", tmpskillstr ) ) {
+          skill = Skill::skill(tmpskillstr);
+      }
       return true;
    } else {
       debugmsg("npc_favor::load: bad favor");
@@ -829,7 +833,9 @@ picojson::value npc_favor::json_save()  {
     data["type"] = pv( (int)type );
     data["value"] = pv( value );
     data["itype_id"] = pv( (std::string)item_id );
-    data["skill_id"] = pv( (int)skill->id() ); // FIXME: use ident()
+    if ( skill != NULL ) {
+        data["skill_id"] = pv( skill->ident() );
+    }
     return pv( data );
 }
 
