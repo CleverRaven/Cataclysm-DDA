@@ -1380,6 +1380,14 @@ t   t\n\
    mapf::basic_bind( "-", f_bench));
    rotate(rng(0, 3));
 
+   int vx = one_in(2) ? 1 : 20;
+   int vy = one_in(2) ? 1 : 20;
+   if(one_in(3)) {
+       add_vehicle (g, "ice_cream_cart", vx, vy, 0, -1, -1);
+   } else if(one_in(2)) {
+       add_vehicle (g, "food_cart", vx, vy, one_in(2)? 90 : 180, -1, -1);
+   }
+
   } else { // Basketball court
    fill_background(this, t_pavement);
    mapf::formatted_set_simple(this, 0, 0,
