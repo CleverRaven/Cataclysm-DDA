@@ -3037,7 +3037,7 @@
         "max_level" : 0,
         "required_level" : 0,
         "intelligence" : 0,
-        "color" : "black",
+        "color" : "dark_gray",
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : 2,
