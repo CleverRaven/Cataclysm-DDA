@@ -39,6 +39,8 @@ extern int TERMX; // width available for display
 extern int TERMY; // height available for display
 extern int VIEWX; // number of terrain tiles displayed to left and right of '@'
 extern int VIEWY; // number of terrain tiles displayed above and below '@'
+extern int POSX; // X position of '@' inside terrain window
+extern int POSY; // Y position of '@' inside terrain window
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
 extern int TERRAIN_WINDOW_WIDTH; // width of terrain window

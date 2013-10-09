@@ -180,6 +180,8 @@ void game::init_ui(){
             VIEWX += 1;
         }
 
+        POSX = VIEWX;
+        POSY = VIEWY;
         VIEW_OFFSET_X = (OPTIONS["VIEWPORT_X"] > 60) ? (int)OPTIONS["VIEWPORT_X"]-60 : 0;
         VIEW_OFFSET_Y = (OPTIONS["VIEWPORT_Y"] > 60) ? (int)OPTIONS["VIEWPORT_Y"]-60 : 0;
         TERRAIN_WINDOW_WIDTH  = (VIEWX * 2) + 1;
@@ -206,6 +208,8 @@ void game::init_ui(){
 
         VIEWX = TERRAIN_WINDOW_WIDTH / 2;
         VIEWY = TERRAIN_WINDOW_HEIGHT / 2;
+        POSX = VIEWX;
+        POSY = VIEWY;
     #endif
 
     // Set up the main UI windows.
