@@ -204,8 +204,8 @@ void game::init_ui(){
         VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
         VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
 
-        VIEWX = (TERRAIN_WINDOW_WIDTH - 1) / 2;
-        VIEWY = (TERRAIN_WINDOW_HEIGHT - 1) / 2;
+        VIEWX = TERRAIN_WINDOW_WIDTH / 2;
+        VIEWY = TERRAIN_WINDOW_HEIGHT / 2;
     #endif
 
     if (VIEWX < 12) {
