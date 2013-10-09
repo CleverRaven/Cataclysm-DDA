@@ -1625,7 +1625,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
         {
             if(it->charges <= 0)
             {
-                g->add_msg_if_player(p,_("You don't have enough batteries!"));
+                g->add_msg_if_player(p,_("Your repair tool does not have enough charges to do that."));
                 return;
             }
 
