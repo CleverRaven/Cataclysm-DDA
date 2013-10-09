@@ -4089,9 +4089,9 @@ void player::get_sick(game *g)
  if (!has_disease("flu") && !has_disease("common_cold") &&
      one_in(900 + 10 * health + (has_trait("DISRESISTANT") ? 300 : 0))) {
   if (one_in(6))
-   infect("flu", bp_mouth, 3, rng(40000, 80000), 1, 1);
+   infect("flu", bp_mouth, 3, rng(40000, 80000));
   else
-   infect("common_cold", bp_mouth, 3, rng(20000, 60000), 1, 1);
+   infect("common_cold", bp_mouth, 3, rng(20000, 60000));
  }
 }
 
