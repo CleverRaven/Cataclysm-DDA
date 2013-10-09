@@ -4,9 +4,12 @@
 #include "mtype.h"
 #include <vector>
 #include <map>
+#include "json.h"
 
 typedef std::map<std::string, std::pair<int,int> > FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
+
+void init_translation();
 
 struct MonsterGroup
 {
@@ -14,29 +17,6 @@ struct MonsterGroup
     std::string defaultMonster;
     FreqDef  monsters;
 };
-
-/*enum MonsterGroupType
-{
-    GROUP_NULL = 0,
-    GROUP_FOREST,
-    GROUP_ANT,
-    GROUP_BEE,
-    GROUP_WORM,
-    GROUP_ZOMBIE,
-    GROUP_TRIFFID,
-    GROUP_FUNGI,
-    GROUP_GOO,
-    GROUP_CHUD,
-    GROUP_SEWER,
-    GROUP_SWAMP,
-    GROUP_LAB,
-    GROUP_NETHER,
-    GROUP_SPIRAL,
-    GROUP_VANILLA,
-    GROUP_SPIDER,
-    GROUP_ROBOT,
-    GROUP_COUNT
-};*/
 
 struct mongroup {
  std::string type;
@@ -62,9 +42,9 @@ struct mongroup {
 class MonsterGroupManager
 {
     public:
-        static void LoadJSONGroups() throw (std::string);
+        static void LoadMonsterGroup(JsonObject &jo);
         static std::string GetMonsterFromGroup(std::string, std::vector <mtype*> *,
-                                          int *quantity = 0, int turn = -1);
+                                               int *quantity = 0, int turn = -1);
         static bool IsMonsterInGroup(std::string, std::string);
         static std::string Monster2Group(std::string);
         static std::vector<std::string> GetMonstersFromGroup(std::string);

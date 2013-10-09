@@ -1,5 +1,6 @@
 [
   {
+    "type":"monstergroup",
     "name" : "GROUP_FOREST",
     "default" : "mon_squirrel",
     "monsters" : [
@@ -22,6 +23,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_ANT",
     "default" : "mon_ant",
     "monsters" : [
@@ -31,12 +33,14 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_BEE",
     "default" : "mon_bee",
     "monsters" : [
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_WORM",
     "default" : "mon_worm",
     "monsters" : [
@@ -45,6 +49,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_ZOMBIE",
     "default" : "mon_zombie",
     "monsters" : [
@@ -66,6 +71,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_TRIFFID",
     "default" : "mon_triffid",
     "monsters" : [
@@ -76,6 +82,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_FUNGI",
     "default" : "mon_fungaloid",
     "monsters" : [
@@ -90,6 +97,7 @@
   },
 
   {
+    "type":"monstergroup",
     "name" : "GROUP_GOO",
     "default" : "mon_blob",
     "monsters" : [
@@ -97,6 +105,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_CHUD",
     "default" : "mon_chud",
     "monsters" : [
@@ -105,6 +114,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_SEWER",
     "default" : "mon_sewer_rat",
     "monsters" : [
@@ -113,6 +123,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_SWAMP",
     "default" : "mon_mosquito",
     "monsters" : [
@@ -126,6 +137,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_LAB",
     "default" : "mon_zombie_scientist",
     "monsters" : [
@@ -135,6 +147,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_ICE_LAB",
     "default" : "mon_zombie_scientist",
     "monsters" : [
@@ -144,6 +157,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_NETHER",
     "default" : "mon_blank",
     "monsters" : [
@@ -158,6 +172,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_SPIRAL",
     "default" : "mon_human_snail",
     "monsters" : [
@@ -166,12 +181,14 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_VANILLA",
     "default" : "mon_zombie",
     "monsters" : [
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_SPIDER",
     "default" : "mon_spider_wolf",
     "monsters" : [
@@ -181,6 +198,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_ROBOT",
     "default" : "mon_manhack",
     "monsters" : [
@@ -194,6 +212,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_POLICE", "_comment" : "+30% cops",
     "default" : "mon_zombie",
     "monsters" : [
@@ -215,6 +234,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_HOUSE", "_comment" : "+15% child",
     "default" : "mon_zombie",
     "monsters" : [
@@ -237,6 +257,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_PHARM", "_comment" : "+15% fast",
     "default" : "mon_zombie",
     "monsters" : [
@@ -258,6 +279,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_ELECTRO", "_comment" : "+15% electric",
     "default" : "mon_zombie",
     "monsters" : [
@@ -279,6 +301,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_GROCERY", "_comment" : "+15% bommers",
     "default" : "mon_zombie",
     "monsters" : [
@@ -300,6 +323,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_MAYBE_MIL", "_comment" : "50% chance military zombie",
     "default" : "mon_null",
     "monsters" : [
@@ -307,6 +331,7 @@
     ]
   },
   {
+    "type":"monstergroup",
     "name" : "GROUP_PUBLICWORKERS",
     "default" : "mon_zombie_electric",
     "monsters" : [
