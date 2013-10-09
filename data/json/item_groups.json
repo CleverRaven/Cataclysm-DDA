@@ -35,7 +35,10 @@
       ["mushroom", 4],
       ["mushroom_poison", 3],
       ["mushroom_magic", 1],
-      ["blueberries", 3]
+      ["blueberries", 3],
+	  ["raspberries", 3],
+	  ["blackberries", 3],
+	  ["cranberries", 3]
     ]
   },{
     "type":"item_group",
@@ -346,6 +349,7 @@
 	  ["papaya", 3],
 	  ["kiwi", 5],
 	  ["apricot", 5],
+	  ["coconut", 5],
 	  ["jam_fruit", 10],
 	  ["jam_strawberries", 10],
 	  ["jam_blueberries", 10],
@@ -966,14 +970,14 @@
       ["orange", 65],
       ["banana", 40],
       ["lemon", 50],
-	  ["pear", 60],
+	  ["pear", 50],
 	  ["cherries", 30],
-	  ["plums", 45],
-	  ["grapes", 60],
+	  ["plums", 30],
+	  ["grapes", 50],
 	  ["cranberries", 7],
 	  ["raspberries", 7],
 	  ["blackberries", 7],
-	  ["rhubarb", 30],
+	  ["rhubarb", 20],
       ["mushroom", 4],
       ["potato_raw", 10],
       ["blueberries", 3],
