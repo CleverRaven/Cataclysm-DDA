@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-15 19:22-0500\n"
-"PO-Revision-Date: 2013-09-25 01:40+0000\n"
-"Last-Translator: Argasm <argasm@gmail.com>\n"
+"PO-Revision-Date: 2013-10-08 00:18+0000\n"
+"Last-Translator: Carver <Unknown>\n"
 "Language-Team: French\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2013-09-25 02:58+0000\n"
-"X-Generator: Launchpad (build 16771)\n"
+"X-Launchpad-Export-Date: 2013-10-08 03:10+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: action.cpp:311 npcmove.cpp:2072
 msgid "Pause"
@@ -117,15 +117,15 @@ msgstr "Examiner un objet adjacent"
 
 #: action.cpp:359
 msgid "Pick Item(s) Up"
-msgstr "Rammaser un Objet"
+msgstr "Ramasser un objet"
 
 #: action.cpp:361
 msgid "Grab a nearby vehicle"
-msgstr "Attraper un véhicule proche"
+msgstr "Prendre un véhicule proche"
 
 #: action.cpp:363
 msgid "Butcher"
-msgstr "Dépecer un corps"
+msgstr "Dépecer"
 
 #: action.cpp:365
 msgid "Chat with NPC"
@@ -137,7 +137,7 @@ msgstr "Regarder aux Alentours"
 
 #: action.cpp:369
 msgid "Peek Around Corners"
-msgstr "Regarder Derrière un Coin"
+msgstr "Jeter un oeil derrière un angle"
 
 #: action.cpp:371
 msgid "List all items around the player"
@@ -149,7 +149,7 @@ msgstr "Ouvrir l'Inventaire"
 
 #: action.cpp:375
 msgid "Advanced Inventory management"
-msgstr "Gestionnaire Avancé de l'Inventaire"
+msgstr "Gestion avancée de l'inventaire"
 
 #: action.cpp:377
 msgid "Compare two Items"
@@ -165,7 +165,7 @@ msgstr "Utiliser un objet"
 
 #: action.cpp:383
 msgid "Apply or Use Wielded Item"
-msgstr "Utiliser un objet en main"
+msgstr "Utiliser l'objet en main"
 
 #: action.cpp:385
 msgid "Wear Item"
@@ -185,7 +185,7 @@ msgstr "Lire"
 
 #: action.cpp:393
 msgid "Wield"
-msgstr "Manier un objet"
+msgstr "Prendre en main"
 
 #: action.cpp:395
 msgid "Select Unarmed Style"
@@ -225,7 +225,7 @@ msgstr "Déposer un Objet sur un Case Adjacente"
 
 #: action.cpp:413
 msgid "View/Activate Bionics"
-msgstr "Voir/Activer un Implant"
+msgstr "Voir/Activer un bionique"
 
 #: action.cpp:415
 msgid "Re-layer armour/clothing"
@@ -233,7 +233,7 @@ msgstr "Changer l'Ordre des Vêtements"
 
 #: action.cpp:417
 msgid "Wait for Several Minutes"
-msgstr "Attendre"
+msgstr "Attendre quelques minutes"
 
 #: action.cpp:419
 msgid "Craft Items"
@@ -245,7 +245,7 @@ msgstr "Reproduire la dernière recette"
 
 #: action.cpp:423
 msgid "Craft as long as possible"
-msgstr "Fabriquer aussi longtemps que possible"
+msgstr "Fabriquer autant que possible"
 
 #: action.cpp:425
 msgid "Construct Terrain"
@@ -253,7 +253,7 @@ msgstr "Construire"
 
 #: action.cpp:427
 msgid "Disassemble items"
-msgstr "Désassembler un Objet"
+msgstr "Démonter un objet"
 
 #: action.cpp:429 defense.cpp:635 defense.cpp:701 npcmove.cpp:2074
 msgid "Sleep"
@@ -542,7 +542,7 @@ msgstr "Perception - 2; Intelligence - 2; Tremblements fréquents."
 
 #: advanced_inv.cpp:147
 msgid "Name (charges)"
-msgstr ""
+msgstr "Nom (charges)"
 
 #. ~ advanced inventory; "amount", "weight", "volume"; 14 letters
 #: advanced_inv.cpp:150
@@ -552,12 +552,12 @@ msgstr "qtt poid volume"
 #. ~ advanced inventory; "source", "weight", "volume"; 14 letters
 #: advanced_inv.cpp:153
 msgid "src weight vol"
-msgstr ""
+msgstr "src poid vol"
 
 #. ~ advanced inventory; "weight", "volume"; 14 letters, right-aligned
 #: advanced_inv.cpp:156
 msgid "    weight vol"
-msgstr ""
+msgstr "    poid vol."
 
 #: advanced_inv.cpp:339
 msgid "All 9 squares"
@@ -653,7 +653,7 @@ msgstr "catégorie"
 
 #: advanced_inv.cpp:601 advanced_inv.cpp:691
 msgid "charges"
-msgstr ""
+msgstr "charges"
 
 #: advanced_inv.cpp:601 advanced_inv.cpp:691
 msgid "name"
@@ -709,7 +709,7 @@ msgstr ""
 
 #: advanced_inv.cpp:753
 msgid "< [?] show help >"
-msgstr ""
+msgstr "<[?] voir l'aide>"
 
 #: advanced_inv.cpp:792
 msgid "same square!"
@@ -1083,7 +1083,7 @@ msgstr "a une surface rappelant des ecailles de reptiles"
 
 #: artifact.cpp:226
 msgid "scaled"
-msgstr "à l'échelle"
+msgstr "écailleux"
 
 #: artifact.cpp:232
 msgid "fractal"
@@ -1098,11 +1098,11 @@ msgstr ""
 
 #: artifact.cpp:246
 msgid "Harp"
-msgstr ""
+msgstr "Harpe"
 
 #: artifact.cpp:249
 msgid "Staff"
-msgstr "Personnel"
+msgstr "Baton"
 
 #: artifact.cpp:252
 msgid "Sword"
@@ -1182,7 +1182,7 @@ msgstr "horriblement duveteux."
 
 #: artifact.cpp:346
 msgid "leather-padded."
-msgstr "couvert de cuir."
+msgstr "Ettofé de cuir."
 
 #: artifact.cpp:350
 msgid "plated in iron."
@@ -1194,11 +1194,11 @@ msgstr "Surnaturel"
 
 #: artifact.cpp:358
 msgid "Forbidden"
-msgstr "Interdit"
+msgstr "Interdit(e)(s)"
 
 #: artifact.cpp:358
 msgid "Forgotten"
-msgstr "Oublié"
+msgstr "Oublié(e)(s)"
 
 #: artifact.cpp:358
 msgid "Hideous"
@@ -1206,7 +1206,7 @@ msgstr "Hideux"
 
 #: artifact.cpp:358 npc.cpp:2174 npc.cpp:2176
 msgid "Unknown"
-msgstr "Inconnu"
+msgstr "Inconnu(e)(s)"
 
 #: artifact.cpp:359
 msgid "Ancient"
@@ -1271,42 +1271,42 @@ msgstr "Dormant"
 #: artifact.cpp:366
 #, c-format
 msgid "%s Beasts"
-msgstr "%s Bêtes"
+msgstr "Bêtes %s"
 
 #: artifact.cpp:366
 #, c-format
 msgid "%s Dreams"
-msgstr "%s Rêves"
+msgstr "Rêves %s"
 
 #: artifact.cpp:366
 #, c-format
 msgid "%s Evil"
-msgstr "%s Diabolique"
+msgstr "Diabolique %s"
 
 #: artifact.cpp:366
 #, c-format
 msgid "%s Miasma"
-msgstr "%s Miasme"
+msgstr "Miasme %s"
 
 #: artifact.cpp:366
 #, c-format
 msgid "%s Technique"
-msgstr "%s Technique"
+msgstr "Technique %s"
 
 #: artifact.cpp:367
 #, c-format
 msgid "%s Illusion"
-msgstr "%s Illusion"
+msgstr "Illusion %s"
 
 #: artifact.cpp:367
 #, c-format
 msgid "%s Shade"
-msgstr "%s Ombre"
+msgstr "Nuance %s"
 
 #: artifact.cpp:367
 #, c-format
 msgid "%s Shadows"
-msgstr "%s Ombre"
+msgstr "Ombres %s"
 
 #: artifact.cpp:367
 #, c-format
@@ -1321,17 +1321,17 @@ msgstr "La ville de %s."
 #: artifact.cpp:368
 #, c-format
 msgid "%s Aeons"
-msgstr "%s Eons."
+msgstr "Eons %s"
 
 #: artifact.cpp:368
 #, c-format
 msgid "%s Ichor"
-msgstr "%s Ichor."
+msgstr "Ichor %s"
 
 #: artifact.cpp:368
 #, c-format
 msgid "%s Justice"
-msgstr "%s Justice"
+msgstr "Justice %s"
 
 #: artifact.cpp:368
 #, c-format
@@ -1341,32 +1341,32 @@ msgstr "Le monolithe de %s."
 #: artifact.cpp:368
 #, c-format
 msgid "the %s Necropolis"
-msgstr "La necropole de %s."
+msgstr "La necropole %s"
 
 #: artifact.cpp:369
 #, c-format
 msgid "%s Death"
-msgstr ""
+msgstr "Mort %s"
 
 #: artifact.cpp:369
 #, c-format
 msgid "%s Graves"
-msgstr ""
+msgstr "Tombes %s"
 
 #: artifact.cpp:369
 #, c-format
 msgid "%s Horror"
-msgstr ""
+msgstr "Horreur %s"
 
 #: artifact.cpp:369
 #, c-format
 msgid "%s Horrors"
-msgstr ""
+msgstr "Horreurs %s"
 
 #: artifact.cpp:369
 #, c-format
 msgid "%s Suffering"
-msgstr ""
+msgstr "Souffrance %s"
 
 #: artifact.cpp:416
 #, c-format
@@ -1483,7 +1483,7 @@ msgstr "Votre état mental semble protégé."
 
 #: artifact.cpp:987
 msgid "You feel insulated."
-msgstr ""
+msgstr "Vous vous sentez immunisé à l'électricité."
 
 #: artifact.cpp:991
 msgid "Your back feels strengthened."
@@ -1523,7 +1523,7 @@ msgstr "Vous sentez une force vous pousser de l'interieur."
 
 #: artifact.cpp:1027
 msgid "You hear a rattling noise coming from inside yourself."
-msgstr ""
+msgstr "Vous entendez un bruit intimidant venir d'à l'interieur de vous."
 
 #: artifact.cpp:1031
 msgid "You feel storms coming."
@@ -1628,7 +1628,7 @@ msgstr "<Exclude>E"
 
 #: auto_pickup.cpp:145
 msgid "<Include>I"
-msgstr ""
+msgstr "<Include>I"
 
 #: auto_pickup.cpp:154
 msgid "Under construction!"
@@ -1688,7 +1688,7 @@ msgstr "Actif:"
 #: bionics.cpp:120
 #, c-format
 msgid "%s - %d PU / %d trns"
-msgstr ""
+msgstr "%s - %d UP / %d tours"
 
 #: bionics.cpp:120
 #, c-format
@@ -1897,7 +1897,7 @@ msgstr ""
 #: bionics.cpp:537
 #, c-format
 msgid "Installed bionic: %s."
-msgstr ""
+msgstr "Bionique installé : %s."
 
 #: bionics.cpp:540
 #, c-format
@@ -1912,7 +1912,7 @@ msgstr "%s installé avec succes."
 #: bionics.cpp:546
 #, c-format
 msgid "Failed to install bionic: %s."
-msgstr ""
+msgstr "L'installation du bionique %s est un echec."
 
 #: bionics.cpp:578
 msgid "The installation fails without incident."
@@ -1969,12 +1969,12 @@ msgstr "Vous perdez de la puissance!"
 #: bionics.cpp:636
 #, c-format
 msgid "Lost %d units of power capacity."
-msgstr ""
+msgstr "Perte de %d unité d'energie."
 
 #: bionics.cpp:642
 #, c-format
 msgid "Installed bad bionic: %s."
-msgstr ""
+msgstr "Mauvais bionique installé : %s."
 
 #: bodypart.cpp:9
 msgid "head"
@@ -2834,6 +2834,27 @@ msgid ""
 "  means to keep EPA agents from visiting the SRCFs, using military\n"
 "  secrecy, emergency powers, and inter-departmental gag orders to\n"
 msgstr ""
+" Suj. : SRCF : Mémoire interne, EPA [2918024]\n"
+"  A : tout personnel administratif SRCF\n"
+"  de : Constantine Dvorak, sous secrétaire à la sécurité nucléaire\n"
+"  \n"
+"  Le directeur Grimes à lancé une nouvelles série d'accusations\n"
+"  sur lesquelles un comité du Congrès enquetera bientôt. \n"
+"  Ci-dessous vous trouverez le message qu'il m'a envoyé.\n"
+"  \n"
+"  --------------------------------------------------------------\n"
+"  Suj. : Investigations du Congrès.\n"
+"  A : Constantine Dvorak, sous-secrétaire à la sécurité nucléaire\n"
+"  De : Robert Shane, Directeur de l'EPA\n"
+"  \n"
+"      L'EPA s'est opposé depuis leur conception aux Installations de\n"
+"  Confinement à Accès Limité (SRCF). Nous avons été horrifié que ces\n"
+"  installations aient été construites si proches de zone peuplées, et avons\n"
+"  accordé notre signature au projet qu'en échange d'un accès et d'un \n"
+"  contrôle permanent des sarcophages. Mais ça n'a jamais été le cas. Depuis\n"
+"  lors le DoE a utilisé tout les moyens pour empecher les agents de l'EPA\n"
+"  de visiter les SRCF en utilisant le secret militaire, des mesures "
+"d'urgence,\n"
 
 #: computer.cpp:1126
 msgid ""
@@ -2855,6 +2876,29 @@ msgid ""
 "  Robert Shane\n"
 "  \n"
 msgstr ""
+" et des astuces légales pour entourer le projet d'un labyrinthe "
+"administratif.\n"
+"  \n"
+"      Bien que nos agent aient été interdit d'entrée, nos testeurs "
+"atmosphériques\n"
+"  des communautés avoisinantes ont détecté de haut niveaux de toxines et "
+"de \n"
+"  radiations, nous avons trouvé des douzaines de composants potentiellement\n"
+"  dangereux dans les nappes phréatiques. Nous avons maintenant des preuves \n"
+"  que les SRCF sont des danger pour la santé publique. Nous distribuons ces "
+"données\n"
+"  aux représentant de l'état et pétitionnons pour une enquête du congrès qui "
+"devrait\n"
+"  être capable de forcer l'ouverture des chambres secrètes et le monde sera "
+"mis au\n"
+"  courant de ce que vous cachez. \n"
+"  \n"
+"  Si vous avez les mains salies par cette affaire, je vous souhaite de "
+"pourrir en enfer.\n"
+"  \n"
+"  Directeur de l'EPA,\n"
+"  Robert Shane\n"
+"  \n"
 
 #: computer.cpp:1148
 msgid ""
@@ -2879,6 +2923,29 @@ msgid ""
 "  Ellen Grimes\n"
 "  \n"
 msgstr ""
+" Suj. : CDC : mémoire interne, mise en alerte[2918115]\n"
+"  A : tout le personnel SRCF\n"
+"  de : Ellen Grimes, directeur de l'EPA\n"
+"  \n"
+"      Votre site, ainsi que d'autres, à été reconnu comme étant contaminé\n"
+"  par ce que nous appelons maintenant  [censuré]. Il est vital que vous\n"
+"  vous mettiez en alerte en attendant d'autres ordres. Nous attendons les \n"
+"  ordres du Président qui doit décider de la ligne de conduite à suivre "
+"durant\n"
+"  cette crise nationale. Vous utiliserez les procédures sûres en ceinturant "
+"le\n"
+"  sarcophage de c-4 comme décrit dans la publication 4423. Nous vous\n"
+"  enverrons des ordres pour faire détonner les charges et sceller le \n"
+"  sarcophage ou pour enlever les charges. Il est d'une extrême importance\n"
+"  que l'installation soit scellés des le ordres donnés ; nous avons étés "
+"alertés\n"
+"  par la sécurité intérieure que des terroristes potentiels étaient "
+"détenus \n"
+"  dans le cadre de la crise nationale actuelle.\n"
+"  \n"
+"  Directrice du CDC,\n"
+"  Ellen Grimes\n"
+"  \n"
 
 #: computer.cpp:1173
 msgid ""
@@ -2901,10 +2968,31 @@ msgid ""
 "  Commander of the 10th Mountain Division\n"
 "  \n"
 msgstr ""
+" Objet: USARMY: SEAL SRCF [987167]\n"
+"  À: tout le personnel SRCF\n"
+"  De: Major Général Cornelius, U.S. Army\n"
+"  \n"
+"    Ceci est un message d'alerte générale pour tout le personnel civil: la "
+"10e division de\n"
+"  montagne a été  assigné à la supervision du scellement des bâtiments du\n"
+"  SRCF. Pour éviter toute contamination, le personnel non essentiel a "
+"l'ordre direct\n"
+"  d'évacuer les lieux le plus tôt possible. Des charges nucléaires de faible "
+"puissance\n"
+"  seront déployées dans les tunnels inférieurs pour empêcher la récupération "
+"de produits dangereux. Le Corps des Ingénieurs\n"
+"  déversera ensuite du béton sur les décombres pour permettre le "
+"redéploiement \n"
+"  de la 10e de montagne dans la région de Boston.\n"
+"  \n"
+"  Cornelius,\n"
+"  Major Général, U.S. Army\n"
+"  Commandant de la 10e division de montagne\n"
+"  \n"
 
 #: computer.cpp:1195
 msgid "Sealed a Hazardous Material Sarcophagus."
-msgstr ""
+msgstr "A scellé un sarcophage de déchets dangereux."
 
 #: computer.cpp:1196
 msgid "Evacuate Immediately!"
@@ -2925,7 +3013,7 @@ msgstr ""
 
 #: computer.cpp:1280 game.cpp:6086 iuse.cpp:2216
 msgid "Set off an alarm."
-msgstr ""
+msgstr "Alarme desactivée."
 
 #: computer.cpp:1303
 msgid "Manhacks drop from compartments in the ceiling."
@@ -3053,7 +3141,7 @@ msgstr "Construire Toit"
 
 #: construction.cpp:291
 msgid "Build Log & Sod Roof"
-msgstr ""
+msgstr "Construire un toit en bois et terre."
 
 #: construction.cpp:305
 msgid "Build Bulletin Board"
@@ -3130,7 +3218,7 @@ msgstr "Vous ne pouvez pas construire ça!"
 
 #: construction.cpp:799
 msgid "Contruct"
-msgstr ""
+msgstr "Construire"
 
 #: construction.cpp:810
 msgid "You're not strong enough!"
@@ -3493,7 +3581,7 @@ msgstr "MODE DEFENSE"
 
 #: defense.cpp:654
 msgid "Press +/- or >/< to cycle, spacebar to toggle"
-msgstr ""
+msgstr "Pressez +/- ou >/< pour circuler, espace pour basculer"
 
 #: defense.cpp:655
 msgid "Press S to start, ! to save as a template"
@@ -3557,11 +3645,11 @@ msgstr "La récompense reçue après la première vague."
 
 #: defense.cpp:686
 msgid "Cash Increase:"
-msgstr ""
+msgstr "gain d'argent:"
 
 #: defense.cpp:688
 msgid "The increase in the award each wave."
-msgstr ""
+msgstr "Augmentation de la récompense pour chaque vague."
 
 #: defense.cpp:690
 msgid "Enemy Selection:"
@@ -3691,6 +3779,13 @@ msgid ""
 "Pick an item with the up/down keys, press + to buy 1 more, - to buy 1 less.\n"
 "Press Enter to buy everything in your cart, Esc to buy nothing."
 msgstr ""
+"CARAVANE:\n"
+"Commencez en choisissant une catégorie avec vos touches haut/bas.\n"
+"Alternez entre choix de catégories et choix d'objet en appuyant sur 'Tab'.\n"
+"Choisissez un objet avec les touches haut/bas, puis ajouter ou retirer un "
+"objet en utilisant respectivement les touches + ou - .\n"
+"Appuyer sur entrée permet de tout acheter votre panier, échap de ne rien "
+"acheter."
 
 #: defense.cpp:965 defense.cpp:979
 msgid "Really buy nothing?"
@@ -3789,7 +3884,7 @@ msgstr "Le jour du %s !"
 #: defense.cpp:1307
 #, c-format
 msgid "%s Party!"
-msgstr ""
+msgstr "Groupe de %s !"
 
 #: defense.cpp:1308
 #, c-format
@@ -3831,7 +3926,7 @@ msgstr "Vous avez pris feu!"
 
 #: disease.cpp:286
 msgid "Caught on fire."
-msgstr ""
+msgstr "Enflammé."
 
 #: disease.cpp:289
 msgid "You inhale a lungful of thick smoke."
@@ -3947,15 +4042,15 @@ msgstr "Vous êtes piégé."
 
 #: disease.cpp:378
 msgid "Got over the cold."
-msgstr ""
+msgstr "Vous vous êtes remis du rhume."
 
 #: disease.cpp:381
 msgid "Got over the flu."
-msgstr ""
+msgstr "Vous vous êtes remis de la grippe."
 
 #: disease.cpp:384
 msgid "Put out the fire."
-msgstr ""
+msgstr "Le feu est éteint."
 
 #: disease.cpp:387
 msgid "Cured the fungal infection."
@@ -3967,11 +4062,11 @@ msgstr "Les œuf dermiques ont éclos."
 
 #: disease.cpp:393
 msgid "Cleaned the bite wound."
-msgstr ""
+msgstr "La blessure par morsure  est nettoyée."
 
 #: disease.cpp:396
 msgid "Sterilized the infection... this time."
-msgstr ""
+msgstr "Vous avez stérilisé l'infection... cette fois."
 
 #: disease.cpp:426
 msgid "Your thoughts are unclear."
@@ -3986,6 +4081,8 @@ msgid ""
 "Your torso is freezing cold.                                      You should "
 "put on a few more layers."
 msgstr ""
+"Votre torse est glacé. Vous devriez rajouter quelques couches "
+"supplémentaires."
 
 #: disease.cpp:464
 msgid "Your arms are shivering."
@@ -3993,23 +4090,23 @@ msgstr "Vos bras tremblent."
 
 #: disease.cpp:476
 msgid "Your hands feel like ice."
-msgstr ""
+msgstr "Vos mains sont gelées"
 
 #: disease.cpp:487
 msgid "Your legs tremble against the relentless cold."
-msgstr ""
+msgstr "Vos jambes tremblent à cause du froid implacable."
 
 #: disease.cpp:504
 msgid "Your feet feel frigid."
-msgstr ""
+msgstr "Vos pieds sont glacés."
 
 #: disease.cpp:518
 msgid "Your fingers itch."
-msgstr ""
+msgstr "Vos doigts vous démangent."
 
 #: disease.cpp:531
 msgid "Your toes itch."
-msgstr ""
+msgstr "Vos orteils vous démangent."
 
 #: disease.cpp:547
 msgid "Your face feels numb."
@@ -4045,7 +4142,7 @@ msgstr "Grosse toux."
 
 #: disease.cpp:809 disease.cpp:833
 msgid "You gag and retch."
-msgstr ""
+msgstr "Vous avez des haut-le-cœur."
 
 #: disease.cpp:841
 msgid "You fall asleep."
@@ -4080,7 +4177,7 @@ msgstr "bip-bip-bip !"
 
 #: disease.cpp:874
 msgid "You wake up to the ringing of an alarm-clock."
-msgstr ""
+msgstr "Vous vous reveillez au son d'un reveil."
 
 #: disease.cpp:892
 msgid "Your bones feel like rubber as they melt and remend."
@@ -4088,7 +4185,7 @@ msgstr ""
 
 #: disease.cpp:895
 msgid "Your bones feel like they're crumbling."
-msgstr ""
+msgstr "Vous sentez vos os s'effriter."
 
 #: disease.cpp:979 disease.cpp:1001
 msgid "You're suddenly wracked with pain!"
@@ -4133,6 +4230,8 @@ msgid ""
 "Your asthma overcomes you.\n"
 "You asphixiate."
 msgstr ""
+"Votre asthme vous épuise.\n"
+"Vous asphixiez."
 
 #: disease.cpp:1113
 msgid "Succumbed to an asthma attack."
@@ -4140,19 +4239,19 @@ msgstr "Sucommbé à une crise d'asthme."
 
 #: disease.cpp:1117
 msgid "You wheeze and gasp for air."
-msgstr ""
+msgstr "Vous respirez bruyamment et suffoquez en essayant de respirer."
 
 #: disease.cpp:1143
 msgid "Your head aches."
-msgstr ""
+msgstr "vous avez mal à la tête."
 
 #: disease.cpp:1146
 msgid "You feel completely rundown."
-msgstr ""
+msgstr "Vous êtes complètement crevé."
 
 #: disease.cpp:1150
 msgid "You feel an urge to take more meth."
-msgstr ""
+msgstr "Vous ressentez un très fort besoin de prendre plus de meth."
 
 #: disease.cpp:1183
 msgid "Glowing lights surround you, and you teleport."
@@ -4230,191 +4329,191 @@ msgstr "Tête froide !"
 
 #: disease.cpp:1442
 msgid "Freezing head!!"
-msgstr ""
+msgstr "Tête gelée!!"
 
 #: disease.cpp:1445
 msgid "Chilly face"
-msgstr ""
+msgstr "Visage frais"
 
 #: disease.cpp:1446
 msgid "Cold face!"
-msgstr ""
+msgstr "Froid au visage!"
 
 #: disease.cpp:1447
 msgid "Freezing face!!"
-msgstr ""
+msgstr "Visage gelé!!"
 
 #: disease.cpp:1450
 msgid "Chilly torso"
-msgstr ""
+msgstr "Torse frais"
 
 #: disease.cpp:1451
 msgid "Cold torso!"
-msgstr ""
+msgstr "Froid au torse!"
 
 #: disease.cpp:1452
 msgid "Freezing torso!!"
-msgstr ""
+msgstr "Torse gelé!!"
 
 #: disease.cpp:1455
 msgid "Chilly arms"
-msgstr ""
+msgstr "Bras frais"
 
 #: disease.cpp:1456
 msgid "Cold arms!"
-msgstr ""
+msgstr "Bras froids!"
 
 #: disease.cpp:1457
 msgid "Freezing arms!!"
-msgstr ""
+msgstr "Bras gelés!!"
 
 #: disease.cpp:1460
 msgid "Chilly hands"
-msgstr ""
+msgstr "Mains fraiches"
 
 #: disease.cpp:1461
 msgid "Cold hands!"
-msgstr ""
+msgstr "Mains froides!"
 
 #: disease.cpp:1462
 msgid "Freezing hands!!"
-msgstr ""
+msgstr "Mains gelées!!"
 
 #: disease.cpp:1465
 msgid "Chilly legs"
-msgstr ""
+msgstr "frisquet"
 
 #: disease.cpp:1466
 msgid "Cold legs!"
-msgstr ""
+msgstr "Froid"
 
 #: disease.cpp:1467
 msgid "Freezing legs!!"
-msgstr ""
+msgstr "Jambes gelées!"
 
 #: disease.cpp:1470
 msgid "Chilly feet"
-msgstr ""
+msgstr "pieds"
 
 #: disease.cpp:1471
 msgid "Cold feet!"
-msgstr ""
+msgstr "Pied froids!"
 
 #: disease.cpp:1472
 msgid "Freezing feet!!"
-msgstr ""
+msgstr "Pieds gelés!!"
 
 #: disease.cpp:1475
 msgid "Frostnip - hands"
-msgstr ""
+msgstr "Mains - gelées"
 
 #: disease.cpp:1476
 msgid "Frostbite - hands"
-msgstr ""
+msgstr "Mains - gelures"
 
 #: disease.cpp:1479
 msgid "Frostnip - feet"
-msgstr ""
+msgstr "Pieds - gelés"
 
 #: disease.cpp:1480
 msgid "Frostbite - feet"
-msgstr ""
+msgstr "Pieds - gelures"
 
 #: disease.cpp:1483
 msgid "Frostnip - face"
-msgstr ""
+msgstr "Visage - gelé"
 
 #: disease.cpp:1484
 msgid "Frostbite - face"
-msgstr ""
+msgstr "Visage - gelures"
 
 #: disease.cpp:1487
 msgid "Warm head"
-msgstr ""
+msgstr "Chaud à la tête"
 
 #: disease.cpp:1488
 msgid "Hot head!"
-msgstr ""
+msgstr "Très chaud à la tête!"
 
 #: disease.cpp:1489
 msgid "Scorching head!!"
-msgstr ""
+msgstr "Votre tête est brûlante!!"
 
 #: disease.cpp:1492
 msgid "Warm face"
-msgstr ""
+msgstr "Visage chaud"
 
 #: disease.cpp:1493
 msgid "Hot face!"
-msgstr ""
+msgstr "Visage très chaud!"
 
 #: disease.cpp:1494
 msgid "Scorching face!!"
-msgstr ""
+msgstr "Visage brûlant!!"
 
 #: disease.cpp:1497
 msgid "Warm torso"
-msgstr ""
+msgstr "Torse chaud"
 
 #: disease.cpp:1498
 msgid "Hot torso!"
-msgstr ""
+msgstr "Torse très chaud!"
 
 #: disease.cpp:1499
 msgid "Scorching torso!!"
-msgstr ""
+msgstr "Torse brûlant!"
 
 #: disease.cpp:1502
 msgid "Warm arms"
-msgstr ""
+msgstr "Bras chauds"
 
 #: disease.cpp:1503
 msgid "Hot arms!"
-msgstr ""
+msgstr "Bras très chauds!"
 
 #: disease.cpp:1504
 msgid "Scorching arms!!"
-msgstr ""
+msgstr "Bras brûlants!!"
 
 #: disease.cpp:1507
 msgid "Warm hands"
-msgstr ""
+msgstr "Mains chaudes"
 
 #: disease.cpp:1508
 msgid "Hot hands!"
-msgstr ""
+msgstr "Mains très chaudes!"
 
 #: disease.cpp:1509
 msgid "Scorching hands!!"
-msgstr ""
+msgstr "Mains brûlantes!!"
 
 #: disease.cpp:1512
 msgid "Warm legs"
-msgstr ""
+msgstr "Jambes chaudes"
 
 #: disease.cpp:1513
 msgid "Hot legs!"
-msgstr ""
+msgstr "Jambes très chaudes!"
 
 #: disease.cpp:1514
 msgid "Scorching legs!!"
-msgstr ""
+msgstr "Jambes brûlantes!!"
 
 #: disease.cpp:1517
 msgid "Warm feet"
-msgstr ""
+msgstr "Pieds chauds"
 
 #: disease.cpp:1518
 msgid "Hot feet!"
-msgstr ""
+msgstr "Pieds très chauds"
 
 #: disease.cpp:1519
 msgid "Scorching feet!!"
-msgstr ""
+msgstr "Pieds brûlants!!"
 
 #: disease.cpp:1520
 msgid "Blisters - face"
-msgstr "Cloques - visag"
+msgstr "Cloques - visage"
 
 #: disease.cpp:1521
 msgid "Blisters - torso"
@@ -4658,7 +4757,7 @@ msgstr "Votre crâne est très exposé au froid. Se concentrer est difficile."
 
 #: disease.cpp:1616
 msgid "Your head is extremely cold.  You can barely think straight."
-msgstr ""
+msgstr "Vous avez la tête gelée. Vous ne pouvez à peine penser correcctement."
 
 #: disease.cpp:1621
 msgid "Your face is exposed to the cold."
@@ -4678,11 +4777,13 @@ msgstr "Votre torse est exposé au froid"
 
 #: disease.cpp:1629
 msgid "Your torso is very cold, and your actions are incoordinated."
-msgstr ""
+msgstr "Votre torse est gelé et vous avez du mal à coordiner vos actions."
 
 #: disease.cpp:1630
 msgid "Your torso is dangerously cold. Your actions are very incoordinated."
 msgstr ""
+"La température de votre torse est dangereusement basse. Vos actions sont "
+"très désordonnées."
 
 #: disease.cpp:1635
 msgid "Your arms are exposed to the cold."
@@ -4703,11 +4804,11 @@ msgstr "Vos mains sont exposées au froid."
 
 #: disease.cpp:1643
 msgid "Your hands are shivering from the cold."
-msgstr ""
+msgstr "Vos mains tremblent à cause du froid."
 
 #: disease.cpp:1644
 msgid "Your hands are shivering uncontrollably from the extreme cold."
-msgstr ""
+msgstr "Vos mains tremblent énormément à cause du froid extrême."
 
 #: disease.cpp:1649
 msgid "Your legs are exposed to the cold."
@@ -4807,7 +4908,7 @@ msgstr ""
 
 #: disease.cpp:1694
 msgid "Your head feels warm."
-msgstr ""
+msgstr "Vous avez chaud à la tête."
 
 #: disease.cpp:1695
 msgid ""
@@ -4867,11 +4968,11 @@ msgstr "Vos mains sont chaudes."
 
 #: disease.cpp:1723
 msgid "Your hands feel hot and uncoordinated."
-msgstr ""
+msgstr "Vos mains sont chaudes et mal coordonées."
 
 #: disease.cpp:1724
 msgid "Your hands feel disgustinly hot and are very uncoordinated."
-msgstr ""
+msgstr "Vos mains sont désagréablement brûlantes et très mal coordonées."
 
 #: disease.cpp:1729
 msgid "Your legs feel warm."
@@ -4943,7 +5044,7 @@ msgid ""
 "Strength - 3;   Dexterity - 1;   Intelligence - 2;   Perception - 1\n"
 "Symptoms alleviated by medication (Dayquil or Nyquil)."
 msgstr ""
-"Faim accrue; toux frequentes\n"
+"Soif accrue; toux frequentes\n"
 "Force -3; Dexterité -1; Perception -1;\n"
 "Soignée par (Dayquil ou Nyquil)."
 
@@ -4953,7 +5054,7 @@ msgid ""
 "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
 "Symptoms alleviated by medication (Dayquil or Nyquil)."
 msgstr ""
-"Faim accrue; vomissement occasionels\n"
+"Soif accrue; vomissement occasionels\n"
 "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
 "Soigné par (Dayquil or Nyquil)."
 
@@ -5063,6 +5164,8 @@ msgid ""
 "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\n"
 "Occasional pain and/or damage."
 msgstr ""
+"Perception - 1;   Dextérité - 1;   Force- 2 SI pas résistant.\n"
+"Douleur et/ou dommage occasionnel."
 
 #: disease.cpp:1834
 msgid "You are slowly losing blood."
@@ -5074,6 +5177,9 @@ msgid ""
 "Strength - 3 IF not resistant, -1 otherwise\n"
 "Frequent pain and/or damage."
 msgstr ""
+"Perception - 2;   Dextérité - 2;\n"
+"Froce- 3 SI non resistant, -1 autrement\n"
+"Douleurs et/ou dommages frequents."
 
 #: disease.cpp:1844
 msgid ""
@@ -5105,7 +5211,7 @@ msgstr "Force - 1;   Dextérité - 4;   Vitesse - 25"
 
 #: disease.cpp:1865
 msgid "You feal nauseated and rat-like.\n"
-msgstr ""
+msgstr "Vous vous sentez nauséeux et avec l'impression d'être un rat.\n"
 
 #: disease.cpp:1867 disease.cpp:1893
 #, c-format
@@ -5294,7 +5400,7 @@ msgstr ""
 
 #: disease.cpp:2078
 msgid "You feel well rested."
-msgstr ""
+msgstr "Vous vous sentez reposé."
 
 #: disease.cpp:2115
 msgid "The light wakes you up."
@@ -5310,7 +5416,7 @@ msgstr "Le froid vous réveille."
 
 #: disease.cpp:2135
 msgid "You toss and turn in the heat."
-msgstr ""
+msgstr "Vous vous tournez et retournez dans la chaleur."
 
 #: disease.cpp:2139
 msgid "The heat wakes you up."
@@ -5334,7 +5440,7 @@ msgstr "une toux hachée."
 
 #: disease.cpp:2209
 msgid "You wake up coughing."
-msgstr ""
+msgstr "Vous vous reveillez en toussant."
 
 #: disease.cpp:2224
 msgid "You feel a little strange."
@@ -5342,19 +5448,19 @@ msgstr "Vous vous sentez un peut bizarre."
 
 #: disease.cpp:2228
 msgid "The world takes on a dreamlike quality."
-msgstr ""
+msgstr "Le monde prend une consistance onirique."
 
 #: disease.cpp:2230
 msgid "You have a sudden nostalgic feeling."
-msgstr ""
+msgstr "Vous vous sentez soudainement nostalgique."
 
 #: disease.cpp:2232
 msgid "Everything around you is starting to breathe."
-msgstr ""
+msgstr "Tout autour de vous se met à respirer."
 
 #: disease.cpp:2234
 msgid "Something feels very, very wrong."
-msgstr ""
+msgstr "Il y a quelque chose de très, très mauvais."
 
 #: disease.cpp:2238
 msgid "You feel sick to your stomach."
@@ -5362,15 +5468,15 @@ msgstr ""
 
 #: disease.cpp:2271
 msgid "Fractal patterns dance across your vision."
-msgstr ""
+msgstr "Des motifs fractals dansent à travers votre regard."
 
 #: disease.cpp:2284
 msgid "Everything looks SO boring now."
-msgstr ""
+msgstr "Tout semble TELLEMENT ennuyant maintenant."
 
 #: disease.cpp:2286
 msgid "Things are returning to normal."
-msgstr ""
+msgstr "Les choses reviennent à la normale."
 
 #: disease.cpp:2366
 msgid "Your flesh crawls; insects tear through the flesh and begin to emerge!"
@@ -5398,11 +5504,11 @@ msgstr ""
 
 #: editmap.cpp:365
 msgid " [vehicle]"
-msgstr ""
+msgstr " [véhicule]"
 
 #: editmap.cpp:368
 msgid " [indoors]"
-msgstr ""
+msgstr " [interieurs]"
 
 #: editmap.cpp:371
 msgid " [roof]"
@@ -5421,17 +5527,17 @@ msgstr "piège : %s (%d)"
 #: editmap.cpp:406 game.cpp:6673 game.cpp:6702
 #, c-format
 msgid "There is a %s there. Parts:"
-msgstr ""
+msgstr "Il y a un %s ici. Morceaux :"
 
 #: editmap.cpp:413 game.cpp:6679
 #, c-format
 msgid "There is a %s there."
-msgstr ""
+msgstr "Il y a un %s ici."
 
 #: editmap.cpp:417
 #, c-format
 msgid "There are %d other items there as well."
-msgstr ""
+msgstr "Il y a également %d objet ici."
 
 #: editmap.cpp:424 game.cpp:6726
 #, c-format
@@ -5445,11 +5551,11 @@ msgstr "Coût du mouvement : %d"
 
 #: editmap.cpp:536 editmap.cpp:587
 msgid "[indoors] "
-msgstr ""
+msgstr "[interieurs] "
 
 #: editmap.cpp:539 editmap.cpp:590
 msgid "[roof] "
-msgstr ""
+msgstr "[toit] "
 
 #: editmap.cpp:862
 msgid "-clear-"
@@ -5793,7 +5899,7 @@ msgstr "Les Eliminateurs"
 
 #: faction.cpp:109
 msgid "Shade"
-msgstr "Ombre"
+msgstr "Nuance"
 
 #: faction.cpp:109
 msgid "Snipers"
@@ -5829,11 +5935,11 @@ msgstr ""
 
 #: faction.cpp:114
 msgid "Punks"
-msgstr ""
+msgstr "Punks"
 
 #: faction.cpp:114
 msgid "Sharks"
-msgstr ""
+msgstr "Requins"
 
 #: faction.cpp:114
 msgid "Vandals"
@@ -5869,11 +5975,11 @@ msgstr ""
 
 #: faction.cpp:119
 msgid "Brotherhood"
-msgstr ""
+msgstr "Confrérie"
 
 #: faction.cpp:119
 msgid "Church"
-msgstr ""
+msgstr "Église"
 
 #: faction.cpp:119
 msgid "Creed"
@@ -5893,11 +5999,11 @@ msgstr ""
 
 #: faction.cpp:119
 msgid "Sect"
-msgstr ""
+msgstr "Secte"
 
 #: faction.cpp:120
 msgid "Clerics"
-msgstr ""
+msgstr "Ecclésiastiques"
 
 #: faction.cpp:120
 msgid "Elders"
@@ -5905,31 +6011,31 @@ msgstr ""
 
 #: faction.cpp:120
 msgid "Gnostics"
-msgstr ""
+msgstr "Gnostiques"
 
 #: faction.cpp:120
 msgid "Monks"
-msgstr ""
+msgstr "Moines"
 
 #: faction.cpp:120
 msgid "Pastors"
-msgstr ""
+msgstr "Pasteurs"
 
 #: faction.cpp:120
 msgid "Priests"
-msgstr ""
+msgstr "Prêtres"
 
 #: faction.cpp:120
 msgid "Tenet"
-msgstr ""
+msgstr "Principe"
 
 #: faction.cpp:121
 msgid "Inquisitors"
-msgstr ""
+msgstr "Inquisiteurs"
 
 #: faction.cpp:125
 msgid "Clan"
-msgstr ""
+msgstr "Clan"
 
 #: faction.cpp:125
 msgid "Folk"
@@ -5937,7 +6043,7 @@ msgstr ""
 
 #: faction.cpp:125
 msgid "Men"
-msgstr ""
+msgstr "Hommes"
 
 #: faction.cpp:125
 msgid "People"
@@ -5945,19 +6051,19 @@ msgstr ""
 
 #: faction.cpp:125
 msgid "Settlers"
-msgstr ""
+msgstr "Colons"
 
 #: faction.cpp:125
 msgid "Society"
-msgstr ""
+msgstr "Société"
 
 #: faction.cpp:125
 msgid "Tribe"
-msgstr ""
+msgstr "Tribu"
 
 #: faction.cpp:126
 msgid "Colony"
-msgstr ""
+msgstr "Colonie"
 
 #: faction.cpp:126
 msgid "Company"
@@ -6021,11 +6127,11 @@ msgstr "harmonie avec la nature"
 
 #: faction.cpp:143
 msgid "rebuilding civilization"
-msgstr ""
+msgstr "Reconstruire la civilisation"
 
 #: faction.cpp:144
 msgid "spreading the fungus"
-msgstr ""
+msgstr "Diffuser le fungus"
 
 #: faction.cpp:153
 msgid "protection rackets"
@@ -6033,7 +6139,7 @@ msgstr ""
 
 #: faction.cpp:154
 msgid "the sale of information"
-msgstr ""
+msgstr "la vente d'information"
 
 #: faction.cpp:155
 msgid "their bustling trade centers"
@@ -6093,11 +6199,11 @@ msgstr "leur isolationnism"
 
 #: faction.cpp:177
 msgid "exploring extensively"
-msgstr ""
+msgstr "explorer méthodiquement"
 
 #: faction.cpp:178
 msgid "collecting rare artifacts"
-msgstr ""
+msgstr "collecter des artefacts rares"
 
 #: faction.cpp:179
 msgid "their knowledge of bionics"
@@ -6113,7 +6219,7 @@ msgstr "leur entrainement d'élite"
 
 #: faction.cpp:182
 msgid "their robotics factories"
-msgstr ""
+msgstr "leurs usines robotiques"
 
 #: faction.cpp:183
 msgid "treachery"
@@ -6148,20 +6254,20 @@ msgstr ""
 
 #: faction.cpp:353
 msgid "The army"
-msgstr ""
+msgstr "L'amée"
 
 #: faction.cpp:436
 msgid " have the ultimate goal of "
-msgstr ""
+msgstr " Le but ultime de "
 
 #: faction.cpp:437
 msgid ". Their primary concern is "
-msgstr ""
+msgstr ". Leur première préoccupation est "
 
 #: faction.cpp:440 faction.cpp:442 faction.cpp:452 game.cpp:9736
 #: npctalk.cpp:725
 msgid "."
-msgstr ""
+msgstr "."
 
 #: faction.cpp:442
 msgid ", but they are also involved in "
@@ -6182,51 +6288,51 @@ msgstr ", et "
 
 #: faction.cpp:504
 msgid "<fac_name>ab"
-msgstr ""
+msgstr "<fac_name>ab"
 
 #: faction.cpp:505
 msgid "<fac_name>bon"
-msgstr ""
+msgstr "<fac_name>bon"
 
 #: faction.cpp:506
 msgid "<fac_name>cor"
-msgstr ""
+msgstr "<fac_name>cor"
 
 #: faction.cpp:507
 msgid "<fac_name>den"
-msgstr ""
+msgstr "<fac_name>den"
 
 #: faction.cpp:508
 msgid "<fac_name>el"
-msgstr ""
+msgstr "<fac_name>el"
 
 #: faction.cpp:509
 msgid "<fac_name>fes"
-msgstr ""
+msgstr "<fac_name>fes"
 
 #: faction.cpp:510
 msgid "<fac_name>gun"
-msgstr ""
+msgstr "<fac_name>gun"
 
 #: faction.cpp:511
 msgid "<fac_name>hit"
-msgstr ""
+msgstr "<fac_name>hit"
 
 #: faction.cpp:512
 msgid "<fac_name>id"
-msgstr ""
+msgstr "<fac_name>id"
 
 #: faction.cpp:513
 msgid "<fac_name>jan"
-msgstr ""
+msgstr "<fac_name>jan"
 
 #: faction.cpp:514
 msgid "<fac_name>kal"
-msgstr ""
+msgstr "<fac_name>kal"
 
 #: faction.cpp:515
 msgid "<fac_name>ler"
-msgstr ""
+msgstr "<fac_name>ler"
 
 #: faction.cpp:516
 msgid "<fac_name>mal"
@@ -6234,71 +6340,71 @@ msgstr ""
 
 #: faction.cpp:517
 msgid "<fac_name>nor"
-msgstr ""
+msgstr "<fac_name>nor"
 
 #: faction.cpp:518
 msgid "<fac_name>or"
-msgstr ""
+msgstr "<fac_name>or"
 
 #: faction.cpp:519
 msgid "<fac_name>pan"
-msgstr ""
+msgstr "<fac_name>pan"
 
 #: faction.cpp:520
 msgid "<fac_name>qua"
-msgstr ""
+msgstr "<fac_name>qua"
 
 #: faction.cpp:521
 msgid "<fac_name>ros"
-msgstr ""
+msgstr "<fac_name>ros"
 
 #: faction.cpp:522
 msgid "<fac_name>sin"
-msgstr ""
+msgstr "<fac_name>sin"
 
 #: faction.cpp:523
 msgid "<fac_name>tor"
-msgstr ""
+msgstr "<fac_name>tor"
 
 #: faction.cpp:524
 msgid "<fac_name>urr"
-msgstr ""
+msgstr "<fac_name>urr"
 
 #: faction.cpp:525
 msgid "<fac_name>ven"
-msgstr ""
+msgstr "<fac_name>ven"
 
 #: faction.cpp:526
 msgid "<fac_name>wel"
-msgstr ""
+msgstr "<fac_name>wel"
 
 #: faction.cpp:527
 msgid "<fac_name>oxo"
-msgstr ""
+msgstr "<fac_name>oxo"
 
 #: faction.cpp:528
 msgid "<fac_name>yen"
-msgstr ""
+msgstr "<fac_name>yen"
 
 #: faction.cpp:529
 msgid "<fac_name>zu"
-msgstr ""
+msgstr "<fac_name>zu"
 
 #: faction.cpp:542
 msgid "<fac_adj>Ald"
-msgstr ""
+msgstr "<fac_adj>Ald"
 
 #: faction.cpp:543
 msgid "<fac_adj>Brogg"
-msgstr ""
+msgstr "<fac_adj>Brogg"
 
 #: faction.cpp:544
 msgid "<fac_adj>Cald"
-msgstr ""
+msgstr "<fac_adj>Cald"
 
 #: faction.cpp:545
 msgid "<fac_adj>Dredd"
-msgstr ""
+msgstr "<fac_adj>Dredd"
 
 #: faction.cpp:546
 msgid "<fac_adj>Eld"
@@ -6306,15 +6412,15 @@ msgstr ""
 
 #: faction.cpp:547
 msgid "<fac_adj>Forr"
-msgstr ""
+msgstr "<fac_adj>Forr"
 
 #: faction.cpp:548
 msgid "<fac_adj>Gugg"
-msgstr ""
+msgstr "<fac_adj>Gugg"
 
 #: faction.cpp:549
 msgid "<fac_adj>Horr"
-msgstr ""
+msgstr "<fac_adj>Horr"
 
 #: faction.cpp:550
 msgid "<fac_adj>Ill"
@@ -6338,7 +6444,7 @@ msgstr ""
 
 #: faction.cpp:555
 msgid "<fac_adj>Nov"
-msgstr ""
+msgstr "<fac_adj>Nov"
 
 #: faction.cpp:556
 msgid "<fac_adj>Orb"
@@ -6546,7 +6652,7 @@ msgstr ""
 
 #: faction.cpp:628
 msgid "Archenemy"
-msgstr ""
+msgstr "Ennemi juré"
 
 #: faction.cpp:630
 msgid "Wanted Dead"
@@ -6554,55 +6660,55 @@ msgstr ""
 
 #: faction.cpp:632
 msgid "Enemy of the People"
-msgstr ""
+msgstr "Ennemi du peuple"
 
 #: faction.cpp:634
 msgid "Wanted Criminal"
-msgstr ""
+msgstr "Criminel recherché"
 
 #: faction.cpp:636
 msgid "Not Welcome"
-msgstr ""
+msgstr "Malvenu"
 
 #: faction.cpp:638
 msgid "Pariah"
-msgstr ""
+msgstr "Paria"
 
 #: faction.cpp:640
 msgid "Disliked"
-msgstr ""
+msgstr "Malaimé"
 
 #: faction.cpp:642
 msgid "Hero"
-msgstr ""
+msgstr "Héro"
 
 #: faction.cpp:644
 msgid "Idol"
-msgstr ""
+msgstr "Idole"
 
 #: faction.cpp:646
 msgid "Beloved"
-msgstr ""
+msgstr "Aimé"
 
 #: faction.cpp:648
 msgid "Highly Valued"
-msgstr ""
+msgstr "Hautement estimé"
 
 #: faction.cpp:650
 msgid "Valued"
-msgstr ""
+msgstr "Estimé"
 
 #: faction.cpp:652
 msgid "Well-Liked"
-msgstr ""
+msgstr "Appricié"
 
 #: faction.cpp:654
 msgid "Liked"
-msgstr ""
+msgstr "Aimé"
 
 #: faction.cpp:656 faction.cpp:690
 msgid "Neutral"
-msgstr ""
+msgstr "Neutre"
 
 #: faction.cpp:664
 msgid "Legendary"
@@ -6674,7 +6780,7 @@ msgstr "morceau de viande ensanglanté"
 
 #: field.cpp:35
 msgid "heap of gore"
-msgstr ""
+msgstr "amas de sang"
 
 #: field.cpp:35
 msgid "scraps of flesh"
@@ -6698,7 +6804,7 @@ msgstr "toiles d'araignée"
 
 #: field.cpp:47
 msgid "thick webs"
-msgstr ""
+msgstr "Toiles denses"
 
 #: field.cpp:47
 msgid "webs"
@@ -6706,15 +6812,15 @@ msgstr "toile épaisse"
 
 #: field.cpp:53
 msgid "puddle of slime"
-msgstr ""
+msgstr "Flaque de slime"
 
 #: field.cpp:53
 msgid "slime stain"
-msgstr ""
+msgstr "Tache de slime"
 
 #: field.cpp:53
 msgid "slime trail"
-msgstr ""
+msgstr "Trainée de slime"
 
 #: field.cpp:59
 msgid "acid splatter"
@@ -6758,7 +6864,7 @@ msgstr "feu"
 
 #: field.cpp:77
 msgid "raging fire"
-msgstr ""
+msgstr "feu intense"
 
 #: field.cpp:77
 msgid "small fire"
@@ -6766,7 +6872,7 @@ msgstr "petit feu"
 
 #: field.cpp:83
 msgid "mountain of rubble"
-msgstr ""
+msgstr "montagne de débris"
 
 #: field.cpp:83
 msgid "rubble heap"
@@ -6818,7 +6924,7 @@ msgstr "épais nuage de gaz radioactif"
 
 #: field.cpp:113
 msgid "gas vent"
-msgstr ""
+msgstr "conduit de gaz"
 
 #: field.cpp:131
 msgid "electric cloud"
@@ -6834,11 +6940,11 @@ msgstr "étincelles"
 
 #: field.cpp:137
 msgid "odd ripple"
-msgstr ""
+msgstr "ondulation étrange"
 
 #: field.cpp:137
 msgid "swirling air"
-msgstr ""
+msgstr "air tourbillonant"
 
 #: field.cpp:137
 msgid "tear in reality"
@@ -6846,15 +6952,15 @@ msgstr ""
 
 #: field.cpp:161
 msgid "burning plasma"
-msgstr ""
+msgstr "Plasma brulant"
 
 #: field.cpp:161
 msgid "faint plasma"
-msgstr ""
+msgstr "Plasma faible"
 
 #: field.cpp:161
 msgid "glowing plasma"
-msgstr ""
+msgstr "Plasma Rayonnant"
 
 #: field.cpp:167
 msgid "beam of light"
@@ -6871,17 +6977,17 @@ msgstr "faisceau de lumière intense"
 #: field.cpp:814
 #, c-format
 msgid "A %s hits you!"
-msgstr ""
+msgstr "Un %s vous frappe !"
 
 #: field.cpp:824
 #, c-format
 msgid "A %s hits %s!"
-msgstr ""
+msgstr "Un %s touche %s !"
 
 #: field.cpp:832
 #, c-format
 msgid "A %s hits the %s!"
-msgstr ""
+msgstr "Un %s touche le %s !"
 
 #: field.cpp:1008
 msgid "The acid burns your legs and feet!"
@@ -6913,7 +7019,7 @@ msgstr "Ce gaz radioactif brûle!"
 
 #: field.cpp:1133
 msgid "You're torched by flames!"
-msgstr ""
+msgstr "Vous êtes une torche vivante!"
 
 #: field.cpp:1138
 msgid "These flames do not burn you."
@@ -6933,12 +7039,12 @@ msgstr "Vous êtes paralysé!"
 
 #: field.cpp:1159
 msgid "You're violently teleported!"
-msgstr ""
+msgstr "Vous êtes brutalement téléporté !"
 
 #: field.cpp:1390 trapfunc.cpp:472
 #, c-format
 msgid "The %s teleports into a %s, killing them both!"
-msgstr ""
+msgstr "Le %s se téléporte dans un %s, les tuants tout les deux !"
 
 #: field.cpp:1454
 msgid "You are hit by the falling debris!"
@@ -6955,7 +7061,7 @@ msgstr "Merci d'attendre, nous façonnons votre monde"
 #: game.cpp:439
 #, c-format
 msgid "%s began their journey into the Cataclysm."
-msgstr ""
+msgstr "%s a débuté son périple dans le Cataclysm."
 
 #: game.cpp:540
 msgid "Game over! Press spacebar..."
@@ -6983,7 +7089,7 @@ msgstr "Mort d'une overdose."
 
 #: game.cpp:587
 msgid "Your breathing stops completely."
-msgstr ""
+msgstr "Votre respiration s’arrête complétement."
 
 #: game.cpp:594
 msgid "You have starved to death."
@@ -6995,7 +7101,7 @@ msgstr "Mort de faim."
 
 #: game.cpp:598
 msgid "Food..."
-msgstr ""
+msgstr "À manger..."
 
 #: game.cpp:600
 msgid "You are STARVING!"
@@ -7015,7 +7121,7 @@ msgstr "Mort de soif."
 
 #: game.cpp:613
 msgid "4 days... no water.."
-msgstr ""
+msgstr "4 jours... sans eau..."
 
 #: game.cpp:615
 msgid "You are THIRSTY!"
@@ -7031,7 +7137,7 @@ msgstr ""
 
 #: game.cpp:625
 msgid "Succumbed to lack of sleep."
-msgstr ""
+msgstr "Mort par manque de sommeil."
 
 #: game.cpp:629
 msgid "Anywhere would be a good place to sleep..."
@@ -7053,7 +7159,7 @@ msgstr "Vous êtes fatigué."
 #: game.cpp:761
 #, c-format
 msgid "Your skill in %s has reduced to %d!"
-msgstr ""
+msgstr "Votre compétence de %s a diminué à %d !"
 
 #: game.cpp:806
 #, c-format
@@ -7072,7 +7178,7 @@ msgstr "Vous insérez une cartouche dans votre %s."
 #: game.cpp:863
 #, c-format
 msgid "You reload your %s."
-msgstr ""
+msgstr "Vous rechargez votre %s."
 
 #: game.cpp:867
 #, c-format
@@ -7082,6 +7188,8 @@ msgstr "Impossible d recharger votre %s."
 #: game.cpp:898
 msgid "The rest of the book is currently still beyond your understanding."
 msgstr ""
+"La suite du livre est actuellement toujours inaccessible à votre "
+"compréhension."
 
 #: game.cpp:929
 #, c-format
@@ -7117,6 +7225,8 @@ msgstr "Vous ne pouvez plus apprendre à partir de %s."
 #, c-format
 msgid "Your skill level won't improve, but %s has more recipes for you."
 msgstr ""
+"Votre niveau de compétence n'augmenteras pas, mais %s à d'autres recettes "
+"pour vous."
 
 #: game.cpp:977
 msgid "You finish waiting."
@@ -7158,11 +7268,11 @@ msgstr ""
 
 #: game.cpp:1076 game.cpp:1107
 msgid "butchering"
-msgstr ""
+msgstr "dépeçage"
 
 #: game.cpp:1076 game.cpp:1107 lang/json/json_skills.py:5
 msgid "construction"
-msgstr ""
+msgstr "construction"
 
 #: game.cpp:1076 game.cpp:1107
 msgid "disassembly"
@@ -7184,6 +7294,7 @@ msgstr ""
 #, c-format
 msgid "%s Stop %s? (Y)es, (N)o, (I)gnore further distractions and finish."
 msgstr ""
+"%s Arrêter %s? (Y)oui, (N)on, (I)gnorer les autres distractions et terminer."
 
 #: game.cpp:1117
 #, c-format
@@ -7197,73 +7308,73 @@ msgstr "la météo est passée à %s!"
 
 #: game.cpp:1497
 msgid "Confirm:"
-msgstr ""
+msgstr "Confirmer"
 
 #: game.cpp:1528
 msgid "<a>ctivate"
-msgstr ""
+msgstr "<a>ctiver"
 
 #: game.cpp:1529
 msgid "<R>ead"
-msgstr ""
+msgstr "<R>Lire"
 
 #: game.cpp:1530
 msgid "<E>at"
-msgstr ""
+msgstr "<E>Manger"
 
 #: game.cpp:1531
 msgid "<W>ear"
-msgstr ""
+msgstr "<W>S'en habiller"
 
 #: game.cpp:1532
 msgid "<w>ield"
-msgstr ""
+msgstr "<w>Prendre en main"
 
 #: game.cpp:1533
 msgid "<t>hrow"
-msgstr ""
+msgstr "<t>Jeter"
 
 #: game.cpp:1534
 msgid "<T>ake off"
-msgstr ""
+msgstr "<T>Enlever"
 
 #: game.cpp:1535
 msgid "<d>rop"
-msgstr ""
+msgstr "<d>Déposer"
 
 #: game.cpp:1536
 msgid "<U>nload"
-msgstr ""
+msgstr "<U>Décharger"
 
 #: game.cpp:1537
 msgid "<r>eload"
-msgstr ""
+msgstr "<r>echarger"
 
 #: game.cpp:1538
 msgid "<D>isassemble"
-msgstr ""
+msgstr "<D>esassembler"
 
 #: game.cpp:1539
 msgid "<=> reassign"
-msgstr ""
+msgstr "<=> reassigner"
 
 #: game.cpp:1540
 msgid "<+> Autopickup"
-msgstr ""
+msgstr "<+> Ramassage automatique"
 
 #: game.cpp:1540
 msgid "<-> Autopickup"
-msgstr ""
+msgstr "<-> Ramassage automatique"
 
 #: game.cpp:1600
 #, c-format
 msgid "'%s' added to character pickup rules."
-msgstr ""
+msgstr "'%s' ajouté aux rêgles de ramassage du personnage."
 
 #: game.cpp:1606
 #, c-format
 msgid "'%s' removed from character pickup rules."
-msgstr ""
+msgstr "'%s' retiré des règles de ramassage du personnage."
 
 #: game.cpp:1751
 #, c-format
@@ -7273,7 +7384,7 @@ msgstr "Commande inconnue: '%c'"
 #: game.cpp:1773
 #, c-format
 msgid "Monster spotted--safe mode is on! (%s to turn it off.)"
-msgstr ""
+msgstr "Monstre repéré--le mode prudence est activé! (%s pour le désactiver.)"
 
 #: game.cpp:1957 game.cpp:10670 player.cpp:1723
 msgid "Inventory:"
@@ -7294,11 +7405,11 @@ msgstr ""
 
 #: game.cpp:2089
 msgid "new binding is "
-msgstr ""
+msgstr "Le nouveau raccourci est "
 
 #: game.cpp:2089
 msgid "new default binding is '^'."
-msgstr ""
+msgstr "Le nouveau raccourci par defaut et '^'."
 
 #: game.cpp:2095
 msgid "Are you sure you want to sleep?"
@@ -7366,7 +7477,7 @@ msgstr "Mode prudence ACTIVÉ!"
 
 #: game.cpp:2176
 msgid "Ignoring enemy!"
-msgstr ""
+msgstr "Ennemi ignoré!"
 
 #: game.cpp:2182
 msgid "Save and quit?"
@@ -7382,11 +7493,11 @@ msgstr "FACTIONS:"
 
 #: game.cpp:2248
 msgid "Debug messages ON!"
-msgstr ""
+msgstr "Messages du debug ACTIVÉS!"
 
 #: game.cpp:2250
 msgid "Debug messages OFF!"
-msgstr ""
+msgstr "Messages du debug DÉSACTIVÉS!"
 
 #: game.cpp:2445
 msgid "GAME OVER - Press Spacebar to Quit"
@@ -7394,7 +7505,7 @@ msgstr "GAME OVER - Appuyer sur espace pour quitter"
 
 #: game.cpp:3046
 msgid "Debug Functions - Using these is CHEATING!"
-msgstr ""
+msgstr "Fonctions de debug - Les utiliser c'est TRICHER!"
 
 #: game.cpp:3047
 msgid "Wish for an item"
@@ -7422,7 +7533,7 @@ msgstr "Créer Monstre"
 
 #: game.cpp:3053
 msgid "Check game state..."
-msgstr ""
+msgstr "Vérification de l'etat du jeu..."
 
 #: game.cpp:3054
 msgid "Kill NPCs"
@@ -7438,11 +7549,11 @@ msgstr "Créer un véhicule"
 
 #: game.cpp:3057
 msgid "Increase all skills"
-msgstr ""
+msgstr "Augmenter toutes les compétences"
 
 #: game.cpp:3058
 msgid "Learn all melee styles"
-msgstr ""
+msgstr "Apprendre tout les styles de melée"
 
 #: game.cpp:3059
 msgid "Check NPC"
@@ -7450,26 +7561,26 @@ msgstr ""
 
 #: game.cpp:3060
 msgid "Spawn Artifact"
-msgstr ""
+msgstr "Créer un Artefact"
 
 #: game.cpp:3061
 msgid "Spawn Clarivoyance Artifact"
-msgstr ""
+msgstr "Créer un Artefact de Clairvoyance"
 
 #: game.cpp:3062
 msgid "Map editor"
-msgstr ""
+msgstr "Editeur de carte"
 
 #: game.cpp:3063
 msgid "Change weather"
-msgstr ""
+msgstr "Changer la météo"
 
 #: game.cpp:3064 game.cpp:3181 game.cpp:9257 iexamine.cpp:363 iexamine.cpp:483
 #: iexamine.cpp:493 iexamine.cpp:777 iuse.cpp:1484 iuse.cpp:1487 iuse.cpp:2382
 #: iuse.cpp:2429 iuse.cpp:2869 iuse.cpp:3957 iuse.cpp:5044 iuse.cpp:5161
 #: iuse.cpp:5163 iuse.cpp:5165
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: game.cpp:3111
 msgid "Current overmap revealed."
@@ -7485,67 +7596,73 @@ msgid ""
 "%d currently active NPC's.\n"
 "%d events planned."
 msgstr ""
+"Location %d%d dansn%d:%d, %s\n"
+"Tour actuel : %d; prochain génération %d.\n"
+"%s\n"
+"%d monstres existants.\n"
+"%d NPC actifs actuellement.\n"
+"%d événements planifiés."
 
 #: game.cpp:3145
 msgid "NPCs are going to spawn."
-msgstr ""
+msgstr "Les NPC vont être générés"
 
 #: game.cpp:3146
 msgid "NPCs are NOT going to spawn."
-msgstr ""
+msgstr "Les NPC ne vont PAS êtres générés"
 
 #: game.cpp:3150
 #, c-format
 msgid "%s: map (%d:%d) pos (%d:%d)"
-msgstr ""
+msgstr "%s :carte (%d:%d) pos (%d:%d)"
 
 #: game.cpp:3154
 #, c-format
 msgid "(you: %d:%d)"
-msgstr ""
+msgstr "(vous : %d:%d)"
 
 #: game.cpp:3160
 #, c-format
 msgid "%s's head implodes!"
-msgstr ""
+msgstr "La tête de %s implose !"
 
 #: game.cpp:3182
 msgid "Choose vehicle to spawn"
-msgstr ""
+msgstr "Choisissez un véhicule à créer"
 
 #: game.cpp:3205
 msgid "Martial arts gained."
-msgstr ""
+msgstr "Art martiaux acquis."
 
 #: game.cpp:3212
 msgid "No NPC there."
-msgstr ""
+msgstr "Pas de PNJ ici."
 
 #: game.cpp:3218 newcharacter.cpp:1091 newcharacter.cpp:1106
 #: newcharacter.cpp:1109
 msgid "Female"
-msgstr ""
+msgstr "Femelle"
 
 #: game.cpp:3218 newcharacter.cpp:1089 newcharacter.cpp:1090
 #: newcharacter.cpp:1105 newcharacter.cpp:1108
 msgid "Male"
-msgstr ""
+msgstr "Mâle"
 
 #: game.cpp:3223
 msgid "Destination: "
-msgstr ""
+msgstr "Destination : "
 
 #: game.cpp:3226
 msgid "No destination."
-msgstr ""
+msgstr "Pas de destination."
 
 #: game.cpp:3228
 msgid " Fear: "
-msgstr ""
+msgstr " Peur : "
 
 #: game.cpp:3228 npc.cpp:2015
 msgid "Trust: "
-msgstr ""
+msgstr "Confiance : "
 
 #: game.cpp:3229
 msgid " Anger: "
@@ -7577,46 +7694,46 @@ msgstr ""
 
 #: game.cpp:3237
 msgid "Edit [s]kills"
-msgstr ""
+msgstr "[s] editer les competences"
 
 #: game.cpp:3238
 msgid "[q]uit"
-msgstr ""
+msgstr "[q]uitter"
 
 #: game.cpp:3279
 msgid "The architect's cube."
-msgstr ""
+msgstr "Le cube de l'architecte."
 
 #: game.cpp:3380
 msgid "You haven't killed any monsters yet!"
-msgstr ""
+msgstr "Vous n'avez encore tué aucun monstre."
 
 #: game.cpp:3432
 #, c-format
 msgid "Your position: %d:%d"
-msgstr ""
+msgstr "Votre position : %d:%d"
 
 #: game.cpp:3469
 msgid "You don't know of any factions.  Press Spacebar..."
-msgstr ""
+msgstr "Vous ne connaissez aucune faction. pressez espace..."
 
 #: game.cpp:3496 game.cpp:3530
 #, c-format
 msgid "Ranking: %s"
-msgstr ""
+msgstr "Classement : %s"
 
 #: game.cpp:3498 game.cpp:3532
 #, c-format
 msgid "Respect: %s"
-msgstr ""
+msgstr "Respect : %s"
 
 #: game.cpp:3576
 msgid "ACTIVE MISSIONS"
-msgstr ""
+msgstr "MISSIONS ACTIVES"
 
 #: game.cpp:3577
 msgid "COMPLETED MISSIONS"
-msgstr ""
+msgstr "MISSIONS COMPLETEES"
 
 #: game.cpp:3605
 #, c-format
@@ -7626,162 +7743,162 @@ msgstr ""
 #: game.cpp:3607
 #, c-format
 msgid "Target: (%d, %d)   You: (%d, %d)"
-msgstr ""
+msgstr "Cible : (%d:%d) Vous ; (%d,%d)"
 
 #: game.cpp:3613
 msgid "You have no active missions!"
-msgstr ""
+msgstr "Vous n'avez aucune mission active."
 
 #: game.cpp:3614
 msgid "You haven't completed any missions!"
-msgstr ""
+msgstr "Vous n'avez terminé aucune mission."
 
 #: game.cpp:3615
 msgid "You haven't failed any missions!"
-msgstr ""
+msgstr "Vous n'avez pas échoué de mission !"
 
 #: game.cpp:3735
 msgid "Underground"
-msgstr ""
+msgstr "Souterrain"
 
 #: game.cpp:3759
 #, c-format
 msgid "%s, day %d"
-msgstr ""
+msgstr "%s, jour %d"
 
 #: game.cpp:3774
 #, c-format
 msgid "Written here: %s"
-msgstr ""
+msgstr "Ecrit ici : %s"
 
 #: game.cpp:3924
 msgid "HEAD"
-msgstr ""
+msgstr "TETE"
 
 #: game.cpp:3924
 msgid "L ARM"
-msgstr ""
+msgstr "BRAS G"
 
 #: game.cpp:3924
 msgid "TORSO"
-msgstr ""
+msgstr "TORSE"
 
 #: game.cpp:3925
 msgid "L LEG"
-msgstr ""
+msgstr "JAMBE G"
 
 #: game.cpp:3925
 msgid "POWER"
-msgstr ""
+msgstr "PUISSANCE"
 
 #: game.cpp:3925
 msgid "R ARM"
-msgstr ""
+msgstr "BRAS D"
 
 #: game.cpp:3925
 msgid "R LEG"
-msgstr ""
+msgstr "JAMBE D"
 
 #: game.cpp:4455
 msgid "Monster Spotted!"
-msgstr ""
+msgstr "Monstre repéré !"
 
 #: game.cpp:4456
 msgid "Monster spotted!"
-msgstr ""
+msgstr "Monstre repéré !"
 
 #: game.cpp:4482
 msgid "East:"
-msgstr ""
+msgstr "Est :"
 
 #: game.cpp:4482
 msgid "NE:"
-msgstr ""
+msgstr "NE :"
 
 #: game.cpp:4482
 msgid "North:"
-msgstr ""
+msgstr "Nord :"
 
 #: game.cpp:4482
 msgid "SE:"
-msgstr ""
+msgstr "SE :"
 
 #: game.cpp:4483
 msgid "NW:"
-msgstr ""
+msgstr "NW :"
 
 #: game.cpp:4483
 msgid "SW:"
-msgstr ""
+msgstr "SW :"
 
 #: game.cpp:4483
 msgid "South:"
-msgstr ""
+msgstr "Sud :"
 
 #: game.cpp:4483
 msgid "West:"
-msgstr ""
+msgstr "Ouest :"
 
 #: game.cpp:4685 game.cpp:4686
 msgid "Your motion alarm goes off!"
-msgstr ""
+msgstr "Votre detecteur de mouvement s'eteind !"
 
 #: game.cpp:4730
 #, c-format
 msgid "%s's brain explodes!"
-msgstr ""
+msgstr "Le cerveau de %s explose !"
 
 #: game.cpp:4795
 msgid "You're woken up by a noise."
-msgstr ""
+msgstr "Vous êtes reveillé par un bruit."
 
 #: game.cpp:4810
 #, c-format
 msgid "Heard %s!"
-msgstr ""
+msgstr "Vous avez entendu %s !"
 
 #: game.cpp:4812
 msgid "Heard a noise!"
-msgstr ""
+msgstr "Vous avez entendu un bruit !"
 
 #: game.cpp:4832
 #, c-format
 msgid "From the %s you hear %s"
-msgstr ""
+msgstr "Vous entendez un %s venant du %s"
 
 #: game.cpp:4912
 msgid "a huge explosion!"
-msgstr ""
+msgstr "une enorme explosion !"
 
 #: game.cpp:4914
 msgid "an explosion!"
-msgstr ""
+msgstr "une explosion !"
 
 #: game.cpp:4957
 msgid "You're caught in the explosion!"
-msgstr ""
+msgstr "Vous êtes pris dans l'explosion !"
 
 #: game.cpp:5025
 #, c-format
 msgid "Shrapnel hits your %s!"
-msgstr ""
+msgstr "Des schrapnels touchent votre %s!"
 
 #: game.cpp:5056
 msgid "a huge boom!"
-msgstr ""
+msgstr "un énorme boum !"
 
 #: game.cpp:5090
 msgid "Crack!"
-msgstr ""
+msgstr "Crack !"
 
 #: game.cpp:5096 game.cpp:5104
 #, c-format
 msgid "%s is caught in the shockwave!"
-msgstr ""
+msgstr "%s est pris dans l'onde de choc !"
 
 #: game.cpp:5110
 msgid "You're caught in the shockwave!"
-msgstr ""
+msgstr "Vous êtes pris dans l'onde de choc !"
 
 #: game.cpp:5144
 #, c-format
@@ -7793,45 +7910,45 @@ msgstr ""
 #, c-format
 msgid "%s was stunned for %d turn!"
 msgid_plural "%s was stunned for %d turns!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s est sonné pour %d tour !"
+msgstr[1] "%s est sonné pour %d tours !"
 
 #: game.cpp:5171 game.cpp:5203 game.cpp:5273 game.cpp:5310
 #, c-format
 msgid "%s was stunned AGAIN for %d turn!"
 msgid_plural "%s was stunned AGAIN for %d turns!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s estENCORE  sonné pour %d tour !"
+msgstr[1] "%s est ENCORE sonné pour %d tours !"
 
 #: game.cpp:5184
 #, c-format
 msgid "%s took %d damage!"
-msgstr ""
+msgstr "%s a pris %d de dommage !"
 
 #: game.cpp:5219 game.cpp:5326
 #, c-format
 msgid "%s collided with something else and sent it flying!"
-msgstr ""
+msgstr "%s a percuté quelque chose et l'a envoyé voler."
 
 #: game.cpp:5223 game.cpp:5330
 #, c-format
 msgid "%s collided with someone else and sent him flying!"
-msgstr ""
+msgstr "%s a percuté quelqu'un et l'a envoyé voler."
 
 #: game.cpp:5226 game.cpp:5333
 #, c-format
 msgid "%s collided with someone else and sent her flying!"
-msgstr ""
+msgstr "%s a percuté quelqu'un et l'a envoyé voler."
 
 #: game.cpp:5230 game.cpp:5337
 #, c-format
 msgid "%s collided with you and sent you flying!"
-msgstr ""
+msgstr "%s vous a percuté et vous a envoyé voler !"
 
 #: game.cpp:5240 monmove.cpp:1058
 #, c-format
 msgid "The %s drowns!"
-msgstr ""
+msgstr "Le %s se noie !"
 
 #: game.cpp:5246 monmove.cpp:1064
 #, c-format
@@ -7841,103 +7958,103 @@ msgstr ""
 #: game.cpp:5287
 #, c-format
 msgid "%s took %d damage! (before armor)"
-msgstr ""
+msgstr "%s prend%d de dommage ! (avant l'armure)"
 
 #: game.cpp:5351 game.cpp:5368 game.cpp:5396
 #, c-format
 msgid "You were stunned for %d turns!"
-msgstr ""
+msgstr "Vous êtes sonné pour %d tours !"
 
 #: game.cpp:5364 game.cpp:5392
 #, c-format
 msgid "You were stunned AGAIN for %d turns!"
-msgstr ""
+msgstr "Vous êtes ENCORE sonné pour %d tours !"
 
 #: game.cpp:5402
 msgid "You collided with something and sent it flying!"
-msgstr ""
+msgstr "Vous avez percuté quelque chose et l'avez envoyé voler !"
 
 #: game.cpp:5405
 msgid "You collided with someone and sent him flying!"
-msgstr ""
+msgstr "Vous avez percuté quelqu'un et l'avez envoyé voler !"
 
 #: game.cpp:5407
 msgid "You collided with someone and sent her flying!"
-msgstr ""
+msgstr "Vous avez percuté quelqu'un et l'avez envoyé voler !"
 
 #: game.cpp:5430
 msgid "You can not read a computer screen!"
-msgstr ""
+msgstr "Vous êtes incapable de lire un écran d'ordinateur !"
 
 #: game.cpp:5436
 msgid "You'll need to put on reading glasses before you can see the screen."
-msgstr ""
+msgstr "Vous devez mettre des lunettes pour pouvoir lire l'écran."
 
 #: game.cpp:5532
 #, c-format
 msgid "The %s sparks and begins searching for a target!"
-msgstr ""
+msgstr "Le %s étincelle et commence a chercher une cible !"
 
 #: game.cpp:5540
 #, c-format
 msgid "The %s is rendered non-functional!"
-msgstr ""
+msgstr "Le %s ne fonctionne plus !"
 
 #: game.cpp:5550
 msgid "The card reader is rendered non-functional."
-msgstr ""
+msgstr "Le lecteur de cartes  ne fonctionne plus."
 
 #: game.cpp:5554
 msgid "The nearby doors slide open!"
-msgstr ""
+msgstr "Les portes proches glissent en position ouverte !"
 
 #: game.cpp:5563 game.cpp:6421 iexamine.cpp:171
 msgid "Nothing happens."
-msgstr ""
+msgstr "Rien ne se passe."
 
 #: game.cpp:5570
 #, c-format
 msgid "The EMP blast fries the %s!"
-msgstr ""
+msgstr "L'onde EMP grille le %s !"
 
 #: game.cpp:5577
 #, c-format
 msgid "The %s is unaffected by the EMP blast."
-msgstr ""
+msgstr "Le %s n'est pas affecté par l'onde EMP."
 
 #: game.cpp:5581
 msgid "The EMP blast drains your power."
-msgstr ""
+msgstr "L'onde EMP draine votre puissance."
 
 #: game.cpp:5902
 msgid "Open"
-msgstr ""
+msgstr "Ouvert"
 
 #: game.cpp:5912 game.cpp:5935
 msgid "That door is already open."
-msgstr ""
+msgstr "La porte est déja ouverte."
 
 #: game.cpp:5932
 msgid "The door is locked!"
-msgstr ""
+msgstr "La porte est vérouillée !"
 
 #: game.cpp:5939
 msgid "No door there."
-msgstr ""
+msgstr "Aucune porte ici."
 
 #: game.cpp:5948
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: game.cpp:5958 game.cpp:5977
 #, c-format
 msgid "There's a %s in the way!"
-msgstr ""
+msgstr "Un %s est dans le passage !"
 
 #: game.cpp:5966
 #, c-format
 msgid "There's %s in the way!"
-msgstr ""
+msgstr "%s est dans le pasage !"
 
 #: game.cpp:5967
 msgid "some stuff"
@@ -7945,12 +8062,14 @@ msgstr ""
 
 #: game.cpp:5969
 msgid "There's some buffoon in the way!"
-msgstr ""
+msgstr "Il y a un boufon dans le passage"
 
 #: game.cpp:5972
 msgid ""
 "You cannot close the curtains from outside. You must be inside the building."
 msgstr ""
+"Vous ne pouvez pas fermer les rideaux de dehors. Vous devez vous trouver "
+"dans le bâtiment."
 
 #: game.cpp:5993
 msgid "Smash"
@@ -7965,12 +8084,12 @@ msgstr[1] ""
 #: game.cpp:6045
 #, c-format
 msgid "You greatly damage the %s!"
-msgstr ""
+msgstr "Vous endommagez grandement le %s !"
 
 #: game.cpp:6047
 #, c-format
 msgid "You damage the %s!"
-msgstr ""
+msgstr "Vous endommagez le %s !"
 
 #: game.cpp:6052
 msgid "The corpse is now thoroughly pulped."
@@ -7979,59 +8098,59 @@ msgstr ""
 #: game.cpp:6097 melee.cpp:1237
 #, c-format
 msgid "Your %s shatters!"
-msgstr ""
+msgstr "Votre %s se brise !"
 
 #: game.cpp:6114
 msgid "There's nothing there!"
-msgstr ""
+msgstr "Il n'y a rien ici !"
 
 #: game.cpp:6122
 msgid "Use item:"
-msgstr ""
+msgstr "Utiliser l'objet :"
 
 #: game.cpp:6142
 msgid " where? (Direction button)"
-msgstr ""
+msgstr " Ou ? (touche de direction)"
 
 #: game.cpp:6153
 msgid "Invalid direction."
-msgstr ""
+msgstr "Direction invalide."
 
 #: game.cpp:6232
 #, c-format
 msgid "You recharge %s's battery."
-msgstr ""
+msgstr "Vous rechargez la batterie de %s."
 
 #: game.cpp:6234
 msgid "The battery is fully charged."
-msgstr ""
+msgstr "La batterie est totalement rechargée."
 
 #: game.cpp:6237
 #, c-format
 msgid "You refill %s's fuel tank."
-msgstr ""
+msgstr "Vous remplissez le réservoir de %s."
 
 #: game.cpp:6239
 msgid "The tank is full."
-msgstr ""
+msgstr "Le reservoir est plein."
 
 #: game.cpp:6242
 #, c-format
 msgid "You refill %s's reactor."
-msgstr ""
+msgstr "Vous remplissez le réacteur de %s."
 
 #: game.cpp:6244
 msgid "The reactor is full."
-msgstr ""
+msgstr "Le réacteur est plein."
 
 #: game.cpp:6266
 msgid "You pull a handbrake."
-msgstr ""
+msgstr "Vous tirez un frein a main."
 
 #: game.cpp:6270
 #, c-format
 msgid "You lose control of %s."
-msgstr ""
+msgstr "Vous perdez le contrôle de %s."
 
 #: game.cpp:6337 game.cpp:6347
 msgid "You turn the handle..."
@@ -8039,15 +8158,15 @@ msgstr ""
 
 #: game.cpp:6338 game.cpp:6348
 msgid "The gate is opened!"
-msgstr ""
+msgstr "Le portail est ouvert !"
 
 #: game.cpp:6339 game.cpp:6349
 msgid "The gate is closed!"
-msgstr ""
+msgstr "Le portail est fermé !"
 
 #: game.cpp:6357 game.cpp:6367
 msgid "You pull the rope..."
-msgstr ""
+msgstr "Vous tirez la corde..."
 
 #: game.cpp:6358
 msgid "The barn doors opened!"
@@ -8068,7 +8187,7 @@ msgstr ""
 #: game.cpp:6438
 #, c-format
 msgid "You dive from the %s."
-msgstr ""
+msgstr "Vous plongez hors du %s."
 
 #: game.cpp:6463
 #, c-format
@@ -8081,7 +8200,7 @@ msgstr ""
 
 #: game.cpp:6470
 msgid "No vehicle there."
-msgstr ""
+msgstr "Aucun véhicule ici."
 
 #: game.cpp:6474
 msgid "No controls there."
@@ -8089,15 +8208,15 @@ msgstr ""
 
 #: game.cpp:6484
 msgid "Examine"
-msgstr ""
+msgstr "Examiner"
 
 #: game.cpp:6495
 msgid "You can't do that while onboard."
-msgstr ""
+msgstr "Vous ne pouvez pas faire ceci quand vous êtes à bord."
 
 #: game.cpp:6497
 msgid "You can't do that on moving vehicle."
-msgstr ""
+msgstr "Vous ne pouvez pas faire ca dans un véhicule en déplacement."
 
 #: game.cpp:6520
 #, c-format
@@ -8106,11 +8225,11 @@ msgstr ""
 
 #: game.cpp:6524
 msgid "It is empty."
-msgstr ""
+msgstr "C'est vide."
 
 #: game.cpp:6545
 msgid "Peek"
-msgstr ""
+msgstr "Coup d'oeil"
 
 #: game.cpp:6583
 msgid "Looking Around"
@@ -8118,7 +8237,7 @@ msgstr ""
 
 #: game.cpp:6584
 msgid "Use directional keys to move the cursor"
-msgstr ""
+msgstr "Utilisez les touches directionnelles pour déplacer le curseur"
 
 #: game.cpp:6585
 msgid "to a nearby square."
@@ -8127,37 +8246,37 @@ msgstr ""
 #: game.cpp:6607
 #, c-format
 msgid "%s; Impassable"
-msgstr ""
+msgstr "%s ; impassable"
 
 #: game.cpp:6609
 #, c-format
 msgid "%s; Movement cost %d"
-msgstr ""
+msgstr "%s ; Coût du mouvement %d"
 
 #: game.cpp:6643 game.cpp:6661
 msgid "There are several items there."
-msgstr ""
+msgstr "Il y a plusieurs objets ici."
 
 #: game.cpp:6647 game.cpp:6665
 msgid "There is an item there."
-msgstr ""
+msgstr "Il y a un objet ici."
 
 #: game.cpp:6650 game.cpp:6668 game.cpp:6687
 msgid "You cannot see what is inside of it."
-msgstr ""
+msgstr "Vous ne pouvez pas voir ce qu'il y a à l'interieur."
 
 #: game.cpp:6683
 msgid "There are other items there as well."
-msgstr ""
+msgstr "Il y a encore d'autres objets ici."
 
 #: game.cpp:6700
 #, c-format
 msgid "You (%s)"
-msgstr ""
+msgstr "Vous (%s)"
 
 #: game.cpp:6720
 msgid "Bright light."
-msgstr ""
+msgstr "Lumière brillante."
 
 #: game.cpp:6723
 msgid "Unseen."
@@ -8165,7 +8284,7 @@ msgstr ""
 
 #: game.cpp:6847
 msgid "Type part of an item's name to see"
-msgstr ""
+msgstr "Entrez une partie du nom d'un objet pour l'afficher"
 
 #: game.cpp:6848
 msgid "nearby matching items."
@@ -8173,19 +8292,19 @@ msgstr ""
 
 #: game.cpp:6849
 msgid "Seperate multiple items with ,"
-msgstr ""
+msgstr "Séparez differents objets avec ,"
 
 #: game.cpp:6850
 msgid "Example: back,flash,aid, ,band"
-msgstr ""
+msgstr "Exemple : Sac,lampe,pistolet,,bande"
 
 #: game.cpp:6853
 msgid "To exclude items, place - in front"
-msgstr ""
+msgstr "Pour exclure un objet, mettez - devant"
 
 #: game.cpp:6854
 msgid "Example: -pipe,chunk,steel"
-msgstr ""
+msgstr "Exemple : -tuyaux,piece,acier"
 
 #: game.cpp:6856
 msgid "Filter:"
@@ -8197,19 +8316,19 @@ msgstr ""
 
 #: game.cpp:6909 main_menu.cpp:71
 msgid "<R>eset"
-msgstr ""
+msgstr "<R>éinitialisation"
 
 #: game.cpp:6912
 msgid "<E>xamine"
-msgstr ""
+msgstr "<E>xaminer"
 
 #: game.cpp:6913
 msgid "<C>ompare"
-msgstr ""
+msgstr "<C>omparer"
 
 #: game.cpp:6914
 msgid "<F>ilter"
-msgstr ""
+msgstr "<F>iltrer"
 
 #: game.cpp:6915
 msgid "<+/->Priority"
@@ -8225,11 +8344,11 @@ msgstr ""
 
 #: game.cpp:7245
 msgid "You dont see any items around you!"
-msgstr ""
+msgstr "Vous ne voyez pas d'objets à proximité."
 
 #: game.cpp:7275
 msgid "You cannot pick up items with your claws out!"
-msgstr ""
+msgstr "Vous ne pouvez pas prendre d'objets quand vos griffes sont sorties !"
 
 #: game.cpp:7291
 #, c-format
@@ -8246,30 +8365,30 @@ msgstr ""
 
 #: game.cpp:7319
 msgid "The water tank is empty."
-msgstr ""
+msgstr "Le réservoir d'eau est vide."
 
 #: game.cpp:7355 game.cpp:7816
 msgid "You can't pick up a liquid!"
-msgstr ""
+msgstr "Vous ne pouvez pas ramasser un liquide !"
 
 #: game.cpp:7370 game.cpp:7722
 msgid "You're carrying too many items!"
-msgstr ""
+msgstr "Votre portez trop d'objets !"
 
 #: game.cpp:7373 game.cpp:7728
 #, c-format
 msgid "The %s is too heavy!"
-msgstr ""
+msgstr "Le %s est trop lourd !"
 
 #: game.cpp:7379 game.cpp:7734
 #, c-format
 msgid "Put on the %s?"
-msgstr ""
+msgstr "Enfiler le %s ?"
 
 #: game.cpp:7386 game.cpp:7744
 #, c-format
 msgid "Drop your %s and pick up %s?"
-msgstr ""
+msgstr "Lacher votre %s et prendre le %s ?"
 
 #: game.cpp:7395 game.cpp:7410 game.cpp:7421 game.cpp:7755
 #, c-format
@@ -8284,19 +8403,19 @@ msgstr ""
 
 #: game.cpp:7432 game.cpp:7818
 msgid "You're overburdened!"
-msgstr ""
+msgstr "Vous êtes surchargé !"
 
 #: game.cpp:7434 game.cpp:7820
 msgid "You struggle to carry such a large volume!"
-msgstr ""
+msgstr "Vous luttez pour transporter un tel volume !"
 
 #: game.cpp:7478
 msgid "PICK UP (, = all)"
-msgstr ""
+msgstr "RAMASSER (, = tout)"
 
 #: game.cpp:7565
 msgid "Enter 2 letters (case sensitive):"
-msgstr ""
+msgstr "Entrez 2 lettres (sensible a la casse):"
 
 #: game.cpp:7653
 msgid "[left] Unmark"
@@ -8600,24 +8719,24 @@ msgstr ""
 
 #: game.cpp:8650
 msgid "You can't butcher while driving!"
-msgstr ""
+msgstr "Vous ne pouvez pas dépecer en conduisant!"
 
 #: game.cpp:8659
 msgid "There are no corpses here to butcher."
-msgstr ""
+msgstr "Il n'y a aucun cadavre à dépecer ici."
 
 #: game.cpp:8664
 msgid "You don't have a sharp item to butcher with."
-msgstr ""
+msgstr "Vous n'avez pas d'objets coupant pour dépecer."
 
 #: game.cpp:8671
 #, c-format
 msgid "Butcher the %s corpse?"
-msgstr ""
+msgstr "Dépecer le cadavre de %s ?"
 
 #: game.cpp:8695
 msgid "There's no corpse to butcher!"
-msgstr ""
+msgstr "Il n'y a pas de cadavre à dépecer ici."
 
 #: game.cpp:8739
 msgid "You harvest some usable bones!"
@@ -8656,11 +8775,11 @@ msgstr ""
 
 #: game.cpp:8816
 msgid "Your clumsy butchering destroys the meat!"
-msgstr ""
+msgstr "Votre dépeçage maladroit détruit la viande!"
 
 #: game.cpp:8839
 msgid "You butcher the corpse."
-msgstr ""
+msgstr "Vous dépecez le cadavre."
 
 #: game.cpp:8849
 msgid "You found some wild veggies!"
@@ -9106,7 +9225,7 @@ msgstr ""
 
 #: game.cpp:10625
 msgid "Wait 300 heartbeats"
-msgstr ""
+msgstr "Attendez 300 battements de coeur"
 
 #: game.cpp:10626
 msgid "30 Minutes"
@@ -9114,7 +9233,7 @@ msgstr ""
 
 #: game.cpp:10626
 msgid "Wait 1800 heartbeats"
-msgstr ""
+msgstr "Attendez 1800 battements de coeur"
 
 #: game.cpp:10627
 msgid "1 hour"
@@ -9274,6 +9393,29 @@ msgid ""
 "\n"
 "q: Return to game"
 msgstr ""
+"Veuillez pressez une des touches suivantes pour obtenir de l'aide sur le "
+"sujet :\n"
+"Pressez q ou ESC pour revenir en jeu.\n"
+"\n"
+"a : Introductions i : Bioniques\n"
+"b : Mouvement j : artisanat\n"
+"c : Vision k : Pièges\n"
+"d : Faim, Soif et Sommeil l : Objets - generalités\n"
+"e : Douleur et Stimulants m : Combat\n"
+"f : Dépendance n : Styles à main nue\n"
+"g : Moral et apprentissage o : Astuces de survie\n"
+"h : Radioactivité et mutation\n"
+"\n"
+"1 : Liste des commandes (vous pouvez changer les raccourcis ici)\n"
+"2 : Liste des options (Vous pouvez les changer ici)\n"
+"3 : Gestionnaire de ramassage auto (vous pouvez changer les regles de "
+"ramassage ici)\n"
+"4 : Liste des types d'objets et de données\n"
+"5 : Description des symboles de la carte\n"
+"6 : Description des types d'armes à feu\n"
+"7 : Question fréquemment posées (attention spoliations !)!\n"
+"\n"
+"q : Retour au jeu"
 
 #: help.cpp:70
 msgid ""
@@ -9398,7 +9540,7 @@ msgstr ""
 
 #: help.cpp:170
 msgid "butcher"
-msgstr ""
+msgstr "dépecer"
 
 #: help.cpp:172 help.cpp:466 help.cpp:467 help.cpp:751 help.cpp:752
 msgid " by pressing "
@@ -9537,6 +9679,23 @@ msgid ""
 "Many bionics canisters are difficult to find, but may be purchased from\n"
 "certain wandering vagabonds for a very high price."
 msgstr ""
+"Les bioniques sont des améliorations biomécaniques  pour votre corps. \n"
+"Versions \"incorporée\" d'objets que vous devriez autrement porter, \n"
+"certains bioniques on des effets uniques, inaccessibles autrement.\n"
+"\n"
+"La plupart des bioniques requièrent une source d’énergie, ainsi vous \n"
+"devrez disposer d'une batterie interne ou stocker de l’énergie pour eux.\n"
+"Votre quantité d’énergie actuelle est indiquée sous votre vie. Recharger\n"
+"votre énergie peut être effectué de diverses manières mais toutes\n"
+"nécessitent l'installation d'un bionique spécifique.\n"
+"\n"
+"Les bioniques prennent la forme de boîtes prêtes a l'emploi. Il vau mieux \n"
+"confier l'installation d'un bionique à un professionnel. cependant vous\n"
+"pouvez tenter de mener une auto-installation. Effectuer une telle tâche\n"
+"requiert un haut degré d'intelligence, de premiers secours, de mécanique \n"
+"et/ou électronique, un échec pourrait vous mutiler ! Beaucoup de boîtes\n"
+"de bioniques sont durs à trouver mais peuvent être acheter a des\n"
+"vagabonds pour un très haut prix."
 
 #: help.cpp:323
 #, c-format
@@ -9705,6 +9864,12 @@ msgid ""
 "inside a building. Ducking down into the subways or sewers is often\n"
 "an excellent escape tactic."
 msgstr ""
+"Contrairement à la plupart des roguelikes, la fuite sera souvent la "
+"meilleure décision, tout particulièrement\n"
+"lorsque vous serez débordé par une horde de zombies. Faites attention à ne "
+"pas vous retrouver piégé\n"
+"dans un bâtiment. S'éclipser par le métro ou les égoûts est généralement\n"
+"une excellente technique pour s'enfuir."
 
 #: help.cpp:488
 #, c-format
@@ -9980,7 +10145,7 @@ msgstr ""
 
 #: help.cpp:751
 msgid ", then the letter of the item to throw."
-msgstr ""
+msgstr ", puis la lettre de l'objet à lancer."
 
 #: help.cpp:760
 msgid "MAP SYMBOLS:"
@@ -9989,96 +10154,113 @@ msgstr ""
 #: help.cpp:761
 msgid ".           Field - Empty grassland, occasional wild fruit."
 msgstr ""
+". Prairie - Une prairie déserte où l'on trouve occasionnellement des fruits "
+"sauvages."
 
 #: help.cpp:763
 msgid ""
 "F           Forest - May be dense or sparse. Slow moving; foragable food."
 msgstr ""
+"F Forêt - Peut être dense ou clairsemée. On s'y déplace plus lentement et on "
+"peut y trouver de la nourriture."
 
 #: help.cpp:777
 msgid "Road - Safe from burrowing animals."
-msgstr ""
+msgstr "Route  - Permet d'éviter les animaux fouisseurs."
 
 #: help.cpp:779
 msgid "H=          Highway - Like roads, but lined with guard rails."
-msgstr ""
+msgstr "H= Autoroute - Comme les routes mais disposent de rambardes."
 
 #: help.cpp:781
 msgid "|-          Bridge - Helps you cross rivers."
-msgstr ""
+msgstr "|- Pont - Permet de traverser les rivières."
 
 #: help.cpp:783
 msgid ""
 "R           River - Most creatures can not swim across them, but you may."
 msgstr ""
+"R Rivière - La plupart des créatures ne peuvent pas les traverser, mais vous "
+"pouvez le faire."
 
 #: help.cpp:785
 msgid "O           Parking lot - Empty lot, few items. Mostly useless."
-msgstr ""
+msgstr "O - Parking - Un parking, peu d'objets. Globalement inutile."
 
 #: help.cpp:787
 msgid ""
 "^>v<        House - Filled with a variety of items. Good place to sleep."
-msgstr ""
+msgstr "^>v< Maison - On y trouve des objets variés. Bon endroit pour dormir."
 
 #: help.cpp:789
 msgid ""
 "^>v<        Gas station - Good place to collect gasoline. Risk of explosion."
 msgstr ""
+"^>v< Station essence - Bon endroit pour récupérer de l'essence. Risques "
+"d'explosion."
 
 #: help.cpp:791
 msgid "^>v<        Pharmacy - The best source for vital medications."
-msgstr ""
+msgstr "^>v< Pharmacie - Le meilleur endroit pour les médicaments."
 
 #: help.cpp:793
 msgid ""
 "^>v<        Grocery store - Good source of canned food and other supplies."
 msgstr ""
+"^>v< Épicerie - Une bonne source de boîtes de conserve et autres provisions."
 
 #: help.cpp:795
 msgid ""
 "^>v<        Hardware store - Home to tools, melee weapons and crafting goods."
 msgstr ""
+"^>v< Quincaillerie - La maison des outils, armes de mêlée and matériel de "
+"bricolage."
 
 #: help.cpp:797
 msgid ""
 "^>v<        Sporting Goods store - Several survival tools and melee weapons."
-msgstr ""
+msgstr "^>v< Magasin de sport - Plusieurs outils de survie et armes de mêlée."
 
 #: help.cpp:799
 msgid ""
 "^>v<        Liquor store - Alcohol is good for crafting molotov cocktails."
-msgstr ""
+msgstr "^>v< Magasin d'alcool - L'alcool sert  à faire des cocktails molotov."
 
 #: help.cpp:801
 msgid "^>v<        Gun store - Firearms and ammunition are very valuable."
 msgstr ""
+"^>v< Magasin d'armes - Les armes à feu et les cartouches sont précieuses."
 
 #: help.cpp:803
 msgid "^>v<        Clothing store - High-capacity clothing, some light armor."
 msgstr ""
+"^>v< Magasin de vêtements - Vêtements pour transporter plein d'objets et "
+"quelques armures légères."
 
 #: help.cpp:805
 msgid "^>v<        Library - Home to books, both entertaining and informative."
 msgstr ""
+"^>v< Bibliothèque - Certains livres sont divertissants, d'autres instructifs."
 
 #: help.cpp:807
 msgid ""
 "^>v< are always man-made buildings. The pointed side indicates the front "
 "door."
 msgstr ""
+"^>v< sont toujours des bâtiments construits par l'homme. Le côté pointu "
+"indique la porte principale."
 
 #: help.cpp:810
 msgid "There are many others out there... search for them!"
-msgstr ""
+msgstr "Il y a beaucoup d'objets partout... partez à leur recherche !"
 
 #: help.cpp:818 help.cpp:848 help.cpp:874 help.cpp:900
 msgid "Gun types:"
-msgstr ""
+msgstr "Types d'armes à feu:"
 
 #: help.cpp:819
 msgid "( Handguns"
-msgstr ""
+msgstr "( pistolet"
 
 #: help.cpp:820
 msgid ""
@@ -10091,10 +10273,24 @@ msgid ""
 "several loaded handguns, switching from one to the next once their ammo is\n"
 "spent."
 msgstr ""
+"Les pistolets sont de petites armes portées dans l'une de vos mains. Ils "
+"sont beaucoup plus\n"
+"difficile pour viser et à contrôler que les grosses armes et cela se reflète "
+"dans\n"
+"leur basse précision. Cependant leur petite taille les rend appropriés pour\n"
+"les combats à faible portée, là où les armes à feu plus imposantes sont "
+"moins efficaces.\n"
+"Ils sont aussi relativement rapides à recharger et utilise un très large "
+"éventail de\n"
+"cartouches. Leur petite taille et faible poids font qu'il est possible de "
+"transporter\n"
+"plusieurs pistolets chargés, et de passer de l'un à l'autre lorsque vos "
+"munitions\n"
+"s'épuisent."
 
 #: help.cpp:829
 msgid "( Crossbows"
-msgstr ""
+msgstr "( Arbalètes"
 
 #: help.cpp:830
 msgid ""
@@ -10110,6 +10306,23 @@ msgid ""
 "less effective than steel bolts.\n"
 "Crossbows use the handgun skill."
 msgstr ""
+"L'atout principal des arbalètes est leur silence. Les carreaux\n"
+"sont rarement détruits lorsque tirés; si vous récupérez les carreaux après "
+"avoir tiré, votre\n"
+"stock de cartouches subsistera beaucoup plus lonbgtemps. Les arbalètes "
+"souffrent d'une portée faible et\n"
+"d'un temps de rechargement très long ( influencé par votre force); de plus "
+"la plupart ne contienent\n"
+"qu'une cartouche.\n"
+"Pour cela, il peut-être judicieux de transporter plusieurs arbalètes "
+"chargées.\n"
+"Les arbalètes peuvent être très difficile à trouver; cependant il est "
+"possible d'en fabriquer\n"
+"une si votre aptitute en mécanique est suffisante. De même, les carreaux "
+"peuvent être\n"
+"fabriqués à partir des objets en bois, mais ils seront beaucoup moins\n"
+"efficace que les carreaux en acier.\n"
+"Les arbalètes utilisent l'aptitude pistolet."
 
 #: help.cpp:849
 msgid "( Shotguns"
@@ -10690,7 +10903,7 @@ msgstr ""
 
 #: inventory_ui.cpp:16
 msgid "MODS/BIONICS"
-msgstr ""
+msgstr "MODS/BIONIQUES"
 
 #: inventory_ui.cpp:16
 msgid "OTHER:"
@@ -11098,7 +11311,7 @@ msgstr ""
 #: item.cpp:1010
 #, c-format
 msgid "<item_name>%s of %s"
-msgstr ""
+msgstr "<item_name>%s de(s) %s"
 
 #: item.cpp:1011
 #, c-format
@@ -11304,11 +11517,11 @@ msgstr ""
 
 #: itypedef.cpp:165 veh_interact.cpp:447 veh_interact.cpp:532
 msgid "jack"
-msgstr ""
+msgstr "cric"
 
 #: itypedef.cpp:167
 msgid "A common hydraulic jack, used when changing tires."
-msgstr ""
+msgstr "Un cric hydraulique standard, utilisé pour changer les pneus"
 
 #: itypedef.cpp:179
 msgid "CBM: "
@@ -11348,7 +11561,7 @@ msgstr ""
 
 #: itypedef.cpp:301
 msgid "Medical data on zombie blood."
-msgstr ""
+msgstr "Des données médicales sur le sang des zombies."
 
 #: itypedef.cpp:301
 msgid "infection data"
@@ -11388,40 +11601,45 @@ msgid ""
 "rapid, precise attacks, blocks, and fluid movement. A successful hit allows\n"
 "you an extra dodge and two extra blocks on the following round."
 msgstr ""
+"Le karaté est un art martial populaire né au Japon. Il est centré sur\n"
+"des attaques rapides et précises, des blocages et desmouvements fluides. Une "
+"attaque réussie vous\n"
+"donne une esquive supplémentaire et deux blocages supplémentaires au "
+"prochain tour."
 
 #: itypedef.cpp:365
 msgid "karate"
-msgstr ""
+msgstr "karaté"
 
 #: itypedef.cpp:370 itypedef.cpp:422 itypedef.cpp:451
 msgid "%1$s quickly punch %4$s"
-msgstr ""
+msgstr "%1$s donner un coup de poing rapide %4$s"
 
 #: itypedef.cpp:370 itypedef.cpp:422 itypedef.cpp:451
 msgid "%1$s quickly punches %4$s"
-msgstr ""
+msgstr "%1$s donne un coup de poing rapide %4$s"
 
 #: itypedef.cpp:371 itypedef.cpp:401 itypedef.cpp:423 itypedef.cpp:427
 #: itypedef.cpp:440 itypedef.cpp:441 itypedef.cpp:453 itypedef.cpp:461
 #: itypedef.cpp:462 itypedef.cpp:482 itypedef.cpp:526 itypedef.cpp:544
 #: itypedef.cpp:553 itypedef.cpp:562
 msgid "%1$s block %4$s"
-msgstr ""
+msgstr "%1$s bloquer %4$s"
 
 #: itypedef.cpp:371 itypedef.cpp:401 itypedef.cpp:423 itypedef.cpp:427
 #: itypedef.cpp:440 itypedef.cpp:441 itypedef.cpp:453 itypedef.cpp:461
 #: itypedef.cpp:462 itypedef.cpp:482 itypedef.cpp:526 itypedef.cpp:544
 #: itypedef.cpp:553 itypedef.cpp:562
 msgid "%1$s blocks %4$s"
-msgstr ""
+msgstr "%1$s bloquer %4$s"
 
 #: itypedef.cpp:372
 msgid "%1$s karate chop %4$s"
-msgstr ""
+msgstr "%1$s point karaté %4$s"
 
 #: itypedef.cpp:372
 msgid "%1$s karate chops %4$s"
-msgstr ""
+msgstr "%1$s donne un coup karaté %4$s"
 
 #: itypedef.cpp:375
 msgid ""
@@ -11429,10 +11647,14 @@ msgid ""
 "injury to the attacker. It uses defense throws and disarms. Damage done\n"
 "while using this technique is halved, but pain inflicted is doubled."
 msgstr ""
+"L'aikido est un art martial japonais centré sur l'autodéfense qui minimise\n"
+"les blessures assénées à l'attaquant. Il utilise des techniques de "
+"projection défensive et désarmement. Les dommages infligés\n"
+"avec cette méthode sont réduits de moitié mais la douleur est doublée."
 
 #: itypedef.cpp:375
 msgid "aikido"
-msgstr ""
+msgstr "aikido"
 
 #: itypedef.cpp:380 itypedef.cpp:424 itypedef.cpp:481 itypedef.cpp:503
 #: itypedef.cpp:535
@@ -11468,20 +11690,25 @@ msgid ""
 "offensive. It also focuses on recovering from throws; while using judo, you\n"
 "will not lose any turns to being thrown or knocked down."
 msgstr ""
+"Le judo est un art martial centré sur des projections à la fois défensives "
+"et\n"
+"offensives. Il se concentre aussi sur les récupérations après des "
+"projections; en pratiquant le judo vous\n"
+"ne perdrez aucun tour pour être projeté ou renversé au sol."
 
 #: itypedef.cpp:386
 msgid "judo"
-msgstr ""
+msgstr "judo"
 
 #: itypedef.cpp:391 itypedef.cpp:431 itypedef.cpp:473 itypedef.cpp:514
 #: itypedef.cpp:563
 msgid "%1$s grab %4$s"
-msgstr ""
+msgstr "%1$s attraper %4$s"
 
 #: itypedef.cpp:391 itypedef.cpp:431 itypedef.cpp:473 itypedef.cpp:514
 #: itypedef.cpp:563
 msgid "%1$s grabs %4$s"
-msgstr ""
+msgstr "%1$s attrape %4$s"
 
 #: itypedef.cpp:396
 msgid ""
@@ -11491,10 +11718,16 @@ msgid ""
 "the\n"
 "force of an attack makes your Perception decrease damage further on a block."
 msgstr ""
+"Bien que le tai chi soit souvent vu comme un forme d'exercices mentaux et "
+"physiques, on peut\n"
+"légitimement le qualifier d'art martial, centré sur l'autodéfense. Sa "
+"capacité à absorber la\n"
+"force d'une attaque augmente la diminution de dommages, basée sur votre "
+"perception, lorsque vous bloquez un coup."
 
 #: itypedef.cpp:396
 msgid "tai chi"
-msgstr ""
+msgstr "tai chi"
 
 #: itypedef.cpp:403
 msgid "%1$s strike %4$s"
@@ -12037,48 +12270,48 @@ msgstr ""
 
 #: iuse.cpp:164
 msgid "Your sight returns!"
-msgstr ""
+msgstr "Vous recouvrez la vue!"
 
 #: iuse.cpp:169
 msgid "You feel much better!"
-msgstr ""
+msgstr "Vous vous sentez beaucoup mieux!"
 
 #: iuse.cpp:175
 msgid "Your breathing clears up!"
-msgstr ""
+msgstr "Votre respiration se dégage!"
 
 #: iuse.cpp:179
 msgid "You feel healthier!"
-msgstr ""
+msgstr "Vous vous sentez en meilleure santé!"
 
 #: iuse.cpp:211
 #, c-format
 msgid "Use %s:"
-msgstr ""
+msgstr "Utiliser %s:"
 
 #: iuse.cpp:214
 msgid "1: Head"
-msgstr ""
+msgstr "1: Tête"
 
 #: iuse.cpp:218
 msgid "2: Torso"
-msgstr ""
+msgstr "2: Torse"
 
 #: iuse.cpp:222
 msgid "3: Left Arm"
-msgstr ""
+msgstr "3: Bras gauche"
 
 #: iuse.cpp:226
 msgid "4: Right Arm"
-msgstr ""
+msgstr "4: Bras droit"
 
 #: iuse.cpp:230
 msgid "5: Left Leg"
-msgstr ""
+msgstr "5: Jambe gauche"
 
 #: iuse.cpp:234
 msgid "6: Right Leg"
-msgstr ""
+msgstr "6: Jambe droite"
 
 #: iuse.cpp:238
 #, c-format
@@ -12087,19 +12320,19 @@ msgstr ""
 
 #: iuse.cpp:240
 msgid "8: Exit"
-msgstr ""
+msgstr "8: Quitter"
 
 #: iuse.cpp:331 iuse.cpp:339
 msgid "That arm is broken.  It needs surgical attention."
-msgstr ""
+msgstr "Ce bras est cassé. Il a besoin de soins chirurgicaux"
 
 #: iuse.cpp:347 iuse.cpp:355
 msgid "That leg is broken.  It needs surgical attention."
-msgstr ""
+msgstr "Cette jambe est cassée  Elle a besoin de soins chirurgicaux"
 
 #: iuse.cpp:390
 msgid "Bandage"
-msgstr ""
+msgstr "Bandage"
 
 #: iuse.cpp:390
 msgid "Stop Bleeding"
@@ -12111,28 +12344,28 @@ msgstr ""
 
 #: iuse.cpp:399 iuse.cpp:409
 msgid "Clean Wound"
-msgstr ""
+msgstr "Nettoyer la blessure"
 
 #: iuse.cpp:399
 msgid "First Aid"
-msgstr ""
+msgstr "Premiers secours"
 
 #: iuse.cpp:401
 msgid "You clean the bite wound."
-msgstr ""
+msgstr "Vous nettoyez la morsure."
 
 #: iuse.cpp:409
 msgid "Disinfectant"
-msgstr ""
+msgstr "Désinfectant"
 
 #: iuse.cpp:411
 msgid "You disinfect the bite wound."
-msgstr ""
+msgstr "Vous désinfectez la morsure."
 
 #: iuse.cpp:420 iuse.cpp:424 iuse.cpp:428 iuse.cpp:438 iuse.cpp:445
 #, c-format
 msgid "You take some %s."
-msgstr ""
+msgstr "Vous prenez du %s."
 
 #: iuse.cpp:433
 msgid "You shoot up."
@@ -12140,19 +12373,19 @@ msgstr ""
 
 #: iuse.cpp:480
 msgid "You light a cigarette and smoke it."
-msgstr ""
+msgstr "Vous allumez une cigarette et la fumez."
 
 #: iuse.cpp:482
 msgid "You take a few puffs from your cigar."
-msgstr ""
+msgstr "Vous prenez quelques bouffées sur votre cigarette."
 
 #: iuse.cpp:488
 msgid "Ugh, too much smoke... you feel nasty."
-msgstr ""
+msgstr "Pouah, vous avez trop fumé... vous ne vous sentez pas bien."
 
 #: iuse.cpp:493
 msgid "You take some antibiotics."
-msgstr ""
+msgstr "Vous prenez des antibiotiques."
 
 #: iuse.cpp:509
 msgid "You haven't got anything to smoke out of."
@@ -12160,67 +12393,67 @@ msgstr ""
 
 #: iuse.cpp:523
 msgid "You smoke some weed.  Good stuff, man!"
-msgstr ""
+msgstr "Vous fumez de l'herbe. Du bon matos mon pote !"
 
 #: iuse.cpp:525
 msgid "You smoke some more weed."
-msgstr ""
+msgstr "Vous fumez plus d'herbe."
 
 #: iuse.cpp:530
 msgid "You need something to light it."
-msgstr ""
+msgstr "Vous avez besoin de quelque chose pour l'allumer."
 
 #: iuse.cpp:537
 msgid "You snort a bump of coke."
-msgstr ""
+msgstr "Vous sniffez un rail de coke."
 
 #: iuse.cpp:553
 msgid "You smoke your crack rocks.  Mother would be proud."
-msgstr ""
+msgstr "Vous fumez votre crack. Maman serait fière."
 
 #: iuse.cpp:562
 msgid "You smoke some Grack Cocaine. Time seems to stop."
-msgstr ""
+msgstr "Vous fumez du crack. Le temps semble s'arrêter."
 
 #: iuse.cpp:575
 msgid "You smoke your meth.  The world seems to sharpen."
-msgstr ""
+msgstr "Vous fumez votre métamphétamine. Le monde semble devenir plus net."
 
 #: iuse.cpp:578
 msgid "You snort some crystal meth."
-msgstr ""
+msgstr "Vous sniffez de la cristal meth."
 
 #: iuse.cpp:591
 msgid "You take some vitamins."
-msgstr ""
+msgstr "Vous prenez des vitamines."
 
 #: iuse.cpp:602
 msgid "You inject the vaccine."
-msgstr ""
+msgstr "Vous vous injectez le vaccin."
 
 #: iuse.cpp:603
 msgid "You feel tough."
-msgstr ""
+msgstr "Vous vous sentez résistant."
 
 #: iuse.cpp:634
 msgid "You feel completely exhausted."
-msgstr ""
+msgstr "Vous vous sentez complètement épuisé."
 
 #: iuse.cpp:637
 msgid "You feel a bit wobbly."
-msgstr ""
+msgstr "Vous vous sentez un peu chancelant."
 
 #: iuse.cpp:648
 msgid "You suddenly feel hollow inside."
-msgstr ""
+msgstr "Vous vous sentez soudainement vide."
 
 #: iuse.cpp:654 iuse.cpp:671
 msgid "You feel very sleepy..."
-msgstr ""
+msgstr "Vous êtes très fatigué..."
 
 #: iuse.cpp:659
 msgid "You take an iodine tablet."
-msgstr ""
+msgstr "Vous prenez un comprimé de iodure de potassium."
 
 #: iuse.cpp:664 iuse.cpp:670
 #, c-format
@@ -12229,7 +12462,7 @@ msgstr ""
 
 #: iuse.cpp:676
 msgid "You take a puff from your inhaler."
-msgstr ""
+msgstr "Vous prenez une bouffée de votre inhalateur."
 
 #: iuse.cpp:678
 msgid "Your heart begins to race."
@@ -12237,7 +12470,7 @@ msgstr ""
 
 #: iuse.cpp:685
 msgid "Blech, that burns your throat!"
-msgstr ""
+msgstr "Pouah, cela brûle la gorge!"
 
 #: iuse.cpp:691
 msgid "Consumed mutagen."
@@ -12279,6 +12512,8 @@ msgstr ""
 msgid ""
 "Your mind is overcome by images of eldritch horrors...and then they pass."
 msgstr ""
+"Votre esprit est débordé d'images d'horreurs surnaturelles... et elles "
+"passent."
 
 #: iuse.cpp:747
 msgid "Your body lightens and you long for the sky."
@@ -12290,7 +12525,7 @@ msgstr ""
 
 #: iuse.cpp:757
 msgid "You yearn for a cool, dark place to hide."
-msgstr ""
+msgstr "Vous rêvez d'un endroit frais et sombre où vous cacher."
 
 #: iuse.cpp:772
 msgid "Consumed purifier."
@@ -12482,53 +12717,53 @@ msgstr ""
 #: iuse.cpp:1169 iuse.cpp:4038
 #, c-format
 msgid "There's no point in cutting a %s."
-msgstr ""
+msgstr "Il n'y a aucun intérêt à couper un %s."
 
 #: iuse.cpp:1173
 msgid "You can only slice items made of cotton or leather."
-msgstr ""
+msgstr "Vous ne pouvez découper seulement des objets en coton ou en cuir."
 
 #: iuse.cpp:1202
 #, c-format
 msgid "You clumsily cut the %s into useless ribbons."
-msgstr ""
+msgstr "Vous découpez maladroitement le %s en rubans inutiles."
 
 #: iuse.cpp:1203
 #, c-format
 msgid "You slice the %s into a rag."
 msgid_plural "You slice the %1$s into %2$d rags."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vous obtenez un chiffon en découpant le %s."
+msgstr[1] "Vous obtenez %2$d chiffons en découpant le %1$s."
 
 #: iuse.cpp:1206
 #, c-format
 msgid "You clumsily cut the %s into useless scraps."
-msgstr ""
+msgstr "Vous coupez maladroitement le %s en chutes inutiles."
 
 #: iuse.cpp:1207
 #, c-format
 msgid "You slice the %s into a piece of leather."
 msgid_plural "You slice the %1$s into %2$d pieces of leather."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vous obtenez un morceau de cuir en découpant le %s."
+msgstr[1] "Vous obtenez %2$d morceaux de cuir en découpant le %1$s."
 
 #: iuse.cpp:1244 iuse.cpp:3968
 msgid "Chop up what?"
-msgstr ""
+msgstr "Que voulez-vous découper en morceaux?"
 
 #: iuse.cpp:1277
 #, c-format
 msgid "The %s is sprayed!"
-msgstr ""
+msgstr "Le %s a été vaporisé!"
 
 #: iuse.cpp:1280
 #, c-format
 msgid "The %s is frozen!"
-msgstr ""
+msgstr "Le %s est gelé!"
 
 #: iuse.cpp:1307 iuse.cpp:2118
 msgid "Pry"
-msgstr ""
+msgstr "Forcer l'ouverture"
 
 #: iuse.cpp:1312
 msgid "You try to hit yourself with the hammer."
@@ -12541,23 +12776,25 @@ msgstr ""
 #: iuse.cpp:1341
 msgid "Hammers can only remove boards from windows, doors and fences."
 msgstr ""
+"Les marteaux peuvent retirer les planches seulement des fenêtres portes ou "
+"barrières."
 
 #: iuse.cpp:1342
 msgid "To board up a window or door, press *"
-msgstr ""
+msgstr "Pour barricader une fenêtre ou une porte appuyez sur *."
 
 #: iuse.cpp:1355
 msgid "The lantern is empty."
-msgstr ""
+msgstr "La lanterne est vide."
 
 #: iuse.cpp:1359 iuse.cpp:2939 iuse.cpp:3286 iuse.cpp:3298 iuse.cpp:3332
 #: iuse.cpp:3354 iuse.cpp:3376 iuse.cpp:3472
 msgid "You need a lighter!"
-msgstr ""
+msgstr "Vous avez besoin d'un briquet!"
 
 #: iuse.cpp:1363
 msgid "You turn the lantern on."
-msgstr ""
+msgstr "Vous allumez la lanterne."
 
 #: iuse.cpp:1378
 msgid "The lantern is extinguished."
@@ -12633,42 +12870,42 @@ msgstr ""
 
 #: iuse.cpp:1528
 msgid "plastic chunks"
-msgstr ""
+msgstr "morceaux de plastique"
 
 #: iuse.cpp:1533 lang/json/json_items.py:1067
 msgid "scrap metal"
-msgstr ""
+msgstr "ferraille"
 
 #: iuse.cpp:1537
 #, c-format
 msgid "Your %s is not made of kevlar, plastic or metal."
-msgstr ""
+msgstr "Votre %s n'est pas fait de kevlar, plastique ou métal."
 
 #: iuse.cpp:1607
 msgid "You practice your soldering."
-msgstr ""
+msgstr "Vous vous exercez en soudure."
 
 #: iuse.cpp:1634
 #, c-format
 msgid "You don't repair your %s, and you waste lots of charge."
-msgstr ""
+msgstr "Vous ne réparez pas votre %s et gaspiller beaucoup de charge."
 
 #: iuse.cpp:1643
 #, c-format
 msgid "You repair your %s, but you waste lots of charge."
-msgstr ""
+msgstr "Vous réparez votre %s mais gaspiller beaucoup de charge."
 
 #: iuse.cpp:1683
 msgid "Purify what?"
-msgstr ""
+msgstr "Que voulez-vous purifier?"
 
 #: iuse.cpp:1689 iuse.cpp:1694
 msgid "You can only purify water."
-msgstr ""
+msgstr "Vous ne pouvez purifier que de l'eau."
 
 #: iuse.cpp:1699
 msgid "You don't have enough battery power to purify all the water."
-msgstr ""
+msgstr "Vous n'avez pas assez de batterie pour purifier toute l'eau."
 
 #: iuse.cpp:1719
 msgid ""
@@ -12677,6 +12914,10 @@ msgid ""
 "3: General S.O.S.\n"
 "0: Cancel"
 msgstr ""
+"1: Demander de l'aide par radio à une faction...\n"
+"2: Appeler une connaissance...\n"
+"3: S.O.S général.\n"
+"0: Annuler"
 
 #: iuse.cpp:1727
 msgid "Call for help..."
@@ -13258,7 +13499,7 @@ msgstr ""
 
 #: iuse.cpp:2746
 msgid "You set the crossbow trap."
-msgstr ""
+msgstr "Vous installez le piège à arbalète."
 
 #: iuse.cpp:2750
 msgid "You set the shotgun trap."
@@ -13548,11 +13789,11 @@ msgstr ""
 
 #: iuse.cpp:3552
 msgid "...and a nearby zombie turns friendly!"
-msgstr ""
+msgstr "... et un zombie proche devient amical!"
 
 #: iuse.cpp:3554
 msgid "...and several nearby zombies turn friendly!"
-msgstr ""
+msgstr "...et plusieurs zombies proches deviennent amicaux!"
 
 #: iuse.cpp:3574
 msgid "There is no adjacent square to release the manhack in!"
@@ -13940,36 +14181,36 @@ msgstr ""
 
 #: iuse.cpp:4614
 msgid "You mop up the spill"
-msgstr ""
+msgstr "Vous nettoyez le liquide."
 
 #: iuse.cpp:4617
 msgid "There's nothing to mop there."
-msgstr ""
+msgstr "Il n'y a rien à nettoyer ici."
 
 #: iuse.cpp:4624
 msgid "You managed to stop the bleeding."
-msgstr ""
+msgstr "Vous réussissez à arrêter l'hémorragie."
 
 #: iuse.cpp:4627
 msgid "You couldn't stop the bleeding."
-msgstr ""
+msgstr "Vous n'avez pas réussi à stopper l'hémorragie."
 
 #: iuse.cpp:4632
 #, c-format
 msgid "You're not bleeding enough to need your %s."
-msgstr ""
+msgstr "Vous ne saignez pas au point d'avoir besoin de votre %s."
 
 #: iuse.cpp:4639
 msgid "The PDA's batteries are dead."
-msgstr ""
+msgstr "La batterie du PDA est vide."
 
 #: iuse.cpp:4641
 msgid "You activate the flashlight app."
-msgstr ""
+msgstr "Vous activez l'application lampe de poche."
 
 #: iuse.cpp:4653
 msgid "The PDA screen goes blank."
-msgstr ""
+msgstr "L'écran du PDA devient blanc."
 
 #: iuse.cpp:4661
 msgid "You pull the activating lever, readying the LAW to fire."
@@ -14074,7 +14315,7 @@ msgstr ""
 
 #: iuse.cpp:5024
 msgid "Shadows form around you."
-msgstr ""
+msgstr "Des ombres se forment autour de vous."
 
 #: iuse.cpp:5026 trapfunc.cpp:873
 msgid "A shadow forms nearby."
@@ -14130,23 +14371,23 @@ msgstr ""
 
 #: iuse.cpp:5100
 msgid "Heat up what?"
-msgstr ""
+msgstr "Réchauffer quoi ?"
 
 #: iuse.cpp:5108 iuse.cpp:5116
 msgid "You heat up the food."
-msgstr ""
+msgstr "Vous réchauffez la nourriture."
 
 #: iuse.cpp:5123
 msgid "You can't heat that up!"
-msgstr ""
+msgstr "Vous ne pouvez pas réchauffer ça!"
 
 #: iuse.cpp:5130
 msgid "You open the jar, exposing it to the atmosphere."
-msgstr ""
+msgstr "Vous ouvrez le bocal, l'exposant ainsi à l'air ambiant."
 
 #: iuse.cpp:5132
 msgid "You open the vacuum pack, exposing it to the atmosphere."
-msgstr ""
+msgstr "Vous ouvrez l'emballage sous vide, l'exposant ainsi à l'air ambiant."
 
 #: iuse.cpp:5153
 msgid ""
@@ -14194,11 +14435,11 @@ msgstr ""
 
 #: iuse.cpp:5227
 msgid "You painstakingly unfold the bicycle and make it ready to ride."
-msgstr ""
+msgstr "Vous dépliez le vélo avec soin et le préparez pour une balade facile."
 
 #: iuse.cpp:5231
 msgid "There's no room to unfold the bicycle."
-msgstr ""
+msgstr "Il n'y a pas de place pour déplier le vélo."
 
 #: iuse.cpp:5253
 msgid "The adrenaline causes your asthma to clear."
@@ -14220,7 +14461,7 @@ msgstr ""
 
 #: lang/json/json_bionics.py:2
 msgid "If you're seeing this, it's a bug. (game::init_bionics)"
-msgstr ""
+msgstr "Si vous voyez ceci, c'est un bug. (game::init_bionics)"
 
 #: lang/json/json_bionics.py:3
 msgid "Power Storage"
@@ -14232,6 +14473,9 @@ msgid ""
 "at least one of these is a prerequisite to using powered bionics.  You will "
 "also need a power supply, found in another CBM."
 msgstr ""
+"MBC améliorant votre capacité d'énergie de 4. Avoir au moins l'un de ceux ci "
+"est un prérequis à l'utilisation de bioniques. Vous avez aussi besoin d'un "
+"générateur de puissance, trouvé dans d'autres MBC."
 
 #: lang/json/json_bionics.py:5
 msgid "Power Storage Mk. II"
@@ -14243,6 +14487,8 @@ msgid ""
 "for the highly successful CBM: Power Storage.  Increases you power capacity "
 "by 10 units."
 msgstr ""
+"MBC crée par DoubleTech Industries en remplacement d'un MBC à grand succès, "
+"le MBC : Stockage d’Energie. Augmente votre capacité d'énergie de 10 unités."
 
 #: lang/json/json_bionics.py:7
 msgid "Battery System"
@@ -14266,13 +14512,15 @@ msgstr ""
 
 #: lang/json/json_bionics.py:11
 msgid "Solar Panels"
-msgstr ""
+msgstr "Panneaux solaires"
 
 #: lang/json/json_bionics.py:12
 msgid ""
 "You have a few solar panels installed.  While in direct sunlight, your power "
 "level will slowly recharge."
 msgstr ""
+"Vous avez installé quelques panneaux solaires. Lorsqu'ils sont exposés à la "
+"lumière du soleil votre niveau d'énergie se rechargera lentement."
 
 #: lang/json/json_bionics.py:13
 msgid "Joint Torsion Ratchet"
@@ -15001,132 +15249,139 @@ msgstr ""
 
 #: lang/json/json_dreams.py:1
 msgid "You have a strange dream about lizards."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos de lézards."
 
 #: lang/json/json_dreams.py:2
 msgid "Your dreams give you a strange scaly feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent  un étrange sentiment écailleux"
 
 #: lang/json/json_dreams.py:3
 msgid "You have a strange dream about birds."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos d'oiseaux."
 
 #: lang/json/json_dreams.py:4
 msgid "Your dreams give you a strange feathered feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation de plumes."
 
 #: lang/json/json_dreams.py:5
 msgid "You have a strange dream about fish."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos de poissons."
 
 #: lang/json/json_dreams.py:6
 msgid "Your dreams give you a strange wet, scaly feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent un étrange et humide sentiment écailleux."
 
 #: lang/json/json_dreams.py:7
 msgid "You have a strange dream about animals."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos d'animaux."
 
 #: lang/json/json_dreams.py:8
 msgid "Your dreams give you a strange furry feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation duveuteuse."
 
 #: lang/json/json_dreams.py:9
 msgid "You have a strange dream about cattle."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos de bétail."
 
 #: lang/json/json_dreams.py:10
 msgid "Your dreams give you a strange content, furry feeling."
-msgstr ""
+msgstr "Vos rêves on un contenu étrange, sensation duveteuse"
 
 #: lang/json/json_dreams.py:11
 msgid "You have a strange dream about insects."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos d'insectes."
 
 #: lang/json/json_dreams.py:12
 msgid "Your dreams give you a strange chitinous feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation chitineuse."
 
 #: lang/json/json_dreams.py:13
 msgid "You have a strange dream about plants."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos de plantes."
 
 #: lang/json/json_dreams.py:14
 msgid "Your dreams give you a strange plantlike feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation végétale."
 
 #: lang/json/json_dreams.py:15
 msgid "You have a strange dream about slime."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos d'une substance gluante."
 
 #: lang/json/json_dreams.py:16
 msgid "Your dreams give you a strange slimy feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation visqueuse."
 
 #: lang/json/json_dreams.py:17
 msgid "You have a strange dream about living in a cave."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos de la vie en caverne."
 
 #: lang/json/json_dreams.py:18
 msgid "Your dreams give a strange reclusive feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation de reclusion."
 
 #: lang/json/json_dreams.py:19
 msgid "You have a strange dream about sea creatures."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos de créatures marines."
 
 #: lang/json/json_dreams.py:20
 msgid "Your dreams give you a strange wet feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation humide."
 
 #: lang/json/json_dreams.py:21
 msgid "You have a strange dream about spiders."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos d'araignées."
 
 #: lang/json/json_dreams.py:22
 msgid "Your dreams give you a strange webbed feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation soyeuse."
 
 #: lang/json/json_dreams.py:23
 msgid "You have a strange dream about rats."
-msgstr ""
+msgstr "Vous faites un étrange rêve à propos de rats."
 
 #: lang/json/json_dreams.py:24
 msgid "Your dreams give you a strange fuzzy feeling."
-msgstr ""
+msgstr "Vos rêves vous laissent une étrange sensation de confusion."
 
 #: lang/json/json_dreams.py:25
 msgid "You have a disturbing dream of bathing in the sun on a rock."
 msgstr ""
+"Vous faites un rêve dérangeant à propos de rester au soleil sur un rocher."
 
 #: lang/json/json_dreams.py:26
 msgid ""
 "While dreaming, you see a distinctively lizard-like reflection of yourself."
 msgstr ""
+"Dans votre rêve vous voyez distinctement un reflet de vous même avec une "
+"apparence de lézard."
 
 #: lang/json/json_dreams.py:27
 msgid "You have strange dreams of soaring through the sky."
-msgstr ""
+msgstr "Vous avez des rêves étranges de vous élancer vers le ciel."
 
 #: lang/json/json_dreams.py:28
 msgid "In a dream, you see a curiously birdlike reflection of yourself."
 msgstr ""
+"Dans un rêve vous voyez un curieux reflet de vous sous une forme d'oiseau."
 
 #: lang/json/json_dreams.py:29
 msgid "You dream of swimming in the open ocean"
-msgstr ""
+msgstr "Vous rêvez que vous nagez au milieu de l'océan."
 
 #: lang/json/json_dreams.py:30
 msgid "In your dream, you see a strangely fishlike image of yourself."
 msgstr ""
+"Dans votre rêve vous voyez un reflet de vous même avec une étrange apparence "
+"de poisson."
 
 #: lang/json/json_dreams.py:31
 msgid "You have a vivid dream of hunting in the woods."
-msgstr ""
+msgstr "Vous faites un rêve très clair  de vous chassant dans les bois."
 
 #: lang/json/json_dreams.py:32
 msgid "Whilst dreaming, you see a disturbingly bestial version of yourself."
 msgstr ""
+"Lors de votre rêve vous voyez une version perturbante d'un vous bestial."
 
 #: lang/json/json_dreams.py:33
 msgid "You dream of grazing in an open field."
@@ -15136,10 +15391,12 @@ msgstr ""
 msgid ""
 "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
 msgstr ""
+"Lors d'un rêve vous apercevez une étrange image de vous même ressemblant à "
+"un chat."
 
 #: lang/json/json_dreams.py:35
 msgid "You have a dream of working in a hive."
-msgstr ""
+msgstr "Vous rêvez travailler dans une fourmillière."
 
 #: lang/json/json_dreams.py:36
 msgid ""
@@ -15150,35 +15407,40 @@ msgstr ""
 #: lang/json/json_dreams.py:37
 msgid "You have a confusing dream of growing in a garden."
 msgstr ""
+"Vous faites le rêve déroutant d'être une plante poussant dans un jardin."
 
 #: lang/json/json_dreams.py:38
 msgid "You are confused by a plantlike image of yourself in a dream."
 msgstr ""
+"Dans un rêve vous êtes dérouté(e) par une image de vous même, semblable à "
+"une plante."
 
 #: lang/json/json_dreams.py:39
 msgid "You have a strange dream of living in sludge."
-msgstr ""
+msgstr "Vous faites un rêve étrange, dans lequel vous vivez dans la boue."
 
 #: lang/json/json_dreams.py:40
 msgid "In your dream you see an odd, slimy reflection of yourself."
-msgstr ""
+msgstr "Dans votre rêve vous voyez une forme bizarre, gluante, de vous même."
 
 #: lang/json/json_dreams.py:41
 msgid "You dream of living deep inside a dark cave."
-msgstr ""
+msgstr "Vous rêvez que vous vivez au fond d'une caverne noire."
 
 #: lang/json/json_dreams.py:42
 msgid "You dream of being a primitive cave dweller."
-msgstr ""
+msgstr "Vous rêvez que vous êtes un troglodyte primitif."
 
 #: lang/json/json_dreams.py:43
 msgid "You dream of living on the ocean floor."
-msgstr ""
+msgstr "Vous rêvez que vous habitez au fond de l'océan."
 
 #: lang/json/json_dreams.py:44
 msgid ""
 "While dreaming, a reflection of yourself appears almost like an octopus."
 msgstr ""
+"Lors de votre rêve, une image de vous même apparaît pratiquement comme une "
+"pieuvre."
 
 #: lang/json/json_dreams.py:45
 msgid "You have a strange dream of spinning webs"
@@ -15187,74 +15449,102 @@ msgstr ""
 #: lang/json/json_dreams.py:46
 msgid "In your dream you see a very spiderlike version of yourself."
 msgstr ""
+"Dans votre rêve vous voyez une version de vous même pratiquement à forme "
+"arachnoïde."
 
 #: lang/json/json_dreams.py:47
 msgid "You vividly dream of living in the sewers."
-msgstr ""
+msgstr "Vous rêvez de manière saisissante que vous vivez dans les égouts."
 
 #: lang/json/json_dreams.py:48
 msgid "In your dream you see a group of rats that look almost like yourself."
 msgstr ""
+"Dans votre rêve vous voyez un groupe de rats qui sont pratiquement à votre "
+"image."
 
 #: lang/json/json_dreams.py:49
 msgid "You are terrified by a dream of becoming a lizard hybrid."
 msgstr ""
+"Vous êtes terrifié par un rêve dans lequel vous devenez un lézard hybride."
 
 #: lang/json/json_dreams.py:50
 msgid "You have a disturbingly lifelike dream of living as a lizard."
 msgstr ""
+"Vous faites un rêve qui ressemble de manière dérangeante à la vie réelle "
+"sauf que vous y êtes un lézard."
 
 #: lang/json/json_dreams.py:51
 msgid ""
 "You have a realistic dream of flying south with your flock for the winter."
 msgstr ""
+"Vous rêvez de manière très réaliste que vous migrez dans le sud avec votre "
+"volée."
 
 #: lang/json/json_dreams.py:52
 msgid ""
 "You are disturbed when your birdlike dreams are more lifelike than reality."
 msgstr ""
+"Vous êtes perturbé que vos rêves d'oiseaux deviennent plus consistants que "
+"la réalité."
 
 #: lang/json/json_dreams.py:53
 msgid "You have a disturbing dream of swimming with a school of fish."
 msgstr ""
+"Vous faites un rêve dérangeant dans lequel vous nagez parmi un banc de "
+"poissons."
 
 #: lang/json/json_dreams.py:54
 msgid "When you wake up you panic about drowning from being out of water."
 msgstr ""
+"Lorsque vous vous réveillez vous paniquez à l'idée de vous oyez car vous "
+"êtes hors de l'eau."
 
 #: lang/json/json_dreams.py:55
 msgid "You vividly dream of running with your pack, hunting a wild animal."
 msgstr ""
+"Votre rêve dépeint de manière saisissante une course poursuite que vous "
+"faites, votre sac à dos sur vos épaules, après un animal sauvage."
 
 #: lang/json/json_dreams.py:56
 msgid "A terrifyingly real dream has you killing game with your bare teeth."
 msgstr ""
+"Un rêve effroyablement réel vous fait vivre une chasse au gibier, que vous "
+"tuez avec vos dents."
 
 #: lang/json/json_dreams.py:57
 msgid "You terrifyingly dream of being led to a slaughterhouse by a farmer."
-msgstr ""
+msgstr "Vous cauchemardez être emmené par un fermier vers un abattoir."
 
 #: lang/json/json_dreams.py:58
 msgid "You find it hard to wake from a vivid dream of grazing on a farm."
 msgstr ""
+"Vous éprouvez des difficultés à vous réveiller d'un rêve dans lequel vous "
+"étiez en train de paître dans une ferme."
 
 #: lang/json/json_dreams.py:59
 msgid "You are terrified by a dream of serving the hive queen mindlessly."
 msgstr ""
+"Vous êtes terrifié par un rêve dans lequel vous servez la reine de la "
+"fourmillière, sans réfléchir."
 
 #: lang/json/json_dreams.py:60
 msgid "Your disturbingly lifelike dream has you pollinating plants."
 msgstr ""
+"Votre rêve, bouleversant car saisissant de réalité, vous plaçait dans la "
+"peau d'un pollinisateur de plantes."
 
 #: lang/json/json_dreams.py:61
 msgid "You have a confusing and scary dream of becoming a plant."
 msgstr ""
+"Vous faites un rêve dérangeant et effrayant dans lequel vous devenez une "
+"plante."
 
 #: lang/json/json_dreams.py:62
 msgid ""
 "The transition from your lifelike dreams of living as a plant to reality "
 "shocks you."
 msgstr ""
+"La transition de vos rêves presque réels d'être une plante vous choque."
 
 #: lang/json/json_dreams.py:63
 msgid "Your vivid dream of living as a slime blob frightens you."
@@ -15268,59 +15558,68 @@ msgstr ""
 #: lang/json/json_dreams.py:65
 msgid "Your dream of living in the dark for years is almost real."
 msgstr ""
+"Votre rêve de vivre dans le noir pendant des années semble être la réalité."
 
 #: lang/json/json_dreams.py:66
 msgid "You are frightened of the outside after your vivid dream of cave life."
 msgstr ""
+"Vous êtes effrayé par l'extérieur après un rêve criant de réalisme de vie en "
+"caverne."
 
 #: lang/json/json_dreams.py:67
 msgid ""
 "Your dreams of living on the ocean floor seem more lifelike than reality."
 msgstr ""
+"Vos rêves de vivre dans les océans vous semblent plus tangibles que la "
+"réalité."
 
 #: lang/json/json_dreams.py:68
 msgid "You dream of living as a terrifying octopus mutant."
-msgstr ""
+msgstr "Vous rêvez que vous êtes un effroyable poulpe mutant."
 
 #: lang/json/json_dreams.py:69
 msgid "You vividly dream of living in a web and consuming insects."
 msgstr ""
+"Vous rêvez, de façon réaliste, de vivre dans des toiles et de consommer des "
+"insectes."
 
 #: lang/json/json_dreams.py:70
 msgid "Your dreams of fully turning into a spider frighten you."
-msgstr ""
+msgstr "Vos rêves de transformations totale en araignée vous effrayent."
 
 #: lang/json/json_dreams.py:71
 msgid "You scream in fear while you dream of being chased by a cat"
-msgstr ""
+msgstr "Vous hurlez de peur alors que vous rêvez être pourchassé par un chat."
 
 #: lang/json/json_dreams.py:72
 msgid "Your lifelike dreams have you scavenging food with a pack of rats."
 msgstr ""
+"Vous avez des rêves terriblement vivants de recherche de nourriture avec une "
+"horde de rats."
 
 #: lang/json/json_items.py:1
 msgid "socks"
-msgstr ""
+msgstr "chaussettes"
 
 #: lang/json/json_items.py:2
 msgid "Socks. Put 'em on your feet."
-msgstr ""
+msgstr "Des chaussettes. Mettez les sur vos pieds."
 
 #: lang/json/json_items.py:3
 msgid "wool socks"
-msgstr ""
+msgstr "chaussettes en laine"
 
 #: lang/json/json_items.py:4
 msgid "Warm socks made of wool."
-msgstr ""
+msgstr "Des chaussettes chaudes en laine."
 
 #: lang/json/json_items.py:5
 msgid "sneakers"
-msgstr ""
+msgstr "baskets"
 
 #: lang/json/json_items.py:6
 msgid "Guaranteed to make you run faster and jump higher!"
-msgstr ""
+msgstr "Vous serez assuré de courir plus vite et sautez plus haut!"
 
 #: lang/json/json_items.py:7
 msgid "football armor"
@@ -16475,121 +16774,141 @@ msgstr ""
 
 #: lang/json/json_items.py:275
 msgid "riot helmet"
-msgstr ""
+msgstr "casque anti-émeute"
 
 #: lang/json/json_items.py:276
 msgid "A helmet with a plastic shield that covers your entire face."
-msgstr ""
+msgstr "Un casque qui a une visière en plastique protégeant tout votre visage."
 
 #: lang/json/json_items.py:277
 msgid "motorcycle helmet"
-msgstr ""
+msgstr "casque de moto"
 
 #: lang/json/json_items.py:278
 msgid ""
 "A helmet with covers for your head and chin, leaving space in-between for "
 "you to wear goggles."
 msgstr ""
+"Un casque qui protège votre tête et votre menton et a un espace au milieu "
+"pour porter des lunettes."
 
 #: lang/json/json_items.py:279
 msgid "chitinous helmet"
-msgstr ""
+msgstr "casque de chitine"
 
 #: lang/json/json_items.py:280
 msgid ""
 "A helmet made from the exoskeletons of insects. Covers the entire head; very "
 "light and durable."
 msgstr ""
+"Ce casque a été fabriqué à partir d'exosquelettes d'insectes. Il protège "
+"toute la tête, est très léger et durable."
 
 #: lang/json/json_items.py:281
 msgid "great helm"
-msgstr ""
+msgstr "heaume"
 
 #: lang/json/json_items.py:282
 msgid ""
 "A medieval helmet that provides excellent protection to the entire head, at "
 "the cost of great encumbrance."
 msgstr ""
+"Un casque médiéval qui offre une excellente protection à toute la tête au "
+"prix d'un encombrant très important."
 
 #: lang/json/json_items.py:283
 msgid "top hat"
-msgstr ""
+msgstr "haut-de-forme"
 
 #: lang/json/json_items.py:284
 msgid ""
 "The only hat for a gentleman. Look exquisite while laughing in the face of "
 "danger!"
 msgstr ""
+"Le seul chapeau du gentleman. Gardez l'air raffiné tout en riant face aux "
+"dangers!"
 
 #: lang/json/json_items.py:285
 msgid "bowler hat"
-msgstr ""
+msgstr "chapeau melon"
 
 #: lang/json/json_items.py:286
 msgid ""
 "The only hat for a made man. Look like a real good fella while laughing in "
 "the face of your foes!"
 msgstr ""
+"Le chapeau des mafieux. Ayez l'air d'être quelq'un de vraiment bien en "
+"éclatant de rire face à vos ennemis!"
 
 #: lang/json/json_items.py:287
 msgid "backpack"
-msgstr ""
+msgstr "sac à dos"
 
 #: lang/json/json_items.py:288
 msgid "A small backpack, good storage for a little encumbrance."
 msgstr ""
+"Un petit sac à dos qui a un bon espace de stockage pour un encombrement "
+"réduit."
 
 #: lang/json/json_items.py:289
 msgid "leather backpack"
-msgstr ""
+msgstr "sac à dos en cuir"
 
 #: lang/json/json_items.py:290
 msgid "A small leather backpack, good storage for a little encumbrance."
 msgstr ""
+"Un petit sac à dos en cuir qui a un bon espace de stockage pour un "
+"encombrement réduit."
 
 #: lang/json/json_items.py:291
 msgid "military rucksack"
-msgstr ""
+msgstr "sac à dos militaire"
 
 #: lang/json/json_items.py:292
 msgid "A huge military rucksack, provides a lot of storage."
 msgstr ""
+"Un énorme sac à dos militaire qui permet de transporter beaucoup d'affaires."
 
 #: lang/json/json_items.py:293
 msgid "duffel bag"
-msgstr ""
+msgstr "sac de voyage"
 
 #: lang/json/json_items.py:294
 msgid "A huge duffel bag, provides plenty of storage but severely encumbering."
 msgstr ""
+"Un énorme sac de voyage; permet de transporter une beaucoup d'affaires mais "
+"sévèrement encombrant."
 
 #: lang/json/json_items.py:295
 msgid "purse"
-msgstr ""
+msgstr "sac à main"
 
 #: lang/json/json_items.py:296
 msgid "A bit cumbersome to wear, but provides some storage"
-msgstr ""
+msgstr "Un peu encombrant à porter mais fournit pas mal d'espace de stockage."
 
 #: lang/json/json_items.py:297
 msgid "messenger bag"
-msgstr ""
+msgstr "besace"
 
 #: lang/json/json_items.py:298
 msgid "Light and easy to wear, but doesn't offer much storage."
 msgstr ""
+"Il est léger et facile à porter mais ne transporte pas tellement d'affaires."
 
 #: lang/json/json_items.py:299
 msgid "fanny pack"
-msgstr ""
+msgstr "sac banane"
 
 #: lang/json/json_items.py:300 lang/json/json_items.py:302
 msgid "Provides a bit of extra storage without encumbering you at all."
 msgstr ""
+"Apporte un petit espace de stockage supplémentaire sans vous encombrer du "
+"tout."
 
 #: lang/json/json_items.py:301
 msgid "holster"
-msgstr ""
+msgstr "holster"
 
 #: lang/json/json_items.py:303
 msgid "bootstrap"
@@ -16597,21 +16916,23 @@ msgstr ""
 
 #: lang/json/json_items.py:304
 msgid "A small holster worn on the ankle."
-msgstr ""
+msgstr "Un petit holster porté sur la cheville."
 
 #: lang/json/json_items.py:305
 msgid "quiver"
-msgstr ""
+msgstr "carquois"
 
 #: lang/json/json_items.py:306
 msgid ""
 "A leather quiver worn on the back or at the hip that can hold 20 arrows. Its "
 "small size won't encumber you."
 msgstr ""
+"Un carquois en cuir que l'on porte sur le dos ou la hanche. Il peut contenir "
+"20 flèches et sa petite taille ne gènera pas vos mouvements."
 
 #: lang/json/json_items.py:307
 msgid "large quiver"
-msgstr ""
+msgstr "grand carquois"
 
 #: lang/json/json_items.py:308
 msgid ""
@@ -16620,70 +16941,86 @@ msgid ""
 "Historically used by horse archers, rather than foot archers, but neither of "
 "THEM had to fight zombies."
 msgstr ""
+"Un grand carquois en cuir garni de métal, que l'on porte sur le dos; il peut "
+"contenir 80 flèches.\n"
+"Historiquement utilisé par les archers à cheval plutôt que les archers à "
+"pied, mais aucun d'entre EUX ne combattaient de zombies."
 
 #: lang/json/json_items.py:309
 msgid "pouch"
-msgstr ""
+msgstr "sac"
 
 #: lang/json/json_items.py:310
 msgid ""
 "A makeshift bag, cobbled together from rags. Really gets in the way, but "
 "provides a decent amount of storage."
 msgstr ""
+"Un sac improvisé, bricolé en assemblant des chiffons. Il gêne vraiment les "
+"mouvements mais offre un espace de stockage convenable."
 
 #: lang/json/json_items.py:311
 msgid "leather pouch"
-msgstr ""
+msgstr "sac en cuir"
 
 #: lang/json/json_items.py:312
 msgid ""
 "A bag stitched together from leather scraps. Doesn't hold an awful lot but "
 "is easy to wear."
 msgstr ""
+"Un sac cousu avec des morceaux de cuir. Son espace de stockage est limité "
+"mais il est facile à porter."
 
 #: lang/json/json_items.py:313
 msgid "gold ring"
-msgstr ""
+msgstr "anneau en or"
 
 #: lang/json/json_items.py:314
 msgid ""
 "A flashy gold ring. You can wear it if you like, but it won't provide any "
 "effects."
 msgstr ""
+"Un anneau en or tape-à-l'oeil. Vous pouvez le porter si vous le désirez mais "
+"il n'a aucun effet."
 
 #: lang/json/json_items.py:315
 msgid "silver necklace"
-msgstr ""
+msgstr "collier en argent"
 
 #: lang/json/json_items.py:316
 msgid ""
 "A nice silver necklace. You can wear it if you like, but it won't provide "
 "any effects."
 msgstr ""
+"Un joli collier en argent. Vous pouvez le porter si vous le désirez mais il "
+"n'a aucun effet."
 
 #: lang/json/json_items.py:317
 msgid "small relic"
-msgstr ""
+msgstr "petite relique"
 
 #: lang/json/json_items.py:318
 msgid ""
 "A small relic from a forgotten saint.  As extraordinary as the world has "
 "become it may have some power yet."
 msgstr ""
+"Une petite relique d'un saint oublié. Aussi extraordinaire que le monde soit "
+"maintenant devenu, il peut lui rester encore quelque pouvoir."
 
 #: lang/json/json_items.py:319
 msgid "wrapped radiation badge"
-msgstr ""
+msgstr "dosimètre emballé"
 
 #: lang/json/json_items.py:320
 msgid ""
 "A badge that detects radiation dosage sealed in a radiation-blocking bag.  "
 "Activate to remove from the bag."
 msgstr ""
+"Un dosimètre qui mesure le niveau de radiation. Il est rangé dans un sac qui "
+"bloque les radiations. Activez le pour le sortir du sac."
 
 #: lang/json/json_items.py:321
 msgid "radiation badge"
-msgstr ""
+msgstr "dosimètre"
 
 #: lang/json/json_items.py:322
 msgid ""
@@ -16698,75 +17035,81 @@ msgstr ""
 
 #: lang/json/json_items.py:324
 msgid "A tarnished gold star gives an air of authority to the wearer."
-msgstr ""
+msgstr "Une étoile dorée ternie qui donne à son porteur une allure d'autorité."
 
 #: lang/json/json_items.py:325
 msgid "american flag"
-msgstr ""
+msgstr "drapeau américain"
 
 #: lang/json/json_items.py:326
 msgid "A large American flag made to fly in even the worst conditions."
 msgstr ""
+"Un grand drapeau américain conçu pour flotter dans le vent dans les pires "
+"conditions."
 
 #: lang/json/json_items.py:327
 msgid "blanket"
-msgstr ""
+msgstr "couverture"
 
 #: lang/json/json_items.py:328
 msgid "Hiding under here will not protect you from the monsters."
-msgstr ""
+msgstr "Vous cachez là dessous ne vous protègera pas des monstres."
 
 #: lang/json/json_items.py:329
 msgid "fur blanket"
-msgstr ""
+msgstr "couverture de fourrure"
 
 #: lang/json/json_items.py:330
 msgid "A heavy fur blanket that covers most of your body."
 msgstr ""
+"Une couverture épaisse en fourrure qui couvre presque votre corps en entier."
 
 #: lang/json/json_items.py:331
 msgid "emergency blanket"
-msgstr ""
+msgstr "couverture de survie"
 
 #: lang/json/json_items.py:332
 msgid "A compact wool blanket that covers your most important body parts."
 msgstr ""
+"Une couverture compacte en laine qui couvre les parties les plus importantes "
+"de votre corps."
 
 #: lang/json/json_items.py:333
 msgid "sleeping bag"
-msgstr ""
+msgstr "sac de couchage"
 
 #: lang/json/json_items.py:334
 msgid "A large sleeping bag that covers you head to toe."
-msgstr ""
+msgstr "Un grand sac de couchage qui vous couvre des pieds à la tête."
 
 #: lang/json/json_items.py:335
 msgid "fur sleeping bag"
-msgstr ""
+msgstr "sac de couchage en laine"
 
 #: lang/json/json_items.py:336
 msgid "A large sleeping bag lined with fur. Who needs a tent?"
 msgstr ""
+"Un grand sac de couchage doublé de fourrure. Qui parle d'avoir un tente ?"
 
 #: lang/json/json_items.py:337
 msgid "housecoat"
-msgstr ""
+msgstr "robe de chambre"
 
 #: lang/json/json_items.py:338
 msgid "Makes you wish you had running water to take a shower."
-msgstr ""
+msgstr "Cela vous donne envie d'avoir l'eau courante pour prendre une douche."
 
 #: lang/json/json_items.py:339
 msgid "snuggie"
-msgstr ""
+msgstr "couverture avec manches"
 
 #: lang/json/json_items.py:340
 msgid "Perfect for reading all those books you stole."
-msgstr ""
+msgstr "Parfait pour lire tous ces livres que vous avez volés."
 
 #: lang/json/json_items.py:341
 msgid "cloak"
-msgstr ""
+msgstr "cape"
 
 #: lang/json/json_items.py:342
 msgid "A heavy cloak that is thrown over your body."
@@ -17369,7 +17712,7 @@ msgstr ""
 
 #: lang/json/json_items.py:467
 msgid "wood crossbow bolt"
-msgstr ""
+msgstr "carreau d'arbalète en bois"
 
 #: lang/json/json_items.py:468
 msgid ""
@@ -17380,7 +17723,7 @@ msgstr ""
 
 #: lang/json/json_items.py:469
 msgid "steel crossbow bolt"
-msgstr ""
+msgstr "carreau d'arbalète en acier"
 
 #: lang/json/json_items.py:470
 msgid ""
@@ -17480,7 +17823,7 @@ msgstr ""
 
 #: lang/json/json_items.py:487
 msgid "pistol crossbow"
-msgstr ""
+msgstr "arbalète pistolet"
 
 #: lang/json/json_items.py:488
 msgid ""
@@ -17488,11 +17831,15 @@ msgid ""
 "and draw, good for hunting small game. Bolts fired from this weapon have a "
 "good chance of remaining intact for re-use."
 msgstr ""
+"Une petite arbalète, semblable à un pistolet, qui peut se cacher. Elle est "
+"faible à cause de sa petite taille et allonge mais peut servir à chasser du "
+"petit gibier. Les carreaux tirés par cette arme ont de bonnes chances de "
+"rester intacts et être tirés à nouveau."
 
 #: lang/json/json_items.py:489 lang/json/json_items.py:576
 #: lang/json/json_items.py:604
 msgid "crossbow"
-msgstr ""
+msgstr "arbalète"
 
 #: lang/json/json_items.py:490 lang/json/json_items.py:577
 #: lang/json/json_items.py:605
@@ -17513,10 +17860,15 @@ msgid ""
 "very hard to reload. Bolts fired from this weapon have a good chance of "
 "remaining intact for re-use."
 msgstr ""
+"Une ÉNORME arbalète médiévale d'Allemagne, très lente à recharger. Sa "
+"tension est si forte que vous la sentez vibrer après avoir tiré. Les "
+"utilisateurs non entraînés trouveront très difficile de la recharger. Les "
+"carreaux tirés par cette arme ont de bonnes chances de rester intacts et "
+"être tirés à nouveau."
 
 #: lang/json/json_items.py:493
 msgid "repeating crossbow"
-msgstr ""
+msgstr "arbalète à répétition"
 
 #: lang/json/json_items.py:494
 msgid ""
@@ -17574,6 +17926,10 @@ msgid ""
 "Gunfire is very noisy, and will attract predators. Its only drawback is a "
 "reduced muzzle velocity, resulting in less accuracy and damage."
 msgstr ""
+"Utiliser un silencieux est quasiment impératif dans des régions infestées de "
+"zombies. Les coups de feu sont très bruyantes et attireront donc des "
+"prédateurs. Le seul inconvénient est qu'il ralentit la vitesse des balles "
+"dans le canon, impliquant une réduction des dommages et de la précision."
 
 #: lang/json/json_items.py:505
 msgid "enhanced grip"
@@ -19990,6 +20346,10 @@ msgid ""
 "other volatile constituents from animal and vegetation substances. It is "
 "produced by slowly heating wood or other substances in the absence of oxygen."
 msgstr ""
+"Le charbon de bois est un matériau inflammable à base de carbone, obtenue en "
+"retirant l'eau et les autres composants volatiles des substances animales et "
+"végétales. On le produit en consumant lentement, en l'absence d'oxygène, du "
+"bois ou d'autres substances."
 
 #: lang/json/json_items.py:1021
 msgid "paper wrapper"
@@ -21421,7 +21781,7 @@ msgstr ""
 
 #: lang/json/json_items.py:1338
 msgid "Lots of articles about cars and driving techniques."
-msgstr ""
+msgstr "Nombreux articles au sujet des voitures et des techniques de pilotage."
 
 #: lang/json/json_items.py:1339
 msgid "Bon Appetit"
@@ -21567,7 +21927,7 @@ msgstr ""
 
 #: lang/json/json_items.py:1373
 msgid "Zombie Survival Guide"
-msgstr ""
+msgstr "Guide de survie en territoire zombie"
 
 #: lang/json/json_items.py:1374
 msgid ""
@@ -21587,7 +21947,7 @@ msgstr ""
 
 #: lang/json/json_items.py:1377
 msgid "Spetsnaz Knife Techniques"
-msgstr ""
+msgstr "Technique de combat au couteau des Spetsnaz"
 
 #: lang/json/json_items.py:1378
 msgid "A classic Soviet text on the art of attacking with a blade."
@@ -21696,7 +22056,7 @@ msgstr ""
 
 #: lang/json/json_items.py:1403
 msgid "Sewing Techniques for Designers"
-msgstr ""
+msgstr "Techniques de coutures pour Designers"
 
 #: lang/json/json_items.py:1404
 msgid ""
@@ -21914,107 +22274,116 @@ msgstr ""
 
 #: lang/json/json_items.py:1451
 msgid "water"
-msgstr ""
+msgstr "eau"
 
 #: lang/json/json_items.py:1452
 msgid "Water, the stuff of life, the best thirst-quencher available."
-msgstr ""
+msgstr "De l'eau, l'origine de la vie, le meilleur moyen de se désaltérer."
 
 #: lang/json/json_items.py:1454
 msgid "Fresh, clean water. Truly the best thing to quench your thirst."
 msgstr ""
+"De l'eau fraîche et potable. C'est vraiment la meilleure chose pour vous "
+"désaltérer."
 
 #: lang/json/json_items.py:1455
 msgid "sewage sample"
-msgstr ""
+msgstr "échantillon d'eau usée"
 
 #: lang/json/json_items.py:1456
 msgid "A sample of sewage from a treatment plant. Gross."
 msgstr ""
+"Un échantillon d'eau usée obtenue dans une station d'épuration. Répugnant."
 
 #: lang/json/json_items.py:1457
 msgid "salt water"
-msgstr ""
+msgstr "eau salée"
 
 #: lang/json/json_items.py:1458
 msgid "Water with salt added. Not good for drinking."
-msgstr ""
+msgstr "De l'eau avec du sel. Mauvais à boire."
 
 #: lang/json/json_items.py:1459
 msgid "orange juice"
-msgstr ""
+msgstr "jus d'orange"
 
 #: lang/json/json_items.py:1460
 msgid "Freshly-squeezed from real oranges! Tasty and nutritious."
-msgstr ""
+msgstr "Fraîchement extrait de vraies oranges. Savoureux et nourrissant."
 
 #: lang/json/json_items.py:1461
 msgid "apple cider"
-msgstr ""
+msgstr "cidre"
 
 #: lang/json/json_items.py:1462
 msgid "Pressed from fresh apples. Tasty and nutritious."
-msgstr ""
+msgstr "Fraîchement pressé de pommes. Savoureux et nourrissant."
 
 #: lang/json/json_items.py:1463
 msgid "energy drink"
-msgstr ""
+msgstr "boisson énergisante"
 
 #: lang/json/json_items.py:1464
 msgid "Popular among those who need to stay up late working."
-msgstr ""
+msgstr "Appréciée par ceux qui doivent rester éveillé la nuit."
 
 #: lang/json/json_items.py:1465
 msgid "cola"
-msgstr ""
+msgstr "coca"
 
 #: lang/json/json_items.py:1466
 msgid "Things go better with cola. Sugar water with caffeine added."
 msgstr ""
+"Tout va mieux avec un coca. De l'eau sucrée à laquelle on a ajouté de la "
+"cafféine."
 
 #: lang/json/json_items.py:1467
 msgid "root beer"
-msgstr ""
+msgstr "racinette"
 
 #: lang/json/json_items.py:1468
 msgid "Like cola, but without caffeine. Still not that healthy."
 msgstr ""
+"Racinette (ou root beer); comme le coca, la cafféine en moins. Cela reste "
+"mauvais pour la santé."
 
 #: lang/json/json_items.py:1469
 msgid "milk"
-msgstr ""
+msgstr "lait"
 
 #: lang/json/json_items.py:1470
 msgid "Baby cow food, appropriated for adult humans. Spoils rapidly."
 msgstr ""
+"Nourriture pour les veaux, approprié pour les adultes humains. Se gâte "
+"rapidement."
 
 #: lang/json/json_items.py:1471
 msgid "V8"
-msgstr ""
+msgstr "V8"
 
 #: lang/json/json_items.py:1472
 msgid "Contains up to 8 vegetables! Nutritious and tasty."
-msgstr ""
+msgstr "Contient du jus de 8 légumes! Savoureux et nourrissant."
 
 #: lang/json/json_items.py:1473
 msgid "broth"
-msgstr ""
+msgstr "bouillon"
 
 #: lang/json/json_items.py:1474
 msgid "Vegetable stock. Tasty and fairly nutritious."
-msgstr ""
+msgstr "Un bouillon de légumes.Savoureux et nourrissant."
 
 #: lang/json/json_items.py:1475
 msgid "bone broth"
-msgstr ""
+msgstr "bouillon d'os"
 
 #: lang/json/json_items.py:1476
 msgid "A tasty and nutritious broth made from bones."
-msgstr ""
+msgstr "Un bouillon savoureux et nourrissant, cuisiné à partir d'os."
 
 #: lang/json/json_items.py:1477
 msgid "vegetable soup"
-msgstr ""
+msgstr "soupe de légumes"
 
 #: lang/json/json_items.py:1478
 msgid "A nutritious and delicious hearty vegetable soup."
@@ -22022,7 +22391,7 @@ msgstr ""
 
 #: lang/json/json_items.py:1479
 msgid "meat soup"
-msgstr ""
+msgstr "soupe de viande"
 
 #: lang/json/json_items.py:1480
 msgid "A nutritious and delicious hearty meat soup."
@@ -22046,41 +22415,45 @@ msgstr ""
 
 #: lang/json/json_items.py:1485
 msgid "riesling"
-msgstr ""
+msgstr "riesling"
 
 #: lang/json/json_items.py:1486
 msgid "Sparkling white wine, made from the world's noblest grape."
-msgstr ""
+msgstr "Un vin blanc pétillant fait à partir d'un cépage noble."
 
 #: lang/json/json_items.py:1487
 msgid "chardonnay"
-msgstr ""
+msgstr "chardonnay"
 
 #: lang/json/json_items.py:1488
 msgid "America's most popular wine, and for good reason."
-msgstr ""
+msgstr "Le vin le plus populaire en Amérique, et ce pour une bonne raison."
 
 #: lang/json/json_items.py:1489
 msgid "cabernet sauvignon"
-msgstr ""
+msgstr "cabernet sauvignon"
 
 #: lang/json/json_items.py:1490
 msgid "The heavily disputed king of red wines. Pairs well red meats and pasta."
 msgstr ""
+"Le roi, dont le statut est fortement  contesté, des vins rouges. Il se marie "
+"bien avec les viandes rouges et les pâtes."
 
 #: lang/json/json_items.py:1491
 msgid "pinot noir"
-msgstr ""
+msgstr "pinot noir"
 
 #: lang/json/json_items.py:1492
 msgid ""
 "Prized by collectors and adored by critics, it is one of the rarer and more "
 "elegant wines."
 msgstr ""
+"Un vin de choix pour les collectionneurs et les critiques, c'est l'un de ces "
+"vins plus rare et élégant."
 
 #: lang/json/json_items.py:1493
 msgid "whiskey"
-msgstr ""
+msgstr "whisky"
 
 #: lang/json/json_items.py:1494
 msgid "Made from, by, and for real Southern colonels!"
@@ -22088,57 +22461,62 @@ msgstr ""
 
 #: lang/json/json_items.py:1495
 msgid "vodka"
-msgstr ""
+msgstr "vodka"
 
 #: lang/json/json_items.py:1496
 msgid "In Soviet Russia, vodka drinks you!"
-msgstr ""
+msgstr "En Russie soviétique c'est la vodka qui vous boit!"
 
 #: lang/json/json_items.py:1497
 msgid "gin"
-msgstr ""
+msgstr "gin"
 
 #: lang/json/json_items.py:1498
 msgid "Smells faintly of elderberries, but mostly booze."
-msgstr ""
+msgstr "Une légère odeur de baie de sureau mais cela reste de l'alcool."
 
 #: lang/json/json_items.py:1499
 msgid "rum"
-msgstr ""
+msgstr "rhum"
 
 #: lang/json/json_items.py:1500
 msgid "Drinking this might make you feel like a pirate. Or not."
-msgstr ""
+msgstr "Buvez-en et vous vous sentirez comme un pirate. Ou pas."
 
 #: lang/json/json_items.py:1501
 msgid "tequila"
-msgstr ""
+msgstr "tequila"
 
 #: lang/json/json_items.py:1502
 msgid "Don't eat the worm! Wait, there's no worm in this bottle."
 msgstr ""
+"N'avalez pas le ver ! Attendez, mais en fait il n'y a pas de ver dans cette "
+"bouteille."
 
 #: lang/json/json_items.py:1503
 msgid "triple sec"
-msgstr ""
+msgstr "triple sec"
 
 #: lang/json/json_items.py:1504
 msgid "An orange flavored liquor used in many mixed drinks."
 msgstr ""
+"Une liqueur d'écorces d'orange utilisée dans de très nombreux cocktails."
 
 #: lang/json/json_items.py:1505
 msgid "long island iced tea"
-msgstr ""
+msgstr "long island iced tea"
 
 #: lang/json/json_items.py:1506
 msgid ""
 "A blend of incredibly strong-flavored liquors that somehow tastes like none "
 "of them."
 msgstr ""
+"Un mélange de liqueurs vraiment fortes qui n'a en fait le goût d'aucunes "
+"d'entre elles."
 
 #: lang/json/json_items.py:1507 lang/json/json_items.py:2149
 msgid "screwdriver"
-msgstr ""
+msgstr "screwdriver"
 
 #: lang/json/json_items.py:1508
 msgid "The surreptitious drunkard mechanic's drink of choice."
@@ -22146,76 +22524,84 @@ msgstr ""
 
 #: lang/json/json_items.py:1509
 msgid "wild apple"
-msgstr ""
+msgstr "vodka pomme"
 
 #: lang/json/json_items.py:1510
 msgid "Like apple cider, only with vodka."
-msgstr ""
+msgstr "Du cidre avec de la vodka"
 
 #: lang/json/json_items.py:1511
 msgid "beer"
-msgstr ""
+msgstr "bière"
 
 #: lang/json/json_items.py:1512
 msgid ""
 "Best served cold, in a glass, and with a lime - but you're not that lucky."
 msgstr ""
+"Se boit de préférence frais, dans un verre, avec un citron - mais vous "
+"n'avez pas cette chance."
 
 #: lang/json/json_items.py:1513
 msgid "bleach"
-msgstr ""
+msgstr "eau de Javel"
 
 #: lang/json/json_items.py:1514
 msgid "Don't drink it. Mixing it with ammonia produces toxic gas."
 msgstr ""
+"N'en buvez pas. La mélanger avec de l'ammoniaque produit un gaz toxique."
 
 #: lang/json/json_items.py:1515
 msgid "ammonia"
-msgstr ""
+msgstr "ammoniaque"
 
 #: lang/json/json_items.py:1516
 msgid "Don't drink it. Mixing it with bleach produces toxic gas."
 msgstr ""
+"N'en buvez pas. La mélanger avec de l'eau de Javel produit un gaz toxique."
 
 #: lang/json/json_items.py:1517
 msgid "plant food"
-msgstr ""
+msgstr "nutriment pour végétaux"
 
 #: lang/json/json_items.py:1518
 msgid "Don't drink it; feed it to your plants!"
-msgstr ""
+msgstr "N'en buvez pas; nourrissez en vos plantes!"
 
 #: lang/json/json_items.py:1519
 msgid "acid water"
-msgstr ""
+msgstr "eau acide"
 
 #: lang/json/json_items.py:1520
 msgid ""
 "Water collected during an acid rainstorm. Don't drink it. Boiling it "
 "concentrates the acid."
 msgstr ""
+"De l'eau collectée lors d'une pluie acide. Ne la buvez pas. L'acide est "
+"concentré lorsque portée à ébullition."
 
 #: lang/json/json_items.py:1521
 msgid "weak acid water"
-msgstr ""
+msgstr "eau faiblement acide"
 
 #: lang/json/json_items.py:1522
 msgid ""
 "A mixture of rain and acid rain. Don't drink it. Boiling it concentrates the "
 "acid."
 msgstr ""
+"Un mélange d'eau de pluie et d'eau de pluie acide. Ne la buvez pas. L'acide "
+"est concentré lorsque portée à ébullition."
 
 #: lang/json/json_items.py:1523
 msgid "concentrated acid"
-msgstr ""
+msgstr "acide concentré"
 
 #: lang/json/json_items.py:1524
 msgid "Concentrated acid from an acid rainstorm. Don't drink it."
-msgstr ""
+msgstr "De l'acide de pluies acides concentré. N'en buvez pas."
 
 #: lang/json/json_items.py:1525
 msgid "mutagen"
-msgstr ""
+msgstr "mutagène"
 
 #: lang/json/json_items.py:1526 lang/json/json_items.py:1528
 #: lang/json/json_items.py:1530 lang/json/json_items.py:1532
@@ -22226,18 +22612,19 @@ msgstr ""
 #: lang/json/json_items.py:1550
 msgid "A rare substance of uncertain origins. Causes you to mutate."
 msgstr ""
+"Une substance rare aux origines inconnues. Elle provoque des mutations."
 
 #: lang/json/json_items.py:1527
 msgid "plant mutagen"
-msgstr ""
+msgstr "mutagène végétal"
 
 #: lang/json/json_items.py:1529
 msgid "insect mutagen"
-msgstr ""
+msgstr "insecte mutagène"
 
 #: lang/json/json_items.py:1531
 msgid "spider mutagen"
-msgstr ""
+msgstr "mutagène"
 
 #: lang/json/json_items.py:1533
 msgid "slime mutagen"
@@ -22245,11 +22632,11 @@ msgstr ""
 
 #: lang/json/json_items.py:1535
 msgid "fish mutagen"
-msgstr ""
+msgstr "poisson mutagène"
 
 #: lang/json/json_items.py:1537
 msgid "rat mutagen"
-msgstr ""
+msgstr "rat mutagène"
 
 #: lang/json/json_items.py:1539
 msgid "beast mutagen"
@@ -22257,75 +22644,81 @@ msgstr ""
 
 #: lang/json/json_items.py:1541
 msgid "cattle mutagen"
-msgstr ""
+msgstr "bétail mutagène"
 
 #: lang/json/json_items.py:1543
 msgid "cephalopod mutagen"
-msgstr ""
+msgstr "céphalopode mutagène"
 
 #: lang/json/json_items.py:1545
 msgid "bird mutagen"
-msgstr ""
+msgstr "oiseau mutagène"
 
 #: lang/json/json_items.py:1547
 msgid "lizard mutagen"
-msgstr ""
+msgstr "lézard mutagène"
 
 #: lang/json/json_items.py:1549
 msgid "troglobite mutagen"
-msgstr ""
+msgstr "troglobie mutagène"
 
 #: lang/json/json_items.py:1551
 msgid "purifier"
-msgstr ""
+msgstr "purificateur"
 
 #: lang/json/json_items.py:1552
 msgid ""
 "A rare stem-cell treatment that causes mutations and other genetic defects "
 "to fade away."
 msgstr ""
+"Un traitement, rare, à base de cellules souches qui fait disparaître les "
+"mutations et autres anomalies génétiques."
 
 #: lang/json/json_items.py:1553
 msgid "tea"
-msgstr ""
+msgstr "thé"
 
 #: lang/json/json_items.py:1554
 msgid "Tea, the beverage of gentlemen everywhere."
-msgstr ""
+msgstr "Le thé, boisson de tous les gentlemen."
 
 #: lang/json/json_items.py:1555
 msgid "kompot"
-msgstr ""
+msgstr "kompote"
 
 #: lang/json/json_items.py:1556
 msgid "Clear juice obtained by cooking fruit in a large volume of water"
 msgstr ""
+"Du jus limpide, obtenu en infusant et laissant refroidir des fruits dans une "
+"grande quantité d'eau."
 
 #: lang/json/json_items.py:1557
 msgid "coffee"
-msgstr ""
+msgstr "café"
 
 #: lang/json/json_items.py:1558
 msgid "Coffee. The morning ritual of the pre-apocalypse world."
-msgstr ""
+msgstr "Du café. Le rituel matinal de la vie pré-apocalyptique."
 
 #: lang/json/json_items.py:1559
 msgid "blood"
-msgstr ""
+msgstr "sang"
 
 #: lang/json/json_items.py:1560
 msgid "Blood, possibly that of a human. Disgusting!"
-msgstr ""
+msgstr "Du sang, peut-être du sang humain. Dégoûtant!"
 
 #: lang/json/json_items.py:1561
 msgid "bone"
-msgstr ""
+msgstr "os"
 
 #: lang/json/json_items.py:1562
 msgid ""
 "A bone from some creature or other, could be eaten or used to make some "
 "stuff, like needles."
 msgstr ""
+"Un os d'une créature ou d'une autre; on peut le manger ou l'utiliser pour "
+"fabriquer des trucs, des aiguilles par exemple."
 
 #: lang/json/json_items.py:1563
 msgid "fluid sac"
@@ -22339,11 +22732,13 @@ msgstr ""
 
 #: lang/json/json_items.py:1565
 msgid "chunk of meat"
-msgstr ""
+msgstr "morceau de viande"
 
 #: lang/json/json_items.py:1566
 msgid "Freshly butchered meat. You could eat it raw, but cooking it is better."
 msgstr ""
+"De la viande fraîchement dépecée. Vous pourriez la manger crue, mais c'est "
+"bien mieux de la cuire."
 
 #: lang/json/json_items.py:1567
 msgid "plant marrow"
@@ -22355,46 +22750,52 @@ msgstr ""
 
 #: lang/json/json_items.py:1569
 msgid "human flesh"
-msgstr ""
+msgstr "chair humaine"
 
 #: lang/json/json_items.py:1570
 msgid "Freshly butchered from a human body."
-msgstr ""
+msgstr "Fraîchement dépecée d'un corps humain."
 
 #: lang/json/json_items.py:1571
 msgid "wild vegetables"
-msgstr ""
+msgstr "légumes sauvages"
 
 #: lang/json/json_items.py:1572
 msgid ""
 "An assortment of edible-looking wild plants.  Most are quite bitter-tasting."
 msgstr ""
+"Un assortiment de plantes sauvages qui ont l'air comestibles. La plupart "
+"sont amères."
 
 #: lang/json/json_items.py:1573
 msgid "tainted meat"
-msgstr ""
+msgstr "viande infectée"
 
 #: lang/json/json_items.py:1574
 msgid ""
 "Meat that's obviously unhealthy. You could eat it, but it will poison you."
 msgstr ""
+"De la viande qui est manifestement dangereuse pour la santé. Vous pourriez "
+"la manger mais cela vous empoisonnerait."
 
 #: lang/json/json_items.py:1575
 msgid "tainted veggy"
-msgstr ""
+msgstr "légumes pourris"
 
 #: lang/json/json_items.py:1576
 msgid ""
 "Vegetable that looks poisonous. You could eat it, but it will poison you."
 msgstr ""
+"Des légumes qui ont l'air empoisonnés. Vous pourriez les manger mais cela "
+"vous empoisonnera."
 
 #: lang/json/json_items.py:1577
 msgid "cooked meat"
-msgstr ""
+msgstr "viande cuite"
 
 #: lang/json/json_items.py:1578
 msgid "Freshly cooked meat. Very nutritious."
-msgstr ""
+msgstr "De la viande récemment cuite. Très nourrissant."
 
 #: lang/json/json_items.py:1579
 msgid "cooked creep"
@@ -22414,58 +22815,62 @@ msgstr ""
 
 #: lang/json/json_items.py:1583
 msgid "cooked wild vegetables"
-msgstr ""
+msgstr "légumes sauvages cuisinés"
 
 #: lang/json/json_items.py:1584
 msgid "Cooked wild edible plants.  An interesting mix of flavours."
 msgstr ""
+"Des légumes sauvages comestibles qui ont été cuisinés. Un mélange agréable "
+"de saveurs."
 
 #: lang/json/json_items.py:1585
 msgid "apple"
-msgstr ""
+msgstr "pomme"
 
 #: lang/json/json_items.py:1586
 msgid "An apple a day keeps the doctor away."
-msgstr ""
+msgstr "'Pomme du matin éloigne le médecin'"
 
 #: lang/json/json_items.py:1587
 msgid "banana"
-msgstr ""
+msgstr "banane"
 
 #: lang/json/json_items.py:1588
 msgid ""
 "A long, curved yellow fruit in a peel. Some people like using them in "
 "desserts. Those people are probably dead."
 msgstr ""
+"Un long fruit courbé et jaune, recouvert par une peau. Certaines personnes "
+"aiment en manger au dessert. Ces personnes sont probablement mortes."
 
 #: lang/json/json_items.py:1589
 msgid "orange"
-msgstr ""
+msgstr "orange"
 
 #: lang/json/json_items.py:1590
 msgid "Sweet citrus fruit. Also comes in juice form."
-msgstr ""
+msgstr "Un agrume doux. Existe aussi en jus."
 
 #: lang/json/json_items.py:1591
 msgid "lemon"
-msgstr ""
+msgstr "citron"
 
 #: lang/json/json_items.py:1592
 msgid "Very sour citrus. Can be eaten if you really want."
-msgstr ""
+msgstr "Un agrume très aigre; vous pouvez le manger si vous y tenez vraiment."
 
 #: lang/json/json_items.py:1593 lang/json/json_items.py:1595
 #: lang/json/json_items.py:1597
 msgid "potato chips"
-msgstr ""
+msgstr "chips"
 
 #: lang/json/json_items.py:1594
 msgid "Betcha can't eat just one."
-msgstr ""
+msgstr "On parie que vous en mangerez plus d'une?"
 
 #: lang/json/json_items.py:1596
 msgid "A bag of cheap, own-brand chips."
-msgstr ""
+msgstr "Un paquet de chips bon marché."
 
 #: lang/json/json_items.py:1598
 msgid "Oh man, you love these chips! Score!"
@@ -22509,27 +22914,31 @@ msgstr ""
 
 #: lang/json/json_items.py:1607
 msgid "pretzels"
-msgstr ""
+msgstr "bretzels"
 
 #: lang/json/json_items.py:1608
 msgid "A salty treat of a snack."
-msgstr ""
+msgstr "Un petit biscuit apéritif salé."
 
 #: lang/json/json_items.py:1609
 msgid "chocolate bar"
-msgstr ""
+msgstr "barre de chocolat"
 
 #: lang/json/json_items.py:1610
 msgid "Chocolate isn't very healthy, but it does make a delicious treat."
 msgstr ""
+"Le chocolat n'est pas très bon pour la santé  mais c'est une friandise "
+"délicieuse."
 
 #: lang/json/json_items.py:1611
 msgid "beef jerky"
-msgstr ""
+msgstr "bœuf séché"
 
 #: lang/json/json_items.py:1612
 msgid "Salty dried meat that never goes bad, but will make you thirsty."
 msgstr ""
+"De la viande séchée et salée qui se conservera toujours mais vous donnera "
+"soif."
 
 #: lang/json/json_items.py:1613
 msgid "jerk jerky"
@@ -22538,10 +22947,12 @@ msgstr ""
 #: lang/json/json_items.py:1614
 msgid "Salty dried human flesh that never goes bad, but will make you thirsty."
 msgstr ""
+"De la viande humaine séchée et salée qui se conservera toujours mais vous "
+"donnera soif."
 
 #: lang/json/json_items.py:1615
 msgid "meat sandwich"
-msgstr ""
+msgstr "sandwich à la viande"
 
 #: lang/json/json_items.py:1616
 msgid "Bread and turkey, that's it."
@@ -22579,11 +22990,11 @@ msgstr "Elles sont bleu, mais pas forcément tristes."
 
 #: lang/json/json_items.py:1627
 msgid "blueberry seeds"
-msgstr ""
+msgstr "graines de myrtille"
 
 #: lang/json/json_items.py:1628
 msgid "Some blueberry seeds."
-msgstr ""
+msgstr "Des graines de myrtille."
 
 #: lang/json/json_items.py:1629
 msgid "strawberries"
@@ -22595,27 +23006,27 @@ msgstr "Parfait pour faire du faux sang."
 
 #: lang/json/json_items.py:1631
 msgid "strawberry seeds"
-msgstr ""
+msgstr "graines de fraisiers"
 
 #: lang/json/json_items.py:1632
 msgid "Some strawberry seeds."
-msgstr ""
+msgstr "Des graines de fraisier."
 
 #: lang/json/json_items.py:1633
 msgid "wheat"
-msgstr ""
+msgstr "blé"
 
 #: lang/json/json_items.py:1634
 msgid "Raw wheat, not very tasty."
-msgstr ""
+msgstr "Du blé brut, ce n'est pas très bon."
 
 #: lang/json/json_items.py:1635
 msgid "wheat seeds"
-msgstr ""
+msgstr "graines de blé"
 
 #: lang/json/json_items.py:1636
 msgid "Some wheat seeds."
-msgstr ""
+msgstr "Des graines de blé."
 
 #: lang/json/json_items.py:1637
 msgid "tomato"
@@ -22931,19 +23342,19 @@ msgstr ""
 
 #: lang/json/json_items.py:1705
 msgid "bone meal"
-msgstr ""
+msgstr "farine animale"
 
 #: lang/json/json_items.py:1706
 msgid "This bone meal is useful for fertilizing plants."
-msgstr ""
+msgstr "Cette farine animale est utilisée pour fertiliser les plantes."
 
 #: lang/json/json_items.py:1707
 msgid "chitin powder"
-msgstr ""
+msgstr "poudre de chitine"
 
 #: lang/json/json_items.py:1708
 msgid "This chitin powder is useful for fertilizing plants."
-msgstr ""
+msgstr "Cette poudre de chitine est utilisée pour fertiliser les plantes."
 
 #: lang/json/json_items.py:1709
 msgid "Italian seasoning"
@@ -22988,82 +23399,103 @@ msgstr "Une tarte remplie d'une délicieuse farce au fruits."
 
 #: lang/json/json_items.py:1719
 msgid "vegetable pizza"
-msgstr ""
+msgstr "pizza aux légumes"
 
 #: lang/json/json_items.py:1720
 msgid ""
 "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its "
 "smell brings back great memories."
 msgstr ""
+"Une pizza pour végétariens avec une délicieuse sauce tomate et une croûte "
+"moelleuse. Son odeur vous rappelle d'excellents souvenirs."
 
 #: lang/json/json_items.py:1721
 msgid "meat pizza"
-msgstr ""
+msgstr "pizza à la viande"
 
 #: lang/json/json_items.py:1722
 msgid ""
 "A meat pizza, for all the carnivores out there.  Chock full of minced meat "
 "and heavily seasoned."
 msgstr ""
+"Une pizza avec de la viande pour tous les carnivores. Elle est généreusement "
+"garnie de viande hachée et fortement assaisonnée."
 
 #: lang/json/json_items.py:1723
 msgid "MRE - beef"
-msgstr ""
+msgstr "MRE - bœuf"
 
 #: lang/json/json_items.py:1724
 msgid ""
 "Meal Ready to Eat. A military ration. Though not very tasty, it is very "
 "filling and will not spoil."
 msgstr ""
+"Meal Ready to Eat. Une ration militaire prête à être consommée. Bien qu'elle "
+"ne soit pas très bonne elle est très rassasiante et se conservera "
+"indéfiniment."
 
 #: lang/json/json_items.py:1725
 msgid "MRE - vegetable"
-msgstr ""
+msgstr "MRE - légumes"
 
 #: lang/json/json_items.py:1726
 msgid ""
 "Meal Ready to Eat.  A military ration.  Though not very tasty, it is very "
 "filling and will not spoil."
 msgstr ""
+"Meal Ready to Eat. Une ration militaire prête à être consommée. Bien qu'elle "
+"ne soit pas très bonne elle est très rassasiante et se conservera "
+"indéfiniment."
 
 #: lang/json/json_items.py:1727
 msgid "tea leaves"
-msgstr ""
+msgstr "feuilles de thé"
 
 #: lang/json/json_items.py:1728
 msgid ""
 "Dried leaves of a tropical plant. You can boil them into tea, or you can "
 "just eat them raw. They aren't too filling though."
 msgstr ""
+"Des feuilles séchées d'une plante tropicale. Vous pouvez les faire bouillir "
+"dans de l'eau pour avoir du thé ou simplement les manger directement; "
+"cependant elles ne sont pas très nourrissantes."
 
 #: lang/json/json_items.py:1729
 msgid "coffee powder"
-msgstr ""
+msgstr "grains de café"
 
 #: lang/json/json_items.py:1730
 msgid ""
 "Ground coffee beans. You can boil it into a mediocre stimulant, or swallow "
 "it raw for a lesser stimulative boost."
 msgstr ""
+"Des graines de café moulu. Vous pouvez les faire bouillir dans de l'eau pour "
+"obtenir un stimulant médiocre ou les avaler à l'état brut pour un effet "
+"stimulant moindre."
 
 #: lang/json/json_items.py:1731
 msgid "cake"
-msgstr ""
+msgstr "pâtisserie"
 
 #: lang/json/json_items.py:1732
 msgid ""
 "Delicious sponge cake with buttercream icing, it says happy birthday on it."
 msgstr ""
+"Un délicieux gâteau avec un glaçage de crème au beurre; on peut y lire "
+"joyeux anniversaire."
 
 #: lang/json/json_items.py:1733
 msgid "canned meat"
-msgstr ""
+msgstr "conserve de viande"
 
 #: lang/json/json_items.py:1734
 msgid ""
 "Low-sodium preserved meat.  It was boiled and canned. Contains all of the "
 "nutrition, but little of the savor of cooked meat. "
 msgstr ""
+"De la viande en conserve à teneur pauvre en sodium. Elle a été cuite et mise "
+"en conserve. Elle contient tous les éléments nutritifs de la viande mais a "
+"perdu beaucoup de sa saveur. "
 
 #: lang/json/json_items.py:1735
 msgid "canned veggy"
@@ -23077,118 +23509,143 @@ msgstr ""
 
 #: lang/json/json_items.py:1737
 msgid "canned apple slices"
-msgstr ""
+msgstr "quartiers de pommes en conserve"
 
 #: lang/json/json_items.py:1738
 msgid ""
 "Sealed glass jar containing preserved apples.  Bland, mushy and losing color."
 msgstr ""
+"Un bocal en verre scellé qui contient des pommes préservées. Fades, molles "
+"et en train de perdre leur couleur."
 
 #: lang/json/json_items.py:1739
 msgid "soylent slices"
-msgstr ""
+msgstr "portion de Soleil vert"
 
 #: lang/json/json_items.py:1740
 msgid ""
 "Low-sodium preserved human meat.  It was boiled and canned. Contains all of "
 "the nutrition, but little of the savor of cooked meat. "
 msgstr ""
+"De la viande humaine conservée à teneur pauvre en sodium. Elle a été cuite "
+"et mise en conserve. Elle contient tous les éléments nutritifs de la viande "
+"mais a perdu beaucoup de sa saveur. 'Qui veut du Soleil Vert?' "
 
 #: lang/json/json_items.py:1741
 msgid "salted meat slices"
-msgstr ""
+msgstr "tranches de viande salée"
 
 #: lang/json/json_items.py:1742
 msgid ""
 "Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch. "
 msgstr ""
+"Des tranches de viande fumées dans de la saumure et emballées sous vide. "
+"Salé mais à la rigueur agréable. "
 
 #: lang/json/json_items.py:1743
 msgid "salted veggy chunks"
-msgstr ""
+msgstr "morceaux de légumes salés"
 
 #: lang/json/json_items.py:1744
 msgid ""
 "Vegetable chunks pickled in a salt bath.  Goes well with burgers, if only "
 "you can find one."
 msgstr ""
+"Des morceaux de légumes conservé dans de l'eau salée. Ils accompagnent bien "
+"les burgers, reste à en trouver un maintenant."
 
 #: lang/json/json_items.py:1745
 msgid "apple slices"
-msgstr ""
+msgstr "quartiers de pomme"
 
 #: lang/json/json_items.py:1746
 msgid ""
 "Apple slices soaked in a sugar syrup, to preserve freshness and appearance"
 msgstr ""
+"Des quartiers de pomme trempés dans du sucre inverti pour conserver "
+"l'apparence et la fraîcheur."
 
 #: lang/json/json_items.py:1747
 msgid "spaghetti bolognese"
-msgstr ""
+msgstr "spaghetti bolognaise"
 
 #: lang/json/json_items.py:1748
 msgid "Spaghetti covered with a thick meat sauce.  Yum! "
 msgstr ""
+"Des spaghetti recouvertes d'une épaisse sauce à la viande de bœuf. Miam! "
 
 #: lang/json/json_items.py:1749
 msgid "spaghetti al pesto"
-msgstr ""
+msgstr "spaghetti à la sauce pesto"
 
 #: lang/json/json_items.py:1750
 msgid "Spaghetti, with a generous helping of pesto on top.  Yum! "
-msgstr ""
+msgstr "Des spaghetti avec une portion généreuse de sauce pesto. Miam! "
 
 #: lang/json/json_items.py:1751
 msgid "bandages"
-msgstr ""
+msgstr "bandages"
 
 #: lang/json/json_items.py:1752
 msgid "Simple cloth bandages. Used for healing small amounts of damage."
 msgstr ""
+"De simples bandages en tissu. Utilisés pour guérir de petites quantités de "
+"dommages."
 
 #: lang/json/json_items.py:1753 lang/json/json_skills.py:15
 msgid "first aid"
-msgstr ""
+msgstr "kit de premiers secours"
 
 #: lang/json/json_items.py:1754
 msgid ""
 "A full medical kit, with bandages, local anaesthetics, and rapid healing "
 "agents. Used for healing large amounts of damage."
 msgstr ""
+"Un kit complet de premiers secours qui contient des bandages, des "
+"anésthésiants locaux et des agents de soin rapide. Utilisé pour guérir des "
+"dommages importants."
 
 #: lang/json/json_items.py:1755
 msgid "vitamins"
-msgstr ""
+msgstr "vitamines"
 
 #: lang/json/json_items.py:1756
 msgid ""
 "Essential dietary nutrients conveniently packaged in pill form.  Take "
 "frequently to help regulate your body's health and immune functions."
 msgstr ""
+"Nutriments diététiques commodément conditionnés sous forme de pilule. Prenez "
+"en fréquemment pour améliorer votre santé et le système immunitaire."
 
 #: lang/json/json_items.py:1757
 msgid "flu shot"
-msgstr ""
+msgstr "vaccin contre la grippe"
 
 #: lang/json/json_items.py:1758
 msgid ""
 "Pharmaceutical flu shot designed for mass vaccinations, still in the "
 "packaging. Purported to provide some kind of immunity."
 msgstr ""
+"Un vaccin pharmaceutique contre la grippe, conçu pour des campagnes de "
+"vaccination massives; il est encore dans son emballage. Il est censé fournir "
+"une immunité."
 
 #: lang/json/json_items.py:1759
 msgid "aspirin"
-msgstr ""
+msgstr "aspirine"
 
 #: lang/json/json_items.py:1760
 msgid ""
 "Acetylsalicylic acid, a mild anti-inflammatory. Take to relieve pain and "
 "swelling. Best to avoid ingesting with alcohol or other painkillers."
 msgstr ""
+"'acide acétylsalicylique, un anti-inflammatoire doux. Consommez en pour "
+"soulager les douleurs et gonflements. Par contre mieux vaut éviter de le "
+"mélanger avec de l'alcool ou d'autres antalgiques."
 
 #: lang/json/json_items.py:1761
 msgid "caffeine pills"
-msgstr ""
+msgstr "pilule de cafféine"
 
 #: lang/json/json_items.py:1762
 msgid ""
@@ -23198,27 +23655,31 @@ msgstr ""
 
 #: lang/json/json_items.py:1763
 msgid "Ambien"
-msgstr ""
+msgstr "Zolpidem"
 
 #: lang/json/json_items.py:1764
 msgid ""
 "A habit-forming tranquilizer with a variety of psychoactive side effects. "
 "Used in the treatment of insomnia."
 msgstr ""
+"Un tranquillisant auquel on s'accoutume; il provoque plusieurs effets "
+"secondaires psychoactifs. Utilisé dans le traitement contre l'insomnie."
 
 #: lang/json/json_items.py:1765
 msgid "iodine tablets"
-msgstr ""
+msgstr "tablettes de iodure de potassium"
 
 #: lang/json/json_items.py:1766
 msgid ""
 "Potassium iodide tablets. They might help mitigate some of the detrimental "
 "effects caused by irradiation."
 msgstr ""
+"Cest tablettes de iodure de potassium peuvent aider à atténuer certains des "
+"effets néfastes de la radiation."
 
 #: lang/json/json_items.py:1767
 msgid "Dayquil"
-msgstr ""
+msgstr "Dayquil"
 
 #: lang/json/json_items.py:1768
 msgid ""
@@ -23226,20 +23687,27 @@ msgid ""
 "aching, headaches and runny noses, but you'll still need lots of fluids and "
 "rest."
 msgstr ""
+"Un médicament à prendre en journée, destiné à lutter contre les rhumes et la "
+"grippe; sa formule ne provoque pas de somnolences. Il supprimera la toux, la "
+"douleur et le nez qui coule; vous aurez quand même besoin de repos et boire "
+"beaucoup."
 
 #: lang/json/json_items.py:1769
 msgid "Nyquil"
-msgstr ""
+msgstr "Nyquil"
 
 #: lang/json/json_items.py:1770
 msgid ""
 "Nighttime cold and flu medication. Useful when trying to sleep with a head "
 "full of virions. Will cause drowsiness."
 msgstr ""
+"Un médicament à prendre la nuit, destiné à lutter contre les rhumes et la "
+"grippe. Il est utile lorsque l'on essaie de dormir la tête emplie de "
+"virions; sa formule provoque des somnolences."
 
 #: lang/json/json_items.py:1771
 msgid "inhaler"
-msgstr ""
+msgstr "inhalateur"
 
 #: lang/json/json_items.py:1772
 msgid ""
@@ -23247,10 +23715,13 @@ msgid ""
 "for people with asthma.  A mild stimulant, it may cause nervousness or "
 "tremors."
 msgstr ""
+"Un inhalateur d'alubtérol. Utilisé dans le traitement du bronchospasme, "
+"c'est une planche de salut pour les asmathiques. C'est un stimulant doux qui "
+"peut causer de la nervosité ou des frissons."
 
 #: lang/json/json_items.py:1773
 msgid "codeine"
-msgstr ""
+msgstr "codéine"
 
 #: lang/json/json_items.py:1774
 msgid ""
@@ -23258,26 +23729,33 @@ msgid ""
 "While relatively weak for a narcotic, it is still addictive, with a "
 "potential for overdose."
 msgstr ""
+"Un opiacé faible utilisé pour diminuer la douleur, la toux et d'autres "
+"affections. Bien qu'il soit relativement faible pour un narcotique , il est "
+"addictif et peut causer une overdose."
 
 #: lang/json/json_items.py:1775
 msgid "oxycodone"
-msgstr ""
+msgstr "oxycodone"
 
 #: lang/json/json_items.py:1776
 msgid ""
 "A strong semi-synthetic narcotic used in the treatment of intense pain.  "
 "Highly addictive."
 msgstr ""
+"Un narcotique puissant semi-synthétique, utilisé en traitement contre les "
+"douleurs sévères. Hautement addictif."
 
 #: lang/json/json_items.py:1777
 msgid "tramadol"
-msgstr ""
+msgstr "tramadol"
 
 #: lang/json/json_items.py:1778
 msgid ""
 "A painkiller used to manage moderate pain.  The effects last for several "
 "hours, but are relatively subdued for an opioid."
 msgstr ""
+"Un analgésique utilisé pour atténuer les douleurs modérées. Les effets "
+"durent plusieurs heures mais sont relativement diffus pour un opioïde."
 
 #: lang/json/json_items.py:1780
 msgid ""
@@ -23285,10 +23763,13 @@ msgid ""
 "and loss of memory.  It is dangerously addictive, and withdrawal from "
 "regular use should be gradual."
 msgstr ""
+"Agent anxiolytique avec un puissant effet sédatif. Il peut entraîner "
+"dissociation et perte de mémoire. Il est dangereusement addictif et l'arrêt "
+"d'une consommation régulière devrait être graduelle."
 
 #: lang/json/json_items.py:1781
 msgid "Adderall"
-msgstr ""
+msgstr "Adderall"
 
 #: lang/json/json_items.py:1782
 msgid ""
@@ -23298,7 +23779,7 @@ msgstr ""
 
 #: lang/json/json_items.py:1783
 msgid "Thorazine"
-msgstr ""
+msgstr "Thorazine"
 
 #: lang/json/json_items.py:1784
 msgid ""
@@ -24536,6 +25017,9 @@ msgid ""
 "small cloud of pheromones to spray into the air, causing nearby zombies to "
 "become friendly for a short period of time."
 msgstr ""
+"Ceci est un genre de boule dégoûtante de viande avariée. Lorsque vous la "
+"pressez un petit nuage de phéromones se vaporise dans l'air, rendant les "
+"zombies aux alentours amicaux pour un petit moment."
 
 #: lang/json/json_items.py:2035
 msgid "portal generator"
@@ -24753,6 +25237,10 @@ msgid ""
 "with. Its small tip allows for a precision strike in the hands of the "
 "skilled. It is too small to butcher corpses with."
 msgstr ""
+"Un petit couteau très aiguisé. Il cause de bons dommages mais il est "
+"difficile de toucher avec. Sa petite pointe permet de porter des coups "
+"précis si utilisée par des mains compétentes. Il est trop petit pour dépecer "
+"les cadavres."
 
 #: lang/json/json_items.py:2081
 msgid "scalpel"
@@ -24944,26 +25432,32 @@ msgid ""
 "A sharp knife. Makes a poor melee weapon, but is decent at butchering "
 "corpses."
 msgstr ""
+"Un couteau aiguisé. C'est une arme de mêlée médiocre, mais convient pour le "
+"dépecage des cadavres."
 
 #: lang/json/json_items.py:2119
 msgid "butcher knife"
-msgstr ""
+msgstr "couteau de boucher"
 
 #: lang/json/json_items.py:2120
 msgid ""
 "A sharp, heavy knife. Makes a good melee weapon, and is the best item for "
 "butchering corpses."
 msgstr ""
+"Un couteau aiguisé et lourd. C'est une bonne arme de mêlée, et la meilleure "
+"pour dépecer les cadavres."
 
 #: lang/json/json_items.py:2121
 msgid "combat knife"
-msgstr ""
+msgstr "couteau de combat"
 
 #: lang/json/json_items.py:2122
 msgid ""
 "Designed for combat, and deadly in the right hands. Can be used to butcher "
 "corpses."
 msgstr ""
+"Conçu pour le combat et mortel placé entre les bonnes mains. Peut être "
+"utilisé pour dépecer des cadavres."
 
 #: lang/json/json_items.py:2123
 msgid "wood saw"
@@ -24983,33 +25477,37 @@ msgstr ""
 
 #: lang/json/json_items.py:2127 veh_interact.cpp:441
 msgid "hacksaw"
-msgstr ""
+msgstr "scie à métaux"
 
 #: lang/json/json_items.py:2128
 msgid "A sturdy saw, useful for cutting through metal objects."
-msgstr ""
+msgstr "Une scie robuste, utile pour découper des objets en métal."
 
 #: lang/json/json_items.py:2129
 msgid "tent"
-msgstr ""
+msgstr "tente"
 
 #: lang/json/json_items.py:2130
 msgid "A small tent, just big enough to fit a person comfortably."
 msgstr ""
+"Une petite tente, qui a juste assez de place pour accueillir confortablement "
+"une personne."
 
 #: lang/json/json_items.py:2131
 msgid "torch"
-msgstr ""
+msgstr "torche"
 
 #: lang/json/json_items.py:2132
 msgid ""
 "A large stick, wrapped in gasoline soaked rags. When lit, produces a fair "
 "amount of light"
 msgstr ""
+"Un gros bâton enrobé de chiffons imbibés d'essence. Une fois enflammée la "
+"torche produit une assez bonne quantité de lumière."
 
 #: lang/json/json_items.py:2133
 msgid "torch (lit)"
-msgstr ""
+msgstr "torche (allumée)"
 
 #: lang/json/json_items.py:2134
 msgid ""
@@ -25019,53 +25517,64 @@ msgstr ""
 
 #: lang/json/json_items.py:2135
 msgid "candle"
-msgstr ""
+msgstr "bougie"
 
 #: lang/json/json_items.py:2136
 msgid ""
 "A thick candle, doesn't provide very much light, but it can burn for quite a "
 "long time."
 msgstr ""
+"Une bougie imposante, ne produit pas beaucoup de lumière mais brûlera assez "
+"longtemps."
 
 #: lang/json/json_items.py:2137
 msgid "candle (lit)"
-msgstr ""
+msgstr "bougie (allumée)"
 
 #: lang/json/json_items.py:2138
 msgid ""
 "A thick candle, doesn't provide very much light, but it can burn for quite a "
 "long time. This candle is lit."
 msgstr ""
+"Une bougie imposante, ne produit pas beaucoup de lumière mais brûlera assez "
+"longtemps. Cette bougie est allumée."
 
 #: lang/json/json_items.py:2139 trapdef.cpp:30
 msgid "brazier"
-msgstr ""
+msgstr "brasero"
 
 #: lang/json/json_items.py:2140
 msgid ""
 "A large stand with slots in the side. (a)ctivate it and place it somewhere "
 "then set fires in it with no risk of spreading."
 msgstr ""
+"Un support large avec des fentes sur le côté. (a)ctivez le et placez le puis "
+"vous pouvez y allumer un feu sans risque de le voir s'étendre."
 
 #: lang/json/json_items.py:2141 trapdef.cpp:36
 msgid "funnel"
-msgstr ""
+msgstr "entonnoir"
 
 #: lang/json/json_items.py:2142
 msgid ""
 "A funnel used to collect rainwater. (a)ctivate it outside and place a "
 "container beneath it to collect water when it rains."
 msgstr ""
+"Un entonnoir utilisé pour collecter l'eau de pluie. (a)ctivez le à "
+"l'extérieur et placez un contenant en dessous pour collecter l'eau de pluie."
 
 #: lang/json/json_items.py:2143 trapdef.cpp:42
 msgid "makeshift funnel"
-msgstr ""
+msgstr "entonnoir de fortune"
 
 #: lang/json/json_items.py:2144
 msgid ""
 "A small, makeshift funnel used to collect rainwater. (a)ctivate it outside "
 "and place a container beneath it to collect water when it rains."
 msgstr ""
+"Un petit entonnoir improvisé utile pour collecter l'eau de pluie. (a)ctivez "
+"le à l'extérieur et placez un contenant en dessous pour collecter l'eau de "
+"pluie."
 
 #: lang/json/json_items.py:2145
 msgid "kinetic bullet puller"
@@ -25095,13 +25604,15 @@ msgstr ""
 #: veh_interact.cpp:368 veh_interact.cpp:439 veh_interact.cpp:445
 #: veh_interact.cpp:530
 msgid "wrench"
-msgstr ""
+msgstr "clé à molette"
 
 #: lang/json/json_items.py:2152
 msgid ""
 "An adjustable wrench. Makes a decent melee weapon, and is used in many "
 "mechanics crafting recipes."
 msgstr ""
+"Une clé ajustable. Correct comme arme de mêlée et utile pour de nombreuses "
+"fabrications."
 
 #: lang/json/json_items.py:2153
 msgid "snare trigger"
@@ -25123,11 +25634,12 @@ msgstr ""
 
 #: lang/json/json_items.py:2157
 msgid "mop"
-msgstr ""
+msgstr "balai à franges"
 
 #: lang/json/json_items.py:2158
 msgid "An unwieldy mop. Good for cleaning up spills."
 msgstr ""
+"Un balai à franges peu maniable. Utile pour nettoyer les liquides renversés."
 
 #: lang/json/json_items.py:2159
 msgid "picklock kit"
@@ -25161,150 +25673,179 @@ msgstr ""
 
 #: lang/json/json_items.py:2165
 msgid "pickaxe"
-msgstr ""
+msgstr "pioche"
 
 #: lang/json/json_items.py:2166
 msgid "A large steel pickaxe, strike the earth!"
-msgstr ""
+msgstr "Une grosse pioche en acier, 'strike the earth!'"
 
 #: lang/json/json_items.py:2167
 msgid "spray can"
-msgstr ""
+msgstr "spray aérosol"
 
 #: lang/json/json_items.py:2168
 msgid ""
 "A spray can, filled with paint. Use this tool to make graffiti on the floor."
 msgstr ""
+"Un spray aérosol de peinture. Utilisez-le pour faire des graffitis sur le "
+"sol."
 
 #: lang/json/json_items.py:2169
 msgid "permanent marker"
-msgstr ""
+msgstr "marqueur permanent"
 
 #: lang/json/json_items.py:2170
 msgid ""
 "A King Size(tm) industrial strength permanent marker, about halfway between "
 "a typical marker and a can of spray paint in size."
 msgstr ""
+"Un marqueur permanent King Size(tm) très résistant, sa taille est à moitié à "
+"mi-chemin entre un marqueur commun et un spray aérosol."
 
 #: lang/json/json_items.py:2171
 msgid "rag"
-msgstr ""
+msgstr "chiffon"
 
 #: lang/json/json_items.py:2172
 msgid "Rag, useful in crafting and possibly stopping bleeding"
 msgstr ""
+"Un chiffon, utile pour l'artisanat et peut-être pour arrêter les hémorragies."
 
 #: lang/json/json_items.py:2173
 msgid "plastic chunk"
-msgstr ""
+msgstr "morceau de plastique"
 
 #: lang/json/json_items.py:2174
 msgid "A piece of plastic. Not much use except to repair plastic items"
 msgstr ""
+"Un morceau de plastique. Peu d'utilité sauf pour réparer les objets en "
+"plastique."
 
 #: lang/json/json_items.py:2175
 msgid "kevlar plate"
-msgstr ""
+msgstr "plaque de kevlar"
 
 #: lang/json/json_items.py:2176
 msgid "A piece of kevlar. Can be used to repair kevlar items"
 msgstr ""
+"Un morceau de kevlar qui peut être utilisé pour réparer des objets en kevlar."
 
 #: lang/json/json_items.py:2177
 msgid "PDA"
-msgstr ""
+msgstr "PDA"
 
 #: lang/json/json_items.py:2178
 msgid ""
 "A small multipurpose electronic device. Can be loaded with a variety of "
 "apps, providing all kinds of functionality."
 msgstr ""
+"PDA : Personal Digital Assistant. Un petit appareil électronique "
+"multifonction. Il peut être chargé avec de multiples apps, fournissant ainsi "
+"toutes sortes de fonctionnalités."
 
 #: lang/json/json_items.py:2179
 msgid "PDA - Flashlight"
-msgstr ""
+msgstr "PDA - Lampe de poche"
 
 #: lang/json/json_items.py:2180
 msgid ""
 "A small multipurpose electronic device. This PDA has its flashlight app on, "
 "and is providing light."
 msgstr ""
+"Un petit appareil électronique multifonction. Ce PDA a l'application lampe "
+"de poche allumée et fait donc un peu de lumière."
 
 #: lang/json/json_items.py:2181
 msgid "pocket knife"
-msgstr ""
+msgstr "couteau de poche"
 
 #: lang/json/json_items.py:2182
 msgid "A small pocket knife, not great for combat, but better than nothing."
 msgstr ""
+"Un petit couteau de poche, médiocre pour le combat mais toujours mieux que "
+"rien."
 
 #: lang/json/json_items.py:2183
 msgid "bone needle"
-msgstr ""
+msgstr "aiguille d'os"
 
 #: lang/json/json_items.py:2184
 msgid ""
 "A sharp needle made from a bone. It would be useful for making rough "
 "clothing and items"
 msgstr ""
+"Une aiguille fabriquée à partir d'os. Elle serait utile pour fabriquer "
+"grossièrement des vêtements et objets."
 
 #: lang/json/json_items.py:2185
 msgid "stone hammer"
-msgstr ""
+msgstr "marteau de pierre"
 
 #: lang/json/json_items.py:2186
 msgid ""
 "A rock affixed to a stick, functions adequately as a hammer, but really "
 "can't compare to a proper hammer."
 msgstr ""
+"Un rocher attaché à un bâton, qui fonctionne comme un marteau mais on ne "
+"peut vraiment pas le comparer à un vrai marteau."
 
 #: lang/json/json_items.py:2187
 msgid "stone axe"
-msgstr ""
+msgstr "Hache de pierre"
 
 #: lang/json/json_items.py:2188
 msgid ""
 "A sharpened stone affixed to a stick, works passably well as an axe but "
 "really can't compare to a proper axe."
 msgstr ""
+"Une pierre affûtée attachée à un bâton, elle fonctionne comme une hache mais "
+"on ne peut vraiment pas la comparer à une vraie hache."
 
 #: lang/json/json_items.py:2189
 msgid "stone shovel"
-msgstr ""
+msgstr "pelle de pierre"
 
 #: lang/json/json_items.py:2190
 msgid ""
 "A flattened stone affixed to a stick, works passably well as a shovel but "
 "really can't compare to a real shovel."
 msgstr ""
+"Une pierre aplatie attachée à un bâton, cette pelle fonctionne comme une "
+"pelle mais on ne peut vraiment pas la comparer à une vraie pelle."
 
 #: lang/json/json_items.py:2191
 msgid "digging stick"
-msgstr ""
+msgstr "bâton fouisseur"
 
 #: lang/json/json_items.py:2192
 msgid ""
 "A large stick, with the end carved into a blade for digging. Can be used to "
 "dig shallow pits, but not deep ones."
 msgstr ""
+"Un gros bâton dont la pointe est taillée en lame pour creuser. Il peut être "
+"utilisé pour creuser des trous peu profonds seulement."
 
 #: lang/json/json_items.py:2193
 msgid "shelter kit"
-msgstr ""
+msgstr "abri en kit"
 
 #: lang/json/json_items.py:2194
 msgid "A small shelter, made of sticks and skins. (a)ctivate it to place."
 msgstr ""
+"Un petit abri fabriqué avec des bâtons et des peaux. (a)ctivez le pour le "
+"placer."
 
 #: lang/json/json_items.py:2195
 msgid "damaged shelter kit"
-msgstr ""
+msgstr "abri en kit endommagé"
 
 #: lang/json/json_items.py:2196
 msgid ""
 "A small shelter, made of sticks and skins. (a)ctivate it to place. This "
 "shelter has been damaged, and needs repairs."
 msgstr ""
+"Un petit abri fabriqué avec des bâtons et des peaux. (a)ctivez le pour le "
+"placer. Cet abri a été endommagé et nécessite des réparations."
 
 #: lang/json/json_items.py:2197
 msgid "heatpack"
@@ -25314,16 +25855,20 @@ msgstr ""
 msgid ""
 "A heatpack, used to treat sports injuries and heat food.  Usable only once."
 msgstr ""
+"Un paquet chauffant, utilisé pour traiter les blessures de sport et chauffer "
+"la nourriture. Utilisation unique."
 
 #: lang/json/json_items.py:2199
 msgid "used heatpack"
-msgstr ""
+msgstr "paquet chaufant utilisé"
 
 #: lang/json/json_items.py:2200
 msgid ""
 "A heatpack, used to treat sports injuries and heat food.  This one has been "
 "used already and is now useless."
 msgstr ""
+"Un paquet chauffant, utilisé pour traiter les blessures de sport et chauffer "
+"la nourriture. Celui-ci est utilisé et est désormais inutile."
 
 #: lang/json/json_items.py:2201
 msgid "packed M72 LAW"
@@ -25463,31 +26008,32 @@ msgstr ""
 
 #: lang/json/json_items.py:2231
 msgid "talking doll"
-msgstr ""
+msgstr "poupée parlante"
 
 #: lang/json/json_items.py:2232
 msgid "A talking doll for children, luckily it still works."
 msgstr ""
+"Une poupée parlante pour les enfants, par chance elle fonctionne encore."
 
 #: lang/json/json_items.py:2233
 msgid "towel"
-msgstr ""
+msgstr "serviette"
 
 #: lang/json/json_items.py:2234
 msgid "A fluffy towel, can be used to dry yourself."
-msgstr ""
+msgstr "Une serviette moelleuse, utilisable pour vous séchez."
 
 #: lang/json/json_items.py:2235
 msgid "folding bicycle"
-msgstr ""
+msgstr "vélo pliant"
 
 #: lang/json/json_items.py:2236
 msgid "A bicycle folded into a relatively portable package."
-msgstr ""
+msgstr "Un vélo plié en un paquet relativement portable."
 
 #: lang/json/json_items.py:2237
 msgid "makeshift welder"
-msgstr ""
+msgstr "soudeuse improvisée"
 
 #: lang/json/json_items.py:2238
 msgid ""
@@ -25495,28 +26041,36 @@ msgid ""
 "metal, and complete disregard for personal safety. Not as efficient as a "
 "factory welder, but it will serve in a pinch."
 msgstr ""
+"Cette soudeuse rudimentaire a été fabriquée à partir d'un paquet de câbles "
+"de cuivre, de ferraille et un dédain complet pour la sécurité personnelle de "
+"l'utilisateur. Pas aussi efficace qu'une soudeuse industrielle mais servira "
+"à la rigueur."
 
 #: lang/json/json_items.py:2239
 msgid "still"
-msgstr ""
+msgstr "alambic"
 
 #: lang/json/json_items.py:2240
 msgid ""
 "A still, useful for the distillation of alcohol and other, more curious "
 "substances."
 msgstr ""
+"Un alambic, utilisé pour la distillation de l'alcool et d'autres substances "
+"plus curieuses."
 
 #: lang/json/json_items.py:2241
 msgid "plastic mold"
-msgstr ""
+msgstr "moule en plastique"
 
 #: lang/json/json_items.py:2242
 msgid "A plastic mold which can be used to craft items made of plastic."
 msgstr ""
+"Un moule en plastique qui peut être utilisé pour fabriquer des objets en "
+"plastique."
 
 #: lang/json/json_items.py:2243
 msgid "chemistry set"
-msgstr ""
+msgstr "kit de chimie"
 
 #: lang/json/json_items.py:2244
 msgid ""
@@ -25524,6 +26078,9 @@ msgid ""
 "metal wire and safety glasses. It might be used to craft some chems if "
 "you're so inclined."
 msgstr ""
+"Ce kit de chimie contient, dans un sac, des contenants de verre, des câbles "
+"de métal et des lunettes de sécurité. Il pourrait être utilisé pour produire "
+"des produits chimiques si le coeur vous en dit."
 
 #: lang/json/json_items.py:2245
 msgid "crack pipe"
@@ -25840,7 +26397,7 @@ msgstr ""
 
 #: lang/json/json_materials.py:71
 msgid "Chitin"
-msgstr ""
+msgstr "Chitine"
 
 #: lang/json/json_materials.py:72 lang/json/json_materials.py:76
 #: lang/json/json_materials.py:79 lang/json/json_materials.py:83
@@ -25853,7 +26410,7 @@ msgstr ""
 #: lang/json/json_materials.py:73 lang/json/json_materials.py:80
 #: lang/json/json_materials.py:87 lang/json/json_materials.py:103
 msgid "chipped"
-msgstr ""
+msgstr "ébréché"
 
 #: lang/json/json_materials.py:77 lang/json/json_materials.py:84
 #: lang/json/json_materials.py:91 lang/json/json_materials.py:112
@@ -25861,56 +26418,56 @@ msgstr ""
 #: lang/json/json_materials.py:133 lang/json/json_materials.py:140
 #: lang/json/json_materials.py:147
 msgid "shattered"
-msgstr ""
+msgstr "brisé"
 
 #: lang/json/json_materials.py:78
 msgid "Bone"
-msgstr ""
+msgstr "Os"
 
 #: lang/json/json_materials.py:92
 msgid "Paper"
-msgstr ""
+msgstr "Papier"
 
 #: lang/json/json_materials.py:99
 msgid "Wood"
-msgstr ""
+msgstr "Bois"
 
 #: lang/json/json_materials.py:100 lang/json/json_materials.py:105
 msgid "splintered"
-msgstr ""
+msgstr "avec des échardes"
 
 #: lang/json/json_materials.py:101 lang/json/json_materials.py:108
 msgid "gouged"
-msgstr ""
+msgstr "crevé"
 
 #: lang/json/json_materials.py:106
 msgid "Plastic"
-msgstr ""
+msgstr "Plastique"
 
 #: lang/json/json_materials.py:113
 msgid "Glass"
-msgstr ""
+msgstr "Verre"
 
 #: lang/json/json_materials.py:120
 msgid "Iron"
-msgstr ""
+msgstr "Fer"
 
 #: lang/json/json_materials.py:125 lang/json/json_materials.py:132
 #: lang/json/json_materials.py:139 lang/json/json_materials.py:146
 msgid "smashed"
-msgstr ""
+msgstr "brisé"
 
 #: lang/json/json_materials.py:127
 msgid "Steel"
-msgstr ""
+msgstr "Acier"
 
 #: lang/json/json_materials.py:134
 msgid "Silver"
-msgstr ""
+msgstr "Argent"
 
 #: lang/json/json_materials.py:141
 msgid "Gold"
-msgstr ""
+msgstr "Or"
 
 #: lang/json/json_mutations.py:1
 msgid "Fleet-Footed"
@@ -25922,109 +26479,132 @@ msgid ""
 "You can run more quickly than most, resulting in a 15%% speed bonus on sure "
 "footing."
 msgstr ""
+"Vous courez plus vite que la plupart des gens; cela résulte en un bonus de "
+"15%% de vitesse en bonnes conditions de course."
 
 #: lang/json/json_mutations.py:4
 msgid "Parkour Expert"
-msgstr ""
+msgstr "Expert de parkour"
 
 #: lang/json/json_mutations.py:5
 msgid ""
 "You're skilled at clearing obstacles; terrain like railings or counters are "
 "as easy for you to move on as solid ground."
 msgstr ""
+"Vous êtes habile pour éviter les obstacles : vous passez les terrains comme "
+"les rambardes ou les comptoirs aussi vite que sur la terre ferme."
 
 #: lang/json/json_mutations.py:6
 msgid "Quick"
-msgstr ""
+msgstr "Rapide"
 
 #: lang/json/json_mutations.py:8
 #, no-python-format
 msgid "You're just generally quick! You get a 10%% bonus to action points."
 msgstr ""
+"Vous êtes simplement rapide ! Vous obtenez un bonus de 10%% aux points "
+"d'action."
 
 #: lang/json/json_mutations.py:9 player.cpp:77
 msgid "Optimist"
-msgstr ""
+msgstr "Optimiste"
 
 #: lang/json/json_mutations.py:10
 msgid ""
 "Nothing gets you down! You savor the joys of life, ignore its hardships, and "
 "are generally happier than most people."
 msgstr ""
+"Vous ne vous laissez pas abattre ! Vous savourez les joies de l'existence, "
+"ignorer ses épreuves et êtes généralement plus heureux que la plupart des "
+"gens."
 
 #: lang/json/json_mutations.py:11
 msgid "Fast Healer"
-msgstr ""
+msgstr "Organisme efficace"
 
 #: lang/json/json_mutations.py:12
 msgid "You heal a little faster than most; sleeping will heal more lost HP."
 msgstr ""
+"Vous vous rétablissez plus vite que la moyenne; le sommeil soignera plus de "
+"points de vie perdus."
 
 #: lang/json/json_mutations.py:13
 msgid "Light Eater"
-msgstr ""
+msgstr "Petit appétit"
 
 #: lang/json/json_mutations.py:14
 msgid ""
 "Your metabolism is a little slower, and you require less food than most."
 msgstr ""
+"Votre métabolisme est un peu plus lent, vous avez donc besoin d'un peu moins "
+"de nourriture que la normale."
 
 #: lang/json/json_mutations.py:15
 msgid "Pain Resistant"
-msgstr ""
+msgstr "Résistance à la douleur"
 
 #: lang/json/json_mutations.py:16
 msgid "You have a high tolerance for pain."
-msgstr ""
+msgstr "Vous avez une haute résistance à la douleur."
 
 #: lang/json/json_mutations.py:17
 msgid "Night Vision"
-msgstr ""
+msgstr "Nyctalope"
 
 #: lang/json/json_mutations.py:18
 msgid ""
 "You possess natural night vision, and can see two squares instead of one in "
 "pitch blackness."
 msgstr ""
+"Vous possédez une vision nocture naturelle : vous voyez donc 2 carrés au "
+"lieu d'un seul dans l'obscurité."
 
 #: lang/json/json_mutations.py:19
 msgid "Poison Resistant"
-msgstr ""
+msgstr "Résistance au poison"
 
 #: lang/json/json_mutations.py:20
 msgid ""
 "Your system is rather tolerant of poisons and toxins, and most will affect "
 "you less."
 msgstr ""
+"Votre système est plutôt tolérant aux poisons et toxines, la plupart vous "
+"affecteront donc moins."
 
 #: lang/json/json_mutations.py:21
 msgid "Fast Reader"
-msgstr ""
+msgstr "Lecteur rapide"
 
 #: lang/json/json_mutations.py:22
 msgid ""
 "You're a quick reader, and can get through books a lot faster than most."
 msgstr ""
+"Vous lisez rapidement et terminez donc les livres beaucoup plus rapidement "
+"que la majorité des gens."
 
 #: lang/json/json_mutations.py:23
 msgid "Tough"
-msgstr ""
+msgstr "Coriace"
 
 #: lang/json/json_mutations.py:25
 #, no-python-format
 msgid ""
 "It takes a lot to bring you down! You get a 20%% bonus to all hit points."
 msgstr ""
+"Il en faut beaucoup pour vous tuer! Vous avez 20%% de bonus à tous vos "
+"points de vie."
 
 #: lang/json/json_mutations.py:26
 msgid "Thick-Skinned"
-msgstr ""
+msgstr "Peau épaisse"
 
 #: lang/json/json_mutations.py:27
 msgid ""
 "Your skin is tough. Cutting damage is slightly reduced for you. Slightly "
 "decreases wet penalties."
 msgstr ""
+"Votre peau est robuste. Les dommages d'entaille sont légèrement réduits pour "
+"vous. Cela réduit aussi légèrement la pénalité pour être trempé."
 
 #: lang/json/json_mutations.py:28
 msgid "Packmule"
@@ -26035,10 +26615,12 @@ msgstr ""
 msgid ""
 "You can manage to find space for anything! You can carry 40%% more volume."
 msgstr ""
+"Vous vous débrouillez pour caser des objets partout! Vous pouvez transporter "
+"40%% de volume en plus."
 
 #: lang/json/json_mutations.py:31
 msgid "Fast Learner"
-msgstr ""
+msgstr "Apprentissage rapide"
 
 #: lang/json/json_mutations.py:32
 msgid ""
@@ -26046,20 +26628,27 @@ msgid ""
 "others. Note that this only applies to real-world experience, not to skill "
 "gain from other sources like books."
 msgstr ""
+"Vous ave un esprit flexible qui vous permet d'apprendre des compétences bien "
+"plus  vite que les autres personnes. Notez que cela s'applique uniquement à "
+"l'expérience des activités que vous pratiquez et non à l'apprentissage par "
+"les livres."
 
 #: lang/json/json_mutations.py:33
 msgid "Deft"
-msgstr ""
+msgstr "Agile"
 
 #: lang/json/json_mutations.py:34
 msgid ""
 "While you're not any better at melee combat, you are better at recovering "
 "from a miss, and will be able to attempt another strike faster."
 msgstr ""
+"Même si vous n'êtes pas meilleur au combat de mêlée, vous récupérez mieux "
+"après un coup manqué et vous serez capable de tenter une autre attaque plus "
+"rapidement."
 
 #: lang/json/json_mutations.py:35
 msgid "Drunken Master"
-msgstr ""
+msgstr "Maître ivre"
 
 #: lang/json/json_mutations.py:36
 msgid ""
@@ -26067,10 +26656,13 @@ msgid ""
 "influence of alcohol, your melee skill will rise considerably, especially "
 "unarmed combat."
 msgstr ""
+"Les anciens arts de la bagarre de l'homme ivre vous viennent naturellement! "
+"Sous l'influence de l'alcool votre compétence de combat en mêlée augmente "
+"considérablement surtout pour le combat à mains nues."
 
 #: lang/json/json_mutations.py:37
 msgid "Gourmand"
-msgstr ""
+msgstr "Gourmand"
 
 #: lang/json/json_mutations.py:38
 msgid ""
@@ -26078,10 +26670,13 @@ msgid ""
 "food more; delicious food is better for your morale, and you don't mind some "
 "unsavory meals."
 msgstr ""
+"Vous mangez plus vite et avez la capacité de manger et boire plus que "
+"quiconque! Vous appréciez aussi plus la nourriture; celle qui est délicieuse "
+"est meilleure pour votre morale et les plats infects ne vous dérangent pas."
 
 #: lang/json/json_mutations.py:39
 msgid "Animal Empathy"
-msgstr ""
+msgstr "Empathie des animaux"
 
 #: lang/json/json_mutations.py:40
 msgid ""
@@ -26089,26 +26684,33 @@ msgid ""
 "less likely to attack. This only applies to natural animals such as woodland "
 "creatures."
 msgstr ""
+"Les animaux pacifiques ne vous fuiront pas, de plus même les animaux "
+"agressifs sont moins susceptibles de vous attaquer. Cela s'applique "
+"seulement pour les animaux sauvages comme ceux vivant dans les bois."
 
 #: lang/json/json_mutations.py:41
 msgid "Terrifying"
-msgstr ""
+msgstr "Terrifiant"
 
 #: lang/json/json_mutations.py:42
 msgid ""
 "There's something about you that creatures find frightening, and they are "
 "more likely to try to flee."
 msgstr ""
+"Quelque chose en vous terrifie les créatures, elles vous fuiront "
+"probablement plus."
 
 #: lang/json/json_mutations.py:43
 msgid "Disease Resistant"
-msgstr ""
+msgstr "Résistance aux maladies"
 
 #: lang/json/json_mutations.py:44
 msgid ""
 "It's very unlikely that you will catch ambient diseases like a cold or the "
 "flu."
 msgstr ""
+"Il est très improbable que vous attrapiez des maladies courantes comme un "
+"rhume ou la grippe."
 
 #: lang/json/json_mutations.py:45
 msgid "High Adrenaline"
@@ -26408,7 +27010,7 @@ msgstr ""
 
 #: lang/json/json_mutations.py:107
 msgid "Chemical Imbalance"
-msgstr ""
+msgstr "Déséquilibre chimique"
 
 #: lang/json/json_mutations.py:108
 msgid ""
@@ -26419,7 +27021,7 @@ msgstr ""
 
 #: lang/json/json_mutations.py:109
 msgid "Schizophrenic"
-msgstr ""
+msgstr "Schizophrène"
 
 #: lang/json/json_mutations.py:110
 msgid ""
@@ -26427,6 +27029,9 @@ msgid ""
 "full visual hallucinations. Some of these effects may be controlled through "
 "the use of Thorazine."
 msgstr ""
+"Vous souffrez périodiquement de délires allant d'effets mineurs à de "
+"véritables hallucinations visuelles. Certains de ces effets peuvent être "
+"contrôlés en prenant de la Thorazine."
 
 #: lang/json/json_mutations.py:111
 msgid "Jittery"
@@ -26448,6 +27053,9 @@ msgid ""
 "morale penalties for carrying less than maximum volume (weight is ignored). "
 "Xanax can help control this anxiety."
 msgstr ""
+"Vous ne vous sentez pas bien si vous n'êtes pas chargé au maximum. Vous "
+"souffrez de pénalités de moral si vous transportez moins que votre volume "
+"maximum (le poids est ignoré). Le Xanax peut aider à contrôler cette anxiété."
 
 #: lang/json/json_mutations.py:115
 msgid "Savant"
@@ -26661,7 +27269,7 @@ msgstr ""
 
 #: lang/json/json_mutations.py:161
 msgid "Furry"
-msgstr ""
+msgstr "Duveteux"
 
 #: lang/json/json_mutations.py:162
 msgid ""
@@ -36197,6 +36805,9 @@ msgid ""
 "You were a high school student until the teachers literally tried to pick "
 "your brains. You start with a backpack and a zombie survival guide."
 msgstr ""
+"Vous étiez un lycéen jusqu'au jour où les enseignants ont réellement essayé "
+"de s'occuper de votre cerveau. Vous débutez avec un sac à dos et un guide de "
+"survie en territoire zombie."
 
 #: lang/json/json_professions.py:43
 msgid "Shower Victim"
@@ -36508,6 +37119,9 @@ msgid ""
 "survival items. This also covers your ability to skin and butcher animals "
 "for meat and hides."
 msgstr ""
+"Votre compétence à survivre dans les contrées sauvages et à fabriquer divers "
+"objets de survie basique. Cela comprend aussi votre capacité à écorcher et "
+"dépecer des animaux pour récupérer peaux et viandes."
 
 #: lang/json/json_skills.py:23
 msgid "swimming"
@@ -36650,6 +37264,9 @@ msgid ""
 "get hurt, but those with enough practice can perform special blows and "
 "techniques to quickly dispatch enemies."
 msgstr ""
+"Votre compétence de combat a main nue. Si vous êtes mauvais, c'est une bonne "
+"manière d'être blessé, mais ceux qui ont assez de pratique peuvent effectuer "
+"coup spéciaux et techniques pour se débarrasser rapidement de ses ennemis."
 
 #: lang/json/json_skills.py:49
 msgid "handguns"
@@ -38773,13 +39390,15 @@ msgstr ""
 
 #: mission.cpp:134
 msgid "It could be very informative to perform an analysis of zombie blood..."
-msgstr ""
+msgstr "Cela pourrait être très utile d'analyser le sang sombie..."
 
 #: mission.cpp:137
 msgid ""
 "I need someone to get a sample of zombie blood, take it to a hospital, and "
 "perform a centrifuge analysis of it."
 msgstr ""
+"J'ai besoin que quelq'un se procure un échantillon de sang zombie, l'apporte "
+"dans un hôpital pour y faire une analyse de centrifugation sanguine."
 
 #: mission.cpp:141
 msgid ""
@@ -39457,7 +40076,7 @@ msgstr ""
 #: mission.cpp:699
 msgid ""
 "Something in the shadows still seems to stare at me when I look at the woods."
-msgstr ""
+msgstr "Quelque chose semble encore m'observer quand je regarde les bois."
 
 #: mission.cpp:701
 msgid ""
@@ -39673,7 +40292,7 @@ msgstr ""
 
 #: missiondef.cpp:42
 msgid "Analyze Zombie Blood"
-msgstr ""
+msgstr "Analyser le sang de zombie"
 
 #: missiondef.cpp:48
 msgid "Find Lost Dog"
@@ -39753,7 +40372,7 @@ msgstr ""
 
 #: missiondef.cpp:185
 msgid "Kill 100 Zombies"
-msgstr ""
+msgstr "Tuer 100 zombies"
 
 #: missiondef.cpp:192
 msgid "Kill Horde Master"
@@ -40148,7 +40767,7 @@ msgstr ""
 #: monattack.cpp:1440
 #, c-format
 msgid "...a zombie becomes a %s!"
-msgstr ""
+msgstr "... un zombie devient %s!"
 
 #: monattack.cpp:1484
 #, c-format
@@ -40196,7 +40815,7 @@ msgstr ""
 
 #: mondeath.cpp:108
 msgid "a boomer explodes!"
-msgstr ""
+msgstr "un boomer explose!"
 
 #: mondeath.cpp:183
 msgid "The root walls begin to crumble around you."
@@ -40685,7 +41304,7 @@ msgstr ""
 
 #: mtypedef.cpp:374
 msgid "zombie"
-msgstr ""
+msgstr "zombie"
 
 #: mtypedef.cpp:377
 msgid ""
@@ -40699,7 +41318,7 @@ msgstr ""
 
 #: mtypedef.cpp:385
 msgid "zombie cop"
-msgstr ""
+msgstr "zombie policier"
 
 #: mtypedef.cpp:388
 msgid ""
@@ -40707,10 +41326,13 @@ msgid ""
 "armour, this zombie was clearly a cop gearing\n"
 "up to fight the infection."
 msgstr ""
+"Un corps humain, protégé par une armure\n"
+"anti-émeute résistante; clairement ce zombie était un policier armé\n"
+"pour combattre les infectés."
 
 #: mtypedef.cpp:396
 msgid "shrieker zombie"
-msgstr ""
+msgstr "zombie hurleur"
 
 #: mtypedef.cpp:399
 msgid ""
@@ -40722,7 +41344,7 @@ msgstr ""
 
 #: mtypedef.cpp:405
 msgid "spitter zombie"
-msgstr ""
+msgstr "zombie cracheur"
 
 #: mtypedef.cpp:408
 msgid ""
@@ -40730,6 +41352,8 @@ msgid ""
 "spitter, and its body throbs with a dense\n"
 "yellow fluid."
 msgstr ""
+"Ce zombie a une bouche déformée en un crachoir arrondi ; son corps  palpite "
+"d'un fluide dense et jaune."
 
 #: mtypedef.cpp:416
 msgid "shocker zombie"
@@ -40741,6 +41365,9 @@ msgid ""
 "occasionally crackles with small bolts of\n"
 "lightning."
 msgstr ""
+"La chair bleu pâle de ce zombie crépite\n"
+"occasionnellement des petits éclairs\n"
+"électriques."
 
 #: mtypedef.cpp:427
 msgid "smoker zombie"
@@ -40751,20 +41378,23 @@ msgid ""
 "This zombie emits a constant haze of\n"
 "thick, obfuscating smoke."
 msgstr ""
+"Ce zombie exhale en permanence un nuage d'une fumée épaisse et trouble."
 
 #: mtypedef.cpp:437
 msgid "swimmer zombie"
-msgstr ""
+msgstr "zombie nageur"
 
 #: mtypedef.cpp:440
 msgid ""
 "This zombie's hands and feet are\n"
 "webbed, and it is clad in swimwear."
 msgstr ""
+"Les mains et pieds de ce zombie sont\n"
+"palmés et il est habillé d'une tenue de natation."
 
 #: mtypedef.cpp:447
 msgid "zombie dog"
-msgstr ""
+msgstr "chien zombie"
 
 #: mtypedef.cpp:450
 msgid ""
@@ -40775,23 +41405,27 @@ msgstr ""
 
 #: mtypedef.cpp:459
 msgid "zombie brute"
-msgstr ""
+msgstr "brute zombie"
 
 #: mtypedef.cpp:462
 msgid ""
 "A hideous beast of a zombie, bulging with\n"
 "distended muscles on both arms and legs."
 msgstr ""
+"Un hideux zombie bestial, gonflé\n"
+"de muscles enflés sur les bras et les jambes."
 
 #: mtypedef.cpp:468
 msgid "zombie hulk"
-msgstr ""
+msgstr "zombie mastodonte"
 
 #: mtypedef.cpp:471
 msgid ""
 "A zombie that has somehow grown to the size of\n"
 "6 men, with arms as wide as a trash can."
 msgstr ""
+"Un zombie qui a d'une manière ou d'une autre grandi jusqu'à\n"
+"la taille de 6 hommes, avec des bras aussi larges que des poubelles."
 
 #: mtypedef.cpp:478
 msgid "fungal zombie"
@@ -40806,7 +41440,7 @@ msgstr ""
 
 #: mtypedef.cpp:488
 msgid "boomer"
-msgstr ""
+msgstr "boomer"
 
 #: mtypedef.cpp:491
 msgid ""
@@ -40842,7 +41476,7 @@ msgstr ""
 
 #: mtypedef.cpp:518
 msgid "zombie necromancer"
-msgstr ""
+msgstr "zombie nécromancien"
 
 #: mtypedef.cpp:521
 msgid ""
@@ -40850,10 +41484,13 @@ msgid ""
 "eyes.  As you look at it, you're gripped by a\n"
 "feeling of dread and terror."
 msgstr ""
+"Un zombie avec une peau noir de jais et des yeux\n"
+"rougeoyants. Lorsque vous le regardez vous êtes saisis d'un\n"
+"sentiment de terreur et de crainte."
 
 #: mtypedef.cpp:529
 msgid "zombie scientist"
-msgstr ""
+msgstr "zombie scientifique"
 
 #: mtypedef.cpp:532
 msgid ""
@@ -40861,10 +41498,13 @@ msgid ""
 "some sort of utility belt.  It looks weaker\n"
 "than most zombies, but more resourceful too."
 msgstr ""
+"Un zombie vêtu d'une blouse de laboratoire en lambeaux et\n"
+"d'une ceinture utilitaire. Il a l'air plus faible\n"
+"que la plupart des zombies mais plein de ressources aussi."
 
 #: mtypedef.cpp:540
 msgid "zombie soldier"
-msgstr ""
+msgstr "soldat zombie"
 
 #: mtypedef.cpp:543
 msgid ""
@@ -40873,6 +41513,10 @@ msgid ""
 "and it is much more physically fit than\n"
 "most zombies."
 msgstr ""
+"Clairement ce zombie était auparavant un soldat.\n"
+"Son armure, en piteux état, lui accorde une bien meilleure défense,\n"
+"et il est physiquement plus\n"
+"fort que la plupart des zombies."
 
 #: mtypedef.cpp:552
 msgid "grabber zombie"
@@ -41460,6 +42104,10 @@ msgid ""
 "fast they appear as nothing but\n"
 "blurs."
 msgstr ""
+"Une créature surnaturelle, \n"
+"trainante, ses mains se \n"
+"contractant si rapidement\n"
+"qu'elle apparaissent floues"
 
 #: mtypedef.cpp:1149
 msgid "blank body"
@@ -42012,6 +42660,8 @@ msgid ""
 "Intelligence is also used when crafting, installing bionics, and interacting "
 "with NPCs."
 msgstr ""
+"L'intelligence est aussi utilisé pour l'artisanat, l'installation de "
+"bioniques et interagir avec les PNJ."
 
 #: newcharacter.cpp:523
 msgid "Increasing Per further costs 2 points."
@@ -44026,7 +44676,7 @@ msgstr ""
 
 #: npctalk.cpp:728
 msgid "I am looking for a master to train my fighting techniques."
-msgstr ""
+msgstr "Je cherche un maître pour entrainer mes techniques de combat."
 
 #: npctalk.cpp:730
 msgid "Just looking for some wrongs to right."
@@ -46132,15 +46782,15 @@ msgstr ""
 
 #: player.cpp:1688
 msgid "Bionics:"
-msgstr ""
+msgstr "Bioniques :"
 
 #: player.cpp:1696
 msgid "No bionics were installed."
-msgstr ""
+msgstr "Aucun bionique n'à été installé."
 
 #: player.cpp:1698
 msgid "Total bionics: "
-msgstr ""
+msgstr "Nombre de bioniques : "
 
 #: player.cpp:1700
 msgid "Power: "
