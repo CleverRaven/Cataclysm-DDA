@@ -350,23 +350,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
    draw_bullet(p, tx, ty, i, trajectory, effects.count("FLAME")? '#':'*', ts);
-   /*
-   if (u_see(tx, ty)) {
-    if (i > 0)
-    {
-        m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false,
-                 true, u.posx + u.view_offset_x, u.posy + u.view_offset_y);
-    }
-    char bullet = '*';
-    if (effects.count("FLAME"))
-     bullet = '#';
-    mvwputch(w_terrain, ty + VIEWY - u.posy - u.view_offset_y,
-             tx + VIEWX - u.posx - u.view_offset_x, c_red, bullet);
-    wrefresh(w_terrain);
-    if (&p == &u)
-     nanosleep(&ts, NULL);
-   }
-   */
+
    if (dam <= 0 && !(effects.count("FLAME"))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
     if (is_bolt && !(effects.count("IGNITE")) &&

@@ -82,17 +82,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
         tspec.tv_nsec = BULLET_SPEED;
 
         nanosleep(&tspec, NULL);
-        /*
-        nc_color cMonColor = m.type->color;
-        char sMonSym = m.symbol();
-        hit_animation(x,
-                      y,
-                      red_background(cMonColor), dead?'%':sMonSym);
-        */
-        /*
-        x + VIEWX - u.posx - u.view_offset_x,
-                      y + VIEWY - u.posy - u.view_offset_y,
-        */
+
         mvwputch(w_terrain,
                  x + VIEWX - u.posx - u.view_offset_x,
                  y + VIEWY - u.posy - u.view_offset_y,
@@ -127,20 +117,7 @@ void game::draw_hit_player(player *p, bool dead)
         tspec.tv_nsec = BULLET_SPEED;
 
         nanosleep(&tspec, NULL);
-        /*
-        hit_animation(p->posx - g->u.posx + VIEWX - g->u.view_offset_x,
-                      p->posy - g->u.posy + VIEWY - g->u.view_offset_y,
-                      red_background(p->color()), '@');
-        */
-        /*
-        if (iTimeout <= 0 || iTimeout > 999) {
-            iTimeout = 70;
-        }
 
-        timeout(iTimeout);
-        getch(); //useing this, because holding down a key with nanosleep can get yourself killed
-        timeout(-1);
-        */
         mvwputch(w_terrain,
                  p->posx + VIEWX - u.posx - u.view_offset_x,
                  p->posy + VIEWY - u.posy - u.view_offset_y,

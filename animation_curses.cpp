@@ -54,10 +54,6 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
 /* Monster hit animation */
 void game::draw_hit_mon(int x, int y, monster m, bool dead)
 {
-    /*
-    x - u.posx + VIEWX - u.view_offset_x,
-                y - u.posy + VIEWY - u.view_offset_y,
-    */
     nc_color cMonColor = m.type->color;
     char sMonSym = m.symbol();
 
