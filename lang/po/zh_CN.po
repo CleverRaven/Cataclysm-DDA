@@ -33524,7 +33524,7 @@ msgid ""
 "but also reduces your carrying weight by 20% and makes bashing attacks hurt "
 "a little more."
 msgstr ""
-"你的骨质非常松脆，你的行动速度增加了10%%，但你所携带的物品最大重量下降20%"
+"你的骨质非常松脆，你的行动速度增加了10%，但你所携带的物品最大重量下降20%"
 "%，\n"
 "冲击对你造成的伤害将更多。"
 
