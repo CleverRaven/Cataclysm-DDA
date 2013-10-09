@@ -9222,12 +9222,16 @@ case ot_s_garage_north:
         // place vehicle, if any
         if (one_in(3)) {
           std::string vt;
-          if (one_in(3))
+          int vehicle_type = rng(1, 8);
+          if(vehicle_type <= 3) {
             vt = one_in(2) ? "car" : "car_chassis";
-          else if(one_in(2))
+          } else if(vehicle_type <= 5) {
             vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
-          else
+          } else if(vehicle_type <= 7) {
             vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
+          } else {
+            vt = "welding_cart";
+          }
           add_vehicle (g, vt, vx, vy, theta, -1, -1);
         }
   }
