@@ -106,6 +106,8 @@ autoextract("hints")
 autoextract("furniture")
 autoextract("terrain")
 autoextract("monsters")
+autoextract("vehicle_parts")
+autoextract("vehicles")
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
@@ -156,22 +158,6 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
             tlcomment(name_jtl, '; '.join(tlinfo))
         writestr(name_jtl, item["name"], context=context)
 extracted.append("names.json")
-
-# data/raw/vehicle_parts.json
-with open(os.path.join(to_folder,"json_vehicle_parts.py"),'w') as veh_jtl:
-    jsonfile = os.path.join(raw_folder, "vehicle_parts.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        writestr(veh_jtl, item["name"])
-extracted.append("vehicle_parts.json")
-
-# data/raw/vehicles.json
-with open(os.path.join(to_folder,"json_vehicles.py"),'w') as veh_jtl:
-    jsonfile = os.path.join(raw_folder, "vehicles.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        writestr(veh_jtl, item["name"])
-extracted.append("vehicles.json")
 
 # data/raw/keybindings.json
 with open(os.path.join(to_folder,"json_keybindings.py"),'w') as keys_jtl:

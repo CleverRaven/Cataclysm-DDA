@@ -170,7 +170,6 @@ class vehicle
 private:
     game *g;
 
-    bool can_stack_vpart_flag(std::string vpart_flag);
     bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
     int part_displayed_at(int local_x, int local_y);
