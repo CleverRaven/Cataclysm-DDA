@@ -445,37 +445,6 @@ int vehicle::part_power (int index){
    }
 }
 
-/**
- * Returns whether or not the specified flag is allowed to be stacked. For
- * example, you can have multiple INTERNAL or OPAQUE parts, but only one
- * WHEEL or ENGINE per square.
- * @param vpart_flag The flag to check.
- * @return true if multiple parts with that flag can be placed in the same
- *         square, false if not.
- */
-bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
-
-  if (vpart_flag == "EXTERNAL" ||
-          vpart_flag == "INTERNAL" ||
-          vpart_flag == "MOUNT_POINT" ||
-          vpart_flag == "MOUNT_INNER" ||
-          vpart_flag == "MOUNT_OVER" ||
-          vpart_flag == "ANCHOR_POINT" ||
-          vpart_flag == "VARIABLE_SIZE" ||
-          vpart_flag == "OPAQUE" ||
-          vpart_flag == "OBSTACLE" ||
-          vpart_flag == "OPENABLE" ||
-          vpart_flag == "NO_REINFORCE" ||
-          vpart_flag == "SHARP" ||
-          vpart_flag == "UNMOUNT_ON_DAMAGE" ||
-          vpart_flag == "BOARDABLE") {
-    return true;
-  } else {
-    return false;
-  }
-
-}
-
 bool vehicle::has_structural_part(int dx, int dy)
 {
     std::vector<int> parts_here = parts_at_relative(dx, dy);
