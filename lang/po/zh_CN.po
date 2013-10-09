@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-15 19:22-0500\n"
-"PO-Revision-Date: 2013-09-24 11:16+0000\n"
+"PO-Revision-Date: 2013-10-07 16:02+0000\n"
 "Last-Translator: qude <h1223334444@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "Language: \n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-09-24 20:12+0000\n"
-"X-Generator: Launchpad (build 16771)\n"
+"X-Launchpad-Export-Date: 2013-10-08 03:09+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: action.cpp:311 npcmove.cpp:2072
 msgid "Pause"
@@ -1002,7 +1002,7 @@ msgstr "瘙痒"
 
 #: artifact.cpp:178
 msgid "makes your skin itch slightly when it is close"
-msgstr "当它靠近，你的皮肤变得有点痒"
+msgstr "当它靠近时你感到皮肤有点痒"
 
 #: artifact.cpp:184
 msgid "glittering"
@@ -1817,7 +1817,7 @@ msgstr "你无法在此点火。"
 
 #: bionics.cpp:364
 msgid "You withdraw your claws."
-msgstr "你收回了你的爪子。"
+msgstr "你缩回了爪子。"
 
 #: bionics.cpp:367
 #, c-format
@@ -1847,7 +1847,7 @@ msgstr "从冷凝器中直接饮水？"
 
 #: bionics.cpp:463
 msgid "Activate your bio lockpick"
-msgstr "激活你的生化解锁器"
+msgstr "激活你的生化开锁器"
 
 #: bionics.cpp:469
 msgid "You unlock the door."
@@ -1876,8 +1876,8 @@ msgid ""
 "WARNING: %i percent chance of genetic damage, blood loss, or damage to "
 "existing bionics! Install anyway?"
 msgstr ""
-"警告：安装生化插件有%i的几率造成基因损害、失血或损坏你已有的生化插件！仍要安"
-"装吗？"
+"警告：安装该生化插件有 百分之%i 的几率造成基因损害、失血或损坏你已有的生化插"
+"件！仍要安装吗？"
 
 #: bionics.cpp:537
 #, c-format
@@ -1929,7 +1929,7 @@ msgstr "好痛！"
 
 #: bionics.cpp:601
 msgid "Your body is damaged!"
-msgstr "你的身躯受损了！"
+msgstr "受伤了！"
 
 #: bionics.cpp:607
 msgid "All of your existing bionics are lost!"
@@ -1941,7 +1941,7 @@ msgstr "你丢失了一部分已安装的生化组件！"
 
 #: bionics.cpp:615
 msgid "You do damage to your genetics, causing mutation!"
-msgstr "你损害了你的基因，引起了突变！"
+msgstr "你的基因受损了，引起了突变！"
 
 #: bionics.cpp:624
 msgid "The installation is faulty!"
@@ -3904,7 +3904,7 @@ msgstr "你觉得头昏眼花。"
 
 #: disease.cpp:329
 msgid "You feel a surge of adrenaline!"
-msgstr "你感到你的肾上腺素增高！"
+msgstr "你感到肾上腺素增高！"
 
 #: disease.cpp:332
 msgid "You can't breathe... asthma attack!"
@@ -4075,12 +4075,12 @@ msgstr "你用一堆衣服来取暖。"
 #: disease.cpp:852
 #, c-format
 msgid "You snuggle your %s to keep warm."
-msgstr "你依偎着你的%s来保暖."
+msgstr "你依偎着%s来保暖."
 
 #: disease.cpp:854
 #, c-format
 msgid "You use your %s to keep warm."
-msgstr "你用你的%s来保暖."
+msgstr "你用%s来保暖."
 
 #: disease.cpp:860
 msgid "You try to sleep, but can't..."
@@ -4494,7 +4494,7 @@ msgstr "失明"
 
 #: disease.cpp:1537 monster.cpp:203
 msgid "Stunned"
-msgstr "吓坏了"
+msgstr "被震慑"
 
 #: disease.cpp:1538
 msgid "Downed"
@@ -7036,12 +7036,12 @@ msgstr "叮铛一声响，汽油泵坏了。"
 #: game.cpp:856
 #, c-format
 msgid "You insert a cartridge into your %s."
-msgstr "你重新装填了你的 %s 。"
+msgstr "你重新装填了 %s 。"
 
 #: game.cpp:863
 #, c-format
 msgid "You reload your %s."
-msgstr "你重新装填了你的 %s 。"
+msgstr "你重新装填了 %s 。"
 
 #: game.cpp:867
 #, c-format
@@ -7880,7 +7880,7 @@ msgstr "EMP冲击波对 %s 无效。"
 
 #: game.cpp:5581
 msgid "The EMP blast drains your power."
-msgstr "EMP冲击波耗尽了你的所有力量。"
+msgstr "EMP冲击波耗尽了你所有的力量。"
 
 #: game.cpp:5902
 msgid "Open"
@@ -7998,7 +7998,7 @@ msgstr "反应堆填装满了。"
 
 #: game.cpp:6266
 msgid "You pull a handbrake."
-msgstr "你拉了下把手。"
+msgstr "你拉下了手刹。"
 
 #: game.cpp:6270
 #, c-format
@@ -8438,7 +8438,7 @@ msgstr[0] "你将你的 %1$s 放到 %2$s 的 %3$s 里面。"
 #, c-format
 msgid "You drop your %s."
 msgid_plural "You drop your %ss."
-msgstr[0] "你丢弃了你的 %s。"
+msgstr[0] "你放下了 %s。"
 
 #: game.cpp:8294 game.cpp:8378
 #, c-format
@@ -8465,7 +8465,7 @@ msgstr "你不能将物品放在那里！"
 #, c-format
 msgid "You drop your %s on the %s."
 msgid_plural "You drop your %ss on the %s."
-msgstr[0] "你丢弃了你的 %s 在 %s之上。"
+msgstr[0] "你把你的%s丢在%s上！"
 
 #: game.cpp:8371
 #, c-format
@@ -8857,7 +8857,7 @@ msgstr "小心翼翼的穿过 %s !"
 #: game.cpp:9604
 #, c-format
 msgid "You hurt your feet on the %s!"
-msgstr "你伤到了你的脚在%s位置！"
+msgstr "你在%s上伤到了你的脚！"
 
 #: game.cpp:9615
 #, c-format
@@ -10717,7 +10717,7 @@ msgstr "刷一下你的ID卡？"
 
 #: iexamine.cpp:138
 msgid "You insert your ID card."
-msgstr "你插入了你的ID卡。"
+msgstr "你插入了ID卡。"
 
 #: iexamine.cpp:139 iexamine.cpp:174
 msgid "The nearby doors slide into the floor."
@@ -11129,7 +11129,7 @@ msgstr "> 更多物品"
 
 #: inventory_ui.cpp:389 inventory_ui.cpp:569 inventory_ui.cpp:580
 msgid "Multidrop:"
-msgstr "裂解大小："
+msgstr "放下物品："
 
 #: inventory_ui.cpp:576
 #, c-format
@@ -11470,11 +11470,11 @@ msgstr "<veh_adj>%d\" "
 
 #: item.cpp:986
 msgid "<burnt_adj>badly burnt "
-msgstr "严重烧坏的<burnt_adj> "
+msgstr "严重烧坏的 "
 
 #: item.cpp:988
 msgid "<burnt_adj>burnt "
-msgstr "烧坏的<burnt_adj> "
+msgstr "烧焦的 "
 
 #: item.cpp:993
 #, c-format
@@ -12657,7 +12657,7 @@ msgstr "你磕了点冰毒。"
 
 #: iuse.cpp:591
 msgid "You take some vitamins."
-msgstr "你需要一些维生素。"
+msgstr "你服用了一剂维生素。"
 
 #: iuse.cpp:602
 msgid "You inject the vaccine."
@@ -12665,7 +12665,7 @@ msgstr "你注射了疫苗。"
 
 #: iuse.cpp:603
 msgid "You feel tough."
-msgstr "你觉得很难受。"
+msgstr "你觉得更强壮了。"
 
 #: iuse.cpp:634
 msgid "You feel completely exhausted."
@@ -12874,7 +12874,7 @@ msgstr "你的%s已经增强。"
 #: iuse.cpp:1043 iuse.cpp:1591
 #, c-format
 msgid "You damage your %s!"
-msgstr "你损坏了你的 %s!"
+msgstr "你损坏了 %s!"
 
 #: iuse.cpp:1048 iuse.cpp:1596
 #, c-format
@@ -12907,12 +12907,12 @@ msgstr "你不仅没有修理好你的%s，还浪费了大量的线。"
 #: iuse.cpp:1095
 #, c-format
 msgid "You repair your %s, but waste lots of thread."
-msgstr "你修理了你的%s，但也浪费了大量的线。"
+msgstr "你修补了%s，但也浪费了大量的线。"
 
 #: iuse.cpp:1106 iuse.cpp:1654
 #, c-format
 msgid "You repair your %s!"
-msgstr "你修补了你的%s!"
+msgstr "你修补了%s!"
 
 #: iuse.cpp:1112 iuse.cpp:1660
 #, c-format
@@ -14674,7 +14674,7 @@ msgstr "这里没地方展开折叠自行车."
 
 #: iuse.cpp:5253
 msgid "The adrenaline causes your asthma to clear."
-msgstr "强心剂治愈了你的哮喘。"
+msgstr "肾上腺素使你的哮喘停止了。"
 
 #: iuse_software.cpp:45
 msgid "You found kitten!"
@@ -14945,7 +14945,7 @@ msgstr ""
 
 #: lang/json/json_bionics.py:47
 msgid "Integrated Toolset"
-msgstr "手部万能工具组"
+msgstr "瑞士军手"
 
 #: lang/json/json_bionics.py:48
 msgid ""
@@ -15000,7 +15000,7 @@ msgstr "合金装甲-头部"
 msgid ""
 "The flesh on your head has been replaced by a strong armor, protecting both "
 "your head and jaw regions."
-msgstr "你的头部被替换成了合金结构，完美的覆盖了你的头部至下巴的每一寸部位。"
+msgstr "你的躯干被植入了合金装甲，完美的覆盖了你的头部至下巴的每一寸部位。"
 
 #: lang/json/json_bionics.py:57
 msgid "Alloy Plating - Torso"
@@ -15010,7 +15010,7 @@ msgstr "合金装甲-躯干"
 msgid ""
 "The flesh on your torso has been replaced by a strong armor, protecting you "
 "greatly."
-msgstr "你的躯干被替换成了合金结构，完美的覆盖了你躯干的每个部位。"
+msgstr "你的躯干被植入了合金装甲，完美的覆盖了你躯干的每个部位。"
 
 #: lang/json/json_bionics.py:59
 msgid "Alloy Plating - Arms"
@@ -15020,7 +15020,7 @@ msgstr "合金装甲-手臂"
 msgid ""
 "The flesh on your arms has been replaced by a strong armor, protecting you "
 "greatly."
-msgstr "你的手臂被替换成了合金结构，完美的覆盖了臂膀的每个部位。"
+msgstr "你的手臂被植入了合金装甲，完美的覆盖了臂膀的每个部位。"
 
 #: lang/json/json_bionics.py:61
 msgid "Alloy Plating - Legs"
@@ -15030,7 +15030,7 @@ msgstr "合金装甲-腿部"
 msgid ""
 "The flesh on your legs has been replaced by a strong armor, protecting you "
 "greatly."
-msgstr "你的腿部被替换成了合金结构，完美的覆盖了腿部的每个部位。"
+msgstr "你的腿部被植入了合金装甲，完美的覆盖了腿部的每个部位。"
 
 #: lang/json/json_bionics.py:63
 msgid "Cranial Flashlight"
@@ -15987,7 +15987,7 @@ msgstr "一双设计很简单的拖鞋，穿上之后很难跑起步来。"
 
 #: lang/json/json_items.py:27
 msgid "dress shoes"
-msgstr "水晶鞋"
+msgstr "正装皮鞋"
 
 #: lang/json/json_items.py:28
 msgid "Fancy patent leather shoes. Not designed for running in."
@@ -16519,7 +16519,7 @@ msgstr "垂钓服"
 
 #: lang/json/json_items.py:148
 msgid "Waterproof plastic fishing waders with a single large front pocket."
-msgstr "前面有个大口袋的钓鱼用塑料防水长靴."
+msgstr "配有钓鱼用塑料防水长靴和一个前面的大口袋的。"
 
 #: lang/json/json_items.py:149
 msgid "wool poncho"
@@ -16540,7 +16540,7 @@ msgstr "一件薄薄的棉质军大衣，缝着不少口袋，看上去挺能装
 
 #: lang/json/json_items.py:153
 msgid "flotation vest"
-msgstr "防弹背心"
+msgstr "救生衣"
 
 #: lang/json/json_items.py:154
 msgid ""
@@ -16925,7 +16925,7 @@ msgstr ""
 
 #: lang/json/json_items.py:239
 msgid "ballistic glasses"
-msgstr "防弹玻璃"
+msgstr "防弹护目镜"
 
 #: lang/json/json_items.py:240
 msgid ""
@@ -18699,17 +18699,15 @@ msgstr ""
 "伤力。"
 
 #: lang/json/json_items.py:579 lang/json/json_items.py:607
-#, fuzzy
 msgid ""
 "A bow with wheels that fires high velocity arrows. Weaker people can use "
 "compound bows more easily. Arrows fired from this weapon have a good chance "
 "of remaining intact for re-use. It requires 8 strength to fire"
 msgstr ""
-"使用偏心滑轮系统做成的滑轮弓，让力气小的人也可以轻易拉开。射出去的弓箭有很大"
-"的几率保持完好无损，只要8点力量就可以拉开。"
+"一把带滑轮的弓,能让你高效地射箭。较弱的家伙也可以轻易使用复合弓。这种弓射出的"
+"箭能再利用的可能性更高。你需要8点力量来拉动它。"
 
 #: lang/json/json_items.py:581 lang/json/json_items.py:609
-#, fuzzy
 msgid ""
 "A six-foot wooden bow that fires feathered arrows. This takes a fair amount "
 "of strength to draw. Arrows fired from this weapon have a good chance of "
@@ -18720,7 +18718,7 @@ msgstr ""
 
 #: lang/json/json_items.py:582 lang/json/json_items.py:610
 msgid "bow-like_object"
-msgstr ""
+msgstr "像弓一样的东西"
 
 #: lang/json/json_items.py:583 lang/json/json_items.py:611
 msgid ""
@@ -18729,20 +18727,25 @@ msgid ""
 "bows would make. Solely based on popular depictions from movies and video "
 "games, this object merely tries to look and act like a bow, nothing more."
 msgstr ""
+"从远处看上去像把弓,但仔细检查就会发现它如此的“浑然天成”…这就是完全没有弓箭知"
+"识的人所造的弓！它的蓝图是基于电影和电子游戏中所流行的外观！这个物品只是试图"
+"从外观和力学上模仿一张弓,仅此而已。"
 
 #: lang/json/json_items.py:584 lang/json/json_items.py:612
 msgid "10kg bow"
-msgstr ""
+msgstr "10kg弓"
 
 #: lang/json/json_items.py:585 lang/json/json_items.py:613
 msgid ""
 "Made using the most rudimentary knowledge of bows, this short and weak bow "
 "is just enough to take down small game in a shot or two."
 msgstr ""
+"依靠最基本的弓箭知识造出的弓。不过这种既短又弱的弓足以在一两场狩猎中拿下一个"
+"小目标。"
 
 #: lang/json/json_items.py:586 lang/json/json_items.py:614
 msgid "20kg_bow"
-msgstr ""
+msgstr "20公斤弓"
 
 #: lang/json/json_items.py:587 lang/json/json_items.py:615
 msgid ""
@@ -18750,20 +18753,24 @@ msgid ""
 "draw speed, as well as precision for lack of strain on the user when the bow "
 "is fully drawn."
 msgstr ""
+"能用适中力量拉开的弓。其相对较低的拉弓磅数也使你的拉弓速度更快,但由于即使完全"
+"张弓也缺乏张力，这种弓不怎么精准。"
 
 #: lang/json/json_items.py:588 lang/json/json_items.py:616
 msgid "30kg bow"
-msgstr ""
+msgstr "30kg弓"
 
 #: lang/json/json_items.py:589 lang/json/json_items.py:617
 msgid ""
 "With a draw weight slightly above what professional users use, this bow can "
 "take down medium game, and even large game with enough skill."
 msgstr ""
+"开弓磅数比专业用户用的弓更大。这把弓拿下中型猎物绰绰有余,而且只要有足够的技巧"
+"你还能用它狩猎大型猎物。"
 
 #: lang/json/json_items.py:590 lang/json/json_items.py:618
 msgid "30kg bow compound"
-msgstr ""
+msgstr "30kg弓.复合型"
 
 #: lang/json/json_items.py:591 lang/json/json_items.py:619
 msgid ""
@@ -18771,10 +18778,12 @@ msgid ""
 "is fully drawn to provide better accuracy. This does not mean however that "
 "the draw weight on these must be less than a bow with similar draw weight."
 msgstr ""
+"一把带滑轮组的弓，能让使用者在完全开弓时保持稳定以保证射击精度。但这并不意味"
+"着这种弓的开弓磅数一定比其他有类似开弓磅数的弓小。"
 
 #: lang/json/json_items.py:592 lang/json/json_items.py:620
 msgid "40kg bow"
-msgstr ""
+msgstr "40公斤弓"
 
 #: lang/json/json_items.py:593 lang/json/json_items.py:621
 msgid ""
@@ -18782,10 +18791,12 @@ msgid ""
 "akin to those of big game hunters in the safari. However, due to its draw "
 "weight, the draw time is slower, and the strain of the draw hinders accuracy."
 msgstr ""
+"这种弓有着当代少有的开弓磅数。其威力足以应付远征狩猎中的大型猎物。然而,由于开"
+"弓磅数较大，此弓的张弓速度慢，完全张弓也缺乏射击精准度。"
 
 #: lang/json/json_items.py:594 lang/json/json_items.py:622
 msgid "50kg bow"
-msgstr ""
+msgstr "50公斤弓"
 
 #: lang/json/json_items.py:595 lang/json/json_items.py:623
 msgid ""
@@ -18795,10 +18806,12 @@ msgid ""
 "The strain does however put a great deal of strain onto the user, lowering "
 "both accuracy and rate of fire."
 msgstr ""
+"这把弓最具特色的部分就是远离弓手的末端曲臂。由于制作工艺高超,其高开弓磅数可以"
+"有效转化为箭头的动能。但使用者大力拉弓无疑会牺牲其准确性和发射速率。"
 
 #: lang/json/json_items.py:596 lang/json/json_items.py:624
 msgid "65kg bow"
-msgstr ""
+msgstr "65kg巨型弓"
 
 #: lang/json/json_items.py:597 lang/json/json_items.py:625
 msgid ""
@@ -18807,6 +18820,9 @@ msgid ""
 "puts on the user comes at a drastic cost of accuracy and rate of fire, but "
 "the power and range rewarded is unparalleled."
 msgstr ""
+"人类的弱小使这种巨型武器的荒谬威力（以及开弓磅数）变得微不足道。这种弓的使用"
+"者需要调动身力量拉弓以至于大幅牺牲了准确性和射度,但也换来了无与伦比的威力和射"
+"程。"
 
 #: lang/json/json_items.py:598
 msgid "Guitar"
@@ -22365,7 +22381,7 @@ msgstr "塑料油罐"
 msgid ""
 "A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n"
 "in a pinch. It has a capacity of 10 liters."
-msgstr "一个可以容纳10升的塑料汽油桶，你也可以用来装别的液体。"
+msgstr "一个可以容积10升的塑料汽油桶，你也可以用来装别的液体。"
 
 #: lang/json/json_items.py:1315
 msgid "gallon jug"
@@ -23474,7 +23490,7 @@ msgstr "一看上去就让人恶心的菜，也许能吃，后果怎样就不知
 
 #: lang/json/json_items.py:1577
 msgid "cooked meat"
-msgstr "煮过的肉"
+msgstr "烧熟的肉"
 
 #: lang/json/json_items.py:1578
 msgid "Freshly cooked meat. Very nutritious."
@@ -23490,7 +23506,7 @@ msgstr "刚煮熟的人肉片，切自某个讨厌的家伙。不管怎样，味
 
 #: lang/json/json_items.py:1581
 msgid "cooked plant marrow"
-msgstr "煮过的植物精华"
+msgstr "烧熟的植物精华"
 
 #: lang/json/json_items.py:1582
 msgid "A freshly cooked chunk of plant matter, tasty and nutritious."
@@ -23498,7 +23514,7 @@ msgstr "已经煮熟了的蔬菜，看上去味道不错，营养丰富，不来
 
 #: lang/json/json_items.py:1583
 msgid "cooked wild vegetables"
-msgstr "煮过的野菜"
+msgstr "烧熟的野菜"
 
 #: lang/json/json_items.py:1584
 msgid "Cooked wild edible plants.  An interesting mix of flavours."
@@ -23738,7 +23754,7 @@ msgstr "洋葱"
 #: lang/json/json_items.py:1644
 msgid ""
 "An aromatic onion used in cooking. Cutting these up can make your eyes sting!"
-msgstr "一个芳香用于烹饪的洋葱。切开它们会使你的眼睛刺痛!"
+msgstr "一种香料洋葱，适合用于烹饪。切开它们会刺激你的眼睛!"
 
 #: lang/json/json_items.py:1645
 msgid "carrot"
@@ -38672,11 +38688,11 @@ msgstr "汽车底盘"
 
 #: lang/json/json_vehicles.py:10
 msgid "Flatbed Truck"
-msgstr "平板货车"
+msgstr "皮卡"
 
 #: lang/json/json_vehicles.py:11
 msgid "Semi Truck"
-msgstr "皮卡"
+msgstr "重型卡车"
 
 #: lang/json/json_vehicles.py:12
 msgid "Truck Trailer"
@@ -38794,7 +38810,7 @@ msgstr "报告BUG请发送邮件至kevin.granade@gmail.com或者在官方论坛�
 
 #: main_menu.cpp:68
 msgid "<M>OTD"
-msgstr "<M>每日信息"
+msgstr "<M>新讯息"
 
 #: main_menu.cpp:69
 msgid "<N>ew Game"
@@ -38864,7 +38880,7 @@ msgstr "你的%s正在下沉。"
 #: map.cpp:530
 #, c-format
 msgid "You fumble with the %s's controls."
-msgstr "你摸索着操作着%s。"
+msgstr "你摸索着操作%s。"
 
 #: map.cpp:569
 #, c-format
@@ -39143,7 +39159,7 @@ msgstr "混凝土"
 
 #: mapdata.h:234 mapdata.h:246 mapdata.h:248 mapdata.h:251
 msgid "floor"
-msgstr "地平"
+msgstr "地板"
 
 #: mapdata.h:237
 msgid "dirt floor"
@@ -39771,7 +39787,7 @@ msgstr "打开的帆布帘子"
 
 #: mapdata.h:697 mapdata.h:699
 msgid "groundsheet"
-msgstr "防潮布（露营时铺地用的）"
+msgstr "防潮布"
 
 #: mapdata.h:701
 msgid "animalskin wall"
@@ -40271,11 +40287,11 @@ msgstr "%1$s 砍 %4$s"
 
 #: melee.cpp:1526
 msgid "%1$s slice %4$s"
-msgstr "%1$s 切开 %4$s"
+msgstr "%1$s 劈 %4$s"
 
 #: melee.cpp:1526
 msgid "%1$s slices %4$s"
-msgstr "%1$s 切开 %4$s"
+msgstr "%1$s 劈 %4$s"
 
 #: melee.cpp:1528
 msgid "%1$s cut %4$s"
@@ -42103,7 +42119,7 @@ msgstr "出现"
 
 #: monmove.cpp:899
 msgid "leaps"
-msgstr "猛增"
+msgstr "跳了出来，它"
 
 #: monmove.cpp:902
 #, c-format
@@ -44305,7 +44321,7 @@ msgstr "很害怕"
 
 #: npc.cpp:2030
 msgid "Terrified"
-msgstr "吓坏了"
+msgstr "受惊"
 
 #: npc.cpp:2032
 msgid "Fear: "
@@ -47094,7 +47110,7 @@ msgstr "新建角色时最大特征点数"
 
 #: options.cpp:451
 msgid "Spawn rate scaling factor"
-msgstr "生成密度"
+msgstr "怪物生成密度"
 
 #: options.cpp:452
 msgid "A scaling factor that determines density of monster spawns."
@@ -47597,7 +47613,7 @@ msgstr "酒店地下室"
 
 #: overmap.cpp:530 overmap.cpp:531
 msgid "mansion"
-msgstr "大厦"
+msgstr "府邸"
 
 #: overmap.cpp:532 overmap.cpp:533
 msgid "fema camp"
@@ -49023,7 +49039,7 @@ msgstr "<npcname> 喝了一口 %s"
 #: player.cpp:6198
 #, c-format
 msgid "You drink your %s."
-msgstr "你喝下了你的%s。"
+msgstr "你喝下了%s。"
 
 #: player.cpp:6236
 msgid "You feast upon the human flesh."
@@ -50600,8 +50616,8 @@ msgid ""
 "water level in the bottle.  You'll probably want to drop empty bottles,\n"
 "or you might want to save them to refill from a water source later."
 msgstr ""
-"你喝了一瓶水，这减轻了你的口渴和瓶装\\n\n"
-"水的水位。你可能会想要丢弃空瓶，或者\\n\n"
+"你喝了一瓶水，这减轻了你的口渴和瓶装\n"
+"水的水位。你可能会想要丢弃空瓶，或者\n"
 "你可能想留着以后装水。"
 
 #: tutorial.h:143
