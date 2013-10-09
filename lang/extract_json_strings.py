@@ -38,18 +38,21 @@ for filename in os.listdir(to_folder):
 
 ## FUNCTIONS
 
-def gettextify(string):
+def gettextify(string, context=None):
     "Put the string in a fake gettext call, and add a newline."
-    return "_(%r)\n" % string
+    if context:
+        return "pgettext(%r, %r)\n" % (context, string)
+    else:
+        return "_(%r)\n" % string
 
-def writestr(fs, string):
+def writestr(fs, string, context=None):
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
     # none of the strings from json use string formatting.
     # we must tell xgettext this explicitly
     if "%" in string: fs.write("# xgettext:no-python-format\n")
-    fs.write(gettextify(string))
+    fs.write(gettextify(string,context=context))
 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
@@ -129,13 +132,22 @@ with open(os.path.join(to_folder,"json_names.py"), 'w') as name_jtl:
     for item in jsondata:
         if not "name" in item: continue # it probably is
         tlinfo = ["proper name"]
+        context = None
         if "gender" in item:
             tlinfo.append("gender=" + item["gender"])
         if "usage" in item:
-            tlinfo.append("usage=" + item["usage"])
-        if len(tlinfo) > 1: # then add it as a translator comment
+            u = item["usage"]
+            tlinfo.append("usage=" + u)
+            # note: these must match the context ids in name.cpp
+            if u == "given": context = "Given Name"
+            elif u == "family": context = "Family Name"
+            elif u == "universal": context = "Either Name"
+            elif u == "backer": context = "Full Name"
+            elif u == "city": context = "City Name"
+        # add the translator comment
+        if len(tlinfo) > 1:
             tlcomment(name_jtl, '; '.join(tlinfo))
-        writestr(name_jtl, "<name>" + item["name"])
+        writestr(name_jtl, item["name"], context=context)
 extracted.append("names.json")
 
 # data/json/mutations.json
