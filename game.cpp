@@ -8648,7 +8648,7 @@ void game::butcher()
 // vector of indices.
  for (int i = corpses.size() - 1; i >= 0; i--) {
   mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
-  if (query_yn(_("Butcher the %s corpse?"), corpse->name.c_str())) {
+  if (!OPTIONS["QUERY_BUTCHER"] || query_yn(_("Butcher the %s corpse?"), corpse->name.c_str())) {
    int time_to_cut = 0;
    switch (corpse->size) { // Time in turns to cut up te corpse
     case MS_TINY:   time_to_cut =  2; break;

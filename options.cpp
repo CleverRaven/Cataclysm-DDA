@@ -411,6 +411,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["QUERY_BUTCHER"] =          cOpt("interface", _("Query on butcher"),
+                                             _("If true, will query before butchering corpses."),
+                                             true
+                                            );
+
     optionNames["no"] = _("No");
     //~ containers
     optionNames["watertight"] = _("Watertight");
