@@ -1514,3 +1514,127 @@ picojson::value vehicle::json_save( bool save_contents ) {
     return pv( data );
 }
 
+////////////////// mission.h
+////
+void mission::json_load(picojson::value parsed, game * g) {
+    if ( ! parsed.is<picojson::object>() ) {
+         debugmsg("mission::json_load: bad json:\n%s",parsed.serialize().c_str() );
+    }
+    picojson::object &data = parsed.get<picojson::object>();
+    int type_id, tmpfollow;
+    std::string rew_item, itemid;
+    // todo; if( picostring(data, "type_id", ....
+    picoint(data, "type_id", type_id);
+    type = &(g->mission_types[type_id]);
+    picostring(data, "description", description);
+    picobool(data, "failed", failed);
+    picoint(data, "value", value);
+    picojson::object * pobj=pgetmap(data,"reward");
+    
+    if ( pobj != NULL ) {
+        reward.json_load( *pobj );
+    }
+
+    picoint(data, "uid", uid );
+    picopoint(data, "target", target);
+    picoint(data, "follow_up", tmpfollow );
+    follow_up = mission_id(tmpfollow);
+    picostring(data, "item_id", itemid);
+    item_id = itype_id(itemid);
+    picoint(data, "deadline", deadline );
+    picoint(data, "step", step );
+    picoint(data, "count", count );
+    picoint(data, "npc_id", npc_id );
+    picoint(data, "good_fac_id", good_fac_id );
+    picoint(data, "bad_fac_id", bad_fac_id );
+}
+
+picojson::value mission::json_save(bool save_contents) {
+    std::map<std::string, picojson::value> data;
+    data["type_id"] = pv(type == NULL ? -1 : (int)type->id);
+    data["description"] = pv ( description );
+    data["failed"] = pv( failed );
+    data["value"] = pv( value );
+    data["reward"] = pv( reward.json_save() );
+    data["uid"] = pv( uid );
+    std::vector<picojson::value> ptmp;
+    ptmp.push_back( pv( target.x ) );
+    ptmp.push_back( pv( target.y ) );
+    data["target"] = pv ( ptmp );
+    data["count"] = pv( count );
+    data["deadline"] = pv( deadline );
+    data["npc_id"] = pv( npc_id );
+    data["good_fac_id"] = pv( good_fac_id );
+    data["bad_fac_id"] = pv( bad_fac_id );
+    data["step"] = pv( step );
+    data["follow_up"] = pv( (int)follow_up );
+    return pv( data );
+}
+
+////////////////// faction.h
+////
+void faction::json_load(picojson::value parsed, game * g) {
+    if ( ! parsed.is<picojson::object>() ) {
+         debugmsg("mission::json_load: bad json:\n%s",parsed.serialize().c_str() );
+    }
+    picojson::object &data = parsed.get<picojson::object>();
+    int valuetmp, goaltmp, jobtmp1, jobtmp2;
+    picoint(data, "id", id);
+    picoint(data, "goal", goaltmp );
+    picoint(data, "values", valuetmp );
+    picoint(data, "job1", jobtmp1 );
+    picoint(data, "job2", jobtmp2 );
+    values = valuetmp;
+    goal = faction_goal(goaltmp);
+    job1 = faction_job(jobtmp1);
+    job2 = faction_job(jobtmp2);
+    picoint(data, "likes_u", likes_u);
+    picoint(data, "respects_u", respects_u);
+    picobool(data, "known_by_u", known_by_u);
+
+    picoint(data, "strength", strength);
+    picoint(data, "sneak", sneak);
+    picoint(data, "crime", crime);
+    picoint(data, "cult", cult);
+    picoint(data, "good", good);
+    picoint(data, "omx", omx);
+    picoint(data, "omy", omy);
+    picoint(data, "mapx", mapx);
+    picoint(data, "mapy", mapy);
+    picoint(data, "size", size);
+    picoint(data, "power", power);
+    picojson::array * parray = pgetarray(data,"opinion_of");
+    for( picojson::array::iterator pt = parray->begin(); pt != parray->end(); ++pt) {
+        if ( (*pt).is<double>() ) {
+            opinion_of.push_back( (int)(*pt).get<double>() );
+        }
+    }
+    picostring(data,"name",name);
+}
+
+picojson::value faction::json_save(bool save_contents) {
+    std::map<std::string, picojson::value> data;
+    data["id"] = pv( id );
+    data["values"] = pv( (int)values );
+    data["goal"] = pv( goal );
+    data["job1"] = pv( job1 );
+    data["job2"] = pv( job2 );
+    data["likes_u"] = pv( likes_u );
+    data["respects_u"] = pv( respects_u );
+    data["known_by_u"] = pv( known_by_u );
+    data["strength"] = pv( strength );
+    data["sneak"] = pv( sneak );
+    data["crime"] = pv( crime );
+    data["cult"] = pv( cult );
+    data["good"] = pv( good );
+    data["omx"] = pv( omx );
+    data["omy"] = pv( omy );
+    data["mapx"] = pv( mapx );
+    data["mapy"] = pv( mapy );
+    data["size"] = pv( size );
+    data["power"] = pv( power );
+    data["opinion_of"] = json_wrapped_vector( opinion_of );
+    data["name"] = pv (name);
+    return pv( data );
+}
+
