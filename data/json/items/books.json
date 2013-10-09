@@ -3022,5 +3022,26 @@
         "skill" : "fabrication",
         "price" : 300,
         "required_level" : 5
+    },
+    {
+        "type" : "BOOK",
+        "id" : "guidebook",
+        "name" : "The Hitchhiker's Guide to the Cataclysm",
+        "description" : "Inscribed on the cover in large, friendly letters, is the message \"Don't Panic\".",
+        "weight" : 1764,
+        "volume" : 4,
+        "price" : 882,
+        "time" : 1,
+        "fun" : 0,
+        "skill" : "",
+        "max_level" : 0,
+        "required_level" : 0,
+        "intelligence" : 0,
+        "color" : "black",
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "bashing" : 2,
+        "cutting" : 0,
+        "to_hit" : 0
     }
 ]

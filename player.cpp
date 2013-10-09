@@ -25,6 +25,7 @@
 #include "get_version.h"
 #include "crafting.h"
 #include "monstergenerator.h"
+#include "help.h" // get_hint
 
 #include <ctime>
 
@@ -7768,7 +7769,13 @@ void player::read(game *g, char ch)
     }
     else if (tmp->type == NULL)
     {
-        /* No-op, there's no associated skill. */
+        // special guidebook effect: print a misc. hint when read
+        if (tmp->id == "guidebook") {
+            g->add_msg(get_hint().c_str());
+            moves -= 100;
+            return;
+        }
+        // otherwise do nothing as there's no associated skill
     }
     else if (skillLevel(tmp->type) < (int)tmp->req)
     {
