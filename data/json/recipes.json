@@ -6636,7 +6636,13 @@
     [
       [ "strawberries", 2 ],
       [ "blueberries", 2 ],
+	  [ "raspberries", 2 ],
+	  [ "grapes", 2 ],
       [ "apple", 2 ],
+	  [ "pear", 2 ],
+	  [ "pineapple", 2 ],
+	  [ "watermelon", 2 ],
+	  [ "melon", 2 ],
       [ "corn", 3 ],
       [ "honeycomb", 1 ],
       [ "cola", 6 ],
