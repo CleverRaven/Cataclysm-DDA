@@ -208,14 +208,6 @@ void game::init_ui(){
         VIEWY = TERRAIN_WINDOW_HEIGHT / 2;
     #endif
 
-    if (VIEWX < 12) {
-        VIEWX = 12;
-    }
-
-    if (VIEWY < 12) {
-        VIEWY = 12;
-    }
-
     // Set up the main UI windows.
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     werase(w_terrain);
