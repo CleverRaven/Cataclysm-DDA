@@ -168,8 +168,8 @@ void game::init_ui(){
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = sidebarWidth + ((int)OPTIONS["VIEWPORT_X"] * 2 + 1);
         TERMY = (int)OPTIONS["VIEWPORT_Y"] * 2 + 1;
-        VIEWX = (OPTIONS["VIEWPORT_X"] > 60) ? 60 : OPTIONS["VIEWPORT_X"];
-        VIEWY = (OPTIONS["VIEWPORT_Y"] > 60) ? 60 : OPTIONS["VIEWPORT_Y"];
+        POSX = (OPTIONS["VIEWPORT_X"] > 60) ? 60 : OPTIONS["VIEWPORT_X"];
+        POSY = (OPTIONS["VIEWPORT_Y"] > 60) ? 60 : OPTIONS["VIEWPORT_Y"];
         // TERMY is always odd, so make FULL_SCREEN_HEIGHT odd too
         FULL_SCREEN_HEIGHT = 25;
 
@@ -177,15 +177,13 @@ void game::init_ui(){
         // viewport wider to fill an 80-column window.
         while (TERMX < FULL_SCREEN_WIDTH) {
             TERMX += 2;
-            VIEWX += 1;
+            POSX += 1;
         }
 
-        POSX = VIEWX;
-        POSY = VIEWY;
         VIEW_OFFSET_X = (OPTIONS["VIEWPORT_X"] > 60) ? (int)OPTIONS["VIEWPORT_X"]-60 : 0;
         VIEW_OFFSET_Y = (OPTIONS["VIEWPORT_Y"] > 60) ? (int)OPTIONS["VIEWPORT_Y"]-60 : 0;
-        TERRAIN_WINDOW_WIDTH  = (VIEWX * 2) + 1;
-        TERRAIN_WINDOW_HEIGHT = (VIEWY * 2) + 1;
+        TERRAIN_WINDOW_WIDTH  = (POSX * 2) + 1;
+        TERRAIN_WINDOW_HEIGHT = (POSY * 2) + 1;
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
@@ -206,10 +204,8 @@ void game::init_ui(){
         VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
         VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
 
-        VIEWX = TERRAIN_WINDOW_WIDTH / 2;
-        VIEWY = TERRAIN_WINDOW_HEIGHT / 2;
-        POSX = VIEWX;
-        POSY = VIEWY;
+        POSX = TERRAIN_WINDOW_WIDTH / 2;
+        POSY = TERRAIN_WINDOW_HEIGHT / 2;
     #endif
 
     // Set up the main UI windows.

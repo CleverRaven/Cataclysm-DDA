@@ -22,8 +22,6 @@
 // Display data
 int TERMX;
 int TERMY;
-int VIEWX;
-int VIEWY;
 int POSX;
 int POSY;
 int VIEW_OFFSET_X;
