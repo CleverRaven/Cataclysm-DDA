@@ -70,18 +70,25 @@ def convert(infilename, outfile, **kwargs):
     "Open infilename, read data, write translatables to outfile."
     jsondata = json.loads(open(infilename).read())
     for item in jsondata:
+        wrote = False
         if "name" in item:
             writestr(outfile, item["name"], **kwargs)
+            wrote = True
         if "description" in item:
             writestr(outfile, item["description"], **kwargs)
+            wrote = True
         if "sound" in item:
             writestr(outfile, item["sound"], **kwargs)
+            wrote = True
         if "text" in item:
             writestr(outfile, item["text"], **kwargs)
+            wrote = True
         if "messages" in item:
             for message in item["messages"]:
                 writestr(outfile, message, **kwargs)
-        # perhaps this should warn if nothing found?
+                wrote = True
+        if not wrote:
+            print("WARNING: %s: nothing translatable found in item: %r" % (infilename, item))
 
 def autoextract(name, **kwargs):
     "Automatically extract from the named json file in data/json."
