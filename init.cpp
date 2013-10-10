@@ -85,6 +85,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/names.json");
     ret.push_back("data/json/vehicle_parts.json");
     ret.push_back("data/json/vehicles.json");
+    ret.push_back("data/json/species.json");
     ret.push_back("data/json/monsters.json");
     ret.push_back("data/json/monstergroups.json");
     ret.push_back("data/json/items/ammo.json");
