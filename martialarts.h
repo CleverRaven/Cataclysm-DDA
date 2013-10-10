@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "pldata.h"
+#include "json.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -224,5 +225,14 @@ class martialart {
     std::vector<ma_buff> ondodge_buffs;
 
 };
+
+void load_technique(JsonObject &jo);
+void load_martial_art(JsonObject &jo);
+
+void init_martial_arts();
+
+extern std::map<matype_id, martialart> martialarts;
+extern std::map<mabuff_id, ma_buff> ma_buffs;
+extern std::map<matec_id, ma_technique> ma_techniques;
 
 #endif

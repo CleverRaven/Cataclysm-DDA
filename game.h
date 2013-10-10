@@ -280,10 +280,6 @@ class game
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions
 
-  std::map<matype_id, martialart> martialarts;
-  std::map<mabuff_id, ma_buff> ma_buffs;
-  std::map<matec_id, ma_technique> ma_techniques;
-
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
 
@@ -396,8 +392,6 @@ void load_artifacts(); // Load artifact data
   void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types
-  void init_techniques();
-  void init_martialarts();
   void init_skills() throw (std::string);
   void init_professions();
   void init_faction_data();

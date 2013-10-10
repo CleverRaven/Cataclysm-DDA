@@ -107,9 +107,7 @@ void game::init_data()
     init_faction_data();
     init_morale();
     init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
-    init_techniques();           // Set up techniques                (SEE martialarts.cpp)
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
     item_controller->init(this); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)

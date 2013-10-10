@@ -178,7 +178,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
 // Pick one or more special attacks
  matec_id tec_id = pick_technique(g, z, NULL, critical_hit, allow_grab);
- ma_technique technique = g->ma_techniques[tec_id];
+ ma_technique technique = ma_techniques[tec_id];
 
 
 // Handles effects as well; not done in melee_affect_*
@@ -307,7 +307,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
 // Pick one or more special attacks
  matec_id tec_id = pick_technique(g, NULL, &p, critical_hit, allow_grab);
- ma_technique technique = g->ma_techniques[tec_id];
+ ma_technique technique = ma_techniques[tec_id];
 
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
@@ -747,7 +747,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
   // first add non-aoe tecs
   for (std::vector<matec_id>::const_iterator it = all.begin();
       it != all.end(); ++it) {
-    ma_technique tec = g->ma_techniques[*it];
+    ma_technique tec = ma_techniques[*it];
 
     // skip defensive techniques
     if (tec.defensive) continue;
@@ -774,7 +774,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
   // now add aoe tecs (since they depend on if we have other tecs or not)
   for (std::vector<matec_id>::const_iterator it = all.begin();
       it != all.end(); ++it) {
-    ma_technique tec = g->ma_techniques[*it];
+    ma_technique tec = ma_techniques[*it];
 
     // don't use aoe tecs if there's only one target
     if (tec.aoe.length() > 0) {
@@ -811,7 +811,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
 
 bool player::has_technique(matec_id id, game* g) {
   return weapon.has_technique(id, this) ||
-    g->martialarts[style_selected].has_technique(*this, id, g);
+    martialarts[style_selected].has_technique(*this, id, g);
 }
 
 void player::perform_technique(ma_technique technique, game *g, monster *z,
@@ -1321,11 +1321,11 @@ std::string melee_verb(matec_id tec_id, player &p, int bash_dam, int cut_dam, in
 
   std::stringstream ret;
 
-  if (g->ma_techniques.find(tec_id) != g->ma_techniques.end()) {
+  if (ma_techniques.find(tec_id) != ma_techniques.end()) {
     if (p.is_npc())
-      return g->ma_techniques[tec_id].verb_npc;
+      return ma_techniques[tec_id].verb_npc;
     else
-      return g->ma_techniques[tec_id].verb_you;
+      return ma_techniques[tec_id].verb_you;
   }
 
   // verb should be based on how the weapon is used, and the total damage inflicted
