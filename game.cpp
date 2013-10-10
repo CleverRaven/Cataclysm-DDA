@@ -4349,6 +4349,39 @@ bool vector_has(std::vector<int> vec, int test)
  return false;
 }
 
+bool game::is_hostile_nearby()
+{
+    const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &z = _active_monsters[i];
+        if (!u_see(&z))
+            continue;
+
+        monster_attitude matt = z.attitude(&u);
+        if (MATT_ATTACK != matt && MATT_FOLLOW != matt)
+            continue;
+
+        int mondist = rl_dist(u.posx, u.posy, z.posx(), z.posy());
+        if (mondist <= iProxyDist)
+            return true;
+    }
+
+    for (int i = 0; i < active_npc.size(); i++) {
+        point npcp(active_npc[i]->posx, active_npc[i]->posy);
+
+        if (!u_see(npcp.x, npcp.y))
+            continue;
+
+        if (active_npc[i]->attitude != NPCATT_KILL)
+            continue;
+
+        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist)
+                return true;
+    }
+
+    return false;
+}
+
 // Print monster info to the given window, and return the lowest row (0-indexed)
 // to which we printed. This is used to share a window with the message log and
 // make optimal use of space.
@@ -8648,7 +8681,22 @@ void game::butcher()
 // vector of indices.
  for (int i = corpses.size() - 1; i >= 0; i--) {
   mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
-  if (!OPTIONS["QUERY_BUTCHER"] || query_yn(_("Butcher the %s corpse?"), corpse->name.c_str())) {
+
+  bool should_butcher = false;
+  if (OPTIONS["QUERY_BUTCHER"] == "never") {
+      should_butcher = true;
+  } else if (OPTIONS["QUERY_BUTCHER"] == "safe") {
+      if (is_hostile_nearby()) {
+          should_butcher = query_yn(
+              _("Hostiles are nearby! Butcher the %s corpse?"), corpse->name.c_str());
+      } else {
+          should_butcher = true;
+      }
+  } else {
+      should_butcher = query_yn(_("Butcher the %s corpse?"), corpse->name.c_str());
+  }
+  
+  if (should_butcher) {
    int time_to_cut = 0;
    switch (corpse->size) { // Time in turns to cut up te corpse
     case MS_TINY:   time_to_cut =  2; break;
