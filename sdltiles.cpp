@@ -208,9 +208,10 @@ static void cache_glyphs()
 
     for(int ch=0; ch<128; ch++)
     {
+        char temp_string[2] = {ch, 0};
         for(int color=0; color<16; color++)
         {
-            SDL_Surface * glyph = glyph_cache[ch][color] = (fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+            SDL_Surface * glyph = glyph_cache[ch][color] = (fontblending?TTF_RenderUTF8_Blended:TTF_RenderUTF8_Solid)(font, temp_string, windowsPalette[color]);
             int minx, maxx, miny, maxy, advance;
             if(glyph!=NULL && color==0 && 0==TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) )
             {
@@ -228,11 +229,11 @@ static void cache_glyphs()
     ttf_height_hack =  delta - top;
 }
 
-static void OutputChar(Uint16 t, int x, int y, unsigned char color)
+static void OutputChar(Uint32 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
-    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:(fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, t, windowsPalette[color]);
+    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:(fontblending?TTF_RenderUTF8_Blended:TTF_RenderUTF8_Solid)(font, utf32_to_utf8(t).c_str(), windowsPalette[color]);
 
     if(glyph)
     {
