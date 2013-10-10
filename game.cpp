@@ -2927,6 +2927,28 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
  }
 }
 
+void game::add_msg_if_npc(player *p, const char* msg, ...)
+{
+    if (!p || !p->is_npc()) {
+        return;
+    }
+    va_list ap;
+    va_start(ap, msg);
+
+    char buff[1024];
+    vsprintf(buff, msg, ap);
+    std::string processed_npc_string(buff);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual npc name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
+    }
+    add_msg_string(processed_npc_string);
+
+    va_end(ap);
+}
+
 void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
 {
     va_list ap;

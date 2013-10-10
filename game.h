@@ -127,6 +127,7 @@ class game
   void add_msg_string(const std::string &s);
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
+  void add_msg_if_npc(player* p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
   std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   void add_event(event_type type, int on_turn, int faction_id = -1,
