@@ -9601,6 +9601,13 @@ void game::plmove(int dx, int dy)
 
           const furn_t furntype = m.furn_at(fpos.x, fpos.y);
           int furncost = furntype.movecost;
+          const int src_items = m.i_at(fpos.x, fpos.y).size();
+          const int dst_items = m.i_at(fdest.x, fdest.y).size();
+          bool dst_item_ok = ( ! m.has_flag("NOITEM", fdest.x, fdest.y) &&
+                               ! m.has_flag("SWIMMABLE", fdest.x, fdest.y) && 
+                               ! m.has_flag("DESTROY_ITEM", fdest.x, fdest.y) );
+          bool src_item_ok = ( m.furn_at(fpos.x, fpos.y).has_flag("CONTAINER") ||
+                               m.furn_at(fpos.x, fpos.y).has_flag("SEALED") );
 
           if ( debug_grabf ) {
             add_msg("dx: %d,%d gp: %d,%d / fp %d,%d => %d,%d / c:%d / push:%d pull:%d shift:%d = %d",
@@ -9620,6 +9627,10 @@ void game::plmove(int dx, int dy)
               add_msg(_("The %s is too heavy for you to budge!"), furntype.name.c_str() );
               u.moves -= 100; // time spent straining and going 'hnngh!'
               return; // furniture and or obstacle wins.
+          } else if ( ! src_item_ok && dst_items > 0 ) {
+              add_msg( _("There's stuff in the way.") );
+              u.moves -= 50; // "oh was that your stuffed parrot? Sorry :-O"
+              return;
           }
           
           if ( pulling_furniture ) { // normalize movecost for pulling: furniture moves into our current square -then- we move away
@@ -9635,9 +9646,28 @@ void game::plmove(int dx, int dy)
 
           m.furn_set(fdest.x, fdest.y, m.furn(fpos.x, fpos.y));    // finally move it.
           m.furn_set(fpos.x, fpos.y, f_null);
-          std::vector <item> vItemMove = m.i_at(fpos.x, fpos.y);   // and the stuff inside.
-          for (int i=0; i < vItemMove.size(); i++) {
-              m.add_item(fdest.x, fdest.y, vItemMove[i]);
+
+          if ( src_items > 0 ) {  // and the stuff inside.
+              if ( dst_item_ok && src_item_ok ) {
+                  std::vector <item>& miat = m.i_at(fpos.x, fpos.y);
+                  const int arbritrary_item_limit = MAX_ITEM_IN_SQUARE - dst_items; // within reason
+                  for (int i=0; i < src_items; i++) { // ...carefully
+                      if ( i < arbritrary_item_limit &&
+                        miat.size() > 0 &&
+                        m.add_item_or_charges(fdest.x, fdest.y, miat[0], 0) ) {
+                          miat.erase(miat.begin());
+                      } else {
+                          add_msg("Stuff spills from the %s!", furntype.name.c_str() );
+                          break;
+                      }
+                  }
+                  if ( debug_grabf ) {
+                      int after_items = m.i_at(fdest.x, fdest.y).size();
+                      add_msg("%d + %d = %d (%d)",dst_items,src_items,dst_items+src_items,after_items);
+                  }
+              } else {
+                  add_msg("Stuff spills from the %s!", furntype.name.c_str() );
+              }
           }
 
           if ( shifting_furniture ) { // we didn't move
