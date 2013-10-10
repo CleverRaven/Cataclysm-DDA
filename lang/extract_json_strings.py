@@ -49,13 +49,14 @@ def gettextify(string, context=None):
     else:
         return "_(%r)\n" % string
 
-def writestr(fs, string, context=None):
+def writestr(fs, string, context=None, format_strings=False):
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
     # none of the strings from json use string formatting.
     # we must tell xgettext this explicitly
-    if "%" in string: fs.write("# xgettext:no-python-format\n")
+    if not format_strings and "%" in string:
+        fs.write("# xgettext:no-python-format\n")
     fs.write(gettextify(string,context=context))
 
 def tlcomment(fs, string):
@@ -65,30 +66,30 @@ def tlcomment(fs, string):
     fs.write("\n")
 
 # extract commonly translatable data from json to fake-python
-def convert(infilename, outfile):
+def convert(infilename, outfile, **kwargs):
     "Open infilename, read data, write translatables to outfile."
     jsondata = json.loads(open(infilename).read())
     for item in jsondata:
         if "name" in item:
-            writestr(outfile, item["name"])
+            writestr(outfile, item["name"], **kwargs)
         if "description" in item:
-            writestr(outfile, item["description"])
+            writestr(outfile, item["description"], **kwargs)
         if "sound" in item:
-            writestr(outfile, item["sound"])
+            writestr(outfile, item["sound"], **kwargs)
         if "text" in item:
-            writestr(outfile, item["text"])
+            writestr(outfile, item["text"], **kwargs)
         if "messages" in item:
             for message in item["messages"]:
-                writestr(outfile, message)
+                writestr(outfile, message, **kwargs)
         # perhaps this should warn if nothing found?
 
-def autoextract(name):
+def autoextract(name, **kwargs):
     "Automatically extract from the named json file in data/json."
     infilename = name + ".json"
     outfilename = os.path.join(to_folder, "json_" + name + ".py")
     with open(outfilename, 'w') as py_out:
         jsonfile = os.path.join(json_folder, infilename)
-        convert(jsonfile, py_out)
+        convert(jsonfile, py_out, **kwargs)
     extracted.append(infilename)
 
 ## EXTRACTION
@@ -108,6 +109,7 @@ autoextract("terrain")
 autoextract("monsters")
 autoextract("vehicle_parts")
 autoextract("vehicles")
+autoextract("techniques", format_strings=True)
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
@@ -165,32 +167,20 @@ with open(os.path.join(to_folder,"json_keybindings.py"),'w') as keys_jtl:
     convert(jsonfile, keys_jtl)
 extracted.append("keybindings.json")
 
-# data/raw/martialarts.json
+# data/json/martialarts.json
 with open(os.path.join(to_folder,"json_martialarts.py"),'w') as martial_jtl:
-    jsonfile = os.path.join(raw_folder, "martialarts.json")
+    jsonfile = os.path.join(json_folder, "martialarts.json")
     jsondata = json.loads(open(jsonfile).read())
     for item in jsondata:
         writestr(martial_jtl, item["name"])
-        writestr(martial_jtl, item["desc"])
+        writestr(martial_jtl, item["description"])
         onhit_buffs = item.get("onhit_buffs", list())
         static_buffs = item.get("static_buffs", list())
         buffs = onhit_buffs + static_buffs
         for buff in buffs:
             writestr(martial_jtl, buff["name"])
-            writestr(martial_jtl, buff["desc"])
+            writestr(martial_jtl, buff["description"])
 extracted.append("martialarts.json")
-
-# data/raw/techniques.json
-with open(os.path.join(to_folder,"json_techniques.py"),'w') as tec_jtl:
-    jsonfile = os.path.join(raw_folder, "techniques.json")
-    jsondata = json.loads(open(jsonfile).read())
-    for item in jsondata:
-        writestr(tec_jtl, item["name"])
-        if "verb_you" in item:
-            writestr(tec_jtl, item["verb_you"])
-        if "verb_npc" in item:
-            writestr(tec_jtl, item["verb_npc"])
-extracted.append("techniques.json")
 
 
 ## please add any new .json files to extract just above here.
