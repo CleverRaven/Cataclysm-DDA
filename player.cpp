@@ -6884,11 +6884,11 @@ bool player::takeoff(game *g, char let, bool autodrop)
                 item &w = worn[i];
 
                 // Handle power armor.
-                if ((dynamic_cast<it_armor*>(w.type))->is_power_armor() &&
-                        ((dynamic_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
+                if ((reinterpret_cast<it_armor*>(w.type))->is_power_armor() &&
+                        ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
                     // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                     for (int j = 0; j < worn.size(); j++) {
-                        if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+                        if ((reinterpret_cast<it_armor*>(worn[j].type))->is_power_armor() &&
                                 (worn[j].invlet != let)) {
                             if (autodrop) {
                                 g->m.add_item_or_charges(posx, posy, worn[j]);
@@ -6896,7 +6896,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
 
                                 // We've invalidated our index into worn[],
                                 // so rescan from the beginning.
-                                i = -1;
+                                j = -1;
                                 taken_off = true;
                             } else {
                                 g->add_msg(_("You can't take off power armor while wearing other power armor components."));
@@ -6905,7 +6905,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
                     }
                 }
 
-                if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(w.type))->storage >
+                if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
                         volume_carried() + w.type->volume) {
                     inv.add_item_keep_invlet(w);
                     worn.erase(worn.begin() + i);
