@@ -904,15 +904,7 @@ bool construct::able_trunk(game *g, point p)
 
 bool construct::able_move(game *g, point p)
 {
-    furn_t furniture_type = furnlist[g->m.furn(p.x, p.y)];
-    int required_str = furniture_type.move_str_req;
-
-    // Object can not be moved
-    if (required_str < 0) { return false; }
-
-    if( g->u.str_cur < required_str ) { return false; }
-
-    return true;
+    return g->m.can_move_furniture( p.x, p.y, &(g->u) );
 }
 
 bool construct::able_window(game *g, point p)
