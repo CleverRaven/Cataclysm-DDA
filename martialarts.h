@@ -52,11 +52,6 @@ class ma_technique {
     std::string verb_you;
     std::string verb_npc;
 
-    /*
-    // technique info
-    style_move move;
-    */
-
     bool defensive;
     bool crit_tec;
 
