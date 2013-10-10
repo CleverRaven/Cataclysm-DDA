@@ -7,8 +7,8 @@
     "melee_allowed": true,
 
         "messages" : [
-            "%1$s swing in a wide arc through %4$s",
-            "%1$s swings in a wide arc through %4$s"
+            "You swing in a wide arc through %s",
+            "<npcname> swings in a wide arc through %s"
         ],
 
     "aoe": "wide",
@@ -27,9 +27,9 @@
     "knockback_dist": 1,
 
         "messages" : [
-            "%1$s slam %2$s %3$s against %4$s",
-            "%1$s slams %2$s %3$s against %4$s"
-        ]
+            "You send %s reeling",
+            "<npcname> sends %s reeling"
+    ]
   },
   {
         "type" : "technique",
@@ -41,8 +41,8 @@
     "quick": true,
 
         "messages" : [
-            "%1$s quickly strike with %2$s %3$s at %4$s",
-            "%1$s quickly strikes with %2$s %3$s at %4$s"
+            "You quickly strike %s",
+            "<npcname> quickly strikes %s"
         ]
   },
   {
@@ -55,8 +55,8 @@
     "stun_dur": 2,
 
         "messages" : [
-            "%1$s use %2$s %3$s to wrap up %4$s",
-            "%1$s uses %2$s %3$s to wrap up %4$s"
+            "You wrap up %s",
+            "<npcname> wraps up %s"
         ]
   },
   {
@@ -69,8 +69,8 @@
     "down_dur": 2,
 
         "messages" : [
-            "%1$s use %2$s %3$s to sweep %4$s",
-            "%1$s uses %2$s %3$s to sweep %4$s"
+            "You sweep %s",
+            "<npcname> sweeps %s"
         ]
   },
   {
@@ -104,8 +104,8 @@
     "crit_tec": true,
 
         "messages" : [
-            "%1$s jab %2$s %3$s at %4$s",
-            "%1$s jabs %2$s %3$s at %4$s"
+            "You jab deftly at %s",
+            "<npcname> jabs deftly at %s"
         ],
 
     "stun_dur": 2
@@ -118,8 +118,8 @@
     "unarmed_allowed": true,
 
         "messages" : [
-            "%1$s quickly punch %4$s",
-            "%1$s quickly punches %4$s"
+            "You quickly punch %s",
+            "<npcname> quickly punches %s"
         ],
 
     "quick": true
@@ -133,8 +133,8 @@
     "crit_tec": true,
 
         "messages" : [
-            "%1$s karate chop %4$s",
-            "%1$s karate chops %4$s"
+            "You karate chop %s",
+            "<npcname> karate chops %s"
         ],
 
     "stun_dur": 2
@@ -151,8 +151,8 @@
     "knockback_spread": 1,
 
         "messages" : [
-            "%1$s throw %4$s",
-            "%1$s throws %4$s"
+            "You throw %s",
+            "<npcname> throws %s"
         ]
   },
   {
@@ -166,8 +166,8 @@
     "miss_recovery": true,
 
         "messages" : [
-            "%1$s feint at %4$s",
-            "%1$s feints at %4$s"
+            "You feint at %s",
+            "<npcname> feints at %s"
         ]
   },
   {
@@ -179,8 +179,8 @@
     "disarms": true,
 
         "messages" : [
-            "%1$s disarm %4$s",
-            "%1$s disarms %4$s"
+            "You disarm %s",
+            "<npcname> disarms %s"
         ]
   },
   {
@@ -195,8 +195,8 @@
     "knockback_spread": 1,
 
         "messages" : [
-            "%1$s throw %4$s",
-            "%1$s throws %4$s"
+            "You throw %s",
+            "<npcname> throws %s"
         ]
   },
   {
@@ -209,8 +209,8 @@
     "down_dur": 1,
 
         "messages" : [
-            "%1$s grab %4$s",
-            "%1$s grabs %4$s"
+            "You grab %s",
+            "<npcname> grabs %s"
         ]
   },
   {
@@ -222,8 +222,8 @@
     "disarms": true,
 
         "messages" : [
-            "%1$s disarm %4$s",
-            "%1$s disarms %4$s"
+            "You disarm %s",
+            "<npcname> disarms %s"
         ]
   },
   {
@@ -237,8 +237,8 @@
     "stun_dur": 2,
 
         "messages" : [
-            "%1$s strike %4$s",
-            "%1$s strikes %4$s"
+            "You strike %s",
+            "<npcname> strikes %s"
         ]
   },
   {
@@ -252,8 +252,8 @@
     "miss_recovery": true,
 
         "messages" : [
-            "%1$s feint at %4$s",
-            "%1$s feints at %4$s"
+            "You feint at %s",
+            "<npcname> feints at %s"
         ]
   },
   {
@@ -264,8 +264,8 @@
     "unarmed_allowed": true,
 
         "messages" : [
-            "%1$s elbow %4$s",
-            "%1$s elbows %4$s"
+            "You elbow %s",
+            "<npcname> elbows %s"
         ],
 
     "quick": true,
@@ -279,8 +279,8 @@
     "unarmed_allowed": true,
 
         "messages" : [
-            "%1$s power-kick %4$s",
-            "%1$s power-kicks %4$s"
+            "You power-kick %s",
+            "<npcname> power-kicks %s"
         ],
 
     "stun_dur": 1
@@ -294,8 +294,8 @@
     "crit_tec": true,
 
         "messages" : [
-            "%1$s flying knee %4$s",
-            "%1$s flying knees %4$s"
+            "You flying knee %s",
+            "<npcname> flying knees %s"
         ],
 
     "stun_dur": 1
@@ -308,8 +308,8 @@
     "unarmed_allowed": true,
 
         "messages" : [
-            "%1$s quickly punch %4$s",
-            "%1$s quickly punches %4$s"
+            "You quickly punch %s",
+            "<npcname> quickly punches %s"
         ],
 
     "quick": true
@@ -325,8 +325,8 @@
     "miss_recovery": true,
 
         "messages" : [
-            "%1$s feint at %4$s",
-            "%1$s feints at %4$s"
+            "You feint at %s",
+            "<npcname> feints at %s"
         ]
   },
   {
@@ -338,8 +338,8 @@
     "crit_tec": true,
 
         "messages" : [
-            "%1$s jab %4$s",
-            "%1$s jabs %4$s"
+            "You jab %s",
+            "<npcname> jabs %s"
         ],
 
     "stun_dur": 2
@@ -353,8 +353,8 @@
     "disarms": true,
 
         "messages" : [
-            "%1$s disarm %4$s",
-            "%1$s disarms %4$s"
+            "You disarm %s",
+            "<npcname> disarms %s"
         ]
   },
   {
@@ -367,8 +367,8 @@
     "down_dur": 1,
 
         "messages" : [
-            "%1$s grab %4$s",
-            "%1$s grabs %4$s"
+            "You grab %s",
+            "<npcname> grabs %s"
         ]
   },
   {
@@ -393,8 +393,8 @@
     "crit_tec": true,
 
         "messages" : [
-            "%1$s surprise attack %4$s",
-            "%1$s surprise attacks %4$s"
+            "You surprise attack %s",
+            "<npcname> surprise attacks %s"
         ],
 
     "stun_dur": 2,
@@ -409,8 +409,8 @@
     "unarmed_allowed": true,
 
         "messages" : [
-            "%1$s quickly punch %4$s",
-            "%1$s quickly punches %4$s"
+            "You quickly punch %s",
+            "<npcname> quickly punches %s"
         ],
 
     "quick": true
@@ -423,8 +423,8 @@
     "unarmed_allowed": true,
 
         "messages" : [
-            "%1$s side-kick %4$s",
-            "%1$s side-kicks %4$s"
+            "You side-kick %s",
+            "<npcname> side-kicks %s"
         ],
 
     "stun_dur": 1,
@@ -438,8 +438,8 @@
     "unarmed_allowed": true,
 
         "messages" : [
-            "%1$s sweep-kick %4$s",
-            "%1$s sweep-kicks %4$s"
+            "You sweep-kick %s",
+            "<npcname> sweep-kicks %s"
         ],
 
     "down_dur": 2

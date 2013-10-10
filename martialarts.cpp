@@ -410,7 +410,7 @@ std::string martialart::melee_verb(matec_id tec_id, player& u) {
         return tec.messages[0];
     }
   }
-  return std::string("%1$s has bug program in %4$s!!!!");
+  return std::string("%s is attacked by bugs");
 }
 
 
