@@ -2942,7 +2942,7 @@ void game::add_msg_if_npc(player *p, const char* msg, ...)
     // if present replace it with the actual npc name.
     size_t offset = processed_npc_string.find("<npcname>");
     if (offset != std::string::npos) {
-        processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
+        processed_npc_string.replace(offset, 9,  p->name);
     }
     add_msg_string(processed_npc_string);
 
@@ -2966,7 +2966,7 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
         // if present replace it with the actual npc name.
         size_t offset = processed_npc_string.find("<npcname>");
         if( offset != std::string::npos ) {
-            processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
+            processed_npc_string.replace(offset, 9,  p->name);
         }
         add_msg_string( processed_npc_string );
     }
