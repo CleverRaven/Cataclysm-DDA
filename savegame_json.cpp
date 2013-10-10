@@ -459,11 +459,12 @@ picojson::value player::json_save(bool save_contents)
     data["in_vehicle"] = pv( in_vehicle );
     data["controlling_vehicle"] = pv( controlling_vehicle );
 
-    // shopping carts etc
+    // shopping carts, furniture etc
     std::vector<picojson::value> pgrab;
     pgrab.push_back( pv( grab_point.x ) );
     pgrab.push_back( pv( grab_point.y ) );
     data["grab_point"] = pv( pgrab );
+    data["grab_type"] = pv( obj_type_name[ (int)grab_type ] );
 
     // misc player specific stuff
     data["blocks_left"] = pv( blocks_left );
@@ -578,6 +579,15 @@ void player::json_load(picojson::value & parsed, game *g) {
     picobool(data,"controlling_vehicle",controlling_vehicle);
 
     picopoint(data,"grab_point", grab_point);
+    std::string grab_typestr="OBJECT_NONE";
+    if( grab_point.x != 0 || grab_point.y != 0 ) {
+        grab_typestr = "OBJECT_VEHICLE";
+        picostring(data, "grab_type", grab_typestr);
+    }
+
+    if ( obj_type_id.find(grab_typestr) != obj_type_id.end() ) {
+        grab_type = (object_type)obj_type_id[grab_typestr];
+    }
 
     picoint(data, "blocks_left", blocks_left);
     picoint(data, "focus_pool", focus_pool);
