@@ -1999,7 +1999,7 @@ condition, and deals massive damage.");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
-          return ma_buffs[dis.buff_id].desc.c_str();
+          return ma_buffs[dis.buff_id].description.c_str();
         else
           return "This is probably a bug.";
 

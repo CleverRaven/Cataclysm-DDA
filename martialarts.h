@@ -139,7 +139,7 @@ class ma_buff {
 
     std::string id;
     std::string name;
-    std::string desc;
+    std::string description;
 
     ma_requirements reqs;
 
@@ -210,7 +210,7 @@ class martialart {
 
     std::string id;
     std::string name;
-    std::string desc;
+    std::string description;
     int arm_block;
     int leg_block;
     std::set<matec_id> techniques; // all available techniques

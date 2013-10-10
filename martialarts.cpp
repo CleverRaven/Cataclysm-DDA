@@ -58,7 +58,7 @@ ma_buff load_buff(JsonObject &jo)
     buff.id = jo.get_string("id");
 
     buff.name = _(jo.get_string("name").c_str());
-    buff.desc = _(jo.get_string("desc").c_str());
+    buff.description = _(jo.get_string("description").c_str());
 
     buff.buff_duration = jo.get_int("buff_duration", 2);
     buff.max_stacks = jo.get_int("max_stacks", 1);
@@ -148,7 +148,7 @@ void load_martial_art(JsonObject &jo)
 
     ma.id = jo.get_string("id");
     ma.name = _(jo.get_string("name").c_str());
-    ma.desc = _(jo.get_string("desc").c_str());
+    ma.description = _(jo.get_string("description").c_str());
 
     jsarr = jo.get_array("static_buffs");
     while (jsarr.has_more()) {
