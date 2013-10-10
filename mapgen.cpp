@@ -1618,6 +1618,12 @@ case ot_office_cubical_west: {
    place_items("cubical_office", 60,  19,  9, 20,  9, false, 0);
    place_items("cubical_office", 60,  18,  17, 19,  20, false, 0);
    place_items("novels", 70,  2,  19, 2,  21, false, 0);
+   {
+      int num_chairs = rng(0, 6);
+      for( int i = 0; i < num_chairs; i++ ) {
+          add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+      }
+   }
    if (terrain_type == ot_office_cubical_east)
     rotate(3);
    if (terrain_type == ot_office_cubical_north)
@@ -2199,7 +2205,13 @@ ssssss______ss______ssss\n",
     if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
     if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 22, 1);}
     if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 1, 22, 4);}
-    }
+  }
+  {
+      int num_chairs = rng(0, 6);
+      for( int i = 0; i < num_chairs; i++ ) {
+          add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+      }
+  }
   if (t_north == ot_office_tower_1 && t_west == ot_office_tower_1)
    rotate(3);
   else if (t_north == ot_office_tower_1 && t_east == ot_office_tower_1)
@@ -2261,6 +2273,12 @@ ss%|rrrr|...|.R.|EEED...\n",
      place_items("cubical_office", 75, 4, 5, 5, 5, false, 0);
      place_items("cubical_office", 75, 11, 5, 12, 5, false, 0);
      place_items("cubical_office", 75, 14, 5, 16, 5, false, 0);
+     {
+        int num_chairs = rng(0, 6);
+        for( int i = 0; i < num_chairs; i++ ) {
+            add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+        }
+     }
      if (t_west == ot_office_tower_1_entrance)
             rotate(1);
      if (t_north == ot_office_tower_1_entrance)
@@ -2309,6 +2327,12 @@ ssssssssssssssssssssssss\n",
      else {
         add_spawn("mon_zombie", rng(0,15), 14, 10);
         if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 2, 10, 10);}
+     }
+     {
+         int num_chairs = rng(0, 6);
+         for( int i = 0; i < num_chairs; i++ ) {
+             add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+         }
      }
      if (t_north == ot_office_tower_1_entrance)
             rotate(1);
@@ -2360,7 +2384,13 @@ ssssssssssssssssssssssss\n\
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
      else {
         add_spawn("mon_zombie", rng(0,5), 9, 15);
-      }
+     }
+     {
+         int num_chairs = rng(0, 6);
+         for( int i = 0; i < num_chairs; i++ ) {
+             add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+         }
+     }
      if (t_west == ot_office_tower_1 && t_north == ot_office_tower_1){
             rotate(1);}
      else if (t_east == ot_office_tower_1 && t_north == ot_office_tower_1){
