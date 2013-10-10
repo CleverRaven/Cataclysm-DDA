@@ -918,17 +918,21 @@ bool cata_tiles::draw_item(int x, int y)
 bool cata_tiles::draw_vpart(int x, int y)
 {
     int veh_part = 0;
-    vehicle *veh = g->m.veh_at(x, y, veh_part);
+    vehicle *veh = g->m.veh_at(x, y); // changed to not fill the veh_part member, since that is filled at a later time
 
     if (!veh) return false;
     // veh_part is the index of the part
     // get a north-east-south-west value instead of east-south-west-north value to use with rotation
     int veh_dir = (veh->face.dir4() + 1) % 4;
     if (veh_dir == 1 || veh_dir == 3) veh_dir = (veh_dir + 2) % 4;
+
+    // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
+    veh_part = veh->global_part_at(x, y);
     // get the veh part itself
     vehicle_part vpart = veh->parts[veh_part];
     // get the vpart_id
     std::string vpid = vpart.id;
+    vpid = "vp_" + vpid;
 
     return draw_from_id_string(vpid, x, y, 0, veh_dir);
 }
