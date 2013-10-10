@@ -1026,7 +1026,7 @@ void construct::done_move(game *g, point p)
     //Move all Items within a container
     std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
     for (int i=0; i < vItemMove.size(); i++) {
-        g->m.add_item(x, y, vItemMove[i]);
+        g->m.add_item_or_charges(x, y, vItemMove[i], 0);
     }
 
     g->m.i_clear(p.x, p.y);
