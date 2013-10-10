@@ -77,13 +77,12 @@
   },
   {
     "name" : "GROUP_FUNGI",
-    "default" : "mon_fungaloid",
+    "default" : "mon_spore",
     "monsters" : [
-      { "monster" : "mon_fungaloid_dormant", "freq" : 0, "multiplier" : 0 },
-      { "monster" : "mon_ant_fungus", "freq" : 0, "multiplier" : 0 },
-      { "monster" : "mon_zombie_fungus", "freq" : 300, "multiplier" : 0 },
-      { "monster" : "mon_boomer_fungus", "freq" : 30, "multiplier" : 0 },
-      { "monster" : "mon_spore", "freq" : 0, "multiplier" : 0 },
+      { "monster" : "mon_fungaloid", "freq" : 500, "multiplier" : 0 },
+      { "monster" : "mon_fungaloid_young", "freq" : 100, "multiplier" : 0 },
+      { "monster" : "mon_zombie_fungus", "freq" : 0, "multiplier" : 0 },
+      { "monster" : "mon_boomer_fungus", "freq" : 0, "multiplier" : 0 },
       { "monster" : "mon_fungal_wall", "freq" : 0, "multiplier" : 0 },
       { "monster" : "mon_fungaloid_queen", "freq" : 0, "multiplier" : 0 }
     ]

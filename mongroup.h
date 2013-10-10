@@ -15,29 +15,6 @@ struct MonsterGroup
     FreqDef  monsters;
 };
 
-/*enum MonsterGroupType
-{
-    GROUP_NULL = 0,
-    GROUP_FOREST,
-    GROUP_ANT,
-    GROUP_BEE,
-    GROUP_WORM,
-    GROUP_ZOMBIE,
-    GROUP_TRIFFID,
-    GROUP_FUNGI,
-    GROUP_GOO,
-    GROUP_CHUD,
-    GROUP_SEWER,
-    GROUP_SWAMP,
-    GROUP_LAB,
-    GROUP_NETHER,
-    GROUP_SPIRAL,
-    GROUP_VANILLA,
-    GROUP_SPIDER,
-    GROUP_ROBOT,
-    GROUP_COUNT
-};*/
-
 struct mongroup {
  std::string type;
  int posx, posy, posz;
