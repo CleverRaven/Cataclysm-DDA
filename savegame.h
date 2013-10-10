@@ -5,7 +5,7 @@
 #include <map>
 void init_savedata_translation_tables();
 extern std::map<std::string, int> monster_ints;
-
+#include "enums.h"
 const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit", "mon_deer",
     "mon_moose", "mon_wolf", "mon_coyote", "mon_bear", "mon_cougar", "mon_crow", "mon_dog",
     "mon_cat", "mon_ant_larva", "mon_ant", "mon_ant_soldier", "mon_ant_queen", "mon_ant_fungus",
@@ -81,5 +81,9 @@ const std::string legacy_furn_id[52] = {"f_null", "f_hay", "f_bulletin", "f_indo
     "f_mutpoppy", "f_safe_c", "f_safe_l", "f_safe_o", "f_plant_seed", "f_plant_seedling", 
     "f_plant_mature", "f_plant_harvest"
 };
+const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER", "OBJECT_NPC",
+    "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD", "OBJECT_TERRAIN", "OBJECT_FURNITURE"
+};
 
+extern std::map<std::string, int> obj_type_id;
 #endif
