@@ -19,8 +19,10 @@ void load_technique(JsonObject &jo)
     tec.id = jo.get_string("id");
     //tec.name = _(jo.get_string("name").c_str());
 
-    tec.verb_you = jo.get_string("verb_you", "");
-    tec.verb_npc = jo.get_string("verb_npc", "");
+    JsonArray jsarr = jo.get_array("messages");
+    while (jsarr.has_more()) {
+        tec.messages.push_back(_(jsarr.next_string().c_str()));
+    }
 
     tec.reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
     tec.reqs.melee_allowed = jo.get_bool("melee_allowed", false);
@@ -403,9 +405,9 @@ std::string martialart::melee_verb(matec_id tec_id, player& u) {
     ma_technique tec = ma_techniques[*it];
     if (tec.id == tec_id) {
       if (u.is_npc())
-        return tec.verb_npc;
+        return tec.messages[1];
       else
-        return tec.verb_you;
+        return tec.messages[0];
     }
   }
   return std::string("%1$s has bug program in %4$s!!!!");

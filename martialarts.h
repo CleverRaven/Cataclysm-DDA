@@ -49,8 +49,8 @@ class ma_technique {
 
     std::set<std::string> flags;
 
-    std::string verb_you;
-    std::string verb_npc;
+    // message to be displayed when player (0) or npc (1) uses the technique
+    std::vector<std::string> messages;
 
     bool defensive;
     bool crit_tec;

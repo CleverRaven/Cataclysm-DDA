@@ -1323,9 +1323,9 @@ std::string melee_verb(matec_id tec_id, player &p, int bash_dam, int cut_dam, in
 
   if (ma_techniques.find(tec_id) != ma_techniques.end()) {
     if (p.is_npc())
-      return ma_techniques[tec_id].verb_npc;
+      return ma_techniques[tec_id].messages[1];
     else
-      return ma_techniques[tec_id].verb_you;
+      return ma_techniques[tec_id].messages[0];
   }
 
   // verb should be based on how the weapon is used, and the total damage inflicted

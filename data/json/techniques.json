@@ -6,8 +6,10 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
 
-    "verb_you": "%1$s swing in a wide arc through %4$s",
-    "verb_npc": "%1$s swings in a wide arc through %4$s",
+        "messages" : [
+            "%1$s swing in a wide arc through %4$s",
+            "%1$s swings in a wide arc through %4$s"
+        ],
 
     "aoe": "wide",
 
@@ -24,8 +26,10 @@
     "stun_dur": 1,
     "knockback_dist": 1,
 
-    "verb_you":"%1$s slam %2$s %3$s against %4$s",
-    "verb_npc":"%1$s slams %2$s %3$s against %4$s"
+        "messages" : [
+            "%1$s slam %2$s %3$s against %4$s",
+            "%1$s slams %2$s %3$s against %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -36,8 +40,10 @@
 
     "quick": true,
 
-    "verb_you": "%1$s quickly strike with %2$s %3$s at %4$s",
-    "verb_npc": "%1$s quickly strikes with %2$s %3$s at %4$s"
+        "messages" : [
+            "%1$s quickly strike with %2$s %3$s at %4$s",
+            "%1$s quickly strikes with %2$s %3$s at %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -48,8 +54,10 @@
 
     "stun_dur": 2,
 
-    "verb_you": "%1$s use %2$s %3$s to wrap up %4$s",
-    "verb_npc": "%1$s uses %2$s %3$s to wrap up %4$s"
+        "messages" : [
+            "%1$s use %2$s %3$s to wrap up %4$s",
+            "%1$s uses %2$s %3$s to wrap up %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -60,8 +68,10 @@
 
     "down_dur": 2,
 
-    "verb_you": "%1$s use %2$s %3$s to sweep %4$s",
-    "verb_npc": "%1$s uses %2$s %3$s to sweep %4$s"
+        "messages" : [
+            "%1$s use %2$s %3$s to sweep %4$s",
+            "%1$s uses %2$s %3$s to sweep %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -93,8 +103,10 @@
     "melee_allowed": true,
     "crit_tec": true,
 
-    "verb_you": "%1$s jab %2$s %3$s at %4$s",
-    "verb_npc": "%1$s jabs %2$s %3$s at %4$s",
+        "messages" : [
+            "%1$s jab %2$s %3$s at %4$s",
+            "%1$s jabs %2$s %3$s at %4$s"
+        ],
 
     "stun_dur": 2
   },
@@ -105,8 +117,10 @@
     "min_unarmed": 0,
     "unarmed_allowed": true,
 
-    "verb_you": "%1$s quickly punch %4$s",
-    "verb_npc": "%1$s quickly punches %4$s",
+        "messages" : [
+            "%1$s quickly punch %4$s",
+            "%1$s quickly punches %4$s"
+        ],
 
     "quick": true
   },
@@ -118,8 +132,10 @@
     "unarmed_allowed": true,
     "crit_tec": true,
 
-    "verb_you": "%1$s karate chop %4$s",
-    "verb_npc": "%1$s karate chops %4$s",
+        "messages" : [
+            "%1$s karate chop %4$s",
+            "%1$s karate chops %4$s"
+        ],
 
     "stun_dur": 2
   },
@@ -134,8 +150,10 @@
     "knockback_dist": 1,
     "knockback_spread": 1,
 
-    "verb_you": "%1$s throw %4$s",
-    "verb_npc": "%1$s throws %4$s"
+        "messages" : [
+            "%1$s throw %4$s",
+            "%1$s throws %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -147,8 +165,10 @@
     "defensive": true,
     "miss_recovery": true,
 
-    "verb_you": "%1$s feint at %4$s",
-    "verb_npc": "%1$s feints at %4$s"
+        "messages" : [
+            "%1$s feint at %4$s",
+            "%1$s feints at %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -158,8 +178,10 @@
     "unarmed_allowed": true,
     "disarms": true,
 
-    "verb_you": "%1$s disarm %4$s",
-    "verb_npc": "%1$s disarms %4$s"
+        "messages" : [
+            "%1$s disarm %4$s",
+            "%1$s disarms %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -172,8 +194,10 @@
     "knockback_dist": 1,
     "knockback_spread": 1,
 
-    "verb_you": "%1$s throw %4$s",
-    "verb_npc": "%1$s throws %4$s"
+        "messages" : [
+            "%1$s throw %4$s",
+            "%1$s throws %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -184,8 +208,10 @@
 
     "down_dur": 1,
 
-    "verb_you": "%1$s grab %4$s",
-    "verb_npc": "%1$s grabs %4$s"
+        "messages" : [
+            "%1$s grab %4$s",
+            "%1$s grabs %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -195,8 +221,10 @@
     "unarmed_allowed": true,
     "disarms": true,
 
-    "verb_you": "%1$s disarm %4$s",
-    "verb_npc": "%1$s disarms %4$s"
+        "messages" : [
+            "%1$s disarm %4$s",
+            "%1$s disarms %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -208,8 +236,10 @@
 
     "stun_dur": 2,
 
-    "verb_you": "%1$s strike %4$s",
-    "verb_npc": "%1$s strikes %4$s"
+        "messages" : [
+            "%1$s strike %4$s",
+            "%1$s strikes %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -221,8 +251,10 @@
     "defensive": true,
     "miss_recovery": true,
 
-    "verb_you": "%1$s feint at %4$s",
-    "verb_npc": "%1$s feints at %4$s"
+        "messages" : [
+            "%1$s feint at %4$s",
+            "%1$s feints at %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -231,8 +263,10 @@
     "min_unarmed": 2,
     "unarmed_allowed": true,
 
-    "verb_you": "%1$s elbow %4$s",
-    "verb_npc": "%1$s elbows %4$s",
+        "messages" : [
+            "%1$s elbow %4$s",
+            "%1$s elbows %4$s"
+        ],
 
     "quick": true,
     "stun_dur": 1
@@ -244,8 +278,10 @@
     "min_unarmed": 3,
     "unarmed_allowed": true,
 
-    "verb_you": "%1$s power-kick %4$s",
-    "verb_npc": "%1$s power-kicks %4$s",
+        "messages" : [
+            "%1$s power-kick %4$s",
+            "%1$s power-kicks %4$s"
+        ],
 
     "stun_dur": 1
   },
@@ -257,8 +293,10 @@
     "unarmed_allowed": true,
     "crit_tec": true,
 
-    "verb_you": "%1$s flying knee %4$s",
-    "verb_npc": "%1$s flying knees %4$s",
+        "messages" : [
+            "%1$s flying knee %4$s",
+            "%1$s flying knees %4$s"
+        ],
 
     "stun_dur": 1
   },
@@ -269,8 +307,10 @@
     "min_unarmed": 2,
     "unarmed_allowed": true,
 
-    "verb_you": "%1$s quickly punch %4$s",
-    "verb_npc": "%1$s quickly punches %4$s",
+        "messages" : [
+            "%1$s quickly punch %4$s",
+            "%1$s quickly punches %4$s"
+        ],
 
     "quick": true
   },
@@ -284,8 +324,10 @@
     "defensive": true,
     "miss_recovery": true,
 
-    "verb_you": "%1$s feint at %4$s",
-    "verb_npc": "%1$s feints at %4$s"
+        "messages" : [
+            "%1$s feint at %4$s",
+            "%1$s feints at %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -295,8 +337,10 @@
     "unarmed_allowed": true,
     "crit_tec": true,
 
-    "verb_you": "%1$s jab %4$s",
-    "verb_npc": "%1$s jabs %4$s",
+        "messages" : [
+            "%1$s jab %4$s",
+            "%1$s jabs %4$s"
+        ],
 
     "stun_dur": 2
   },
@@ -308,8 +352,10 @@
     "unarmed_allowed": true,
     "disarms": true,
 
-    "verb_you": "%1$s disarm %4$s",
-    "verb_npc": "%1$s disarms %4$s"
+        "messages" : [
+            "%1$s disarm %4$s",
+            "%1$s disarms %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -320,8 +366,10 @@
 
     "down_dur": 1,
 
-    "verb_you": "%1$s grab %4$s",
-    "verb_npc": "%1$s grabs %4$s"
+        "messages" : [
+            "%1$s grab %4$s",
+            "%1$s grabs %4$s"
+        ]
   },
   {
         "type" : "technique",
@@ -344,8 +392,10 @@
     "melee_allowed": true,
     "crit_tec": true,
 
-    "verb_you": "%1$s surprise attack %4$s",
-    "verb_npc": "%1$s surprise attacks %4$s",
+        "messages" : [
+            "%1$s surprise attack %4$s",
+            "%1$s surprise attacks %4$s"
+        ],
 
     "stun_dur": 2,
     "bash_mult": 1.4,
@@ -358,8 +408,10 @@
     "min_unarmed": 2,
     "unarmed_allowed": true,
 
-    "verb_you": "%1$s quickly punch %4$s",
-    "verb_npc": "%1$s quickly punches %4$s",
+        "messages" : [
+            "%1$s quickly punch %4$s",
+            "%1$s quickly punches %4$s"
+        ],
 
     "quick": true
   },
@@ -370,8 +422,10 @@
     "min_unarmed":32,
     "unarmed_allowed": true,
 
-    "verb_you": "%1$s side-kick %4$s",
-    "verb_npc": "%1$s side-kicks %4$s",
+        "messages" : [
+            "%1$s side-kick %4$s",
+            "%1$s side-kicks %4$s"
+        ],
 
     "stun_dur": 1,
     "knockback_dist": 1
@@ -383,8 +437,10 @@
     "min_unarmed": 4,
     "unarmed_allowed": true,
 
-    "verb_you": "%1$s sweep-kick %4$s",
-    "verb_npc": "%1$s sweep-kicks %4$s",
+        "messages" : [
+            "%1$s sweep-kick %4$s",
+            "%1$s sweep-kicks %4$s"
+        ],
 
     "down_dur": 2
   }
