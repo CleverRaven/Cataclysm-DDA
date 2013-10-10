@@ -8064,7 +8064,13 @@ ________________________\n\
   else {
     if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
     if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 12, 11);}
-    }
+  }
+  {
+      int num_carts = rng(1, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, "luggage_cart", rng(5, 18), rng(2, 12), 90, -1, -1, false);
+      }
+  }
   if (t_north == ot_hotel_tower_1_2)
    rotate(2);
   else if (t_east == ot_hotel_tower_1_2)
