@@ -3744,50 +3744,63 @@ void game::draw_ter(int posx, int posy)
  m.build_map_cache(this);
  m.draw(this, w_terrain, point(posx, posy));
 
- // Draw monsters
- int distx, disty;
- for (int i = 0; i < num_zombies(); i++) {
-  monster &z = _active_monsters[i];
-  disty = abs(z.posy() - posy);
-  distx = abs(z.posx() - posx);
-  if (distx <= VIEWX && disty <= VIEWY && u_see(&z)) {
-   z.draw(w_terrain, posx, posy, false);
-   mapRain[VIEWY + z.posy() - posy][VIEWX + z.posx() - posx] = false;
-  } else if (z.has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
-           (u.has_active_bionic("bio_infrared") || u.has_trait("INFRARED")) &&
-             m.pl_sees(u.posx,u.posy,z.posx(),z.posy(),
-                       u.sight_range(DAYLIGHT_LEVEL)))
-   mvwputch(w_terrain, VIEWY + z.posy() - posy, VIEWX + z.posx() - posx,
-            c_red, '?');
- }
- // Draw NPCs
- for (int i = 0; i < active_npc.size(); i++) {
-  disty = abs(active_npc[i]->posy - posy);
-  distx = abs(active_npc[i]->posx - posx);
-  if (distx <= VIEWX && disty <= VIEWY &&
-      u_see(active_npc[i]->posx, active_npc[i]->posy))
-   active_npc[i]->draw(w_terrain, posx, posy, false);
- }
- if (u.has_active_bionic("bio_scent_vision")) {
-  for (int realx = posx - VIEWX; realx <= posx + VIEWX; realx++) {
-   for (int realy = posy - VIEWY; realy <= posy + VIEWY; realy++) {
-    if (scent(realx, realy) != 0) {
-     int tempx = posx - realx, tempy = posy - realy;
-     if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
-      if (mon_at(realx, realy) != -1)
-       mvwputch(w_terrain, realy + VIEWY - posy, realx + VIEWX - posx,
-                c_white, '?');
-      else
-       mvwputch(w_terrain, realy + VIEWY - posy, realx + VIEWX - posx,
-                c_magenta, '#');
-     }
+    // Draw monsters
+    int mx, my;
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &z = _active_monsters[i];
+        my = POSY + (z.posy() - posy);
+        mx = POSX + (z.posx() - posx);
+        if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
+                && my < TERRAIN_WINDOW_HEIGHT && u_see(&z)) {
+            z.draw(w_terrain, posx, posy, false);
+            mapRain[my][mx] = false;
+        } else if (z.has_flag(MF_WARM)
+                   && mx >= 0 && my >= 0
+                   && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
+                   && (u.has_active_bionic("bio_infrared")
+                       || u.has_trait("INFRARED"))
+                   && m.pl_sees(u.posx,u.posy,z.posx(),z.posy(),
+                                u.sight_range(DAYLIGHT_LEVEL))) {
+            mvwputch(w_terrain, my, mx, c_red, '?');
+        }
     }
-   }
-  }
- }
- wrefresh(w_terrain);
- if (u.has_disease("visuals") || (u.has_disease("hot_head") && u.disease_intensity("hot_head") != 1))
-   hallucinate(posx, posy);
+
+    // Draw NPCs
+    for (int i = 0; i < active_npc.size(); i++) {
+        my = POSY + (active_npc[i]->posy - posy);
+        mx = POSX + (active_npc[i]->posx - posx);
+        if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
+                && my < TERRAIN_WINDOW_HEIGHT
+                && u_see(active_npc[i]->posx, active_npc[i]->posy)) {
+            active_npc[i]->draw(w_terrain, posx, posy, false);
+        }
+    }
+
+    if (u.has_active_bionic("bio_scent_vision")) {
+        for (int realx = posx - POSX; realx <= posx + POSX; realx++) {
+            for (int realy = posy - POSY; realy <= posy + POSY; realy++) {
+                if (scent(realx, realy) != 0) {
+                    int tempx = posx - realx, tempy = posy - realy;
+                    if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
+                        if (mon_at(realx, realy) != -1) {
+                            mvwputch(w_terrain, realy + POSY - posy,
+                                     realx + POSX - posx, c_white, '?');
+                        } else {
+                            mvwputch(w_terrain, realy + POSY - posy,
+                                     realx + POSX - posx, c_magenta, '#');
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    wrefresh(w_terrain);
+
+    if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
+            u.disease_intensity("hot_head") != 1)) {
+        hallucinate(posx, posy);
+    }
 }
 
 void game::refresh_all()
@@ -4047,16 +4060,20 @@ void game::draw_minimap()
 
 void game::hallucinate(const int x, const int y)
 {
- for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
-  for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
-   if (one_in(10)) {
-    char ter_sym = terlist[m.ter(i + x - VIEWX + rng(-2, 2), j + y - VIEWY + rng(-2, 2))].sym;
-    nc_color ter_col = terlist[m.ter(i + x - VIEWX + rng(-2, 2), j + y - VIEWY+ rng(-2, 2))].color;
-    mvwputch(w_terrain, j, i, ter_col, ter_sym);
-   }
-  }
- }
- wrefresh(w_terrain);
+    const int rx = x - POSX;
+    const int ry = y - POSY;
+    for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
+        for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
+            if (one_in(10)) {
+                char ter_sym = terlist[m.ter(i + rx + rng(-2, 2),
+                                             j + ry + rng(-2, 2))].sym;
+                nc_color ter_col = terlist[m.ter(i + rx + rng(-2, 2),
+                                                 j + ry + rng(-2, 2))].color;
+                mvwputch(w_terrain, j, i, ter_col, ter_sym);
+            }
+        }
+    }
+    wrefresh(w_terrain);
 }
 
 float game::natural_light_level() const
@@ -4367,9 +4384,14 @@ int game::mon_info(WINDOW *w)
         monster &z = _active_monsters[i];
         if (u_see(&z)) {
             dir_to_mon = direction_from(viewx, viewy, z.posx(), z.posy());
-            int index = (abs(viewx - z.posx()) <= VIEWX &&
-                         abs(viewy - z.posy()) <= VIEWY) ?
-                         8 : dir_to_mon;
+            int index;
+            int mx = POSX + (z.posx() - viewx);
+            int my = POSY + (z.posy() - viewy);
+            if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT) {
+                index = 8;
+            } else {
+                index = dir_to_mon;
+            }
 
             monster_attitude matt = z.attitude(&u);
             if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
@@ -4400,9 +4422,15 @@ int game::mon_info(WINDOW *w)
                     newseen++;
 
             dir_to_npc = direction_from(viewx, viewy, npcp.x, npcp.y);
-            int index = (abs(viewx - npcp.x) <= VIEWX &&
-                         abs(viewy - npcp.y) <= VIEWY) ?
-                         8 : dir_to_npc;
+            int index;
+            int mx = POSX + (npcp.x - viewx);
+            int my = POSY + (npcp.y - viewy);
+            if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT) {
+                index = 8;
+            } else {
+                index = dir_to_npc;
+            }
+
             unique_types[index].push_back(-1 - i);
         }
     }
@@ -4847,8 +4875,8 @@ void game::draw_footsteps()
              point selected = unseen_points[rng(0,unseen_points.size() - 1)];
 
              mvwputch(w_terrain,
-                      VIEWY + selected.y - u.posy - u.view_offset_y,
-                      VIEWX + selected.x - u.posx - u.view_offset_x,
+                      POSY + (selected.y - (u.posy + u.view_offset_y)),
+                      POSX + (selected.x - (u.posx + u.view_offset_x)),
                       c_yellow, '?');
          }
      }
@@ -5017,33 +5045,7 @@ void game::flashbang(int x, int y, bool player_immune)
 
 void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
 {
-  //borrowed code from game::explosion()
-  timespec ts; // Timespec for the animation of the explosion
-  ts.tv_sec = 0;
-  ts.tv_nsec = EXPLOSION_SPEED;
-    for (int i = 1; i <= radius; i++) {
-  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
-  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
-  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
-  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
-  for (int j = 1 - i; j < 0 + i; j++) {
-   mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
-   mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
-                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
-   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
-   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
-                       x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
-  }
-  wrefresh(w_terrain);
-  nanosleep(&ts, NULL);
- }
- // end borrowed code from game::explosion()
+    draw_explosion(x, y, radius, c_blue);
 
     sound(x, y, force*force*dam_mult/2, _("Crack!"));
     for (int i = 0; i < num_zombies(); i++)
@@ -6680,12 +6682,12 @@ point game::look_around()
               rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
               m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk)) {
    if (u.has_disease("boomered"))
-    mvwputch_inv(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_pink, '#');
+    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
    else
-    mvwputch_inv(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_ltgray, '#');
+    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_ltgray, '#');
    mvwprintw(w_look, 1, 1, _("Bright light."));
   } else {
-   mvwputch(w_terrain, VIEWY, VIEWX, c_white, 'x');
+   mvwputch(w_terrain, POSY, POSX, c_white, 'x');
    mvwprintw(w_look, 1, 1, _("Unseen."));
   }
   if (m.graffiti_at(lx, ly).contents)
@@ -6697,7 +6699,7 @@ point game::look_around()
   DebugLog() << __FUNCTION__ << ": calling get_input() \n";
   input = get_input();
   if (!u_see(lx, ly))
-   mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
+   mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
   get_direction(mx, my, input);
   if (mx != -2 && my != -2) { // Directional key pressed
    lx += mx;
@@ -6837,8 +6839,8 @@ void game::draw_trail_to_square(int x, int y)
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
     }
 
-    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
-                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+    mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
+                        POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)), c_white, 'X');
 
     wrefresh(w_terrain);
 }
@@ -7189,8 +7191,22 @@ void game::list_items()
                 iLastActiveY = iActiveY;
 
                 if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
-                    u.view_offset_x = (abs(iActiveX) > VIEWX) ? ((iActiveX < 0) ? VIEWX+iActiveX : iActiveX-VIEWX) : 0;
-                    u.view_offset_y = (abs(iActiveY) > VIEWY) ? ((iActiveY < 0) ? VIEWY+iActiveY : iActiveY-VIEWY) : 0;
+                    int xpos = POSX + iActiveX;
+                    if (xpos < 0) {
+                        u.view_offset_x = xpos;
+                    } else if (xpos >= TERRAIN_WINDOW_WIDTH) {
+                        u.view_offset_x = xpos - (TERRAIN_WINDOW_WIDTH - 1);
+                    } else {
+                        u.view_offset_x = 0;
+                    }
+                    int ypos = POSY + iActiveY;
+                    if (ypos < 0) {
+                        u.view_offset_y = ypos;
+                    } else if (ypos >= TERRAIN_WINDOW_HEIGHT) {
+                        u.view_offset_y = ypos - (TERRAIN_WINDOW_HEIGHT - 1);
+                    } else {
+                        u.view_offset_y = 0;
+                    }
                 }
 
                 draw_trail_to_square(iActiveX, iActiveY);

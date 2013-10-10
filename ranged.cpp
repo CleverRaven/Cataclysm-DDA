@@ -749,7 +749,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   if (x != u.posx || y != u.posy) {
 
    // Draw the player
-   int atx = VIEWX + u.posx - center.x, aty = VIEWY + u.posy - center.y;
+   int atx = POSX + u.posx - center.x, aty = POSY + u.posy - center.y;
    if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
@@ -782,9 +782,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    const int zid = mon_at(x, y);
    if (zid == -1) {
     if (snap_to_target)
-     mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
+     mvwputch(w_terrain, POSY, POSX, c_red, '*');
     else
-     mvwputch(w_terrain, VIEWY + y - center.y, VIEWX + x - center.x, c_red, '*');
+     mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
    } else {
     if (u_see(&(zombie(zid)))) {
      zombie(zid).print_info(this, w_target,2);
@@ -807,7 +807,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
-    mvwputch(w_terrain, VIEWY, VIEWX, c_black, 'X');
+    mvwputch(w_terrain, POSY, POSX, c_black, 'X');
    x += tarx;
    y += tary;
    if (x < lowx)

@@ -156,7 +156,7 @@ point editmap::pos2screen( const int x, const int y )
  */
 point editmap::screen2pos( const int i, const int j )
 {
-    return point (i + target.x - VIEWX, j + target.y - VIEWY);
+    return point (i + target.x - POSX, j + target.y - POSY);
 }
 
 /*
