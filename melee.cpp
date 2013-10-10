@@ -148,7 +148,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  if (missed) {
   int stumble_pen = stumble(*this);
   if (is_u) { // Only display messages if this is the player
-   if (has_miss_recovery_tec(g))
+   if (has_miss_recovery_tec())
     g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
     g->add_msg(_("You miss and stumble with the momentum."));
@@ -161,7 +161,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
-  if (has_miss_recovery_tec(g))
+  if (has_miss_recovery_tec())
    move_cost = rng(move_cost / 3, move_cost);
   moves -= move_cost;
   return 0;
@@ -250,7 +250,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  if (missed) {
   int stumble_pen = stumble(*this);
   if (is_u) { // Only display messages if this is the player
-   if (has_miss_recovery_tec(g))
+   if (has_miss_recovery_tec())
     g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
     g->add_msg(_("You miss and stumble with the momentum."));
@@ -263,7 +263,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
-  if (has_miss_recovery_tec(g))
+  if (has_miss_recovery_tec())
    move_cost = rng(move_cost / 3, move_cost);
   moves -= move_cost;
   return;
@@ -344,7 +344,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
  if (allow_grab && technique.grabs) {
 // Move our weapon to a temp slot, if it's not unarmed
-  if (p.has_grab_break_tec(g) &&
+  if (p.has_grab_break_tec() &&
       dice(p.dex_cur + p.skillLevel("melee"), 12) >
       dice(dex_cur + skillLevel("melee"), 10)) {
    g->add_msg_player_or_npc(&p, _("%s break the grab!"), _("%s breaks the grab!"), target.c_str());
@@ -738,7 +738,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
  if (z == NULL && p == NULL)
   return "tec_none";
 
- std::vector<matec_id> all = get_all_techniques(g);
+ std::vector<matec_id> all = get_all_techniques();
 
  std::vector<matec_id> possible;
  bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
@@ -809,9 +809,9 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
   return possible[ rng(0, possible.size() - 1) ];
 }
 
-bool player::has_technique(matec_id id, game* g) {
+bool player::has_technique(matec_id id) {
   return weapon.has_technique(id, this) ||
-    martialarts[style_selected].has_technique(*this, id, g);
+    martialarts[style_selected].has_technique(*this, id);
 }
 
 void player::perform_technique(ma_technique technique, game *g, monster *z,

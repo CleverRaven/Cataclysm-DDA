@@ -386,7 +386,7 @@ void martialart::apply_ondodge_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, ondodge_buffs, dVec);
 }
 
-bool martialart::has_technique(player& u, matec_id tec_id, game* g) {
+bool martialart::has_technique(player& u, matec_id tec_id) {
   for (std::set<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
     ma_technique tec = ma_techniques[*it];
@@ -397,7 +397,7 @@ bool martialart::has_technique(player& u, matec_id tec_id, game* g) {
   return false;
 }
 
-std::string martialart::melee_verb(matec_id tec_id, player& u, game* g) {
+std::string martialart::melee_verb(matec_id tec_id, player& u) {
   for (std::set<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
     ma_technique tec = ma_techniques[*it];
@@ -416,7 +416,7 @@ std::string martialart::melee_verb(matec_id tec_id, player& u, game* g) {
 // Player stuff
 
 // technique
-std::vector<matec_id> player::get_all_techniques(game* g) {
+std::vector<matec_id> player::get_all_techniques() {
   std::vector<matec_id> tecs;
   tecs.insert(tecs.end(), weapon.type->techniques.begin(), weapon.type->techniques.end());
   tecs.insert(tecs.end(), martialarts[style_selected].techniques.begin(),
@@ -426,8 +426,8 @@ std::vector<matec_id> player::get_all_techniques(game* g) {
 }
 
 // defensive technique-related
-bool player::has_miss_recovery_tec(game* g) {
-  std::vector<matec_id> techniques = get_all_techniques(g);
+bool player::has_miss_recovery_tec() {
+  std::vector<matec_id> techniques = get_all_techniques();
   for (std::vector<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
     if (ma_techniques[*it].miss_recovery == true)
@@ -436,8 +436,8 @@ bool player::has_miss_recovery_tec(game* g) {
   return false;
 }
 
-bool player::has_grab_break_tec(game* g) {
-  std::vector<matec_id> techniques = get_all_techniques(g);
+bool player::has_grab_break_tec() {
+  std::vector<matec_id> techniques = get_all_techniques();
   for (std::vector<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
     if (ma_techniques[*it].grab_break == true)

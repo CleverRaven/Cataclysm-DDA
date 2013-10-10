@@ -204,9 +204,9 @@ class martialart {
     void apply_ondodge_buffs(player& u, std::vector<disease>& dVec);
 
     // determines if a technique is valid or not for this style
-    bool has_technique(player& u, matec_id tech, game* g);
+    bool has_technique(player& u, matec_id tech);
     // gets custom melee string for a technique under this style
-    std::string melee_verb(matec_id tech, player& u, game* g);
+    std::string melee_verb(matec_id tech, player& u);
 
     std::string id;
     std::string name;

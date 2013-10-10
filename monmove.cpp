@@ -664,7 +664,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         {
                             g->add_msg(_("The %s grabs you!"), name().c_str());
                         }
-                        if (p.has_grab_break_tec(g) &&
+                        if (p.has_grab_break_tec() &&
                             dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                         {
                             if (!is_npc)
