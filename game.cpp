@@ -5586,8 +5586,19 @@ bool game::add_zombie(monster& m)
         return false;
     }
     if (-1 != mon_at(m.posx(), m.posy())) {
-        debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
-        return false;
+        std::vector<point> ps = closest_points_first(3 , m.pos());
+        for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
+        {
+            if(mon_at(*p_it) != -1)
+            {
+                m.setpos(*p_it);
+                break;
+            }
+        }
+        if(mon_at(m.pos())){
+            debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
+            return false;
+        }
     }
     z_at[point(m.posx(), m.posy())] = _active_monsters.size();
     _active_monsters.push_back(m);
@@ -5687,6 +5698,11 @@ int game::mon_at(const int x, const int y) const
         }
     }
     return -1;
+}
+
+int game::mon_at(point p) const
+{
+    return mon_at(p.x, p.y);
 }
 
 void game::rebuild_mon_at_cache()
