@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <set>
 
 /* JSON parsing and serialization tools for Cataclysm-DDA
  * ~
@@ -258,6 +259,21 @@ JsonArray JsonObject::get_array(std::string name)
 bool JsonObject::is_object(std::string member)
 {
     return is_member_X(member, JVT_OBJECT);
+}
+
+std::set<std::string> JsonObject::get_tags(std::string name)
+{
+    std::set<std::string> ret;
+    int pos = positions[name];
+    if (pos <= start) {
+        return ret; // empty set
+    }
+    jsin->seek(pos);
+    JsonArray jsarr = jsin->get_array();
+    while (jsarr.has_more()) {
+        ret.insert(jsarr.next_string());
+    }
+    return ret;
 }
 
 
