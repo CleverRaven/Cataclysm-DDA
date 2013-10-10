@@ -13094,7 +13094,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   }
 
     if (one_in(2)) { //dining table in the kitchen
-    square(m, f_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
+    square_furn(m, f_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
     if (one_in(2)) {
     for (int i=0; i<=2; i++) {
         pos_x1=rng(x1+2,x2-2); pos_y1=rng(y1+1,y2-1);
@@ -13922,9 +13922,9 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
  case room_mansion_bedroom:
   if (dx > dy || (dx == dy && one_in(2))) { // horizontal
    if (one_in(2)) { // bed on left
-    square(m, f_bed, x1 + 1, cy_low - 1, x1 + 3, cy_low + 1);
+    square_furn(m, f_bed, x1 + 1, cy_low - 1, x1 + 3, cy_low + 1);
    } else { // bed on right
-    square(m, f_bed, x2 - 3, cy_low - 1, x2 - 1, cy_low + 1);
+    square_furn(m, f_bed, x2 - 3, cy_low - 1, x2 - 1, cy_low + 1);
    }
     m->furn_set(cx_hi - 2, y1, f_bookcase);
     m->furn_set(cx_hi - 1, y1, f_counter);
@@ -13949,9 +13949,9 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
 
   } else { // vertical
    if (one_in(2)) { // bed at top
-    square(m, f_bed, cx_low - 1, y1 + 1, cx_low + 1, y1 + 3);
+    square_furn(m, f_bed, cx_low - 1, y1 + 1, cx_low + 1, y1 + 3);
    } else { // bed at bottom
-    square(m, f_bed, cx_low - 1, y2 - 3, cx_low + 1, y2 - 1);
+    square_furn(m, f_bed, cx_low - 1, y2 - 3, cx_low + 1, y2 - 1);
    }
     m->furn_set(x1, cy_hi - 2, f_bookcase);
     m->furn_set(x1, cy_hi - 1, f_counter);
@@ -13980,7 +13980,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   if (dx < dy || (dx == dy && one_in(2))) { // vertically-aligned bookshelves
    for (int x = x1 + 1; x <= cx_low - 2; x += 3) {
     for (int y = y1 + 1; y <= y2 - 3; y += 4) {
-     square(m, f_bookcase, x, y, x + 1, y + 2);
+     square_furn(m, f_bookcase, x, y, x + 1, y + 2);
      m->place_items("novels",    85, x, y, x + 1, y + 2, false, 0);
      m->place_items("manuals",   62, x, y, x + 1, y + 2, false, 0);
      m->place_items("textbooks", 40, x, y, x + 1, y + 2, false, 0);
@@ -13988,7 +13988,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    }
    for (int x = x2 - 1; x >= cx_low + 2; x -= 3) {
     for (int y = y1 + 1; y <= y2 - 3; y += 4) {
-     square(m, f_bookcase, x - 1, y, x, y + 2);
+     square_furn(m, f_bookcase, x - 1, y, x, y + 2);
      m->place_items("novels",    85, x - 1, y, x, y + 2, false, 0);
      m->place_items("manuals",   62, x - 1, y, x, y + 2, false, 0);
      m->place_items("textbooks", 40, x - 1, y, x, y + 2, false, 0);
@@ -13997,7 +13997,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   } else { // horizontally-aligned bookshelves
    for (int y = y1 + 1; y <= cy_low - 2; y += 3) {
     for (int x = x1 + 1; x <= x2 - 3; x += 4) {
-     square(m, f_bookcase, x, y, x + 2, y + 1);
+     square_furn(m, f_bookcase, x, y, x + 2, y + 1);
      m->place_items("novels",    85, x, y, x + 2, y + 1, false, 0);
      m->place_items("manuals",   62, x, y, x + 2, y + 1, false, 0);
      m->place_items("textbooks", 40, x, y, x + 2, y + 1, false, 0);
@@ -14005,7 +14005,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    }
    for (int y = y2 - 1; y >= cy_low + 2; y -= 3) {
     for (int x = x1 + 1; x <= x2 - 3; x += 4) {
-     square(m, f_bookcase, x, y - 1, x + 2, y);
+     square_furn(m, f_bookcase, x, y - 1, x + 2, y);
      m->place_items("novels",    85, x, y - 1, x + 2, y, false, 0);
      m->place_items("manuals",   62, x, y - 1, x + 2, y, false, 0);
      m->place_items("textbooks", 40, x, y - 1, x + 2, y, false, 0);
@@ -14049,11 +14049,11 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
 
  case room_mansion_game:
   if (dx < dy || one_in(2)) { // vertically-aligned table
-   square(m, f_pool_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
+   square_furn(m, f_pool_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
    m->place_items("pool_table", 80, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
                   false, 0);
   } else { // horizontally-aligned table
-   square(m, f_pool_table, cx_low - 1, cy_low, cx_low + 1, cy_low + 1);
+   square_furn(m, f_pool_table, cx_low - 1, cy_low, cx_low + 1, cy_low + 1);
    m->place_items("pool_table", 80, cx_low - 1, cy_low, cx_low + 1, cy_low + 1,
                   false, 0);
   }
@@ -14128,7 +14128,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
             }
         }
 
-        square(m, f_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
+        square_furn(m, f_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
         m->place_items("novels", 50, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
                   false, 0);
         m->place_items("magazines", 60, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
@@ -14169,7 +14169,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
     m->furn_set(x2 - 2, y2 - 2, f_rack);
     m->place_items("alcohol", 80, x2 - 2, y2 - 2, x2 - 2, y2 - 2, false, 0);
 
-    square(m, f_table, cx_low - 1, cy_low - 1, cx_low + 1, cy_low + 1);
+    square_furn(m, f_table, cx_low - 1, cy_low - 1, cx_low + 1, cy_low + 1);
     m->furn_set(x1, y1, f_indoor_plant);
     m->furn_set(x2, y1, f_indoor_plant);
     m->furn_set(x1, y2, f_indoor_plant);
