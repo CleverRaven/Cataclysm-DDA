@@ -4,7 +4,9 @@
     "id":"child_items",
     "items":[
       ["chocolate", 50],
-      ["candy", 80],
+      ["candy", 60],
+	  ["neccowafers", 50],
+	  ["maltballs", 50],
       ["cookies", 80],
       ["crack", 8],
       ["bat", 60],
@@ -294,7 +296,8 @@
       ["vinegar", 15],
       ["jar_veggy_pickled", 8],
       ["bacon", 25],
-      ["jar_meat_pickled", 2]
+      ["jar_meat_pickled", 2],
+	  ["fries", 8]
     ]
   },{
     "type":"item_group",
@@ -588,6 +591,9 @@
       ["chocolate", 50],
       ["jerky", 55],
       ["candy", 80],
+	  ["neccowafers", 80],
+	  ["maltballs", 80],
+	  ["mintpatties", 80],
       ["cookies", 80],
       ["tea_raw", 10],
       ["coffee_raw", 15],
@@ -623,6 +629,7 @@
       ["pizza_meat", 8],
       ["cheeseburger", 8],
       ["hamburger", 8],
+	  ["fries", 8],
       ["bacon", 10],
       ["fruit_leather", 15],
       ["pie", 20]
@@ -642,6 +649,9 @@
       ["pie", 20],
       ["chips", 65],
       ["candy", 80],
+	  ["mintpatties", 60],
+	  ["maltballs", 60],
+	  ["neccowafers", 60],
       ["cookies", 60],
       ["mayonnaise", 60],
       ["spork", 10],
@@ -653,6 +663,7 @@
       ["pepper", 20],
       ["meat_smoked", 4],
       ["cheeseburger", 35],
+	  ["fries", 80],
       ["hamburger", 30],
       ["bacon", 25],
       ["cheese", 30]
@@ -673,6 +684,8 @@
       ["chocolate", 50],
       ["jerky", 55],
       ["candy", 80],
+	  ["mintpatties", 80],
+	  ["maltballs", 80],
       ["tea_raw", 10],
       ["pie", 20],
       ["chips", 65],
@@ -1998,6 +2011,7 @@
     "items":[
       ["cola", 70],
       ["aspirin", 85],
+	  ["maltballs", 30],
       ["cigar", 5],
       ["glasses_eye", 90],
       ["sunglasses", 90],
@@ -2077,7 +2091,9 @@
       ["ZSG", 2],
       ["chocolate", 50],
       ["cookies", 50],
-      ["candy", 80],
+      ["candy", 60],
+	  ["neccowafers", 60],
+	  ["mintpatties", 60],
       ["backpack", 38],
       ["backpack_leather", 18],
       ["pockknife", 14],
@@ -2358,6 +2374,7 @@
       ["can_tuna", 35],
       ["can_salmon", 25],
       ["can_chowder", 35],
+	  ["neccowafers", 40],
       ["can_herring", 30],
       ["coffee_raw", 15],
       ["bandages", 50],
@@ -2862,6 +2879,7 @@
     "id":"mil_food",
     "items":[
       ["chocolate", 50],
+	  ["neccowafers", 30],
       ["can_beans", 40],
       ["mre_beef", 50],
       ["mre_veggy", 50],
@@ -3161,6 +3179,7 @@
     "items":[
       ["cola", 70],
       ["caffeine", 25],
+	  ["maltballs", 30],
       ["cig", 90],
       ["pipe_tobacco", 5],
       ["weed", 20],
@@ -3557,6 +3576,7 @@
       ["bandages", 50],
       ["1st_aid", 35],
       ["iodine", 5],
+	  ["neccowafers", 5],
       ["codeine", 15],
       ["adrenaline_injector", 4],
       ["cig", 90],
@@ -3937,6 +3957,8 @@
     "items":[
       ["energy_drink", 55],
       ["adderall", 10],
+	  ["fries", 10],
+	  ["mintpatties", 20],
       ["electrohack", 3],
       ["usb_drive", 5],
       ["battery", 50],
