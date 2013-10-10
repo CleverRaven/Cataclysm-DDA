@@ -3330,6 +3330,12 @@ C..C..C...|hhh|#########\n\
   else
    place_items("cleaning", 74, 15, 12, 17, 12, false, 0);
   place_items("mischw", 90, 20,  4, 20, 19, false, 0);
+  {
+      int num_carts = rng(1, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, "wheelbarrow", rng(4, 19), rng(3, 11), 90, -1, -1, false);
+      }
+  }
   if (terrain_type == ot_s_hardware_east)
    rotate(1);
   if (terrain_type == ot_s_hardware_south)
