@@ -472,17 +472,15 @@ bool map::vehproceed(game* g){
     }
 
     { // sink in water?
-        int num_wheels = 0, submerged_wheels = 0;
-        for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-            const int p = veh->external_parts[ep];
-            if (veh->part_flag(p, "WHEEL")) {
-                num_wheels++;
-                const int px = x + veh->parts[p].precalc_dx[0];
-                const int py = y + veh->parts[p].precalc_dy[0];
-                // deep water
-                if(move_cost_ter_furn(px, py) == 0) {
-                    submerged_wheels++;
-                }
+        std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
+        int num_wheels = wheel_indices.size(), submerged_wheels = 0;
+        for (int w = 0; w < num_wheels; w++) {
+            const int p = wheel_indices[p];
+            const int px = x + veh->parts[p].precalc_dx[0];
+            const int py = y + veh->parts[p].precalc_dy[0];
+            // deep water
+            if(move_cost_ter_furn(px, py) == 0) {
+                submerged_wheels++;
             }
         }
         // submerged wheels threshold is 2/3.
@@ -513,8 +511,7 @@ bool map::vehproceed(game* g){
     // if not enough wheels, mess up the ground a bit.
     if (!veh->valid_wheel_config()) {
         veh->velocity += veh->velocity < 0 ? 2000 : -2000;
-        for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-            const int p = veh->external_parts[ep];
+        for (int p = 0; p < veh->parts.size(); p++) {
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             const ter_id &pter = ter(px, py);
@@ -774,9 +771,10 @@ bool map::vehproceed(game* g){
     // after displacement veh reference would be invdalid.
     // damn references!
     if (can_move) {
-        for (int ep = 0; ep < veh->external_parts.size(); ep++) {
-            const int p = veh->external_parts[ep];
-            if (veh->part_flag(p, "WHEEL") && one_in(2)) {
+        std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
+        for (int w = 0; w < wheel_indices.size(); w++) {
+            const int p = wheel_indices[w];
+            if (one_in(2)) {
                 if (displace_water (x + veh->parts[p].precalc_dx[0],
                                     y + veh->parts[p].precalc_dy[0]) && pl_ctrl) {
                     g->add_msg(_("You hear a splash!"));
