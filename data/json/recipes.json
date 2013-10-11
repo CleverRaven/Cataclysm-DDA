@@ -10977,7 +10977,7 @@
 },{
         "type" : "recipe",
   "result": "superglue",
-  "category": "CC_MISC",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 12000,
