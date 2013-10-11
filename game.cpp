@@ -876,7 +876,7 @@ void game::process_activity()
 
     if (reading->fun != 0) {
         //Penalty for re-reading old fun books, 1 = no penalty
-        int penalty = book_item->charges == 0 ? 4 : 1;
+        int penalty = book_item->charges == 0 ? 2 : 1;
         u.add_morale(MORALE_BOOK, (reading->fun * 5) / penalty,
                      reading->fun * 15, 60, 30, true, reading);
     }
