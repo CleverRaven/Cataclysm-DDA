@@ -9580,7 +9580,6 @@ void game::plmove(int dx, int dy)
       }
     // Furniture: pull, push, or standing still and nudging object around. Can push furniture out of reach.
     } else if ( u.grab_type == OBJECT_FURNITURE ) {
-      bool debug_grabf = false;
       point fpos( u.posx + u.grab_point.x, u.posy + u.grab_point.y ); // supposed position of grabbed furniture
       if ( ! m.has_furn( fpos.x, fpos.y ) ) { // where'd it go? We're grabbing thin air so reset.
           add_msg( _("No furniture at grabbed point.") );
@@ -9608,16 +9607,6 @@ void game::plmove(int dx, int dy)
                                ! m.has_flag("DESTROY_ITEM", fdest.x, fdest.y) );
           bool src_item_ok = ( m.furn_at(fpos.x, fpos.y).has_flag("CONTAINER") ||
                                m.furn_at(fpos.x, fpos.y).has_flag("SEALED") );
-
-          if ( debug_grabf ) {
-            add_msg("dx: %d,%d gp: %d,%d / fp %d,%d => %d,%d / c:%d / push:%d pull:%d shift:%d = %d",
-              dx,dy,
-              u.grab_point.x,u.grab_point.y,
-              fpos.x,fpos.y,
-              fdest.x,fdest.y,furncost,
-              pushing_furniture,pulling_furniture,shifting_furniture,canmove
-            );
-          }
 
           if ( ! canmove ) {
               add_msg( _("The %s collides with something."), furntype.name.c_str() );
@@ -9660,10 +9649,6 @@ void game::plmove(int dx, int dy)
                           add_msg("Stuff spills from the %s!", furntype.name.c_str() );
                           break;
                       }
-                  }
-                  if ( debug_grabf ) {
-                      int after_items = m.i_at(fdest.x, fdest.y).size();
-                      add_msg("%d + %d = %d (%d)",dst_items,src_items,dst_items+src_items,after_items);
                   }
               } else {
                   add_msg("Stuff spills from the %s!", furntype.name.c_str() );
