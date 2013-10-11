@@ -234,11 +234,11 @@ public:
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy);
 
-// returns the list of indeces of parts inside (or over) given
-    std::vector<int> internal_parts (int p);
-
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
+
+// returns indices of all parts in the vehicle with the given flag
+    std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
 
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f);

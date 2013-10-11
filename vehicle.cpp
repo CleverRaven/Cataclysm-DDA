@@ -809,6 +809,29 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
     return -1;
 }
 
+/**
+ * Returns all parts in the vehicle with the given flag, optionally checking
+ * to only return unbroken parts.
+ * If performance becomes an issue, certain lists (such as wheels) could be
+ * cached and fast-returned here, but this is currently linear-time with
+ * respect to the number of parts in the vehicle.
+ * @param feature The flag (such as "WHEEL" or "LIGHT") to find.
+ * @param unbroken true if only unbroken parts should be returned, false to
+ *        return all matching parts.
+ * @return A list of indices to all the parts with the specified feature.
+ */
+std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, bool unbroken)
+{
+    std::vector<int> parts_found;
+    for(int part_index = 0; part_index < parts.size(); part_index++) {
+        if(part_info(part_index).has_flag(feature) &&
+                (!unbroken || parts[part_index].hp > 0)) {
+            parts_found.push_back(part_index);
+        }
+    }
+    return parts_found;
+}
+
 bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {
