@@ -9529,8 +9529,7 @@ void game::plmove(int dx, int dy)
 
               int gx = grabbed_vehicle->global_x();
               int gy = grabbed_vehicle->global_y();
-              for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
-                  const int p = grabbed_vehicle->external_parts[ ep ];
+              for( int p = 0; p < grabbed_vehicle->parts.size(); p++ ) {
                   if( grabbed_vehicle->part_flag( p, "WHEEL" ) && one_in(2) )
                       grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
                                                     gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
