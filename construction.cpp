@@ -806,6 +806,12 @@ void game::place_construction(constructable *con)
    }
   }
  }
+ // snip snip
+ if (con->name == _("Move Furniture") ) {
+   grab();
+   return;
+ }
+ //
  int dirx, diry;
  if (!choose_adjacent(_("Contruct"), dirx, diry))
   return;
@@ -815,16 +821,8 @@ void game::place_construction(constructable *con)
    point_is_okay = true;
  }
  if (!point_is_okay) {
-  construct test;
-  if (con->name == _("Move Furniture") && !(test.*(con->able))(this, point(dirx, diry)))
-  {
-   add_msg(_("You're not strong enough!"));
-  }
-  else
-  {
    add_msg(_("You cannot build there!"));
-  }
-  return;
+   return;
  }
 
 // Figure out what stage to start at, and what stage is the maximum
@@ -1003,33 +1001,7 @@ void construct::done_window_pane(game *g, point p)
 
 void construct::done_move(game *g, point p)
 {
-    mvprintz(0, 0, c_red, _("Press a direction for the furniture to move (. to cancel):"));
-    int x = 0, y = 0;
-    //Keep looping until we get a valid direction or a cancel.
-    while (true) {
-        do get_direction(x, y, input());
-        while (x == -2 || y == -2);
-        if (x == 0 && y == 0) { return; }
-        x += p.x;
-        y += p.y;
-        if (able_empty(g, point(x, y))) {
-            break;
-        } else {
-            mvprintz(0, 0, c_red, _("Can't move furniture there! Choose a direction with open floor."));
-        }
-    }
-
-    g->sound(x, y, furnlist[g->m.furn(p.x, p.y)].move_str_req * 2, _("a scraping noise"));
-    g->m.furn_set(x, y, g->m.furn(p.x, p.y));
-    g->m.furn_set(p.x, p.y, f_null);
-
-    //Move all Items within a container
-    std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
-    for (int i=0; i < vItemMove.size(); i++) {
-        g->m.add_item_or_charges(x, y, vItemMove[i], 0);
-    }
-
-    g->m.i_clear(p.x, p.y);
+    return; // stub
 }
 
 void construct::done_tree(game *g, point p)
