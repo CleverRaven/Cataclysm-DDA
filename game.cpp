@@ -8677,43 +8677,54 @@ void game::butcher()
   add_msg(_("You don't have a sharp item to butcher with."));
   return;
  }
-// We do it backwards to prevent the deletion of a corpse from corrupting our
-// vector of indices.
- for (int i = corpses.size() - 1; i >= 0; i--) {
-  mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
 
-  bool should_butcher = false;
-  if (OPTIONS["QUERY_BUTCHER"] == "never") {
-      should_butcher = true;
-  } else if (OPTIONS["QUERY_BUTCHER"] == "safe") {
-      if (is_hostile_nearby()) {
-          should_butcher = query_yn(
-              _("Hostiles are nearby! Butcher the %s corpse?"), corpse->name.c_str());
-      } else {
-          should_butcher = true;
-      }
-  } else {
-      should_butcher = query_yn(_("Butcher the %s corpse?"), corpse->name.c_str());
-  }
-  
-  if (should_butcher) {
-   int time_to_cut = 0;
-   switch (corpse->size) { // Time in turns to cut up te corpse
-    case MS_TINY:   time_to_cut =  2; break;
-    case MS_SMALL:  time_to_cut =  5; break;
-    case MS_MEDIUM: time_to_cut = 10; break;
-    case MS_LARGE:  time_to_cut = 18; break;
-    case MS_HUGE:   time_to_cut = 40; break;
-   }
-   time_to_cut *= 100; // Convert to movement points
-   time_to_cut += factor * 5; // Penalty for poor tool
-   if (time_to_cut < 250)
-    time_to_cut = 250;
-   u.assign_activity(this, ACT_BUTCHER, time_to_cut, corpses[i]);
-   u.moves = 0;
-   return;
-  }
+ if (is_hostile_nearby() &&
+     !query_yn(_("Hostiles are nearby! Start Butchering anyway?")))
+ {
+     return;
  }
+
+ int butcher_corpse_index = 0;
+ if (corpses.size() > 1) {
+     uimenu kmenu;
+     kmenu.text = _("Choose corpse to butcher");
+     kmenu.selected = 0;
+     for (int i = 0; i < corpses.size(); i++) {
+         mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
+         int hotkey = -1;
+         if (i == 0) {
+             for (auto it = keymap.begin(); it != keymap.end(); it++) {
+                 if (it->second == ACTION_BUTCHER) {
+                     hotkey = (it->first == 'q') ? -1 : it->first;
+                     break;
+                 }
+             }
+         }
+         kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+     }
+     kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
+     kmenu.query();
+     if (kmenu.ret == corpses.size()) {
+         return;
+     }
+     butcher_corpse_index = kmenu.ret;
+ }
+
+ auto corpse = m.i_at(u.posx, u.posy)[corpses[butcher_corpse_index]].corpse;
+ int time_to_cut = 0;
+ switch (corpse->size) { // Time in turns to cut up te corpse
+  case MS_TINY:   time_to_cut =  2; break;
+  case MS_SMALL:  time_to_cut =  5; break;
+  case MS_MEDIUM: time_to_cut = 10; break;
+  case MS_LARGE:  time_to_cut = 18; break;
+  case MS_HUGE:   time_to_cut = 40; break;
+ }
+ time_to_cut *= 100; // Convert to movement points
+ time_to_cut += factor * 5; // Penalty for poor tool
+ if (time_to_cut < 250)
+  time_to_cut = 250;
+ u.assign_activity(this, ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
+ u.moves = 0;
 }
 
 void game::complete_butcher(int index)

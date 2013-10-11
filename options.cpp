@@ -411,14 +411,6 @@ void initOptions() {
                                              true
                                             );
 
-    optionNames["always"] = _("Always");
-    optionNames["never"] = _("Never");
-    optionNames["safe"] = _("Safe");
-    OPTIONS["QUERY_BUTCHER"] =          cOpt("interface", _("Query on butcher"),
-                                             _("Sets when to confirm butchering. If set to 'Safe', will only query when hostiles are around."),
-                                             "always,never,safe", "always"
-                                            );
-
     optionNames["no"] = _("No");
     //~ containers
     optionNames["watertight"] = _("Watertight");
