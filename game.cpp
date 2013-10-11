@@ -7285,17 +7285,18 @@ void game::pickup(int posx, int posy, int min)
         {
 
             //Either no cargo to grab, or we declined; what about RV kitchen?
-            bool got_water = false;
+            bool used_feature = false;
             if (k_part >= 0)
             {
                 int choice = menu(true,
-                                  _("RV kitchen:"), _("Use the hotplate"), _("Get water"), _("Examine vehicle"), NULL);
+                _("RV kitchen:"), _("Use the hotplate"), _("Fill a container with water"), _("Have a drink"), _("Examine vehicle"), NULL);
                 switch (choice)
                 {
-                    if (choice == 2)
+                    if (choice == 3)
                         break;
                 case 1:
                 {
+                    used_feature = true;
                     if (veh->fuel_left("battery") > 0) //Will be -1 if no battery at all
                     {
                         item tmp_hotplate( g->itypes["hotplate"], 0 );
@@ -7312,8 +7313,6 @@ void game::pickup(int posx, int posy, int min)
                                 veh->refill( "battery", tmp_hotplate.charges );
                             }
                         }
-                        // Return whatever is left.
-                        got_water = true;
                     }
                     else
                     {
@@ -7322,32 +7321,21 @@ void game::pickup(int posx, int posy, int min)
                 }
                 break;
                 case 2:
+                {
+                    used_feature = true;
                     if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
                     {
-                        if (query_yn(_("Fill a container?")))
+                        int amt = veh->drain("water", veh->fuel_left("water"));
+                        item fill_water(g->itypes[default_ammo("water")], g->turn);
+                        fill_water.charges = amt;
+                        int back = g->move_liquid(fill_water);
+                        if(back >= 0)
                         {
-                            int amt = veh->drain("water", veh->fuel_left("water"));
-                            item fill_water(g->itypes[default_ammo("water")], g->turn);
-                            fill_water.charges = amt;
-                            int back = g->move_liquid(fill_water);
-                            if(back >= 0)
-                            {
-                                veh->refill("water", back);
-                                got_water = true;
-                            }
-                            else
-                            {
-                                veh->refill("water", amt);
-                            }
+                            veh->refill("water", back);
                         }
-                        if (query_yn(_("Have a drink?")))
+                        else
                         {
-                            veh->drain("water", 1);
-
-                            item water(itypes["water_clean"], 0);
-                            u.eat(this, u.inv.add_item(water).invlet);
-                            u.moves -= 250;
-                            got_water = true;
+                            veh->refill("water", amt);
                         }
                     }
                     else
@@ -7355,10 +7343,30 @@ void game::pickup(int posx, int posy, int min)
                         add_msg(_("The water tank is empty."));
                     }
                 }
+                break;
+                case 3:
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
+                    {
+                        veh->drain("water", 1);
+
+                        item water(itypes["water_clean"], 0);
+                        u.eat(this, u.inv.add_item(water).invlet);
+                        u.moves -= 250;
+                    }
+
+                    else
+                    {
+                        add_msg(_("The water tank is empty."));
+                    }
+                }
+                break;
+                }
             }
 
     //If we still haven't done anything, we probably want to examine the vehicle
-    if(!got_water) {
+    if(!used_feature) {
       exam_vehicle(*veh, posx, posy);
     }
 
