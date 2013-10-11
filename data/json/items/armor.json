@@ -1734,7 +1734,7 @@
         "name" : "hoodie",
         "weight" : 600,
         "color" : "light_red",
-        "covers" : ["TORSO", "ARMS"],
+        "covers" : ["HEAD", "TORSO", "ARMS"],
         "to_hit" : 0,
         "storage" : 9,
         "symbol" : "[",
