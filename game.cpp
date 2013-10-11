@@ -7273,11 +7273,13 @@ void game::pickup(int posx, int posy, int min)
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0;
 
-  if(from_veh) {
-    if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
-      from_veh = false;
-    }
-  }
+        if(from_veh)
+        {
+            if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str()))
+            {
+                from_veh = false;
+            }
+        }
 
         if(!from_veh)
         {
@@ -7287,25 +7289,31 @@ void game::pickup(int posx, int posy, int min)
             if (k_part >= 0)
             {
                 int choice = menu(true,
-                _("RV kitchen:"), _("Use the hotplate"), _("Get water"), _("Examine vehicle"), NULL);
+                                  _("RV kitchen:"), _("Use the hotplate"), _("Get water"), _("Examine vehicle"), NULL);
                 switch (choice)
                 {
                     if (choice == 2)
                         break;
                 case 1:
                 {
-                    if (veh->fuel_left("battery") > 0)   //Will be -1 if no battery at all
+                    if (veh->fuel_left("battery") > 0) //Will be -1 if no battery at all
                     {
-                        if (query_yn(_("Use hotplate?")))
+                        item tmp_hotplate( g->itypes["hotplate"], 0 );
+                        // Drain a ton of power
+                        tmp_hotplate.charges = veh->drain( "battery", 100 );
+                        if( tmp_hotplate.is_tool() )
                         {
-                            item tmp_hotplate( g->itypes["hotplate"], 0 );
-                            // Drain a ton of power
-                            tmp_hotplate.charges = veh->drain( "battery", 100 );
-                            u.use(this, // what to put here? //);
-                            // Return whatever is left.
-                            veh->refill( "battery", tmp_hotplate.charges );
-                            got_water = true;
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
+                            if ( tmp_hotplate.charges >= tmptool->charges_per_use )
+                            {
+                                iuse tmpuse;
+                                (tmpuse.*tmptool->use)(g, &u, &tmp_hotplate, false);
+                                tmp_hotplate.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_hotplate.charges );
+                            }
                         }
+                        // Return whatever is left.
+                        got_water = true;
                     }
                     else
                     {
