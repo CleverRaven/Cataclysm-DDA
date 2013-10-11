@@ -1,27 +1,34 @@
 [
   {
     "type":"SPECIES",
-    "id":"MAMMAL"
+    "id":"MAMMAL",
+    "fear_triggers":["HURT", "FIRE", "FRIEND_DIED"]
   },
   {
     "type":"SPECIES",
-    "id":"NETHER"
+    "id":"NETHER",
+    "fear_triggers":["HURT"]
   },
   {
     "type":"SPECIES",
-    "id":"FUNGUS"
+    "id":"FUNGUS",
+    "fear_triggers":["HURT", "FIRE"]
   },
   {
     "type":"SPECIES",
-    "id":"INSECT"
+    "id":"INSECT",
+    "anger_triggers":["FRIEND_DIED"],
+    "fear_triggers":["HURT", "FIRE"]
   },
   {
     "type":"SPECIES",
-    "id":"PLANT"
+    "id":"PLANT",
+    "fear_triggers":["HURT", "FIRE"]
   },
   {
     "type":"SPECIES",
-    "id":"WORM"
+    "id":"WORM",
+    "fear_triggers":["HURT"]
   },
   {
     "type":"SPECIES",
