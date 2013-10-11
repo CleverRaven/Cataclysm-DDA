@@ -122,11 +122,6 @@ MTRIG_SOUND,  // Heard a sound
 N_MONSTER_TRIGGERS
 };
 
-// These functions are defined at the bottom of mtypedef.cpp
-std::vector<monster_trigger> default_anger(monster_species spec);
-std::vector<monster_trigger> default_fears(monster_species spec);
-
-
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
 // mfb(n) converts a flag to its appropriate position in mtype's bitfield
