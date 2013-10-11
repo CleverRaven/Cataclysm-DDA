@@ -170,7 +170,7 @@ struct itype
 
  std::string dmg_adj(int dam) { return material_type::find_material(m1)->dmg_adj(dam); }
 
- int (iuse::*use)(game *, player *, item *, bool);// Special effects of use
+ use_function use;// Special effects of use
 
  itype() : id("null"), name("none"), m1("null"), m2("null") {
   price = 0;

@@ -2765,7 +2765,6 @@ void map::process_active_items(game *g)
 void map::process_active_items_in_submap(game *g, const int nonant)
 {
     it_tool* tmp;
-    iuse use;
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
             std::vector<item> *items = &(grid[nonant]->itm[i][j]);
@@ -2811,14 +2810,14 @@ void map::process_active_items_in_submap(game *g, const int nonant)
                     } else {
                         tmp = dynamic_cast<it_tool*>((*items)[n].type);
                         if (tmp->use != &iuse::none) {
-                            (use.*tmp->use)(g, &(g->u), &((*items)[n]), true);
+                            tmp->use.call(g, &(g->u), &((*items)[n]), true);
                         }
                         if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0) {
                             (*items)[n].charges--;
                         }
                         if ((*items)[n].charges <= 0) {
                             if (tmp->use != &iuse::none) {
-                                (use.*tmp->use)(g, &(g->u), &((*items)[n]), false);
+                                tmp->use.call(g, &(g->u), &((*items)[n]), false);
                             }
                             if (tmp->revert_to == "null" || (*items)[n].charges == -1) {
                                 items->erase(items->begin() + n);

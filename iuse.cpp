@@ -5639,3 +5639,8 @@ int iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
   }
   return 1;
 }
+
+int use_function::call(game* g,player* p,item* i,bool b) {
+    iuse use;
+    return (use.*this->cpp_function)(g, p, i, b);
+}
