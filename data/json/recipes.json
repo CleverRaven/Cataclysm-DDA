@@ -1523,7 +1523,7 @@
 },{
         "type" : "recipe",
   "result": "shot_he",
-  "category": "CC_WEAPON",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
@@ -1574,7 +1574,7 @@
 },{
         "type" : "recipe",
   "result": "40mm_acidbomb",
-  "category": "CC_WEAPON",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 100,
