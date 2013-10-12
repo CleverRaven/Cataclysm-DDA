@@ -26,6 +26,7 @@
 #include "crafting.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
+#include "martialarts.h"
 
 #include <ctime>
 
@@ -126,6 +127,7 @@ player::player() : name("")
  controlling_vehicle = false;
  grab_point.x = 0;
  grab_point.y = 0;
+ grab_type = OBJECT_NONE;
  style_selected = "style_none";
  focus_pool = 100;
  last_item = itype_id("null");
@@ -2705,7 +2707,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     if (style_selected == "style_none")
       style = _("No Style");
     else
-      style = g->martialarts[style_selected].name.c_str();
+      style = martialarts[style_selected].name.c_str();
     if (style) {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
         mvwprintz(weapwin, 1, x, c_blue, style);
@@ -5500,10 +5502,10 @@ martialart player::get_combat_style()
  martialart tmp;
  bool pickstyle = (!ma_styles.empty());
  if (pickstyle) {
-  tmp = g->martialarts[style_selected];
+  tmp = martialarts[style_selected];
   return tmp;
  } else {
-  return g->martialarts["style_none"];
+  return martialarts["style_none"];
  }
 }
 
@@ -6457,10 +6459,10 @@ void player::pick_style(game *g) // Style selection menu
  std::vector<std::string> options;
  options.push_back(_("No style"));
  for (int i = 0; i < ma_styles.size(); i++) {
-  if(g->martialarts.find(ma_styles[i]) == g->martialarts.end()) {
+  if(martialarts.find(ma_styles[i]) == martialarts.end()) {
    debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
   } else {
-   options.push_back( g->martialarts[ma_styles[i]].name );
+   options.push_back( martialarts[ma_styles[i]].name );
   }
  }
  int selection = menu_vec(false, _("Select a style"), options);

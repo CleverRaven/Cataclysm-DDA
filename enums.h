@@ -9,6 +9,24 @@ enum phase_id {
 PNULL, SOLID, LIQUID, GAS, PLASMA
 };
 
+// Return the class an in-world object uses to interact with the world.
+//   ex; if ( player.grab_type == OBJECT_VEHICLE ) { ...
+//   or; if ( baseactor_just_shot_at.object_type() == OBJECT_NPC ) { ...
+enum object_type {
+  OBJECT_NONE,      // Nothing, invalid.
+  OBJECT_ITEM,      // item.h
+  OBJECT_ACTOR,     // potential virtual base class, get_object_type() would return one of the types below
+    OBJECT_PLAYER,  // player.h, npc.h
+      OBJECT_NPC,   // nph.h
+    OBJECT_MONSTER, // monster.h
+  OBJECT_VEHICLE,   // vehicle.h
+  OBJECT_TRAP,      // trap.h
+  OBJECT_FIELD,     // field.h; field_entry
+  OBJECT_TERRAIN,   // Not a real object
+  OBJECT_FURNITURE, // Not a real object
+  NUM_OBJECTS,
+};
+
 enum damage_type
 {
     DNULL = 0,

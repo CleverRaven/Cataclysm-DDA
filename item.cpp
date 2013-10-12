@@ -1288,20 +1288,6 @@ int item::acid_resist() const
     return ret;
 }
 
-style_move item::style_data(technique_id tech)
-{
-    style_move ret;
-
-    it_style* style = dynamic_cast<it_style*>(type);
-
-    for (int i = 0; i < style->moves.size(); i++) {
-        if (style->moves[i].tech == tech)
-            return style->moves[i];
-    }
-
-    return ret;
-}
-
 bool item::is_two_handed(player *u)
 {
     if (has_flag("ALWAYS_TWOHAND"))

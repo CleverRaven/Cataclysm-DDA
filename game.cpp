@@ -107,9 +107,7 @@ void game::init_data()
     init_faction_data();
     init_morale();
     init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
-    init_techniques();           // Set up techniques                (SEE martialarts.cpp)
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
     item_controller->init(this); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
@@ -2232,7 +2230,7 @@ bool game::handle_action()
  gamemode->post_action(this, act);
 
  u.movecounter = before_action_moves - u.moves;
-
+ dbg(D_INFO) << string_format("%s: [%d] %d - %d = %d",action_ident(act).c_str(),int(turn),before_action_moves,u.movecounter,u.moves);
  return true;
 }
 
@@ -2911,6 +2909,28 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
  }
 }
 
+void game::add_msg_if_npc(player *p, const char* msg, ...)
+{
+    if (!p || !p->is_npc()) {
+        return;
+    }
+    va_list ap;
+    va_start(ap, msg);
+
+    char buff[1024];
+    vsprintf(buff, msg, ap);
+    std::string processed_npc_string(buff);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual npc name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9,  p->name);
+    }
+    add_msg_string(processed_npc_string);
+
+    va_end(ap);
+}
+
 void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
 {
     va_list ap;
@@ -2928,7 +2948,7 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
         // if present replace it with the actual npc name.
         size_t offset = processed_npc_string.find("<npcname>");
         if( offset != std::string::npos ) {
-            processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
+            processed_npc_string.replace(offset, 9,  p->name);
         }
         add_msg_string( processed_npc_string );
     }
@@ -7810,19 +7830,30 @@ void game::grab()
     int graby = 0;
     if( 0 != u.grab_point.x || 0 != u.grab_point.y ) {
         vehicle *veh = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
-        if( veh ) { add_msg(_("You release the %s."), veh->name.c_str() ); }
+        if( veh ) {
+            add_msg(_("You release the %s."), veh->name.c_str() );
+        } else if ( m.can_move_furniture( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
+            add_msg(_("You release the %s."), m.furnname( u.posx + u.grab_point.x, u.posy + u.grab_point.y ).c_str() ); 
+        }
         u.grab_point.x = 0;
         u.grab_point.y = 0;
+        u.grab_type = OBJECT_NONE;
         return;
     }
     if( choose_adjacent( _("Grab"), grabx, graby ) ) {
         vehicle *veh = m.veh_at(grabx, graby);
-        if( veh != NULL ) {
+        if( veh != NULL ) { // If there's a vehicle, grab that.
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
+            u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
-        } else {
-            add_msg(_("There's no vehicle to grab there!"));
+        } else if ( m.can_move_furniture( grabx, graby, &u ) ) { // If not, grab furniture if present
+            u.grab_point.x = grabx - u.posx;
+            u.grab_point.y = graby - u.posy;
+            u.grab_type = OBJECT_FURNITURE;
+            add_msg(_("You grab the %s."), m.furnname( grabx, graby).c_str() );
+        } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+            add_msg(_("There's nothing to grab there!"));
         }
     } else {
         add_msg(_("Never Mind."));
@@ -9409,17 +9440,35 @@ void game::plmove(int dx, int dy)
   }
  }
 
+// GRAB: pre-action checking.
  int vpart0 = -1, vpart1 = -1, dpart = -1;
  vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);
  vehicle *veh1 = m.veh_at(x, y, vpart1);
+ bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0 
+ bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0 
+ bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
+ int movecost_modifier = 0;       // pulling moves furniture into our origin square, so this changes to subtract it.
+
  if( u.grab_point.x != 0 || u.grab_point.y ) {
-     vehicle *grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
-     // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
-     // actually the current tile.
-     // If there's a vehicle there, it will actually result in failed movement.
-     if( grabbed_vehicle == veh1 ) {
-         veh1 = veh0;
-         vpart1 = vpart0;
+     if ( u.grab_type == OBJECT_VEHICLE ) { // default; assume OBJECT_VEHICLE
+         vehicle *grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
+         // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
+         // actually the current tile.
+         // If there's a vehicle there, it will actually result in failed movement.
+         if( grabbed_vehicle == veh1 ) {
+             veh1 = veh0;
+             vpart1 = vpart0;
+         }
+     } else if ( u.grab_type == OBJECT_FURNITURE ) { // Determine if furniture grab is valid, and what we're wanting to do with it based on
+         point fpos( u.posx + u.grab_point.x, u.posy + u.grab_point.y ); // where it is
+         if ( m.has_furn(fpos.x, fpos.y) ) {
+             pushing_furniture = ( dx == u.grab_point.x && dy == u.grab_point.y); // and where we're going
+             if ( ! pushing_furniture ) {
+                 point fdest( fpos.x + dx, fpos.y + dy );
+                 pulling_furniture = ( fdest.x == u.posx && fdest.y == u.posy );
+             }
+             shifting_furniture = ( pushing_furniture == false && pulling_furniture == false );
+         }
      }
  }
  bool veh_closed_door = false;
@@ -9444,7 +9493,7 @@ void game::plmove(int dx, int dy)
  }
 
 
- if (m.move_cost(x, y) > 0) { // move_cost() of 0 = impassible (e.g. a wall)
+ if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) { // move_cost() of 0 = impassible (e.g. a wall)
   u.set_underwater(false);
 
   //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
@@ -9462,6 +9511,8 @@ void game::plmove(int dx, int dy)
   float drag_multiplier = 1.0;
   vehicle *grabbed_vehicle = NULL;
   if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
+    // vehicle: pulling, pushing, or moving around the grabbed object.
+    if ( u.grab_type == OBJECT_VEHICLE ) {
       grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
       if( NULL != grabbed_vehicle ) {
           if( grabbed_vehicle == veh0 ) {
@@ -9543,12 +9594,112 @@ void game::plmove(int dx, int dy)
           add_msg( _("No vehicle at grabbed point.") );
           u.grab_point.x = 0;
           u.grab_point.y = 0;
+          u.grab_type = OBJECT_NONE;
       }
+    // Furniture: pull, push, or standing still and nudging object around. Can push furniture out of reach.
+    } else if ( u.grab_type == OBJECT_FURNITURE ) {
+      point fpos( u.posx + u.grab_point.x, u.posy + u.grab_point.y ); // supposed position of grabbed furniture
+      if ( ! m.has_furn( fpos.x, fpos.y ) ) { // where'd it go? We're grabbing thin air so reset.
+          add_msg( _("No furniture at grabbed point.") );
+          u.grab_point = point(0, 0);
+          u.grab_type = OBJECT_NONE;
+      } else {
+          point fdest( fpos.x + dx, fpos.y + dy ); // intended destination of furniture.
+          
+          // unfortunately, game::is_empty fails for tiles we're standing on, which will forbid pulling, so:
+          bool canmove = (
+               ( m.move_cost(fdest.x, fdest.y) > 0 || m.has_flag("LIQUID", fdest.x, fdest.y) ) &&
+               npc_at(fdest.x, fdest.y) == -1 && 
+               mon_at(fdest.x, fdest.y) == -1 &&
+               m.has_flag("FLAT", fdest.x, fdest.y) &&
+               !m.has_furn(fdest.x, fdest.y) &&
+               m.tr_at(fdest.x, fdest.y) == tr_null
+          );
+
+          const furn_t furntype = m.furn_at(fpos.x, fpos.y);
+          int furncost = furntype.movecost;
+          const int src_items = m.i_at(fpos.x, fpos.y).size();
+          const int dst_items = m.i_at(fdest.x, fdest.y).size();
+          bool dst_item_ok = ( ! m.has_flag("NOITEM", fdest.x, fdest.y) &&
+                               ! m.has_flag("SWIMMABLE", fdest.x, fdest.y) && 
+                               ! m.has_flag("DESTROY_ITEM", fdest.x, fdest.y) );
+          bool src_item_ok = ( m.furn_at(fpos.x, fpos.y).has_flag("CONTAINER") ||
+                               m.furn_at(fpos.x, fpos.y).has_flag("SEALED") );
+
+          if ( ! canmove ) {
+              add_msg( _("The %s collides with something."), furntype.name.c_str() );
+              u.moves -= 50; // "oh was that your foot? Sorry :-O"
+              return;
+          } else if ( ! m.can_move_furniture( fpos.x, fpos.y, &u ) ) {
+              add_msg(_("The %s is too heavy for you to budge!"), furntype.name.c_str() );
+              u.moves -= 100; // time spent straining and going 'hnngh!'
+              return; // furniture and or obstacle wins.
+          } else if ( ! src_item_ok && dst_items > 0 ) {
+              add_msg( _("There's stuff in the way.") );
+              u.moves -= 50; // "oh was that your stuffed parrot? Sorry :-O"
+              return;
+          }
+          
+          if ( pulling_furniture ) { // normalize movecost for pulling: furniture moves into our current square -then- we move away
+              if ( furncost < 0 ) {  // this will make our exit-tile move cost 0
+                   movecost_modifier += m.ter_at(fpos.x, fpos.y).movecost; // so add the base cost of our exit-tile's terrain.
+              } else {               // or it will think we're walking over the furniture we're pulling
+                   movecost_modifier += ( 0 - furncost ); // so subtract the base cost of our furniture.
+              }
+          }
+
+          u.moves -= furntype.move_str_req * 10; // t_furn has no weight/friction; this is close enough.
+          sound(x, y, furntype.move_str_req * 2, _("a scraping noise"));
+
+          m.furn_set(fdest.x, fdest.y, m.furn(fpos.x, fpos.y));    // finally move it.
+          m.furn_set(fpos.x, fpos.y, f_null);
+
+          if ( src_items > 0 ) {  // and the stuff inside.
+              if ( dst_item_ok && src_item_ok ) {
+                  std::vector <item>& miat = m.i_at(fpos.x, fpos.y);
+                  const int arbritrary_item_limit = MAX_ITEM_IN_SQUARE - dst_items; // within reason
+                  for (int i=0; i < src_items; i++) { // ...carefully
+                      if ( i < arbritrary_item_limit &&
+                        miat.size() > 0 &&
+                        m.add_item_or_charges(fdest.x, fdest.y, miat[0], 0) ) {
+                          miat.erase(miat.begin());
+                      } else {
+                          add_msg("Stuff spills from the %s!", furntype.name.c_str() );
+                          break;
+                      }
+                  }
+              } else {
+                  add_msg("Stuff spills from the %s!", furntype.name.c_str() );
+              }
+          }
+
+          if ( shifting_furniture ) { // we didn't move
+              if ( abs( u.grab_point.x + dx ) < 2 && abs( u.grab_point.y + dy ) < 2 ) { 
+                  u.grab_point = point ( u.grab_point.x + dx , u.grab_point.y + dy ); // furniture moved relative to us
+              } else { // we pushed furniture out of reach
+                  add_msg( _("You let go of the %s"), furntype.name.c_str() );
+                  u.grab_point = point (0, 0);
+                  u.grab_type = OBJECT_NONE;
+              }
+              return; // We moved furniture but stayed still.
+          } else if ( pushing_furniture && m.move_cost(x, y) <= 0 ) { // Not sure how that chair got into a wall, but don't let player follow.
+              add_msg( _("You let go of the %s as it slides past %s"), furntype.name.c_str(), m.ter_at(x,y).name.c_str() );
+              u.grab_point = point (0, 0);
+              u.grab_type = OBJECT_NONE;
+          }
+      }
+    // Unsupported!
+    } else {
+       add_msg( _("Nothing at grabbed point %d,%d."),u.grab_point.x,u.grab_point.y );
+       u.grab_point.x = 0;
+       u.grab_point.y = 0;
+       u.grab_type = OBJECT_NONE;      
+    }
   }
 
 // Calculate cost of moving
   bool diag = trigdist && u.posx != x && u.posy != y;
-  u.moves -= int(u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle), diag) * drag_multiplier);
+  u.moves -= int(u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle, movecost_modifier), diag) * drag_multiplier);
 
 // Adjust recoil down
   if (u.recoil > 0) {

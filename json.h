@@ -5,6 +5,7 @@
 #include <vector>
 #include <istream>
 #include <map>
+#include <set>
 
 enum json_value_type
 {
@@ -60,6 +61,7 @@ public:
 
     JsonArray get_array(std::string name); // returns empty array if not found
     JsonObject get_object(std::string name);
+    std::set<std::string> get_tags(std::string name); // returns empty set if not found
 
     // useful debug info
     std::string line_number(); // for occasional use only
