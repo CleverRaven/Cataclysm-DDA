@@ -112,8 +112,7 @@ struct vehicle_part
  *   The second part is variable info, see `vehicle_part` structure.
  * - Parts are mounted at some point relative to vehicle position (or starting part)
  *   (`0, 0` in mount coords). There can be more than one part at
- *   given mount coords. First one is considered external,
- *   others are internal (or, as special case, "over" -- like trunk)
+ *   given mount coords, and they are mounted in different slots.
  *   Check tileray.h file to see a picture of coordinate axes.
  * - Vehicle can be rotated to arbitrary degree. This means that
  *   mount coords are rotated to match vehicle's face direction before
@@ -130,12 +129,8 @@ struct vehicle_part
  *     face      | where it's facing currently
  *     move      | where it's moving, it's different from face if it's skidding
  *     turn_dir  | where it will turn at next move, if it won't stop due to collision
- * - Some methods take `part` or `p` parameter. Some of them
- *   assume that's external part number, and all internal parts
- *   at this mount point are affected. There is separate
- *   vector in which a list of external parts is stored,
- *   it must correspond to actual list of external parts
- *   (assure this if you add/remove parts programmatically).
+ * - Some methods take `part` or `p` parameter. This is the index of a part in
+ *   the parts list.
  * - Driver doesn't know what vehicle he drives.
  *   There's only player::in_vehicle flag which
  *   indicates that he is inside vehicle. To figure
@@ -158,12 +153,14 @@ struct vehicle_part
  *   When adding parts, function checks possibility to install part at given
  *   coords. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
- *   There are a few rules: some parts are external, so one should be the first part
- *   at given mount point (tile). They require some part in neighbouring tile (with the "MOUNT_POINT" flag) to
- *   be mounted to. Other parts are internal or placed over. They can only be installed on top
- *   of external part. Some functional parts can be only in single instance per tile, i. e.,
- *   no two engines at one mount point.
- *   If you can't understand why installation fails, try to assemble your vehicle in game first.
+ *   There are a few rules: 
+ *   1. Every mount point (tile) must begin with a part in the 'structure'
+ *      location, usually a frame.
+ *   2. No part can stack with itself.
+ *   3. No part can stack with another part in the same location, unless that
+ *      part is so small as to have no particular location (such as headlights).
+ *   If you can't understand why installation fails, try to assemble your
+ *   vehicle in game first.
  */
 class vehicle
 {
@@ -213,7 +210,7 @@ public:
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
 
-// check if certain external part can be unmounted
+// check if certain part can be unmounted
     bool can_unmount (int p);
 
 // install a new part to vehicle (force to skip possibility check)
@@ -401,7 +398,7 @@ public:
     // 0 - piercing
     // 1 - bashing (damage applied if it passes certain treshold)
     // 2 - incendiary
-    // damage individual external part. bash means damage
+    // damage individual part. bash means damage
     // must exceed certain threshold to be substracted from hp
     // (a lot light collisions will not destroy parts)
     // returns damage bypassed
