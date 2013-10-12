@@ -3392,6 +3392,18 @@ void player::pause(game *g)
                            mfb(bp_eyes)|mfb(bp_mouth));
         }
     }
+
+    VehicleList vehs = g->m.get_vehicles();
+    vehicle* veh = NULL;
+    for (int v = 0; v < vehs.size(); ++v) {
+        veh = vehs[v].v;
+        if (veh && veh->velocity > 0 && veh->player_in_control(this)) {
+            if (one_in(10)) {
+                practice(g->turn, "driving", 1);
+            }
+            break;
+        }
+    }
 }
 
 int player::throw_range(signed char ch)
