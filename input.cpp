@@ -76,6 +76,38 @@ InputEvent get_input(int ch)
 
 }
 
+// Gets input from both keyboard and mouse
+converted_input get_input_from_kyb_mouse()
+{
+    InputKybMouse raw_input;
+    if (is_mouse_enabled()) {
+        raw_input = getch_kyb_mouse();
+    } else {
+        raw_input.is_mouse_button = false;
+        raw_input.ch = get_keypress();
+    }
+    converted_input converted;
+    converted.ch = raw_input.ch;
+    if (raw_input.is_mouse_button) {
+        converted.event = MouseButton;
+        converted.x = raw_input.x;
+        converted.y = raw_input.y;
+    } else {
+        converted.event = get_input(raw_input.ch);
+    }
+
+    return converted;
+}
+
+bool is_mouse_enabled()
+{
+#if !(defined TILES || defined SDLTILES)
+    return false;
+#else
+    return true;
+#endif
+}
+
 void get_direction(int &x, int &y, InputEvent &input)
 {
     x = 0;

@@ -33,10 +33,20 @@ enum InputEvent {
     Reset,
     Pickup,
     Nothing,
+    MouseButton,
     Undefined
 };
 
+struct converted_input {
+    InputEvent event;
+    int ch;
+    int x; // Mouse X in window
+    int y; // Mouse Y in Window
+};
+
 InputEvent get_input(int ch = '\0');
+converted_input get_input_from_kyb_mouse();
+bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");
 
@@ -68,7 +78,8 @@ std::string get_input_string_from_file(std::string fname="input.txt");
 enum input_event_t {
     CATA_INPUT_ERROR,
     CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD
+    CATA_INPUT_GAMEPAD,
+    CATA_INPUT_MOUSE
 };
 
 /**
@@ -220,16 +231,16 @@ public:
      */
     const std::string get_desc(const std::string& action_descriptor);
 
-	/**
-	 * Handles input and returns the next action in the queue.
-	 *
-	 * This internally calls getch() or whatever other input method
-	 * is available(e.g. gamepad).
-	 *
-	 * @return One of the input actions formerly registered with
+    /**
+     * Handles input and returns the next action in the queue.
+     *
+     * This internally calls getch() or whatever other input method
+     * is available(e.g. gamepad).
+     *
+     * @return One of the input actions formerly registered with
      *         `register_action()`, or "ERROR" if an error happened.
-	 *
-	 */
+     *
+     */
     const std::string& handle_input();
 
     /**

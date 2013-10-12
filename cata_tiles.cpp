@@ -429,6 +429,7 @@ void cata_tiles::draw()
     // init lighting
     init_light();
 }
+
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) return;
@@ -437,8 +438,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     int posx = centerx;
     int posy = centery;
 
-    int sx = ceil((double)width / tile_width);
-    int sy = ceil((double)height / tile_height);
+    int sx, sy;
+    get_window_tile_counts(width, height, sx, sy);
 
     init_light();
 
@@ -514,6 +515,17 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
     SDL_BlitSurface(buffer, &srcrect, display_screen, &desrect);
+}
+
+void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
+{
+    columns = ceil((double) width / tile_width);
+    rows = ceil((double) height / tile_height);
+}
+
+int cata_tiles::get_tile_width() const
+{
+    return tile_width;
 }
 
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)

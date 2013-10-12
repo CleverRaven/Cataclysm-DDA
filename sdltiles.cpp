@@ -70,6 +70,7 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
+bool lastchar_is_mouse; // Mouse button pressed
 int inputdelay;         //How long getch will wait for a character to be typed
 int delaydpad = -1;     // Used for entering diagonal directions with d-pad.
 int dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
@@ -617,6 +618,7 @@ void CheckMessages()
         return;
     }
 
+    lastchar_is_mouse = false;
     while(SDL_PollEvent(&ev)) {
         switch(ev.type) {
             case SDL_KEYDOWN:
@@ -697,6 +699,25 @@ void CheckMessages()
                     SDL_ShowCursor(SDL_ENABLE);
                 }
                 break;
+
+            case SDL_MOUSEBUTTONUP:
+                if (ev.button.button == SDL_BUTTON_LEFT) {
+                    lastchar_is_mouse = true;
+                    lastchar = MOUSE_BUTTON_LEFT;
+                } else if (ev.button.button == SDL_BUTTON_RIGHT) {
+                    lastchar_is_mouse = true;
+                    lastchar = MOUSE_BUTTON_RIGHT;
+                } else if (ev.button.button == SDL_BUTTON_WHEELUP) {
+                    // Mouse wheel emulates '<' and '>'
+                    // FIXME This should really find current key from 'keymap', in case it's remapped, but
+                    // that's in action.h. When that's available at a different abstraction level,
+                    // this can be improved.
+                    lastchar = '<'; 
+                } else if (ev.button.button == SDL_BUTTON_WHEELDOWN) {
+                    lastchar = '>';
+                }
+                break;
+
             case SDL_QUIT:
                 quit = true;
                 break;
@@ -976,6 +997,68 @@ int curses_getch(WINDOW* win)
     }
 }
 
+// Gets input from both keyboard and mouse
+InputKybMouse getch_kyb_mouse(WINDOW* capture_win /* = NULL */)
+{
+    InputKybMouse input;
+    input.is_mouse_button = false;
+    input_event evt = inp_mngr.get_input_event(mainwin);
+
+    if (evt.sequence.size() == 0 || 
+        (evt.type != CATA_INPUT_MOUSE && evt.type != CATA_INPUT_KEYBOARD))
+    {
+        input.ch = ERR;
+        return input;
+    }
+
+    input.ch = static_cast<int>(evt.sequence[0]);
+    if (evt.type == CATA_INPUT_MOUSE) {
+        int mx, my;
+        SDL_GetMouseState(&mx, &my);
+        if (!capture_win) {
+            capture_win = g->w_terrain;
+        }
+
+        // Check if click is within bounds of the window we care about
+        int win_left = capture_win->x * fontwidth;
+        int win_right = (capture_win->x + capture_win->width) * fontwidth;
+        int win_top = capture_win->y * fontheight;
+        int win_bottom = (capture_win->y + capture_win->height) * fontheight;
+        if (mx < win_left || mx > win_right || my < win_top || my > win_bottom) {
+            input.ch = ERR;
+            return input;
+        }
+
+        input.is_mouse_button = true;
+        int view_columns, view_rows, selected_column, selected_row;
+
+        // Translate mouse coords to map coords based on tile size
+#ifdef SDLTILES
+        if (use_tiles)
+        {
+            tilecontext->get_window_tile_counts(
+                capture_win->width * fontwidth, capture_win->height * fontheight, view_columns, view_rows);
+
+            selected_column = (mx - win_left) / tilecontext->get_tile_width();
+            selected_row = (my - win_top) / tilecontext->get_tile_width();
+        }
+        else
+#endif
+        {
+            view_columns = capture_win->width;
+            view_rows = capture_win->height;
+            selected_column = (mx - win_left) / fontwidth;
+            selected_row = (my - win_top) / fontheight;
+        }
+
+        input.x = g->ter_view_x - ((view_columns/2) - selected_column);
+        input.y = g->ter_view_y - ((view_rows/2) - selected_row);
+    }
+
+    return input;
+}
+
+
 
 //Ends the terminal, destroy everything
 int curses_destroy(void)
@@ -1130,11 +1213,14 @@ input_event input_manager::get_input_event(WINDOW *win) {
 
     if(lastchar == ERR) {
         rval.type = CATA_INPUT_ERROR;
-    } else if(!lastchar_isbutton) {
-        rval.type = CATA_INPUT_KEYBOARD;
+    } else if(lastchar_isbutton) {
+        rval.type = CATA_INPUT_GAMEPAD;
+        rval.sequence.push_back(lastchar);
+    } else if(lastchar_is_mouse) {
+        rval.type = CATA_INPUT_MOUSE;
         rval.sequence.push_back(lastchar);
     } else {
-        rval.type = CATA_INPUT_GAMEPAD;
+        rval.type = CATA_INPUT_KEYBOARD;
         rval.sequence.push_back(lastchar);
     }
 

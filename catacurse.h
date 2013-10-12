@@ -75,6 +75,20 @@ typedef struct {
 
 } WINDOW;
 
+// Structure to encapsulate both keyboard and mouse input
+struct InputKybMouse {
+    int ch;
+    bool is_mouse_button;
+    int x; // Mouse X in window
+    int y; // Mouse Y in Window
+
+    InputKybMouse()
+    {
+        ch = x = y = 0;
+        is_mouse_button = false;
+    }
+};
+
 #define A_NORMAL __NORMAL
 #define A_STANDOUT __STANDOUT
 #define A_UNDERLINE __UNDERSCORE
@@ -113,6 +127,8 @@ typedef struct {
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */
 #define    KEY_ENTER      0x157    /* enter */
+
+enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT=2 };
 
 /* Curses external declarations. */
 
@@ -188,5 +204,6 @@ void curses_drawwindow(WINDOW* win);
 void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
+InputKybMouse getch_kyb_mouse(WINDOW* capture_win = NULL);
 int curses_start_color();
 #endif
