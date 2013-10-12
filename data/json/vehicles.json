@@ -1418,11 +1418,86 @@
         "type":"vehicle",
         "id": "shopping_cart",
         "name": "Shopping Cart",
-        "blueprint": "#",
+        "blueprint": "o",
         "parts": [
             {"x": 0, "y": 0, "part": "frame_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "box"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "welding_cart",
+        "name": "Welding Cart",
+        "blueprint": "&",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "small_storage_battery"},
+            {"x": 0, "y": 0, "part": "welding_rig"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "ice_cream_cart",
+        "name": "Ice Cream Cart",
+        "blueprint": "#",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "small_storage_battery"},
+            {"x": 0, "y": 0, "part": "minifridge"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "food_cart",
+        "name": "Food Vendor Cart",
+        "blueprint": [
+            ["&"],
+            ["H"],
+        ],
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "small_storage_battery"},
+            {"x": 0, "y": 0, "part": "kitchen_unit"},
+            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "wheel_caster"},
+            {"x": 0, "y": 1, "part": "minifridge"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "wheelbarrow",
+        "name": "Wheelbarrow",
+        "blueprint": "o",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_handle"},
+            {"x": 0, "y": 0, "part": "wheel_small"},
+            {"x": 0, "y": 0, "part": "box"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "luggage_cart",
+        "name": "Luggage Cart",
+        "blueprint": "o",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "box"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "swivel_chair",
+        "name": "Swivel Chair",
+        "blueprint": "#",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "seat"}
         ]
     },
     {
