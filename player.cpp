@@ -7067,6 +7067,8 @@ void player::sort_armor(game *g)
 
             if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
                 tmp_str += _("It has pockets.\n");
+                if (tmp_worn[leftListIndex]->has_flag("HOOD"))
+                tmp_str += _("It has a hood.\n");
             if (tmp_worn[leftListIndex]->has_flag("WATERPROOF"))
                 tmp_str += _("It is waterproof.\n");
             if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY"))
@@ -8037,6 +8039,12 @@ int player::warmth(body_part bp)
 
     // If the player is not wielding anything, check if hands can be put in pockets
     if(bp == bp_hands && !is_armed() && worn_with_flag("POCKETS"))
+    {
+        ret += 10;
+    }
+    
+    // If the players head is not encumbered, check if hood can be put up
+    if(bp == bp_head && encumb(bp_head) < 1 && worn_with_flag("HOOD"))
     {
         ret += 10;
     }
