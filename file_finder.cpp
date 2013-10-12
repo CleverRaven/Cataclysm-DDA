@@ -69,8 +69,8 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
                             if (subdir)
                             {
                                 directories.push(subpath);
-                                closedir(subdir);
                             }
+                            closedir(subdir);
                         }
                     }
                 }
