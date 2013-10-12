@@ -8693,7 +8693,7 @@ void game::butcher()
          mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
          int hotkey = -1;
          if (i == 0) {
-             for (auto it = keymap.begin(); it != keymap.end(); it++) {
+             for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); it++) {
                  if (it->second == ACTION_BUTCHER) {
                      hotkey = (it->first == 'q') ? -1 : it->first;
                      break;
@@ -8710,7 +8710,7 @@ void game::butcher()
      butcher_corpse_index = kmenu.ret;
  }
 
- auto corpse = m.i_at(u.posx, u.posy)[corpses[butcher_corpse_index]].corpse;
+ mtype *corpse = m.i_at(u.posx, u.posy)[corpses[butcher_corpse_index]].corpse;
  int time_to_cut = 0;
  switch (corpse->size) { // Time in turns to cut up te corpse
   case MS_TINY:   time_to_cut =  2; break;
