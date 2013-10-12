@@ -29,10 +29,9 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 
 # comment these to toggle them as one sees fit.
-# WARNINGS will spam hundreds of warnings, mostly safe, if turned on
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing -Wno-maybe-uninitialized
+WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-narrowing -Wno-maybe-uninitialized
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUG = -g

@@ -988,7 +988,7 @@ std::string word_rewrap (const std::string &ins, int width){
             continue;
         }
 
-        x += mk_wcwidth((wchar_t)uc);
+        x += mk_wcwidth(uc);
 
         if (x >= width) {
             if (lastwb == lastout) {
