@@ -1989,7 +1989,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  const char *title_EFFECTS = _("EFFECTS");
  mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
  for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
-  mvwprintz(w_effects, i+1, 1, c_ltgray, effect_name[i].c_str());
+  mvwprintz(w_effects, i+1, 0, c_ltgray, effect_name[i].c_str());
  }
  wrefresh(w_effects);
 
@@ -2437,9 +2437,9 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     if (i == line)
-     mvwprintz(w_effects, 1 + i - min, 1, h_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, effect_name[i].c_str());
     else
-     mvwprintz(w_effects, 1 + i - min, 1, c_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size()) {
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", effect_text[line].c_str());
@@ -2459,7 +2459,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
-      mvwprintz(w_effects, i + 1, 1, c_ltgray, effect_name[i].c_str());
+      mvwprintz(w_effects, i + 1, 0, c_ltgray, effect_name[i].c_str());
      wrefresh(w_effects);
      line = 0;
      curtab = 1;
