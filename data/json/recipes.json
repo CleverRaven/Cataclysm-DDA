@@ -6701,7 +6701,8 @@
       [ "incendiary", 100 ]
     ],
     [
-      [ "lead", 75 ]
+      [ "lead", 75 ],
+      [ "gold_small", 75 ]
     ]
   ]
 },{
@@ -6742,7 +6743,8 @@
       [ "incendiary", 100 ]
     ],
     [
-      [ "lead", 75 ]
+      [ "lead", 75 ],
+      [ "gold_small", 75 ]
     ],
     [
       [ "cu_pipe", 5]
