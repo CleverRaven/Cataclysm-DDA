@@ -9329,7 +9329,7 @@ void game::pldrive(int x, int y) {
         u.moves = 0;
     }
 
-    if (x != 0 && veh->velocity != 0 && one_in(4)) {
+    if (x != 0 && veh->velocity != 0 && one_in(10)) {
         u.practice(turn, "driving", 1);
     }
 }
