@@ -2037,7 +2037,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
    if (line < skill_win_size_y + 1)
    {
      mvwprintz(w_skills, line, 1, text_color, "%s", ((*aSkill)->name() + ":").c_str());
-     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%%%)", (int)level,
+     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", (int)level,
                (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
    }
@@ -2518,7 +2518,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
     }
     mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
     mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
 
    //Draw Scrollbar
@@ -2555,7 +2555,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
        status = isLearning ? c_ltblue : c_blue;
 
       mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
+      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
