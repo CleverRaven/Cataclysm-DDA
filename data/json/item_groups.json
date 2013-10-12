@@ -988,6 +988,7 @@
       ["vinegar", 10],
       ["lye_powder", 5],
       ["oxy_powder", 5],
+      ["boots_rubber", 20],
       ["charcoal", 5]
     ]
   },{
@@ -2926,6 +2927,7 @@
       ["glasses_safety", 40],
       ["helmet_riot", 25],
       ["lighter", 60],
+      ["boots_rubber", 20],
       ["canister_goo", 8]
     ]
   },{
@@ -2955,6 +2957,7 @@
       ["syringe", 8],
       ["rag", 1],
       ["scissors", 50],
+      ["boots_rubber", 20],
       ["rag_bloody", 1]
     ]
   },{
@@ -3516,6 +3519,7 @@
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
       ["tongs", 10],
+      ["boots_rubber", 20],
       ["apron_leather", 10]
     ]
   },{
@@ -3533,6 +3537,7 @@
       ["hat_hard", 50],
       ["battery", 50],
       ["flashlight", 40],
+      ["boots_rubber", 20],
       ["apron_leather", 10]
     ]
   },{

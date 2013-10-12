@@ -4697,7 +4697,7 @@ void player::suffer(game *g)
 
    bool power_armored = is_wearing_power_armor(&has_helmet);
 
-   if (power_armored && has_helmet) {
+   if ((power_armored && has_helmet) || is_wearing("hazmat_suit")) {
      radiation += 0; // Power armor protects completely from radiation
    } else if (power_armored || is_wearing("cleansuit")|| is_wearing("aep_suit")) {
      radiation += rng(0, localRadiation / 40);
