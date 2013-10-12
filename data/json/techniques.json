@@ -1,5 +1,6 @@
 [
   {
+        "type" : "technique",
     "id": "WIDE",
     "name": "Wide Strike",
     "unarmed_allowed": true,
@@ -13,6 +14,7 @@
     "quick": true
   },
   {
+        "type" : "technique",
     "id": "BRUTAL",
     "name": "Wide Strike",
     "unarmed_allowed": true,
@@ -26,6 +28,7 @@
     "verb_npc":"%1$s slams %2$s %3$s against %4$s"
   },
   {
+        "type" : "technique",
     "id": "RAPID",
     "name": "Rapid Strike",
     "min_unarmed": 0,
@@ -37,6 +40,7 @@
     "verb_npc": "%1$s quickly strikes with %2$s %3$s at %4$s"
   },
   {
+        "type" : "technique",
     "id": "WRAP",
     "name": "Wrap attack",
     "min_unarmed": 0,
@@ -48,6 +52,7 @@
     "verb_npc": "%1$s uses %2$s %3$s to wrap up %4$s"
   },
   {
+        "type" : "technique",
     "id": "SWEEP",
     "name": "Sweep Attack",
     "min_unarmed": 0,
@@ -59,6 +64,7 @@
     "verb_npc": "%1$s uses %2$s %3$s to sweep %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_feint",
     "name": "Feint",
     "unarmed_allowed": true,
@@ -69,6 +75,7 @@
 
   },
   {
+        "type" : "technique",
     "id": "tec_break",
     "name": "Grab Break",
     "unarmed_allowed": true,
@@ -78,6 +85,7 @@
     "grab_break": true
   },
   {
+        "type" : "technique",
     "id": "tec_precise",
     "name": "Precise Strike",
     "min_unarmed": 0,
@@ -91,6 +99,7 @@
     "stun_dur": 2
   },
   {
+        "type" : "technique",
     "id": "tec_karate_rapid",
     "name": "quick punch",
     "min_unarmed": 0,
@@ -102,6 +111,7 @@
     "quick": true
   },
   {
+        "type" : "technique",
     "id": "tec_karate_precise",
     "name": "karate chop",
     "min_unarmed": 4,
@@ -114,6 +124,7 @@
     "stun_dur": 2
   },
   {
+        "type" : "technique",
     "id": "tec_aikido_throw",
     "name": "throw",
     "min_unarmed": 2,
@@ -127,6 +138,7 @@
     "verb_npc": "%1$s throws %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_aikido_feint",
     "name": "feint at",
     "min_unarmed": 2,
@@ -139,6 +151,7 @@
     "verb_npc": "%1$s feints at %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_aikido_disarm",
     "name": "disarm",
     "min_unarmed": 3,
@@ -149,6 +162,7 @@
     "verb_npc": "%1$s disarms %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_judo_throw",
     "name": "throw",
     "min_unarmed": 3,
@@ -162,6 +176,7 @@
     "verb_npc": "%1$s throws %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_judo_grab",
     "name": "grab",
     "min_unarmed": 2,
@@ -173,6 +188,7 @@
     "verb_npc": "%1$s grabs %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_taichi_disarm",
     "name": "disarm",
     "min_unarmed": 3,
@@ -183,6 +199,7 @@
     "verb_npc": "%1$s disarms %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_taichi_precise",
     "name": "precise strike",
     "min_unarmed": 4,
@@ -195,6 +212,7 @@
     "verb_npc": "%1$s strikes %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_capoeira_feint",
     "name": "feint at",
     "min_unarmed": 1,
@@ -207,6 +225,7 @@
     "verb_npc": "%1$s feints at %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_muay_thai_elbow",
     "name": "elbow",
     "min_unarmed": 2,
@@ -219,6 +238,7 @@
     "stun_dur": 1
   },
   {
+        "type" : "technique",
     "id": "tec_muay_thai_kick",
     "name": "kick",
     "min_unarmed": 3,
@@ -230,6 +250,7 @@
     "stun_dur": 1
   },
   {
+        "type" : "technique",
     "id": "tec_muay_thai_knee",
     "name": "flying knee",
     "min_unarmed": 4,
@@ -242,6 +263,7 @@
     "stun_dur": 1
   },
   {
+        "type" : "technique",
     "id": "tec_krav_maga_rapid",
     "name": "quick punch",
     "min_unarmed": 2,
@@ -253,6 +275,7 @@
     "quick": true
   },
   {
+        "type" : "technique",
     "id": "tec_krav_maga_feint",
     "name": "feint at",
     "min_unarmed": 2,
@@ -265,6 +288,7 @@
     "verb_npc": "%1$s feints at %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_krav_maga_precise",
     "name": "precise strike",
     "min_unarmed": 3,
@@ -277,6 +301,7 @@
     "stun_dur": 2
   },
   {
+        "type" : "technique",
     "id": "tec_krav_maga_disarm",
     "name": "disarm",
     "min_unarmed": 3,
@@ -287,6 +312,7 @@
     "verb_npc": "%1$s disarms %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_krav_maga_grab",
     "name": "grab",
     "min_unarmed": 4,
@@ -298,6 +324,7 @@
     "verb_npc": "%1$s grabs %4$s"
   },
   {
+        "type" : "technique",
     "id": "tec_krav_maga_break",
     "name": "grab break",
     "min_unarmed": 4,
@@ -308,6 +335,7 @@
     "grab_break": true
   },
   {
+        "type" : "technique",
     "id": "tec_ninjutsu_precise",
     "name": "surprise attack",
     "min_unarmed": 3,
@@ -324,6 +352,7 @@
     "cut_mult": 2
   },
   {
+        "type" : "technique",
     "id": "tec_taekwondo_precise",
     "name": "",
     "min_unarmed": 2,
@@ -335,6 +364,7 @@
     "quick": true
   },
   {
+        "type" : "technique",
     "id": "tec_taekwondo_push",
     "name": "side kick",
     "min_unarmed":32,
@@ -347,6 +377,7 @@
     "knockback_dist": 1
   },
   {
+        "type" : "technique",
     "id": "tec_taekwondo_sweep",
     "name": "sweep kick",
     "min_unarmed": 4,
