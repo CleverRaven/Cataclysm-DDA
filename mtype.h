@@ -16,20 +16,6 @@
 
 class mdeath;
 
-enum monster_species {
-species_none = 0,
-species_mammal,
-species_insect,
-species_worm,
-species_zombie,
-species_plant,
-species_fungus,
-species_nether,
-species_robot,
-species_hallu,
-num_species
-};
-
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
 */
@@ -121,11 +107,6 @@ MTRIG_FRIEND_ATTACKED, // A monster of the same type attacked
 MTRIG_SOUND,  // Heard a sound
 N_MONSTER_TRIGGERS
 };
-
-// These functions are defined at the bottom of mtypedef.cpp
-std::vector<monster_trigger> default_anger(monster_species spec);
-std::vector<monster_trigger> default_fears(monster_species spec);
-
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
@@ -234,18 +215,6 @@ struct mtype {
 
     // Default constructor
     mtype ();
-    // Non-default (messy)
-    mtype (int pid, std::string pname, monster_species pspecies, char psym,
-            nc_color pcolor, m_size psize, std::string pmat,
-            unsigned int pdiff, signed char pagro,
-            signed char pmorale, unsigned int pspeed, unsigned char pml_skill,
-            unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
-            unsigned char pdodge, unsigned char parmor_bash,
-            unsigned char parmor_cut, signed char pitem_chance, int php,
-            unsigned char psp_freq,
-            void (mdeath::*pdies)      (game *, monster *),
-            void (mattack::*psp_attack)(game *, monster *),
-            std::string pdescription );
 
     bool has_flag(m_flag flag) const;
     bool has_anger_trigger(monster_trigger trigger) const;
