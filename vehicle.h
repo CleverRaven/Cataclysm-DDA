@@ -172,7 +172,6 @@ private:
 
     bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
-    int part_displayed_at(int local_x, int local_y);
     bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
     void add_missing_frames();
 
@@ -255,6 +254,7 @@ public:
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at (int dx, int dy);
     int global_part_at (int x, int y);
+    int part_displayed_at(int local_x, int local_y);
 
 // Given a part, finds its index in the vehicle
     int index_of_part(vehicle_part *part);
