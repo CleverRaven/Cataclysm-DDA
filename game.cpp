@@ -2830,6 +2830,15 @@ void game::write_memorial_file() {
         }
     }
 
+    /* Remove non-ASCII glyphs from character names - unicode symbols are not
+     * valid in filenames. */
+    std::string player_name = u.name;
+    for(int index = 0; index < player_name.size(); index++) {
+        if(player_name[index] > '~') {
+            player_name[index] = '_';
+        }
+    }
+
     std::string memorial_file_path = string_format("memorial/%s-%s.txt",
             u.name.c_str(), timestamp.c_str());
 
