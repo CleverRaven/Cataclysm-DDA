@@ -1432,6 +1432,11 @@ bool item::is_food_container(player const*u) const
     return (contents.size() >= 1 && contents[0].is_food(u));
 }
 
+bool is_edible(item i, player const*u)
+{
+    return (i.is_food(u) || i.is_food_container(u));
+}
+
 bool item::is_food() const
 {
     if( is_null() )
