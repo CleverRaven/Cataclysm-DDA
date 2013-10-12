@@ -273,6 +273,7 @@
       ["tongs", 25],
       ["char_smoker", 25],
       ["flask_hip", 5],
+      ["lye_powder", 5],
       ["charcoal", 5]
     ]
   },{
@@ -972,6 +973,8 @@
       ["scissors", 50],
       ["string_36", 40],
       ["vinegar", 10],
+      ["lye_powder", 5],
+      ["oxy_powder", 5],
       ["charcoal", 5]
     ]
   },{
@@ -2192,6 +2195,7 @@
       ["jar_glass", 20],
       ["fan", 5],
       ["hazmat_suit", 10],
+      ["oxy_powder", 2],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -2876,6 +2880,9 @@
       ["jar_3l_glass", 15],
       ["apron_leather", 2],
       ["pur_tablets", 5],
+      ["lye_powder", 10],
+      ["oxy_powder", 12],
+      ["chemistry_set", 5],
       ["charcoal", 10]
     ]
   },{
@@ -4155,6 +4162,7 @@
       ["software_useless", 10],
       ["canteen", 10],
       ["chemistry_set", 4],
+      ["oxy_powder", 8],
       ["pur_tablets", 10]
     ]
   },{

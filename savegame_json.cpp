@@ -1463,7 +1463,6 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
-    find_external_parts ();
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
