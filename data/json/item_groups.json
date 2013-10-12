@@ -2173,6 +2173,7 @@
       ["sweater", 75],
       ["hoodie", 65],
       ["jumpsuit", 20],
+      ["hazmat_suit", 5],
       ["cleansuit", 10]
     ]
   },{
@@ -2210,6 +2211,7 @@
       ["fan", 5],
       ["cleansuit", 10],
       ["oxy_powder", 2],
+      ["hazmat_suit", 5],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3653,6 +3655,7 @@
       ["bio_climate", 10],
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
+      ["hazmat_suit", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -4122,6 +4125,7 @@
       ["8mm_hvp", 2],
       ["needlegun", 4],
       ["5x50dart", 8],
+      ["hazmat_suit", 5],
       ["quikclot", 20]
     ]
   },{
@@ -4235,6 +4239,7 @@
       ["8mm_caseless", 10],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
+      ["hazmat_suit", 5],
       ["pur_tablets", 20]
     ]
   },{
