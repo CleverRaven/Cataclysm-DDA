@@ -1,5 +1,6 @@
 #ifndef _BIONICS_H_
 #define _BIONICS_H_
+#include "json.h"
 #include <string>
 #include <map>
 
@@ -15,11 +16,11 @@ public:
 
      std::string name;
      bool power_source;
-     bool activated;	// If true, then the below function only happens when
-          // activated; otherwise, it happens every turn
+     bool activated; // If true, then the below function only happens when
+                     // activated; otherwise, it happens every turn
      int power_cost;
-     int charge_time;	// How long, when activated, between drawing power_cost
-          // If 0, it draws power once
+     int charge_time; // How long, when activated, between drawing power_cost
+                      // If 0, it draws power once
      std::string description;
      bool faulty; // Whether or not the bionic is faulty
 };
@@ -29,13 +30,12 @@ struct bionic {
  char invlet;
  bool powered;
  int charge;
- bionic() {
-  id = "bio_batteries";
+ bionic() : id("bio_batteries") {
   invlet = 'a';
   powered = false;
   charge = 0;
  }
- bionic(bionic_id pid, char pinvlet) {
+ bionic(bionic_id pid, char pinvlet) : id(pid) {
   id = pid;
   invlet = pinvlet;
   powered = false;
@@ -47,5 +47,7 @@ extern std::map<bionic_id, bionic_data*> bionics;
 extern std::vector<bionic_id> faulty_bionics;
 extern std::vector<bionic_id> power_source_bionics;
 extern std::vector<bionic_id> unpowered_bionics;
+
+void load_bionic(JsonObject &jsobj); // load a bionic from JSON
 
 #endif

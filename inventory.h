@@ -43,7 +43,9 @@ class inventory
   void sort();
   void clear();
   void add_stack(std::list<item> newits);
+  void clone_stack(const std::list<item> &rhs);
   void push_back(std::list<item> newits);
+  char get_invlet_for_item( std::string item_type );
   item& add_item (item newit, bool keep_invlet = false); //returns a ref to the added item
   void add_item_by_type(itype_id type, int count = 1, int charges = -1);
   void add_item_keep_invlet(item newit);
@@ -70,6 +72,7 @@ class inventory
 
   std::vector<item*> all_items_by_type(itype_id type);
   std::vector<item*> all_ammo(ammotype type);
+  std::vector<item*> all_items_with_flag( const std::string flag );
 
 // Below, "amount" refers to quantity
 //        "charges" refers to charges
@@ -83,6 +86,7 @@ class inventory
   bool has_charges(itype_id it, int quantity) const;
   bool has_flag(std::string flag) const; //Inventory item has flag
   bool has_item(item *it) const; // Looks for a specific item
+  bool has_items_with_quality(std::string name, int level, int amount) const;
   bool has_gun_for_ammo(ammotype type) const;
   bool has_active_item(itype_id) const;
 
@@ -110,19 +114,24 @@ class inventory
   // vector rather than list because it's NOT an item stack
   std::vector<item*> active_items();
 
-  // hack to account for players saving inventory data (including weapon, etc.)
-  std::string save_str_no_quant() const;
+  void load_invlet_cache( std::ifstream &fin ); // see savegame_legacy.cpp
 
-/* TODO: This stuff, I guess?
-  std::string save();
-  void load(std::string data);
-*/
+  void json_load_invcache(picojson::value & parsed);
+  void json_load_items(picojson::value & parsed, game * g);
+
+  picojson::value json_save_invcache() const;
+  picojson::value json_save_items() const;
 
   item nullitem;
   std::list<item> nullstack;
+
  private:
+  // For each item ID, store a set of "favorite" inventory letters.
+  std::map<std::string, std::vector<char> > invlet_cache;
+  void update_cache_with_item(item& newit);
+
   item remove_item(invstack::iterator iter);
-  void assign_empty_invlet(item &it, player *p = NULL);
+  void assign_empty_invlet(item &it);
   invstack items;
   bool sorted;
 };

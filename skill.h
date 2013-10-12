@@ -7,6 +7,8 @@
 #include <iostream>
 #include <stdint.h>
 #include "calendar.h"
+#include "picofunc.h"
+#include "json.h"
 
 class Skill {
   size_t _id;
@@ -18,7 +20,7 @@ class Skill {
 
  public:
   static std::vector<Skill*> skills;
-  static std::vector<Skill*> loadSkills() throw (std::string);
+  static void load_skill(JsonObject &jsobj);
   static Skill* skill(std::string ident);
   static Skill* skill(size_t id);
 
@@ -32,9 +34,9 @@ class Skill {
   //DEBUG
   size_t id() { return _id; }
 
-  std::string ident() { return _ident; }
-  std::string name() { return _name; }
-  std::string description() { return _description; }
+  std::string ident() const { return _ident; }
+  std::string name() const { return _name; }
+  std::string description() const { return _description; }
 
   bool operator==(const Skill& b) const { return this->_ident == b._ident; }
   bool operator< (const Skill& b) const { return this->_ident <  b._ident; } // Only here for the benefit of std::map<Skill,T>
@@ -88,12 +90,15 @@ class SkillLevel {
 
    SkillLevel& operator= (const SkillLevel &rhs);
 
+  picojson::value json_save();
+  bool json_load(picojson::value & parsed);
+  bool json_load(std::map<std::string, picojson::value> & data );
+
   // Make skillLevel act like a raw level by default.
   operator int() const { return _level; }
 };
 
-std::istream& operator>>(std::istream& is, SkillLevel& obj);
-std::ostream& operator<<(std::ostream& os, const SkillLevel& obj);
+std::istream& operator>>(std::istream& is, SkillLevel& obj); // see savegame_legacy.cpp
 
 double price_adjustment(int);
 

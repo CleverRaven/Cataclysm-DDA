@@ -174,7 +174,8 @@ inventory& inventory::operator+= (const std::list<item> &rhs)
 {
     for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter)
     {
-        add_item(*iter);
+
+        add_item(*iter, true);
     }
     return *this;
 }
@@ -200,43 +201,43 @@ inventory inventory::operator+ (const item &rhs)
  return inventory(*this) += rhs;
 }
 
-
 inventory inventory::filter_by_category(item_cat cat, const player& u) const
 {
     inventory reduced_inv;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         const item& it = iter->front();
+
         switch (cat)
         {
         case IC_COMESTIBLE: // food
             if (it.is_food(&u) || it.is_food_container(&u))
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_AMMO: // ammo
             if (it.is_ammo() || it.is_ammo_container())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_ARMOR: // armour
             if (it.is_armor())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_BOOK: // books
             if (it.is_book())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_TOOL: // tools
             if (it.is_tool())
             {
-                reduced_inv += *iter;
+                 reduced_inv.clone_stack(*iter);
             }
             break;
         case IC_CONTAINER: // containers for liquid handling
@@ -244,14 +245,14 @@ inventory inventory::filter_by_category(item_cat cat, const player& u) const
             {
                 if (it.ammo_type() == "gasoline")
                 {
-                    reduced_inv += *iter;
+                    reduced_inv.clone_stack(*iter);
                 }
             }
             else
             {
                 if (it.is_container())
                 {
-                    reduced_inv += *iter;
+                    reduced_inv.clone_stack(*iter);
                 }
             }
             break;
@@ -290,22 +291,115 @@ void inventory::add_stack(const std::list<item> newits)
     }
 }
 
+/*
+ *  Bypass troublesome add_item for situations where we want an -exact- copy.
+ */
+void inventory::clone_stack (const std::list<item> & rhs) {
+    std::list<item> newstack;
+    for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
+       newstack.push_back(*iter);
+    }
+    items.push_back(newstack);
+//    return *this;    
+}
+
 void inventory::push_back(std::list<item> newits)
 {
  add_stack(newits);
 }
 
-item& inventory::add_item(item newit, bool keep_invlet)
-{
-    if (keep_invlet && !newit.invlet_is_okay())
-    {
-        assign_empty_invlet(newit); // Keep invlet is true, but invlet is invalid!
+// This function keeps the invlet cache updated when a new item is added.
+void inventory::update_cache_with_item(item& newit) {
+    // This function does two things:
+    // 1. It adds newit's invlet to the list of favorite letters for newit's item type.
+    // 2. It removes newit's invlet from the list of favorite letters for all other item types.
+
+    // Iterator over all the keys of the map.
+    std::map<std::string, std::vector<char> >::iterator i;
+    for(i=invlet_cache.begin(); i!=invlet_cache.end(); i++) {
+        std::string type = i->first;
+        std::vector<char>& preferred_invlets = i->second;
+
+        if( newit.typeId() != type){
+            // Erase the used invlet from all caches.
+            for(int ind=0; ind < preferred_invlets.size(); ind++) {
+                if(preferred_invlets[ind] == newit.invlet) {
+                    preferred_invlets.erase(preferred_invlets.begin()+ind);
+                    ind--;
+                }
+            }
+        }
     }
 
-    if (newit.is_style())
-    {
-        return nullitem; // Styles never belong in our inventory.
+    // Append the selected invlet to the list of preferred invlets of this item type.
+    std::vector<char>& preferred_invlets = invlet_cache[newit.typeId()];
+    preferred_invlets.push_back(newit.invlet);
+}
+
+char inventory::get_invlet_for_item( std::string item_type ) {
+    char candidate_invlet = 0;
+
+    if( invlet_cache.count( item_type ) ) {
+        std::vector<char>& preferred_invlets = invlet_cache[ item_type ];
+
+        // Some of our preferred letters might already be used.
+        int first_free_invlet = -1;
+        for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
+            bool invlet_is_used = false; // Check if anything is using this invlet.
+            if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
+                continue;
+            }
+            for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+                if( iter->front().invlet == preferred_invlets[ invlets_index ] ) {
+                    invlet_is_used = true;
+                    break;
+                }
+            }
+
+            // If we found one that isn't used, we're done iterating.
+            if( !invlet_is_used ) {
+                first_free_invlet = invlets_index;
+                break;
+            }
+        }
+
+        if( first_free_invlet != -1 ) {
+            candidate_invlet = preferred_invlets[first_free_invlet];
+        }
     }
+    return candidate_invlet;
+}
+
+
+item& inventory::add_item(item newit, bool keep_invlet)
+{
+//dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
+ 
+    bool reuse_cached_letter = false;
+
+    // Check how many stacks of this type already are in our inventory.
+
+    if(!keep_invlet) {
+        // Do we have this item in our inventory favourites cache?
+        char temp_invlet = get_invlet_for_item( newit.typeId() );
+        if( temp_invlet != 0 ) {
+            newit.invlet = temp_invlet;
+            reuse_cached_letter = true;
+        }
+
+        // If it's not in our cache and not a lowercase letter, try to give it a low letter.
+        if(!reuse_cached_letter && (newit.invlet < 'a' || newit.invlet > 'z')) {
+            assign_empty_invlet(newit);
+        }
+
+        // Make sure the assigned invlet doesn't exist already.
+        if(g->u.has_item(newit.invlet)) {
+            assign_empty_invlet(newit);
+        }
+    }
+
+
+    // See if we can't stack this item.
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         std::list<item>::iterator it_ref = iter->begin();
@@ -323,20 +417,26 @@ item& inventory::add_item(item newit, bool keep_invlet)
                     int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
                     it_ref->item_counter = tmpcounter;
                     newit.item_counter = tmpcounter;
-		        }
+                }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
                 return iter->back();
             }
+            else if (keep_invlet && it_ref->invlet == newit.invlet)
+            {
+                assign_empty_invlet(*it_ref);
+            }
         }
+        // If keep_invlet is true, we'll be forcing other items out of their current invlet.
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
             assign_empty_invlet(*it_ref);
         }
     }
-    if (!newit.invlet_is_okay() || !item_by_letter(newit.invlet).is_null())
-    {
-        assign_empty_invlet(newit);
+
+    // Couldn't stack the item, proceed.
+    if(!reuse_cached_letter) {
+        update_cache_with_item(newit);
     }
 
     std::list<item> newstack;
@@ -388,7 +488,7 @@ void inventory::restack(player *p)
     {
         if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet))
         {
-            assign_empty_invlet(iter->front(), p);
+            assign_empty_invlet(iter->front());
             for (std::list<item>::iterator stack_iter = iter->begin();
                  stack_iter != iter->end();
                  ++stack_iter)
@@ -448,20 +548,23 @@ void inventory::form_from_map(game *g, point origin, int range)
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
-   if (g->m.has_flag(sealed, x, y))
+   int junk;
+   if (g->m.has_flag("SEALED", x, y) ||
+       ((origin.x != x || origin.y != y) &&
+        !g->m.clear_path( origin.x, origin.y, x, y, range, 1, 100, junk ) ) ) {
      continue;
+   }
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
    ter_id terrain_id = g->m.ter(x, y);
-   furn_id furniture_id = g->m.furn(x, y);
    if ((g->m.field_at(x, y).findField(fd_fire)) || (terrain_id == t_lava)) {
     item fire(g->itypes["fire"], 0);
     fire.charges = 1;
     add_item(fire);
    }
-   if (furniture_id == f_toilet || terrain_id == t_water_sh || terrain_id == t_water_dp){
+   if (terrain_id == t_water_sh || terrain_id == t_water_dp){
     item water(g->itypes["water"], 0);
     water.charges = 50;
     add_item(water);
@@ -471,7 +574,8 @@ void inventory::form_from_map(game *g, point origin, int range)
    vehicle *veh = g->m.veh_at(x, y, vpart);
 
    if (veh) {
-     const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
+     const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+     const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
 
      if (kpart >= 0) {
        item hotplate(g->itypes["hotplate"], 0);
@@ -486,12 +590,22 @@ void inventory::form_from_map(game *g, point origin, int range)
        add_item(pot);
        item pan(g->itypes["pan"], 0);
        add_item(pan);
+       }
+     if (weldpart >= 0) {
+       item welder(g->itypes["welder"], 0);
+       welder.charges = veh->fuel_left("battery", true);
+       add_item(welder);
+
+       item soldering_iron(g->itypes["soldering_iron"], 0);
+       soldering_iron.charges = veh->fuel_left("battery", true);
+       add_item(soldering_iron);
+       }
      }
    }
 
   }
  }
-}
+
 
 std::list<item> inventory::remove_stack_by_letter(char ch)
 {
@@ -731,6 +845,21 @@ std::vector<item*> inventory::all_items_by_type(itype_id type)
     return ret;
 }
 
+std::vector<item*> inventory::all_items_with_flag( const std::string flag ) {
+  std::vector<item*> ret;
+
+  for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
+    for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
+      if (iitem->has_flag(flag)) {
+        ret.push_back(&*iitem);
+      }
+    }
+  }
+
+  return ret;
+}
+
+
 std::vector<item*> inventory::all_ammo(ammotype type)
 {
     std::vector<item*> ret;
@@ -747,9 +876,9 @@ std::vector<item*> inventory::all_ammo(ammotype type)
             }
             // Handle gasoline nested in containers
             else if (type == "gasoline" && stack_iter->is_container() &&
-	                 !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
-	                 dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
-	        {
+                     !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
+                     dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
+            {
                 ret.push_back(&*stack_iter);
                 return ret;
             }
@@ -797,33 +926,24 @@ int inventory::amount_of(itype_id it) const
 int inventory::charges_of(itype_id it) const
 {
     int count = 0;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            if (stack_iter->type->id == it)
-            {
-                if (stack_iter->charges < 0)
-                {
-                    count++;
-                }
-                else
-                {
-                    count += stack_iter->charges;
+             stack_iter != iter->end(); ++stack_iter) {
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
+                // If we're specifically looking for a container, only say we have it if it's empty.
+                if( stack_iter->contents.size() == 0 ) {
+                    if (stack_iter->charges < 0) {
+                        count++;
+                    } else {
+                        count += stack_iter->charges;
+                    }
                 }
             }
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                if (stack_iter->contents[k].type->id == it)
-                {
-                    if (stack_iter->contents[k].charges < 0)
-                    {
+            for (int k = 0; k < stack_iter->contents.size(); k++) {
+                if (stack_iter->contents[k].type->id == it) {
+                    if (stack_iter->contents[k].charges < 0) {
                         count++;
-                    }
-                    else
-                    {
+                    } else {
                         count += stack_iter->contents[k].charges;
                     }
                 }
@@ -871,7 +991,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                     --stack_iter;
                 }
             }
-            else if (stack_iter->type->id == it && quantity > 0)
+            else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.size() == 0)
             {
                 ret.push_back(*stack_iter);
                 quantity--;
@@ -933,12 +1053,16 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
             }
 
             // Now check the item itself
-            if (stack_iter->type->id == it)
+            if (stack_iter->type->id == it || stack_iter->ammo_type() == it)
             {
                 if (stack_iter->charges <= quantity)
                 {
                     ret.push_back(*stack_iter);
-                    quantity -= stack_iter->charges;
+                    if (stack_iter->charges < 0) {
+                        quantity--;
+                    } else {
+                        quantity -= stack_iter->charges;
+                    }
                     if (stack_iter->destroyed_at_zero_charges())
                     {
                         stack_iter = iter->erase(stack_iter);
@@ -1019,6 +1143,25 @@ bool inventory::has_item(item *it) const
     return false;
 }
 
+bool inventory::has_items_with_quality(std::string name, int level, int amount) const
+{
+    int found = 0;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter){
+        for(std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter){
+            std::map<std::string,int> qualities = stack_iter->type->qualities;
+            std::map<std::string,int>::const_iterator quality_iter = qualities.find(name);
+            if(quality_iter!=qualities.end() && level >= quality_iter->second){
+              found++;
+            }
+        }
+    }
+    if(found >= amount){
+      return true;
+    } else {
+      return false;
+    }
+}
+
 bool inventory::has_gun_for_ammo(ammotype type) const
 {
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
@@ -1083,7 +1226,7 @@ int inventory::butcher_factor() const
             const item& cur_item = *stack_iter;
             if (cur_item.damage_cut() >= 10 && !cur_item.has_flag("SPEAR"))
             {
-                int factor = cur_item.volume() * 5 - cur_item.weight() * 1.5 -
+                int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
                              cur_item.damage_cut();
                 if (cur_item.damage_cut() <= 20)
                 {
@@ -1365,12 +1508,13 @@ std::vector<item*> inventory::active_items()
     return ret;
 }
 
-void inventory::assign_empty_invlet(item &it, player *p)
+void inventory::assign_empty_invlet(item &it)
 {
+  player *p = &(g->u);
   for (std::string::const_iterator newinvlet = inv_chars.begin();
        newinvlet != inv_chars.end();
        newinvlet++) {
-   if (item_by_letter(*newinvlet).is_null() && (!p || !p->has_weapon_or_armor(*newinvlet))) {
+   if (!p->has_item(*newinvlet) && (!p || !p->has_weapon_or_armor(*newinvlet))) {
     it.invlet = *newinvlet;
     return;
    }
@@ -1379,21 +1523,3 @@ void inventory::assign_empty_invlet(item &it, player *p)
   //debugmsg("Couldn't find empty invlet");
 }
 
-std::string inventory::save_str_no_quant() const
-{
-    std::stringstream dump_ss;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            dump_ss << "I " << stack_iter->save_info() << std::endl;
-            for (int k = 0; k < stack_iter->contents.size(); k++)
-            {
-                dump_ss << "C " << stack_iter->contents[k].save_info() << std::endl;
-            }
-        }
-    }
-    return dump_ss.str();
-}

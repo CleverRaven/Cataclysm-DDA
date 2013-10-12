@@ -5,6 +5,8 @@
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
+#include "crafting.h"
+#include "monstergenerator.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -169,10 +171,10 @@ void defense_game::init_mtypes(game *g)
  for (int i = 0; i < num_monsters; i++) {
   g->mtypes[i]->difficulty *= 1.5;
   g->mtypes[i]->difficulty += int(g->mtypes[i]->difficulty / 5);
-  g->mtypes[i]->flags.push_back(MF_BASHES);
-  g->mtypes[i]->flags.push_back(MF_SMELLS);
-  g->mtypes[i]->flags.push_back(MF_HEARS);
-  g->mtypes[i]->flags.push_back(MF_SEES);
+  g->mtypes[i]->flags.insert(MF_BASHES);
+  g->mtypes[i]->flags.insert(MF_SMELLS);
+  g->mtypes[i]->flags.insert(MF_HEARS);
+  g->mtypes[i]->flags.insert(MF_SEES);
  }
 }
 
@@ -187,7 +189,7 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
-    for (recipe_map::iterator map_iter = g->recipes.begin(); map_iter != g->recipes.end(); ++map_iter)
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
         {
@@ -267,7 +269,7 @@ void defense_game::init_map(game *g)
  g->m.load(g, g->levx, g->levy, g->levz, true);
 
  g->update_map(g->u.posx, g->u.posy);
- monster generator(g->mtypes[mon_generator], g->u.posx + 1, g->u.posy + 1);
+ monster generator(GetMType("mon_generator"), g->u.posx + 1, g->u.posy + 1);
 // Find a valid spot to spawn the generator
  std::vector<point> valid;
  for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
@@ -281,7 +283,7 @@ void defense_game::init_map(game *g)
   generator.spawn(p.x, p.y);
  }
  generator.friendly = -1;
- g->z.push_back(generator);
+ g->add_zombie(generator);
 }
 
 void defense_game::init_to_style(defense_style new_style)
@@ -465,14 +467,11 @@ void defense_game::setup()
     selection--;
    refresh_setup(w, selection);
   } else if (ch == '!') {
-   std::string name = string_input_popup(_("Template Name:"), 20);
+   std::string name = string_input_popup(_("Template Name:"), 20); //TODO: this is NON FUNCTIONAL!!!
    refresh_setup(w, selection);
-  } else if (ch == 'S')
-   return;
-
-  else {
+  } else {
    switch (selection) {
-    case 1:	// Scenario selection
+    case 1: // Scenario selection
      if (ch == 'l') {
       if (style == defense_style(NUM_DEFENSE_STYLES - 1))
        style = defense_style(1);
@@ -488,7 +487,7 @@ void defense_game::setup()
      init_to_style(style);
      break;
 
-    case 2:	// Location selection
+    case 2: // Location selection
      if (ch == 'l') {
       if (location == defense_location(NUM_DEFENSE_LOCATIONS - 1))
        location = defense_location(1);
@@ -508,7 +507,7 @@ void defense_game::setup()
                defense_location_description(location).c_str());
      break;
 
-    case 3:	// Difficulty of the first wave
+    case 3: // Difficulty of the first wave
      if (ch == 'h' && initial_difficulty > 10)
       initial_difficulty -= 5;
      if (ch == 'l' && initial_difficulty < 995)
@@ -518,7 +517,7 @@ void defense_game::setup()
                initial_difficulty);
      break;
 
-    case 4:	// Wave Difficulty
+    case 4: // Wave Difficulty
      if (ch == 'h' && wave_difficulty > 10)
       wave_difficulty -= 5;
      if (ch == 'l' && wave_difficulty < 995)
@@ -707,17 +706,17 @@ std::string defense_style_name(defense_style style)
 {
 // 24 Characters Max!
  switch (style) {
-  case DEFENSE_CUSTOM:		return _("Custom");
-  case DEFENSE_EASY:		return _("Easy");
-  case DEFENSE_MEDIUM:		return _("Medium");
-  case DEFENSE_HARD:		return _("Hard");
-  case DEFENSE_SHAUN:		return _("Shaun of the Dead");
-  case DEFENSE_DAWN:		return _("Dawn of the Dead");
-  case DEFENSE_SPIDERS:		return _("Eight-Legged Freaks");
-  case DEFENSE_TRIFFIDS:	return _("Day of the Triffids");
-  case DEFENSE_SKYNET:		return _("Skynet");
-  case DEFENSE_LOVECRAFT:	return _("The Call of Cthulhu");
-  default:			return "Bug! (bug in defense.cpp:defense_style_name)";
+  case DEFENSE_CUSTOM:      return _("Custom");
+  case DEFENSE_EASY:        return _("Easy");
+  case DEFENSE_MEDIUM:      return _("Medium");
+  case DEFENSE_HARD:        return _("Hard");
+  case DEFENSE_SHAUN:       return _("Shaun of the Dead");
+  case DEFENSE_DAWN:        return _("Dawn of the Dead");
+  case DEFENSE_SPIDERS:     return _("Eight-Legged Freaks");
+  case DEFENSE_TRIFFIDS:    return _("Day of the Triffids");
+  case DEFENSE_SKYNET:      return _("Skynet");
+  case DEFENSE_LOVECRAFT:   return _("The Call of Cthulhu");
+  default:                  return "Bug! (bug in defense.cpp:defense_style_name)";
  }
 }
 
@@ -753,12 +752,12 @@ std::string defense_style_description(defense_style style)
 std::string defense_location_name(defense_location location)
 {
  switch (location) {
- case DEFLOC_NULL:	return "Nowhere?! (bug in defense.cpp:defense_location_name)";
- case DEFLOC_HOSPITAL:	return _("Hospital");
- case DEFLOC_MALL:	return _("Megastore");
- case DEFLOC_BAR:	return _("Bar");
- case DEFLOC_MANSION:	return _("Mansion");
- default:		return "a ghost's house (bug in defense.cpp:defense_location_name)";
+ case DEFLOC_NULL:      return "Nowhere?! (bug in defense.cpp:defense_location_name)";
+ case DEFLOC_HOSPITAL:  return _("Hospital");
+ case DEFLOC_MALL:      return _("Megastore");
+ case DEFLOC_BAR:       return _("Bar");
+ case DEFLOC_MANSION:   return _("Mansion");
+ default:               return "a ghost's house (bug in defense.cpp:defense_location_name)";
  }
 }
 
@@ -999,8 +998,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
    item tmp(g->itypes[ items[0][i] ], g->turn);
    tmp = tmp.in_its_container(&(g->itypes));
    for (int j = 0; j < item_count[0][i]; j++) {
-    if (g->u.volume_carried() + tmp.volume() <= g->u.volume_capacity() &&
-        g->u.weight_carried() + tmp.weight() <= g->u.weight_capacity() &&
+    if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight()) &&
         g->u.inv.size() < inv_chars.size())
      g->u.i_add(tmp);
     else { // Could fit it in the inventory!
@@ -1017,13 +1015,13 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
 std::string caravan_category_name(caravan_category cat)
 {
  switch (cat) {
-  case CARAVAN_CART:		return _("Shopping Cart");
-  case CARAVAN_MELEE:		return _("Melee Weapons");
-  case CARAVAN_GUNS:		return _("Firearms & Ammo");
-  case CARAVAN_COMPONENTS:	return _("Crafting & Construction Components");
-  case CARAVAN_FOOD:		return _("Food & Drugs");
-  case CARAVAN_CLOTHES:		return _("Clothing & Armor");
-  case CARAVAN_TOOLS:		return _("Tools, Traps & Grenades");
+  case CARAVAN_CART:        return _("Shopping Cart");
+  case CARAVAN_MELEE:       return _("Melee Weapons");
+  case CARAVAN_GUNS:        return _("Firearms & Ammo");
+  case CARAVAN_COMPONENTS:  return _("Crafting & Construction Components");
+  case CARAVAN_FOOD:        return _("Food & Drugs");
+  case CARAVAN_CLOTHES:     return _("Clothing & Armor");
+  case CARAVAN_TOOLS:       return _("Tools, Traps & Grenades");
  }
  return "BUG (defense.cpp:caravan_category_name)";
 }
@@ -1197,23 +1195,23 @@ void defense_game::spawn_wave(game *g)
  int diff = initial_difficulty + current_wave * wave_difficulty;
  bool themed_wave = one_in(SPECIAL_WAVE_CHANCE); // All a single monster type
  g->u.cash += cash_per_wave + (current_wave - 1) * cash_increase;
- std::vector<mon_id> valid;
+ std::vector<std::string> valid;
  valid = pick_monster_wave(g);
  while (diff > 0) {
 // Clear out any monsters that exceed our remaining difficulty
   for (int i = 0; i < valid.size(); i++) {
-   if (g->mtypes[valid[i]]->difficulty > diff) {
+   if (GetMType(valid[i])->difficulty > diff) {
     valid.erase(valid.begin() + i);
     i--;
    }
   }
-  if (valid.size() == 0) {
+  if (valid.empty()) {
    g->add_msg(_("Welcome to Wave %d!"), current_wave);
    g->add_msg("********");
    return;
   }
   int rn = rng(0, valid.size() - 1);
-  mtype *type = g->mtypes[valid[rn]];
+  mtype *type = GetMType(valid[rn]);
   if (themed_wave) {
    int num = diff / type->difficulty;
    if (num >= SPECIAL_WAVE_MIN) {
@@ -1233,10 +1231,10 @@ void defense_game::spawn_wave(game *g)
  g->add_msg("********");
 }
 
-std::vector<mon_id> defense_game::pick_monster_wave(game *g)
+std::vector<std::string> defense_game::pick_monster_wave(game *g)
 {
  std::vector<std::string> valid;
- std::vector<mon_id> ret;
+ std::vector<std::string> ret;
 
  if (zombies || specials) {
   if (specials)
@@ -1265,16 +1263,16 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
 {
  monster tmp(type);
  if (location == DEFLOC_HOSPITAL || location == DEFLOC_MALL) {
-  tmp.posy = SEEY; // Always spawn to the north!
-  tmp.posx = rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2));
+  // Always spawn to the north!
+  tmp.setpos(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)), SEEY);
  } else if (one_in(2)) {
   tmp.spawn(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)), rng(1, SEEY));
   if (one_in(2))
-   tmp.posy = SEEY * MAPSIZE - 1 - tmp.posy;
+   tmp.setpos(tmp.posx(), SEEY * MAPSIZE - 1 - tmp.posy());
  } else {
   tmp.spawn(rng(1, SEEX), rng(SEEY * (MAPSIZE / 2), SEEY * (1 + MAPSIZE / 2)));
   if (one_in(2))
-   tmp.posx = SEEX * MAPSIZE - 1 - tmp.posx;
+   tmp.setpos(SEEX * MAPSIZE - 1 - tmp.posx(), tmp.posy());
  }
  tmp.wandx = g->u.posx;
  tmp.wandy = g->u.posy;
@@ -1282,7 +1280,7 @@ void defense_game::spawn_wave_monster(game *g, mtype *type)
 // We wanna kill!
  tmp.anger = 100;
  tmp.morale = 100;
- g->z.push_back(tmp);
+ g->add_zombie(tmp);
 }
 
 std::string defense_game::special_wave_message(std::string name)

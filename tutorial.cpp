@@ -3,10 +3,12 @@
 #include "action.h"
 #include "tutorial.h"
 #include "overmapbuffer.h"
+#include "translations.h"
+#include "monstergenerator.h"
 
 bool tutorial_game::init(game *g)
 {
-	// TODO: clean up old tutorial
+    // TODO: clean up old tutorial
 
  g->turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
@@ -30,7 +32,7 @@ bool tutorial_game::init(game *g)
  g->cur_om = &overmap_buffer.get(g, 0, 0);
  g->cur_om->make_tutorial();
  g->cur_om->save();
- g->u.toggle_trait(PF_QUICK);
+ g->u.toggle_trait("QUICK");
  g->u.inv.push_back(item(g->itypes["lighter"], 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
@@ -122,12 +124,12 @@ void tutorial_game::post_action(game *g, action_id act)
  switch (act) {
  case ACTION_RELOAD:
   if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
-   monster tmp(g->mtypes[mon_zombie], g->u.posx, g->u.posy - 6);
-   g->z.push_back(tmp);
+   monster tmp(GetMType("mon_zombie"), g->u.posx, g->u.posy - 6);
+   g->add_zombie(tmp);
    tmp.spawn(g->u.posx + 2, g->u.posy - 5);
-   g->z.push_back(tmp);
+   g->add_zombie(tmp);
    tmp.spawn(g->u.posx - 2, g->u.posy - 5);
-   g->z.push_back(tmp);
+   g->add_zombie(tmp);
    add_message(g, LESSON_GUN_FIRE);
   }
   break;
@@ -200,6 +202,9 @@ void tutorial_game::post_action(game *g, action_id act)
    add_message(g, LESSON_OVERLOADED);
  } break;
 
+ default: //TODO: add more actions here
+  break;
+
  }
 }
 
@@ -209,9 +214,9 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
  if (lesson == LESSON_INTRO) {
   while (lesson != NUM_LESSONS && tutorials_seen[lesson]) {
    switch (lesson) {
-    case LESSON_INTRO:	lesson = LESSON_MOVE; break;
-    case LESSON_MOVE:	lesson = LESSON_LOOK; break;
-    case LESSON_LOOK:	lesson = NUM_LESSONS; break;
+    case LESSON_INTRO: lesson = LESSON_MOVE; break;
+    case LESSON_MOVE:  lesson = LESSON_LOOK; break;
+    default:  lesson = NUM_LESSONS; break;
    }
   }
   if (lesson == NUM_LESSONS)
@@ -220,6 +225,6 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
  if (tutorials_seen[lesson])
   return;
  tutorials_seen[lesson] = true;
- popup_top(tut_text[lesson].c_str());
+ popup_top(_(tut_text[lesson].c_str()));
  g->refresh_all();
 }

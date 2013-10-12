@@ -1,4 +1,7 @@
 #include "color.h"
+#include "cursesdef.h"
+#include "options.h"
+#include "rng.h"
 
 #define HILIGHT COLOR_BLUE
 void init_colors()
@@ -408,3 +411,329 @@ nc_color int_to_color(int key)
  }
  return c_black;
 }
+
+nc_color hilite(nc_color c)
+{
+    switch (c) {
+    case c_white:   return h_white;
+    case c_ltgray:  return h_ltgray;
+    case c_dkgray:  return h_dkgray;
+    case c_red:     return h_red;
+    case c_green:   return h_green;
+    case c_blue:    return h_blue;
+    case c_cyan:    return h_cyan;
+    case c_magenta: return h_magenta;
+    case c_brown:   return h_brown;
+    case c_ltred:   return h_ltred;
+    case c_ltgreen: return h_ltgreen;
+    case c_ltblue:  return h_ltblue;
+    case c_ltcyan:  return h_ltcyan;
+    case c_pink:    return h_pink;
+    case c_yellow:  return h_yellow;
+    }
+    return h_white;
+}
+
+nc_color invert_color(nc_color c)
+{
+    if (OPTIONS["NO_BRIGHT_BACKGROUNDS"]) {
+        switch (c) {
+        case c_white:
+        case c_ltgray:
+        case c_dkgray:  return i_ltgray;
+        case c_red:
+        case c_ltred:   return i_red;
+        case c_green:
+        case c_ltgreen: return i_green;
+        case c_blue:
+        case c_ltblue:  return i_blue;
+        case c_cyan:
+        case c_ltcyan:  return i_cyan;
+        case c_magenta:
+        case c_pink:    return i_magenta;
+        case c_brown:
+        case c_yellow:  return i_brown;
+        }
+    }
+
+    switch (c) {
+    case c_white:   return i_white;
+    case c_ltgray:  return i_ltgray;
+    case c_dkgray:  return i_dkgray;
+    case c_red:     return i_red;
+    case c_green:   return i_green;
+    case c_blue:    return i_blue;
+    case c_cyan:    return i_cyan;
+    case c_magenta: return i_magenta;
+    case c_brown:   return i_brown;
+    case c_yellow:  return i_yellow;
+    case c_ltred:   return i_ltred;
+    case c_ltgreen: return i_ltgreen;
+    case c_ltblue:  return i_ltblue;
+    case c_ltcyan:  return i_ltcyan;
+    case c_pink:    return i_pink;
+    }
+
+    return c_pink;
+}
+
+nc_color red_background(nc_color c)
+{
+    switch (c) {
+    case c_white:   return c_white_red;
+    case c_ltgray:  return c_ltgray_red;
+    case c_dkgray:  return c_dkgray_red;
+    case c_red:     return c_red_red;
+    case c_green:   return c_green_red;
+    case c_blue:    return c_blue_red;
+    case c_cyan:    return c_cyan_red;
+    case c_magenta: return c_magenta_red;
+    case c_brown:   return c_brown_red;
+    case c_ltred:   return c_ltred_red;
+    case c_ltgreen: return c_ltgreen_red;
+    case c_ltblue:  return c_ltblue_red;
+    case c_ltcyan:  return c_ltcyan_red;
+    case c_pink:    return c_pink_red;
+    case c_yellow:  return c_yellow_red;
+    }
+    return c_white_red;
+}
+
+/// colors need to be totally redone, really..
+nc_color white_background(nc_color c)
+{
+    switch (c) {
+    case c_black:   return c_black_white;
+    case c_dkgray:  return c_dkgray_white;
+    case c_ltgray:  return c_ltgray_white;
+    case c_white:   return c_white_white;
+    case c_red:     return c_red_white;
+    case c_ltred:   return c_ltred_white;
+    case c_green:   return c_green_white;
+    case c_ltgreen: return c_ltgreen_white;
+    case c_brown:   return c_brown_white;
+    case c_yellow:  return c_yellow_white;
+    case c_blue:    return c_blue_white;
+    case c_ltblue:  return c_ltblue_white;
+    case c_magenta: return c_magenta_white;
+    case c_pink:    return c_pink_white;
+    case c_cyan:    return c_cyan_white;
+    case c_ltcyan:  return c_ltcyan_white;
+    default: return c_black_white;
+    }
+}
+
+nc_color green_background(nc_color c)
+{
+    switch (c) {
+    case c_black:   return c_black_green;
+    case c_dkgray:  return c_dkgray_green;
+    case c_ltgray:  return c_ltgray_green;
+    case c_white:   return c_white_green;
+    case c_red:     return c_red_green;
+    case c_ltred:   return c_ltred_green;
+    case c_green:   return c_green_green;
+    case c_ltgreen: return c_ltgreen_green;
+    case c_brown:   return c_brown_green;
+    case c_yellow:  return c_yellow_green;
+    case c_blue:    return c_blue_green;
+    case c_ltblue:  return c_ltblue_green;
+    case c_magenta: return c_magenta_green;
+    case c_pink:    return c_pink_green;
+    case c_cyan:    return c_cyan_green;
+    case c_ltcyan:  return c_ltcyan_green;
+    default: return c_black_green;
+    }
+}
+
+nc_color yellow_background(nc_color c)
+{
+    switch (c) {
+    case c_black:   return c_black_yellow;
+    case c_dkgray:  return c_dkgray_yellow;
+    case c_ltgray:  return c_ltgray_yellow;
+    case c_white:   return c_white_yellow;
+    case c_red:     return c_red_yellow;
+    case c_ltred:   return c_ltred_yellow;
+    case c_green:   return c_green_yellow;
+    case c_ltgreen: return c_ltgreen_yellow;
+    case c_brown:   return c_brown_yellow;
+    case c_yellow:  return c_yellow_yellow;
+    case c_blue:    return c_blue_yellow;
+    case c_ltblue:  return c_ltblue_yellow;
+    case c_magenta: return c_magenta_yellow;
+    case c_pink:    return c_pink_yellow;
+    case c_cyan:    return c_cyan_yellow;
+    case c_ltcyan:  return c_ltcyan_yellow;
+    default: return c_black_yellow;
+    }
+}
+
+nc_color magenta_background(nc_color c)
+{
+    switch (c) {
+    case c_black:   return c_black_magenta;
+    case c_dkgray:  return c_dkgray_magenta;
+    case c_ltgray:  return c_ltgray_magenta;
+    case c_white:   return c_white_magenta;
+    case c_red:     return c_red_magenta;
+    case c_ltred:   return c_ltred_magenta;
+    case c_green:   return c_green_magenta;
+    case c_ltgreen: return c_ltgreen_magenta;
+    case c_brown:   return c_brown_magenta;
+    case c_yellow:  return c_yellow_magenta;
+    case c_blue:    return c_blue_magenta;
+    case c_ltblue:  return c_ltblue_magenta;
+    case c_magenta: return c_magenta_magenta;
+    case c_pink:    return c_pink_magenta;
+    case c_cyan:    return c_cyan_magenta;
+    case c_ltcyan:  return c_ltcyan_magenta;
+    default: return c_black_magenta;
+    }
+}
+
+nc_color cyan_background(nc_color c)
+{
+    switch (c) {
+    case c_black:   return c_black_cyan;
+    case c_dkgray:  return c_dkgray_cyan;
+    case c_ltgray:  return c_ltgray_cyan;
+    case c_white:   return c_white_cyan;
+    case c_red:     return c_red_cyan;
+    case c_ltred:   return c_ltred_cyan;
+    case c_green:   return c_green_cyan;
+    case c_ltgreen: return c_ltgreen_cyan;
+    case c_brown:   return c_brown_cyan;
+    case c_yellow:  return c_yellow_cyan;
+    case c_blue:    return c_blue_cyan;
+    case c_ltblue:  return c_ltblue_cyan;
+    case c_magenta: return c_magenta_cyan;
+    case c_pink:    return c_pink_cyan;
+    case c_cyan:    return c_cyan_cyan;
+    case c_ltcyan:  return c_ltcyan_cyan;
+    default: return c_black_cyan;
+    }
+}
+
+nc_color rand_color()
+{
+    switch (rng(0, 9)) {
+    case 0: return c_white;
+    case 1: return c_ltgray;
+    case 2: return c_green;
+    case 3: return c_red;
+    case 4: return c_yellow;
+    case 5: return c_blue;
+    case 6: return c_ltblue;
+    case 7: return c_pink;
+    case 8: return c_magenta;
+    case 9: return c_brown;
+    }
+    return c_dkgray;
+}
+
+/**
+ * Given the name of a color, returns the nc_color constant that matches. If
+ * no match is found, c_white is returned.
+ * @param new_color The color to get, as a std::string.
+ * @return The nc_color constant that matches the input.
+ */
+nc_color color_from_string(std::string new_color){
+    if("red"==new_color){
+        return c_red;
+    } else if("blue"==new_color){
+        return c_blue;
+    } else if("green"==new_color){
+        return c_green;
+    } else if("light_cyan"==new_color || "ltcyan"==new_color){
+        return c_ltcyan;
+    } else if("brown"==new_color){
+        return c_brown;
+    } else if("light_red"==new_color || "ltred"==new_color){
+        return c_ltred;
+    } else if("white"==new_color){
+        return c_white;
+    } else if("black"==new_color){
+        return c_black;
+    } else if("light_blue"==new_color || "ltblue"==new_color){
+        return c_ltblue;
+    } else if("yellow"==new_color){
+        return c_yellow;
+    } else if("magenta"==new_color){
+        return c_magenta;
+    } else if("cyan"==new_color){
+        return c_cyan;
+    } else if("light_gray"==new_color || "ltgray"==new_color){
+        return c_ltgray;
+    } else if("dark_gray"==new_color || "dkgray"==new_color){
+        return c_dkgray;
+    } else if("light_green"==new_color || "ltgreen"==new_color){
+        return c_ltgreen;
+    } else if("pink"==new_color){
+        return c_pink;
+    } else if("cyan_red"==new_color){
+        return c_cyan_red;
+    } else {
+        return c_white;
+    }
+}
+
+/**
+ * Given the name of a background color (that is, one of the i_xxxxx colors),
+ * returns the nc_color constant that matches. If no match is found, i_white is
+ * returned.
+ * @param new_color The color to get, as a std::string.
+ * @return The nc_color constant that matches the input.
+ */
+nc_color bgcolor_from_string(std::string new_color) {
+  if("black" == new_color) {
+    return i_black;
+  } else if("white" == new_color) {
+    return i_white;
+  } else if("light_gray" == new_color || "ltgray" == new_color) {
+    return i_ltgray;
+  } else if("dark_gray" == new_color || "dkgray" == new_color) {
+    return i_dkgray;
+  } else if("red" == new_color) {
+    return i_red;
+  } else if("green" == new_color) {
+    return i_green;
+  } else if("blue" == new_color) {
+    return i_blue;
+  } else if("cyan" == new_color) {
+    return i_cyan;
+  } else if("magenta" == new_color) {
+    return i_magenta;
+  } else if("brown" == new_color) {
+    return i_brown;
+  } else if("light_red" == new_color || "ltred" == new_color) {
+    return i_ltred;
+  } else if("light_blue" == new_color || "ltblue" == new_color) {
+    return i_ltblue;
+  } else if("light_cyan" == new_color || "ltcyan" == new_color) {
+    return i_ltcyan;
+  } else if("pink" == new_color) {
+    return i_pink;
+  } else if("yellow" == new_color) {
+    return i_yellow;
+  } else {
+    return i_white;
+  }
+}
+
+nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
+{
+    if (s.empty() || s[0] != '<' || s.substr(0,8) == "</color>") {
+        return base_color;
+    }
+    if (s.substr(0,7) != "<color_") {
+        return base_color;
+    }
+    size_t tag_close = s.find('>');
+    if (tag_close == std::string::npos) {
+        return base_color;
+    }
+    std::string color_name = s.substr(7,tag_close-7);
+    return color_from_string(color_name);
+}
+

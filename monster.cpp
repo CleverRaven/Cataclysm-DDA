@@ -10,15 +10,19 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
+#include <algorithm>
 #include "cursesdef.h"
+#include "monstergenerator.h"
+
+#include "picofunc.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
 
 monster::monster()
 {
- posx = 20;
- posy = 10;
+ _posx = 20;
+ _posy = 10;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -38,12 +42,13 @@ monster::monster()
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::monster(mtype *t)
 {
- posx = 20;
- posy = 10;
+ _posx = 20;
+ _posy = 10;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -65,12 +70,13 @@ monster::monster(mtype *t)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::monster(mtype *t, int x, int y)
 {
- posx = x;
- posy = y;
+ _posx = x;
+ _posy = y;
  wandx = -1;
  wandy = -1;
  wandf = 0;
@@ -92,10 +98,24 @@ monster::monster(mtype *t, int x, int y)
  dead = false;
  made_footstep = false;
  unique_name = "";
+ hallucination = false;
 }
 
 monster::~monster()
 {
+}
+
+bool monster::setpos(const int x, const int y, const bool level_change)
+{
+    bool ret = level_change ? true : g->update_zombie_pos(*this, x, y);
+    _posx = x;
+    _posy = y;
+    return ret;
+}
+
+bool monster::setpos(const point &p, const bool level_change)
+{
+    return setpos(p.x, p.y, level_change);
 }
 
 void monster::poly(mtype *t)
@@ -112,8 +132,8 @@ void monster::poly(mtype *t)
 
 void monster::spawn(int x, int y)
 {
- posx = x;
- posy = y;
+    _posx = x;
+    _posy = y;
 }
 
 std::string monster::name()
@@ -131,7 +151,7 @@ std::string monster::name()
 std::string monster::name_with_armor()
 {
  std::string ret;
- if (type->species == species_insect) {
+ if (type->in_species("INSECT")) {
      ret = string_format(_("%s's carapace"), type->name.c_str());
  }
  else {
@@ -186,7 +206,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
- if (hp == type->hp) {
+ if (hp >= type->hp) {
   damage_info = _("It is uninjured");
   col = c_green;
  } else if (hp >= type->hp * .8) {
@@ -221,8 +241,8 @@ char monster::symbol()
 
 void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 {
- int x = getmaxx(w)/2 + posx - plx;
- int y = getmaxy(w)/2 + posy - ply;
+ int x = getmaxx(w)/2 + posx() - plx;
+ int y = getmaxy(w)/2 + posy() - ply;
  nc_color color = type->color;
  if (friendly != 0 && !inv)
   mvwputch_hi(w, y, x, color, type->sym);
@@ -246,11 +266,7 @@ nc_color monster::color_with_effects()
 
 bool monster::has_flag(m_flag f)
 {
- for (int i = 0; i < type->flags.size(); i++) {
-  if (type->flags[i] == f)
-   return true;
- }
- return false;
+ return type->has_flag(f);
 }
 
 bool monster::can_see()
@@ -261,6 +277,18 @@ bool monster::can_see()
 bool monster::can_hear()
 {
  return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
+}
+
+bool monster::can_submerge()
+{
+  return (has_flag(MF_NO_BREATHE) || has_flag(MF_SWIMS) || has_flag(MF_AQUATIC))
+          && !has_flag(MF_ELECTRONIC);
+}
+
+bool monster::can_drown()
+{
+ return !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
+         && !has_flag(MF_NO_BREATHE) && !has_flag(MF_FLIES);
 }
 
 bool monster::made_of(std::string m)
@@ -277,36 +305,32 @@ bool monster::made_of(phase_id p)
  return false;
 }
 
-void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
+void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
 {
- std::stringstream dump;
- int idtmp, plansize;
- dump << data;
- dump >> idtmp >> posx >> posy >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
-         no_extra_death_drops >> dead >> anger >> morale;
- type = (*mtypes)[idtmp];
- point ptmp;
- plans.clear();
- for (int i = 0; i < plansize; i++) {
-  dump >> ptmp.x >> ptmp.y;
-  plans.push_back(ptmp);
- }
+    std::stringstream dump;
+    dump << data;
+    if ( dump.peek() == '{' ) {
+        picojson::value pdata;
+        dump >> pdata;
+        std::string jsonerr = picojson::get_last_error();
+        if ( ! jsonerr.empty() ) {
+            debugmsg("Bad monster json\n%s", jsonerr.c_str() );
+        } else {
+            json_load(pdata, mtypes);
+        }
+        return;
+    } else {
+        load_legacy(mtypes, dump);
+    }
 }
 
+/*
+ * save serialized monster data to a line.
+ * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt
+ */
 std::string monster::save_info()
 {
-    std::stringstream pack;
-    pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
-        wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
-        " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-        faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
-        dead << " " << anger << " " << morale;
-    for (int i = 0; i < plans.size(); i++) {
-        pack << " " << plans[i].x << " " << plans[i].y;
-    }
-
-    return pack.str();
+    return json_save(true).serialize();
 }
 
 void monster::debug(player &u)
@@ -325,8 +349,8 @@ void monster::debug(player &u)
 
 void monster::shift(int sx, int sy)
 {
- posx -= sx * SEEX;
- posy -= sy * SEEY;
+ _posx -= sx * SEEX;
+ _posy -= sy * SEEY;
  for (int i = 0; i < plans.size(); i++) {
   plans[i].x -= sx * SEEX;
   plans[i].y -= sy * SEEY;
@@ -339,7 +363,7 @@ bool monster::is_fleeing(player &u)
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist(posx, posy, u.posx, u.posy) <= 4));
+         (att == MATT_FOLLOW && rl_dist(_posx, _posy, u.posx, u.posy) <= 4));
 }
 
 monster_attitude monster::attitude(player *u)
@@ -354,15 +378,15 @@ monster_attitude monster::attitude(player *u)
 
  if (u != NULL) {
 
-  if (((type->species == species_mammal && u->has_trait(PF_PHEROMONE_MAMMAL)) ||
-       (type->species == species_insect && u->has_trait(PF_PHEROMONE_INSECT)))&&
+  if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
+       (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT")))&&
       effective_anger >= 10)
    effective_anger -= 20;
 
-  if (u->has_trait(PF_TERRIFYING))
+  if (u->has_trait("TERRIFYING"))
    effective_morale -= 10;
 
-  if (u->has_trait(PF_ANIMALEMPATH) && has_flag(MF_ANIMAL)) {
+  if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
    if (effective_anger >= 10)
     effective_anger -= 10;
    if (effective_anger < 10)
@@ -400,65 +424,62 @@ void monster::process_triggers(game *g)
 // This Adjustes anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
- for (int i = 0; i < type->anger.size(); i++) {
-  if (type->anger[i] == trig)
-   anger += amount;
- }
- for (int i = 0; i < type->placate.size(); i++) {
-  if (type->placate[i] == trig)
-   anger -= amount;
- }
- for (int i = 0; i < type->fear.size(); i++) {
-  if (type->fear[i] == trig)
-   morale -= amount;
- }
+    if (type->has_anger_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger += amount;
+    }
+    if (type->has_fear_trigger(MTRIG_FRIEND_ATTACKED)){
+        morale -= amount;
+    }
+    if (type->has_placate_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger -= amount;
+    }
 }
 
 
-int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
+int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
 {
  int ret = 0;
  bool check_terrain = false, check_meat = false, check_fire = false;
- for (int i = 0; i < triggers->size(); i++) {
+ for (std::set<monster_trigger>::iterator trig = triggers->begin(); trig != triggers->end(); ++trig)
+ {
+     switch (*trig){
+      case MTRIG_STALK:
+       if (anger > 0 && one_in(20))
+        ret++;
+       break;
 
-  switch ((*triggers)[i]) {
-  case MTRIG_STALK:
-   if (anger > 0 && one_in(20))
-    ret++;
-   break;
+      case MTRIG_MEAT:
+       check_terrain = true;
+       check_meat = true;
+       break;
 
-  case MTRIG_MEAT:
-   check_terrain = true;
-   check_meat = true;
-   break;
+      case MTRIG_PLAYER_CLOSE:
+       if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5)
+        ret += 5;
+       for (int i = 0; i < g->active_npc.size(); i++) {
+        if (rl_dist(_posx, _posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
+         ret += 5;
+       }
+       break;
 
-  case MTRIG_PLAYER_CLOSE:
-   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 5)
-    ret += 5;
-   for (int i = 0; i < g->active_npc.size(); i++) {
-    if (rl_dist(posx, posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
-     ret += 5;
-   }
-   break;
+      case MTRIG_FIRE:
+       check_terrain = true;
+       check_fire = true;
+       break;
 
-  case MTRIG_FIRE:
-   check_terrain = true;
-   check_fire = true;
-   break;
+      case MTRIG_PLAYER_WEAK:
+       if (g->u.hp_percentage() <= 70)
+        ret += 10 - int(g->u.hp_percentage() / 10);
+       break;
 
-  case MTRIG_PLAYER_WEAK:
-   if (g->u.hp_percentage() <= 70)
-    ret += 10 - int(g->u.hp_percentage() / 10);
-   break;
-
-  default:
-   break; // The rest are handled when the impetus occurs
-  }
+      default:
+       break; // The rest are handled when the impetus occurs
+    }
  }
 
  if (check_terrain) {
-  for (int x = posx - 3; x <= posx + 3; x++) {
-   for (int y = posy - 3; y <= posy + 3; y++) {
+  for (int x = _posx - 3; x <= _posx + 3; x++) {
+   for (int y = _posy - 3; y <= _posy + 3; y++) {
     if (check_meat) {
      std::vector<item> *items = &(g->m.i_at(x, y));
      for (int n = 0; n < items->size(); n++) {
@@ -488,7 +509,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 
 int monster::hit(game *g, player &p, body_part &bp_hit) {
  int ret = 0;
- int highest_hit;
+ int highest_hit = 0;
  switch (type->size) {
  case MS_TINY:
   highest_hit = 3;
@@ -535,11 +556,10 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
 
 void monster::hit_monster(game *g, int i)
 {
- monster* target = &(g->z[i]);
+ monster* target = &(g->zombie(i));
  moves -= 100;
 
  if (this == target) {
-  debugmsg("stopped monster from hitting itself");
   return;
  }
 
@@ -653,7 +673,7 @@ void monster::die(game *g)
                      g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
                  for (int i = 0; i < groups.size(); i++) {
                      if (MonsterGroupManager::IsMonsterInGroup
-                         (groups[i]->type, mon_id(type->id)))
+                         (groups[i]->type, (type->id)))
                          groups[i]->dying = true;
                  }
           }
@@ -670,28 +690,32 @@ void monster::die(game *g)
  }
 // Also, perform our death function
  mdeath md;
- (md.*type->dies)(g, this);
+ if(is_hallucination()) {
+   //Hallucinations always just disappear
+   md.disappear(g, this);
+   return;
+ } else {
+   (md.*type->dies)(g, this);
+ }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;
- for (int i = 0; i < type->anger.size(); i++) {
-  if (type->anger[i] == MTRIG_FRIEND_DIED)
-   anger_adjust += 15;
+ if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+    anger_adjust += 15;
  }
- for (int i = 0; i < type->placate.size(); i++) {
-  if (type->placate[i] == MTRIG_FRIEND_DIED)
-   anger_adjust -= 15;
+ if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+    morale_adjust -= 15;
  }
- for (int i = 0; i < type->fear.size(); i++) {
-  if (type->fear[i] == MTRIG_FRIEND_DIED)
-   morale_adjust -= 15;
+ if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+    anger_adjust -= 15;
  }
+
  if (anger_adjust != 0 && morale_adjust != 0) {
   int light = g->light_level();
-  for (int i = 0; i < g->z.size(); i++) {
+  for (int i = 0; i < g->num_zombies(); i++) {
    int t = 0;
-   if (g->m.sees(g->z[i].posx, g->z[i].posy, posx, posy, light, t)) {
-    g->z[i].morale += morale_adjust;
-    g->z[i].anger += anger_adjust;
+   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
+    g->zombie(i).morale += morale_adjust;
+    g->zombie(i).anger += anger_adjust;
    }
   }
  }
@@ -699,6 +723,9 @@ void monster::die(game *g)
 
 void monster::drop_items_on_death(game *g)
 {
+    if(is_hallucination()) {
+        return;
+    }
     int total_chance = 0, cur_chance, selected_location;
     bool animal_done = false;
     std::vector<items_location_and_chance> it = g->monitems[type->id];
@@ -727,7 +754,7 @@ void monster::drop_items_on_death(game *g)
         // We have selected a string representing an item group, now
         // get a random item tag from it and spawn it.
         Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
-        g->m.spawn_item(posx, posy, selected_item, 0);
+        g->m.spawn_item(_posx, _posy, selected_item, 0);
 
         if (type->item_chance < 0)
         {
@@ -803,36 +830,35 @@ void monster::process_effects(game *g)
 
 bool monster::make_fungus(game *g)
 {
- switch (mon_id(type->id)) {
- case mon_ant:
- case mon_ant_soldier:
- case mon_ant_queen:
- case mon_fly:
- case mon_bee:
- case mon_dermatik:
-  poly(g->mtypes[mon_ant_fungus]);
-  return true;
- case mon_zombie:
- case mon_zombie_shrieker:
- case mon_zombie_electric:
- case mon_zombie_spitter:
- case mon_zombie_fast:
- case mon_zombie_brute:
- case mon_zombie_hulk:
-  poly(g->mtypes[mon_zombie_fungus]);
-  return true;
- case mon_boomer:
-  poly(g->mtypes[mon_boomer_fungus]);
-  return true;
- case mon_triffid:
- case mon_triffid_young:
- case mon_triffid_queen:
-  poly(g->mtypes[mon_fungaloid]);
-  return true;
- default:
-  return true;
- }
- return false;
+    char polypick = 0;
+    std::string tid = type->id;
+    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" || tid == "mon_bee" || tid == "mon_dermatik")
+    {
+        polypick = 1;
+    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_fast" ||
+              tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
+        polypick = 2;
+    }else if (tid == "mon_boomer"){
+        polypick = 3;
+    }else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen"){
+        polypick = 4;
+    }
+    switch (polypick) {
+        case 1: // bugs, why do they all turn into fungal ants?
+            poly(GetMType("mon_ant_fungus"));
+            return true;
+        case 2: // zombies, non-boomer
+            poly(GetMType("mon_zombie_fungus"));
+            return true;
+        case 3:
+            poly(GetMType("mon_boomer_fungus"));
+            return true;
+        case 4:
+            poly(GetMType("mon_fungaloid"));
+            return true;
+        default:
+            return true;
+    }
 }
 
 void monster::make_friendly()
@@ -844,4 +870,9 @@ void monster::make_friendly()
 void monster::add_item(item it)
 {
  inv.push_back(it);
+}
+
+bool monster::is_hallucination()
+{
+  return hallucination;
 }

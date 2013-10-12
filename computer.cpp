@@ -3,31 +3,37 @@
 #include "monster.h"
 #include "overmap.h"
 #include "output.h"
+#include "json.h"
+#include "monstergenerator.h"
 #include <fstream>
 #include <string>
 #include <sstream>
 
-computer::computer()
+std::vector<std::string> computer::lab_notes;
+
+computer::computer(): name(DEFAULT_COMPUTER_NAME)
 {
     security = 0;
-    name = DEFAULT_COMPUTER_NAME;
     w_terminal = NULL;
+    w_border = NULL;
     mission_id = -1;
 }
 
-computer::computer(std::string Name, int Security)
+computer::computer(std::string Name, int Security): name(Name)
 {
     security = Security;
-    name = Name;
     w_terminal = NULL;
+    w_border = NULL;
     mission_id = -1;
 }
 
 computer::~computer()
 {
-    if (w_terminal != NULL)
-    {
+    if (w_terminal != NULL) {
         delwin(w_terminal);
+    }
+    if (w_border != NULL) {
+        delwin(w_border);
     }
 }
 
@@ -37,16 +43,15 @@ computer& computer::operator=(const computer &rhs)
     name = rhs.name;
     mission_id = rhs.mission_id;
     options.clear();
-    for (int i = 0; i < rhs.options.size(); i++)
-    {
+    for (int i = 0; i < rhs.options.size(); i++) {
         options.push_back(rhs.options[i]);
     }
     failures.clear();
-    for (int i = 0; i < rhs.failures.size(); i++)
-    {
+    for (int i = 0; i < rhs.failures.size(); i++) {
         failures.push_back(rhs.failures[i]);
     }
     w_terminal = NULL;
+    w_border = NULL;
     return *this;
 }
 
@@ -71,16 +76,25 @@ void computer::shutdown_terminal()
     werase(w_terminal);
     delwin(w_terminal);
     w_terminal = NULL;
+    werase(w_border);
+    delwin(w_border);
+    w_border = NULL;
 }
 
 void computer::use(game *g)
 {
-    if (w_terminal == NULL)
-        w_terminal = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    if (w_border == NULL) {
+        w_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                             (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                             (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+    }
+    if (w_terminal == NULL) {
+        w_terminal = newwin(getmaxy(w_border)-2, getmaxx(w_border)-2,
+                            getbegy(w_border)+1, getbegx(w_border)+1);
+    }
+    wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wrefresh(w_border);
 
     // Login
     print_line(_("Logging into %s..."), name.c_str());
@@ -104,7 +118,7 @@ void computer::use(game *g)
         case 'Y':
             if (!hack_attempt(g, &(g->u)))
             {
-                if (failures.size() == 0)
+                if (failures.empty())
                 {
                     query_any(_("Maximum login attempts exceeded. Press any key..."));
                     shutdown_terminal();
@@ -132,14 +146,14 @@ void computer::use(game *g)
     for (bool InUse = true; InUse; )
     {
         //reset_terminal();
-        print_line("");
+        print_newline();
         print_line("%s - %s", name.c_str(), _("Root Menu"));
         for (int i = 0; i < options.size(); i++)
         {
             print_line("%d - %s", i + 1, options[i].name.c_str());
         }
         print_line("Q - %s", _("Quit and shut down"));
-        print_line("");
+        print_newline();
 
         char ch;
         do
@@ -241,7 +255,6 @@ void computer::load_data(std::string data)
     options.clear();
     failures.clear();
     std::stringstream dump;
-    std::string buffer;
     dump << data;
 
     // Pull in name and security
@@ -293,9 +306,11 @@ void computer::activate_function(game *g, computer_action action)
         query_any(_("Doors opened.  Press any key..."));
         break;
 
-        //LOCK AND UNLOCK are used to build more complex buildings that can have multiple doors that can be locked and
-        //unlocked by different computers.  Simply uses translate_radius which take a given radius and player position
-        //to determine which terrain tiles to edit.
+        //LOCK AND UNLOCK are used to build more complex buildings
+        // that can have multiple doors that can be locked and be
+        // unlocked by different computers.
+        //Simply uses translate_radius which take a given radius and
+        // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
         g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
         query_any(_("Lock enabled.  Press any key..."));
@@ -308,6 +323,7 @@ void computer::activate_function(game *g, computer_action action)
 
         //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
+        //~ the sound of a church bell ringing
         g->sound(g->u.posx, g->u.posy, 120, _("Bohm... Bohm... Bohm..."));
         break;
 
@@ -328,10 +344,26 @@ void computer::activate_function(game *g, computer_action action)
                                 for (int i = 0; i < g->m.i_at(x1, y1).size(); i++)
                                 {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
-                                    if (it->is_container() && it->contents.empty())
-                                    {
-                                        it->put_in( item(g->itypes["sewage"], g->turn) );
-                                        found_item = true;
+                                    if (it->is_container()){
+                                        item sewage = item(g->itypes["sewage"], g->turn);
+                                        it_container* container = dynamic_cast<it_container*>(it->type);
+                                        it_comest*    comest    = dynamic_cast<it_comest*>(sewage.type);
+                                        int maxCharges = container->contains * comest->charges;
+
+                                        if (it->contents.empty()) {
+                                            it->put_in(sewage);
+                                            found_item = true;
+                                            break;
+                                        } else {
+                                            if (it->contents[0].type->id == sewage.type->id)
+                                            {
+                                                if (it->contents[0].charges < maxCharges){
+                                                    it->contents[0].charges += comest->charges;
+                                                    found_item = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                                 if (!found_item)
@@ -348,6 +380,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_RELEASE:
+        g->u.add_memorial_log(_("Released subspace specimens."));
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
         g->m.translate(t_reinforced_glass_h, t_floor);
         g->m.translate(t_reinforced_glass_v, t_floor);
@@ -355,6 +388,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_TERMINATE:
+        g->u.add_memorial_log(_("Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -374,6 +408,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_PORTAL:
+        g->u.add_memorial_log(_("Opened a portal."));
         for (int i = 0; i < SEEX * MAPSIZE; i++)
         {
             for (int j = 0; j < SEEY * MAPSIZE; j++)
@@ -393,7 +428,7 @@ void computer::activate_function(game *g, computer_action action)
                 {
                     if (g->m.tr_at(i, j) == tr_portal)
                     {
-                        g->m.tr_at(i, j) = tr_null;
+                        g->m.remove_trap(i, j);
                     }
                     else
                     {
@@ -410,6 +445,7 @@ void computer::activate_function(game *g, computer_action action)
         {
             return;
         }
+        g->u.add_memorial_log(_("Caused a resonance cascade."));
         std::vector<point> cascade_points;
         for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++)
         {
@@ -421,7 +457,7 @@ void computer::activate_function(game *g, computer_action action)
                 }
             }
         }
-        if (cascade_points.size() == 0)
+        if (cascade_points.empty())
         {
             g->resonance_cascade(g->u.posx, g->u.posy);
         }
@@ -435,52 +471,14 @@ void computer::activate_function(game *g, computer_action action)
 
     case COMPACT_RESEARCH:
     {
-        int lines = 0, notes = 0;
-        std::string log, tmp;
-        int ch;
-        std::ifstream fin;
-        fin.open("data/LAB_NOTES");
-        if (!fin.is_open())
-        {
-            debugmsg("Couldn't open ./data/LAB_NOTES for reading");
-            return;
-        }
-        while (fin.good())
-        {
-            ch = fin.get();
-            if (ch == '%')
-            {
-                notes++;
-            }
+        std::string log;
+        if (lab_notes.empty()) {
+            log = _("No data found.");
+        } else {
+            log = lab_notes[rng(0, lab_notes.size()-1)];
         }
 
-        while (lines < 10)
-        {
-            fin.clear();
-            fin.seekg(0, std::ios::beg);
-            fin.clear();
-            int choice = rng(1, notes);
-            while (choice > 0)
-            {
-                getline(fin, tmp);
-                if (tmp.find_first_of('%') == 0)
-                {
-                    choice--;
-                }
-            }
-            getline(fin, tmp);
-            do
-            {
-                lines++;
-                if (lines < 15 && tmp.find_first_of('%') != 0)
-                {
-                    log.append(tmp);
-                    log.append("\n");
-                }
-            }
-            while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
-        }
-        print_line(" %s", log.c_str());
+        print_text(log.c_str());
         query_any(_("Press any key..."));
     }
     break;
@@ -607,7 +605,8 @@ void computer::activate_function(game *g, computer_action action)
             tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, level);
         }
 
-
+        g->u.add_memorial_log(_("Launched a nuke at a %s."),
+                oterlist[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
         for(int x = target.x - 2; x <= target.x + 2; x++)
         {
             for(int y = target.y -  2; y <= target.y + 2; y++)
@@ -624,6 +623,7 @@ void computer::activate_function(game *g, computer_action action)
     case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
         if(query_yn(_("Disarm missile.")))
         {
+            g->u.add_memorial_log(_("Disarmed a nuclear missile."));
             g->add_msg(_("Nuclear missile disarmed!"));
             options.clear();//disable missile.
             activate_failure(g, COMPFAIL_SHUTDOWN);
@@ -662,9 +662,9 @@ void computer::activate_function(game *g, computer_action action)
 
         reset_terminal();
 
-        print_line("");
+        print_newline();
         print_line(_("Bionic access - Manifest:"));
-        print_line("");
+        print_newline();
 
         for (int i = 0; i < names.size(); i++)
         {
@@ -675,7 +675,7 @@ void computer::activate_function(game *g, computer_action action)
             print_line(_("%d OTHERS FOUND..."), more);
         }
 
-        print_line("");
+        print_newline();
         query_any(_("Press any key..."));
     }
     break;
@@ -695,6 +695,7 @@ void computer::activate_function(game *g, computer_action action)
         break;
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
         print_line(_("\
 ENTRY 47:\n\
@@ -757,12 +758,12 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         {
             print_gibberish_line();
         }
-        print_line("");
-        print_line("");
-        print_line("");
+        print_newline();
+        print_newline();
+        print_newline();
         print_line(_("AMIGARA PROJECT"));
-        print_line("");
-        print_line("");
+        print_newline();
+        print_newline();
         if (!query_bool(_("Continue reading?")))
         {
             return;
@@ -783,7 +784,7 @@ QUALITIY OF FAULTLINE NOT COMPROMISED\n\
 INITIATING STANDARD TREMOR TEST..."));
         print_gibberish_line();
         print_gibberish_line();
-        print_line("");
+        print_newline();
         print_error(_("FILE CORRUPTED, PRESS ANY KEY..."));
         getch();
         reset_terminal();
@@ -858,7 +859,7 @@ of pureed bone & LSD."));
                     else // Success!
                     {
                         item *blood = &(g->m.i_at(x, y)[0].contents[0]);
-                        if (blood->corpse == NULL || blood->corpse->id == mon_null)
+                        if (blood->corpse == NULL || blood->corpse->id == "mon_null")
                         {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         }
@@ -1065,7 +1066,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Drive Golden, Colorado 80403\n\
   \n\
   These samples must be accurate and any attempts to cover\n\
-  incompetencies will resault in charges of Federal Corrution\n\
+  incompetencies will result in charges of Federal Corruption\n\
   and potentially Treason.\n"));
         query_any(_("Press any key to continue..."));
         reset_terminal();
@@ -1169,7 +1170,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         break;
 
     case COMPACT_SRCF_SEAL:
-        g->add_msg(_("Evacuate Immediatly!"));
+        g->u.add_memorial_log(_("Sealed a Hazardous Material Sarcophagus."));
+        g->add_msg(_("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -1244,7 +1246,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
             {
-                if (g->m.has_flag(console, x, y))
+                if (g->m.has_flag("CONSOLE", x, y))
                 {
                     g->m.ter_set(x, y, t_console_broken);
                 }
@@ -1253,6 +1255,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         break;
 
     case COMPFAIL_ALARM:
+        g->u.add_memorial_log(_("Set off an alarm."));
         g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED))
         {
@@ -1276,9 +1279,9 @@ void computer::activate_failure(game *g, computer_failure fail)
             if (tries != 10)
             {
                 g->add_msg(_("Manhacks drop from compartments in the ceiling."));
-                monster robot(g->mtypes[mon_manhack]);
+                monster robot(GetMType("mon_manhack"));
                 robot.spawn(mx, my);
-                g->z.push_back(robot);
+                g->add_zombie(robot);
             }
         }
     }
@@ -1300,9 +1303,9 @@ void computer::activate_failure(game *g, computer_failure fail)
             if (tries != 10)
             {
                 g->add_msg(_("Secubots emerge from compartments in the floor."));
-                monster robot(g->mtypes[mon_secubot]);
+                monster robot(GetMType("mon_secubot"));
                 robot.spawn(mx, my);
-                g->z.push_back(robot);
+                g->add_zombie(robot);
             }
         }
     }
@@ -1465,16 +1468,16 @@ void computer::activate_failure(game *g, computer_failure fail)
 
 bool computer::query_bool(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Append with (Y/N/Q)
+    // Append with (Y/N/Q)
     std::string full_line = buff;
     full_line += " (Y/N/Q)";
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     char ret;
     do
@@ -1488,14 +1491,14 @@ bool computer::query_bool(const char *mes, ...)
 
 bool computer::query_any(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
     std::string full_line = buff;
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     getch();
     return true;
@@ -1503,16 +1506,16 @@ bool computer::query_any(const char *mes, ...)
 
 char computer::query_ynq(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Append with (Y/N/Q)
+    // Append with (Y/N/Q)
     std::string full_line = buff;
     full_line += " (Y/N/Q)";
-// Print the resulting text
+    // Print the resulting text
     print_line(full_line.c_str());
     char ret;
     do
@@ -1526,45 +1529,46 @@ char computer::query_ynq(const char *mes, ...)
 
 void computer::print_line(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Replace any '\n' with "\n " to allow for the border
-    std::string message = buff;
-    size_t pos = 0;
-    while (pos != std::string::npos)
-    {
-        pos = message.find("\n", pos);
-        if (pos != std::string::npos)
-        {
-            message.replace(pos, 1, "\n ");
-            pos += 2;
-        }
-    }
-// Print the line.
-    wprintz(w_terminal, c_green, " %s\n", message.c_str());
-// Reprint the border, in case we pushed a line over it
-    wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    // Print the line.
+    wprintz(w_terminal, c_green, buff);
+    print_newline();
     wrefresh(w_terminal);
 }
 
 void computer::print_error(const char *mes, ...)
 {
-// Translate the printf flags
+    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
     char buff[6000];
     vsprintf(buff, mes, ap);
     va_end(ap);
-// Print the line.
-    wprintz(w_terminal, c_red, " %s%s", buff, "\n");
-// Reprint the border, in case we pushed a line over it
-    wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    // Print the line.
+    wprintz(w_terminal, c_red, buff);
+    print_newline();
+    wrefresh(w_terminal);
+}
+
+void computer::print_text(const char *mes, ...)
+{
+    // Translate the printf flags
+    va_list ap;
+    va_start(ap, mes);
+    char buff[6000];
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+    // Print the text.
+    int y = getcury(w_terminal);
+    int w = getmaxx(w_terminal) - 2;
+    fold_and_print(w_terminal, y, 1, w, c_green, buff);
+    print_newline();
+    print_newline();
     wrefresh(w_terminal);
 }
 
@@ -1590,17 +1594,24 @@ void computer::print_gibberish_line()
         }
     }
     wprintz(w_terminal, c_yellow, gibberish.c_str());
-    wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    print_newline();
     wrefresh(w_terminal);
 }
 
 void computer::reset_terminal()
 {
     werase(w_terminal);
-    wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wmove(w_terminal, 1, 1);
+    wmove(w_terminal, 0, 0);
     wrefresh(w_terminal);
+}
+
+void computer::print_newline()
+{
+    wprintz(w_terminal, c_green, "\n");
+}
+
+void computer::load_lab_note(JsonObject &jsobj)
+{
+    lab_notes.push_back(_(jsobj.get_string("text").c_str()));
 }
 

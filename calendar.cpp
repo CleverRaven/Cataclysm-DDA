@@ -2,6 +2,7 @@
 #include "calendar.h"
 #include "output.h"
 #include "options.h"
+#include "translations.h"
 
 calendar::calendar()
 {
@@ -38,11 +39,11 @@ calendar::calendar(int turn)
  int minute_param = int(turn / 10);
  int hour_param = minute_param / 60;
  int day_param = hour_param / 24;
- int season_param = day_param / OPTIONS[OPT_SEASON_LENGTH];
+ int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
  second = 6 * (turn % 10);
  minute = minute_param % 60;
  hour = hour_param % 24;
- day = 1 + day_param % (int)OPTIONS[OPT_SEASON_LENGTH];
+ day = 1 + day_param % (int)OPTIONS["SEASON_LENGTH"];
  season = season_type(season_param % 4);
  year = season_param / 4;
 }
@@ -53,8 +54,8 @@ int calendar::get_turn() const
  ret += minute * 10;
  ret += hour * 600;
  ret += day * 14400;
- ret += int(season) * 14400 * (int)OPTIONS[OPT_SEASON_LENGTH];
- ret += year * 14400 * 4 * (int)OPTIONS[OPT_SEASON_LENGTH];
+ ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
+ ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
  return ret;
 }
 
@@ -64,8 +65,8 @@ calendar::operator int() const
  ret += minute * 10;
  ret += hour * 600;
  ret += day * 14400;
- ret += int(season) * 14400 * (int)OPTIONS[OPT_SEASON_LENGTH];
- ret += year * 14400 * 4 * (int)OPTIONS[OPT_SEASON_LENGTH];
+ ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
+ ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
  return ret;
 }
 
@@ -89,11 +90,11 @@ calendar& calendar::operator =(int rhs)
  int minute_param = int(rhs / 10);
  int hour_param = minute_param / 60;
  int day_param = hour_param / 24;
- int season_param = day_param / OPTIONS[OPT_SEASON_LENGTH];
+ int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
  second = 6 * (rhs % 10);
  minute = minute_param % 60;
  hour = hour_param % 24;
- day = day_param % (int)OPTIONS[OPT_SEASON_LENGTH];
+ day = day_param % (int)OPTIONS["SEASON_LENGTH"];
  season = season_type(season_param % 4);
  year = season_param / 4;
  return *this;
@@ -218,9 +219,9 @@ void calendar::standardize()
   hour %= 24;
  }
  int tmpseason = int(season);
- if (day >= OPTIONS[OPT_SEASON_LENGTH]) {
-  tmpseason += day / OPTIONS[OPT_SEASON_LENGTH];
-  day %= (int)OPTIONS[OPT_SEASON_LENGTH];
+ if (day >= OPTIONS["SEASON_LENGTH"]) {
+  tmpseason += int(day / OPTIONS["SEASON_LENGTH"]);
+  day %= (int)OPTIONS["SEASON_LENGTH"];
  }
  if (tmpseason >= 4) {
   year += tmpseason / 4;
@@ -238,7 +239,7 @@ int calendar::minutes_past_midnight() const
 
 moon_phase calendar::moon() const
 {
- int phase = day / (OPTIONS[OPT_SEASON_LENGTH] / 4);
+ int phase = int(day / (OPTIONS["SEASON_LENGTH"] / 4));
  //phase %= 4;   Redundant?
  if (phase == 3)
   return MOON_HALF;
@@ -268,7 +269,7 @@ calendar calendar::sunrise() const
    end_hour   = SUNRISE_SOLSTICE;
    break;
  }
- double percent = double(double(day) / OPTIONS[OPT_SEASON_LENGTH]);
+ double percent = double(double(day) / OPTIONS["SEASON_LENGTH"]);
  double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
 
  ret.hour = int(time);
@@ -300,7 +301,7 @@ calendar calendar::sunset() const
    end_hour   = SUNSET_SOLSTICE;
    break;
  }
- double percent = double(double(day) / OPTIONS[OPT_SEASON_LENGTH]);
+ double percent = double(double(day) / OPTIONS["SEASON_LENGTH"]);
  double time = double(start_hour) * (1.- percent) + double(end_hour) * percent;
 
  ret.hour = int(time);
@@ -356,49 +357,32 @@ int calendar::sunlight() const
 std::string calendar::print_time(bool just_hour) const
 {
     std::stringstream time_string;
+    int hour_param;
 
-    if (OPTIONS[OPT_24_HOUR] == 1)
-    {
-        int hour_param = hour % 24;
-        if (hour_param < 10)
-        {
-            time_string << "0";
+    if (OPTIONS["24_HOUR"] == "military") {
+        hour_param = hour % 24;
+        time_string << string_format("%02d%02d", hour_param, minute);
+    } else if (OPTIONS["24_HOUR"] == "24h") {
+        hour_param = hour % 24;
+        if (just_hour) {
+            time_string << hour_param;
+        } else {
+            //~ hour:minute (24hr time display)
+            time_string << string_format(_("%02d:%02d"), hour_param, minute);
         }
-        time_string << hour_param;
-    }
-    else if (OPTIONS[OPT_24_HOUR] == 2)
-    {
-        int hour_param = hour % 24;
-        time_string << hour_param;
-        if (!just_hour) time_string << ":";
-    }
-    else
-    {
-        int hour_param = hour % 12;
-        if (hour_param == 0)
-        {
+    } else {
+        hour_param = hour % 12;
+        if (hour_param == 0) {
             hour_param = 12;
         }
-        time_string << hour_param;
-        if (!just_hour) time_string << ":";
-    }
-    if(!just_hour)
-    {
-        if (minute < 10)
-        {
-            time_string << "0";
-        }
-        time_string << minute;
-    }
-    if (OPTIONS[OPT_24_HOUR] == 0)
-    {
-        if (hour < 12)
-        {
-            time_string << _(" AM");
-        }
-        else
-        {
-            time_string << _(" PM");
+        if (just_hour && hour < 12) {
+            time_string << string_format(_("%d AM"), hour_param);
+        } else if (just_hour) {
+            time_string << string_format(_("%d PM"), hour_param);
+        } else if (hour < 12) {
+            time_string << string_format(_("%d:%02d AM"), hour_param, minute);
+        } else {
+            time_string << string_format(_("%d:%02d PM"), hour_param, minute);
         }
     }
 
@@ -409,7 +393,7 @@ std::string calendar::textify_period()
 {
  standardize();
  int am;
- char* tx;
+ const char* tx;
 // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
  if (year > 0) {
   am = year;

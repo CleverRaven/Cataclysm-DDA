@@ -4,28 +4,19 @@
 
 long rng(long val1, long val2)
 {
-    // Input order of parameters doesn't matter, we just swap things around if val1 is higher than val2.
-    if(val1 <= val2)
-    {
-        return val1 + long((val2 - val1 + 1) * double(rand() / double(RAND_MAX + 1.0)));
-    }
-    else
-    {
-        return val2 + long((val1 - val2 + 1) * double(rand() / double(RAND_MAX + 1.0)));
-    }
+    long minVal = (val1 < val2) ? val1 : val2;
+    long maxVal = (val1 < val2) ? val2 : val1;
+    return minVal + long((maxVal - minVal + 1) * double(rand() / double(RAND_MAX + 1.0)));
 }
 
 bool one_in(int chance)
 {
- if (chance <= 1 || rng(0, chance - 1) == 0)
-  return true;
- return false;
+    return (chance <= 1 || rng(0, chance - 1) == 0);
 }
+
 bool x_in_y(double x, double y)
 {
- if( ((double)rand() / RAND_MAX) <= ((double)x/y) )
-  return true;
- return false;
+    return ((double)rand() / RAND_MAX) <= ((double)x/y);
 }
 
 int dice(int number, int sides)

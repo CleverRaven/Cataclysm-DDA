@@ -1,60 +1,55 @@
 #include <map>
 
-#include "catajson.h"
+#include "json.h"
 #include "name.h"
 #include "output.h"
 #include "translations.h"
+#include "rng.h"
 
 NameGenerator::NameGenerator() {
-    catajson name_records("data/raw/names.json");
 
-    for (name_records.set_begin(); name_records.has_curr() && json_good(); name_records.next())
+}
+
+void NameGenerator::load_name(JsonObject &jo)
+{
+    std::string name = jo.get_string("name");
+    std::string usage = jo.get_string("usage");
+    uint32_t flags = 0;
+
+    if (usage == "given") {
+        flags |= nameIsGivenName;
+        name = pgettext("Given Name", name.c_str());
+    } else if (usage == "family") {
+        flags |= nameIsFamilyName;
+        name = pgettext("Family Name", name.c_str());
+    } else if (usage == "universal") {
+        flags |= nameIsGivenName | nameIsFamilyName;
+        name = pgettext("Either Name", name.c_str());
+    } else if (usage == "backer") {
+        flags |= nameIsFullName;
+        name = pgettext("Full Name", name.c_str());
+    } else if (usage == "city") {
+        flags |= nameIsTownName;
+        name = pgettext("City Name", name.c_str());
+    }
+
+    // Gender is optional
+    if(jo.has_member("gender"))
     {
-        catajson name_entry = name_records.curr();
-        std::string name = name_entry.get("name").as_string();
-        std::string usage = name_entry.get("usage").as_string();
-        uint32_t flags = 0;
+        std::string gender = jo.get_string("gender");
 
-        name = rm_prefix(_(("<name>"+name).c_str()));
-
-        if (usage == "given") {
-            flags |= nameIsGivenName;
-        } else if (usage == "family") {
-            flags |= nameIsFamilyName;
-        } else if (usage == "universal") {
-            flags |= nameIsGivenName | nameIsFamilyName;
-        } else if (usage == "city") {
-            flags |= nameIsTownName;
+        if (gender == "male") {
+            flags |= nameIsMaleName;
+        } else if (gender == "female") {
+            flags |= nameIsFemaleName;
+        } else if (gender == "unisex") {
+            flags |= nameIsUnisexName;
         }
-
-        // Gender is optional
-        if(name_entry.has("gender"))
-        {
-            std::string gender = name_entry.get("gender").as_string();
-
-            if (gender == "male") {
-                flags |= nameIsMaleName;
-            } else if (gender == "female") {
-                flags |= nameIsFemaleName;
-            } else if (gender == "unisex") {
-                flags |= nameIsUnisexName;
-            }
-        }
-
-        Name aName(name, flags);
-
-        names.push_back(aName);
     }
 
-    if(names.empty())
-    {
-        Name aName;
-        names.push_back(aName);
-    }
-    if(!json_good())
-    {
-        picojson::set_last_error("");
-    }
+    Name aName(name, flags);
+
+    names.push_back(aName);
 }
 
 std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
@@ -65,22 +60,26 @@ std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
     if ((aName->flags() & searchFlags) == searchFlags)
       retval.push_back(aName->value());
   }
-
   return retval;
 }
 
 std::string NameGenerator::getName(uint32_t searchFlags) {
   std::vector<std::string> theseNames = filteredNames(searchFlags);
-
-  return theseNames[std::rand() % theseNames.size()];
+  return theseNames[rng(0, theseNames.size()-1)];
 }
 
 std::string NameGenerator::generateName(bool male) {
   uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
-
-  return rmp_format(_("<name>%s %s"),
-      getName(baseSearchFlags | nameIsGivenName).c_str(),
-      getName(baseSearchFlags | nameIsFamilyName).c_str());
+  //One in four chance to pull from the backer list, otherwise generate a name from the parts list
+  if (one_in(4)){
+    return getName(baseSearchFlags | nameIsFullName);
+  } else {
+    //~ used for constructing names. swapping these will put family name first.
+    return string_format(pgettext("Full Name", "%1$s %2$s"),
+        getName(baseSearchFlags | nameIsGivenName).c_str(),
+        getName(baseSearchFlags | nameIsFamilyName).c_str()
+        );
+  }
 }
 
 NameGenerator& Name::generator() {

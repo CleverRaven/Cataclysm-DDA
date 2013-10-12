@@ -34,9 +34,6 @@
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
-#define FULL_SCREEN_WIDTH 80  // Width of full Screen popup
-#define FULL_SCREEN_HEIGHT 25 // Height of full Screen popup
-
 // Display data
 extern int TERMX;
 extern int TERMY;
@@ -46,9 +43,12 @@ extern int VIEW_OFFSET_X;
 extern int VIEW_OFFSET_Y;
 extern int TERRAIN_WINDOW_WIDTH;
 extern int TERRAIN_WINDOW_HEIGHT;
+extern int FULL_SCREEN_WIDTH;  // Width of full Screen popup
+extern int FULL_SCREEN_HEIGHT; // Height of full Screen popup
 
 std::vector<std::string> foldstring ( std::string str, int width );
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
+void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
@@ -63,6 +63,9 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 std::string word_rewrap (const std::string &ins, int width);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
+std::vector<size_t> get_tag_positions(const std::string &s);
+std::vector<std::string> split_by_color(const std::string &s);
+
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
@@ -72,7 +75,8 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
-std::string string_input_popup(std::string title, int max_length = 0, std::string input = "");
+std::string string_input_popup(std::string title, int width = 0, std::string input = "", std::string desc = "", std::string identifier = "", int max_length = -1 );
+std::string string_input_win (WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & key, int & pos, std::string identifier="", int w_x=-1, int w_y=-1, bool dorefresh=true );
 char popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
@@ -83,15 +87,6 @@ void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected=-1);
 
-nc_color hilite(nc_color c);
-nc_color invert_color(nc_color c);
-nc_color red_background(nc_color c);
-nc_color white_background(nc_color c);
-nc_color green_background(nc_color c);
-nc_color yellow_background(nc_color c);
-nc_color magenta_background(nc_color c);
-nc_color cyan_background(nc_color c);
-nc_color rand_color();
 char rand_char();
 long special_symbol (long sym);
 
@@ -108,6 +103,8 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0);
+void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW* w);
 
 #endif

@@ -7,6 +7,8 @@
 std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
 {
  std::vector<point> ret;
+ // Preallocate the number of cells we need instead of allocating them piecewise.
+ ret.reserve( square_dist( x1, y1, x2, y2 ) );
  int dx = x2 - x1;
  int dy = y2 - y1;
  int ax = abs(dx)<<1;
@@ -149,14 +151,15 @@ direction direction_from(int x1, int y1, int x2, int y2)
 std::string direction_name(direction dir)
 {
  switch (dir) {
-  case NORTH:     return "north";
-  case NORTHEAST: return "northeast";
-  case EAST:      return "east";
-  case SOUTHEAST: return "southeast";
-  case SOUTH:     return "south";
-  case SOUTHWEST: return "southwest";
-  case WEST:      return "west";
-  case NORTHWEST: return "northwest";
+  //~ used for "to the north" etc
+  case NORTH:     return _("north");
+  case NORTHEAST: return _("northeast");
+  case EAST:      return _("east");
+  case SOUTHEAST: return _("southeast");
+  case SOUTH:     return _("south");
+  case SOUTHWEST: return _("southwest");
+  case WEST:      return _("west");
+  case NORTHWEST: return _("northwest");
  }
  return "BUG. (line.cpp:direction_name)";
 }
@@ -164,23 +167,22 @@ std::string direction_name(direction dir)
 std::string direction_name_short(direction dir)
 {
  switch (dir) {
-  case NORTH:     return "N ";
-  case NORTHEAST: return "NE";
-  case EAST:      return "E ";
-  case SOUTHEAST: return "SE";
-  case SOUTH:     return "S ";
-  case SOUTHWEST: return "SW";
-  case WEST:      return "W ";
-  case NORTHWEST: return "NW";
+  //~ abbreviated direction names
+  case NORTH:     return _("N ");
+  case NORTHEAST: return _("NE");
+  case EAST:      return _("E ");
+  case SOUTHEAST: return _("SE");
+  case SOUTH:     return _("S ");
+  case SOUTHWEST: return _("SW");
+  case WEST:      return _("W ");
+  case NORTHWEST: return _("NW");
  }
  return "Bug. (line.cpp:direction_name_short)";
 }
 
 
 float rl_vec2d::norm(){
- if (fabs(x) > fabs(y))
-  return fabs(x);
- return fabs(y);
+ return sqrt(x*x + y*y);
 }
 
 rl_vec2d rl_vec2d::normalized(){
@@ -194,13 +196,15 @@ rl_vec2d rl_vec2d::normalized(){
  ret.y = y/n;
  return ret;
 }
+
+rl_vec2d rl_vec2d::get_vertical(){
+ rl_vec2d ret;
+ ret.x = -y;
+ ret.y = x;
+ return ret;
+}
 float rl_vec2d::dot_product (rl_vec2d &v){
  float dot = x*v.x + y*v.y;
- // this is messy, but the dot of normalized rl_vecs should somehow be max 1
- float tot1 = fabs(x) + fabs(y);
- float tot2 = fabs(v.x) + fabs(v.y);
- dot /= ((tot1+tot2)/2);
- dot *= norm() * v.norm();
  return dot;
 }
 bool rl_vec2d::is_null(){

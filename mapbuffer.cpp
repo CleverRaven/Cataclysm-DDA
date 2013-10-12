@@ -4,6 +4,8 @@
 #include "debug.h"
 #include "translations.h"
 #include <fstream>
+#include "savegame.h"
+#include "picofunc.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -88,8 +90,27 @@ void mapbuffer::save()
  std::map<tripoint, submap*, pointcomp>::iterator it;
  std::ofstream fout;
  fout.open("save/maps.txt");
+ fout << "# version " << savegame_version << std::endl;
 
- fout << submap_list.size() << std::endl;
+ std::map<std::string, picojson::value> metadata;
+ metadata["listsize"] = pv ( static_cast<unsigned int>(submap_list.size()) );
+
+ // To keep load speedy, we're saving ints, but since these are ints that will change with
+ // revisions and loaded mods, we're also including a rosetta stone.
+ std::vector<picojson::value> ter_key;
+ for( int i=0; i < terlist.size(); i++ ) {
+     ter_key.push_back( pv( terlist[i].id ) );
+ }
+ metadata["terrain_key"] = pv( ter_key );
+
+ std::vector<picojson::value> furn_key;
+ for( int i=0; i < furnlist.size(); i++ ) {
+     furn_key.push_back( pv( furnlist[i].id ) );
+ }
+ metadata["furniture_key"] = pv( furn_key );
+
+ fout << pv( metadata ).serialize() << std::endl;
+
  int num_saved_submaps = 0;
  int num_total_submaps = submap_list.size();
 
@@ -101,6 +122,7 @@ void mapbuffer::save()
   fout << it->first.x << " " << it->first.y << " " << it->first.z << std::endl;
   submap *sm = it->second;
   fout << sm->turn_last_touched << std::endl;
+  fout << sm->temperature << std::endl;
 // Dump the terrain.
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++)
@@ -108,10 +130,24 @@ void mapbuffer::save()
    fout << std::endl;
   }
  // Dump the radiation
+  int lastrad = -1;
+  int count = 0;
   for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++)
-    fout << sm->rad[i][j] << " ";
+   for (int i = 0; i < SEEX; i++) {
+    int r = sm->rad[i][j];
+    if (r == lastrad) {
+     count++;
+    } else {
+     if (count) {
+      fout << count << " ";
+     }
+     fout << r << " ";
+     lastrad = r;
+     count = 1;
+    }
+   }
   }
+  fout << count;
   fout << std::endl;
 
  // Furniture
@@ -166,7 +202,7 @@ void mapbuffer::save()
   spawn_point tmpsp;
   for (int i = 0; i < sm->spawns.size(); i++) {
    tmpsp = sm->spawns[i];
-   fout << "S " << int(tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
+   fout << "S " << (tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
            " " << tmpsp.posy << " " << tmpsp.faction_id << " " <<
            tmpsp.mission_id << (tmpsp.friendly ? " 1 " : " 0 ") <<
            tmpsp.name << std::endl;
@@ -182,7 +218,7 @@ void mapbuffer::save()
 
  // Output base camp if any
   if (sm->camp.is_valid())
-  	fout << "B " << sm->camp.save_data() << std::endl;
+   fout << "B " << sm->camp.save_data() << std::endl;
 
  // Output the graffiti
  for (int j = 0; j < SEEY; j++) {
@@ -205,25 +241,97 @@ void mapbuffer::load()
   debugmsg("Can't load mapbuffer without a master_game");
   return;
  }
- std::map<tripoint, submap*>::iterator it;
  std::ifstream fin;
  fin.open("save/maps.txt");
  if (!fin.is_open())
   return;
+ unserialize(fin);
+ fin.close();
+}
 
+void mapbuffer::unserialize(std::ifstream & fin) {
+ std::map<tripoint, submap*>::iterator it;
  int itx, ity, t, d, a, num_submaps, num_loaded = 0;
  item it_tmp;
  std::string databuff;
- fin >> num_submaps;
+ std::string st;
+
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+   if (savegame_loading_version != savegame_version) { // We're version x but this is a save from version y, let's check to see if there's a loader
+       if ( unserialize_legacy(fin) == true ) { // loader returned true, we're done.
+            return;
+       } else { // no unserialize_legacy for version y, continuing onwards towards possible disaster. Or not?
+           popup_nowait(_("Cannot find loader for overmap save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+       }
+   }
+
+ std::stringstream jsonbuff;
+ getline(fin, databuff);
+ jsonbuff.str(databuff);
+ picojson::value jdata;
+ jsonbuff >> jdata;
+ std::string jsonerr = picojson::get_last_error();
+ if ( ! jsonerr.empty() ) {
+     popup("Bad mapbuffer metadata\n%s", jsonerr.c_str() );
+ }
+ picojson::object &metadata = jdata.get<picojson::object>();
+
+ picoint(metadata,"listsize",num_submaps);
+
+ std::map<int, int> ter_key;
+ std::string tstr;
+ picojson::array * pvect = pgetarray(metadata,"terrain_key");
+ int ind=0;
+ for( picojson::array::const_iterator pt = pvect->begin(); pt != pvect->end(); ++pt) {
+     if ( (*pt).is<std::string>() ) {
+         tstr=(*pt).get<std::string>();
+         if ( termap.find(tstr) == termap.end() ) {
+            debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), ind );
+         } else {
+            ter_key[ind] = termap[tstr].loadid;
+         }
+     }
+     ind++;
+ }
+
+ std::map<int, int> furn_key;
+ std::string fstr;
+ pvect = pgetarray(metadata,"furniture_key");
+ ind=0;
+ for( picojson::array::const_iterator pt = pvect->begin(); pt != pvect->end(); ++pt) {
+     if ( (*pt).is<std::string>() ) {
+         fstr=(*pt).get<std::string>();
+         if ( furnmap.find(fstr) == furnmap.end() ) {
+            debugmsg("Can't find furniture '%s' (%d)",fstr.c_str(), ind );
+         } else {
+            furn_key[ind] = furnmap[fstr].loadid;
+         }
+     }
+     ind++;
+ }
 
  while (!fin.eof()) {
   if (num_loaded % 100 == 0)
    popup_nowait(_("Please wait as the map loads [%d/%d]"),
                 num_loaded, num_submaps);
-  int locx, locy, locz, turn;
-  submap* sm = new submap;
-  fin >> locx >> locy >> locz >> turn;
+  int locx, locy, locz, turn, temperature;
+  submap* sm = new submap();
+  fin >> locx >> locy >> locz >> turn >> temperature;
+  if(fin.eof()) {
+      break;
+  }
   sm->turn_last_touched = turn;
+  sm->temperature = temperature;
   int turndif = (master_game ? int(master_game->turn) - turn : 0);
   if (turndif < 0)
    turndif = 0;
@@ -232,7 +340,9 @@ void mapbuffer::load()
    for (int i = 0; i < SEEX; i++) {
     int tmpter;
     fin >> tmpter;
+    tmpter = ter_key[tmpter];
     sm->ter[i][j] = ter_id(tmpter);
+
     sm->frn[i][j] = f_null;
     sm->itm[i][j].clear();
     sm->trp[i][j] = tr_null;
@@ -241,13 +351,18 @@ void mapbuffer::load()
    }
   }
 // Load irradiation
+  int radtmp;
+  int count = 0;
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++) {
-    int radtmp;
-    fin >> radtmp;
-    radtmp -= int(turndif / 100);	// Radiation slowly decays
-    if (radtmp < 0)
-     radtmp = 0;
+    if (count == 0) {
+     fin >> radtmp >> count;
+     radtmp -= int(turndif / 100); // Radiation slowly decays
+     if (radtmp < 0) {
+      radtmp = 0;
+     }
+    }
+    count--;
     sm->rad[i][j] = radtmp;
    }
   }
@@ -256,6 +371,7 @@ void mapbuffer::load()
   do {
    fin >> string_identifier; // "----" indicates end of this submap
    t = 0;
+   st = "";
    if (string_identifier == "I") {
     fin >> itx >> ity;
     getline(fin, databuff); // Clear out the endline
@@ -277,18 +393,18 @@ void mapbuffer::load()
     sm->trp[itx][ity] = trap_id(t);
    } else if (string_identifier == "f") {
     fin >> itx >> ity >> t;
-    sm->frn[itx][ity] = furn_id(t);
+    sm->frn[itx][ity] = furn_id(furn_key[t]);
    } else if (string_identifier == "F") {
     fin >> itx >> ity >> t >> d >> a;
-	if(!sm->fld[itx][ity].findField(field_id(t)))
-		sm->field_count++;
+    if(!sm->fld[itx][ity].findField(field_id(t)))
+     sm->field_count++;
     sm->fld[itx][ity].addField(field_id(t), d, a);
    } else if (string_identifier == "S") {
     char tmpfriend;
     int tmpfac = -1, tmpmis = -1;
     std::string spawnname;
-    fin >> t >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
-    spawn_point tmp(mon_id(t), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
+    fin >> st >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
+    spawn_point tmp((st), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
                     spawnname);
     sm->spawns.push_back(tmp);
    } else if (string_identifier == "V") {
@@ -318,7 +434,6 @@ void mapbuffer::load()
   submaps[ tripoint(locx, locy, locz) ] = sm;
   num_loaded++;
  }
- fin.close();
 }
 
 int mapbuffer::size()

@@ -4,14 +4,19 @@
 #include "game.h"
 #include "rng.h"
 #include "line.h"
+#include "monstergenerator.h"
 #include <sstream>
 
 void mdeath::normal(game *g, monster *z)
 {
- if (g->u_see(z))
+ if (g->u_see(z)) {
   g->add_msg(_("The %s dies!"), z->name().c_str());
+ }
+ if(z->type->difficulty >= 30) {
+   g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
+ }
  if (z->made_of("flesh") && z->has_flag(MF_WARM)) {
-   g->m.add_field(g, z->posx, z->posy, fd_blood, 1);
+   g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
  }
 
     int gib_amount = 0;
@@ -70,14 +75,14 @@ void mdeath::normal(game *g, monster *z)
         item tmp;
         tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
         tmp.damage = corpse_damage;
-        g->m.add_item_or_charges(z->posx, z->posy, tmp);
+        g->m.add_item_or_charges(z->posx(), z->posy(), tmp);
     }
 
     // leave gibs
     for (int i = 0; i < gib_amount; i++)
     {
-        const int rand_posx = z->posx + rng(1,5) - 3;
-        const int rand_posy = z->posy + rng(1,5) - 3;
+        const int rand_posx = z->posx() + rng(1,5) - 3;
+        const int rand_posy = z->posy() + rng(1,5) - 3;
         const int rand_density = rng(1, 3);
 
         if (z->made_of("flesh") || z->made_of("hflesh"))
@@ -95,25 +100,25 @@ void mdeath::acid(game *g, monster *z)
 {
  if (g->u_see(z))
   g->add_msg(_("The %s's corpse melts into a pool of acid."), z->name().c_str());
- g->m.add_field(g, z->posx, z->posy, fd_acid, 3);
+ g->m.add_field(g, z->posx(), z->posy(), fd_acid, 3);
 }
 
 void mdeath::boomer(game *g, monster *z)
 {
  std::string tmp;
- g->sound(z->posx, z->posy, 24, _("a boomer explodes!"));
+ g->sound(z->posx(), z->posy(), 24, _("a boomer explodes!"));
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   g->m.bash(z->posx + i, z->posy + j, 10, tmp);
-    g->m.add_field(g, z->posx + i, z->posy + j, fd_bile, 1);
-   int mondex = g->mon_at(z->posx + i, z->posy +j);
+   g->m.bash(z->posx() + i, z->posy() + j, 10, tmp);
+    g->m.add_field(g, z->posx() + i, z->posy() + j, fd_bile, 1);
+   int mondex = g->mon_at(z->posx() + i, z->posy() +j);
    if (mondex != -1) {
-    g->z[mondex].stumble(g, false);
-    g->z[mondex].moves -= 250;
+    g->zombie(mondex).stumble(g, false);
+    g->zombie(mondex).moves -= 250;
    }
   }
  }
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) == 1)
+ if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1)
   g->u.infect("boomered", bp_eyes, 2, 24, g);
 }
 
@@ -121,21 +126,21 @@ void mdeath::kill_vines(game *g, monster *z)
 {
  std::vector<int> vines;
  std::vector<int> hubs;
- for (int i = 0; i < g->z.size(); i++) {
-  if (g->z[i].type->id == mon_creeper_hub &&
-      (g->z[i].posx != z->posx || g->z[i].posy != z->posy))
+ for (int i = 0; i < g->num_zombies(); i++) {
+  if (g->zombie(i).type->id == "mon_creeper_hub" &&
+      (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy()))
    hubs.push_back(i);
-  if (g->z[i].type->id == mon_creeper_vine)
+  if (g->zombie(i).type->id == "mon_creeper_vine")
    vines.push_back(i);
  }
 
  for (int i = 0; i < vines.size(); i++) {
-  monster *vine = &(g->z[ vines[i] ]);
-  int dist = rl_dist(vine->posx, vine->posy, z->posx, z->posy);
+  monster *vine = &(g->zombie( vines[i] ) );
+  int dist = rl_dist(vine->posx(), vine->posy(), z->posx(), z->posy());
   bool closer_hub = false;
   for (int j = 0; j < hubs.size() && !closer_hub; j++) {
-   if (rl_dist(vine->posx, vine->posy,
-               g->z[ hubs[j] ].posx, g->z[ hubs[j] ].posy) < dist)
+   if (rl_dist(vine->posx(), vine->posy(),
+               g->zombie( hubs[j] ).posx(), g->zombie( hubs[j] ).posy()) < dist)
     closer_hub = true;
   }
   if (!closer_hub)
@@ -146,25 +151,25 @@ void mdeath::kill_vines(game *g, monster *z)
 void mdeath::vine_cut(game *g, monster *z)
 {
  std::vector<int> vines;
- for (int x = z->posx - 1; x <= z->posx + 1; x++) {
-  for (int y = z->posy - 1; y <= z->posy + 1; y++) {
-   if (x == z->posx && y == z->posy)
+ for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
+  for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
+   if (x == z->posx() && y == z->posy())
     y++; // Skip ourselves
    int mondex = g->mon_at(x, y);
-   if (mondex != -1 && g->z[mondex].type->id == mon_creeper_vine)
+   if (mondex != -1 && g->zombie(mondex).type->id == "mon_creeper_vine")
     vines.push_back(mondex);
   }
  }
 
  for (int i = 0; i < vines.size(); i++) {
   bool found_neighbor = false;
-  monster *vine = &(g->z[ vines[i] ]);
-  for (int x = vine->posx - 1; x <= vine->posx + 1 && !found_neighbor; x++) {
-   for (int y = vine->posy - 1; y <= vine->posy + 1 && !found_neighbor; y++) {
-    if (x != z->posx || y != z->posy) { // Not the dying vine
+  monster *vine = &(g->zombie( vines[i] ));
+  for (int x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++) {
+   for (int y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++) {
+    if (x != z->posx() || y != z->posy()) { // Not the dying vine
      int mondex = g->mon_at(x, y);
-     if (mondex != -1 && (g->z[mondex].type->id == mon_creeper_hub ||
-                          g->z[mondex].type->id == mon_creeper_vine  ))
+     if (mondex != -1 && (g->zombie(mondex).type->id == "mon_creeper_hub" ||
+                          g->zombie(mondex).type->id == "mon_creeper_vine"  ))
       found_neighbor = true;
     }
    }
@@ -182,25 +187,26 @@ void mdeath::triffid_heart(game *g, monster *z)
 
 void mdeath::fungus(game *g, monster *z)
 {
- monster spore(g->mtypes[mon_spore]);
+ monster spore(GetMType("mon_spore"));
  int sporex, sporey;
- g->sound(z->posx, z->posy, 10, _("Pouf!"));
+ //~ the sound of a fungus dying
+ g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   sporex = z->posx + i;
-   sporey = z->posy + j;
+   sporex = z->posx() + i;
+   sporey = z->posy() + j;
    if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-    if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
+    if (g->mon_at(sporex, sporey) >= 0) { // Spores hit a monster
      if (g->u_see(sporex, sporey))
       g->add_msg(_("The %s is covered in tiny spores!"),
-                 g->z[g->mon_at(sporex, sporey)].name().c_str());
-     if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
+                 g->zombie(g->mon_at(sporex, sporey)).name().c_str());
+     if (!g->zombie(g->mon_at(sporex, sporey)).make_fungus(g))
       g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
     } else if (g->u.posx == sporex && g->u.posy == sporey)
      g->u.infect("spores", bp_mouth, 4, 30, g);
     else {
      spore.spawn(sporex, sporey);
-     g->z.push_back(spore);
+     g->add_zombie(spore);
     }
    }
   }
@@ -209,9 +215,9 @@ void mdeath::fungus(game *g, monster *z)
 
 void mdeath::fungusawake(game *g, monster *z)
 {
- monster newfung(g->mtypes[mon_fungaloid]);
- newfung.spawn(z->posx, z->posy);
- g->z.push_back(newfung);
+ monster newfung(GetMType("mon_fungaloid"));
+ newfung.spawn(z->posx(), z->posy());
+ g->add_zombie(newfung);
 }
 
 void mdeath::disintegrate(game *g, monster *z)
@@ -229,20 +235,20 @@ void mdeath::worm(game *g, monster *z)
  int wormx, wormy;
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   wormx = z->posx + i;
-   wormy = z->posy + i;
-   if (g->m.has_flag(diggable, wormx, wormy) && g->mon_at(wormx, wormy) == -1 &&
+   wormx = z->posx() + i;
+   wormy = z->posy() + i;
+   if (g->m.has_flag("DIGGABLE", wormx, wormy) && g->mon_at(wormx, wormy) == -1 &&
        !(g->u.posx == wormx && g->u.posy == wormy)) {
     wormspots.push_back(point(wormx, wormy));
    }
   }
  }
  int rn;
- monster worm(g->mtypes[mon_halfworm]);
+ monster worm(GetMType("mon_halfworm"));
  for (int worms = 0; worms < 2 && wormspots.size() > 0; worms++) {
   rn = rng(0, wormspots.size() - 1);
   worm.spawn(wormspots[rn].x, wormspots[rn].y);
-  g->z.push_back(worm);
+  g->add_zombie(worm);
   wormspots.erase(wormspots.begin() + rn);
  }
 }
@@ -254,18 +260,18 @@ void mdeath::disappear(game *g, monster *z)
 
 void mdeath::guilt(game *g, monster *z)
 {
- if (g->u.has_trait(PF_CANNIBAL))
-  return;	// We don't give a shit!
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 5)
-  return;	// Too far away, we can deal with it
+ if (g->u.has_trait("CANNIBAL"))
+  return; // We don't give a shit!
+ if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 5)
+  return; // Too far away, we can deal with it
  if (z->hp >= 0)
-  return;	// It probably didn't die from damage
+  return; // It probably didn't die from damage
  g->add_msg(_("You feel terrible for killing %s!"), z->name().c_str());
- if(z->type->id == mon_hallu_mom)
+ if(z->type->id == "mon_hallu_mom")
  {
  g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250, 300, 30);
  }
- else if(z->type->id == mon_zombie_child)
+ else if(z->type->id == "mon_zombie_child")
  {
  g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250, 300, 30);
  }
@@ -282,7 +288,7 @@ void mdeath::blobsplit(game *g, monster *z)
    g->add_msg(_("The %s splatters into tiny, dead pieces."), z->name().c_str());
   return;
  }
- monster blob(g->mtypes[(speed < 50 ? mon_blob_small : mon_blob)]);
+ monster blob(GetMType((speed < 50 ? "mon_blob_small" : "mon_blob")));
  blob.speed = speed;
  blob.friendly = z->friendly; // If we're tame, our kids are too
  if (g->u_see(z))
@@ -292,10 +298,10 @@ void mdeath::blobsplit(game *g, monster *z)
 
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   if (g->m.move_cost(z->posx+i, z->posy+j) > 0 &&
-       g->mon_at(z->posx+i, z->posy+j) == -1 &&
-       (g->u.posx != z->posx+i || g->u.posy != z->posy + j))
-    valid.push_back(point(z->posx+i, z->posy+j));
+   if (g->m.move_cost(z->posx()+i, z->posy()+j) > 0 &&
+       g->mon_at(z->posx()+i, z->posy()+j) == -1 &&
+       (g->u.posx != z->posx()+i || g->u.posy != z->posy() + j))
+    valid.push_back(point(z->posx()+i, z->posy()+j));
   }
  }
 
@@ -303,7 +309,7 @@ void mdeath::blobsplit(game *g, monster *z)
  for (int s = 0; s < 2 && valid.size() > 0; s++) {
   rn = rng(0, valid.size() - 1);
   blob.spawn(valid[rn].x, valid[rn].y);
-  g->z.push_back(blob);
+  g->add_zombie(blob);
   valid.erase(valid.begin() + rn);
  }
 }
@@ -318,15 +324,15 @@ void mdeath::amigara(game *g, monster *z)
 {
  if (g->u.has_disease("amigara")) {
   int count = 0;
-  for (int i = 0; i < g->z.size(); i++) {
-   if (g->z[i].type->id == mon_amigara_horror)
+  for (int i = 0; i < g->num_zombies(); i++) {
+   if (g->zombie(i).type->id == "mon_amigara_horror")
     count++;
   }
   if (count <= 1) { // We're the last!
    g->u.rem_disease("amigara");
    g->add_msg(_("Your obsession with the fault fades away..."));
    item art(g->new_artifact(), g->turn);
-   g->m.add_item_or_charges(z->posx, z->posy, art);
+   g->m.add_item_or_charges(z->posx(), z->posy(), art);
   }
  }
  normal(g, z);
@@ -334,14 +340,14 @@ void mdeath::amigara(game *g, monster *z)
 
 void mdeath::thing(game *g, monster *z)
 {
- monster thing(g->mtypes[mon_thing]);
- thing.spawn(z->posx, z->posy);
- g->z.push_back(thing);
+ monster thing(GetMType("mon_thing"));
+ thing.spawn(z->posx(), z->posy());
+ g->add_zombie(thing);
 }
 
 void mdeath::explode(game *g, monster *z)
 {
- int size;
+ int size = 0;
  switch (z->type->size) {
   case MS_TINY:   size =  4; break;
   case MS_SMALL:  size =  8; break;
@@ -349,25 +355,49 @@ void mdeath::explode(game *g, monster *z)
   case MS_LARGE:  size = 20; break;
   case MS_HUGE:   size = 26; break;
  }
- g->explosion(z->posx, z->posy, size, 0, false);
+ g->explosion(z->posx(), z->posy(), size, 0, false);
 }
 
 void mdeath::ratking(game *g, monster *z)
 {
- g->u.rem_disease("rat");
+    g->u.rem_disease("rat");
+    if (g->u_see(z)) {
+        g->add_msg(_("Rats swarm from nowhere to avenge the %s."), z->name().c_str());
+    }
+
+    std::vector <point> ratspots;
+    int ratx, raty;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            ratx = z->posx() + i;
+            raty = z->posy() + i;
+            if (g->m.move_cost(ratx, raty) > 0 && g->mon_at(ratx, raty) == -1 &&
+                  !(g->u.posx == ratx && g->u.posy == raty)) {
+                ratspots.push_back(point(ratx, raty));
+            }
+        }
+    }
+    int rn;
+    monster rat(GetMType("mon_sewer_rat"));
+    for (int rats = 0; rats < 7 && ratspots.size() > 0; rats++) {
+        rn = rng(0, ratspots.size() - 1);
+        rat.spawn(ratspots[rn].x, ratspots[rn].y);
+        g->add_zombie(rat);
+        ratspots.erase(ratspots.begin() + rn);
+ }
 }
 
 void mdeath::smokeburst(game *g, monster *z)
 {
   std::string tmp;
-  g->sound(z->posx, z->posy, 24, _("a smoker explodes!"));
+  g->sound(z->posx(), z->posy(), 24, _("a smoker explodes!"));
   for (int i = -1; i <= 1; i++) {
     for (int j = -1; j <= 1; j++) {
-      g->m.add_field(g, z->posx + i, z->posy + j, fd_smoke, 3);
-      int mondex = g->mon_at(z->posx + i, z->posy +j);
+      g->m.add_field(g, z->posx() + i, z->posy() + j, fd_smoke, 3);
+      int mondex = g->mon_at(z->posx() + i, z->posy() +j);
       if (mondex != -1) {
-        g->z[mondex].stumble(g, false);
-        g->z[mondex].moves -= 250;
+        g->zombie(mondex).stumble(g, false);
+        g->zombie(mondex).moves -= 250;
       }
     }
   }
@@ -386,45 +416,70 @@ void mdeath::zombie(game *g, monster *z)
     }
 
     // now generate appropriate clothing
-    switch(z->type->id)
+    char dropset = -1;
+    std::string zid = z->type->id;
+    if (zid == "mon_zombie_cop"){ dropset = 0;}
+    else if (zid == "mon_zombie_swimmer"){ dropset = 1;}
+    else if (zid == "mon_zombie_scientist"){ dropset = 2;}
+    else if (zid == "mon_zombie_soldier"){ dropset = 3;}
+    else if (zid == "mon_zombie_hulk"){ dropset = 4;}
+    switch(dropset)
     {
-        case mon_zombie_cop:
-            g->m.put_items_from("cop_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("cop_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("cop_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+        case 0: // mon_zombie_cop
+            g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
         break;
 
-        case mon_zombie_scientist:
-            g->m.put_items_from("lab_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("lab_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("lab_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-        break;
-
-        case mon_zombie_soldier:
-            g->m.put_items_from("cop_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("mil_armor_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("mil_armor_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            if (one_in(4))
-            {
-                g->m.put_items_from("mil_armor_helmet", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+        case 1: // mon_zombie_swimmer
+            if (one_in(10)) {
+              //Wetsuit zombie
+              g->m.put_items_from("swimmer_wetsuit", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+            } else {
+              if (!one_in(4)) {
+                  g->m.put_items_from("swimmer_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              }
+              if (one_in(3)) {
+                  g->m.put_items_from("swimmer_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              }
+              g->m.put_items_from("swimmer_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              if (one_in(4)) {
+                  g->m.put_items_from("swimmer_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              }
             }
         break;
 
-        case mon_zombie_hulk:
-            g->m.spawn_item(z->posx, z->posy, "rag", g->turn, 0, 0, rng(5,10));
-            g->m.put_items_from("pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+        case 2: // mon_zombie_scientist
+            g->m.put_items_from("lab_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+        break;
+
+        case 3: // mon_zombie_soldier
+            g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            if (one_in(4))
+            {
+                g->m.put_items_from("mil_armor_helmet", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+        break;
+
+        case 4: // mon_zombie_hulk
+            g->m.spawn_item(z->posx(), z->posy(), "rag", g->turn, 0, 0, rng(5,10));
+            g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             break;
 
         default:
-            g->m.put_items_from("pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("shirts", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("shirts", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             if (one_in(6))
             {
-                g->m.put_items_from("jackets", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("jackets", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
             if (one_in(15))
             {
-                g->m.put_items_from("bags", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("bags", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
         break;
     }
@@ -438,8 +493,8 @@ void mdeath::gameover(game *g, monster *z)
 
 void mdeath::kill_breathers(game *g, monster *z)
 {
- for (int i = 0; i < g->z.size(); i++) {
-  if (g->z[i].type->id == mon_breather_hub || g->z[i].type->id == mon_breather)
-   g->z[i].dead = true;
+ for (int i = 0; i < g->num_zombies(); i++) {
+  if (g->zombie(i).type->id == "mon_breather_hub "|| g->zombie(i).type->id == "mon_breather")
+   g->zombie(i).dead = true;
  }
 }

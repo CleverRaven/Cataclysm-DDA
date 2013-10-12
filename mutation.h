@@ -1,41 +1,48 @@
 #ifndef _MUTATION_H_
 #define _MUTATION_H_
 
-#include "pldata.h"	// See pldata.h for mutations--they're actually pl_flags
+#include "pldata.h"
+#include "json.h"
+#include "enums.h" // tripoint
+
 #include <vector>
+#include <map>
 
-enum mutation_category
+struct dream;
+struct mutation_branch;
+
+extern std::vector<dream> dreams;
+extern std::map<std::string, std::vector<std::string> > mutations_category;
+extern std::map<std::string, mutation_branch> mutation_data;
+typedef std::pair<unsigned long, tripoint> mutation_wet;
+
+struct dream
 {
- MUTCAT_NULL = 0,
- MUTCAT_LIZARD,
- MUTCAT_BIRD,
- MUTCAT_FISH,
- MUTCAT_BEAST,
- MUTCAT_CATTLE,
- MUTCAT_INSECT,
- MUTCAT_PLANT,
- MUTCAT_SLIME,
- MUTCAT_TROGLO,
- MUTCAT_CEPHALOPOD,
- MUTCAT_SPIDER,
- MUTCAT_RAT,
- NUM_MUTATION_CATEGORIES
-};
+    std::vector<std::string> messages; // The messages that the dream will give
+    std::string category; // The category that will trigger the dream
+    int strength; // The category strength required for the dream
 
-// mutations_from_category() defines the lists; see mutation_data.cpp
-std::vector<pl_flag> mutations_from_category(mutation_category cat);
+    dream() {
+        category = "";
+        strength = 0;
+    }
+};
 
 struct mutation_branch
 {
- bool valid; // True if this is a valid mutation (only used for flags < PF_MAX)
- std::vector<pl_flag> prereqs; // Prerequisites; Only one is required
- std::vector<pl_flag> cancels; // Mutations that conflict with this one
- std::vector<pl_flag> replacements; // Mutations that replace this one
- std::vector<pl_flag> additions; // Mutations that add to this one
+    bool valid; // True if this is a valid mutation (only used for starting traits)
+    std::vector<std::string> prereqs; // Prerequisites; Only one is required
+    std::vector<std::string> cancels; // Mutations that conflict with this one
+    std::vector<std::string> replacements; // Mutations that replace this one
+    std::vector<std::string> additions; // Mutations that add to this one
+    std::vector<std::string> category; // Mutation Categorys
+    std::vector<mutation_wet> protection; // Mutation wet effects
 
- mutation_branch() { valid = false; };
-
+    mutation_branch() { valid = false; };
 };
 
+void init_mutation_parts();
+void load_mutation(JsonObject &jsobj);
+void load_dream(JsonObject &jsobj);
 
 #endif

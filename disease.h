@@ -10,16 +10,16 @@
 
 class game;
 
-void dis_msg(game *g, dis_type type);
+void dis_msg(dis_type type);
 
-void dis_effect(game *g, player &p, disease &dis);
+void dis_remove_memorial(dis_type type);
+
+void dis_effect(player &p, disease &dis);
 
 int disease_speed_boost(disease dis);
 
-std::string dis_name(disease dis);
+std::string dis_name(disease& dis);
 
-std::string dis_description(disease dis);
-
-dis_type disease_for_body_part(dis_type base, int body_part);
+std::string dis_description(disease& dis);
 
 #endif

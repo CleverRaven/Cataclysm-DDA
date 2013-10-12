@@ -64,16 +64,6 @@ template <class T> void setvec(std::vector<T> *vec, ... )
  va_end(ap);
 }
 
-void setvector(std::vector<pl_flag> *vec, ... )
-{
- va_list ap;
- va_start(ap, vec);
- pl_flag tmp;
- while ((tmp = (pl_flag)va_arg(ap, int)))
-  vec->push_back(tmp);
- va_end(ap);
-}
-
 void setvector(std::vector<m_flag> *vec, ... )
 {
  va_list ap;

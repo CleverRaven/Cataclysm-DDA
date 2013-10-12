@@ -36,19 +36,22 @@ struct field_t {
  bool dangerous[3];
 
  //Controls, albeit randomly, how long a field of a given type will last before going down in density.
- int halflife;	// In turns
+ int halflife; // In turns
 
  //cost of moving into and out of this field
  int move_cost[3];
 };
 
+/*
+  On altering any entries in this enum please add or remove the appropriate entry to the field_names array in tile_id_data.h
+*/
 //The master list of id's for a field, corresponding to the fieldlist array.
 enum field_id {
  fd_null = 0,
  fd_blood,
  fd_bile,
  fd_gibs_flesh,
- fd_gibs_veggy, 
+ fd_gibs_veggy,
  fd_web,
  fd_slime,
  fd_acid,
@@ -68,13 +71,15 @@ enum field_id {
  fd_push_items,
  fd_shock_vent,
  fd_acid_vent,
+ fd_plasma,
+ fd_laser,
  num_fields
 };
 
 /*
 Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
 */
-extern field_t fieldlist[num_fields]; 
+extern field_t fieldlist[num_fields];
 
 /*
 Class: field_entry
@@ -84,10 +89,10 @@ can vary in intensity (density) and age (usually used as a time to live).
 */
 class field_entry {
 public:
-    field_entry() { 
-      type = fd_null; 
-      density = 1; 
-      age = 0; 
+    field_entry() {
+      type = fd_null;
+      density = 1;
+      age = 0;
       is_alive = false;
     };
 
@@ -111,6 +116,8 @@ public:
     int getFieldAge() const;
 
     //Allows you to modify the field_id of the current field entry.
+    //This probably shouldn't be called outside of field::replaceField, as it
+    //breaks the field drawing code and field lookup
     field_id setFieldType(const field_id new_field_id);
 
     //Allows you to modify the density of the current field entry.
@@ -155,7 +162,7 @@ public:
     //Frees all memory assigned to the field's field_entry vector and general cleanup.
     ~field();
 
-    //Returns a field entry corresponding to the field_id parameter passed in. 
+    //Returns a field entry corresponding to the field_id parameter passed in.
     //If no fields are found then a field_entry with type fd_null is returned.
     field_entry* findField(const field_id field_to_find);
     const field_entry* findFieldc(const field_id field_to_find); //for when you want a const field_entry.
@@ -167,7 +174,7 @@ public:
     bool addField(const field_id field_to_add,const unsigned char new_density=1, const int new_age=0);
 
     //Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
-    bool removeField(const field_id field_to_remove);
+    std::map<field_id, field_entry*>::iterator removeField(const field_id field_to_remove);
 
     //Returns the number of fields existing on the current tile.
     unsigned int fieldCount() const;
@@ -175,6 +182,8 @@ public:
     //Returns the last added field from the tile for drawing purposes.
     //This can be changed to return whatever you think the most important field to draw is.
     field_id fieldSymbol() const;
+
+    std::map<field_id, field_entry*>::iterator replaceField(field_id old_field, field_id new_field);
 
     //Returns the vector iterator to begin searching through the list.
     //Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow

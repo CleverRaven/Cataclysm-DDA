@@ -22,13 +22,17 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
-
+# Disable gettext, on some platforms the dependencies are hard to wrangle.
+#  make LOCALIZE=0
+# Compile localization files for specified languages
+#  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
+#  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 
 # comment these to toggle them as one sees fit.
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing -Wno-maybe-uninitialized
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUG = -g
@@ -51,7 +55,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.7.1
+VERSION = 0.8
 
 
 TARGET = cataclysm
@@ -60,6 +64,7 @@ W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
+LOCALIZE = 1
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -80,9 +85,16 @@ ifdef RELEASE
   DEBUG =
 endif
 
+ifdef CLANG
+  CXX = $(CROSS)clang++
+  LD  = $(CROSS)clang++
+  OTHERS = --std=c++98
+  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
+endif
+
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
-BINDIST_EXTRAS = README data
+BINDIST_EXTRAS = README.md data
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -122,7 +134,10 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -lintl
+  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+  ifeq ($(LOCALIZE), 1)
+    LDFLAGS += -lintl
+  endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), GNU/Linux)
     BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
@@ -146,12 +161,20 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 -lintl -liconv
+  LDFLAGS += -static -lgdi32 -lwinmm
+  ifeq ($(LOCALIZE), 1)
+    LDFLAGS += -lintl -liconv
+  endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
 endif
 
 ifdef TILES
+  SDL = 1
+  BINDIST_EXTRAS += gfx
+endif
+
+ifdef SDL
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       DEFINES += -DOSX_SDL_FW
@@ -159,23 +182,36 @@ ifdef TILES
 		-F$(HOME)/Library/Frameworks \
 		-I/Library/Frameworks/SDL.framework/Headers \
 		-I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+		-I/Library/Frameworks/SDL_image.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL_image.framework/Headers \
 		-I/Library/Frameworks/SDL_ttf.framework/Headers \
 		-I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
       LDFLAGS += -F/Library/Frameworks \
 		 -F$(HOME)/Library/Frameworks \
-		 -framework SDL -framework SDL_ttf -framework Cocoa
+		 -framework SDL -framework SDL_image -framework SDL_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
-    else
+    else # libsdl build
       DEFINES += -DOSX_SDL_LIBS
-      CXXFLAGS += $(shell sdl-config --cflags)
+      # handle #include "SDL/SDL.h" and "SDL.h"
+      CXXFLAGS += $(shell sdl-config --cflags) \
+		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+      ifdef TILES
+	LDFLAGS += -lSDL_image
+      endif
     endif
-  else
+  else # not osx
     LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+    ifdef TILES
+      LDFLAGS += -lSDL_image
+    endif
+  endif
+  ifdef TILES
+    DEFINES += -DSDLTILES
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lgdi32 -ldxguid -lwinmm
+    LDFLAGS += -lgdi32 -ldxguid -lwinmm -ljpeg -lpng
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
@@ -185,12 +221,28 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    LDFLAGS += -lncursesw
-    # Work around Cygwin not including gettext support in glibc
-    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-      LDFLAGS += -lintl -liconv
+    ifeq ($(LOCALIZE),1)
+      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Darwin)
+        LDFLAGS += -lncurses
+      else
+        ifeq ($(NATIVE), osx)
+            LDFLAGS += -lncurses
+        else
+            LDFLAGS += -lncursesw
+        endif
+      endif
+      # Work around Cygwin not including gettext support in glibc
+      ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+        LDFLAGS += -lintl -liconv
+      endif
+    else
+      LDFLAGS += -lncurses
     endif
   endif
+endif
+
+ifeq ($(LOCALIZE),1)
+  DEFINES += -DLOCALIZE
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
@@ -206,13 +258,18 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-ifdef TILES
+ifdef SDL
   ifeq ($(NATIVE),osx)
     OBJS += $(ODIR)/SDLMain.o
   endif
 endif
 
-all: version $(TARGET)
+ifdef LANGUAGES
+  L10N = localization
+  BINDIST_EXTRAS += lang/mo
+endif
+
+all: version $(TARGET) $(L10N)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
@@ -244,18 +301,29 @@ $(ODIR)/SDLMain.o: SDLMain.m
 
 version.cpp: version
 
+localization:
+	lang/compile_mo.sh $(LANGUAGES)
+
 clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f version.h
 
+distclean:
+	rm -rf $(BINDIST_DIR)
+	rm -rf save
+	rm -rf lang/mo
+	rm -f data/options.txt
+	rm -f data/keymap.txt
+	rm -f data/auto_pickup.txt
+	rm -f data/fontlist.txt
+
 bindist: $(BINDIST)
 
-$(BINDIST): $(TARGET) $(BINDIST_EXTRAS)
-	rm -rf $(BINDIST_DIR)
+$(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
 	mkdir -p $(BINDIST_DIR)
-	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(BINDIST_CMD)
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS

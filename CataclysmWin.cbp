@@ -16,14 +16,60 @@
 					<Add option="-O2" />
 				</Compiler>
 			</Target>
+			<Target title="Release - Localized">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE" />
+				</Compiler>
+				<Linker>
+					<Add library="intl" />
+					<Add library="iconv" />
+				</Linker>
+			</Target>
+			<Target title="Release -SDL">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DTILES" />
+				</Compiler>
+				<Linker>
+					<Add library="libSDL.dll" />
+					<Add library="SDL_ttf" />
+				</Linker>
+			</Target>
+			<Target title="Release -SDL -Localized">
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-DLOCALIZE" />
+					<Add option="-DTILES" />
+				</Compiler>
+				<Linker>
+					<Add library="intl" />
+					<Add library="iconv" />
+					<Add library="libSDL.dll" />
+					<Add library="SDL_ttf" />
+				</Linker>
+			</Target>
 			<Target title="Debug">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Wextra" />
-					<Add option="-Wall" />
 					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
@@ -31,29 +77,88 @@
 					<Add option="-pg -lgmon" />
 				</Linker>
 			</Target>
-			<Target title="Debug -O3">
+			<Target title="Debug - Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/DebugRelease/" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DLOCALIZE" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="intl" />
+					<Add library="iconv" />
+				</Linker>
+			</Target>
+			<Target title="Release - Tile Support">
+				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/TilesRelease/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
-					<Add option="-O3" />
-					<Add option="-g" />
+					<Add option="-O2" />
+					<Add option="-pg" />
+					<Add option="-DSDLTILES" />
+					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="3rdparty\lib\libSDL.dll.a" />
+					<Add library="3rdparty\lib\libSDLmain.a" />
+					<Add library="3rdparty\lib\x86\SDL_image.lib" />
+					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
+					<Add directory="3rdparty/lib" />
+					<Add directory="3rdparty/lib/x86" />
+				</Linker>
+			</Target>
+			<Target title="Debug - Tile Support">
+				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/TilesRelease/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DSDLTILES" />
+					<Add directory="3rdparty/include/SDL" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="3rdparty\lib\libSDL.dll.a" />
+					<Add library="3rdparty\lib\libSDLmain.a" />
+					<Add library="3rdparty\lib\x86\SDL_image.lib" />
+					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
+					<Add directory="3rdparty/lib" />
+					<Add directory="3rdparty/lib/x86" />
+				</Linker>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter" />
+		</Compiler>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
 			<Add option="-static" />
 			<Add library="gdi32" />
-			<Add library="intl" />
-			<Add library="iconv" />
+			<Add library="winmm" />
 		</Linker>
+		<Unit filename="SDLMain.h" />
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
 		<Unit filename="addiction.cpp" />
 		<Unit filename="addiction.h" />
+		<Unit filename="advanced_inv.cpp" />
+		<Unit filename="advanced_inv.h" />
+		<Unit filename="animation_curses.cpp" />
+		<Unit filename="animation_tiles.cpp" />
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
 		<Unit filename="artifactdata.h" />
@@ -69,7 +174,10 @@
 		<Unit filename="building_generation.h" />
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
+		<Unit filename="cata_tiles.cpp" />
+		<Unit filename="cata_tiles.h" />
 		<Unit filename="catacharset.cpp" />
+		<Unit filename="catacharset.h" />
 		<Unit filename="catacurse.h" />
 		<Unit filename="catajson.cpp" />
 		<Unit filename="catajson.h" />
@@ -79,6 +187,7 @@
 		<Unit filename="computer.h" />
 		<Unit filename="construction.cpp" />
 		<Unit filename="construction.h" />
+		<Unit filename="coordinates.h" />
 		<Unit filename="crafting.cpp" />
 		<Unit filename="crafting.h" />
 		<Unit filename="cursesdef.h" />
@@ -89,16 +198,23 @@
 		<Unit filename="dialogue.h" />
 		<Unit filename="disease.cpp" />
 		<Unit filename="disease.h" />
+		<Unit filename="editmap.cpp" />
+		<Unit filename="editmap.h" />
 		<Unit filename="enums.h" />
 		<Unit filename="event.cpp" />
 		<Unit filename="event.h" />
 		<Unit filename="faction.cpp" />
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
+		<Unit filename="field.h" />
+		<Unit filename="file_finder.cpp" />
+		<Unit filename="file_finder.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
 		<Unit filename="gamemode.h" />
+		<Unit filename="gamesave.cpp" />
+		<Unit filename="get_version.h" />
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
@@ -106,6 +222,8 @@
 		<Unit filename="helper.h" />
 		<Unit filename="iexamine.cpp" />
 		<Unit filename="iexamine.h" />
+		<Unit filename="init.cpp" />
+		<Unit filename="init.h" />
 		<Unit filename="input.cpp" />
 		<Unit filename="input.h" />
 		<Unit filename="inventory.cpp" />
@@ -121,6 +239,16 @@
 		<Unit filename="itypedef.cpp" />
 		<Unit filename="iuse.cpp" />
 		<Unit filename="iuse.h" />
+		<Unit filename="iuse_software.cpp" />
+		<Unit filename="iuse_software.h" />
+		<Unit filename="iuse_software_kitten.cpp" />
+		<Unit filename="iuse_software_kitten.h" />
+		<Unit filename="iuse_software_snake.cpp" />
+		<Unit filename="iuse_software_snake.h" />
+		<Unit filename="iuse_software_sokoban.cpp" />
+		<Unit filename="iuse_software_sokoban.h" />
+		<Unit filename="json.cpp" />
+		<Unit filename="json.h" />
 		<Unit filename="keypress.cpp" />
 		<Unit filename="keypress.h" />
 		<Unit filename="lightmap.cpp" />
@@ -139,6 +267,8 @@
 		<Unit filename="mapgenformat.cpp" />
 		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
+		<Unit filename="martialarts.cpp" />
+		<Unit filename="martialarts.h" />
 		<Unit filename="material.cpp" />
 		<Unit filename="material.h" />
 		<Unit filename="melee.cpp" />
@@ -149,6 +279,7 @@
 		<Unit filename="mission_place.cpp" />
 		<Unit filename="mission_start.cpp" />
 		<Unit filename="missiondef.cpp" />
+		<Unit filename="mod_factory.h" />
 		<Unit filename="monattack.cpp" />
 		<Unit filename="monattack.h" />
 		<Unit filename="mondeath.cpp" />
@@ -159,6 +290,8 @@
 		<Unit filename="monmove.cpp" />
 		<Unit filename="monster.cpp" />
 		<Unit filename="monster.h" />
+		<Unit filename="monstergenerator.cpp" />
+		<Unit filename="monstergenerator.h" />
 		<Unit filename="morale.h" />
 		<Unit filename="moraledata.h" />
 		<Unit filename="mtype.h" />
@@ -182,6 +315,8 @@
 		<Unit filename="overmap.h" />
 		<Unit filename="overmapbuffer.cpp" />
 		<Unit filename="overmapbuffer.h" />
+		<Unit filename="picofunc.cpp" />
+		<Unit filename="picofunc.h" />
 		<Unit filename="picojson.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />
@@ -196,7 +331,9 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
-		<Unit filename="sdlcurse.cpp" />
+		<Unit filename="savegame_json.cpp" />
+		<Unit filename="savegame_legacy.cpp" />
+		<Unit filename="sdltiles.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />
 		<Unit filename="setvector.cpp" />
@@ -205,6 +342,7 @@
 		<Unit filename="skill.h" />
 		<Unit filename="text_snippets.cpp" />
 		<Unit filename="text_snippets.h" />
+		<Unit filename="tile_id_data.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
 		<Unit filename="translations.h" />
@@ -215,6 +353,7 @@
 		<Unit filename="tutorial.h" />
 		<Unit filename="ui.cpp" />
 		<Unit filename="ui.h" />
+		<Unit filename="uistate.h" />
 		<Unit filename="veh_interact.cpp" />
 		<Unit filename="veh_interact.h" />
 		<Unit filename="veh_type.h" />
@@ -222,7 +361,10 @@
 		<Unit filename="vehicle.cpp" />
 		<Unit filename="vehicle.h" />
 		<Unit filename="version.cpp" />
-		<Unit filename="version.h" />
+		<Unit filename="wcwidth.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wdirent.h" />
 		<Unit filename="weather.cpp" />
 		<Unit filename="weather.h" />
 		<Unit filename="weather_data.cpp" />

@@ -18,6 +18,8 @@
 #include "options.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
+#include "action.h"
+#include "input.h"
 #include <queue>
 
 #ifdef _MSC_VER
@@ -36,32 +38,32 @@
 #define MAX_RIFT_SIZE 16
 #define SETTLE_DICE 2
 #define SETTLE_SIDES 2
-#define HIVECHANCE 180	//Chance that any given forest will be a hive
-#define SWAMPINESS 4	//Affects the size of a swamp
-#define SWAMPCHANCE 8500	// Chance that a swamp will spawn instead of forest
+#define HIVECHANCE 180 //Chance that any given forest will be a hive
+#define SWAMPINESS 4 //Affects the size of a swamp
+#define SWAMPCHANCE 8500 // Chance that a swamp will spawn instead of forest
 
 map_extras no_extras(0);
 map_extras road_extras(
 // %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
-    50, 40, 50,120,200, 30, 10,  5, 80, 20, 20, 200, 10,  8,  2,  3);
+    50, 40, 50,120,200, 30, 10, 5, 80, 20, 20, 200, 10,  8,  2,  3);
 map_extras field_extras(
     60, 40, 15, 40, 80, 10, 10,  3, 50, 30, 40, 300, 10,  8,  1,  3);
 map_extras subway_extras(
 // %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
-    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 0, 120,  0, 20,  1,  3);
+    75,  0, 5, 12, 5,  5,  0,  7,  0,  0, 0, 120,  0, 20,  1,  3);
 map_extras build_extras(
-    90,  0,  5, 12,  0, 10,  0,  5,  5,  0, 0, 0, 60,  8,  1,  3);
+    90,  0, 5, 12,  0, 10,  0, 5,  5,  0, 0, 0, 60,  8,  1,  3);
 
 //see omdata.h
 std::vector<oter_t> oterlist;
 
 overmap_special overmap_specials[NUM_OMSPECS] = {
 
-// Terrain	 MIN MAX DISTANCE
-{ot_crater,	   0, 10,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+// Terrain  MIN MAX DISTANCE
+{ot_crater,    0, 10,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
 
-{ot_hive, 	   0, 50, 10, -1, "GROUP_BEE", 20, 60, 2, 4,
+{ot_hive,     0, 50, 10, -1, "GROUP_BEE", 20, 60, 2, 4,
  &omspec_place::forest, mfb(OMS_FLAG_3X3)},
 
 {ot_house_north,   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
@@ -72,7 +74,7 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_cabin,   0, 30, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Woods cabin
  &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
- 
+
 {ot_cabin_strange,   1, 1, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Hidden cabin
  &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
 
@@ -85,23 +87,26 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_temple_stairs, 0,  3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+{ot_lab_stairs,    0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_fema_entrance,	   2, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+ {ot_ice_lab_stairs,    0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
+
+{ot_fema_entrance,    2, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
-// Terrain	 MIN MAX DISTANCE
-{ot_bunker,	   2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
+// Terrain  MIN MAX DISTANCE
+{ot_bunker,    2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_outpost,	   0, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
+{ot_outpost,    0, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, 0},
 
-{ot_silo,	   0,  1, 30, -1, "GROUP_NULL", 0, 0, 0, 0,
+{ot_silo,    0,  1, 30, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_radio_tower,   1,  5,  0, 20, "GROUP_NULL", 0, 0, 0, 0,
+{ot_radio_tower,   1, 5,  0, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)},
 
 {ot_mansion_entrance, 0, 8, 0, -1, "GROUP_NULL", 0, 0, 0, 0,
@@ -133,30 +138,30 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_school_2,    1, 3,  1, 5, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
- 
+
 {ot_prison_2,    1, 1,  3, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
 
 {ot_hotel_tower_1_2,    1, 4,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
 
-{ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
+{ot_sewage_treatment, 1, 5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
 
-{ot_mine_entrance,  0,  5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
+{ot_mine_entrance,  0, 5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
 
-// Terrain	 MIN MAX DISTANCE
-{ot_anthill,	   0, 30,  10, -1, "GROUP_ANT", 1000, 2000, 10, 30,
+// Terrain  MIN MAX DISTANCE
+{ot_anthill,    0, 30,  10, -1, "GROUP_ANT", 1000, 2000, 10, 30,
  &omspec_place::wilderness, 0},
 
-{ot_spider_pit,	   0,500,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+{ot_spider_pit,    0,500,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_slimepit_down,	   0,  4,  0, -1, "GROUP_GOO", 100, 200, 2, 10,
+{ot_slimepit_down,    0,  4,  0, -1, "GROUP_GOO", 100, 200, 2, 10,
  &omspec_place::land, 0},
 
-{ot_fungal_bloom,  0,  3,  5, -1, "GROUP_FUNGI", 600, 1200, 30, 50,
+{ot_fungal_bloom,  0,  3, 5, -1, "GROUP_FUNGI", 600, 1200, 30, 50,
  &omspec_place::wilderness, 0},
 
 {ot_triffid_grove, 0,  4,  0, -1, "GROUP_TRIFFID", 800, 1300, 12, 20,
@@ -165,14 +170,14 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_river_center,  0, 10, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::always, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
 
-// Terrain	 MIN MAX DISTANCE
-{ot_shelter,       5, 10,  5, 10, "GROUP_NULL", 0, 0, 0, 0,
+// Terrain  MIN MAX DISTANCE
+{ot_shelter,       5, 10, 5, 10, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
-{ot_cave,	   0, 30,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
+{ot_cave,    0, 30,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, 0},
 
-{ot_toxic_dump,	   0,  5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
+{ot_toxic_dump,    0, 5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
 
 {ot_s_gas_north,   10,  500,  10, 200, "GROUP_NULL", 0, 0, 0, 0,
@@ -192,79 +197,114 @@ double dist(int x1, int y1, int x2, int y2)
 
 bool is_river(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_bridge_ns && ter <= ot_river_nw))
-  return true;
- return false;
+ return (ter == ot_null || (ter >= ot_bridge_ns && ter <= ot_river_nw));
 }
 
 bool is_building(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_house_north && ter <= ot_basement) || ter >= ot_ants_ns)
-  return true;
- return false;
+ return (ter == ot_null || (ter >= ot_house_north && ter <= ot_basement) || ter >= ot_ants_ns);
 }
 
 bool is_ground(oter_id ter)
 {
- if (ter <= ot_road_nesw_manhole)
-  return true;
- return false;
+ return (ter <= ot_road_nesw_manhole);
 }
 
 bool is_wall_material(oter_id ter)
 {
- if (is_ground(ter) ||
-     (ter >= ot_house_north && ter <= ot_nuke_plant))
-  return true;
- return false;
+ return (is_ground(ter) || (ter >= ot_house_north && ter <= ot_nuke_plant));
 }
+
+// Likelihood to pick a specific overmap terrain.
+struct oter_weight {
+    oter_id ot;
+    int weight;
+};
+
+// Local class for picking overmap terrain from a weighted list.
+struct oter_weight_list {
+    oter_weight_list() : total_weight(0) { };
+
+    void add_item(oter_id id, int weight) {
+        oter_weight new_weight = { id, weight };
+        items.push_back(new_weight);
+        total_weight += weight;
+    }
+
+    oter_id pick() {
+        int picked = rng(0, total_weight);
+        int accumulated_weight = 0;
+
+        int i;
+        for(i=0; i<items.size(); i++) {
+            accumulated_weight += items[i].weight;
+            if(accumulated_weight >= picked) {
+                break;
+            }
+        }
+
+        return items[i].ot;
+    }
+
+private:
+    int total_weight;
+    std::vector<oter_weight> items;
+};
 
 oter_id shop(int dir)
 {
- oter_id ret = ot_s_lot;
- const int type = rng(0, 27);
+// TODO: adjust weights based on area, maybe using JSON
+//       (implies we have area types first)
+    oter_weight_list weightlist;
+    weightlist.add_item(ot_s_gas_north, 5);
+    weightlist.add_item(ot_s_pharm_north, 3);
+    weightlist.add_item(ot_s_grocery_north, 15);
+    weightlist.add_item(ot_s_hardware_north, 5);
+    weightlist.add_item(ot_s_sports_north, 5);
+    weightlist.add_item(ot_s_liquor_north, 5);
+    weightlist.add_item(ot_s_gun_north, 5);
+    weightlist.add_item(ot_s_clothes_north, 5);
+    weightlist.add_item(ot_s_library_north, 4);
+    weightlist.add_item(ot_s_restaurant_north, 5);
+    weightlist.add_item(ot_sub_station_north, 5);
+    weightlist.add_item(ot_bank_north, 3);
+    weightlist.add_item(ot_bar_north, 5);
+    weightlist.add_item(ot_s_electronics_north, 5);
+    weightlist.add_item(ot_pawn_north, 3);
+    weightlist.add_item(ot_mil_surplus_north, 2);
+    weightlist.add_item(ot_s_garage_north, 5);
+    weightlist.add_item(ot_station_radio_north, 5);
+    weightlist.add_item(ot_office_doctor_north, 2);
+    weightlist.add_item(ot_s_restaurant_fast_north, 3);
+    weightlist.add_item(ot_s_restaurant_coffee_north, 3);
+    weightlist.add_item(ot_church_north, 2);
+    weightlist.add_item(ot_office_cubical_north, 2);
+    weightlist.add_item(ot_furniture_north, 2);
+    weightlist.add_item(ot_abstorefront_north, 2);
+    weightlist.add_item(ot_police_north, 1);
+    weightlist.add_item(ot_s_lot, 4);
 
- switch (type) {
-  case  0: ret = ot_s_lot;	         break;
-  case  1: ret = ot_s_gas_north;         break;
-  case  2: ret = ot_s_pharm_north;       break;
-  case  3: ret = ot_s_grocery_north;     break;
-  case  4: ret = ot_s_hardware_north;    break;
-  case  5: ret = ot_s_sports_north;      break;
-  case  6: ret = ot_s_liquor_north;      break;
-  case  7: ret = ot_s_gun_north;         break;
-  case  8: ret = ot_s_clothes_north;     break;
-  case  9: ret = ot_s_library_north;     break;
-  case 10: ret = ot_s_restaurant_north;  break;
-  case 11: ret = ot_sub_station_north;   break;
-  case 12: ret = ot_bank_north;          break;
-  case 13: ret = ot_bar_north;           break;
-  case 14: ret = ot_s_electronics_north; break;
-  case 15: ret = ot_pawn_north;          break;
-  case 16: ret = ot_mil_surplus_north;   break;
-  case 17: ret = ot_s_garage_north;      break;
-  case 18: ret = ot_station_radio_north; break;
-  case 19: ret = ot_office_doctor_north; break;
-  case 20: ret = ot_s_restaurant_fast_north;  break;
-  case 21: ret = ot_s_restaurant_coffee_north;  break;
-  case 22: ret = ot_church_north;        break;
-  case 23: ret = ot_office_cubical_north;        break;
-  case 24: ret = ot_police_north;        break;
-  case 25: ret = ot_furniture_north;     break;
-  case 26: ret = ot_abstorefront_north;  break;
-  case 27: ret = ot_police_north;        break;
- }
- if (ret == ot_s_lot)
-  return ret;
- if (dir < 0) dir += 4;
- switch (dir) {
-  case 0:                         break;
-  case 1: ret = oter_id(ret + 1); break;
-  case 2: ret = oter_id(ret + 2); break;
-  case 3: ret = oter_id(ret + 3); break;
-  default: debugmsg("Bad rotation of shop."); return ot_null;
- }
- return ret;
+    oter_id ret = weightlist.pick();
+    if (ret != ot_s_lot) { //then we need to rotate the shop
+        if (dir < 0) dir += 4;
+        switch (dir) {
+        case 0:
+            break;
+        case 1:
+            ret = oter_id(ret + 1);
+            break;
+        case 2:
+            ret = oter_id(ret + 2);
+            break;
+        case 3:
+            ret = oter_id(ret + 3);
+            break;
+        default:
+            debugmsg("Bad rotation of shop.");
+            return ot_null;
+        }
+    }
+    return ret;
 }
 
 oter_id house(int dir)
@@ -283,305 +323,310 @@ oter_id house(int dir)
 void game::init_overmap()
 {
     oter_t tmp_oterlist[num_ter_types] = {
-    {"nothing",		'%',	c_white,	0, no_extras, false, false, 0},
-    {_("crater"),		'O',	c_red,		2, field_extras, false, false, 0},
-    {_("field"),		'.',	c_brown,	2, field_extras, false, false, 0},
-    {_("forest"),		'F',	c_green,	3, field_extras, false, false, 0},
-    {_("forest"),		'F',	c_green,	4, field_extras, false, false, 0},
-    {_("swamp"),		'F',	c_cyan,		4, field_extras, false, false, 0},
-    {_("highway"),		'H',	c_dkgray,	2, road_extras, false, false, 0},
-    {_("highway"),		'=',	c_dkgray,	2, road_extras, false, false, 0},
-    {"BUG (omdata.h:oterlist)",			'%',	c_magenta,	0, no_extras, false, false, 0},
-    {_("road"),          LINE_XOXO,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_OXOX,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_XXOO,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_OXXO,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_OOXX,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_XOOX,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_XXXO,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_XXOX,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_XOXX,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_OXXX,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road"),          LINE_XXXX,	c_dkgray,	2, road_extras, false, false, 0},
-    {_("road, manhole"), LINE_XXXX,	c_yellow,	2, road_extras, true, false, 0},
-    {_("bridge"),		'|',	c_dkgray,	2, no_extras, false, false, 0},
-    {_("bridge"),		'-',	c_dkgray,	2, no_extras, false, false, 0},
-    {_("river"),		'R',	c_blue,		1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("river bank"),		'R',	c_ltblue,	1, no_extras, false, false, 0},
-    {_("house"),		'^',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("house"),		'>',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("house"),		'v',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("house"),		'<',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("house"),		'^',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("house"),		'>',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("house"),		'v',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("house"),		'<',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("parking lot"),		'O',	c_dkgray,	1, build_extras, false, false, 2},
-    {_("park"),		'O',	c_green,	2, build_extras, false, false, 2},
-    {_("gas station"),		'^',	c_ltblue,	5, build_extras, false, false, 2},
-    {_("gas station"),		'>',	c_ltblue,	5, build_extras, false, false, 2},
-    {_("gas station"),		'v',	c_ltblue,	5, build_extras, false, false, 2},
-    {_("gas station"),		'<',	c_ltblue,	5, build_extras, false, false, 2},
-    {_("pharmacy"),		'^',	c_ltred,	5, build_extras, false, false, 2},
-    {_("pharmacy"),		'>',	c_ltred,	5, build_extras, false, false, 2},
-    {_("pharmacy"),		'v',	c_ltred,	5, build_extras, false, false, 2},
-    {_("pharmacy"),		'<',	c_ltred,	5, build_extras, false, false, 2},
-    {_("doctor's office"), 	'^',	   i_ltred,	5, build_extras, false, false, 2},
-    {_("doctor's office"),  '>',    i_ltred, 5, build_extras, false, false, 2},
-    {_("doctor's office"),  'v',    i_ltred,	5, build_extras, false, false, 2},
-    {_("doctor's office"),  '<',    i_ltred,	5, build_extras, false, false, 2},
-    {_("office"), 	'^',	c_ltgray,	5, build_extras, false, false, 2},
-    {_("office"),		'>',	c_ltgray,	5, build_extras, false, false, 2},
-    {_("office"),		'v',	c_ltgray,	5, build_extras, false, false, 2},
-    {_("office"),		'<',	c_ltgray,	5, build_extras, false, false, 2},
-    {_("apartment tower"), 'A', c_ltgreen,		5, no_extras, false, false, 2},
-    {_("apartment tower"),	'A',	c_ltgreen,		5, no_extras, false, false, 2},
-    {_("apartment tower"), 'A', c_ltgreen, 	5, no_extras, false, false, 2},
-    {_("apartment tower"),	'A',	c_ltgreen,		5, no_extras, false, false, 2},
-    {_("office tower"), 'T', i_ltgray,		5, no_extras, false, false, 2},
-    {_("office tower"),	't',	i_ltgray,		5, no_extras, false, false, 2},
-    {_("tower parking"), 'p',	i_ltgray,		5, no_extras, false, false, 2},
-    {_("tower parking"),	'p',	i_ltgray,		5, no_extras, false, false, 2},
-    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
-    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
-    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
-    {_("church"),		'C',	c_ltred,	5, build_extras, false, false, 2},
-    {_("cathedral"), 'C', i_ltred, 	5, no_extras, false, false, 2},
-    {_("cathedral"),	'C',	i_ltred,		5, no_extras, false, false, 2},
-    {_("cathedral basement"), 'C',	i_ltred,		5, no_extras, false, false, 2},
-    {_("cathedral basement"),	'C',	i_ltred,		5, no_extras, false, false, 2},
-    {_("grocery store"),	'^',	c_green,	5, build_extras, false, false, 2},
-    {_("grocery store"),	'>',	c_green,	5, build_extras, false, false, 2},
-    {_("grocery store"),	'v',	c_green,	5, build_extras, false, false, 2},
-    {_("grocery store"),	'<',	c_green,	5, build_extras, false, false, 2},
-    {_("hardware store"),	'^',	c_cyan,		5, build_extras, false, false, 2},
-    {_("hardware store"),	'>',	c_cyan,		5, build_extras, false, false, 2},
-    {_("hardware store"),	'v',	c_cyan,		5, build_extras, false, false, 2},
-    {_("hardware store"),	'<',	c_cyan,		5, build_extras, false, false, 2},
-    {_("electronics store"),   '^',	c_yellow,	5, build_extras, false, false, 2},
-    {_("electronics store"),   '>',	c_yellow,	5, build_extras, false, false, 2},
-    {_("electronics store"),   'v',	c_yellow,	5, build_extras, false, false, 2},
-    {_("electronics store"),   '<',	c_yellow,	5, build_extras, false, false, 2},
-    {_("sporting goods store"),'^',	c_ltcyan,	5, build_extras, false, false, 2},
-    {_("sporting goods store"),'>',	c_ltcyan,	5, build_extras, false, false, 2},
-    {_("sporting goods store"),'v',	c_ltcyan,	5, build_extras, false, false, 2},
-    {_("sporting goods store"),'<',	c_ltcyan,	5, build_extras, false, false, 2},
-    {_("liquor store"),	'^',	c_magenta,	5, build_extras, false, false, 2},
-    {_("liquor store"),	'>',	c_magenta,	5, build_extras, false, false, 2},
-    {_("liquor store"),	'v',	c_magenta,	5, build_extras, false, false, 2},
-    {_("liquor store"),	'<',	c_magenta,	5, build_extras, false, false, 2},
-    {_("gun store"),		'^',	c_red,		5, build_extras, false, false, 2},
-    {_("gun store"),		'>',	c_red,		5, build_extras, false, false, 2},
-    {_("gun store"),		'v',	c_red,		5, build_extras, false, false, 2},
-    {_("gun store"),		'<',	c_red,		5, build_extras, false, false, 2},
-    {_("clothing store"),	'^',	c_blue,		5, build_extras, false, false, 2},
-    {_("clothing store"),	'>',	c_blue,		5, build_extras, false, false, 2},
-    {_("clothing store"),	'v',	c_blue,		5, build_extras, false, false, 2},
-    {_("clothing store"),	'<',	c_blue,		5, build_extras, false, false, 2},
-    {_("library"),		'^',	c_brown,	5, build_extras, false, false, 2},
-    {_("library"),		'>',	c_brown,	5, build_extras, false, false, 2},
-    {_("library"),		'v',	c_brown,	5, build_extras, false, false, 2},
-    {_("library"),		'<',	c_brown,	5, build_extras, false, false, 2},
-    {_("restaurant"),		'^',	c_pink,		5, build_extras, false, false, 2},
-    {_("restaurant"),		'>',	c_pink,		5, build_extras, false, false, 2},
-    {_("restaurant"),		'v',	c_pink,		5, build_extras, false, false, 2},
-    {_("restaurant"),		'<',	c_pink,		5, build_extras, false, false, 2},
-    {_("fast food restaurant"),    '^', c_pink,		5, build_extras, false, false, 2},
-    {_("fast food restaurant"),    '>',	c_pink,		5, build_extras, false, false, 2},
-    {_("fast food restaurant"),    'v',	c_pink,		5, build_extras, false, false, 2},
-    {_("fast food restaurant"),    '<',	c_pink,		5, build_extras, false, false, 2},
-    {_("coffee shop"),    '^',	c_pink,		5, build_extras, false, false, 2},
-    {_("coffee shop"),    '>',	c_pink,		5, build_extras, false, false, 2},
-    {_("coffee shop"),    'v',	c_pink,		5, build_extras, false, false, 2},
-    {_("coffee shop"),    '<',	c_pink,		5, build_extras, false, false, 2},
-    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
-    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
-    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
-    {_("subway station"),	'S',	c_yellow,	5, build_extras, true, false, 2},
-    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
-    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
-    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
-    {_("garage"),              'O',    c_white,       5, build_extras, false, false, 2},
-    {_("forest"),              'F',	   c_green,	      5, field_extras, false, false, 0}, //lost cabin
-    {_("cabin basement"),      'C',    i_green,       5, build_extras, false, false, 0},
-    {_("cabin"),              'C',    i_green,       5, build_extras, false, false, 2},
-    {_("dirt lot"),		'O',	c_brown,	1, field_extras, false, false, 0},
-    {_("farm"),              '^',    i_brown,       5, build_extras, false, false, 2},
-    {_("farm field"),              '#',    i_brown,       5, field_extras, false, false, 2},
-    {_("police station"),	'^',	h_yellow,	5, build_extras, false, false, 2},
-    {_("police station"),	'>',	h_yellow,	5, build_extras, false, false, 2},
-    {_("police station"),	'v',	h_yellow,	5, build_extras, false, false, 2},
-    {_("police station"),	'<',	h_yellow,	5, build_extras, false, false, 2},
-    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
-    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
-    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
-    {_("bank"),		'$',	c_ltgray,	5, no_extras, false, false, 2},
-    {_("bar"),			'^',	i_magenta,		5, build_extras, false, false, 2},
-    {_("bar"),			'>',	i_magenta,		5, build_extras, false, false, 2},
-    {_("bar"),			'v',	i_magenta,		5, build_extras, false, false, 2},
-    {_("bar"),			'<',	i_magenta,		5, build_extras, false, false, 2},
-    {_("pawn shop"),		'^',	c_white,	5, build_extras, false, false, 2},
-    {_("pawn shop"),		'>',	c_white,	5, build_extras, false, false, 2},
-    {_("pawn shop"),		'v',	c_white,	5, build_extras, false, false, 2},
-    {_("pawn shop"),		'<',	c_white,	5, build_extras, false, false, 2},
-    {_("mil. surplus"),	'^',	i_ltgray,	5, build_extras, false, false, 2},
-    {_("mil. surplus"),	'>',	i_ltgray,	5, build_extras, false, false, 2},
-    {_("mil. surplus"),	'v',	i_ltgray,	5, build_extras, false, false, 2},
-    {_("mil. surplus"),	'<',	i_ltgray,	5, build_extras, false, false, 2},
-    {_("furniture store"),     '^',    i_brown,        5, build_extras, false, false, 2},
-    {_("furniture store"),     '>',    i_brown,        5, build_extras, false, false, 2},
-    {_("furniture store"),     'v',    i_brown,        5, build_extras, false, false, 2},
-    {_("furniture store"),     '<',    i_brown,        5, build_extras, false, false, 2},
-    {_("abandoned storefront"),        '^',    h_dkgray,       5, build_extras, false, false, 2},
-    {_("abandoned storefront"),        '>',    h_dkgray,       5, build_extras, false, false, 2},
-    {_("abandoned storefront"),        'v',    h_dkgray,       5, build_extras, false, false, 2},
-    {_("abandoned storefront"),        '<',    h_dkgray,       5, build_extras, false, false, 2},
-    {_("megastore"),		'+',	c_ltblue,	5, build_extras, false, false, 2},
-    {_("megastore"),		'M',	c_blue,		5, build_extras, false, false, 2},
-    {_("hospital"),		'H',	c_ltred,	5, build_extras, false, false, 2},
-    {_("hospital"),		'H',	c_red,		5, build_extras, false, false, 2},
-    {_("public works"), 'W',	c_ltgray,		5, no_extras, false, false, 2},
-    {_("public works"),	'w',	c_ltgray,		5, no_extras, false, false, 2},
-    {_("regional school"), 's', c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 'S',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("regional school"), 's',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("prison"), 'p', i_ltblue, 	5, no_extras, false, false, 0},
-    {_("prison"), 'P',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("prison"), 'p',	i_ltblue,		5, no_extras, false, false, 0},
-    {_("hotel parking"), 'h', c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel entrance"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel parking"), 'h',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel tower"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel tower"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel tower"), 'H',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel basement"), 'B',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel basement"), 'B',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("hotel basement"), 'B',	c_ltblue,		5, no_extras, false, false, 2},
-    {_("mansion"),		'M',	c_ltgreen,	5, build_extras, false, false, 2},
-    {_("mansion"),		'M',	c_green,	5, build_extras, false, false, 2},
-    {_("fema camp"),		'+',	c_blue,	5, build_extras, false, false, 0},
-    {_("fema camp"),		'F',	i_blue,	5, build_extras, false, false, 0},
-    {_("radio station"),  'X',    i_ltgray, 	5, build_extras, false, false, 0},
-    {_("radio station"),  'X',    i_ltgray,		5, build_extras, false, false, 0},
-    {_("radio station"),  'X',    i_ltgray,		5, build_extras, false, false, 0},
-    {_("radio station"),  'X',    i_ltgray,		5, build_extras, false, false, 0},
-    {_("evac shelter"),	'+',	c_white,	2, no_extras, true, false, 0},
-    {_("evac shelter"),	'+',	c_white,	2, no_extras, false, true, 0},
-    {_("LMOE shelter"),	'+',	c_red,	2, no_extras, true, false, 0},
-    {_("LMOE shelter"),	'+',	c_red,	2, no_extras, false, true, 0},
-    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
-    {_("science lab"),		'L',	c_blue,		5, no_extras, true, false, 0},
-    {_("science lab"),		'L',	c_ltblue,	5, no_extras, false, false, 0},
-    {_("science lab"),		'L',	c_cyan,		5, no_extras, false, false, 0},
-    {_("nuclear plant"),	'P',	c_ltgreen,	5, no_extras, false, false, 0},
-    {_("nuclear plant"),	'P',	c_ltgreen,	5, no_extras, false, false, 0},
-    {_("military bunker"),	'B',	c_dkgray,	2, no_extras, true, true, 0},
-    {_("military outpost"),	'M',	c_dkgray,	2, build_extras, false, false, 0},
-    {_("missile silo"),	'0',	c_ltgray,	2, no_extras, false, false, 0},
-    {_("missile silo"),	'0',	c_ltgray,	2, no_extras, false, false, 0},
-    {_("strange temple"),	'T',	c_magenta,	5, no_extras, true, false, 0},
-    {_("strange temple"),	'T',	c_pink,		5, no_extras, true, false, 0},
-    {_("strange temple"),	'T',	c_pink,		5, no_extras, false, false, 0},
-    {_("strange temple"),	'T',	c_yellow,	5, no_extras, false, false, 0},
-    {_("sewage treatment"),	'P',	c_red,		5, no_extras, true, false, 0},
-    {_("sewage treatment"),	'P',	c_green,	5, no_extras, false, true, 0},
-    {_("sewage treatment"),	'P',	c_green,	5, no_extras, false, false, 0},
-    {_("mine entrance"),	'M',	c_ltgray,	5, no_extras, true, false, 0},
-    {_("mine shaft"),		'O',	c_dkgray,	5, no_extras, true, true, 0},
-    {_("mine"),		'M',	c_brown,	2, no_extras, false, false, 0},
-    {_("mine"),		'M',	c_brown,	2, no_extras, false, false, 0},
-    {_("mine"),		'M',	c_brown,	2, no_extras, false, false, 0},
-    {_("spiral cavern"),	'@',	c_pink,		2, no_extras, false, false, 0},
-    {_("spiral cavern"),	'@',	c_pink,		2, no_extras, false, false, 0},
-    {_("radio tower"),         'X',    c_ltgray,       2, no_extras, false, false, 0},
-    {_("toxic waste dump"),	'D',	c_pink,		2, no_extras, false, false, 0},
-    {_("hazardous waste sarcophagus"), 'X', c_ltred,		5, no_extras, false, false, 0},
-    {_("hazardous waste sarcophagus"),	'X',	c_pink,		5, no_extras, false, false, 0},
-    {_("hazardous waste sarcophagus"), 'X',	c_pink,		5, no_extras, false, false, 0},
-    {_("hazardous waste sarcophagus"),	'X',	c_pink,		5, no_extras, false, false, 0},
-    {_("cave"),		'C',	c_brown,	2, field_extras, false, false, 0},
-    {_("rat cave"),		'C',	c_dkgray,	2, no_extras, true, false, 0},
-    {_("bee hive"),		'8',	c_yellow,	3, field_extras, false, false, 0},
-    {_("fungal bloom"),	'T',	c_ltgray,	2, field_extras, false, false, 0},
-    {_("forest"),		'F',	c_green,	3, field_extras, false, false, 0}, // Spider pit
-    {_("cavern"),		'0',	c_ltgray,	5, no_extras, false, false, 0}, // Spider pit
-    {_("anthill"),		'%',	c_brown,	2, no_extras, true, false, 0},
-    {_("slime pit"),		'~',	c_ltgreen,	2, no_extras, false, false, 0},
-    {_("slime pit"),		'~',	c_ltgreen,	2, no_extras, true, false, 0},
-    {_("triffid grove"),	'T',	c_ltred,	5, no_extras, true, false, 0},
-    {_("triffid roots"),	'T',	c_ltred,	5, no_extras, true, true, 0},
-    {_("triffid heart"),	'T',	c_red,		5, no_extras, false, true, 0},
-    {_("basement"),		'O',	c_dkgray,	5, no_extras, false, true, 0},
-    {_("cavern"),		'0',	c_ltgray,	5, no_extras, false, false, 0},
-    {_("solid rock"),		'%',	c_dkgray,	5, no_extras, false, false, 0},
-    {_("rift"),		'^',	c_red,		2, no_extras, false, false, 0},
-    {_("hellmouth"),		'^',	c_ltred,	2, no_extras, true, false, 0},
-    {_("subway station"),	'S',	c_yellow,	5, subway_extras, false, true, 0},
-    {_("subway"),        LINE_XOXO,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_OXOX,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_XXOO,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_OXXO,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_OOXX,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_XOOX,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_XXXO,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_XXOX,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_XOXX,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_OXXX,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("subway"),        LINE_XXXX,	c_dkgray,	5, subway_extras, false, false, 0},
-    {_("sewer"),         LINE_XOXO,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_OXOX,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_XXOO,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_OXXO,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_OOXX,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_XOOX,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_XXXO,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_XXOX,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_XOXX,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_OXXX,	c_green,	5, no_extras, false, false, 0},
-    {_("sewer"),         LINE_XXXX,	c_green,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_XOXO,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_OXOX,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_XXOO,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_OXXO,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_OOXX,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_XOOX,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_XXXO,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_XXOX,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_XOXX,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_OXXX,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant tunnel"),    LINE_XXXX,	c_brown,	5, no_extras, false, false, 0},
-    {_("ant food storage"),	'O',	c_green,	5, no_extras, false, false, 0},
-    {_("ant larva chamber"),	'O',	c_white,	5, no_extras, false, false, 0},
-    {_("ant queen chamber"),	'O',	c_red,		5, no_extras, false, false, 0},
-    {_("tutorial room"),	'O',	c_cyan,		5, no_extras, false, false, 0}
+    {"nothing", '%', c_white, 0, no_extras, false, false, 0},
+    {_("crater"),  'O', c_red,    2, field_extras, false, false, 0},
+    {_("field"),   '.', c_brown,  2, field_extras, false, false, 0},
+    {_("forest"),  'F', c_green,  3, field_extras, false, false, 0},
+    {_("forest"),  'F', c_green,  4, field_extras, false, false, 0},
+    {_("swamp"),   'F', c_cyan,   4, field_extras, false, false, 0},
+    {_("highway"), 'H', c_dkgray, 2, road_extras, false, false, 0},
+    {_("highway"), '=', c_dkgray, 2, road_extras, false, false, 0},
+    {"BUG (omdata.h:oterlist)", '%', c_magenta, 0, no_extras, false, false, 0},
+    {_("road"), LINE_XOXO, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_OXOX, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_XXOO, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_OXXO, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_OOXX, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_XOOX, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_XXXO, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_XXOX, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_XOXX, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_OXXX, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road"), LINE_XXXX, c_dkgray, 2, road_extras, false, false, 0},
+    {_("road, manhole"), LINE_XXXX, c_yellow, 2, road_extras, true, false, 0},
+    {_("bridge"), '|', c_dkgray, 2, no_extras, false, false, 0},
+    {_("bridge"), '-', c_dkgray, 2, no_extras, false, false, 0},
+    {_("river"),  'R', c_blue,   1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("river bank"), 'R', c_ltblue, 1, no_extras, false, false, 0},
+    {_("house"), '^', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("house"), '>', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("house"), 'v', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("house"), '<', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("house"), '^', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("house"), '>', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("house"), 'v', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("house"), '<', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("parking lot"), 'O', c_dkgray, 1, build_extras, false, false, 2},
+    {_("park"), 'O', c_green,  2, build_extras, false, false, 2},
+    {_("pool"), 'O', c_ltblue, 2, no_extras, false, false, 2},
+    {_("gas station"), '^', c_ltblue, 5, build_extras, false, false, 2},
+    {_("gas station"), '>', c_ltblue, 5, build_extras, false, false, 2},
+    {_("gas station"), 'v', c_ltblue, 5, build_extras, false, false, 2},
+    {_("gas station"), '<', c_ltblue, 5, build_extras, false, false, 2},
+    {_("pharmacy"), '^', c_ltred, 5, build_extras, false, false, 2},
+    {_("pharmacy"), '>', c_ltred, 5, build_extras, false, false, 2},
+    {_("pharmacy"), 'v', c_ltred, 5, build_extras, false, false, 2},
+    {_("pharmacy"), '<', c_ltred, 5, build_extras, false, false, 2},
+    {_("doctor's office"), '^', i_ltred, 5, build_extras, false, false, 2},
+    {_("doctor's office"), '>', i_ltred, 5, build_extras, false, false, 2},
+    {_("doctor's office"), 'v', i_ltred, 5, build_extras, false, false, 2},
+    {_("doctor's office"), '<', i_ltred, 5, build_extras, false, false, 2},
+    {_("office"), '^', c_ltgray, 5, build_extras, false, false, 2},
+    {_("office"), '>', c_ltgray, 5, build_extras, false, false, 2},
+    {_("office"), 'v', c_ltgray, 5, build_extras, false, false, 2},
+    {_("office"), '<', c_ltgray, 5, build_extras, false, false, 2},
+    {_("apartment tower"), 'A', c_ltgreen, 5, no_extras, false, false, 2},
+    {_("apartment tower"), 'A', c_ltgreen, 5, no_extras, false, false, 2},
+    {_("apartment tower"), 'A', c_ltgreen, 5, no_extras, false, false, 2},
+    {_("apartment tower"), 'A', c_ltgreen, 5, no_extras, false, false, 2},
+    {_("office tower"),  'T', i_ltgray, 5, no_extras, false, false, 2},
+    {_("office tower"),  't', i_ltgray, 5, no_extras, false, false, 2},
+    {_("tower parking"), 'p', i_ltgray, 5, no_extras, false, false, 2},
+    {_("tower parking"), 'p', i_ltgray, 5, no_extras, false, false, 2},
+    {_("church"), 'C', c_ltred, 5, build_extras, false, false, 2},
+    {_("church"), 'C', c_ltred, 5, build_extras, false, false, 2},
+    {_("church"), 'C', c_ltred, 5, build_extras, false, false, 2},
+    {_("church"), 'C', c_ltred, 5, build_extras, false, false, 2},
+    {_("cathedral"), 'C', i_ltred, 5, no_extras, false, false, 2},
+    {_("cathedral"), 'C', i_ltred, 5, no_extras, false, false, 2},
+    {_("cathedral basement"), 'C', i_ltred, 5, no_extras, false, false, 2},
+    {_("cathedral basement"), 'C', i_ltred, 5, no_extras, false, false, 2},
+    {_("grocery store"), '^', c_green, 5, build_extras, false, false, 2},
+    {_("grocery store"), '>', c_green, 5, build_extras, false, false, 2},
+    {_("grocery store"), 'v', c_green, 5, build_extras, false, false, 2},
+    {_("grocery store"), '<', c_green, 5, build_extras, false, false, 2},
+    {_("hardware store"), '^', c_cyan, 5, build_extras, false, false, 2},
+    {_("hardware store"), '>', c_cyan, 5, build_extras, false, false, 2},
+    {_("hardware store"), 'v', c_cyan, 5, build_extras, false, false, 2},
+    {_("hardware store"), '<', c_cyan, 5, build_extras, false, false, 2},
+    {_("electronics store"),   '^', c_yellow, 5, build_extras, false, false, 2},
+    {_("electronics store"),   '>', c_yellow, 5, build_extras, false, false, 2},
+    {_("electronics store"),   'v', c_yellow, 5, build_extras, false, false, 2},
+    {_("electronics store"),   '<', c_yellow, 5, build_extras, false, false, 2},
+    {_("sporting goods store"),'^', c_ltcyan, 5, build_extras, false, false, 2},
+    {_("sporting goods store"),'>', c_ltcyan, 5, build_extras, false, false, 2},
+    {_("sporting goods store"),'v', c_ltcyan, 5, build_extras, false, false, 2},
+    {_("sporting goods store"),'<', c_ltcyan, 5, build_extras, false, false, 2},
+    {_("liquor store"), '^', c_magenta, 5, build_extras, false, false, 2},
+    {_("liquor store"), '>', c_magenta, 5, build_extras, false, false, 2},
+    {_("liquor store"), 'v', c_magenta, 5, build_extras, false, false, 2},
+    {_("liquor store"), '<', c_magenta, 5, build_extras, false, false, 2},
+    {_("gun store"), '^', c_red, 5, build_extras, false, false, 2},
+    {_("gun store"), '>', c_red, 5, build_extras, false, false, 2},
+    {_("gun store"), 'v', c_red, 5, build_extras, false, false, 2},
+    {_("gun store"), '<', c_red, 5, build_extras, false, false, 2},
+    {_("clothing store"), '^', c_blue, 5, build_extras, false, false, 2},
+    {_("clothing store"), '>', c_blue, 5, build_extras, false, false, 2},
+    {_("clothing store"), 'v', c_blue, 5, build_extras, false, false, 2},
+    {_("clothing store"), '<', c_blue, 5, build_extras, false, false, 2},
+    {_("library"), '^', c_brown, 5, build_extras, false, false, 2},
+    {_("library"), '>', c_brown, 5, build_extras, false, false, 2},
+    {_("library"), 'v', c_brown, 5, build_extras, false, false, 2},
+    {_("library"), '<', c_brown, 5, build_extras, false, false, 2},
+    {_("restaurant"), '^', c_pink, 5, build_extras, false, false, 2},
+    {_("restaurant"), '>', c_pink, 5, build_extras, false, false, 2},
+    {_("restaurant"), 'v', c_pink, 5, build_extras, false, false, 2},
+    {_("restaurant"), '<', c_pink, 5, build_extras, false, false, 2},
+    {_("fast food restaurant"), '^', c_pink, 5, build_extras, false, false, 2},
+    {_("fast food restaurant"), '>', c_pink, 5, build_extras, false, false, 2},
+    {_("fast food restaurant"), 'v', c_pink, 5, build_extras, false, false, 2},
+    {_("fast food restaurant"), '<', c_pink, 5, build_extras, false, false, 2},
+    {_("coffee shop"), '^', c_pink, 5, build_extras, false, false, 2},
+    {_("coffee shop"), '>', c_pink, 5, build_extras, false, false, 2},
+    {_("coffee shop"), 'v', c_pink, 5, build_extras, false, false, 2},
+    {_("coffee shop"), '<', c_pink, 5, build_extras, false, false, 2},
+    {_("subway station"), 'S', c_yellow, 5, build_extras, true, false, 2},
+    {_("subway station"), 'S', c_yellow, 5, build_extras, true, false, 2},
+    {_("subway station"), 'S', c_yellow, 5, build_extras, true, false, 2},
+    {_("subway station"), 'S', c_yellow, 5, build_extras, true, false, 2},
+    {_("garage"), 'O', c_white, 5, build_extras, false, false, 2},
+    {_("garage"), 'O', c_white, 5, build_extras, false, false, 2},
+    {_("garage"), 'O', c_white, 5, build_extras, false, false, 2},
+    {_("garage"), 'O', c_white, 5, build_extras, false, false, 2},
+    {_("forest"), 'F', c_green, 5, field_extras, false, false, 0},
+    {_("cabin basement"), 'C', i_green, 5, build_extras, false, false, 0},
+    {_("cabin"), 'C', i_green, 5, build_extras, false, false, 2},
+    {_("dirt lot"), 'O', c_brown, 1, field_extras, false, false, 0},
+    {_("farm"), '^', i_brown, 5, build_extras, false, false, 2},
+    {_("farm field"), '#', i_brown, 5, field_extras, false, false, 2},
+    {_("police station"), '^', h_yellow, 5, build_extras, false, false, 2},
+    {_("police station"), '>', h_yellow, 5, build_extras, false, false, 2},
+    {_("police station"), 'v', h_yellow, 5, build_extras, false, false, 2},
+    {_("police station"), '<', h_yellow, 5, build_extras, false, false, 2},
+    {_("bank"), '$', c_ltgray, 5, no_extras, false, false, 2},
+    {_("bank"), '$', c_ltgray, 5, no_extras, false, false, 2},
+    {_("bank"), '$', c_ltgray, 5, no_extras, false, false, 2},
+    {_("bank"), '$', c_ltgray, 5, no_extras, false, false, 2},
+    {_("bar"), '^', i_magenta, 5, build_extras, false, false, 2},
+    {_("bar"), '>', i_magenta, 5, build_extras, false, false, 2},
+    {_("bar"), 'v', i_magenta, 5, build_extras, false, false, 2},
+    {_("bar"), '<', i_magenta, 5, build_extras, false, false, 2},
+    {_("pawn shop"), '^', c_white, 5, build_extras, false, false, 2},
+    {_("pawn shop"), '>', c_white, 5, build_extras, false, false, 2},
+    {_("pawn shop"), 'v', c_white, 5, build_extras, false, false, 2},
+    {_("pawn shop"), '<', c_white, 5, build_extras, false, false, 2},
+    {_("mil. surplus"), '^', i_ltgray, 5, build_extras, false, false, 2},
+    {_("mil. surplus"), '>', i_ltgray, 5, build_extras, false, false, 2},
+    {_("mil. surplus"), 'v', i_ltgray, 5, build_extras, false, false, 2},
+    {_("mil. surplus"), '<', i_ltgray, 5, build_extras, false, false, 2},
+    {_("furniture store"), '^', i_brown, 5, build_extras, false, false, 2},
+    {_("furniture store"), '>', i_brown, 5, build_extras, false, false, 2},
+    {_("furniture store"), 'v', i_brown, 5, build_extras, false, false, 2},
+    {_("furniture store"), '<', i_brown, 5, build_extras, false, false, 2},
+    {_("abandoned storefront"), '^', h_dkgray, 5, build_extras, false, false, 2},
+    {_("abandoned storefront"), '>', h_dkgray, 5, build_extras, false, false, 2},
+    {_("abandoned storefront"), 'v', h_dkgray, 5, build_extras, false, false, 2},
+    {_("abandoned storefront"), '<', h_dkgray, 5, build_extras, false, false, 2},
+    {_("megastore"), '+', c_ltblue, 5, build_extras, false, false, 2},
+    {_("megastore"), 'M', c_blue,   5, build_extras, false, false, 2},
+    {_("hospital"), 'H', c_ltred, 5, build_extras, false, false, 2},
+    {_("hospital"), 'H', c_red,   5, build_extras, false, false, 2},
+    {_("public works"), 'W', c_ltgray, 5, no_extras, false, false, 2},
+    {_("public works"), 'w', c_ltgray, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 'S', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("regional school"), 's', c_ltblue, 5, no_extras, false, false, 2},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'P', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("prison"), 'p', i_ltblue, 5, no_extras, false, false, 0},
+    {_("hotel parking"), 'h', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel entrance"), 'H', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel parking"), 'h', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel tower"), 'H', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel tower"), 'H', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel tower"), 'H', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel basement"), 'B', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel basement"), 'B', c_ltblue, 5, no_extras, false, false, 2},
+    {_("hotel basement"), 'B', c_ltblue, 5, no_extras, false, false, 2},
+    {_("mansion"), 'M', c_ltgreen, 5, build_extras, false, false, 2},
+    {_("mansion"), 'M', c_green, 5, build_extras, false, false, 2},
+    {_("fema camp"), '+', c_blue, 5, build_extras, false, false, 0},
+    {_("fema camp"), 'F', i_blue, 5, build_extras, false, false, 0},
+    {_("radio station"), 'X', i_ltgray, 5, build_extras, false, false, 0},
+    {_("radio station"), 'X', i_ltgray, 5, build_extras, false, false, 0},
+    {_("radio station"), 'X', i_ltgray, 5, build_extras, false, false, 0},
+    {_("radio station"), 'X', i_ltgray, 5, build_extras, false, false, 0},
+    {_("evac shelter"), '+', c_white, 2, no_extras, true, false, 0},
+    {_("evac shelter"), '+', c_white, 2, no_extras, false, true, 0},
+    {_("LMOE shelter"), '+', c_red, 2, no_extras, true, false, 0},
+    {_("LMOE shelter"), '+', c_red, 2, no_extras, false, true, 0},
+    {_("science lab"), 'L', c_ltblue, 5, no_extras, false, false, 0}, // Regular lab start
+    {_("science lab"), 'L', c_blue, 5, no_extras, true, false, 0},
+    {_("science lab"), 'L', c_ltblue, 5, no_extras, false, false, 0},
+    {_("science lab"), 'L', c_cyan, 5, no_extras, false, false, 0},
+    {_("science lab"), 'L', c_ltblue, 5, no_extras, false, false, 0}, // Ice lab start
+    {_("science lab"), 'L', c_blue, 5, no_extras, true, false, 0},
+    {_("science lab"), 'L', c_ltblue, 5, no_extras, false, false, 0},
+    {_("science lab"), 'L', c_cyan, 5, no_extras, false, false, 0},
+    {_("nuclear plant"), 'P', c_ltgreen, 5, no_extras, false, false, 0},
+    {_("nuclear plant"), 'P', c_ltgreen, 5, no_extras, false, false, 0},
+    {_("military bunker"), 'B', c_dkgray, 2, no_extras, true, true, 0},
+    {_("military outpost"), 'M', c_dkgray, 2, build_extras, false, false, 0},
+    {_("missile silo"), '0', c_ltgray, 2, no_extras, false, false, 0},
+    {_("missile silo"), '0', c_ltgray, 2, no_extras, false, false, 0},
+    {_("strange temple"), 'T', c_magenta, 5, no_extras, true, false, 0},
+    {_("strange temple"), 'T', c_pink, 5, no_extras, true, false, 0},
+    {_("strange temple"), 'T', c_pink, 5, no_extras, false, false, 0},
+    {_("strange temple"), 'T', c_yellow, 5, no_extras, false, false, 0},
+    {_("sewage treatment"), 'P', c_red, 5, no_extras, true, false, 0},
+    {_("sewage treatment"), 'P', c_green, 5, no_extras, false, true, 0},
+    {_("sewage treatment"), 'P', c_green, 5, no_extras, false, false, 0},
+    {_("mine entrance"), 'M', c_ltgray, 5, no_extras, true, false, 0},
+    {_("mine shaft"),  'O', c_dkgray, 5, no_extras, true, true, 0},
+    {_("mine"), 'M', c_brown, 2, no_extras, false, false, 0},
+    {_("mine"), 'M', c_brown, 2, no_extras, false, false, 0},
+    {_("mine"), 'M', c_brown, 2, no_extras, false, false, 0},
+    {_("spiral cavern"), '@', c_pink, 2, no_extras, false, false, 0},
+    {_("spiral cavern"), '@', c_pink, 2, no_extras, false, false, 0},
+    {_("radio tower"), 'X', c_ltgray, 2, no_extras, false, false, 0},
+    {_("toxic waste dump"), 'D', c_pink, 2, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"), 'X', c_ltred, 5, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"), 'X', c_pink, 5, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"), 'X', c_pink, 5, no_extras, false, false, 0},
+    {_("hazardous waste sarcophagus"), 'X', c_pink, 5, no_extras, false, false, 0},
+    {_("cave"), 'C', c_brown, 2, field_extras, false, false, 0},
+    {_("rat cave"), 'C', c_dkgray, 2, no_extras, true, false, 0},
+    {_("bee hive"), '8', c_yellow, 3, field_extras, false, false, 0},
+    {_("fungal bloom"), 'T', c_ltgray, 2, field_extras, false, false, 0},
+    {_("forest"), 'F', c_green, 3, field_extras, false, false, 0}, // Spider pit
+    {_("cavern"), '0', c_ltgray, 5, no_extras, false, false, 0}, // Spider pit
+    {_("anthill"), '%', c_brown, 2, no_extras, true, false, 0},
+    {_("slime pit"), '~', c_ltgreen, 2, no_extras, false, false, 0},
+    {_("slime pit"), '~', c_ltgreen, 2, no_extras, true, false, 0},
+    {_("triffid grove"), 'T', c_ltred, 5, no_extras, true, false, 0},
+    {_("triffid roots"), 'T', c_ltred, 5, no_extras, true, true, 0},
+    {_("triffid heart"), 'T', c_red, 5, no_extras, false, true, 0},
+    {_("basement"), 'O', c_dkgray, 5, no_extras, false, true, 0},
+    {_("cavern"), '0', c_ltgray, 5, no_extras, false, false, 0},
+    {_("solid rock"), '%', c_dkgray, 5, no_extras, false, false, 0},
+    {_("rift"), '^', c_red,  2, no_extras, false, false, 0},
+    {_("hellmouth"), '^', c_ltred, 2, no_extras, true, false, 0},
+    {_("subway station"), 'S', c_yellow, 5, subway_extras, false, true, 0},
+    {_("subway"), LINE_XOXO, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_OXOX, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_XXOO, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_OXXO, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_OOXX, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_XOOX, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_XXXO, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_XXOX, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_XOXX, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_OXXX, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("subway"), LINE_XXXX, c_dkgray, 5, subway_extras, false, false, 0},
+    {_("sewer"), LINE_XOXO, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_OXOX, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_XXOO, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_OXXO, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_OOXX, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_XOOX, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_XXXO, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_XXOX, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_XOXX, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_OXXX, c_green, 5, no_extras, false, false, 0},
+    {_("sewer"), LINE_XXXX, c_green, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_XOXO, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_OXOX, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_XXOO, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_OXXO, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_OOXX, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_XOOX, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_XXXO, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_XXOX, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_XOXX, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_OXXX, c_brown, 5, no_extras, false, false, 0},
+    {_("ant tunnel"), LINE_XXXX, c_brown, 5, no_extras, false, false, 0},
+    {_("ant food storage"), 'O', c_green, 5, no_extras, false, false, 0},
+    {_("ant larva chamber"), 'O', c_white, 5, no_extras, false, false, 0},
+    {_("ant queen chamber"), 'O', c_red, 5, no_extras, false, false, 0},
+    {_("tutorial room"), 'O', c_cyan, 5, no_extras, false, false, 0}
     };
 
     for(int i=0; i<num_ter_types; i++) {oterlist.push_back(tmp_oterlist[i]);}
@@ -648,10 +693,10 @@ overmap::overmap(overmap const& o)
 
 overmap::~overmap()
 {
-	if (layer) {
-		delete [] layer;
-		layer = NULL;
-	}
+    if (layer) {
+        delete [] layer;
+        layer = NULL;
+    }
 }
 
 overmap& overmap::operator=(overmap const& o)
@@ -687,16 +732,16 @@ overmap& overmap::operator=(overmap const& o)
 
 void overmap::init_layers()
 {
-	layer = new map_layer[OVERMAP_LAYERS];
-	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-		oter_id default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null;
-		for(int i = 0; i < OMAPX; ++i) {
-			for(int j = 0; j < OMAPY; ++j) {
-				layer[z].terrain[i][j] = default_type;
-				layer[z].visible[i][j] = false;
-			}
-		}
-	}
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        oter_id default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null;
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = default_type;
+                layer[z].visible[i][j] = false;
+            }
+        }
+    }
 }
 
 oter_id& overmap::ter(int x, int y, int z)
@@ -727,7 +772,7 @@ std::vector<mongroup*> overmap::monsters_at(int x, int y, int z)
   return ret;
  for (int i = 0; i < zg.size(); i++) {
   if (zg[i].posz != z) { continue; }
-  if ( 
+  if (
       ( zg[i].diffuse == true ? square_dist(x, y, zg[i].posx, zg[i].posy) : trig_dist(x, y, zg[i].posx, zg[i].posy) )
     <= zg[i].radius) {
       ret.push_back(&(zg[i]));
@@ -846,7 +891,7 @@ point overmap::display_notes(game* g, int const z) const
  wborder(w_notes, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- const int maxitems = 20;	// Number of items to show at one time.
+ const int maxitems = 20; // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
  mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
@@ -980,9 +1025,9 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  erase();
  clear();
  move(0, 0);
- std::vector<city> road_points;	// cities and roads_out together
+ std::vector<city> road_points; // cities and roads_out together
  std::vector<point> river_start;// West/North endpoints of rivers
- std::vector<point> river_end;	// East/South endpoints of rivers
+ std::vector<point> river_end; // East/South endpoints of rivers
 
 // Determine points where rivers & roads should connect w/ adjacent maps
  if (north != NULL) {
@@ -1085,9 +1130,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 // Now actually place those rivers.
  if (river_start.size() > river_end.size() && river_end.size() > 0) {
   std::vector<point> river_end_copy = river_end;
-  int index;
   while (!river_start.empty()) {
-   index = rng(0, river_start.size() - 1);
+   int index = rng(0, river_start.size() - 1);
    if (!river_end.empty()) {
     place_river(river_start[index], river_end[0]);
     river_end.erase(river_end.begin());
@@ -1098,9 +1142,8 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   }
  } else if (river_end.size() > river_start.size() && river_start.size() > 0) {
   std::vector<point> river_start_copy = river_start;
-  int index;
   while (!river_end.empty()) {
-   index = rng(0, river_end.size() - 1);
+   int index = rng(0, river_end.size() - 1);
    if (!river_start.empty()) {
     place_river(river_start[0], river_end[index]);
     river_start.erase(river_start.begin());
@@ -1182,7 +1225,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  int z = -1;
  bool requires_sub = false;
  do {
-  	requires_sub = generate_sub(z);
+        requires_sub = generate_sub(z);
  } while(requires_sub && (--z >= -OVERMAP_DEPTH));
 
 // Place the monsters, now that the terrain is laid out
@@ -1198,6 +1241,7 @@ bool overmap::generate_sub(int const z)
  std::vector<city> ant_points;
  std::vector<city> goo_points;
  std::vector<city> lab_points;
+ std::vector<city> ice_lab_points;
  std::vector<point> shaft_points;
  std::vector<city> mine_points;
  std::vector<point> bunker_points;
@@ -1277,6 +1321,13 @@ bool overmap::generate_sub(int const z)
    else if (ter(i, j, z + 1) == ot_lab_stairs)
     ter(i, j, z) = ot_lab;
 
+   else if (ter(i, j, z + 1) == ot_ice_lab_core ||
+            (z == -1 && ter(i, j, z + 1) == ot_ice_lab_stairs))
+    ice_lab_points.push_back(city(i, j, rng(1, 5 + z)));
+
+   else if (ter(i, j, z + 1) == ot_ice_lab_stairs)
+    ter(i, j, z) = ot_ice_lab;
+
    else if (ter(i, j, z + 1) == ot_bunker && z == -1)
     bunker_points.push_back( point(i, j) );
 
@@ -1354,6 +1405,13 @@ bool overmap::generate_sub(int const z)
      requires_sub |= lab;
      if (!lab && ter(lab_points[i].x, lab_points[i].y, z) == ot_lab_core)
          ter(lab_points[i].x, lab_points[i].y, z) = ot_lab;
+ }
+ for (int i = 0; i < ice_lab_points.size(); i++)
+ {
+     bool ice_lab = build_ice_lab(ice_lab_points[i].x, ice_lab_points[i].y, z, ice_lab_points[i].s);
+     requires_sub |= ice_lab;
+     if (!ice_lab && ter(ice_lab_points[i].x, ice_lab_points[i].y, z) == ot_ice_lab_core)
+         ter(ice_lab_points[i].x, ice_lab_points[i].y, z) = ot_ice_lab;
  }
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, z, ant_points[i].s);
@@ -1588,7 +1646,7 @@ int overmap::dist_from_city(point p)
 
 void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
                    int &origx, int &origy, signed char &ch, bool blink,
-                   overmap &hori, overmap &vert, overmap &diag)
+                   overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
 {
  bool note_here = false, npc_here = false;
  std::string note_text;
@@ -1641,7 +1699,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 
 // Now actually draw the map
   bool csee = false;
-  oter_id ccur_ter;
+  oter_id ccur_ter = ot_null;
   for (int i = -(om_map_width / 2); i < (om_map_width / 2); i++) {
     for (int j = -(om_map_height / 2);
          j <= (om_map_height / 2) + (ch == 'j' ? 1 : 0); j++) {
@@ -1788,10 +1846,17 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwputch(w, j, i, c_black, ' ');
   }
 
+  real_coords rc;
+  rc.fromomap( g->cur_om->pos().x, g->cur_om->pos().y, cursx, cursy );
+
   if (csee) {
    mvwputch(w, 1, om_map_width + 1, oterlist[ccur_ter].color, oterlist[ccur_ter].sym);
-   mvwprintz(w, 1, om_map_width + 3, oterlist[ccur_ter].color, "%s",
-             oterlist[ccur_ter].name.c_str());
+   std::vector<std::string> name = foldstring(oterlist[ccur_ter].name,25);
+   for (int i = 1; (i - 1) < name.size(); i++)
+   {
+       mvwprintz(w, i, om_map_width + 3, oterlist[ccur_ter].color, "%s",
+                 name[i-1].c_str());
+   }
   } else
    mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
 
@@ -1800,13 +1865,22 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
   }
   mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
-  mvwprintz(w, 16, om_map_width + 1, c_magenta, _("0 - Center map on character"));
-  mvwprintz(w, 17, om_map_width + 1, c_magenta, _("/ - Search                 "));
-  mvwprintz(w, 18, om_map_width + 1, c_magenta, _("N - Add/Edit a note        "));
-  mvwprintz(w, 19, om_map_width + 1, c_magenta, _("D - Delete a note          "));
-  mvwprintz(w, 20, om_map_width + 1, c_magenta, _("L - List notes             "));
-  mvwprintz(w, 21, om_map_width + 1, c_magenta, _("Esc or q - Return to game  "));
+  mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
+                                                 _(" - Center map on character")).c_str());
+  mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
+                                                 _(" - Search                 ")).c_str());
+  mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
+                                                 _(" - Add/Edit a note        ")).c_str());
+  mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
+                                                 _(" - Delete a note          ")).c_str());
+  mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
+                                                 _(" - List notes             ")).c_str());
+  fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
+                                                          _(" - Return to game  ")).c_str());
   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, string_format(_("LEVEL %i"),z).c_str());
+  mvwprintz( w, getmaxy(w) - 1, om_map_width + 1, c_red, "%s, %d'%d, %d'%d",
+                  string_format(_("LEVEL %i"),z).c_str(), rc.abs_om.x, rc.om_pos.x,
+                  rc.abs_om.y, rc.om_pos.y );
 // Done with all drawing!
   wrefresh(w);
 }
@@ -1816,7 +1890,7 @@ point overmap::draw_overmap(game *g, int zlevel)
 {
  WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
  WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
- timeout(BLINK_SPEED);	// Enable blinking!
+ timeout(BLINK_SPEED); // Enable blinking!
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
      cursy = (g->levy + int(MAPSIZE / 2)) / 2;
@@ -1825,36 +1899,54 @@ point overmap::draw_overmap(game *g, int zlevel)
  point ret(-1, -1);
  overmap hori, vert, diag; // Adjacent maps
 
+ // Configure input context for navigating the map.
+ input_context ictxt("OVERMAP");
+ ictxt.register_action("ANY_INPUT");
+ ictxt.register_directions();
+ ictxt.register_action("CONFIRM");
+ ictxt.register_action("LEVEL_UP");
+ ictxt.register_action("LEVEL_DOWN");
+ ictxt.register_action("HELP_KEYBINDINGS");
+
+ // Actions whose keys we want to display.
+ ictxt.register_action("CENTER");
+ ictxt.register_action("CREATE_NOTE");
+ ictxt.register_action("DELETE_NOTE");
+ ictxt.register_action("SEARCH");
+ ictxt.register_action("LIST_NOTES");
+ ictxt.register_action("QUIT");
+ std::string action;
  do {
-     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
-  ch = input();
-  timeout(BLINK_SPEED);	// Enable blinking!
+     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+     action = ictxt.handle_input();
+     timeout(BLINK_SPEED); // Enable blinking!
 
   int dirx, diry;
-  if (ch != ERR)
-   blink = true;	// If any input is detected, make the blinkies on
-  get_direction(g, dirx, diry, ch);
+  if (action != "ERROR")
+   blink = true; // If any input is detected, make the blinkies on
+  ictxt.get_direction(dirx, diry, action);
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
    cursy += diry;
-  } else if (ch == '0') {
+  } else if (action == "CENTER") {
    cursx = origx;
    cursy = origy;
    zlevel = origz;
-  } else if (ch == '>' && zlevel > -OVERMAP_DEPTH) {
+  } else if (action == "LEVEL_DOWN" && zlevel > -OVERMAP_DEPTH) {
       zlevel -= 1;
-  } else if (ch == '<' && zlevel < OVERMAP_HEIGHT) {
+  } else if (action == "LEVEL_UP" && zlevel < OVERMAP_HEIGHT) {
       zlevel += 1;
   }
-  else if (ch == '\n')
+  else if (action == "CONFIRM")
    ret = point(cursx, cursy);
-  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q' || ch == 'm')
+  else if (action == "QUIT")
    ret = point(-1, -1);
-  else if (ch == 'N') {
+  else if (action == "CREATE_NOTE") {
    timeout(-1);
-   add_note(cursx, cursy, zlevel, string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, note(cursx, cursy, zlevel))); // 45 char max
+   add_note(cursx, cursy, zlevel, string_input_popup(_("Note (X:TEXT for custom symbol):"),
+                                                     45, note(cursx, cursy, zlevel))); // 45 char max
    timeout(BLINK_SPEED);
-  } else if(ch == 'D'){
+  } else if(action == "DELETE_NOTE"){
    timeout(-1);
    if (has_note(cursx, cursy, zlevel)){
     bool res = query_yn(_("Really delete note?"));
@@ -1862,7 +1954,7 @@ point overmap::draw_overmap(game *g, int zlevel)
      delete_note(cursx, cursy, zlevel);
    }
    timeout(BLINK_SPEED);
-  } else if (ch == 'L'){
+  } else if (action == "LIST_NOTES"){
    timeout(-1);
    point p = display_notes(g, zlevel);
    if (p.x != -1){
@@ -1871,14 +1963,14 @@ point overmap::draw_overmap(game *g, int zlevel)
    }
    timeout(BLINK_SPEED);
    wrefresh(w_map);
-  } else if (ch == '/') {
+  } else if (action == "SEARCH") {
    int tmpx = cursx, tmpy = cursy;
    timeout(-1);
    std::string term = string_input_popup(_("Search term:"));
    timeout(BLINK_SPEED);
-   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
+   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
    point found = find_note(cursx, cursy, zlevel, term);
-   if (found.x == -1) {	// Didn't find a note
+   if (found.x == -1) { // Didn't find a note
     std::vector<point> terlist;
     terlist = find_terrain(term, origx, origy, zlevel);
     if (terlist.size() != 0){
@@ -1909,7 +2001,7 @@ point overmap::draw_overmap(game *g, int zlevel)
       }
       cursx = terlist[i].x;
       cursy = terlist[i].y;
-      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
+      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
      } while(ch != '\n' && ch != ' ' && ch != 'q');
@@ -1926,10 +2018,9 @@ point overmap::draw_overmap(game *g, int zlevel)
     cursy = found.y;
    }
   }
-  else if (ch == ERR)	// Hit timeout on input, so make characters blink
+  else if (action == "ERROR") // Hit timeout on input, so make characters blink
    blink = !blink;
- } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' &&
-          ch != '\n');
+ } while (action != "QUIT" && action != "CONFIRM");
  timeout(-1);
  werase(w_map);
  wrefresh(w_map);
@@ -1974,29 +2065,33 @@ void overmap::process_mongroups()
 
 void overmap::place_forest()
 {
- int x, y;
- int forx;
- int fory;
- int fors;
  for (int i = 0; i < NUM_FOREST; i++) {
-// forx and fory determine the epicenter of the forest
-  forx = rng(0, OMAPX - 1);
-  fory = rng(0, OMAPY - 1);
-// fors determinds its basic size
-  fors = rng(15, 40);
+  // forx and fory determine the epicenter of the forest
+  int forx = rng(0, OMAPX - 1);
+  int fory = rng(0, OMAPY - 1);
+  // fors determinds its basic size
+  int fors = rng(15, 40);
+  int outer_tries = 1000;
+  int inner_tries = 1000;
   for (int j = 0; j < cities.size(); j++) {
-   while (dist(forx,fory,cities[j].x,cities[j].y) - fors / 2 < cities[j].s ) {
-// Set forx and fory far enough from cities
-    forx = rng(0, OMAPX - 1);
-    fory = rng(0, OMAPY - 1);
-// Set fors to determine the size of the forest; usually won't overlap w/ cities
-    fors = rng(15, 40);
-    j = 0;
-   }
+      inner_tries = 1000;
+      while (dist(forx,fory,cities[j].x,cities[j].y) - fors / 2 < cities[j].s ) {
+          // Set forx and fory far enough from cities
+          forx = rng(0, OMAPX - 1);
+          fory = rng(0, OMAPY - 1);
+          // Set fors to determine the size of the forest; usually won't overlap w/ cities
+          fors = rng(15, 40);
+          j = 0;
+          if( 0 == --inner_tries ) { break; }
+      }
+      if( 0 == --outer_tries || 0 == inner_tries ) {
+          break;
+      }
   }
-  int swamps = SWAMPINESS;	// How big the swamp may be...
-  x = forx;
-  y = fory;
+  if( 0 == outer_tries || 0 == inner_tries ) { break; }
+  int swamps = SWAMPINESS; // How big the swamp may be...
+  int x = forx;
+  int y = fory;
 // Depending on the size on the forest...
   for (int j = 0; j < fors; j++) {
    int swamp_chance = 0;
@@ -2111,32 +2206,35 @@ void overmap::place_river(point pa, point pb)
 }
 
 /*: the root is overmap::place_cities()
-20:50	<kevingranade>: which is at overmap.cpp:1355 or so
-20:51	<kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
-20:51	<kevingranade>: which is roughly it's radius in overmap tiles
-20:52	<kevingranade>: then later overmap::place_mongroups() is called
-20:52	<kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
-20:53	<kevingranade>: tadaa
+20:50 <kevingranade>: which is at overmap.cpp:1355 or so
+20:51 <kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
+20:51 <kevingranade>: which is roughly it's radius in overmap tiles
+20:52 <kevingranade>: then later overmap::place_mongroups() is called
+20:52 <kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
+20:53 <kevingranade>: tadaa
 
 spawns happen at... <cue Clue music>
-20:56	<kevingranade>: game:pawn_mon() in game.cpp:7380*/
+20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
- int NUM_CITIES = dice(3, 4);
- int cx, cy, cs;
+ int NUM_CITIES = dice(4, 4);
  int start_dir;
+ int city_min = int(OPTIONS["CITY_SIZE"] - 1);
+ int city_max = int(OPTIONS["CITY_SIZE"] + 1);
+ // Limit number of cities based on how big they are.
+ NUM_CITIES = std::min(NUM_CITIES, int(256 / OPTIONS["CITY_SIZE"] * OPTIONS["CITY_SIZE"]));
 
  while (cities.size() < NUM_CITIES) {
-  cx = rng(12, OMAPX - 12);
-  cy = rng(12, OMAPY - 12);
-  cs = dice(3, 4) ;
+  int cx = rng(12, OMAPX - 12);
+  int cy = rng(12, OMAPY - 12);
+  int size = dice(city_min, city_max) ;
   if (ter(cx, cy, 0) == ot_field) {
    ter(cx, cy, 0) = ot_road_nesw;
-   city tmp; tmp.x = cx; tmp.y = cy; tmp.s = cs;
+   city tmp; tmp.x = cx; tmp.y = cy; tmp.s = size;
    cities.push_back(tmp);
    start_dir = rng(0, 3);
    for (int j = 0; j < 4; j++)
-    make_road(cx, cy, cs, (start_dir + j) % 4, tmp);
+    make_road(cx, cy, size, (start_dir + j) % 4, tmp);
   }
  }
 }
@@ -2150,7 +2248,7 @@ void overmap::put_buildings(int x, int y, int dir, city town)
     ter(x+i*xchange, y+i*ychange, 0) = shop(((dir%2)-i)%4);
    else {
     if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s)
-     ter(x+i*xchange, y+i*ychange, 0) = ot_park;
+     ter(x+i*xchange, y+i*ychange, 0) = (one_in(5)?ot_pool:ot_park);
     else
      ter(x+i*xchange, y+i*ychange, 0) = house(((dir%2)-i)%4);
    }
@@ -2280,7 +2378,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
 {
  std::vector<point> generated_lab;
  ter(x, y, z) = ot_lab;
- for (int n = 0; n <= 1; n++) {	// Do it in two passes to allow diagonals
+ for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
   for (int i = 1; i <= s; i++) {
    for (int lx = x - i; lx <= x + i; lx++) {
     for (int ly = y - i; ly <= y + i; ly++) {
@@ -2311,7 +2409,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
 
  ter(x, y, z) = ot_lab_core;
  int numstairs = 0;
- if (s > 0) {	// Build stairs going down
+ if (s > 0) { // Build stairs going down
   while (!one_in(6)) {
    int stairx, stairy;
    int tries = 0;
@@ -2326,7 +2424,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
    }
   }
  }
- if (numstairs == 0) {	// This is the bottom of the lab;  We need a finale
+ if (numstairs == 0) { // This is the bottom of the lab;  We need a finale
   int finalex, finaley;
   int tries = 0;
   do {
@@ -2338,6 +2436,72 @@ bool overmap::build_lab(int x, int y, int z, int s)
   ter(finalex, finaley, z) = ot_lab_finale;
  }
  zg.push_back(mongroup("GROUP_LAB", (x * 2), (y * 2), z, s, 400));
+
+ return numstairs > 0;
+}
+
+bool overmap::build_ice_lab(int x, int y, int z, int s)
+{
+ std::vector<point> generated_ice_lab;
+ ter(x, y, z) = ot_ice_lab;
+ for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
+  for (int i = 1; i <= s; i++) {
+   for (int lx = x - i; lx <= x + i; lx++) {
+    for (int ly = y - i; ly <= y + i; ly++) {
+     if ((ter(lx - 1, ly, z) == ot_ice_lab || ter(lx + 1, ly, z) == ot_ice_lab ||
+         ter(lx, ly - 1, z) == ot_ice_lab || ter(lx, ly + 1, z) == ot_ice_lab) &&
+         one_in(i))
+     {
+         ter(lx, ly, z) = ot_ice_lab;
+         generated_ice_lab.push_back(point(lx,ly));
+     }
+    }
+   }
+  }
+ }
+ bool generate_stairs = true;
+ for (std::vector<point>::iterator it=generated_ice_lab.begin();
+      it != generated_ice_lab.end(); it++)
+ {
+     if (ter(it->x, it->y, z+1) == ot_ice_lab_stairs)
+         generate_stairs = false;
+ }
+ if (generate_stairs && generated_ice_lab.size() > 0)
+ {
+     int v = rng(0,generated_ice_lab.size()-1);
+     point p = generated_ice_lab[v];
+     ter(p.x, p.y, z+1) = ot_ice_lab_stairs;
+ }
+
+ ter(x, y, z) = ot_ice_lab_core;
+ int numstairs = 0;
+ if (s > 0) { // Build stairs going down
+  while (!one_in(6)) {
+   int stairx, stairy;
+   int tries = 0;
+   do {
+    stairx = rng(x - s, x + s);
+    stairy = rng(y - s, y + s);
+    tries++;
+   } while (ter(stairx, stairy, z) != ot_ice_lab && tries < 15);
+   if (tries < 15) {
+    ter(stairx, stairy, z) = ot_ice_lab_stairs;
+    numstairs++;
+   }
+  }
+ }
+ if (numstairs == 0) { // This is the bottom of the ice_lab;  We need a finale
+  int finalex, finaley;
+  int tries = 0;
+  do {
+   finalex = rng(x - s, x + s);
+   finaley = rng(y - s, y + s);
+   tries++;
+  } while (tries < 15 && ter(finalex, finaley, z) != ot_ice_lab &&
+                         ter(finalex, finaley, z) != ot_ice_lab_core);
+  ter(finalex, finaley, z) = ot_ice_lab_finale;
+ }
+ zg.push_back(mongroup("GROUP_ice_lab", (x * 2), (y * 2), z, s, 400));
 
  return numstairs > 0;
 }
@@ -2489,9 +2653,9 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
   return;
 
  std::priority_queue<node> nodes[2];
- bool closed[OMAPX][OMAPY] = {false};
- int open[OMAPX][OMAPY] = {0};
- int dirs[OMAPX][OMAPY] = {0};
+ bool closed[OMAPX][OMAPY] = {{false}};
+ int open[OMAPX][OMAPY] = {{0}};
+ int dirs[OMAPX][OMAPY] = {{0}};
  int dx[4]={1, 0, -1, 0};
  int dy[4]={0, 1, 0, -1};
  int i = 0;
@@ -2503,6 +2667,9 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
  while (!nodes[i].empty()) { //A*
   node mn = nodes[i].top();
   nodes[i].pop();
+  if (mn.x > OMAPX || mn.x < 0 || mn.y > OMAPY || mn.y < 0) {
+      continue;
+  }
   closed[mn.x][mn.y] = true;
 
   if(mn.x == x2 && mn.y == y2) {
@@ -2582,53 +2749,45 @@ void overmap::building_on_hiway(int x, int y, int dir)
  else if (xdif ==  1)
   rot = 3;
 
- switch (rng(1, 3)) {
+ switch (rng(1, 4)) {
  case 1:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_lab_stairs;
   break;
  case 2:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
-   ter(x + xdif, y + ydif, 0) = house(rot);
+   ter(x + xdif, y + ydif, 0) = ot_ice_lab_stairs;
   break;
  case 3:
   if (!is_river(ter(x + xdif, y + ydif, 0)))
+   ter(x + xdif, y + ydif, 0) = house(rot);
+  break;
+ case 4:
+  if (!is_river(ter(x + xdif, y + ydif, 0)))
    ter(x + xdif, y + ydif, 0) = ot_radio_tower;
   break;
-/*
- case 4:
-  if (!is_river(ter(x + xdif, y + ydif)))
-   ter(x + xdir, y + ydif) = ot_sewage_treatment;
-  break;
-*/
  }
 }
 
 void overmap::place_hiways(std::vector<city> cities, int z, oter_id base)
 {
- if (cities.size() == 1)
-  return;
- city best;
- int closest = -1;
- int distance;
- bool maderoad = false;
- for (int i = 0; i < cities.size(); i++) {
-  maderoad = false;
-  closest = -1;
-  for (int j = i + 1; j < cities.size(); j++) {
-   distance = dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
-   if (distance < closest || closest < 0) {
-    closest = distance;
-    best = cities[j];
-   }
-   if (distance < TOP_HIWAY_DIST) {
-    maderoad = true;
-    make_hiway(cities[i].x, cities[i].y, cities[j].x, cities[j].y, z, base);
-   }
-  }
-  if (!maderoad && closest > 0)
-   make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
- }
+    if (cities.size() == 1) {
+        return;
+    }
+    city best;
+    for (int i = 0; i < cities.size(); i++) {
+        int closest = -1;
+        for (int j = i + 1; j < cities.size(); j++) {
+            int distance = (int)dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            if (distance < closest || closest < 0) {
+                closest = distance;
+                best = cities[j];
+            }
+        }
+        if( closest > 0 ) {
+            make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
+        }
+    }
 }
 
 // Polish does both good_roads and good_rivers (and any future polishing) in
@@ -2743,7 +2902,7 @@ bool overmap::is_road(oter_id base, int x, int y, int z)
  } else if (base >= ot_ants_ns && base <= ot_ants_queen) {
   min = ot_ants_ns;
   max = ot_ants_queen;
- } else	{ // Didn't plan for this!
+ } else { // Didn't plan for this!
   debugmsg("Bad call to is_road, %s", oterlist[base].name.c_str());
   return false;
  }
@@ -2911,7 +3070,7 @@ void overmap::place_specials()
     int min = special.min_dist_from_city, max = special.max_dist_from_city;
     point pt(p.x, p.y);
     // Skip non-classic specials if we're in classic mode
-    if (OPTIONS[OPT_CLASSIC_ZOMBIES] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
+    if (OPTIONS["CLASSIC_ZOMBIES"] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
     if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
@@ -3199,7 +3358,7 @@ void overmap::place_special(overmap_special special, tripoint p)
 
 void overmap::place_mongroups()
 {
- if (!OPTIONS[OPT_STATIC_SPAWN]) {
+ if (!OPTIONS["STATIC_SPAWN"]) {
   // Cities are full of zombies
   for (unsigned int i = 0; i < cities.size(); i++) {
    if (!one_in(16) || cities[i].s > 5)
@@ -3208,7 +3367,7 @@ void overmap::place_mongroups()
   }
  }
 
- if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+ if (!OPTIONS["CLASSIC_ZOMBIES"]) {
   // Figure out where swamps are, and place swamp monsters
   for (int x = 3; x < OMAPX - 3; x += 7) {
    for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -3228,13 +3387,13 @@ void overmap::place_mongroups()
   }
  }
 
- if (!OPTIONS[OPT_CLASSIC_ZOMBIES]) {
+ if (!OPTIONS["CLASSIC_ZOMBIES"]) {
   // Place the "put me anywhere" groups
   int numgroups = rng(0, 3);
   for (int i = 0; i < numgroups; i++) {
    zg.push_back(
-	 mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
-	          rng(20, 40), rng(30, 50)));
+    mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
+             rng(20, 40), rng(30, 50)));
   }
  }
 
@@ -3291,203 +3450,25 @@ void overmap::place_radios()
   This is FEMA camp %d%d.  A designated long-term emergency shelter."), i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
      break;
+    default:
+     break;
    }
   }
  }
 }
 
-void overmap::save()
-{
- if (layer == NULL) {
-  debugmsg("Tried to save a null overmap");
-  return;
- }
-
- std::ofstream fout;
- std::string const plrfilename = player_filename(loc.x, loc.y);
- std::string const terfilename = terrain_filename(loc.x, loc.y);
-
- // Player specific data
- fout.open(plrfilename.c_str());
- for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-  fout << "L " << z << std::endl;
-  for (int j = 0; j < OMAPY; j++) {
-   for (int i = 0; i < OMAPX; i++) {
-    fout << ((layer[z].visible[i][j]) ? "1" : "0");
-   }
-   fout << std::endl;
-  }
-
-  for (int i = 0; i < layer[z].notes.size(); i++) {
-   fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " << layer[z].notes[i].num <<
-           std::endl << layer[z].notes[i].text << std::endl;
-  }
- }
- fout.close();
-
- // World terrain data
- fout.open(terfilename.c_str(), std::ios_base::trunc);
- for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-  fout << "L " << z << std::endl;
-  for (int j = 0; j < OMAPY; j++) {
-   for (int i = 0; i < OMAPX; i++) {
-    fout << int(layer[z].terrain[i][j]) << " ";
-   }
-   fout << std::endl;
-  }
- }
-
- for (int i = 0; i < zg.size(); i++)
-  fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " << zg[i].posz << " " <<
-    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse << " " << zg[i].dying <<
-    std::endl;
- for (int i = 0; i < cities.size(); i++)
-  fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
-          std::endl;
- for (int i = 0; i < roads_out.size(); i++)
-  fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
- for (int i = 0; i < radios.size(); i++)
-  fout << "T " << radios[i].x << " " << radios[i].y << " " <<
-      radios[i].strength << " " << radios[i].type << " " << std::endl << radios[i].message <<
-          std::endl;
-
- //saving the npcs
- for (int i = 0; i < npcs.size(); i++)
-  fout << "n " << npcs[i]->save_info() << std::endl;
-
- fout.close();
-}
 
 void overmap::open(game *g)
 {
  std::string const plrfilename = player_filename(loc.x, loc.y);
  std::string const terfilename = terrain_filename(loc.x, loc.y);
- std::ifstream fin;
- char datatype;
- int cx, cy, cz, cs, cp, cd, cdying;
- std::string cstr;
- city tmp;
- std::list<item> npc_inventory;
-
+  std::ifstream fin;
 // Set position IDs
  fin.open(terfilename.c_str());
-// DEBUG VARS
- int nummg = 0;
  if (fin.is_open()) {
-  int z = 0; // assumption
-  while (fin >> datatype) {
-   if (datatype == 'L') { 	// Load layer data, and switch to layer
-    fin >> z;
-
-    int tmp_ter;
-
-    if (z >= 0 && z < OVERMAP_LAYERS) {
-     for (int j = 0; j < OMAPY; j++) {
-      for (int i = 0; i < OMAPX; i++) {
-       fin >> tmp_ter;
-       layer[z].terrain[i][j] = oter_id(tmp_ter);
-       layer[z].visible[i][j] = false;
-       if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
-        debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
-      }
-     }
-    } else {
-     debugmsg("Loaded z level out of range (z: %d)", z);
-    }
-   } else if (datatype == 'Z') {	// Monster group
-    fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
-    zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
-    zg.back().diffuse = cd;
-    zg.back().dying = cdying;
-    nummg++;
-   } else if (datatype == 't') {	// City
-    fin >> cx >> cy >> cs;
-    tmp.x = cx; tmp.y = cy; tmp.s = cs;
-    cities.push_back(tmp);
-   } else if (datatype == 'R') {	// Road leading out
-    fin >> cx >> cy;
-    tmp.x = cx; tmp.y = cy; tmp.s = 0;
-    roads_out.push_back(tmp);
-   } else if (datatype == 'T') {	// Radio tower
-    radio_tower tmp;
-    int tmp_type;
-    fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-    tmp.type = (radio_type)tmp_type;
-    getline(fin, tmp.message);	// Chomp endl
-    getline(fin, tmp.message);
-    radios.push_back(tmp);
-   } else if (datatype == 'n') {	// NPC
-/* When we start loading a new NPC, check to see if we've accumulated items for
-   assignment to an NPC.
- */
-    if (!npc_inventory.empty() && !npcs.empty()) {
-     npcs.back()->inv.add_stack(npc_inventory);
-     npc_inventory.clear();
-    }
-    std::string npcdata;
-    getline(fin, npcdata);
-    npc * tmp = new npc();
-    tmp->load_info(g, npcdata);
-    npcs.push_back(tmp);
-   } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
-              datatype == 'w' || datatype == 'c') {
-    std::string itemdata;
-    getline(fin, itemdata);
-    if (npcs.empty()) {
-     debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!",
-              loc.x, loc.y);
-     debugmsg(itemdata.c_str());
-    } else {
-     item tmp(itemdata, g);
-     npc* last = npcs.back();
-     switch (datatype) {
-      case 'I': npc_inventory.push_back(tmp);                 break;
-      case 'C': npc_inventory.back().contents.push_back(tmp); break;
-      case 'W': last->worn.push_back(tmp);                    break;
-      case 'w': last->weapon = tmp;                           break;
-      case 'c': last->weapon.contents.push_back(tmp);         break;
-     }
-    }
-   }
-  }
-// If we accrued an npc_inventory, assign it now
-  if (!npc_inventory.empty() && !npcs.empty())
-   npcs.back()->inv.add_stack(npc_inventory);
-
-  fin.close();
-
-  // Private/per-character data
-  fin.open(plrfilename.c_str());
-  if (fin.is_open()) {	// Load private seen data
-   int z = 0; // assumption
-   while (fin >> datatype) {
-    if (datatype == 'L') {  // Load layer data, and switch to layer
-     fin >> z;
-
-     std::string dataline;
-     getline(fin, dataline); // Chomp endl
-
-     for (int j = 0; j < OMAPY; j++) {
-      getline(fin, dataline);
-      if (z >= 0 && z < OVERMAP_LAYERS) {
-       for (int i = 0; i < OMAPX; i++) {
-       	layer[z].visible[i][j] = (dataline[i] == '1');
-       }
-      }
-     }
-    } else if (datatype == 'N') { // Load notes
-     om_note tmp;
-     fin >> tmp.x >> tmp.y >> tmp.num;
-     getline(fin, tmp.text);	// Chomp endl
-     getline(fin, tmp.text);
-     if (z >= 0 && z < OVERMAP_LAYERS) {
-      layer[z].notes.push_back(tmp);
-     }
-    }
-   }
+   unserialize(g, fin, plrfilename, terfilename);
    fin.close();
-  }
- } else {	// No map exists!  Prepare neighbors, and generate one.
+ } else { // No map exists!  Prepare neighbors, and generate one.
   std::vector<overmap*> pointers;
 // Fetch north and south
   for (int i = -1; i <= 1; i+=2) {
@@ -3524,7 +3505,7 @@ std::string overmap::terrain_filename(int const x, int const y) const
  filename << "save/";
 
  if (!prefix.empty()) {
- 	filename << prefix << ".";
+  filename << prefix << ".";
  }
 
  filename << "o." << x << "." << y;

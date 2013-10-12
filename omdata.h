@@ -17,7 +17,7 @@ class overmap;
 
 struct oter_t {
  std::string name;
- long sym;	// This is a long, so we can support curses linedrawing
+ long sym; // This is a long, so we can support curses linedrawing
  nc_color color;
  unsigned char see_cost; // Affects how far the player can see in the overmap
  map_extras& embellishments;
@@ -58,7 +58,7 @@ enum oter_id {
  ot_house_north, ot_house_east, ot_house_south, ot_house_west,
  ot_house_base_north, ot_house_base_east, ot_house_base_south,
   ot_house_base_west,
- ot_s_lot, ot_park,
+ ot_s_lot, ot_park, ot_pool,
  ot_s_gas_north, ot_s_gas_east, ot_s_gas_south, ot_s_gas_west,
  ot_s_pharm_north, ot_s_pharm_east, ot_s_pharm_south, ot_s_pharm_west,
  ot_office_doctor_north, ot_office_doctor_east, ot_office_doctor_south, ot_office_doctor_west,
@@ -112,6 +112,7 @@ enum oter_id {
 // Goodies/dungeons
  ot_shelter, ot_shelter_under, ot_lmoe, ot_lmoe_under,
  ot_lab, ot_lab_stairs, ot_lab_core, ot_lab_finale,
+ ot_ice_lab, ot_ice_lab_stairs, ot_ice_lab_core, ot_ice_lab_finale,
  ot_nuke_plant_entrance, ot_nuke_plant, // TODO
  ot_bunker, ot_outpost,
  ot_silo, ot_silo_finale,
@@ -167,19 +168,19 @@ extern std::vector<oter_t> oterlist;
 // Flags that determine special behavior for placement
 enum omspec_flag {
 OMS_FLAG_NULL = 0,
-OMS_FLAG_ROTATE_ROAD,	// Rotate to face road--assumes 3 following rotations
+OMS_FLAG_ROTATE_ROAD,   // Rotate to face road--assumes 3 following rotations
 OMS_FLAG_ROTATE_RANDOM, // Rotate randomly--assumes 3 following rotations
-OMS_FLAG_3X3,		// 3x3 square, e.g. bee hive
-OMS_FLAG_BLOB,		// Randomly shaped blob
-OMS_FLAG_3X3_SECOND,	// 3x3 square, made of the tile AFTER the main one
-OMS_FLAG_3X3_FIXED, //3x3 square, made of tiles one ahead and seven after
+OMS_FLAG_3X3,           // 3x3 square, e.g. bee hive
+OMS_FLAG_BLOB,          // Randomly shaped blob
+OMS_FLAG_3X3_SECOND,    // 3x3 square, made of the tile AFTER the main one
+OMS_FLAG_3X3_FIXED,     //3x3 square, made of tiles one ahead and seven after
 OMS_FLAG_2X2,
 OMS_FLAG_2X2_SECOND,
-OMS_FLAG_BIG,		// As big as possible
-OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
-OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
+OMS_FLAG_BIG,           // As big as possible
+OMS_FLAG_ROAD,          // Add a road_point here; connect to towns etc.
+OMS_FLAG_PARKING_LOT,   // Add a road_point to the north of here
 OMS_FLAG_DIRT_LOT,      // Dirt lot flag for specials
-OMS_FLAG_CLASSIC, // Allow this location to spawn in classic mode
+OMS_FLAG_CLASSIC,       // Allow this location to spawn in classic mode
 NUM_OMS_FLAGS
 };
 
@@ -198,12 +199,12 @@ struct omspec_place
 struct overmap_special
 {
  oter_id ter;           // Terrain placed
- int min_appearances;	// Min number in an overmap
+ int min_appearances;   // Min number in an overmap
  int max_appearances;   // Max number in an overmap
  int min_dist_from_city;// Min distance from city limits
  int max_dist_from_city;// Max distance from city limits
 
- std::string monsters;    // Type of monsters that appear here
+ std::string monsters;  // Type of monsters that appear here
  int monster_pop_min;   // Minimum monster population
  int monster_pop_max;   // Maximum monster population
  int monster_rad_min;   // Minimum monster radius
@@ -225,6 +226,7 @@ enum omspec_id
  OMSPEC_FARM,
  OMSPEC_TEMPLE,
  OMSPEC_LAB,
+ OMSPEC_ICE_LAB,
  OMSPEC_FEMA,
  OMSPEC_BUNKER,
  OMSPEC_OUTPOST,
@@ -267,20 +269,20 @@ extern overmap_special overmap_specials[NUM_OMSPECS];
 
 enum overmap_zone
 {
- OMZONE_NULL = 0,
- OMZONE_CITY,		// Basic city; place corpses
- OMZONE_BOMBED,		// Terrain is heavily destroyed
- OMZONE_IRRADIATED,	// Lots of radioactivity TODO
- OMZONE_CORRUPTED,	// Fabric of space is weak TODO
- OMZONE_OVERGROWN,	// Lots of plants, etc. TODO
- OMZONE_FUNGAL,		// Overgrown with fungus TODO
- OMZONE_MILITARIZED,	// _Was_ occupied by the military TODO
- OMZONE_FLOODED,	// Flooded out TODO
- OMZONE_TRAPPED,	// Heavily booby-trapped TODO
- OMZONE_MUTATED,	// Home of mutation experiments - mutagen & monsters TODO
- OMZONE_FORTIFIED,	// Boarded up windows &c TODO
- OMZONE_BOTS,		// Home of the bots TODO
- OMZONE_MAX
+    OMZONE_NULL = 0,
+    OMZONE_CITY,        // Basic city; place corpses
+    OMZONE_BOMBED,      // Terrain is heavily destroyed
+    OMZONE_IRRADIATED,  // Lots of radioactivity TODO
+    OMZONE_CORRUPTED,   // Fabric of space is weak TODO
+    OMZONE_OVERGROWN,   // Lots of plants, etc. TODO
+    OMZONE_FUNGAL,      // Overgrown with fungus TODO
+    OMZONE_MILITARIZED, // _Was_ occupied by the military TODO
+    OMZONE_FLOODED,     // Flooded out TODO
+    OMZONE_TRAPPED,     // Heavily booby-trapped TODO
+    OMZONE_MUTATED,     // Home of mutation experiments - mutagen & monsters TODO
+    OMZONE_FORTIFIED,   // Boarded up windows &c TODO
+    OMZONE_BOTS,        // Home of the bots TODO
+    OMZONE_MAX
 };
 
 #endif

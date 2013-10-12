@@ -7,8 +7,10 @@
 #include "color.h"
 #include "picojson.h"
 #include "catajson.h"
+#include "json.h"
 #include "item_group.h"
 #include "iuse.h"
+#include "martialarts.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -29,6 +31,8 @@ public:
     void init();
     void init(game* main_game) throw (std::string);
 
+    void load_item_group(JsonObject &jsobj);
+
     //Intermediary Methods - Will probably be removed at final stage
     itype* find_template(Item_tag id);
     itype* random_template();
@@ -45,23 +49,33 @@ public:
     item create_random(int created_at);
     Item_list create_random(int created_at, int quantity);
 
+    void load_ammo      (JsonObject &jo);
+    void load_gun       (JsonObject &jo);
+    void load_armor     (JsonObject &jo);
+    void load_tool      (JsonObject &jo);
+    void load_book      (JsonObject &jo);
+    void load_comestible(JsonObject &jo);
+    void load_container (JsonObject &jo);
+    void load_gunmod    (JsonObject &jo);
+    void load_generic   (JsonObject &jo);
+
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;
     std::map<Item_tag, Item_group*> m_template_groups;
 
     //json data handlers
-    void load_item_templates() throw (std::string);
-    void load_item_templates_from(const std::string file_name) throw (std::string);
-    void load_item_groups_from(game *g, const std::string file_name) throw (std::string);
-
-    nc_color color_from_string(std::string color);
     Use_function use_from_string(std::string name);
-    void tags_from_json(catajson tag_list, std::set<std::string> &tags);
-    unsigned flags_from_json(catajson flags, std::string flag_type="");
-    void set_material_from_json(Item_tag new_id, catajson mats);
-    bool is_mod_target(catajson targets, std::string weapon);
     phase_id phase_from_tag(Item_tag name);
+
+    void load_basic_info(JsonObject &jo, itype *new_item);
+    void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
+    void set_qualities_from_json(JsonObject &jo, std::string member, itype *new_item);
+    unsigned flags_from_json(JsonObject &jo, std::string member, std::string flag_type="");
+    void set_material_from_json(JsonObject &jo, std::string member, itype *new_item);
+    bool is_mod_target(JsonObject &jo, std::string member, std::string weapon);
+
+    void set_intvar(std::string tag, unsigned int & var, int min, int max);
 
     //two convenience functions that just call into set_bitmask_by_string
     void set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type);
@@ -72,7 +86,7 @@ private:
     //iuse stuff
     std::map<Item_tag, Use_function> iuse_function_list;
     //techniques stuff
-    std::map<Item_tag, unsigned> techniques_list;
+    std::map<Item_tag, matec_id> techniques_list;
     //bodyparts
     std::map<Item_tag, unsigned> bodyparts_list;
 };

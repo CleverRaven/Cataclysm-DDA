@@ -1,0 +1,154 @@
+NOTE: ONLY SAVED FOR POSTERITY, PLEASE USE GIT FOR ALL NEW SUGGESTIONS/DISCUSSION
+
+LONG-TERM FEATURES:  Stuff I hope to finish in a year
+  Save NPCs.
+
+  Once NPCs are working, populate settlements with them.  Make sure that the
+  code for placing an NPC REALLY WORKS, so that shopkeepers stay where
+  they're supposed to.
+	Most settlements belong to a faction; its citizens should too (mostly?)
+
+  Factions already get generated and placed in the world, but they have no
+  effect on it.  Once NPCs are working, place faction patrols in the world.
+	Factions could control radio towers, spewing propaganda or using it to
+	  recruit or start missions
+	Factions could have projects; exterminating the zombies in a given town,
+	  clearing a particular forest, paving a new road!
+
+  Replace the Skills tab in character creation with a Class tab
+	Classes come with a set of items and the skills needed to use them
+		e.g. a handgun, ammo, & holster, plus handgun & firearms skills
+	Cap at one class?  Or make it mix-and-match, purchasable with points?
+		Mix-and-match has the problem of giving the player too many
+		  items to store, unless we start them with a backpack
+		Maybe add a trait that allows a player to take 2 classes
+	Classes may also have unique effects upon the game
+		Priests start with robe & collar and have bonuses when
+		  interacting with religious NPCs
+
+  Wrap WINDOW* in a custom class.  This will eliminate the possibility of
+  memory leaks from undeleted temporary windows, and will make porting to
+  different display libraries (e.g. tiles) much easier.
+
+GENERAL:
+
+  More cultural references!
+	LOST: Black cloud monster, polar bear, hatches
+	Resident Evil style zombies
+	->The whole game is already a reference to Fallout, let's admit it.  So
+	  avoid Fallout references in general, they're too easy.
+	->Ditto for Half-Life, the game is saturated with HL references
+	Hellraiser: High level Void monsters could be Cenobites.
+	Bladerunner: "Androids And The People Who Kill Them"
+	Steam powered robots (built by post-apoc factions)
+		Wild Wild West, Miyazaki, Iron Giant, Neverhood, etc. etc.
+	2001: Get locked in a chamber with an insane computer which you must
+	  disable
+		What are the other great "insane computer" movies?
+	Logan's Run: A faction that kills people when they reach 30
+	Six-String Samurai: Like, all the bad guys.  Wind People.
+	Nausicaa: Radiation-purifying mushroom forests
+	They Live!: Special glasses that let you see "reality" somehow
+		Hidden doors?  Some people are really disguised monsters?
+	Indiana Jones: Archeologist class, religious artifacts
+	The Warriors: Making gangs (basically small factions) with cool themes
+	  and costumes would be nice.
+	Dr Strangelove: Mineshafts converted into bunkers; quotes
+	Ghostbusters: Weapons!  Maybe ghosts.
+	OTHERS: Escape From New York,
+	Classes (see above under LONG-TERM) could draw from pop culture heros
+		Archeologist: Indiana Jones (a la nethack)
+
+  Configurable options:
+	Colors (e.g. highlight color, currently blue)
+
+  Fix eating/fullness; right now only overeating when Full is a risk of puking,
+  which comes too quickly and feels unfair.  Thirst (and small amounts of
+  nutrition) never causes puking, which allows players to exploit cola by
+  drinking 10 at once.
+  Possible solutions:
+	>Two levels; "Full" and "Overfull"; Only when Overfull is puking a risk
+	>Three levels, hunger, thirst, and stomach fullness
+
+  When picking items up, highlight useful ones in particular colors
+	Green: Important medical (1st aid, bandages, painkiller, etc.)
+		Possibly context-dependant?  Painkillers if you're in pain, etc.
+	Blue: Items you can craft with
+	Purple: User-defined criteria
+
+  Highlight or color-invert monsters that're fleeing; also make indifference
+  visually obvious in some way (change glyph foreground color?)
+
+  Make swimming more interesting
+  	Items at the bottoms of rivers, only discoverable by diving underwater
+	Entrances to special dungeons;
+		Sewage treatment plant?
+		Underwater monster lair?
+	Water-dwelling monsters.  Probably rare, because for unskilled swimmers
+	  almost any monsters would be deadly
+
+  Allow basic movement while reloading, or make it possible to resume
+  interrupted reloading
+
+  Make computer usage more widespread and more convincing.  Possibly add a
+  class for computer networks; an area on the overmap, protected by a password.
+  Once you hack the password, you gain access to certain commands on computers
+  found inside that area.
+	Make computer functions use skills other than sk_computer.  For
+	  instance, the computers in hospitals should use sk_firstaid
+
+ITEMS / BIONICS:
+  Fire extinguisher bionic
+	Make this, and real fire extinguishers, more effective
+
+MAP:
+  Hatch (see cultural references, above)
+
+  Terrain tiles, such as heavy doors, which require the help of an extra NPC
+  or two to open (or very high strength)
+
+
+CHARACTER CREATION:
+  Illiterate makes read speed show up as "N/A" on stats tab
+
+  Glass Jaw makes Head HP show up on stats tab, alongside Base HP
+
+  Show skill erosion rate on stats tab (modded by Forgetful)
+
+  Greater transparency for skill comprehension (at level 0, 4, 8, etc.)
+
+  Show food consumption rate?  (Modified by Light Eater)
+	Should high Strength increase this rate?
+
+  Save our position in both Traits lists, even when changing tabs
+
+  Make the Description tab more interesting?  Maybe hair color, etc.
+	Any effect on gameplay?  Probably not.
+	Make the effect of gender on gameplay transparent
+
+  List specific effects on gameplay mechanics in the Skills tab, comparable to
+  those listed in the Stats tab.
+
+TRAITS:
+
+  More Schizophrenic effects
+	Make auditory hallucinations more realistic/varied
+
+  Balance/fix/remove Jittery
+
+  More obvious Wool Allergy text (remind the player that they're allergic)
+	Wool Allergy prevents eating wool (with Internal Furnace bionic)
+
+  Android encourages start-scumming.  Maybe make it a static set, or present
+  the player with a few different options?
+	Make Android a class instead?  (see above under LONG-TERM)
+
+CRAFTING:
+  Fruit drying; remove quench and some nutrition, but won't go bad
+
+KEYBINDINGS/INPUT:
+  Make ctrl+movement equivalent to 'e'+movement
+
+  "Repeat last command" command
+
+  Macros--are they necessary or useful at all?

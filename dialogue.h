@@ -29,43 +29,43 @@ struct dialogue {
 
 struct talk_function
 {
- void nothing			(game *g, npc *p) {};
- void assign_mission		(game *g, npc *p);
- void mission_success		(game *g, npc *p);
- void mission_failure		(game *g, npc *p);
- void clear_mission		(game *g, npc *p);
- void mission_reward		(game *g, npc *p);
- void mission_favor		(game *g, npc *p);
- void give_equipment		(game *g, npc *p);
- void start_trade		(game *g, npc *p);
- void assign_base(game *g, npc *p);
- void follow			(game *g, npc *p); // p follows u
- void deny_follow		(game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
- void deny_lead			(game *g, npc *p); // p gets DI_ASKED_TO_LEAD
- void deny_equipment		(game *g, npc *p); // p gets DI_ASKED_FOR_ITEM
- void enslave			(game *g, npc *p) {}; // p becomes slave of u
- void hostile			(game *g, npc *p); // p turns hostile to u
- void flee			(game *g, npc *p);
- void leave			(game *g, npc *p); // p becomes indifferant
+    void nothing              (game *g, npc *p) {};
+    void assign_mission       (game *g, npc *p);
+    void mission_success      (game *g, npc *p);
+    void mission_failure      (game *g, npc *p);
+    void clear_mission        (game *g, npc *p);
+    void mission_reward       (game *g, npc *p);
+    void mission_favor        (game *g, npc *p);
+    void give_equipment       (game *g, npc *p);
+    void start_trade          (game *g, npc *p);
+    void assign_base          (game *g, npc *p);
+    void follow               (game *g, npc *p); // p follows u
+    void deny_follow          (game *g, npc *p); // p gets DI_ASKED_TO_FOLLOW
+    void deny_lead            (game *g, npc *p); // p gets DI_ASKED_TO_LEAD
+    void deny_equipment       (game *g, npc *p); // p gets DI_ASKED_FOR_ITEM
+    void enslave              (game *g, npc *p) {}; // p becomes slave of u
+    void hostile              (game *g, npc *p); // p turns hostile to u
+    void flee                 (game *g, npc *p);
+    void leave                (game *g, npc *p); // p becomes indifferant
 
- void start_mugging		(game *g, npc *p);
- void player_leaving		(game *g, npc *p);
+    void start_mugging        (game *g, npc *p);
+    void player_leaving       (game *g, npc *p);
 
- void drop_weapon		(game *g, npc *p);
- void player_weapon_away	(game *g, npc *p);
- void player_weapon_drop	(game *g, npc *p);
+    void drop_weapon          (game *g, npc *p);
+    void player_weapon_away   (game *g, npc *p);
+    void player_weapon_drop   (game *g, npc *p);
 
- void lead_to_safety		(game *g, npc *p);
- void start_training		(game *g, npc *p);
+    void lead_to_safety       (game *g, npc *p);
+    void start_training       (game *g, npc *p);
 
- void toggle_use_guns		(game *g, npc *p);
- void toggle_use_silent	(game *g, npc *p);
- void toggle_use_grenades	(game *g, npc *p);
- void set_engagement_none	(game *g, npc *p);
- void set_engagement_close	(game *g, npc *p);
- void set_engagement_weak	(game *g, npc *p);
- void set_engagement_hit	(game *g, npc *p);
- void set_engagement_all	(game *g, npc *p);
+    void toggle_use_guns      (game *g, npc *p);
+    void toggle_use_silent    (game *g, npc *p);
+    void toggle_use_grenades  (game *g, npc *p);
+    void set_engagement_none  (game *g, npc *p);
+    void set_engagement_close (game *g, npc *p);
+    void set_engagement_weak  (game *g, npc *p);
+    void set_engagement_hit   (game *g, npc *p);
+    void set_engagement_all   (game *g, npc *p);
 };
 
 enum talk_trial
@@ -83,8 +83,8 @@ struct talk_response
  talk_trial trial;
  int difficulty;
  int mission_index;
- mission_id miss;	// If it generates a new mission
- int tempvalue;		// Used for various stuff
+ mission_id miss; // If it generates a new mission
+ int tempvalue; // Used for various stuff
  Skill* skill;
  npc_opinion opinion_success;
  npc_opinion opinion_failure;
@@ -147,4 +147,4 @@ struct tag_data
  std::string (*replacement)[10];
 };
 
-#endif
+#endif  // _DIALOGUE_H_

@@ -4,9 +4,15 @@
 #include "setvector.h"
 #include "catajson.h"
 #include "options.h"
+#include "monstergenerator.h"
 
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
+
+// hack for MingW: prevent undefined references to `libintl_printf'
+#if defined _WIN32 || defined __CYGWIN__
+ #undef printf
+#endif
 
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
@@ -23,29 +29,17 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-void game::init_mongroups() throw (std::string)
-{
-   try
-   {
-       MonsterGroupManager::LoadJSONGroups();
-   }
-   catch(std::string &error_message)
-   {
-       throw;
-   }
-}
-
-mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
-                                                 int *quantity, int turn )
+std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
+                                                      int *quantity, int turn )
 {
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[it->first]->difficulty))) &&
-           (!OPTIONS[OPT_CLASSIC_ZOMBIES] ||
-            (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
-            (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
+        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->first)->difficulty))) &&
+           (!OPTIONS["CLASSIC_ZOMBIES"] ||
+            GetMType(it->first)->in_category("CLASSIC") ||
+            GetMType(it->first)->in_category("WILDLIFE")))
         {   //Not too hard for us (or we dont care)
             if(it->second.first >= roll)
             {
@@ -55,10 +49,10 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
             else { roll -= it->second.first; }
         }
     }
-    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[g.defaultMonster]->difficulty))
-        && (!OPTIONS[OPT_STATIC_SPAWN]))
+    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(g.defaultMonster)->difficulty))
+        && (!OPTIONS["STATIC_SPAWN"]))
     {
-        return mon_null;
+        return "mon_null";
     }
     else
     {
@@ -66,7 +60,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector 
     }
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(std::string group, mon_id monster)
+bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
 {
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
@@ -76,7 +70,7 @@ bool MonsterGroupManager::IsMonsterInGroup(std::string group, mon_id monster)
     return false;
 }
 
-std::string MonsterGroupManager::Monster2Group(mon_id monster)
+std::string MonsterGroupManager::Monster2Group(std::string monster)
 {
     for (std::map<std::string, MonsterGroup>::const_iterator it = monsterGroupMap.begin(); it != monsterGroupMap.end(); ++it)
     {
@@ -88,11 +82,11 @@ std::string MonsterGroupManager::Monster2Group(mon_id monster)
     return "GROUP_NULL";
 }
 
-std::vector<mon_id> MonsterGroupManager::GetMonstersFromGroup(std::string group)
+std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string group)
 {
     MonsterGroup g = GetMonsterGroup(group);
 
-    std::vector<mon_id> monsters;
+    std::vector<std::string> monsters;
 
     monsters.push_back(g.defaultMonster);
 
@@ -118,105 +112,30 @@ MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 }
 
 //json loading
-const char *monGroupFilePath = "data/raw/monstergroups.json";
 std::map<std::string, mon_id> monStr2monId;
-void init_translation();
-std::string GetString(std::string, picojson::object *);
-int GetInt(std::string, picojson::object *);
 
-MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
+void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 {
     MonsterGroup g;
-    picojson::object jsonmonster;
-    picojson::value jsonval;
-    std::vector<picojson::value> jsonarray;
-    g.name = GetString("name", jsonobj);
-    g.defaultMonster = monStr2monId[GetString("default", jsonobj)];
 
-    if(jsonobj->find("monsters")->second.is<picojson::array>())
-        jsonarray = jsonobj->find("monsters")->second.get<picojson::array>();
-    else
-    {
-        printf("Fatal error, cannot get monster group array in %s", monGroupFilePath);
-        exit(1);
+    g.name = jo.get_string("name");
+    g.defaultMonster = monStr2monId[jo.get_string("default")];
+
+    if (jo.is_array("monsters")){
+        JsonArray monarr = jo.get_array("monsters");
+
+        const int monnum = monarr.size();
+        for (int i = 0; i < monnum; ++i){
+            if (monarr.get_index_type(i) == JVT_OBJECT){
+                JsonObject mon = monarr.get_object(i);
+
+                g.monsters[mon.get_string("monster")] =
+                    std::pair<int,int>(mon.get_int("freq"), mon.get_int("multiplier"));
+            }
+        }
     }
 
-    for (picojson::array::const_iterator it_mons = jsonarray.begin(); it_mons != jsonarray.end(); ++it_mons)
-    {
-        jsonmonster = it_mons->get<picojson::object>();
-// todo: Bannination
-        g.monsters[monStr2monId[GetString("monster",&jsonmonster)]] =
-            std::pair<int,int>(GetInt("freq",&jsonmonster), GetInt("multiplier",&jsonmonster));
-    }
-
-    return g;
-}
-
-void MonsterGroupManager::LoadJSONGroups() throw (std::string)
-{
-    //open the file
-    std::ifstream file;
-    file.open(monGroupFilePath);
-    if(!file.good())
-    {
-        throw (std::string)"Unable to load file " + monGroupFilePath;
-    }
-
-    //load the data
-    picojson::value groupsRaw;
-    file >> groupsRaw;
-
-    /*std::string error = picojson::get_last_error();
-    if(! error.empty())
-    {
-        printf("'%s' : %s", monGroupFilePath, error.c_str());
-        return;
-    }*/
-
-    //check the data
-    if (! groupsRaw.is<picojson::array>()) {
-        throw (std::string)"The monster group file " + monGroupFilePath +
-              (std::string)" does not contain the expected JSON data";
-    }
-
-    init_translation();
-    picojson::object jsonobj;
-    MonsterGroup g;
-
-    const picojson::array& groups = groupsRaw.get<picojson::array>();
-    for (picojson::array::const_iterator it_groups = groups.begin(); it_groups != groups.end(); ++it_groups)
-    {
-        jsonobj = it_groups->get<picojson::object>();
-        g = GetMGroupFromJSON(&jsonobj);
-        monsterGroupMap[g.name] = g;
-    }
-    if(!json_good())
-    {
-        throw (std::string)"There was an error reading " + monGroupFilePath;
-    }
-}
-
-
-std::string GetString(std::string key, picojson::object *obj)
-{
-    if(obj->find(key)->second.is<std::string>())
-        return obj->find(key)->second.get<std::string>();
-    else
-    {
-        printf("Cannot get string '%s' in '%s'",key.c_str(), monGroupFilePath);
-    }
-    return "";
-}
-
-int GetInt(std::string key, picojson::object *obj)
-{
-    if(obj->find(key)->second.is<double>())
-        return obj->find(key)->second.get<double>();
-    else
-    {
-        printf("Cannot get number '%s' in '%s'",key.c_str(), monGroupFilePath);
-        return 0;
-    }
+    monsterGroupMap[g.name] = g;
 }
 
 void init_translation()
@@ -228,7 +147,7 @@ void init_translation()
     monStr2monId["mon_fly"] = mon_fly; monStr2monId["mon_bee"] = mon_bee; monStr2monId["mon_wasp"] = mon_wasp;
     monStr2monId["mon_graboid"] = mon_graboid; monStr2monId["mon_worm"] = mon_worm; monStr2monId["mon_halfworm"] = mon_halfworm;
     monStr2monId["mon_zombie"] = mon_zombie; monStr2monId["mon_zombie_cop"] = mon_zombie_cop; monStr2monId["mon_zombie_shrieker"] = mon_zombie_shrieker; monStr2monId["mon_zombie_spitter"] = mon_zombie_spitter; monStr2monId["mon_zombie_electric"] = mon_zombie_electric;
-    monStr2monId["mon_zombie_smoker"] = mon_zombie_smoker;
+    monStr2monId["mon_zombie_smoker"] = mon_zombie_smoker;monStr2monId["mon_zombie_swimmer"] = mon_zombie_swimmer;
     monStr2monId["mon_zombie_fast"] = mon_zombie_fast; monStr2monId["mon_zombie_brute"] = mon_zombie_brute; monStr2monId["mon_zombie_hulk"] = mon_zombie_hulk; monStr2monId["mon_zombie_fungus"] = mon_zombie_fungus;
     monStr2monId["mon_boomer"] = mon_boomer; monStr2monId["mon_boomer_fungus"] = mon_boomer_fungus; monStr2monId["mon_skeleton"] = mon_skeleton; monStr2monId["mon_zombie_necro"] = mon_zombie_necro;
     monStr2monId["mon_zombie_scientist"] = mon_zombie_scientist; monStr2monId["mon_zombie_soldier"] = mon_zombie_soldier; monStr2monId["mon_zombie_grabber"] = mon_zombie_grabber;
@@ -253,7 +172,9 @@ void init_translation()
     monStr2monId["mon_breather"] = mon_breather; monStr2monId["mon_shadow_snake"] = mon_shadow_snake;
     monStr2monId["mon_eyebot"] = mon_eyebot; monStr2monId["mon_manhack"] = mon_manhack; monStr2monId["mon_skitterbot"] = mon_skitterbot; monStr2monId["mon_secubot"] = mon_secubot; monStr2monId["mon_copbot"] = mon_copbot; monStr2monId["mon_molebot"] = mon_molebot;
     monStr2monId["mon_tripod"] = mon_tripod; monStr2monId["mon_chickenbot"] = mon_chickenbot; monStr2monId["mon_tankbot"] = mon_tankbot; monStr2monId["mon_turret"] = mon_turret; monStr2monId["mon_exploder"] = mon_exploder;
-    monStr2monId["mon_hallu_zom"] = mon_hallu_zom; monStr2monId["mon_hallu_bee"] = mon_hallu_bee; monStr2monId["mon_hallu_ant"] = mon_hallu_ant; monStr2monId["mon_hallu_mom"] = mon_hallu_mom;
+    monStr2monId["mon_hallu_mom"] = mon_hallu_mom;
     monStr2monId["mon_generator"] = mon_generator;
+    monStr2monId["mon_turkey"] = mon_turkey; monStr2monId["mon_raccoon"] = mon_raccoon; monStr2monId["mon_opossumn"] = mon_opossum; monStr2monId["mon_rattlesnake"] = mon_rattlesnake;
+    monStr2monId["mon_giant_crayfish"] = mon_giant_crayfish;
 }
 

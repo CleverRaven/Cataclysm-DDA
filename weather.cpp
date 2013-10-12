@@ -1,5 +1,6 @@
 #include <vector>
 #include <sstream>
+#include "item_factory.h"
 #include "options.h"
 #include "game.h"
 #include "weather.h"
@@ -10,92 +11,214 @@
 
 void weather_effect::glare(game *g)
 {
- if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses"))
-  g->u.infect("glare", bp_eyes, 1, 2, g);
+ if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses") &&
+     !g->u.has_bionic("bio_sunglasses")) {
+        if(!g->u.has_disease("glare")) {
+            g->u.infect("glare", bp_eyes, 2, 2, g);
+        } else {
+            g->u.infect("glare", bp_eyes, 2, 1, g);
+        }
+    }
+}
+
+void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
+{
+    int funnel_radius_mm = 0;
+    switch (t) {
+        case tr_funnel:             funnel_radius_mm = 380; break;
+        case tr_makeshift_funnel:   funnel_radius_mm =  85; break;
+        default: return;
+    }
+
+    // How many turns should it take for us to collect 1 charge of rainwater?
+    item water(item_controller->find_template("water"), 0);
+    const double charge_ml = (double) (water.weight()) / water.charges;
+    const double PI = 3.14159265358979f;
+    const double surface_area_mm2 = PI * (funnel_radius_mm * funnel_radius_mm);
+    const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
+    const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
+    const double ml_to_mm3 = 1000;
+    const double turns_per_charge = charge_ml * ml_to_mm3 / vol_mm3_per_turn;
+
+    item *c = NULL;
+    char maxcontains = 0;
+
+    // Give each funnel on the map a chance to collect the rain.
+    std::set<point> funnel_locs = g->m.trap_locations(t);
+    std::set<point>::iterator i;
+    for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
+        point loc = *i;
+        std::vector<item>& items = g->m.i_at(loc.x, loc.y);
+        if (one_in(turns_per_charge)) {
+            // This funnel has collected some rain! Put the rain in the largest
+            // container here which is either empty or contains some mixture of
+            // impure water and acid.
+            for (int j = 0; j < items.size(); j++) {
+                item *it = &(items[j]);
+                if (it->is_container() && it->has_flag("WATERTIGHT") && it->has_flag("SEALS")) {
+                    it_container* ct = dynamic_cast<it_container*>(it->type);
+                    if (ct->contains > maxcontains && (
+                            it->contents.empty() ||
+                            it->contents[0].typeId() == "water" ||
+                            it->contents[0].typeId() == "water_acid" ||
+                            it->contents[0].typeId() == "water_acid_weak")) {
+                        c = it;
+                        maxcontains = ct->contains;
+                    }
+                }
+            }
+        }
+    }
+
+    // If we found an eligible container, add some rain to it (or consider
+    // contaminating its current liquid).
+    if (c != NULL) {
+        const char *typeId = acid ? "water_acid" : "water";
+        if (c->contents.empty()) {
+            // This is easy. Just add 1 charge of the rain liquid to the container.
+            item ret(item_controller->find_template(typeId), 0);
+            if (!acid) {
+                // Funnels aren't always clean enough for water.
+                ret.poison = one_in(10) ? 1 : 0;
+            }
+            c->put_in(ret);
+        } else {
+            // The container already has a liquid.
+            item &liq = c->contents[0];
+
+            it_container* ct = dynamic_cast<it_container*>(c->type);
+            if (liq.charges < ct->contains) {
+                liq.charges++;
+            }
+
+            if (liq.typeId() == typeId || liq.typeId() == "water_acid_weak") {
+                // The container already contains this liquid or weakly acidic water.
+                // Don't do anything special -- we already added liquid.
+            } else {
+                // The rain is different from what's in the container.
+                // Turn the container's liquid into weak acid with a probability
+                // based on its current volume.
+
+                // If it's raining acid and this container started with 7
+                // charges of water, the liquid will now be 1/8th acid or,
+                // equivalently, 1/4th weak acid (the rest being water). A
+                // stochastic approach gives the liquid a 1 in 4 (or 2 in
+                // liquid.charges) chance of becoming weak acid.
+                const bool transmute = x_in_y(2, liq.charges);
+
+                if (transmute) {
+                    item transmuted(item_controller->find_template("water_acid_weak"), 0);
+                    transmuted.charges = liq.charges;
+                    c->contents[0] = transmuted;
+                } else if (liq.typeId() == "water") {
+                    // The container has water, and the acid rain didn't turn it
+                    // into weak acid. Poison the water instead, assuming 1
+                    // charge of acid would act like a charge of water with poison 5.
+                    int total_poison = liq.poison * (liq.charges - 1) + 5;
+                    liq.poison = total_poison / liq.charges;
+                    int leftover_poison = total_poison - liq.poison * liq.charges;
+                    if (leftover_poison > rng(0, liq.charges)) {
+                        liq.poison++;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void fill_water_collectors(game *g, int mmPerHour, bool acid)
+{
+    fill_funnels(g, mmPerHour, acid, tr_funnel);
+    fill_funnels(g, mmPerHour, acid, tr_makeshift_funnel);
+}
+
+void decay_fire_and_scent(game *g, int fire_amount)
+{
+    for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
+        for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
+            if (g->m.is_outside(x, y)) {
+                field_entry *fd = (g->m.field_at(x, y).findField(fd_fire));
+                if (fd) {
+                    fd->setFieldAge(fd->getFieldAge() + fire_amount);
+                }
+                if (g->scent(x, y) > 0)
+                g->scent(x, y)--;
+            }
+        }
+    }
+}
+
+void generic_wet(game *g, bool acid)
+{
+    if ((!g->u.is_wearing("coat_rain") || one_in(50)) &&
+         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
+         (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
+         one_in(2)) {
+        g->u.drench(g, 30 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+                     mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
+    }
+
+    fill_water_collectors(g, 4, acid);
+    decay_fire_and_scent(g, 15);
+}
+
+void generic_very_wet(game *g, bool acid)
+{
+    if ((!g->u.is_wearing("coat_rain") || one_in(25)) &&
+         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) && !g->u.has_trait("FEATHERS") &&
+         (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
+        g->u.drench(g, 60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
+                     mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
+    }
+
+    fill_water_collectors(g, 8, acid);
+    decay_fire_and_scent(g, 45);
 }
 
 void weather_effect::wet(game *g)
 {
- if ((!g->u.is_wearing("coat_rain") || one_in(50)) && 
-      (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) &&
-      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 20 &&
-      PLAYER_OUTSIDE && one_in(2)) 
-    {
-        g->u.add_morale(MORALE_WET, -1, -30);
-    }
-
-// Put out fires and reduce scent
- for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-  for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-   if (g->m.is_outside(x, y)) {
-    field_entry *fd = (g->m.field_at(x, y).findField(fd_fire));
-    if (fd)
-		fd->setFieldAge(fd->getFieldAge() + 15);
-    if (g->scent(x, y) > 0)
-     g->scent(x, y)--;
-   }
-  }
- }
+    generic_wet(g, false);
 }
 
 void weather_effect::very_wet(game *g)
 {
- if ((!g->u.is_wearing("coat_rain") || one_in(25)) && 
-      (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) &&
-      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
-    {
-        g->u.add_morale(MORALE_WET, -1, -60);
-    }
-
-// Put out fires and reduce scent
- for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-  for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-   if (g->m.is_outside(x, y)) {
-    field_entry *fd = g->m.field_at(x, y).findField(fd_fire);
-    if (fd)
-     fd->setFieldAge(fd->getFieldAge() + 45);
-    if (g->scent(x, y) > 0)
-     g->scent(x, y)--;
-   }
-  }
- }
+    generic_very_wet(g, false);
 }
 
 void weather_effect::thunder(game *g)
 {
- very_wet(g);
- if (one_in(THUNDER_CHANCE)) {
-  if (g->levz >= 0)
-   g->add_msg(_("You hear a distant rumble of thunder."));
-  else if (!g->u.has_trait(PF_BADHEARING) && one_in(1 - 3 * g->levz))
-   g->add_msg(_("You hear a rumble of thunder from above."));
- }
+    very_wet(g);
+    if (one_in(THUNDER_CHANCE)) {
+        if (g->levz >= 0) {
+            g->add_msg(_("You hear a distant rumble of thunder."));
+        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
+            g->add_msg(_("You hear a rumble of thunder from above."));
+        }
+    }
 }
 
 void weather_effect::lightning(game *g)
 {
-thunder(g);
+    thunder(g);
 }
 
 void weather_effect::light_acid(game *g)
 {
-    wet(g);
-    if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
-    {
-        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2))
-        {
-            g->add_msg(_("Your umbrella protects you from the acidic drizzle."));
-        }
-        else
-        {
-            if (g->u.is_wearing("coat_rain") && !one_in(3))
-            {
+    generic_wet(g, true);
+    if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2)) {
+            g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
+        } else {
+            if (g->u.is_wearing("coat_rain") && !one_in(3)) {
                 g->add_msg(_("Your raincoat protects you from the acidic drizzle."));
-            }
-            else
-            {
-                g->add_msg(_("The acid rain stings, but is mostly harmless for now..."));
-                if (one_in(10) && (g->u.pain < 10)) {g->u.pain++;}
+            } else {
+                bool has_helmet = false;
+                if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(4))) {
+                    g->add_msg(_("Your power armor protects you from the acidic drizzle."));
+                } else {
+                    g->add_msg(_("The acid rain stings, but is mostly harmless for now..."));
+                    if (one_in(10) && (g->u.pain < 10)) {g->u.pain++;}
+                }
             }
         }
     }
@@ -103,42 +226,42 @@ void weather_effect::light_acid(game *g)
 
 void weather_effect::acid(game *g)
 {
-    if (int(g->turn) % 2 == 0 && PLAYER_OUTSIDE)
-    {
-        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4))
-        {
+    if (int(g->turn) % 2 == 0 && PLAYER_OUTSIDE) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             g->add_msg(_("Your umbrella protects you from the acid rain."));
-        }
-        else
-        {
-            if (g->u.is_wearing("coat_rain") && one_in(2))
-            {
+        } else {
+            if (g->u.is_wearing("coat_rain") && one_in(2)) {
                 g->add_msg(_("Your raincoat protects you from the acid rain."));
-            }
-            else
-            {
-                g->add_msg(_("The acid rain burns!"));
-                if (one_in(2) && (g->u.pain < 100)) {g->u.pain += rng(1, 5);}
+            } else {
+                bool has_helmet = false;
+                if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {
+                    g->add_msg(_("Your power armor protects you from the acidic drizzle."));
+                } else {
+                    g->add_msg(_("The acid rain burns!"));
+                    if (one_in(2) && (g->u.pain < 100)) {g->u.pain += rng(1, 5);}
+                }
             }
         }
     }
 
- if (g->levz >= 0) {
-  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-    if (!g->m.has_flag(diggable, x, y) && !g->m.has_flag(noitem, x, y) &&
-        g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400))
-     g->m.add_field(g, x, y, fd_acid, 1);
-   }
-  }
- }
- for (int i = 0; i < g->z.size(); i++) {
-  if (g->m.is_outside(g->z[i].posx, g->z[i].posy)) {
-   if (!g->z[i].has_flag(MF_ACIDPROOF))
-    g->z[i].hurt(1);
-  }
- }
- very_wet(g);
+    if (g->levz >= 0) {
+        for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
+            for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
+                if (!g->m.has_flag("DIGGABLE", x, y) && !g->m.has_flag("NOITEM", x, y) &&
+                      g->m.move_cost(x, y) > 0 && g->m.is_outside(x, y) && one_in(400)) {
+                    g->m.add_field(g, x, y, fd_acid, 1);
+                }
+            }
+        }
+    }
+    for (int i = 0; i < g->num_zombies(); i++) {
+        if (g->m.is_outside(g->zombie(i).posx(), g->zombie(i).posy())) {
+            if (!g->zombie(i).has_flag(MF_ACIDPROOF)) {
+                g->zombie(i).hurt(1);
+            }
+        }
+    }
+    generic_very_wet(g, true);
 }
 
 
@@ -174,7 +297,7 @@ std::string weather_forecast(game *g, radio_tower tower)
     city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     // Current time
     weather_report << string_format(
-        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"), 
+        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"),
         g->turn.print_time().c_str(), g->turn.print_time(true).c_str(), closest_city->name.c_str(),
         weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
     );
@@ -198,9 +321,8 @@ std::string weather_forecast(game *g, radio_tower tower)
     calendar start_time = g->turn;
     int period_start = g->turn.hours();
     // TODO wind direction and speed
-    for( std::list<weather_segment>::iterator period = g->future_weather.begin();
-         period != g->future_weather.end(); period++ )
-    {
+    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(g->turn) ); it != g->weather_log.end(); ++it ) {
+        weather_segment * period = &(it->second);
         int period_deadline = period->deadline.hours();
         signed char period_temperature = period->temperature;
         weather_type period_weather = period->weather;
@@ -214,7 +336,7 @@ std::string weather_forecast(game *g, radio_tower tower)
         {
             weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
             int weather_duration = 0;
-            int predominant_weather;
+            int predominant_weather = 0;
             std::string day;
             if( g->turn.days() == period->deadline.days() )
             {
@@ -250,7 +372,7 @@ std::string weather_forecast(game *g, radio_tower tower)
             // Print forecast
             weather_report << string_format(
                 _("%s...%s. Highs of %s. Lows of %s. "),
-                day.c_str(), weather_data[predominant_weather].name.c_str(), 
+                day.c_str(), weather_data[predominant_weather].name.c_str(),
                 print_temperature(high).c_str(), print_temperature(low).c_str()
             );
             low = period_temperature;
@@ -271,15 +393,15 @@ std::string print_temperature(float fahrenheit, int decimals)
     ret.precision(decimals);
     ret << std::fixed;
 
-    if(OPTIONS[OPT_USE_CELSIUS])
+    if(OPTIONS["USE_CELSIUS"] == "celsius")
     {
         ret << ((fahrenheit-32) * 5 / 9);
-        return rmp_format("<Celsius>%sC", ret.str().c_str());
+        return rmp_format(_("<Celsius>%sC"), ret.str().c_str());
     }
     else
     {
         ret << fahrenheit;
-        return rmp_format("<Fahrenheit>%sF", ret.str().c_str());
+        return rmp_format(_("<Fahrenheit>%sF"), ret.str().c_str());
     }
 
 }

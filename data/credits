@@ -2,15 +2,15 @@
 # Max length of a line is 68 characters; the following line is for reference
 ####################################################################
 Original author:    Project Manager:    Website/Forum:
-Whales (retired)    TheDarklingWolf        GlyphGryph
+Whales (retired)    Kevingranade        GlyphGryph
 
-Main Developers/Github Managers:
-Kevingranade, Ozone, TheDarklingWolf, zpmorgan
+Current Main Developers/Github Managers:
+Kevingranade, GalenEvil, i2amroy, AtomicDryad, Ozone
 
-Active Contributors:
-BurnZeZ, Oddzball, Shades, Shoes01, Tase, GalenEvil
+Special thanks to:
+TheDarklingWolf - For creating Cataclysm:DDA as we know it
+Narc - For setting up the automatic Jenkins build-bot
+yobbobanana - For working as liason between translators and github
 
-Contributors:
-AkrionXxarr, Benjamg, Creidieki, Daftfad, Elricsfate, Gim,
-GlyphGryph, Gremour, HerbertJones, hovatterz, Origamiwolf,
-Soron, Uzername, Voker57, Wito, i2amroy
+For a full list of contributors please see:
+https://github.com/CleverRaven/Cataclysm-DDA/contributors

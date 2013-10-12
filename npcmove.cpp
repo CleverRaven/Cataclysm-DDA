@@ -20,12 +20,12 @@ itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
 
 // A list of alternate attack items (e.g. grenades), from least to most valuable
 #ifndef NUM_ALT_ATTACK_ITEMS
-#define NUM_ALT_ATTACK_ITEMS 16
+#define NUM_ALT_ATTACK_ITEMS 18
 itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
  "knife_combat", "spear_wood", "molotov", "pipebomb", "grenade",
- "gasbomb", "bot_manhack", "tazer", "dynamite", "mininuke",
+ "gasbomb", "bot_manhack", "tazer", "dynamite", "granade", "mininuke",
  "molotov_lit", "pipebomb_act", "grenade_act", "gasbomb_act",
- "dynamite_act", "mininuke_act"
+ "dynamite_act", "granade_act", "mininuke_act"
 };
 #endif
 
@@ -72,7 +72,7 @@ void npc::move(game *g)
  int vehicle = vehicle_danger(g, avoidance_vehicles_radius);
  if (vehicle) {
   // TODO: Think about how this actually needs to work, for now assume flee from player
- 	target = TARGET_PLAYER;
+  target = TARGET_PLAYER;
  }
 
  // TODO: morale breaking when surrounded by hostiles
@@ -84,7 +84,7 @@ void npc::move(game *g)
  else if (danger > 0 || (target == TARGET_PLAYER && attitude == NPCATT_KILL))
   action = method_of_attack(g, target, danger);
 
- else {	// No present danger
+ else { // No present danger
   action = address_needs(g, danger);
   if (g->debugmon)
    debugmsg("address_needs %s", npc_action_name(action).c_str());
@@ -104,11 +104,11 @@ void npc::move(game *g)
    // check if in vehicle before rushing off to fetch things
    if (is_following() && g->u.in_vehicle)
     action = npc_follow_embarked;
-   else if (fetching_item)		// Set to true if find_item() found something
+   else if (fetching_item) // Set to true if find_item() found something
     action = npc_pickup;
-   else if (is_following())	// No items, so follow the player?
+   else if (is_following()) // No items, so follow the player?
     action = npc_follow_player;
-   else				// Do our long-term action
+   else // Do our long-term action
     action = long_term_goal_action(g);
    if (g->debugmon)
     debugmsg("long_term_goal_action %s", npc_action_name(action).c_str());
@@ -144,8 +144,8 @@ void npc::execute_action(game *g, npc_action action, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  }
 /*
   debugmsg("%s ran execute_action() with target = %d! Action %s",
@@ -244,7 +244,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_drop_items:
 /*
-  drop_items(g, weight_carried() - weight_capacity() / 4,
+  drop_items(g, weight_carried() - weight_capacity(),
                 volume_carried() - volume_capacity());
 */
   move_pause();
@@ -291,7 +291,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_heal_player:
   update_path(g, g->u.posx, g->u.posy);
-  if (path.size() == 1)	// We're adjacent to u, and thus can heal u
+  if (path.size() == 1) // We're adjacent to u, and thus can heal u
    heal_player(g, g->u);
   else if (path.size() > 0)
    move_to_next(g);
@@ -301,7 +301,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_follow_player:
   update_path(g, g->u.posx, g->u.posy);
-  if (path.size() <= follow_distance())	// We're close enough to u.
+  if (path.size() <= follow_distance()) // We're close enough to u.
    move_pause();
   else if (path.size() > 0)
    move_to_next(g);
@@ -349,7 +349,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_mug_player:
   update_path(g, g->u.posx, g->u.posy);
-  if (path.size() == 1)	// We're adjacent to u, and thus can mug u
+  if (path.size() == 1) // We're adjacent to u, and thus can mug u
    mug_player(g, g->u);
   else if (path.size() > 0)
    move_to_next(g);
@@ -366,9 +366,9 @@ void npc::execute_action(game *g, npc_action action, int target)
   break;
 
  case npc_base_idle:
- 	// TODO: patrol or sleep or something?
- 	move_pause();
- 	break;
+  // TODO: patrol or sleep or something?
+  move_pause();
+  break;
 
  default:
   debugmsg("Unknown NPC action (%d)", action);
@@ -389,10 +389,10 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
  int highest_priority = 0;
  total_danger = 0;
 
- for (int i = 0; i < g->z.size(); i++) {
-  monster *mon = &(g->z[i]);
+ for (int i = 0; i < g->num_zombies(); i++) {
+  monster *mon = &(g->zombie(i));
   if (g->pl_sees(this, mon, linet)) {
-   int distance = (100 * rl_dist(posx, posy, mon->posx, mon->posy)) /
+   int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) /
                   mon->speed;
    double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
    int priority = mon->type->difficulty * (1 + hp_percent) - distance;
@@ -442,7 +442,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
     enemy = i;
    } else if (okay_by_rules && defend_u) {
     priority = mon->type->difficulty * (1 + hp_percent);
-    distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx, mon->posy)) /
+    distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
                mon->speed;
     priority -= distance;
     if (mon->speed < current_speed(g))
@@ -461,9 +461,9 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
 npc_action npc::method_of_fleeing(game *g, int enemy)
 {
  int speed = (enemy == TARGET_PLAYER ? g->u.current_speed(g) :
-                                       g->z[enemy].speed);
+                                       g->zombie(enemy).speed);
  point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
-                    point(g->z[enemy].posx, g->z[enemy].posy));
+                    point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
  int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
 
  if (choose_escape_item() >= 0) // We have an escape item!
@@ -485,8 +485,8 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  } else { // This function shouldn't be called...
   debugmsg("Ran npc::method_of_attack without a target!");
   return npc_pause;
@@ -496,7 +496,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  if (target == TARGET_PLAYER)
   target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
  else
-  target_HP = g->z[target].hp;
+  target_HP = g->zombie(target).hp;
 
  if (can_use_gun) {
   if (need_to_reload() && can_reload())
@@ -513,6 +513,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
     else
      return npc_melee;
    }
+   int junk = 0;
    if (!wont_hit_friend(g, tarx, tary))
     if (in_vehicle)
      if (can_reload())
@@ -521,7 +522,10 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
       return npc_pause; // wait for clear shot
     else
      return npc_avoid_friendly_fire;
-   else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
+   else if (rl_dist(posx,posy,tarx,tary) > weapon.range() &&
+            g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
+       return npc_melee; // If out of range, move closer to the target
+   } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
             gun->burst > 1 &&
             ((weapon.curammo && target_HP >= weapon.curammo->damage * 3) || emergency(danger * 2)))
     return npc_shoot_burst;
@@ -589,7 +593,7 @@ npc_action npc::address_needs(game *g, int danger)
   return npc_eat;
 
 /*
- if (weight_carried() > weight_capacity() / 4 ||
+ if (weight_carried() > weight_capacity() ||
      volume_carried() > volume_capacity())
   return npc_drop_items;
 */
@@ -665,12 +669,12 @@ npc_action npc::long_term_goal_action(game *g)
  path.clear();
 
  if (mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER)
-  return npc_pause;	// Shopkeeps just stay put.
+  return npc_pause; // Shopkeeps just stay put.
 
 // TODO: Follow / look for player
 
  if (mission == NPC_MISSION_BASE)
- 	return npc_base_idle;
+  return npc_base_idle;
 
  if (!has_destination())
   set_destination(g);
@@ -785,7 +789,7 @@ int npc::confident_range(char invlet)
 
   deviation += 2 * encumb(bp_arms) + 4 * encumb(bp_eyes);
 
-  if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
+  if (weapon.curammo == NULL) // This shouldn't happen, but it does sometimes
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
   else {
    deviation += weapon.curammo->dispersion;
@@ -817,7 +821,7 @@ int npc::confident_range(char invlet)
   if (thrown->volume() == 0)
    deviation += 3;
 
-  deviation += 1 + abs(str_cur - thrown->weight());
+  deviation += 1 + abs(str_cur - (thrown->weight() / 113));
  }
  //Account for rng's, *.5 for 50%
  deviation /= 2;
@@ -853,8 +857,8 @@ bool npc::wont_hit_friend(game *g, int tarx, int tary, char invlet)
      return false;
 // Hit a friendly monster?
 /*
-    for (int n = 0; n < g->z.size(); n++) {
-     if (g->z[n].friendly != 0 && g->z[n].posx == x && g->z[n].posy == y)
+    for (int n = 0; n < g->num_zombies(); n++) {
+     if (g->zombie(n).friendly != 0 && g->zombie(n).posx == x && g->zombie(n).posy == y)
       return false;
     }
 */
@@ -902,8 +906,8 @@ bool npc::enough_time_to_reload(game *g, int target, item &gun)
   dist = rl_dist(posx, posy, g->u.posx, g->u.posy);
   speed = speed_estimate(g->u.current_speed(g));
  } else if (target >= 0) {
-  dist = rl_dist(posx, posy, g->z[target].posx, g->z[target].posy);
-  speed = speed_estimate(g->z[target].speed);
+  dist = rl_dist(posx, posy, g->zombie(target).posx(), g->zombie(target).posy());
+  speed = speed_estimate(g->zombie(target).speed);
  } else
   return true; // No target, plenty of time to reload
 
@@ -928,10 +932,8 @@ void npc::update_path(game *g, int x, int y)
 
 bool npc::can_move_to(game *g, int x, int y)
 {
- if ((g->m.move_cost(x, y) > 0 || g->m.has_flag(bashable, x, y)) &&
-     rl_dist(posx, posy, x, y) <= 1)
-  return true;
- return false;
+ return ((g->m.move_cost(x, y) > 0 || g->m.has_flag("BASHABLE", x, y)) &&
+     rl_dist(posx, posy, x, y) <= 1);
 }
 
 void npc::move_to(game *g, int x, int y)
@@ -946,7 +948,7 @@ void npc::move_to(game *g, int x, int y)
   if (moves < 0)
    moves = 0;
  }
- if (recoil > 0) {	// Start by dropping recoil a little
+ if (recoil > 0) { // Start by dropping recoil a little
   if (int(str_cur / 2) + skillLevel("gun") >= recoil)
    recoil = 0;
   else {
@@ -971,10 +973,10 @@ void npc::move_to(game *g, int x, int y)
   x = newpath[0].x;
   y = newpath[0].y;
  }
- if (x == posx && y == posy)	{ // We're just pausing!
+ if (x == posx && y == posy) { // We're just pausing!
   moves -= 100;
- } else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
-  //monster *m = &(g->z[g->mon_at(x, y)]);
+ } else if (g->mon_at(x, y) != -1) { // Shouldn't happen, but it might.
+  //monster *m = &(g->zombie(g->mon_at(x, y)));
   //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
   melee_monster(g, g->mon_at(x, y));
  } else if (g->u.posx == x && g->u.posy == y) {
@@ -1005,7 +1007,7 @@ void npc::move_to(game *g, int x, int y)
   moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
  } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor)))
   moves -= 100;
- else if (g->m.has_flag(bashable, x, y)) {
+ else if (g->m.has_flag("BASHABLE", x, y)) {
   moves -= 110;
   std::string bashsound;
   int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
@@ -1043,10 +1045,10 @@ void npc::avoid_friendly_fire(game *g, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
   if (!one_in(3))
-   say(g, _("<move> so I can shoot that %s!"), g->z[target].name().c_str());
+   say(g, _("<move> so I can shoot that %s!"), g->zombie(target).name().c_str());
  } else {
   debugmsg("npc::avoid_friendly_fire() called with no target!");
   move_pause();
@@ -1217,8 +1219,7 @@ void npc::find_item(game *g)
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
      if (itval > best_value &&
          //(itval > worst_item_value ||
-          (weight_carried() + wgt <= weight_capacity() / 4 &&
-           volume_carried() + vol <= volume_capacity()       )) {
+          (can_pickWeight(wgt) && can_pickVolume(vol))) {
       itx = x;
       ity = y;
       index = i;
@@ -1260,8 +1261,8 @@ void npc::pick_up_item(game *g)
   int itval = value((*items)[i]), vol = (*items)[i].volume(),
       wgt = (*items)[i].weight();
   if (itval >= minimum_item_value() &&// (itval >= worst_item_value ||
-      (volume_carried() + total_volume + vol <= volume_capacity() &&
-       weight_carried() + total_weight + wgt <= weight_capacity() / 4)) {
+      (can_pickVolume(total_volume + vol) &&
+       can_pickWeight(total_weight + wgt))) {
    pickup.push_back(i);
    total_volume += vol;
    total_weight += wgt;
@@ -1269,8 +1270,8 @@ void npc::pick_up_item(game *g)
  }
 /*
  if (total_volume + volume_carried() > volume_capacity() ||
-     total_weight + weight_carried() > weight_capacity() / 4) {
-  int wgt_to_drop = weight_carried() + total_weight - weight_capacity() / 4;
+     total_weight + weight_carried() > weight_capacity()) {
+  int wgt_to_drop = weight_carried() + total_weight - weight_capacity();
   int vol_to_drop = volume_carried() + total_volume - volume_capacity();
   drop_items(g, wgt_to_drop, vol_to_drop);
  }
@@ -1322,7 +1323,7 @@ void npc::drop_items(game *g, int weight, int volume)
  if (g->debugmon) {
   debugmsg("%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
            name.c_str(), weight, volume, inv.size(), weight_carried(),
-           weight_capacity() / 4, volume_carried(), volume_capacity());
+           weight_capacity(), volume_carried(), volume_capacity());
  }
 
  int weight_dropped = 0, volume_dropped = 0;
@@ -1451,7 +1452,7 @@ npc_action npc::scan_new_items(game *g, int target)
 
 void npc::melee_monster(game *g, int target)
 {
- monster* monhit = &(g->z[target]);
+ monster* monhit = &(g->zombie(target));
  int dam = hit_mon(g, monhit);
  if (monhit->hurt(dam))
   g->kill_mon(target, false);
@@ -1465,13 +1466,6 @@ void npc::melee_player(game *g, player &foe)
 void npc::wield_best_melee(game *g)
 {
  item& it = inv.best_for_melee(this);
- int best_score = it.melee_value(this);
- if (!styles.empty() && // Wield a style if our skills warrant it
-      best_score < 15 * skillLevel("unarmed") + 8 * skillLevel("melee")) {
-// TODO: More intelligent style choosing
-  wield(g, 0 - rng(1, styles.size()));
-  return;
- }
  if (it.is_null()) {
   debugmsg("npc::wield_best_melee failed to find a melee weapon.");
   move_pause();
@@ -1488,8 +1482,8 @@ void npc::alt_attack(game *g, int target)
   tarx = g->u.posx;
   tary = g->u.posy;
  } else if (target >= 0) {
-  tarx = g->z[target].posx;
-  tary = g->z[target].posy;
+  tarx = g->zombie(target).posx();
+  tary = g->zombie(target).posy();
  } else {
   debugmsg("npc::alt_attack() called with target = %d", target);
   move_pause();
@@ -1519,8 +1513,8 @@ void npc::alt_attack(game *g, int target)
    move_to(g, tarx, tary);
  }
 
- char invlet;
- item *used;
+ char invlet = 0;
+ item *used = NULL;
  if (weapon.type->id == which) {
   used = &weapon;
   invlet = 0;
@@ -1872,8 +1866,8 @@ void npc::mug_player(game *g, player &mark)
    invslice slice = mark.inv.slice(0, mark.inv.size());
    for (int i = 0; i < slice.size(); i++) {
     if (value(slice[i]->front()) >= best_value &&
-        volume_carried() + slice[i]->front().volume() <= volume_capacity() &&
-        weight_carried() + slice[i]->front().weight() <= weight_capacity()   ) {
+        can_pickVolume(slice[i]->front().volume()) &&
+        can_pickWeight(slice[i]->front().weight())) {
      best_value = value(slice[i]->front());
      invlet = slice[i]->front().invlet;
     }
@@ -1996,26 +1990,26 @@ void npc::set_destination(game *g)
   needs.push_back(need_none);
  std::vector<oter_id> options;
  switch(needs[0]) {
-  case need_ammo:	options.push_back(ot_house_north);
-  case need_gun:	options.push_back(ot_s_gun_north); break;
+  case need_ammo:   options.push_back(ot_house_north);
+  case need_gun:    options.push_back(ot_s_gun_north); break;
 
-  case need_weapon:	options.push_back(ot_s_gun_north);
-			options.push_back(ot_s_sports_north);
-			options.push_back(ot_s_hardware_north); break;
+  case need_weapon: options.push_back(ot_s_gun_north);
+                    options.push_back(ot_s_sports_north);
+                    options.push_back(ot_s_hardware_north); break;
 
-  case need_drink:	options.push_back(ot_s_gas_north);
-			options.push_back(ot_s_pharm_north);
-			options.push_back(ot_s_liquor_north);
-  case need_food:	options.push_back(ot_s_grocery_north); break;
+  case need_drink:  options.push_back(ot_s_gas_north);
+                    options.push_back(ot_s_pharm_north);
+                    options.push_back(ot_s_liquor_north);
+  case need_food:   options.push_back(ot_s_grocery_north); break;
 
-  default:		options.push_back(ot_house_north);
-			options.push_back(ot_s_gas_north);
-			options.push_back(ot_s_pharm_north);
-			options.push_back(ot_s_hardware_north);
-			options.push_back(ot_s_sports_north);
-			options.push_back(ot_s_liquor_north);
-			options.push_back(ot_s_gun_north);
-			options.push_back(ot_s_library_north);
+  default:      options.push_back(ot_house_north);
+                options.push_back(ot_s_gas_north);
+                options.push_back(ot_s_pharm_north);
+                options.push_back(ot_s_hardware_north);
+                options.push_back(ot_s_sports_north);
+                options.push_back(ot_s_liquor_north);
+                options.push_back(ot_s_gun_north);
+                options.push_back(ot_s_library_north);
  }
 
  oter_id dest_type = options[rng(0, options.size() - 1)];
@@ -2030,7 +2024,7 @@ void npc::set_destination(game *g)
 void npc::go_to_destination(game *g)
 {
  int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
- if (goalx == mapx && goaly == mapy) {	// We're at our desired map square!
+ if (goalx == mapx && goaly == mapy) { // We're at our desired map square!
   move_pause();
   reach_destination(g);
  } else {
@@ -2045,7 +2039,7 @@ void npc::go_to_destination(game *g)
    for (int dx = 0 - i; dx <= i; dx++) {
     for (int dy = 0 - i; dy <= i; dy++) {
      if ((g->m.move_cost(x + dx, y + dy) > 0 ||
-          g->m.has_flag(bashable, x + dx, y + dy) ||
+          g->m.has_flag("BASHABLE", x + dx, y + dy) ||
           g->m.ter(x + dx, y + dy) == t_door_c) &&
          g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
       path = g->m.route(posx, posy, x + dx, y + dy);
@@ -2067,32 +2061,32 @@ void npc::go_to_destination(game *g)
 std::string npc_action_name(npc_action action)
 {
  switch (action) {
-  case npc_undecided:		return _("Undecided");
-  case npc_pause:		return _("Pause");
-  case npc_reload:		return _("Reload");
-  case npc_sleep:		return _("Sleep");
-  case npc_pickup:		return _("Pick up items");
-  case npc_escape_item:		return _("Use escape item");
-  case npc_wield_melee:		return _("Wield melee weapon");
-  case npc_wield_loaded_gun:	return _("Wield loaded gun");
-  case npc_wield_empty_gun:	return _("Wield empty gun");
-  case npc_heal:		return _("Heal self");
-  case npc_use_painkiller:	return _("Use painkillers");
-  case npc_eat:			return _("Eat");
-  case npc_drop_items:		return _("Drop items");
-  case npc_flee:		return _("Flee");
-  case npc_melee:		return _("Melee");
-  case npc_shoot:		return _("Shoot");
-  case npc_shoot_burst:		return _("Fire a burst");
-  case npc_alt_attack:		return _("Use alternate attack");
-  case npc_look_for_player:	return _("Look for player");
-  case npc_heal_player:		return _("Heal player");
-  case npc_follow_player:	return _("Follow player");
-  case npc_follow_embarked: return _("Follow player (embarked)");
-  case npc_talk_to_player:	return _("Talk to player");
-  case npc_mug_player:		return _("Mug player");
-  case npc_goto_destination:	return _("Go to destination");
-  case npc_avoid_friendly_fire:	return _("Avoid friendly fire");
-  default: 			return "Unnamed action";
+  case npc_undecided:           return _("Undecided");
+  case npc_pause:               return _("Pause");
+  case npc_reload:              return _("Reload");
+  case npc_sleep:               return _("Sleep");
+  case npc_pickup:              return _("Pick up items");
+  case npc_escape_item:         return _("Use escape item");
+  case npc_wield_melee:         return _("Wield melee weapon");
+  case npc_wield_loaded_gun:    return _("Wield loaded gun");
+  case npc_wield_empty_gun:     return _("Wield empty gun");
+  case npc_heal:                return _("Heal self");
+  case npc_use_painkiller:      return _("Use painkillers");
+  case npc_eat:                 return _("Eat");
+  case npc_drop_items:          return _("Drop items");
+  case npc_flee:                return _("Flee");
+  case npc_melee:               return _("Melee");
+  case npc_shoot:               return _("Shoot");
+  case npc_shoot_burst:         return _("Fire a burst");
+  case npc_alt_attack:          return _("Use alternate attack");
+  case npc_look_for_player:     return _("Look for player");
+  case npc_heal_player:         return _("Heal player");
+  case npc_follow_player:       return _("Follow player");
+  case npc_follow_embarked:     return _("Follow player (embarked)");
+  case npc_talk_to_player:      return _("Talk to player");
+  case npc_mug_player:          return _("Mug player");
+  case npc_goto_destination:    return _("Go to destination");
+  case npc_avoid_friendly_fire: return _("Avoid friendly fire");
+  default:    return "Unnamed action";
  }
 }

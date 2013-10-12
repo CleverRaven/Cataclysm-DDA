@@ -14,6 +14,9 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
+#ifdef LOCALIZE
+#include <libintl.h>
+#endif
 #include "translations.h"
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
@@ -24,7 +27,7 @@
 void exit_handler(int s);
 
 #ifdef USE_WINMAIN
-int APIENTRY	WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
  int argc = __argc;
  char **argv = __argv;
@@ -37,11 +40,13 @@ int main(int argc, char *argv[])
 #endif
  int seed = time(NULL);
 
-    // set locale to system default
-    setlocale(LC_ALL, "");
-    bindtextdomain("cataclysm-dda", "lang/mo");
-    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
-    textdomain("cataclysm-dda");
+// set locale to system default
+ setlocale(LC_ALL, "");
+#ifdef LOCALIZE
+ bindtextdomain("cataclysm-dda", "lang/mo");
+ bind_textdomain_codeset("cataclysm-dda", "UTF-8");
+ textdomain("cataclysm-dda");
+#endif
 
 //args: world seeding only.
  argc--; argv++;
@@ -58,6 +63,7 @@ int main(int argc, char *argv[])
  }
 
 // ncurses stuff
+ initOptions();
  load_options(); // For getting size options
  initscr(); // Initialize ncurses
  noecho();  // Don't echo keypresses
@@ -70,8 +76,8 @@ int main(int argc, char *argv[])
  std::srand(seed);
 
  bool quit_game = false;
- bool delete_world = false;
  g = new game;
+ g->init_data();
  if(g->game_error())
   exit_handler(-999);
  g->init_ui();
@@ -94,18 +100,11 @@ int main(int argc, char *argv[])
  do {
   g->setup();
   while (!g->do_turn()) ;
-  if (g->uquit == QUIT_DELETE_WORLD)
-    delete_world = true;
   if (g->game_quit() || g->game_error())
    quit_game = true;
  } while (!quit_game);
 
- if (delete_world)
- {
-   g->delete_save();
- } else {
-  MAPBUFFER.save_if_dirty();
- }
+ MAPBUFFER.save_if_dirty();
 
  exit_handler(-999);
 
@@ -113,32 +112,19 @@ int main(int argc, char *argv[])
 }
 
 void exit_handler(int s) {
- bool bExit = false;
+     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
+         erase(); // Clear screen
+         endwin(); // End ncurses
+         #if (defined _WIN32 || defined WINDOWS)
+             system("cls"); // Tell the terminal to clear itself
+             system("color 07");
+         #else
+             system("clear"); // Tell the terminal to clear itself
+         #endif
 
- if (s == 2) {
-  if (query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-   bExit = true;
-  }
- } else if (s == -999) {
-  bExit = true;
- } else {
-  //query_yn(g, "Signal received: %d", s);
-  bExit = true;
- }
-
- if (bExit) {
-  erase(); // Clear screen
-  endwin(); // End ncurses
-  #if (defined _WIN32 || defined WINDOWS)
-   system("cls"); // Tell the terminal to clear itself
-   system("color 07");
-  #else
-   system("clear"); // Tell the terminal to clear itself
-  #endif
-
-  if(g != NULL)
-   if(g->game_error())
-    exit(1);
-  exit(0);
- }
+         if(g != NULL)
+             if(g->game_error())
+                 exit(1);
+         exit(0);
+     }
 }

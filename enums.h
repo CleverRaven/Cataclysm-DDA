@@ -28,6 +28,11 @@ struct point {
  ~point(){}
 };
 
+inline bool operator<(const point& a, const point& b)
+{
+  return a.x < b.x || (a.x == b.x && a.y < b.y);
+}
+
 struct tripoint {
  int x;
  int y;

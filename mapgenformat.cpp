@@ -13,46 +13,58 @@
 namespace mapf
 {
 
-void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
-                       internal::format_effect* ter_b, internal::format_effect* furn_b)
+bool fix_bindings(internal::format_data &data, const char c)
 {
- internal::format_data tdata;
- internal::format_data fdata;
- ter_b->execute(tdata);
- furn_b->execute(fdata);
+    bool fixed = false;
+    if (data.bindings.find(c) == data.bindings.end()) {
+        data.bindings[c] = new internal::statically_determine_terrain();
+        fixed = true;
+    }
+    return fixed;
+}
 
- if (tdata.bindings.find(' ') == tdata.bindings.end())
-  tdata.bindings[' '] = new internal::statically_determine_terrain();
- if (fdata.bindings.find(' ') == fdata.bindings.end())
-  fdata.bindings[' '] = new internal::statically_determine_terrain();
+void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
+                       internal::format_effect* ter_b, internal::format_effect* furn_b,
+                       const bool empty_toilets)
+{
+    internal::format_data tdata;
+    internal::format_data fdata;
+    ter_b->execute(tdata);
+    furn_b->execute(fdata);
 
- const char* p = cstr;
- int x = startx;
- int y = starty;
- while (*p != 0) {
-  if (*p == '\n') {
-   y++;
-   x = startx;
-  }
-  else {
-   if (tdata.bindings.find(*p) == tdata.bindings.end())
-    tdata.bindings[*p] = new internal::statically_determine_terrain();
-   if (fdata.bindings.find(*p) == fdata.bindings.end())
-    fdata.bindings[*p] = new internal::statically_determine_terrain();
-   ter_id ter = (ter_id)(*tdata.bindings[*p])(m, x, y);
-   furn_id furn = (furn_id)(*fdata.bindings[*p])(m, x, y);
-   if (ter != t_null)
-    m->ter_set(x, y, ter);
-   if (furn != f_null)
-    m->furn_set(x, y, furn);
-   x++;
-  }
-  p++;
- }
- for(std::map<char, internal::determine_terrain*>::iterator it = fdata.bindings.begin(); it != fdata.bindings.end(); ++it)
- {
-  delete it->second;
- }
+    fix_bindings(tdata, ' ');
+    fix_bindings(fdata, ' ');
+
+    const char* p = cstr;
+    int x = startx;
+    int y = starty;
+    while (*p != 0) {
+        if (*p == '\n') {
+            y++;
+            x = startx;
+        } else {
+            fix_bindings(tdata, *p);
+            fix_bindings(fdata, *p);
+            ter_id ter = (ter_id)(*tdata.bindings[*p])(m, x, y);
+            furn_id furn = (furn_id)(*fdata.bindings[*p])(m, x, y);
+            if (ter != t_null) {
+                m->ter_set(x, y, ter);
+            }
+            if (furn != f_null) {
+                if (furn == f_toilet && !empty_toilets) {
+                    m->place_toilet(x, y);
+                } else {
+                    m->furn_set(x, y, furn);
+                }
+            }
+            x++;
+        }
+        p++;
+    }
+    for(std::map<char, internal::determine_terrain*>::iterator it = fdata.bindings.begin(); it != fdata.bindings.end(); ++it)
+    {
+        delete it->second;
+    }
 }
 
 void formatted_set_terrain(map* m, const int startx, const int starty, const char* cstr, ...)
@@ -67,8 +79,7 @@ void formatted_set_terrain(map* m, const int startx, const int starty, const cha
   delete temp;
  }
 
- if(fdata.bindings.find(' ') == fdata.bindings.end())
-  fdata.bindings[' '] = new internal::statically_determine_terrain();
+ fix_bindings(fdata, ' ');
 
  va_end(vl);
 
@@ -81,10 +92,9 @@ void formatted_set_terrain(map* m, const int startx, const int starty, const cha
    x = startx;
   }
   else {
-   if(fdata.bindings.find(*p) == fdata.bindings.end())
+   if (fix_bindings(fdata, *p))
    {
     debugmsg("No binding for \'%c.\'", *p);
-    fdata.bindings[*p] = new internal::statically_determine_terrain();
    }
    ter_id id = (ter_id)(*fdata.bindings[*p])(m, x, y);
    if(id != t_null)

@@ -129,19 +129,28 @@ void mapgen_crater(map *m, mapgendata dat)
 
 void mapgen_field(map *m, int turn)
 {
+    // There's a chance this field will be thick with strawberry
+    // and blueberry bushes.
+    int berry_bush_factor = 200;
+    int bush_factor = 120;
+    if(one_in(120)) {
+        berry_bush_factor = 2;
+        bush_factor = 40;
+    }
+
     for (int i = 0; i < SEEX * 2; i++)
     {
         for (int j = 0; j < SEEY * 2; j++)
         {
             m->ter_set(i, j, grass_or_dirt());
-            if (one_in(120))
+            if (one_in(bush_factor))
             {
-                if (one_in(30))
+                if (one_in(berry_bush_factor))
                 {
                     m->ter_set(i, j, t_shrub_blueberry);
                 }
                 else
-                if (one_in(30))
+                if (one_in(berry_bush_factor))
                 {
                     m->ter_set(i, j, t_shrub_strawberry);
                 }
@@ -176,7 +185,7 @@ void mapgen_dirtlot(map *m, game *g)
     }
     if (one_in(4))
     {
-        m->add_vehicle (g, veh_truck, 12, 12, 90, -1, -1);
+        m->add_vehicle (g, "flatbed_truck", 12, 12, 90, -1, -1);
     }
 }
 
@@ -264,7 +273,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
             else
             {
-                m->ter_set(i, j, t_dirt);
+                m->ter_set(i, j, grass_or_dirt());
             }
         }
     }
@@ -301,7 +310,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 {
                     m->ter_set(x, y, t_water_dp);
                 }
-                else if (m->ter(x, y) == t_dirt || m->ter(x, y) == t_underbrush)
+                else if (m->ter(x, y) == t_dirt || m->ter(x, y) == t_grass ||
+                         m->ter(x, y) == t_underbrush)
                 {
                     m->ter_set(x, y, t_water_sh);
                 }
@@ -323,7 +333,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.n_fac; j++)
             {
                 int wx = rng(0, SEEX * 2 -1), wy = rng(0, SEEY - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -331,7 +342,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.e_fac; j++)
             {
                 int wx = rng(SEEX, SEEX * 2 - 1), wy = rng(0, SEEY * 2 - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -339,7 +351,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.s_fac; j++)
             {
                 int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -347,7 +360,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             for (int j = 0; j < dat.w_fac; j++)
             {
                 int wx = rng(0, SEEX - 1), wy = rng(0, SEEY * 2 - 1);
-                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_underbrush)
+                if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
+                    m->ter(wx, wy) == t_underbrush)
                 {
                     m->ter_set(wx, wy, t_water_sh);
                 }
@@ -361,13 +375,13 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             m->add_trap(x, y, tr_sinkhole);
             if (m->ter(x, y) != t_water_sh)
             {
-                m->ter_set(x, y, t_dirt);
+                m->ter_set(x, y, grass_or_dirt());
             }
         }
     }
 
     if (one_in(10000)) {  //1-2 per overmap, very bad day for low level characters
-        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY);
+        m->add_spawn("mon_jabberwock", 1, SEEX, SEEY);
     }
 
 
@@ -377,12 +391,13 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         {
             for (int j = 0; j < SEEX * 2; j++)
             {
-                if ((m->ter(i, j) == t_dirt || m->ter(i, j) == t_underbrush) && !one_in(3))
+                if ((m->ter(i, j) == t_dirt || m->ter(i, j) == t_grass ||
+                     m->ter(i, j) == t_underbrush) && !one_in(3))
                 {
                     m->add_field(NULL, i, j, fd_web, rng(1, 3));
                 }
             }
         }
-        m->add_spawn(mon_spider_web, rng(1, 2), SEEX, SEEY);
+        m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
     }
 }

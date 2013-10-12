@@ -48,6 +48,7 @@ struct rl_vec2d {
 
  float norm();
  rl_vec2d normalized();
+ rl_vec2d get_vertical();
  float dot_product (rl_vec2d &v);
  bool is_null();
  // scale.

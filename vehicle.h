@@ -14,9 +14,12 @@ class map;
 class player;
 class game;
 
+//collision factor for vehicle-vehicle collision; delta_v in mph
+float get_collision_factor(float delta_v);
+
 #define num_fuel_types 5
 extern const ammotype fuel_types[num_fuel_types];
-#define k_mvel 200
+#define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
 // 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
@@ -41,7 +44,13 @@ struct veh_collision {
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
- veh_collision(){};
+ veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
+};
+
+struct vehicle_prototype
+{
+    std::string id, name;
+    std::vector<std::pair<point, std::string> > parts;
 };
 
 
@@ -50,8 +59,8 @@ struct veh_collision {
  */
 struct vehicle_part
 {
-    vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-      blood(0), bigness(0), inside(false), flags(0), passenger_id(0)
+    vehicle_part() : id("null"), mount_dx(0), mount_dy(0), hp(0),
+      blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -62,7 +71,7 @@ struct vehicle_part
 
     static const int passenger_flag = 1;
 
-    vpart_id id;            // id in list of parts (vpart_list index)
+    std::string id;         // id in map of parts (vehicle_part_types key)
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
@@ -135,8 +144,7 @@ struct vehicle_part
  * - To keep info consistent, always use
  *   `map::board_vehicle()` and `map::unboard_vehicle()` for
  *   boarding/unboarding player.
- * - To add new predesigned vehicle, assign new value for `vhtype_id` enum
- *   and declare vehicle and add parts in file veh_typedef.cpp, using macros,
+ * - To add new predesigned vehicle, add an entry to data/raw/vehicles.json
  *   similar to the existing ones. Keep in mind, that positive x coordinate points
  *   forwards, negative x is back, positive y is to the right, and
  *   negative y to the left:
@@ -151,7 +159,7 @@ struct vehicle_part
  *   coords. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
  *   There are a few rules: some parts are external, so one should be the first part
- *   at given mount point (tile). They require some part in neighbouring tile (with `vpf_mount_point` flag) to
+ *   at given mount point (tile). They require some part in neighbouring tile (with the "MOUNT_POINT" flag) to
  *   be mounted to. Other parts are internal or placed over. They can only be installed on top
  *   of external part. Some functional parts can be only in single instance per tile, i. e.,
  *   no two engines at one mount point.
@@ -162,8 +170,14 @@ class vehicle
 private:
     game *g;
 
+    bool has_structural_part(int dx, int dy);
+    void open_or_close(int part_index, bool opening);
+    int part_displayed_at(int local_x, int local_y);
+    bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
+    void add_missing_frames();
+
 public:
-    vehicle (game *ag=0, vhtype_id type_id = veh_null, int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
 // check if given player controls this vehicle
@@ -172,29 +186,39 @@ public:
 // init parts state for randomly generated vehicle
     void init_state(game* g, int veh_init_fuel, int veh_init_status);
 
+// damages all parts of a vehicle by a random amount
+    void smash();
+
 // load and init vehicle data from stream. This implies valid save data!
+    void load_legacy(std::ifstream &stin);
     void load (std::ifstream &stin);
 
 // Save vehicle data to stream
     void save (std::ofstream &stout);
 
+    void json_load( picojson::value & parsed, game * g );
+
+    picojson::value json_save( bool save_contents = true );
 // Operate vehicle
-    std::string use_controls();
+    void use_controls();
+
+// Honk the vehicle's horn, if there are any
+    void honk_horn();
 
 // get vpart type info for part number (part at given vector index)
-    const vpart_info& part_info (int index);
+    vpart_info& part_info (int index);
 
 // get vpart powerinfo for part number, accounting for variable-sized parts.
     int part_power (int index);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
-    bool can_mount (int dx, int dy, vpart_id id);
+    bool can_mount (int dx, int dy, std::string id);
 
 // check if certain external part can be unmounted
     bool can_unmount (int p);
 
 // install a new part to vehicle (force to skip possibility check)
-    int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
+    int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
 
     void remove_part (int p);
 
@@ -213,11 +237,11 @@ public:
 // returns the list of indeces of parts inside (or over) given
     std::vector<int> internal_parts (int p);
 
-// returns index of part, inner to given, with certain flag (WARNING: without mfb!), or -1
-    int part_with_feature (int p, unsigned int f, bool unbroken = true);
+// returns index of part, inner to given, with certain flag, or -1
+    int part_with_feature (int p, const std::string &f, bool unbroken = true);
 
-// returns true if given flag is present for given part index (WARNING: without mfb!)
-    bool part_flag (int p, unsigned int f);
+// returns true if given flag is present for given part index
+    bool part_flag (int p, const std::string &f);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -229,6 +253,9 @@ public:
     int part_at (int dx, int dy);
     int global_part_at (int x, int y);
 
+// Given a part, finds its index in the vehicle
+    int index_of_part(vehicle_part *part);
+
 // get symbol for map
     char part_sym (int p);
 
@@ -236,7 +263,7 @@ public:
     nc_color part_color (int p);
 
 // Vehicle parts description
-    void print_part_desc (void *w, int y1, int width, int p, int hl = -1);
+    void print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1);
 
 // Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
     void print_fuel_indicator (void *w, int y, int x, bool fullsize = false, bool verbose = false);
@@ -275,6 +302,9 @@ public:
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
+
+// get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
+    void center_of_mass(int &x, int &y);
 
 // Get combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
@@ -329,9 +359,12 @@ public:
 // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
+    bool collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
+                    bool &can_move, int &imp, bool just_detect = false );
+
 // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
 // return collision, which has type, impulse, part, & target.
-    veh_collision part_collision (int vx, int vy, int part, int x, int y);
+    veh_collision part_collision (int part, int x, int y, bool just_detect);
 
 // Process the trap beneath
     void handle_trap (int x, int y, int part);
@@ -374,7 +407,7 @@ public:
     int damage (int p, int dmg, int type = 1, bool aimed = true);
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type = 1);
+    void damage_all (int dmg1, int dmg2, int type, const point &impact);
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
@@ -388,6 +421,10 @@ public:
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
 
+    // opens/closes doors or multipart doors
+    void open(int part_index);
+    void close(int part_index);
+
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
 
@@ -399,7 +436,7 @@ public:
 
     // config values
     std::string name;   // vehicle name
-    int type;           // vehicle type
+    std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     std::vector<int> external_parts;   // List of external parts indeces
     std::set<std::string> tags;        // Properties of the vehicle

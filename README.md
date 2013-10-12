@@ -1,16 +1,13 @@
 # Cataclysm: Dark Days Ahead
 
-Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there's far more to Cataclysm than that. Struggle to survive in a harsh, persistant, procedurally generated world. Scavenge the remnants of a dead civilization for for food, equipment, or, if you're lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have...
+Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there's far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for for food, equipment, or, if you're lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have...
 
 
 ## Download
 
-The following binary releases are available:
+Visit [our website](http://en.cataclysmdda.com/) for download links to all stable and experimental releases
 
- * [Windows Executable](http://www.cataclysmdda.com/Downloads/CataDDA0.4.zip)
- * [OS X 10.6+ Executable](http://www.cataclysm.glyphgryph.com/Downloads/CataDDA0.4.tar.gz)
-
-The source can either be downloaded as [an archive](https://github.com/TheDarklingWolf/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/TheDarklingWolf/Cataclysm-DDA/).
+The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
 
 
 ## Compile
@@ -39,4 +36,4 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug / I would like to make a suggestion. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/). If you're not able to, send an email to `TheDarklingWolf@gmail.com`.
+Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/). If you're not able to, send an email to `kevin.granade@gmail.com`.

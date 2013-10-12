@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "skill.h"
 #include "rng.h"
+#include "json.h"
 
 #define MAX_DISPLAYED_RECIPES 18
 
@@ -22,13 +23,29 @@ struct component
  component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
 };
 
+struct quality_requirement
+{
+  std::string name;
+  int count;
+  bool available;
+  int level;
+
+  quality_requirement() { name = "UNKNOWN"; count = 0; available = false; level = 0;}
+  quality_requirement(std::string new_name, int new_count, int new_level){ 
+    name = new_name; 
+    count = new_count;
+    level = new_level;
+    available = false; 
+  }
+};
+
 struct recipe {
   std::string ident;
   int id;
   itype_id result;
   craft_cat cat;
-  Skill *sk_primary;
-  Skill *sk_secondary;
+  Skill *skill_used;
+  std::map<Skill*,int> required_skills;
   int difficulty;
   int time;
   bool reversible; // can the item be disassembled?
@@ -36,32 +53,60 @@ struct recipe {
   int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
 
   std::vector<std::vector<component> > tools;
+  std::vector<quality_requirement> qualities;
   std::vector<std::vector<component> > components;
+
+  //Create a string list to describe the skill requirements fir this recipe
+  // Format: skill_name(amount), skill_name(amount)
+  std::string required_skills_string(){
+      std::ostringstream skills_as_stream;
+      if(!required_skills.empty()){
+          for(std::map<Skill*,int>::iterator iter=required_skills.begin(); iter!=required_skills.end();){
+            skills_as_stream << iter->first->name() << "(" << iter->second << ")";
+            ++iter;
+            if(iter != required_skills.end()){
+              skills_as_stream << ", ";
+            }
+          }
+      }
+      else{
+        skills_as_stream << "N/A";
+      }
+      return skills_as_stream.str();
+  }
 
   recipe() {
     id = 0;
     result = "null";
-    sk_primary = NULL;
-    sk_secondary = NULL;
+    skill_used = NULL;
     difficulty = 0;
     time = 0;
     reversible = false;
     autolearn = false;
+    learn_by_disassembly = -1;
   }
 
-recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &p1,
-       std::string &p2, int pdiff, int ptime, bool preversible, bool pautolearn,
+recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &to_use,
+       std::map<std::string,int> &to_require, int pdiff, int ptime, bool preversible, bool pautolearn,
        int plearn_dis) :
   ident (pident), id (pid), result (pres), cat(pcat), difficulty (pdiff), time (ptime),
-  reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis)
-  {
-    sk_primary = p1.size()?Skill::skill(p1):NULL;
-    sk_secondary = p2.size()?Skill::skill(p2):NULL;
+  reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis) {
+    skill_used = to_use.size()?Skill::skill(to_use):NULL;
+    if(!to_require.empty()){
+        for(std::map<std::string,int>::iterator iter=to_require.begin(); iter!=to_require.end(); ++iter){
+            required_skills[Skill::skill(iter->first)] = iter->second;
+        }
+    }
   }
 };
 
-
 typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
+
+void load_recipe_category(JsonObject &jsobj);
+void load_recipe(JsonObject &jsobj);
+recipe* recipe_by_name(std::string name);
+
+extern recipe_map recipes; // The list of valid recipes
 
 #endif

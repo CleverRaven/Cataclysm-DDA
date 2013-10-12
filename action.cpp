@@ -1,13 +1,16 @@
-#include "game.h"
+#include "action.h"
 #include "keypress.h"
 #include "output.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
 
+std::map<char, action_id> keymap;
+std::map<char, action_id> default_keymap;
+
 void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap);
 
-void game::load_keyboard_settings()
+void load_keyboard_settings()
 {
  // Load the default keymap
  std::istringstream sin;
@@ -34,11 +37,10 @@ void game::load_keyboard_settings()
 
  // Check for new defaults, and automatically bind them if possible
  std::map<char, action_id>::iterator d_it;
- bool found;
- for (d_it = default_keymap.begin(); d_it != default_keymap.end(); d_it++) {
-  found = false;
+ for (d_it = default_keymap.begin(); d_it != default_keymap.end(); ++d_it) {
+  bool found = false;
   std::map<char, action_id>::iterator k_it;
-  for (k_it = keymap.begin(); k_it != keymap.end(); k_it++) {
+  for (k_it = keymap.begin(); k_it != keymap.end(); ++k_it) {
    if (d_it->second == k_it->second) {
     found = true;
     break;
@@ -87,7 +89,7 @@ Fix data/keymap.txt at your next chance!", ch, id.c_str());
  }
 }
 
-void game::save_keymap()
+void save_keymap()
 {
  std::ofstream fout;
  fout.open("data/keymap.txt");
@@ -97,17 +99,17 @@ void game::save_keymap()
   return;
  }
  std::map<char, action_id>::iterator it;
- for (it = keymap.begin(); it != keymap.end(); it++)
+ for (it = keymap.begin(); it != keymap.end(); ++it)
   fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
 
  fout.close();
 }
 
-std::vector<char> game::keys_bound_to(action_id act)
+std::vector<char> keys_bound_to(action_id act)
 {
  std::vector<char> ret;
  std::map<char, action_id>::iterator it;
- for (it = keymap.begin(); it != keymap.end(); it++) {
+ for (it = keymap.begin(); it != keymap.end(); ++it) {
   if ( (*it).second == act )
    ret.push_back( (*it).first );
  }
@@ -115,10 +117,10 @@ std::vector<char> game::keys_bound_to(action_id act)
  return ret;
 }
 
-void game::clear_bindings(action_id act)
+void clear_bindings(action_id act)
 {
  std::map<char, action_id>::iterator it;
- for (it = keymap.begin(); it != keymap.end(); it++) {
+ for (it = keymap.begin(); it != keymap.end(); ++it) {
   if ( (*it).second == act ) {
    keymap.erase(it);
    it = keymap.begin();
@@ -181,6 +183,8 @@ std::string action_ident(action_id act)
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_GRAB:
+            return "grab";
         case ACTION_BUTCHER:
             return "butcher";
         case ACTION_CHAT:
@@ -285,8 +289,9 @@ std::string action_ident(action_id act)
             return "debug_mode";
         case ACTION_NULL:
             return "null";
+        default:
+            return "unkown";
         }
-    return "unknown";
     }
 
 action_id look_up_action(std::string ident)
@@ -355,6 +360,8 @@ std::string action_name(action_id act)
             return _("Examine Nearby Terrain");
         case ACTION_PICKUP:
             return _("Pick Item(s) Up");
+        case ACTION_GRAB:
+            return _("Grab a nearby vehicle");
         case ACTION_BUTCHER:
             return _("Butcher");
         case ACTION_CHAT:
@@ -461,7 +468,293 @@ std::string action_name(action_id act)
             return _("Toggle Debug Messages");
         case ACTION_NULL:
             return _("No Action");
+        default:
+            return "Someone forgot to name an action.";
     }
-    return "Someone forgot to name an action.";
+}
+
+void get_direction(int &x, int &y, char ch)
+{
+    x = 0;
+    y = 0;
+    action_id act;
+    if (keymap.find(ch) == keymap.end()) {
+        act = ACTION_NULL;
+    } else {
+        act = keymap[ch];
+    }
+
+    switch (act) {
+    case ACTION_MOVE_NW:
+        x = -1;
+        y = -1;
+        return;
+    case ACTION_MOVE_NE:
+        x = 1;
+        y = -1;
+        return;
+    case ACTION_MOVE_W:
+        x = -1;
+        return;
+    case ACTION_MOVE_S:
+        y = 1;
+        return;
+    case ACTION_MOVE_N:
+        y = -1;
+        return;
+    case ACTION_MOVE_E:
+        x = 1;
+        return;
+    case ACTION_MOVE_SW:
+        x = -1;
+        y = 1;
+        return;
+    case ACTION_MOVE_SE:
+        x = 1;
+        y = 1;
+        return;
+    case ACTION_PAUSE:
+    case ACTION_PICKUP:
+        x = 0;
+        y = 0;
+        return;
+    default:
+        x = -2;
+        y = -2;
+    }
+}
+
+std::string default_keymap_txt()
+{
+    return "\
+# This is the keymapping for Cataclysm.\n\
+# You can start a line with # to make it a comment--it will be ignored.\n\
+# Blank lines are ignored too.\n\
+# Extra whitespace, including tab, is ignored, so format things how you like.\n\
+# If you wish to restore defaults, simply remove this file.\n\
+\n\
+# The format for each line is an action identifier, followed by several\n\
+# keys.  Any action may have an unlimited number of keys bound to it.\n\
+# If you bind the same key to multiple actions, the second and subsequent\n\
+# bindings will be ignored--and you'll get a warning when the game starts.\n\
+# Keys are case-sensitive, of course; c and C are different.\n\
+ \n\
+# WARNING: If you skip an action identifier, there will be no key bound to\n\
+# that action!  You will be NOT be warned of this when the game starts.\n\
+# If you're going to mess with stuff, maybe you should back this file up?\n\
+\n\
+# It is okay to split commands across lines.\n\
+# pause . 5      is equivalent to:\n\
+# pause .\n\
+# pause 5\n\
+\n\
+# Note that movement keybindings ONLY apply to movement (for now).\n\
+# That is, binding w to move_n will let you use w to move north, but you\n\
+# cannot use w to smash north, examine to the north, etc.\n\
+# For now, you must use vikeys, the numpad, or arrow keys for those actions.\n\
+# This is planned to change in the future.\n\
+\n\
+# Finally, there is no support for special keys, like spacebar, Home, and\n\
+# so on.  This is not a planned feature, but if it's important to you, please\n\
+# let me know.\n\
+\n\
+# MOVEMENT:\n\
+pause     . 5\n\
+move_n    k 8\n\
+move_ne   u 9\n\
+move_e    l 6\n\
+move_se   n 3\n\
+move_s    j 2\n\
+move_sw   b 1\n\
+move_w    h 4\n\
+move_nw   y 7\n\
+move_down >\n\
+move_up   <\n\
+\n\
+# MOVEMENT:\n\
+center     :\n\
+shift_n    K\n\
+shift_e    L\n\
+shift_s    J\n\
+shift_w    H\n\
+\n\
+# ENVIRONMENT INTERACTION\n\
+open  o\n\
+close c\n\
+smash s\n\
+examine e\n\
+advinv /\n\
+pickup , g\n\
+grab G\n\
+butcher B\n\
+chat C\n\
+look ; x\n\
+peek X\n\
+listitems V\n\
+\n\
+# INVENTORY & QUASI-INVENTORY INTERACTION\n\
+inventory i\n\
+compare I\n\
+organize =\n\
+apply a\n\
+apply_wielded A\n\
+wear W\n\
+take_off T\n\
+eat E\n\
+read R\n\
+wield w\n\
+pick_style _\n\
+reload r\n\
+unload U\n\
+throw t\n\
+fire f\n\
+#fire_burst F\n\
+select_fire_mode F\n\
+drop d\n\
+drop_adj D\n\
+bionics p\n\
+sort_armor +\n\
+\n\
+# LONG TERM & SPECIAL ACTIONS\n\
+wait |\n\
+craft &\n\
+recraft -\n\
+construct *\n\
+disassemble (\n\
+sleep $\n\
+control_vehicle ^\n\
+safemode !\n\
+autosafe \"\n\
+ignore_enemy '\n\
+save S\n\
+quit Q\n\
+\n\
+# INFO SCREENS\n\
+player_data @\n\
+map m\n\
+missions M\n\
+factions #\n\
+kills )\n\
+morale v\n\
+messages P\n\
+help ?\n\
+\n\
+# DEBUG FUNCTIONS\n\
+debug_mode ~\n\
+# debug Z\n\
+# debug_scent -\n\
+";
+}
+
+// (Press X (or Y)|Try) to Z
+std::string press_x(action_id act)
+{
+    return press_x(act,_("Press "),"",_("Try"));
+}
+std::string press_x(action_id act, std::string key_bound, std::string key_unbound)
+{
+    return press_x(act,key_bound,"",key_unbound);
+}
+std::string press_x(action_id act, std::string key_bound_pre, std::string key_bound_suf, std::string key_unbound)
+{
+    std::vector<char> keys = keys_bound_to( action_id(act) );
+    if (keys.empty()) {
+        return key_unbound;
+    } else {
+        std::string keyed = key_bound_pre.append("");
+        for (int j = 0; j < keys.size(); j++) {
+            if (keys[j] == '\'' || keys[j] == '"'){
+                if (j < keys.size() - 1) {
+                    keyed += keys[j]; keyed += _(" or ");
+                } else {
+                    keyed += keys[j];
+                }
+            } else {
+                if (j < keys.size() - 1) {
+                    keyed += "'"; keyed += keys[j]; keyed += _("' or ");
+                } else {
+                    if (keys[j] == '_') {
+                        keyed += _("'_' (underscore)");
+                    } else {
+                        keyed += "'"; keyed += keys[j]; keyed += "'";
+                    }
+                }
+            }
+        }
+        return keyed.append(key_bound_suf.c_str());
+    }
+}
+// ('Z'ing|zing) (\(X( or Y))\))
+std::string press_x(action_id act, std::string act_desc)
+{
+    bool key_after=false;
+    bool z_ing=false;
+    char zing = tolower(act_desc.at(0));
+    std::vector<char> keys = keys_bound_to( action_id(act) );
+    if (keys.empty()) {
+        return act_desc;
+    } else {
+        std::string keyed = ("");
+        for (int j = 0; j < keys.size(); j++) {
+            if (tolower(keys[j])==zing) {
+                if (z_ing) {
+                    keyed.replace(1,1,1,act_desc.at(0));
+                    if (key_after) {
+                        keyed += _(" or '");
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0))
+                                                          : tolower(act_desc.at(0)));
+                        keyed += "'";
+                    } else {
+                        keyed +=" ('";
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0))
+                                                          : tolower(act_desc.at(0)));
+                        keyed += "'";
+                        key_after=true;
+                    }
+                } else {
+                    std::string uhh="";
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        uhh+="("; uhh+=keys[j]; uhh+=")";
+                    } else {
+                        uhh+="'"; uhh+=keys[j]; uhh+="'";
+                    }
+                    if(act_desc.length()>1) {
+                        uhh+=act_desc.substr(1);
+                    }
+                    if (keys[j] == '_') {
+                        uhh += _(" (underscore)");
+                    }
+                    keyed.insert(0,uhh);
+                    z_ing=true;
+                }
+            } else {
+                if (key_after) {
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        keyed += _(" or "); keyed += keys[j];
+                    } else if (keys[j] == '_') {
+                        keyed += _("or '_' (underscore)");
+                    } else {
+                        keyed+=_(" or '"); keyed+=keys[j]; keyed+="'";
+                    }
+                } else {
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        keyed += " ("; keyed += keys[j];
+                    } else if (keys[j] == '_') {
+                        keyed += _(" ('_' (underscore)");
+                    } else {
+                        keyed += " ('"; keyed+=keys[j]; keyed+="'";
+                    }
+                   key_after=true;
+                }
+            }
+        }
+        if (!z_ing) {
+            keyed.insert(0,act_desc);
+        }
+        if (key_after) {
+            keyed+=")";
+        }
+        return keyed;
+    }
 }
 

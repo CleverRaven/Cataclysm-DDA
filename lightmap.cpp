@@ -14,6 +14,17 @@ void map::generate_lightmap(game* g)
  memset(lm, 0, sizeof(lm));
  memset(sm, 0, sizeof(sm));
 
+/* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
+     significant slowdown, so for stuff like fire and lava:
+ * Step 1: Store the position and luminance in buffer via add_light_source, for efficient
+     checking of neighbors.
+ * Step 2: After everything else, iterate buffer and apply_light_source only in non-redundant
+     directions
+ * Step 3: Profit!
+ */
+ memset(light_source_buffer, 0, sizeof(light_source_buffer));
+
+
  const int dir_x[] = { 1, 0 , -1,  0 };
  const int dir_y[] = { 0, 1 ,  0, -1 };
  const int dir_d[] = { 180, 270, 0, 90 };
@@ -46,7 +57,6 @@ void map::generate_lightmap(game* g)
  // Apply player light sources
  if (held_luminance > LIGHT_AMBIENT_LOW)
   apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
-  int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
     const ter_id terrain = g->m.ter(sx, sy);
@@ -68,81 +78,78 @@ void map::generate_lightmap(game* g)
       }
      }
     }
-
     for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
     {
-        if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20, trigdist); }
-        if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1, trigdist); }
-        if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4, trigdist); }
-        if ( itm->has_flag("LIGHT_8")) { apply_light_source(sx, sy, 8, trigdist); }
-    }
 
+        float ilum=0.0; // brightness
+        int iwidth=0;   // 0-360 degrees. 0 is a circular light_source
+        int idir=0;     // otherwise, it's a light_arc pointed in this direction
+        if ( itm->getlight(ilum, iwidth, idir ) ) {
+            if ( iwidth > 0 ) {
+                apply_light_arc( sx, sy, idir, ilum, iwidth );
+            } else {
+                add_light_source(sx, sy, ilum);
+            }
+        }
+    }
    if(terrain == t_lava) {
-     flood_basalt_check++;
-     apply_light_source(sx, sy, 50, trigdist && flood_basalt_check < 512 ); // todo: optimize better
+     add_light_source(sx, sy, 50 );
    }
 
    if(terrain == t_console)
-    apply_light_source(sx, sy, 3, false); // 3^2 circle is just silly
+    add_light_source(sx, sy, 3 );
 
    if(terrain == t_emergency_light)
-    apply_light_source(sx, sy, 3, false);
+    add_light_source(sx, sy, 3 );
 
    field_entry *cur = NULL;
    for(std::map<field_id, field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
-       cur = field_list_it->second;
+    cur = field_list_it->second;
 
-		if(cur == NULL) continue;
-   // TODO: [lightmap] Attach light brightness to fields
-		switch(cur->getFieldType()) {
+    if(cur == NULL) continue;
+    // TODO: [lightmap] Attach light brightness to fields
+    switch(cur->getFieldType()) {
     case fd_fire:
-		if (3 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 160, trigdist);
+     if (3 == cur->getFieldDensity())
+      add_light_source(sx, sy, 160);
      else if (2 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 60, trigdist);
+      add_light_source(sx, sy, 60);
      else
-      apply_light_source(sx, sy, 16, trigdist);
+      add_light_source(sx, sy, 16);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(sx, sy, 8, trigdist);
+     add_light_source(sx, sy, 8);
      break;
     case fd_electricity:
+    case fd_plasma:
      if (3 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 8, trigdist);
+      add_light_source(sx, sy, 8);
      else if (2 == cur->getFieldDensity())
-      apply_light_source(sx, sy, 1, trigdist);
+      add_light_source(sx, sy, 1);
      else
       apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
      break;
+    case fd_laser:
+     apply_light_source(sx, sy, 1, trigdist);
+     break;
+    }
    }
-	}
   }
  }
 
- for (int i = 0; i < g->z.size(); ++i) {
-  int mx = g->z[i].posx;
-  int my = g->z[i].posy;
+ for (int i = 0; i < g->num_zombies(); ++i) {
+  int mx = g->zombie(i).posx();
+  int my = g->zombie(i).posy();
   if (INBOUNDS(mx, my)) {
-   if (g->z[i].has_effect(ME_ONFIRE)) {
+   if (g->zombie(i).has_effect(ME_ONFIRE)) {
      apply_light_source(mx, my, 3, trigdist);
    }
    // TODO: [lightmap] Attach natural light brightness to creatures
    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
    // TODO: [lightmap] Allow creatures to have facing and arc lights
-   switch (g->z[i].type->id) {
-    case mon_zombie_electric:
-     apply_light_source(mx, my, 1, trigdist);
-     break;
-    case mon_turret:
-     apply_light_source(mx, my, 2, trigdist);
-     break;
-    case mon_flaming_eye:
-     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT, trigdist);
-     break;
-    case mon_manhack:
-     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL, trigdist);
-     break;
+   if (g->zombie(i).type->luminance > 0){
+        apply_light_source(mx, my, g->zombie(i).type->luminance, trigdist);
    }
   }
  }
@@ -156,7 +163,7 @@ void map::generate_lightmap(game* g)
      float iteration=1.0;
      for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
           part != vehs[v].v->external_parts.end(); ++part) {
-         int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
+         int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
          if (dpart >= 0) {
              veh_luminance += ( vehs[v].v->part_info(dpart).power / iteration );
              iteration=iteration * 1.1;
@@ -168,7 +175,7 @@ void map::generate_lightmap(game* g)
          int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
          int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
          if(INBOUNDS(px, py)) {
-           int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
+           int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
 
            if (dpart >= 0) {
              apply_light_arc(px, py, dir + vehs[v].v->parts[dpart].direction, veh_luminance, 45);
@@ -178,6 +185,22 @@ void map::generate_lightmap(game* g)
      }
    }
  }
+
+    /* Now that we have position and intensity of all bulk light sources, apply_ them
+      This may seem like extra work, but take a 12x12 raging inferno:
+        unbuffered: (12^2)*(160*4) = apply_light_ray x 92160
+        buffered:   (12*4)*(160)   = apply_light_ray x 7680
+    */
+    for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
+        for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
+            if ( light_source_buffer[sx][sy] > 0. ) {
+                apply_light_source(sx, sy, light_source_buffer[sx][sy],
+                                   ( trigdist && light_source_buffer[sx][sy] > 3. ) );
+            }
+         }
+    }
+
+
 if (g->u.has_active_bionic("bio_night") ) {
    for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
    {
@@ -190,6 +213,10 @@ if (g->u.has_active_bionic("bio_night") ) {
       }
    }
   }
+}
+
+void map::add_light_source(int x, int y, float luminance ) {
+    light_source_buffer[x][y] = luminance;
 }
 
 lit_level map::light_at(int dx, int dy)
@@ -227,59 +254,90 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
  return seen_cache[tx][ty];
 }
 
-void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
-{
-   if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty)) return;
 
-   seen_cache[fx][fy] = true;
 
-   const int ax = abs(tx - fx) << 1;
-   const int ay = abs(ty - fy) << 1;
-   const int dx = (fx < tx) ? 1 : -1;
-   const int dy = (fy < ty) ? 1 : -1;
-   int x = fx;
-   int y = fy;
-   bool seen = true;
+/**
+ * Calculates the Field Of View for the provided map from the given x, y
+ * coordinates. Returns a lightmap for a result where the values represent a
+ * percentage of fully lit.
+ *
+ * A value equal to or below 0 means that cell is not in the
+ * field of view, whereas a value equal to or above 1 means that cell is
+ * in the field of view.
+ *
+ * @param startx the horizontal component of the starting location
+ * @param starty the vertical component of the starting location
+ * @param radius the maximum distance to draw the FOV
+ */
+void map::build_seen_cache( game *g ) {
+    memset(seen_cache, false, sizeof(seen_cache));
+    seen_cache[g->u.posx][g->u.posy] = true;
 
-   // TODO: [lightmap] Pull out the common code here rather than duplication
-   if (ax > ay)
-   {
-      int t = ay - (ax >> 1);
-      do
-      {
-         if(t >= 0 && ((y + dy != ty) || (x + dx == tx)))
-         {
-            y += dy;
-            t -= ax;
-         }
+    castLight( g, 1, 1.0f, 0.0f, 0, 1, 1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, 1 );
 
-         x += dx;
-         t += ay;
+    castLight( g, 1, 1.0f, 0.0f, 0, -1, 1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, 1 );
 
-         seen_cache[x][y] |= seen;
-         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
+    castLight( g, 1, 1.0f, 0.0f, 0, 1, -1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, 1, 0, 0, -1 );
 
-      } while(!(x == tx && y == ty));
-   }
-   else
-   {
-      int t = ax - (ay >> 1);
-      do
-      {
-         if(t >= 0 && ((x + dx != tx) || (y + dy == ty)))
-         {
-            x += dx;
-            t -= ay;
-         }
+    castLight( g, 1, 1.0f, 0.0f, 0, -1, -1, 0 );
+    castLight( g, 1, 1.0f, 0.0f, -1, 0, 0, -1 );
+}
 
-         y += dy;
-         t += ax;
+void map::castLight( game *g, int row, float start, float end, int xx, int xy, int yx, int yy ) {
+    float newStart = 0.0f;
+    float radius = 60.0f;
+    if( start < end ) {
+        return;
+    }
+    bool blocked = false;
+    for( int distance = row; distance <= radius && !blocked; distance++ ) {
+        int deltaY = -distance;
+        for( int deltaX = -distance; deltaX <= 0; deltaX++ ) {
+            int currentX = g->u.posx + deltaX * xx + deltaY * xy;
+            int currentY = g->u.posy + deltaX * yx + deltaY * yy;
+            float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
+            float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
 
-         seen_cache[x][y] |= seen;
-         if(light_transparency(x, y) == LIGHT_TRANSPARENCY_SOLID) seen = false;
+            if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * my_MAPSIZE &&
+                  currentY < SEEY * my_MAPSIZE) || start < rightSlope ) {
+                continue;
+            } else if( end > leftSlope ) {
+                break;
+            }
 
-      } while(!(x == tx && y == ty));
-   }
+            //check if it's within the visible area and mark visible if so
+            if( rl_dist(0, 0, deltaX, deltaY) <= radius ) {
+                /*
+                float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
+                lightMap[currentX][currentY] = bright;
+                */
+                seen_cache[currentX][currentY] = true;
+            }
+
+            if( blocked ) {
+                //previous cell was a blocking one
+                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID ) {
+                    //hit a wall
+                    newStart = rightSlope;
+                    continue;
+                } else {
+                    blocked = false;
+                    start = newStart;
+                }
+            } else {
+                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID &&
+                    distance < radius ) {
+                    //hit a wall within sight line
+                    blocked = true;
+                    castLight(g, distance + 1, start, leftSlope, xx, xy, yx, yy);
+                    newStart = rightSlope;
+                }
+            }
+        }
+    }
 }
 
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
@@ -292,6 +350,32 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
   lm[x][y] += std::max(luminance, static_cast<float>(LL_LOW));
   sm[x][y] += luminance;
  }
+ if ( luminance <= 1 ) {
+   return;
+ } else if ( luminance <=2 ) {
+   luminance = 1.49f;
+ }
+/* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
+     neighboring fires to the north and west that were applied via light_source_buffer
+   If there's a 1 luminance candle east in buffer, we still cast rays into ex since it's smaller
+   If there's a 100 luminance magnesium flare south added via apply_light_source instead od
+     add_light_source, it's unbuffered so we'll still cast rays into sy.
+
+      ey
+    nnnNnnn
+    w     e
+    w  5 +e
+ sx W 5*1+E ex
+    w ++++e
+    w+++++e
+    sssSsss
+       sy
+*/
+  const int peer_inbounds = LIGHTMAP_CACHE_X-1;
+  bool north=(y != 0 && light_source_buffer[x][y-1] < luminance );
+  bool south=(y != peer_inbounds && light_source_buffer[x][y+1] < luminance );
+  bool east=(x != peer_inbounds && light_source_buffer[x+1][y] < luminance );
+  bool west=(x != 0 && light_source_buffer[x-1][y] < luminance );
 
  if (luminance > LIGHT_SOURCE_LOCAL) {
   int range = LIGHT_RANGE(luminance);
@@ -299,14 +383,14 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
   int sy = y - range; int ey = y + range;
 
   for(int off = sx; off <= ex; ++off) {
-   apply_light_ray(lit, x, y, off, sy, luminance, trig_brightcalc);
-   apply_light_ray(lit, x, y, off, ey, luminance, trig_brightcalc);
+   if ( south ) apply_light_ray(lit, x, y, off, sy, luminance, trig_brightcalc);
+   if ( north ) apply_light_ray(lit, x, y, off, ey, luminance, trig_brightcalc);
   }
 
   // Skip corners with + 1 and < as they were done
   for(int off = sy + 1; off < ey; ++off) {
-   apply_light_ray(lit, x, y, sx, off, luminance, trig_brightcalc);
-   apply_light_ray(lit, x, y, ex, off, luminance, trig_brightcalc);
+   if ( west ) apply_light_ray(lit, x, y, sx, off, luminance, trig_brightcalc);
+   if ( east ) apply_light_ray(lit, x, y, ex, off, luminance, trig_brightcalc);
   }
  }
 }

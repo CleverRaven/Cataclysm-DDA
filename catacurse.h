@@ -3,28 +3,37 @@
 #if (defined _WIN32 || defined WINDOWS)
 #define _WIN32_WINNT 0x0500
 #define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 //#define VC_EXTRALEAN
 #include "windows.h"
+#include "mmsystem.h"
 #endif
 #include <stdio.h>
-typedef int	chtype;
-typedef unsigned short	attr_t;
+#include <map>
+#include <vector>
+#include "json.h"
+typedef int chtype;
+typedef unsigned short attr_t;
 typedef unsigned int u_int32_t;
 
-#define __CHARTEXT	0x000000ff	/* bits for 8-bit characters */             //<---------not used
-#define __NORMAL	0x00000000	/* Added characters are normal. */          //<---------not used
-#define __STANDOUT	0x00000100	/* Added characters are standout. */        //<---------not used
-#define __UNDERSCORE	0x00000200	/* Added characters are underscored. */ //<---------not used
-#define __REVERSE	0x00000400	/* Added characters are reverse             //<---------not used
-					   video. */
-#define __BLINK		0x00000800	/* Added characters are blinking. */
-#define __DIM		0x00001000	/* Added characters are dim. */             //<---------not used
-#define __BOLD		0x00002000	/* Added characters are bold. */
-#define __BLANK		0x00004000	/* Added characters are blanked. */         //<---------not used
-#define __PROTECT	0x00008000	/* Added characters are protected. */       //<---------not used
-#define __ALTCHARSET	0x00010000	/* Added characters are ACS */          //<---------not used
-#define __COLOR		0x03fe0000	/* Color bits */
-#define __ATTRIBUTES	0x03ffff00	/* All 8-bit attribute bits */          //<---------not used
+// TODO: remove unused stuff
+
+#define __CHARTEXT 0x000000ff /* bits for 8-bit characters */             //<---------not used
+#define __NORMAL 0x00000000 /* Added characters are normal. */          //<---------not used
+#define __STANDOUT 0x00000100 /* Added characters are standout. */        //<---------not used
+#define __UNDERSCORE 0x00000200 /* Added characters are underscored. */ //<---------not used
+#define __REVERSE 0x00000400 /* Added characters are reverse             //<---------not used
+        video. */
+#define __BLINK  0x00000800 /* Added characters are blinking. */
+#define __DIM  0x00001000 /* Added characters are dim. */             //<---------not used
+#define __BOLD  0x00002000 /* Added characters are bold. */
+#define __BLANK  0x00004000 /* Added characters are blanked. */         //<---------not used
+#define __PROTECT 0x00008000 /* Added characters are protected. */       //<---------not used
+#define __ALTCHARSET 0x00010000 /* Added characters are ACS */          //<---------not used
+#define __COLOR  0x03fe0000 /* Color bits */
+#define __ATTRIBUTES 0x03ffff00 /* All 8-bit attribute bits */          //<---------not used
 
 //a pair of colors[] indexes, foreground and background
 typedef struct
@@ -66,31 +75,31 @@ typedef struct {
 
 } WINDOW;
 
-#define	A_NORMAL	__NORMAL
-#define	A_STANDOUT	__STANDOUT
-#define	A_UNDERLINE	__UNDERSCORE
-#define	A_REVERSE	__REVERSE
-#define	A_BLINK		__BLINK
-#define	A_DIM		__DIM
-#define	A_BOLD		__BOLD
-#define	A_BLANK		__BLANK
-#define	A_PROTECT	__PROTECT
-#define	A_ALTCHARSET	__ALTCHARSET
-#define	A_ATTRIBUTES	__ATTRIBUTES
-#define	A_CHARTEXT	__CHARTEXT
-#define	A_COLOR		__COLOR
+#define A_NORMAL __NORMAL
+#define A_STANDOUT __STANDOUT
+#define A_UNDERLINE __UNDERSCORE
+#define A_REVERSE __REVERSE
+#define A_BLINK  __BLINK
+#define A_DIM  __DIM
+#define A_BOLD  __BOLD
+#define A_BLANK  __BLANK
+#define A_PROTECT __PROTECT
+#define A_ALTCHARSET __ALTCHARSET
+#define A_ATTRIBUTES __ATTRIBUTES
+#define A_CHARTEXT __CHARTEXT
+#define A_COLOR  __COLOR
 
-#define	COLOR_BLACK	0x00        //RGB{0,0,0}
-#define	COLOR_RED	0x01        //RGB{196, 0, 0}
-#define	COLOR_GREEN	0x02        //RGB{0,196,0}
-#define	COLOR_YELLOW	0x03    //RGB{196,180,30}
-#define	COLOR_BLUE	0x04        //RGB{0, 0, 196}
-#define	COLOR_MAGENTA	0x05    //RGB{196, 0, 180}
-#define	COLOR_CYAN	0x06        //RGB{0, 170, 200}
-#define	COLOR_WHITE	0x07        //RGB{196, 196, 196}
+#define COLOR_BLACK 0x00        //RGB{0,0,0}
+#define COLOR_RED 0x01        //RGB{196, 0, 0}
+#define COLOR_GREEN 0x02        //RGB{0,196,0}
+#define COLOR_YELLOW 0x03    //RGB{196,180,30}
+#define COLOR_BLUE 0x04        //RGB{0, 0, 196}
+#define COLOR_MAGENTA 0x05    //RGB{196, 0, 180}
+#define COLOR_CYAN 0x06        //RGB{0, 170, 200}
+#define COLOR_WHITE 0x07        //RGB{196, 196, 196}
 
-#define	COLOR_PAIR(n)	((((u_int32_t)n) << 17) & A_COLOR)
-//#define	PAIR_NUMBER(n)	((((u_int32_t)n) & A_COLOR) >> 17)
+#define COLOR_PAIR(n) ((((u_int32_t)n) << 17) & A_COLOR)
+//#define PAIR_NUMBER(n) ((((u_int32_t)n) & A_COLOR) >> 17)
 
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used
 #define    KEY_BREAK      0x101    /* break key */                  //<---------not used
@@ -107,17 +116,26 @@ typedef struct {
 
 /* Curses external declarations. */
 
-#define stdscr 0
-//WINDOW *stdscr; //Define this for portability, strscr will basically be window[0] anyways
+extern WINDOW *stdscr;
 
 #define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
 //Curses Functions
-#define	ERR	(-1)			/* Error return. */
-#define	OK	(0)			/* Success return. */
+#define ERR (-1) // Error return.
+#define OK (0) // Success return.
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 int delwin(WINDOW *win);
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
+
+int hline(chtype ch, int n);
+int vline(chtype ch, int n);
+int whline(WINDOW *win, chtype ch, int n);
+int wvline(WINDOW *win, chtype ch, int n);
+int mvhline(int y, int x, chtype ch, int n);
+int mvvline(int y, int x, chtype ch, int n);
+int mvwhline(WINDOW *win, int y, int x, chtype ch, int n);
+int mvwvline(WINDOW *win, int y, int x, chtype ch, int n);
+
 int wrefresh(WINDOW *win);
 int refresh(void);
 int getch(void);
@@ -153,6 +171,8 @@ int getmaxx(WINDOW *win);
 int getmaxy(WINDOW *win);
 int getbegx(WINDOW *win);
 int getbegy(WINDOW *win);
+int getcurx(WINDOW *win);
+int getcury(WINDOW *win);
 int move(int y, int x);
 void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
 void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
@@ -161,6 +181,7 @@ int noecho(void);
 //non-curses functions, Do not call these in the main game code
 extern WINDOW* mainwin;
 extern pairs *colorpairs;
+extern std::map< std::string,std::vector<int> > consolecolors;
 WINDOW* curses_init();
 int curses_destroy();
 void curses_drawwindow(WINDOW* win);

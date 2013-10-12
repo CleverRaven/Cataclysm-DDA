@@ -7,6 +7,9 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "catacharset.h"
+#include "get_version.h"
+#include "help.h"
+#include "options.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -18,17 +21,16 @@
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const char* getVersionString();
-
 void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
     //Clear Lines
     werase(w_open);
 
-    for (int i = 1; i < 79; i++)
-        mvwputch(w_open, 23, i, c_white, LINE_OXOX);
+    for (int i = 1; i < FULL_SCREEN_WIDTH-1; ++i) {
+        mvwputch(w_open, FULL_SCREEN_HEIGHT-2, i, c_white, LINE_OXOX);
+    }
 
-    mvwprintz(w_open, 24, 5, c_red, _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
+    mvwprintz(w_open, FULL_SCREEN_HEIGHT-1, 5, c_red, _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
 
     int iLine = 0;
     const int iOffsetX1 = 3;
@@ -47,7 +49,9 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
 
     if (bShowDDA) {
-        iLine++;
+        if (FULL_SCREEN_HEIGHT > 24) {
+            ++iLine;
+        }
         mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__      ________                           ");
         mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
         mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
@@ -55,26 +59,26 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
         mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
         mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
 
-        iLine++;
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, " /  /_\\  \\ |  |  \\ _/ __ \\ \\__  \\   / __ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "Version: %s",getVersionString());
+        iLine++;
+        center_print(w_open, iLine++, cColor3, "Version: %s", getVersionString());
     }
 
     std::vector<std::string> vMenuItems;
-    vMenuItems.push_back(_("<M>OTD"));
-    vMenuItems.push_back(_("<N>ew Game"));
-    vMenuItems.push_back(_("<L>oad"));
-    vMenuItems.push_back(_("<R>eset"));
-    vMenuItems.push_back(_("<S>pecial"));
-    vMenuItems.push_back(_("<O>ptions"));
-    vMenuItems.push_back(_("<H>elp"));
-    vMenuItems.push_back(_("<C>redits"));
-    vMenuItems.push_back(_("<Q>uit"));
+    vMenuItems.push_back(pgettext("Main Menu", "<M>OTD"));
+    vMenuItems.push_back(pgettext("Main Menu", "<N>ew Game"));
+    vMenuItems.push_back(pgettext("Main Menu", "<L>oad"));
+    vMenuItems.push_back(pgettext("Main Menu", "<R>eset"));
+    vMenuItems.push_back(pgettext("Main Menu", "<S>pecial"));
+    vMenuItems.push_back(pgettext("Main Menu", "<O>ptions"));
+    vMenuItems.push_back(pgettext("Main Menu", "<H>elp"));
+    vMenuItems.push_back(pgettext("Main Menu", "<C>redits"));
+    vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX);
 
@@ -112,10 +116,10 @@ bool game::opening_screen()
     int iMenuOffsetY = FULL_SCREEN_HEIGHT-3;
 
     std::vector<std::string> vSubItems;
-    vSubItems.push_back(_("<C>ustom Character"));
-    vSubItems.push_back(_("<P>reset Character"));
-    vSubItems.push_back(_("<R>andom Character"));
-    vSubItems.push_back(_("Play <N>ow!"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
+    vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
 
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
@@ -188,13 +192,13 @@ bool game::opening_screen()
         if (layer == 1) {
             print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
 
-            if (sel1 == 0) {	// Print the MOTD.
+            if (sel1 == 0) { // Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
                     mvwprintz(w_open, i + 7, 8, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
-            } else if (sel1 == 7) {	// Print the Credits.
+            } else if (sel1 == 7) { // Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
                     mvwprintz(w_open, i + 7, 8, c_ltred, credits[i].c_str());
 
@@ -247,7 +251,7 @@ bool game::opening_screen()
                 if (sel1 == 5) {
                     show_options();
                 } else if (sel1 == 6) {
-                    help();
+                    display_help();
                 } else if (sel1 == 8) {
                     uquit = QUIT_MENU;
                     return false;
@@ -258,7 +262,7 @@ bool game::opening_screen()
                 }
             }
         } else if (layer == 2) {
-            if (sel1 == 1) {	// New Character
+            if (sel1 == 1) { // New Character
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
@@ -305,10 +309,9 @@ bool game::opening_screen()
                     } else if (sel2 == 1) {
                         layer = 3;
                         sel1 = 0;
-                        print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY-2, iMenuOffsetX+7);
                     }
                 }
-            } else if (sel1 == 2) {	// Load Character
+            } else if (sel1 == 2) { // Load Character
                 if (savegames.size() == 0)
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
                 else {
@@ -353,7 +356,7 @@ bool game::opening_screen()
                 }
 
                 layer = 1;
-            } else if (sel1 == 4) {	// Special game
+            } else if (sel1 == 4) { // Special game
                 for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
                     mvwprintz(w_open, iMenuOffsetY-i-1, 34 + iMenuOffsetX, (sel2 == i-1 ? h_white : c_white),
                     special_game_name( special_game_id(i) ).c_str());
@@ -389,13 +392,13 @@ bool game::opening_screen()
                     }
                 }
             }
-        } else if (layer == 3) {	// Character Templates
+        } else if (layer == 3) { // Character Templates
             if (templates.size() == 0)
-                mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+27, c_red, _("No templates found!"));
+                mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+20, c_red, _("No templates found!"));
             else {
                 for (int i = 0; i < templates.size(); i++) {
                     int line = iMenuOffsetY - 4 - i;
-                    mvwprintz(w_open, line, 27 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
+                    mvwprintz(w_open, line, 20 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
                 }
             }
             wrefresh(w_open);

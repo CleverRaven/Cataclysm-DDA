@@ -17,6 +17,7 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "debug.h"
+#include "uistate.h"
 
 // Display data
 int TERMX;
@@ -27,217 +28,8 @@ int VIEW_OFFSET_X;
 int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
-
-nc_color hilite(nc_color c)
-{
- switch (c) {
-  case c_white:		return h_white;
-  case c_ltgray:	return h_ltgray;
-  case c_dkgray:	return h_dkgray;
-  case c_red:		return h_red;
-  case c_green:		return h_green;
-  case c_blue:		return h_blue;
-  case c_cyan:		return h_cyan;
-  case c_magenta:	return h_magenta;
-  case c_brown:		return h_brown;
-  case c_ltred:		return h_ltred;
-  case c_ltgreen:	return h_ltgreen;
-  case c_ltblue:	return h_ltblue;
-  case c_ltcyan:	return h_ltcyan;
-  case c_pink:		return h_pink;
-  case c_yellow:	return h_yellow;
- }
- return h_white;
-}
-
-nc_color invert_color(nc_color c)
-{
- if (OPTIONS[OPT_NO_CBLINK]) {
-  switch (c) {
-   case c_white:
-   case c_ltgray:
-   case c_dkgray:  return i_ltgray;
-   case c_red:
-   case c_ltred:   return i_red;
-   case c_green:
-   case c_ltgreen: return i_green;
-   case c_blue:
-   case c_ltblue:  return i_blue;
-   case c_cyan:
-   case c_ltcyan:  return i_cyan;
-   case c_magenta:
-   case c_pink:    return i_magenta;
-   case c_brown:
-   case c_yellow:  return i_brown;
-  }
- }
- switch (c) {
-  case c_white:   return i_white;
-  case c_ltgray:  return i_ltgray;
-  case c_dkgray:  return i_dkgray;
-  case c_red:     return i_red;
-  case c_green:   return i_green;
-  case c_blue:    return i_blue;
-  case c_cyan:    return i_cyan;
-  case c_magenta: return i_magenta;
-  case c_brown:   return i_brown;
-  case c_yellow:  return i_yellow;
-  case c_ltred:   return i_ltred;
-  case c_ltgreen: return i_ltgreen;
-  case c_ltblue:  return i_ltblue;
-  case c_ltcyan:  return i_ltcyan;
-  case c_pink:    return i_pink;
- }
-
- return c_pink;
-}
-
-nc_color red_background(nc_color c)
-{
- switch (c) {
-  case c_white:		return c_white_red;
-  case c_ltgray:	return c_ltgray_red;
-  case c_dkgray:	return c_dkgray_red;
-  case c_red:		return c_red_red;
-  case c_green:		return c_green_red;
-  case c_blue:		return c_blue_red;
-  case c_cyan:		return c_cyan_red;
-  case c_magenta:	return c_magenta_red;
-  case c_brown:		return c_brown_red;
-  case c_ltred:		return c_ltred_red;
-  case c_ltgreen:	return c_ltgreen_red;
-  case c_ltblue:	return c_ltblue_red;
-  case c_ltcyan:	return c_ltcyan_red;
-  case c_pink:		return c_pink_red;
-  case c_yellow:	return c_yellow_red;
- }
- return c_white_red;
-}
-/// colors need to be totally redone, really..
-nc_color white_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_white;
-     case c_dkgray: return c_dkgray_white;
-     case c_ltgray: return c_ltgray_white;
-     case c_white: return c_white_white;
-     case c_red: return c_red_white;
-     case c_ltred: return c_ltred_white;
-     case c_green: return c_green_white;
-     case c_ltgreen: return c_ltgreen_white;
-     case c_brown: return c_brown_white;
-     case c_yellow: return c_yellow_white;
-     case c_blue: return c_blue_white;
-     case c_ltblue: return c_ltblue_white;
-     case c_magenta: return c_magenta_white;
-     case c_pink: return c_pink_white;
-     case c_cyan: return c_cyan_white;
-     case c_ltcyan: return c_ltcyan_white;
-     default: return c_black_white;
-   }
-}
- nc_color green_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_green;
-     case c_dkgray: return c_dkgray_green;
-     case c_ltgray: return c_ltgray_green;
-     case c_white: return c_white_green;
-     case c_red: return c_red_green;
-     case c_ltred: return c_ltred_green;
-     case c_green: return c_green_green;
-     case c_ltgreen: return c_ltgreen_green;
-     case c_brown: return c_brown_green;
-     case c_yellow: return c_yellow_green;
-     case c_blue: return c_blue_green;
-     case c_ltblue: return c_ltblue_green;
-     case c_magenta: return c_magenta_green;
-     case c_pink: return c_pink_green;
-     case c_cyan: return c_cyan_green;
-     case c_ltcyan: return c_ltcyan_green;
-     default: return c_black_green;
-   }
-}
- nc_color yellow_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_yellow;
-     case c_dkgray: return c_dkgray_yellow;
-     case c_ltgray: return c_ltgray_yellow;
-     case c_white: return c_white_yellow;
-     case c_red: return c_red_yellow;
-     case c_ltred: return c_ltred_yellow;
-     case c_green: return c_green_yellow;
-     case c_ltgreen: return c_ltgreen_yellow;
-     case c_brown: return c_brown_yellow;
-     case c_yellow: return c_yellow_yellow;
-     case c_blue: return c_blue_yellow;
-     case c_ltblue: return c_ltblue_yellow;
-     case c_magenta: return c_magenta_yellow;
-     case c_pink: return c_pink_yellow;
-     case c_cyan: return c_cyan_yellow;
-     case c_ltcyan: return c_ltcyan_yellow;
-     default: return c_black_yellow;
-   }
-}
- nc_color magenta_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_magenta;
-     case c_dkgray: return c_dkgray_magenta;
-     case c_ltgray: return c_ltgray_magenta;
-     case c_white: return c_white_magenta;
-     case c_red: return c_red_magenta;
-     case c_ltred: return c_ltred_magenta;
-     case c_green: return c_green_magenta;
-     case c_ltgreen: return c_ltgreen_magenta;
-     case c_brown: return c_brown_magenta;
-     case c_yellow: return c_yellow_magenta;
-     case c_blue: return c_blue_magenta;
-     case c_ltblue: return c_ltblue_magenta;
-     case c_magenta: return c_magenta_magenta;
-     case c_pink: return c_pink_magenta;
-     case c_cyan: return c_cyan_magenta;
-     case c_ltcyan: return c_ltcyan_magenta;
-     default: return c_black_magenta;
-   }
-}
- nc_color cyan_background(nc_color c) {
-  switch(c) {
-     case c_black: return c_black_cyan;
-     case c_dkgray: return c_dkgray_cyan;
-     case c_ltgray: return c_ltgray_cyan;
-     case c_white: return c_white_cyan;
-     case c_red: return c_red_cyan;
-     case c_ltred: return c_ltred_cyan;
-     case c_green: return c_green_cyan;
-     case c_ltgreen: return c_ltgreen_cyan;
-     case c_brown: return c_brown_cyan;
-     case c_yellow: return c_yellow_cyan;
-     case c_blue: return c_blue_cyan;
-     case c_ltblue: return c_ltblue_cyan;
-     case c_magenta: return c_magenta_cyan;
-     case c_pink: return c_pink_cyan;
-     case c_cyan: return c_cyan_cyan;
-     case c_ltcyan: return c_ltcyan_cyan;
-     default: return c_black_cyan;
-   }
-}
-
-
-///
-nc_color rand_color()
-{
- switch (rng(0, 9)) {
-  case 0:	return c_white;
-  case 1:	return c_ltgray;
-  case 2:	return c_green;
-  case 3:	return c_red;
-  case 4:	return c_yellow;
-  case 5:	return c_blue;
-  case 6:	return c_ltblue;
-  case 7:	return c_pink;
-  case 8:	return c_magenta;
-  case 9:	return c_brown;
- }
- return c_dkgray;
-}
+int FULL_SCREEN_WIDTH;
+int FULL_SCREEN_HEIGHT;
 
 // utf8 version
 std::vector<std::string> foldstring ( std::string str, int width ) {
@@ -259,8 +51,23 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
     return lines;
 }
 
+std::vector<std::string> split_by_color(const std::string &s)
+{
+    std::vector<std::string> ret;
+    std::vector<size_t> tag_positions = get_tag_positions(s);
+    size_t last_pos = 0;
+    std::vector<size_t>::iterator it;
+    for (it = tag_positions.begin(); it != tag_positions.end(); ++it) {
+        ret.push_back(s.substr(last_pos, *it-last_pos));
+        last_pos = *it;
+    }
+    // and the last (or only) one
+    ret.push_back(s.substr(last_pos, std::string::npos));
+    return ret;
+}
+
 // returns number of printed lines
-int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...)
+int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color base_color, const char *mes, ...)
 {
     va_list ap;
     va_start(ap,mes);
@@ -268,14 +75,44 @@ int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color colo
     vsprintf(buff, mes, ap);
     va_end(ap);
 
+    nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring(buff, width);
     for (int line_num=0; line_num<textformatted.size(); line_num++)
     {
-        mvwprintz(w, line_num+begin_y, begin_x, color, "%s", textformatted[line_num].c_str());
+        wmove(w, line_num+begin_y, begin_x);
+        // split into colourable sections
+        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
+        // for each section, get the colour, and print it
+        std::vector<std::string>::iterator it;
+        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
+            if (!it->empty() && it->at(0) == '<') {
+                color = get_color_from_tag(*it, base_color);
+            }
+            wprintz(w, color, "%s", rm_prefix(*it).c_str());
+        }
     }
     return textformatted.size();
 };
+
+void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap,mes);
+    char buff[6000];    //TODO replace Magic Number
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+
+    int window_width = getmaxx(w);
+    int string_width = utf8_width(buff);
+    int x;
+    if (string_width >= window_width) {
+        x = 0;
+    } else {
+        x = (window_width - string_width) / 2;
+    }
+    mvwprintz(w, y, x, FG, buff);
+}
 
 void mvputch(int y, int x, nc_color FG, long ch)
 {
@@ -338,7 +175,7 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  attron(FG);
- mvprintw(y, x, buff);
+ mvprintw(y, x, "%s", buff);
  attroff(FG);
 }
 
@@ -350,11 +187,11 @@ void mvwprintz(WINDOW* w, int y, int x, nc_color FG, const char *mes, ...)
 // vsprintf(buff, mes, ap);
  char buff[6000];
  vsprintf(buff, mes, ap);
+ va_end(ap);
  wattron(w, FG);
 // wmove(w, y, x);
- mvwprintw(w, y, x, buff);
+ mvwprintw(w, y, x, "%s", buff);
  wattroff(w, FG);
- va_end(ap);
 }
 
 void printz(nc_color FG, const char *mes, ...)
@@ -454,20 +291,18 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  char buff[1024];
  vsprintf(buff, mes, ap);
  va_end(ap);
- attron(c_red);
- mvprintw(0, 0, "DEBUG: %s                \n  Press spacebar...", buff);
+    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
  std::ofstream fout;
  fout.open("debug.log", std::ios_base::app | std::ios_base::out);
  fout << filename << "[" << line << "]: " << buff << "\n";
  fout.close();
  while(getch() != ' ') ;
 ;
- attroff(c_red);
 }
 
 bool query_yn(const char *mes, ...)
 {
- bool force_uc = OPTIONS[OPT_FORCE_YN];
+ bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
  va_list ap;
  va_start(ap, mes);
  char buff[1024];
@@ -522,81 +357,199 @@ int query_int(const char *mes, ...)
  return temp-48;
 }
 
-std::string string_input_popup(std::string title, int max_length, std::string input)
-{
- std::string ret = input;
- int titlesize = utf8_width(title.c_str());
- int startx = titlesize + 2;
- int iPopupWidth = (max_length == 0) ? FULL_SCREEN_WIDTH : max_length + titlesize + 4;
- if (iPopupWidth > FULL_SCREEN_WIDTH) {
-     iPopupWidth = FULL_SCREEN_WIDTH;
-     max_length = FULL_SCREEN_WIDTH - titlesize - 4;
- }
+std::string string_input_popup(std::string title, int width, std::string input, std::string desc, std::string identifier, int max_length ) {
+  nc_color title_color = c_ltred;
+  nc_color desc_color = c_green;
 
- WINDOW *w = newwin(3, iPopupWidth, (TERMY-3)/2,
-                    ((TERMX > iPopupWidth) ? (TERMX-iPopupWidth)/2 : 0));
+  std::vector<std::string> descformatted;
 
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
- std::string underline = "";
- for (int i = startx ; i < iPopupWidth-1; i++)
-  underline.push_back('_');
-
- mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
-
- mvwprintz(w, 1, startx, c_ltgray, "%s", underline.c_str());
- if (input != "")
-  mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
-
- int posx = startx + utf8_width(input.c_str());
- mvwputch(w, 1, posx, h_ltgray, '_');
- do {
-  wrefresh(w);
-  long ch = getch();
-  if (ch == 27) {	// Escape
-   werase(w);
-   wrefresh(w);
-   delwin(w);
-   refresh();
-   return "";
-  } else if (ch == '\n') {
-   werase(w);
-   wrefresh(w);
-   delwin(w);
-   refresh();
-   return ret;
-  } 
-  else if (ch == KEY_BACKSPACE || ch == 127) {
-       // Move the cursor back and re-draw it
-      if (ret.size() > 0) {
-       //erease utf8 character TODO: make a function
-       while(ret.size()>0 && ((unsigned char)ret[ret.size()-1])>=128 &&
-                                 ((unsigned char)ret[(int)ret.size()-1])<=191) {
-           ret.erase(ret.size()-1);
-       }
-       ret.erase(ret.size()-1);
-      }
+  int titlesize = utf8_width(title.c_str());
+  int startx = titlesize + 2;
+  if ( max_length == 0 ) max_length = width;
+  int w_height=3;
+  int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 4;
+  if (iPopupWidth > FULL_SCREEN_WIDTH) {
+    iPopupWidth = FULL_SCREEN_WIDTH;
   }
-     else if(ch==KEY_F(2)) {
-         std::string tmp = get_input_string_from_file();
-         int tmplen = utf8_width(tmp.c_str());
-         if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
-            ret.append(tmp);
-         }
-     }
-     //experimental unicode input
-     else  {
-         std::string tmp = utf32_to_utf8(ch);
-         int tmplen = utf8_width(tmp.c_str());
-         if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
-            ret.append(tmp);
-         }
-     }
-    mvwprintz(w, 1, startx, c_ltgray, "%s", underline.c_str());
-    mvwprintz(w, 1, startx, c_ltgray, "%s", ret.c_str());
-    wprintz(w, h_ltgray, "_");
- } while (true);
+  if ( desc.size() > 0 ) {
+    int twidth = utf8_width(desc.c_str());
+    if ( twidth > iPopupWidth-4 ) {
+      twidth=iPopupWidth-4;
+    }
+    descformatted = foldstring(desc, twidth);
+    w_height+=descformatted.size();
+  }
+  int starty=1+descformatted.size();
+
+  if ( max_length == 0 ) max_length = 1024;
+  int w_y=(TERMY-w_height)/2;
+  int w_x=((TERMX > iPopupWidth) ? (TERMX-iPopupWidth)/2 : 0);
+  WINDOW *w = newwin(w_height, iPopupWidth, w_y,
+    ((TERMX > iPopupWidth) ? (TERMX-iPopupWidth)/2 : 0));
+
+  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+  int endx=iPopupWidth-3;
+
+  for(int i=0; i < descformatted.size(); i++ ) {
+    mvwprintz(w, 1+i, 1, desc_color, "%s", descformatted[i].c_str() );
+  }
+  mvwprintz(w, starty, 1, title_color, "%s", title.c_str() );
+  long key=0;
+  int pos = -1;
+  std::string ret = string_input_win(w, input, max_length, startx, starty, endx, true, key, pos, identifier, w_x, w_y, true );
+      werase(w);
+      wrefresh(w);
+      delwin(w);
+      refresh();
+  return ret;
+}
+
+std::string string_input_win(WINDOW * w, std::string input, int max_length, int startx, int starty, int endx, bool loop, long & ch, int & pos, std::string identifier, int w_x, int w_y, bool dorefresh ) {
+  std::string ret = input;
+  nc_color string_color = c_magenta;
+  nc_color cursor_color = h_ltgray;
+  nc_color underscore_color = c_ltgray;
+  if ( pos == -1 ) {
+      pos = utf8_width(input.c_str());
+  }
+  int lastpos=pos;
+  int scrmax=endx-startx;
+  int shift = 0;
+  int lastshift=shift;
+  bool redraw=true;
+
+  do {
+
+    if ( pos < 0 ) pos=0;
+
+    if ( pos < shift ) {
+      shift=pos;
+    } else if ( pos > shift+scrmax ) {
+      shift=pos-scrmax;
+    }
+
+    if (shift < 0 ) shift=0;
+
+    if( redraw || lastshift != shift ) {
+      redraw=false;
+      for ( int reti=shift, scri=0; scri <= scrmax; reti++,scri++ ) {
+        if( reti < ret.size() ) {
+          mvwputch(w, starty, startx+scri, (reti == pos ? cursor_color : string_color ), ret[reti] );
+        } else {
+          mvwputch(w, starty, startx+scri, (reti == pos ? cursor_color : underscore_color ), '_');
+        }
+      }
+    } else if ( lastpos != pos ) {
+      if ( lastpos >= shift && lastpos <= shift+scrmax ) {
+        if ( lastpos-shift >= 0 && lastpos-shift < ret.size() ) {
+          mvwputch(w, starty, startx+lastpos, string_color, ret[lastpos-shift]);
+        } else {
+          mvwputch(w, starty, startx+lastpos, underscore_color, '_' );
+        }
+      }
+      if (pos < ret.size() ) {
+        mvwputch(w, starty, startx+pos, cursor_color, ret[pos-shift]);
+      } else {
+        mvwputch(w, starty, startx+pos, cursor_color, '_' );
+      }
+    }
+
+    lastpos=pos;
+    lastshift=shift;
+    if (dorefresh) wrefresh(w);
+    ch = getch();
+    if (ch == 27) { // Escape
+      return "";
+    } else if (ch == '\n') {
+      if(identifier.size() > 0 && ret.size() > 0 ) {
+        std::vector<std::string> * hist=uistate.gethistory(identifier);
+        if( hist!=NULL ) {
+          if ( hist->size() == 0 || (*hist)[hist->size()-1] != ret ) {
+            hist->push_back(ret);
+          }
+        }
+      }
+      return ret;
+    } else if (ch == KEY_UP ) {
+      if(identifier.size() > 0) {
+        std::vector<std::string> * hist=uistate.gethistory(identifier);
+        if(hist!=NULL) {
+           uimenu hmenu;
+           hmenu.w_height=3+hist->size();
+           if (w_y-hmenu.w_height < 0 ) {
+             hmenu.w_y=0;
+             hmenu.w_height = ( w_y-hmenu.w_y < 4 ? 4 : w_y-hmenu.w_y );
+           } else {
+             hmenu.w_y = w_y - hmenu.w_height;
+           }
+           hmenu.w_x = w_x;
+           hmenu.title = _("d: delete history");
+           hmenu.return_invalid = true;
+           for(int h=0; h < hist->size(); h++) {
+             hmenu.addentry(h,true,-2,(*hist)[h].c_str());
+           }
+           if ( ret.size() > 0 && ( hmenu.entries.size() == 0 || hmenu.entries[hist->size()-1].txt != ret ) ) {
+             hmenu.addentry(hist->size(),true,-2,ret);
+             hmenu.selected = hist->size();
+           } else {
+             hmenu.selected = hist->size()-1;
+           }
+
+           hmenu.query();
+           if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {
+             ret=hmenu.entries[hmenu.ret].txt;
+             if( hmenu.ret < hist->size() ) {
+               hist->erase(hist->begin()+hmenu.ret);
+               hist->push_back(ret);
+             }
+             pos=ret.size();
+             redraw=true;
+           } else if ( hmenu.keypress == 'd' ) {
+             hist->clear();
+           }
+        }
+      }
+    } else if (ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE ) {
+      /* absolutely nothing */
+    } else if (ch == KEY_RIGHT ) {
+      if( pos+1 <= ret.size() ) {
+        pos++;
+      }
+      redraw=true;
+    } else if (ch == KEY_LEFT ) {
+      if ( pos > 0 ) {
+        pos--;
+      }
+      redraw=true;
+    } else if (ch == 0x15 ) {                      // ctrl-u: delete all the things
+      pos = 0;
+      ret.erase(0);
+      redraw = true;
+    } else if (ch == KEY_BACKSPACE || ch == 127) { // Move the cursor back and re-draw it
+      if( pos > 0 && pos <= ret.size() ) {         // but silently drop input if we're at 0, instead of adding '^'
+        pos--;                                     //TODO: it is safe now since you only input ascii chars
+        ret.erase(pos,1);
+        redraw = true;
+      }
+    } else if(ch==KEY_F(2)) {
+      std::string tmp = get_input_string_from_file();
+      int tmplen = utf8_width(tmp.c_str());
+      if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
+         ret.append(tmp);
+      }
+    } else if( ch!=0 && (ret.size() < max_length || max_length == 0) ) {
+      if ( pos == ret.size() ) {
+        ret += ch;
+      } else {
+        ret.insert(pos, 1, ch);
+      }
+      redraw = true;
+      pos++;
+    }
+  } while ( loop==true );
+  return ret;
 }
 
 char popup_getkey(const char *mes, ...)
@@ -812,7 +765,7 @@ void full_screen_popup(const char* mes, ...)
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
 //if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
-//otherwise if sType == "MENU", iValue can be used to control color
+//otherwise if sType == "MENU", dValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
@@ -828,15 +781,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
    if (vItemDisplay[i].sFmt == "iOffsetY") {
-    line_num += vItemDisplay[i].iValue;
+    line_num += int(vItemDisplay[i].dValue);
    } else if (vItemDisplay[i].sFmt == "iOffsetX") {
-    iStartX = vItemDisplay[i].iValue;
+    iStartX = int(vItemDisplay[i].dValue);
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
     //patched to allow variable "name" coloring, e.g. for item examining
     nc_color bgColor = c_white;     //yes the name makes no sense
-    if (vItemDisplay[i].iValue >= 0) {
-     nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
+    if (vItemDisplay[i].dValue >= 0) {
+        if (vItemDisplay[i].dValue < .1 && vItemDisplay[i].dValue > -.1){
+            nameColor = c_ltgray;
+        } else {
+            nameColor = c_ltred;
+        }
     }
     if ( i == selected && vItemDisplay[i].sName != "" ) {
       bgColor = h_white;
@@ -848,11 +805,11 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
     std::string sText = word_rewrap(vItemDisplay[i].sName, iWidth-4);
-	std::stringstream ss(sText);
-	std::string l;
+    std::stringstream ss(sText);
+    std::string l;
     while (std::getline(ss, l, '\n')) {
       line_num++;
-	  mvwprintz(w, line_num, 2, c_white, l.c_str());
+      mvwprintz(w, line_num, 2, c_white, l.c_str());
     }
   } else {
    if (bStartNewLine) {
@@ -879,20 +836,21 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         wprintz(w, c_white, sFmt.c_str());
    }
 
-   if (vItemDisplay[i].iValue != -999) {
+   if (vItemDisplay[i].sValue != "-999") {
     nc_color thisColor = c_white;
     for (int k = 0; k < vItemCompare.size(); k++) {
-     if (vItemCompare[k].iValue != -999) {
+     if (vItemCompare[k].sValue != "-999") {
       if (vItemDisplay[i].sName == vItemCompare[k].sName) {
-       if (vItemDisplay[i].iValue == vItemCompare[k].iValue) {
+       if (vItemDisplay[i].dValue > vItemCompare[k].dValue - .1 &&
+           vItemDisplay[i].dValue < vItemCompare[k].dValue + .1) {
          thisColor = c_white;
-       } else if (vItemDisplay[i].iValue > vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue > vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltred;
         } else {
          thisColor = c_ltgreen;
         }
-       } else if (vItemDisplay[i].iValue < vItemCompare[k].iValue) {
+       } else if (vItemDisplay[i].dValue < vItemCompare[k].dValue) {
         if (vItemDisplay[i].bLowerIsBetter) {
          thisColor = c_ltgreen;
         } else {
@@ -903,7 +861,11 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       }
      }
     }
-    wprintz(w, thisColor, "%s%d", sPlus.c_str(), vItemDisplay[i].iValue);
+    if (vItemDisplay[i].is_int == true) {
+        wprintz(w, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+    } else {
+        wprintz(w, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+    }
    }
     wprintz(w, c_white, sPost.c_str());
 
@@ -938,19 +900,19 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
 
 char rand_char()
 {
- switch (rng(0, 9)) {
-  case 0:	return '|';
-  case 1:	return '-';
-  case 2:	return '#';
-  case 3:	return '?';
-  case 4:	return '&';
-  case 5:	return '.';
-  case 6:	return '%';
-  case 7:	return '{';
-  case 8:	return '*';
-  case 9:	return '^';
- }
- return '?';
+    switch (rng(0, 9)) {
+    case 0: return '|';
+    case 1: return '-';
+    case 2: return '#';
+    case 3: return '?';
+    case 4: return '&';
+    case 5: return '.';
+    case 6: return '%';
+    case 7: return '{';
+    case 8: return '*';
+    case 9: return '^';
+    }
+    return '?';
 }
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
@@ -970,47 +932,83 @@ long special_symbol (long sym)
     }
 }
 
+// find the position of each non-printing tag in a string
+std::vector<size_t> get_tag_positions(const std::string &s)
+{
+    std::vector<size_t> ret;
+    size_t pos = s.find("<color_", 0, 7);
+    while (pos != std::string::npos) {
+        ret.push_back(pos);
+        pos = s.find("<color_", pos+1, 7);
+    }
+    pos = s.find("</color>", 0, 8);
+    while (pos != std::string::npos) {
+        ret.push_back(pos);
+        pos = s.find("</color>", pos+1, 8);
+    }
+    std::sort(ret.begin(), ret.end());
+    return ret;
+}
+
 // utf-8 version
 std::string word_rewrap (const std::string &ins, int width){
     std::ostringstream o;
-	std::string in = ins;
-	std::replace(in.begin(), in.end(), '\n', ' ');
-	int lastwb = 0; //last word break
-	int lastout = 0;
-	int x=0;
-	int j=0;
-	const char *instr = in.c_str();
+    std::string in = ins;
+    std::replace(in.begin(), in.end(), '\n', ' ');
 
-	while(j<in.size())
-	{
-		const char* ins = instr+j;
-		int len = ANY_LENGTH;
-		unsigned uc = UTF8_getch(&ins, &len);
-		int cw = mk_wcwidth((wchar_t)uc);
-		len = ANY_LENGTH-len;
+    // find non-printing tags
+    std::vector<size_t> tag_positions = get_tag_positions(in);
 
-		j+=len;
-		x+=cw;
+    int lastwb  = 0; //last word break
+    int lastout = 0;
+    const char *instr = in.c_str();
+    bool skipping_tag = false;
 
-		if(x>width)
-		{
-			for(int k=lastout; k<lastwb; k++)
-				o << in[k];
-			o<<'\n';
-			x=0;
-			lastout=j=lastwb;
-		}
-		else if(uc==' '|| uc=='\n')
-		{
-			lastwb=j;
-		}
-		else if(uc>=0x2E80)
-		{
-			lastwb=j;
-		}
-	}
-	for(int k=lastout; k<in.size(); k++)
-		o << in[k];
+    for (int j=0, x=0; j<in.size(); ) {
+        const char* ins = instr+j;
+        int len = ANY_LENGTH;
+        unsigned uc = UTF8_getch(&ins, &len);
+
+        if (uc == '<') { // maybe skip non-printing tag
+            std::vector<size_t>::iterator it;
+            for (it = tag_positions.begin(); it != tag_positions.end(); ++it) {
+                if (*it == j) {
+                    skipping_tag = true;
+                    break;
+                }
+            }
+        }
+
+        j += ANY_LENGTH-len;
+
+        if (skipping_tag) {
+            if (uc == '>') {
+                skipping_tag = false;
+            }
+            continue;
+        }
+
+        x += mk_wcwidth((wchar_t)uc);
+
+        if (x >= width) {
+            if (lastwb == lastout) {
+                lastwb = j;
+            }
+            for(int k=lastout; k<lastwb; k++) {
+                o << in[k];
+            }
+            o << '\n';
+            x = 0;
+            lastout = j = lastwb;
+        }
+
+        if (uc==' ' || uc>=0x2E80) {
+            lastwb = j;
+        }
+    }
+    for (int k=lastout; k<in.size(); k++) {
+        o << in[k];
+    }
 
     return o.str();
 }
@@ -1043,6 +1041,64 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
   mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
   mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
  }
+}
+
+void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY, const int iOffsetX)
+{
+    //Clear previous scrollbar
+    for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
+        mvwputch(window, i, iOffsetX, c_white, LINE_XOXO);
+    }
+
+    if (iContentHeight >= iNumEntries) {
+        wrefresh(window);
+        return;
+    }
+
+    if (iNumEntries > 0) {
+        mvwputch(window, iOffsetY, iOffsetX, c_ltgreen, '^');
+        mvwputch(window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v');
+
+        int iSBHeight = ((iContentHeight-2) * (iContentHeight-2)) / iNumEntries;
+
+        if (iSBHeight < 2) {
+            iSBHeight = 2;
+        }
+
+        int iStartY = (iCurrentLine * (iContentHeight-3-iSBHeight)) / iNumEntries;
+        if (iCurrentLine == 0) {
+            iStartY = -1;
+        } else if (iCurrentLine == iNumEntries-1) {
+            iStartY = iContentHeight-3-iSBHeight;
+        }
+
+        for (int i = 0; i < iSBHeight; i++) {
+            mvwputch(window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO);
+        }
+    }
+
+    wrefresh(window);
+}
+
+void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries)
+{
+    if( OPTIONS["MENU_SCROLL"] ) {
+        if (iNumEntries > iContentHeight) {
+            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
+
+            if (iStartPos < 0) {
+                iStartPos = 0;
+            } else if (iStartPos + iContentHeight > iNumEntries) {
+                iStartPos = iNumEntries - iContentHeight;
+            }
+        }
+    } else {
+        if( iCurrentLine < iStartPos ) {
+            iStartPos = iCurrentLine;
+        } else if( iCurrentLine >= iStartPos + iContentHeight ) {
+            iStartPos = 1 + iCurrentLine - iContentHeight;
+        }
+    }
 }
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
@@ -1085,7 +1141,7 @@ std::string string_format(std::string pattern, ...)
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, pattern.c_str(), ap);
     va_end(ap);
-    
+
     //drop contents behind $, this trick is there to skip certain arguments
     char* break_pos = strchr(buff, '\003');
     if(break_pos) break_pos[0] = '\0';
@@ -1093,7 +1149,7 @@ std::string string_format(std::string pattern, ...)
     return buff;
 }
 
-//wrap if for i18n 
+//wrap if for i18n
 std::string& capitalize_letter(std::string &str, size_t n)
 {
     char c= str[n];
@@ -1127,7 +1183,7 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, fmt, ap);
     va_end(ap);
-    
+
     std::string tmp = buff;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
@@ -1142,7 +1198,7 @@ size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, 
     }
     else
     {
-        // no shutcut? 
+        // no shutcut?
         mvwprintz(w, y, x, color, buff);
         len = utf8_width(buff);
     }
@@ -1157,7 +1213,7 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
     char buff[3000];    //TODO replace Magic Number
     vsprintf(buff, fmt, ap);
     va_end(ap);
-    
+
     std::string tmp = buff;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
@@ -1173,7 +1229,7 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
     }
     else
     {
-        // no shutcut? 
+        // no shutcut?
         wprintz(w, color, buff);
         len = utf8_width(buff);
     }

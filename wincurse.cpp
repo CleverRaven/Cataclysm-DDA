@@ -1,17 +1,19 @@
-#if ((!defined TILES) && (defined _WIN32 || defined WINDOWS))
+#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
+#include "get_version.h"
 #include <cstdlib>
 #include <fstream>
+#include "init.h"
 
 //***********************************
 //Globals                           *
 //***********************************
 
-const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
+const char *szWindowClass = ("CataCurseWindow");    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
 HDC WindowDC;           //Device Context of the window, used for backbuffer
@@ -30,7 +32,8 @@ int halfheight;          //half of the font height, used for centering lines
 HFONT font;             //Handle to the font created by CreateFont
 RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 unsigned char *dcbits;  //the bits of the screen image, for direct access
-char szDirectory[MAX_PATH] = "";
+bool CursorVisible = true; // Showcursor is a somewhat weird function
+std::map< std::string, std::vector<int> > consolecolors;
 
 //***********************************
 //Non-curses, Window functions      *
@@ -43,28 +46,19 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARA
 bool WinCreate()
 {
     WindowINST = GetModuleHandle(0); // Get current process handle
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
+    std::string title = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
     // Register window class
-    WNDCLASSEXW WindowClassType;
-    WindowClassType.cbSize        = sizeof(WNDCLASSEXW);
-    WindowClassType.style         = 0;//No point in having a custom style, no mouse, etc
+    WNDCLASSEXA WindowClassType   = WNDCLASSEXA();
+    WindowClassType.cbSize        = sizeof(WNDCLASSEXA);
     WindowClassType.lpfnWndProc   = ProcessMessages;//the procedure that gets msgs
-    WindowClassType.cbClsExtra    = 0;
-    WindowClassType.cbWndExtra    = 0;
     WindowClassType.hInstance     = WindowINST;// hInstance
     WindowClassType.hIcon         = LoadIcon(WindowINST, MAKEINTRESOURCE(0)); // Get first resource
     WindowClassType.hIconSm       = LoadIcon(WindowINST, MAKEINTRESOURCE(0));
     WindowClassType.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    WindowClassType.lpszMenuName  = NULL;
-    WindowClassType.hbrBackground = 0;//Thanks jday! Remove background brush
     WindowClassType.lpszClassName = szWindowClass;
-    if (!RegisterClassExW(&WindowClassType))
+    if (!RegisterClassExA(&WindowClassType))
         return false;
-
-    // Center window
-    int WindowX = GetSystemMetrics(SM_CXSCREEN)/2 - WindowWidth/2;
-    int WindowY = GetSystemMetrics(SM_CYSCREEN)/2 - WindowHeight/2;
 
     // Adjust window size
     uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
@@ -74,8 +68,14 @@ bool WinCreate()
     WndRect.bottom = WindowHeight;
     AdjustWindowRect(&WndRect, WndStyle, false);
 
+    // Center window
+    RECT WorkArea;
+    SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
+    int WindowX = WorkArea.right/2 - (WndRect.right - WndRect.left)/2;
+    int WindowY = WorkArea.bottom/2 - (WndRect.bottom - WndRect.top)/2;
+
     // Magic
-    WindowHandle = CreateWindowExW(0, szWindowClass , szTitle, WndStyle,
+    WindowHandle = CreateWindowExA(0, szWindowClass , title.c_str(), WndStyle,
                                    WindowX, WindowY,
                                    WndRect.right - WndRect.left,
                                    WndRect.bottom - WndRect.top,
@@ -89,104 +89,182 @@ bool WinCreate()
 //Unregisters, releases the DC if needed, and destroys the window.
 void WinDestroy()
 {
-    if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0)){
+    if ((WindowDC != NULL) && (ReleaseDC(WindowHandle, WindowDC) == 0)){
         WindowDC = 0;
     }
     if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))){
         WindowHandle = 0;
     }
-    if (!(UnregisterClassW(szWindowClass, WindowINST))){
+    if (!(UnregisterClassA(szWindowClass, WindowINST))){
         WindowINST = 0;
     }
 };
+
+// Copied from sdlcurses.cpp
+#define ALT_BUFFER_SIZE 8
+static char alt_buffer[ALT_BUFFER_SIZE] = {};
+static int alt_buffer_len = 0;
+static bool alt_down = false;
+
+static void begin_alt_code()
+{
+    alt_buffer[0] = '\0';
+    alt_down = true;
+    alt_buffer_len = 0;
+}
+
+void add_alt_code(char c)
+{
+    // not exactly how it works, but acceptable
+    if(c>='0' && c<='9')
+    {
+        if(alt_buffer_len<ALT_BUFFER_SIZE-1)
+        {
+            alt_buffer[alt_buffer_len] = c;
+            alt_buffer[++alt_buffer_len] = '\0';
+        }
+    }
+}
+
+static int end_alt_code()
+{
+    alt_down = false;
+    return atoi(alt_buffer);
+}
 
 //This function processes any Windows messages we get. Keyboard, OnClose, etc
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                                  WPARAM wParam, LPARAM lParam)
 {
-    switch (Msg){
-        case WM_CHAR:               //This handles most key presses
-            lastchar=(int)wParam;
-            switch (lastchar){
-                case 13:            //Reroute ENTER key for compatilbity purposes
-                    lastchar=10;
-                    break;
-                case 8:             //Reroute BACKSPACE key for compatilbity purposes
-                    lastchar=127;
-                    break;
-            };
-            break;
-        case WM_KEYDOWN:                //Here we handle non-character input
-            switch (wParam){
-                case VK_LEFT:
-                    lastchar = KEY_LEFT;
-                    break;
-                case VK_RIGHT:
-                    lastchar = KEY_RIGHT;
-                    break;
-                case VK_UP:
-                    lastchar = KEY_UP;
-                    break;
-                case VK_DOWN:
-                    lastchar = KEY_DOWN;
-                    break;
-                case VK_NEXT:
-                    lastchar = KEY_NPAGE;
-                    break;
-                case VK_PRIOR:
-                    lastchar = KEY_PPAGE;
-                    break;
-                case VK_F1:
-                    lastchar = KEY_F(1);
-                    break;
-                case VK_F2:
-                    lastchar = KEY_F(2);
-                    break;
-                case VK_F3:
-                    lastchar = KEY_F(3);
-                    break;
-                case VK_F4:
-                    lastchar = KEY_F(4);
-                    break;
-                case VK_F5:
-                    lastchar = KEY_F(5);
-                    break;
-                case VK_F6:
-                    lastchar = KEY_F(6);
-                    break;
-                case VK_F7:
-                    lastchar = KEY_F(7);
-                    break;
-                case VK_F8:
-                    lastchar = KEY_F(8);
-                    break;
-                case VK_F9:
-                    lastchar = KEY_F(9);
-                    break;
-                case VK_F10:
-                    lastchar = KEY_F(10);
-                    break;
-                case VK_F11:
-                    lastchar = KEY_F(11);
-                    break;
-                case VK_F12:
-                    lastchar = KEY_F(12);
-                    break;
-                default:
-                    break;
-            };
-        case WM_ERASEBKGND:
-            return 1;               //We don't want to erase our background
-        case WM_PAINT:              //Pull from our backbuffer, onto the screen
-            BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
-            ValidateRect(WindowHandle,NULL);
-            break;
-        case WM_DESTROY:
-            exit(0);//A messy exit, but easy way to escape game loop
-        default://If we didnt process a message, return the default value for it
-            return DefWindowProcW(hWnd, Msg, wParam, lParam);
+    uint16_t MouseOver;
+    switch (Msg)
+    {
+    case WM_DEADCHAR:
+    case WM_CHAR:
+        lastchar = (int)wParam;
+        switch (lastchar){
+            case VK_RETURN: //Reroute ENTER key for compatilbity purposes
+                lastchar=10;
+                break;
+            case VK_BACK: //Reroute BACKSPACE key for compatilbity purposes
+                lastchar=127;
+                break;
+        }
+        return 0;
+
+    case WM_KEYDOWN:                //Here we handle non-character input
+        switch (wParam){
+            case VK_LEFT:
+                lastchar = KEY_LEFT;
+                break;
+            case VK_RIGHT:
+                lastchar = KEY_RIGHT;
+                break;
+            case VK_UP:
+                lastchar = KEY_UP;
+                break;
+            case VK_DOWN:
+                lastchar = KEY_DOWN;
+                break;
+            case VK_NEXT:
+                lastchar = KEY_NPAGE;
+                break;
+            case VK_PRIOR:
+                lastchar = KEY_PPAGE;
+                break;
+            case VK_F1:
+                lastchar = KEY_F(1);
+                break;
+            case VK_F2:
+                lastchar = KEY_F(2);
+                break;
+            case VK_F3:
+                lastchar = KEY_F(3);
+                break;
+            case VK_F4:
+                lastchar = KEY_F(4);
+                break;
+            case VK_F5:
+                lastchar = KEY_F(5);
+                break;
+            case VK_F6:
+                lastchar = KEY_F(6);
+                break;
+            case VK_F7:
+                lastchar = KEY_F(7);
+                break;
+            case VK_F8:
+                lastchar = KEY_F(8);
+                break;
+            case VK_F9:
+                lastchar = KEY_F(9);
+                break;
+            case VK_F10:
+                lastchar = KEY_F(10);
+                break;
+            case VK_F11:
+                lastchar = KEY_F(11);
+                break;
+            case VK_F12:
+                lastchar = KEY_F(12);
+                break;
+            default:
+                break;
+        };
+        return 0;
+
+    case WM_KEYUP:
+        if (!GetAsyncKeyState(VK_LMENU) && alt_down){ // LeftAlt hack
+            if (int code = end_alt_code())
+                lastchar = code;
+        }
+        return 0;
+
+    case WM_SYSCHAR:
+        add_alt_code((char)wParam);
+        return 0;
+
+    case WM_SYSKEYDOWN:
+        if (GetAsyncKeyState(VK_LMENU) && !alt_down){ // LeftAlt hack
+            begin_alt_code();
+        }
+        break;
+
+    case WM_SETCURSOR:
+        MouseOver = LOWORD(lParam);
+        if (OPTIONS["HIDE_CURSOR"] == "hide")
+        {
+            if (MouseOver==HTCLIENT && CursorVisible)
+            {
+                CursorVisible = false;
+                ShowCursor(false);
+            }
+            else if (MouseOver!=HTCLIENT && !CursorVisible)
+            {
+                CursorVisible = true;
+                ShowCursor(true);
+            }
+        }
+        else if (!CursorVisible)
+        {
+            CursorVisible = true;
+            ShowCursor(true);
+        }
+        break;
+
+    case WM_ERASEBKGND:
+        return 1; // Don't erase background
+
+    case WM_PAINT:
+        BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
+        ValidateRect(WindowHandle,NULL);
+        return 0;
+
+    case WM_DESTROY:
+        exit(0); // A messy exit, but easy way to escape game loop
     };
-    return 0;
+
+    return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -232,30 +310,28 @@ void curses_drawwindow(WINDOW *win)
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
-				const char* utf8str = win->line[j].chars+i;
-				int len = ANY_LENGTH;
+                const char* utf8str = win->line[j].chars+i;
+                int len = ANY_LENGTH;
                 tmp = UTF8_getch(&utf8str, &len);
                 int FG = win->line[j].FG[w];
                 int BG = win->line[j].BG[w];
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
-                if ( tmp != UNKNOWN_UNICODE){
+                if (tmp != UNKNOWN_UNICODE) {
 
                     int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
                     SetTextColor(backbuffer,color);
 
-					int cw = mk_wcwidth((wchar_t)tmp);
-					len = ANY_LENGTH-len;
-					if(cw>1)
-					{
-						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-						w+=cw-1;
-					}
-					if(len>1)
-					{
-						i+=len-1;
-					}
-                    if(tmp) ExtTextOutW (backbuffer,drawx,drawy,0,NULL,(WCHAR*)&tmp,1,NULL);
+                    int cw = mk_wcwidth((wchar_t)tmp);
+                    len = ANY_LENGTH-len;
+                    if (cw > 1) {
+                        FillRectDIB(drawx+fontwidth*(cw-1), drawy, fontwidth, fontheight, BG);
+                        w += cw - 1;
+                    }
+                    if (len > 1) {
+                        i += len - 1;
+                    }
+                    if (tmp) ExtTextOutW (backbuffer, drawx, drawy, 0, NULL, (WCHAR*)&tmp, 1, NULL);
                 } else {
                     switch ((unsigned char)win->line[j].chars[i]) {
                     case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -315,7 +391,6 @@ void curses_drawwindow(WINDOW *win)
     }
 }
 
-
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -334,75 +409,84 @@ void CheckMessages()
 WINDOW *curses_init(void)
 {
    // _windows = new WINDOW[20];         //initialize all of our variables
-    BITMAPINFO bmi;
     lastchar=-1;
     inputdelay=-1;
+
     std::string typeface;
-char * typeface_c;
-std::ifstream fin;
-fin.open("data\\FONTDATA");
- if (!fin.is_open()){
-     MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
-                NULL, 0);
-     fontheight=16;
-     fontwidth=8;
- } else {
-     getline(fin, typeface);
-     typeface_c= new char [typeface.size()+1];
-     strcpy (typeface_c, typeface.c_str());
-     fin >> fontwidth;
-     fin >> fontheight;
-     if ((fontwidth <= 4) || (fontheight <=4)){
-         MessageBox(WindowHandle, "Invalid font size specified!",
-                    NULL, 0);
-        fontheight=16;
-        fontwidth=8;
-     }
- }
+    char * typeface_c = 0;
+    std::ifstream fin;
+    fin.open("data\\FONTDATA");
+    if (!fin.is_open()){
+        MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.", NULL, 0);
+        fontheight = 16;
+        fontwidth  = 8;
+    } else {
+        getline(fin, typeface);
+        typeface_c = new char [typeface.size()+1];
+        strcpy (typeface_c, typeface.c_str());
+        fin >> fontwidth;
+        fin >> fontheight;
+        if ((fontwidth <= 4) || (fontheight <=4)){
+            MessageBox(WindowHandle, "Invalid font size specified!", NULL, 0);
+            fontheight = 16;
+            fontwidth  = 8;
+        }
+    }
+
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
-    WindowHeight = (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
+    WindowWidth= (55 + (OPTIONS["VIEWPORT_X"] * 2 + 1)) * fontwidth;
+    WindowHeight = (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
+
     WinCreate();    //Create the actual window, register it, etc
+    timeBeginPeriod(1); // Set Sleep resolution to 1ms
     CheckMessages();    //Let the message queue handle setting up the window
-    WindowDC = GetDC(WindowHandle);
+
+    WindowDC   = GetDC(WindowHandle);
     backbuffer = CreateCompatibleDC(WindowDC);
-    ZeroMemory(&bmi, sizeof(BITMAPINFO));
-    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    bmi.bmiHeader.biWidth = WindowWidth;
-    bmi.bmiHeader.biHeight = -WindowHeight;
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount=8;
-    bmi.bmiHeader.biCompression = BI_RGB;   //store it in uncompressed bytes
-    bmi.bmiHeader.biSizeImage = WindowWidth * WindowHeight * 1;
-    bmi.bmiHeader.biClrUsed=16;         //the number of colors in our palette
-    bmi.bmiHeader.biClrImportant=16;    //the number of colors in our palette
+
+    BITMAPINFO bmi = BITMAPINFO();
+    bmi.bmiHeader.biSize         = sizeof(BITMAPINFOHEADER);
+    bmi.bmiHeader.biWidth        = WindowWidth;
+    bmi.bmiHeader.biHeight       = -WindowHeight;
+    bmi.bmiHeader.biPlanes       = 1;
+    bmi.bmiHeader.biBitCount     = 8;
+    bmi.bmiHeader.biCompression  = BI_RGB; // Raw RGB
+    bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
+    bmi.bmiHeader.biClrUsed      = 16; // Colors in the palette
+    bmi.bmiHeader.biClrImportant = 16; // Colors in the palette
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
- int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-   if (nResults>0){
+    // Load private fonts
+    if (SetCurrentDirectory("data\\font")){
+        WIN32_FIND_DATA findData;
+        for (HANDLE findFont = FindFirstFile(".\\*", &findData); findFont != INVALID_HANDLE_VALUE; )
+        {
+            if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){ // Skip folders
+                AddFontResourceExA(findData.cFileName, FR_PRIVATE,NULL);
+            }
+            if (!FindNextFile(findFont, &findData)){
+                FindClose(findFont);
+                break;
+            }
+        }
+        SetCurrentDirectory("..\\..");
+    }
+
+    // Use desired font, if possible
     font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                       ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
+                      PROOF_QUALITY, FF_MODERN, typeface_c);
 
-  } else {
-      MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
-                NULL, 0);
-       font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
-   }
-    //FixedSys will be user-changable at some point in time??
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
 //    WindowCount=0;
 
     delete typeface_c;
-    mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
+    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(55 + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
-
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
 uint64_t GetPerfCount(){
@@ -425,7 +509,7 @@ int curses_getch(WINDOW* win)
     lastchar = ERR;
     if (inputdelay < 0)
     {
-        for (; lastchar==ERR; Sleep(0))
+        for (; lastchar==ERR; Sleep(1))
             CheckMessages();
     }
     else if (inputdelay > 0)
@@ -434,13 +518,19 @@ int curses_getch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
-            Sleep(0);
+            Sleep(1);
         }
     }
     else
     {
         CheckMessages();
     };
+
+    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "hidekb" && CursorVisible) {
+        CursorVisible = false;
+        ShowCursor(false);
+    }
+
     return lastchar;
 }
 
@@ -464,27 +554,83 @@ inline RGBQUAD BGR(int b, int g, int r)
     return result;
 }
 
+void load_colors(JsonObject &jsobj)
+{
+    std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
+    "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
+    JsonArray jsarr;
+    for(int c=0;c<16;c++)
+    {
+        jsarr = jsobj.get_array(colors[c]);
+        if(jsarr.size()<3)continue;
+        consolecolors[colors[c]].clear();
+        consolecolors[colors[c]].push_back(jsarr.get_int(2));
+        consolecolors[colors[c]].push_back(jsarr.get_int(1));
+        consolecolors[colors[c]].push_back(jsarr.get_int(0));
+    }
+}
+
+#define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
 int curses_start_color(void)
 {
- colorpairs=new pairs[100];
- windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
- windowsPalette[0]= BGR(0,0,0); // Black
- windowsPalette[1]= BGR(0, 0, 255); // Red
- windowsPalette[2]= BGR(0,110,0); // Green
- windowsPalette[3]= BGR(23,51,92); // Brown???
- windowsPalette[4]= BGR(200, 0, 0); // Blue
- windowsPalette[5]= BGR(98, 58, 139); // Purple
- windowsPalette[6]= BGR(180, 150, 0); // Cyan
- windowsPalette[7]= BGR(150, 150, 150);// Gray
- windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
- windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
- windowsPalette[10]= BGR(0, 255, 0); // Bright Green
- windowsPalette[11]= BGR(0, 255, 255); // Yellow
- windowsPalette[12]= BGR(255, 100, 100); // Light Blue
- windowsPalette[13]= BGR(240, 0, 255); // Pink
- windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
- windowsPalette[15]= BGR(255, 255, 255); //White
- return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+    colorpairs = new pairs[100];
+    windowsPalette = new RGBQUAD[16];
+
+    //Load the console colors from colors.json
+    std::ifstream colorfile("data/json/colors.json", std::ifstream::in | std::ifstream::binary);
+    try{
+        JsonIn jsin(&colorfile);
+        char ch;
+        // Manually load the colordef object because the json handler isn't loaded yet.
+        jsin.eat_whitespace();
+        ch = jsin.peek();
+        if( ch == '[' ) {
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                jsin.eat_whitespace();
+                char ch = jsin.peek();
+                if (ch != '{') {
+                    std::stringstream err;
+                    err << jsin.line_number() << ": ";
+                    err << "expected array of objects but found '";
+                    err << ch << "', not '{'";
+                    throw err.str();
+                }
+                JsonObject jo = jsin.get_object();
+                load_colors(jo);
+                jo.finish();
+            }
+        } else {
+            // not an array?
+            std::stringstream err;
+            err << jsin.line_number() << ": ";
+            err << "expected object or array, but found '" << ch << "'";
+            throw err.str();
+        }
+    }
+    catch(std::string e){
+        throw "data/json/colors.json: " + e;
+    }
+
+    if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+    windowsPalette[0]  = BGR(ccolor("BLACK"));
+    windowsPalette[1]  = BGR(ccolor("RED"));
+    windowsPalette[2]  = BGR(ccolor("GREEN"));
+    windowsPalette[3]  = BGR(ccolor("BROWN"));
+    windowsPalette[4]  = BGR(ccolor("BLUE"));
+    windowsPalette[5]  = BGR(ccolor("MAGENTA"));
+    windowsPalette[6]  = BGR(ccolor("CYAN"));
+    windowsPalette[7]  = BGR(ccolor("GRAY"));
+    windowsPalette[8]  = BGR(ccolor("DGRAY"));
+    windowsPalette[9]  = BGR(ccolor("LRED"));
+    windowsPalette[10] = BGR(ccolor("LGREEN"));
+    windowsPalette[11] = BGR(ccolor("YELLOW"));
+    windowsPalette[12] = BGR(ccolor("LBLUE"));
+    windowsPalette[13] = BGR(ccolor("LMAGENTA"));
+    windowsPalette[14] = BGR(ccolor("LCYAN"));
+    windowsPalette[15] = BGR(ccolor("WHITE"));
+    return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 }
 
 void curses_timeout(int t)
