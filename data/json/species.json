@@ -1,33 +1,40 @@
 [
-    {
-        "type":"SPECIES",
-        "id":"MAMMAL"
-    },{
-        "type":"SPECIES",
-        "id":"NETHER"
-    },{
-        "type":"SPECIES",
-        "id":"FUNGUS"
-    },{
-        "type":"SPECIES",
-        "id":"INSECT"
-    },{
-        "type":"SPECIES",
-        "id":"PLANT"
-    },{
-        "type":"SPECIES",
-        "id":"WORM"
-    },{
-        "type":"SPECIES",
-        "id":"ZOMBIE"
-    },{
-        "type":"SPECIES",
-        "id":"ROBOT"
-    },{
-        "type":"SPECIES",
-        "id":"HALLUCINATION"
-    },{
-        "type":"SPECIES",
-        "id":"UNKNOWN"
-    }
+  {
+    "type":"SPECIES",
+    "id":"MAMMAL",
+    "fear_triggers":["HURT", "FIRE", "FRIEND_DIED"]
+  }, {
+    "type":"SPECIES",
+    "id":"NETHER",
+    "fear_triggers":["HURT"]
+  }, {
+    "type":"SPECIES",
+    "id":"FUNGUS",
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"INSECT",
+    "anger_triggers":["FRIEND_DIED"],
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"PLANT",
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"WORM",
+    "fear_triggers":["HURT"]
+  }, {
+    "type":"SPECIES",
+    "id":"ZOMBIE"
+  }, {
+    "type":"SPECIES",
+    "id":"ROBOT"
+  }, {
+    "type":"SPECIES",
+    "id":"HALLUCINATION"
+  }, {
+    "type":"SPECIES",
+    "id":"UNKNOWN"
+  }
 ]

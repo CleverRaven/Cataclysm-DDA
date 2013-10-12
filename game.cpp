@@ -106,7 +106,6 @@ void game::init_data()
     init_fields();
     init_faction_data();
     init_morale();
-    init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
     item_controller->init(this); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
@@ -1191,7 +1190,7 @@ void game::update_weather()
         weather = new_weather.weather;
         temperature = new_weather.temperature;
         nextweather = new_weather.deadline;
-        
+
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy))
         {
@@ -2661,7 +2660,7 @@ void game::load(std::string name)
  if (fin.is_open()) {
       u.load_memorial_file( fin );
  }
- fin.close(); 
+ fin.close();
  // Now that the player's worn items are updated, their sight limits need to be
  // recalculated. (This would be cleaner if u.worn were private.)
  u.recalc_sight_limits();
