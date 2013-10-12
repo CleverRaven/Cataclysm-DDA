@@ -36,7 +36,7 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
         root_path = ".";
     }
 
-    std::stack<std::string> directories;
+    std::stack<std::string> directories, tempstack;
     directories.push(root_path);
     std::string path = "";
 
@@ -68,7 +68,7 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
                             subdir = opendir(subpath.c_str());
                             if (subdir)
                             {
-                                directories.push(subpath);
+                                tempstack.push(subpath);
                                 closedir(subdir);
                             }
                         }
@@ -85,6 +85,12 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
             }
         }
         closedir(root);
+        // Directories are added to tempstack in A->Z order, which makes them pop from Z->A. This Makes sure that directories are
+        // searched in the proper order and that the final output is in the proper order.
+        while (!tempstack.empty()){
+            directories.push(tempstack.top());
+            tempstack.pop();
+        }
     }
     return files;
 }
