@@ -589,7 +589,7 @@ void show_options()
 {
     std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
 
-    const int iTooltipHeight = 3;
+    const int iTooltipHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT-3-iTooltipHeight;
 
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
@@ -598,7 +598,6 @@ void show_options()
     std::map<int, bool> mapLines;
     mapLines[3] = true;
     mapLines[60] = true;
-    //mapLines[68] = true;
 
     WINDOW* w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
@@ -607,8 +606,8 @@ void show_options()
     WINDOW* w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    mvwputch(w_options_border, 4,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_options_border, 4, 79, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_options_border, iTooltipHeight + 1,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_options_border, iTooltipHeight + 1, 79, c_ltgray, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
         mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
@@ -624,10 +623,6 @@ void show_options()
             mvwputch(w_options_header, 0, i, c_ltgray, LINE_OXOX); // Draw header line
         }
     }
-
-    //mvwprintz(w_options_header, 3, 0, c_white, "#");
-    //mvwprintz(w_options_header, 3, 7, c_white, _("Option"));
-    //mvwprintz(w_options_header, 3, 52, c_white, _("Value"));
 
     wrefresh(w_options_header);
 
