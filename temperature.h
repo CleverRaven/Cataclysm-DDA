@@ -34,11 +34,31 @@
   *
   * The temperature code has a range of 0.000 K to 4,294,967.295 K, and an idealized internal accuracy of 0.001 K.
   * The closest thing that reliably has a temperature in excess of this range is the Sun, and as such this range is likely adequate.
+  *
+  * Useful constants:
+  *
+  * The useful constants represent various (potentially) useful temperature benchmarks; most of which should be self-explanatory.
   */
 
 namespace Temperature {
   typedef uint32_t magnitude;
   typedef uint32_t delta;
+
+  const magnitude absoluteZero = 0;
+
+  // Useful constants: Water
+  const magnitude waterFreezing = 273150;
+  const magnitude waterBoiling = 373150;
+
+  // Useful constants: Environment
+  const magnitude waterDeep = 277150;
+  const magnitude subterranean = 283150;
+  const magnitude room = 294150;
+
+  const magnitude fumarole = 1300000;
+  const magnitude lavaSea = 1500000;
+  const magnitude fire = 1800000;
+  const magnitude sun = 5780000;
 
   bool hotter (const magnitude a, const magnitude b, delta *difference = NULL) {
     if (difference) {
