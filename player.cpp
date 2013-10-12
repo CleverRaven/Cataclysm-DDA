@@ -8232,7 +8232,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     for (int i = worn.size() - 1; i >= 0; i--)
     {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
-        if ((tmp->covers & mfb(bp)) && tmp->storage <= 24)
+        if (tmp->covers & mfb(bp))
         {
             // first determine if damage is at a covered part of the body
             // probability given by coverage
