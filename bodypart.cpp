@@ -72,3 +72,21 @@ body_part random_body_part()
   return bp_arms;
  return bp_torso;
 }
+
+int random_side(body_part bp)
+{
+    switch (bp) {
+        case bp_torso:
+        case bp_head:
+        case bp_eyes:
+        case bp_mouth:
+            return -1;
+        case bp_arms:
+        case bp_hands:
+        case bp_legs:
+        case bp_feet:
+            return rng(0, 1);
+        default:
+            return rng(0, 1);
+    }
+}

@@ -19,5 +19,6 @@ std::string body_part_name(body_part bp, int side);
 std::string encumb_text(body_part bp);
 
 body_part random_body_part();
+int random_side(body_part);
 
 #endif

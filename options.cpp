@@ -168,10 +168,10 @@ std::string cOpt::getDefaultText() {
         return (bDefault) ? _("Default: True") : _("Default: False");
 
     } else if (sType == "int") {
-        return string_format(_("Default: %d - Min: %d, Max %d"), iDefault, iMin, iMax);
+        return string_format(_("Default: %d - Min: %d, Max: %d"), iDefault, iMin, iMax);
 
     } else if (sType == "float") {
-        return string_format(_("Default: %f - Min: %f, Max %f"), fDefault, fMin, fMax);
+        return string_format(_("Default: %.1f - Min: %.1f, Max: %.1f"), fDefault, fMin, fMax);
     }
 
     return "";
@@ -336,12 +336,12 @@ void initOptions() {
                                             );
 
     OPTIONS["FORCE_CAPITAL_YN"] =       cOpt("interface", _("Force Y/N in prompts"),
-                                             _("If true, Y/N prompts are case- sensitive and y and n are not accepted."),
+                                             _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
                                              true
                                             );
 
     OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("interface", _("No bright backgrounds"),
-                                            _("If true, bright backgrounds are not used--some consoles are not compatible."),
+                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
                                              false
                                             );
 
@@ -351,7 +351,7 @@ void initOptions() {
     optionNames["military"] = _("Military");
     //~ 24h time, e.g. 23:59
     optionNames["24h"] = _("24h");
-    OPTIONS["24_HOUR"] =                cOpt("interface", _("24 hour time"),
+    OPTIONS["24_HOUR"] =                cOpt("interface", _("Time format"),
                                              _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
                                              "12h,military,24h", "12h"
                                             );
@@ -589,7 +589,7 @@ void show_options()
 {
     std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
 
-    const int iTooltipHeight = 3;
+    const int iTooltipHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT-3-iTooltipHeight;
 
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
@@ -598,7 +598,6 @@ void show_options()
     std::map<int, bool> mapLines;
     mapLines[3] = true;
     mapLines[60] = true;
-    //mapLines[68] = true;
 
     WINDOW* w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
@@ -607,8 +606,8 @@ void show_options()
     WINDOW* w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    mvwputch(w_options_border, 4,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_options_border, 4, 79, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_options_border, iTooltipHeight + 1,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_options_border, iTooltipHeight + 1, 79, c_ltgray, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
         mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
@@ -624,10 +623,6 @@ void show_options()
             mvwputch(w_options_header, 0, i, c_ltgray, LINE_OXOX); // Draw header line
         }
     }
-
-    //mvwprintz(w_options_header, 3, 0, c_white, "#");
-    //mvwprintz(w_options_header, 3, 7, c_white, _("Option"));
-    //mvwprintz(w_options_header, 3, 52, c_white, _("Value"));
 
     wrefresh(w_options_header);
 
@@ -691,7 +686,7 @@ void show_options()
                 wprintz(w_options_header, c_white, "[");
                 wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
                 wprintz(w_options_header, c_white, "]");
-                wputch(w_options_header, c_white, LINE_OXOX);
+                wputch(w_options_header, c_ltgray, LINE_OXOX);
             }
         }
 
@@ -836,10 +831,7 @@ void save_options()
 
 bool use_narrow_sidebar()
 {
-    if (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow") {
-        return true;
-    }
-    return false;
+    return (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow");
 }
 
 std::string get_tileset_names(std::string dir_path)

@@ -4943,8 +4943,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
 
    if (npc_hit != -1) {
-    active_npc[npc_hit]->hit(this, bp_torso, 0, rng(dam / 2, long(dam * 1.5)), 0);
-    active_npc[npc_hit]->hit(this, bp_head,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
+    active_npc[npc_hit]->hit(this, bp_head,  -1, rng(dam / 3, dam),       0);
     active_npc[npc_hit]->hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
     active_npc[npc_hit]->hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
     active_npc[npc_hit]->hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
@@ -4956,8 +4956,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
    }
    if (u.posx == i && u.posy == j) {
     add_msg(_("You're caught in the explosion!"));
-    u.hit(this, bp_torso, 0, rng(dam / 2, dam * 1.5), 0);
-    u.hit(this, bp_head,  0, rng(dam / 3, dam),       0);
+    u.hit(this, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
+    u.hit(this, bp_head,  -1, rng(dam / 3, dam),       0);
     u.hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
     u.hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
     u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
@@ -5012,9 +5012,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     }
    } else if (tx == u.posx && ty == u.posy) {
     body_part hit = random_body_part();
-    int side = rng(0, 1);
+    int side = random_side(hit);
     add_msg(_("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
-    u.hit(this, hit, rng(0, 1), 0, dam);
+    u.hit(this, hit, random_side(hit), 0, dam);
    } else {
        std::set<std::string> shrapnel_effects;
        m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
@@ -5264,8 +5264,8 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (one_in(2)) targ->hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
                     if (one_in(2)) targ->hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
                     if (one_in(2)) targ->hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_torso, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) targ->hit(this, bp_head, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_torso, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_head, -1, force_remaining*dam_mult, 0);
                     if (one_in(2)) targ->hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
@@ -5347,8 +5347,8 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (one_in(2)) u.hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_torso, 0, force_remaining*dam_mult, 0);
-                    if (one_in(2)) u.hit(this, bp_head, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_torso, -1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_head, -1, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
@@ -9577,11 +9577,13 @@ void game::plmove(int dx, int dy)
 
               int gx = grabbed_vehicle->global_x();
               int gy = grabbed_vehicle->global_y();
-              for( int ep = 0; ep < grabbed_vehicle->external_parts.size(); ep++ ) {
-                  const int p = grabbed_vehicle->external_parts[ ep ];
-                  if( grabbed_vehicle->part_flag( p, "WHEEL" ) && one_in(2) )
+              std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature("WHEEL", false);
+              for( int i = 0; i < wheel_indices.size(); i++ ) {
+                  int p = wheel_indices[i];
+                  if( one_in(2) ) {
                       grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
                                                     gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
+                  }
               }
               m.displace_vehicle( this, gx, gy, dxVeh, dyVeh );
           } else {
@@ -9728,7 +9730,7 @@ void game::plmove(int dx, int dy)
       && (!u.in_vehicle)) {
    if (!u.has_trait("PARKOUR") || one_in(4)) {
     body_part bp = random_body_part();
-    int side = rng(0, 1);
+    int side = random_side(bp);
     if(u.hit(this, bp, side, 0, rng(1, 4)) > 0)
      add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }

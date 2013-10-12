@@ -873,6 +873,7 @@
         "type" : "recipe",
   "result": "nailboard",
   "category": "CC_WEAPON",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": true,
@@ -899,6 +900,7 @@
         "type" : "recipe",
   "result": "nailbat",
   "category": "CC_WEAPON",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": true,
@@ -924,6 +926,7 @@
         "type" : "recipe",
   "result": "molotov",
   "category": "CC_WEAPON",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 500,
   "reversible": false,
@@ -1523,7 +1526,7 @@
 },{
         "type" : "recipe",
   "result": "shot_he",
-  "category": "CC_WEAPON",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
@@ -1574,7 +1577,7 @@
 },{
         "type" : "recipe",
   "result": "40mm_acidbomb",
-  "category": "CC_WEAPON",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 100,
@@ -6701,7 +6704,8 @@
       [ "incendiary", 100 ]
     ],
     [
-      [ "lead", 75 ]
+      [ "lead", 75 ],
+      [ "gold_small", 75 ]
     ]
   ]
 },{
@@ -6742,7 +6746,8 @@
       [ "incendiary", 100 ]
     ],
     [
-      [ "lead", 75 ]
+      [ "lead", 75 ],
+      [ "gold_small", 75 ]
     ],
     [
       [ "cu_pipe", 5]
@@ -10977,7 +10982,7 @@
 },{
         "type" : "recipe",
   "result": "superglue",
-  "category": "CC_MISC",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 12000,

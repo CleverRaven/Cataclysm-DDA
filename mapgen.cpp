@@ -1380,6 +1380,14 @@ t   t\n\
    mapf::basic_bind( "-", f_bench));
    rotate(rng(0, 3));
 
+   int vx = one_in(2) ? 1 : 20;
+   int vy = one_in(2) ? 1 : 20;
+   if(one_in(3)) {
+       add_vehicle (g, "ice_cream_cart", vx, vy, 0, -1, -1);
+   } else if(one_in(2)) {
+       add_vehicle (g, "food_cart", vx, vy, one_in(2)? 90 : 180, -1, -1);
+   }
+
   } else { // Basketball court
    fill_background(this, t_pavement);
    mapf::formatted_set_simple(this, 0, 0,
@@ -1610,6 +1618,12 @@ case ot_office_cubical_west: {
    place_items("cubical_office", 60,  19,  9, 20,  9, false, 0);
    place_items("cubical_office", 60,  18,  17, 19,  20, false, 0);
    place_items("novels", 70,  2,  19, 2,  21, false, 0);
+   {
+      int num_chairs = rng(0, 6);
+      for( int i = 0; i < num_chairs; i++ ) {
+          add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+      }
+   }
    if (terrain_type == ot_office_cubical_east)
     rotate(3);
    if (terrain_type == ot_office_cubical_north)
@@ -2191,7 +2205,13 @@ ssssss______ss______ssss\n",
     if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
     if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 22, 1);}
     if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 1, 22, 4);}
-    }
+  }
+  {
+      int num_chairs = rng(0, 6);
+      for( int i = 0; i < num_chairs; i++ ) {
+          add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+      }
+  }
   if (t_north == ot_office_tower_1 && t_west == ot_office_tower_1)
    rotate(3);
   else if (t_north == ot_office_tower_1 && t_east == ot_office_tower_1)
@@ -2253,6 +2273,12 @@ ss%|rrrr|...|.R.|EEED...\n",
      place_items("cubical_office", 75, 4, 5, 5, 5, false, 0);
      place_items("cubical_office", 75, 11, 5, 12, 5, false, 0);
      place_items("cubical_office", 75, 14, 5, 16, 5, false, 0);
+     {
+        int num_chairs = rng(0, 6);
+        for( int i = 0; i < num_chairs; i++ ) {
+            add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+        }
+     }
      if (t_west == ot_office_tower_1_entrance)
             rotate(1);
      if (t_north == ot_office_tower_1_entrance)
@@ -2301,6 +2327,12 @@ ssssssssssssssssssssssss\n",
      else {
         add_spawn("mon_zombie", rng(0,15), 14, 10);
         if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 2, 10, 10);}
+     }
+     {
+         int num_chairs = rng(0, 6);
+         for( int i = 0; i < num_chairs; i++ ) {
+             add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+         }
      }
      if (t_north == ot_office_tower_1_entrance)
             rotate(1);
@@ -2352,7 +2384,13 @@ ssssssssssssssssssssssss\n\
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
      else {
         add_spawn("mon_zombie", rng(0,5), 9, 15);
-      }
+     }
+     {
+         int num_chairs = rng(0, 6);
+         for( int i = 0; i < num_chairs; i++ ) {
+             add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+         }
+     }
      if (t_west == ot_office_tower_1 && t_north == ot_office_tower_1){
             rotate(1);}
      else if (t_east == ot_office_tower_1 && t_north == ot_office_tower_1){
@@ -3322,6 +3360,12 @@ C..C..C...|hhh|#########\n\
   else
    place_items("cleaning", 74, 15, 12, 17, 12, false, 0);
   place_items("mischw", 90, 20,  4, 20, 19, false, 0);
+  {
+      int num_carts = rng(1, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, "wheelbarrow", rng(4, 19), rng(3, 11), 90, -1, -1, false);
+      }
+  }
   if (terrain_type == ot_s_hardware_east)
    rotate(1);
   if (terrain_type == ot_s_hardware_south)
@@ -8050,7 +8094,13 @@ ________________________\n\
   else {
     if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
     if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 12, 11);}
-    }
+  }
+  {
+      int num_carts = rng(1, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, "luggage_cart", rng(5, 18), rng(2, 12), 90, -1, -1, false);
+      }
+  }
   if (t_north == ot_hotel_tower_1_2)
    rotate(2);
   else if (t_east == ot_hotel_tower_1_2)
@@ -9222,12 +9272,16 @@ case ot_s_garage_north:
         // place vehicle, if any
         if (one_in(3)) {
           std::string vt;
-          if (one_in(3))
+          int vehicle_type = rng(1, 8);
+          if(vehicle_type <= 3) {
             vt = one_in(2) ? "car" : "car_chassis";
-          else if(one_in(2))
+          } else if(vehicle_type <= 5) {
             vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
-          else
+          } else if(vehicle_type <= 7) {
             vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
+          } else {
+            vt = "welding_cart";
+          }
           add_vehicle (g, vt, vx, vy, theta, -1, -1);
         }
   }
@@ -12559,8 +12613,10 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  */
 vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks)
 {
-  for (std::vector<int>::const_iterator part = veh->external_parts.begin();
-          part != veh->external_parts.end(); part++) {
+  //We only want to check once per square, so loop over all structural parts
+  std::vector<int> frame_indices = veh->all_parts_at_location("structure");
+  for (std::vector<int>::const_iterator part = frame_indices.begin();
+          part != frame_indices.end(); part++) {
     const int px = x + veh->parts[*part].precalc_dx[0];
     const int py = y + veh->parts[*part].precalc_dy[0];
 

@@ -1244,7 +1244,7 @@
         "enviromental_protection" : 10,
         "encumbrance" : 4,
         "bashing" : -5,
-        "flags" : ["VARSIZE","WATERPROOF"],
+        "flags" : ["VARSIZE","WATERPROOF", "HOOD"],
         "coverage" : 100,
         "material_thickness" : 5
     },
@@ -1748,7 +1748,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -1834,7 +1834,7 @@
         "to_hit" : 0,
         "storage" : 4,
         "symbol" : "[",
-        "description" : "A thin cotton jacket. Good for brisk weather.",
+        "description" : "A thin cotton jacket with a hood. Good for brisk weather.",
         "price" : 105,
         "material" : ["cotton", "null"],
         "volume" : 6,
@@ -1844,7 +1844,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -2170,7 +2170,7 @@
         "to_hit" : -2,
         "storage" : 12,
         "symbol" : "[",
-        "description" : "A padded coat with deep pockets. Very warm.",
+        "description" : "A padded coat with deep pockets and a hood. Very warm.",
         "price" : 160,
         "material" : ["cotton", "null"],
         "volume" : 12,
@@ -2180,7 +2180,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 8
     },
@@ -4339,7 +4339,7 @@
         "encumbrance" : 1,
         "bashing" : -5,
         "coverage" : 95,
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "HOOD"],
         "material_thickness" : 3
     },
     {
@@ -4363,7 +4363,7 @@
         "encumbrance" : 1,
         "bashing" : -5,
         "coverage" : 95,
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "HOOD"],
         "material_thickness" : 4
     },
     {
@@ -4387,7 +4387,7 @@
         "encumbrance" : 1,
         "bashing" : -5,
         "coverage" : 95,
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "HOOD"],
         "material_thickness" : 4
     },
     {
@@ -4868,7 +4868,7 @@
         "enviromental_protection" : 4,
         "encumbrance" : 1,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
+        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD"],
         "coverage" : 100,
         "material_thickness" : 4
     },
@@ -4892,7 +4892,7 @@
         "enviromental_protection" : 6,
         "encumbrance" : 2,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
+        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD"],
         "coverage" : 100,
         "material_thickness" : 5
     },
@@ -4964,7 +4964,7 @@
         "enviromental_protection" : 5,
         "encumbrance" : 3,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
+        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD"],
         "coverage" : 100,
         "material_thickness" : 6
     },
@@ -4988,7 +4988,7 @@
         "enviromental_protection" : 5,
         "encumbrance" : 3,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS"],
+        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD"],
         "coverage" : 100,
         "material_thickness" : 6
     },

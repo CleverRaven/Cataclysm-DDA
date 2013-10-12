@@ -1989,7 +1989,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  const char *title_EFFECTS = _("EFFECTS");
  mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
  for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
-  mvwprintz(w_effects, i+1, 1, c_ltgray, effect_name[i].c_str());
+  mvwprintz(w_effects, i+1, 0, c_ltgray, effect_name[i].c_str());
  }
  wrefresh(w_effects);
 
@@ -2037,7 +2037,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
    if (line < skill_win_size_y + 1)
    {
      mvwprintz(w_skills, line, 1, text_color, "%s", ((*aSkill)->name() + ":").c_str());
-     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%%%)", (int)level,
+     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", (int)level,
                (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
    }
@@ -2437,9 +2437,9 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     if (i == line)
-     mvwprintz(w_effects, 1 + i - min, 1, h_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, effect_name[i].c_str());
     else
-     mvwprintz(w_effects, 1 + i - min, 1, c_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size()) {
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", effect_text[line].c_str());
@@ -2459,7 +2459,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
-      mvwprintz(w_effects, i + 1, 1, c_ltgray, effect_name[i].c_str());
+      mvwprintz(w_effects, i + 1, 0, c_ltgray, effect_name[i].c_str());
      wrefresh(w_effects);
      line = 0;
      curtab = 1;
@@ -2518,7 +2518,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
     }
     mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
     mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
 
    //Draw Scrollbar
@@ -2555,7 +2555,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
        status = isLearning ? c_ltblue : c_blue;
 
       mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
+      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
@@ -3925,7 +3925,7 @@ void player::knock_back_from(game *g, int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
-  hit(g, bp_torso, 0, z->type->size, 0);
+  hit(g, bp_torso, -1, z->type->size, 0);
   add_disease("stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
@@ -3945,9 +3945,9 @@ void player::knock_back_from(game *g, int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(g, bp_torso, 0, 3, 0);
+  hit(g, bp_torso, -1, 3, 0);
   add_disease("stunned", 1);
-  p->hit(g, bp_torso, 0, 3, 0);
+  p->hit(g, bp_torso, -1, 3, 0);
   g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
@@ -7067,6 +7067,8 @@ void player::sort_armor(game *g)
 
             if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
                 tmp_str += _("It has pockets.\n");
+                if (tmp_worn[leftListIndex]->has_flag("HOOD"))
+                tmp_str += _("It has a hood.\n");
             if (tmp_worn[leftListIndex]->has_flag("WATERPROOF"))
                 tmp_str += _("It is waterproof.\n");
             if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY"))
@@ -8040,6 +8042,12 @@ int player::warmth(body_part bp)
     {
         ret += 10;
     }
+    
+    // If the players head is not encumbered, check if hood can be put up
+    if(bp == bp_head && encumb(bp_head) < 1 && worn_with_flag("HOOD"))
+    {
+        ret += 10;
+    }
 
     for (int i = 0; i < worn.size(); i++)
     {
@@ -8229,7 +8237,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     for (int i = worn.size() - 1; i >= 0; i--)
     {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
-        if ((tmp->covers & mfb(bp)) && tmp->storage <= 24)
+        if (tmp->covers & mfb(bp))
         {
             // first determine if damage is at a covered part of the body
             // probability given by coverage

@@ -748,6 +748,23 @@
     },
     {
         "type":"vehicle_part",
+        "id": "small_storage_battery",
+        "name": "small storage battery",
+        "symbol": "O",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 80,
+        "durability": 200,
+        "size": 1000,
+        "fuel_type": "battery",
+        "item": "small_storage_battery",
+        "difficulty": 1,
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
+    },
+    {
+        "type":"vehicle_part",
         "id": "storage_battery",
         "name": "storage battery",
         "symbol": "O",
@@ -813,6 +830,22 @@
         "difficulty": 1,
         "location": "fuel_source",
         "flags": ["FUEL_TANK"]
+    },
+    {
+        "type":"vehicle_part",
+        "id": "minifridge",
+        "name": "minifridge",
+        "symbol": "H",
+        "color": "light_blue",
+        "broken_symbol": "#",
+        "broken_color": "light_blue",
+        "damage_modifier": 80,
+        "durability": 100,
+        "size": 400,
+        "item": "minifridge",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["CARGO", "OBSTACLE"]
     },
     {
         "type":"vehicle_part",
