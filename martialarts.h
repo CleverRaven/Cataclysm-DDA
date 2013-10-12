@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "pldata.h"
+#include "json.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -48,13 +49,8 @@ class ma_technique {
 
     std::set<std::string> flags;
 
-    std::string verb_you;
-    std::string verb_npc;
-
-    /*
-    // technique info
-    style_move move;
-    */
+    // message to be displayed when player (0) or npc (1) uses the technique
+    std::vector<std::string> messages;
 
     bool defensive;
     bool crit_tec;
@@ -143,7 +139,7 @@ class ma_buff {
 
     std::string id;
     std::string name;
-    std::string desc;
+    std::string description;
 
     ma_requirements reqs;
 
@@ -208,13 +204,13 @@ class martialart {
     void apply_ondodge_buffs(player& u, std::vector<disease>& dVec);
 
     // determines if a technique is valid or not for this style
-    bool has_technique(player& u, matec_id tech, game* g);
+    bool has_technique(player& u, matec_id tech);
     // gets custom melee string for a technique under this style
-    std::string melee_verb(matec_id tech, player& u, game* g);
+    std::string melee_verb(matec_id tech, player& u);
 
     std::string id;
     std::string name;
-    std::string desc;
+    std::string description;
     int arm_block;
     int leg_block;
     std::set<matec_id> techniques; // all available techniques
@@ -224,5 +220,14 @@ class martialart {
     std::vector<ma_buff> ondodge_buffs;
 
 };
+
+void load_technique(JsonObject &jo);
+void load_martial_art(JsonObject &jo);
+
+void init_martial_arts();
+
+extern std::map<matype_id, martialart> martialarts;
+extern std::map<mabuff_id, ma_buff> ma_buffs;
+extern std::map<matec_id, ma_technique> ma_techniques;
 
 #endif

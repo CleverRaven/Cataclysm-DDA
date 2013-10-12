@@ -85,6 +85,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/names.json");
     ret.push_back("data/json/vehicle_parts.json");
     ret.push_back("data/json/vehicles.json");
+    ret.push_back("data/json/species.json");
     ret.push_back("data/json/monsters.json");
     ret.push_back("data/json/monstergroups.json");
     ret.push_back("data/json/items/ammo.json");
@@ -97,6 +98,8 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/items/mods.json");
     ret.push_back("data/json/items/ranged.json");
     ret.push_back("data/json/items/tools.json");
+    ret.push_back("data/json/techniques.json");
+    ret.push_back("data/json/martialarts.json");
 
     ret.push_back("data/json/recipes.json");
     return ret;
@@ -159,10 +162,13 @@ void init_data_structures()
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
+    type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
+    type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
 
     mutations_category[""].clear();
     init_mutation_parts();
     init_translation();
+    init_martial_arts();
 }
 
 void load_json_dir(std::string const &dirname)

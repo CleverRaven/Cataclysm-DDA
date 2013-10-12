@@ -144,8 +144,6 @@ public:
  int cut_resist() const;
  // elemental resistances
  int acid_resist() const;
-// Returns the data associated with tech, if we are an it_style
- style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
  std::string get_material(int m) const;

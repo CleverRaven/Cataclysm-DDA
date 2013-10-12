@@ -861,7 +861,7 @@
         "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
         "items" : [
             "house_coat",
-            "towel"
+            "towel",
             "guidebook"
         ],
         "points" : 0

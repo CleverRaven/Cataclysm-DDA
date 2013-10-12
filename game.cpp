@@ -107,9 +107,7 @@ void game::init_data()
     init_faction_data();
     init_morale();
     init_mtypes();               // Set up monster types             (SEE mtypedef.cpp)
-    init_techniques();           // Set up techniques                (SEE martialarts.cpp)
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    init_martialarts();          // Set up martial art styles        (SEE martialarts.cpp)
     item_controller->init(this); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
@@ -2929,6 +2927,28 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
  }
 }
 
+void game::add_msg_if_npc(player *p, const char* msg, ...)
+{
+    if (!p || !p->is_npc()) {
+        return;
+    }
+    va_list ap;
+    va_start(ap, msg);
+
+    char buff[1024];
+    vsprintf(buff, msg, ap);
+    std::string processed_npc_string(buff);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual npc name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9,  p->name);
+    }
+    add_msg_string(processed_npc_string);
+
+    va_end(ap);
+}
+
 void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
 {
     va_list ap;
@@ -2946,7 +2966,7 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
         // if present replace it with the actual npc name.
         size_t offset = processed_npc_string.find("<npcname>");
         if( offset != std::string::npos ) {
-            processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
+            processed_npc_string.replace(offset, 9,  p->name);
         }
         add_msg_string( processed_npc_string );
     }

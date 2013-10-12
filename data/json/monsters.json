@@ -1,46 +1,5 @@
 [
   {
-    "type":"SPECIES",
-    "id":"MAMMAL"
-  },
-  {
-    "type":"SPECIES",
-    "id":"NETHER"
-  },
-  {
-    "type":"SPECIES",
-    "id":"FUNGUS"
-  },
-  {
-    "type":"SPECIES",
-    "id":"INSECT"
-  },
-  {
-    "type":"SPECIES",
-    "id":"PLANT"
-  },
-  {
-    "type":"SPECIES",
-    "id":"WORM"
-  },
-  {
-    "type":"SPECIES",
-    "id":"ZOMBIE"
-  },
-  {
-    "type":"SPECIES",
-    "id":"ROBOT"
-  },
-  {
-    "type":"SPECIES",
-    "id":"HALLUCINATION"
-  },
-  {
-    "type":"SPECIES",
-    "id":"UNKNOWN"
-  },
-
-  {
     "type":"MONSTER",
     "id":"mon_squirrel",
     "name": "squirrel",
