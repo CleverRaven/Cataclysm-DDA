@@ -3948,7 +3948,7 @@
     "price": 120,
     "material": "steel", 
     "weight": 698,
-    "volume": 6,
+    "volume": 5,
     "bashing": 8,
     "cutting": 16,
     "max_charges": 0,
