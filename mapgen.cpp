@@ -12559,8 +12559,10 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  */
 vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks)
 {
-  for (std::vector<int>::const_iterator part = veh->external_parts.begin();
-          part != veh->external_parts.end(); part++) {
+  //We only want to check once per square, so loop over all structural parts
+  std::vector<int> frame_indices = veh->all_parts_at_location("structure");
+  for (std::vector<int>::const_iterator part = frame_indices.begin();
+          part != frame_indices.end(); part++) {
     const int px = x + veh->parts[*part].precalc_dx[0];
     const int py = y + veh->parts[*part].precalc_dy[0];
 
