@@ -4118,6 +4118,9 @@
       ["needlegun", 4],
       ["5x50dart", 8],
       ["quikclot", 20]
+      ["m107a1" , 1]
+      ["bipod" , 1]
+      ["50_bmg" , 2]    
     ]
   },{
     "type":"item_group",
