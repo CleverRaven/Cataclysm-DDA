@@ -1242,11 +1242,11 @@
         "warmth" : 20,
         "phase" : "solid",
         "enviromental_protection" : 10,
-        "encumbrance" : 4,
+        "encumbrance" : 2,
         "bashing" : -5,
         "flags" : ["VARSIZE","WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 5
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",
