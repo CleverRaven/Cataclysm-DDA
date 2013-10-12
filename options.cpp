@@ -171,7 +171,7 @@ std::string cOpt::getDefaultText() {
         return string_format(_("Default: %d - Min: %d, Max: %d"), iDefault, iMin, iMax);
 
     } else if (sType == "float") {
-        return string_format(_("Default: %f - Min: %.1f, Max: %.1f"), fDefault, fMin, fMax);
+        return string_format(_("Default: %.1f - Min: %.1f, Max: %.1f"), fDefault, fMin, fMax);
     }
 
     return "";
@@ -336,12 +336,12 @@ void initOptions() {
                                             );
 
     OPTIONS["FORCE_CAPITAL_YN"] =       cOpt("interface", _("Force Y/N in prompts"),
-                                             _("If true, Y/N prompts are case- sensitive and y and n are not accepted."),
+                                             _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
                                              true
                                             );
 
     OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("interface", _("No bright backgrounds"),
-                                            _("If true, bright backgrounds are not used--some consoles are not compatible."),
+                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
                                              false
                                             );
 
