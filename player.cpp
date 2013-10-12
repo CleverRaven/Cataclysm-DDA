@@ -3925,7 +3925,7 @@ void player::knock_back_from(game *g, int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
-  hit(g, bp_torso, 0, z->type->size, 0);
+  hit(g, bp_torso, -1, z->type->size, 0);
   add_disease("stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
@@ -3945,9 +3945,9 @@ void player::knock_back_from(game *g, int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(g, bp_torso, 0, 3, 0);
+  hit(g, bp_torso, -1, 3, 0);
   add_disease("stunned", 1);
-  p->hit(g, bp_torso, 0, 3, 0);
+  p->hit(g, bp_torso, -1, 3, 0);
   g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }

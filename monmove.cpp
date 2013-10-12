@@ -519,7 +519,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     std::string your = (is_npc ? p.name + "'s" : "your");
     std::string Your = (is_npc ? p.name + "'s" : "Your");
     body_part bphit;
-    int side = rng(0, 1);
+    int side = random_side(bphit);
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
 
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
@@ -1013,7 +1013,7 @@ void monster::knock_back_from(game *g, int x, int y)
   npc *p = g->active_npc[npcdex];
   hurt(3);
   add_effect(ME_STUNNED, 1);
-  p->hit(g, bp_torso, 0, type->size, 0);
+  p->hit(g, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
