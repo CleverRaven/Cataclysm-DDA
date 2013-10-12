@@ -1258,7 +1258,7 @@ void mattack::smg(game *g, monster *z)
               boo_hoo++;
           }
         }
-        if (dist < closest && safe_target ) {
+        if (dist < closest && safe_target && !g->zombie(i).is_hallucination()) {
           target = &(g->zombie(i));
           closest = dist;
           fire_t = t;
@@ -1287,15 +1287,15 @@ void mattack::smg(game *g, monster *z)
   npc tmp;
   tmp.name = _("The ") + z->name();
 
-  tmp.skillLevel("smg").level(1);
-  tmp.skillLevel("gun").level(0);
+  tmp.skillLevel("smg").level(8);
+  tmp.skillLevel("gun").level(4);
 
   tmp.recoil = 0;
   tmp.posx = z->posx();
   tmp.posy = z->posy();
   tmp.str_cur = 16;
-  tmp.dex_cur =  6;
-  tmp.per_cur =  8;
+  tmp.dex_cur = 8;
+  tmp.per_cur = 12;
   tmp.weapon = item(g->itypes["smg_9mm"], 0);
   tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
   tmp.weapon.charges = 10;
@@ -1326,15 +1326,15 @@ void mattack::smg(game *g, monster *z)
  npc tmp;
  tmp.name = _("The ") + z->name();
 
- tmp.skillLevel("smg").level(1);
- tmp.skillLevel("gun").level(0);
+  tmp.skillLevel("smg").level(8);
+  tmp.skillLevel("gun").level(4);
 
- tmp.recoil = 0;
- tmp.posx = z->posx();
- tmp.posy = z->posy();
- tmp.str_cur = 16;
- tmp.dex_cur =  6;
- tmp.per_cur =  8;
+  tmp.recoil = 0;
+  tmp.posx = z->posx();
+  tmp.posy = z->posy();
+  tmp.str_cur = 16;
+  tmp.dex_cur = 8;
+  tmp.per_cur = 12;
  tmp.weapon = item(g->itypes["smg_9mm"], 0);
  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
  tmp.weapon.charges = 10;
