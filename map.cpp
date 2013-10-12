@@ -475,7 +475,7 @@ bool map::vehproceed(game* g){
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
         int num_wheels = wheel_indices.size(), submerged_wheels = 0;
         for (int w = 0; w < num_wheels; w++) {
-            const int p = wheel_indices[p];
+            const int p = wheel_indices[w];
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             // deep water
