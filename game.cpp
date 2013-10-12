@@ -6078,7 +6078,7 @@ void game::use_item(char chInput)
 {
  char ch;
  if (chInput == '.')
-  ch = inv(_("Use item:"));
+  ch = inv_activatable(_("Use item:"));
  else
   ch = chInput;
 
@@ -8864,7 +8864,7 @@ void game::eat(char chInput)
   return;
  }
  if (chInput == '.')
-  ch = inv_type(_("Consume item:"), IC_COMESTIBLE);
+  ch = inv_type(_("Consume item:"), IC_COMESTIBLE );
  else
   ch = chInput;
 
