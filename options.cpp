@@ -168,10 +168,10 @@ std::string cOpt::getDefaultText() {
         return (bDefault) ? _("Default: True") : _("Default: False");
 
     } else if (sType == "int") {
-        return string_format(_("Default: %d - Min: %d, Max %d"), iDefault, iMin, iMax);
+        return string_format(_("Default: %d - Min: %d, Max: %d"), iDefault, iMin, iMax);
 
     } else if (sType == "float") {
-        return string_format(_("Default: %f - Min: %f, Max %f"), fDefault, fMin, fMax);
+        return string_format(_("Default: %f - Min: %.1f, Max: %.1f"), fDefault, fMin, fMax);
     }
 
     return "";
@@ -351,7 +351,7 @@ void initOptions() {
     optionNames["military"] = _("Military");
     //~ 24h time, e.g. 23:59
     optionNames["24h"] = _("24h");
-    OPTIONS["24_HOUR"] =                cOpt("interface", _("24 hour time"),
+    OPTIONS["24_HOUR"] =                cOpt("interface", _("Time format"),
                                              _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
                                              "12h,military,24h", "12h"
                                             );
