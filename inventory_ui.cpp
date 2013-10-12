@@ -3,6 +3,7 @@
 #include "uistate.h"
 #include "keypress.h"
 #include "translations.h"
+#include "options.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -138,8 +139,9 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 // Display current inventory.
 char game::inv(std::string title)
 {
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
- const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
+    WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
+
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
  u.inv.restack(&u);
@@ -256,8 +258,9 @@ char game::inv_type(std::string title, item_cat inv_item_type)
 // this function lists inventory objects by type
 // refer to enum item_cat in itype.h for list of categories
 
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
- const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
+    WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
+
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
  u.inv.restack(&u);
@@ -373,12 +376,13 @@ char game::inv_type(std::string title, item_cat inv_item_type)
 
 std::vector<item> game::multidrop()
 {
+    WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;
+
  u.inv.restack(&u);
  u.inv.sort();
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  int drp_line_width=getmaxx(w_inv)-90;
  const std::string drp_line_padding = ( drp_line_width > 1 ? std::string(drp_line_width, ' ') : " ");
- const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  std::map<char, int> dropping; // Count of how many we'll drop from each stack
  int count = 0; // The current count
  std::vector<char> weapon_and_armor; // Always single, not counted

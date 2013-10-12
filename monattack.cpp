@@ -1257,7 +1257,6 @@ void mattack::smg(game *g, monster *z)
               safe_target=false;
               boo_hoo++;
           }
-          //mvprintw(c,VIEWX * 2 + 8,"tgt? %d <=> %d : %d",tangle, u_angle, diff);
         }
         if (dist < closest && safe_target ) {
           target = &(g->zombie(i));
