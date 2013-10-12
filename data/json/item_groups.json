@@ -1286,6 +1286,7 @@
       ["pocketwatch", 5],
       ["boots_hiking", 20],
       ["pur_tablets", 10],
+      ["e_tool", 10],
       ["charcoal", 20]
     ]
   },{
@@ -2687,6 +2688,7 @@
       ["glasses_bal", 5],
       ["elbow_pads", 10],
       ["cu_pipe", 5],
+      ["e_tool", 5],
       ["knee_pads", 10]
     ]
   },{
@@ -2828,6 +2830,7 @@
       ["umbrella", 7],
       ["apron_leather", 5],
       ["pocketwatch", 5],
+      ["e_tool", 2],
       ["pur_tablets", 5]
     ]
   },{
@@ -3247,6 +3250,7 @@
       ["elbow_pads", 40],
       ["knee_pads", 40],
       ["mask_bal", 5],
+      ["e_tool", 10],
       ["glasses_bal", 30]
     ]
   },{
@@ -3386,6 +3390,7 @@
       ["tazer", 3],
       ["rapier", 3],
       ["bat_metal", 60],
+      ["e_tool", 2],
       ["nodachi", 1]
     ]
   },{
@@ -3481,6 +3486,7 @@
       ["pocketwatch", 2],
       ["pur_tablets", 10],
       ["quikclot", 10],
+      ["e_tool", 15],
       ["charcoal", 5]
     ]
   },{
@@ -3576,6 +3582,7 @@
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
+      ["e_tool", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -3648,6 +3655,7 @@
       ["bio_climate", 10],
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
+      ["e_tool", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -3788,6 +3796,7 @@
       ["lsd", 4],
       ["pocketwatch", 5],
       ["child_book", 20],
+      ["e_tool", 10],
       ["pur_tablets", 10]
     ]
   },{
@@ -4117,6 +4126,7 @@
       ["8mm_hvp", 2],
       ["needlegun", 4],
       ["5x50dart", 8],
+      ["e_tool", 20],
       ["quikclot", 20]
     ]
   },{
