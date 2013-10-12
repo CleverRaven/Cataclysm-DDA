@@ -2618,14 +2618,14 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     }
     npc tmp;
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
-    tmp.skillLevel(gun.skill_used).level(1);
-    tmp.skillLevel("gun").level(0);
+    tmp.skillLevel(gun.skill_used).level(8);
+    tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.posx = x;
     tmp.posy = y;
     tmp.str_cur = 16;
-    tmp.dex_cur =  6;
-    tmp.per_cur =  8;
+    tmp.dex_cur = 8;
+    tmp.per_cur = 12;
     tmp.weapon = item(&gun, 0);
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
