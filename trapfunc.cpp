@@ -47,13 +47,13 @@ void trapfuncm::cot(game *g, monster *z, int x, int y)
 
 void trapfunc::beartrap(game *g, int x, int y)
 {
- g->add_msg(_("A bear trap closes on your foot!"));
- g->u.add_memorial_log(_("Caught by a beartrap."));
- g->sound(x, y, 8, _("SNAP!"));
- g->u.hit(g, bp_legs, rng(0, 1), 10, 16);
- g->u.add_disease("beartrap", -1);
- g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "beartrap", g->turn);
+    g->add_msg(_("A bear trap closes on your foot!"));
+    g->u.add_memorial_log(_("Caught by a beartrap."));
+    g->sound(x, y, 8, _("SNAP!"));
+    g->u.hit(g, bp_legs, random_side(bp_legs), 10, 16);
+    g->u.add_disease("beartrap", -1);
+    g->m.remove_trap(x, y);
+    g->m.spawn_item(x, y, "beartrap", g->turn);
 }
 
 void trapfuncm::beartrap(game *g, monster *z, int x, int y)
@@ -150,7 +150,7 @@ void trapfunc::crossbow(game *g, int x, int y)
    case  9: hit = bp_torso; break;
    case 10: hit = bp_head; break;
   }
-  int side = rng(0, 1);
+  int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
   g->u.hit(g, hit, side, 0, rng(20, 30));
   add_bolt = !one_in(10);
@@ -216,7 +216,7 @@ void trapfunc::shotgun(game *g, int x, int y)
    case  9: hit = bp_torso; break;
    case 10: hit = bp_head; break;
   }
-  int side = rng(0, 1);
+  int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
   g->u.hit(g, hit, side, 0, rng(40 * shots, 60 * shots));
  } else
@@ -262,7 +262,7 @@ void trapfunc::blade(game *g, int x, int y)
 {
  g->add_msg(_("A blade swings out and hacks your torso!"));
  g->u.add_memorial_log(_("Triggered a blade trap."));
- g->u.hit(g, bp_torso, 0, 12, 30);
+ g->u.hit(g, bp_torso, -1, 12, 30);
 }
 
 void trapfuncm::blade(game *g, monster *z, int x, int y)
@@ -511,8 +511,8 @@ void trapfunc::dissector(game *g, int x, int y)
  g->u.add_memorial_log(_("Stepped into a dissector."));
  //~ the sound of a dissector dissecting
  g->sound(x, y, 10, _("BRZZZAP!"));
- g->u.hit(g, bp_head,  0, 0, 15);
- g->u.hit(g, bp_torso, 0, 0, 20);
+ g->u.hit(g, bp_head,  -1, 0, 15);
+ g->u.hit(g, bp_torso, -1, 0, 20);
  g->u.hit(g, bp_arms,  0, 0, 12);
  g->u.hit(g, bp_arms,  1, 0, 12);
  g->u.hit(g, bp_hands, 0, 0, 10);
@@ -593,7 +593,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
             case  9:
             case 10: hit = bp_torso; break;
         }
-        int side = rng(0, 1);
+        int side = random_side(hit);
         g->add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
         g->u.hit(g, hit, side, 0, damage);
         if (one_in(4)) {

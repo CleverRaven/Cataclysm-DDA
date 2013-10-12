@@ -1327,6 +1327,7 @@ int disease_speed_boost(disease dis)
 
 std::string dis_name(disease& dis)
 {
+    // Maximum length of returned string is 26 characters
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
@@ -1460,9 +1461,9 @@ std::string dis_name(disease& dis)
     {
         std::string status = "";
         switch (dis.intensity) {
-        case 1: status = _("Bleeding "); break;
-        case 2: status = _("Heavily Bleeding "); break;
-        case 3: status = _("Very Heavily Bleeding "); break;
+        case 1: status = _("Bleeding - "); break;
+        case 2: status = _("Bad Bleeding - "); break;
+        case 3: status = _("Heavy Bleeding - "); break;
         }
         switch (dis.bp) {
             case bp_head:
