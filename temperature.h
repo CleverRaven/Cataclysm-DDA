@@ -1,6 +1,7 @@
 #ifndef _TEMPERATURE_H_
 #define _TEMPERATURE_H_
 
+#include <cstdlib> // NULL, apparently
 #include <stdint.h>
 
 /**
