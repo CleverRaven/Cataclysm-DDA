@@ -919,8 +919,10 @@ inline bool skill_display_sort(const Skill *a, const Skill *b)
 int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
  draw_tabs(w, "SKILLS");
-
- WINDOW* w_description = newwin(3, FULL_SCREEN_WIDTH-2, FULL_SCREEN_HEIGHT-4 + getbegy(w), 1 + getbegx(w));
+ 
+ const int iDescriptionHeight = 4;
+ WINDOW* w_description = newwin(3, FULL_SCREEN_WIDTH - 2,
+                                FULL_SCREEN_HEIGHT - iDescriptionHeight - 1 + getbegy(w), 1 + getbegx(w));
 
  std::vector<Skill *> sorted_skills = Skill::skills;
  std::sort(sorted_skills.begin(), sorted_skills.end(), skill_display_sort);
@@ -928,7 +930,7 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
  int cur_pos = 0;
  Skill *currentSkill = sorted_skills[cur_pos];
 
-    const int iContentHeight = FULL_SCREEN_HEIGHT-9;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - iDescriptionHeight - 6;
     const int iHalf = iContentHeight / 2;
 
  do {
@@ -965,13 +967,13 @@ int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points)
   } else if (cur_pos > num_skills - iContentHeight + iHalf) {
    for (int i = num_skills - iContentHeight; i < num_skills; ++i) {
     Skill *thisSkill = sorted_skills[i];
-    mvwprintz(w, FULL_SCREEN_HEIGHT-4 + i - num_skills, 2, c_ltgray, "\
+    mvwprintz(w, FULL_SCREEN_HEIGHT - iDescriptionHeight - 1 + i - num_skills, 2, c_ltgray, "\
                                              "); // Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, FULL_SCREEN_HEIGHT-4 + i - num_skills, 2,
+     mvwprintz(w, FULL_SCREEN_HEIGHT - iDescriptionHeight - 1 + i - num_skills, 2,
                (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
-     mvwprintz(w, FULL_SCREEN_HEIGHT-4 + i - num_skills, 2,
+     mvwprintz(w, FULL_SCREEN_HEIGHT - iDescriptionHeight - 1 + i - num_skills, 2,
                (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
                thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
