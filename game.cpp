@@ -8569,6 +8569,10 @@ void game::plfire(bool burst)
   add_msg(_("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
   return;
  }
+ if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
+  add_msg(_("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
+  return;
+ }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
      !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
      !u.has_charges("adv_UPS_on", 3)) {

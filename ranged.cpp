@@ -266,6 +266,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100")) {
       weapon->charges -= 100;
+  } else if (weapon->has_flag("FIRE_50")) {
+      weapon->charges -= 50;
   } else if (weapon->has_flag("CHARGE")) {
       weapon->active = false;
       weapon->charges = 0;
