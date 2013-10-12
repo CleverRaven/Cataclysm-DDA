@@ -7266,9 +7266,11 @@ void game::pickup(int posx, int posy, int min)
  bool from_veh = false;
  int veh_part = 0;
  int k_part = 0;
+ int w_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
  if (min != -1 && veh) {
   k_part = veh->part_with_feature(veh_part, "KITCHEN");
+  w_part = veh->part_with_feature(veh_part, "WELDRIG");
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0;
@@ -7361,7 +7363,35 @@ void game::pickup(int posx, int posy, int min)
                         add_msg(_("The water tank is empty."));
                     }
                 }
-                break;
+                }
+            }
+
+            if (w_part >= 0)
+            {
+                if (query_yn(_("Use the welding rig?")))
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("battery") > 0) //Will be -1 if no battery at all
+                    {
+                        item tmp_welder( g->itypes["welder"], 0 );
+                        // Drain a ton of power
+                        tmp_welder.charges = veh->drain( "battery", 1000 );
+                        if( tmp_welder.is_tool() )
+                        {
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
+                            if ( tmp_welder.charges >= tmptool->charges_per_use )
+                            {
+                                iuse tmpuse;
+                                (tmpuse.*tmptool->use)(g, &u, &tmp_welder, false);
+                                tmp_welder.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_welder.charges );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        add_msg(_("The battery is dead."));
+                    }
                 }
             }
 
