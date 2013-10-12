@@ -466,9 +466,9 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
             if (u->int_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Int further costs 2 points."));
             }
-            mvwprintz(w, 6, 33, COL_STAT_ACT, _("Read times: %d%%%%"),
+            mvwprintz(w, 6, 33, COL_STAT_ACT, _("Read times: %d%%"),
                       u->read_speed(false));
-            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Skill rust: %d%%%%"),
+            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Skill rust: %d%%"),
                       u->rust_rate(false));
             fold_and_print(w, 9, 33, 45, COL_STAT_ACT, _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
             break;
