@@ -1748,7 +1748,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 3
     },
