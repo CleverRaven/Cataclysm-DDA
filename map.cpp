@@ -931,6 +931,17 @@ void map::furn_set(const int x, const int y, const std::string new_furniture) {
     furn_set(x, y, (furn_id)furnmap[ new_furniture ].loadid );
 }
 
+bool map::can_move_furniture( const int x, const int y, player * p ) {
+    furn_t furniture_type = furn_at(x, y);
+    int required_str = furniture_type.move_str_req;
+
+    // Object can not be moved (or nothing there)
+    if (required_str < 0) { return false; }
+
+    if( p != NULL && p->str_cur < required_str ) { return false; }
+
+    return true;
+}
 
 std::string map::furnname(const int x, const int y) {
  return _(furnlist[furn(x, y)].name.c_str()); // FIXME i18n
@@ -1068,13 +1079,13 @@ int map::move_cost_ter_furn(const int x, const int y)
 
 int map::combined_movecost(const int x1, const int y1,
                            const int x2, const int y2,
-                           const vehicle *ignored_vehicle)
+                           const vehicle *ignored_vehicle, const int modifier)
 {
     int cost1 = move_cost(x1, y1, ignored_vehicle);
     int cost2 = move_cost(x2, y2, ignored_vehicle);
     // 50 moves taken per move_cost (70.71.. diagonally)
     int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
-    return (cost1 + cost2) * mult / 2;
+    return (cost1 + cost2 + modifier) * mult / 2;
 }
 
 bool map::trans(const int x, const int y)

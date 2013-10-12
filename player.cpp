@@ -126,6 +126,7 @@ player::player() : name("")
  controlling_vehicle = false;
  grab_point.x = 0;
  grab_point.y = 0;
+ grab_type = OBJECT_NONE;
  style_selected = "style_none";
  focus_pool = 100;
  last_item = itype_id("null");

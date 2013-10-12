@@ -874,6 +874,10 @@ void player::load_legacy(game *g, std::stringstream & dump) {
  dump >> pstats.squares_walked;
 
  recalc_sight_limits();
+ if( grab_point.x != 0 || grab_point.y != 0 ) {
+    // ancient save only supported grabbed vehicles.
+    grab_type = OBJECT_VEHICLE;
+ }
 }
 
 ///// pldata.h
