@@ -2422,7 +2422,9 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
         // covered by armor -- damage armor first
         dres = damage_direct (parm, dmg, type);
         // half damage for internal part(over parts not covered)
-        damage_direct (pdm, part_flag(pdm, "OVER")? dmg : dmg / 2, type);
+        bool overhead = part_flag(pdm, "ROOF") ||
+                        part_info(pdm).location == "on_roof";
+        damage_direct (pdm, overhead ? dmg : dmg / 2, type);
     }
     return dres;
 }
