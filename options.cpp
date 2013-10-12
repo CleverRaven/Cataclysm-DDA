@@ -686,7 +686,7 @@ void show_options()
                 wprintz(w_options_header, c_white, "[");
                 wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
                 wprintz(w_options_header, c_white, "]");
-                wputch(w_options_header, c_white, LINE_OXOX);
+                wputch(w_options_header, c_ltgray, LINE_OXOX);
             }
         }
 
@@ -831,10 +831,7 @@ void save_options()
 
 bool use_narrow_sidebar()
 {
-    if (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow") {
-        return true;
-    }
-    return false;
+    return (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow");
 }
 
 std::string get_tileset_names(std::string dir_path)
