@@ -77,7 +77,7 @@ struct vehicle_part
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
     int precalc_dy[2];      // mount_dy translated to face.dir [0] and turn_dir [1]
     int hp;                 // current durability, if 0, then broken
-    int blood;              // how much blood covers part (in turns). only useful for external
+    int blood;              // how much blood covers part (in turns).
     int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     int flags;
@@ -389,8 +389,6 @@ public:
 // reduces velocity to 0
     void stop ();
 
-    void find_external_parts ();
-
     void find_exhaust ();
 
     void refresh_insides ();
@@ -441,7 +439,6 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-    std::vector<int> external_parts;   // List of external parts indeces
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;

@@ -1206,7 +1206,6 @@ void vehicle::load_legacy(std::ifstream &stin) {
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     add_missing_frames();
-    find_external_parts ();
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());

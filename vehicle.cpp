@@ -717,7 +717,6 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     item tmp(g->itypes[vehicle_part_types[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
-    find_external_parts();
 
     find_exhaust ();
     precalc_mounts (0, face.dir());
@@ -765,7 +764,6 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
 void vehicle::remove_part (int p)
 {
     parts.erase(parts.begin() + p);
-    find_external_parts ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -860,12 +858,10 @@ bool vehicle::part_flag (int part, const std::string &flag)
 
 int vehicle::part_at(int dx, int dy)
 {
-    for (int i = 0; i < external_parts.size(); i++)
-    {
-        int p = external_parts[i];
-        if (parts[p].precalc_dx[0] == dx &&
-            parts[p].precalc_dy[0] == dy)
+    for (int p = 0; p < parts.size(); p++) {
+        if (parts[p].precalc_dx[0] == dx && parts[p].precalc_dy[0] == dy) {
             return p;
+        }
     }
     return -1;
 }
@@ -1395,18 +1391,15 @@ float vehicle::wheels_area (int *cnt)
 {
     int count = 0;
     int total_area = 0;
-    for (int i = 0; i < external_parts.size(); i++)
+    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    for (int i = 0; i < wheel_indices.size(); i++)
     {
-        int p = external_parts[i];
-        if (part_flag(p, "WHEEL") &&
-            parts[p].hp > 0)
-        {
-            int width = part_info(p).wheel_width;
-            int bigness = parts[p].bigness;
-            // 9 inches, for reference, is about normal for cars.
-            total_area += ((float)width/9) * bigness;
-            count++;
-        }
+        int p = wheel_indices[i];
+        int width = part_info(p).wheel_width;
+        int bigness = parts[p].bigness;
+        // 9 inches, for reference, is about normal for cars.
+        total_area += ((float)width/9) * bigness;
+        count++;
     }
     if (cnt) {
         *cnt = count;
@@ -1421,10 +1414,11 @@ float vehicle::k_dynamics ()
     for (int o = 0; o < max_obst; o++) {
         obst[o] = 0;
     }
-    for (int i = 0; i < external_parts.size(); i++)
+    std::vector<int> structure_indices = all_parts_at_location("structure");
+    for (int i = 0; i < structure_indices.size(); i++)
     {
-        int p = external_parts[i];
-        int frame_size = part_flag(p, "OBSTACLE")? 30 : 10;
+        int p = structure_indices[i];
+        int frame_size = part_with_feature(p, "OBSTACLE") ? 30 : 10;
         int pos = parts[p].mount_dy + max_obst / 2;
         if (pos < 0) {
             pos = 0;
@@ -1703,8 +1697,9 @@ void vehicle::stop ()
 bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
                          bool &can_move, int &imp, bool just_detect )
 {
-    for( int ep = 0; ep < external_parts.size() && can_move; ep++ ) {
-        const int p = external_parts[ep];
+    std::vector<int> structural_indices = all_parts_at_location("structure");
+    for( int i = 0; i < structural_indices.size() && can_move; i++ ) {
+        const int p = structural_indices[i];
         // coords of where part will go due to movement (dx/dy)
         // and turning (precalc_dx/dy [1])
         const int dsx = global_x() + dx + parts[p].precalc_dx[1];
@@ -2266,10 +2261,8 @@ void vehicle::gain_moves (int mp)
     refill ("battery", solar_power());
 
     // check for smoking parts
-    for (int ep = 0; ep < external_parts.size(); ep++)
+    for (int p = 0; p < parts.size(); p++)
     {
-        int p = external_parts[ep];
-
         int part_x = global_x() + parts[p].precalc_dx[0];
         int part_y = global_y() + parts[p].precalc_dy[0];
 
@@ -2295,41 +2288,10 @@ void vehicle::gain_moves (int mp)
         }
     }
 
-    if (turret_mode) // handle turrets
-        for (int p = 0; p < parts.size(); p++)
+    if (turret_mode) { // handle turrets
+        for (int p = 0; p < parts.size(); p++) {
             fire_turret (p);
-}
-
-/**
- * Rebuilds the list of external parts. Should be called any time a part is
- * installed or removed. The "external" part in any given square is the one
- * with the highest z-order.
- */
-void vehicle::find_external_parts ()
-{
-    external_parts.clear();
-
-    std::map<std::pair<int, int>, int> external_parts_found;
-
-    for(int part_index = 0; part_index < parts.size(); part_index++) {
-
-        std::pair<int, int> point(parts[part_index].mount_dx, parts[part_index].mount_dy);
-
-        if(external_parts_found.count(point) > 0) {
-            //Is this part higher than the old one?
-            if(part_info(external_parts_found[point]).z_order <
-                    part_info(part_index).z_order) {
-                external_parts_found[point] = part_index;
-            }
-        } else {
-            //First part found for the square
-            external_parts_found[point] = part_index;
         }
-    }
-
-    for(std::map<std::pair<int, int>, int>::iterator part_iterator = external_parts_found.begin();
-            part_iterator != external_parts_found.end(); part_iterator++) {
-        external_parts.push_back(part_iterator->second);
     }
 }
 
