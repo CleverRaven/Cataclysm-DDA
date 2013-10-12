@@ -832,6 +832,23 @@ std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, boo
     return parts_found;
 }
 
+/**
+ * Returns all parts in the vehicle that exist in the given location slot. If
+ * the empty string is passed in, returns all parts with no slot.
+ * @param location The location slot to get parts for.
+ * @return A list of indices to all parts with the specified location.
+ */
+std::vector<int> vehicle::all_parts_at_location(const std::string& location)
+{
+    std::vector<int> parts_found;
+    for(int part_index = 0; part_index < parts.size(); part_index++) {
+        if(part_info(part_index).location == location) {
+            parts_found.push_back(part_index);
+        }
+    }
+    return parts_found;
+}
+
 bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {

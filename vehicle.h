@@ -240,6 +240,9 @@ public:
 // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
 
+// returns indices of all parts in the given location slot
+    std::vector<int> all_parts_at_location(const std::string &location);
+
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f);
 
