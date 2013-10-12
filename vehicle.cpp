@@ -2586,8 +2586,9 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     int closest = range + 1;
     for (int i = 0; i < g->num_zombies(); i++) {
         int dist = rl_dist( x, y, g->zombie(i).posx(), g->zombie(i).posy() );
-        if( g->zombie(i).friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
+        if (g->zombie(i).friendly == 0 && dist < closest &&
+              !g->zombie(i).is_hallucination() &&
+              g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
             target = &(g->zombie(i));
             closest = dist;
             fire_t = t;

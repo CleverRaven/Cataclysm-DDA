@@ -1258,7 +1258,7 @@ void mattack::smg(game *g, monster *z)
               boo_hoo++;
           }
         }
-        if (dist < closest && safe_target ) {
+        if (dist < closest && safe_target && !g->zombie(i).is_hallucination()) {
           target = &(g->zombie(i));
           closest = dist;
           fire_t = t;
