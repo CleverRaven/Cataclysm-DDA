@@ -5,7 +5,6 @@ class game;
 class item;
 class player;
 
-
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
 {
@@ -186,5 +185,33 @@ class iuse
 private:
   int heat_item(game *g, player *p);
 };
+
+
+typedef int (iuse::*use_function_pointer)(game*,player*,item*,bool);
+
+struct use_function {
+    use_function_pointer cpp_function;
+
+    use_function() {};
+
+    use_function(use_function_pointer f)
+        : cpp_function(f)
+    { };
+
+    int call(game*,player*,item*,bool);
+
+    void operator=(use_function_pointer f) {
+        cpp_function = f;
+    }
+
+    bool operator==(use_function_pointer f) const {
+        return f == cpp_function;
+    }
+
+    bool operator!=(use_function_pointer f) const {
+        return f != cpp_function;
+    }
+};
+
 
 #endif
