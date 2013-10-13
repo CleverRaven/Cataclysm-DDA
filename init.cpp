@@ -1,6 +1,7 @@
 #include "init.h"
 
 #include "json.h"
+#include "file_finder.h"
 
 #include "material.h"
 #include "bionics.h"
@@ -128,6 +129,7 @@ void null_load_target(JsonObject &jo){}
 
 void init_data_structures()
 {
+    StaticFunctionAccessor *null_target = new StaticFunctionAccessor(&null_load_target);
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -172,6 +174,10 @@ void init_data_structures()
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
+
+    // Unused types need to be diverted to the null_target which does absolutely nothing with data passed to it.
+    type_function_map["INSTRUMENT"] = null_target;
+    type_function_map["colordef"] = null_target;
 
     mutations_category[""].clear();
     init_mutation_parts();
