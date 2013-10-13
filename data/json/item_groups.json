@@ -218,6 +218,7 @@
       ["flour", 50],
       ["cornmeal", 40],
       ["powder_eggs", 20],
+      ["protein_powder", 15],
       ["dry_meat", 10],
       ["dry_veggy", 10],
       ["dry_fruit", 10],
@@ -366,6 +367,7 @@
       ["jar_veggy_pickled", 8],
       ["bacon", 25],
       ["jar_meat_pickled", 2],
+      ["protein_shake", 10],
       ["fries", 8]
     ]
   },{
@@ -727,6 +729,7 @@
       ["fries", 8],
       ["bacon", 10],
       ["fruit_leather", 15],
+      ["protein_shake", 10],
       ["pie", 20]
     ]
   },{
@@ -908,6 +911,7 @@
       ["nyquil", 70],
       ["disinfectant", 35],
       ["vaccine_shot", 10],
+      ["protein_powder", 15],
       ["nic_gum", 25]
     ]
   },{
@@ -950,6 +954,7 @@
       ["flour", 30],
       ["cornmeal", 30],
       ["powder_eggs", 20],
+      ["protein_powder", 15],
       ["dry_meat", 10],
       ["dry_veggy", 10],
       ["dry_fruit", 10],
@@ -963,6 +968,7 @@
       ["cooking_oil", 30],
       ["jar_veggy_pickled", 8],
       ["sports_drink", 10],
+      ["protein_shake", 10],
       ["jar_meat_pickled", 6]
     ]
   },{
@@ -1243,6 +1249,7 @@
       ["elbow_pads", 40],
       ["knee_pads", 40],
       ["manual_throw", 12],
+      ["protein_powder", 15],
       ["boots_hiking", 10]
     ]
   },{
@@ -1459,6 +1466,8 @@
       ["knee_pads", 40],
       ["boots_hiking", 10],
       ["pur_tablets", 5],
+      ["protein_powder", 15],
+      ["protein_shake", 15],
       ["quikclot", 10]
     ]
   },{
