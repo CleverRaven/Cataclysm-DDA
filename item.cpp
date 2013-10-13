@@ -35,9 +35,9 @@ item::item(itype* it, unsigned int turn)
     bday = turn;
     corpse = it->corpse;
     name = it->name;
-    if (it->is_gun())
+    if (it->is_gun()) {
         charges = 0;
-    else if (it->is_ammo()) {
+    } else if (it->is_ammo()) {
         it_ammo* ammo = dynamic_cast<it_ammo*>(it);
         charges = ammo->count;
     } else if (it->is_food()) {
@@ -56,6 +56,9 @@ item::item(itype* it, unsigned int turn)
                 curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
             }
         }
+    } else if (it->is_book()) {
+        it_book* book = dynamic_cast<it_book*>(it);
+        charges = book->chapters;
     } else if ((it->is_gunmod() && it->id == "spare_mag") || it->item_tags.count("MODE_AUX")) {
         charges = 0;
     } else
