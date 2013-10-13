@@ -5585,20 +5585,9 @@ bool game::add_zombie(monster& m)
     if (m.type->id == "mon_null"){ // Don't wanna spawn null monsters o.O
         return false;
     }
-    if (-1 != mon_at(m.posx(), m.posy())) {
-        std::vector<point> ps = closest_points_first(3 , m.pos());
-        for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
-        {
-            if(mon_at(*p_it) != -1)
-            {
-                m.setpos(*p_it);
-                break;
-            }
-        }
-        if(mon_at(m.pos())){
-            debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
-            return false;
-        }
+    if (-1 != mon_at(m.pos())) {
+        debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
+        return false;
     }
     z_at[point(m.posx(), m.posy())] = _active_monsters.size();
     _active_monsters.push_back(m);
@@ -10367,6 +10356,8 @@ void game::replace_stair_monsters()
  coming_to_stairs.clear();
 }
 
+//TODO: abstract out the location checking code
+//TODO: refactor so zombies can follow up and down stairs instead of this mess
 void game::update_stair_monsters()
 {
  if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
@@ -10391,7 +10382,7 @@ void game::update_stair_monsters()
        tries++;
       }
       if (tries < 10) {
-       coming_to_stairs[i].mon.setpos(sx, sy, true);
+       coming_to_stairs[i].mon.setpos(mposx, mposy, true);
        add_zombie( coming_to_stairs[i].mon );
        if (u_see(sx, sy)) {
         if (m.has_flag("GOES_UP", sx, sy)) {
