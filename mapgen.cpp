@@ -1190,7 +1190,7 @@ t   t\n\
           rn = rng(lw + 1, rw - 1);
           attempts--;
       } while (ter(rn, actual_house_height - 1) != t_floor && attempts);
-      if( ter(rn, actual_house_height - 1) != t_floor && attempts ) {
+      if( ter(rn, actual_house_height - 1) == t_floor && attempts ) {
           ter_set(rn, actual_house_height - 1, t_stairs_down);
       }
   }
