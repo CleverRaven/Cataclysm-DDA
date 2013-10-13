@@ -4095,16 +4095,19 @@ void player::get_sick(game *g)
  }
 }
 
-void player::infect(dis_type type, body_part vector, int strength,
+bool player::infect(dis_type type, body_part vector, int strength,
                     int duration, int intensity, int max_intensity)
 {
     if (strength <= 0) {
-        return;
+        return false;
     }
 
     if (dice(strength, 3) > dice(resist(vector), 3)) {
         add_disease(type, duration, intensity, max_intensity);
+        return true;
     }
+
+    return false;
 }
 
 void player::add_disease(dis_type type, int duration,

@@ -634,7 +634,7 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
     for (int i = examx - 1; i <= examx + 1; i++) {
         for (int j = examy - 1; j <= examy + 1; j++) {
             mondex = g->mon_at(i, j);
-            if (g->m.move_cost(i, j) > 0 && ((i == examx && j == examy) || one_in(2))) {
+            if (g->m.move_cost(i, j) > 0 || (i == examx && j == examy)) {
                 if (mondex != -1) { // Spores hit a monster
                     if (g->u_see(i, j) && 
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
@@ -646,7 +646,7 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
                     }
                 } else if (g->u.posx == i && g->u.posy == j) {
                     g->u.infect("spores", bp_mouth, 4, 30, 1, 3); // Spores hit the player
-                } else if (((i == examx && j == examy) || one_in(2)) &&
+                } else if (((i == examx && j == examy) || one_in(4)) &&
                               g->num_zombies() <= 1000) { // Spawn a spore
                     spore.spawn(i, j);
                     g->add_zombie(spore);

@@ -198,7 +198,7 @@ void mdeath::fungus(game *g, monster *z)
             sporex = z->posx() + i;
             sporey = z->posy() + j;
             mondex = g->mon_at(sporex, sporey);
-            if (g->m.move_cost(sporex, sporey) > 0 && one_in(2)) {
+            if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) { // Spores hit a monster
                     if (g->u_see(sporex, sporey) &&
                           !g->zombie(mondex).type->in_species("FUNGUS")) {
@@ -210,7 +210,7 @@ void mdeath::fungus(game *g, monster *z)
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     g->u.infect("spores", bp_mouth, 4, 30, 1, 1); // Spores hit the player
-                } else { // Spawn a spore
+                } else if (one_in(2)) { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);
                 }

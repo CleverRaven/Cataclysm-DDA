@@ -1262,69 +1262,95 @@ int disease_speed_boost(disease dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-    case DI_COLD:
-        switch (dis.bp) {
-            case bp_torso:
-                switch (dis.intensity) {
-                case 1 : return  -2;
-                case 2 : return  -5;
-                case 3 : return -20;}
-            case bp_legs:
-                switch (dis.intensity) {
-                case 1 : return  -2;
-                case 2 : return  -5;
-                case 3 : return -20;}
-            default:
-                return 0;
-        }
-        break;
-    case DI_FROSTBITE:
-        switch (dis.bp) {
-            case bp_feet:
-                switch (dis.intensity) {
-                case 2 : return -4;}
-            default:
-                return 0;
-        }
-        break;
-    case DI_HOT:
-        switch(dis.bp) {
-            case bp_head:
-                switch (dis.intensity) {
-                case 1 : return  -2;
-                case 2 : return  -5;
-                case 3 : return -20;}
-            case bp_torso:
-                switch (dis.intensity) {
-                case 1 : return  -2;
-                case 2 : return  -5;
-                case 3 : return -20;}
-            default:
-                return 0;
-        }
-        break;
-
-    case DI_SPORES:
-        switch (dis.intensity) {
-            case 1 : return -15;
-            case 2 : return -30;
-            case 3 : return -45;}
+        case DI_COLD:
+            switch (dis.bp) {
+                case bp_torso:
+                    switch (dis.intensity) {
+                        case 1 : return  -2;
+                        case 2 : return  -5;
+                        case 3 : return -20;
+                    }
+                case bp_legs:
+                    switch (dis.intensity) {
+                        case 1 : return  -2;
+                        case 2 : return  -5;
+                        case 3 : return -20;
+                    }
+                default:
+                    return 0;
+            }
+            break;
+        case DI_FROSTBITE:
+            switch (dis.bp) {
+                case bp_feet:
+                    switch (dis.intensity) {
+                        case 2 : return -4;
+                    }
+                default:
+                    return 0;
+            }
+            break;
+        case DI_HOT:
+            switch(dis.bp) {
+                case bp_head:
+                    switch (dis.intensity) {
+                        case 1 : return  -2;
+                        case 2 : return  -5;
+                        case 3 : return -20;
+                    }
+                case bp_torso:
+                    switch (dis.intensity) {
+                        case 1 : return  -2;
+                        case 2 : return  -5;
+                        case 3 : return -20;
+                    }
+                default:
+                    return 0;
+            }
         break;
 
-    case DI_INFECTION:  return -80;
-    case DI_SAP:        return -25;
-    case DI_SLIMED:     return -25;
-    case DI_BADPOISON:  return -10;
-    case DI_FOODPOISON: return -20;
-    case DI_WEBBED:     return -25;
-    case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
-    case DI_ASTHMA:     return 0 - int(dis.duration / 5);
-    case DI_GRACK:      return +20000;
-    case DI_METH:       return (dis.duration > 600 ? 50 : -40);
-    case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
-    default:;
- }
- return 0;
+        case DI_SPORES:
+            switch (dis.bp) {
+                case bp_head:
+                    switch (dis.intensity) {
+                        case 1: return -10;
+                        case 2: return -15;
+                        case 3: return -20;
+                    }
+                case bp_torso:
+                    switch (dis.intensity) {
+                        case 1: return -15;
+                        case 2: return -20;
+                        case 3: return -25;
+                    }
+                case bp_arms:
+                    switch (dis.intensity) {
+                        case 1: return -5;
+                        case 2: return -10;
+                        case 3: return -15;
+                    }
+                case bp_legs:
+                    switch (dis.intensity) {
+                        case 1: return -5;
+                        case 2: return -10;
+                        case 3: return -15;
+                    }
+            }
+
+        case DI_INFECTION:  return -80;
+        case DI_SAP:        return -25;
+        case DI_SLIMED:     return -25;
+        case DI_BADPOISON:  return -10;
+        case DI_FOODPOISON: return -20;
+        case DI_WEBBED:     return -25;
+        case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
+        case DI_ASTHMA:     return 0 - int(dis.duration / 5);
+        case DI_GRACK:      return +20000;
+        case DI_METH:       return (dis.duration > 600 ? 50 : -40);
+        case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
+        default:;
+   }
+    return 0;
 }
 
 std::string dis_name(disease& dis)
@@ -1451,7 +1477,40 @@ std::string dis_name(disease& dis)
     case DI_ONFIRE: return _("On Fire");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
-    case DI_SPORES: return _("Spores");
+
+    case DI_SPORES:
+    {
+        std::string status = "";
+        switch (dis.intensity) {
+        case 1: status = _("Spore dusted - "); break;
+        case 2: status = _("Spore covered - "); break;
+        case 3: status = _("Spore coated - "); break;
+        }
+        switch (dis.bp) {
+            case bp_head:
+                status += _("Head");
+                break;
+            case bp_torso:
+                status += _("Torso");
+                break;
+            case bp_arms:
+                if (dis.side == 0) {
+                    status += _("Left Arm");
+                } else if (dis.side == 1) {
+                    status += _("Right Arm");
+                }
+                break;
+            case bp_legs:
+                if (dis.side == 0) {
+                    status += _("Left Leg");
+                } else if (dis.side == 1) {
+                    status += _("Right Leg");
+                }
+                break;
+        }
+        return status;
+    }
+
     case DI_SLIMED: return _("Slimed");
     case DI_DEAF: return _("Deaf");
     case DI_BLIND: return _("Blind");
@@ -1616,7 +1675,7 @@ std::string dis_name(disease& dis)
 
 std::string dis_description(disease& dis)
 {
-    int strpen, dexpen, intpen, perpen;
+    int strpen, dexpen, intpen, perpen, speed_pen;
     std::stringstream stream;
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
@@ -1835,20 +1894,11 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _("Dexterity - 3;   Speed - 25");
 
     case DI_SPORES:
-        switch (dis.intensity) {
-            case 1:
-                return _(
-                "Speed -15%\n"
-                "You can feel the tiny spores sinking directly into your flesh.");
-            case 2:
-                return _(
-                "Speed -30%\n"
-                "You can feel the tiny spores sinking directly into your flesh.");
-            case 3:
-                return _(
-                "Speed -45%\n"
-                "You can feel the tiny spores sinking directly into your flesh.");
-        }
+        speed_pen = disease_speed_boost(dis);
+        stream << string_format(_(
+                "Speed %d%%\n"
+                "You can feel the tiny spores sinking directly into your flesh."), speed_pen);
+        return stream.str();
 
     case DI_SLIMED:
         return _("Speed -40%;   Dexterity - 2");

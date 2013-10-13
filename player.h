@@ -253,7 +253,7 @@ public:
 
  void get_sick(game *g); // Process diseases
 // infect() gives us a chance to save (mostly from armor)
- void infect(dis_type type, body_part vector, int strength, int duration,
+ bool infect(dis_type type, body_part vector, int strength, int duration,
                   int intensity = 1, int max_intensity = 1);
 // add_disease() does NOT give us a chance to save
 // num_bp indicates that specifying a body part is unessecary such as with
