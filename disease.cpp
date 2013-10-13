@@ -1186,7 +1186,7 @@ void dis_effect(player &p, disease &dis) {
                 }
             }
             if (one_in(10000)) {
-                p.add_disease("fungus", 1, true);
+                p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
                 p.rem_disease("teleglow");
             }
             break;

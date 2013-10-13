@@ -629,7 +629,6 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
     int mondex;
-    //~ the sound of a fungus releasing spores
     g->add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
     for (int i = examx - 1; i <= examx + 1; i++) {
         for (int j = examy - 1; j <= examy + 1; j++) {
