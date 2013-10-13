@@ -237,17 +237,19 @@ void mdeath::worm(game *g, monster *z)
         for (int j = -1; j <= 1; j++) {
             wormx = z->posx() + i;
             wormy = z->posy() + j;
-            if (g->m.has_flag("DIGGABLE", wormx, wormy) && g->mon_at(wormx, wormy) == -1 &&
-            !(g->u.posx == wormx && g->u.posy == wormy)) {
+            if (g->m.has_flag("DIGGABLE", wormx, wormy) && 
+                    !(g->u.posx == wormx && g->u.posy == wormy)) {
                 wormspots.push_back(point(wormx, wormy));
             }
         }
     }
-    monster worm(GetMType("mon_halfworm"));
-    for (int worms = 0; worms < 2 && wormspots.size() > 0;) {
+    int worms = 0;
+    while(worms < 2 && wormspots.size() > 0) {
+        monster worm(GetMType("mon_halfworm"));
         int rn = rng(0, wormspots.size() - 1);
         if(-1 == g->mon_at(wormspots[rn])) {
             worm.spawn(wormspots[rn].x, wormspots[rn].y);
+            g->add_zombie(worm);
             worms++;
         }
         wormspots.erase(wormspots.begin() + rn);
