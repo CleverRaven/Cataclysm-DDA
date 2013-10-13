@@ -3939,6 +3939,31 @@
   },
 
   {
+    "id": "e_tool",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "entrenching tool",
+    "description": "A stout collapsible spade commonly used by military forces and favored by hikers.",
+    "price": 120,
+    "material": "steel", 
+    "weight": 628,
+    "volume": 4,
+    "bashing": 8,
+    "cutting": 16,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "DIG"
+    "flags" : ["CHOP"],
+    "to_hit": 1,
+    "qualities": [["CUT", 1]]
+  },
+
+  {
     "id": "digging_stick",
     "type": "TOOL",
     "symbol": "/",
