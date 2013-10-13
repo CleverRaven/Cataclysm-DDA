@@ -58,6 +58,8 @@ namespace Temperature {
   const magnitude room = 294150;
   const magnitude human = 310150;
 
+  const delta roomTolerance = 2000;
+
   const magnitude fumarole = 1300000;
   const magnitude lavaSea = 1500000;
   const magnitude fire = 1800000;
