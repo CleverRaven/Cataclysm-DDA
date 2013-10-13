@@ -684,14 +684,6 @@ void player::update_bodytemp(game *g)
     Temperature::delta ambient_delta;
     bool tooHot = Temperature::hotter(ambient_temperature, ambient_norm, &ambient_delta);
 
-    // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
-    // Temperature norms
-    // Ambient normal temperature is lower while asleep
-    // This adjusts the temperature scale to match the bodytemp scale
-    int adjusted_temp = (Ctemperature - ambient_norm);
-    // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
     const ter_id ter_at_pos = g->m.ter(posx, posy);
@@ -761,12 +753,17 @@ void player::update_bodytemp(game *g)
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-        float homeostasis_adjustement = (temp_cur[i] > Temperature::human ? 30.0 : 60.0);
+        float homeostasis_adjustement = (tooHot ? 30.0 : 60.0);
         Temperature::delta clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-        temp_conv[i] = Temperature::human + ambient_delta + clothing_warmth_adjustement;
-        // HUNGER
-        temp_conv[i] -= hunger/6 + 100;
+        temp_conv[i] = Temperature::human + clothing_warmth_adjustement - (hunger / 6 + 100);
+
+        if (tooHot) {
+          temp_conv[i] -= ambient_delta;
+        } else {
+          temp_conv[i] += ambient_delta;
+        }
+
         // FATIGUE
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
@@ -877,7 +874,12 @@ void player::update_bodytemp(game *g)
         {
             blood_loss = (100 - 100* hp_cur[hp_head] / hp_max[hp_head]);
         }
-        temp_conv[i] -= blood_loss*temp_conv[i]/200; // 1% bodyheat lost per 2% hp lost
+
+        const Temperature::delta max_injury_delta = 4000; // 4 K
+        Temperature::delta injury_delta = blood_loss * max_injury_delta / 100;
+
+        temp_conv[i] -= injury_delta;
+
         // EQUALIZATION
         switch (i)
         {
@@ -948,7 +950,7 @@ void player::update_bodytemp(game *g)
 
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
-        if ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) && (i == bp_feet || i == bp_legs) || ter_at_pos == t_water_dp) {
+        if (ter_at_pos == t_water_dp || ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) && (i == bp_feet || i == bp_legs))) {
           effective_delta *= exp(-.004);
         } else if (i == bp_torso || i == bp_head) {
           effective_delta *= exp(-.003);
