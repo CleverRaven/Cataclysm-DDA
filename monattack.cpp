@@ -699,22 +699,22 @@ void mattack::fungus(game *g, monster *z)
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, false, 1, 3, 1, true)) {
+                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, false, 1, 3, 0, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, false, 1, 3, 1, true)) {
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, false, 1, 3, 0, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 0, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 0, 1, true, 0)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 0, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 0, 1, true, 0)) {
                         hit = true;
                     }
                     if (hit) {
@@ -1570,11 +1570,11 @@ void mattack::bite(game *g, monster *z) {
 
         if(one_in(14 - dam)) {
             if (g->u.has_disease("bite", hit, side)) {
-                g->u.add_disease("bite", 400, false, 1, 1, -1, hit, side, true);
+                g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, side, true);
             } else if (g->u.has_disease("infected", hit, side)) {
-                g->u.add_disease("infected", 250, false, 1, 1, -1, hit, side, true);
+                g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, side, true);
             } else {
-                g->u.add_disease("bite", 3601, false, 1, 1, 0, hit, side, true); //6 hours + 1 "tick"
+                g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, side, true); //6 hours + 1 "tick"
             }
         }
     } else {

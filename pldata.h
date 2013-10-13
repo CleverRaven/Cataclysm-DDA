@@ -42,6 +42,7 @@ struct disease
  body_part bp;
  int side;
  bool permanent;
+ int decay;
 
  // extra stuff for martial arts, kind of a hack for now
  std::string buff_id;
@@ -54,9 +55,9 @@ struct disease
    return (buff_id != "" && type == "ma_buff");
  }
 
- disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; permanent = false; }
- disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1, bool perm = false) :
-    type(t) { duration = d; intensity = i; bp = part; side = s; permanent = perm; }
+ disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; permanent = false; decay = 0; }
+ disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1, bool perm = false, int dec = 0) :
+    type(t) { duration = d; intensity = i; bp = part; side = s; permanent = perm; decay = dec; }
 };
 
 struct addiction
