@@ -8569,6 +8569,10 @@ void game::plfire(bool burst)
   add_msg(_("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
   return;
  }
+ if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
+  add_msg(_("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
+  return;
+ }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
      !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
      !u.has_charges("adv_UPS_on", 3)) {
@@ -9283,47 +9287,51 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
- if (run_mode == 2) { // Monsters around and we don't wanna run
-   add_msg(_("Monster spotted--run mode is on! "
-           "(%s to turn it off or %s to ignore monster.)"),
-           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
-  return;
- }
- int part = -1;
- vehicle *veh = m.veh_at (u.posx, u.posy, part);
- if (!veh) {
-  dbg(D_ERROR) << "game:pldrive: can't find vehicle! Drive mode is now off.";
-  debugmsg ("game::pldrive error: can't find vehicle! Drive mode is now off.");
-  u.in_vehicle = false;
-  return;
- }
- int pctr = veh->part_with_feature (part, "CONTROLS");
- if (pctr < 0) {
-  add_msg (_("You can't drive the vehicle from here. You need controls!"));
-  return;
- }
+    if (run_mode == 2) { // Monsters around and we don't wanna run
+        add_msg(_("Monster spotted--run mode is on! "
+                    "(%s to turn it off or %s to ignore monster.)"),
+                    press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+                    from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+        return;
+    }
+    int part = -1;
+    vehicle *veh = m.veh_at (u.posx, u.posy, part);
+    if (!veh) {
+        dbg(D_ERROR) << "game:pldrive: can't find vehicle! Drive mode is now off.";
+        debugmsg ("game::pldrive error: can't find vehicle! Drive mode is now off.");
+        u.in_vehicle = false;
+        return;
+    }
+    int pctr = veh->part_with_feature (part, "CONTROLS");
+    if (pctr < 0) {
+        add_msg (_("You can't drive the vehicle from here. You need controls!"));
+        return;
+    }
 
- int thr_amount = 10 * 100;
- if (veh->cruise_on)
-  veh->cruise_thrust (-y * thr_amount);
- else {
-  veh->thrust (-y);
- }
- veh->turn (15 * x);
- if (veh->skidding && veh->valid_wheel_config()) {
-  if (rng (0, 100) < u.dex_cur + u.skillLevel("driving") * 2) {
-   add_msg (_("You regain control of the %s."), veh->name.c_str());
-   veh->velocity = int(veh->forward_velocity());
-   veh->skidding = false;
-   veh->move.init (veh->turn_dir);
-  }
- }
- // Don't spend turns to adjust cruise speed.
- if( x != 0 || !veh->cruise_on ){ u.moves = 0; }
+    int thr_amount = 10 * 100;
+    if (veh->cruise_on) {
+        veh->cruise_thrust (-y * thr_amount);
+    } else {
+        veh->thrust (-y);
+    }
+    veh->turn (15 * x);
+    if (veh->skidding && veh->valid_wheel_config()) {
+        if (rng (0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
+            add_msg (_("You regain control of the %s."), veh->name.c_str());
+            u.practice(turn, "driving", veh->velocity / 5);
+            veh->velocity = int(veh->forward_velocity());
+            veh->skidding = false;
+            veh->move.init (veh->turn_dir);
+        }
+    }
+    // Don't spend turns to adjust cruise speed.
+    if( x != 0 || !veh->cruise_on ) {
+        u.moves = 0;
+    }
 
- if (x != 0 && veh->velocity != 0 && one_in(4))
-     u.practice(turn, "driving", 1);
+    if (x != 0 && veh->velocity != 0 && one_in(10)) {
+        u.practice(turn, "driving", 1);
+    }
 }
 
 void game::plmove(int dx, int dy)

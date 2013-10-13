@@ -2586,8 +2586,9 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     int closest = range + 1;
     for (int i = 0; i < g->num_zombies(); i++) {
         int dist = rl_dist( x, y, g->zombie(i).posx(), g->zombie(i).posy() );
-        if( g->zombie(i).friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
+        if (g->zombie(i).friendly == 0 && dist < closest &&
+              !g->zombie(i).is_hallucination() &&
+              g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
             target = &(g->zombie(i));
             closest = dist;
             fire_t = t;
@@ -2618,14 +2619,14 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     }
     npc tmp;
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
-    tmp.skillLevel(gun.skill_used).level(1);
-    tmp.skillLevel("gun").level(0);
+    tmp.skillLevel(gun.skill_used).level(8);
+    tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.posx = x;
     tmp.posy = y;
     tmp.str_cur = 16;
-    tmp.dex_cur =  6;
-    tmp.per_cur =  8;
+    tmp.dex_cur = 8;
+    tmp.per_cur = 12;
     tmp.weapon = item(&gun, 0);
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
