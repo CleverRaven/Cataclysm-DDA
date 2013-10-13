@@ -232,6 +232,7 @@ class game
   bool u_see (monster *mon);
   bool u_see (player *p);
   bool pl_sees(player *p, monster *mon, int &t);
+  bool is_hostile_nearby();
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
   void update_overmap_seen(); // Update which overmap tiles we can see
