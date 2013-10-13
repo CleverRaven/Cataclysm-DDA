@@ -3985,7 +3985,7 @@ void player::knock_back_from(game *g, int x, int y)
    }
 // TODO: NPCs can't swim!
   } else { // It's some kind of wall.
-   hurt(g, bp_torso, 0, 3);
+   hurt(g, bp_torso, -1, 3);
    add_disease("stunned", 2);
    g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
@@ -4403,7 +4403,7 @@ void player::suffer(game *g)
             else
             {
                 g->add_msg(_("You're drowning!"));
-                hurt(g, bp_torso, 0, rng(1, 4));
+                hurt(g, bp_torso, -1, rng(1, 4));
             }
         }
     }

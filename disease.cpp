@@ -739,8 +739,11 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SPORES:
-            p.add_disease("fungus", 1, true);
-            g->u.add_memorial_log(_("Contracted a fungal infection."));
+            // Equivalent to X in 150000 + health * 1000
+            if (one_in(1000) && x_in_y(dis.intensity, 150 + p.health)) {
+                p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
+                g->u.add_memorial_log(_("Contracted a fungal infection."));
+            }
             break;
 
         case DI_FUNGUS:
@@ -900,7 +903,7 @@ void dis_effect(player &p, disease &dis) {
             if (one_in(psnChance)) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
                 p.pain++;
-                p.hurt(g, bp_torso, 0, rng(0, 2) * rng(0, 1));
+                p.hurt(g, bp_torso, -1, rng(0, 2) * rng(0, 1));
             }
             p.per_cur--;
             p.dex_cur--;
@@ -922,7 +925,7 @@ void dis_effect(player &p, disease &dis) {
             if (inflictBadPsnPain) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
                 p.pain += 2;
-                p.hurt(g, bp_torso, 0, rng(0, 2));
+                p.hurt(g, bp_torso, -1, rng(0, 2));
             }
             p.per_cur -= 2;
             p.dex_cur -= 2;
@@ -944,7 +947,7 @@ void dis_effect(player &p, disease &dis) {
             }
             if (one_in(300 + bonus)) {
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
-                p.hurt(g, bp_torso, 0, 1);
+                p.hurt(g, bp_torso, -1, 1);
             }
             if (will_vomit(p, 100+bonus) || one_in(600 + bonus)) {
                 p.vomit(g);
@@ -1003,7 +1006,7 @@ void dis_effect(player &p, disease &dis) {
                     }
                 }
                 p.moves -= 150;
-                p.hurt(g, bp_torso, 0, 1);
+                p.hurt(g, bp_torso, -1, 1);
             }
             break;
 
@@ -2103,37 +2106,40 @@ void manage_fire_exposure(player &p, int fireStrength) {
 }
 
 void manage_fungal_infection(player& p, disease& dis) {
-    int bonus = p.has_trait("POISRESIST") ? 100 : 0;
+    int bonus = p.health + p.has_trait("POISRESIST") ? 100 : 0;
     p.moves -= 10;
     p.str_cur -= 1;
     p.dex_cur -= 1;
-    if (dis.duration > -600) { // First hour symptoms
-        if (one_in(160 + bonus)) {
-            handle_cough(p);
-        }
-        if (one_in(100 + bonus)) {
-            g->add_msg_if_player(&p,_("You feel nauseous."));
-        }
-        if (one_in(100 + bonus)) {
-            g->add_msg_if_player(&p,_("You smell and taste mushrooms."));
-        }
-    } else if (dis.duration > -3600) { // One to six hours
-        if (one_in(600 + bonus * 3)) {
-            g->add_msg_if_player(&p,_("You spasm suddenly!"));
-            p.moves -= 100;
-            p.hurt(g, bp_torso, 0, 5);
-        }
-        if (will_vomit(p, 800+bonus*4) || one_in(2000 + bonus * 10)) {
-            g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
-                                    _("<npcname> vomits a thick, grey goop.") );
+    if (!dis.permanent) {
+        if (dis.duration > 3001) { // First hour symptoms
+            if (one_in(160 + bonus)) {
+                handle_cough(p);
+            }
+            if (one_in(100 + bonus)) {
+                g->add_msg_if_player(&p,_("You feel nauseous."));
+            }
+            if (one_in(100 + bonus)) {
+                g->add_msg_if_player(&p,_("You smell and taste mushrooms."));
+            }
+        } else if (dis.duration > 1) { // Five hours of worse symptoms
+            if (one_in(600 + bonus * 3)) {
+                g->add_msg_if_player(&p, _("You spasm suddenly!"));
+                p.moves -= 100;
+                p.hurt(g, bp_torso, -1, 5);
+            }
+            if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
+                g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
+                                        _("<npcname> vomits a thick, grey goop.") );
 
-            int awfulness = rng(0,70);
-            p.moves = -200;
-            p.hunger += awfulness;
-            p.thirst += awfulness;
-            p.hurt(g, bp_torso, 0, awfulness/p.str_cur);  // can't be healthy
+                int awfulness = rng(0,70);
+                p.moves = -200;
+                p.hunger += awfulness;
+                p.thirst += awfulness;
+                p.hurt(g, bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
+            }
+        } else {
+            p.add_disease("fungus", 1, true, 1, 1, 0, -1);
         }
-    // Full symptoms
     } else if (one_in(1000 + bonus * 8)) {
         g->add_msg_player_or_npc( &p, _("You vomit thousands of live spores!"),
                                 _("<npcname> vomits thousands of live spores!") );
@@ -2148,7 +2154,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                 }
                 sporex = p.posx + i;
                 sporey = p.posy + j;
-                if (g->m.move_cost(sporex, sporey) > 0 && one_in(2)) {
+                if (g->m.move_cost(sporex, sporey) > 0) {
                     const int zid = g->mon_at(sporex, sporey);
                     if (zid >= 0) {  // Spores hit a monster
                         if (g->u_see(sporex, sporey) &&
@@ -2159,7 +2165,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                         if (!g->zombie(zid).make_fungus(g)) {
                             g->kill_mon(zid);
                         }
-                    } else if (one_in(16)){
+                    } else if (one_in(4) && g->num_zombies() <= 1000){
                         spore.spawn(sporex, sporey);
                         g->add_zombie(spore);
                     }
@@ -2171,8 +2177,8 @@ void manage_fungal_infection(player& p, disease& dis) {
         g->add_msg_player_or_npc(&p,
             _("Your hands bulge. Fungus stalks burst through the bulge!"),
             _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
-        p.hurt(g, bp_arms, 0, 60);
-        p.hurt(g, bp_arms, 1, 60);
+        p.hurt(g, bp_arms, 0, 999);
+        p.hurt(g, bp_arms, 1, 999);
     }
 }
 
@@ -2502,7 +2508,7 @@ static void handle_cough(player &p, int loudness) {
     }
     p.moves -= 80;
     if (!one_in(4)) {
-        p.hurt(g, bp_torso, 0, 1);
+        p.hurt(g, bp_torso, -1, 1);
     }
     if (p.has_disease("sleep")) {
         p.rem_disease("sleep");

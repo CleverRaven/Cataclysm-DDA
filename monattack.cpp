@@ -699,22 +699,22 @@ void mattack::fungus(game *g, monster *z)
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, false, 1, 3, 0, 1, true)) {
+                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, false, 1, 3, 0, 1, true)) {
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 0, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 0, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 0, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 0, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
                     }
                     if (hit) {
@@ -1246,7 +1246,7 @@ void mattack::tazer(game *g, monster *z)
  z->moves = -200;   // It takes a while
  g->add_msg(_("The %s shocks you!"), z->name().c_str());
  int shock = rng(1, 5);
- g->u.hurt(g, bp_torso, 0, shock * rng(1, 3));
+ g->u.hurt(g, bp_torso, -1, shock * rng(1, 3));
  g->u.moves -= shock * 20;
 }
 

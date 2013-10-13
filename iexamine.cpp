@@ -647,22 +647,22 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
                 } else if (g->u.posx == i && g->u.posy == j) {
                     // Spores hit the player
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, false, 1, 3, 0, 1, true)) {
+                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, false, 1, 3, 0, 1, true)) {
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 0, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 0, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 0, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 0, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
                     }
                     if (hit) {
