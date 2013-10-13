@@ -1211,11 +1211,17 @@ void game::update_weather()
 Temperature::magnitude game::get_temperature()
 {
     point location = om_location();
-    Temperature::magnitude tmp_temperature = temperature;
+    Temperature::magnitude localTemperature = m.temperature(u.posx, u.posy);
 
-    tmp_temperature += Temperature::rankine(m.temperature(u.posx, u.posy));
+    if (!localTemperature) { // The local area doesn't have a temperature set, so we need to determine the temperature dynamically.
+      if (levz >= 0) {
+        return temperature;
+      } else {
+        return Temperature::subterranean;
+      }
+    }
 
-    return tmp_temperature;
+    return localTemperature;
 }
 
 int game::assign_mission_id()
