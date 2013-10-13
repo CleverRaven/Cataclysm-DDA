@@ -3811,6 +3811,85 @@
   ]
 },{
         "type" : "recipe",
+  "result": "dry_meat",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dry_veggy",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "broccoli", 2 ],
+      [ "tomato", 2 ],
+      [ "zucchini", 2 ],
+      [ "potato_raw", 2 ],
+      [ "onion", 2 ],
+      [ "carrot", 2 ],
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "fluid_sac", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dry_fruit",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "strawberries", 2 ],
+      [ "blueberries", 2 ],
+      [ "orange", 2 ],
+      [ "lemon", 2 ],
+      [ "banana", 2 ],
+      [ "apple", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sausage",
   "category": "CC_FOOD",
   "skill_used": "cooking",

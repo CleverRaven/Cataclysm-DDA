@@ -5037,7 +5037,7 @@
     "bashing": 8,
     "cutting": 0,
     "to_hit": -2,
-    "max_charges": 500,
+    "max_charges": 200,
     "initial_charges": 100,
     "charges_per_use": 0,
     "turns_per_charge": 0,
