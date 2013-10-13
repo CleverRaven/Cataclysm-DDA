@@ -7345,7 +7345,7 @@
         "id" : "fries",
         "name" : "French fries",
         "weight" : 85,
-        "color" : "magenta",
+        "color" : "yellow",
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "NONE",
