@@ -147,9 +147,9 @@ player::player() : name("")
  }
 
  for (int i = 0; i < num_bp; i++) {
-  temp_cur[i] = BODYTEMP_NORM;
+  temp_cur[i] = Temperature::human;
   frostbite_timer[i] = 0;
-  temp_conv[i] = BODYTEMP_NORM;
+  temp_conv[i] = Temperature::human;
  }
  nv_cached = false;
  volume = 0;
@@ -306,7 +306,7 @@ void player::normalize(game *g)
   hp_cur[i] = hp_max[i];
  }
  for (int i = 0 ; i < num_bp; i++)
-  temp_conv[i] = BODYTEMP_NORM;
+  temp_conv[i] = Temperature::human;
 }
 
 void player::pick_name() {
@@ -678,12 +678,17 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
 
 void player::update_bodytemp(game *g)
 {
+    Temperature::magnitude ambient_norm = (has_disease("sleep") ? Temperature::room : Temperature::coldRoom);
+    Temperature::magnitude ambient_temperature = g->get_temperature();
+
+    Temperature::delta ambient_delta;
+    bool tooHot = Temperature::hotter(ambient_temperature, ambient_norm, &ambient_delta);
+
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
-    int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
     // This adjusts the temperature scale to match the bodytemp scale
     int adjusted_temp = (Ctemperature - ambient_norm);
     // This gets incremented in the for loop and used in the morale calculation
@@ -756,10 +761,10 @@ void player::update_bodytemp(game *g)
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-        float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
-        int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
+        float homeostasis_adjustement = (temp_cur[i] > Temperature::human ? 30.0 : 60.0);
+        Temperature::delta clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
+        temp_conv[i] = Temperature::human + ambient_delta + clothing_warmth_adjustement;
         // HUNGER
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
@@ -923,76 +928,68 @@ void player::update_bodytemp(game *g)
         if ( has_disease("sleep") ) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
             // Too warm, don't need items on the floor
-            if ( temp_conv[i] > BODYTEMP_NORM ) {
+            if ( temp_conv[i] > Temperature::human ) {
                 // Do nothing
             }
             // Intelligently use items on the floor; just enough to be comfortable
-            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
-                temp_conv[i] = BODYTEMP_NORM;
+            else if ( (temp_conv[i] + sleep_bonus) > Temperature::human ) {
+                temp_conv[i] = Temperature::human;
             }
             // Use all items on the floor -- there are not enough to keep comfortable
             else {
                 temp_conv[i] += sleep_bonus;
             }
         }
-        int temp_before = temp_cur[i];
-        int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
+        Temperature::magnitude temp_before = temp_cur[i];
+        Temperature::delta     temp_delta;
+        bool isHotter = Temperature::hotter(temp_cur[i], temp_conv[i], &temp_delta);
+
+        Temperature::delta effective_delta = temp_delta;
+
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
         // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
-        int rounding_error = 0;
-        // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
-        if (temp_difference < 0 && temp_difference > -600 )
-        {
-            rounding_error = 1;
+        if ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) && (i == bp_feet || i == bp_legs) || ter_at_pos == t_water_dp) {
+          effective_delta *= exp(-.004);
+        } else if (i == bp_torso || i == bp_head) {
+          effective_delta *= exp(-.003);
+        } else {
+          effective_delta *= exp(-.002);
         }
-        if (temp_cur[i] != temp_conv[i])
-        {
-            if      ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage)
-                    && (i == bp_feet || i == bp_legs))
-            {
-                temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
-            }
-            else if (ter_at_pos == t_water_dp)
-            {
-                temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
-            }
-            else if (i == bp_torso || i == bp_head)
-            {
-                temp_cur[i] = temp_difference*exp(-0.003) + temp_conv[i] + rounding_error;
-            }
-            else
-            {
-                temp_cur[i] = temp_difference*exp(-0.002) + temp_conv[i] + rounding_error;
-            }
+
+        if (isHotter) {
+          temp_cur[i] -= effective_delta;
+        } else {
+          temp_cur[i] += effective_delta;
         }
-        int temp_after = temp_cur[i];
+
+        Temperature::magnitude temp_after = temp_cur[i];
         // PENALTIES
-        if      (temp_cur[i] < BODYTEMP_FREEZING)
+        if      (temp_cur[i] < Temperature::celsius(32))
         {
             add_disease("cold", 1, 3, 3, (body_part)i, -1);
             frostbite_timer[i] += 3;
         }
-        else if (temp_cur[i] < BODYTEMP_VERY_COLD)
+        else if (temp_cur[i] < Temperature::celsius(34))
         {
             add_disease("cold", 1, 2, 3, (body_part)i, -1);
             frostbite_timer[i] += 2;
         }
-        else if (temp_cur[i] < BODYTEMP_COLD)
+        else if (temp_cur[i] < Temperature::celsius(36))
         {
             // Frostbite timer does not go down if you are still cold.
             add_disease("cold", 1, 1, 3, (body_part)i, -1);
             frostbite_timer[i] += 1;
         }
-        else if (temp_cur[i] > BODYTEMP_SCORCHING)
+        else if (temp_cur[i] > Temperature::celsius(42))
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
             add_disease("hot",  1, 3, 3, (body_part)i, -1);
         }
-        else if (temp_cur[i] > BODYTEMP_VERY_HOT)
+        else if (temp_cur[i] > Temperature::celsius(40))
         {
             add_disease("hot",  1, 2, 3, (body_part)i, -1);
         }
-        else if (temp_cur[i] > BODYTEMP_HOT)
+        else if (temp_cur[i] > Temperature::celsius(38))
         {
             add_disease("hot",  1, 1, 3, (body_part)i, -1);
         }
@@ -1085,10 +1082,14 @@ void player::update_bodytemp(game *g)
 
 void player::temp_equalizer(body_part bp1, body_part bp2)
 {
- // Body heat is moved around.
- // Shift in one direction only, will be shifted in the other direction seperately.
- int diff = (temp_cur[bp2] - temp_cur[bp1])*0.0001; // If bp1 is warmer, it will lose heat
- temp_cur[bp1] += diff;
+  Temperature::delta difference;
+  bool isHotter = Temperature::hotter(temp_cur[bp1], temp_cur[bp2], &difference);
+
+  if (isHotter) { // heat flows from bp1 to bp2
+    temp_cur[bp1] -= difference / 1000;
+  } else { // heat flows from bp2 to bp1
+    temp_cur[bp1] += difference / 1000;
+  }
 }
 
 int player::current_speed(game *g)

@@ -316,15 +316,15 @@ std::string weather_forecast(game *g, radio_tower tower)
     // Accumulate percentages for each period of various weather statistics, and report that
     // (with fuzz) as the weather chances.
     int weather_proportions[NUM_WEATHER_TYPES] = {0};
-    signed char high = 0;
-    signed char low = 0;
+    Temperature::magnitude high = 0;
+    Temperature::magnitude low = 0;
     calendar start_time = g->turn;
     int period_start = g->turn.hours();
     // TODO wind direction and speed
     for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(g->turn) ); it != g->weather_log.end(); ++it ) {
         weather_segment * period = &(it->second);
         int period_deadline = period->deadline.hours();
-        signed char period_temperature = period->temperature;
+        Temperature::magnitude period_temperature = period->temperature;
         weather_type period_weather = period->weather;
         bool start_day = period_start >= 6 && period_start <= 18;
         bool end_day = period_deadline >= 6 && period_deadline <= 18;
@@ -387,7 +387,7 @@ std::string weather_forecast(game *g, radio_tower tower)
     return weather_report.str();
 }
 
-std::string print_temperature(float fahrenheit, int decimals)
+std::string print_temperature(Temperature::magnitude temperature, int decimals)
 {
     std::stringstream ret;
     ret.precision(decimals);
@@ -395,12 +395,12 @@ std::string print_temperature(float fahrenheit, int decimals)
 
     if(OPTIONS["USE_CELSIUS"] == "celsius")
     {
-        ret << ((fahrenheit-32) * 5 / 9);
+        ret << Temperature::to_celsius<double>(temperature);
         return rmp_format(_("<Celsius>%sC"), ret.str().c_str());
     }
     else
     {
-        ret << fahrenheit;
+        ret << Temperature::to_fahrenheit<double>(temperature);
         return rmp_format(_("<Fahrenheit>%sF"), ret.str().c_str());
     }
 

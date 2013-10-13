@@ -511,7 +511,7 @@ void dis_effect(player &p, disease &dis) {
                                 p.thirst++;
                             }
                             // Hallucinations handled in game.cpp
-                            if (one_in(std::min(14500, 15000 - p.temp_cur[bp_head]))) {
+                            if (one_in(35)) {
                                 p.vomit(g);
                             }
                             if (p.pain < 20) {
