@@ -298,6 +298,9 @@ void dis_effect(player &p, disease &dis) {
     switch(disType) {
         case DI_GLARE:
             p.per_cur -= 1;
+            if (one_in(200)) {
+                g->add_msg(_("The sunlight's glare makes it hard to see."));
+            }
             break;
 
         case DI_WET:
@@ -1248,8 +1251,8 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_MA_BUFF:
-            if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
-              ma_buff b = g->ma_buffs[dis.buff_id];
+            if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
+              ma_buff b = ma_buffs[dis.buff_id];
               if (b.is_valid_player(p)) {
                 b.apply_player(p);
               }
@@ -1355,6 +1358,7 @@ int disease_speed_boost(disease dis)
 
 std::string dis_name(disease& dis)
 {
+    // Maximum length of returned string is 26 characters
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
@@ -1521,9 +1525,9 @@ std::string dis_name(disease& dis)
     {
         std::string status = "";
         switch (dis.intensity) {
-        case 1: status = _("Bleeding "); break;
-        case 2: status = _("Heavily Bleeding "); break;
-        case 3: status = _("Very Heavily Bleeding "); break;
+        case 1: status = _("Bleeding - "); break;
+        case 2: status = _("Bad Bleeding - "); break;
+        case 3: status = _("Heavy Bleeding - "); break;
         }
         switch (dis.bp) {
             case bp_head:
@@ -1657,14 +1661,14 @@ std::string dis_name(disease& dis)
     case DI_RECOVER: return _("Recovering From Infection");
 
     case DI_MA_BUFF:
-        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
-          if (g->ma_buffs[dis.buff_id].max_stacks > 1) {
+        if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
+          if (ma_buffs[dis.buff_id].max_stacks > 1) {
             std::stringstream buf;
-            buf << g->ma_buffs[dis.buff_id].name
+            buf << ma_buffs[dis.buff_id].name
               << " (" << dis.intensity << ")";
             return buf.str().c_str();
           } else
-            return g->ma_buffs[dis.buff_id].name.c_str();
+            return ma_buffs[dis.buff_id].name.c_str();
         } else
           return "Invalid martial arts buff";
 
@@ -2061,8 +2065,8 @@ condition, and deals massive damage.");
     case DI_RECOVER: return _("You are recovering from an infection.");
 
     case DI_MA_BUFF:
-        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end())
-          return g->ma_buffs[dis.buff_id].desc.c_str();
+        if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
+          return ma_buffs[dis.buff_id].description.c_str();
         else
           return "This is probably a bug.";
 

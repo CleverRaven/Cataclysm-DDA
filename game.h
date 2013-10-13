@@ -24,6 +24,7 @@
 #include "gamemode.h"
 #include <vector>
 #include <map>
+#include <queue>
 #include <list>
 #include <stdarg.h>
 
@@ -100,6 +101,7 @@ class game
  public:
   game();
   ~game();
+  void init_data();
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
@@ -108,6 +110,9 @@ class game
   void serialize(std::ofstream & fout); // for save
   void unserialize(std::ifstream & fin); // for load
   bool unserialize_legacy(std::ifstream & fin); // for old load
+  void unserialize_master(std::ifstream & fin); // for load
+  bool unserialize_master_legacy(std::ifstream & fin); // for old load
+
   void save();
   void delete_save();
   std::vector<std::string> list_active_characters();
@@ -122,6 +127,7 @@ class game
   void add_msg_string(const std::string &s);
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
+  void add_msg_if_npc(player* p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
   std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   void add_event(event_type type, int on_turn, int faction_id = -1,
@@ -227,6 +233,7 @@ class game
   bool u_see (monster *mon);
   bool u_see (player *p);
   bool pl_sees(player *p, monster *mon, int &t);
+  bool is_hostile_nearby();
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
   void update_overmap_seen(); // Update which overmap tiles we can see
@@ -256,6 +263,8 @@ class game
   std::string list_item_upvote;
   std::string list_item_downvote;
   char inv(std::string title);
+  char inv(inventory,std::string);
+  char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
@@ -276,10 +285,6 @@ class game
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions
 
-  std::map<matype_id, martialart> martialarts;
-  std::map<mabuff_id, ma_buff> ma_buffs;
-  std::map<matec_id, ma_technique> ma_techniques;
-
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
 
@@ -288,8 +293,7 @@ class game
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
 
-  std::list<weather_segment> future_weather;
-
+  std::map<int, weather_segment> weather_log;
   char nextinv; // Determines which letter the next inv item will have
   overmap *cur_om;
   map m;
@@ -357,7 +361,12 @@ void load_artifacts(); // Load artifact data
 
 // Mi-Go speech bubble loading
   void load_migo_speech(JsonObject &jo);
+// Vehicle related JSON loaders and variables
+  void load_vehiclepart(JsonObject &jo);
+  void load_vehicle(JsonObject &jo);
+  void finalize_vehicles();
 
+  std::queue<vehicle_prototype*> vehprototypes;
 
  private:
 // Game-start procedures
@@ -366,16 +375,18 @@ void load_artifacts(); // Load artifact data
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master(); // Load the master data file, with factions &c
   void load_weather(std::ifstream &fin);
-  void load_weather(std::string line);
   void load(std::string name); // Load a player-specific save file
   void start_game(); // Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
   void save_factions_missions_npcs();
+  void serialize_master(std::ofstream &fout);
   void save_artifacts();
   void save_maps();
-  std::string save_weather() const;
+  void save_weather(std::ofstream &fout);
+  void load_legacy_future_weather(std::string data);
+  void load_legacy_future_weather(std::istream &fin);
   void save_uistate();
   void load_uistate();
 // Data Initialization
@@ -386,19 +397,14 @@ void load_artifacts(); // Load artifact data
   void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types
-  void init_techniques();
-  void init_martialarts();
   void init_skills() throw (std::string);
   void init_professions();
   void init_faction_data();
-  void init_mtypes();       // Initializes monster types
   void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
-  void init_vehicle_parts();       // Initializes vehicle part types
-  void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_savedata_translation_tables();

@@ -37,6 +37,7 @@ class inventory
   inventory  operator+  (const item &rhs);
   inventory  operator+  (const std::list<item> &rhs);
 
+  inventory filter_by_activation(player& u);
   inventory filter_by_category(item_cat cat, const player& u) const;
 
   void unsort(); // flags the inventory as unsorted

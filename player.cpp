@@ -25,6 +25,8 @@
 #include "get_version.h"
 #include "crafting.h"
 #include "monstergenerator.h"
+#include "help.h" // get_hint
+#include "martialarts.h"
 
 #include <ctime>
 
@@ -125,6 +127,7 @@ player::player() : name("")
  controlling_vehicle = false;
  grab_point.x = 0;
  grab_point.y = 0;
+ grab_type = OBJECT_NONE;
  style_selected = "style_none";
  focus_pool = 100;
  last_item = itype_id("null");
@@ -1986,7 +1989,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  const char *title_EFFECTS = _("EFFECTS");
  mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
  for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
-  mvwprintz(w_effects, i+1, 1, c_ltgray, effect_name[i].c_str());
+  mvwprintz(w_effects, i+1, 0, c_ltgray, effect_name[i].c_str());
  }
  wrefresh(w_effects);
 
@@ -2034,7 +2037,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
    if (line < skill_win_size_y + 1)
    {
      mvwprintz(w_skills, line, 1, text_color, "%s", ((*aSkill)->name() + ":").c_str());
-     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%%%)", (int)level,
+     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", (int)level,
                (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
    }
@@ -2434,9 +2437,9 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     if (i == line)
-     mvwprintz(w_effects, 1 + i - min, 1, h_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, effect_name[i].c_str());
     else
-     mvwprintz(w_effects, 1 + i - min, 1, c_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size()) {
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", effect_text[line].c_str());
@@ -2456,7 +2459,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
      mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
-      mvwprintz(w_effects, i + 1, 1, c_ltgray, effect_name[i].c_str());
+      mvwprintz(w_effects, i + 1, 0, c_ltgray, effect_name[i].c_str());
      wrefresh(w_effects);
      line = 0;
      curtab = 1;
@@ -2515,7 +2518,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
     }
     mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
     mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
 
    //Draw Scrollbar
@@ -2552,7 +2555,7 @@ Running costs %+d movement points"), encumb(bp_feet) * 5);
        status = isLearning ? c_ltblue : c_blue;
 
       mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
+      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
      }
      wrefresh(w_skills);
      line = 0;
@@ -2704,7 +2707,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     if (style_selected == "style_none")
       style = _("No Style");
     else
-      style = g->martialarts[style_selected].name.c_str();
+      style = martialarts[style_selected].name.c_str();
     if (style) {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
         mvwprintz(weapwin, 1, x, c_blue, style);
@@ -3389,6 +3392,18 @@ void player::pause(game *g)
                            mfb(bp_eyes)|mfb(bp_mouth));
         }
     }
+
+    VehicleList vehs = g->m.get_vehicles();
+    vehicle* veh = NULL;
+    for (int v = 0; v < vehs.size(); ++v) {
+        veh = vehs[v].v;
+        if (veh && veh->velocity > 0 && veh->player_in_control(this)) {
+            if (one_in(10)) {
+                practice(g->turn, "driving", 1);
+            }
+            break;
+        }
+    }
 }
 
 int player::throw_range(signed char ch)
@@ -3544,11 +3559,6 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 // TODO: Pre or post blit hit tile onto "this"'s location here
  if( g->u_see( this->posx, this->posy ) ) {
     g->draw_hit_player(this);
-    /*
-     hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
-                   this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
-                   red_background(this->color()), '@');
-    */
  }
 
  rem_disease("speed_boost");
@@ -3927,7 +3937,7 @@ void player::knock_back_from(game *g, int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
-  hit(g, bp_torso, 0, z->type->size, 0);
+  hit(g, bp_torso, -1, z->type->size, 0);
   add_disease("stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
@@ -3947,9 +3957,9 @@ void player::knock_back_from(game *g, int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(g, bp_torso, 0, 3, 0);
+  hit(g, bp_torso, -1, 3, 0);
   add_disease("stunned", 1);
-  p->hit(g, bp_torso, 0, 3, 0);
+  p->hit(g, bp_torso, -1, 3, 0);
   g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
@@ -5297,7 +5307,7 @@ void player::process_active_items(game *g)
                     g->add_msg(_("Your %s beeps alarmingly."), weapon.tname().c_str());
                 }
             } else { // We're chargin it up!
-                if ( use_charges_if_avail("adv_UPS_on", ceil((1 + weapon.charges) / 2)) ||
+                if ( use_charges_if_avail("adv_UPS_on", ceil(static_cast<float>(1 + weapon.charges) / 2)) ||
                      use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
                     weapon.poison++;
                 } else {
@@ -5507,10 +5517,10 @@ martialart player::get_combat_style()
  martialart tmp;
  bool pickstyle = (!ma_styles.empty());
  if (pickstyle) {
-  tmp = g->martialarts[style_selected];
+  tmp = martialarts[style_selected];
   return tmp;
  } else {
-  return g->martialarts["style_none"];
+  return martialarts["style_none"];
  }
 }
 
@@ -6331,7 +6341,7 @@ bool player::eat(game *g, signed char ch)
     }
 
     eaten->charges--;
-    if (eaten->charges <= 0)
+    if (eaten->charges <= 0 || eaten->is_book())
     {
         if (which == -1)
             weapon = ret_null;
@@ -6464,10 +6474,10 @@ void player::pick_style(game *g) // Style selection menu
  std::vector<std::string> options;
  options.push_back(_("No style"));
  for (int i = 0; i < ma_styles.size(); i++) {
-  if(g->martialarts.find(ma_styles[i]) == g->martialarts.end()) {
+  if(martialarts.find(ma_styles[i]) == martialarts.end()) {
    debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
   } else {
-   options.push_back( g->martialarts[ma_styles[i]].name );
+   options.push_back( martialarts[ma_styles[i]].name );
   }
  }
  int selection = menu_vec(false, _("Select a style"), options);
@@ -6886,11 +6896,11 @@ bool player::takeoff(game *g, char let, bool autodrop)
                 item &w = worn[i];
 
                 // Handle power armor.
-                if ((dynamic_cast<it_armor*>(w.type))->is_power_armor() &&
-                        ((dynamic_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
+                if ((reinterpret_cast<it_armor*>(w.type))->is_power_armor() &&
+                        ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
                     // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                     for (int j = 0; j < worn.size(); j++) {
-                        if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+                        if ((reinterpret_cast<it_armor*>(worn[j].type))->is_power_armor() &&
                                 (worn[j].invlet != let)) {
                             if (autodrop) {
                                 g->m.add_item_or_charges(posx, posy, worn[j]);
@@ -6898,7 +6908,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
 
                                 // We've invalidated our index into worn[],
                                 // so rescan from the beginning.
-                                i = -1;
+                                j = -1;
                                 taken_off = true;
                             } else {
                                 g->add_msg(_("You can't take off power armor while wearing other power armor components."));
@@ -6907,7 +6917,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
                     }
                 }
 
-                if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(w.type))->storage >
+                if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
                         volume_carried() + w.type->volume) {
                     inv.add_item_keep_invlet(w);
                     worn.erase(worn.begin() + i);
@@ -7072,6 +7082,8 @@ void player::sort_armor(game *g)
 
             if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
                 tmp_str += _("It has pockets.\n");
+                if (tmp_worn[leftListIndex]->has_flag("HOOD"))
+                tmp_str += _("It has a hood.\n");
             if (tmp_worn[leftListIndex]->has_flag("WATERPROOF"))
                 tmp_str += _("It is waterproof.\n");
             if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY"))
@@ -7771,7 +7783,13 @@ void player::read(game *g, char ch)
     }
     else if (tmp->type == NULL)
     {
-        /* No-op, there's no associated skill. */
+        // special guidebook effect: print a misc. hint when read
+        if (tmp->id == "guidebook") {
+            g->add_msg(get_hint().c_str());
+            moves -= 100;
+            return;
+        }
+        // otherwise do nothing as there's no associated skill
     }
     else if (skillLevel(tmp->type) < (int)tmp->req)
     {
@@ -8039,6 +8057,12 @@ int player::warmth(body_part bp)
     {
         ret += 10;
     }
+    
+    // If the players head is not encumbered, check if hood can be put up
+    if(bp == bp_head && encumb(bp_head) < 1 && worn_with_flag("HOOD"))
+    {
+        ret += 10;
+    }
 
     for (int i = 0; i < worn.size(); i++)
     {
@@ -8228,7 +8252,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     for (int i = worn.size() - 1; i >= 0; i--)
     {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
-        if ((tmp->covers & mfb(bp)) && tmp->storage <= 24)
+        if (tmp->covers & mfb(bp))
         {
             // first determine if damage is at a covered part of the body
             // probability given by coverage

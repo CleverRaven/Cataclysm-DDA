@@ -266,6 +266,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100")) {
       weapon->charges -= 100;
+  } else if (weapon->has_flag("FIRE_50")) {
+      weapon->charges -= 50;
   } else if (weapon->has_flag("CHARGE")) {
       weapon->active = false;
       weapon->charges = 0;
@@ -350,23 +352,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
    draw_bullet(p, tx, ty, i, trajectory, effects.count("FLAME")? '#':'*', ts);
-   /*
-   if (u_see(tx, ty)) {
-    if (i > 0)
-    {
-        m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false,
-                 true, u.posx + u.view_offset_x, u.posy + u.view_offset_y);
-    }
-    char bullet = '*';
-    if (effects.count("FLAME"))
-     bullet = '#';
-    mvwputch(w_terrain, ty + VIEWY - u.posy - u.view_offset_y,
-             tx + VIEWX - u.posx - u.view_offset_x, c_red, bullet);
-    wrefresh(w_terrain);
-    if (&p == &u)
-     nanosleep(&ts, NULL);
-   }
-   */
+
    if (dam <= 0 && !(effects.count("FLAME"))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
     if (is_bolt && !(effects.count("IGNITE")) &&
@@ -765,7 +751,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   if (x != u.posx || y != u.posy) {
 
    // Draw the player
-   int atx = VIEWX + u.posx - center.x, aty = VIEWY + u.posy - center.y;
+   int atx = POSX + u.posx - center.x, aty = POSY + u.posy - center.y;
    if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
@@ -798,9 +784,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    const int zid = mon_at(x, y);
    if (zid == -1) {
     if (snap_to_target)
-     mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
+     mvwputch(w_terrain, POSY, POSX, c_red, '*');
     else
-     mvwputch(w_terrain, VIEWY + y - center.y, VIEWX + x - center.x, c_red, '*');
+     mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
    } else {
     if (u_see(&(zombie(zid)))) {
      zombie(zid).print_info(this, w_target,2);
@@ -823,7 +809,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
-    mvwputch(w_terrain, VIEWY, VIEWX, c_black, 'X');
+    mvwputch(w_terrain, POSY, POSX, c_black, 'X');
    x += tarx;
    y += tary;
    if (x < lowx)
@@ -1208,63 +1194,67 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
 
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
 {
- int npcdex = g->npc_at(h->posx, h->posy);
- // Gunmods don't have a type, so use the player gun type.
- it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- body_part hit;
- int side = rng(0, 1);
- if (goodhit < .003) {
-  hit = bp_eyes;
-  dam = rng(3 * dam, 5 * dam);
-  p.practice(g->turn, firing->skill_used, 5);
- } else if (goodhit < .066) {
-  if (one_in(25))
-   hit = bp_eyes;
-  else if (one_in(15))
-   hit = bp_mouth;
-  else
-   hit = bp_head;
-  dam = rng(2 * dam, 5 * dam);
-  p.practice(g->turn, firing->skill_used, 5);
- } else if (goodhit < .2) {
-  hit = bp_torso;
-  dam = rng(dam, 2 * dam);
-  p.practice(g->turn, firing->skill_used, 2);
- } else if (goodhit < .4) {
-  if (one_in(3))
-   hit = bp_torso;
-  else if (one_in(2))
-   hit = bp_arms;
-  else
-   hit = bp_legs;
-  dam = rng(int(dam * .9), int(dam * 1.5));
-  p.practice(g->turn, firing->skill_used, rng(0, 1));
- } else if (goodhit < .5) {
-  if (one_in(2))
-   hit = bp_arms;
-  else
-   hit = bp_legs;
-  dam = rng(dam / 2, dam);
- } else {
-  dam = 0;
- }
- if (dam > 0) {
-  h->moves -= rng(0, dam);
-  if (h == &(g->u))
-   g->add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
-              body_part_name(hit, side).c_str(), dam);
-  else {
-   if (&p == &(g->u)) {
-    g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
-               body_part_name(hit, side).c_str());
+    int npcdex = g->npc_at(h->posx, h->posy);
+    // Gunmods don't have a type, so use the player gun type.
+    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
+    body_part hit;
+    if (goodhit < .003) {
+        hit = bp_eyes;
+        dam = rng(3 * dam, 5 * dam);
+        p.practice(g->turn, firing->skill_used, 5);
+    } else if (goodhit < .066) {
+        if (one_in(25)) {
+            hit = bp_eyes;
+        } else if (one_in(15)) {
+            hit = bp_mouth;
+        } else {
+            hit = bp_head;
+        }
+        dam = rng(2 * dam, 5 * dam);
+        p.practice(g->turn, firing->skill_used, 5);
+    } else if (goodhit < .2) {
+        hit = bp_torso;
+        dam = rng(dam, 2 * dam);
+        p.practice(g->turn, firing->skill_used, 2);
+    } else if (goodhit < .4) {
+        if (one_in(3)) {
+            hit = bp_torso;
+        } else if (one_in(2)) {
+            hit = bp_arms;
+        } else {
+            hit = bp_legs;
+        }
+        dam = rng(int(dam * .9), int(dam * 1.5));
+        p.practice(g->turn, firing->skill_used, rng(0, 1));
+    } else if (goodhit < .5) {
+        if (one_in(2)) {
+            hit = bp_arms;
+        } else {
+            hit = bp_legs;
+        }
+        dam = rng(dam / 2, dam);
+    } else {
+        dam = 0;
+    }
+    if (dam > 0) {
+        int side = random_side(hit);
+        h->moves -= rng(0, dam);
+        if (h == &(g->u)) {
+            g->add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
+                          body_part_name(hit, side).c_str(), dam);
+        } else {
+            if (&p == &(g->u)) {
+                g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
+                               body_part_name(hit, side).c_str());
                 g->active_npc[npcdex]->make_angry();
- } else if (g->u_see(h->posx, h->posy))
-    g->add_msg(_("%s shoots %s's %s."),
-               (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),
-               h->name.c_str(), body_part_name(hit, side).c_str());
-  }
-  h->hit(g, hit, side, 0, dam);
- }
+            } else if (g->u_see(h->posx, h->posy)) {
+                g->add_msg(_("%s shoots %s's %s."),
+                   (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),
+                    h->name.c_str(), body_part_name(hit, side).c_str());
+            }
+        }
+        h->hit(g, hit, side, 0, dam);
+    }
 }
 
 void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)

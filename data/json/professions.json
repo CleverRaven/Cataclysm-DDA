@@ -248,7 +248,7 @@
         "ident": "homeless",
         "items": [
             "pants",
-            "whiskey"
+            "whiskey",
             "can_beans"
         ],
         "name": "Hobo",
@@ -786,7 +786,7 @@
             "sunglasses",
             "jeans",
             "dress_shirt",
-            "dress_shoes",
+            "dress_shoes"
         ],
         "CBMs":[
             "bio_batteries",
@@ -804,7 +804,7 @@
             "jeans",
             "tshirt",
             "sneakers"
-        ]
+        ],
         "CBMs":[
             "bio_metabolics",
             "bio_hydraulics",
@@ -823,7 +823,7 @@
             "pants_army",
             "jacket_army",
             "mask_bal"
-        ]
+        ],
         "CBMs":[
             "bio_fingerhack",
             "bio_alarm",
@@ -841,8 +841,8 @@
         "items":[
             "sneakers",
             "jeans",
-            "tshirt",
-        ]
+            "tshirt"
+        ],
         "CBMs":[
             "bio_drain",
             "bio_noise",
@@ -853,5 +853,17 @@
             "bio_power_storage_mkII"
         ],
         "points": 0
+    },
+    {
+        "type" : "profession",
+        "ident" : "hitchhiker",
+        "name" : "Hitchhiker",
+        "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
+        "items" : [
+            "house_coat",
+            "towel",
+            "guidebook"
+        ],
+        "points" : 0
     }
 ]

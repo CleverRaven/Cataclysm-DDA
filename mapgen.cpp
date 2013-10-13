@@ -520,54 +520,13 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   else
    rn = 0;
 
-  if (terrain_type == ot_road_ew)
+  if (terrain_type == ot_road_ew) {
    veh_spawn_heading = (one_in(2)? 0 : 180);
-  else
+  } else {
    veh_spawn_heading = (one_in(2)? 270 : 90);
-
-  // spawn city car wrecks
-  if (rn > 0) {
-   int maxwrecks = rng (0,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 35) {
-        add_vehicle (g, "car_chassis", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 55) {
-        add_vehicle (g, "car", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 65) {
-        add_vehicle (g, "hippie_van", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 70) {
-        add_vehicle (g, "cube_van", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 80) {
-        add_vehicle (g, "electric_car", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 90) {
-        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, -1, 1);
-    } else if (rc <= 95) {
-        add_vehicle (g, "rv", vx, vy, veh_spawn_heading, -1, 1);
-    } else {
-        add_vehicle (g, "motorcycle", vx, vy, veh_spawn_heading, -1, 1);
-    }
-   }
   }
 
-  // spawn regular road out of fuel vehicles
-  if (rn == 0) {
-   if (one_in(40)) {
-    int vx = rng (8, 16);
-    int vy = rng (8, 16);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, veh_spawn_heading, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, veh_spawn_heading, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, veh_spawn_heading, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, veh_spawn_heading, 0, -1);
-   }
-  }
+  add_road_vehicles(rn > 0, veh_spawn_heading);
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -603,43 +562,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   else
    rn = 0;
 
-  // spawn city car wrecks
-  if (rn > 0) {
-   int maxwrecks = rng (0,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 50)
-     add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 70)
-     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 80)
-     add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 90)
-     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 95)
-     add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else
-     add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
-   }
-  }
-  // spawn regular road out of fuel vehicles
-  if (rn == 0) {
-   if (one_in(40)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-     add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-     add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-     add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-     add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
-  }
+  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -680,43 +603,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   else
    rn = 0;
 
-  // spawn city car wrecks
-  if (rn > 0) {
-   int maxwrecks = rng (0,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 50)
-        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 70)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 80)
-        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 90)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 95)
-        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else
-        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, 1);
-   }
-  }
-  // spawn regular road out of fuel vehicles
-  if (rn == 0) {
-   if (one_in(20)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(0, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
-  }
+  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -757,26 +644,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
   // spawn city car wrecks
   if (rn > 0) {
-   int maxwrecks = rng (1,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-    if (rc <= 50)
-        add_vehicle (g, "car_chassis", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 70)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 80)
-        add_vehicle (g, "electric_car", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 90)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 95)
-        add_vehicle (g, "rv", vx, vy, one_in(2)? 90 : 180, -1, -1);
-    else if (rc <= 96)
-        add_vehicle (g, "shopping_cart", vx, vy, one_in(2)? 90 : 180);
-    else
-        add_vehicle (g, "motorcycle", vx, vy, one_in(2)? 90 : 180, -1, -1);
-   }
+    add_road_vehicles(true, one_in(2) ? 90 : 180);
   }
 
   for (int i = 0; i < SEEX * 2; i++) {
@@ -1325,7 +1193,7 @@ t   t\n\
           rn = rng(lw + 1, rw - 1);
           attempts--;
       } while (ter(rn, actual_house_height - 1) != t_floor && attempts);
-      if( ter(rn, actual_house_height - 1) != t_floor && attempts ) {
+      if( ter(rn, actual_house_height - 1) == t_floor && attempts ) {
           ter_set(rn, actual_house_height - 1, t_stairs_down);
       }
   }
@@ -1514,6 +1382,14 @@ t   t\n\
    mapf::basic_bind( "# m s t", t_sandbox, t_monkey_bars, t_slide, t_tree ),
    mapf::basic_bind( "-", f_bench));
    rotate(rng(0, 3));
+
+   int vx = one_in(2) ? 1 : 20;
+   int vy = one_in(2) ? 1 : 20;
+   if(one_in(3)) {
+       add_vehicle (g, "ice_cream_cart", vx, vy, 0, -1, -1);
+   } else if(one_in(2)) {
+       add_vehicle (g, "food_cart", vx, vy, one_in(2)? 90 : 180, -1, -1);
+   }
 
   } else { // Basketball court
    fill_background(this, t_pavement);
@@ -1745,6 +1621,12 @@ case ot_office_cubical_west: {
    place_items("cubical_office", 60,  19,  9, 20,  9, false, 0);
    place_items("cubical_office", 60,  18,  17, 19,  20, false, 0);
    place_items("novels", 70,  2,  19, 2,  21, false, 0);
+   {
+      int num_chairs = rng(0, 6);
+      for( int i = 0; i < num_chairs; i++ ) {
+          add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+      }
+   }
    if (terrain_type == ot_office_cubical_east)
     rotate(3);
    if (terrain_type == ot_office_cubical_north)
@@ -2326,7 +2208,13 @@ ssssss______ss______ssss\n",
     if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
     if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 22, 1);}
     if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 1, 22, 4);}
-    }
+  }
+  {
+      int num_chairs = rng(0, 6);
+      for( int i = 0; i < num_chairs; i++ ) {
+          add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+      }
+  }
   if (t_north == ot_office_tower_1 && t_west == ot_office_tower_1)
    rotate(3);
   else if (t_north == ot_office_tower_1 && t_east == ot_office_tower_1)
@@ -2388,6 +2276,12 @@ ss%|rrrr|...|.R.|EEED...\n",
      place_items("cubical_office", 75, 4, 5, 5, 5, false, 0);
      place_items("cubical_office", 75, 11, 5, 12, 5, false, 0);
      place_items("cubical_office", 75, 14, 5, 16, 5, false, 0);
+     {
+        int num_chairs = rng(0, 6);
+        for( int i = 0; i < num_chairs; i++ ) {
+            add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+        }
+     }
      if (t_west == ot_office_tower_1_entrance)
             rotate(1);
      if (t_north == ot_office_tower_1_entrance)
@@ -2436,6 +2330,12 @@ ssssssssssssssssssssssss\n",
      else {
         add_spawn("mon_zombie", rng(0,15), 14, 10);
         if (x_in_y(1,2)){add_spawn("mon_zombie_cop", 2, 10, 10);}
+     }
+     {
+         int num_chairs = rng(0, 6);
+         for( int i = 0; i < num_chairs; i++ ) {
+             add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+         }
      }
      if (t_north == ot_office_tower_1_entrance)
             rotate(1);
@@ -2487,7 +2387,13 @@ ssssssssssssssssssssssss\n\
         place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
      else {
         add_spawn("mon_zombie", rng(0,5), 9, 15);
-      }
+     }
+     {
+         int num_chairs = rng(0, 6);
+         for( int i = 0; i < num_chairs; i++ ) {
+             add_vehicle (g, "swivel_chair", rng(6, 16), rng(6, 16), 0, -1, -1, false);
+         }
+     }
      if (t_west == ot_office_tower_1 && t_north == ot_office_tower_1){
             rotate(1);}
      else if (t_east == ot_office_tower_1 && t_north == ot_office_tower_1){
@@ -3457,6 +3363,12 @@ C..C..C...|hhh|#########\n\
   else
    place_items("cleaning", 74, 15, 12, 17, 12, false, 0);
   place_items("mischw", 90, 20,  4, 20, 19, false, 0);
+  {
+      int num_carts = rng(1, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, "wheelbarrow", rng(4, 19), rng(3, 11), 90, -1, -1, false);
+      }
+  }
   if (terrain_type == ot_s_hardware_east)
    rotate(1);
   if (terrain_type == ot_s_hardware_south)
@@ -8185,7 +8097,13 @@ ________________________\n\
   else {
     if (x_in_y(1,2)){add_spawn("mon_zombie", 2, 15, 7);}
     if (x_in_y(1,2)){add_spawn("mon_zombie", rng(1,8), 12, 11);}
-    }
+  }
+  {
+      int num_carts = rng(1, 3);
+      for( int i = 0; i < num_carts; i++ ) {
+          add_vehicle (g, "luggage_cart", rng(5, 18), rng(2, 12), 90, -1, -1, false);
+      }
+  }
   if (t_north == ot_hotel_tower_1_2)
    rotate(2);
   else if (t_east == ot_hotel_tower_1_2)
@@ -9357,12 +9275,16 @@ case ot_s_garage_north:
         // place vehicle, if any
         if (one_in(3)) {
           std::string vt;
-          if (one_in(3))
+          int vehicle_type = rng(1, 8);
+          if(vehicle_type <= 3) {
             vt = one_in(2) ? "car" : "car_chassis";
-          else if(one_in(2))
+          } else if(vehicle_type <= 5) {
             vt = one_in(2) ? "quad_bike" : "quad_bike_chassis";
-          else
+          } else if(vehicle_type <= 7) {
             vt = one_in(2) ? "motorcycle" : "motorcycle_chassis";
+          } else {
+            vt = "welding_cart";
+          }
           add_vehicle (g, vt, vx, vy, theta, -1, -1);
         }
   }
@@ -12694,8 +12616,10 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  */
 vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks)
 {
-  for (std::vector<int>::const_iterator part = veh->external_parts.begin();
-          part != veh->external_parts.end(); part++) {
+  //We only want to check once per square, so loop over all structural parts
+  std::vector<int> frame_indices = veh->all_parts_at_location("structure");
+  for (std::vector<int>::const_iterator part = frame_indices.begin();
+          part != frame_indices.end(); part++) {
     const int px = x + veh->parts[*part].precalc_dx[0];
     const int py = y + veh->parts[*part].precalc_dy[0];
 
@@ -13229,7 +13153,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   }
 
     if (one_in(2)) { //dining table in the kitchen
-    square(m, f_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
+    square_furn(m, f_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
     if (one_in(2)) {
     for (int i=0; i<=2; i++) {
         pos_x1=rng(x1+2,x2-2); pos_y1=rng(y1+1,y2-1);
@@ -13847,7 +13771,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
   } break;
 
   case room_mine_office:
-   line(m, f_counter, midx, y1 + 2, midx, y2 - 2);
+   line_furn(m, f_counter, midx, y1 + 2, midx, y2 - 2);
    line(m, t_window, midx - 1, y1, midx + 1, y1);
    line(m, t_window, midx - 1, y2, midx + 1, y2);
    line(m, t_window, x1, midy - 1, x1, midy + 1);
@@ -14057,9 +13981,9 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
  case room_mansion_bedroom:
   if (dx > dy || (dx == dy && one_in(2))) { // horizontal
    if (one_in(2)) { // bed on left
-    square(m, f_bed, x1 + 1, cy_low - 1, x1 + 3, cy_low + 1);
+    square_furn(m, f_bed, x1 + 1, cy_low - 1, x1 + 3, cy_low + 1);
    } else { // bed on right
-    square(m, f_bed, x2 - 3, cy_low - 1, x2 - 1, cy_low + 1);
+    square_furn(m, f_bed, x2 - 3, cy_low - 1, x2 - 1, cy_low + 1);
    }
     m->furn_set(cx_hi - 2, y1, f_bookcase);
     m->furn_set(cx_hi - 1, y1, f_counter);
@@ -14084,9 +14008,9 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
 
   } else { // vertical
    if (one_in(2)) { // bed at top
-    square(m, f_bed, cx_low - 1, y1 + 1, cx_low + 1, y1 + 3);
+    square_furn(m, f_bed, cx_low - 1, y1 + 1, cx_low + 1, y1 + 3);
    } else { // bed at bottom
-    square(m, f_bed, cx_low - 1, y2 - 3, cx_low + 1, y2 - 1);
+    square_furn(m, f_bed, cx_low - 1, y2 - 3, cx_low + 1, y2 - 1);
    }
     m->furn_set(x1, cy_hi - 2, f_bookcase);
     m->furn_set(x1, cy_hi - 1, f_counter);
@@ -14115,7 +14039,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   if (dx < dy || (dx == dy && one_in(2))) { // vertically-aligned bookshelves
    for (int x = x1 + 1; x <= cx_low - 2; x += 3) {
     for (int y = y1 + 1; y <= y2 - 3; y += 4) {
-     square(m, f_bookcase, x, y, x + 1, y + 2);
+     square_furn(m, f_bookcase, x, y, x + 1, y + 2);
      m->place_items("novels",    85, x, y, x + 1, y + 2, false, 0);
      m->place_items("manuals",   62, x, y, x + 1, y + 2, false, 0);
      m->place_items("textbooks", 40, x, y, x + 1, y + 2, false, 0);
@@ -14123,7 +14047,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    }
    for (int x = x2 - 1; x >= cx_low + 2; x -= 3) {
     for (int y = y1 + 1; y <= y2 - 3; y += 4) {
-     square(m, f_bookcase, x - 1, y, x, y + 2);
+     square_furn(m, f_bookcase, x - 1, y, x, y + 2);
      m->place_items("novels",    85, x - 1, y, x, y + 2, false, 0);
      m->place_items("manuals",   62, x - 1, y, x, y + 2, false, 0);
      m->place_items("textbooks", 40, x - 1, y, x, y + 2, false, 0);
@@ -14132,7 +14056,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   } else { // horizontally-aligned bookshelves
    for (int y = y1 + 1; y <= cy_low - 2; y += 3) {
     for (int x = x1 + 1; x <= x2 - 3; x += 4) {
-     square(m, f_bookcase, x, y, x + 2, y + 1);
+     square_furn(m, f_bookcase, x, y, x + 2, y + 1);
      m->place_items("novels",    85, x, y, x + 2, y + 1, false, 0);
      m->place_items("manuals",   62, x, y, x + 2, y + 1, false, 0);
      m->place_items("textbooks", 40, x, y, x + 2, y + 1, false, 0);
@@ -14140,7 +14064,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    }
    for (int y = y2 - 1; y >= cy_low + 2; y -= 3) {
     for (int x = x1 + 1; x <= x2 - 3; x += 4) {
-     square(m, f_bookcase, x, y - 1, x + 2, y);
+     square_furn(m, f_bookcase, x, y - 1, x + 2, y);
      m->place_items("novels",    85, x, y - 1, x + 2, y, false, 0);
      m->place_items("manuals",   62, x, y - 1, x + 2, y, false, 0);
      m->place_items("textbooks", 40, x, y - 1, x + 2, y, false, 0);
@@ -14150,30 +14074,30 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_kitchen:
-    line(m, f_counter, cx_hi - 2, y1 + 1, cx_hi - 2, y2 - 1);
-    line(m, f_counter, cx_hi,     y1 + 1, cx_hi,     y2 - 1);
+    line_furn(m, f_counter, cx_hi - 2, y1 + 1, cx_hi - 2, y2 - 1);
+    line_furn(m, f_counter, cx_hi,     y1 + 1, cx_hi,     y2 - 1);
     m->place_items("kitchen",  60, cx_hi - 2, y1 + 1, cx_hi, y2 - 1, false, 0);
 
-    line(m, f_fridge, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1);
+    line_furn(m, f_fridge, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1);
     m->place_items("fridge",  80, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1, false, 0);
 
     m->furn_set(cx_hi + 2, cy_hi, f_oven);
 
-    line(m, f_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
+    line_furn(m, f_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
     m->place_items("cannedfood",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
     m->place_items("pasta",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
   break;
 
  case room_mansion_dining:
   if (dx < dy || (dx == dy && one_in(2))) { // vertically-aligned table
-   line(m, f_table, cx_low, y1 + 2, cx_low, y2 - 2);
-   line(m, f_bench, cx_low - 1, y1 + 2, cx_low - 1, y2 - 2);
-   line(m, f_bench, cx_low + 1, y1 + 2, cx_low + 1, y2 - 2);
+   line_furn(m, f_table, cx_low, y1 + 2, cx_low, y2 - 2);
+   line_furn(m, f_bench, cx_low - 1, y1 + 2, cx_low - 1, y2 - 2);
+   line_furn(m, f_bench, cx_low + 1, y1 + 2, cx_low + 1, y2 - 2);
    m->place_items("dining", 78, cx_low, y1 + 2, cx_low, y2 - 2, false, 0);
   } else { // horizontally-aligned table
-   line(m, f_table, x1 + 2, cy_low, x2 - 2, cy_low);
-   line(m, f_bench, x1 + 2, cy_low - 1, x2 - 2, cy_low - 1);
-   line(m, f_bench, x1 + 2, cy_low + 1, x2 - 2, cy_low + 1);
+   line_furn(m, f_table, x1 + 2, cy_low, x2 - 2, cy_low);
+   line_furn(m, f_bench, x1 + 2, cy_low - 1, x2 - 2, cy_low - 1);
+   line_furn(m, f_bench, x1 + 2, cy_low + 1, x2 - 2, cy_low + 1);
    m->place_items("dining", 78, x1 + 2, cy_low, x2 - 2, cy_low, false, 0);
   }
     m->furn_set(x1, y1, f_indoor_plant);
@@ -14184,18 +14108,18 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
 
  case room_mansion_game:
   if (dx < dy || one_in(2)) { // vertically-aligned table
-   square(m, f_pool_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
+   square_furn(m, f_pool_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
    m->place_items("pool_table", 80, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
                   false, 0);
   } else { // horizontally-aligned table
-   square(m, f_pool_table, cx_low - 1, cy_low, cx_low + 1, cy_low + 1);
+   square_furn(m, f_pool_table, cx_low - 1, cy_low, cx_low + 1, cy_low + 1);
    m->place_items("pool_table", 80, cx_low - 1, cy_low, cx_low + 1, cy_low + 1,
                   false, 0);
   }
 
     if (one_in(2))
     {
-        line(m, f_sofa, x1 + 1, cy_low - 1, x1 + 1, cy_low + 1);
+        line_furn(m, f_sofa, x1 + 1, cy_low - 1, x1 + 1, cy_low + 1);
         m->furn_set(x1 + 1, cy_low - 2, f_table);
         m->place_items("coffee_shop", 70, x1 + 1, cy_low + 2, x1 + 1, cy_low + 2, false, 0);
         m->place_items("magazines", 50, x1 + 1, cy_low + 2, x1 + 1, cy_low + 2, false, 0);
@@ -14205,7 +14129,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
     }
     else
     {
-        line(m, f_sofa, cx_low - 1, y1 + 1, cx_low + 1, y1 + 1);
+        line_furn(m, f_sofa, cx_low - 1, y1 + 1, cx_low + 1, y1 + 1);
         m->furn_set(cx_low - 2, y1 + 1, f_table);
         m->place_items("coffee_shop", 70, cx_low - 2, y1 + 1, cx_low - 2, y1 + 1, false, 0);
         m->place_items("magazines", 50, cx_low - 2, y1 + 1, cx_low - 2, y1 + 1, false, 0);
@@ -14263,7 +14187,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
             }
         }
 
-        square(m, f_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
+        square_furn(m, f_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
         m->place_items("novels", 50, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
                   false, 0);
         m->place_items("magazines", 60, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
@@ -14304,7 +14228,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
     m->furn_set(x2 - 2, y2 - 2, f_rack);
     m->place_items("alcohol", 80, x2 - 2, y2 - 2, x2 - 2, y2 - 2, false, 0);
 
-    square(m, f_table, cx_low - 1, cy_low - 1, cx_low + 1, cy_low + 1);
+    square_furn(m, f_table, cx_low - 1, cy_low - 1, cx_low + 1, cy_low + 1);
     m->furn_set(x1, y1, f_indoor_plant);
     m->furn_set(x2, y1, f_indoor_plant);
     m->furn_set(x1, y2, f_indoor_plant);
@@ -14882,4 +14806,63 @@ void add_corpse(game *g, map *m, int x, int y)
   m->put_items_from("jackets", 1, x, y, 0, 0, 0);
  if (one_in(15))
   m->put_items_from("bags", 1, x, y, 0, 0, 0);
+}
+
+/**
+ * Adds vehicles to the current submap, selected from a random weighted
+ * distribution of possible vehicles. If the road has a pavement, then set the
+ * 'city' flag to true to spawn wrecks. If it doesn't (ie, highway or country
+ * road,) then set 'city' to false to spawn far fewer vehicles that are out
+ * of gas instead of wrecked.
+ * @param city Whether or not to spawn city wrecks.
+ * @param facing The direction the spawned car should face (multiple of 90).
+ */
+void map::add_road_vehicles(bool city, int facing)
+{
+    if (city) {
+        // spawn city car wrecks
+        int maxwrecks = rng(0, 3);
+        for (int nv = 0; nv < maxwrecks; nv++) {
+            int vx = rng(0, 3) * 4 + 5;
+            int vy = rng(0, 3) * 4 + 5;
+            int car_type = rng(1, 100);
+            if (car_type <= 35) {
+                add_vehicle(g, "car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 45) {
+                add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
+            } else if (car_type <= 50) {
+                add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
+            } else if (car_type <= 55) {
+                add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
+            } else if (car_type <= 65) {
+                add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
+            } else if (car_type <= 70) {
+                add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
+            } else if (car_type <= 80) {
+                add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 90) {
+                add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
+            } else if (car_type <= 95) {
+                add_vehicle(g, "rv", vx, vy, facing, -1, 1);
+            } else {
+                add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
+            }
+        }
+    } else {
+        // spawn regular road out of fuel vehicles
+        if (one_in(40)) {
+            int vx = rng(8, 16);
+            int vy = rng(8, 16);
+            int car_type = rng(1, 10);
+            if (car_type <= 5) {
+                add_vehicle(g, "car", vx, vy, facing, 0, -1);
+            } else if (car_type <= 8) {
+                add_vehicle(g, "flatbed_truck", vx, vy, facing, 0, -1);
+            } else if (car_type <= 9) {
+                add_vehicle(g, "semi_truck", vx, vy, facing, 0, -1);
+            } else {
+                add_vehicle(g, "armored_car", vx, vy, facing, 0, -1);
+            }
+        }
+    }
 }

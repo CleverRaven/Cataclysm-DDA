@@ -16,18 +16,21 @@ void NameGenerator::load_name(JsonObject &jo)
     std::string usage = jo.get_string("usage");
     uint32_t flags = 0;
 
-    name = rm_prefix(_(("<name>"+name).c_str()));
-
     if (usage == "given") {
         flags |= nameIsGivenName;
+        name = pgettext("Given Name", name.c_str());
     } else if (usage == "family") {
         flags |= nameIsFamilyName;
+        name = pgettext("Family Name", name.c_str());
     } else if (usage == "universal") {
         flags |= nameIsGivenName | nameIsFamilyName;
+        name = pgettext("Either Name", name.c_str());
     } else if (usage == "backer") {
         flags |= nameIsFullName;
+        name = pgettext("Full Name", name.c_str());
     } else if (usage == "city") {
         flags |= nameIsTownName;
+        name = pgettext("City Name", name.c_str());
     }
 
     // Gender is optional
@@ -69,9 +72,10 @@ std::string NameGenerator::generateName(bool male) {
   uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
   //One in four chance to pull from the backer list, otherwise generate a name from the parts list
   if (one_in(4)){
-    return rmp_format(_("<name>%s"), getName(baseSearchFlags | nameIsFullName).c_str());
+    return getName(baseSearchFlags | nameIsFullName);
   } else {
-    return rmp_format(_("<name>%s %s"),
+    //~ used for constructing names. swapping these will put family name first.
+    return string_format(pgettext("Full Name", "%1$s %2$s"),
         getName(baseSearchFlags | nameIsGivenName).c_str(),
         getName(baseSearchFlags | nameIsFamilyName).c_str()
         );

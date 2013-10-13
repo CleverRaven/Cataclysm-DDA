@@ -78,11 +78,6 @@ void vehicle::load (std::ifstream &stin)
     } else {
         load_legacy(stin);
     }
-
-    /* After loading, check if the vehicle is from the old rules and is missing
-     * frames. */
-    add_missing_frames();
-
 }
 
 /** Checks all parts to see if frames are missing (as they might be when
@@ -91,9 +86,9 @@ void vehicle::add_missing_frames()
 {
     //No need to check the same (x, y) spot more than once
     std::set< std::pair<int, int> > locations_checked;
-    for(std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); it++) {
-        int next_x = it->mount_dx;
-        int next_y = it->mount_dy;
+    for (int i = 0; i < parts.size(); i++) {
+        int next_x = parts[i].mount_dx;
+        int next_y = parts[i].mount_dy;
         std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
 
         if(locations_checked.count(mount_location) == 0) {
@@ -108,7 +103,15 @@ void vehicle::add_missing_frames()
             }
             if(!found) {
                 //No frame here! Install one.
-                install_part(next_x, next_y, "frame_vertical", -1, true);
+                vehicle_part new_part;
+                new_part.id = "frame_vertical";
+                new_part.mount_dx = next_x;
+                new_part.mount_dy = next_y;
+                new_part.hp = vehicle_part_types["frame_vertical"].durability;
+                new_part.amount = 0;
+                new_part.blood = 0;
+                new_part.bigness = 0;
+                parts.push_back (new_part);
             }
         }
 
@@ -442,37 +445,6 @@ int vehicle::part_power (int index){
    }
 }
 
-/**
- * Returns whether or not the specified flag is allowed to be stacked. For
- * example, you can have multiple INTERNAL or OPAQUE parts, but only one
- * WHEEL or ENGINE per square.
- * @param vpart_flag The flag to check.
- * @return true if multiple parts with that flag can be placed in the same
- *         square, false if not.
- */
-bool vehicle::can_stack_vpart_flag(std::string vpart_flag) {
-
-  if (vpart_flag == "EXTERNAL" ||
-          vpart_flag == "INTERNAL" ||
-          vpart_flag == "MOUNT_POINT" ||
-          vpart_flag == "MOUNT_INNER" ||
-          vpart_flag == "MOUNT_OVER" ||
-          vpart_flag == "ANCHOR_POINT" ||
-          vpart_flag == "VARIABLE_SIZE" ||
-          vpart_flag == "OPAQUE" ||
-          vpart_flag == "OBSTACLE" ||
-          vpart_flag == "OPENABLE" ||
-          vpart_flag == "NO_REINFORCE" ||
-          vpart_flag == "SHARP" ||
-          vpart_flag == "UNMOUNT_ON_DAMAGE" ||
-          vpart_flag == "BOARDABLE") {
-    return true;
-  } else {
-    return false;
-  }
-
-}
-
 bool vehicle::has_structural_part(int dx, int dy)
 {
     std::vector<int> parts_here = parts_at_relative(dx, dy);
@@ -745,7 +717,6 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     item tmp(g->itypes[vehicle_part_types[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
-    find_external_parts();
 
     find_exhaust ();
     precalc_mounts (0, face.dir());
@@ -793,7 +764,6 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
 void vehicle::remove_part (int p)
 {
     parts.erase(parts.begin() + p);
-    find_external_parts ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -837,6 +807,46 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
     return -1;
 }
 
+/**
+ * Returns all parts in the vehicle with the given flag, optionally checking
+ * to only return unbroken parts.
+ * If performance becomes an issue, certain lists (such as wheels) could be
+ * cached and fast-returned here, but this is currently linear-time with
+ * respect to the number of parts in the vehicle.
+ * @param feature The flag (such as "WHEEL" or "LIGHT") to find.
+ * @param unbroken true if only unbroken parts should be returned, false to
+ *        return all matching parts.
+ * @return A list of indices to all the parts with the specified feature.
+ */
+std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, bool unbroken)
+{
+    std::vector<int> parts_found;
+    for(int part_index = 0; part_index < parts.size(); part_index++) {
+        if(part_info(part_index).has_flag(feature) &&
+                (!unbroken || parts[part_index].hp > 0)) {
+            parts_found.push_back(part_index);
+        }
+    }
+    return parts_found;
+}
+
+/**
+ * Returns all parts in the vehicle that exist in the given location slot. If
+ * the empty string is passed in, returns all parts with no slot.
+ * @param location The location slot to get parts for.
+ * @return A list of indices to all parts with the specified location.
+ */
+std::vector<int> vehicle::all_parts_at_location(const std::string& location)
+{
+    std::vector<int> parts_found;
+    for(int part_index = 0; part_index < parts.size(); part_index++) {
+        if(part_info(part_index).location == location) {
+            parts_found.push_back(part_index);
+        }
+    }
+    return parts_found;
+}
+
 bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {
@@ -848,12 +858,10 @@ bool vehicle::part_flag (int part, const std::string &flag)
 
 int vehicle::part_at(int dx, int dy)
 {
-    for (int i = 0; i < external_parts.size(); i++)
-    {
-        int p = external_parts[i];
-        if (parts[p].precalc_dx[0] == dx &&
-            parts[p].precalc_dy[0] == dy)
+    for (int p = 0; p < parts.size(); p++) {
+        if (parts[p].precalc_dx[0] == dx && parts[p].precalc_dy[0] == dy) {
             return p;
+        }
     }
     return -1;
 }
@@ -890,8 +898,8 @@ int vehicle::index_of_part(vehicle_part *part)
 
 /**
  * Returns which part (as an index into the parts list) is the one that will be
- * displayed for the given square. Must not be called if there are no parts in
- * that square (check with parts_at_relative(x,y).empty() first).
+ * displayed for the given square. Returns -1 if there are no parts in that
+ * square.
  * @param local_x The local x-coordinate.
  * @param local_y The local y-coordinate.
  * @return The index of the part that will be displayed.
@@ -899,6 +907,10 @@ int vehicle::index_of_part(vehicle_part *part)
 int vehicle::part_displayed_at(int local_x, int local_y)
 {
     std::vector<int> parts_in_square = parts_at_relative(local_x, local_y);
+
+    if(parts_in_square.empty()) {
+        return -1;
+    }
 
     int top_part = 0;
     for(int index = 1; index < parts_in_square.size(); index++) {
@@ -1379,18 +1391,15 @@ float vehicle::wheels_area (int *cnt)
 {
     int count = 0;
     int total_area = 0;
-    for (int i = 0; i < external_parts.size(); i++)
+    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    for (int i = 0; i < wheel_indices.size(); i++)
     {
-        int p = external_parts[i];
-        if (part_flag(p, "WHEEL") &&
-            parts[p].hp > 0)
-        {
-            int width = part_info(p).wheel_width;
-            int bigness = parts[p].bigness;
-            // 9 inches, for reference, is about normal for cars.
-            total_area += ((float)width/9) * bigness;
-            count++;
-        }
+        int p = wheel_indices[i];
+        int width = part_info(p).wheel_width;
+        int bigness = parts[p].bigness;
+        // 9 inches, for reference, is about normal for cars.
+        total_area += ((float)width/9) * bigness;
+        count++;
     }
     if (cnt) {
         *cnt = count;
@@ -1405,10 +1414,11 @@ float vehicle::k_dynamics ()
     for (int o = 0; o < max_obst; o++) {
         obst[o] = 0;
     }
-    for (int i = 0; i < external_parts.size(); i++)
+    std::vector<int> structure_indices = all_parts_at_location("structure");
+    for (int i = 0; i < structure_indices.size(); i++)
     {
-        int p = external_parts[i];
-        int frame_size = part_flag(p, "OBSTACLE")? 30 : 10;
+        int p = structure_indices[i];
+        int frame_size = part_with_feature(p, "OBSTACLE") ? 30 : 10;
         int pos = parts[p].mount_dy + max_obst / 2;
         if (pos < 0) {
             pos = 0;
@@ -1687,8 +1697,9 @@ void vehicle::stop ()
 bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls, int dx, int dy,
                          bool &can_move, int &imp, bool just_detect )
 {
-    for( int ep = 0; ep < external_parts.size() && can_move; ep++ ) {
-        const int p = external_parts[ep];
+    std::vector<int> structural_indices = all_parts_at_location("structure");
+    for( int i = 0; i < structural_indices.size() && can_move; i++ ) {
+        const int p = structural_indices[i];
         // coords of where part will go due to movement (dx/dy)
         // and turning (precalc_dx/dy [1])
         const int dsx = global_x() + dx + parts[p].precalc_dx[1];
@@ -2250,10 +2261,8 @@ void vehicle::gain_moves (int mp)
     refill ("battery", solar_power());
 
     // check for smoking parts
-    for (int ep = 0; ep < external_parts.size(); ep++)
+    for (int p = 0; p < parts.size(); p++)
     {
-        int p = external_parts[ep];
-
         int part_x = global_x() + parts[p].precalc_dx[0];
         int part_y = global_y() + parts[p].precalc_dy[0];
 
@@ -2279,41 +2288,10 @@ void vehicle::gain_moves (int mp)
         }
     }
 
-    if (turret_mode) // handle turrets
-        for (int p = 0; p < parts.size(); p++)
+    if (turret_mode) { // handle turrets
+        for (int p = 0; p < parts.size(); p++) {
             fire_turret (p);
-}
-
-/**
- * Rebuilds the list of external parts. Should be called any time a part is
- * installed or removed. The "external" part in any given square is the one
- * with the highest z-order.
- */
-void vehicle::find_external_parts ()
-{
-    external_parts.clear();
-
-    std::map<std::pair<int, int>, int> external_parts_found;
-
-    for(int part_index = 0; part_index < parts.size(); part_index++) {
-
-        std::pair<int, int> point(parts[part_index].mount_dx, parts[part_index].mount_dy);
-
-        if(external_parts_found.count(point) > 0) {
-            //Is this part higher than the old one?
-            if(part_info(external_parts_found[point]).z_order <
-                    part_info(part_index).z_order) {
-                external_parts_found[point] = part_index;
-            }
-        } else {
-            //First part found for the square
-            external_parts_found[point] = part_index;
         }
-    }
-
-    for(std::map<std::pair<int, int>, int>::iterator part_iterator = external_parts_found.begin();
-            part_iterator != external_parts_found.end(); part_iterator++) {
-        external_parts.push_back(part_iterator->second);
     }
 }
 
@@ -2444,7 +2422,9 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
         // covered by armor -- damage armor first
         dres = damage_direct (parm, dmg, type);
         // half damage for internal part(over parts not covered)
-        damage_direct (pdm, part_flag(pdm, "OVER")? dmg : dmg / 2, type);
+        bool overhead = part_flag(pdm, "ROOF") ||
+                        part_info(pdm).location == "on_roof";
+        damage_direct (pdm, overhead ? dmg : dmg / 2, type);
     }
     return dres;
 }
@@ -2606,8 +2586,9 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     int closest = range + 1;
     for (int i = 0; i < g->num_zombies(); i++) {
         int dist = rl_dist( x, y, g->zombie(i).posx(), g->zombie(i).posy() );
-        if( g->zombie(i).friendly == 0 && dist < closest &&
-            g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
+        if (g->zombie(i).friendly == 0 && dist < closest &&
+              !g->zombie(i).is_hallucination() &&
+              g->m.sees(x, y, g->zombie(i).posx(), g->zombie(i).posy(), range, t) ) {
             target = &(g->zombie(i));
             closest = dist;
             fire_t = t;
@@ -2638,14 +2619,14 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     }
     npc tmp;
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
-    tmp.skillLevel(gun.skill_used).level(1);
-    tmp.skillLevel("gun").level(0);
+    tmp.skillLevel(gun.skill_used).level(8);
+    tmp.skillLevel("gun").level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.posx = x;
     tmp.posy = y;
     tmp.str_cur = 16;
-    tmp.dex_cur =  6;
-    tmp.per_cur =  8;
+    tmp.dex_cur = 8;
+    tmp.per_cur = 12;
     tmp.weapon = item(&gun, 0);
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;

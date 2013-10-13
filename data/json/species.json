@@ -1,0 +1,40 @@
+[
+  {
+    "type":"SPECIES",
+    "id":"MAMMAL",
+    "fear_triggers":["HURT", "FIRE", "FRIEND_DIED"]
+  }, {
+    "type":"SPECIES",
+    "id":"NETHER",
+    "fear_triggers":["HURT"]
+  }, {
+    "type":"SPECIES",
+    "id":"FUNGUS",
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"INSECT",
+    "anger_triggers":["FRIEND_DIED"],
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"PLANT",
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"WORM",
+    "fear_triggers":["HURT"]
+  }, {
+    "type":"SPECIES",
+    "id":"ZOMBIE"
+  }, {
+    "type":"SPECIES",
+    "id":"ROBOT"
+  }, {
+    "type":"SPECIES",
+    "id":"HALLUCINATION"
+  }, {
+    "type":"SPECIES",
+    "id":"UNKNOWN"
+  }
+]

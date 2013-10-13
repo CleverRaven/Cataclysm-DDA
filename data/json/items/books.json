@@ -18,7 +18,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 30,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 4
     },
     {
         "type" : "BOOK",
@@ -39,7 +40,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 30,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 4
     },
 	{
         "type" : "BOOK",
@@ -1194,7 +1196,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1215,7 +1218,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 20
     },
     {
         "type" : "BOOK",
@@ -1236,7 +1240,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 20
     },
     {
         "type" : "BOOK",
@@ -1257,7 +1262,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1278,7 +1284,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1299,7 +1306,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1320,7 +1328,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1341,7 +1350,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1362,7 +1372,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1383,7 +1394,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1404,7 +1416,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 20
     },
     {
         "type" : "BOOK",
@@ -1415,17 +1428,18 @@
         "weight" : 52,
         "to_hit" : 0,
         "color" : "pink",
-        "intelligence" : 5,
+        "intelligence" : 0,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 1,
         "bashing" : -3,
         "cutting" : 0,
-        "time" : 2,
-        "fun" : 0,
+        "time" : 4,
+        "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 4
     },
     {
         "type" : "BOOK",
@@ -1446,7 +1460,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1467,7 +1482,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1488,7 +1504,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1509,7 +1526,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1530,7 +1548,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1551,7 +1570,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1572,7 +1592,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1593,7 +1614,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1614,7 +1636,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1635,7 +1658,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 36
     },
     {
         "type" : "BOOK",
@@ -1656,7 +1680,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1677,7 +1702,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1698,7 +1724,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1719,7 +1746,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 36
     },
     {
         "type" : "BOOK",
@@ -1740,7 +1768,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1761,7 +1790,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 40
     },
     {
         "type" : "BOOK",
@@ -1782,7 +1812,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 44
     },
     {
         "type" : "BOOK",
@@ -1803,7 +1834,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1824,7 +1856,8 @@
         "fun" : 5,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1845,7 +1878,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -2543,7 +2577,7 @@
     {
         "type" : "BOOK",
         "id" : "book_icef",
-        "name" : "Internal Combustion Engine Fundamentals",
+        "name" : "Internal Combustion Fundamentals",
         "max_level" : 8,
         "description" : "A college-level textbook that details the operation, maintenance, and repair of internal combustion engines.",
         "weight" : 1587,
@@ -3022,5 +3056,26 @@
         "skill" : "fabrication",
         "price" : 300,
         "required_level" : 5
+    },
+    {
+        "type" : "BOOK",
+        "id" : "guidebook",
+        "name" : "The Hitchhiker's Guide to the Cataclysm",
+        "description" : "Inscribed on the cover in large, friendly letters, is the message \"Don't Panic\".",
+        "weight" : 1764,
+        "volume" : 4,
+        "price" : 882,
+        "time" : 1,
+        "fun" : 0,
+        "skill" : "",
+        "max_level" : 0,
+        "required_level" : 0,
+        "intelligence" : 0,
+        "color" : "dark_gray",
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "bashing" : 2,
+        "cutting" : 0,
+        "to_hit" : 0
     }
 ]

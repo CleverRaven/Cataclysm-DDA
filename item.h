@@ -144,8 +144,6 @@ public:
  int cut_resist() const;
  // elemental resistances
  int acid_resist() const;
-// Returns the data associated with tech, if we are an it_style
- style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
  std::string get_material(int m) const;
@@ -281,6 +279,9 @@ class map_item_stack
             totalcount++;
         }
 };
+
+//this is an attempt for functional programming
+bool is_edible(item i, player const*u);
 
 //the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
 //it would be better long-term to rewrite stuff so that we don't need that hack

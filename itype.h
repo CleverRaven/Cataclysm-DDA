@@ -91,24 +91,6 @@ BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
 NUM_BIGNESS_ASPECTS,
 };
 
-struct style_move
-{
- std::string name;
- std::string verb_you;
- std::string verb_npc;
- technique_id tech;
- int level;
-
- style_move(std::string N, std::string V1, std::string V2, technique_id T, int L) :
-  name (N),verb_you (V1),verb_npc (V2), tech (T), level (L) { };
-
- style_move() : name(""), verb_you(""), verb_npc("")
- {
-  tech = TEC_NULL;
-  level = 0;
- }
-};
-
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
@@ -556,6 +538,7 @@ struct it_book : public itype
  unsigned char intel; // Intelligence required to read, at all
  unsigned char time;  // How long, in 10-turns (aka minutes), it takes to read
                       // "To read" means getting 1 skill point, not all of em
+ int chapters; //Fun books have chapters; after all are read, the book is less fun
  std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
  it_book() {}
@@ -695,22 +678,6 @@ struct it_software : public itype
   swtype = pswtype;
   power = ppower;
  }
-};
-
-struct it_style : public itype
-{
-
- std::vector<style_move> moves;
-
- it_style(std::string pid, unsigned int pprice,
-          std::string pname, std::string pdes,
-          char psym, nc_color pcolor, std::string pm1, std::string pm2,
-          unsigned char pvolume, unsigned char pweight,
-          signed char pmelee_dam, signed char pmelee_cut,
-          signed char pm_to_hit)
-
-:itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) { }
 };
 
 struct it_stationary : public itype

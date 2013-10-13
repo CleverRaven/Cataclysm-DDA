@@ -326,7 +326,7 @@ inline int printstring(WINDOW *win, char *fmt)
             const char* ts = win->line[win->cursory].chars+p;
             int len = ANY_LENGTH;
             unsigned tc = UTF8_getch(&ts, &len);
-            int tw = mk_wcwidth((wchar_t)tc);
+            int tw = mk_wcwidth(tc);
             erease_utf8_by_cw(win->line[win->cursory].chars+p, tw, tw, win->width*4-p-1);
             x = p+tw-1;
         }
@@ -335,7 +335,7 @@ inline int printstring(WINDOW *win, char *fmt)
                 const char* utf8str = fmt+j;
                 int len = ANY_LENGTH;
                 unsigned ch = UTF8_getch(&utf8str, &len);
-                int cw = mk_wcwidth((wchar_t)ch);
+                int cw = mk_wcwidth(ch);
                 len = ANY_LENGTH-len;
                 if(cw<1) cw = 1;
                 if(len<1) len = 1;
@@ -651,27 +651,23 @@ int waddch(WINDOW *win, const chtype ch)
         const char* ts = win->line[cury].chars+p;
         int len = ANY_LENGTH;
         unsigned tc = UTF8_getch(&ts, &len);
-        int tw = mk_wcwidth((wchar_t)tc);
+        int tw = mk_wcwidth(tc);
         win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
         curx = p+tw-1;
     }
-    else if(win->line[cury].width_in_bytes!=win->width)
+    else if(win->line[cury].width_in_bytes != win->width)
     {
         win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, 1, 1, win->width*4-p-1);
     }
 
-//if (win2 > -1){
-   win->line[cury].chars[curx]=charcode;
-   win->line[cury].FG[win->cursorx]=win->FG;
-   win->line[cury].BG[win->cursorx]=win->BG;
+    win->line[cury].chars[curx] = charcode;
+    win->line[cury].FG[win->cursorx] = win->FG;
+    win->line[cury].BG[win->cursorx] = win->BG;
 
 
     win->draw=true;
     addedchar(win);
     return 1;
-  //  else{
-  //  win2=win2+1;
-
 }
 
 //Move the cursor of the main window

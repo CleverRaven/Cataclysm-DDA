@@ -397,7 +397,7 @@ void mattack::growplants(game *g, monster *z)
 // Player is hit by a growing tree
   if (!g->u.uncanny_dodge()) {
        body_part hit = bp_legs;
-       int side = rng(1, 2);
+       int side = random_side(hit);
        if (one_in(4))
         hit = bp_torso;
        else if (one_in(2))
@@ -410,7 +410,7 @@ void mattack::growplants(game *g, monster *z)
       int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
       if (npcdex != -1) { // An NPC got hit
        body_part hit = bp_legs;
-       int side = rng(1, 2);
+       int side = random_side(hit);
        if (one_in(4))
         hit = bp_torso;
        else if (one_in(2))
@@ -451,7 +451,7 @@ void mattack::growplants(game *g, monster *z)
       } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
   if (!g->u.uncanny_dodge()) {
         body_part hit = bp_legs;
-        int side = rng(1, 2);
+        int side = random_side(hit);
         if (one_in(4))
          hit = bp_torso;
         else if (one_in(2))
@@ -464,7 +464,7 @@ void mattack::growplants(game *g, monster *z)
        int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
        if (npcdex != -1) {
         body_part hit = bp_legs;
-        int side = rng(1, 2);
+        int side = random_side(hit);
         if (one_in(4))
          hit = bp_torso;
         else if (one_in(2))
@@ -517,7 +517,7 @@ void mattack::vine(game *g, monster *z)
     }
     else {
      body_part bphit = random_body_part();
-     int side = rng(0, 1);
+     int side = random_side(bphit);
      g->add_msg(_("The %s lashes your %s!"), z->name().c_str(),
                 body_part_name(bphit, side).c_str());
      g->u.hit(g, bphit, side, 4, 4);
@@ -607,7 +607,7 @@ void mattack::spit_sap(game *g, monster *z)
   return;
  if (g->u.uncanny_dodge() ) { return; }
  g->add_msg(_("A glob of sap hits you!"));
- g->u.hit(g, bp_torso, 0, dam, 0);
+ g->u.hit(g, bp_torso, -1, dam, 0);
  g->u.add_disease("sap", dam);
 }
 
@@ -978,7 +978,7 @@ void mattack::tentacle(game *g, monster *z)
     }
 
     body_part hit = random_body_part();
-    int dam = rng(10, 20), side = rng(0, 1);
+    int dam = rng(10, 20), side = random_side(hit);
     g->add_msg(_("Your %s is hit for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(g, hit, side, dam, 0);
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
@@ -1032,7 +1032,7 @@ void mattack::vortex(game *g, monster *z)
       } else if (traj[i].x == g->u.posx && traj[i].y == g->u.posy) {
       if (! g->u.uncanny_dodge()) {
         body_part hit = random_body_part();
-        int side = rng(0, 1);
+        int side = random_side(hit);
         g->add_msg(_("A %s hits your %s for %d damage!"), thrown.tname().c_str(),
                    body_part_name(hit, side).c_str(), dam);
         g->u.hit(g, hit, side, dam, 0);
@@ -1132,7 +1132,7 @@ void mattack::vortex(game *g, monster *z)
       int damage_copy = damage;
       g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
       if (damage_copy < damage)
-       g->u.hit(g, bp_torso, 0, damage - damage_copy, 0);
+       g->u.hit(g, bp_torso, -1, damage - damage_copy, 0);
      }
      if (hit_wall)
       damage *= 2;
@@ -1140,7 +1140,7 @@ void mattack::vortex(game *g, monster *z)
       g->u.posx = traj[traj.size() - 1].x;
       g->u.posy = traj[traj.size() - 1].y;
      }
-     g->u.hit(g, bp_torso, 0, damage, 0);
+     g->u.hit(g, bp_torso, -1, damage, 0);
      g->update_map(g->u.posx, g->u.posy);
     } // Done with checking for player
    }
@@ -1259,9 +1259,8 @@ void mattack::smg(game *g, monster *z)
               safe_target=false;
               boo_hoo++;
           }
-          //mvprintw(c,VIEWX * 2 + 8,"tgt? %d <=> %d : %d",tangle, u_angle, diff);
         }
-        if (dist < closest && safe_target ) {
+        if (dist < closest && safe_target && !g->zombie(i).is_hallucination()) {
           target = &(g->zombie(i));
           closest = dist;
           fire_t = t;
@@ -1290,15 +1289,15 @@ void mattack::smg(game *g, monster *z)
   npc tmp;
   tmp.name = _("The ") + z->name();
 
-  tmp.skillLevel("smg").level(1);
-  tmp.skillLevel("gun").level(0);
+  tmp.skillLevel("smg").level(8);
+  tmp.skillLevel("gun").level(4);
 
   tmp.recoil = 0;
   tmp.posx = z->posx();
   tmp.posy = z->posy();
   tmp.str_cur = 16;
-  tmp.dex_cur =  6;
-  tmp.per_cur =  8;
+  tmp.dex_cur = 8;
+  tmp.per_cur = 12;
   tmp.weapon = item(g->itypes["smg_9mm"], 0);
   tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
   tmp.weapon.charges = 10;
@@ -1329,15 +1328,15 @@ void mattack::smg(game *g, monster *z)
  npc tmp;
  tmp.name = _("The ") + z->name();
 
- tmp.skillLevel("smg").level(1);
- tmp.skillLevel("gun").level(0);
+  tmp.skillLevel("smg").level(8);
+  tmp.skillLevel("gun").level(4);
 
- tmp.recoil = 0;
- tmp.posx = z->posx();
- tmp.posy = z->posy();
- tmp.str_cur = 16;
- tmp.dex_cur =  6;
- tmp.per_cur =  8;
+  tmp.recoil = 0;
+  tmp.posx = z->posx();
+  tmp.posy = z->posy();
+  tmp.str_cur = 16;
+  tmp.dex_cur = 8;
+  tmp.per_cur = 12;
  tmp.weapon = item(g->itypes["smg_9mm"], 0);
  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
  tmp.weapon.charges = 10;
@@ -1541,7 +1540,7 @@ void mattack::bite(game *g, monster *z) {
     }
 
     body_part hit = random_body_part();
-    int dam = rng(5, 10), side = rng(0, 1);
+    int dam = rng(5, 10), side = random_side(hit);
     dam = g->u.hit(g, hit, side, dam, 0);
 
     if (dam > 0) {
@@ -1592,7 +1591,7 @@ void mattack::flesh_golem(game *g, monster *z)
         return;
     }
     body_part hit = random_body_part();
-    int dam = rng(5, 10), side = rng(0, 1);
+    int dam = rng(5, 10), side = random_side(hit);
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(g, hit, side, dam, 0);
     if (one_in(6)) {

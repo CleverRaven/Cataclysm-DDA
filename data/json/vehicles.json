@@ -1,5 +1,6 @@
 [
     {
+        "type":"vehicle",
         "id": "custom",
         "name": "custom",
         "blueprint": "H",
@@ -9,6 +10,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "bicycle",
         "name": "Bicycle",
         "blueprint": "o#o",
@@ -26,6 +28,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "motorcycle_chassis",
         "name": "Motorcycle Chassis",
         "blueprint": "o#>",
@@ -39,6 +42,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "motorcycle",
         "name": "Motorcycle",
         "blueprint": "o#>o",
@@ -59,6 +63,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "motorcycle_sidecart",
         "name": "Motorcycle",
         "blueprint": [
@@ -87,6 +92,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "quad_bike",
         "name": "Quad Bike",
         "blueprint": [
@@ -117,6 +123,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "quad_bike_chassis",
         "name": "Quad Bike Chassis",
         "blueprint": [
@@ -138,6 +145,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "car",
         "name": "Car",
         "blueprint": [
@@ -211,6 +219,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "car_chassis",
         "name": "Car Chassis",
         "blueprint": [
@@ -255,6 +264,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "hippie_van",
         "name": "Hippie Van",
         "blueprint": [
@@ -338,6 +348,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "flatbed_truck",
         "name": "Flatbed Truck",
         "blueprint": [
@@ -418,6 +429,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "cube_van",
         "name": "Cube Van",
         "blueprint": [
@@ -516,6 +528,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "semi_truck",
         "name": "Semi Truck",
         "blueprint": [
@@ -649,6 +662,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "truck_trailer",
         "name": "Truck Trailer",
         "blueprint": [
@@ -755,6 +769,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "beetle",
         "name": "Beetle",
         "blueprint": [
@@ -807,6 +822,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "bubble_car",
         "name": "Bubble Car",
         "blueprint": [
@@ -880,6 +896,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "golf_cart",
         "name": "Golf Cart",
         "blueprint": [
@@ -907,6 +924,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "scooter",
         "name": "Scooter",
         "blueprint": "o>o",
@@ -924,6 +942,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "military_cargo_truck",
         "name": "Military Cargo Truck",
         "blueprint": [
@@ -1039,6 +1058,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "schoolbus",
         "name": "Schoolbus",
         "blueprint": [
@@ -1190,6 +1210,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "electric_car",
         "name": "Electric Car",
         "blueprint": [
@@ -1265,6 +1286,7 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "rv",
         "name": "RV",
         "blueprint": [
@@ -1393,9 +1415,10 @@
         ]
     },
     {
+        "type":"vehicle",
         "id": "shopping_cart",
         "name": "Shopping Cart",
-        "blueprint": "#",
+        "blueprint": "o",
         "parts": [
             {"x": 0, "y": 0, "part": "frame_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
@@ -1403,6 +1426,82 @@
         ]
     },
     {
+        "type":"vehicle",
+        "id": "welding_cart",
+        "name": "Welding Cart",
+        "blueprint": "&",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "small_storage_battery"},
+            {"x": 0, "y": 0, "part": "welding_rig"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "ice_cream_cart",
+        "name": "Ice Cream Cart",
+        "blueprint": "#",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "small_storage_battery"},
+            {"x": 0, "y": 0, "part": "minifridge"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "food_cart",
+        "name": "Food Vendor Cart",
+        "blueprint": [
+            ["&"],
+            ["H"],
+        ],
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "small_storage_battery"},
+            {"x": 0, "y": 0, "part": "kitchen_unit"},
+            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "wheel_caster"},
+            {"x": 0, "y": 1, "part": "minifridge"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "wheelbarrow",
+        "name": "Wheelbarrow",
+        "blueprint": "o",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_handle"},
+            {"x": 0, "y": 0, "part": "wheel_small"},
+            {"x": 0, "y": 0, "part": "box"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "luggage_cart",
+        "name": "Luggage Cart",
+        "blueprint": "o",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "box"}
+        ]
+    },
+    {
+        "type":"vehicle",
+        "id": "swivel_chair",
+        "name": "Swivel Chair",
+        "blueprint": "#",
+        "parts": [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "seat"}
+        ]
+    },
+    {
+        "type":"vehicle",
         "id": "armored_car",
         "name": "Armored Car",
         "blueprint": [
