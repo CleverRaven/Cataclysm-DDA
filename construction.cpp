@@ -441,6 +441,12 @@ void game::init_construction()
    TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    COMP("rock", 40);
+   
+// Need to figure out how to set terrain tile "t_rock" as an able option, so you can only construct this on underground rock tiles.
+ CONSTRUCT(_("Mine Stone Tile"), 0, &construct::able_always, &construct::done_nothing);
+  STAGE(t_rubble, 1);
+   TOOL("Pickaxe");
+   TOOLCONT("toolset");
 }
 
 void game::construction_menu()
