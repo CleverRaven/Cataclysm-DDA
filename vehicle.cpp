@@ -1164,7 +1164,7 @@ int vehicle::total_mass()
             m += 81500; // TODO: get real weight
         }
     }
-    return m/1000;
+    return (m * ((float)parts.size() * 0.01)) / 1000;
 }
 
 void vehicle::center_of_mass(int &x, int &y)
