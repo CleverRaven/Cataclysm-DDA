@@ -228,29 +228,30 @@ void mdeath::disintegrate(game *g, monster *z)
 
 void mdeath::worm(game *g, monster *z)
 {
- if (g->u_see(z))
-  g->add_msg(_("The %s splits in two!"), z->name().c_str());
+    if (g->u_see(z))
+        g->add_msg(_("The %s splits in two!"), z->name().c_str());
 
- std::vector <point> wormspots;
- int wormx, wormy;
- for (int i = -1; i <= 1; i++) {
-  for (int j = -1; j <= 1; j++) {
-   wormx = z->posx() + i;
-   wormy = z->posy() + i;
-   if (g->m.has_flag("DIGGABLE", wormx, wormy) && g->mon_at(wormx, wormy) == -1 &&
-       !(g->u.posx == wormx && g->u.posy == wormy)) {
-    wormspots.push_back(point(wormx, wormy));
-   }
-  }
- }
- int rn;
- monster worm(GetMType("mon_halfworm"));
- for (int worms = 0; worms < 2 && wormspots.size() > 0; worms++) {
-  rn = rng(0, wormspots.size() - 1);
-  worm.spawn(wormspots[rn].x, wormspots[rn].y);
-  g->add_zombie(worm);
-  wormspots.erase(wormspots.begin() + rn);
- }
+    std::vector <point> wormspots;
+    int wormx, wormy;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            wormx = z->posx() + i;
+            wormy = z->posy() + j;
+            if (g->m.has_flag("DIGGABLE", wormx, wormy) && g->mon_at(wormx, wormy) == -1 &&
+            !(g->u.posx == wormx && g->u.posy == wormy)) {
+                wormspots.push_back(point(wormx, wormy));
+            }
+        }
+    }
+    monster worm(GetMType("mon_halfworm"));
+    for (int worms = 0; worms < 2 && wormspots.size() > 0;) {
+        int rn = rng(0, wormspots.size() - 1);
+        if(-1 == g->mon_at(wormspots[rn])) {
+            worm.spawn(wormspots[rn].x, wormspots[rn].y);
+            worms++;
+        }
+        wormspots.erase(wormspots.begin() + rn);
+    }
 }
 
 void mdeath::disappear(game *g, monster *z)
