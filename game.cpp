@@ -1206,7 +1206,7 @@ void game::update_weather()
         weather_segment  new_weather = weather_log.lower_bound((int)nextweather)->second;
         weather = new_weather.weather;
         temperature = new_weather.temperature;
-        nextweather = new_weather.deadline;
+        nextweather = weather_log.upper_bound(int(new_weather.deadline))->second.deadline;
 
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy))
@@ -2671,6 +2671,11 @@ void game::load(std::string name)
      load_weather(fin);
  }
  fin.close();
+ if ( weather_log.empty() ) { // todo: game::get_default_weather() { based on OPTION["STARTING_SEASON"]
+    weather = WEATHER_CLEAR;
+    temperature = 65;
+    nextweather = int(turn)+300;
+ }
  // log
  std::string mfile = std::string( "save/" + base64_encode(u.name) + ".log" );
  fin.open(mfile.c_str());
@@ -3276,6 +3281,7 @@ Current turn: %d; Next spawn %d.\n\
         weather = (weather_type) selected_weather;
       } else if(weather_menu.ret == -10) {
           uimenu weather_log_menu;
+          weather_log_menu.text = string_format("turn: %d, nextweather: %d",int(turn),int(nextweather));
           for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {
               weather_log_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
                   it->second.deadline.days(),it->second.deadline.hours(),
