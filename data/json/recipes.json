@@ -6785,6 +6785,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "heatpack",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 2 ],
+      [ "hotplate", 2 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ],
+    [
+      [ "needle_bone", 1 ],
+      [ "sewing_kit", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "oxy_powder", 5 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "gunpowder",
   "category": "CC_AMMO",
   "skill_used": "fabrication",

@@ -3286,6 +3286,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["beret", 50],
+      ["beret_wool", 40],
       ["elbow_pads", 50],
       ["knee_pads", 50]
     ]
@@ -3328,6 +3329,7 @@
       ["helmet_army", 40],
       ["helmet_liner", 20],
       ["beret", 50],
+      ["beret_wool", 40],
       ["mask_bal", 10]
     ]
   },{
