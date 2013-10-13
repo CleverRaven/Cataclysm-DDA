@@ -759,6 +759,7 @@ void game::process_events()
 void game::process_activity()
 {
  it_book* reading;
+ item* book_item;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 150 == 0) {
@@ -848,14 +849,30 @@ void game::process_activity()
     break;
 
    case ACT_READ:
-    if (u.activity.index == -2)
-     reading = dynamic_cast<it_book*>(u.weapon.type);
-    else
-     reading = dynamic_cast<it_book*>(u.inv.item_by_letter(u.activity.invlet).type);
+    book_item = &(u.weapon.invlet == u.activity.invlet ?
+                            u.weapon : u.inv.item_by_letter(u.activity.invlet));
+    reading = dynamic_cast<it_book*>(book_item->type);
 
     if (reading->fun != 0) {
-     u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, 60, 30,
-                  true, reading);
+        int fun_bonus;
+        if(book_item->charges == 0) {
+            //Book is out of chapters -> re-reading old book, less fun
+            add_msg(_("The %s isn't as much fun now that you've finished it."),
+                    book_item->name.c_str());
+            if(one_in(6)) { //Don't nag incessantly, just once in a while
+                add_msg(_("Maybe you should find something new to read..."));
+            }
+            //50% penalty
+            fun_bonus = (reading->fun * 5) / 2;
+        } else {
+            fun_bonus = reading->fun * 5;
+        }
+        u.add_morale(MORALE_BOOK, fun_bonus,
+                     reading->fun * 15, 60, 30, true, reading);
+    }
+
+    if(book_item->charges > 0) {
+        book_item->charges--;
     }
 
     no_recipes = true;
@@ -4365,6 +4382,39 @@ bool vector_has(std::vector<int> vec, int test)
    return true;
  }
  return false;
+}
+
+bool game::is_hostile_nearby()
+{
+    const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &z = _active_monsters[i];
+        if (!u_see(&z))
+            continue;
+
+        monster_attitude matt = z.attitude(&u);
+        if (MATT_ATTACK != matt && MATT_FOLLOW != matt)
+            continue;
+
+        int mondist = rl_dist(u.posx, u.posy, z.posx(), z.posy());
+        if (mondist <= iProxyDist)
+            return true;
+    }
+
+    for (int i = 0; i < active_npc.size(); i++) {
+        point npcp(active_npc[i]->posx, active_npc[i]->posy);
+
+        if (!u_see(npcp.x, npcp.y))
+            continue;
+
+        if (active_npc[i]->attitude != NPCATT_KILL)
+            continue;
+
+        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist)
+                return true;
+    }
+
+    return false;
 }
 
 // Print monster info to the given window, and return the lowest row (0-indexed)
@@ -8676,28 +8726,54 @@ void game::butcher()
   add_msg(_("You don't have a sharp item to butcher with."));
   return;
  }
-// We do it backwards to prevent the deletion of a corpse from corrupting our
-// vector of indices.
- for (int i = corpses.size() - 1; i >= 0; i--) {
-  mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
-  if (query_yn(_("Butcher the %s corpse?"), corpse->name.c_str())) {
-   int time_to_cut = 0;
-   switch (corpse->size) { // Time in turns to cut up te corpse
-    case MS_TINY:   time_to_cut =  2; break;
-    case MS_SMALL:  time_to_cut =  5; break;
-    case MS_MEDIUM: time_to_cut = 10; break;
-    case MS_LARGE:  time_to_cut = 18; break;
-    case MS_HUGE:   time_to_cut = 40; break;
-   }
-   time_to_cut *= 100; // Convert to movement points
-   time_to_cut += factor * 5; // Penalty for poor tool
-   if (time_to_cut < 250)
-    time_to_cut = 250;
-   u.assign_activity(this, ACT_BUTCHER, time_to_cut, corpses[i]);
-   u.moves = 0;
-   return;
-  }
+
+ if (is_hostile_nearby() &&
+     !query_yn(_("Hostiles are nearby! Start Butchering anyway?")))
+ {
+     return;
  }
+
+ int butcher_corpse_index = 0;
+ if (corpses.size() > 1) {
+     uimenu kmenu;
+     kmenu.text = _("Choose corpse to butcher");
+     kmenu.selected = 0;
+     for (int i = 0; i < corpses.size(); i++) {
+         mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
+         int hotkey = -1;
+         if (i == 0) {
+             for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); it++) {
+                 if (it->second == ACTION_BUTCHER) {
+                     hotkey = (it->first == 'q') ? -1 : it->first;
+                     break;
+                 }
+             }
+         }
+         kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+     }
+     kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
+     kmenu.query();
+     if (kmenu.ret == corpses.size()) {
+         return;
+     }
+     butcher_corpse_index = kmenu.ret;
+ }
+
+ mtype *corpse = m.i_at(u.posx, u.posy)[corpses[butcher_corpse_index]].corpse;
+ int time_to_cut = 0;
+ switch (corpse->size) { // Time in turns to cut up te corpse
+  case MS_TINY:   time_to_cut =  2; break;
+  case MS_SMALL:  time_to_cut =  5; break;
+  case MS_MEDIUM: time_to_cut = 10; break;
+  case MS_LARGE:  time_to_cut = 18; break;
+  case MS_HUGE:   time_to_cut = 40; break;
+ }
+ time_to_cut *= 100; // Convert to movement points
+ time_to_cut += factor * 5; // Penalty for poor tool
+ if (time_to_cut < 250)
+  time_to_cut = 250;
+ u.assign_activity(this, ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
+ u.moves = 0;
 }
 
 void game::complete_butcher(int index)

@@ -403,6 +403,8 @@ void Item_factory::load_book(JsonObject& jo)
     book_template->time = jo.get_int("time");
     book_template->type = Skill::skill(jo.get_string("skill"));
 
+    book_template->chapters = jo.get_int("chapters", -1);
+
     itype *new_item_template = book_template;
     load_basic_info(jo, new_item_template);
 }

@@ -6338,7 +6338,7 @@ bool player::eat(game *g, signed char ch)
     }
 
     eaten->charges--;
-    if (eaten->charges <= 0)
+    if (eaten->charges <= 0 || eaten->is_book())
     {
         if (which == -1)
             weapon = ret_null;
