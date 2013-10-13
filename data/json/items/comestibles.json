@@ -1891,7 +1891,7 @@
         "to_hit" : 0,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
+        "quench" : 18,
         "heal" : -1,
         "addiction_potential" : 0,
         "nutrition" : 4,
