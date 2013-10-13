@@ -1023,6 +1023,7 @@
       ["vinegar", 10],
       ["lye_powder", 5],
       ["oxy_powder", 5],
+      ["boots_rubber", 20],
       ["charcoal", 5]
     ]
   },{
@@ -2207,7 +2208,8 @@
       ["sweater", 75],
       ["hoodie", 65],
       ["jumpsuit", 20],
-      ["hazmat_suit", 10]
+      ["hazmat_suit", 5],
+      ["cleansuit", 10]
     ]
   },{
     "type":"item_group",
@@ -2242,8 +2244,9 @@
       ["wrapped_rad_badge", 15],
       ["jar_glass", 20],
       ["fan", 5],
-      ["hazmat_suit", 10],
+      ["cleansuit", 10],
       ["oxy_powder", 2],
+      ["hazmat_suit", 5],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -2961,6 +2964,7 @@
       ["glasses_safety", 40],
       ["helmet_riot", 25],
       ["lighter", 60],
+      ["boots_rubber", 20],
       ["canister_goo", 8]
     ]
   },{
@@ -2990,6 +2994,7 @@
       ["syringe", 8],
       ["rag", 1],
       ["scissors", 50],
+      ["boots_rubber", 20],
       ["rag_bloody", 1]
     ]
   },{
@@ -3556,6 +3561,7 @@
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
       ["tongs", 10],
+      ["boots_rubber", 20],
       ["apron_leather", 10]
     ]
   },{
@@ -3573,6 +3579,7 @@
       ["hat_hard", 50],
       ["battery", 50],
       ["flashlight", 40],
+      ["boots_rubber", 20],
       ["apron_leather", 10]
     ]
   },{
@@ -3674,7 +3681,7 @@
       ["canister_empty", 5],
       ["boots_steel", 50],
       ["wrapped_rad_badge", 15],
-      ["hazmat_suit", 10],
+      ["cleansuit", 10],
       ["mask_gas", 10],
       ["hat_hard", 50],
       ["textbook_carpentry", 6],
@@ -3688,6 +3695,7 @@
       ["bio_climate", 10],
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
+      ["hazmat_suit", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -4171,10 +4179,11 @@
       ["nic_gum", 1],
       ["improve_sights", 10],
       ["pur_tablets", 10],
-      ["hazmat_suit", 5],
+      ["cleansuit", 5],
       ["8mm_hvp", 2],
       ["needlegun", 4],
       ["5x50dart", 8],
+      ["hazmat_suit", 5],
       ["quikclot", 20]
     ]
   },{
@@ -4191,7 +4200,7 @@
       ["adderall", 10],
       ["id_science", 2],
       ["battery_compartment", 5],
-      ["hazmat_suit", 5],
+      ["cleansuit", 5],
       ["laptop", 10],
       ["pda", 15],
       ["electrohack", 3],
@@ -4279,7 +4288,7 @@
       ["power_armor_helmet_light", 3],
       ["power_armor_heavy", 3],
       ["power_armor_helmet_heavy", 3],
-      ["hazmat_suit", 10],
+      ["cleansuit", 10],
       ["mask_bal", 10],
       ["plasma", 8],
       ["plasma_rifle", 1],
@@ -4288,6 +4297,7 @@
       ["8mm_caseless", 10],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
+      ["hazmat_suit", 5],
       ["pur_tablets", 20]
     ]
   },{
