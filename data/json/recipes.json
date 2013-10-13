@@ -3833,6 +3833,31 @@
   ]
 },{
         "type" : "recipe",
+  "result": "protein_powder",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_meat", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "dry_veggy",
   "category": "CC_FOOD",
   "skill_used": "cooking",
