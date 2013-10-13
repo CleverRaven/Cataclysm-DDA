@@ -43,7 +43,7 @@
         "required_level" : 0,
         "chapters": 4
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_barter",
         "name" : "car buyer's guide",
@@ -64,7 +64,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_computer",
         "name" : "Computer World",
@@ -85,7 +85,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_electronics",
         "name" : "Ham Radio Illustrated",
@@ -106,7 +106,7 @@
         "price" : 40,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_mechanics",
         "name" : "Popular Mechanics",
@@ -127,7 +127,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_survival",
         "name" : "Outdoor Adventures",
@@ -148,7 +148,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "fun_survival",
         "name" : "Through the Lens",
@@ -169,7 +169,7 @@
         "price" : 45,
         "required_level" : 1
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_traps",
         "name" : "Trapper's Life",
@@ -232,7 +232,7 @@
         "price" : 920,
         "required_level" : 5
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_bashing",
         "name" : "Batter Up!",
@@ -274,7 +274,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_cutting",
         "name" : "All About Swords",
@@ -316,7 +316,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_melee",
         "name" : "CQB Monthly",
@@ -358,7 +358,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_stabbing",
         "name" : "Duelist's Annual",
@@ -379,7 +379,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_unarmed",
         "name" : "Boxing Monthly",
@@ -400,7 +400,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_launcher",
         "name" : "High Explosives Quarterly",
@@ -442,7 +442,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_pistol",
         "name" : "Tactical Handgun Digest",
@@ -484,7 +484,7 @@
         "price" : 180,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_rifle",
         "name" : "Modern Rifleman",
@@ -526,7 +526,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_shotgun",
         "name" : "Trap and Field",
@@ -568,7 +568,7 @@
         "price" : 180,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_smg",
         "name" : "Submachine Gun Enthusiast",
@@ -2259,7 +2259,7 @@
         "price" : 190,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_tailor",
         "name" : "Sew Awesome Monthly",
@@ -2889,7 +2889,7 @@
         "price" : 900,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_fabrication",
         "name" : "Crafty Crafter's Quarterly",

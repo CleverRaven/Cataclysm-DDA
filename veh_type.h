@@ -20,7 +20,7 @@ struct vpart_info
     nc_color color_broken;  // color of broken part
     int dmg_mod;            // damage modifier, percent
     int durability;         // durability
-    int power;		        // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
+    int power;              // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
     union
     {
         int par1;

@@ -1051,7 +1051,7 @@
         "fuel_type": "fusion",
         "item": "ftk93",
         "difficulty": 7,
-	"size": 10,
+        "size": 10,
         "location": "on_roof",
         "flags": ["TURRET", "CARGO"]
     },
@@ -1122,7 +1122,7 @@
         "broken_color": "white",
         "damage_modifier": 10,
         "durability": 20,
-		"power": 3,
+        "power": 3,
         "par1": 480,
         "item": "flashlight",
         "difficulty": 1,

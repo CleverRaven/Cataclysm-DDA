@@ -300,9 +300,9 @@ public:
 
     void consume_fuel ();
 
-	void power_parts ();
+    void power_parts ();
 
-	void charge_battery (int amount);
+    void charge_battery (int amount);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
@@ -429,8 +429,8 @@ public:
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
 
-	//Set all headlights on/off
-	bool set_lights(bool on);
+    //Set all headlights on/off
+    bool set_lights(bool on);
 
     // opens/closes doors or multipart doors
     void open(int part_index);
@@ -477,7 +477,7 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
-	int lights_power;   // total power of components with LIGHT flag
+    int lights_power;   // total power of components with LIGHT flag
 };
 
 #endif
