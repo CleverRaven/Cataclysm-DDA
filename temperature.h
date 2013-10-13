@@ -48,20 +48,22 @@ namespace Temperature {
   const magnitude absoluteZero = 0;
 
   // Useful constants: Water
-  const magnitude waterFreezing = 273150;
-  const magnitude waterBoiling = 373134;
+  const magnitude freezing = 273150;
+  const magnitude boiling = 373134;
 
   // Useful constants: Environment
   const magnitude waterDeep = 277150;
   const magnitude subterranean = 283150;
+  const magnitude coldRoom = 290650;
   const magnitude room = 294150;
+  const magnitude human = 310150;
 
   const magnitude fumarole = 1300000;
   const magnitude lavaSea = 1500000;
   const magnitude fire = 1800000;
   const magnitude sun = 5780000;
 
-  bool hotter (const magnitude a, const magnitude b, delta *difference = NULL) {
+  static inline bool hotter (const magnitude a, const magnitude b, delta *difference = NULL) {
     if (difference) {
       if (a > b) {
         *difference = a - b;
