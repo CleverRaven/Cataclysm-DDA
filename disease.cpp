@@ -192,9 +192,6 @@ void dis_msg(dis_type type_string) {
     case DI_SAP:
         g->add_msg(_("You're coated in sap!"));
         break;
-    case DI_SPORES:
-        g->add_msg(_("You're covered in tiny spores!"));
-        break;
     case DI_SLIMED:
         g->add_msg(_("You're covered in thick goo!"));
         break;
@@ -2316,7 +2313,7 @@ static void handle_bite_wound(player& p, disease& dis) {
         p.dex_cur-= 1;
     } else {
         // Infection starts
-        p.add_disease("infected", 14401, 1, 1, dis.bp, dis.side, true, 0); // 1 day of timer + 1 tick
+        p.add_disease("infected", 14401, 1, 1, 0, dis.bp, dis.side, true); // 1 day of timer + 1 tick
         p.rem_disease("bite", dis.bp, dis.side);
     }
 }

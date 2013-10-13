@@ -209,7 +209,29 @@ void mdeath::fungus(game *g, monster *z)
                         g->kill_mon(mondex, (z->friendly != 0));
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
-                    g->u.infect("spores", bp_mouth, 4, 30, 1, 1); // Spores hit the player
+                    // Spores hit the player
+                    bool hit = false;
+                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, 1, 3, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, 1, 3, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (hit) {
+                        g->add_msg(_("You're covered in tiny spores!"));
+                    }
                 } else if (one_in(2)) { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);

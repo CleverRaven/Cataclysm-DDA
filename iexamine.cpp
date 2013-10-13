@@ -645,7 +645,29 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
                         g->kill_mon(mondex, false);
                     }
                 } else if (g->u.posx == i && g->u.posy == j) {
-                    g->u.infect("spores", bp_mouth, 4, 30, 1, 3); // Spores hit the player
+                    // Spores hit the player
+                    bool hit = false;
+                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, 1, 3, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, 1, 3, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (hit) {
+                        g->add_msg(_("You're covered in tiny spores!"));
+                    }
                 } else if (((i == examx && j == examy) || one_in(4)) &&
                               g->num_zombies() <= 1000) { // Spawn a spore
                     spore.spawn(i, j);

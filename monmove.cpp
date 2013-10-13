@@ -653,7 +653,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         if (!is_npc) {
                             g->add_msg(_("You're Bleeding!"));
                         }
-                        p.add_disease("bleed", 60, 1, 3, bphit, side, true);
+                        p.add_disease("bleed", 60, 1, 3, 1, bphit, side, true);
                     }
 
                     //Same as monster's chance to not miss

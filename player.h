@@ -253,16 +253,19 @@ public:
 
  void get_sick(game *g); // Process diseases
 // infect() gives us a chance to save (mostly from armor)
- bool infect(dis_type type, body_part vector, int strength, int duration,
-                  int intensity = 1, int max_intensity = 1);
+ bool infect(dis_type type, body_part vector, int strength,
+              int duration, int intensity = 1, int max_intensity = 1,
+              int additive = 1, bool targeted = false, int side = -1,
+              bool main_parts_only = false);
 // add_disease() does NOT give us a chance to save
 // num_bp indicates that specifying a body part is unessecary such as with
 // drug effects
 // -1 indicates that side of body is irrelevant
 // -1 for intensity represents infinitely stacking
  void add_disease(dis_type type, int duration, int intensity = 1,
-                  int max_intensity = 1, body_part part = num_bp,
-                  int side = -1, bool main_parts_only = false, int additive = 1);
+                   int max_intensity = 1, int additive = 1,
+                   body_part part = num_bp, int side = -1,
+                   bool main_parts_only = false);
  void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
  bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
  int  disease_duration(dis_type type, bool all = false, body_part part = num_bp, int side = -1);
