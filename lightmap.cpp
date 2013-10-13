@@ -164,8 +164,11 @@ void map::generate_lightmap(game* g)
      std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("LIGHT");
      for (std::vector<int>::iterator part = light_indices.begin();
           part != light_indices.end(); ++part) {
-         veh_luminance += ( vehs[v].v->part_info(*part).power / iteration );
-         iteration=iteration * 1.1;
+         int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
+         if (dpart >= 0) {
+             veh_luminance += ( vehs[v].v->part_info(*part).power / iteration );
+             iteration=iteration * 1.1;
+         }
      }
      if (veh_luminance > LL_LIT) {
        for (std::vector<int>::iterator part = light_indices.begin();

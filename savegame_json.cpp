@@ -1463,6 +1463,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
+    find_horns ();
+    find_lights ();
+    find_fuel_tanks ();
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
@@ -1491,8 +1494,8 @@ picojson::value vehicle::json_save( bool save_contents ) {
 
     data["cruise_on"] = pv ( cruise_on );
     data["lights_on"] = pv ( lights_on );
-    data["turret_mode"] = pv ( turret_mode );
     data["skidding"] = pv ( skidding );
+    data["turret_mode"] = pv ( turret_mode );
 
     data["of_turn_carry"] = pv ( of_turn_carry );
     data["name"] = pv ( name );

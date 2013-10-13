@@ -45,20 +45,23 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.color_broken = color_from_string(jo.get_string("broken_color"));
     next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
     next_part.durability = jo.get_int("durability");
+    if(jo.has_member("power")) {
+        next_part.power = jo.get_int("power");
+    } else { //defaults to 0
+        next_part.power = 0;
+    }
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
-                      + (jo.has_member("power") ? 1 : 0)
                       + (jo.has_member("size") ? 1 : 0)
                       + (jo.has_member("wheel_width") ? 1 : 0)
                       + (jo.has_member("bonus") ? 1 : 0);
+
     if(element_count == 0) {
       //If not specified, assume 0
       next_part.par1 = 0;
     } else if(element_count == 1) {
       if(jo.has_member("par1")) {
         next_part.par1 = jo.get_int("par1");
-      } else if(jo.has_member("power")) {
-        next_part.par1 = jo.get_int("power");
       } else if(jo.has_member("size")) {
         next_part.par1 = jo.get_int("size");
       } else if(jo.has_member("wheel_width")) {

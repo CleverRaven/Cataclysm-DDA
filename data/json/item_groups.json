@@ -76,6 +76,9 @@
       ["i4_combustion", 10],
       ["v6_combustion", 10],
       ["v8_combustion", 10],
+      ["battery_motorbike", 6],
+      ["battery_car", 6],
+      ["battery_truck", 6],
       ["foot_crank", 10],
       ["flyer", 10]
     ]
@@ -2912,6 +2915,9 @@
       ["solar_cell", 5],
       ["bearing", 1],
       ["motor_large", 1],
+      ["battery_motorbike", 6],
+      ["battery_car", 6],
+      ["battery_truck", 6],
       ["storage_battery", 6],
       ["solar_panel", 3],
       ["jerrycan", 10],
