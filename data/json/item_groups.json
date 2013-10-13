@@ -342,6 +342,7 @@
       ["jar_veggy_pickled", 8],
       ["bacon", 25],
       ["jar_meat_pickled", 2],
+      ["protein_shake", 10],
 	  ["fries", 8]
     ]
   },{
@@ -702,6 +703,7 @@
 	  ["fries", 8],
       ["bacon", 10],
       ["fruit_leather", 15],
+      ["protein_shake", 10],
       ["pie", 20]
     ]
   },{
@@ -939,6 +941,7 @@
       ["cooking_oil", 30],
       ["jar_veggy_pickled", 8],
       ["sports_drink", 10],
+      ["protein_shake", 10],
       ["jar_meat_pickled", 6]
     ]
   },{
@@ -1427,6 +1430,7 @@
       ["boots_hiking", 10],
       ["pur_tablets", 5],
       ["protein_powder", 15],
+      ["protein_shake", 15],
       ["quikclot", 10]
     ]
   },{
