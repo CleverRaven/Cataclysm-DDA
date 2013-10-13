@@ -11,6 +11,7 @@
 #include "line.h"
 #include "item_factory.h"
 #include "translations.h"
+#include "monstergenerator.h"
 #include <algorithm>
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
@@ -1253,8 +1254,11 @@ int npc::vehicle_danger(game *g, int radius)
    int by = ay + sin (facing * M_PI / 180.0) * radius;
 
    // fake size
-   int last_part = vehicles[i].v->external_parts.back();
-   int size = std::max(vehicles[i].v->parts[last_part].mount_dx, vehicles[i].v->parts[last_part].mount_dy);
+   /* This will almost certainly give the wrong size/location on customized
+    * vehicles. This should just count frames instead. Or actually find the
+    * size. */
+   vehicle_part last_part = vehicles[i].v->parts.back();
+   int size = std::max(last_part.mount_dx, last_part.mount_dy);
 
    float normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
    int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
@@ -1944,7 +1948,7 @@ void npc::die(game *g, bool your_fault)
     }
 
     item my_body;
-    my_body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
+    my_body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
     my_body.name = name;
     g->m.add_item_or_charges(posx, posy, my_body);
     std::vector<item *> dump;

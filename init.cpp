@@ -14,6 +14,7 @@
 #include "help.h"
 #include "mapdata.h"
 #include "color.h"
+#include "monstergenerator.h"
 
 #include <string>
 #include <vector>
@@ -82,7 +83,11 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/terrain.json");
     ret.push_back("data/json/migo_speech.json");
     ret.push_back("data/json/names.json");
-
+    ret.push_back("data/json/vehicle_parts.json");
+    ret.push_back("data/json/vehicles.json");
+    ret.push_back("data/json/species.json");
+    ret.push_back("data/json/monsters.json");
+    ret.push_back("data/json/monstergroups.json");
     ret.push_back("data/json/items/ammo.json");
     ret.push_back("data/json/items/archery.json");
     ret.push_back("data/json/items/armor.json");
@@ -93,6 +98,9 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/items/mods.json");
     ret.push_back("data/json/items/ranged.json");
     ret.push_back("data/json/items/tools.json");
+    ret.push_back("data/json/items/vehicle_parts.json");
+    ret.push_back("data/json/techniques.json");
+    ret.push_back("data/json/martialarts.json");
 
     ret.push_back("data/json/recipes.json");
     return ret;
@@ -129,6 +137,7 @@ void init_data_structures()
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
+    type_function_map["monstergroup"] = new StaticFunctionAccessor(&MonsterGroupManager::LoadMonsterGroup);
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
 
     // Non Static Function Access
@@ -137,6 +146,8 @@ void init_data_structures()
     type_function_map["migo_speech"] = new ClassFunctionAccessor<game>(g, &game::load_migo_speech);
     type_function_map["NAME"] = new ClassFunctionAccessor<NameGenerator>(&NameGenerator::generator(), &NameGenerator::load_name);
 
+    type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
+    type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
     type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);
@@ -147,11 +158,18 @@ void init_data_structures()
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gunmod);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_generic);
 
+    type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
+    type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
+
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
+    type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
+    type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
 
     mutations_category[""].clear();
     init_mutation_parts();
+    init_translation();
+    init_martial_arts();
 }
 
 void load_json_dir(std::string const &dirname)

@@ -35,9 +35,9 @@ item::item(itype* it, unsigned int turn)
     bday = turn;
     corpse = it->corpse;
     name = it->name;
-    if (it->is_gun())
+    if (it->is_gun()) {
         charges = 0;
-    else if (it->is_ammo()) {
+    } else if (it->is_ammo()) {
         it_ammo* ammo = dynamic_cast<it_ammo*>(it);
         charges = ammo->count;
     } else if (it->is_food()) {
@@ -56,6 +56,9 @@ item::item(itype* it, unsigned int turn)
                 curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
             }
         }
+    } else if (it->is_book()) {
+        it_book* book = dynamic_cast<it_book*>(it);
+        charges = book->chapters;
     } else if ((it->is_gunmod() && it->id == "spare_mag") || it->item_tags.count("MODE_AUX")) {
         charges = 0;
     } else
@@ -625,6 +628,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing has pockets to warm your hands.")));
     }
+    if (is_armor() && has_flag("HOOD"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing has a hood to keep your head warm.")));
+    }
     if (is_armor() && type->id == "rad_badge")
     {
         int i;
@@ -789,7 +797,7 @@ std::string item::tname(game *g)
             maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
         else maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
     } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == mon_null)
+        if (corpse == NULL || corpse->id == "mon_null")
             maintext = rm_prefix(_("<item_name>human blood"));
         else
             maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
@@ -1288,20 +1296,6 @@ int item::acid_resist() const
     return ret;
 }
 
-style_move item::style_data(technique_id tech)
-{
-    style_move ret;
-
-    it_style* style = dynamic_cast<it_style*>(type);
-
-    for (int i = 0; i < style->moves.size(); i++) {
-        if (style->moves[i].tech == tech)
-            return style->moves[i];
-    }
-
-    return ret;
-}
-
 bool item::is_two_handed(player *u)
 {
     if (has_flag("ALWAYS_TWOHAND"))
@@ -1430,6 +1424,11 @@ bool item::is_food(player const*u) const
 bool item::is_food_container(player const*u) const
 {
     return (contents.size() >= 1 && contents[0].is_food(u));
+}
+
+bool is_edible(item i, player const*u)
+{
+    return (i.is_food(u) || i.is_food_container(u));
 }
 
 bool item::is_food() const
@@ -2036,7 +2035,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
          ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
          amenu.addentry(i,true,i + 'a',"%s | %-7d | %-7d | %-7d | %-7d",
              std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) + 
+                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
                 std::string(namelen,' ')
              ).substr(0,namelen).c_str(),
              ammo_def->damage, ammo_def->pierce, ammo_def->range,
@@ -2157,7 +2156,7 @@ bool item::reload(player &u, char ammo_invlet)
   }
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on") {
       int charges_per_plut = 500;
-      int max_plut = std::floor( (max_load - reload_target->charges) / charges_per_plut );
+      int max_plut = std::floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
       int charges_used = std::min(ammo_to_use->charges, max_plut);
       reload_target->charges += (charges_used * charges_per_plut);
       ammo_to_use->charges -= charges_used;

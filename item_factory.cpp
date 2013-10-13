@@ -399,6 +399,8 @@ void Item_factory::load_book(JsonObject& jo)
     book_template->time = jo.get_int("time");
     book_template->type = Skill::skill(jo.get_string("skill"));
 
+    book_template->chapters = jo.get_int("chapters", -1);
+
     itype *new_item_template = book_template;
     load_basic_info(jo, new_item_template);
 }
@@ -503,9 +505,9 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
         List of current flags
         FIT - Reduces encumbrance by one
         VARSIZE - Can be made to fit via tailoring
-        OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
-        HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
+        OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
         POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+        HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
         WATCH - Shows the current time, instead of sun/moon position
         ALARMCLOCK - Has an alarmclock feature
         FANCY - Less than practical clothing meant primarily to convey a certain image.

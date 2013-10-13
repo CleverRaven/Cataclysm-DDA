@@ -148,19 +148,8 @@ void map::generate_lightmap(game* g)
    // TODO: [lightmap] Attach natural light brightness to creatures
    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
    // TODO: [lightmap] Allow creatures to have facing and arc lights
-   switch (g->zombie(i).type->id) {
-    case mon_zombie_electric:
-     apply_light_source(mx, my, 1, trigdist);
-     break;
-    case mon_turret:
-     apply_light_source(mx, my, 2, trigdist);
-     break;
-    case mon_flaming_eye:
-     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT, trigdist);
-     break;
-    case mon_manhack:
-     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL, trigdist);
-     break;
+   if (g->zombie(i).type->luminance > 0){
+        apply_light_source(mx, my, g->zombie(i).type->luminance, trigdist);
    }
   }
  }
@@ -172,25 +161,19 @@ void map::generate_lightmap(game* g)
      int dir = vehs[v].v->face.dir();
      float veh_luminance=0.0;
      float iteration=1.0;
-     for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-          part != vehs[v].v->external_parts.end(); ++part) {
-         int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
-         if (dpart >= 0) {
-             veh_luminance += ( vehs[v].v->part_info(dpart).power / iteration );
-             iteration=iteration * 1.1;
-         }
+     std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("LIGHT");
+     for (std::vector<int>::iterator part = light_indices.begin();
+          part != light_indices.end(); ++part) {
+         veh_luminance += ( vehs[v].v->part_info(*part).power / iteration );
+         iteration=iteration * 1.1;
      }
      if (veh_luminance > LL_LIT) {
-       for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-            part != vehs[v].v->external_parts.end(); ++part) {
+       for (std::vector<int>::iterator part = light_indices.begin();
+            part != light_indices.end(); ++part) {
          int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
          int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
          if(INBOUNDS(px, py)) {
-           int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
-
-           if (dpart >= 0) {
-             apply_light_arc(px, py, dir + vehs[v].v->parts[dpart].direction, veh_luminance, 45);
-           }
+           apply_light_arc(px, py, dir + vehs[v].v->parts[*part].direction, veh_luminance, 45);
          }
        }
      }

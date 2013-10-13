@@ -77,6 +77,7 @@ int main(int argc, char *argv[])
 
  bool quit_game = false;
  g = new game;
+ g->init_data();
  if(g->game_error())
   exit_handler(-999);
  g->init_ui();

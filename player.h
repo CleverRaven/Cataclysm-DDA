@@ -170,8 +170,8 @@ public:
  bool is_throw_immune(); // martial arts throw immunity
  bool is_quiet(); // martial arts quiet melee
 
- bool has_miss_recovery_tec(game* g); // technique-based miss recovery, like tec_feint
- bool has_grab_break_tec(game* g); // technique-based miss recovery, like tec_feint
+ bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
+ bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
  bool can_leg_block(); // technique-based miss recovery, like tec_feint
  bool can_arm_block(); // technique-based miss recovery, like tec_feint
 
@@ -193,9 +193,9 @@ public:
  int roll_stab_damage(monster *z, bool crit);
  int roll_stuck_penalty(monster *z, bool stabbing);
 
- std::vector<matec_id> get_all_techniques(game* g);
+ std::vector<matec_id> get_all_techniques();
 
- bool has_technique(matec_id tec, game *g);
+ bool has_technique(matec_id tec);
  matec_id pick_technique(game *g, monster *z, player *p,
                              bool crit, bool allowgrab);
  void perform_technique(ma_technique technique, game *g, monster *z, player *p,
@@ -328,6 +328,7 @@ public:
  int weight_capacity(bool real_life = true);
  int volume_capacity();
  double convert_weight(int weight);
+ bool can_eat(const item i);
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);
@@ -403,6 +404,7 @@ public:
  bool controlling_vehicle;  // Is currently in control of a vehicle
  // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
  point grab_point;
+ object_type grab_type;
  player_activity activity;
  player_activity backlog;
 // _missions vectors are of mission IDs

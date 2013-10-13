@@ -22,8 +22,8 @@
 // Display data
 int TERMX;
 int TERMY;
-int VIEWX;
-int VIEWY;
+int POSX;
+int POSY;
 int VIEW_OFFSET_X;
 int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
@@ -175,7 +175,7 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  attron(FG);
- mvprintw(y, x, buff);
+ mvprintw(y, x, "%s", buff);
  attroff(FG);
 }
 
@@ -187,11 +187,11 @@ void mvwprintz(WINDOW* w, int y, int x, nc_color FG, const char *mes, ...)
 // vsprintf(buff, mes, ap);
  char buff[6000];
  vsprintf(buff, mes, ap);
+ va_end(ap);
  wattron(w, FG);
 // wmove(w, y, x);
- mvwprintw(w, y, x, buff);
+ mvwprintw(w, y, x, "%s", buff);
  wattroff(w, FG);
- va_end(ap);
 }
 
 void printz(nc_color FG, const char *mes, ...)
@@ -988,7 +988,7 @@ std::string word_rewrap (const std::string &ins, int width){
             continue;
         }
 
-        x += mk_wcwidth((wchar_t)uc);
+        x += mk_wcwidth(uc);
 
         if (x >= width) {
             if (lastwb == lastout) {

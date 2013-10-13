@@ -4,7 +4,9 @@
     "id":"child_items",
     "items":[
       ["chocolate", 50],
-      ["candy", 80],
+      ["candy", 60],
+      ["neccowafers", 50],
+      ["maltballs", 50],
       ["cookies", 80],
       ["crack", 8],
       ["bat", 60],
@@ -35,7 +37,9 @@
       ["mushroom", 4],
       ["mushroom_poison", 3],
       ["mushroom_magic", 1],
-      ["blueberries", 3]
+      ["blueberries", 3],
+      ["blackberries", 3],
+      ["cranberries", 3]
     ]
   },{
     "type":"item_group",
@@ -214,6 +218,10 @@
       ["flour", 50],
       ["cornmeal", 40],
       ["powder_eggs", 20],
+      ["protein_powder", 15],
+      ["dry_meat", 10],
+      ["dry_veggy", 10],
+      ["dry_fruit", 10],
       ["oatmeal", 50],
       ["cooking_oil", 20],
       ["fruit_leather", 15],
@@ -251,6 +259,7 @@
       ["soup_meat", 15],
       ["spaghetti_raw", 40],
       ["macaroni_raw", 40],
+      ["noodles_fast", 30],
       ["ravioli", 25],
       ["sauce_red", 20],
       ["sauce_pesto", 15],
@@ -271,7 +280,9 @@
       ["jar_meat_pickled", 4],
       ["tongs", 25],
       ["char_smoker", 25],
+      ["dehydrator", 15],
       ["flask_hip", 5],
+      ["lye_powder", 5],
       ["charcoal", 5]
     ]
   },{
@@ -327,12 +338,37 @@
       ["orange", 65],
       ["banana", 40],
       ["lemon", 50],
+      ["pear", 50],
+      ["grapefruit", 5],
+      ["cherries", 10],
+      ["plums", 10],
+      ["grapes", 20],
+      ["pineapple", 5],
+      ["peach", 10],
+      ["cranberries", 7],
+      ["watermelon", 5],
+      ["melon", 5],
+      ["raspberries", 7],
+      ["blackberries", 7],
+      ["mango", 10],
+      ["pomegranate", 5],
+      ["rhubarb", 10],
+      ["papaya", 3],
+      ["kiwi", 5],
+      ["apricot", 5],
+      ["coconut", 5],
+      ["jam_fruit", 10],
+      ["jam_strawberries", 10],
+      ["jam_blueberries", 10],
+      ["juice", 50],
       ["potato_raw", 10],
-	  ["pickle", 40],
+      ["pickle", 40],
       ["vinegar", 15],
       ["jar_veggy_pickled", 8],
       ["bacon", 25],
-      ["jar_meat_pickled", 2]
+      ["jar_meat_pickled", 2],
+      ["protein_shake", 10],
+      ["fries", 8]
     ]
   },{
     "type":"item_group",
@@ -370,6 +406,7 @@
       ["duct_tape", 70],
       ["lawnmower", 25],
       ["char_smoker", 25],
+      ["dehydrator", 15],
       ["foot_crank", 10],
       ["boltcutters", 5],
       ["spray_can", 50],
@@ -563,6 +600,7 @@
       ["rifle_scope", 17],
       ["improve_sights", 20],
       ["cu_pipe", 10],
+      ["5x50_hull", 8],
       ["u_shotgun", 5]
     ]
   },{
@@ -645,6 +683,9 @@
       ["chocolate", 50],
       ["jerky", 55],
       ["candy", 80],
+      ["neccowafers", 80],
+      ["maltballs", 80],
+      ["mintpatties", 80],
       ["cookies", 80],
       ["tea_raw", 10],
       ["coffee_raw", 15],
@@ -667,6 +708,7 @@
     "items":[
       ["water_clean", 90],
       ["oj", 50],
+      ["juice", 50]
       ["cranberry_juice", 50],
       ["sports_drink", 50],
       ["apple_cider", 50],
@@ -684,8 +726,10 @@
       ["pizza_meat", 8],
       ["cheeseburger", 8],
       ["hamburger", 8],
+      ["fries", 8],
       ["bacon", 10],
       ["fruit_leather", 15],
+      ["protein_shake", 10],
       ["pie", 20]
     ]
   },{
@@ -705,6 +749,9 @@
       ["pie", 20],
       ["chips", 65],
       ["candy", 80],
+      ["mintpatties", 60],
+      ["maltballs", 60],
+      ["neccowafers", 60],
       ["cookies", 60],
       ["mayonnaise", 60],
       ["spork", 10],
@@ -716,9 +763,11 @@
       ["pepper", 20],
       ["meat_smoked", 4],
       ["cheeseburger", 35],
+      ["fries", 80],
       ["hamburger", 30],
       ["bacon", 25],
-      ["cheese", 30]
+      ["cheese", 30],
+      ["noodles_fast", 30]
     ]
   },{
     "type":"item_group",
@@ -729,6 +778,7 @@
       ["choc_drink", 40],
       ["rootbeer", 65],
       ["purple_drink", 35],
+      ["juice", 20]
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
@@ -739,6 +789,8 @@
       ["chocolate", 50],
       ["jerky", 55],
       ["candy", 80],
+      ["mintpatties", 80],
+      ["maltballs", 80],
       ["tea_raw", 10],
       ["pie", 20],
       ["chips", 65],
@@ -859,6 +911,7 @@
       ["nyquil", 70],
       ["disinfectant", 35],
       ["vaccine_shot", 10],
+      ["protein_powder", 15],
       ["nic_gum", 25]
     ]
   },{
@@ -901,6 +954,10 @@
       ["flour", 30],
       ["cornmeal", 30],
       ["powder_eggs", 20],
+      ["protein_powder", 15],
+      ["dry_meat", 10],
+      ["dry_veggy", 10],
+      ["dry_fruit", 10],
       ["oatmeal", 40],
       ["sugar", 20],
       ["can_cheese", 40],
@@ -911,6 +968,7 @@
       ["cooking_oil", 30],
       ["jar_veggy_pickled", 8],
       ["sports_drink", 10],
+      ["protein_shake", 10],
       ["jar_meat_pickled", 6]
     ]
   },{
@@ -919,6 +977,7 @@
     "items":[
       ["spaghetti_raw", 40],
       ["macaroni_raw", 40],
+      ["noodles_fast", 30],
       ["ravioli", 25],
       ["sauce_red", 20],
       ["sauce_pesto", 15],
@@ -938,6 +997,14 @@
       ["orange", 65],
       ["banana", 40],
       ["lemon", 50],
+      ["pear", 50],
+      ["cherries", 30],
+      ["plums", 30],
+      ["grapes", 50],
+      ["cranberries", 7],
+      ["raspberries", 7],
+      ["blackberries", 7],
+      ["rhubarb", 20],
       ["mushroom", 4],
       ["potato_raw", 10],
       ["blueberries", 3],
@@ -968,6 +1035,9 @@
       ["scissors", 50],
       ["string_36", 40],
       ["vinegar", 10],
+      ["lye_powder", 5],
+      ["oxy_powder", 5],
+      ["boots_rubber", 20],
       ["charcoal", 5]
     ]
   },{
@@ -992,6 +1062,7 @@
       ["jerrycan", 10],
       ["lawnmower", 25],
       ["char_smoker", 25],
+      ["dehydrator", 15],
       ["foot_crank", 10],
       ["spray_can", 50],
       ["ax", 8],
@@ -1178,6 +1249,7 @@
       ["elbow_pads", 40],
       ["knee_pads", 40],
       ["manual_throw", 12],
+      ["protein_powder", 15],
       ["boots_hiking", 10]
     ]
   },{
@@ -1266,6 +1338,7 @@
       ["pocketwatch", 5],
       ["boots_hiking", 20],
       ["pur_tablets", 10],
+      ["e_tool", 10],
       ["charcoal", 20]
     ]
   },{
@@ -1393,6 +1466,8 @@
       ["knee_pads", 40],
       ["boots_hiking", 10],
       ["pur_tablets", 5],
+      ["protein_powder", 15],
+      ["protein_shake", 15],
       ["quikclot", 10]
     ]
   },{
@@ -1503,6 +1578,7 @@
       ["8mm_fmj", 2],
       ["8mm_caseless", 4],
       ["8mm_hvp", 2],
+      ["5x50dart", 6],
       ["8mm_inc", 2]
     ]
   },{
@@ -1568,6 +1644,7 @@
       ["TDI", 4],
       ["fn_p90", 7],
       ["hk_mp7", 5],
+      ["needlegun", 4],
       ["rm2000_smg", 1]
     ]
   },{
@@ -1648,6 +1725,7 @@
       ["rm2000_smg", 1],
       ["rm99_pistol", 2],
       ["rm103a_pistol", 1],
+      ["needlegun", 4],
       ["blowgun", 5]
     ]
   },{
@@ -1733,6 +1811,7 @@
       ["holo_sight", 20],
       ["rifle_scope", 16],
       ["cu_pipe", 10],
+      ["5x50_hull", 8],
       ["improve_sights", 20]
     ]
   },{
@@ -1974,7 +2053,7 @@
     "type":"item_group",
     "id":"textbooks",
     "items":[
-      ["textbook_computers", 4],
+      ["textbook_computer", 4],
       ["computer_science", 8],
       ["book_icef", 8],
       ["textbook_electronics", 6],
@@ -2148,7 +2227,8 @@
       ["sweater", 75],
       ["hoodie", 65],
       ["jumpsuit", 20],
-      ["hazmat_suit", 10]
+      ["hazmat_suit", 5],
+      ["cleansuit", 10]
     ]
   },{
     "type":"item_group",
@@ -2183,7 +2263,9 @@
       ["wrapped_rad_badge", 15],
       ["jar_glass", 20],
       ["fan", 5],
-      ["hazmat_suit", 10],
+      ["cleansuit", 10],
+      ["oxy_powder", 2],
+      ["hazmat_suit", 5],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -2281,6 +2363,7 @@
       ["survival_book", 4],
       ["fun_survival", 10],
       ["aspirin", 85],
+      ["maltballs", 30],
       ["cigar", 5],
       ["glasses_eye", 90],
       ["sunglasses", 90],
@@ -2296,7 +2379,7 @@
       ["manual_computers", 20],
       ["howto_computer", 10],
       ["mag_fabrication", 12],
-      ["textbook_computers", 8],
+      ["textbook_computer", 8],
       ["computer_science", 8],
       ["howto_computer", 6],
       ["matches", 60],
@@ -2397,7 +2480,9 @@
       ["ZSG", 2],
       ["chocolate", 50],
       ["cookies", 50],
-      ["candy", 80],
+      ["candy", 60],
+      ["neccowafers", 60],
+      ["mintpatties", 60],
       ["backpack", 38],
       ["backpack_leather", 18],
       ["pockknife", 14],
@@ -2622,6 +2707,7 @@
       ["bat_metal", 60],
       ["lawnmower", 25],
       ["char_smoker", 25],
+      ["dehydrator", 15],
       ["pickelhaube", 50],
       ["makeshift_machete", 0],
       ["picklocks", 10],
@@ -2659,6 +2745,7 @@
       ["glasses_bal", 5],
       ["elbow_pads", 10],
       ["cu_pipe", 5],
+      ["e_tool", 5],
       ["knee_pads", 10]
     ]
   },{
@@ -2731,6 +2818,7 @@
       ["can_tuna", 35],
       ["can_salmon", 25],
       ["can_chowder", 35],
+      ["neccowafers", 40],
       ["can_herring", 30],
       ["coffee_raw", 15],
       ["bandages", 50],
@@ -2799,6 +2887,7 @@
       ["umbrella", 7],
       ["apron_leather", 5],
       ["pocketwatch", 5],
+      ["e_tool", 2],
       ["pur_tablets", 5]
     ]
   },{
@@ -2868,6 +2957,9 @@
       ["jar_3l_glass", 15],
       ["apron_leather", 2],
       ["pur_tablets", 5],
+      ["lye_powder", 10],
+      ["oxy_powder", 12],
+      ["chemistry_set", 5],
       ["charcoal", 10]
     ]
   },{
@@ -2894,6 +2986,7 @@
       ["glasses_safety", 40],
       ["helmet_riot", 25],
       ["lighter", 60],
+      ["boots_rubber", 20],
       ["canister_goo", 8]
     ]
   },{
@@ -2923,6 +3016,7 @@
       ["syringe", 8],
       ["rag", 1],
       ["scissors", 50],
+      ["boots_rubber", 20],
       ["rag_bloody", 1]
     ]
   },{
@@ -2931,6 +3025,11 @@
     "items":[
       ["blueberries", 3],
       ["strawberries", 2],
+      ["grapes", 7],
+      ["cranberries", 2],
+      ["raspberries", 3],
+      ["blackberries", 2],
+      ["rhubarb", 5],
       ["wheat", 5],
       ["seed_wheat", 1],
       ["seed_blueberries", 1],
@@ -3100,7 +3199,7 @@
       ["40mm_teargas", 5],
       ["40mm_smoke", 4],
       ["40mm_flashbang", 8],
-	  ["40mm_beanbag", 15],
+      ["40mm_beanbag", 15],
       ["m79", 5],
       ["m320", 10],
       ["mgl", 6],
@@ -3146,6 +3245,8 @@
       ["rm88_battle_rifle", 1],
       ["rm2000_smg", 1],
       ["laser_sight", 15],
+      ["needlegun", 4],
+      ["5x50dart", 8],
       ["improve_sights", 5]
     ]
   },{
@@ -3194,6 +3295,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["beret", 50],
+      ["beret_wool", 40],
       ["elbow_pads", 50],
       ["knee_pads", 50]
     ]
@@ -3213,6 +3315,7 @@
       ["elbow_pads", 40],
       ["knee_pads", 40],
       ["mask_bal", 5],
+      ["e_tool", 10],
       ["glasses_bal", 30]
     ]
   },{
@@ -3235,6 +3338,7 @@
       ["helmet_army", 40],
       ["helmet_liner", 20],
       ["beret", 50],
+      ["beret_wool", 40],
       ["mask_bal", 10]
     ]
   },{
@@ -3252,6 +3356,7 @@
     "id":"mil_food",
     "items":[
       ["chocolate", 50],
+      ["neccowafers", 30],
       ["can_beans", 40],
       ["mre_beef", 50],
       ["mre_veggy", 50],
@@ -3351,6 +3456,7 @@
       ["tazer", 3],
       ["rapier", 3],
       ["bat_metal", 60],
+      ["e_tool", 2],
       ["nodachi", 1]
     ]
   },{
@@ -3446,6 +3552,8 @@
       ["pocketwatch", 2],
       ["pur_tablets", 10],
       ["quikclot", 10],
+      ["e_tool", 15],
+      ["dehydrator", 10],
       ["charcoal", 5]
     ]
   },{
@@ -3481,6 +3589,7 @@
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
       ["tongs", 10],
+      ["boots_rubber", 20],
       ["apron_leather", 10]
     ]
   },{
@@ -3498,6 +3607,7 @@
       ["hat_hard", 50],
       ["battery", 50],
       ["flashlight", 40],
+      ["boots_rubber", 20],
       ["apron_leather", 10]
     ]
   },{
@@ -3541,6 +3651,7 @@
       ["jerrycan", 10],
       ["jerrycan_big", 10],
       ["gasoline_lantern", 5],
+      ["e_tool", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -3557,6 +3668,7 @@
       ["cola", 70],
       ["choc_drink", 20],
       ["caffeine", 25],
+      ["maltballs", 30],
       ["cig", 90],
       ["pipe_tobacco", 5],
       ["weed", 20],
@@ -3598,7 +3710,7 @@
       ["canister_empty", 5],
       ["boots_steel", 50],
       ["wrapped_rad_badge", 15],
-      ["hazmat_suit", 10],
+      ["cleansuit", 10],
       ["mask_gas", 10],
       ["hat_hard", 50],
       ["textbook_carpentry", 6],
@@ -3612,6 +3724,8 @@
       ["bio_climate", 10],
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
+      ["hazmat_suit", 5],
+      ["e_tool", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -3752,6 +3866,7 @@
       ["lsd", 4],
       ["pocketwatch", 5],
       ["child_book", 20],
+      ["e_tool", 10],
       ["pur_tablets", 10]
     ]
   },{
@@ -3774,6 +3889,24 @@
       ["onion", 3],
       ["carrot", 3],
       ["potato_raw", 10],
+      ["pear", 65],
+      ["grapefruit", 1],
+      ["cherries", 5],
+      ["plums", 9],
+      ["grapes", 45],
+      ["pineapple", 2],
+      ["peach", 1],
+      ["cranberries", 15],
+      ["watermelon", 2],
+      ["melon", 1],
+      ["raspberries", 3],
+      ["blackberries", 3],
+      ["mango", 1],
+      ["pomegranate", 1],
+      ["rhubarb", 5],
+      ["papaya", 1],
+      ["kiwi", 1],
+      ["apricot", 1],
       ["honeycomb", 10],
       ["royal_jelly", 8],
       ["arm", 4],
@@ -3965,6 +4098,7 @@
       ["bandages", 50],
       ["1st_aid", 35],
       ["iodine", 5],
+      ["neccowafers", 5],
       ["codeine", 15],
       ["adrenaline_injector", 4],
       ["cig", 90],
@@ -4076,8 +4210,12 @@
       ["nic_gum", 1],
       ["improve_sights", 10],
       ["pur_tablets", 10],
-      ["hazmat_suit", 5],
+      ["cleansuit", 5],
       ["8mm_hvp", 2],
+      ["needlegun", 4],
+      ["5x50dart", 8],
+      ["hazmat_suit", 5],
+      ["e_tool", 20],
       ["quikclot", 20]
     ]
   },{
@@ -4094,7 +4232,7 @@
       ["adderall", 10],
       ["id_science", 2],
       ["battery_compartment", 5],
-      ["hazmat_suit", 5],
+      ["cleansuit", 5],
       ["laptop", 10],
       ["pda", 15],
       ["electrohack", 3],
@@ -4108,7 +4246,7 @@
       ["glasses_eye", 90],
       ["sunglasses", 90],
       ["glasses_safety", 40],
-      ["textbook_computers", 8],
+      ["textbook_computer", 8],
       ["computer_science", 6],
       ["textbook_electronics", 6],
       ["radio_book", 16],
@@ -4143,6 +4281,7 @@
       ["software_useless", 10],
       ["canteen", 10],
       ["chemistry_set", 4],
+      ["oxy_powder", 8],
       ["pur_tablets", 10]
     ]
   },{
@@ -4181,7 +4320,7 @@
       ["power_armor_helmet_light", 3],
       ["power_armor_heavy", 3],
       ["power_armor_helmet_heavy", 3],
-      ["hazmat_suit", 10],
+      ["cleansuit", 10],
       ["mask_bal", 10],
       ["plasma", 8],
       ["plasma_rifle", 1],
@@ -4190,6 +4329,7 @@
       ["8mm_caseless", 10],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
+      ["hazmat_suit", 5],
       ["pur_tablets", 20]
     ]
   },{
@@ -4375,11 +4515,13 @@
       ["mag_computer", 45],
       ["mag_electronics", 25],
       ["adderall", 10],
+      ["fries", 10],
+      ["mintpatties", 20],
       ["electrohack", 3],
       ["usb_drive", 5],
       ["battery", 50],
       ["manual_computers", 20],
-      ["textbook_computers", 8],
+      ["textbook_computer", 8],
       ["computer_science", 7],
       ["solar_cell", 5],
       ["SICP", 3],

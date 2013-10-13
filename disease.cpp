@@ -5,6 +5,7 @@
 #include "weather.h"
 #include "translations.h"
 #include "martialarts.h"
+#include "monstergenerator.h"
 #include <stdlib.h>
 #include <sstream>
 #include <algorithm>
@@ -298,6 +299,9 @@ void dis_effect(player &p, disease &dis) {
     switch(disType) {
         case DI_GLARE:
             p.per_cur -= 1;
+            if (one_in(200)) {
+                g->add_msg(_("The sunlight's glare makes it hard to see."));
+            }
             break;
 
         case DI_WET:
@@ -1125,8 +1129,8 @@ void dis_effect(player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    mon_id montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                    monster beast(g->mtypes[montype]);
+                    std::string montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                    monster beast(GetMType(montype));
                     int x, y;
                     int tries = 0;
                     do {
@@ -1192,8 +1196,9 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_ATTENTION:
             if (one_in(100000 / dis.duration) && one_in(100000 / dis.duration) && one_in(250)) {
-                mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                monster beast(g->mtypes[type]);
+                std::string type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
+                monster beast(GetMType(type));
+
                 int x, y;
                 int tries = 0;
                 do {
@@ -1247,8 +1252,8 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_MA_BUFF:
-            if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
-              ma_buff b = g->ma_buffs[dis.buff_id];
+            if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
+              ma_buff b = ma_buffs[dis.buff_id];
               if (b.is_valid_player(p)) {
                 b.apply_player(p);
               }
@@ -1322,6 +1327,7 @@ int disease_speed_boost(disease dis)
 
 std::string dis_name(disease& dis)
 {
+    // Maximum length of returned string is 26 characters
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
@@ -1455,9 +1461,9 @@ std::string dis_name(disease& dis)
     {
         std::string status = "";
         switch (dis.intensity) {
-        case 1: status = _("Bleeding "); break;
-        case 2: status = _("Heavily Bleeding "); break;
-        case 3: status = _("Very Heavily Bleeding "); break;
+        case 1: status = _("Bleeding - "); break;
+        case 2: status = _("Bad Bleeding - "); break;
+        case 3: status = _("Heavy Bleeding - "); break;
         }
         switch (dis.bp) {
             case bp_head:
@@ -1531,7 +1537,7 @@ std::string dis_name(disease& dis)
     {
         std::string status = "";
         if (dis.duration > 2401) {status = _("Bite - ");
-        } else { status = _("Painful Bite - "); 
+        } else { status = _("Painful Bite - ");
         }
         switch (dis.bp) {
             case bp_head:
@@ -1591,14 +1597,14 @@ std::string dis_name(disease& dis)
     case DI_RECOVER: return _("Recovering From Infection");
 
     case DI_MA_BUFF:
-        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end()) {
-          if (g->ma_buffs[dis.buff_id].max_stacks > 1) {
+        if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
+          if (ma_buffs[dis.buff_id].max_stacks > 1) {
             std::stringstream buf;
-            buf << g->ma_buffs[dis.buff_id].name
+            buf << ma_buffs[dis.buff_id].name
               << " (" << dis.intensity << ")";
             return buf.str().c_str();
           } else
-            return g->ma_buffs[dis.buff_id].name.c_str();
+            return ma_buffs[dis.buff_id].name.c_str();
         } else
           return "Invalid martial arts buff";
 
@@ -1993,8 +1999,8 @@ condition, and deals massive damage.");
     case DI_RECOVER: return _("You are recovering from an infection.");
 
     case DI_MA_BUFF:
-        if (g->ma_buffs.find(dis.buff_id) != g->ma_buffs.end())
-          return g->ma_buffs[dis.buff_id].desc.c_str();
+        if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
+          return ma_buffs[dis.buff_id].description.c_str();
         else
           return "This is probably a bug.";
 
@@ -2056,7 +2062,7 @@ void manage_fungal_infection(player& p, disease& dis) {
 
         p.moves = -500;
         int sporex, sporey;
-        monster spore(g->mtypes[mon_spore]);
+        monster spore(GetMType("mon_spore"));
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 sporex = p.posx + i;
@@ -2580,7 +2586,7 @@ static void handle_insect_parasites(player& p, disease& dis) {
                 _("Insects begin to emerge from <npcname>'s skin!") );
 
             p.moves -= 600;
-            monster grub(g->mtypes[mon_dermatik_larva]);
+            monster grub(GetMType("mon_dermatik_larva"));
             while (!valid_spawns.empty() && num_insects > 0) {
                 num_insects--;
                 // Hurt the player

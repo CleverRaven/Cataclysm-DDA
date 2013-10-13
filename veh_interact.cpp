@@ -313,7 +313,7 @@ void veh_interact::do_install(int reason)
     while (true)
     {
         sel_vpart_info = &(can_mount[pos]);
-        display_list (pos);
+        display_list (pos, can_mount);
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
@@ -631,9 +631,9 @@ void veh_interact::do_tirechange(int reason)
     int pos = 0;
     while (true)
     {
-        sel_vpart_info = &(can_mount[pos]);
+        sel_vpart_info = &(wheel_types[pos]);
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
-        display_list (pos);
+        display_list (pos, wheel_types);
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_tools = has_jack && has_wrench;
@@ -662,9 +662,9 @@ void veh_interact::do_tirechange(int reason)
             pos += dy;
             if (pos < 0)
             {
-                pos = can_mount.size()-1;
+                pos = wheel_types.size()-1;
             }
-            else if (pos >= can_mount.size())
+            else if (pos >= wheel_types.size())
             {
                 pos = 0;
             }
@@ -712,24 +712,16 @@ void veh_interact::do_rename(int reason)
 }
 
 /**
- * Returns the first (external) part on the vehicle at the given position.
+ * Returns the first part on the vehicle at the given position.
  * @param dx The x-coordinate, relative to the viewport's 0-point (?)
  * @param dy The y-coordinate, relative to the viewport's 0-point (?)
- * @return The external vehicle part at the specified coordinates.
+ * @return The first vehicle part at the specified coordinates.
  */
 int veh_interact::part_at (int dx, int dy)
 {
     int vdx = -ddx - dy;
     int vdy = dx - ddy;
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
-    {
-        int p = veh->external_parts[ep];
-        if (veh->parts[p].mount_dx == vdx && veh->parts[p].mount_dy == vdy)
-        {
-            return p;
-        }
-    }
-    return -1;
+    return veh->part_displayed_at(vdx, vdy);
 }
 
 /**
@@ -777,6 +769,20 @@ void veh_interact::move_cursor (int dx, int dy)
             }
         }
     }
+
+    //Only build the wheel list once
+    if(wheel_types.empty()) {
+        for (std::map<std::string, vpart_info>::iterator
+                part_type_iterator = vehicle_part_types.begin();
+                part_type_iterator != vehicle_part_types.end();
+                ++part_type_iterator) {
+            if (part_type_iterator->second.has_flag("WHEEL"))
+            {
+                wheel_types.push_back (part_type_iterator->second);
+            }
+        }
+    }
+
     need_repair.clear();
     parts_here.clear();
     ptank = NULL;
@@ -813,9 +819,8 @@ void veh_interact::move_cursor (int dx, int dy)
 void veh_interact::display_veh ()
 {
     int x1 = 12, y1 = 12, x2 = -12, y2 = -12;
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
+    for (int p = 0; p < veh->parts.size(); p++)
     {
-        int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx < x1)
         {
             x1 = veh->parts[p].mount_dx;
@@ -860,9 +865,11 @@ void veh_interact::display_veh ()
         }
     }
 
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
+    //Iterate over structural parts so we only hit each square once
+    std::vector<int> structural_parts = veh->all_parts_at_location("structure");
+    for (int i = 0; i < structural_parts.size(); i++)
     {
-        int p = veh->external_parts[ep];
+        const int p = structural_parts[i];
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
         int y = -(veh->parts[p].mount_dx + ddx);
@@ -990,21 +997,22 @@ void veh_interact::display_mode (char mode)
  * Draws the list of parts that can be mounted in the selected square. Used
  * when installing new parts or changing tires.
  * @param pos The current cursor position in the list.
+ * @param list The list to display parts from.
  */
-void veh_interact::display_list (int pos)
+void veh_interact::display_list (int pos, std::vector<vpart_info> list)
 {
     werase (w_list);
     int page = pos / page_size;
-    for (int i = page * page_size; i < (page + 1) * page_size && i < can_mount.size(); i++)
+    for (int i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++)
     {
         int y = i - page * page_size;
-        itype_id itm = can_mount[i].item;
+        itype_id itm = list[i].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= can_mount[i].difficulty;
-        bool is_wheel = can_mount[i].has_flag("WHEEL");
+        bool has_skill = g->u.skillLevel("mechanics") >= list[i].difficulty;
+        bool is_wheel = list[i].has_flag("WHEEL");
         nc_color col = has_comps && (has_skill || is_wheel) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, can_mount[i].name.c_str());
-        mvwputch (w_list, y, 1, can_mount[i].color, special_symbol(can_mount[i].sym));
+        mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, list[i].name.c_str());
+        mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
     }
     wrefresh (w_list);
 }
@@ -1190,7 +1198,7 @@ void complete_vehicle (game *g)
             int delta_y = headlight_target.y - (veh->global_y() + gy);
 
             const double PI = 3.14159265358979f;
-            int dir = int(atan2(delta_y, delta_x) * 180.0 / PI);
+            int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
             dir -= veh->face.dir();
             while(dir < 0)
             {
@@ -1278,16 +1286,15 @@ void complete_vehicle (game *g)
         if( parts.size() ) {
             item removed_wheel;
             replaced_wheel = veh->part_with_feature( parts[0], "WHEEL", false );
-            broken = veh->parts[replaced_wheel].hp <= 0;
-            if( replaced_wheel != -1 ) {
-                removed_wheel = veh->item_from_part( replaced_wheel );
-                veh->remove_part( replaced_wheel );
-                g->add_msg( _("You replace one of the %s's tires with a %s."),
-                            veh->name.c_str(), vehicle_part_types[part_id].name.c_str() );
-            } else {
+            if( replaced_wheel == -1 ) {
                 debugmsg( "no wheel to remove when changing wheels." );
                 return;
             }
+            broken = veh->parts[replaced_wheel].hp <= 0;
+            removed_wheel = veh->item_from_part( replaced_wheel );
+            veh->remove_part( replaced_wheel );
+            g->add_msg( _("You replace one of the %s's tires with a %s."),
+                        veh->name.c_str(), vehicle_part_types[part_id].name.c_str() );
             partnum = veh->install_part( dx, dy, part_id );
             if( partnum < 0 ) {
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());

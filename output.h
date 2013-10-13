@@ -35,16 +35,16 @@
 #define LINE_XXXX_C 0xaa
 
 // Display data
-extern int TERMX;
-extern int TERMY;
-extern int VIEWX;
-extern int VIEWY;
-extern int VIEW_OFFSET_X;
-extern int VIEW_OFFSET_Y;
-extern int TERRAIN_WINDOW_WIDTH;
-extern int TERRAIN_WINDOW_HEIGHT;
-extern int FULL_SCREEN_WIDTH;  // Width of full Screen popup
-extern int FULL_SCREEN_HEIGHT; // Height of full Screen popup
+extern int TERMX; // width available for display
+extern int TERMY; // height available for display
+extern int POSX; // X position of '@' inside terrain window
+extern int POSY; // Y position of '@' inside terrain window
+extern int VIEW_OFFSET_X; // X position of terrain window
+extern int VIEW_OFFSET_Y; // Y position of terrain window
+extern int TERRAIN_WINDOW_WIDTH; // width of terrain window
+extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
+extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
+extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 
 std::vector<std::string> foldstring ( std::string str, int width );
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);

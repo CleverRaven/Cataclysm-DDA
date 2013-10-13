@@ -2,6 +2,7 @@
 #include "map.h"
 #include "field.h"
 #include "game.h"
+#include "monstergenerator.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -778,15 +779,17 @@ bool map::process_fields_in_submap(game *g, int gridn)
                         }
                         break;
 
-                    case fd_fatigue:
+                    case fd_fatigue:{
+                        std::string monids[9] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
                         if (cur->getFieldDensity() < 3 && int(g->turn) % 3600 == 0 && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            mon_id type = mon_id(rng(mon_flying_polyp, mon_blank));
-                            monster creature(g->mtypes[type]);
+                            std::string type = monids[(rng(0, 9))];
+                            monster creature(GetMType(type));
                             creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
                             g->add_zombie(creature);
                         }
+                    }
                         break;
 
                     case fd_push_items: {
@@ -812,14 +815,18 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     add_item(newp.x, newp.y, tmp);
                                     if (g->u.posx == newp.x && g->u.posy == newp.y) {
                                         g->add_msg(_("A %s hits you!"), tmp.tname().c_str());
-                                        g->u.hit(g, random_body_part(), rng(0, 1), 6, 0);
+                                        body_part hit = random_body_part();
+                                        int side = random_side(hit);
+                                        g->u.hit(g, hit, side, 6, 0);
                                     }
                                     int npcdex = g->npc_at(newp.x, newp.y),
                                         mondex = g->mon_at(newp.x, newp.y);
 
                                     if (npcdex != -1) {
                                         npc *p = g->active_npc[npcdex];
-                                        p->hit(g, random_body_part(), rng(0, 1), 6, 0);
+                                        body_part hit = random_body_part();
+                                        int side = random_side(hit);
+                                        p->hit(g, hit, side, 6, 0);
                                         if (g->u_see(newp.x, newp.y)) {
                                             g->add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
@@ -1061,12 +1068,12 @@ void map::step_in_field(int x, int y, game *g)
                     g->add_msg(_("You're burning up!"));
                     g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
                     g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                    g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
                 } else if (adjusted_intensity == 3) {
                     g->add_msg(_("You're set ablaze!"));
                     g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
                     g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
-                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                    g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
                     g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
@@ -1133,7 +1140,7 @@ void map::step_in_field(int x, int y, game *g)
                 g->add_msg(_("You're torched by flames!"));
                 g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
                 g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-                g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
             } else
                 g->add_msg(_("These flames do not burn you."));
             break;

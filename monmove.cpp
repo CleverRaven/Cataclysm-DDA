@@ -519,8 +519,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     std::string your = (is_npc ? p.name + "'s" : "your");
     std::string Your = (is_npc ? p.name + "'s" : "Your");
     body_part bphit;
-    int side = rng(0, 1);
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
+    int side = random_side(bphit);
 
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
@@ -664,7 +664,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         {
                             g->add_msg(_("The %s grabs you!"), name().c_str());
                         }
-                        if (p.has_grab_break_tec(g) &&
+                        if (p.has_grab_break_tec() &&
                             dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                         {
                             if (!is_npc)
@@ -700,27 +700,16 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 
     // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0, morale_adjust = 0;
-    for (int i = 0; i < type->anger.size(); i++)
-    {
-        if (type->anger[i] == MTRIG_FRIEND_ATTACKED)
-        {
-            anger_adjust += 15;
-        }
+    if (type->has_anger_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger_adjust += 15;
     }
-    for (int i = 0; i < type->placate.size(); i++)
-    {
-        if (type->placate[i] == MTRIG_FRIEND_ATTACKED)
-        {
-            anger_adjust -= 15;
-        }
+    if (type->has_fear_trigger(MTRIG_FRIEND_ATTACKED)){
+        morale_adjust -= 15;
     }
-    for (int i = 0; i < type->fear.size(); i++)
-    {
-        if (type->fear[i] == MTRIG_FRIEND_ATTACKED)
-        {
-            morale_adjust -= 15;
-        }
+    if (type->has_placate_trigger(MTRIG_FRIEND_ATTACKED)){
+        anger_adjust -= 15;
     }
+
     if (anger_adjust != 0 && morale_adjust != 0)
     {
         for (int i = 0; i < g->num_zombies(); i++)
@@ -1024,7 +1013,7 @@ void monster::knock_back_from(game *g, int x, int y)
   npc *p = g->active_npc[npcdex];
   hurt(3);
   add_effect(ME_STUNNED, 1);
-  p->hit(g, bp_torso, 0, type->size, 0);
+  p->hit(g, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 

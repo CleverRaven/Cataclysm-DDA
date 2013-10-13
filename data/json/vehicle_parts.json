@@ -1,5 +1,6 @@
 [
     {
+        "type":"vehicle_part",
         "id": "null",
         "name": "null part",
         "symbol": "?",
@@ -12,6 +13,7 @@
         "flags": ["NOINSTALL"]
     },
     {
+        "type":"vehicle_part",
         "id": "seat",
         "name": "seat",
         "symbol": "#",
@@ -29,6 +31,7 @@
         ]
     },
     {
+        "type":"vehicle_part",
         "id": "saddle",
         "name": "saddle",
         "symbol": "#",
@@ -45,6 +48,7 @@
         ]
     },
     {
+        "type":"vehicle_part",
         "id": "bed",
         "name": "bed",
         "symbol": "#",
@@ -62,6 +66,7 @@
         ]
     },
     {
+        "type":"vehicle_part",
         "id": "frame_horizontal",
         "name": "frame",
         "symbol": "h",
@@ -75,6 +80,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_vertical",
         "name": "frame",
         "symbol": "j",
@@ -88,6 +94,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_cross",
         "name": "frame",
         "symbol": "c",
@@ -101,6 +108,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_nw",
         "name": "frame",
         "symbol": "y",
@@ -114,6 +122,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_ne",
         "name": "frame",
         "symbol": "u",
@@ -127,6 +136,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_se",
         "name": "frame",
         "symbol": "n",
@@ -140,6 +150,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_sw",
         "name": "frame",
         "symbol": "b",
@@ -153,6 +164,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_horizontal_2",
         "name": "frame",
         "symbol": "=",
@@ -166,6 +178,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_vertical_2",
         "name": "frame",
         "symbol": "H",
@@ -179,6 +192,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_cover",
         "name": "frame",
         "symbol": "^",
@@ -192,6 +206,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "frame_handle",
         "name": "handle",
         "symbol": "^",
@@ -205,6 +220,7 @@
         "flags": []
     },
     {
+        "type":"vehicle_part",
         "id": "board_horizontal",
         "name": "board",
         "symbol": "h",
@@ -218,6 +234,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "board_vertical",
         "name": "board",
         "symbol": "j",
@@ -231,6 +248,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "board_nw",
         "name": "board",
         "symbol": "y",
@@ -244,6 +262,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "board_ne",
         "name": "board",
         "symbol": "u",
@@ -257,6 +276,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "board_se",
         "name": "board",
         "symbol": "n",
@@ -270,6 +290,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "board_sw",
         "name": "board",
         "symbol": "b",
@@ -283,6 +304,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "aisle_horizontal",
         "name": "aisle",
         "symbol": "=",
@@ -296,6 +318,7 @@
         "flags": ["AISLE", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "aisle_vertical",
         "name": "aisle",
         "symbol": "H",
@@ -309,6 +332,7 @@
         "flags": ["AISLE", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "trunk_floor",
         "name": "floor trunk",
         "symbol": "=",
@@ -323,6 +347,7 @@
         "flags": ["AISLE", "BOARDABLE", "CARGO"]
     },
     {
+        "type":"vehicle_part",
         "id": "roof",
         "name": "roof",
         "symbol": "#",
@@ -336,6 +361,7 @@
         "flags": ["ROOF"]
     },
     {
+        "type":"vehicle_part",
         "id": "door",
         "name": "door",
         "symbol": "+",
@@ -350,6 +376,7 @@
         "flags": ["OBSTACLE", "OPENABLE", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "door_opaque",
         "name": "opaque door",
         "symbol": "+",
@@ -364,6 +391,7 @@
         "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "door_internal",
         "name": "internal door",
         "symbol": "+",
@@ -378,6 +406,7 @@
         "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "windshield",
         "name": "windshield",
         "symbol": "\"",
@@ -392,6 +421,7 @@
         "flags": ["OVER", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "blade_horizontal",
         "name": "blade",
         "symbol": "-",
@@ -406,6 +436,7 @@
         "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },
     {
+        "type":"vehicle_part",
         "id": "blade_vertical",
         "name": "blade",
         "symbol": "|",
@@ -420,6 +451,7 @@
         "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },
     {
+        "type":"vehicle_part",
         "id": "spike",
         "name": "spike",
         "symbol": ".",
@@ -434,6 +466,7 @@
         "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },
     {
+        "type":"vehicle_part",
         "id": "wheel",
         "name": "wheel",
         "symbol": "0",
@@ -449,6 +482,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "wheel_wide",
         "name": "wide wheel",
         "symbol": "O",
@@ -464,6 +498,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "wheel_underbody",
         "name": "wide wheel (underbody)",
         "symbol": "H",
@@ -479,6 +514,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "wheel_bicycle",
         "name": "bicycle wheel",
         "symbol": "|",
@@ -494,6 +530,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "wheel_motorbike",
         "name": "motorbike wheel",
         "symbol": "o",
@@ -509,6 +546,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "wheel_small",
         "name": "small wheel",
         "symbol": "o",
@@ -524,6 +562,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "wheel_caster",
         "name": "casters",
         "symbol": "o",
@@ -539,6 +578,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_1cyl",
         "name": "1-cylinder engine",
         "symbol": "*",
@@ -555,6 +595,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_vtwin",
         "name": "V-twin engine",
         "symbol": "*",
@@ -571,6 +612,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_inline4",
         "name": "Inline-4 engine",
         "symbol": "*", "color": "light_red",
@@ -586,6 +628,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_v6",
         "name": "V6 engine",
         "symbol": "*",
@@ -602,6 +645,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_v8",
         "name": "V8 engine",
         "symbol": "*",
@@ -618,6 +662,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_electric",
         "name": "electric motor",
         "symbol": "*",
@@ -634,6 +679,7 @@
         "flags": ["ENGINE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_electric_large",
         "name": "large electric motor",
         "symbol": "*",
@@ -650,6 +696,7 @@
         "flags": ["ENGINE"]
     },
     {
+        "type":"vehicle_part",
         "id": "engine_plasma",
         "name": "plasma engine",
         "symbol": "*",
@@ -666,6 +713,7 @@
         "flags": ["ENGINE"]
     },
     {
+        "type":"vehicle_part",
         "id": "foot_pedals",
         "name": "Foot pedals",
         "symbol": "*",
@@ -682,6 +730,7 @@
         "flags": ["ENGINE"]
     },
     {
+        "type":"vehicle_part",
         "id": "gas_tank",
         "name": "gasoline tank",
         "symbol": "O",
@@ -698,6 +747,24 @@
         "flags": ["FUEL_TANK"]
     },
     {
+        "type":"vehicle_part",
+        "id": "small_storage_battery",
+        "name": "small storage battery",
+        "symbol": "O",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 80,
+        "durability": 200,
+        "size": 1000,
+        "fuel_type": "battery",
+        "item": "small_storage_battery",
+        "difficulty": 1,
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
+    },
+    {
+        "type":"vehicle_part",
         "id": "storage_battery",
         "name": "storage battery",
         "symbol": "O",
@@ -714,6 +781,7 @@
         "flags": ["FUEL_TANK"]
     },
     {
+        "type":"vehicle_part",
         "id": "minireactor",
         "name": "minireactor",
         "symbol": "O",
@@ -730,6 +798,7 @@
         "flags": ["FUEL_TANK"]
     },
     {
+        "type":"vehicle_part",
         "id": "hydrogen_tank",
         "name": "hydrogen tank",
         "symbol": "O",
@@ -746,6 +815,7 @@
         "flags": ["FUEL_TANK"]
     },
     {
+        "type":"vehicle_part",
         "id": "water_tank",
         "name": "water tank",
         "symbol": "O",
@@ -762,6 +832,23 @@
         "flags": ["FUEL_TANK"]
     },
     {
+        "type":"vehicle_part",
+        "id": "minifridge",
+        "name": "minifridge",
+        "symbol": "H",
+        "color": "light_blue",
+        "broken_symbol": "#",
+        "broken_color": "light_blue",
+        "damage_modifier": 80,
+        "durability": 100,
+        "size": 400,
+        "item": "minifridge",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["CARGO", "OBSTACLE"]
+    },
+    {
+        "type":"vehicle_part",
         "id": "trunk",
         "name": "trunk",
         "symbol": "H",
@@ -777,6 +864,7 @@
         "flags": ["CARGO"]
     },
     {
+        "type":"vehicle_part",
         "id": "box",
         "name": "box",
         "symbol": "o",
@@ -792,6 +880,7 @@
         "flags": ["CARGO", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "controls",
         "name": "controls",
         "symbol": "$",
@@ -805,6 +894,7 @@
         "flags": ["CONTROLS"]
     },
     {
+        "type":"vehicle_part",
         "id": "muffler",
         "name": "muffler",
         "symbol": "/",
@@ -819,6 +909,7 @@
         "flags": ["MUFFLER"]
     },
     {
+        "type":"vehicle_part",
         "id": "seatbelt",
         "name": "seatbelt",
         "symbol": ",",
@@ -834,6 +925,7 @@
         "flags": ["SEATBELT"]
     },
     {
+        "type":"vehicle_part",
         "id": "solar_panel",
         "name": "solar panel",
         "symbol": "#",
@@ -849,6 +941,7 @@
         "flags": ["SOLAR_PANEL"]
     },
     {
+        "type":"vehicle_part",
         "id": "reinforced_solar_panel",
         "name": "solar panel",
         "symbol": "#",
@@ -865,6 +958,7 @@
         ]
     },
     {
+        "type":"vehicle_part",
         "id": "kitchen_unit",
         "name": "kitchen unit",
         "symbol": "&",
@@ -880,6 +974,7 @@
         "flags": ["CARGO", "OBSTACLE", "KITCHEN"]
     },
     {
+        "type":"vehicle_part",
         "id": "welding_rig",
         "name": "welding rig",
         "symbol": "&",
@@ -895,6 +990,7 @@
         "flags": ["CARGO", "OBSTACLE", "WELDRIG"]
     },
     {
+        "type":"vehicle_part",
         "id": "m249",
         "name": "mounted M249",
         "symbol": "t",
@@ -911,6 +1007,7 @@
         "flags": ["TURRET"]
     },
     {
+        "type":"vehicle_part",
         "id": "flamethrower",
         "name": "mounted flamethrower",
         "symbol": "t",
@@ -926,6 +1023,7 @@
         "flags": ["TURRET"]
     },
     {
+        "type":"vehicle_part",
         "id": "plasma_gun",
         "name": "mounted plasma gun",
         "symbol": "t",
@@ -941,6 +1039,7 @@
         "flags": ["TURRET"]
     },
     {
+        "type":"vehicle_part",
         "id": "fusion_gun",
         "name": "mounted fusion gun",
         "symbol": "t",
@@ -957,6 +1056,7 @@
         "flags": ["TURRET", "CARGO"]
     },
     {
+        "type":"vehicle_part",
         "id": "plating_steel",
         "name": "steel plating",
         "symbol": ")",
@@ -970,6 +1070,7 @@
         "flags": ["ARMOR", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "plating_superalloy",
         "name": "superalloy plating",
         "symbol": ")",
@@ -983,6 +1084,7 @@
         "flags": ["ARMOR", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "plating_spiked",
         "name": "spiked plating",
         "symbol": ")",
@@ -997,6 +1099,7 @@
         "flags": ["ARMOR", "SHARP", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "plating_hard",
         "name": "hard plating",
         "symbol": ")",
@@ -1010,6 +1113,7 @@
         "flags": ["ARMOR", "OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "headlight",
         "name": "head light",
         "symbol": "*",
@@ -1024,6 +1128,7 @@
         "flags": ["LIGHT"]
     },
     {
+        "type":"vehicle_part",
         "id": "reinforced_windshield",
         "name": "reinforced windshield",
         "symbol": "\"",
@@ -1038,6 +1143,7 @@
         "flags": ["OBSTACLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "horn_bicycle",
         "name": "bicycle horn",
         "symbol": "*",
@@ -1052,6 +1158,7 @@
         "flags": ["HORN"]
     },
     {
+        "type":"vehicle_part",
         "id": "horn_car",
         "name": "car horn",
         "symbol": "*",
@@ -1066,6 +1173,7 @@
         "flags": ["HORN"]
     },
     {
+        "type":"vehicle_part",
         "id": "horn_big",
         "name": "truck horn",
         "symbol": "*",
@@ -1080,6 +1188,7 @@
         "flags": ["HORN"]
     },
     {
+        "type":"vehicle_part",
         "id": "door_trunk",
         "name": "trunk door",
         "symbol": "+",
@@ -1094,6 +1203,7 @@
         "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "door_shutter",
         "name": "shutter door",
         "symbol": "+",
@@ -1108,6 +1218,7 @@
         "flags": ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },
     {
+        "type":"vehicle_part",
         "id": "door_sliding",
         "name": "sliding door",
         "symbol": "+",

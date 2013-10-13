@@ -15,27 +15,19 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
     ts.tv_sec = 0;
     ts.tv_nsec = EXPLOSION_SPEED;
 // added offset values to keep from calculating the same value over and over again.
-    const int offset_x = VIEWX - u.posx - u.view_offset_x;
-    const int offset_y = VIEWY - u.posy - u.view_offset_y;
+    const int ypos = POSY + (y - (u.posy + u.view_offset_y));
+    const int xpos = POSX + (x - (u.posx + u.view_offset_x));
 
     for (int i = 1; i <= radius; i++) {
-        mvwputch(w_terrain, y - i + offset_y,
-                      x - i + offset_x, col, '/');
-        mvwputch(w_terrain, y - i + offset_y,
-                      x + i + offset_x, col,'\\');
-        mvwputch(w_terrain, y + i + offset_y,
-                      x - i + offset_x, col,'\\');
-        mvwputch(w_terrain, y + i + offset_y,
-                      x + i + offset_x, col, '/');
+        mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
+        mvwputch(w_terrain, ypos - i, xpos + i, col,'\\');
+        mvwputch(w_terrain, ypos + i, xpos - i, col,'\\');
+        mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
         for (int j = 1 - i; j < 0 + i; j++) {
-            mvwputch(w_terrain, y - i + offset_y,
-                       x + j + offset_x, col,'-');
-            mvwputch(w_terrain, y + i + offset_y,
-                       x + j + offset_x, col,'-');
-            mvwputch(w_terrain, y + j + offset_y,
-                       x - i + offset_x, col,'|');
-            mvwputch(w_terrain, y + j + offset_y,
-                       x + i + offset_x, col,'|');
+            mvwputch(w_terrain, ypos - i, xpos + j, col,'-');
+            mvwputch(w_terrain, ypos + i, xpos + j, col,'-');
+            mvwputch(w_terrain, ypos + j, xpos - i, col,'|');
+            mvwputch(w_terrain, ypos + j, xpos + i, col,'|');
         }
         tilecontext->init_explosion(x, y, i);
         //tilecontext->draw_explosion_frame(x, y, radius, offset_x, offset_y);
@@ -58,8 +50,8 @@ void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> traj
             case '`': bullet = "animation_bullet_shrapnel"; break;
         }
 
-        mvwputch(w_terrain, ty + VIEWY - u.posy - u.view_offset_y,
-                 tx + VIEWX - u.posx - u.view_offset_x, c_red, bullet_char);
+        mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
+                 POSX + (tx - (u.posx + u.view_offset_x)), c_red, bullet_char);
         // pass to tilecontext
         tilecontext->init_draw_bullet(tx, ty, bullet);
         wrefresh(w_terrain);
@@ -74,7 +66,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
     if (use_tiles)
     {
         //int iTimeout = 0;
-        tilecontext->init_draw_hit(x, y, monster_names[m.type->id]);
+        tilecontext->init_draw_hit(x, y, m.type->id);
         wrefresh(w_terrain);
 
         timespec tspec;
@@ -82,20 +74,10 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
         tspec.tv_nsec = BULLET_SPEED;
 
         nanosleep(&tspec, NULL);
-        /*
-        nc_color cMonColor = m.type->color;
-        char sMonSym = m.symbol();
-        hit_animation(x,
-                      y,
-                      red_background(cMonColor), dead?'%':sMonSym);
-        */
-        /*
-        x + VIEWX - u.posx - u.view_offset_x,
-                      y + VIEWY - u.posy - u.view_offset_y,
-        */
+
         mvwputch(w_terrain,
-                 x + VIEWX - u.posx - u.view_offset_x,
-                 y + VIEWY - u.posy - u.view_offset_y,
+                 POSX + (x - (u.posx + u.view_offset_x)),
+                 POSY + (y - (u.posy + u.view_offset_y)),
                  c_white, ' ');
         wrefresh(w_terrain);
     }
@@ -104,9 +86,9 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
         nc_color cMonColor = m.type->color;
         char sMonSym = m.symbol();
 
-        hit_animation(x + VIEWX - u.posx - u.view_offset_x,
-                  y + VIEWY - u.posy - u.view_offset_y,
-                  red_background(cMonColor), dead?'%':sMonSym);
+        hit_animation(POSX + (x - (u.posx + u.view_offset_x)),
+                      POSY + (y - (u.posy + u.view_offset_y)),
+                      red_background(cMonColor), dead ? '%' : sMonSym);
     }
 }
 /* Player hit animation */
@@ -127,30 +109,17 @@ void game::draw_hit_player(player *p, bool dead)
         tspec.tv_nsec = BULLET_SPEED;
 
         nanosleep(&tspec, NULL);
-        /*
-        hit_animation(p->posx - g->u.posx + VIEWX - g->u.view_offset_x,
-                      p->posy - g->u.posy + VIEWY - g->u.view_offset_y,
-                      red_background(p->color()), '@');
-        */
-        /*
-        if (iTimeout <= 0 || iTimeout > 999) {
-            iTimeout = 70;
-        }
 
-        timeout(iTimeout);
-        getch(); //useing this, because holding down a key with nanosleep can get yourself killed
-        timeout(-1);
-        */
         mvwputch(w_terrain,
-                 p->posx + VIEWX - u.posx - u.view_offset_x,
-                 p->posy + VIEWY - u.posy - u.view_offset_y,
+                 POSX + (p->posx - (u.posx + u.view_offset_x)),
+                 POSY + (p->posy - (u.posy + u.view_offset_y)),
                  c_white, ' ');
         wrefresh(w_terrain);
     }
     else
     {
-        hit_animation(p->posx + VIEWX - u.posx - u.view_offset_x,
-                      p->posy + VIEWY - u.posy - u.view_offset_y,
+        hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
+                      POSY + (p->posy - (u.posy + u.view_offset_y)),
                       red_background(p->color()), '@');
     }
 }
@@ -191,8 +160,8 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
     }
 
-    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
-                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+    mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
+                        POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)), c_white, 'X');
 
     tilecontext->init_draw_line(x,y,vPoint,"line_trail", false);
 }

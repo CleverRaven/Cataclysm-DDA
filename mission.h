@@ -176,7 +176,7 @@ struct mission {
     oter_id target_id;      // Destination type to be reached
     npc_class recruit_class;// The type of NPC you are to recruit acidia
     int recruit_npc_id;     // The ID of a specific NPC to recruit
-    mon_id monster_type;    // Monster ID that are to be killed
+    std::string monster_type;    // Monster ID that are to be killed
     int monster_kill_goal;  // the kill count you wish to reach
     int count;              // How many of that item
     int deadline;           // Turn number
@@ -188,6 +188,9 @@ struct mission {
  std::string name();
  std::string save_info();
  void load_info(game *g, std::ifstream &info);
+
+ void json_load(picojson::value parsed, game * g);
+ picojson::value json_save(bool save_contents = false);
 
  mission()
  {

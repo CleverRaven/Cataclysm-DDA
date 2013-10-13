@@ -2667,6 +2667,9 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
  while (!nodes[i].empty()) { //A*
   node mn = nodes[i].top();
   nodes[i].pop();
+  if (mn.x > OMAPX || mn.x < 0 || mn.y > OMAPY || mn.y < 0) {
+      continue;
+  }
   closed[mn.x][mn.y] = true;
 
   if(mn.x == x2 && mn.y == y2) {

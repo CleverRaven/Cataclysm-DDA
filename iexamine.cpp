@@ -130,7 +130,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
      }
   }
   for (int i = 0; i < g->num_zombies(); i++) {
-   if (g->zombie(i).type->id == mon_turret) {
+   if (g->zombie(i).type->id == "mon_turret") {
     g->remove_zombie(i);
     i--;
    }
@@ -187,7 +187,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
- if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1))) {
+ if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
   g->add_msg(_("If only you had a shovel..."));
   return;
  }
@@ -259,7 +259,7 @@ void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
- if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1))) {
+ if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
   g->add_msg(_("If only you had a shovel..."));
   return;
  }

@@ -12,6 +12,8 @@
 #include "output.h"
 #include "item_factory.h"
 #include "artifact.h"
+#include "mission.h"
+#include "faction.h"
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
@@ -35,7 +37,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 10;
+const int savegame_version = 11;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -47,13 +49,17 @@ int savegame_loading_version = savegame_version;
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// on runtime populate lookup tables. This is temporary: monster_ints
 std::map<std::string, int> monster_ints;
+std::map<std::string, int> obj_type_id;
 
 void game::init_savedata_translation_tables() {
     monster_ints.clear();
     for(int i=0; i < num_monsters; i++) {
         monster_ints[ monster_names[i] ] = i;
     }
-
+    obj_type_id.clear();
+    for(int i = 0; i < NUM_OBJECTS; i++) {
+        obj_type_id[ obj_type_name[i] ] = i;
+    }
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// game.sav
@@ -63,9 +69,7 @@ void game::init_savedata_translation_tables() {
  */
 void game::serialize(std::ofstream & fout) {
 /*
- * Format version 9: Hybrid format. Ordered, line by line mix of json chunks, and stringstream bits that don't
- * really make sense as json. New data can be added to the basic game state json, or tacked onto the end as a
- * new line.
+ * Format version 12: Fully json, save the header. Weather and memorial exist elsewhere.
  * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
  */
         // Header
@@ -88,42 +92,46 @@ void game::serialize(std::ofstream & fout) {
         data["levz"] = pv( levz );
         data["om_x"] = pv( cur_om->pos().x );
         data["om_y"] = pv( cur_om->pos().y );
-        fout << pv(data).serialize();
-        fout << std::endl;
-
-        // Weather. todo: move elsewhere
-        fout << save_weather();
-        fout << std::endl;
 
         // Next, the scent map.
+        std::stringstream rle_out;
+        int rle_lastval = -1;
+        int rle_count = 0;
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
             for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                fout << grscent[i][j] << " ";
+               int val = grscent[i][j];
+               if (val == rle_lastval) {
+                   rle_count++;
+               } else {
+                   if ( rle_count ) {
+                       rle_out << rle_count << " ";
+                   }
+                   rle_out << val << " ";
+                   rle_lastval = val;
+                   rle_count = 1;
+               }
             }
         }
+        rle_out << rle_count;
+        data["grscent"] = pv ( rle_out.str() );
 
-        // Now save all monsters. First the amount
-        fout << std::endl << num_zombies() << std::endl;
-        // Then each monster + inv in a 1 line json string
+        // Then each monster
+        std::vector<picojson::value> amdata;
         for (int i = 0; i < num_zombies(); i++) {
-            fout << _active_monsters[i].save_info() << std::endl;
+            amdata.push_back( _active_monsters[i].json_save(true) );
         }
+        data["active_monsters"] = pv( amdata );
 
         // save killcounts.
         std::map<std::string, picojson::value> killmap;
-        for (int i = 0; i < num_monsters; i++) {
-            if ( kills[i] > 0 ) {
-                killmap[ monster_names[ i ] ] = pv ( kills[i] );
-            }
+        for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
+            killmap[kill->first] = pv(kill->second);
         }
-        fout << pv( killmap ).serialize() << std::endl;
+        data["kills"] = pv( killmap );
 
-        // And finally the player.
-        // u.save_info dumps player + contents in a single json line, followed by memorial log
-        // one entry per line starting with '|'
-        fout << u.save_info() << std::endl; 
+        data["player"] = pv( u.json_save(true) );
 
-        fout << std::endl;
+        fout << pv(data).serialize() << std::endl;
         ////////
 }
 
@@ -142,6 +150,20 @@ inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s,
  * Convenience macro for the above
  */
 #define parseline() stream_line(fin,linein,linebuf)
+
+void chkversion(std::istream & fin) {
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+}
 
 /*
  * Parse an open .sav file.
@@ -165,7 +187,7 @@ void game::unserialize(std::ifstream & fin) {
            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
-       // Format version 9. After radical compatibility breaking changes, raise savegame_version, cut below and add to
+       // Format version 12. After radical compatibility breaking changes, raise savegame_version, cut below and add to
        // unserialize_legacy in savegame_legacy.cpp
             std::string linebuf;
             std::stringstream linein;
@@ -173,7 +195,7 @@ void game::unserialize(std::ifstream & fin) {
 
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
             picojson::value pval;
-            parseline() >> pval;
+            fin >> pval;
             std::string jsonerr = picojson::get_last_error();
             if ( ! jsonerr.empty() ) {
                 debugmsg("Bad save json\n%s", jsonerr.c_str() );
@@ -190,10 +212,6 @@ void game::unserialize(std::ifstream & fin) {
             picoint(pdata,"next_faction_id", next_faction_id);
             picoint(pdata,"next_mission_id", next_mission_id);
             picoint(pdata,"nextspawn",tmpspawn);
-
-            getline(fin, linebuf); // Does weather need to be loaded in this order? Probably not,
-            load_weather(linebuf); // but better safe than jackie chan expressions later
-
             picoint(pdata,"levx",levx);
             picoint(pdata,"levy",levy);
             picoint(pdata,"levz",levz);
@@ -213,65 +231,88 @@ void game::unserialize(std::ifstream & fin) {
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             last_target = tmptar;
 
-            // Next, the scent map.
-            parseline();
+            linebuf="";
+            if ( picostring(pdata,"grscent",linebuf) ) {
+                linein.clear();
+                linein.str(linebuf);
 
-            for (int i = 0; i < SEEX *MAPSIZE; i++) {
-                for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> grscent[i][j];
+                int stmp;
+                int count = 0;
+                for (int i = 0; i < SEEX *MAPSIZE; i++) {
+                    for (int j = 0; j < SEEY * MAPSIZE; j++) {
+                        if (count == 0) {
+                            linein >> stmp >> count;
+                        }
+                        count--;
+                        grscent[i][j] = stmp;
+                    }
                 }
             }
 
-            // Now the number of monsters...
-            int nummon;
-            parseline() >> nummon;
-
-            // ... and the data on each one.
-            std::string data;
+            picojson::array * vdata = pgetarray(pdata,"active_monsters");
             clear_zombies();
             monster montmp;
-            for (int i = 0; i < nummon; i++)
-            {
-                getline(fin, data);
-                montmp.load_info(data, &mtypes);
+            for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
+                montmp.json_load( *pit, &mtypes );
                 add_zombie(montmp);
             }
 
-            // And the kill counts;
-            parseline();
-            int kk; int kscrap;
-            if ( linein.peek() == '{' ) {
-                picojson::value kdata;
-                linein >> kdata;
-                std::string jsonerr = picojson::get_last_error();
-                if ( ! jsonerr.empty() ) {
-                    debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
-                } else {
-                    picojson::object &pkdata = kdata.get<picojson::object>();
-                    for( picojson::object::const_iterator it = pkdata.begin(); it != pkdata.end(); ++it) {
-                        if ( monster_ints.find(it->first) != monster_ints.end() && it->second.is<double>() ) {
-                            kills[ monster_ints[it->first] ] = (int)it->second.get<double>();
-                        }
-                    }
-                }
-            } else {
-                for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                    if ( kk < 126 ) { // see legacy_mon_id
-                        // load->int->str->int (possibly shifted)
-                        kk = monster_ints[ legacy_mon_id[ kk ] ];
-                        linein >> kills[kk];
-                    } else {
-                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id. 
-                    }
-                }
+            picojson::object * odata = pgetmap(pdata,"kills");
+            for( picojson::object::const_iterator it = odata->begin(); it != odata->end(); ++it) {
+                kills[it->first] = (int)it->second.get<double>();
             }
-            // Finally, the data on the player.
-            getline(fin, data);
-            u.load_info(this, data);
-            u.load_memorial_file( fin );
-            // end .sav version 9
+
+            u.json_load( pdata["player"], this);
 }
 
+///// weather
+void game::load_weather(std::ifstream & fin) {
+   if ( fin.peek() == '#' ) {
+       std::string vline;
+       getline(fin, vline);
+       std::string tmphash, tmpver;
+       int savedver=-1;
+       std::stringstream vliness(vline);
+       vliness >> tmphash >> tmpver >> savedver;
+       if ( tmpver == "version" && savedver != -1 ) {
+           savegame_loading_version = savedver;
+       }
+   }
+     
+     while(!fin.eof()) {
+        std::string data;
+        getline(fin, data);
+
+        std::stringstream wl;
+        wl.str(data);
+        int inturn, intemp, inweather, inzone;
+        wl >> inturn >> intemp >> inweather >> inzone;
+        weather_segment wtm;
+        wtm.weather = (weather_type)inweather;
+        wtm.temperature = intemp;
+        wtm.deadline = inturn;
+        if ( inzone == 0 ) {
+           weather_log[inturn] = wtm;
+        } else {
+           debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
+        }
+     }
+    weather_segment cur = weather_log.upper_bound( (int)turn )->second;
+    weather = cur.weather;
+    temperature = cur.temperature;
+    nextweather = cur.deadline;
+}
+
+void game::save_weather(std::ofstream & fout) {
+    fout << "# version " << savegame_version << std::endl;
+    const int climatezone = 0;
+    for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
+      fout << it->first
+        << " " << int(it->second.temperature)
+        << " " << it->second.weather
+        << " " << climatezone << std::endl;
+    }
+}
 ///// overmap
 void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plrfilename,
                           std::string const & terfilename) {
@@ -526,3 +567,69 @@ void overmap::save()
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mapbuffer
+
+///////////////////////////////////////////////////////////////////////////////////////
+///// master.gsav
+
+void game::unserialize_master(std::ifstream &fin) {
+   savegame_loading_version = 0;
+   chkversion(fin);
+   if (savegame_loading_version != savegame_version) {
+       if ( unserialize_master_legacy(fin) == true ) {
+            return;
+       } else {
+           popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+       }
+   }
+    picojson::value pval;
+    fin >> pval;
+    std::string jsonerr = picojson::get_last_error();
+    if ( ! jsonerr.empty() ) {
+        debugmsg("Bad save json\n%s", jsonerr.c_str() );
+    }
+    picojson::object &data = pval.get<picojson::object>();
+    picoint(data, "next_mission_id", next_mission_id);
+    picoint(data, "next_faction_id", next_faction_id);
+    picoint(data, "next_npc_id", next_npc_id);
+
+    picojson::array * vdata = pgetarray(data,"active_missions");
+    if(vdata != NULL) {
+        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
+            mission tmp;
+            tmp.json_load( *pit, this );
+            active_missions.push_back(tmp);
+        }
+    }
+
+    vdata = pgetarray(data,"factions");
+    if(vdata != NULL) {
+        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
+            faction tmp;
+            tmp.json_load( *pit, this );
+            factions.push_back(tmp);
+        }
+    }
+    
+}
+
+void game::serialize_master(std::ofstream &fout) {
+    fout << "# version " << savegame_version << std::endl;
+    std::map<std::string, picojson::value> data;
+    data["next_mission_id"] = pv ( next_mission_id );
+    data["next_faction_id"] = pv ( next_faction_id );
+    data["next_npc_id"] = pv ( next_npc_id );
+
+    std::vector<picojson::value> vdata;
+    for (int i = 0; i < active_missions.size(); i++) {
+        vdata.push_back( pv( active_missions[i].json_save() ) );
+    }
+    data["active_missions"] = pv( vdata );
+    vdata.clear();
+
+    for (int i = 0; i < factions.size(); i++) {
+        vdata.push_back( pv( factions[i].json_save() ) );
+    }
+    data["factions"] = pv( vdata );
+    vdata.clear();
+    fout << pv( data ).serialize() << std::endl;
+}
