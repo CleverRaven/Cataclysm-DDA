@@ -2128,18 +2128,30 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   line++;
  }
 
- for (int i = 0; i < illness.size(); i++) {
-  int move_adjust = disease_speed_boost(illness[i]);
-  if (move_adjust != 0) {
-   nc_color col = (move_adjust > 0 ? c_green : c_red);
-   mvwprintz(w_speed, line,  1, col, dis_name(illness[i]).c_str());
-   mvwprintz(w_speed, line, 21, col, (move_adjust > 0 ? "+" : "-"));
-   move_adjust = abs(move_adjust);
-   mvwprintz(w_speed, line, (move_adjust >= 10 ? 22 : 23), col, "%d%%%%",
-             move_adjust);
-   line++;
-  }
- }
+    std::map<std::string, int> speed_effects;
+    std::string dis_text = "";
+    for (int i = 0; i < illness.size(); i++) {
+        int move_adjust = disease_speed_boost(illness[i]);
+        if (move_adjust != 0) {
+            if (dis_combined_name(illness[i]) == "") {
+                dis_text = dis_name(illness[i]);
+            } else {
+                dis_text = dis_combined_name(illness[i]);
+            }
+            speed_effects[dis_text] += move_adjust;
+        }
+    }
+
+    for (std::map<std::string, int>::iterator it = speed_effects.begin();
+          it != speed_effects.end(); ++it) {
+        nc_color col = (it->second > 0 ? c_green : c_red);
+        mvwprintz(w_speed, line,  1, col, it->first.c_str());
+        mvwprintz(w_speed, line, 21, col, (it->second > 0 ? "+" : "-"));
+        mvwprintz(w_speed, line, (abs(it->second) >= 10 ? 22 : 23), col, "%d%%",
+                   abs(it->second));
+        line++;
+    }
+
  if (has_trait("QUICK")) {
   pen = int(newmoves * .1);
   mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%%%"),

@@ -19,6 +19,7 @@ void dis_effect(player &p, disease &dis);
 int disease_speed_boost(disease dis);
 
 std::string dis_name(disease& dis);
+std::string dis_combined_name(disease& dis);
 
 std::string dis_description(disease& dis);
 

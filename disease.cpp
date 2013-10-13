@@ -1674,6 +1674,23 @@ std::string dis_name(disease& dis)
     return "";
 }
 
+std::string dis_combined_name(disease& dis)
+{
+    // Maximum length of returned string is 19 characters
+    dis_type_enum type = disease_type_lookup[dis.type];
+    switch (type) {
+        case DI_SPORES:
+            return _("Spore covered");
+        case DI_COLD:
+            return _("Cold");
+        case DI_FROSTBITE:
+            return _("Frostbite");
+        case DI_HOT:
+            return _("Hot");
+    }
+    return "";
+}
+
 std::string dis_description(disease& dis)
 {
     int strpen, dexpen, intpen, perpen, speed_pen;
