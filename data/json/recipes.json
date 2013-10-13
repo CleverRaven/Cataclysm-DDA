@@ -3811,6 +3811,85 @@
   ]
 },{
         "type" : "recipe",
+  "result": "dry_meat",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dry_veggy",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "broccoli", 2 ],
+      [ "tomato", 2 ],
+      [ "zucchini", 2 ],
+      [ "potato_raw", 2 ],
+      [ "onion", 2 ],
+      [ "carrot", 2 ],
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "fluid_sac", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dry_fruit",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "strawberries", 2 ],
+      [ "blueberries", 2 ],
+      [ "orange", 2 ],
+      [ "lemon", 2 ],
+      [ "banana", 2 ],
+      [ "apple", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sausage",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4885,13 +4964,15 @@
     [
       [ "meat", 2 ],
       [ "meat_smoked", 2 ],
+      [ "dry_meat", 2 ],
       [ "sausage", 1 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 15 ]
     ],
     [
       [ "veggy_wild", 2 ],
-      [ "veggy", 2 ]
+      [ "veggy", 2 ],
+      [ "dry_veggy", 2 ]
     ]
   ]
 },{
@@ -4958,6 +5039,7 @@
     [
       [ "potato_raw", 1 ],
       [ "meat_smoked", 1 ],
+      [ "dry_meat", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "onion", 1 ]
@@ -5264,6 +5346,7 @@
       [ "bacon", 1 ],
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
+      [ "dry_meat", 2 ],
       [ "sausage", 1 ],
       [ "jerky", 3 ],
       [ "meat_pickled", 1 ],
@@ -5371,7 +5454,8 @@
       [ "grapes", 1 ],
       [ "cranberries", 1 ],
       [ "raspberries", 1 ],
-      [ "blackberries", 1 ]
+      [ "blackberries", 1 ],
+      [ "dry_fruit", 1 ]
     ]
   ]
 },{
@@ -5492,7 +5576,8 @@
       [ "melon", 1 ],
       [ "pomegranate", 1 ],
       [ "mango", 1 ],
-      [ "apricot", 1 ]
+      [ "apricot", 1 ],
+      [ "dry_fruit", 1 ]
     ]
   ]
 },{
@@ -5523,11 +5608,13 @@
     ],
     [
       [ "sugar", 1 ],
-      [ "honeycomb", 1 ]
+      [ "honeycomb", 1 ],
+      [ "dry_fruit", 1 ]
     ],
     [
       [ "seasoning_italian", 20 ],
-      [ "pepper", 20 ]
+      [ "pepper", 20 ],
+      [ "dry_veggy", 1 ]
     ]
   ]
 },{
@@ -5580,7 +5667,8 @@
       [ "rhubarb", 2 ],
       [ "papaya", 2 ],
       [ "apricot", 2 ],
-      [ "kiwi", 2 ]
+      [ "kiwi", 2 ],
+      [ "dry_fruit", 2 ]
     ],
     [
       [ "sugar", 2 ]
@@ -5620,7 +5708,8 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "tomato", 2 ],
-      [ "broccoli", 1 ]
+      [ "broccoli", 1 ],
+      [ "dry_veggy", 2 ]
     ],
     [
       [ "sauce_pesto", 1 ],
@@ -5660,7 +5749,8 @@
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
-      [ "meat_vac", 2 ]
+      [ "meat_vac", 2 ],
+      [ "dry_meat", 2 ]
     ],
     [
       [ "sauce_red", 1 ],
@@ -5711,7 +5801,8 @@
     ],
     [
       [ "meat", 2 ],
-      [ "meat_canned", 1 ]
+      [ "meat_canned", 1 ],
+      [ "dry_meat", 2 ]
     ]
   ]
 },{
@@ -5757,7 +5848,8 @@
     ],
     [
       [ "veggy", 2 ],
-      [ "veggy_wild", 2 ]
+      [ "veggy_wild", 2 ],
+      [ "dry_veggy", 2 ]
     ]
   ]
 },{
@@ -16586,7 +16678,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "power_armor_basic",
   "category": "CC_NONCRAFT",
   "skill_used": "fabrication",
@@ -16633,7 +16725,46 @@
       [ "transponder", 1 ]
     ]
   ]
-}, {
+},{
+  "type" : "recipe",
+  "result": "dehydrator",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 36000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "element", 2 ]
+    ],
+    [
+      [ "amplifier", 2 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ],
+    [
+      [ "pot", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 18 ]
+    ]
+  ]
+},{
     "type" : "recipe",
     "result": "44fmj",
     "category": "CC_AMMO",
