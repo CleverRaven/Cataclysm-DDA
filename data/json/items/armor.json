@@ -3510,7 +3510,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A soft cotton hat commonly worn by armed forces and existentialists.",
+        "description" : "A soft wool hat commonly worn by armed forces and existentialists.",
         "price" : 125,
         "material" : ["wool", "null"],
         "volume" : 2,
