@@ -16284,7 +16284,7 @@
       ]
     ]
   },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "5x50dart",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
@@ -16322,9 +16322,103 @@
       [ "nail", 100 ]
     ]
   ]
-},
-
-  {
+  },{
+  "type" : "recipe",
+  "result": "power_armor_helmet_basic",
+  "category": "CC_NONCRAFT",
+  "skill_used": "fabrication",
+  "requires_skills": ["electronics",  4],
+  "difficulty": 8,
+  "time": 80000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+        ["depowered_helmet", 1]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "element", 1 ]
+    ],
+    [
+      [ "small_lcd_screen", 2 ]
+    ],
+    [
+      [ "circuit", 2 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "power_armor_basic",
+  "category": "CC_NONCRAFT",
+  "skill_used": "fabrication",
+  "requires_skills": ["electronics",  5],
+  "difficulty": 7,
+  "time": 80000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      ["depowered_armor", 1]
+    ],
+    [
+      [ "power_supply", 6 ]
+    ],
+    [
+      [ "element", 2 ]
+    ],
+    [
+      [ "cable", 12 ]
+    ],
+    [
+      [ "circuit", 6 ]
+    ],
+    [
+      [ "transponder", 1 ]
+    ]
+  ]
+}, {
     "type" : "recipe",
     "result": "44fmj",
     "category": "CC_AMMO",
