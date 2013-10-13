@@ -5024,6 +5024,29 @@
   },
 
   {
+    "id": "dehydrator",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "food dehydrator",
+    "description": "A portable electric food dehydrator, powered by standard batteries.",
+    "price": 600,
+    "material": ["plastic", "null"],
+    "weight": 4200,
+    "volume": 22,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 500,
+    "initial_charges": 100,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },
+
+  {
     "id": "jack",
     "type": "TOOL",
     "symbol": ";",
