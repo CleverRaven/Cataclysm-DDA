@@ -119,7 +119,7 @@ void mdeath::boomer(game *g, monster *z)
   }
  }
  if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1)
-  g->u.infect("boomered", bp_eyes, 2, 24, 1, 1);
+  g->u.infect("boomered", bp_eyes, 2, 24, false, 1, 1);
 }
 
 void mdeath::kill_vines(game *g, monster *z)
@@ -211,22 +211,22 @@ void mdeath::fungus(game *g, monster *z)
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, 1, 3, 1, true)) {
+                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, false, 1, 3, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, 1, 3, 1, true)) {
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, false, 1, 3, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 1, true, 0)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 1, true, 0)) {
                         hit = true;
                     }
                     if (hit) {

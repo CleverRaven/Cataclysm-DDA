@@ -1081,7 +1081,7 @@ void map::step_in_field(int x, int y, game *g)
 
         case fd_rubble:
             //You are walking on rubble. Slow down.
-            g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
+            g->u.add_disease("bouldering", 0, false, cur->getFieldDensity(), 3);
             break;
 
         case fd_smoke:

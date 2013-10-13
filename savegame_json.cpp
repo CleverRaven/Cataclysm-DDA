@@ -253,6 +253,7 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
                     picoint(pdata,"bp", tmpbp);
                     tmpill.bp = (body_part)tmpbp;
                     picoint(pdata,"side", tmpill.side);
+                    picobool(pdata,"permanent", tmpill.permanent);
                     illness.push_back(tmpill);
                 }
             }
@@ -379,6 +380,7 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
         ptmpmap[ "intensity" ] = pv ( illness[i].intensity );
         ptmpmap[ "bp" ] = pv ( (int)illness[i].bp );
         ptmpmap[ "side" ] = pv ( illness[i].side );
+        ptmpmap[ "permanent" ] = pv ( illness[i].permanent );
         ptmpvect.push_back ( pv ( ptmpmap ) );
         ptmpmap.clear();
     }

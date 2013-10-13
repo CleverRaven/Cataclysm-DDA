@@ -9894,19 +9894,19 @@ void game::plmove(int dx, int dy)
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
     if (u.disease_duration("attack_boost") < 2)
-     u.add_disease("attack_boost", 2, 2, 2);
+     u.add_disease("attack_boost", 2, false, 2, 2);
     if (u.disease_duration("dodge_boost") < 2)
-     u.add_disease("dodge_boost", 2, 2, 2);
+     u.add_disease("dodge_boost", 2, false, 2, 2);
   } else if(u.weapon.type->id == "style_ninjutsu"){
-    u.add_disease("attack_boost", 2, 1, 3);
+    u.add_disease("attack_boost", 2, false, 1, 3);
   } else if(u.weapon.type->id == "style_crane"){
     if (!u.has_disease("dodge_boost"))
-     u.add_disease("dodge_boost", 1, 3, 3);
+     u.add_disease("dodge_boost", 1, false, 3, 3);
   } else if(u.weapon.type->id == "style_leopard"){
-    u.add_disease("attack_boost", 2, 1, 4);
+    u.add_disease("attack_boost", 2, false, 1, 4);
   } else if(u.weapon.type->id == "style_dragon"){
     if (!u.has_disease("damage_boost"))
-     u.add_disease("damage_boost", 2, 3, 3);
+     u.add_disease("damage_boost", 2, false, 3, 3);
   } else if(u.weapon.type->id == "style_lizard"){
     bool wall = false;
     for (int wallx = x - 1; wallx <= x + 1 && !wall; wallx++) {
@@ -9916,7 +9916,7 @@ void game::plmove(int dx, int dy)
      }
     }
     if (wall)
-     u.add_disease("attack_boost", 2, 2, 8);
+     u.add_disease("attack_boost", 2, false, 2, 8);
     else
      u.rem_disease("attack_boost");
   }

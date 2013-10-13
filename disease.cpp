@@ -739,10 +739,8 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_SPORES:
-            if (x_in_y(dis.intensity, 20)) {
-                p.add_disease("fungus", -1);
-                g->u.add_memorial_log(_("Contracted a fungal infection."));
-            }
+            p.add_disease("fungus", 1, true);
+            g->u.add_memorial_log(_("Contracted a fungal infection."));
             break;
 
         case DI_FUNGUS:
@@ -1185,7 +1183,7 @@ void dis_effect(player &p, disease &dis) {
                 }
             }
             if (one_in(10000)) {
-                p.add_disease("fungus", -1);
+                p.add_disease("fungus", 1, true);
                 p.rem_disease("teleglow");
             }
             break;
@@ -2330,7 +2328,7 @@ static void handle_bite_wound(player& p, disease& dis) {
         p.dex_cur-= 1;
     } else {
         // Infection starts
-        p.add_disease("infected", 14401, 1, 1, 0, dis.bp, dis.side, true); // 1 day of timer + 1 tick
+        p.add_disease("infected", 14401, false, 1, 1, 0, dis.bp, dis.side, true); // 1 day of timer + 1 tick
         p.rem_disease("bite", dis.bp, dis.side);
     }
 }

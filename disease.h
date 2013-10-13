@@ -6,8 +6,6 @@
 #include "bodypart.h"
 #include <sstream>
 
-#define MIN_DISEASE_AGE (-43200) // Permanent disease capped @ 3 days
-
 class game;
 
 void dis_msg(dis_type type);

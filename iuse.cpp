@@ -1576,7 +1576,7 @@ void iuse::cauterize_effect(player *p, item *it, bool force)
         int side = -1;
         p->hp_convert(hpart, bp, side);
         if (p->has_disease("bite", bp, side)) {
-            g->u.add_disease("bite", 2600, 1, 1, -1, bp, side, true);
+            g->u.add_disease("bite", 2600, false, 1, 1, -1, bp, side, true);
         }
     }
 }

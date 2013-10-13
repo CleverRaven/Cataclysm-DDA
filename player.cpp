@@ -852,7 +852,7 @@ void player::update_bodytemp(game *g)
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*resist(body_part(i)) > 20)
         {
-            add_disease("blisters", 1, 1, 1, 1, (body_part)i, -1);
+            add_disease("blisters", 1, false, 1, 1, 1, (body_part)i, -1);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -969,32 +969,32 @@ void player::update_bodytemp(game *g)
         // PENALTIES
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
-            add_disease("cold", 1, 3, 3, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 3, 3, 1, (body_part)i, -1);
             frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease("cold", 1, 2, 3, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 2, 3, 1, (body_part)i, -1);
             frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease("cold", 1, 1, 3, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 1, 3, 1, (body_part)i, -1);
             frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease("hot",  1, 3, 3, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 3, 3, 1, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease("hot",  1, 2, 3, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 2, 3, 1, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease("hot",  1, 1, 3, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 1, 3, 1, (body_part)i, -1);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
@@ -1022,7 +1022,7 @@ void player::update_bodytemp(game *g)
         }
         if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
-            add_disease("frostbite", 1, 2, 2, 1, (body_part)i, -1);
+            add_disease("frostbite", 1, false, 2, 2, 1, (body_part)i, -1);
             // Warning message for the player
             if (disease_intensity("frostbite", (body_part)i) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
@@ -1031,7 +1031,7 @@ void player::update_bodytemp(game *g)
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
-                add_disease("frostbite", 1, 1, 2, 1, (body_part)i, -1);
+                add_disease("frostbite", 1, false, 1, 2, 1, (body_part)i, -1);
                 // Warning message for the player
                 if (!has_disease("frostbite", (body_part)i))
                 {
@@ -3390,7 +3390,7 @@ void player::pause(game *g)
         if (arm_max > 20) {
             arm_max = 20;
         }
-        add_disease("armor_boost", 2, arm_amount, arm_max);
+        add_disease("armor_boost", 2, false, arm_amount, arm_max);
     }
 
     // Train swimming if underwater
@@ -4118,8 +4118,9 @@ void player::get_sick(game *g)
 }
 
 bool player::infect(dis_type type, body_part vector, int strength,
-                     int duration, int intensity, int max_intensity, 
-                     int additive, bool targeted, int side, bool main_parts_only)
+                     int duration, bool permanent, int intensity,
+                     int max_intensity, int additive, bool targeted, int side,
+                     bool main_parts_only)
 {
     if (strength <= 0) {
         return false;
@@ -4127,10 +4128,10 @@ bool player::infect(dis_type type, body_part vector, int strength,
 
     if (dice(strength, 3) > dice(resist(vector), 3)) {
         if (targeted) {
-            add_disease(type, duration, intensity, max_intensity, additive,
+            add_disease(type, duration, permanent, intensity, max_intensity, additive,
                           vector, side, main_parts_only);
         } else {
-            add_disease(type, duration, intensity, max_intensity, additive);
+            add_disease(type, duration, permanent, intensity, max_intensity, additive);
         }
         return true;
     }
@@ -4138,7 +4139,7 @@ bool player::infect(dis_type type, body_part vector, int strength,
     return false;
 }
 
-void player::add_disease(dis_type type, int duration,
+void player::add_disease(dis_type type, int duration, bool permanent,
                          int intensity, int max_intensity, int additive,
                          body_part part, int side, bool main_parts_only)
 {
@@ -4187,6 +4188,9 @@ void player::add_disease(dis_type type, int duration,
                 if (max_intensity != -1 && illness[i].intensity > max_intensity) {
                     illness[i].intensity = max_intensity;
                 }
+                if (permanent) {
+                    illness[i].permanent = true;
+                }
                 found = true;
             }
         }
@@ -4196,7 +4200,7 @@ void player::add_disease(dis_type type, int duration,
         if (!is_npc()) {
             dis_msg(type);
         }
-        disease tmp(type, duration, intensity, part, side);
+        disease tmp(type, duration, intensity, part, side, permanent);
         illness.push_back(tmp);
     }
     // activity.type = ACT_NULL;
@@ -4227,6 +4231,32 @@ bool player::has_disease(dis_type type, body_part part, int side) const
             ( part == num_bp || illness[i].bp == part ) &&
             ( side == -1 || illness[i].side == side ) ) {
             return true;
+        }
+    }
+    return false;
+}
+
+bool player::pause_disease(dis_type type, body_part part, int side)
+{
+    for (int i = 0; i < illness.size(); i++) {
+        if (illness[i].type == type &&
+            ( part == num_bp || illness[i].bp == part ) &&
+            ( side == -1 || illness[i].side == side ) ) {
+                illness[i].permanent = true;
+                return true;
+        }
+    }
+    return false;
+}
+
+bool player::unpause_disease(dis_type type, body_part part, int side)
+{
+    for (int i = 0; i < illness.size(); i++) {
+        if (illness[i].type == type &&
+            ( part == num_bp || illness[i].bp == part ) &&
+            ( side == -1 || illness[i].side == side ) ) {
+                illness[i].permanent = false;
+                return true;
         }
     }
     return false;
@@ -4378,10 +4408,8 @@ void player::suffer(game *g)
     for (int i = 0; i < illness.size(); i++)
     {
         dis_effect(*this, illness[i]);
-        illness[i].duration--;
-        if (illness[i].duration < MIN_DISEASE_AGE)// Cap permanent disease age
-        {
-            illness[i].duration = MIN_DISEASE_AGE;
+        if (!illness[i].permanent) {
+            illness[i].duration--;
         }
         if (illness[i].duration <= 0)
         {

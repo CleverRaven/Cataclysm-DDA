@@ -225,7 +225,7 @@ void mattack::boomer(game *g, monster *z)
  }
  if (!g->u.uncanny_dodge()) {
   if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
-   g->u.infect("boomered", bp_eyes, 3, 12, 1, 1);
+   g->u.infect("boomered", bp_eyes, 3, 12, false, 1, 1);
   else if (u_see)
    g->add_msg(_("You dodge it!"));
   g->u.practice(g->turn, "dodge", 10);
@@ -699,22 +699,22 @@ void mattack::fungus(game *g, monster *z)
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, 1, 3, 1, true)) {
+                    if (one_in(4) && g->u.infect("spores", bp_head, 4, 90, false, 1, 3, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, 1, 3, 1, true)) {
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 4, 90, false, 1, 3, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, 1, 3, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 4, 90, false, 1, 3, 1, true, 0)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 1, true, 1)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, 1, 3, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 4, 90, false, 1, 3, 1, true, 0)) {
                         hit = true;
                     }
                     if (hit) {
@@ -872,7 +872,7 @@ void mattack::dermatik(game *g, monster *z)
 // Success!
  z->moves -= 500; // Successful laying takes a long time
  g->add_msg(_("The %s sinks its ovipositor into you!"), z->name().c_str());
- g->u.add_disease("dermatik", -1); // -1 = infinite
+ g->u.add_disease("dermatik", 1, true);
 }
 
 void mattack::plant(game *g, monster *z)
@@ -1570,11 +1570,11 @@ void mattack::bite(game *g, monster *z) {
 
         if(one_in(14 - dam)) {
             if (g->u.has_disease("bite", hit, side)) {
-                g->u.add_disease("bite", 400, 1, 1, -1, hit, side, true);
+                g->u.add_disease("bite", 400, false, 1, 1, -1, hit, side, true);
             } else if (g->u.has_disease("infected", hit, side)) {
-                g->u.add_disease("infected", 250, 1, 1, -1, hit, side, true);
+                g->u.add_disease("infected", 250, false, 1, 1, -1, hit, side, true);
             } else {
-                g->u.add_disease("bite", 3601, 1, 1, 0, hit, side, true); //6 hours + 1 "tick"
+                g->u.add_disease("bite", 3601, false, 1, 1, 0, hit, side, true); //6 hours + 1 "tick"
             }
         }
     } else {
