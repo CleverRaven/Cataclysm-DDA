@@ -49,7 +49,7 @@ namespace Temperature {
 
   // Useful constants: Water
   const magnitude waterFreezing = 273150;
-  const magnitude waterBoiling = 373150;
+  const magnitude waterBoiling = 373134;
 
   // Useful constants: Environment
   const magnitude waterDeep = 277150;
