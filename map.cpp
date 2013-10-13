@@ -1102,7 +1102,7 @@ bool map::trans(const int x, const int y)
     tertr = true; // open opaque door
   }
  } else
-  tertr = terlist[ter(x, y)].transparent;
+  tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
  if( tertr ){
   // Fields may obscure the view, too
   field &curfield = field_at(x,y);
@@ -4192,7 +4192,7 @@ void map::build_transparency_cache()
    // Default to fully transparent.
    transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
 
-   if (!terlist[ter(x, y)].transparent) {
+   if ( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
     transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
     continue;
    }
