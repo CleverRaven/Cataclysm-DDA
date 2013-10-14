@@ -3776,6 +3776,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
@@ -4038,6 +4039,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
@@ -4162,6 +4164,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
     ]
   ],
