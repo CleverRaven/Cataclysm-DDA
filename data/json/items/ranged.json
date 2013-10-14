@@ -2585,7 +2585,7 @@
     "symbol": "(",
     "color": "brown",
     "name": "Barrett M107A1",
-    "description": "A large, shoulder-fired, .50 caliber anti-materiel rifle. It's large size , recoil, and noise is offset by it's damage and range." ,
+    "description": "A large, shoulder-fired, .50 caliber anti-materiel rifle. Its large size , recoil, and noise is offset by it's damage and range." ,
     "price": 12900,
     "material": "steel",
     "skill": "rifle",  
