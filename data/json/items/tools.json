@@ -3939,6 +3939,31 @@
   },
 
   {
+    "id": "e_tool",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "entrenching tool",
+    "description": "A stout collapsible spade commonly used by military forces and favored by hikers.",
+    "price": 120,
+    "material": "steel", 
+    "weight": 628,
+    "volume": 4,
+    "bashing": 8,
+    "cutting": 16,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "DIG"
+    "flags" : ["CHOP"],
+    "to_hit": 1,
+    "qualities": [["CUT", 1]]
+  },
+
+  {
     "id": "digging_stick",
     "type": "TOOL",
     "symbol": "/",
@@ -4174,8 +4199,8 @@
     "type": "TOOL",
     "symbol": "%",
     "color": "red",
-    "name": "sealed jar of canned apple",
-    "description": "A sealed glass jar containing a sliced apple.  Activate to open and enjoy.",
+    "name": "sealed jar of canned fruit",
+    "description": "A sealed glass jar containing a sliced fruit.  Activate to open and enjoy.",
     "price": 50,
     "material": ["glass", "veggy"],
     "weight": 414,
@@ -4359,8 +4384,8 @@
     "type": "TOOL",
     "symbol": "%",
     "color": "red",
-    "name": "vacuum-packed apple slices",
-    "description": "Vacuum packed apple slices in plastic packaging..  Activate to open and enjoy.",
+    "name": "vacuum-packed fruit slices",
+    "description": "Vacuum packed fruit slices in plastic packaging.  Activate to open and enjoy.",
     "price": 50,
     "material": ["plastic", "veggy"],
     "weight": 152,
@@ -5021,6 +5046,29 @@
         "revert_to": "null",
         "phase" : "solid",
         "use_action" : "RAD_BADGE"
+  },
+
+  {
+    "id": "dehydrator",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "food dehydrator",
+    "description": "A portable electric food dehydrator, powered by standard batteries.",
+    "price": 600,
+    "material": ["plastic", "null"],
+    "weight": 4200,
+    "volume": 22,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 200,
+    "initial_charges": 100,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "NONE"
   },
 
   {

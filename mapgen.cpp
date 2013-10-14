@@ -8594,7 +8594,7 @@ case ot_haz_sar_entrance:{
         _______         \n",
   mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
   mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,         f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-  spawn_item(19, 3, "hazmat_suit", 0);
+  spawn_item(19, 3, "cleansuit", 0);
   place_items("office", 80,  4, 19, 6, 19, false, 0);
   place_items("cleaning", 90,  7,  3, 7,  5, false, 0);
   place_items("toxic_dump_equipment", 85,  19,  1, 19,  3, false, 0);
@@ -8647,7 +8647,7 @@ case ot_haz_sar:{
  f    |_________%..r| |^\n",
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,         f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-     spawn_item(19, 22, "hazmat_suit", 0);
+     spawn_item(19, 22, "cleansuit", 0);
      place_items("cleaning", 85,  6,  11, 6,  14, false, 0);
      place_items("tools", 85,  10,  6, 13,  6, false, 0);
      place_items("toxic_dump_equipment", 85,  22,  14, 23,  15, false, 0);
