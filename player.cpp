@@ -6140,17 +6140,57 @@ bool player::consume(game *g, signed char ch)
         return false;
     }
 
+    bool was_consumed = false;
     if (comest != NULL)
     {
-        // Food and drinks only
         if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK")
         {
-            // FIXME check retval
-            eat(g, to_eat, comest);
+            was_consumed = eat(g, to_eat, comest);
+            if (!was_consumed) return was_consumed;
         }
-        else //Other types of comest items: MED etc.
+        else if (comest->comesttype == "MED")
         {
-            //TODO write it
+            if (comest->tool != "null") // Check tools
+            {
+                bool has = has_amount(comest->tool, 1);
+                if (g->itypes[comest->tool]->count_by_charges())
+                    has = has_charges(comest->tool, 1);
+                if (!has) {
+                    g->add_msg_if_player(this,_("You need a %s to consume that!"),
+                                         g->itypes[comest->tool]->name.c_str());
+                    return false;
+                }
+                use_charges(comest->tool, 1); // Tools like lighters get used
+            }
+            if (comest->use != &iuse::none) //Check special use
+            {
+                int was_used = comest->use.call(g, this, to_eat, false);
+                if( was_used == 0 ) {
+                    return false;
+                }
+            }
+            hunger -= comest->nutr;
+            thirst -= comest->quench;
+            health += comest->healthy;
+            moves -= 250;
+            add_addiction(comest->add, comest->addict);
+            if (addiction_craving(comest->add) != MORALE_NULL)
+                rem_morale(addiction_craving(comest->add));
+            if (comest->fun < 0)
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
+            else if (comest->fun > 0)
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
+            if (hunger < -20 || thirst < -20)
+                g->add_msg_if_player(this,_("You can't finish it all!"));
+            if (hunger < -20)
+                hunger = -20;
+            if (thirst < -20)
+                thirst = -20;
+            was_consumed = true;
+        }
+        else
+        {
+            debugmsg("Unknown comestible type of item: %s\n", to_eat->tname(g).c_str());
         }
     }
     else // Consume other type of items.
@@ -6183,7 +6223,11 @@ bool player::consume(game *g, signed char ch)
             g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
                                      to_eat->tname(g).c_str());
         }
+        was_consumed = true;
     }
+
+    if (!was_consumed)
+        return false;
 
     // Actions after consume
     to_eat->charges--;
