@@ -11533,7 +11533,7 @@ case ot_farm_field:
    square(this, t_dirt, nodex, nodey, nodex + 3, nodey + 3);
 // Spawn a monster in there
    if (step > 2) { // First couple of chambers are safe
-    int monrng = rng(1, 20);
+    int monrng = rng(1, 25);
     int spawnx = nodex + rng(0, 3), spawny = nodey + rng(0, 3);
     if (monrng <= 5)
      add_spawn("mon_triffid", rng(1, 4), spawnx, spawny);
@@ -11541,6 +11541,8 @@ case ot_farm_field:
      add_spawn("mon_creeper_hub", 1, spawnx, spawny);
     else if (monrng <= 19)
      add_spawn("mon_biollante", 1, spawnx, spawny);
+    else if (monrng <= 24)
+     add_spawn("mon_fungal_fighter", 1, spawnx, spawny);
     else {
      for (int webx = nodex; webx <= nodex + 3; webx++) {
       for (int weby = nodey; weby <= nodey + 3; weby++)

@@ -1193,6 +1193,32 @@ void mattack::gene_sting(game *g, monster *z)
  g->u.mutate(g);
 }
 
+void mattack::para_sting(game *g, monster *z)
+{
+    int j;
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
+         !g->sees_u(z->posx(), z->posy(), j))
+        return; // Not within range and/or sight
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
+    z->moves -= 150;
+    z->sp_timeout = z->type->sp_freq;
+    g->add_msg(_("The %s shoots a dart into you!"), z->name().c_str());
+    g->add_msg(_("You feel poison enter your body!"));
+    g->u.add_disease("paralyzepoison", 50, false, 1, 20, 100);
+}
+
+void mattack::triffid_growth(game *g, monster *z)
+{
+    // Young triffid growing into an adult
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s young triffid grows into an adult!"),
+                      z->name().c_str());
+    }
+    z->poly(GetMType("mon_triffid"));
+}
+
 void mattack::stare(game *g, monster *z)
 {
  z->moves -= 200;

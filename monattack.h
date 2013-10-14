@@ -40,6 +40,8 @@ public:
     void tentacle           (game *g, monster *z);
     void vortex             (game *g, monster *z);
     void gene_sting         (game *g, monster *z);
+    void para_sting         (game *g, monster *z);
+    void triffid_growth     (game *g, monster *z);
     void stare              (game *g, monster *z);
     void fear_paralyze      (game *g, monster *z);
     void photograph         (game *g, monster *z);

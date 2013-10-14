@@ -2266,6 +2266,7 @@
       ["cleansuit", 10],
       ["oxy_powder", 2],
       ["hazmat_suit", 5],
+      ["fungicide", 10],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3090,6 +3091,7 @@
       ["royal_jelly", 8],
       ["ant_egg", 5],
       ["bee_sting", 5],
+      ["fighter_sting", 5],
       ["chitin_piece", 10]
     ]
   },{
@@ -3368,6 +3370,7 @@
       ["purifier", 12],
       ["heatpack", 60],
       ["pur_tablets", 20],
+      ["fungicide", 5],
       ["quikclot", 10]
     ]
   },{
@@ -3936,6 +3939,12 @@
     ]
   },{
     "type":"item_group",
+    "id":"fungal_sting",
+    "items":[
+      ["fighter_sting", 5]
+    ]
+  },{
+    "type":"item_group",
     "id":"wasps",
     "items":[
       ["wasp_sting", 5]
@@ -4216,6 +4225,7 @@
       ["5x50dart", 8],
       ["hazmat_suit", 5],
       ["e_tool", 20],
+      ["fungicide", 3],
       ["quikclot", 20]
     ]
   },{
@@ -4282,6 +4292,7 @@
       ["canteen", 10],
       ["chemistry_set", 4],
       ["oxy_powder", 8],
+      ["fungicide", 10],
       ["pur_tablets", 10]
     ]
   },{

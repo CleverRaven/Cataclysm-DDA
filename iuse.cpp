@@ -167,11 +167,12 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
   p->rem_disease("blind");
  }
  if (p->has_disease("poison") || p->has_disease("foodpoison") ||
-     p->has_disease("badpoison")) {
+     p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
   message = _("You feel much better!");
   p->rem_disease("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
+  p->rem_disease("paralyzepoison");
  }
  if (p->has_disease("asthma")) {
   message = _("Your breathing clears up!");
@@ -633,6 +634,51 @@ void iuse::antibiotic(game *g, player *p, item *it, bool t) {
             int infected_dur = p->disease_duration("infected", true);
             p->rem_disease("infected");
             p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0) );
+        }
+    }
+}
+
+void iuse::fungicide(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p,_("You take some fungicide."));
+    if (p->has_disease("fungus")) {
+        p->rem_disease("infected");
+    }
+    if (p->has_disease("spores")) {
+        int fungus_int = p->disease_intensity("spores", true);
+        p->rem_disease("spores");
+        int spore_count = rng(fungus_int / 5, fungus_int);
+        if (spore_count > 0) {
+            monster spore(GetMType("mon_spore"));
+            for (int i = p->posx - 1; i <= p->posx + 1; i++) {
+                for (int j = p->posy - 1; j <= p->posy + 1; j++) {
+                    if (spore_count == 0) {
+                        break;
+                    }
+                    if (i == p->posx && j == p->posy) {
+                        continue;
+                    }
+                    if (g->m.move_cost(i, j) > 0 && x_in_y(spore_count, 8)) {
+                        const int zid = g->mon_at(i, j);
+                        if (zid >= 0) {  // Spores hit a monster
+                            if (g->u_see(i, j) &&
+                                  !g->zombie(zid).type->in_species("FUNGUS")) {
+                                g->add_msg(_("The %s is covered in tiny spores!"),
+                                           g->zombie(zid).name().c_str());
+                            }
+                            if (!g->zombie(zid).make_fungus(g)) {
+                                g->kill_mon(zid);
+                            }
+                        } else {
+                            spore.spawn(i, j);
+                            g->add_zombie(spore);
+                        }
+                        spore_count--;
+                    }
+                }
+                if (spore_count == 0) {
+                    break;
+                }
+            }
         }
     }
 }

@@ -76,6 +76,7 @@
     "default" : "mon_triffid",
     "monsters" : [
       { "monster" : "mon_triffid_young", "freq" : 300, "multiplier" : 0 },
+      { "monster" : "mon_fungal_fighter", "freq" : 160, "multiplier" : 0 },
       { "monster" : "mon_vinebeast", "freq" : 160, "multiplier" : 10 },
       { "monster" : "mon_triffid_queen", "freq" : 60, "multiplier" : 0 },
       { "monster" : "mon_triffid_heart", "freq" : 0, "multiplier" : 0 }
