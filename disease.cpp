@@ -1,5 +1,6 @@
 #include "rng.h"
 #include "game.h"
+#include "monster.h"
 #include "bodypart.h"
 #include "disease.h"
 #include "weather.h"
@@ -199,8 +200,7 @@ void dis_msg(dis_type type_string) {
         g->add_msg(_("You lie down to go to sleep..."));
         break;
     case DI_FORMICATION:
-        g->add_msg(_("There's bugs crawling under your skin!"));
-        g->u.add_memorial_log(_("Injected with dermatik eggs."));
+        g->add_msg(_("Your skin feels extremely itchy!"));
         break;
     case DI_WEBBED:
         g->add_msg(_("You're covered in webs!"));
@@ -270,9 +270,6 @@ void dis_remove_memorial(dis_type type_string) {
       break;
     case DI_FUNGUS:
       g->u.add_memorial_log(_("Cured the fungal infection."));
-      break;
-    case DI_DERMATIK:
-      g->u.add_memorial_log(_("Dermatik eggs hatched."));
       break;
     case DI_BITE:
       g->u.add_memorial_log(_("Recoverd from a bite wound."));
@@ -992,21 +989,19 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_FORMICATION:
-            p.int_cur -= 2;
-            p.str_cur -= 1;
-            if (one_in(10 + 40 * p.int_cur)) {
+            p.int_cur -= dis.intensity;
+            p.str_cur -= int(dis.intensity / 3);
+            if (x_in_y(dis.intensity, 100 + 50 * p.int_cur)) {
                 if (!p.is_npc()) {
-                    g->add_msg(_("You start scratching yourself all over!"));
-                    g->cancel_activity();
+                     g->add_msg(_("You start scratching your %s!"),
+                                              body_part_name(dis.bp, dis.side).c_str());
+                     g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    if (p.male) {
-                        g->add_msg(_("%s starts scratching himself all over!"), p.name.c_str());
-                    } else {
-                        g->add_msg(_("%s starts scratching herself all over!"), p.name.c_str());
-                    }
+                    g->add_msg(_("%s starts scratching their %s!"), p.name.c_str(), 
+                                       body_part_name(dis.bp, dis.side).c_str());
                 }
                 p.moves -= 150;
-                p.hurt(g, bp_torso, -1, 1);
+                p.hurt(g, dis.bp, dis.side, 1);
             }
             break;
 
@@ -1554,7 +1549,38 @@ std::string dis_name(disease& dis)
     case DI_BADPOISON: return _("Badly Poisoned");
     case DI_FOODPOISON: return _("Food Poisoning");
     case DI_SHAKES: return _("Shakes");
-    case DI_FORMICATION: return _("Bugs Under Skin");
+    case DI_FORMICATION:
+    {
+        std::string status = "";
+        switch (dis.intensity) {
+        case 1: status = _("Itchy skin - "); break;
+        case 2: status = _("Writhing skin - "); break;
+        case 3: status = _("Bugs in skin - "); break;
+        }
+        switch (dis.bp) {
+            case bp_head:
+                status += _("Head");
+                break;
+            case bp_torso:
+                status += _("Torso");
+                break;
+            case bp_arms:
+                if (dis.side == 0) {
+                    status += _("Left Arm");
+                } else if (dis.side == 1) {
+                    status += _("Right Arm");
+                }
+                break;
+            case bp_legs:
+                if (dis.side == 0) {
+                    status += _("Left Leg");
+                } else if (dis.side == 1) {
+                    status += _("Right Leg");
+                }
+                break;
+        }
+        return status;
+    }
     case DI_WEBBED: return _("Webbed");
     case DI_RAT: return _("Ratting");
     case DI_DRUNK:
@@ -1961,17 +1987,26 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _("Strength - 1;   Dexterity - 4");
 
     case DI_FORMICATION:
-        return _(
-        "Strength - 1;   Intelligence - 2\n"
-        "You stop to scratch yourself frequently; high intelligence helps you resist\n"
-        "this urge.");
+    {
+        intpen = int(dis.intensity);
+        strpen = int(dis.intensity / 3);
+        stream << _("You stop to scratch yourself frequently; high intelligence helps you resist\n"
+        "this urge.\n");
+        if (intpen > 0) {
+            stream << string_format(_("Intelligence - %d;   "), intpen);
+        }
+        if (strpen > 0) {
+            stream << string_format(_("Strength - %d;   "), strpen);
+        }
+        return stream.str();
+    }
 
     case DI_WEBBED:
         return _(
         "Strength - 1;   Dexterity - 4;   Speed - 25");
 
     case DI_RAT:
-        {
+    {
         intpen = int(dis.duration / 20);
         perpen = int(dis.duration / 25);
         strpen = int(dis.duration / 50);
@@ -1986,10 +2021,10 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             stream << string_format(_("Strength - %d;   "), strpen);
         }
         return stream.str();
-        }
+    }
 
     case DI_DRUNK:
-        {
+    {
         perpen = int(dis.duration / 1000);
         dexpen = int(dis.duration / 1000);
         intpen = int(dis.duration /  700);
@@ -2009,7 +2044,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             stream << string_format(_("Perception - %d;   "), perpen);
         }
         return stream.str();
-        }
+    }
 
     case DI_CIG:
         if (dis.duration >= 600)
@@ -2642,61 +2677,50 @@ static void handle_evil(player& p, disease& dis) {
 
 static void handle_insect_parasites(player& p, disease& dis) {
     int formication_chance = 600;
-    if (dis.duration > -2400 && dis.duration < 0) {
-        formication_chance = 2400 + dis.duration;
+    if (dis.duration > 12001) {
+        formication_chance += 2400 - (14401 - dis.duration);
     }
     if (one_in(formication_chance)) {
-        p.add_disease("formication", 1200);
+        p.add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, dis.side, true);
     }
-    if (dis.duration < -2400 && one_in(2400)) {
+    if (dis.duration > 1 && one_in(2400)) {
         p.vomit(g);
     }
-    if (dis.duration < -14400) {
+    if (dis.duration == 1) {
         // Spawn some larvae!
         // Choose how many insects; more for large characters
-        int num_insects = 1;
-        while (num_insects < 6 && rng(0, 10) < p.str_max) {
-            num_insects++;
-        }
+        int num_insects = rng(1, std::min(3, p.str_max / 3));
+        p.hurt(g, dis.bp, dis.side, rng(2, 4) * num_insects);
         // Figure out where they may be placed
-        std::vector<point> valid_spawns;
-        for (int x = p.posx - 1; x <= p.posy + 1; x++) {
-            for (int y = p.posy - 1; y <= p.posy + 1; y++) {
-                if (g->is_empty(x, y)) {
-                    valid_spawns.push_back(point(x, y));
+        g->add_msg_player_or_npc( &p,
+            _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
+            _("Insects begin to emerge from <npcname>'s skin!") );
+        monster grub(GetMType("mon_dermatik_larva"));
+        for (int i = p.posx - 1; i <= p.posx + 1; i++) {
+            for (int j = p.posy - 1; j <= p.posy + 1; j++) {
+                if (num_insects == 0) {
+                    break;
+                } else if (i == 0 && j == 0) {
+                    continue;
+                }
+                if (g->mon_at(i, j) == -1) {
+                    grub.spawn(i, j);
+                    if (one_in(3)) {
+                        grub.friendly = -1;
+                    } else {
+                        grub.friendly = 0;
+                    }
+                    g->add_zombie(grub);
+                    num_insects--;
                 }
             }
-        }
-        if (!valid_spawns.empty()) {
-            p.rem_disease("dermatik"); // No more infection!  yay.
-            g->add_msg_player_or_npc( &p,
-                _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
-                _("Insects begin to emerge from <npcname>'s skin!") );
-
-            p.moves -= 600;
-            monster grub(GetMType("mon_dermatik_larva"));
-            while (!valid_spawns.empty() && num_insects > 0) {
-                num_insects--;
-                // Hurt the player
-                body_part burst = bp_torso;
-                if (one_in(3)) {
-                    burst = bp_arms;
-                } else if (one_in(3)) {
-                    burst = bp_legs;
-                }
-                p.hurt(g, burst, rng(0, 1), rng(4, 8));
-                // Spawn a larva
-                int sel = rng(0, valid_spawns.size() - 1);
-                grub.spawn(valid_spawns[sel].x, valid_spawns[sel].y);
-                valid_spawns.erase(valid_spawns.begin() + sel);
-                // Sometimes it's a friendly larva! (that makes up for it, right?)
-                if (one_in(3)) {
-                    grub.friendly = -1;
-                } else {
-                    grub.friendly = 0;
-                } g->add_zombie(grub);
+            if (num_insects == 0) {
+                break;
             }
         }
+        p.add_memorial_log(_("Dermatik eggs hatched."));
+        p.rem_disease("formication", dis.bp, dis.side);
+        p.moves -= 600;
     }
 }
 

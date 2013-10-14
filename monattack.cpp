@@ -822,16 +822,16 @@ void mattack::leap(game *g, monster *z)
 
 void mattack::dermatik(game *g, monster *z)
 {
- if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1 ||
-     g->u.has_disease("dermatik"))
-  return; // Too far to implant, or the player's already incubating bugs
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return; // Too far to implant
+    }
 
- z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout = z->type->sp_freq; // Reset timer
 
-  if (g->u.uncanny_dodge()) { return; }
-// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
- int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
- if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+    if (g->u.uncanny_dodge()) { return; }
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
     {
         g->add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         z->stumble(g, false);
@@ -839,40 +839,37 @@ void mattack::dermatik(game *g, monster *z)
         return;
     }
 
-// Can we swat the bug away?
- int dodge_roll = z->dodge_roll();
- int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
- int player_swat = dice(swat_skill, 10);
- if (player_swat > dodge_roll) {
-  g->add_msg(_("The %s lands on you, but you swat it off."), z->name().c_str());
-  if (z->hp >= z->type->hp / 2)
-   z->hurt(1);
-  if (player_swat > dodge_roll * 1.5)
-   z->stumble(g, false);
-  return;
- }
+    // Can we swat the bug away?
+    int dodge_roll = z->dodge_roll();
+    int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
+    int player_swat = dice(swat_skill, 10);
+    if (player_swat > dodge_roll) {
+        g->add_msg(_("The %s lands on you, but you swat it off."), z->name().c_str());
+        if (z->hp >= z->type->hp / 2) {
+            z->hurt(1);
+        }
+        if (player_swat > dodge_roll * 1.5) {
+            z->stumble(g, false);
+        }
+        return;
+    }
 
-// Can the bug penetrate our armor?
- body_part targeted = bp_head;
- if (!one_in(4))
-  targeted = bp_torso;
- else if (one_in(2))
-  targeted = bp_legs;
- else if (one_in(5))
-  targeted = bp_hands;
- else if (one_in(5))
-  targeted = bp_feet;
- if (one_in(g->u.armor_cut(targeted) / 3)) {
-  g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
-             z->name().c_str(), body_part_name(targeted, rng(0, 1)).c_str());
-  z->moves -= 150; // Attemped laying takes a while
-  return;
- }
+    // Can the bug penetrate our armor?
+    body_part targeted = random_body_part();
+    int side = random_side(targeted);
+    if (4 < g->u.armor_cut(targeted) / 3) {
+        g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
+                     z->name().c_str(), body_part_name(targeted, side).c_str());
+        z->moves -= 150; // Attemped laying takes a while
+        return;
+    }
 
-// Success!
- z->moves -= 500; // Successful laying takes a long time
- g->add_msg(_("The %s sinks its ovipositor into you!"), z->name().c_str());
- g->u.add_disease("dermatik", 1, true);
+    // Success!
+    z->moves -= 500; // Successful laying takes a long time
+    g->add_msg(_("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
+                 body_part_name(targeted, side).c_str());
+    g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
+    g->u.add_memorial_log(_("Injected with dermatik eggs."));
 }
 
 void mattack::plant(game *g, monster *z)
@@ -1101,7 +1098,8 @@ void mattack::vortex(game *g, monster *z)
      bool hit_wall = false;
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS)) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
+          (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                    g->zombie(monhit).name().c_str());
@@ -1136,7 +1134,8 @@ void mattack::vortex(game *g, monster *z)
      int damage = rng(5, 10);
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS)) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
+           (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("You hit a %s!"), g->zombie(monhit).name().c_str());
        if (g->zombie(monhit).hurt(damage))

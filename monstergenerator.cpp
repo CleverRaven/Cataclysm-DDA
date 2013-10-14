@@ -221,6 +221,7 @@ void MonsterGenerator::init_flags()
     flag_map["BLEED"] = MF_BLEED;//       // Causes player to bleed
     flag_map["WEBWALK"] = MF_WEBWALK;// // Doesn't destroy webs
     flag_map["DIGS"] = MF_DIGS;// // Digs through the ground
+    flag_map["CAN_DIG"] = MF_CAN_DIG;// // Digs through the ground
     flag_map["FLIES"] = MF_FLIES;// // Can fly (over water, etc)
     flag_map["AQUATIC"] = MF_AQUATIC;// // Confined to water
     flag_map["SWIMS"] = MF_SWIMS;// // Treats water as 50 movement point terrain

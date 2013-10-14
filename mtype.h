@@ -139,6 +139,7 @@ MF_BADVENOM, // Attack may SEVERELY poison the player
 MF_BLEED,       // Causes player to bleed
 MF_WEBWALK, // Doesn't destroy webs
 MF_DIGS, // Digs through the ground
+MF_CAN_DIG, // Can dig and walk
 MF_FLIES, // Can fly (over water, etc)
 MF_AQUATIC, // Confined to water
 MF_SWIMS, // Treats water as 50 movement point terrain

@@ -369,10 +369,11 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 //  OR it's not the monster we were aiming at and we were lucky enough to hit it
    int mondex = mon_at(tx, ty);
 // If we shot us a monster...
-   if (mondex != -1 && (!zombie(mondex).has_flag(MF_DIGS) ||
+   if (mondex != -1 && ((!zombie(mondex).has_flag(MF_DIGS) &&
+        (!zombie(mondex).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", tx, ty))) ||
        rl_dist(p.posx, p.posy, zombie(mondex).posx(), zombie(mondex).posy()) <= 1) &&
        ((!missed && i == trajectory.size() - 1) ||
-        one_in((5 - int(zombie(mondex).type->size))))) {
+        one_in((5 - int(zombie(mondex).type->size)))) ) {
     monster &z = zombie(mondex);
 
     double goodhit = missed_by;

@@ -4624,7 +4624,9 @@ void player::suffer(game *g)
                         name + name + name + name + name + name).c_str());
                     break;
                 case 11:
-                    add_disease("formication", 600);
+                    body_part bp = random_body_part(true);
+                    int side = random_side(bp);
+                    add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
                     break;
             }
         }
@@ -6908,7 +6910,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
                 g->add_msg(
                     (i == bp_head || i == bp_torso || i == bp_mouth) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
-                    body_part_name(body_part(i), 2).c_str(), encumb_text(body_part(i)).c_str());
+                    body_part_name(body_part(i), -1).c_str(), encumb_text(body_part(i)).c_str());
             }
         }
     }
@@ -8296,8 +8298,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     int bash_reduction = 0;
     int cut_reduction = 0;
 
-    // See, we do it backwards, which assumes the player put on their jacket after
-    //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
+    // See, we do it backwards, iterating inwards
     for (int i = worn.size() - 1; i >= 0; i--)
     {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
@@ -8311,9 +8312,9 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                 arm_bash = worn[i].bash_resist();
                 arm_cut  = worn[i].cut_resist();
                 // also determine how much damage is absorbed by armour
-                // factor of 6 to normalise for material hardness values
-                bash_reduction = arm_bash / 6;
-                cut_reduction = arm_cut / 6;
+                // factor of 3 to normalise for material hardness values
+                bash_reduction = arm_bash / 3;
+                cut_reduction = arm_cut / 3;
 
                 // power armour first  - to depreciate eventually
                 if (((it_armor *)worn[i].type)->is_power_armor())

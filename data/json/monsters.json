@@ -2162,7 +2162,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A fat, white grub the size of your foot, with\na set of mandibles that look more suited for\ndigging than fighting.",
-    "flags":["HEARS", "SMELLS", "POISON", "DIGS"]
+    "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG"]
   },
   {
     "type":"MONSTER",
@@ -2187,7 +2187,7 @@
     "item_chance":0,
     "luminance":0,
     "hp":60,
-    "special_freq":50,
+    "special_freq":25,
     "death_function":"NORMAL",
     "special_attack":"DERMATIK",
     "description":"A wasp-like flying insect, smaller than most\nmutated wasps.  It does not looke very\nthreatening, but has a large ovipositor in\nplace of a sting.",
