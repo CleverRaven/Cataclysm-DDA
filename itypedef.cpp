@@ -329,7 +329,7 @@ GUN("bio_lightning", _("Chain Lightning"),  0,c_magenta, "steel", "plastic",
 
 std::string ammo_name(ammotype t)
 {
-    if( t == "50")          return _(".50 BMG")
+    if( t == "50")          return _(".50 BMG");
     if( t == "nail")        return _("nails");
     if( t == "BB" )         return _("BBs");
     if( t == "bolt" )       return _("bolts");
