@@ -6183,7 +6183,7 @@ bool player::eat(game *g, signed char ch)
             if (!has) {
                 g->add_msg_if_player(this,_("You need a %s to consume that!"),
                            g->itypes[comest->tool]->name.c_str());
-            return false;
+                return false;
             }
         }
         bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
@@ -6209,13 +6209,25 @@ bool player::eat(game *g, signed char ch)
                 !query_yn(_("Really eat that meat? Your stomach won't be happy.")))
             return false;
 
-        if (spoiled)
-        {
-            if (is_npc())
+        if (spoiled) {
+            if (is_npc()) {
                 return false;
+            }
             if (!has_trait("SAPROVORE") &&
-                    !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname(g).c_str()))
+                !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname(g).c_str())) {
                 return false;
+            }
+        }
+
+        if (comest->use != &iuse::none)
+        {
+            to_eat = comest->use.call(g, this, eaten, false);
+            if( to_eat == 0 ) {
+                return false;
+            }
+        }
+
+        if( spoiled ) {
             g->add_msg(_("Ick, this %s doesn't taste so good..."),eaten->tname(g).c_str());
             if (!has_trait("SAPROVORE") && (!has_bionic("bio_digestion") || one_in(3)))
                 add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
@@ -6223,17 +6235,16 @@ bool player::eat(game *g, signed char ch)
             thirst -= comest->quench;
             if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion"))
                 health -= 3;
-        }
-        else
-        {
+        } else {
             hunger -= comest->nutr;
             thirst -= comest->quench;
-            if (has_bionic("bio_digestion"))
+
+            if (has_bionic("bio_digestion")) {
                 hunger -= rng(0, comest->nutr);
-            else if (!has_trait("GOURMAND"))
-            {
-                if ((overeating && rng(-200, 0) > hunger))
+            } else if (!has_trait("GOURMAND")) {
+                if ((overeating && rng(-200, 0) > hunger)) {
                     vomit(g);
+                }
             }
             health += comest->healthy;
         }
@@ -6271,10 +6282,6 @@ bool player::eat(game *g, signed char ch)
                 stim += comest->stim;
         }
 
-        if (comest->use != &iuse::none)
-        {
-            to_eat = comest->use.call(g, this, eaten, false);
-        }
         add_addiction(comest->add, comest->addict);
         if (addiction_craving(comest->add) != MORALE_NULL)
             rem_morale(addiction_craving(comest->add));
