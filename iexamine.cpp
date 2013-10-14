@@ -89,7 +89,7 @@ void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
 
             p->inv.push_back(water_temp);
             water_temp = p->inv.item_by_type(water_temp.typeId());
-            p->eat(g, water_temp.invlet);
+            p->consume(g, water_temp.invlet);
             p->moves -= 350;
 
             water.charges -= water_temp.charges;
@@ -908,7 +908,7 @@ void iexamine::water_source(game *g, player *p, map *m, const int examx, const i
     {
         p->inv.push_back(water);
         water = p->inv.item_by_type(water.typeId());
-        p->eat(g, water.invlet);
+        p->consume(g, water.invlet);
         p->moves -= 350;
     }
 }

@@ -7366,7 +7366,7 @@ void game::pickup(int posx, int posy, int min)
           veh->drain("water", 1);
 
           item water(itypes["water_clean"], 0);
-          u.eat(this, u.inv.add_item(water).invlet);
+          u.consume(this, u.inv.add_item(water).invlet);
           u.moves -= 250;
           got_water = true;
         }
@@ -8993,7 +8993,7 @@ void game::eat(char chInput)
   add_msg(_("You don't have item '%c'!"), ch);
   return;
  }
- u.eat(this, u.lookup_item(ch));
+ u.consume(this, u.lookup_item(ch));
 }
 
 void game::wear(char chInput)
