@@ -3354,7 +3354,7 @@ void game::disp_kills()
     count.push_back(kill->second);
  }
 
- mvwprintz(w, 1, 32, c_white, "KILL COUNT:");
+ mvwprintz(w, 1, 32, c_white, _("KILL COUNT:"));
 
  if (types.size() == 0) {
   mvwprintz(w, 2, 2, c_white, _("You haven't killed any monsters yet!"));
@@ -3555,7 +3555,7 @@ void game::list_missions()
 
   draw_tab(w_missions, 7, _("ACTIVE MISSIONS"), (tab == 0) ? true : false);
   draw_tab(w_missions, 30, _("COMPLETED MISSIONS"), (tab == 1) ? true : false);
-  draw_tab(w_missions, 56, "FAILED MISSIONS", (tab == 2) ? true : false);
+  draw_tab(w_missions, 56, _("FAILED MISSIONS"), (tab == 2) ? true : false);
 
   mvwputch(w_missions, 2,  0, c_white, LINE_OXXO); // |^
   mvwputch(w_missions, 2, FULL_SCREEN_WIDTH-1, c_white, LINE_OOXX); // ^|
