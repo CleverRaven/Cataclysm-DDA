@@ -3368,6 +3368,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "50bmg",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "requires_skills": [ "gun", 7 ],
+  "difficulty": 8,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "50_casing", 10 ]
+    ],
+    [
+      [ "lgrifle_primer", 20 ]
+    ],
+    [
+      [ "gunpowder", 1000 ]
+    ],
+    [
+      [ "lead", 380 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "3006_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
