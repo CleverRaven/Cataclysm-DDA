@@ -6,7 +6,7 @@ from __future__ import print_function
 import sys
 import os
 
-usage = "USAGE: strip_line_numbers.py <filename>"
+usage = "USAGE: strip_line_numbers.py <filename> [<filename> ...]"
 
 def strip_line_numbers(filename):
     "Strip line numbers from the specified .pot or .po file."
@@ -40,16 +40,13 @@ def strip_line_numbers(filename):
     open(filename, 'w').writelines(lines)
 
 if __name__ == "__main__":
-    # get filename from sys.argv and strip
+    # get filename(s) from sys.argv and strip
     if len(sys.argv) < 2:
         # ideally this would read from stdin and input to stdout,
         # but not need to do that yet.
         print(usage)
         exit(1)
-    elif len(sys.argv) > 2:
-        # should take a list of files, but again, no need yet.
-        print(usage)
-        exit(1)
 
-    strip_line_numbers(sys.argv[1])
+    for filename in sys.argv[1:]:
+        strip_line_numbers(filename)
 
