@@ -219,6 +219,7 @@ void MonsterGenerator::init_flags()
     flag_map["POISON"] = MF_POISON;// // Poisonous to eat
     flag_map["VENOM"] = MF_VENOM;// // Attack may poison the player
     flag_map["BADVENOM"] = MF_BADVENOM;// // Attack may SEVERELY poison the player
+    flag_map["PARALYZEVENOM"] = MF_PARALYZE;// // Attack may paralyze the player with venom
     flag_map["BLEED"] = MF_BLEED;//       // Causes player to bleed
     flag_map["WEBWALK"] = MF_WEBWALK;// // Doesn't destroy webs
     flag_map["DIGS"] = MF_DIGS;// // Digs through the ground

@@ -30,7 +30,7 @@ enum dis_type_enum {
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_POISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
+ DI_POISON, DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
  DI_RAT, DI_BITE,
@@ -104,6 +104,7 @@ void game::init_diseases() {
     disease_type_lookup["poison"] = DI_POISON;
     disease_type_lookup["bleed"] = DI_BLEED;
     disease_type_lookup["badpoison"] = DI_BADPOISON;
+    disease_type_lookup["paralyzepoison"] = DI_PARALYZEPOISON;
     disease_type_lookup["foodpoison"] = DI_FOODPOISON;
     disease_type_lookup["shakes"] = DI_SHAKES;
     disease_type_lookup["dermatik"] = DI_DERMATIK;
@@ -933,6 +934,10 @@ void dis_effect(player &p, disease &dis) {
             }
             break;
 
+        case DI_PARALYZEPOISON:
+            p.dex_cur -= dis.intensity / 3;
+            break;
+
         case DI_FOODPOISON:
             bonus = 0;
             p.str_cur -= 3;
@@ -1333,6 +1338,9 @@ int disease_speed_boost(disease dis)
                     }
             }
 
+        case DI_PARALYZEPOISON:
+            return dis.intensity * -5;
+
         case DI_INFECTION:  return -80;
         case DI_SAP:        return -25;
         case DI_SLIMED:     return -25;
@@ -1546,6 +1554,19 @@ std::string dis_name(disease& dis)
         }
         return status;
     }
+    case DI_PARALYZEPOISON:
+    {
+        if (dis.intensity > 15) {
+                return _("Completely Paralyzed");
+        } else if (dis.intensity > 10) {
+                return _("Partially Paralyzed");
+        } else if (dis.intensity > 5) {
+                return _("Sluggish");
+        } else {
+                return _("Slowed");
+        }
+    }
+
     case DI_BADPOISON: return _("Badly Poisoned");
     case DI_FOODPOISON: return _("Food Poisoning");
     case DI_SHAKES: return _("Shakes");
@@ -1971,6 +1992,13 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             case 3:
                 return _("You are rapidly loosing blood.");
         }
+
+    case DI_PARALYZEPOISON:
+        dexpen = int(dis.intensity / 3);
+        if (dexpen > 0) {
+            stream << string_format(_("Dexterity - %d"), dexpen);
+        }
+        return stream.str();
 
     case DI_BADPOISON:
         return _(

@@ -632,21 +632,21 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     dam = p.hit(g, bphit, side, dam, cut);
 
                     //Monster effects
-                    if (dam > 0 && has_flag(MF_VENOM))
-                    {
-                        if (!is_npc)
-                        {
+                    if (dam > 0 && has_flag(MF_VENOM)) {
+                        if (!is_npc) {
                             g->add_msg(_("You're poisoned!"));
                         }
                         p.add_disease("poison", 30);
-                    }
-                    else if (dam > 0 && has_flag(MF_BADVENOM))
-                    {
-                        if (!is_npc)
-                        {
+                    } else if (dam > 0 && has_flag(MF_BADVENOM)) {
+                        if (!is_npc) {
                             g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
                         }
                         p.add_disease("badpoison", 40);
+                    } else if (dam > 0 && has_flag(MF_PARALYZE)) {
+                        if (!is_npc) {
+                            g->add_msg(_("You feel poison enter your body!"));
+                        }
+                        p.add_disease("paralyzepoison", 100, false, 1, 20, 100);
                     }
 
                     if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {

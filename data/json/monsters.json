@@ -1686,7 +1686,7 @@
     "item_chance":0,
     "luminance":0,
     "hp":300,
-    "special_freq":5,
+    "special_freq":10,
     "death_function":"FUNGUS",
     "special_attack":"FUNGUS_SPROUT",
     "description":"An enormous fungal spire, towering 30 feet\nabove the ground.  It pulsates slowly,\ncontinuously growing new defenses.",
