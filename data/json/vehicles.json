@@ -1455,7 +1455,7 @@
         "name": "Food Vendor Cart",
         "blueprint": [
             ["&"],
-            ["H"],
+            ["H"]
         ],
         "parts": [
             {"x": 0, "y": 0, "part": "frame_vertical_2"},

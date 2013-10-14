@@ -2666,8 +2666,8 @@ void player::disp_morale(game *g)
 
     // Print out the focus gain rate, right-justified.
     double gain = (calc_focus_equilibrium() - focus_pool) / 100.0;
-    mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
-    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), "% 6.2f per minute", gain);
+    mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), _("Focus gain:"));
+    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), _("%6.2f per minute"), gain);
 
     // Make sure the changes are shown.
     wrefresh(w);
