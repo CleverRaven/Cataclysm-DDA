@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-09 14:14+1300\n"
+"POT-Creation-Date: 2013-10-15 07:35+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2900,10 +2900,6 @@ msgid "Start vehicle construction"
 msgstr ""
 
 #: construction.cpp
-msgid "Start cart construction"
-msgstr ""
-
-#: construction.cpp
 msgid "Fence Posts"
 msgstr ""
 
@@ -2946,23 +2942,7 @@ msgid "Contruct"
 msgstr ""
 
 #: construction.cpp
-msgid "You're not strong enough!"
-msgstr ""
-
-#: construction.cpp
 msgid "You cannot build there!"
-msgstr ""
-
-#: construction.cpp
-msgid "Press a direction for the furniture to move (. to cancel):"
-msgstr ""
-
-#: construction.cpp
-msgid "Can't move furniture there! Choose a direction with open floor."
-msgstr ""
-
-#: construction.cpp
-msgid "a scraping noise"
 msgstr ""
 
 #: construction.cpp
@@ -2975,14 +2955,6 @@ msgstr ""
 
 #: construction.cpp lang/json/json_vehicles.py
 msgid "Car"
-msgstr ""
-
-#: construction.cpp
-msgid "Enter new cart name:"
-msgstr ""
-
-#: construction.cpp
-msgid "Cart"
 msgstr ""
 
 #: construction.cpp
@@ -4287,15 +4259,15 @@ msgid "Poisoned"
 msgstr ""
 
 #: disease.cpp
-msgid "Bleeding "
+msgid "Bleeding - "
 msgstr ""
 
 #: disease.cpp
-msgid "Heavily Bleeding "
+msgid "Bad Bleeding - "
 msgstr ""
 
 #: disease.cpp
-msgid "Very Heavily Bleeding "
+msgid "Heavy Bleeding - "
 msgstr ""
 
 #: disease.cpp player.cpp
@@ -6880,6 +6852,15 @@ msgid "Can't reload your %s."
 msgstr ""
 
 #: game.cpp
+#, c-format
+msgid "The %s isn't as much fun now that you've finished it."
+msgstr ""
+
+#: game.cpp
+msgid "Maybe you should find something new to read..."
+msgstr ""
+
+#: game.cpp
 msgid "The rest of the book is currently still beyond your understanding."
 msgstr ""
 
@@ -7373,6 +7354,10 @@ msgid "The architect's cube."
 msgstr ""
 
 #: game.cpp
+msgid "KILL COUNT:"
+msgstr ""
+
+#: game.cpp
 msgid "You haven't killed any monsters yet!"
 msgstr ""
 
@@ -7401,6 +7386,10 @@ msgstr ""
 
 #: game.cpp
 msgid "COMPLETED MISSIONS"
+msgstr ""
+
+#: game.cpp
+msgid "FAILED MISSIONS"
 msgstr ""
 
 #: game.cpp
@@ -8146,7 +8135,7 @@ msgid "You grab the %s."
 msgstr ""
 
 #: game.cpp
-msgid "There's no vehicle to grab there!"
+msgid "There's nothing to grab there!"
 msgstr ""
 
 #: game.cpp
@@ -8370,6 +8359,11 @@ msgid "Your %s needs 100 charges to fire!"
 msgstr ""
 
 #: game.cpp
+#, c-format
+msgid "Your %s needs 50 charges to fire!"
+msgstr ""
+
+#: game.cpp
 msgid ""
 "You need a UPS with at least 5 charges or an advanced UPS with at least 3 "
 "charges to fire that!"
@@ -8400,8 +8394,11 @@ msgid "You don't have a sharp item to butcher with."
 msgstr ""
 
 #: game.cpp
-#, c-format
-msgid "Butcher the %s corpse?"
+msgid "Hostiles are nearby! Start Butchering anyway?"
+msgstr ""
+
+#: game.cpp
+msgid "Choose corpse to butcher"
 msgstr ""
 
 #: game.cpp
@@ -8659,6 +8656,33 @@ msgstr ""
 
 #: game.cpp
 msgid "No vehicle at grabbed point."
+msgstr ""
+
+#: game.cpp
+msgid "No furniture at grabbed point."
+msgstr ""
+
+#: game.cpp
+msgid "There's stuff in the way."
+msgstr ""
+
+#: game.cpp
+msgid "a scraping noise"
+msgstr ""
+
+#: game.cpp
+#, c-format
+msgid "You let go of the %s"
+msgstr ""
+
+#: game.cpp
+#, c-format
+msgid "You let go of the %s as it slides past %s"
+msgstr ""
+
+#: game.cpp
+#, c-format
+msgid "Nothing at grabbed point %d,%d."
 msgstr ""
 
 #: game.cpp
@@ -10453,11 +10477,10 @@ msgid "Items:  %d/%d "
 msgstr ""
 
 #: inventory_ui.cpp
-#: inventory_ui.cpp overmap.cpp
+#: overmap.cpp
 msgid "< Go Back"
 msgstr ""
 
-#: inventory_ui.cpp
 #: inventory_ui.cpp
 msgid "> More items"
 msgstr ""
@@ -10752,6 +10775,10 @@ msgstr ""
 
 #: item.cpp
 msgid "This piece of clothing has pockets to warm your hands."
+msgstr ""
+
+#: item.cpp
+msgid "This piece of clothing has a hood to keep your head warm."
 msgstr ""
 
 #: item.cpp
@@ -11917,7 +11944,7 @@ msgid "Cauterize yourself for fun"
 msgstr ""
 
 #: iuse.cpp
-msgid "You don't have enough batteries!"
+msgid "Your repair tool does not have enough charges to do that."
 msgstr ""
 
 #: iuse.cpp
@@ -15898,13 +15925,14 @@ msgid "A full-body tuxedo. Makes the apocalypse feel a little more classy."
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "hazmat suit"
+msgid "cleansuit"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"A hazardous materials suit. Though quite bulky and cumbersome, wearing it "
-"will provide excellent protection against ambient radiation."
+"A simple hazardous materials handling suit. Though somewhat restrictive and "
+"fragile, wearing it will provide excellent protection against ambient "
+"radiation."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -15913,9 +15941,31 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"An armored environmental protection suit. Custom-built from a hazmat suit "
-"and body armor, it provides excellent protection against both physical harm "
-"and ambient radiation."
+"An armored environmental protection suit. Custom-built from a cleansuit and "
+"body armor, it provides excellent protection against both physical harm and "
+"ambient radiation."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "hazmat suit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"An impermeable whole-body garment worn as protection against hazardous "
+"materials. Though very restrictive and fragile, wearing it will provide "
+"complete protection against ambient radiation."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "ANBC suit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"An armored, impermeable whole-body garment worn as protection against danger "
+"of all sorts, functioning as body armor as well as protecting from nuclear, "
+"biological, and chemical hazards."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -15939,7 +15989,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "plate mail"
+msgid "ornamental plate armor"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -16116,7 +16166,7 @@ msgid "light jacket"
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "A thin cotton jacket. Good for brisk weather."
+msgid "A thin cotton jacket with a hood. Good for brisk weather."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -16238,7 +16288,7 @@ msgid "winter coat"
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "A padded coat with deep pockets. Very warm."
+msgid "A padded coat with deep pockets and a hood. Very warm."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -16434,6 +16484,15 @@ msgstr ""
 #: lang/json/json_items.py
 msgid ""
 "A pair of rubber gloves, often used while cleaning with caustic materials."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "rubber boots"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A pair of rubber boots, often used while cleaning with caustic materials."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -16701,6 +16760,14 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A soft cotton hat commonly worn by armed forces and existentialists."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "wool beret"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A soft wool hat commonly worn by armed forces and existentialists."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -17143,6 +17210,32 @@ msgid "A heavy duty hauling frame designed to interface with power armor."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "salvaged power armor"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, "
+"offering very good protection against attacks, but hard to move in. This "
+"suit has had its servos and cooling system stripped out, meaning it no "
+"longer requires power, but also encumbers you greatly and doesn't provide "
+"internal thermal regulation."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "salvaged power armor helmet"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I. "
+"Offers excellent protection from both attacks and environmental hazards. "
+"This suit has had its internal computer and cooling system stripped out, "
+"meaning it no longer requires power, but it has no internal chronometer and "
+"doesn't provide internal thermal regulation."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "arm splint"
 msgstr ""
 
@@ -17258,7 +17351,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "plate armor boots"
+msgid "armored boots"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -17266,7 +17359,7 @@ msgid "An extremely heavy set of armor plated boots."
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "plate armor gauntlets"
+msgid "armored gauntlets"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -17282,6 +17375,47 @@ msgid ""
 "A heavy home built combination armor made from a reinforced bulletproof vest "
 "and a metal armor plated jumpsuit made out of leather. Protects from the "
 "elements as well as from harm."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "winter survivor suit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A warm and heavy, home built combination armor made from a reinforced "
+"bulletproof vest and an insulated jumpsuit made out of leather. Protects "
+"from the elements as well as from harm."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "survivor boots"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A pair of customized, heavily armored boots, modified to provide maximum "
+"protection from harm and the elements, even when knee-deep in the dead."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "survivor gloves"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A pair of heavily customized, armored gloves, modified to be easy of wear "
+"while providing maximum protection under extreme conditions."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "survivor helmet"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A customized, heavily armored helmet, modified to provide maximum comfort "
+"and protection from harm."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -17305,11 +17439,11 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "light plate mail"
+msgid "plate armor"
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "An ornamental suit of armor."
+msgid "A suit of gothic plate armor."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -19649,196 +19783,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "steel frame"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A large frame made of steel. Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "seat"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A soft car seat covered with leather."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "saddle"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A leather-covered seat designed to be straddled."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "vehicle controls"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A set of various vehicle controls. Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "electric motor"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A powerful electric motor. Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "large electric motor"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A large and very powerful electric motor. Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "plasma engine"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "High technology engine, working on hydrogen fuel."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "foot crank"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "The pedal and gear assembly from a bicycle."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "metal tank"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A metal tank for holding liquids. Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "storage battery"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A large storage battery. Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "minireactor"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A small portable plutonium reactor. Handle with great care!"
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-#: lang/json/json_vehicle_parts.py
-msgid "solar panel"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"Electronic device that can convert solar radiation into electric power. "
-"Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "reinforced solar panel"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"A solar panel that has been covered with a pane of reinforced glass to "
-"protect the delicate solar cells from zombies or errant baseballs.  Useful "
-"for crafting."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "solar cell"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"A small electronic device that can convert solar radiation into electric "
-"power. Useful for crafting."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "sheet metal"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A thin sheet of metal."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "steel plating"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A piece of armor plating made of steel."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "superalloy plating"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A piece of armor plating made of sturdy superalloy."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "superalloy sheet"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A sheet sturdy superalloy, incredibly hard, yet incredibly malleable."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "spiked plating"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"A piece of armor plating made of steel. It is covered by menacing spikes."
-msgstr ""
-
-#: lang/json/json_items.py lang/json/json_vehicle_parts.py
-msgid "hard plating"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "A piece of very thick armor plating made of steel."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "RV kitchen unit"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"A vehicle mountable electric range and sink unit with integrated tool "
-"storage for cooking utensils."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "vehicle welding rig"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"A welding rig made to run off a vehicle's storage battery.  It has a "
-"soldering iron attachment for delicate work, and a compartment to store your "
-"extra tools in."
-msgstr ""
-
-#: lang/json/json_items.py
 msgid "poppy flower"
 msgstr ""
 
@@ -21051,8 +20995,7 @@ msgstr ""
 #: lang/json/json_items.py
 msgid ""
 "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round "
-"features a biodegradable sabot and a single, fin-stabilized tungsten alloy "
-"penetrator."
+"features a biodegradable sabot and a single, fin-stabilized penetrator."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -22224,7 +22167,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "Internal Combustion Engine Fundamentals"
+msgid "Internal Combustion Fundamentals"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -22438,6 +22381,16 @@ msgstr ""
 msgid ""
 "This in-depth and technical text details various forms of ancient Japanese "
 "armor crafting, and is well illustrated with lots of photos."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "The Hitchhiker's Guide to the Cataclysm"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Inscribed on the cover in large, friendly letters, is the message \"Don't "
+"Panic\"."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -23821,7 +23774,7 @@ msgid "Yuck, not very tasty, but it is quite filling."
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "pineapple"
+msgid "canned pineapple"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24317,12 +24270,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "canned apple slices"
+msgid "canned fruit"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"Sealed glass jar containing preserved apples.  Bland, mushy and losing color."
+"Sealed glass jar containing preserved fruit.  Bland, mushy and losing color."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24355,12 +24308,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "apple slices"
+msgid "fruit slices"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"Apple slices soaked in a sugar syrup, to preserve freshness and appearance"
+"Fruit slices soaked in a sugar syrup, to preserve freshness and appearance."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24958,7 +24911,278 @@ msgid "fast noodles"
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "Dry processed noodles, simply add hot water. can be eaten raw"
+msgid "So-called ramen noodles. Can be eaten raw."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "pear"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A juicy, bell-shaped pear. Yum!"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "grapefruit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A citrus fruit, whose taste ranges from sour to semi-sweet."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "cherries"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A red, sweet fruit which grows in trees."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "plums"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A handful of large, purple plums. It is good for your digestion."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "grapes"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A cluster of seedless grapes."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "pineapple"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A large, spiky pineapple. A bit sour, though."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "coconut"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A fruit with hard and hairy shell."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "peach"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "This fruit's large pit is surrounded by its tasty flesh."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "cranberries"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Sour red berries. Good for your health."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "French fries"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A box of fast-food fried potatoes.  Somehow, they're still edible."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "protein powder"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Raw, refined protein. While quite nutritious, it is difficult to enjoy in "
+"its pure form."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "protein drink"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A thin slurry of refined protein mixed with water. While quite nutritious, "
+"it is not particularly tasty."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "protein shake"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A thick and tasty beverage made from pure refined protein and nutritious "
+"fruit."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "watermelon"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A fruit, bigger than your head. It is very juicy!"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "melon"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A large and very sweet fruit."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "raspberries"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A sweet red berry."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "malted milk balls"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Crunchy sugar in chocolate capsules.  Legal and stimmy."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "blackberries"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A darker cousin of raspberry."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "cooked fruit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "It's like fruit jam, only without sugar."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "fruit jam"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Fresh fruit, cooked with sugar to make them last longer."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "fruit juice"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Freshly-squeezed from real fruit! Tasty and nutritious."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "mango"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A fleshy fruit with large pit."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "pomegranate"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Under this pomegranate's spongy skin lies hundreds of fleshy seeds."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "rhubarb"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Sour stems of the rhubarb plant, often used in baking pies."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "peppermint patties"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A big bag of soft chocolate-covered peppermint patties... yum!"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "dehydrated meat"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Dehydrated meat flakes. With proper storage, this dried food will remain "
+"edible for an incredibly long time."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "dehydrated vegetables"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Dehydrated vegetable flakes. With proper storage, this dried food will "
+"remain edible for an incredibly long time."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "dehydrated fruit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Dehydrated fruit flakes. With proper storage, this dried food will remain "
+"edible for an incredibly long time."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Necco wafers"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A big bag of candy wafers, in assorted flavors: orange, lemon, lime, clove, "
+"chocolate, wintergreen, cinnamon, and licorice. Yum!"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "papaya"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A very sweet and soft tropical fruit."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "kiwi"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A large, brown and fuzzy-skinned berry. It's delicious insides are green."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "apricot"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A smooth-skinned fruit, related to the peach."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -26604,6 +26828,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "entrenching tool"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A stout collapsible spade commonly used by military forces and favored by "
+"hikers."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "digging stick"
 msgstr ""
 
@@ -26693,12 +26927,12 @@ msgid "A sealed glass jar containing veggy.  Activate to open and enjoy."
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "sealed jar of canned apple"
+msgid "sealed jar of canned fruit"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"A sealed glass jar containing a sliced apple.  Activate to open and enjoy."
+"A sealed glass jar containing a sliced fruit.  Activate to open and enjoy."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -26769,13 +27003,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "vacuum-packed apple slices"
+msgid "vacuum-packed fruit slices"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"Vacuum packed apple slices in plastic packaging..  Activate to open and "
-"enjoy."
+"Vacuum packed fruit slices in plastic packaging.  Activate to open and enjoy."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -27046,6 +27279,14 @@ msgstr ""
 msgid ""
 "A badge that detects radiation dosage sealed in a radiation-blocking bag.  "
 "Activate to remove from the bag."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "food dehydrator"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A portable electric food dehydrator, powered by standard batteries."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -27440,6 +27681,214 @@ msgstr ""
 msgid ""
 "An add on stock for handguns, improves recoil and accuracy. Aside from "
 "increased weight, there are no drawbacks."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "steel frame"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A large frame made of steel. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "seat"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A soft car seat covered with leather."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "saddle"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A leather-covered seat designed to be straddled."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "vehicle controls"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A set of various vehicle controls. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "electric motor"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A powerful electric motor. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "large electric motor"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A large and very powerful electric motor. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "plasma engine"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "High technology engine, working on hydrogen fuel."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "foot crank"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "The pedal and gear assembly from a bicycle."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "metal tank"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A metal tank for holding liquids. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "small storage battery"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A small storage battery. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "storage battery"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A large storage battery. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "minireactor"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A small portable plutonium reactor. Handle with great care!"
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+#: lang/json/json_vehicle_parts.py
+msgid "solar panel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Electronic device that can convert solar radiation into electric power. "
+"Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "reinforced solar panel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A solar panel that has been covered with a pane of reinforced glass to "
+"protect the delicate solar cells from zombies or errant baseballs.  Useful "
+"for crafting."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "minifridge"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A very small fridge for keeping food cool, but without electricity it's just "
+"a very heavy box with shelves inside."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "solar cell"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A small electronic device that can convert solar radiation into electric "
+"power. Useful for crafting."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "sheet metal"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A thin sheet of metal."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "steel plating"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A piece of armor plating made of steel."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "superalloy plating"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A piece of armor plating made of sturdy superalloy."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "superalloy sheet"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A sheet sturdy superalloy, incredibly hard, yet incredibly malleable."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "spiked plating"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A piece of armor plating made of steel. It is covered by menacing spikes."
+msgstr ""
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+msgid "hard plating"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A piece of very thick armor plating made of steel."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "RV kitchen unit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A vehicle mountable electric range and sink unit with integrated tool "
+"storage for cooking utensils."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "vehicle welding rig"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A welding rig made to run off a vehicle's storage battery.  It has a "
+"soldering iron attachment for delicate work, and a compartment to store your "
+"extra tools in."
 msgstr ""
 
 #: lang/json/json_keybindings.py
@@ -42578,6 +43027,16 @@ msgid ""
 "works."
 msgstr ""
 
+#: lang/json/json_professions.py
+msgid "Hitchhiker"
+msgstr ""
+
+#: lang/json/json_professions.py
+msgid ""
+"Your house has been demolished and your planet destroyed, but at least you "
+"still have your towel."
+msgstr ""
+
 #: lang/json/json_skills.py
 msgid "bartering"
 msgstr ""
@@ -42983,7 +43442,7 @@ msgid ""
 "This is an advertisement for Robert's Universal Robotics brand law "
 "enforcement robots. It shows a picture of tripod robot incinerating a mob of "
 "looters and stepping over charred and smoking corpses. The caption reads: "
-"\"Built to Protect. Programmed to Serve.\""
+"\"R.U.R. Technology you can Trust.\""
 msgstr ""
 
 #: lang/json/json_snippets.py
@@ -43085,23 +43544,23 @@ msgid "Wide Strike"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s swing in a wide arc through %4$s"
+#, python-format
+msgid "You swing in a wide arc through %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s swings in a wide arc through %4$s"
+#, python-format
+msgid "<npcname> swings in a wide arc through %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s slam %2$s %3$s against %4$s"
+#, python-format
+msgid "You send %s reeling"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s slams %2$s %3$s against %4$s"
+#, python-format
+msgid "<npcname> sends %s reeling"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43109,13 +43568,13 @@ msgid "Rapid Strike"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s quickly strike with %2$s %3$s at %4$s"
+#, python-format
+msgid "You quickly strike %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s quickly strikes with %2$s %3$s at %4$s"
+#, python-format
+msgid "<npcname> quickly strikes %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43123,13 +43582,13 @@ msgid "Wrap attack"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s use %2$s %3$s to wrap up %4$s"
+#, python-format
+msgid "You wrap up %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s uses %2$s %3$s to wrap up %4$s"
+#, python-format
+msgid "<npcname> wraps up %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43137,13 +43596,13 @@ msgid "Sweep Attack"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s use %2$s %3$s to sweep %4$s"
+#, python-format
+msgid "You sweep %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s uses %2$s %3$s to sweep %4$s"
+#, python-format
+msgid "<npcname> sweeps %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43155,13 +43614,13 @@ msgid "Precise Strike"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s jab %2$s %3$s at %4$s"
+#, python-format
+msgid "You jab deftly at %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s jabs %2$s %3$s at %4$s"
+#, python-format
+msgid "<npcname> jabs deftly at %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43170,14 +43629,14 @@ msgstr ""
 
 #: lang/json/json_techniques.py
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s quickly punch %4$s"
+#, python-format
+msgid "You quickly punch %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s quickly punches %4$s"
+#, python-format
+msgid "<npcname> quickly punches %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43185,13 +43644,13 @@ msgid "karate chop"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s karate chop %4$s"
+#, python-format
+msgid "You karate chop %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s karate chops %4$s"
+#, python-format
+msgid "<npcname> karate chops %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43199,13 +43658,13 @@ msgid "throw"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s throw %4$s"
+#, python-format
+msgid "You throw %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s throws %4$s"
+#, python-format
+msgid "<npcname> throws %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43215,14 +43674,14 @@ msgstr ""
 
 #: lang/json/json_techniques.py
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s feint at %4$s"
+#, python-format
+msgid "You feint at %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s feints at %4$s"
+#, python-format
+msgid "<npcname> feints at %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43232,14 +43691,14 @@ msgstr ""
 
 #: lang/json/json_techniques.py
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s disarm %4$s"
+#, python-format
+msgid "You disarm %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s disarms %4$s"
+#, python-format
+msgid "<npcname> disarms %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43247,13 +43706,13 @@ msgid "grab"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s grab %4$s"
+#, python-format
+msgid "You grab %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s grabs %4$s"
+#, python-format
+msgid "<npcname> grabs %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43261,13 +43720,13 @@ msgid "precise strike"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s strike %4$s"
+#, python-format
+msgid "You strike %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s strikes %4$s"
+#, python-format
+msgid "<npcname> strikes %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43275,13 +43734,13 @@ msgid "elbow"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s elbow %4$s"
+#, python-format
+msgid "You elbow %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s elbows %4$s"
+#, python-format
+msgid "<npcname> elbows %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43289,13 +43748,13 @@ msgid "kick"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s power-kick %4$s"
+#, python-format
+msgid "You power-kick %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s power-kicks %4$s"
+#, python-format
+msgid "<npcname> power-kicks %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43303,23 +43762,23 @@ msgid "flying knee"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s flying knee %4$s"
+#, python-format
+msgid "You flying knee %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s flying knees %4$s"
+#, python-format
+msgid "<npcname> flying knees %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s jab %4$s"
+#, python-format
+msgid "You jab %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s jabs %4$s"
+#, python-format
+msgid "<npcname> jabs %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43331,13 +43790,13 @@ msgid "surprise attack"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s surprise attack %4$s"
+#, python-format
+msgid "You surprise attack %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s surprise attacks %4$s"
+#, python-format
+msgid "<npcname> surprise attacks %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43345,13 +43804,13 @@ msgid "side kick"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s side-kick %4$s"
+#, python-format
+msgid "You side-kick %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s side-kicks %4$s"
+#, python-format
+msgid "<npcname> side-kicks %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
@@ -43359,13 +43818,13 @@ msgid "sweep kick"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s sweep-kick %4$s"
+#, python-format
+msgid "You sweep-kick %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, no-python-format
-msgid "%1$s sweep-kicks %4$s"
+#, python-format
+msgid "<npcname> sweep-kicks %s"
 msgstr ""
 
 #: lang/json/json_terrain.py
@@ -44153,6 +44612,30 @@ msgid "RV"
 msgstr ""
 
 #: lang/json/json_vehicles.py
+msgid "Welding Cart"
+msgstr ""
+
+#: lang/json/json_vehicles.py
+msgid "Ice Cream Cart"
+msgstr ""
+
+#: lang/json/json_vehicles.py
+msgid "Food Vendor Cart"
+msgstr ""
+
+#: lang/json/json_vehicles.py
+msgid "Wheelbarrow"
+msgstr ""
+
+#: lang/json/json_vehicles.py
+msgid "Luggage Cart"
+msgstr ""
+
+#: lang/json/json_vehicles.py
+msgid "Swivel Chair"
+msgstr ""
+
+#: lang/json/json_vehicles.py
 msgid "Armored Car"
 msgstr ""
 
@@ -44789,36 +45272,18 @@ msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "<You>%s"
-msgstr ""
-
-#: melee.cpp
-msgid "<You>You"
-msgstr ""
-
-#: melee.cpp
-msgid "<your>her"
-msgstr ""
-
-#: melee.cpp
-msgid "<your>his"
-msgstr ""
-
-#: melee.cpp
-msgid "<your>your"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s hit %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s hits %4$s"
+msgid "<npcname> hits %s"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "<target>the %s"
+msgid "You hit %s"
+msgstr ""
+
+#: melee.cpp
+#: melee.cpp
+#, c-format
+msgid "the %s"
 msgstr ""
 
 #: melee.cpp
@@ -44837,39 +45302,38 @@ msgstr ""
 msgid "You miss."
 msgstr ""
 
+#. ~ someone's bodypart, e.g. "Kate's leg"
 #: melee.cpp
 #, c-format
-msgid "<target>%s's %s"
+msgid "%1$s's %2$s"
+msgstr ""
+
+#. ~ your bodypart, e.g. "your head"
+#: melee.cpp
+#, c-format
+msgid "your %s"
+msgstr ""
+
+#: melee.cpp monmove.cpp
+msgid "You break the grab!"
 msgstr ""
 
 #: melee.cpp
-#, c-format
-msgid "<target>your %s"
+msgid "<npcname> breaks the grab!"
 msgstr ""
 
 #: melee.cpp
-#, c-format
-msgid "%s break the grab!"
-msgstr ""
-
-#: melee.cpp
-#, c-format
-msgid "%s breaks the grab!"
-msgstr ""
-
-#: melee.cpp
-#, c-format
-msgid "<target>%s"
-msgstr ""
-
-#: melee.cpp
-#, c-format
-msgid "<npcname> disarms %s!"
+msgid "<npcname> disarms you!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
 msgid "You disarm %s!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> disarms %s!"
 msgstr ""
 
 #: melee.cpp
@@ -44905,17 +45369,7 @@ msgid "You poison %s!"
 msgstr ""
 
 #: melee.cpp
-msgid "<target>you"
-msgstr ""
-
-#: melee.cpp
-#, c-format
-msgid "<target's>the %s's"
-msgstr ""
-
-#: melee.cpp
-#, c-format
-msgid "<target's>%s's"
+msgid "<npcname> forces you to the ground!"
 msgstr ""
 
 #: melee.cpp
@@ -44930,22 +45384,26 @@ msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "<npcname> shocks %s."
-msgstr ""
-
-#: melee.cpp
-#, c-format
 msgid "You shock %s."
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "<npcname> drains %s body heat!"
+msgid "<npcname> shocks %s."
+msgstr ""
+
+#: melee.cpp
+msgid "<npcname> drains your body heat!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "You drain %s body heat!"
+msgid "You drain %s's body heat!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> drains %s's body heat!"
 msgstr ""
 
 #: melee.cpp
@@ -44970,27 +45428,37 @@ msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s sink %s fangs into %s!"
+msgid "You sink your fangs into %s!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s sinks %s fangs into %s!"
+msgid "%s sinks his fangs into %s!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s slice %s with %s mandibles!"
+msgid "%s sinks her fangs into %s!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s slices %s with %s mandibles!"
+msgid "You slice %s with your mandibles!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s peck %s!"
+msgid "%s slices %s with his mandibles!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "%s slices %s with her mandibles!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You peck %s!"
 msgstr ""
 
 #: melee.cpp
@@ -45000,187 +45468,256 @@ msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s kick %s with %s hooves!"
+msgid "You kick %s with your hooves!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s kicks %s with %s hooves!"
+msgid "%s kicks %s with his hooves!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s headbutt %s with %s horns!"
+msgid "%s kicks %s with her hooves!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s headbutts %s with %s horns!"
+msgid "You headbutt %s with your horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s headbutt %s with %s curled horns!"
+msgid "%s headbutts %s with his horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s headbutts %s with %s curled horns!"
+msgid "%s headbutts %s with her horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s stab %s with %s pointed horns!"
+msgid "You headbutt %s with your curled horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s stabs %s with %s pointed horns!"
+msgid "%s headbutts %s with his curled horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s butt %s with %s antlers!"
+msgid "%s headbutts %s with her curled horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s butts %s with %s antlers!"
+msgid "You stab %s with your pointed horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s sting %s with %s tail!"
+msgid "%s stabs %s with his pointed horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s stings %s with %s tail!"
+msgid "%s stabs %s with her pointed horns!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s hit %s with %s tail!"
+msgid "You butt %s with your antlers!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s hits %s with %s tail!"
+msgid "%s butts %s with his antlers!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s slap %s with %s tentacle!"
+msgid "%s butts %s with her antlers!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid "%s slaps %s with %s tentacle!"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s impale %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s impales %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s pierce %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s pierces %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s stab %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s stabs %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s poke %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s pokes %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s hack %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s hacks %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s slice %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s slices %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s cut %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s cuts %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s nick %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s nicks %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s clobber %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s clobbers %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s batter %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s batters %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s whack %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid "%1$s whacks %4$s"
-msgstr ""
-
-#: melee.cpp
-msgid " but do no damage."
-msgstr ""
-
-#: melee.cpp
-msgid " but does no damage."
+msgid "You sting %s with your tail!"
 msgstr ""
 
 #: melee.cpp
 #, c-format
-msgid " for %d damage."
+msgid "%s stings %s with his tail!"
 msgstr ""
 
 #: melee.cpp
-msgid "Critical! "
+#, c-format
+msgid "%s stings %s with her tail!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You club %s with your tail!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "%s clubs %s with his tail!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "%s clubs %s with her tail!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You slap %s with your tentacle!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "%s slaps %s with his tentacle!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "%s slaps %s with her tentacle!"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> impales %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You impale %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> pierces %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You pierce %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> stabs %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You stab %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> pokes %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You poke %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> hacks %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You hack %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> slices %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You slice %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> cuts %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You cut %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> nicks %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You nick %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> clobbers %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You clobber %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> batters %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You batter %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "<npcname> whacks %s"
+msgstr ""
+
+#: melee.cpp
+#, c-format
+msgid "You whack %s"
+msgstr ""
+
+#. ~ NPC hits something but does no damage
+#: melee.cpp
+#, c-format
+msgid "%s but does no damage."
+msgstr ""
+
+#. ~ you hit something but do no damage
+#: melee.cpp
+#, c-format
+msgid "%s but do no damage."
+msgstr ""
+
+#. ~ someone hits something for %d damage (critical)
+#: melee.cpp
+#, c-format
+msgid "%s for %d damage. Critical!"
+msgstr ""
+
+#. ~ someone hits something for %d damage
+#: melee.cpp
+#, c-format
+msgid "%s for %d damage."
 msgstr ""
 
 #: mission.cpp
@@ -46828,10 +47365,6 @@ msgstr ""
 #: monmove.cpp
 #, c-format
 msgid "The %s grabs you!"
-msgstr ""
-
-#: monmove.cpp
-msgid "You break the grab!"
 msgstr ""
 
 #: monmove.cpp
@@ -49916,12 +50449,12 @@ msgstr ""
 
 #: options.cpp
 #, c-format
-msgid "Default: %d - Min: %d, Max %d"
+msgid "Default: %d - Min: %d, Max: %d"
 msgstr ""
 
 #: options.cpp
 #, c-format
-msgid "Default: %f - Min: %f, Max %f"
+msgid "Default: %.1f - Min: %.1f, Max: %.1f"
 msgstr ""
 
 #: options.cpp
@@ -49981,7 +50514,7 @@ msgid "Force Y/N in prompts"
 msgstr ""
 
 #: options.cpp
-msgid "If true, Y/N prompts are case- sensitive and y and n are not accepted."
+msgid "If true, Y/N prompts are case-sensitive and y and n are not accepted."
 msgstr ""
 
 #: options.cpp
@@ -49990,7 +50523,7 @@ msgstr ""
 
 #: options.cpp
 msgid ""
-"If true, bright backgrounds are not used--some consoles are not compatible."
+"If true, bright backgrounds are not used - some consoles are not compatible."
 msgstr ""
 
 #. ~ 12h time, e.g. 11:59pm
@@ -50009,7 +50542,7 @@ msgid "24h"
 msgstr ""
 
 #: options.cpp
-msgid "24 hour time"
+msgid "Time format"
 msgstr ""
 
 #: options.cpp
@@ -51667,6 +52200,15 @@ msgid "Total:"
 msgstr ""
 
 #: player.cpp
+msgid "Focus gain:"
+msgstr ""
+
+#: player.cpp
+#, c-format
+msgid "%6.2f per minute"
+msgstr ""
+
+#: player.cpp
 #, c-format
 msgid "Weapon: %s"
 msgstr ""
@@ -52357,6 +52899,10 @@ msgstr ""
 
 #: player.cpp
 msgid "It has pockets.\n"
+msgstr ""
+
+#: player.cpp
+msgid "It has a hood.\n"
 msgstr ""
 
 #: player.cpp
