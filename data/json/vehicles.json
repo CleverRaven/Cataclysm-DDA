@@ -219,7 +219,8 @@
         ],
         "items": [
             {"x": 0, "y": 0, "chance": 16, "items": "cig"},
-            {"x": 0, "y": 0, "chance": 16, "items": "lighter"}
+            {"x": 0, "y": 0, "chance": 16, "items": "lighter"},
+            {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]}
         ]
     },
     {
