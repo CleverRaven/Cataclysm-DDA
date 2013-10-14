@@ -220,6 +220,7 @@
         "items": [
             {"x": 0, "y": 0, "chance": 16, "items": "cig"},
             {"x": 0, "y": 0, "chance": 16, "items": "lighter"},
+            {"x": 0, "y": 1, "chance": 1, "items": "roadmap"},
             {"x": -2, "y": 1, "chance": 5, "items": "screwdriver"},
             {"x": -2, "y": 1, "chance": 5, "items": "scissors"},
             {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
