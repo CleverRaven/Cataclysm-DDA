@@ -747,8 +747,9 @@ void npc::use_escape_item(game *g, signed char invlet, int target)
 
  if (used->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(used->type);
-  if( tool->use.call(g, this, used, false) ) {
-      used->charges -= tool->charges_per_use;
+  int charges_used = tool->use.call(g, this, used, false);
+  if( charges_used ) {
+      used->charges -= charges_used;
       if (used->invlet == 0) {
           inv.remove_item(used);
       }

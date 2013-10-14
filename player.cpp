@@ -6138,7 +6138,7 @@ bool player::eat(game *g, signed char ch)
     if (eaten == NULL)
         return false;
 
-    bool eatit = true;
+    int to_eat = 1;
 
     if (eaten->is_ammo())   // For when bionics let you eat fuel
     {
@@ -6273,7 +6273,7 @@ bool player::eat(game *g, signed char ch)
 
         if (comest->use != &iuse::none)
         {
-            eatit = 0 < comest->use.call(g, this, eaten, false);
+            to_eat = comest->use.call(g, this, eaten, false);
         }
         add_addiction(comest->add, comest->addict);
         if (addiction_craving(comest->add) != MORALE_NULL)
@@ -6338,9 +6338,7 @@ bool player::eat(game *g, signed char ch)
         }
     }
 
-    if( eatit ) {
-        eaten->charges--;
-    }
+    eaten->charges -= to_eat;
     if (eaten->charges <= 0 || eaten->is_book())
     {
         if (which == -1)
