@@ -863,6 +863,28 @@
         "recoil_modifier" : -5,
         "price" : 380,
         "loudness_modifier" : 0
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "bipod",
+        "name" : "bipod",
+        "clip_size_modifier" : 0,
+        "damage_modifier" : 0,
+        "ammo_modifier" : "NULL",
+        "description" : "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion. Aside from increased weight, there are no drawbacks.",
+        "weight" : 400,
+        "to_hit" : -1,
+        "color" : "brown",
+        "symbol" : ":",
+        "material" : "steel",
+        "mod_targets" : "rifle",
+        "volume" : 3,
+        "bashing" : 10,
+        "cutting" : 0,
+        "burst_modifier" : 0,
+        "recoil_modifier" : -1,
+        "dispersion_modifier" : -3,
+        "price" : 680,
+        "loudness_modifier" : 0
     }
-
 ]
