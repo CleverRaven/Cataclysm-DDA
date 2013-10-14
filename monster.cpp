@@ -424,13 +424,13 @@ void monster::process_triggers(game *g)
 // This Adjustes anger/morale levels given a single trigger.
 void monster::process_trigger(monster_trigger trig, int amount)
 {
-    if (type->has_anger_trigger(MTRIG_FRIEND_ATTACKED)){
+    if (type->has_anger_trigger(trig)){
         anger += amount;
     }
-    if (type->has_fear_trigger(MTRIG_FRIEND_ATTACKED)){
+    if (type->has_fear_trigger(trig)){
         morale -= amount;
     }
-    if (type->has_placate_trigger(MTRIG_FRIEND_ATTACKED)){
+    if (type->has_placate_trigger(trig)){
         anger -= amount;
     }
 }
