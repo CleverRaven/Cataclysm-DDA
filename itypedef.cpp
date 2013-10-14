@@ -329,7 +329,7 @@ GUN("bio_lightning", _("Chain Lightning"),  0,c_magenta, "steel", "plastic",
 
 std::string ammo_name(ammotype t)
 {
-    if( t == "50")      return _(".50 BMG")
+    if( t == "50")          return _(".50 BMG")
     if( t == "nail")        return _("nails");
     if( t == "BB" )         return _("BBs");
     if( t == "bolt" )       return _("bolts");
@@ -404,7 +404,6 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "12mm" )         return "12mm";
     if( guntype == "plasma" )       return "plasma";
     if( guntype == "plutonium" )    return "plut_cell";
-    if( guntype == "50"  )          return "50_bmg";    
     if( guntype == "gasoline" )     return "gasoline";
     if( guntype == "thread" )       return "thread";
     if( guntype == "water" )        return "water_clean";
