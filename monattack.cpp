@@ -741,6 +741,7 @@ void mattack::fungus_growth(game *g, monster *z)
 
 void mattack::fungus_sprout(game *g, monster *z)
 {
+    z->sp_timeout = z->type->sp_freq; // Reset timer
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             if (g->u.posx == x && g->u.posy == y) {
