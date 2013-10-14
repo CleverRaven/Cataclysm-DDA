@@ -145,9 +145,10 @@ struct itype
  virtual bool is_stationary()    { return false; }
  virtual bool is_artifact()      { return false; }
  virtual bool is_var_veh_part()  { return false; }
- virtual bool is_engine()         { return false; }
- virtual bool is_wheel()          { return false; }
+ virtual bool is_engine()        { return false; }
+ virtual bool is_wheel()         { return false; }
  virtual bool count_by_charges() { return false; }
+ virtual int  charges_to_use()  { return 1; }
  virtual picojson::value save_data() { return picojson::value(); }
 
  std::string dmg_adj(int dam) { return material_type::find_material(m1)->dmg_adj(dam); }
@@ -210,7 +211,6 @@ struct it_comest : public itype
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
     virtual bool is_food() { return true; }
-    // virtual bool count_by_charges() { return charges >= 1 ; }
 
     virtual bool count_by_charges()
     {
@@ -250,7 +250,7 @@ struct it_comest : public itype
         add        = padd;
     }
 
-    it_comest() : itype() 
+    it_comest() : itype()
     {
         quench = 0;
         nutr = 0;
@@ -580,6 +580,7 @@ struct it_tool : public itype
  virtual bool is_tool()          { return true; }
  virtual bool is_artifact()      { return false; }
  virtual picojson::value save_data() { return picojson::value(); }
+ int charges_to_use()   { return charges_per_use; }
 
  it_tool() :itype()
  {
