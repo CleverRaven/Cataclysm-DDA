@@ -6477,7 +6477,8 @@ void game::examine()
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
   int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
+  int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
+  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg (_("You can't do that while onboard."));
