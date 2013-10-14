@@ -14345,6 +14345,44 @@
     ]
 },{
         "type" : "recipe",
+  "result": "knife_trench",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 390000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 300], ["char_forge", 60]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "pot",
   "category": "CC_MISC",
   "skill_used": "fabrication",
