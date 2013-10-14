@@ -1835,7 +1835,7 @@
         "type" : "recipe",
   "result": "dart",
   "category": "CC_AMMO",
-
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -1852,6 +1852,7 @@
         "type" : "recipe",
   "result": "pebble",
   "category": "CC_AMMO",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
