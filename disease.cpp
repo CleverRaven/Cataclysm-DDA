@@ -2169,7 +2169,7 @@ void manage_fire_exposure(player &p, int fireStrength) {
 }
 
 void manage_fungal_infection(player& p, disease& dis) {
-    int bonus = p.health + p.has_trait("POISRESIST") ? 100 : 0;
+    int bonus = p.health + (p.has_trait("POISRESIST") ? 100 : 0);
     p.moves -= 10;
     p.str_cur -= 1;
     p.dex_cur -= 1;
