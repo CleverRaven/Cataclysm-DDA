@@ -216,6 +216,9 @@
             {"x": -3, "y": 1, "part": "door_trunk"},
             {"x": -3, "y": 2, "part": "frame_horizontal"},
             {"x": -3, "y": 2, "part": "wheel"}
+        ],
+        "items": [
+            {"x": 0, "y": 0, "chance": 16, "item": "cig"}
         ]
     },
     {

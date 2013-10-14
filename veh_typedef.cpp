@@ -130,6 +130,23 @@ void game::load_vehicle(JsonObject &jo)
         JsonObject part = parts.next_object();
         vproto->parts.push_back(std::pair<point, std::string>(point(part.get_int("x"), part.get_int("y")), part.get_string("part")));
     }
+
+    if(jo.has_member("items")) {
+        JsonArray items = jo.get_array("items");
+        while(items.has_more()) {
+            JsonObject spawn_info = items.next_object();
+            vehicle_item_spawn next_spawn;
+            next_spawn.x = spawn_info.get_int("x");
+            next_spawn.y = spawn_info.get_int("y");
+            next_spawn.chance = spawn_info.get_int("chance");
+            if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
+                debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
+                    vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
+            }
+            next_spawn.item_id = spawn_info.get_string("item");
+            vproto->item_spawns.push_back(next_spawn);
+        }
+    }
     vehprototypes.push(vproto);
 }
 /**
@@ -161,6 +178,10 @@ void game::finalize_vehicles()
                         next_vehicle->name.c_str(), part_id.c_str(),
                         next_vehicle->parts.size(), part_x, part_y);
             }
+        }
+
+        for (int i = 0; i < proto->item_spawns.size(); i++) {
+            next_vehicle->item_spawns.push_back(proto->item_spawns[i]);
         }
 
         vtypes[next_vehicle->type] = next_vehicle;
