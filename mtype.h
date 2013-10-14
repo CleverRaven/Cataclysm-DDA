@@ -80,7 +80,7 @@ mon_hallu_mom,
 mon_generator,
 // added post 0.8
 mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
-mon_giant_crayfish,
+mon_giant_crayfish, mon_fungal_fighter
 num_monsters
 };
 
