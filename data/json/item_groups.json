@@ -4092,7 +4092,9 @@
     "items":[
       ["m107a1" , 1]
       ["bipod" , 1]
-      ["50bmg" , 2]   
+      ["50bmg" , 3]
+      ["50ss" , 2]
+      {"50_incendiary" , 2]
       ["water_clean", 90],
       ["knuckle_brass", 15],
       ["duffelbag", 15],
