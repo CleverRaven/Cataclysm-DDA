@@ -181,9 +181,6 @@ class iuse
 // It examines the item's artifact-specific properties
 // See artifact.h for a list
   int artifact         (game *g, player *p, item *it, bool t);
-
-private:
-  int heat_item(game *g, player *p);
 };
 
 

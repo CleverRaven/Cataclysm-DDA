@@ -25,24 +25,24 @@
 #include "iuse_software.h"
 
  // Return false if we weren't able to use the item.
-static int use_fire(game *g, player *p, item *it)
+static bool use_fire(game *g, player *p, item *it)
 {
     if (!p->use_charges_if_avail("fire", 1))
     {
         g->add_msg_if_player(p, _("You need a source of flame!"));
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
-static int item_inscription( game *g, player *p, item *cut, std::string verb, std::string gerund,
-                             bool carveable)
+static bool item_inscription( game *g, player *p, item *cut, std::string verb, std::string gerund,
+                              bool carveable)
 {
     if (!cut->made_of(SOLID)) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         g->add_msg(_("You can't %s an item that's not solid!"), lower_verb.c_str());
-        return 0;
+        return false;
     }
     if(carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
                       cut->made_of("chitin") || cut->made_of("iron") || cut->made_of("steel") ||
@@ -58,7 +58,7 @@ static int item_inscription( game *g, player *p, item *cut, std::string verb, st
         std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
         g->add_msg(_("You can't %1$s an item made of %2$s!"),
                    lower_verb.c_str(), mtname.c_str());
-        return 0;
+        return false;
     }
 
     std::map<std::string, std::string>::const_iterator ent = cut->item_vars.find("item_note");
@@ -82,12 +82,12 @@ static int item_inscription( game *g, player *p, item *cut, std::string verb, st
             cut->item_vars["item_note_type"] = gerund;
         }
     }
-    return 1;
+    return true;
 }
 
 // Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
 
-static int inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
+static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
 {
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
@@ -96,7 +96,7 @@ static int inscribe_item( game *g, player *p, std::string verb, std::string geru
     item* cut = &(p->i_at(ch));
     if (cut->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
-        return 0;
+        return false;
     }
     return item_inscription( g, p, cut, verb, gerund, carveable );
 }
@@ -1002,24 +1002,24 @@ int iuse::dogfood(game *g, player *p, item *it, bool t)
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
     if (!g->choose_adjacent(_("Light"),posx,posy)) {
-        return 0;
+        return false;
     }
     if (posx == p->posx && posy == p->posy) {
         g->add_msg_if_player(p, _("You would set yourself on fire."));
         g->add_msg_if_player(p, _("But you're already smokin' hot."));
-        return 0;
+        return false;
     }
     if(g->m.field_at(posx, posy).findField(fd_fire)) {
         // check if there's already a fire
         g->add_msg_if_player(p, _("There is already a fire."));
-        return 0;
+        return false;
     }
     if (!(g->m.flammable_items_at(posx, posy) ||
           g->m.has_flag("FLAMMABLE", posx, posy) || g->m.has_flag("FLAMMABLE_ASH", posx, posy))) {
         g->add_msg_if_player(p,_("There's nothing to light there."));
-        return 0;
+        return false;
     } else {
-        return 1;
+        return true;
     }
 }
 
@@ -1245,23 +1245,23 @@ static bool valid_fabric(game *g, player *p, item *it, bool t)
 {
     if (it->type->id == "null") {
         g->add_msg_if_player(p, _("You do not have that item!"));
-        return 0;
+        return false;
     }
     if (it->type->id == "string_6" || it->type->id == "string_36" || it->type->id == "rope_30" ||
         it->type->id == "rope_6") {
         g->add_msg(_("You cannot cut that, you must disassemble it using the disassemble key"));
-        return 0;
+        return false;
     }
     if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather") {
         g->add_msg_if_player(p, _("There's no point in cutting a %s."), it->type->name.c_str());
-        return 0;
+        return false;
     }
     if (!it->made_of("cotton") && !it->made_of("leather")) {
         g->add_msg(_("You can only slice items made of cotton or leather."));
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 int iuse::cut_up(game *g, player *p, item *it, item *cut, bool t)
@@ -1793,7 +1793,6 @@ int iuse::water_purifier(game *g, player *p, item *it, bool t)
  p->moves -= 150;
  pure->make(g->itypes["water_clean"]);
  pure->poison = 0;
- // We're handling charges manually, so pretend to fail.
  return pure->charges;
 }
 
@@ -5458,13 +5457,13 @@ int iuse::spray_can(game *g, player *p, item *it, bool t)
  * Heats up a food item.
  * @return 1 if an item was heated, false if nothing was heated.
  */
-int iuse::heat_item(game *g, player *p)
+static bool heat_item(game *g, player *p)
 {
     char ch = g->inv(_("Heat up what?"));
     item* heat = &(p->i_at(ch));
     if (heat->type->id == "null") {
         g->add_msg(_("You do not have that item!"));
-        return 0;
+        return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
     if (target->type->is_food()) {
@@ -5473,10 +5472,10 @@ int iuse::heat_item(game *g, player *p)
         target->item_tags.insert("HOT");
         target->active = true;
         target->item_counter = 600; // sets the hot food flag for 60 minutes
-        return 1;
+        return true;
     }
     g->add_msg(_("You can't heat that up!"));
-    return 0;
+    return false;
 }
 
 int iuse::heatpack(game *g, player *p, item *it, bool t)
