@@ -273,7 +273,7 @@ public:
  bool pause_disease(dis_type type, body_part part = num_bp, int side = -1);
  bool unpause_disease(dis_type type, body_part part = num_bp, int side = -1);
  int  disease_duration(dis_type type, bool all = false, body_part part = num_bp, int side = -1);
- int  disease_intensity(dis_type type, body_part part = num_bp, int side = -1);
+ int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp, int side = -1);
 
  void add_addiction(add_type type, int strength);
  void rem_addiction(add_type type);

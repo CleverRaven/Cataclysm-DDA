@@ -999,8 +999,8 @@ void player::update_bodytemp(game *g)
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
         int intensity_mult =
-            - disease_intensity("cold", (body_part)i) +
-            disease_intensity("hot", (body_part)i);
+            - disease_intensity("cold", false, (body_part)i) +
+            disease_intensity("hot", false, (body_part)i);
         if (has_disease("cold", (body_part)i) ||
             has_disease("hot", (body_part)i))
         {
@@ -1024,7 +1024,7 @@ void player::update_bodytemp(game *g)
         {
             add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, -1);
             // Warning message for the player
-            if (disease_intensity("frostbite", (body_part)i) < 2
+            if (disease_intensity("frostbite", false, (body_part)i) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
@@ -4212,7 +4212,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
 
 void player::rem_disease(dis_type type, body_part part, int side)
 {
-    for (int i = 0; i < illness.size(); i++) {
+    for (int i = 0; i < illness.size();) {
         if (illness[i].type == type &&
             ( part == num_bp || illness[i].bp == part ) &&
             ( side == -1 || illness[i].side == side ) ) {
@@ -4220,6 +4220,8 @@ void player::rem_disease(dis_type type, body_part part, int side)
             if(!is_npc()) {
                 dis_remove_memorial(type);
             }
+        } else {
+            i++;
         }
     }
 
@@ -4268,8 +4270,8 @@ int player::disease_duration(dis_type type, bool all, body_part part, int side)
 {
     int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && illness[i].bp == part &&
-            illness[i].side == side) {
+        if (illness[i].type == type && (part ==  num_bp || illness[i].bp == part) &&
+            (side == -1 || illness[i].side == side)) {
             if (all == false) {
                 return illness[i].duration;
             } else {
@@ -4280,15 +4282,20 @@ int player::disease_duration(dis_type type, bool all, body_part part, int side)
     return tmp;
 }
 
-int player::disease_intensity(dis_type type, body_part part, int side)
+int player::disease_intensity(dis_type type, bool all, body_part part, int side)
 {
+    int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && illness[i].bp == part &&
-            illness[i].side == side) {
-            return illness[i].intensity;
+        if (illness[i].type == type && (part ==  num_bp || illness[i].bp == part) &&
+            (side == -1 || illness[i].side == side)) {
+            if (all == false) {
+                return illness[i].intensity;
+            } else {
+                tmp += illness[i].intensity;
+            }
         }
     }
-    return 0;
+    return tmp;
 }
 
 void player::add_addiction(add_type type, int strength)
