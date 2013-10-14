@@ -3957,7 +3957,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DIG"
+    "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
     "qualities": [["CUT", 1]]
