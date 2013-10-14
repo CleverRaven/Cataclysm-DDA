@@ -143,7 +143,16 @@ void game::load_vehicle(JsonObject &jo)
                 debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
                     vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
             }
-            next_spawn.item_id = spawn_info.get_string("item");
+            if(spawn_info.is_array("items")) {
+                //Array of items that all spawn together (ie jack+tire)
+                JsonArray item_group = spawn_info.get_array("items");
+                while(item_group.has_more()) {
+                    next_spawn.item_ids.push_back(item_group.next_string());
+                }
+            } else {
+                //Treat single item as array
+                next_spawn.item_ids.push_back(spawn_info.get_string("items"));
+            }
             vproto->item_spawns.push_back(next_spawn);
         }
     }

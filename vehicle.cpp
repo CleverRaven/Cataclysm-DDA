@@ -2270,8 +2270,11 @@ void vehicle::place_spawn_items()
                 debugmsg("No CARGO parts at (%d, %d) of %s!",
                         next_spawn->x, next_spawn->y, name.c_str());
             } else {
-                item new_item = item_controller->create(next_spawn->item_id, g->turn);
-                add_item(part, new_item);
+                for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
+                        next_id != next_spawn->item_ids.end(); next_id++) {
+                    item new_item = item_controller->create(*next_id, g->turn);
+                    add_item(part, new_item);
+                }
             }
         }
     }

@@ -218,7 +218,7 @@
             {"x": -3, "y": 2, "part": "wheel"}
         ],
         "items": [
-            {"x": 0, "y": 0, "chance": 16, "item": "cig"}
+            {"x": 0, "y": 0, "chance": 16, "items": "cig"}
         ]
     },
     {
