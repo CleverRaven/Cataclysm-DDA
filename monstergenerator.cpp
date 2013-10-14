@@ -49,10 +49,10 @@ void MonsterGenerator::apply_species_attributes(mtype *mon)
             species_type *mspec = mon_species[*spec];
 
             // apply species flags/triggers
-            apply_set_to_set(mon->flags, mspec->flags);
-            apply_set_to_set(mon->anger, mspec->anger_trig);
-            apply_set_to_set(mon->fear, mspec->fear_trig);
-            apply_set_to_set(mon->placate, mspec->placate_trig);
+            apply_set_to_set(mspec->flags, mon->flags);
+            apply_set_to_set(mspec->anger_trig, mon->anger);
+            apply_set_to_set(mspec->fear_trig, mon->fear);
+            apply_set_to_set(mspec->placate_trig, mon->placate);
         }
     }
 }
