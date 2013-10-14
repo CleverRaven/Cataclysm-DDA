@@ -872,6 +872,16 @@ void mattack::dermatik(game *g, monster *z)
     g->u.add_memorial_log(_("Injected with dermatik eggs."));
 }
 
+void mattack::dermatik_growth(game *g, monster *z)
+{
+    // Dermatik larva growing into an adult
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s dermatik larva grows into an adult!"),
+                      z->name().c_str());
+    }
+    z->poly(GetMType("mon_dermatik"));
+}
+
 void mattack::plant(game *g, monster *z)
 {
     // Spores taking seed and growing into a fungaloid

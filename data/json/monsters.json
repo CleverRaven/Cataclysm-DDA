@@ -2158,9 +2158,9 @@
     "item_chance":0,
     "luminance":0,
     "hp":10,
-    "special_freq":0,
+    "special_freq":14400,
     "death_function":"NORMAL",
-    "special_attack":"NONE",
+    "special_attack":"DERMATIK_GROWTH",
     "description":"A fat, white grub the size of your foot, with\na set of mandibles that look more suited for\ndigging than fighting.",
     "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG"]
   },

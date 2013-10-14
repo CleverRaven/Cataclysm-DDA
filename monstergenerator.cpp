@@ -157,6 +157,7 @@ void MonsterGenerator::init_attack()
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
     attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
+    attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
     attack_map["PLANT"] = &mattack::plant;
     attack_map["DISAPPEAR"] = &mattack::disappear;
     attack_map["FORMBLOB"] = &mattack::formblob;

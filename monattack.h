@@ -32,6 +32,7 @@ public:
     void fungus_sprout      (game *g, monster *z);
     void leap               (game *g, monster *z);
     void dermatik           (game *g, monster *z);
+    void dermatik_growth    (game *g, monster *z);
     void plant              (game *g, monster *z);
     void disappear          (game *g, monster *z);
     void formblob           (game *g, monster *z);
