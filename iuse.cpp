@@ -4781,7 +4781,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  gunpowder.make(g-itypes["gunpowder"]);
  gunpowder.charges = 12*multiply;
  lead.charges = 6*multiply;
- 
+}
  else if (pull->type->id == "556" || pull->type->id == "556_incendiary") {
  casing.make(g->itypes["223_casing"]);
  primer.make(g->itypes["smrifle_primer"]);
