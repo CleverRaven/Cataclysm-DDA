@@ -1081,18 +1081,18 @@ void map::step_in_field(int x, int y, game *g)
 
         case fd_rubble:
             //You are walking on rubble. Slow down.
-            g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
+            g->u.add_disease("bouldering", 0, false, cur->getFieldDensity(), 3);
             break;
 
         case fd_smoke:
             //Get smoke disease from standing in smoke.
             if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("smoke", bp_mouth, 4, 15, g);
+                g->u.infect("smoke", bp_mouth, 4, 15);
             } else if (cur->getFieldDensity() == 2 && !inside){
-                g->u.infect("smoke", bp_mouth, 2, 7, g);
+                g->u.infect("smoke", bp_mouth, 2, 7);
             } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
-                g->u.infect("smoke", bp_mouth, 1, 2, g);
+                g->u.infect("smoke", bp_mouth, 1, 2);
             }
             break;
 
@@ -1100,11 +1100,11 @@ void map::step_in_field(int x, int y, game *g)
             //Tear gas will both give you teargas disease and/or blind you.
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("teargas", bp_mouth, 5, 20, g);
+                g->u.infect("teargas", bp_mouth, 5, 20);
             }
             if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
+                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10);
             }
             break;
 
@@ -1112,13 +1112,13 @@ void map::step_in_field(int x, int y, game *g)
             // Toxic gas at low levels poisons you.
             // Toxic gas at high levels will cause very nasty poison.
             if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
-                g->u.infect("poison", bp_mouth, 5, 30, g);
+                g->u.infect("poison", bp_mouth, 5, 30);
             }
             else if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("badpoison", bp_mouth, 5, 30, g);
+                g->u.infect("badpoison", bp_mouth, 5, 30);
             } else if (cur->getFieldDensity() == 1 && (!inside)) {
-                g->u.infect("poison", bp_mouth, 2, 10, g);
+                g->u.infect("poison", bp_mouth, 2, 10);
             }
             break;
 
@@ -1191,7 +1191,8 @@ void map::step_in_field(int x, int y, game *g)
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
-    if (z->has_flag(MF_DIGS)) {
+    if (z->has_flag(MF_DIGS) || 
+      (z->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))) {
         return; // Digging monsters are immune to fields
     }
     field &curfield = field_at(x, y);
@@ -1221,6 +1222,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
  // TODO: Use acid resistance
         case fd_acid:
             if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
+                (!z->has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
                 !z->has_flag(MF_ACIDPROOF)) {
                 if (cur->getFieldDensity() == 3) {
                     dam += rng(4, 10) + rng(2, 8);

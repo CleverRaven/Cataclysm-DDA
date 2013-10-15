@@ -211,7 +211,8 @@ ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus, t_tree_fungal,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
+    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
     t_water_sh, t_water_dp, t_water_pool, t_sewage,
     t_lava,
@@ -357,8 +358,17 @@ void set_ter_ids() {
     t_railing_v=terfind("t_railing_v");
     t_railing_h=terfind("t_railing_h");
     t_marloss=terfind("t_marloss");
+    t_fungus_floor_in=terfind("t_fungus_floor_in");
+    t_fungus_floor_sup=terfind("t_fungus_floor_sup");
+    t_fungus_floor_out=terfind("t_fungus_floor_out");
+    t_fungus_wall=terfind("t_fungus_wall");
+    t_fungus_wall_v=terfind("t_fungus_wall_v");
+    t_fungus_wall_h=terfind("t_fungus_wall_h");
+    t_fungus_mound=terfind("t_fungus_mound");
     t_fungus=terfind("t_fungus");
+    t_shrub_fungal=terfind("t_shrub_fungal");
     t_tree_fungal=terfind("t_tree_fungal");
+    t_tree_fungal_young=terfind("t_tree_fungal_young");
     t_water_sh=terfind("t_water_sh");
     t_water_dp=terfind("t_water_dp");
     t_water_pool=terfind("t_water_pool");
@@ -441,7 +451,7 @@ furn_id f_null,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     num_furniture_types;
@@ -492,6 +502,9 @@ void set_furn_ids() {
     f_skin_door_o=furnfind("f_skin_door_o");
     f_skin_groundsheet=furnfind("f_skin_groundsheet");
     f_mutpoppy=furnfind("f_mutpoppy");
+    f_fungal_mass=furnfind("f_fungal_mass");
+    f_fungal_clump=furnfind("f_fungal_clump");
+    f_flower_fungal=furnfind("f_flower_fungal");
     f_safe_c=furnfind("f_safe_c");
     f_safe_l=furnfind("f_safe_l");
     f_safe_o=furnfind("f_safe_o");

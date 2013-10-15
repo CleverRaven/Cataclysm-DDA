@@ -17,7 +17,7 @@
         "bgcolor": "brown",
         "move_cost_mod": 3,
         "required_str": 6,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH"]
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -27,7 +27,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "DECONSTRUCT"],
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "DECONSTRUCT", "ORGANIC"],
         "examine_action": "bulletin_board"
     },
     {
@@ -38,7 +38,7 @@
         "color": "green",
         "move_cost_mod": 2,
         "required_str": 5,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM"]
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -48,7 +48,7 @@
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -69,7 +69,7 @@
         "color": "magenta",
         "move_cost_mod": 3,
         "required_str": 12,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -129,7 +129,7 @@
         "color": "brown",
         "move_cost_mod": 1,
         "required_str": 6,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -139,7 +139,7 @@
         "color": "green",
         "move_cost_mod": 1,
         "required_str": 7,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -149,7 +149,7 @@
         "bgcolor": "red",
         "move_cost_mod": 1,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -159,7 +159,7 @@
         "color": "blue",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -179,7 +179,7 @@
         "color": "ltred",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -199,7 +199,7 @@
         "color": "brown",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -209,7 +209,7 @@
         "color": "red",
         "move_cost_mod": 2,
         "required_str": 9,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -219,7 +219,7 @@
         "color": "green",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -229,7 +229,7 @@
         "color": "blue",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -259,7 +259,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -289,7 +289,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"]
+        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -339,7 +339,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "DECONSTRUCT", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -349,7 +349,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 12,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -402,7 +402,7 @@
         "color": "green",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "INDOORS"]
+        "flags": ["TRANSPARENT", "INDOORS", "ORGANIC"]
     },
     {
         "type": "furniture",
@@ -460,6 +460,37 @@
     },
     {
         "type": "furniture",
+        "id": "f_flower_fungal",
+        "name": "fungal flower",
+        "symbol": "f",
+        "color": "dkgray",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "FLOWER", "FUNGUS"],
+        "examine_action": "fungus"
+    },
+    {
+        "type": "furniture",
+        "id": "f_fungal_mass",
+        "name": "fungal mass",
+        "symbol": "O",
+        "bgcolor": "dkgray",
+        "move_cost_mod": -10,
+        "required_str": -1,
+        "flags": ["BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS"],
+    },
+    {
+        "type": "furniture",
+        "id": "f_fungal_clump",
+        "name": "fungal clump",
+        "symbol": "#",
+        "bgcolor": "ltgray",
+        "move_cost_mod": 3,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS"],
+    },
+    {
+        "type": "furniture",
         "id": "f_safe_c",
         "name": "safe",
         "symbol": "X",
@@ -499,7 +530,7 @@
         "color": "brown",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["plant", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
     },
     {
@@ -510,7 +541,7 @@
         "color": "green",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["plant", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
     },
     {
@@ -521,7 +552,7 @@
         "color": "green",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["plant", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
     },
     {
@@ -532,7 +563,7 @@
         "color": "ltgreen",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["plant", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
+        "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
     }
 ]

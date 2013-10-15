@@ -533,7 +533,8 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
  break;
  }
 
- if (has_flag(MF_DIGS))
+ if (has_flag(MF_DIGS) ||
+    (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", _posx, _posy)))
   highest_hit -= 8;
  if (has_flag(MF_FLIES))
   highest_hit += 20;

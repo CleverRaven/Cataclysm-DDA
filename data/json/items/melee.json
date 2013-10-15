@@ -1721,6 +1721,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "fighter_sting",
+        "name" : "fungal fighter sting",
+        "description" : "A short dart from a fungal fighter. Makes an average melee weapon.",
+        "weight" : 270,
+        "to_hit" : -1,
+        "color" : "green",
+        "symbol" : ",",
+        "material" : ["veggy", "null"],
+        "techniques" : ["PRECISE"],
+        "volume" : 1,
+        "bashing" : 0,
+        "cutting" : 8,
+        "flags" : ["SPEAR"],
+        "price" : 70
+    },
+    {
+        "type":"GENERIC",
         "id" : "wasp_sting",
         "name" : "wasp sting",
         "description" : "A six-inch stinger from a giant wasp. Makes a good melee weapon.",

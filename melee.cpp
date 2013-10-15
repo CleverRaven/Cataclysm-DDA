@@ -1143,7 +1143,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                                      _("<npcname> shocks %s."),
                                      target.c_str());
         } else {
-            p->hurt(g, bp_torso, 0, shock * rng(1, 3));
+            p->hurt(g, bp_torso, -1, shock * rng(1, 3));
             p->moves -= shock * 80;
         }
     }

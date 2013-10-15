@@ -4292,8 +4292,8 @@ bool game::u_see(monster *mon)
  if (u.has_trait("ANTENNAE") && dist <= 3) {
   return true;
  }
- if (mon->has_flag(MF_DIGS) && !u.has_active_bionic("bio_ground_sonar") &&
-     dist > 1) {
+ if ((mon->has_flag(MF_DIGS) || (mon->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", mon->posx(), mon->posy()))) &&
+      !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
   return false; // Can't see digging monsters until we're right next to them
  }
  if (m.is_divable(mon->posx(), mon->posy()) && mon->can_submerge()
@@ -4308,8 +4308,9 @@ bool game::u_see(monster *mon)
 bool game::pl_sees(player *p, monster *mon, int &t)
 {
  // TODO: [lightmap] Allow npcs to use the lightmap
- if (mon->has_flag(MF_DIGS) && !p->has_active_bionic("bio_ground_sonar") &&
-     rl_dist(p->posx, p->posy, mon->posx(), mon->posy()) > 1)
+ if ((mon->has_flag(MF_DIGS) || (mon->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", mon->posx(), mon->posy()))) &&
+      !p->has_active_bionic("bio_ground_sonar") && 
+       rl_dist(p->posx, p->posy, mon->posx(), mon->posy()) > 1)
   return false; // Can't see digging monsters until we're right next to them
  int range = p->sight_range(light_level());
  return m.sees(p->posx, p->posy, mon->posx(), mon->posy(), range, t);
@@ -5092,7 +5093,7 @@ void game::flashbang(int x, int y, bool player_immune)
             if (u.has_bionic("bio_sunglasses")) {
                 flash_mod = 6;
             }
-            u.infect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist, this);
+            u.infect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
         }
     }
     for (int i = 0; i < num_zombies(); i++) {
@@ -9905,19 +9906,19 @@ void game::plmove(int dx, int dy)
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
     if (u.disease_duration("attack_boost") < 2)
-     u.add_disease("attack_boost", 2, 2, 2);
+     u.add_disease("attack_boost", 2, false, 2, 2);
     if (u.disease_duration("dodge_boost") < 2)
-     u.add_disease("dodge_boost", 2, 2, 2);
+     u.add_disease("dodge_boost", 2, false, 2, 2);
   } else if(u.weapon.type->id == "style_ninjutsu"){
-    u.add_disease("attack_boost", 2, 1, 3);
+    u.add_disease("attack_boost", 2, false, 1, 3);
   } else if(u.weapon.type->id == "style_crane"){
     if (!u.has_disease("dodge_boost"))
-     u.add_disease("dodge_boost", 1, 3, 3);
+     u.add_disease("dodge_boost", 1, false, 3, 3);
   } else if(u.weapon.type->id == "style_leopard"){
-    u.add_disease("attack_boost", 2, 1, 4);
+    u.add_disease("attack_boost", 2, false, 1, 4);
   } else if(u.weapon.type->id == "style_dragon"){
     if (!u.has_disease("damage_boost"))
-     u.add_disease("damage_boost", 2, 3, 3);
+     u.add_disease("damage_boost", 2, false, 3, 3);
   } else if(u.weapon.type->id == "style_lizard"){
     bool wall = false;
     for (int wallx = x - 1; wallx <= x + 1 && !wall; wallx++) {
@@ -9927,7 +9928,7 @@ void game::plmove(int dx, int dy)
      }
     }
     if (wall)
-     u.add_disease("attack_boost", 2, 2, 8);
+     u.add_disease("attack_boost", 2, false, 2, 8);
     else
      u.rem_disease("attack_boost");
   }
@@ -11076,6 +11077,184 @@ void game::nuke(int x, int y)
     for(int i = 0; i < cur_om->npcs.size();i++)
         if(cur_om->npcs[i]->mapx/2== x && cur_om->npcs[i]->mapy/2 == y && cur_om->npcs[i]->omz == 0)
             cur_om->npcs[i]->marked_for_death = true;
+}
+
+bool game::spread_fungus(int x, int y)
+{
+    int growth = 1;
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            if (i == x && j == y) {
+                continue;
+            }
+            if (m.has_flag("FUNGUS", i, j)) {
+                growth += 1;
+            }
+        }
+    }
+
+    bool converted = false;
+    if (!m.has_flag_ter("FUNGUS", x, y)) {
+        // Terrain conversion
+        if (m.has_flag_ter("DIGGABLE", x, y)) {
+            if (x_in_y(growth * 10, 100)) {
+                m.ter_set(x, y, t_fungus);
+                converted = true;
+            }
+        } else if (m.has_flag("FLAT", x, y)) {
+            if (m.has_flag("INDOORS", x, y)) {
+                if (x_in_y(growth * 10, 500)) {
+                    m.ter_set(x, y, t_fungus_floor_in);
+                    converted = true;
+                }
+            } else if (m.has_flag("SUPPORTS_ROOF", x, y)) {
+                if (x_in_y(growth * 10, 1000)) {
+                    m.ter_set(x, y, t_fungus_floor_sup);
+                    converted = true;
+                }
+            } else {
+                if (x_in_y(growth * 10, 2500)) {
+                    m.ter_set(x, y, t_fungus_floor_out);
+                    converted = true;
+                }
+            }
+        } else if (m.has_flag("SHRUB", x, y)) {
+            if (x_in_y(growth * 10, 200)) {
+                m.ter_set(x, y, t_shrub_fungal);
+                converted = true;
+            } else if (x_in_y(growth, 1000)) {
+                m.ter_set(x, y, t_marloss);
+                converted = true;
+            }
+        } else if (m.has_flag("THIN_OBSTACLE", x, y)) {
+            if (x_in_y(growth * 10, 150)) {
+                m.ter_set(x, y, t_fungus_mound);
+                converted = true;
+            }
+        } else if (m.has_flag("YOUNG", x, y)) {
+            if (x_in_y(growth * 10, 500)) {
+                m.ter_set(x, y, t_tree_fungal_young);
+                converted = true;
+            }
+        } else if (m.has_flag("WALL", x, y)) {
+            if (x_in_y(growth * 10, 5000)) {
+                converted = true;
+                if (m.ter_at(x, y).sym == LINE_OXOX) {
+                    m.ter_set(x, y, t_fungus_wall_h);
+                } else if (m.ter_at(x, y).sym == LINE_XOXO) {
+                    m.ter_set(x, y, t_fungus_wall_v);
+                } else {
+                    m.ter_set(x, y, t_fungus_wall);
+                }
+            }
+        }
+        // Furniture conversion
+        if (converted) {
+            if (m.has_flag("FLOWER", x, y)){
+                m.furn_set(x, y, f_flower_fungal);
+            } else if (m.has_flag("ORGANIC", x, y)){
+                if (m.furn_at(x, y).movecost == -10) {
+                    m.furn_set(x, y, f_fungal_mass);
+                } else {
+                    m.furn_set(x, y, f_fungal_clump);
+                }
+            } else if (m.has_flag("PLANT", x, y)) {
+                for (int k = 0; k < g->m.i_at(x, y).size(); k++) {
+                    m.i_rem(x, y, k);
+                }
+                item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                m.add_item(x, y, seeds);
+            }
+        }
+        return true;
+    } else {
+        // Everything is already fungus
+        if (growth == 9) {
+            return false;
+        }
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                // One spread on average
+                if (!m.has_flag("FUNGUS", i, j) && one_in(9 - growth)) {
+                    //growth chance is 100 in X simplified 
+                    if (m.has_flag("DIGGABLE", i, j)) {
+                        m.ter_set(i, j, t_fungus);
+                        converted = true;
+                    } else if (m.has_flag("FLAT", i, j)) {
+                        if (m.has_flag("INDOORS", i, j)) {
+                            if (one_in(5)) {
+                                m.ter_set(i, j, t_fungus_floor_in);
+                                converted = true;
+                            }
+                        } else if (m.has_flag("SUPPORTS_ROOF", i, j)) {
+                            if (one_in(10)) {
+                                m.ter_set(i, j, t_fungus_floor_sup);
+                                converted = true;
+                            }
+                        } else {
+                            if (one_in(25)) {
+                                m.ter_set(i, j, t_fungus_floor_out);
+                                converted = true;
+                            }
+                        }
+                    } else if (m.has_flag("SHRUB", i, j)) {
+                        if (one_in(2)) {
+                            m.ter_set(i, j, t_shrub_fungal);
+                            converted = true;
+                        } else if (one_in(25)) {
+                            m.ter_set(i, j, t_marloss);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("THIN_OBSTACLE", i, j)) {
+                        if (x_in_y(10, 15)) {
+                            m.ter_set(i, j, t_fungus_mound);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("YOUNG", i, j)) {
+                        if (one_in(5)) {
+                            m.ter_set(i, j, t_tree_fungal_young);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("TREE", i, j)) {
+                        if (one_in(10)) {
+                            m.ter_set(i, j, t_tree_fungal);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("WALL", i, j)) {
+                        if (one_in(50)) {
+                            converted = true;
+                            if (m.ter_at(i, j).sym == LINE_OXOX) {
+                                m.ter_set(i, j, t_fungus_wall_h);
+                            } else if (m.ter_at(i, j).sym == LINE_XOXO) {
+                                m.ter_set(i, j, t_fungus_wall_v);
+                            } else {
+                                m.ter_set(i, j, t_fungus_wall);
+                            }
+                        }
+                    }
+
+                    if (converted) {
+                        if (m.has_flag("FLOWER", i, j)) {
+                            m.furn_set(i, j, f_flower_fungal);
+                        } else if (m.has_flag("ORGANIC", i, j)) {
+                            if (m.furn_at(i, j).movecost == -10) {
+                                m.furn_set(i, j, f_fungal_mass);
+                            } else {
+                                m.furn_set(i, j, f_fungal_clump);
+                            }
+                        } else if (m.has_flag("PLANT", i, j)) {
+                            for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
+                                m.i_rem(i, j, k);
+                            }
+                            item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                            m.add_item(x, y, seeds);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
 
 std::vector<faction *> game::factions_at(int x, int y)

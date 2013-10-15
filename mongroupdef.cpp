@@ -150,9 +150,9 @@ void init_translation()
     monStr2monId["mon_boomer"] = mon_boomer; monStr2monId["mon_boomer_fungus"] = mon_boomer_fungus; monStr2monId["mon_skeleton"] = mon_skeleton; monStr2monId["mon_zombie_necro"] = mon_zombie_necro;
     monStr2monId["mon_zombie_scientist"] = mon_zombie_scientist; monStr2monId["mon_zombie_soldier"] = mon_zombie_soldier; monStr2monId["mon_zombie_grabber"] = mon_zombie_grabber;
     monStr2monId["mon_zombie_master"] = mon_zombie_master;  monStr2monId["mon_beekeeper"] = mon_beekeeper; monStr2monId["mon_zombie_child"] = mon_zombie_child;
-    monStr2monId["mon_triffid"] = mon_triffid; monStr2monId["mon_triffid_young"] = mon_triffid_young; monStr2monId["mon_triffid_queen"] = mon_triffid_queen; monStr2monId["mon_creeper_hub"] = mon_creeper_hub;
+    monStr2monId["mon_triffid"] = mon_triffid; monStr2monId["mon_triffid_young"] = mon_triffid_young; monStr2monId["mon_fungal_fighter"] = mon_fungal_fighter; monStr2monId["mon_triffid_queen"] = mon_triffid_queen; monStr2monId["mon_creeper_hub"] = mon_creeper_hub;
     monStr2monId["mon_creeper_vine"] = mon_creeper_vine; monStr2monId["mon_biollante"] = mon_biollante; monStr2monId["mon_vinebeast"] = mon_vinebeast; monStr2monId["mon_triffid_heart"] = mon_triffid_heart;
-    monStr2monId["mon_fungaloid"] = mon_fungaloid; monStr2monId["mon_fungaloid_dormant"] = mon_fungaloid_dormant; monStr2monId["mon_fungaloid_young"] = mon_fungaloid_young; monStr2monId["mon_spore"] = mon_spore;
+    monStr2monId["mon_fungaloid"] = mon_fungaloid; monStr2monId["mon_fungaloid_young"] = mon_fungaloid_young; monStr2monId["mon_spore"] = mon_spore;
     monStr2monId["mon_fungaloid_queen"] = mon_fungaloid_queen; monStr2monId["mon_fungal_wall"] = mon_fungal_wall;
     monStr2monId["mon_blob"] = mon_blob; monStr2monId["mon_blob_small"] = mon_blob_small;
     monStr2monId["mon_chud"] = mon_chud; monStr2monId["mon_one_eye"] = mon_one_eye; monStr2monId["mon_crawler"] = mon_crawler;
