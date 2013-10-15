@@ -4807,8 +4807,22 @@ bool game::sound(int x, int y, int vol, std::string description)
             const bool goodhearing = z.has_flag(MF_GOODHEARING);
             int volume = goodhearing ? vol_goodhearing : (vol - dist);
             if (volume > 0) {
+                int max_error = 0;
+                if(volume < 2) {
+                    max_error = 10;
+                } else if(volume < 5) {
+                    max_error = 5;
+                } else if(volume < 10) {
+                    max_error = 3;
+                } else if(volume < 20) {
+                    max_error = 1;
+                }
+
+                int target_x = x + rng(-max_error, max_error);
+                int target_y = y + rng(-max_error, max_error);
+
                 int wander_turns = volume * (goodhearing ? 6 : 1);
-                z.wander_to(x, y, wander_turns);
+                z.wander_to(target_x, target_y, wander_turns);
                 z.process_trigger(MTRIG_SOUND, volume);
             }
         }
