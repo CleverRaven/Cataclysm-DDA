@@ -920,7 +920,7 @@ void game::process_activity()
 
      u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
-     add_msg(_("You learn a little about %s! (%d%%%%)"), reading->type->name().c_str(),
+     add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
              u.skillLevel(reading->type).exercise());
 
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn(_("Study %s?"), reading->type->name().c_str()))) {
