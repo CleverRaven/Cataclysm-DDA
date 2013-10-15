@@ -2,6 +2,7 @@
 #include "color.h"
 #include "translations.h"
 #include "rng.h"
+#include "output.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -361,7 +362,7 @@ mtype *MonsterGenerator::get_mtype(std::string mon)
     {
         return mon_templates[mon];
     }
-
+    debugmsg("Could not find monster with type %s", mon.c_str());
     return default_montype;
 }
 mtype *MonsterGenerator::get_mtype(int mon)
