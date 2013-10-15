@@ -14,7 +14,7 @@
     },{
         "type" : "technique",
         "id" : "BRUTAL",
-        "name" : "Wide Strike",
+        "name" : "Brutal Strike",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "crit_tec": true,
