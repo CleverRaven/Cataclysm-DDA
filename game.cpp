@@ -85,6 +85,7 @@ game::game() :
  om_hori(NULL),
  om_vert(NULL),
  om_diag(NULL),
+ run_mode(1),
  mostseen(0),
  gamemode(NULL)
 {
