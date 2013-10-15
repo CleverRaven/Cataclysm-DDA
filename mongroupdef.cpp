@@ -29,12 +29,12 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
+std::string MonsterGroupManager::GetMonsterFromGroup( std::string group_name, std::vector <mtype*> *mtypes,
                                                       int *quantity, int turn )
-{
+{   
     int roll = rng(1, 1000);
-    MonsterGroup g = monsterGroupMap[group];
-    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
+    MonsterGroup group = monsterGroupMap[group_name];
+    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end(); ++it)
     {
         if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->first)->difficulty))) &&
            (!OPTIONS["CLASSIC_ZOMBIES"] ||
@@ -49,14 +49,14 @@ std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::ve
             else { roll -= it->second.first; }
         }
     }
-    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(g.defaultMonster)->difficulty))
+    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))
         && (!OPTIONS["STATIC_SPAWN"]))
     {
         return "mon_null";
     }
     else
     {
-        return g.defaultMonster;
+        return group.defaultMonster;
     }
 }
 
@@ -119,8 +119,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     MonsterGroup g;
 
     g.name = jo.get_string("name");
-    g.defaultMonster = monStr2monId[jo.get_string("default")];
-
+    g.defaultMonster = jo.get_string("default");
     if (jo.is_array("monsters")){
         JsonArray monarr = jo.get_array("monsters");
 
@@ -128,7 +127,6 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         for (int i = 0; i < monnum; ++i){
             if (monarr.get_index_type(i) == JVT_OBJECT){
                 JsonObject mon = monarr.get_object(i);
-
                 g.monsters[mon.get_string("monster")] =
                     std::pair<int,int>(mon.get_int("freq"), mon.get_int("multiplier"));
             }

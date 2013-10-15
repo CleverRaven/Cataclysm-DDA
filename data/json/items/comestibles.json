@@ -7541,7 +7541,7 @@
         "type" : "COMESTIBLE",
         "id" : "pineapple",
         "name" : "pineapple",
-        "weight" : 1500,
+        "weight" : 250,
         "color" : "yellow",
         "addiction_type" : "none",
         "spoils_in" : 160,
@@ -7570,7 +7570,7 @@
         "type" : "COMESTIBLE",
         "id" : "coconut",
         "name" : "coconut",
-        "weight" : 300,
+        "weight" : 1300,
         "color" : "brown",
         "addiction_type" : "none",
         "spoils_in" : 0,
@@ -7775,7 +7775,7 @@
         "type" : "COMESTIBLE",
         "id" : "watermelon",
         "name" : "watermelon",
-        "weight" : 4000,
+        "weight" : 600,
         "color" : "green",
         "addiction_type" : "none",
         "spoils_in" : 180,
@@ -7804,7 +7804,7 @@
         "type" : "COMESTIBLE",
         "id" : "melon",
         "name" : "melon",
-        "weight" : 750,
+        "weight" : 150,
         "color" : "yellow",
         "addiction_type" : "none",
         "spoils_in" : 180,
@@ -7825,7 +7825,7 @@
         "volume" : 2,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 3,
+        "charges" : 8,
         "bashing" : 1,
         "fun" : 4
     },
@@ -7863,7 +7863,7 @@
         "id" : "maltballs",
         "name" : "malted milk balls",
         "weight" : 36,
-        "color" : "magenta",
+        "color" : "brown",
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "NONE",
@@ -8097,7 +8097,7 @@
         "id" : "mintpatties",
         "name" : "peppermint patties",
         "weight" : 46,
-        "color" : "magenta",
+        "color" : "brown",
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "NONE",
@@ -8148,7 +8148,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
-        "fun" : 1
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -8177,7 +8177,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
-        "fun" : 1
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
