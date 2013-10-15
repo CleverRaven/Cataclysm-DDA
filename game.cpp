@@ -74,6 +74,7 @@ uistatedata uistate;
 
 // This is the main game set-up process.
 game::game() :
+ uquit(QUIT_NO),
  w_terrain(NULL),
  w_minimap(NULL),
  w_HP(NULL),

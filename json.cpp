@@ -76,7 +76,7 @@ bool is_whitespace(char ch)
  * represents a JSON object,
  * providing access to the underlying data.
  */
-JsonObject::JsonObject(JsonIn *j)
+JsonObject::JsonObject(JsonIn *j) : positions()
 {
     jsin = j;
     start = jsin->tell();
@@ -281,7 +281,7 @@ std::set<std::string> JsonObject::get_tags(std::string name)
  * represents a JSON array,
  * providing access to the underlying data.
  */
-JsonArray::JsonArray(JsonIn *j)
+JsonArray::JsonArray(JsonIn *j) : positions()
 {
     jsin = j;
     start = jsin->tell();
