@@ -1,22 +1,6 @@
 [
   {
     "type":"GENERIC",
-    "id": "wrapper",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": "paper wrapper",
-    "description": "Just a piece of butcher's paper. Good for starting fires.",
-    "price": 1,
-    "material": "paper",
-    "weight": 3,
-    "volume": 1,
-    "bashing": -8,
-    "cutting": 0,
-    "to_hit": -2
-  },
-
-  {
-    "type":"GENERIC",
     "id": "withered",
     "symbol": "t",
     "color": "light_gray",
