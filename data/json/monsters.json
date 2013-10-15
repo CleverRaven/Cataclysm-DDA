@@ -696,7 +696,7 @@
     "special_freq":0,
     "death_function":"MELT",
     "special_attack":"NONE",
-    "description":"A sluglike creature, eight feet long and the width of a refrigerator, its black body glistens as it oozes its way along the ground. Eye stalks occassionally push their way out of the oily mass and look around.",
+    "description":"A sluglike creature, eight feet long and the width of a refrigerator, its black body glistens as it oozes its way along the ground. Eye stalks occasionally push their way out of the oily mass and look around.",
     "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "VIS30", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE"]
   },
   {
