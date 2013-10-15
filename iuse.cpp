@@ -2759,10 +2759,12 @@ void iuse::zweifire_on(game *g, player *p, item *it, bool t)
     if (t)    // Effects while simply on
     {
         if (one_in(35))
+            //~ (Flammenschwert) "The fire on your blade burns brightly!"
             g->add_msg_if_player(p,_("Das Feuer um deine Schwertklinge leuchtet hell!"));
     }
     else if (it->charges == 0)
     {
+        //~ (Flammenschwert) "Your Flammenscwhert (firesword) is out of fuel!"
         g->add_msg_if_player(p,_("Deinem Flammenschwert ist der Brennstoff ausgegangen!"));
         it->make(g->itypes["zweifire_off"]);
         it->active = false;
@@ -2770,13 +2772,21 @@ void iuse::zweifire_on(game *g, player *p, item *it, bool t)
     else
     {
         int choice = menu(true,
-                          _("Was willst du tun?"), _("Die Flamme erloschen."), _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
+                          //~ (Flammenschwert) "What will you do?"
+                          _("Was willst du tun?"),
+                          //~ (Flammenschwert) "Extinguish the flame."
+                          _("Die Flamme erloschen."),
+                          //~ (Flammenschwert) "Start a fire."
+                          _("Ein Feuer entfachen."),
+                          //~ (Flammenschwert) "Do nothing."
+                          _("Nichts tun."), NULL);
         switch (choice)
         {
             if (choice == 2)
                 break;
         case 1:
         {
+            //~ (Flammenschwert) "The flames on your sword die out."
             g->add_msg_if_player(p,_("Die Flamme deines Schwertes erlischt."));
             it->make(g->itypes["zweifire_off"]);
             it->active = false;
@@ -2825,16 +2835,21 @@ void iuse::jackhammer(game *g, player *p, item *it, bool t)
 
 void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
 {
+ // translator comments for everything to reduce confusion
  int dirx, diry;
  g->draw();
+ //~ (jacqueshammer) "Drill where?"
  mvprintw(0, 0, _("Percer dans quelle direction?"));
  get_direction(dirx, diry, input());
  if (dirx == -2) {
+  //~ (jacqueshammer) "Invalid direction"
   g->add_msg_if_player(p,_("Direction invalide"));
   return;
  }
  if (dirx == 0 && diry == 0) {
+  //~ (jacqueshammer) "My god! Let's talk it over, OK?"
   g->add_msg_if_player(p,_("Mon dieu! Nous allons en parler OK?"));
+  //~ (jacqueshammer) "Don't do anything rash."
   g->add_msg_if_player(p,_("Ne pas faire eruption rien.."));
   return;
  }
@@ -2844,7 +2859,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
-  //~ the sound of a "jaqueshammer"
+  //~ the sound of a "jacqueshammer"
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
  } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
@@ -2852,6 +2867,7 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
   p->moves -= 500;
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
  } else {
+  //~ (jacqueshammer) "You can't drill there."
   g->add_msg_if_player(p,_("Vous ne pouvez pas percer la-bas.."));
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
  }
