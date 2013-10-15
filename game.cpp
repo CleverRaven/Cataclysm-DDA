@@ -148,6 +148,7 @@ game::~game()
  delwin(w_status);
  delwin(w_status2);
 
+ release_traps();
  release_data_structures();
 }
 

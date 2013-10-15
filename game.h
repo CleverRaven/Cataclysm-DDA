@@ -102,7 +102,6 @@ class game
   game();
   ~game();
   void init_data();
-  void release_data();
   void init_ui();
   void setup();
   bool game_quit(); // True if we actually quit the game - used in main.cpp
@@ -404,6 +403,7 @@ void load_artifacts(); // Load artifact data
   void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
+  void release_traps();     // Release trap types memory
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_autosave();     // Initializes autosave parameters
