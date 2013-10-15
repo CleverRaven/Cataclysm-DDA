@@ -9127,8 +9127,10 @@
   ],
   "components": [
     [
-      [ "long_underpants", 1 ],
       [ "long_undertop", 1 ]
+    ],
+    [
+      [ "long_underpants", 1 ]
     ]
   ]
 },{
