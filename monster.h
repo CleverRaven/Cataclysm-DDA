@@ -212,6 +212,7 @@ class monster {
 
  bool setpos(const int x, const int y, const bool level_change = false);
  bool setpos(const point &p, const bool level_change = false);
+ point pos();
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 
