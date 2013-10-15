@@ -239,6 +239,7 @@ itype* Item_factory::find_template(const Item_tag id){
         return found->second;
     }
     else{
+        debugmsg("Missing item (check item_groups.json): %s", id.c_str());
         return m_missing_item;
     }
 }
