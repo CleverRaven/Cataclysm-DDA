@@ -147,6 +147,8 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
+
+ release_data_structures();
 }
 
 // Fixed window sizes

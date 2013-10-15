@@ -753,10 +753,15 @@ void show_options()
         }
     }
 
-    werase(w_options);
-    werase(w_options_border);
-    werase(w_options_header);
-    werase(w_options_tooltip);
+    //werase(w_options);
+    //werase(w_options_border);
+    //werase(w_options_header);
+    //werase(w_options_tooltip);
+
+    delwin(w_options);
+    delwin(w_options_border);
+    delwin(w_options_header);
+    delwin(w_options_tooltip);
 }
 
 void load_options()
