@@ -1044,7 +1044,9 @@ void map::step_in_field(int x, int y, game *g)
             break;
 
         case fd_sludge:
-            g->add_msg(_("The sludge is thick and sticky."));
+            g->add_msg(_("The sludge is thick and sticky. You struggle to pull free."));
+            g->u.moves -= cur->getFieldDensity() * 300;
+            curfield.removeField( fd_sludge );
             break;
 
         case fd_fire:
@@ -1243,8 +1245,12 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             break;
 
         case fd_sludge:
+            if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
+                !z->has_flag(MF_SLUDGEPROOF)) {
+              z->moves -= cur->getFieldDensity() * 300;
+              curfield.removeField( fd_sludge );
+            }
             break;
-
 
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:
