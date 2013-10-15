@@ -6311,18 +6311,19 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
             !query_yn(_("You're full.  Force yourself to eat?")))
         return false;
 
-    if (has_trait("CARNIVORE") && eaten->made_of("veggy") && comest->nutr > 0)
-    {
-    g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
+    if (has_trait("CARNIVORE") && eaten->made_of("veggy") && comest->nutr > 0) {
+        g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
     if (!has_trait("CANNIBAL") && eaten->made_of("hflesh")&& !is_npc() &&
-            !query_yn(_("The thought of eating that makes you feel sick. Really do it?")))
+        !query_yn(_("The thought of eating that makes you feel sick. Really do it?"))) {
         return false;
+    }
 
     if (has_trait("VEGETARIAN") && eaten->made_of("flesh") && !is_npc() &&
-            !query_yn(_("Really eat that meat? Your stomach won't be happy.")))
+        !query_yn(_("Really eat that meat? Your stomach won't be happy."))) {
         return false;
+    }
 
     if (spoiled) {
         if (is_npc()) {
@@ -7693,11 +7694,13 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                gun->contents[i].type->id == "red_dot_sight" ||
                gun->contents[i].type->id == "holo_sight" ||
                gun->contents[i].type->id == "rifle_scope")) {
-    g->add_msg(_("Your %s can only use one type of optical aiming device at a time."), //intentionally leaving laser_sight off the list so that it CAN be used with optics
-               gun->tname(g).c_str());
-    if (replace_item)
-     inv.add_item_keep_invlet(copy);
-    return;
+       //intentionally leaving laser_sight off the list so that it CAN be used with optics
+       g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
+                  gun->tname(g).c_str());
+       if (replace_item) {
+           inv.add_item_keep_invlet(copy);
+       }
+       return;
    } else if ((mod->id == "clip" || mod->id == "clip2") &&
               (gun->contents[i].type->id == "clip" ||
                gun->contents[i].type->id == "clip2")) {
@@ -7706,11 +7709,11 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     if (replace_item)
      inv.add_item_keep_invlet(copy);
     return;
-   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey"
-            || mod->id == "u_shotgun" || mod->id == "bayonet" || mod->id == "gun_crossbow") &&
-              (gun->contents[i].type->id == "pipe_launcher40mm" || gun->contents[i].type->id == "m203"
-            || gun->contents[i].type->id == "masterkey" || gun->contents[i].type->id == "u_shotgun"
-            || gun->contents[i].type->id == "bayonet" || gun->contents[i].type->id == "gun_crossbow")) {
+   } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" || mod->id == "masterkey" ||
+               mod->id == "u_shotgun" || mod->id == "bayonet" || mod->id == "gun_crossbow") &&
+              (gun->contents[i].type->id == "pipe_launcher40mm" || gun->contents[i].type->id == "m203" ||
+               gun->contents[i].type->id == "masterkey" || gun->contents[i].type->id == "u_shotgun" ||
+               gun->contents[i].type->id == "bayonet" || gun->contents[i].type->id == "gun_crossbow")) {
     g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
                gun->tname(g).c_str());
     if (replace_item)
@@ -7720,44 +7723,49 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
   }
   g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
              gun->tname(g).c_str());
-  if (replace_item)
-   gun->contents.push_back(copy);
-  else
-   gun->contents.push_back(i_rem(let));
+  if (replace_item) {
+      gun->contents.push_back(copy);
+  } else {
+      gun->contents.push_back(i_rem(let));
+  }
   return;
 
  } else if (used->is_bionic()) {
-
-  it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
-  if (install_bionics(g, tmp)) {
-   if (!replace_item)
-    i_rem(let);
-  } else if (replace_item)
-   inv.add_item_keep_invlet(copy);
-  return;
-
+     it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
+     if (install_bionics(g, tmp)) {
+         if (!replace_item) {
+             i_rem(let);
+         }
+     } else if (replace_item) {
+         inv.add_item_keep_invlet(copy);
+     }
+     return;
  } else if (used->is_food() || used->is_food_container()) {
-  if (replace_item)
-   inv.add_item_keep_invlet(copy);
-//  eat(g, lookup_item(let));
-  consume(g, lookup_item(let));
-  return;
+     if (replace_item) {
+      inv.add_item_keep_invlet(copy);
+     }
+     consume(g, lookup_item(let));
+     return;
  } else if (used->is_book()) {
-  if (replace_item)
-   inv.add_item_keep_invlet(copy);
-  read(g, let);
-  return;
+     if (replace_item) {
+         inv.add_item_keep_invlet(copy);
+     }
+     read(g, let);
+     return;
  } else if (used->is_armor()) {
-  if (replace_item)
-   inv.add_item_keep_invlet(copy);
-  wear(g, let);
-  return;
- } else
-  g->add_msg(_("You can't do anything interesting with your %s."),
-             used->tname(g).c_str());
+     if (replace_item) {
+         inv.add_item_keep_invlet(copy);
+     }
+     wear(g, let);
+     return;
+ } else {
+     g->add_msg(_("You can't do anything interesting with your %s."),
+                used->tname(g).c_str());
+ }
 
- if (replace_item)
-  inv.add_item_keep_invlet(copy);
+ if (replace_item) {
+     inv.add_item_keep_invlet(copy);
+ }
 }
 
 hint_rating player::rate_action_read(item *it, game *g)
