@@ -2289,7 +2289,7 @@ void manage_sleep(player& p, disease& dis) {
     }
 
     // Get a dream if category strength is high enough.
-    if ((!strength == 0)) {
+    if (strength != 0) {
         //Once every 6 / 3 / 2 hours, with a bit of randomness
         if ((int(g->turn) % (3600 / strength) == 0) && one_in(3)) {
             // Select a dream
