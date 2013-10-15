@@ -4,6 +4,9 @@
 #include "weather.h"
 #include "game.h"
 #include "translations.h"
+#include "temperature.h"
+
+using Temperature::fahrenheit;
 
 std::string season_name[4];
 
@@ -109,40 +112,40 @@ void game::init_weather()
      {0, 0, 0, 0}, 0, 0, 0, 0, 0, false,
      &weather_effect::none},
     {_("Clear"), c_cyan,
-     {55, 85, 60, 30}, 0, 0, 0, 30, 120, false,
+     {fahrenheit(55), fahrenheit(85), fahrenheit(60), fahrenheit(30)}, 0, 0, 0, 30, 120, false,
      &weather_effect::none},
     {_("Sunny"), c_ltcyan,
-     {70, 100, 70, 40}, 0, 0, 20, 60, 300, false,
+     {fahrenheit(70), fahrenheit(100), fahrenheit(70), fahrenheit(40)}, 0, 0, 20, 60, 300, false,
      &weather_effect::glare},
     {_("Cloudy"), c_ltgray,
-     {50, 75, 60, 20}, 0, 2, -20, 60, 300, false,
+     {fahrenheit(50), fahrenheit(75), fahrenheit(60), fahrenheit(20)}, 0, 2, -20, 60, 300, false,
      &weather_effect::none},
     {_("Drizzle"), c_ltblue,
-     {45, 70, 45, 35}, 1, 3, -30, 10, 60, true,
+     {fahrenheit(45), fahrenheit(70), fahrenheit(45), fahrenheit(35)}, 1, 3, -30, 10, 60, true,
      &weather_effect::wet},
     {_("Rain"), c_blue,
-     {42, 65, 40, 30}, 3, 5, -40, 30, 180, true,
+     {fahrenheit(42), fahrenheit(65), fahrenheit(40), fahrenheit(30)}, 3, 5, -40, 30, 180, true,
      &weather_effect::very_wet},
     {_("Thunder Storm"), c_dkgray,
-     {42, 70, 40, 30}, 4, 7, -50, 30, 120, true,
+     {fahrenheit(42), fahrenheit(70), fahrenheit(40), fahrenheit(30)}, 4, 7, -50, 30, 120, true,
      &weather_effect::thunder},
     {_("Lightning Storm"), c_yellow,
-     {45, 52, 42, 32}, 4, 8, -50, 10, 30, true,
+     {fahrenheit(45), fahrenheit(52), fahrenheit(42), fahrenheit(32)}, 4, 8, -50, 10, 30, true,
      &weather_effect::lightning},
     {_("Acidic Drizzle"), c_ltgreen,
-     {45, 70, 45, 35}, 2, 3, -30, 10, 30, true,
+     {fahrenheit(45), fahrenheit(70), fahrenheit(45), fahrenheit(35)}, 2, 3, -30, 10, 30, true,
      &weather_effect::light_acid},
     {_("Acid Rain"), c_green,
-     {45, 70, 45, 30}, 4, 6, -40, 10, 30, true,
+     {fahrenheit(45), fahrenheit(70), fahrenheit(45), fahrenheit(30)}, 4, 6, -40, 10, 30, true,
      &weather_effect::acid},
     {_("Flurries"), c_white,
-     {30, 30, 30, 20}, 2, 4, -30, 10, 60, true,
+     {fahrenheit(30), fahrenheit(30), fahrenheit(30), fahrenheit(20)}, 2, 4, -30, 10, 60, true,
      &weather_effect::flurry},
     {_("Snowing"), c_white,
-     {25, 25, 20, 10}, 4, 7, -30, 30, 360, true,
+     {fahrenheit(25), fahrenheit(25), fahrenheit(20), fahrenheit(10)}, 4, 7, -30, 30, 360, true,
      &weather_effect::snow},
     {_("Snowstorm"), c_white,
-     {20, 20, 20,  5}, 6, 10, -55, 60, 180, true,
+     {fahrenheit(20), fahrenheit(20), fahrenheit(20), fahrenheit(5)}, 6, 10, -55, 60, 180, true,
      &weather_effect::snowstorm}
     };
     for(int i=0; i<NUM_WEATHER_TYPES; i++) {weather_data[i]=tmp_weather_data[i];}

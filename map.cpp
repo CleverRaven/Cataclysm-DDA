@@ -2515,11 +2515,11 @@ int& map::radiation(const int x, const int y)
  return grid[nonant]->rad[lx][ly];
 }
 
-int& map::temperature(const int x, const int y)
+Temperature::magnitude& map::temperature(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
-  null_temperature = 0;
-  return null_temperature;
+   null_temperature = 0;
+   return null_temperature;
  }
 
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
@@ -2527,7 +2527,7 @@ int& map::temperature(const int x, const int y)
  return grid[nonant]->temperature;
 }
 
-void map::set_temperature(const int x, const int y, int new_temperature)
+void map::set_temperature(const int x, const int y, const Temperature::magnitude new_temperature)
 {
     temperature(x, y) = new_temperature;
     temperature(x + SEEX, y) = new_temperature;

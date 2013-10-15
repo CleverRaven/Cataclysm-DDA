@@ -268,8 +268,8 @@ class map
  int& radiation(const int x, const int y); // Amount of radiation at (x, y);
 
 // Temperature
- int& temperature(const int x, const int y);    // Temperature for submap
- void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
+ Temperature::magnitude& temperature(const int x, const int y);    // Temperature for submap
+ void set_temperature(const int x, const int y, const Temperature::magnitude temperature); // Set temperature for all four submap quadrants
 
 // Items
  std::vector<item>& i_at(int x, int y);
@@ -391,7 +391,7 @@ protected:
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int nulrad;     // OOB &radiation()
- int null_temperature;  // Because radiation does it too
+ Temperature::magnitude null_temperature;  // Because radiation does it too
 
  std::vector <trap*> *traps;
 

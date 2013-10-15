@@ -388,7 +388,7 @@ void game::start_game()
  u.int_cur = u.int_max;
  u.dex_cur = u.dex_max;
  nextspawn = int(turn);
- temperature = 65; // Springtime-appropriate?
+ temperature = Temperature::fahrenheit(65); // Springtime-appropriate?
  u.next_climate_control_check=0;  // Force recheck at startup
  u.last_climate_control_ret=false;
 
@@ -1139,8 +1139,8 @@ void game::update_weather()
         for (int i = 0; i < NUM_WEATHER_TYPES; i++) {
             // Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
             // and vice versa.
-            if ((weather_data[i].avg_temperature[season] < 32 && temperature > 32) ||
-                (weather_data[i].avg_temperature[season] > 32 && temperature < 32)   )
+          if ((weather_data[i].avg_temperature[season] < Temperature::freezing && temperature > Temperature::freezing) ||
+              (weather_data[i].avg_temperature[season] > Temperature::freezing && temperature < Temperature::freezing)   )
             {
                 chances[i] = 0;
             } else {
@@ -1177,25 +1177,34 @@ void game::update_weather()
         // Now update temperature
         if (!one_in(4))
         { // 3 in 4 chance of respecting avg temp for the weather
-            int average = weather_data[weather].avg_temperature[season];
+            Temperature::magnitude average = weather_data[weather].avg_temperature[season];
             if (prev_weather.temperature < average)
             {
-                new_weather.temperature = prev_weather.temperature + 1;
+                new_weather.temperature = prev_weather.temperature + Temperature::rankine(1);
             } else if (prev_weather.temperature > average) {
-                new_weather.temperature = prev_weather.temperature - 1;
+                new_weather.temperature = prev_weather.temperature - Temperature::rankine(1);
             } else {
                 new_weather.temperature = prev_weather.temperature;
             }
         } else {// 1 in 4 chance of random walk
-            new_weather.temperature = prev_weather.temperature + rng(-1, 1);
+          Temperature::magnitude high, low;
+          high = prev_weather.temperature + Temperature::rankine(1);
+          low = prev_weather.temperature - Temperature::rankine(1);
+          new_weather.temperature = rng(high, low);
         }
 
+        Temperature::magnitude high, low;
         if (turn.is_night())
         {
-            new_weather.temperature += rng(-2, 1);
+          high = new_weather.temperature + Temperature::rankine(1);
+          low = new_weather.temperature - Temperature::rankine(2);
         } else {
-            new_weather.temperature += rng(-1, 2);
+          high = new_weather.temperature + Temperature::rankine(2);
+          low = new_weather.temperature - Temperature::rankine(1);
         }
+
+        new_weather.temperature = rng(high, low);
+
         prev_weather = new_weather;
         weather_log[ (int)new_weather.deadline ] = new_weather;
     }
@@ -1216,14 +1225,20 @@ void game::update_weather()
     }
 }
 
-int game::get_temperature()
+Temperature::magnitude game::get_temperature()
 {
     point location = om_location();
-    int tmp_temperature = temperature;
+    Temperature::magnitude localTemperature = m.temperature(u.posx, u.posy);
 
-    tmp_temperature += m.temperature(u.posx, u.posy);
+    if (!localTemperature) { // The local area doesn't have a temperature set, so we need to determine the temperature dynamically.
+      if (levz >= 0) {
+        return temperature;
+      } else {
+        return Temperature::subterranean;
+      }
+    }
 
-    return tmp_temperature;
+    return localTemperature;
 }
 
 int game::assign_mission_id()
@@ -3718,20 +3733,20 @@ void game::draw()
     }
 
     nc_color col_temp = c_blue;
-    int display_temp = get_temperature();
-    if (display_temp >= 90) {
+    Temperature::magnitude ambient_temperature = get_temperature();
+    if (ambient_temperature >= Temperature::human) {
         col_temp = c_red;
-    } else if (display_temp >= 75) {
+    } else if (ambient_temperature >= Temperature::room) {
         col_temp = c_yellow;
-    } else if (display_temp >= 60) {
+    } else if (ambient_temperature >= Temperature::coldRoom) {
         col_temp = c_ltgreen;
-    } else if (display_temp >= 50) {
+    } else if (ambient_temperature >= Temperature::subterranean) {
         col_temp = c_cyan;
-    } else if (display_temp >  32) {
+    } else if (ambient_temperature >  Temperature::freezing) {
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, (std::string(" ") + print_temperature((float)display_temp)).c_str());
+    wprintz(w_location, col_temp, (std::string(" ") + print_temperature(ambient_temperature)).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -10082,7 +10097,7 @@ void game::plswim(int x, int y)
 
  int drenchFlags = mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_feet);
 
- if (get_temperature() <= 50)
+ if (get_temperature() <= Temperature::subterranean)
    drenchFlags |= mfb(bp_hands);
 
  if (u.is_underwater())

@@ -258,7 +258,7 @@ struct submap {
     int active_item_count;
     int field_count;
     int turn_last_touched;
-    int temperature;
+    Temperature::magnitude temperature;
     std::vector<spawn_point> spawns;
     std::vector<vehicle*> vehicles;
     computer comp;

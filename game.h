@@ -28,6 +28,8 @@
 #include <list>
 #include <stdarg.h>
 
+#include "temperature.h"
+
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
@@ -289,8 +291,8 @@ class game
   std::vector <mission_type> mission_types; // The list of mission templates
 
   calendar turn;
-  signed char temperature;              // The air temperature
-  int get_temperature();    // Returns outdoor or indoor temperature of current location
+  Temperature::magnitude temperature;              // The air temperature
+  Temperature::magnitude get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
 
   std::map<int, weather_segment> weather_log;

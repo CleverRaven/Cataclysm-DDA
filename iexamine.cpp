@@ -626,7 +626,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
 
 void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
 
-    if (g->get_temperature() < 50) { // semi-appropriate temperature for most plants
+    if (g->get_temperature() < Temperature::fahrenheit(50)) { // semi-appropriate temperature for most plants
         g->add_msg(_("It is too cold to plant anything now."));
         return;
     }

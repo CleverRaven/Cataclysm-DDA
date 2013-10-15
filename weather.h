@@ -1,13 +1,13 @@
 #ifndef _WEATHER_H_
 #define _WEATHER_H_
 
-#define BODYTEMP_FREEZING 500
-#define BODYTEMP_VERY_COLD 2000 // This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
-#define BODYTEMP_COLD 3500
-#define BODYTEMP_NORM 5000 // Do not change this value, it is an arbitrary anchor on which other calculations are made.
-#define BODYTEMP_HOT 6500
-#define BODYTEMP_VERY_HOT 8000
-#define BODYTEMP_SCORCHING 9500
+#define BODYTEMP_FREEZING Temperature::celsius(32)
+#define BODYTEMP_VERY_COLD Temperature::celsius(34)
+#define BODYTEMP_COLD Temperature::celsius(36)
+#define BODYTEMP_NORM Temperature::human
+#define BODYTEMP_HOT Temperature::celsius(38)
+#define BODYTEMP_VERY_HOT Temperature::celsius(40)
+#define BODYTEMP_SCORCHING Temperature::celsius(42)
 /*
 Bodytemp is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
 Outdoor temperature uses simliar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
@@ -23,6 +23,7 @@ maximum heat cannot pass 15000u, otherwise the player will vomit to death.
 #include <string>
 #include "calendar.h"
 #include "overmap.h"
+#include "temperature.h"
 
 class game;
 
@@ -69,7 +70,7 @@ struct weather_effect
 // All the weather conditions at some time
 struct weather_segment
 {
-    signed char temperature;
+    Temperature::magnitude temperature;
     weather_type weather;
     calendar deadline;
 };
@@ -78,7 +79,7 @@ struct weather_datum
 {
  std::string name;
  nc_color color;
- int avg_temperature[4]; // Spring, Summer, Winter, Fall
+ Temperature::magnitude avg_temperature[4]; // Spring, Summer, Winter, Fall
  int ranged_penalty;
  int sight_penalty; // Penalty to max sight range
  int light_modifier; // Modification to ambient light
@@ -99,6 +100,6 @@ std::string weather_forecast(game *g, radio_tower tower);
 // If scale is Fahrenheit: temperature(100) will return "100F"
 //
 // Use the decimals parameter to set number of decimal places returned in string.
-std::string print_temperature(float fahrenheit, int decimals = 0);
+std::string print_temperature(Temperature::magnitude, int decimals = 0);
 
 #endif // _WEATHER_H_
