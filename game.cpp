@@ -5644,7 +5644,7 @@ bool game::add_zombie(monster& m)
     if (m.type->id == "mon_null"){ // Don't wanna spawn null monsters o.O
         return false;
     }
-    if (-1 != mon_at(m.posx(), m.posy())) {
+    if (-1 != mon_at(m.pos())) {
         debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
         return false;
     }
@@ -5746,6 +5746,11 @@ int game::mon_at(const int x, const int y) const
         }
     }
     return -1;
+}
+
+int game::mon_at(point p) const
+{
+    return mon_at(p.x, p.y);
 }
 
 void game::rebuild_mon_at_cache()
@@ -10591,6 +10596,8 @@ void game::replace_stair_monsters()
  coming_to_stairs.clear();
 }
 
+//TODO: abstract out the location checking code
+//TODO: refactor so zombies can follow up and down stairs instead of this mess
 void game::update_stair_monsters()
 {
  if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
@@ -10615,7 +10622,7 @@ void game::update_stair_monsters()
        tries++;
       }
       if (tries < 10) {
-       coming_to_stairs[i].mon.setpos(sx, sy, true);
+       coming_to_stairs[i].mon.setpos(mposx, mposy, true);
        add_zombie( coming_to_stairs[i].mon );
        if (u_see(sx, sy)) {
         if (m.has_flag("GOES_UP", sx, sy)) {

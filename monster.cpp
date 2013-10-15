@@ -118,6 +118,11 @@ bool monster::setpos(const point &p, const bool level_change)
     return setpos(p.x, p.y, level_change);
 }
 
+point monster::pos()
+{
+    return point(_posx, _posy);
+}
+
 void monster::poly(mtype *t)
 {
  double hp_percentage = double(hp) / double(type->hp);

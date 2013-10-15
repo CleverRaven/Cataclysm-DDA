@@ -431,6 +431,7 @@ private:
  std::map<trap_id, std::set<point> > traplocs;
 };
 
+std::vector<point> closest_points_first(int radius, point p);
 std::vector<point> closest_points_first(int radius,int x,int y);
 class tinymap : public map
 {
