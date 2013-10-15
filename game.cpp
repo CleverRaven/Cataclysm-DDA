@@ -85,6 +85,7 @@ game::game() :
  om_hori(NULL),
  om_vert(NULL),
  om_diag(NULL),
+ mostseen(0),
  gamemode(NULL)
 {
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
