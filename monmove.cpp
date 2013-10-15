@@ -218,6 +218,13 @@ void monster::move(game *g)
  if (sp_timeout > 0) {
    sp_timeout--;
  }
+ //If this monster has the ability to heal in combat, do it now.
+ if (has_flag(MF_REGENERATES_50)) {
+    hp += 50;
+    if(hp > type->hp){
+      hp = type->hp;
+    }
+ }
  if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
    mattack ma;
    if(!is_hallucination()) {

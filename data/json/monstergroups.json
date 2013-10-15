@@ -19,7 +19,8 @@
       { "monster" : "mon_spider_jumping", "freq" : 30, "multiplier" : 10 },
       { "monster" : "mon_dog", "freq" : 10, "multiplier" : 0 },
       { "monster" : "mon_cat", "freq" : 10, "multiplier" : 0 },
-      { "monster" : "mon_crow", "freq" : 30, "multiplier" : 0 }
+      { "monster" : "mon_crow", "freq" : 30, "multiplier" : 0 },
+      { "monster" : "mon_sludge_crawler", "freq" : 2, "multiplier" : 0 }
     ]
   },
   {
