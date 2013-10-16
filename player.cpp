@@ -6223,6 +6223,7 @@ bool player::consume(game *g, signed char ch)
             g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
                                      to_eat->tname(g).c_str());
         }
+        moves -= 250;
         was_consumed = true;
     }
 
