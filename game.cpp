@@ -6548,7 +6548,8 @@ void game::examine()
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
   int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
+  int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
+  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg (_("You can't do that while onboard."));
@@ -7351,52 +7352,137 @@ void game::pickup(int posx, int posy, int min)
  bool from_veh = false;
  int veh_part = 0;
  int k_part = 0;
+ int w_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
  if (min != -1 && veh) {
   k_part = veh->part_with_feature(veh_part, "KITCHEN");
+  w_part = veh->part_with_feature(veh_part, "WELDRIG");
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0;
 
-  if(from_veh) {
-    if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
-      from_veh = false;
-    }
-  }
-
-  if(!from_veh) {
-
-    //Either no cargo to grab, or we declined; what about water?
-    bool got_water = false;
-    if (k_part >= 0) {
-      if (veh->fuel_left("water") > 0) { //Will be -1 if no water at all
-        if (query_yn(_("Fill a container?"))) {
-          int amt = veh->drain("water", veh->fuel_left("water"));
-          item fill_water(g->itypes[default_ammo("water")], g->turn);
-          fill_water.charges = amt;
-          int back = g->move_liquid(fill_water);
-          if(back >= 0) {
-            veh->refill("water", back);
-            got_water = true;
-          } else {
-            veh->refill("water", amt);
-          }
+        if(from_veh)
+        {
+            if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str()))
+            {
+                from_veh = false;
+            }
         }
-        if (query_yn(_("Have a drink?"))) {
-          veh->drain("water", 1);
 
-          item water(itypes["water_clean"], 0);
-          u.eat(this, u.inv.add_item(water).invlet);
-          u.moves -= 250;
-          got_water = true;
-        }
-      } else {
-        add_msg(_("The water tank is empty."));
-      }
-    }
+        if(!from_veh)
+        {
+
+            //Either no cargo to grab, or we declined; what about RV kitchen?
+            bool used_feature = false;
+            if (k_part >= 0)
+            {
+                int choice = menu(true,
+                _("RV kitchen:"), _("Use the hotplate"), _("Fill a container with water"), _("Have a drink"), _("Examine vehicle"), NULL);
+                switch (choice)
+                {
+                    if (choice == 3)
+                        break;
+                case 1:
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("battery") > 0) //Will be -1 if no battery at all
+                    {
+                        item tmp_hotplate( g->itypes["hotplate"], 0 );
+                        // Drain a ton of power
+                        tmp_hotplate.charges = veh->drain( "battery", 100 );
+                        if( tmp_hotplate.is_tool() )
+                        {
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
+                            if ( tmp_hotplate.charges >= tmptool->charges_per_use )
+                            {
+                                iuse tmpuse;
+                                (tmpuse.*tmptool->use)(g, &u, &tmp_hotplate, false);
+                                tmp_hotplate.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_hotplate.charges );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        add_msg(_("The battery is dead."));
+                    }
+                }
+                break;
+                case 2:
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
+                    {
+                        int amt = veh->drain("water", veh->fuel_left("water"));
+                        item fill_water(g->itypes[default_ammo("water")], g->turn);
+                        fill_water.charges = amt;
+                        int back = g->move_liquid(fill_water);
+                        if(back >= 0)
+                        {
+                            veh->refill("water", back);
+                        }
+                        else
+                        {
+                            veh->refill("water", amt);
+                        }
+                    }
+                    else
+                    {
+                        add_msg(_("The water tank is empty."));
+                    }
+                }
+                break;
+                case 3:
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
+                    {
+                        veh->drain("water", 1);
+
+                        item water(itypes["water_clean"], 0);
+                        u.eat(this, u.inv.add_item(water).invlet);
+                        u.moves -= 250;
+                    }
+
+                    else
+                    {
+                        add_msg(_("The water tank is empty."));
+                    }
+                }
+                }
+            }
+
+            if (w_part >= 0)
+            {
+                if (query_yn(_("Use the welding rig?")))
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("battery") > 0) //Will be -1 if no battery at all
+                    {
+                        item tmp_welder( g->itypes["welder"], 0 );
+                        // Drain a ton of power
+                        tmp_welder.charges = veh->drain( "battery", 1000 );
+                        if( tmp_welder.is_tool() )
+                        {
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
+                            if ( tmp_welder.charges >= tmptool->charges_per_use )
+                            {
+                                iuse tmpuse;
+                                (tmpuse.*tmptool->use)(g, &u, &tmp_welder, false);
+                                tmp_welder.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_welder.charges );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        add_msg(_("The battery is dead."));
+                    }
+                }
+            }
 
     //If we still haven't done anything, we probably want to examine the vehicle
-    if(!got_water) {
+    if(!used_feature) {
       exam_vehicle(*veh, posx, posy);
     }
 
