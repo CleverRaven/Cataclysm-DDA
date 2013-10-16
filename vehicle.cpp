@@ -2273,12 +2273,14 @@ void vehicle::place_spawn_items()
                 for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
                         next_id != next_spawn->item_ids.end(); next_id++) {
                     item new_item = item_controller->create(*next_id, g->turn);
+                    new_item = new_item.in_its_container(&(g->itypes));
                     add_item(part, new_item);
                 }
                 for(std::vector<std::string>::iterator next_group_id = next_spawn->item_groups.begin();
                         next_group_id != next_spawn->item_groups.end(); next_group_id++) {
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
                     item new_item = item_controller->create(group_tag, g->turn);
+                    new_item = new_item.in_its_container(&(g->itypes));
                     add_item(part, new_item);
                 }
             }
