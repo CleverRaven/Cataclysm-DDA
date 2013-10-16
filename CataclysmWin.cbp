@@ -222,6 +222,8 @@
 		<Unit filename="debug.cpp" />
 		<Unit filename="debug.h" />
 		<Unit filename="defense.cpp" />
+		<Unit filename="dependency_tree.cpp" />
+		<Unit filename="dependency_tree.h" />
 		<Unit filename="dialogue.h" />
 		<Unit filename="disease.cpp" />
 		<Unit filename="disease.h" />
@@ -306,7 +308,9 @@
 		<Unit filename="mission_place.cpp" />
 		<Unit filename="mission_start.cpp" />
 		<Unit filename="missiondef.cpp" />
-		<Unit filename="mod_factory.h" />
+		<Unit filename="mod_manager.cpp" />
+		<Unit filename="mod_manager.h" />
+		<Unit filename="mod_manager_ui.cpp" />
 		<Unit filename="monattack.cpp" />
 		<Unit filename="monattack.h" />
 		<Unit filename="mondeath.cpp" />
