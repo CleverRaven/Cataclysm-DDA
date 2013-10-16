@@ -6136,7 +6136,7 @@ bool player::consume(game *g, signed char ch)
     }
 
     if(to_eat == NULL) {
-        debugmsg("consume item is lost!");
+        debugmsg("Consumed item is lost!");
         return false;
     }
 
