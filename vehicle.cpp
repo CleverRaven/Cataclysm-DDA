@@ -1499,14 +1499,10 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if (!part_flag(p, "WHEEL") ||
-            parts[p].hp <= 0) {
-            continue;
-        }
-        if (!count)
-        {
+    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    for (int w = 0; w < wheel_indices.size(); w++) {
+        int p = wheel_indices[w];
+        if (!count) {
             x1 = x2 = parts[p].mount_dx;
             y1 = y2 = parts[p].mount_dy;
         }
