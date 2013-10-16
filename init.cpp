@@ -70,8 +70,8 @@ void init_data_mappings() {
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
-    std::vector<std::string> ret;
-
+    std::vector<std::string> ret = file_finder::get_files_from_path(".json", dirname, true);
+/*
     ret.push_back("data/json/materials.json");
     ret.push_back("data/json/bionics.json");
     ret.push_back("data/json/professions.json");
