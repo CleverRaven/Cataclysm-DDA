@@ -14,9 +14,9 @@ void weather_effect::glare(game *g)
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses") &&
      !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_disease("glare")) {
-            g->u.infect("glare", bp_eyes, 2, 2, g);
+            g->u.infect("glare", bp_eyes, 2, 2);
         } else {
-            g->u.infect("glare", bp_eyes, 2, 1, g);
+            g->u.infect("glare", bp_eyes, 2, 1);
         }
     }
 }
@@ -150,7 +150,7 @@ void decay_fire_and_scent(game *g, int fire_amount)
 
 void generic_wet(game *g, bool acid)
 {
-    if ((!g->u.is_wearing("coat_rain") || one_in(50)) &&
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
          (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
          one_in(2)) {
@@ -164,7 +164,7 @@ void generic_wet(game *g, bool acid)
 
 void generic_very_wet(game *g, bool acid)
 {
-    if ((!g->u.is_wearing("coat_rain") || one_in(25)) &&
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(25)) &&
          (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
         g->u.drench(g, 60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
@@ -209,8 +209,8 @@ void weather_effect::light_acid(game *g)
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2)) {
             g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
         } else {
-            if (g->u.is_wearing("coat_rain") && !one_in(3)) {
-                g->add_msg(_("Your raincoat protects you from the acidic drizzle."));
+            if (g->u.worn_with_flag("RAINPROOF") && !one_in(3)) {
+                g->add_msg(_("Your clothing protects you from the acidic drizzle."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(4))) {
@@ -230,8 +230,8 @@ void weather_effect::acid(game *g)
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             g->add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
-            if (g->u.is_wearing("coat_rain") && one_in(2)) {
-                g->add_msg(_("Your raincoat protects you from the acid rain."));
+            if (g->u.worn_with_flag("RAINPROOF") && one_in(2)) {
+                g->add_msg(_("Your clothing protects you from the acid rain."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {

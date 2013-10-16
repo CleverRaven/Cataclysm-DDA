@@ -648,11 +648,11 @@ npc_action npc::address_player(game *g)
    int intense = disease_intensity("catch_up");
    if (intense < 10) {
     say(g, "<keep_up>");
-    add_disease("catch_up", 5, 1, 15);
+    add_disease("catch_up", 5, false, 1, 15);
     return npc_pause;
    } else if (intense == 10) {
     say(g, "<im_leaving_you>");
-    add_disease("catch_up", 5, 1, 15);
+    add_disease("catch_up", 5, false, 1, 15);
     return npc_pause;
    } else
     return npc_goto_destination;
@@ -1017,7 +1017,7 @@ void npc::move_to(game *g, int x, int y)
   g->sound(x, y, 18, bashsound);
  } else
  if (g->m.field_at(x, y).findField(fd_rubble))
-  g->u.add_disease("bouldering", 100, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
+  g->u.add_disease("bouldering", 100, false, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
  else
   g->u.rem_disease("bouldering");
   moves -= 100;

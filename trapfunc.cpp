@@ -51,7 +51,7 @@ void trapfunc::beartrap(game *g, int x, int y)
     g->u.add_memorial_log(_("Caught by a beartrap."));
     g->sound(x, y, 8, _("SNAP!"));
     g->u.hit(g, bp_legs, random_side(bp_legs), 10, 16);
-    g->u.add_disease("beartrap", -1);
+    g->u.add_disease("beartrap", 1, true);
     g->m.remove_trap(x, y);
     g->m.spawn_item(x, y, "beartrap", g->turn);
 }
@@ -483,7 +483,7 @@ void trapfunc::goo(game *g, int x, int y)
 {
  g->add_msg(_("You step in a puddle of thick goo."));
  g->u.add_memorial_log(_("Stepped into thick goo."));
- g->u.infect("slimed", bp_feet, 6, 20, g);
+ g->u.infect("slimed", bp_feet, 6, 20);
  if (one_in(3)) {
   g->add_msg(_("The acidic goo eats away at your feet."));
   g->u.hit(g, bp_feet, 0, 0, 5);
@@ -549,7 +549,7 @@ void trapfunc::pit(game *g, int x, int y)
             g->add_msg(_("You land nimbly."));
         }
     }
-    g->u.add_disease("in_pit", -1);
+    g->u.add_disease("in_pit", 1, true);
 }
 
 void trapfuncm::pit(game *g, monster *z, int x, int y)
@@ -607,7 +607,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
             }
         }
     }
-    g->u.add_disease("in_pit", -1);
+    g->u.add_disease("in_pit", 1, true);
 }
 
 void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)

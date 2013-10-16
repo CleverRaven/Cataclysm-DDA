@@ -3354,7 +3354,7 @@ void game::disp_kills()
     count.push_back(kill->second);
  }
 
- mvwprintz(w, 1, 32, c_white, "KILL COUNT:");
+ mvwprintz(w, 1, 32, c_white, _("KILL COUNT:"));
 
  if (types.size() == 0) {
   mvwprintz(w, 2, 2, c_white, _("You haven't killed any monsters yet!"));
@@ -3555,7 +3555,7 @@ void game::list_missions()
 
   draw_tab(w_missions, 7, _("ACTIVE MISSIONS"), (tab == 0) ? true : false);
   draw_tab(w_missions, 30, _("COMPLETED MISSIONS"), (tab == 1) ? true : false);
-  draw_tab(w_missions, 56, "FAILED MISSIONS", (tab == 2) ? true : false);
+  draw_tab(w_missions, 56, _("FAILED MISSIONS"), (tab == 2) ? true : false);
 
   mvwputch(w_missions, 2,  0, c_white, LINE_OXXO); // |^
   mvwputch(w_missions, 2, FULL_SCREEN_WIDTH-1, c_white, LINE_OOXX); // ^|
@@ -4292,8 +4292,8 @@ bool game::u_see(monster *mon)
  if (u.has_trait("ANTENNAE") && dist <= 3) {
   return true;
  }
- if (mon->has_flag(MF_DIGS) && !u.has_active_bionic("bio_ground_sonar") &&
-     dist > 1) {
+ if ((mon->has_flag(MF_DIGS) || (mon->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", mon->posx(), mon->posy()))) &&
+      !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
   return false; // Can't see digging monsters until we're right next to them
  }
  if (m.is_divable(mon->posx(), mon->posy()) && mon->can_submerge()
@@ -4308,8 +4308,9 @@ bool game::u_see(monster *mon)
 bool game::pl_sees(player *p, monster *mon, int &t)
 {
  // TODO: [lightmap] Allow npcs to use the lightmap
- if (mon->has_flag(MF_DIGS) && !p->has_active_bionic("bio_ground_sonar") &&
-     rl_dist(p->posx, p->posy, mon->posx(), mon->posy()) > 1)
+ if ((mon->has_flag(MF_DIGS) || (mon->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", mon->posx(), mon->posy()))) &&
+      !p->has_active_bionic("bio_ground_sonar") && 
+       rl_dist(p->posx, p->posy, mon->posx(), mon->posy()) > 1)
   return false; // Can't see digging monsters until we're right next to them
  int range = p->sight_range(light_level());
  return m.sees(p->posx, p->posy, mon->posx(), mon->posy(), range, t);
@@ -4807,8 +4808,22 @@ bool game::sound(int x, int y, int vol, std::string description)
             const bool goodhearing = z.has_flag(MF_GOODHEARING);
             int volume = goodhearing ? vol_goodhearing : (vol - dist);
             if (volume > 0) {
+                int max_error = 0;
+                if(volume < 2) {
+                    max_error = 10;
+                } else if(volume < 5) {
+                    max_error = 5;
+                } else if(volume < 10) {
+                    max_error = 3;
+                } else if(volume < 20) {
+                    max_error = 1;
+                }
+
+                int target_x = x + rng(-max_error, max_error);
+                int target_y = y + rng(-max_error, max_error);
+
                 int wander_turns = volume * (goodhearing ? 6 : 1);
-                z.wander_to(x, y, wander_turns);
+                z.wander_to(target_x, target_y, wander_turns);
                 z.process_trigger(MTRIG_SOUND, volume);
             }
         }
@@ -5092,7 +5107,7 @@ void game::flashbang(int x, int y, bool player_immune)
             if (u.has_bionic("bio_sunglasses")) {
                 flash_mod = 6;
             }
-            u.infect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist, this);
+            u.infect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
         }
     }
     for (int i = 0; i < num_zombies(); i++) {
@@ -5644,7 +5659,7 @@ bool game::add_zombie(monster& m)
     if (m.type->id == "mon_null"){ // Don't wanna spawn null monsters o.O
         return false;
     }
-    if (-1 != mon_at(m.posx(), m.posy())) {
+    if (-1 != mon_at(m.pos())) {
         debugmsg("add_zombie: there's already a monster at %d,%d", m.posx(), m.posy());
         return false;
     }
@@ -5746,6 +5761,11 @@ int game::mon_at(const int x, const int y) const
         }
     }
     return -1;
+}
+
+int game::mon_at(point p) const
+{
+    return mon_at(p.x, p.y);
 }
 
 void game::rebuild_mon_at_cache()
@@ -6528,7 +6548,8 @@ void game::examine()
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
   int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
+  int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
+  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg (_("You can't do that while onboard."));
@@ -7331,52 +7352,122 @@ void game::pickup(int posx, int posy, int min)
  bool from_veh = false;
  int veh_part = 0;
  int k_part = 0;
+ int w_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
  if (min != -1 && veh) {
   k_part = veh->part_with_feature(veh_part, "KITCHEN");
+  w_part = veh->part_with_feature(veh_part, "WELDRIG");
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
-  from_veh = veh && veh_part >= 0 &&
-             veh->parts[veh_part].items.size() > 0;
+  from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
-  if(from_veh) {
-    if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str())) {
-      from_veh = false;
-    }
-  }
-
-  if(!from_veh) {
-
-    //Either no cargo to grab, or we declined; what about water?
-    bool got_water = false;
-    if (k_part >= 0) {
-      if (veh->fuel_left("water") > 0) { //Will be -1 if no water at all
-        if (query_yn(_("Fill a container?"))) {
-          int amt = veh->drain("water", veh->fuel_left("water"));
-          item fill_water(g->itypes[default_ammo("water")], g->turn);
-          fill_water.charges = amt;
-          int back = g->move_liquid(fill_water);
-          if(back >= 0) {
-            veh->refill("water", back);
-            got_water = true;
-          } else {
-            veh->refill("water", amt);
-          }
+        if(from_veh)
+        {
+            if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str()))
+            {
+                from_veh = false;
+            }
         }
-        if (query_yn(_("Have a drink?"))) {
-          veh->drain("water", 1);
 
-          item water(itypes["water_clean"], 0);
-          u.consume(this, u.inv.add_item(water).invlet);
-          u.moves -= 250;
-          got_water = true;
-        }
-      } else {
-        add_msg(_("The water tank is empty."));
-      }
-    }
+        if(!from_veh)
+        {
 
+            //Either no cargo to grab, or we declined; what about RV kitchen?
+            bool used_feature = false;
+            if (k_part >= 0)
+            {
+                int choice = menu(true,
+                _("RV kitchen:"), _("Use the hotplate"), _("Fill a container with water"), _("Have a drink"), _("Examine vehicle"), NULL);
+                switch (choice)
+                {
+                    if (choice == 3)
+                        break;
+                case 1:
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("battery") > 0) {
+                        //Will be -1 if no battery at all
+                        item tmp_hotplate( g->itypes["hotplate"], 0 );
+                        // Drain a ton of power
+                        tmp_hotplate.charges = veh->drain( "battery", 100 );
+                        if( tmp_hotplate.is_tool() ) {
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
+                            if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
+                                tmptool->use.call(g, &u, &tmp_hotplate, false);
+                                tmp_hotplate.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_hotplate.charges );
+                            }
+                        }
+                    } else {
+                        add_msg(_("The battery is dead."));
+                    }
+                }
+                break;
+                case 2:
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
+                    {
+                        int amt = veh->drain("water", veh->fuel_left("water"));
+                        item fill_water(g->itypes[default_ammo("water")], g->turn);
+                        fill_water.charges = amt;
+                        int back = g->move_liquid(fill_water);
+                        if(back >= 0)
+                        {
+                            veh->refill("water", back);
+                        }
+                        else
+                        {
+                            veh->refill("water", amt);
+                        }
+                    }
+                    else
+                    {
+                        add_msg(_("The water tank is empty."));
+                    }
+                }
+                break;
+                case 3:
+                {
+                    used_feature = true;
+                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
+                    {
+                        veh->drain("water", 1);
+                        item water(itypes["water_clean"], 0);
+                        u.consume(this, u.inv.add_item(water).invlet);
+                        u.moves -= 250;
+                    }
+
+                    else
+                    {
+                        add_msg(_("The water tank is empty."));
+                    }
+                }
+                }
+            }
+
+            if (w_part >= 0) {
+                if (query_yn(_("Use the welding rig?"))) {
+                    used_feature = true;
+                    if (veh->fuel_left("battery") > 0) {
+                        //Will be -1 if no battery at all
+                        item tmp_welder( g->itypes["welder"], 0 );
+                        // Drain a ton of power
+                        tmp_welder.charges = veh->drain( "battery", 1000 );
+                        if( tmp_welder.is_tool() ) {
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
+                            if ( tmp_welder.charges >= tmptool->charges_per_use ) {
+                                tmptool->use.call( g, &u, &tmp_welder, false );
+                                tmp_welder.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_welder.charges );
+                            }
+                        }
+                    } else {
+                        add_msg(_("The battery is dead."));
+                    }
+                }
+            }
     //If we still haven't done anything, we probably want to examine the vehicle
-    if(!got_water) {
+    if(!used_feature) {
       exam_vehicle(*veh, posx, posy);
     }
 
@@ -9900,19 +9991,19 @@ void game::plmove(int dx, int dy)
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
     if (u.disease_duration("attack_boost") < 2)
-     u.add_disease("attack_boost", 2, 2, 2);
+     u.add_disease("attack_boost", 2, false, 2, 2);
     if (u.disease_duration("dodge_boost") < 2)
-     u.add_disease("dodge_boost", 2, 2, 2);
+     u.add_disease("dodge_boost", 2, false, 2, 2);
   } else if(u.weapon.type->id == "style_ninjutsu"){
-    u.add_disease("attack_boost", 2, 1, 3);
+    u.add_disease("attack_boost", 2, false, 1, 3);
   } else if(u.weapon.type->id == "style_crane"){
     if (!u.has_disease("dodge_boost"))
-     u.add_disease("dodge_boost", 1, 3, 3);
+     u.add_disease("dodge_boost", 1, false, 3, 3);
   } else if(u.weapon.type->id == "style_leopard"){
-    u.add_disease("attack_boost", 2, 1, 4);
+    u.add_disease("attack_boost", 2, false, 1, 4);
   } else if(u.weapon.type->id == "style_dragon"){
     if (!u.has_disease("damage_boost"))
-     u.add_disease("damage_boost", 2, 3, 3);
+     u.add_disease("damage_boost", 2, false, 3, 3);
   } else if(u.weapon.type->id == "style_lizard"){
     bool wall = false;
     for (int wallx = x - 1; wallx <= x + 1 && !wall; wallx++) {
@@ -9922,7 +10013,7 @@ void game::plmove(int dx, int dy)
      }
     }
     if (wall)
-     u.add_disease("attack_boost", 2, 2, 8);
+     u.add_disease("attack_boost", 2, false, 2, 8);
     else
      u.rem_disease("attack_boost");
   }
@@ -10591,6 +10682,8 @@ void game::replace_stair_monsters()
  coming_to_stairs.clear();
 }
 
+//TODO: abstract out the location checking code
+//TODO: refactor so zombies can follow up and down stairs instead of this mess
 void game::update_stair_monsters()
 {
  if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
@@ -10615,7 +10708,7 @@ void game::update_stair_monsters()
        tries++;
       }
       if (tries < 10) {
-       coming_to_stairs[i].mon.setpos(sx, sy, true);
+       coming_to_stairs[i].mon.setpos(mposx, mposy, true);
        add_zombie( coming_to_stairs[i].mon );
        if (u_see(sx, sy)) {
         if (m.has_flag("GOES_UP", sx, sy)) {
@@ -11069,6 +11162,184 @@ void game::nuke(int x, int y)
     for(int i = 0; i < cur_om->npcs.size();i++)
         if(cur_om->npcs[i]->mapx/2== x && cur_om->npcs[i]->mapy/2 == y && cur_om->npcs[i]->omz == 0)
             cur_om->npcs[i]->marked_for_death = true;
+}
+
+bool game::spread_fungus(int x, int y)
+{
+    int growth = 1;
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            if (i == x && j == y) {
+                continue;
+            }
+            if (m.has_flag("FUNGUS", i, j)) {
+                growth += 1;
+            }
+        }
+    }
+
+    bool converted = false;
+    if (!m.has_flag_ter("FUNGUS", x, y)) {
+        // Terrain conversion
+        if (m.has_flag_ter("DIGGABLE", x, y)) {
+            if (x_in_y(growth * 10, 100)) {
+                m.ter_set(x, y, t_fungus);
+                converted = true;
+            }
+        } else if (m.has_flag("FLAT", x, y)) {
+            if (m.has_flag("INDOORS", x, y)) {
+                if (x_in_y(growth * 10, 500)) {
+                    m.ter_set(x, y, t_fungus_floor_in);
+                    converted = true;
+                }
+            } else if (m.has_flag("SUPPORTS_ROOF", x, y)) {
+                if (x_in_y(growth * 10, 1000)) {
+                    m.ter_set(x, y, t_fungus_floor_sup);
+                    converted = true;
+                }
+            } else {
+                if (x_in_y(growth * 10, 2500)) {
+                    m.ter_set(x, y, t_fungus_floor_out);
+                    converted = true;
+                }
+            }
+        } else if (m.has_flag("SHRUB", x, y)) {
+            if (x_in_y(growth * 10, 200)) {
+                m.ter_set(x, y, t_shrub_fungal);
+                converted = true;
+            } else if (x_in_y(growth, 1000)) {
+                m.ter_set(x, y, t_marloss);
+                converted = true;
+            }
+        } else if (m.has_flag("THIN_OBSTACLE", x, y)) {
+            if (x_in_y(growth * 10, 150)) {
+                m.ter_set(x, y, t_fungus_mound);
+                converted = true;
+            }
+        } else if (m.has_flag("YOUNG", x, y)) {
+            if (x_in_y(growth * 10, 500)) {
+                m.ter_set(x, y, t_tree_fungal_young);
+                converted = true;
+            }
+        } else if (m.has_flag("WALL", x, y)) {
+            if (x_in_y(growth * 10, 5000)) {
+                converted = true;
+                if (m.ter_at(x, y).sym == LINE_OXOX) {
+                    m.ter_set(x, y, t_fungus_wall_h);
+                } else if (m.ter_at(x, y).sym == LINE_XOXO) {
+                    m.ter_set(x, y, t_fungus_wall_v);
+                } else {
+                    m.ter_set(x, y, t_fungus_wall);
+                }
+            }
+        }
+        // Furniture conversion
+        if (converted) {
+            if (m.has_flag("FLOWER", x, y)){
+                m.furn_set(x, y, f_flower_fungal);
+            } else if (m.has_flag("ORGANIC", x, y)){
+                if (m.furn_at(x, y).movecost == -10) {
+                    m.furn_set(x, y, f_fungal_mass);
+                } else {
+                    m.furn_set(x, y, f_fungal_clump);
+                }
+            } else if (m.has_flag("PLANT", x, y)) {
+                for (int k = 0; k < g->m.i_at(x, y).size(); k++) {
+                    m.i_rem(x, y, k);
+                }
+                item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                m.add_item(x, y, seeds);
+            }
+        }
+        return true;
+    } else {
+        // Everything is already fungus
+        if (growth == 9) {
+            return false;
+        }
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                // One spread on average
+                if (!m.has_flag("FUNGUS", i, j) && one_in(9 - growth)) {
+                    //growth chance is 100 in X simplified 
+                    if (m.has_flag("DIGGABLE", i, j)) {
+                        m.ter_set(i, j, t_fungus);
+                        converted = true;
+                    } else if (m.has_flag("FLAT", i, j)) {
+                        if (m.has_flag("INDOORS", i, j)) {
+                            if (one_in(5)) {
+                                m.ter_set(i, j, t_fungus_floor_in);
+                                converted = true;
+                            }
+                        } else if (m.has_flag("SUPPORTS_ROOF", i, j)) {
+                            if (one_in(10)) {
+                                m.ter_set(i, j, t_fungus_floor_sup);
+                                converted = true;
+                            }
+                        } else {
+                            if (one_in(25)) {
+                                m.ter_set(i, j, t_fungus_floor_out);
+                                converted = true;
+                            }
+                        }
+                    } else if (m.has_flag("SHRUB", i, j)) {
+                        if (one_in(2)) {
+                            m.ter_set(i, j, t_shrub_fungal);
+                            converted = true;
+                        } else if (one_in(25)) {
+                            m.ter_set(i, j, t_marloss);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("THIN_OBSTACLE", i, j)) {
+                        if (x_in_y(10, 15)) {
+                            m.ter_set(i, j, t_fungus_mound);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("YOUNG", i, j)) {
+                        if (one_in(5)) {
+                            m.ter_set(i, j, t_tree_fungal_young);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("TREE", i, j)) {
+                        if (one_in(10)) {
+                            m.ter_set(i, j, t_tree_fungal);
+                            converted = true;
+                        }
+                    } else if (m.has_flag("WALL", i, j)) {
+                        if (one_in(50)) {
+                            converted = true;
+                            if (m.ter_at(i, j).sym == LINE_OXOX) {
+                                m.ter_set(i, j, t_fungus_wall_h);
+                            } else if (m.ter_at(i, j).sym == LINE_XOXO) {
+                                m.ter_set(i, j, t_fungus_wall_v);
+                            } else {
+                                m.ter_set(i, j, t_fungus_wall);
+                            }
+                        }
+                    }
+
+                    if (converted) {
+                        if (m.has_flag("FLOWER", i, j)) {
+                            m.furn_set(i, j, f_flower_fungal);
+                        } else if (m.has_flag("ORGANIC", i, j)) {
+                            if (m.furn_at(i, j).movecost == -10) {
+                                m.furn_set(i, j, f_fungal_mass);
+                            } else {
+                                m.furn_set(i, j, f_fungal_clump);
+                            }
+                        } else if (m.has_flag("PLANT", i, j)) {
+                            for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
+                                m.i_rem(i, j, k);
+                            }
+                            item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                            m.add_item(x, y, seeds);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
 
 std::vector<faction *> game::factions_at(int x, int y)

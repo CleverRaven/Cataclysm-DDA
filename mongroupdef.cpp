@@ -29,12 +29,12 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
+std::string MonsterGroupManager::GetMonsterFromGroup( std::string group_name, std::vector <mtype*> *mtypes,
                                                       int *quantity, int turn )
-{
+{   
     int roll = rng(1, 1000);
-    MonsterGroup g = monsterGroupMap[group];
-    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
+    MonsterGroup group = monsterGroupMap[group_name];
+    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end(); ++it)
     {
         if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->first)->difficulty))) &&
            (!OPTIONS["CLASSIC_ZOMBIES"] ||
@@ -49,14 +49,14 @@ std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::ve
             else { roll -= it->second.first; }
         }
     }
-    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(g.defaultMonster)->difficulty))
+    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))
         && (!OPTIONS["STATIC_SPAWN"]))
     {
         return "mon_null";
     }
     else
     {
-        return g.defaultMonster;
+        return group.defaultMonster;
     }
 }
 
@@ -119,8 +119,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     MonsterGroup g;
 
     g.name = jo.get_string("name");
-    g.defaultMonster = monStr2monId[jo.get_string("default")];
-
+    g.defaultMonster = jo.get_string("default");
     if (jo.is_array("monsters")){
         JsonArray monarr = jo.get_array("monsters");
 
@@ -128,7 +127,6 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         for (int i = 0; i < monnum; ++i){
             if (monarr.get_index_type(i) == JVT_OBJECT){
                 JsonObject mon = monarr.get_object(i);
-
                 g.monsters[mon.get_string("monster")] =
                     std::pair<int,int>(mon.get_int("freq"), mon.get_int("multiplier"));
             }
@@ -152,9 +150,9 @@ void init_translation()
     monStr2monId["mon_boomer"] = mon_boomer; monStr2monId["mon_boomer_fungus"] = mon_boomer_fungus; monStr2monId["mon_skeleton"] = mon_skeleton; monStr2monId["mon_zombie_necro"] = mon_zombie_necro;
     monStr2monId["mon_zombie_scientist"] = mon_zombie_scientist; monStr2monId["mon_zombie_soldier"] = mon_zombie_soldier; monStr2monId["mon_zombie_grabber"] = mon_zombie_grabber;
     monStr2monId["mon_zombie_master"] = mon_zombie_master;  monStr2monId["mon_beekeeper"] = mon_beekeeper; monStr2monId["mon_zombie_child"] = mon_zombie_child;
-    monStr2monId["mon_triffid"] = mon_triffid; monStr2monId["mon_triffid_young"] = mon_triffid_young; monStr2monId["mon_triffid_queen"] = mon_triffid_queen; monStr2monId["mon_creeper_hub"] = mon_creeper_hub;
+    monStr2monId["mon_triffid"] = mon_triffid; monStr2monId["mon_triffid_young"] = mon_triffid_young; monStr2monId["mon_fungal_fighter"] = mon_fungal_fighter; monStr2monId["mon_triffid_queen"] = mon_triffid_queen; monStr2monId["mon_creeper_hub"] = mon_creeper_hub;
     monStr2monId["mon_creeper_vine"] = mon_creeper_vine; monStr2monId["mon_biollante"] = mon_biollante; monStr2monId["mon_vinebeast"] = mon_vinebeast; monStr2monId["mon_triffid_heart"] = mon_triffid_heart;
-    monStr2monId["mon_fungaloid"] = mon_fungaloid; monStr2monId["mon_fungaloid_dormant"] = mon_fungaloid_dormant; monStr2monId["mon_fungaloid_young"] = mon_fungaloid_young; monStr2monId["mon_spore"] = mon_spore;
+    monStr2monId["mon_fungaloid"] = mon_fungaloid; monStr2monId["mon_fungaloid_young"] = mon_fungaloid_young; monStr2monId["mon_spore"] = mon_spore;
     monStr2monId["mon_fungaloid_queen"] = mon_fungaloid_queen; monStr2monId["mon_fungal_wall"] = mon_fungal_wall;
     monStr2monId["mon_blob"] = mon_blob; monStr2monId["mon_blob_small"] = mon_blob_small;
     monStr2monId["mon_chud"] = mon_chud; monStr2monId["mon_one_eye"] = mon_one_eye; monStr2monId["mon_crawler"] = mon_crawler;

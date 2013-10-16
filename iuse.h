@@ -25,6 +25,7 @@ class iuse
   int xanax            (game *g, player *p, item *it, bool t);
   int cig              (game *g, player *p, item *it, bool t);
   int antibiotic       (game *g, player *p, item *it, bool t);
+  int fungicide        (game *g, player *p, item *it, bool t);
   int weed             (game *g, player *p, item *it, bool t);
   int coke             (game *g, player *p, item *it, bool t);
   int crack            (game *g, player *p, item *it, bool t);

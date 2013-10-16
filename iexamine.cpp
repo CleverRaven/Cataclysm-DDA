@@ -15,6 +15,7 @@
 #include "line.h"
 #include "player.h"
 #include "translations.h"
+#include "monstergenerator.h"
 #include <sstream>
 #include <algorithm>
 
@@ -616,12 +617,66 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
     p->add_disease("sleep", 1200);
     g->add_msg(_("Your legs are covered by flower's roots!"));
     p->hurt(g,bp_legs, 0, 4);
-    p->moves-=50;
+    p->moves -=50;
   }
 
   m->furn_set(examx, examy, f_null);
   m->spawn_item(examx, examy, "poppy_flower", 0);
   m->spawn_item(examx, examy, "poppy_bud", 0);
+}
+
+void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
+    // TODO: Infect NPCs?
+    monster spore(GetMType("mon_spore"));
+    int mondex;
+    g->add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
+    for (int i = examx - 1; i <= examx + 1; i++) {
+        for (int j = examy - 1; j <= examy + 1; j++) {
+            mondex = g->mon_at(i, j);
+            if (g->m.move_cost(i, j) > 0 || (i == examx && j == examy)) {
+                if (mondex != -1) { // Spores hit a monster
+                    if (g->u_see(i, j) && 
+                            !g->zombie(mondex).type->in_species("FUNGUS")) {
+                        g->add_msg(_("The %s is covered in tiny spores!"),
+                                        g->zombie(mondex).name().c_str());
+                    }
+                    if (!g->zombie(mondex).make_fungus(g)) {
+                        g->kill_mon(mondex, false);
+                    }
+                } else if (g->u.posx == i && g->u.posy == j) {
+                    // Spores hit the player
+                    bool hit = false;
+                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (hit) {
+                        g->add_msg(_("You're covered in tiny spores!"));
+                    }
+                } else if (((i == examx && j == examy) || one_in(4)) &&
+                              g->num_zombies() <= 1000) { // Spawn a spore
+                    spore.spawn(i, j);
+                    g->add_zombie(spore);
+                }
+            }
+        }
+    }
+    m->furn_set(examx, examy, f_null);
+    p->moves -=50;
 }
 
 void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
@@ -693,33 +748,40 @@ void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
-  if (m->furn(examx, examy) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
-    itype_id seedType = m->i_at(examx, examy)[0].typeId();
+    if (m->furn(examx, examy) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
+        itype_id seedType = m->i_at(examx, examy)[0].typeId();
+        if (seedType == "fungal_seeds") {
+            fungus(g, p, m, examx, examy);
+            for (int k = 0; k < g->m.i_at(examx, examy).size(); k++) {
+                g->m.i_rem(examx, examy, k);
+            }
+        } else {
+            m->i_clear(examx, examy);
+            m->furn_set(examx, examy, f_null);
 
-    m->i_clear(examx, examy);
-    m->furn_set(examx, examy, f_null);
+            int skillLevel = p->skillLevel("survival");
+            int plantCount = rng(skillLevel / 2, skillLevel);
+            if (plantCount >= 12) {
+                plantCount = 12;
+            }
 
-    int skillLevel = p->skillLevel("survival");
-    int plantCount = rng(skillLevel / 2, skillLevel);
-    if (plantCount >= 12)
-      plantCount = 12;
+            m->spawn_item(examx, examy, seedType.substr(5), g->turn, plantCount);
+            m->spawn_item(examx, examy, seedType, 0, 1, rng(plantCount / 4, plantCount / 2));
 
-    m->spawn_item(examx, examy, seedType.substr(5), g->turn, plantCount);
-    m->spawn_item(examx, examy, seedType, 0, 1, rng(plantCount / 4, plantCount / 2));
+            p->moves -= 500;
+        }
+    } else if (m->furn(examx,examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 &&
+                 p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
+        unsigned int fertilizerEpoch = 14400 * 2;
 
-    p->moves -= 500;
-  } else if (m->furn(examx,examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 && p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
-    unsigned int fertilizerEpoch = 14400 * 2;
-
-    if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
-      m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
-    } else {
-      m->i_at(examx, examy)[0].bday = 0;
+        if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
+            m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
+        } else {
+            m->i_at(examx, examy)[0].bday = 0;
+        }
+        p->use_charges("fertilizer_liquid", 1);
+        m->spawn_item(examx, examy, "fertilizer", 0, 1, 1);
     }
-
-    p->use_charges("fertilizer_liquid", 1);
-    m->spawn_item(examx, examy, "fertilizer", 0, 1, 1);
-  }
 }
 
 void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {
@@ -1004,6 +1066,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(game*
   }
   if ("flower_poppy" == function_name) {
     return &iexamine::flower_poppy;
+  }
+  if ("fungus" == function_name) {
+    return &iexamine::fungus;
   }
   if ("dirtmound" == function_name) {
     return &iexamine::dirtmound;

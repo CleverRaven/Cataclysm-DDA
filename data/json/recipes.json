@@ -1835,7 +1835,7 @@
         "type" : "recipe",
   "result": "dart",
   "category": "CC_AMMO",
-
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -1852,6 +1852,7 @@
         "type" : "recipe",
   "result": "pebble",
   "category": "CC_AMMO",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -3776,6 +3777,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
@@ -3952,7 +3954,7 @@
       [ "carrot", 2 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
-      [ "fluid_sac", 6 ]
+      [ "plant_sac", 6 ]
     ]
   ]
 },{
@@ -4038,6 +4040,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
@@ -4162,6 +4165,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
     ]
   ],
@@ -6068,6 +6072,38 @@
     ],
     [
       [ "poppy_flower", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fungicide",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "hotplate", 2 ]
+    ]
+  ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fighter_sting", 1 ]
+    ],
+    [
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -14341,6 +14377,44 @@
      [
       [ "fur", 2 ],
       [ "leather", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "knife_trench",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 390000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 300], ["char_forge", 60]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
      ]
     ]
 },{

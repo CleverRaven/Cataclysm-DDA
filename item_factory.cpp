@@ -44,6 +44,7 @@ void Item_factory::init(){
     iuse_function_list["XANAX"] = &iuse::xanax;
     iuse_function_list["CIG"] = &iuse::cig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
+    iuse_function_list["FUNGICIDE"] = &iuse::fungicide;
     iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;
@@ -234,6 +235,7 @@ itype* Item_factory::find_template(const Item_tag id){
         return found->second;
     }
     else{
+        debugmsg("Missing item (check item_groups.json): %s", id.c_str());
         return m_missing_item;
     }
 }
@@ -508,6 +510,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
         OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
         POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
         HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
+        RAINPROOF - Works like a raincoat to protect from rain effects
         WATCH - Shows the current time, instead of sun/moon position
         ALARMCLOCK - Has an alarmclock feature
         FANCY - Less than practical clothing meant primarily to convey a certain image.

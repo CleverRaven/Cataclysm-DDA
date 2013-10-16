@@ -489,23 +489,27 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   }
   break;
 
- case ot_fungal_bloom:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (one_in(10))
-     ter_set(i, j, t_tree_fungal);
-    else if (one_in(300)) {
-     ter_set(i, j, t_marloss);
-     spawn_item(i, j, "marloss_berry", turn);
-    } else if (one_in(3))
-     ter_set(i, j, t_dirt);
-    else
-     ter_set(i, j, t_fungus);
-   }
-  }
-  square(this, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
-  add_spawn("mon_fungaloid_queen", 1, 12, 12);
-  break;
+    case ot_fungal_bloom:
+        for (int i = 0; i < SEEX * 2; i++) {
+            for (int j = 0; j < SEEY * 2; j++) {
+                if (one_in(10)) {
+                    if (one_in(3)) {
+                        ter_set(i, j, t_tree_fungal);
+                    } else {
+                        ter_set(i, j, t_tree_fungal_young);
+                    }
+                } else if (one_in(300)) {
+                    ter_set(i, j, t_marloss);
+                } else if (one_in(3)) {
+                    ter_set(i, j, t_fungus_mound);
+                } else {
+                    ter_set(i, j, t_fungus);
+                }
+            }
+        }
+    square(this, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
+    add_spawn("mon_fungaloid_queen", 1, 12, 12);
+    break;
 
  case ot_road_ns:
  case ot_road_ew:
@@ -11529,7 +11533,7 @@ case ot_farm_field:
    square(this, t_dirt, nodex, nodey, nodex + 3, nodey + 3);
 // Spawn a monster in there
    if (step > 2) { // First couple of chambers are safe
-    int monrng = rng(1, 20);
+    int monrng = rng(1, 25);
     int spawnx = nodex + rng(0, 3), spawny = nodey + rng(0, 3);
     if (monrng <= 5)
      add_spawn("mon_triffid", rng(1, 4), spawnx, spawny);
@@ -11537,6 +11541,8 @@ case ot_farm_field:
      add_spawn("mon_creeper_hub", 1, spawnx, spawny);
     else if (monrng <= 19)
      add_spawn("mon_biollante", 1, spawnx, spawny);
+    else if (monrng <= 24)
+     add_spawn("mon_fungal_fighter", 1, spawnx, spawny);
     else {
      for (int webx = nodex; webx <= nodex + 3; webx++) {
       for (int weby = nodey; weby <= nodey + 3; weby++)

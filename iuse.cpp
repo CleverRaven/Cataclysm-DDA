@@ -143,11 +143,12 @@ int iuse::royal_jelly(game *g, player *p, item *it, bool t)
   p->rem_disease("blind");
  }
  if (p->has_disease("poison") || p->has_disease("foodpoison") ||
-     p->has_disease("badpoison")) {
+     p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
   message = _("You feel much better!");
   p->rem_disease("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
+  p->rem_disease("paralyzepoison");
  }
  if (p->has_disease("asthma")) {
   message = _("Your breathing clears up!");
@@ -623,6 +624,52 @@ int iuse::antibiotic(game *g, player *p, item *it, bool t) {
             int infected_dur = p->disease_duration("infected", true);
             p->rem_disease("infected");
             p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0) );
+        }
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::fungicide(game *g, player *p, item *it, bool t) {
+    g->add_msg_if_player(p,_("You take some fungicide."));
+    if (p->has_disease("fungus")) {
+        p->rem_disease("infected");
+    }
+    if (p->has_disease("spores")) {
+        int fungus_int = p->disease_intensity("spores", true);
+        p->rem_disease("spores");
+        int spore_count = rng(fungus_int / 5, fungus_int);
+        if (spore_count > 0) {
+            monster spore(GetMType("mon_spore"));
+            for (int i = p->posx - 1; i <= p->posx + 1; i++) {
+                for (int j = p->posy - 1; j <= p->posy + 1; j++) {
+                    if (spore_count == 0) {
+                        break;
+                    }
+                    if (i == p->posx && j == p->posy) {
+                        continue;
+                    }
+                    if (g->m.move_cost(i, j) > 0 && x_in_y(spore_count, 8)) {
+                        const int zid = g->mon_at(i, j);
+                        if (zid >= 0) {  // Spores hit a monster
+                            if (g->u_see(i, j) &&
+                                  !g->zombie(zid).type->in_species("FUNGUS")) {
+                                g->add_msg(_("The %s is covered in tiny spores!"),
+                                           g->zombie(zid).name().c_str());
+                            }
+                            if (!g->zombie(zid).make_fungus(g)) {
+                                g->kill_mon(zid);
+                            }
+                        } else {
+                            spore.spawn(i, j);
+                            g->add_zombie(spore);
+                        }
+                        spore_count--;
+                    }
+                }
+                if (spore_count == 0) {
+                    break;
+                }
+            }
         }
     }
     return it->type->charges_to_use();
@@ -1561,7 +1608,7 @@ static int cauterize_effect(player *p, item *it, bool force = true)
         int side = -1;
         p->hp_convert(hpart, bp, side);
         if (p->has_disease("bite", bp, side)) {
-            g->u.add_disease("bite", 2600, 1, 1, bp, side, true, -1);
+            g->u.add_disease("bite", 2600, false, 1, 1, 0, -1, bp, side, true);
         }
         return it->type->charges_to_use();
     }
@@ -2728,23 +2775,33 @@ int iuse::zweifire_on(game *g, player *p, item *it, bool t)
     if (t)    // Effects while simply on
     {
         if (one_in(35)) {
+            //~ (Flammenschwert) "The fire on your blade burns brightly!"
             g->add_msg_if_player(p,_("Das Feuer um deine Schwertklinge leuchtet hell!"));
         }
     }
     else if (it->charges == 0)
     {
+        //~ (Flammenschwert) "Your Flammenscwhert (firesword) is out of fuel!"
         g->add_msg_if_player(p,_("Deinem Flammenschwert ist der Brennstoff ausgegangen!"));
         it->make(g->itypes["zweifire_off"]);
         it->active = false;
     }
     else
     {
-        int choice = menu(true, _("Was willst du tun?"), _("Die Flamme erloschen."),
-                          _("Ein Feuer entfachen."), _("Nichts tun."), NULL);
+        int choice = menu(true,
+                          //~ (Flammenschwert) "What will you do?"
+                          _("Was willst du tun?"),
+                          //~ (Flammenschwert) "Extinguish the flame."
+                          _("Die Flamme erloschen."),
+                          //~ (Flammenschwert) "Start a fire."
+                          _("Ein Feuer entfachen."),
+                          //~ (Flammenschwert) "Do nothing."
+                          _("Nichts tun."), NULL);
         switch (choice)
         {
         case 1:
         {
+            //~ (Flammenschwert) "The flames on your sword die out."
             g->add_msg_if_player(p,_("Die Flamme deines Schwertes erlischt."));
             it->make(g->itypes["zweifire_off"]);
             it->active = false;
@@ -2799,16 +2856,21 @@ int iuse::jackhammer(game *g, player *p, item *it, bool t)
 
 int iuse::jacqueshammer(game *g, player *p, item *it, bool t)
 {
+ // translator comments for everything to reduce confusion
  int dirx, diry;
  g->draw();
+ //~ (jacqueshammer) "Drill where?"
  mvprintw(0, 0, _("Percer dans quelle direction?"));
  get_direction(dirx, diry, input());
  if (dirx == -2) {
+  //~ (jacqueshammer) "Invalid direction"
   g->add_msg_if_player(p,_("Direction invalide"));
   return 0;
  }
  if (dirx == 0 && diry == 0) {
+  //~ (jacqueshammer) "My god! Let's talk it over, OK?"
   g->add_msg_if_player(p,_("Mon dieu! Nous allons en parler OK?"));
+  //~ (jacqueshammer) "Don't do anything rash."
   g->add_msg_if_player(p,_("Ne pas faire eruption rien.."));
   return 0;
  }
@@ -2818,7 +2880,7 @@ int iuse::jacqueshammer(game *g, player *p, item *it, bool t)
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
   p->moves -= 500;
-  //~ the sound of a "jaqueshammer"
+  //~ the sound of a "jacqueshammer"
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
  } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
             g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
@@ -2826,6 +2888,7 @@ int iuse::jacqueshammer(game *g, player *p, item *it, bool t)
   p->moves -= 500;
   g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
  } else {
+  //~ (jacqueshammer) "You can't drill there."
   g->add_msg_if_player(p,_("Vous ne pouvez pas percer la-bas.."));
   return 0;
  }

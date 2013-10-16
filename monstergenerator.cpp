@@ -2,6 +2,7 @@
 #include "color.h"
 #include "translations.h"
 #include "rng.h"
+#include "output.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -49,10 +50,10 @@ void MonsterGenerator::apply_species_attributes(mtype *mon)
             species_type *mspec = mon_species[*spec];
 
             // apply species flags/triggers
-            apply_set_to_set(mon->flags, mspec->flags);
-            apply_set_to_set(mon->anger, mspec->anger_trig);
-            apply_set_to_set(mon->fear, mspec->fear_trig);
-            apply_set_to_set(mon->placate, mspec->placate_trig);
+            apply_set_to_set(mspec->flags, mon->flags);
+            apply_set_to_set(mspec->anger_trig, mon->anger);
+            apply_set_to_set(mspec->fear_trig, mon->fear);
+            apply_set_to_set(mspec->placate_trig, mon->placate);
         }
     }
 }
@@ -115,7 +116,6 @@ void MonsterGenerator::init_death()
     death_map["VINE_CUT"] = &mdeath::vine_cut;// Kill adjacent vine if it's cut
     death_map["TRIFFID_HEART"] = &mdeath::triffid_heart;// Destroy all roots
     death_map["FUNGUS"] = &mdeath::fungus;// Explodes in spores D:
-    death_map["FUNGUSAWAKE"] = &mdeath::fungusawake;// Turn into live fungaloid
     death_map["DISINTEGRATE"] = &mdeath::disintegrate;// Falls apart
     death_map["WORM"] = &mdeath::worm;// Spawns 2 half-worms
     death_map["DISAPPEAR"] = &mdeath::disappear;// Hallucination disappears
@@ -154,9 +154,11 @@ void MonsterGenerator::init_attack()
     attack_map["SPIT_SAP"] = &mattack::spit_sap;
     attack_map["TRIFFID_HEARTBEAT"] = &mattack::triffid_heartbeat;
     attack_map["FUNGUS"] = &mattack::fungus;
+    attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
     attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
+    attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
     attack_map["PLANT"] = &mattack::plant;
     attack_map["DISAPPEAR"] = &mattack::disappear;
     attack_map["FORMBLOB"] = &mattack::formblob;
@@ -164,6 +166,8 @@ void MonsterGenerator::init_attack()
     attack_map["TENTACLE"] = &mattack::tentacle;
     attack_map["VORTEX"] = &mattack::vortex;
     attack_map["GENE_STING"] = &mattack::gene_sting;
+    attack_map["PARA_STING"] = &mattack::para_sting;
+    attack_map["TRIFFID_GROWTH"] = &mattack::triffid_growth;
     attack_map["STARE"] = &mattack::stare;
     attack_map["FEAR_PARALYZE"] = &mattack::fear_paralyze;
     attack_map["PHOTOGRAPH"] = &mattack::photograph;
@@ -218,9 +222,11 @@ void MonsterGenerator::init_flags()
     flag_map["POISON"] = MF_POISON;// // Poisonous to eat
     flag_map["VENOM"] = MF_VENOM;// // Attack may poison the player
     flag_map["BADVENOM"] = MF_BADVENOM;// // Attack may SEVERELY poison the player
+    flag_map["PARALYZEVENOM"] = MF_PARALYZE;// // Attack may paralyze the player with venom
     flag_map["BLEED"] = MF_BLEED;//       // Causes player to bleed
     flag_map["WEBWALK"] = MF_WEBWALK;// // Doesn't destroy webs
     flag_map["DIGS"] = MF_DIGS;// // Digs through the ground
+    flag_map["CAN_DIG"] = MF_CAN_DIG;// // Digs through the ground
     flag_map["FLIES"] = MF_FLIES;// // Can fly (over water, etc)
     flag_map["AQUATIC"] = MF_AQUATIC;// // Confined to water
     flag_map["SWIMS"] = MF_SWIMS;// // Treats water as 50 movement point terrain
@@ -361,7 +367,7 @@ mtype *MonsterGenerator::get_mtype(std::string mon)
     {
         return mon_templates[mon];
     }
-
+    debugmsg("Could not find monster with type %s", mon.c_str());
     return default_montype;
 }
 mtype *MonsterGenerator::get_mtype(int mon)

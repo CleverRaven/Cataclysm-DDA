@@ -169,6 +169,7 @@ class game
   bool spawn_hallucination(); //Spawns a hallucination close to the player
 
   int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
+  int  mon_at(point p) const;
   bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
@@ -219,6 +220,7 @@ class game
   void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled = false);
 
   void nuke(int x, int y);
+  bool spread_fungus(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
   float natural_light_level() const;

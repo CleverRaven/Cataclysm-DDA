@@ -45,7 +45,7 @@ mon_sludge_crawler,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
  mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
-// Fungaloids
+// Fungaloids TODO: Remove dormant fungaloid when it won't break save compatibility
 mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
  mon_fungaloid_queen, mon_fungal_wall,
 // Blobs
@@ -80,7 +80,7 @@ mon_hallu_mom,
 mon_generator,
 // added post 0.8
 mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
-mon_giant_crayfish,
+mon_giant_crayfish, mon_fungal_fighter,
 num_monsters
 };
 
@@ -136,9 +136,11 @@ MF_DESTROYS, // Bashes down walls and more
 MF_POISON, // Poisonous to eat
 MF_VENOM, // Attack may poison the player
 MF_BADVENOM, // Attack may SEVERELY poison the player
+MF_PARALYZE, // Attack may paralyze the player with venom
 MF_BLEED,       // Causes player to bleed
 MF_WEBWALK, // Doesn't destroy webs
 MF_DIGS, // Digs through the ground
+MF_CAN_DIG, // Can dig and walk
 MF_FLIES, // Can fly (over water, etc)
 MF_AQUATIC, // Confined to water
 MF_SWIMS, // Treats water as 50 movement point terrain
@@ -209,7 +211,7 @@ struct mtype {
                                // Negative # means one item gen'd, tops
     float luminance;           // 0 is default, >0 gives luminance to lightmap
     int hp;
-    unsigned char sp_freq;     // How long sp_attack takes to charge
+    unsigned int sp_freq;     // How long sp_attack takes to charge
     void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
     void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
 
