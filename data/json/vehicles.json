@@ -441,6 +441,10 @@
             {"x": -3, "y": -2, "part": "wheel_wide"},
             {"x": -3, "y": 2, "part": "frame_vertical"},
             {"x": -3, "y": 2, "part": "wheel_wide"}
+        ],
+        "items": [
+            {"x": 0, "y": 0, "chance": 2, "items": ["beer", "beer", "beer", "beer", "beer", "beer"]},
+            {"x": -2, "y": 0, "chance": 2, "item_groups": "bigtools"}
         ]
     },
     {
