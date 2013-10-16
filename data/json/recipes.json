@@ -8838,7 +8838,7 @@
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 20000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
