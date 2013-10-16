@@ -15,6 +15,7 @@
 #include "mapdata.h"
 #include "color.h"
 #include "monstergenerator.h"
+#include "inventory.h"
 
 #include <string>
 #include <vector>
@@ -170,6 +171,7 @@ void init_data_structures()
     init_mutation_parts();
     init_translation();
     init_martial_arts();
+    init_inventory_categories();
 }
 
 void load_json_dir(std::string const &dirname)
