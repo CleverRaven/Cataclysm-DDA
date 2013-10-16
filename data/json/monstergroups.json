@@ -19,7 +19,8 @@
       { "monster" : "mon_spider_jumping", "freq" : 30, "multiplier" : 10 },
       { "monster" : "mon_dog", "freq" : 10, "multiplier" : 0 },
       { "monster" : "mon_cat", "freq" : 10, "multiplier" : 0 },
-      { "monster" : "mon_crow", "freq" : 30, "multiplier" : 0 }
+      { "monster" : "mon_crow", "freq" : 30, "multiplier" : 0 },
+      { "monster" : "mon_sludge_crawler", "freq" : 2, "multiplier" : 0 }
     ]
   },
   {
@@ -76,6 +77,7 @@
     "default" : "mon_triffid",
     "monsters" : [
       { "monster" : "mon_triffid_young", "freq" : 300, "multiplier" : 0 },
+      { "monster" : "mon_fungal_fighter", "freq" : 160, "multiplier" : 0 },
       { "monster" : "mon_vinebeast", "freq" : 160, "multiplier" : 10 },
       { "monster" : "mon_triffid_queen", "freq" : 60, "multiplier" : 0 },
       { "monster" : "mon_triffid_heart", "freq" : 0, "multiplier" : 0 }
@@ -84,13 +86,12 @@
   {
     "type":"monstergroup",
     "name" : "GROUP_FUNGI",
-    "default" : "mon_fungaloid",
+    "default" : "mon_spore",
     "monsters" : [
-      { "monster" : "mon_fungaloid_dormant", "freq" : 0, "multiplier" : 0 },
-      { "monster" : "mon_ant_fungus", "freq" : 0, "multiplier" : 0 },
-      { "monster" : "mon_zombie_fungus", "freq" : 300, "multiplier" : 0 },
-      { "monster" : "mon_boomer_fungus", "freq" : 30, "multiplier" : 0 },
-      { "monster" : "mon_spore", "freq" : 0, "multiplier" : 0 },
+      { "monster" : "mon_fungaloid", "freq" : 500, "multiplier" : 0 },
+      { "monster" : "mon_fungaloid_young", "freq" : 100, "multiplier" : 0 },
+      { "monster" : "mon_zombie_fungus", "freq" : 0, "multiplier" : 0 },
+      { "monster" : "mon_boomer_fungus", "freq" : 0, "multiplier" : 0 },
       { "monster" : "mon_fungal_wall", "freq" : 0, "multiplier" : 0 },
       { "monster" : "mon_fungaloid_queen", "freq" : 0, "multiplier" : 0 }
     ]

@@ -6076,6 +6076,38 @@
   ]
 },{
         "type" : "recipe",
+  "result": "fungicide",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "hotplate", 2 ]
+    ]
+  ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fighter_sting", 1 ]
+    ],
+    [
+      [ "water_clean", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "royal_jelly",
   "category": "CC_CHEM",
   "skill_used": "cooking",

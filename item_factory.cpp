@@ -44,6 +44,7 @@ void Item_factory::init(){
     iuse_function_list["XANAX"] = &iuse::xanax;
     iuse_function_list["CIG"] = &iuse::cig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
+    iuse_function_list["FUNGICIDE"] = &iuse::fungicide;
     iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;
@@ -238,6 +239,7 @@ itype* Item_factory::find_template(const Item_tag id){
         return found->second;
     }
     else{
+        debugmsg("Missing item (check item_groups.json): %s", id.c_str());
         return m_missing_item;
     }
 }

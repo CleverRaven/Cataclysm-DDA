@@ -119,7 +119,7 @@ void mdeath::boomer(game *g, monster *z)
   }
  }
  if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1)
-  g->u.infect("boomered", bp_eyes, 2, 24, g);
+  g->u.infect("boomered", bp_eyes, 2, 24, false, 1, 1);
 }
 
 void mdeath::kill_vines(game *g, monster *z)
@@ -187,37 +187,58 @@ void mdeath::triffid_heart(game *g, monster *z)
 
 void mdeath::fungus(game *g, monster *z)
 {
- monster spore(GetMType("mon_spore"));
- int sporex, sporey;
- //~ the sound of a fungus dying
- g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
- for (int i = -1; i <= 1; i++) {
-  for (int j = -1; j <= 1; j++) {
-   sporex = z->posx() + i;
-   sporey = z->posy() + j;
-   if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
-    if (g->mon_at(sporex, sporey) >= 0) { // Spores hit a monster
-     if (g->u_see(sporex, sporey))
-      g->add_msg(_("The %s is covered in tiny spores!"),
-                 g->zombie(g->mon_at(sporex, sporey)).name().c_str());
-     if (!g->zombie(g->mon_at(sporex, sporey)).make_fungus(g))
-      g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
-    } else if (g->u.posx == sporex && g->u.posy == sporey)
-     g->u.infect("spores", bp_mouth, 4, 30, g);
-    else {
-     spore.spawn(sporex, sporey);
-     g->add_zombie(spore);
+    mdeath::normal(g, z);
+    monster spore(GetMType("mon_spore"));
+    int sporex, sporey;
+    int mondex;
+    //~ the sound of a fungus dying
+    g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            sporex = z->posx() + i;
+            sporey = z->posy() + j;
+            mondex = g->mon_at(sporex, sporey);
+            if (g->m.move_cost(sporex, sporey) > 0) {
+                if (mondex != -1) { // Spores hit a monster
+                    if (g->u_see(sporex, sporey) &&
+                          !g->zombie(mondex).type->in_species("FUNGUS")) {
+                        g->add_msg(_("The %s is covered in tiny spores!"),
+                                        g->zombie(mondex).name().c_str());
+                    }
+                    if (!g->zombie(mondex).make_fungus(g)) {
+                        g->kill_mon(mondex, (z->friendly != 0));
+                    }
+                } else if (g->u.posx == sporex && g->u.posy == sporey) {
+                    // Spores hit the player
+                    bool hit = false;
+                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (hit) {
+                        g->add_msg(_("You're covered in tiny spores!"));
+                    }
+                } else if (one_in(2) && g->num_zombies() <= 1000) { // Spawn a spore
+                    spore.spawn(sporex, sporey);
+                    g->add_zombie(spore);
+                }
+            }
+        }
     }
-   }
-  }
- }
-}
-
-void mdeath::fungusawake(game *g, monster *z)
-{
- monster newfung(GetMType("mon_fungaloid"));
- newfung.spawn(z->posx(), z->posy());
- g->add_zombie(newfung);
 }
 
 void mdeath::disintegrate(game *g, monster *z)
