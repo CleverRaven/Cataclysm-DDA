@@ -360,6 +360,10 @@
             {"x": -4, "y": 1, "part": "door_trunk"},
             {"x": -4, "y": 2, "part": "frame_horizontal"},
             {"x": -4, "y": 2, "part": "wheel"}
+        ],
+        "items": [
+            {"x": -1, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]},
+            {"x": -2, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]}
         ]
     },
     {
