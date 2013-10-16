@@ -192,8 +192,8 @@ void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
         g->add_msg(_("If only you had a shovel..."));
         return;
     }
-    const char *xname = m->tername(examx, examy).c_str();
-    if (query_yn(_("Clear up that %s?"),xname)) {
+    std::string xname = m->tername(examx, examy);
+    if (query_yn(_("Clear up that %s?"), xname.c_str())) {
         // "Remove"
         p->moves -= 200;
 
@@ -212,7 +212,7 @@ void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
         }
 
         // "Remind"
-        g->add_msg(_("You clear up that %s."), xname);
+        g->add_msg(_("You clear up that %s."), xname.c_str());
     }
 }
 
