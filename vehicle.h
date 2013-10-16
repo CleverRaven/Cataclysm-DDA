@@ -52,6 +52,7 @@ struct vehicle_item_spawn
     int x, y;
     int chance;
     std::vector<std::string> item_ids;
+    std::vector<std::string> item_groups;
 };
 
 struct vehicle_prototype

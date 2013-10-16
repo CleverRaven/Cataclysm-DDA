@@ -149,9 +149,18 @@ void game::load_vehicle(JsonObject &jo)
                 while(item_group.has_more()) {
                     next_spawn.item_ids.push_back(item_group.next_string());
                 }
-            } else {
+            } else if(spawn_info.is_string("items")) {
                 //Treat single item as array
                 next_spawn.item_ids.push_back(spawn_info.get_string("items"));
+            }
+            if(spawn_info.is_array("item_groups")) {
+                //Pick from a group of items, just like map::place_items
+                JsonArray item_group_names = spawn_info.get_array("item_groups");
+                while(item_group_names.has_more()) {
+                    next_spawn.item_groups.push_back(item_group_names.next_string());
+                }
+            } else if(spawn_info.is_string("item_groups")) {
+                next_spawn.item_groups.push_back(spawn_info.get_string("item_groups"));
             }
             vproto->item_spawns.push_back(next_spawn);
         }
