@@ -3707,7 +3707,7 @@
 },{
         "type" : "recipe",
   "result": "acid",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
@@ -3735,7 +3735,7 @@
         "type" : "recipe",
   "result": "acid",
   "id_suffix": "from batteries",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "electronics",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 2,
