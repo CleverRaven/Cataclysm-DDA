@@ -3715,7 +3715,8 @@
   "autolearn": true,
   "tools": [
     [
-      [ "hotplate", 3 ],
+      [ "chemistry_set", 2 ],
+      [ "hotplate", 2 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3752,6 +3753,27 @@
   "components": [
     [
       [ "battery", 125 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "water_acid",
+  "id_suffix": "from electrolysis",
+  "category": "CC_DRINK",
+  "skill_used": "chemistry",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 3 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -6748,9 +6770,6 @@
   "tools": [
     [
       [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6770,9 +6789,6 @@
   "tools": [
     [
       [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6824,9 +6840,6 @@
   "tools": [
     [
       [ "chemistry_set", 50 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
