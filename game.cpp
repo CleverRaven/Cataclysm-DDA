@@ -9095,11 +9095,35 @@ void game::eat(char chInput)
   return;
  }
 
+ if(ch == ',')
+ {
+	 autoeat();
+	 return;
+ }
+
  if (!u.has_item(ch)) {
   add_msg(_("You don't have item '%c'!"), ch);
   return;
  }
  u.eat(this, u.lookup_item(ch));
+}
+
+void game::autoeat()
+{
+	inventory food;
+	food.form_from_map(this,u.pos(),1);
+	std::vector<item*> items=u.inv_dump();
+	food.dump(items);
+	for(int i=0;i<items.size();i++)
+	{
+		it_comest *comest = dynamic_cast<it_comest*>(items[i]->type);
+		if(!comest/* || drink && comest->comesttype != "DRINK" || !drink && comest->comesttype != "FOOD"*/)
+			continue;
+		if(!u.has_trait("GOURMAND") && (comest->nutr-20 > u.hunger || comest->quench-20 > u.thirst))
+			break;
+		if(u.safe_to_eat(g,items[i]))
+			u.eat(this, u.lookup_item(items[i]->invlet));
+	}
 }
 
 void game::wear(char chInput)

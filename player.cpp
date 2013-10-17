@@ -6252,7 +6252,7 @@ bool player::eat(game *g, signed char ch)
         last_item = itype_id(eaten->type->id);
 
         if (overeating && !is_npc() &&
-                !query_yn(_("You're full.  Force yourself to eat?")))
+                !query_yn(_("You're full. Force yourself to eat?")))
             return false;
 
         if (has_trait("CARNIVORE") && eaten->made_of("veggy") && comest->nutr > 0)
@@ -6448,6 +6448,17 @@ bool player::eat(game *g, signed char ch)
         }
     }
     return true;
+}
+
+bool player::safe_to_eat(game *g, item *f)
+{
+	if(!f->type->is_food())return false;
+	it_comest *comest = dynamic_cast<it_comest*>(f->type);
+	if (has_trait("CARNIVORE") && f->made_of("veggy") && comest->nutr > 0)return false;
+	if (!has_trait("CANNIBAL") && f->made_of("hflesh"))return false;
+	if ((has_trait("VEGETARIAN") || has_trait("HERBIVORE") || has_trait("RUMINANT")) && f->made_of("flesh"))return false;
+	if (!has_trait("SAPROVORE") && f->rotten(g))return false;
+	return true;
 }
 
 bool player::wield(game *g, signed char ch, bool autodrop)

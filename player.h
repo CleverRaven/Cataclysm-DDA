@@ -290,6 +290,7 @@ public:
 
  char lookup_item(char let);
  bool eat(game *g, signed char invlet); // Eat item; returns false on fail
+ bool safe_to_eat(game *g, item *f); // Return true if item can be eaten without ill effects
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
  bool wear(game *g, char let, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
