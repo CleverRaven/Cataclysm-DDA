@@ -20,39 +20,44 @@ private:
     int end;
     JsonIn *jsin;
 
-    int verify_position(std::string &name, bool throw_exception=true);
+    int verify_position(const std::string &name,
+                        const bool throw_exception=true);
 
 public:
     JsonObject(JsonIn *jsin);
 
     void finish(); // moves the stream to the end of the object
 
-    bool has_member(std::string name); // true iff named member exists
+    bool has_member(const std::string &name); // true iff named member exists
 
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
-    bool get_bool(std::string name);
-    bool get_bool(std::string name, bool fallback);
-    int get_int(std::string name);
-    int get_int(std::string name, int fallback);
-    double get_float(std::string name);
-    double get_float(std::string name, double fallback);
-    std::string get_string(std::string name);
-    std::string get_string(std::string name, std::string fallback);
+    bool get_bool(const std::string &name);
+    bool get_bool(const std::string &name, const bool fallback);
+    int get_int(const std::string &name);
+    int get_int(const std::string &name, const int fallback);
+    double get_float(const std::string &name);
+    double get_float(const std::string &name, const double fallback);
+    std::string get_string(const std::string &name);
+    std::string get_string(const std::string &name, const std::string &fallback);
 
-    JsonArray get_array(std::string name); // returns empty array if not found
-    JsonObject get_object(std::string name);
-    std::set<std::string> get_tags(std::string name); // returns empty set if not found
+    // note: returns empty array if not found
+    JsonArray get_array(const std::string &name);
+    // note: throws exception if not found (can change behaviour if desirable)
+    JsonObject get_object(const std::string &name);
+    // note: returns empty set if not found
+    std::set<std::string> get_tags(const std::string &name);
+    // TODO: some sort of get_map(), maybe
 
     // type checking
-    bool has_null(std::string name);
-    bool has_bool(std::string name);
-    bool has_int(std::string name);
-    bool has_float(std::string name);
-    bool has_number(std::string name) { return has_float(name); };
-    bool has_string(std::string name);
-    bool has_array(std::string name);
-    bool has_object(std::string name);
+    bool has_null(const std::string &name);
+    bool has_bool(const std::string &name);
+    bool has_int(const std::string &name);
+    bool has_float(const std::string &name);
+    bool has_number(const std::string &name) { return has_float(name); };
+    bool has_string(const std::string &name);
+    bool has_array(const std::string &name);
+    bool has_object(const std::string &name);
 
     // useful debug info
     std::string line_number(); // for occasional use only

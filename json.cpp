@@ -96,7 +96,8 @@ void JsonObject::finish()
     jsin->seek(end);
 }
 
-int JsonObject::verify_position(std::string &name, bool throw_exception)
+int JsonObject::verify_position(const std::string &name,
+                                const bool throw_exception)
 {
     int pos = positions[name]; // initialized to 0 if it doesn't exist
     if (pos > start) {
@@ -110,7 +111,7 @@ int JsonObject::verify_position(std::string &name, bool throw_exception)
     return 0;
 }
 
-bool JsonObject::has_member(std::string name)
+bool JsonObject::has_member(const std::string &name)
 {
     return (bool)verify_position(name, false);
 }
@@ -121,14 +122,14 @@ std::string JsonObject::line_number()
     return jsin->line_number();
 }
 
-bool JsonObject::get_bool(std::string name)
+bool JsonObject::get_bool(const std::string &name)
 {
     int pos = verify_position(name);
     jsin->seek(pos);
     return jsin->get_bool();
 }
 
-bool JsonObject::get_bool(std::string name, bool fallback)
+bool JsonObject::get_bool(const std::string &name, const bool fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -138,14 +139,14 @@ bool JsonObject::get_bool(std::string name, bool fallback)
     return jsin->get_bool();
 }
 
-int JsonObject::get_int(std::string name)
+int JsonObject::get_int(const std::string &name)
 {
     int pos = verify_position(name);
     jsin->seek(pos);
     return jsin->get_int();
 }
 
-int JsonObject::get_int(std::string name, int fallback)
+int JsonObject::get_int(const std::string &name, const int fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -155,14 +156,14 @@ int JsonObject::get_int(std::string name, int fallback)
     return jsin->get_int();
 }
 
-double JsonObject::get_float(std::string name)
+double JsonObject::get_float(const std::string &name)
 {
     int pos = verify_position(name);
     jsin->seek(pos);
     return jsin->get_float();
 }
 
-double JsonObject::get_float(std::string name, double fallback)
+double JsonObject::get_float(const std::string &name, const double fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -172,14 +173,14 @@ double JsonObject::get_float(std::string name, double fallback)
     return jsin->get_float();
 }
 
-std::string JsonObject::get_string(std::string name)
+std::string JsonObject::get_string(const std::string &name)
 {
     int pos = verify_position(name);
     jsin->seek(pos);
     return jsin->get_string();
 }
 
-std::string JsonObject::get_string(std::string name, std::string fallback)
+std::string JsonObject::get_string(const std::string &name, const std::string &fallback)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -189,7 +190,7 @@ std::string JsonObject::get_string(std::string name, std::string fallback)
     return jsin->get_string();
 }
 
-JsonArray JsonObject::get_array(std::string name)
+JsonArray JsonObject::get_array(const std::string &name)
 {
     int pos = positions[name];
     if (pos <= start) {
@@ -199,14 +200,14 @@ JsonArray JsonObject::get_array(std::string name)
     return JsonArray(jsin);
 }
 
-JsonObject JsonObject::get_object(std::string name)
+JsonObject JsonObject::get_object(const std::string &name)
 {
     int pos = verify_position(name);
     jsin->seek(pos);
     return jsin->get_object();
 }
 
-std::set<std::string> JsonObject::get_tags(std::string name)
+std::set<std::string> JsonObject::get_tags(const std::string &name)
 {
     std::set<std::string> ret;
     int pos = positions[name];
@@ -227,7 +228,7 @@ std::set<std::string> JsonObject::get_tags(std::string name)
     return ret;
 }
 
-bool JsonObject::has_null(std::string name)
+bool JsonObject::has_null(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
@@ -240,7 +241,7 @@ bool JsonObject::has_null(std::string name)
     return false;
 }
 
-bool JsonObject::has_bool(std::string name)
+bool JsonObject::has_bool(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
@@ -253,7 +254,7 @@ bool JsonObject::has_bool(std::string name)
     return false;
 }
 
-bool JsonObject::has_int(std::string name)
+bool JsonObject::has_int(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
@@ -266,7 +267,7 @@ bool JsonObject::has_int(std::string name)
     return false;
 }
 
-bool JsonObject::has_float(std::string name)
+bool JsonObject::has_float(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
@@ -279,7 +280,7 @@ bool JsonObject::has_float(std::string name)
     return false;
 }
 
-bool JsonObject::has_string(std::string name)
+bool JsonObject::has_string(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
@@ -292,7 +293,7 @@ bool JsonObject::has_string(std::string name)
     return false;
 }
 
-bool JsonObject::has_array(std::string name)
+bool JsonObject::has_array(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
@@ -305,7 +306,7 @@ bool JsonObject::has_array(std::string name)
     return false;
 }
 
-bool JsonObject::has_object(std::string name)
+bool JsonObject::has_object(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
