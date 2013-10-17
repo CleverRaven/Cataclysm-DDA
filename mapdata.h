@@ -35,6 +35,29 @@ class monster;
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+struct map_bash_item_drop {
+    std::string itemtype; // item id
+    int amount;           // number dropped
+    int minamount;        // optional: if >= amount drop is random # between minamount and amount
+    int chance;           // 
+    map_bash_item_drop(std::string str, int i) : itemtype(str), amount(i), minamount(-1), chance(-1) {};
+    map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
+};
+struct map_bash_info {
+    int str_min;          // min str(*) required to bash
+    int str_max;          // max str required: bash succeeds if str >= random # between str_min & str_max
+    int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
+    int str_max_blocked;  
+    int num_tests;        // how many tests must succeed
+    int chance;
+    std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
+    std::string sound;    // sound made on success ('You hear a "smash!"')
+    std::string sound_fail; // sound  made on fail
+    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    map_bash_info() : str_min(-1), str_max(-1), num_tests(-1), chance(-1), ter_set("") {};
+    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+};
+
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
@@ -105,6 +128,9 @@ struct ter_t {
  iexamine_function examine; //What happens when the terrain is examined
  std::string open;          // open action: transform into terrain with matching id
  std::string close;         // close action: transform into terrain with matching id
+
+ map_bash_info bash;
+ 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
@@ -142,6 +168,8 @@ struct furn_t {
  std::string open;
  std::string close;
 
+ map_bash_info bash;
+ 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
@@ -280,7 +308,8 @@ std::ostream & operator<<(std::ostream &, const submap &);
 void load_furniture(JsonObject &jsobj);
 void load_terrain(JsonObject &jsobj);
 
-
+void verify_furniture();
+void verify_terrain();
 
 /*
 runtime index: ter_id
