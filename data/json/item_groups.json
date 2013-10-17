@@ -159,6 +159,7 @@
       ["ref_lighter", 2],
       ["matches", 60],
       ["extinguisher", 20],
+      ["sm_extinguisher", 10],
       ["mp3", 18],
       ["portable_game", 8],
       ["usb_drive", 5],
@@ -173,6 +174,7 @@
       ["pda", 3],
       ["gum", 30],
       ["flask_hip", 5],
+      ["sm_extinguisher", 10],
       ["nic_gum", 2]
     ]
   },{
@@ -283,6 +285,7 @@
       ["dehydrator", 15],
       ["flask_hip", 5],
       ["lye_powder", 5],
+      ["sm_extinguisher", 10],
       ["charcoal", 5]
     ]
   },{
@@ -827,6 +830,7 @@
       ["roadmap", 40],
       ["money_bundle", 55],
       ["gum", 30],
+      ["sm_extinguisher", 10],
       ["nic_gum", 2]
     ]
   },{
@@ -1167,6 +1171,7 @@
       ["book_icef", 8],
       ["textbook_fabrication", 12],
       ["vac_sealer", 10],
+      ["sm_extinguisher", 10],
       ["tool_belt", 30]
     ]
   },{
@@ -1471,6 +1476,7 @@
       ["protein_powder", 15],
       ["protein_shake", 15],
       ["knife_trench", 7],
+      ["sm_extinguisher", 10],
       ["quikclot", 10]
     ]
   },{
@@ -2345,6 +2351,7 @@
       ["gum", 10],
       ["nic_gum", 4],
       ["fan", 10],
+      ["sm_extinguisher", 10],
       ["pocketwatch", 2]
     ]
   },{
@@ -2415,6 +2422,7 @@
       ["mag_tailor", 5],
       ["gum", 20],
       ["nic_gum", 5],
+      ["sm_extinguisher", 10],
       ["pocketwatch", 2]
     ]
   },{
@@ -2752,6 +2760,7 @@
       ["cu_pipe", 5],
       ["e_tool", 5],
       ["knife_trench", 7],
+      ["sm_extinguisher", 10],
       ["knee_pads", 10]
     ]
   },{
@@ -2895,6 +2904,7 @@
       ["apron_leather", 5],
       ["pocketwatch", 5],
       ["e_tool", 2],
+      ["sm_extinguisher", 10],
       ["pur_tablets", 5]
     ]
   },{
@@ -2967,6 +2977,7 @@
       ["lye_powder", 10],
       ["oxy_powder", 12],
       ["chemistry_set", 5],
+      ["sm_extinguisher", 10],
       ["charcoal", 10]
     ]
   },{
@@ -3564,6 +3575,7 @@
       ["quikclot", 10],
       ["e_tool", 15],
       ["dehydrator", 10],
+      ["sm_extinguisher", 10],
       ["charcoal", 5]
     ]
   },{
@@ -3600,6 +3612,7 @@
       ["bio_blood_filter", 10],
       ["tongs", 10],
       ["boots_rubber", 20],
+      ["sm_extinguisher", 10],
       ["apron_leather", 10]
     ]
   },{
@@ -3736,6 +3749,7 @@
       ["bio_blood_filter", 10],
       ["hazmat_suit", 5],
       ["e_tool", 5],
+      ["sm_extinguisher", 10],
       ["apron_leather", 10]
     ]
   },{
@@ -4100,6 +4114,7 @@
       ["tac_helmet", 5],
       ["tac_helmet", 5],
       ["mask_bal", 1],
+      ["sm_extinguisher", 10],
       ["glasses_bal", 10]
     ]
   },{

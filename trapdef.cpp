@@ -252,3 +252,14 @@ keys.push_back("null");
 traps.push_back(new trap(id, "", "", c_white, '^',  99, 99,
     99, &trapfunc::snake, &trapfuncm::snake, keys));;
 }
+
+void game::release_traps()
+{
+ std::vector<trap*>::iterator it;
+ for (it = traps.begin(); it != traps.end(); it++) {
+  if (*it != NULL) {
+   delete *it;
+  }
+ }
+ traps.clear();
+}
