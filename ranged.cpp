@@ -806,21 +806,21 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   wrefresh(w_status);
   refresh();
 
-  converted_input cinput = get_input_from_kyb_mouse();
+  mapped_input minput = get_input_from_kyb_mouse();
   bool target_with_mouse = false;
-  if (cinput.event == MouseButton) {
-      if (cinput.ch == MOUSE_BUTTON_LEFT) {
+  if (minput.evt.type == CATA_INPUT_MOUSE) {
+      if (minput.evt.get_first_input() == MOUSE_BUTTON_LEFT) {
           // Move target to tile clicked
           target_with_mouse = true;
-          tarx = cinput.x - x;
-          tary = cinput.y - y;
-      } else if (cinput.ch == MOUSE_BUTTON_RIGHT) {
+          tarx = minput.evt.mouse_x - x;
+          tary = minput.evt.mouse_y - y;
+      } else if (minput.evt.get_first_input() == MOUSE_BUTTON_RIGHT) {
           ch = '.'; // Fire
       } else {
           ch = 0; // Unsupported
       }
   } else {
-      ch = convert_to_dialog_key(cinput.ch);
+      ch = convert_to_dialog_key(minput.evt.get_first_input());
   }
 
   if (!target_with_mouse) {

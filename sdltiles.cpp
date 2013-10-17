@@ -998,23 +998,18 @@ int curses_getch(WINDOW* win)
 }
 
 // Gets input from both keyboard and mouse
-InputKybMouse getch_kyb_mouse(WINDOW* capture_win /* = NULL */)
+input_event getch_kyb_mouse(WINDOW* capture_win /* = NULL */)
 {
-    InputKybMouse input;
-    input.is_mouse_button = false;
     input_event evt = inp_mngr.get_input_event(mainwin);
 
     if (evt.sequence.size() == 0 || 
         (evt.type != CATA_INPUT_MOUSE && evt.type != CATA_INPUT_KEYBOARD))
     {
-        input.ch = ERR;
-        return input;
+        evt.type = CATA_INPUT_ERROR;
+        return evt;
     }
 
-    input.ch = static_cast<int>(evt.sequence[0]);
     if (evt.type == CATA_INPUT_MOUSE) {
-        int mx, my;
-        SDL_GetMouseState(&mx, &my);
         if (!capture_win) {
             capture_win = g->w_terrain;
         }
@@ -1024,12 +1019,11 @@ InputKybMouse getch_kyb_mouse(WINDOW* capture_win /* = NULL */)
         int win_right = (capture_win->x + capture_win->width) * fontwidth;
         int win_top = capture_win->y * fontheight;
         int win_bottom = (capture_win->y + capture_win->height) * fontheight;
-        if (mx < win_left || mx > win_right || my < win_top || my > win_bottom) {
-            input.ch = ERR;
-            return input;
+        if (evt.mouse_x < win_left || evt.mouse_x > win_right || evt.mouse_y < win_top || evt.mouse_y > win_bottom) {
+            evt.type = CATA_INPUT_ERROR;
+            return evt;
         }
 
-        input.is_mouse_button = true;
         int view_columns, view_rows, selected_column, selected_row;
 
         // Translate mouse coords to map coords based on tile size
@@ -1039,23 +1033,23 @@ InputKybMouse getch_kyb_mouse(WINDOW* capture_win /* = NULL */)
             tilecontext->get_window_tile_counts(
                 capture_win->width * fontwidth, capture_win->height * fontheight, view_columns, view_rows);
 
-            selected_column = (mx - win_left) / tilecontext->get_tile_width();
-            selected_row = (my - win_top) / tilecontext->get_tile_width();
+            selected_column = (evt.mouse_x - win_left) / tilecontext->get_tile_width();
+            selected_row = (evt.mouse_y - win_top) / tilecontext->get_tile_width();
         }
         else
 #endif
         {
             view_columns = capture_win->width;
             view_rows = capture_win->height;
-            selected_column = (mx - win_left) / fontwidth;
-            selected_row = (my - win_top) / fontheight;
+            selected_column = (evt.mouse_x - win_left) / fontwidth;
+            selected_row = (evt.mouse_y - win_top) / fontheight;
         }
 
-        input.x = g->ter_view_x - ((view_columns/2) - selected_column);
-        input.y = g->ter_view_y - ((view_rows/2) - selected_row);
+        evt.mouse_x = g->ter_view_x - ((view_columns/2) - selected_column);
+        evt.mouse_y = g->ter_view_y - ((view_rows/2) - selected_row);
     }
 
-    return input;
+    return evt;
 }
 
 
@@ -1215,13 +1209,14 @@ input_event input_manager::get_input_event(WINDOW *win) {
         rval.type = CATA_INPUT_ERROR;
     } else if(lastchar_isbutton) {
         rval.type = CATA_INPUT_GAMEPAD;
-        rval.sequence.push_back(lastchar);
+        rval.add_input(lastchar);
     } else if(lastchar_is_mouse) {
         rval.type = CATA_INPUT_MOUSE;
-        rval.sequence.push_back(lastchar);
+        rval.add_input(lastchar);
+        SDL_GetMouseState(&rval.mouse_x, &rval.mouse_y);
     } else {
         rval.type = CATA_INPUT_KEYBOARD;
-        rval.sequence.push_back(lastchar);
+        rval.add_input(lastchar);
     }
 
     return rval;

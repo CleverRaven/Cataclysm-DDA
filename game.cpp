@@ -6554,7 +6554,7 @@ point game::look_around()
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my;
- converted_input input;
+ mapped_input input;
 
  const int lookHeight = 13;
  const int lookWidth = getmaxx(w_messages);
@@ -6715,22 +6715,22 @@ point game::look_around()
   input = get_input_from_kyb_mouse();
   if (!u_see(lx, ly))
    mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
-  if (input.event != MouseButton) {
-      get_direction(mx, my, input.event);
+  if (input.evt.type != CATA_INPUT_MOUSE) {
+      get_direction(mx, my, input.command);
       if (mx != -2 && my != -2) { // Directional key pressed
        lx += mx;
        ly += my;
       }
-  } else if (input.ch == MOUSE_BUTTON_LEFT) {
+  } else if (input.evt.get_first_input() == MOUSE_BUTTON_LEFT) {
       // Left click on map
-      lx = input.x;
-      ly = input.y;
+      lx = input.evt.mouse_x;
+      ly = input.evt.mouse_y;
   }
- } while (input.event != Close && input.event != Cancel && input.event != Confirm);
+ } while (input.command != Close && input.command != Cancel && input.command != Confirm);
 
  werase(w_look);
  delwin(w_look);
- if (input.event == Confirm)
+ if (input.command == Confirm)
   return point(lx, ly);
  return point(-1, -1);
 }

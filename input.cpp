@@ -77,26 +77,22 @@ InputEvent get_input(int ch)
 }
 
 // Gets input from both keyboard and mouse
-converted_input get_input_from_kyb_mouse()
+mapped_input get_input_from_kyb_mouse()
 {
-    InputKybMouse raw_input;
+    input_event raw_event;
     if (is_mouse_enabled()) {
-        raw_input = getch_kyb_mouse();
+        raw_event = getch_kyb_mouse();
     } else {
-        raw_input.is_mouse_button = false;
-        raw_input.ch = get_keypress();
+        raw_event.type = CATA_INPUT_KEYBOARD;
+        raw_event.add_input(get_keypress());
     }
-    converted_input converted;
-    converted.ch = raw_input.ch;
-    if (raw_input.is_mouse_button) {
-        converted.event = MouseButton;
-        converted.x = raw_input.x;
-        converted.y = raw_input.y;
-    } else {
-        converted.event = get_input(raw_input.ch);
+    mapped_input mapped;
+    mapped.evt = raw_event;
+    if (raw_event.type != CATA_INPUT_MOUSE) {
+        mapped.command = get_input(raw_event.get_first_input());
     }
 
-    return converted;
+    return mapped;
 }
 
 bool is_mouse_enabled()

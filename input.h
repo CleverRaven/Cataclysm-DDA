@@ -33,19 +33,22 @@ enum InputEvent {
     Reset,
     Pickup,
     Nothing,
-    MouseButton,
     Undefined
 };
 
-struct converted_input {
-    InputEvent event;
-    int ch;
-    int x; // Mouse X in window
-    int y; // Mouse Y in Window
+// Raw input that's been translated into a command
+struct mapped_input {
+    InputEvent command;
+    input_event evt;
+
+    mapped_input()
+    {
+        command = Undefined;
+    }
 };
 
 InputEvent get_input(int ch = '\0');
-converted_input get_input_from_kyb_mouse();
+mapped_input get_input_from_kyb_mouse();
 bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");
@@ -74,56 +77,6 @@ std::string get_input_string_from_file(std::string fname="input.txt");
 #define JOY_RIGHTDOWN   256 + 6
 #define JOY_LEFTUP      256 + 7
 #define JOY_LEFTDOWN    256 + 8
-
-enum input_event_t {
-    CATA_INPUT_ERROR,
-    CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD,
-    CATA_INPUT_MOUSE
-};
-
-/**
- * An instance of an input, like a keypress etc.
- *
- * Both gamepad and keyboard keypresses will be represented as `long`.
- * Whether a gamepad or keyboard was used can be checked using the
- * `type` member.
- *
- */
-struct input_event {
-    input_event_t type;
-
-    std::vector<long> modifiers; // Keys that need to be held down for
-                                 // this event to be activated.
-
-    std::vector<long> sequence; // The sequence of key events that
-                                // triggers this event. For single-key
-                                // events, simply make this of size 1.
-
-    bool operator==(const input_event& other) const {
-        if(type != other.type) return false;
-
-        if(sequence.size() != other.sequence.size()) {
-            return false;
-        }
-        for(int i=0; i<sequence.size(); i++) {
-            if(sequence[i] != other.sequence[i]) {
-                return false;
-            }
-        }
-
-        if(modifiers.size() != other.modifiers.size()) {
-            return false;
-        }
-        for(int i=0; i<modifiers.size(); i++) {
-            if(modifiers[i] != other.modifiers[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-};
 
 /**
  * Manages the translation from action IDs to associated input.

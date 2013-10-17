@@ -638,7 +638,7 @@ void curses_timeout(int t)
     inputdelay = t;
 }
 
-InputKybMouse getch_kyb_mouse(WINDOW* capture_win)
+input_event getch_kyb_mouse(WINDOW* capture_win)
 {
     // Should not be called yet, as ncurses mouse support not implemented
     throw "Unimplemented ncurses mouse call made";
