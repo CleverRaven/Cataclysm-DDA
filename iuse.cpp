@@ -2941,10 +2941,6 @@ if(it->type->id == "cot"){
   message << _("You unroll the mat and lay it on the ground.");
   type = tr_rollmat;
   practice = 0;
- } else if(it->type->id == "fur_rollmat"){
-  message << _("You unroll the fur rollmat and lay it on the ground.");
-  type = tr_fur_rollmat;
-  practice = 0;
  } else if(it->type->id == "brazier"){
   message << _("You place the brazier securely.");
   type = tr_brazier;

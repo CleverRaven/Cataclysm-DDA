@@ -2495,29 +2495,6 @@
   },
 
   {
-    "id": "fur_rollmat",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_red",
-    "name": "fur rollmat",
-    "description": "A bedroll made of pelts which can be rolled up for transport. Insulates you from the floor, making it easier to sleep",
-    "price": 400,
-    "material": "plastic",
-    "weight": 1800,
-    "volume": 12,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "SET_TRAP"
-  },
-
-  {
     "id": "xacto",
     "type": "TOOL",
     "symbol": ";",
