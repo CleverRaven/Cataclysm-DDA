@@ -1379,7 +1379,8 @@ bool item::is_silent() const
    noise() < 5 ||              // almost silent
    curammo->type == "bolt" || // crossbows
    curammo->type == "arrow" ||// bows
-   curammo->type == "pebble"  // sling[shot]
+   curammo->type == "pebble" ||// sling[shot]
+   curammo->type == "dart"     // blowguns and such
  );
 }
 
