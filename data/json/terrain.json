@@ -310,7 +310,16 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_log_chipped",
+            "items": [
+                { "item": "splinter", "amount": 20, "chance": 50}
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -319,7 +328,16 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 100, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_log_broken",
+            "items": [
+                { "item": "splinter", "amount": 5 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -330,7 +348,16 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 80, "num_tests": 2,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "splinter", "amount": 5 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -341,7 +368,16 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_pit",
+            "items": [
+                { "item": "splinter", "amount": 20, "chance": 50}
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -352,7 +388,16 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_pit",
+            "items": [
+                { "item": "splinter", "amount": 20, "chance": 50}
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -380,7 +425,18 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_wood_chipped",
+            "items": [
+                { "item": "2x4", "amount": 1, "minamount": 8},
+                { "item": "nail", "amount": 2 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -389,7 +445,18 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 100, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_wood_broken",
+            "items": [
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 3, "minamount": 1},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -400,7 +467,19 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 80, "num_tests": 2,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "amount": 5, "minamount": 2},
+                { "item": "nail", "amount": 10, "minamount": 4},
+                { "item": "splinter", "amount": 1},
+                { "item": "cu_pipe", "amount": 1, "chance": 10}
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -463,7 +542,13 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
@@ -472,7 +557,13 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
@@ -482,7 +573,13 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
@@ -492,7 +589,13 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+            "TRANSPARENT", "BASHABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
@@ -501,7 +604,13 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 60, "str_max": 100,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
@@ -510,7 +619,13 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 60, "str_max": 100,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
@@ -529,7 +644,13 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF", "WALL"],
-        "open": "t_door_o"
+        "open": "t_door_o",
+        "bash": {
+            "str_min": 0, "str_max": 40, "str_min_blocked": 10, "str_max_blocked": 50,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b"
+        }
     },
     {
         "type": "terrain",
@@ -540,7 +661,18 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 30, "str_min_blocked": 10, "str_max_blocked": 40,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -569,7 +701,13 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "WALL"],
-        "open": "t_door_o"
+        "open": "t_door_o",
+        "bash": {
+            "str_min": 0, "str_max": 40, "str_min_blocked": 10, "str_max_blocked": 50,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b"
+        }
     },
     {
         "type": "terrain",
@@ -580,7 +718,13 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
-        "open": "t_door_o"
+        "open": "t_door_o",
+        "bash": {
+            "str_min": 0, "str_max": 40, "str_min_blocked": 10, "str_max_blocked": 50,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b"
+        }
     },
     {
         "type": "terrain",
@@ -598,7 +742,17 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 80, "num_tests": 2, "str_min_blocked": 20, "str_max_blocked": 100,
+            "sound": "clang!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8},
+                { "item": "scrap", "amount": 12, "minamount": 0 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -608,7 +762,18 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "WALL"],
-        "open": "t_fencegate_o"
+        "open": "t_fencegate_o",
+        "bash": {
+            "str_min": 0, "str_max": 30, "str_min_blocked": 10, "str_max_blocked": 40,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_dirtfloor",
+            "items": [
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -629,7 +794,17 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "WALL"],
-        "open": "t_chaingate_o"
+        "open": "t_chaingate_o",
+        "bash": {
+            "str_min": 0, "str_max": 80, "num_tests": 2, "str_min_blocked": 20, "str_max_blocked": 100,
+            "sound": "clang!",
+            "sound_fail": "whump!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8},
+                { "item": "scrap", "amount": 12, "minamount": 0 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -648,7 +823,18 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 50, "str_min_blocked": 10, "str_max_blocked": 60,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -721,7 +907,13 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
-        "open": "t_door_glass_o"
+        "open": "t_door_glass_o",
+        "bash": {
+            "str_min": 0, "str_max": 20,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
@@ -761,7 +953,13 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame"
+        }
     },
     {
         "type": "terrain",
@@ -772,7 +970,13 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame"
+        }
     },
     {
         "type": "terrain",
@@ -785,7 +989,18 @@
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "WALL"
         ],
         "close": "t_curtains",
-        "open": "t_window_open"
+        "open": "t_window_open",
+        "bash": {
+            "str_min": 0, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "sheet", "amount": 2 },
+                { "item": "stick", "amount": 1},
+                { "item": "string_36", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -797,7 +1012,18 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "sheet", "amount": 2 },
+                { "item": "stick", "amount": 1},
+                { "item": "string_36", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -818,7 +1044,18 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "WALL" ],
-        "open": "t_window_domestic"
+        "open": "t_window_domestic",
+        "bash": {
+            "str_min": 0, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "sheet", "amount": 2 },
+                { "item": "stick", "amount": 1},
+                { "item": "string_36", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -829,7 +1066,13 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame"
+        }
     },
     {
         "type": "terrain",
@@ -840,7 +1083,13 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "ALARMED", "REDUCE_SCENT", "WALL"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame"
+        }
     },
     {
         "type": "terrain",
@@ -868,7 +1117,16 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 30,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "splinter", "amount": 2, "minamount": 0, "chance": 50 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -923,7 +1181,14 @@
         "symbol": "#",
         "color": "white",
         "move_cost": 0,
-        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "WALL"]
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 0, "str_max": 5,
+            "comment": "original: str >= dice(1, 6) - 2",
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "ter_set": "t_dirt"
+        }
     },
     {
         "type": "terrain",
@@ -941,7 +1206,16 @@
         "symbol": "1",
         "color": "green",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "YOUNG"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "YOUNG"],
+        "bash": {
+            "str_min": 0, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_underbrush",
+            "items": [
+                 { "item": "stick", "amount": 3, "minamount": 0 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -963,7 +1237,13 @@
         "flags": [
             "TRANSPARENT", "BASHABLE", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
         ],
-        "examine_action": "shrub_wildveggies"
+        "examine_action": "shrub_wildveggies",
+        "bash": {
+            "str_min": 0, "str_max": 30, "chance": 75,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_dirt"
+        }
     },
     {
         "type": "terrain",
@@ -974,7 +1254,13 @@
         "move_cost": 8,
         "flags": [
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 30, "num_tests": 2, "chance": 50,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_underbrush"
+        }
     },
     {
         "type": "terrain",
@@ -1045,7 +1331,18 @@
         "move_cost": 3,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 10,
+            "sound": "crak",
+            "sound_fail": "whump.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -1056,7 +1353,18 @@
         "move_cost": 3,
         "flags": [
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE"
-        ]
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 10,
+            "sound": "crak",
+            "sound_fail": "whump.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -1068,7 +1376,16 @@
         "flags": [
             "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
         ],
-        "examine_action": "chainfence"
+        "examine_action": "chainfence",
+        "bash": {
+            "str_min": 0, "str_max": 50, "num_tests": 2,
+            "sound": "clang!",
+            "sound_fail": "clang!",
+            "ter_set": "t_chainfence_posts",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -1080,7 +1397,16 @@
         "flags": [
             "TRANSPARENT", "BASHABLE", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
         ],
-        "examine_action": "chainfence"
+        "examine_action": "chainfence",
+        "bash": {
+            "str_min": 0, "str_max": 50, "num_tests": 2,
+            "sound": "clang!",
+            "sound_fail": "clang!",
+            "ter_set": "t_chainfence_posts",
+            "items": [
+                { "item": "wire", "amount": 20, "minamount": 8 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -1099,7 +1425,16 @@
         "color": "brown",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
-        "examine_action": "fence_post"
+        "examine_action": "fence_post",
+        "bash": {
+            "str_min": 0, "str_max": 10,
+            "sound": "crak",
+            "sound_fail": "whump.",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "pointy_stick", "amount": 1 }
+            ]
+        }
     },
     {
         "type": "terrain",
@@ -1156,7 +1491,13 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "FUNGUS", "SHRUB"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "FUNGUS", "SHRUB"],
+        "bash": {
+            "str_min": 0, "str_max": 40,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_fungus"
+        }
     },
     {
         "type": "terrain",
@@ -1515,7 +1856,13 @@
         "symbol": "0",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM", "WALL"]
+        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM", "WALL"],
+        "bash": {
+            "str_min": 2, "str_max": 40,
+            "sound": "ker-rash!",
+            "sound_fail": "plunk.",
+            "ter_set": "t_floor"
+        }
     },
     {
         "type": "terrain",
