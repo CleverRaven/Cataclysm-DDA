@@ -25,6 +25,7 @@ private:
 
 public:
     JsonObject(JsonIn *jsin);
+    JsonObject(const JsonObject &jsobj);
 
     void finish(); // moves the stream to the end of the object
 
@@ -74,6 +75,7 @@ private:
 
 public:
     JsonArray(JsonIn *jsin);
+    JsonArray(const JsonArray &jsarr);
     JsonArray() {};
 
     bool has_more(); // true iff more elements may be retrieved with next_*

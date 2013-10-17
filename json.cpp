@@ -91,6 +91,14 @@ JsonObject::JsonObject(JsonIn *j)
     end = jsin->tell();
 }
 
+JsonObject::JsonObject(const JsonObject &jo)
+{
+    jsin = jo.jsin;
+    start = jo.start;
+    positions = jo.positions;
+    end = jo.end;
+}
+
 void JsonObject::finish()
 {
     jsin->seek(end);
@@ -334,6 +342,14 @@ JsonArray::JsonArray(JsonIn *j)
         positions.push_back(jsin->tell());
         jsin->skip_value();
     }
+}
+
+JsonArray::JsonArray(const JsonArray &ja)
+{
+    jsin = ja.jsin;
+    start = ja.start;
+    index = 0;
+    positions = ja.positions;
 }
 
 bool JsonArray::has_more()
