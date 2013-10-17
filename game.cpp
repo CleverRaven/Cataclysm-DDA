@@ -5501,7 +5501,7 @@ void game::resonance_cascade(int x, int y)
 {
  int maxglow = 100 - 5 * trig_dist(x, y, u.posx, u.posy);
  int minglow =  60 - 5 * trig_dist(x, y, u.posx, u.posy);
- std::string spawn;
+ MonsterGroupResult spawn_details;
  monster invader;
  if (minglow < 0)
   minglow = 0;
@@ -5550,8 +5550,8 @@ void game::resonance_cascade(int x, int y)
    case 13:
    case 14:
    case 15:
-    spawn = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &mtypes);
-    invader = monster(GetMType(spawn), i, j);
+    spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER", &mtypes);
+    invader = monster(GetMType(spawn_details.name), i, j);
     add_zombie(invader);
     break;
    case 16:
@@ -10864,38 +10864,40 @@ void game::spawn_mon(int shiftx, int shifty)
    if (group > 0) // If we spawned some zombies, advance the timer
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
 
-   for (int j = 0; j < group; j++) { // For each monster in the group...
-     std::string type = MonsterGroupManager::GetMonsterFromGroup( cur_om->zg[i].type, &mtypes,
+   for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
+     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type, &mtypes,
                                                              &group, (int)turn );
-     zom = monster(GetMType(type));
-     iter = 0;
-     do {
-      monx = rng(0, SEEX * MAPSIZE - 1);
-      mony = rng(0, SEEY * MAPSIZE - 1);
-      if (shiftx == 0 && shifty == 0) {
-       if (one_in(2))
-        shiftx = 1 - 2 * rng(0, 1);
-       else
-        shifty = 1 - 2 * rng(0, 1);
-      }
-      if (shiftx == -1)
-       monx = (SEEX * MAPSIZE) / 6;
-      else if (shiftx == 1)
-       monx = (SEEX * MAPSIZE * 5) / 6;
-      if (shifty == -1)
-       mony = (SEEY * MAPSIZE) / 6;
-      if (shifty == 1)
-       mony = (SEEY * MAPSIZE * 5) / 6;
-      monx += rng(-5, 5);
-      mony += rng(-5, 5);
-      iter++;
+     zom = monster(GetMType(spawn_details.name));
+     for (int kk = 0; kk < spawn_details.pack_size; kk++){
+       iter = 0;
+       do {
+        monx = rng(0, SEEX * MAPSIZE - 1);
+        mony = rng(0, SEEY * MAPSIZE - 1);
+        if (shiftx == 0 && shifty == 0) {
+         if (one_in(2))
+          shiftx = 1 - 2 * rng(0, 1);
+         else
+          shifty = 1 - 2 * rng(0, 1);
+        }
+        if (shiftx == -1)
+         monx = (SEEX * MAPSIZE) / 6;
+        else if (shiftx == 1)
+         monx = (SEEX * MAPSIZE * 5) / 6;
+        if (shifty == -1)
+         mony = (SEEY * MAPSIZE) / 6;
+        if (shifty == 1)
+         mony = (SEEY * MAPSIZE * 5) / 6;
+        monx += rng(-5, 5);
+        mony += rng(-5, 5);
+        iter++;
 
-     } while ((!zom.can_move_to(this, monx, mony) || !is_empty(monx, mony) ||
-               m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
-               rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
-     if (iter < 50) {
-      zom.spawn(monx, mony);
-      add_zombie(zom);
+       } while ((!zom.can_move_to(this, monx, mony) || !is_empty(monx, mony) ||
+                 m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
+                 rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
+       if (iter < 50) {
+        zom.spawn(monx, mony);
+        add_zombie(zom);
+       }
      }
    } // Placing monsters of this group is done!
    if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...

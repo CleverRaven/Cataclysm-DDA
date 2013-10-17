@@ -12454,9 +12454,10 @@ void map::place_spawns(game *g, std::string group, const int chance,
    } while( move_cost(x, y) == 0 && tries );
 
    // Pick a monster type
-   std::string monster = MonsterGroupManager::GetMonsterFromGroup( group, &g->mtypes, &num );
-
-   add_spawn(monster, 1, x, y);
+   MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &g->mtypes, &num );
+  
+   //Hoping that if I pass a count of pack_size instead of 1, then more monsters will spawn. Who knows though amiright?
+   add_spawn(spawn_details.name, 1, x, y);
   }
  }
 }

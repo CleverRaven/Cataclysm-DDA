@@ -29,35 +29,53 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-std::string MonsterGroupManager::GetMonsterFromGroup( std::string group_name, std::vector <mtype*> *mtypes,
+//Quantity is adjusted directly as a side effect of this function
+MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_name, std::vector <mtype*> *mtypes,
                                                       int *quantity, int turn )
 {   
-    int roll = rng(1, 1000);
+    int spawn_chance = rng(1, 1000);
     MonsterGroup group = monsterGroupMap[group_name];
-    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end(); ++it)
-    {
-        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->first)->difficulty))) &&
-           (!OPTIONS["CLASSIC_ZOMBIES"] ||
-            GetMType(it->first)->in_category("CLASSIC") ||
-            GetMType(it->first)->in_category("WILDLIFE")))
-        {   //Not too hard for us (or we dont care)
-            if(it->second.first >= roll)
-            {
-                if( quantity) { *quantity -= it->second.second; }
-                return it->first;
+
+    //Our spawn details specify, by default, a single instance of the default monster
+    MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster,1);
+    //If the default monster is too difficult, replace this with "mon_null"
+    if(turn!=-1 && (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))){
+        spawn_details = MonsterGroupResult("mon_null",0);
+    }
+
+    // Step through spawn definitions from the monster group until one is found or 
+    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end(); ++it){
+        // There's a lot of conditions to work through to see if this spawn definition is valid
+        bool valid_entry = true;
+        // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
+        valid_entry = valid_entry && (turn == -1 || (turn+900) >= (MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->name)->difficulty)));
+        // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
+        if(OPTIONS["CLASSIC_ZOMBIES"]){
+            valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
+        }
+
+        //If the entry was valid, check to see if we actually spawn it
+        if(valid_entry){
+            //If the monsters frequency is greater than the spawn_chance, select this spawn rule
+            if(it->frequency >= spawn_chance){
+                if(it->pack_maximum > 1){
+                  spawn_details = MonsterGroupResult(it->name, rng(it->pack_minimum,it->pack_maximum));
+                } else {
+                  spawn_details = MonsterGroupResult(it->name, 1);
+                }
+                //And if a quantity pointer with remaining value was passed, will will modify the external value as a side effect
+                //We will reduce it by the spawn rule's cost multiplier
+                if(quantity){ 
+                    *quantity -= it->cost_multiplier; 
+                }
+            //Otherwise, subtract the frequency from spawn result for the next loop around
+            }else{ 
+                spawn_chance -= it->frequency;
             }
-            else { roll -= it->second.first; }
         }
     }
-    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))
-        && (!OPTIONS["STATIC_SPAWN"]))
-    {
-        return "mon_null";
-    }
-    else
-    {
-        return group.defaultMonster;
-    }
+
+    return spawn_details;
 }
 
 bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
@@ -65,7 +83,7 @@ bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monste
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if(it->first == monster) return true;
+        if(it->name == monster) return true;
     }
     return false;
 }
@@ -92,7 +110,7 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
 
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        monsters.push_back(it->first);
+        monsters.push_back(it->name);
     }
     return monsters;
 }
@@ -127,8 +145,18 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         for (int i = 0; i < monnum; ++i){
             if (monarr.get_index_type(i) == JVT_OBJECT){
                 JsonObject mon = monarr.get_object(i);
-                g.monsters[mon.get_string("monster")] =
-                    std::pair<int,int>(mon.get_int("freq"), mon.get_int("cost_multiplier"));
+                std::string name = mon.get_string("monster");
+                int freq = mon.get_int("freq");
+                int cost = mon.get_int("cost_multiplier");
+                int pack_min = 1;
+                int pack_max = 1;
+                if(mon.has_member("pack_size")){
+                    JsonArray packarr = mon.get_array("pack_size");
+                    pack_min = packarr.next_int();
+                    pack_max = packarr.next_int();
+                }
+
+                g.monsters.push_back(MonsterGroupEntry(name,freq,cost,pack_min,pack_max));
             }
         }
     }
