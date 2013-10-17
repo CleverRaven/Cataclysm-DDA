@@ -503,7 +503,7 @@
     "to_hit": 0,
     "max_charges": 200,
     "initial_charges": 20,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
