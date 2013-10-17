@@ -2578,5 +2578,30 @@
     "burst": 0,
     "clip_size": 40,
     "reload": 600
+   },
+   {
+    "id": "m107a1",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "Barrett M107A1",
+    "description": "A large, shoulder-fired, .50 caliber anti-materiel rifle. Its large size, recoil, and noise is offset by its damage and range." ,
+    "price": 13000,
+    "material": "steel",
+    "skill": "rifle",  
+    "ammo": "50",
+    "weight": 13000,
+    "volume": 24,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 1,
+    "range": 45,
+    "dispersion": 10,
+    "recoil": 50,
+    "durability": 8,
+    "burst": 0,
+    "clip_size": 10,
+    "reload": 340
    }
 ]
