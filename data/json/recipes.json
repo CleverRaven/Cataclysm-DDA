@@ -4017,6 +4017,7 @@
       [ "lemon", 1 ],
       [ "banana", 1 ],
       [ "apple", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -5156,6 +5157,7 @@
       [ "meat", 2 ],
       [ "meat_smoked", 2 ],
       [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "sausage", 1 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 15 ]
@@ -5163,6 +5165,7 @@
     [
       [ "veggy_wild", 2 ],
       [ "veggy", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ]
   ]
@@ -5231,6 +5234,7 @@
       [ "potato_raw", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "onion", 1 ]
@@ -5538,6 +5542,7 @@
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "sausage", 1 ],
       [ "jerky", 3 ],
       [ "meat_pickled", 1 ],
@@ -5646,6 +5651,7 @@
       [ "cranberries", 1 ],
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -5768,6 +5774,7 @@
       [ "pomegranate", 1 ],
       [ "mango", 1 ],
       [ "apricot", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -5800,11 +5807,13 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ],
     [
       [ "seasoning_italian", 20 ],
       [ "pepper", 20 ],
+      [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ]
     ]
   ]
@@ -5859,6 +5868,7 @@
       [ "papaya", 2 ],
       [ "apricot", 2 ],
       [ "kiwi", 2 ],
+      [ "rehydrated_fruit", 2 ],
       [ "dry_fruit", 2 ]
     ],
     [
@@ -5900,6 +5910,7 @@
       [ "veggy_vac", 2 ],
       [ "tomato", 2 ],
       [ "broccoli", 1 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ],
     [
@@ -5941,6 +5952,7 @@
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
       [ "meat_vac", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ],
     [
@@ -5993,6 +6005,7 @@
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
+      [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ]
   ]
@@ -6040,6 +6053,7 @@
     [
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ]
   ]
