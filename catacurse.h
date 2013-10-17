@@ -109,10 +109,11 @@ struct input_event {
         mouse_x = mouse_y = 0;
     }
 
-    long get_first_input()
+    long get_first_input() const
     {
-        if (sequence.size() == 0)
+        if (sequence.size() == 0) {
             return 0;
+        }
 
         return sequence[0];
     }
@@ -122,8 +123,11 @@ struct input_event {
         sequence.push_back(input);
     }
 
-    bool operator==(const input_event& other) const {
-        if(type != other.type) return false;
+    bool operator==(const input_event& other) const
+    {
+        if(type != other.type) {
+            return false;
+        }
 
         if(sequence.size() != other.sequence.size()) {
             return false;
