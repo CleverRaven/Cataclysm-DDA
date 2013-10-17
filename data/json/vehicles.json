@@ -216,6 +216,21 @@
             {"x": -3, "y": 1, "part": "door_trunk"},
             {"x": -3, "y": 2, "part": "frame_horizontal"},
             {"x": -3, "y": 2, "part": "wheel"}
+        ],
+        "items": [
+            {"x": 0, "y": 0, "chance": 16, "items": "cig"},
+            {"x": 0, "y": 0, "chance": 16, "items": "lighter"},
+            {"x": 0, "y": 1, "chance": 1, "items": "roadmap"},
+            {"x": 0, "y": 1, "chance": 10, "items": "flashlight"},
+            {"x": 0, "y": 1, "chance": 5, "items": "1st_aid"},
+            {"x": -1, "y": 0, "chance": 5, "item_groups": "snacks"},
+            {"x": -1, "y": 0, "chance": 5, "item_groups": "fast_food"},
+            {"x": -1, "y": 1, "chance": 5, "item_groups": "snacks"},
+            {"x": -1, "y": 1, "chance": 5, "item_groups": "fast_food"},
+            {"x": -2, "y": 1, "chance": 5, "items": "screwdriver"},
+            {"x": -2, "y": 1, "chance": 5, "items": "scissors"},
+            {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
+            {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]}
         ]
     },
     {
@@ -345,6 +360,10 @@
             {"x": -4, "y": 1, "part": "door_trunk"},
             {"x": -4, "y": 2, "part": "frame_horizontal"},
             {"x": -4, "y": 2, "part": "wheel"}
+        ],
+        "items": [
+            {"x": -1, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]},
+            {"x": -2, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]}
         ]
     },
     {
@@ -426,6 +445,10 @@
             {"x": -3, "y": -2, "part": "wheel_wide"},
             {"x": -3, "y": 2, "part": "frame_vertical"},
             {"x": -3, "y": 2, "part": "wheel_wide"}
+        ],
+        "items": [
+            {"x": 0, "y": 0, "chance": 2, "items": ["beer", "beer", "beer", "beer", "beer", "beer"]},
+            {"x": -2, "y": 0, "chance": 2, "item_groups": "bigtools"}
         ]
     },
     {
