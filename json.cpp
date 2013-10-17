@@ -91,17 +91,6 @@ JsonObject::JsonObject(JsonIn *j)
     end = jsin->tell();
 }
 
-JsonObject JsonObject::get_object(std::string name)
-{
-    int pos = positions[name];
-    if (pos <= start) {
-        jsin->seek(start);
-        throw jsin->line_number() + ": member not found: " + name;
-    }
-    jsin->seek(pos);
-    return jsin->get_object();
-}
-
 void JsonObject::finish()
 {
     jsin->seek(end);
@@ -254,6 +243,17 @@ JsonArray JsonObject::get_array(std::string name)
     }
     jsin->seek(pos);
     return JsonArray(jsin);
+}
+
+JsonObject JsonObject::get_object(std::string name)
+{
+    int pos = positions[name];
+    if (pos <= start) {
+        jsin->seek(start);
+        throw jsin->line_number() + ": member not found: " + name;
+    }
+    jsin->seek(pos);
+    return jsin->get_object();
 }
 
 bool JsonObject::is_object(std::string member)
