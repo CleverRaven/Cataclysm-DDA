@@ -74,6 +74,7 @@ uistatedata uistate;
 
 // This is the main game set-up process.
 game::game() :
+ uquit(QUIT_NO),
  w_terrain(NULL),
  w_minimap(NULL),
  w_HP(NULL),
@@ -84,6 +85,8 @@ game::game() :
  om_hori(NULL),
  om_vert(NULL),
  om_diag(NULL),
+ run_mode(1),
+ mostseen(0),
  gamemode(NULL)
 {
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -145,6 +148,9 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
+
+ release_traps();
+ release_data_structures();
 }
 
 // Fixed window sizes
