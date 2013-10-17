@@ -317,24 +317,15 @@ void Item_factory::load_ammo(JsonObject& jo)
 {
     it_ammo* ammo_template = new it_ammo();
     ammo_template->type = jo.get_string("ammo_type");
-    if(jo.has_member("casing")) {
-        ammo_template->casing = jo.get_string("casing");
-    }
+    ammo_template->casing = jo.get_string("casing", "");
     ammo_template->damage = jo.get_int("damage");
     ammo_template->pierce = jo.get_int("pierce");
     ammo_template->range = jo.get_int("range");
-    ammo_template->dispersion =
-        jo.get_int("dispersion");
+    ammo_template->dispersion = jo.get_int("dispersion");
     ammo_template->recoil = jo.get_int("recoil");
     ammo_template->count = jo.get_int("count");
-    if(jo.has_member("stack_size")) {
-        ammo_template->stack_size = jo.get_int("stack_size");
-    } else {
-        ammo_template->stack_size = ammo_template->count;
-    }
-    if( jo.has_member("effects") ) {
-        tags_from_json(jo,"effects", ammo_template->ammo_effects);
-    }
+    ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
+    ammo_template->ammo_effects = jo.get_tags("effects");
 
     itype *new_item_template = ammo_template;
     load_basic_info(jo, new_item_template);
@@ -353,10 +344,8 @@ void Item_factory::load_gun(JsonObject& jo)
     gun_template->burst = jo.get_int("burst");
     gun_template->clip = jo.get_int("clip_size");
     gun_template->reload_time = jo.get_int("reload");
-    gun_template->pierce = jo.has_member("pierce") ? jo.get_int("pierce") : 0;
-    if( jo.has_member("ammo_effects") ) {
-        tags_from_json(jo, "ammo_effects", gun_template->ammo_effects);
-    }
+    gun_template->pierce = jo.get_int("pierce", 0);
+    gun_template->ammo_effects = jo.get_tags("ammo_effects");
 
     itype *new_item_template = gun_template;
     load_basic_info(jo, new_item_template);
@@ -372,7 +361,7 @@ void Item_factory::load_armor(JsonObject& jo)
     armor_template->env_resist = jo.get_int("enviromental_protection");
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
-    armor_template->power_armor = jo.has_member("power_armor") ? jo.get_bool("power_armor") : false;
+    armor_template->power_armor = jo.get_bool("power_armor", false);
     armor_template->covers = jo.has_member("covers") ?
         flags_from_json(jo, "covers", "bodyparts") : 0;
 
@@ -460,10 +449,7 @@ void Item_factory::load_gunmod(JsonObject& jo)
     gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
     gunmod_template->burst = jo.get_int("burst_modifier", 0);
     gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
-    if( jo.has_member("acceptable_ammo") ) {
-        tags_from_json(jo, "acceptable_ammo",
-                        gunmod_template->acceptible_ammo_types );
-    }
+    gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
 
     itype *new_item_template = gunmod_template;
     load_basic_info(jo, new_item_template);
@@ -505,33 +491,32 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     new_item_template->m_to_hit = jo.get_int("to_hit");
 
     new_item_template->light_emission = 0;
-    if( jo.has_member("flags") ){
-        tags_from_json(jo, "flags", new_item_template->item_tags);
-        /*
-        List of current flags
-        FIT - Reduces encumbrance by one
-        VARSIZE - Can be made to fit via tailoring
-        OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
-        POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
-        HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
-        RAINPROOF - Works like a raincoat to protect from rain effects
-        WATCH - Shows the current time, instead of sun/moon position
-        ALARMCLOCK - Has an alarmclock feature
-        FANCY - Less than practical clothing meant primarily to convey a certain image.
-        SUPER_FANCY - Clothing suitable for the most posh of events.
-        LIGHT_* - light emission, sets cached int light_emission
-        USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
 
-        Container-only flags:
-        SEALS
-        RIGID
-        WATERTIGHT
-        */
-        if ( new_item_template->item_tags.size() > 0 ) {
-            for( std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
-            it != new_item_template->item_tags.end(); ++it ) {
-                set_intvar(std::string(*it), new_item_template->light_emission, 1, 10000);
-            }
+    /*
+    List of current flags
+    FIT - Reduces encumbrance by one
+    VARSIZE - Can be made to fit via tailoring
+    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
+    POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+    HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
+    RAINPROOF - Works like a raincoat to protect from rain effects
+    WATCH - Shows the current time, instead of sun/moon position
+    ALARMCLOCK - Has an alarmclock feature
+    FANCY - Less than practical clothing meant primarily to convey a certain image.
+    SUPER_FANCY - Clothing suitable for the most posh of events.
+    LIGHT_* - light emission, sets cached int light_emission
+    USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
+
+    Container-only flags:
+    SEALS
+    RIGID
+    WATERTIGHT
+    */
+    new_item_template->item_tags = jo.get_tags("flags");
+    if ( new_item_template->item_tags.size() > 0 ) {
+        for( std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
+        it != new_item_template->item_tags.end(); ++it ) {
+            set_intvar(std::string(*it), new_item_template->light_emission, 1, 10000);
         }
     }
 
@@ -539,29 +524,16 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
         set_qualities_from_json(jo, "qualities", new_item_template);
     }
 
-    if (jo.has_member("techniques")){
-        tags_from_json(jo, "techniques", new_item_template->techniques);
-    }
+    new_item_template->techniques = jo.get_tags("techniques");
+
     new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
                               use_from_string(jo.get_string("use_action")));
-}
-
-void Item_factory::tags_from_json(JsonObject& jo, std::string member, std::set<std::string>& tags)
-{
-    if ( jo.is_array(member) ) {
-        JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more()){
-            tags.insert(jarr.next_string());
-        }
-    } else if ( jo.is_string(member) ){
-        tags.insert(jo.get_string(member));
-    }
 }
 
 void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, itype* new_item_template)
 {
 
-    if ( jo.is_array(member) ) {
+    if ( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()){
             JsonArray curr = jarr.next_array();
@@ -577,12 +549,12 @@ unsigned Item_factory::flags_from_json(JsonObject& jo, std::string member, std::
     //If none is found, just use the standard none action
     unsigned flag = 0;
     //Otherwise, grab the right label to look for
-    if ( jo.is_array(member) ) {
+    if ( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()){
             set_flag_by_string(flag, jarr.next_string(), flag_type);
         }
-    } else if ( jo.is_string(member) ) {
+    } else if ( jo.has_string(member) ) {
         //we should have gotten a string, if not an array
         set_flag_by_string(flag, jo.get_string(member), flag_type);
     }
@@ -594,14 +566,14 @@ void Item_factory::set_material_from_json(JsonObject& jo, std::string member, it
 {
     //If the value isn't found, just return a group of null materials
     std::string material_list[2] = {"null", "null"};
-    if( jo.is_array(member) ) {
+    if( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         if (jarr.size() > 2) {
             debugmsg("Too many materials provided for item %s", new_item_template->id.c_str());
         }
         material_list[0] = jarr.get_string(0);
         material_list[1] = jarr.get_string(1);
-    } else if ( jo.is_string(member) ) {
+    } else if ( jo.has_string(member) ) {
         material_list[0] = jo.get_string(member);
     }
     new_item_template->m1 = material_list[0];
@@ -613,7 +585,7 @@ bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string
     //If none is found, just use the standard none action
     unsigned is_included = false;
     //Otherwise, grab the right label to look for
-    if ( jo.is_array(member) ) {
+    if ( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more() && is_included == false){
             if (jarr.next_string() == weapon){
