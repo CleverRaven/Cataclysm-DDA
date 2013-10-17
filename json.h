@@ -76,7 +76,7 @@ private:
 public:
     JsonArray(JsonIn *jsin);
     JsonArray(const JsonArray &jsarr);
-    JsonArray() {};
+    JsonArray() : positions(), start(0), index(0), jsin(NULL) {};
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();

@@ -345,7 +345,7 @@ void player::activate_bionic(int b, game *g)
   {
       inv.push_back(water);
       water = inv.item_by_type(water.typeId());
-      eat(g, water.invlet);
+      consume(g, water.invlet);
       moves -= 350;
   }
   else
@@ -417,7 +417,7 @@ void player::activate_bionic(int b, game *g)
               } else if (query_yn(_("Drink directly from the condensor?"))) {
                   inv.push_back(water);
                   water = inv.item_by_type(water.typeId());
-                  eat(g, water.invlet);
+                  consume(g, water.invlet);
                   moves -= 350;
               }
               extracted = true;
