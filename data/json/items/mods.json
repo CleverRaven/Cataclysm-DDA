@@ -787,7 +787,7 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun"],
-        "volume" : 1,
+        "volume" : 0,
         "bashing" : 0,
         "cutting" : 0,
         "burst_modifier" : 0,
