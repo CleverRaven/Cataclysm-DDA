@@ -646,7 +646,7 @@
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "open": "t_door_o",
         "bash": {
-            "str_min": 0, "str_max": 40, "str_min_blocked": 10, "str_max_blocked": 50,
+            "str_min": 0, "str_max": 40, "str_min_blocked": 5, "str_max_blocked": 50,
             "sound": "smash!",
             "sound_fail": "whump!",
             "ter_set": "t_door_b"
@@ -663,7 +663,7 @@
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
         "bash": {
-            "str_min": 0, "str_max": 30, "str_min_blocked": 10, "str_max_blocked": 40,
+            "str_min": 0, "str_max": 30, "str_min_blocked": 5, "str_max_blocked": 40,
             "sound": "crash!",
             "sound_fail": "wham!",
             "ter_set": "t_door_frame",
@@ -703,7 +703,7 @@
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "WALL"],
         "open": "t_door_o",
         "bash": {
-            "str_min": 0, "str_max": 40, "str_min_blocked": 10, "str_max_blocked": 50,
+            "str_min": 0, "str_max": 40, "str_min_blocked": 5, "str_max_blocked": 50,
             "sound": "smash!",
             "sound_fail": "whump!",
             "ter_set": "t_door_b"
@@ -720,7 +720,7 @@
             "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "open": "t_door_o",
         "bash": {
-            "str_min": 0, "str_max": 40, "str_min_blocked": 10, "str_max_blocked": 50,
+            "str_min": 0, "str_max": 40, "str_min_blocked": 5, "str_max_blocked": 50,
             "sound": "smash!",
             "sound_fail": "whump!",
             "ter_set": "t_door_b"
@@ -744,7 +744,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 0, "str_max": 80, "num_tests": 2, "str_min_blocked": 20, "str_max_blocked": 100,
+            "str_min": 0, "str_max": 80, "num_tests": 2, "str_min_blocked": 10, "str_max_blocked": 100,
             "sound": "clang!",
             "sound_fail": "whump!",
             "ter_set": "t_dirt",
@@ -764,7 +764,7 @@
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "WALL"],
         "open": "t_fencegate_o",
         "bash": {
-            "str_min": 0, "str_max": 30, "str_min_blocked": 10, "str_max_blocked": 40,
+            "str_min": 0, "str_max": 30, "str_min_blocked": 5, "str_max_blocked": 40,
             "sound": "crash!",
             "sound_fail": "wham!",
             "ter_set": "t_dirtfloor",
@@ -796,7 +796,7 @@
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "WALL"],
         "open": "t_chaingate_o",
         "bash": {
-            "str_min": 0, "str_max": 80, "num_tests": 2, "str_min_blocked": 20, "str_max_blocked": 100,
+            "str_min": 0, "str_max": 80, "num_tests": 2, "str_min_blocked": 10, "str_max_blocked": 100,
             "sound": "clang!",
             "sound_fail": "whump!",
             "ter_set": "t_dirt",
@@ -825,7 +825,7 @@
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 0, "str_max": 50, "str_min_blocked": 10, "str_max_blocked": 60,
+            "str_min": 0, "str_max": 50, "str_min_blocked": 5, "str_max_blocked": 60,
             "sound": "crash!",
             "sound_fail": "wham!",
             "ter_set": "t_door_frame",
