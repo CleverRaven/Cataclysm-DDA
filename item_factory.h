@@ -17,7 +17,7 @@
 
 typedef std::string Item_tag;
 typedef std::vector<item> Item_list;
-typedef void (iuse::*Use_function)(game*,player*,item*,bool);
+typedef int (iuse::*Use_function)(game*,player*,item*,bool);
 
 //For the iuse arguments
 class game;
