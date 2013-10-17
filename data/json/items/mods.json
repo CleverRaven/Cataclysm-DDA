@@ -782,18 +782,18 @@
         "ammo_modifier" : "NULL",
         "description" : "A ported barrel redirects exhaust gases to compensate for muzzle climb, improves recoil but increases noise and reduces accuracy slightly.",
         "weight" : 225,
-        "to_hit" : -3,
+        "to_hit" : -1,
         "color" : "light_gray",
         "symbol" : ":",
         "material" : ["steel", "null"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun"],
-        "volume" : 2,
+        "volume" : 1,
         "bashing" : 0,
         "cutting" : 0,
         "burst_modifier" : 0,
         "recoil_modifier" : -4,
         "price" : 720,
-        "loudness_modifier" : 6
+        "loudness_modifier" : 8
     },
     {
         "type" : "GUNMOD",
