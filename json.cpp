@@ -1440,6 +1440,16 @@ void JsonOut::write(const std::string &s)
             stream->write("\\r", 2);
         } else if (ch == '\t') {
             stream->write("\\t", 2);
+        } else if (ch < 0x20) {
+            // convert to "\uxxxx" unicode escape
+            stream->write("\\u00", 4);
+            stream->put((ch < 0x10) ? '0' : '1');
+            char remainder = ch & 0x0F;
+            if (remainder < 0x0A) {
+                stream->put('0' + remainder);
+            } else {
+                stream->put('A' + (remainder - 0x0A));
+            }
         } else {
             stream->put(ch);
         }
