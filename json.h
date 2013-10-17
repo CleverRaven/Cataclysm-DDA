@@ -94,6 +94,26 @@ public:
     std::string get_string(int index);
     JsonArray get_array(int index);
     JsonObject get_object(int index);
+
+    // iterative type checking
+    bool test_null();
+    bool test_bool();
+    bool test_int();
+    bool test_float();
+    bool test_number() { return test_float(); };
+    bool test_string();
+    bool test_array();
+    bool test_object();
+
+    // random-access type checking
+    bool has_null(int index);
+    bool has_bool(int index);
+    bool has_int(int index);
+    bool has_float(int index);
+    bool has_number(int index) { return has_float(index); };
+    bool has_string(int index);
+    bool has_array(int index);
+    bool has_object(int index);
 };
 
 class JsonIn {

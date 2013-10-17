@@ -359,6 +359,8 @@ void JsonArray::verify_index(int i)
     }
 }
 
+/* iterative access */
+
 bool JsonArray::next_bool()
 {
     verify_index(index);
@@ -401,6 +403,8 @@ JsonObject JsonArray::next_object()
     return jsin->get_object();
 }
 
+/* static access */
+
 bool JsonArray::get_bool(int i)
 {
     verify_index(i);
@@ -441,6 +445,122 @@ JsonObject JsonArray::get_object(int i)
     verify_index(i);
     jsin->seek(positions[i]);
     return jsin->get_object();
+}
+
+/* iterative type checking */
+
+bool JsonArray::test_null()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_null();
+}
+
+bool JsonArray::test_bool()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_bool();
+}
+
+bool JsonArray::test_int()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_int();
+}
+
+bool JsonArray::test_float()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_float();
+}
+
+bool JsonArray::test_string()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_string();
+}
+
+bool JsonArray::test_array()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_array();
+}
+
+bool JsonArray::test_object()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_object();
+}
+
+/* random-access type checking */
+
+bool JsonArray::has_null(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->test_null();
+}
+
+bool JsonArray::has_bool(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->test_bool();
+}
+
+bool JsonArray::has_int(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->test_int();
+}
+
+bool JsonArray::has_float(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->test_float();
+}
+
+bool JsonArray::has_string(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->test_string();
+}
+
+bool JsonArray::has_array(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->test_array();
+}
+
+bool JsonArray::has_object(int i)
+{
+    verify_index(i);
+    jsin->seek(positions[i]);
+    return jsin->test_object();
 }
 
 
