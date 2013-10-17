@@ -7123,7 +7123,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7160,7 +7160,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7197,7 +7197,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7234,7 +7234,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7271,7 +7271,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
