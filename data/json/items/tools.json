@@ -5097,6 +5097,29 @@
   },
 
   {
+    "id": "sm_extinguisher",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "small fire extinguisher",
+    "description": "Use a fire extinguisher to put out adjacent fires.",
+    "price": 400,
+    "material": "iron",
+    "weight": 1062,
+    "volume": 4,
+    "bashing": 26,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 20,
+    "initial_charges": 20,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "EXTINGUISHER"
+  },
+
+  {
     "id": "jack",
     "type": "TOOL",
     "symbol": ";",
