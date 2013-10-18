@@ -10797,6 +10797,31 @@
   ]
 },{
         "type" : "recipe",
+  "result": "fur_rollmat",
+  "category": "CC_MISC",
+  "skill_used": "survival",
+  "requires_skills": [ "tailor", 1 ],
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fur", 24 ]
+    ],
+    [
+      [ "thread", 360 ],
+      [ "sinew", 360 ],
+      [ "plant_fibre", 360 ],
+      [ "string_6", 6 ],
+      [ "string_36", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "snare_trigger",
   "category": "CC_MISC",
   "skill_used": "traps",
