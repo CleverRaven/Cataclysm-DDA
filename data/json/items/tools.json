@@ -1046,6 +1046,29 @@
   },
 
   {
+    "id": "caltrops",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "loose caltrops",
+    "description": "Small metal objects covered with many sharp points. If an unsuspecting victim steps on it, they'll get a spine through the foot.",
+    "price": 90,
+    "material": "iron",
+    "weight": 264,
+    "volume": 1,
+    "bashing": 1,
+    "cutting": 8,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SET_TRAP"
+  },
+
+  {
     "id": "tripwire",
     "type": "TOOL",
     "symbol": ";",

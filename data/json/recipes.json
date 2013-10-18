@@ -898,6 +898,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "caltrops",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "traps", 1 ],
+  "difficulty": 2,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 100], ["char_forge", 20]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "nailbat",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
