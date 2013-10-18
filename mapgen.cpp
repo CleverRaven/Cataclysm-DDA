@@ -12589,6 +12589,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  veh->posy = y % SEEY;
  veh->smx = smx;
  veh->smy = smy;
+ veh->place_spawn_items();
  veh->face.init(dir);
  veh->turn_dir = dir;
  veh->precalc_mounts (0, dir);

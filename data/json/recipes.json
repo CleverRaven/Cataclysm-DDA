@@ -9044,6 +9044,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "boots_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 18 ]
+    ],
+    [
+      [ "leather", 2 ],
+      [ "fur", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shorts",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -9869,6 +9896,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gauntlets_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 4 ]
+    ],
+    [
+      [ "bone", 12 ]
+    ],
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bandana",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -10106,6 +10163,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "helmet_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bone", 24 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "armor_chitin",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -10120,6 +10194,33 @@
     ],
     [
       [ "chitin_piece", 15 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 54 ],
+      [ "sewing_kit", 54 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 50 ]
+    ],
+    [
+      [ "leather", 20 ],
+      [ "fur", 20 ]
     ]
   ]
 },{
@@ -11354,6 +11455,7 @@
     [
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
+      [ "bone", 20 ],
       [ "ant_egg", 1 ]
     ]
   ]
@@ -12530,6 +12632,26 @@
     [
       [ "bandages", 2 ],
       [ "quikclot", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "jug_plastic",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "duct_tape", 10 ]
+    ],
+    [
+      [ "bottle_plastic", 5 ]
     ]
   ]
 },{
