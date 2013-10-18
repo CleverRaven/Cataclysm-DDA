@@ -7821,7 +7821,7 @@ void game::pickup(int posx, int posy, int min)
         mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
      }
      if (getitem[cur_it])
-         if(pickup_count_map[cur_it] == 0)
+         if(pickup_count[cur_it] == 0)
          {
              wprintz(w_pickup, c_ltblue, " + ");
          } else {
