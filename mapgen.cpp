@@ -14574,7 +14574,7 @@ void map::add_extra(map_extra type, game *g)
   int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
   for (int i = x - size; i <= x + size; i++) {
    for (int j = y - size; j <= y + size; j++) {
-    ter_set(i, j, t_rubble);
+    destroy(g, i, j, false);
     radiation(i, j) += rng(20, 40);
    }
   }
