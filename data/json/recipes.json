@@ -3702,7 +3702,7 @@
 },{
         "type" : "recipe",
   "result": "salt_water",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
