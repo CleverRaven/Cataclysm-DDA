@@ -57,14 +57,11 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
 
         //If the entry was valid, check to see if we actually spawn it
         if(valid_entry){
-            debugmsg("Considering spawning a %s, comparing %d to current roll %d.", it->name.c_str(), it->frequency, spawn_chance);
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
             if(it->frequency >= spawn_chance){
                 if(it->pack_maximum > 1){
-                  debugmsg("Spawning as a pack");
                   spawn_details = MonsterGroupResult(it->name, rng(it->pack_minimum,it->pack_maximum));
                 } else {
-                  debugmsg("Spawning a singleton.");
                   spawn_details = MonsterGroupResult(it->name, 1);
                 }
                 //And if a quantity pointer with remaining value was passed, will will modify the external value as a side effect
