@@ -781,6 +781,7 @@ int monster::bash_at(int x, int y) {
     if(try_bash && can_bash) {
         std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
         int bashskill = int(type->melee_dice * type->melee_sides);
+        // todo; pileup = more bashskill
         g->m.bash(x, y, bashskill, bashsound);
         g->sound(x, y, 18, bashsound);
         moves -= 100;
