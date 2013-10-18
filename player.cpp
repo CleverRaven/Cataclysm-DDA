@@ -740,7 +740,7 @@ void player::update_bodytemp(game *g)
         }
         else if (trap_at_pos == tr_fur_rollmat)
         {
-            floor_bedding_warmth -= 1000;
+            floor_bedding_warmth += 0;
         }
         else if (veh && veh->part_with_feature (vpart, "SEAT") >= 0)
         {
