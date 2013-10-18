@@ -2965,6 +2965,11 @@ if(it->type->id == "cot"){
                            g->m.tername(posx, posy).c_str());
   type = tr_nailboard;
   practice = 2;
+ } else if(it->type->id == "caltrops"){
+  message << string_format("You scatter the caltrops on the %s.",
+                           g->m.tername(posx, posy).c_str());
+  type = tr_caltrops;
+  practice = 2;
   } else if(it->type->id == "funnel"){
   message << _("You place the funnel, waiting to collect rain.");
   type = tr_funnel;
