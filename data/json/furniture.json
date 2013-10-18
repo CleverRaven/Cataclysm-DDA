@@ -30,7 +30,7 @@
         "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "DECONSTRUCT", "ORGANIC"],
         "examine_action": "bulletin_board",
         "bash": {
-            "str_min": 0, "str_max": 45,
+            "str_min": 3, "str_max": 45,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -71,7 +71,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],
         "examine_action": "toilet",
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "comment": "originally result = dice(8, 4) - 8;",
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
@@ -100,7 +100,7 @@
         "required_str": 18,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "comment": "originally result = dice(8, 4) - 8;",
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
@@ -119,7 +119,7 @@
         "required_str": 10,
         "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
@@ -162,7 +162,7 @@
         "required_str": 10,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "comment": "originally result = dice(8, 4) - 8;",
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
@@ -181,7 +181,7 @@
         "required_str": 6,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -221,7 +221,7 @@
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -251,7 +251,7 @@
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "CONTAINER", "PLACE_ITEM", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -281,7 +281,7 @@
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DECONSTRUCT", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -301,7 +301,7 @@
         "required_str": 9,
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 45,
+            "str_min": 3, "str_max": 45,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -321,7 +321,7 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 45,
+            "str_min": 3, "str_max": 45,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -341,7 +341,7 @@
         "required_str": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 45,
+            "str_min": 3, "str_max": 45,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -361,7 +361,7 @@
         "required_str": 10,
         "flags": ["CONTAINER", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
@@ -382,7 +382,7 @@
         "required_str": 10,
         "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
@@ -403,7 +403,7 @@
         "required_str": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 45,
+            "str_min": 3, "str_max": 45,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -423,7 +423,7 @@
         "required_str": 9,
         "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
@@ -443,7 +443,7 @@
         "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"],
         "bash": {
-            "str_min": 0, "str_max": 30,
+            "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
@@ -463,7 +463,7 @@
         "required_str": 9,
         "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"],
         "bash": {
-            "str_min": 0, "str_max": 45,
+            "str_min": 3, "str_max": 45,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -523,7 +523,7 @@
         "required_str": 14,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"],
         "bash": {
-            "str_min": 4, "str_max": 20,
+            "str_min": 1, "str_max": 20,
             "sound": "smash!",
             "sound_fail": "wham!",
             "items": [
@@ -542,7 +542,7 @@
         "required_str": 12,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC"],
         "bash": {
-            "str_min": 4, "str_max": 20,
+            "str_min": 1, "str_max": 20,
             "sound": "smash!",
             "sound_fail": "wham!",
             "items": [
