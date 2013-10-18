@@ -793,6 +793,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -816,6 +817,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -839,6 +841,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -865,6 +868,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -10631,6 +10635,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10691,6 +10696,7 @@
       [ "string_36", 1 ],
       [ "string_6", 6 ],
       [ "sinew", 20 ],
+      [ "thread", 20 ],
       [ "plant_fibre", 20 ]
     ]
   ]
@@ -10718,6 +10724,7 @@
       [ "string_36", 1 ],
       [ "string_6", 6 ],
       [ "sinew", 20 ],
+      [ "thread", 20 ],
       [ "plant_fibre", 20 ]
     ]
   ]
@@ -10746,6 +10753,7 @@
     ],
     [
       [ "sinew", 80 ],
+      [ "thread", 80 ],
       [ "plant_fibre", 80 ],
       [ "string_36", 1 ]
     ]
@@ -10779,6 +10787,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10811,6 +10820,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10850,6 +10860,7 @@
   "components": [
     [
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "string_36", 1 ]
     ],
@@ -10902,6 +10913,7 @@
     [
       [ "string_6", 10 ],
       [ "sinew", 500 ],
+      [ "thread", 500 ],
       [ "plant_fibre", 500 ]
     ]
   ]
@@ -10931,6 +10943,7 @@
     ],
     [
       [ "sinew", 60 ],
+      [ "thread", 60 ],
       [ "plant_fibre", 60 ],
       [ "string_6", 1 ]
     ],
