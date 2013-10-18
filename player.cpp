@@ -6315,11 +6315,6 @@ bool player::consume(game *g, signed char ch)
                             g->add_msg(_("%c - an empty %s"), it.invlet,it.tname(g).c_str());
                         }
                     }
-                    else if (it.type->id == "wrapper") // hack because wrappers aren't containers
-                    {
-                        g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
-                        g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
-                    }
                 } else if (OPTIONS["DROP_EMPTY"] == "all") {
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
