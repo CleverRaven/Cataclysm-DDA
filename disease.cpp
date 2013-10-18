@@ -1126,8 +1126,8 @@ void dis_effect(player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    std::string montype = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                    monster beast(GetMType(montype));
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER", &g->mtypes);
+                    monster beast(GetMType(spawn_details.name));
                     int x, y;
                     int tries = 0;
                     do {
@@ -1193,9 +1193,8 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_ATTENTION:
             if (one_in(100000 / dis.duration) && one_in(100000 / dis.duration) && one_in(250)) {
-                std::string type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
-                monster beast(GetMType(type));
-
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER", &g->mtypes);
+                monster beast(GetMType(spawn_details.name));
                 int x, y;
                 int tries = 0;
                 do {

@@ -262,7 +262,7 @@
     "color":"dkgray",
     "size":"TINY",
     "material":"flesh",
-    "diff":10,
+    "diff":0,
     "aggression":-99,
     "morale":-8,
     "speed":140,
