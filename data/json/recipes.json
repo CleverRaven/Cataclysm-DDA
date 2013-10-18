@@ -582,6 +582,7 @@
     ],
     [
       [ "stick", 1 ],
+      [ "2x4", 1 ],
       [ "mop", 1 ],
       [ "broom", 1 ]
     ]
@@ -644,7 +645,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "hose", 1 ]
@@ -664,7 +666,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -757,6 +760,7 @@
   "components": [
     [
       [ "stick", 1 ],
+      [ "2x4", 1 ],
       [ "broom", 1 ],
       [ "mop", 1 ]
     ],
@@ -789,7 +793,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
@@ -813,7 +818,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
@@ -837,7 +843,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
@@ -861,7 +868,8 @@
   ],
   "components": [
     [
-      [ "stick", 3 ]
+      [ "stick", 3 ],
+      [ "2x4", 2 ]
     ],
     [
       [ "bone", 3 ]
@@ -1087,7 +1095,7 @@
   ],
   "components": [
     [
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "stick", 3 ]
     ],
     [
@@ -1125,7 +1133,7 @@
   ],
   "components": [
     [
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "stick", 4 ]
     ],
     [
@@ -1171,7 +1179,7 @@
   ],
   "components": [
     [
-      [ "2x4", 4 ],
+      [ "2x4", 8 ],
       [ "stick", 16 ]
     ],
     [
@@ -1218,7 +1226,7 @@
   ],
   "components": [
     [
-      [ "2x4", 2 ],
+      [ "2x4", 4 ],
       [ "stick", 8 ]
     ],
     [
@@ -1849,7 +1857,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -1943,7 +1952,7 @@
       [ "stick", 2 ],
       [ "broom", 2 ],
       [ "mop", 2 ],
-      [ "2x4", 2 ],
+      [ "2x4", 1 ],
       [ "bee_sting", 2 ]
     ]
   ]
@@ -10627,7 +10636,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10670,7 +10680,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -10779,7 +10790,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10812,7 +10824,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10905,7 +10918,8 @@
   ],
   "components": [
     [
-      [ "stick", 10 ]
+      [ "stick", 10 ],
+      [ "2x4", 5 ]
     ],
     [
       [ "leather", 20 ]
@@ -10936,7 +10950,8 @@
   ],
   "components": [
     [
-      [ "stick", 3 ]
+      [ "stick", 3 ],
+      [ "2x4", 2 ]
     ],
     [
       [ "leather", 4 ]
@@ -10991,7 +11006,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -11724,7 +11740,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -12274,7 +12291,7 @@
       [ "stick", 2 ],
       [ "broom", 2 ],
       [ "mop", 2 ],
-      [ "2x4", 2 ],
+      [ "2x4", 1 ],
       [ "pool_cue", 2 ]
     ]
   ]
@@ -13697,7 +13714,7 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
-  "components": [ [ ["stick", 2] ], [ ["rock", 6] ] ]
+  "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
 },{
         "type" : "recipe",
   "result": "welder_crude",
@@ -16661,7 +16678,7 @@
   ],
   "components": [
     [
-      [ "2x4", 5 ],
+      [ "2x4", 3 ],
       [ "stick", 5 ],
       [ "splinter", 20 ],
       [ "bone", 40 ],
