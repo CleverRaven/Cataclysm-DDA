@@ -35,16 +35,17 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
 {   
     int spawn_chance = rng(1, 1000);
     MonsterGroup group = monsterGroupMap[group_name];
-
+    
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster,1);
     //If the default monster is too difficult, replace this with "mon_null"
     if(turn!=-1 && (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))){
         spawn_details = MonsterGroupResult("mon_null",0);
     }
-
+    
+    bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or 
-    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end(); ++it){
+    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it){
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
@@ -56,11 +57,14 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
 
         //If the entry was valid, check to see if we actually spawn it
         if(valid_entry){
+            debugmsg("Considering spawning a %s, comparing %d to current roll %d.", it->name.c_str(), it->frequency, spawn_chance);
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
             if(it->frequency >= spawn_chance){
                 if(it->pack_maximum > 1){
+                  debugmsg("Spawning as a pack");
                   spawn_details = MonsterGroupResult(it->name, rng(it->pack_minimum,it->pack_maximum));
                 } else {
+                  debugmsg("Spawning a singleton.");
                   spawn_details = MonsterGroupResult(it->name, 1);
                 }
                 //And if a quantity pointer with remaining value was passed, will will modify the external value as a side effect
@@ -68,6 +72,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
                 if(quantity){ 
                     *quantity -= it->cost_multiplier; 
                 }
+                monster_found = true;
             //Otherwise, subtract the frequency from spawn result for the next loop around
             }else{ 
                 spawn_chance -= it->frequency;
@@ -153,7 +158,6 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
                 pack_min = packarr.next_int();
                 pack_max = packarr.next_int();
             }
-
             g.monsters.push_back(MonsterGroupEntry(name,freq,cost,pack_min,pack_max));
         }
     }
