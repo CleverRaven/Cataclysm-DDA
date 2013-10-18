@@ -5141,6 +5141,30 @@
     "revert_to": "null",
     "use_action": "EXTINGUISHER"
   },
+  {
+    "id": "switchblade",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "blue",
+    "name": "switchblade",
+    "description": "A long and thin knife with a spring-loaded blade that rests inside the handle while not in use.",
+    "price": 120,
+    "material": ["steel", "plastic"],
+    "flags": "STAB",
+    "weight": 464,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 20,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
+  },
 
   {
     "id": "jack",
