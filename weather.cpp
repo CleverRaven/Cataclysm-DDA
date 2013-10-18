@@ -289,13 +289,13 @@ void weather_effect::acid(game *g)
 // MONDAY...MOSTLY SUNNY. HIGHS IN THE LOWER 60S. NORTHEAST WINDS 10 TO 15 MPH.
 // MONDAY NIGHT...PARTLY CLOUDY. LOWS AROUND 40. NORTHEAST WINDS 5 TO 10 MPH.
 
-// 0% â€“ No mention of precipitation
-// 10% â€“ No mention of precipitation, or isolated/slight chance
-// 20% â€“ Isolated/slight chance
-// 30% â€“ (Widely) scattered/chance
-// 40% or 50% â€“ Scattered/chance
-// 60% or 70% â€“ Numerous/likely
-// 80%, 90% or 100% â€“ No additional modifiers (i.e. "showers and thunderstorms")
+// 0% – No mention of precipitation
+// 10% – No mention of precipitation, or isolated/slight chance
+// 20% – Isolated/slight chance
+// 30% – (Widely) scattered/chance
+// 40% or 50% – Scattered/chance
+// 60% or 70% – Numerous/likely
+// 80%, 90% or 100% – No additional modifiers (i.e. "showers and thunderstorms")
 
 std::string weather_forecast(game *g, radio_tower tower)
 {
@@ -411,4 +411,40 @@ std::string print_temperature(float fahrenheit, int decimals)
         return rmp_format(_("<Fahrenheit>%sF"), ret.str().c_str());
     }
 
+}
+
+bool weather_is_wet(weather_type w)
+{
+    switch(w)
+    {
+    case WEATHER_DRIZZLE:
+    case WEATHER_FLURRIES:
+    case WEATHER_RAINY:
+    case WEATHER_SNOW:
+    case WEATHER_THUNDER:
+    case WEATHER_LIGHTNING:
+    case WEATHER_SNOWSTORM:
+        return true;
+    default:
+        return false;
+    }
+}
+
+float weather_get_wetness(weather_type w)
+{
+    switch(w)
+    {
+    case WEATHER_DRIZZLE:
+    case WEATHER_FLURRIES:
+        return 0.5;
+    case WEATHER_RAINY:
+    case WEATHER_SNOW:
+        return 1;
+    case WEATHER_THUNDER:
+    case WEATHER_LIGHTNING:
+    case WEATHER_SNOWSTORM:
+        return 2;
+    default:
+        return 0;
+    }
 }

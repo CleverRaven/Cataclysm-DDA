@@ -530,6 +530,16 @@ bool map::vehproceed(game* g){
         g->add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
         veh->turn (one_in(2) ? -15 : 15);
     }
+    // handle wet weather - more wheel surface area reduces the chance of slipping
+    if (veh->velocity > 2000 && weather_is_wet(g->weather)) {   // 2000 == 20mph
+        if (x_in_y((veh->velocity * 0.01) - (veh->wheels_area() * 0.5), 250 / weather_get_wetness(g->weather) + 1)) {
+            if (one_in(3)) {
+                veh->skidding = true;
+            }
+            veh->turn(one_in(2) ? -15 : 15);
+            g->add_msg(_("The %s's wheels slip in the wet!"), veh->name.c_str());
+        }
+    }
     // eventually send it skidding if no control
     if (!veh->boarded_parts().size() && one_in (10)) {
         veh->skidding = true;
