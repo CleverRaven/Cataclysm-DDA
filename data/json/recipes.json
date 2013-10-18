@@ -12802,6 +12802,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "jug_plastic",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "duct_tape", 10 ]
+    ],
+    [
+      [ "bottle_plastic", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "jerrycan",
   "category": "CC_MISC",
   "skill_used": "fabrication",
