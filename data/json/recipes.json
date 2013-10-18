@@ -1554,7 +1554,7 @@
         "type" : "recipe",
   "result": "acidbomb",
   "category": "CC_WEAPON",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
   "reversible": false,
@@ -1562,7 +1562,6 @@
   "tools": [
     [
       [ "hotplate", 5 ],
-      [ "chemistry_set", 5 ],
       [ "toolset", 1 ]
         ]
   ],
@@ -1688,7 +1687,7 @@
         "type" : "recipe",
   "result": "smokebomb",
   "category": "CC_WEAPON",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 7500,
@@ -1728,7 +1727,7 @@
         "type" : "recipe",
   "result": "gasbomb",
   "category": "CC_WEAPON",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 4,
   "time": 8000,
@@ -3690,7 +3689,7 @@
 },{
         "type" : "recipe",
   "result": "salt_water",
-  "category": "CC_CHEM",
+  "category": "CC_DRINK",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
@@ -3708,16 +3707,15 @@
 },{
         "type" : "recipe",
   "result": "acid",
-  "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 0,
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 4,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 2 ],
-      [ "hotplate", 2 ],
+      [ "hotplate", 3 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
@@ -3730,15 +3728,14 @@
   "components": [
     [
       [ "water_acid", 1 ],
-      [ "water_acid_weak", 2 ],
-      [ "vinegar", 2 ]
+      [ "water_acid_weak", 2 ]
     ]
   ]
 },{
         "type" : "recipe",
   "result": "acid",
   "id_suffix": "from batteries",
-  "category": "CC_CHEM",
+  "category": "CC_DRINK",
   "skill_used": "electronics",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 2,
@@ -3754,27 +3751,6 @@
   "components": [
     [
       [ "battery", 125 ]
-    ]
-  ]
-},{
-        "type" : "recipe",
-  "result": "water_acid",
-  "id_suffix": "from electrolysis",
-  "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "chemistry_set", 8 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -3861,8 +3837,8 @@
         "type" : "recipe",
   "result": "protein_powder",
   "category": "CC_FOOD",
-  "skill_used": "chemistry",
-  "difficulty": 2,
+  "skill_used": "cooking",
+  "difficulty": 4,
   "time": 12000,
   "reversible": false,
   "autolearn": true,
@@ -5978,22 +5954,20 @@
         "type" : "recipe",
   "result": "meth",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 3,
+  "skill_used": "cooking",
+  "difficulty": 5,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "hotplate", 15 ],
-      [ "chemistry_set", 15 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
       [ "bottle_glass", -1 ],
-      [ "hose", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "hose", -1 ]
     ]
   ],
   "components": [
@@ -6014,21 +5988,19 @@
         "type" : "recipe",
   "result": "crack",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 2,
+  "skill_used": "cooking",
+  "difficulty": 4,
   "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "hotplate", 8 ],
-      [ "chemistry_set", 8 ],
       [ "toolset", 1 ]
     ]
   ],
@@ -6048,7 +6020,7 @@
         "type" : "recipe",
   "result": "poppy_sleep",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -6057,14 +6029,12 @@
   "tools": [
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ],
-      [ "chemistry_set", 2 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -6079,7 +6049,7 @@
         "type" : "recipe",
   "result": "poppy_pain",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -6088,14 +6058,12 @@
   "tools": [
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ],
-      [ "chemistry_set", 2 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -6110,7 +6078,7 @@
         "type" : "recipe",
   "result": "fungicide",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -6119,14 +6087,12 @@
   "tools": [
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ],
-      [ "chemistry_set", 2 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "qualities" : [
@@ -6144,7 +6110,7 @@
         "type" : "recipe",
   "result": "royal_jelly",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -6168,23 +6134,21 @@
         "type" : "recipe",
   "result": "heroin",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 3,
+  "skill_used": "cooking",
+  "difficulty": 6,
   "time": 2000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "hotplate", 3 ],
-      [ "chemistry_set", 3 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
       [ "pan", -1 ],
       [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6200,9 +6164,9 @@
         "type" : "recipe",
   "result": "mutagen",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 5,
+  "difficulty": 8,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6238,9 +6202,9 @@
         "type" : "recipe",
   "result": "mutagen_plant",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6271,9 +6235,9 @@
         "type" : "recipe",
   "result": "mutagen_insect",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6306,9 +6270,9 @@
         "type" : "recipe",
   "result": "mutagen_spider",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6339,9 +6303,9 @@
         "type" : "recipe",
   "result": "mutagen_slime",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6372,9 +6336,9 @@
         "type" : "recipe",
   "result": "mutagen_fish",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6408,9 +6372,9 @@
         "type" : "recipe",
   "result": "mutagen_rat",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6441,9 +6405,9 @@
         "type" : "recipe",
   "result": "mutagen_beast",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6474,9 +6438,9 @@
         "type" : "recipe",
   "result": "mutagen_cattle",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6507,9 +6471,9 @@
         "type" : "recipe",
   "result": "mutagen_cephalopod",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6541,9 +6505,9 @@
         "type" : "recipe",
   "result": "mutagen_bird",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6574,9 +6538,9 @@
         "type" : "recipe",
   "result": "mutagen_lizard",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6607,9 +6571,9 @@
         "type" : "recipe",
   "result": "mutagen_troglobite",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6640,9 +6604,9 @@
         "type" : "recipe",
   "result": "purifier",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 7,
+  "difficulty": 9,
   "time": 10000,
   "reversible": false,
   "autolearn": true,
@@ -6675,9 +6639,9 @@
         "type" : "recipe",
   "result": "disinfectant",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 2 ],
-  "difficulty": 3,
+  "difficulty": 4,
   "time": 24000,
   "reversible": false,
   "autolearn": true,
@@ -6713,9 +6677,9 @@
         "type" : "recipe",
   "result": "iodine",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
-  "difficulty": 4,
+  "difficulty": 6,
   "time": 24000,
   "reversible": false,
   "autolearn": true,
@@ -6743,8 +6707,8 @@
         "type" : "recipe",
   "result": "pur_tablets",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 3,
+  "skill_used": "cooking",
+  "difficulty": 6,
   "time": 24000,
   "reversible": false,
   "autolearn": true,
@@ -6775,14 +6739,17 @@
         "type" : "recipe",
   "result": "bleach",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 3,
+  "skill_used": "cooking",
+  "difficulty": 6,
   "time": 24000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "chemistry_set", 75 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6794,14 +6761,17 @@
         "type" : "recipe",
   "result": "ammonia",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 4,
+  "skill_used": "cooking",
+  "difficulty": 6,
   "time": 36000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "chemistry_set", 75 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6821,8 +6791,8 @@
         "type" : "recipe",
   "result": "oxy_powder",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 2,
+  "skill_used": "cooking",
+  "difficulty": 8,
   "time": 12000,
   "reversible": false,
   "autolearn": true,
@@ -6845,14 +6815,17 @@
         "type" : "recipe",
   "result": "salt",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 5,
+  "skill_used": "cooking",
+  "difficulty": 6,
   "time": 48000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
       [ "chemistry_set", 50 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6869,8 +6842,8 @@
         "type" : "recipe",
   "result": "sugar",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 1,
+  "skill_used": "cooking",
+  "difficulty": 4,
   "time": 24000,
   "reversible": false,
   "autolearn": true,
@@ -6916,8 +6889,8 @@
         "type" : "recipe",
   "result": "lye_powder",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 2,
+  "skill_used": "cooking",
+  "difficulty": 4,
   "time": 36000,
   "reversible": false,
   "autolearn": true,
@@ -6944,8 +6917,8 @@
         "type" : "recipe",
   "result": "heatpack",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 0,
+  "skill_used": "cooking",
+  "difficulty": 3,
   "time": 6000,
   "reversible": false,
   "autolearn": true,
@@ -6980,8 +6953,8 @@
   "result": "gunpowder",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "chemistry", 1 ],
-  "difficulty": 2,
+  "requires_skills": [ "cooking", 1 ],
+  "difficulty": 4,
   "time": 8000,
   "reversible": false,
   "autolearn": true,
@@ -7012,8 +6985,8 @@
   "result": "incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "chemistry", 3 ],
-  "difficulty": 4,
+  "requires_skills": [ "cooking", 1 ],
+  "difficulty": 6,
   "time": 8000,
   "reversible": false,
   "autolearn": true,
@@ -7043,7 +7016,7 @@
   "result": "8mm_bootleg",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "chemistry", 4 ],
+  "requires_skills": [ "cooking", 2 ],
   "difficulty": 7,
   "time": 45000,
   "reversible": false,
@@ -7085,7 +7058,7 @@
   "result": "8mm_bootleg_jsp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "chemistry", 4 ],
+  "requires_skills": [ "cooking", 2 ],
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
@@ -11456,8 +11429,8 @@
         "type" : "recipe",
   "result": "superglue",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "difficulty": 1,
+  "skill_used": "cooking",
+  "difficulty": 2,
   "time": 12000,
   "reversible": false,
   "autolearn": true,
@@ -11465,12 +11438,10 @@
     [
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
-      [ "pan", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "pan", -1 ]
     ],
     [
       [ "hotplate", 5 ],
-      [ "chemistry_set", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
@@ -11504,12 +11475,10 @@
     [
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
-      [ "pan", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "pan", -1 ]
     ],
     [
       [ "hotplate", 5 ],
-      [ "chemistry_set", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
@@ -11989,41 +11958,6 @@
   ]
 },{
         "type" : "recipe",
-  "result": "caltrops",
-  "category": "CC_MISC",
-  "skill_used": "fabrication",
-  "requires_skills": [ "traps", 1 ],
-  "difficulty": 2,
-  "time": 100000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 100], ["char_forge", 20]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 4 ],
-     [ "scrap", 12 ]
-     ]
-    ]
-},{
-        "type" : "recipe",
   "result": "brazier",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -12213,7 +12147,7 @@
         "type" : "recipe",
   "result": "pheromone",
   "category": "CC_MISC",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 3,
   "time": 1200,
@@ -12221,7 +12155,9 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 18 ],
+      [ "hotplate", 18 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -13228,8 +13164,8 @@
   "result": "chemistry_set",
   "category": "CC_CHEM",
   "skill_used" : "fabrication",
-  "skills_required" : ["chemistry", 1],
-  "difficulty" : 1,
+  "skills_required" : ["cooking", 2],
+  "difficulty" : 2,
   "time": 50000,
   "reversible": false,
   "autolearn": true,
@@ -13547,15 +13483,15 @@
         "type" : "recipe",
   "result": "fertilizer_liquid",
   "category": "CC_DRINK",
-  "skill_used": "chemistry",
+  "skill_used": "cooking",
   "skills_required": ["surivival", 2],
-  "difficulty": 1,
+  "difficulty": 3,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
-    [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ], [ "chemistry_set", -1 ] ]
+    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+    [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
   ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -16391,8 +16327,8 @@
         "type" : "recipe",
   "result": "quikclot",
   "category": "CC_CHEM",
-  "skill_used": "chemistry",
-  "requires_skills": [ "firstaid", 1 ],
+  "skill_used": "firstaid",
+  "requires_skills": [ "cooking", 1 ],
   "difficulty": 4,
   "time": 1200,
   "reversible": false,
@@ -16400,14 +16336,12 @@
   "tools": [
     [
       [ "hotplate", 18 ],
-      [ "chemistry_set", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "chemistry_set", -1 ]
+      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
