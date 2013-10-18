@@ -90,7 +90,7 @@ void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
 
             p->inv.push_back(water_temp);
             water_temp = p->inv.item_by_type(water_temp.typeId());
-            p->eat(g, water_temp.invlet);
+            p->consume(g, water_temp.invlet);
             p->moves -= 350;
 
             water.charges -= water_temp.charges;
@@ -188,32 +188,32 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
- if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
-  g->add_msg(_("If only you had a shovel..."));
-  return;
- }
- const char *xname = m->tername(examx, examy).c_str();
- if (query_yn(_("Clear up that %s?"),xname)) {
-   // "Remove"
-  p->moves -= 200;
+    if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
+        g->add_msg(_("If only you had a shovel..."));
+        return;
+    }
+    std::string xname = m->tername(examx, examy);
+    if (query_yn(_("Clear up that %s?"), xname.c_str())) {
+        // "Remove"
+        p->moves -= 200;
 
-   // "Replace"
-  if(m->ter(examx,examy) == t_rubble) {
-   item rock(g->itypes["rock"], g->turn);
-   m->add_item(p->posx, p->posy, rock);
-   m->add_item(p->posx, p->posy, rock);
-  }
+        // "Replace"
+        if(m->ter(examx,examy) == t_rubble) {
+            item rock(g->itypes["rock"], g->turn);
+            m->add_item(p->posx, p->posy, rock);
+            m->add_item(p->posx, p->posy, rock);
+        }
 
-   // "Refloor"
-  if (g->levz < 0) {
-   m->ter_set(examx, examy, t_rock_floor);
-  } else {
-   m->ter_set(examx, examy, t_dirt);
-  }
+        // "Refloor"
+        if (g->levz < 0) {
+            m->ter_set(examx, examy, t_rock_floor);
+        } else {
+            m->ter_set(examx, examy, t_dirt);
+        }
 
-   // "Remind"
-  g->add_msg(_("You clear up that %s."), xname);
- }
+        // "Remind"
+        g->add_msg(_("You clear up that %s."), xname.c_str());
+    }
 }
 
 void iexamine::chainfence(game *g, player *p, map *m, int examx, int examy) {
@@ -970,7 +970,7 @@ void iexamine::water_source(game *g, player *p, map *m, const int examx, const i
     {
         p->inv.push_back(water);
         water = p->inv.item_by_type(water.typeId());
-        p->eat(g, water.invlet);
+        p->consume(g, water.invlet);
         p->moves -= 350;
     }
 }

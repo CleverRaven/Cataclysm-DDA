@@ -5,193 +5,211 @@ class game;
 class item;
 class player;
 
-
-
+// iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
 {
  public:
-  void none             (game *g, player *p, item *it, bool t);
+  int none             (game *g, player *p, item *it, bool t);
 
 // FOOD AND DRUGS (ADMINISTRATION)
-  void sewage           (game *g, player *p, item *it, bool t);
-  void honeycomb        (game *g, player *p, item *it, bool t);
-  void royal_jelly      (game *g, player *p, item *it, bool t);
-  void bandage          (game *g, player *p, item *it, bool t);
-  void firstaid         (game *g, player *p, item *it, bool t);
-  void disinfectant     (game *g, player *p, item *it, bool t);
-  void caff             (game *g, player *p, item *it, bool t);
-  void alcohol          (game *g, player *p, item *it, bool t);
-  void alcohol_weak     (game *g, player *p, item *it, bool t);
-  void pkill            (game *g, player *p, item *it, bool t);
-  void xanax            (game *g, player *p, item *it, bool t);
-  void cig              (game *g, player *p, item *it, bool t);
-  void antibiotic       (game *g, player *p, item *it, bool t);
-  void fungicide      (game *g, player *p, item *it, bool t);
-  void weed             (game *g, player *p, item *it, bool t);
-  void coke             (game *g, player *p, item *it, bool t);
-  void crack            (game *g, player *p, item *it, bool t);
-  void grack            (game *g, player *p, item *it, bool t);
-  void meth             (game *g, player *p, item *it, bool t);
-  void vitamins         (game *g, player *p, item *it, bool t);
-  void vaccine          (game *g, player *p, item *it, bool t);
-  void poison           (game *g, player *p, item *it, bool t);
-  void hallu            (game *g, player *p, item *it, bool t);
-  void thorazine        (game *g, player *p, item *it, bool t);
-  void prozac           (game *g, player *p, item *it, bool t);
-  void sleep            (game *g, player *p, item *it, bool t);
-  void iodine           (game *g, player *p, item *it, bool t);
-  void flumed           (game *g, player *p, item *it, bool t);
-  void flusleep         (game *g, player *p, item *it, bool t);
-  void inhaler          (game *g, player *p, item *it, bool t);
-  void blech            (game *g, player *p, item *it, bool t);
-  void mutagen          (game *g, player *p, item *it, bool t);
-  void purifier         (game *g, player *p, item *it, bool t);
-  void marloss          (game *g, player *p, item *it, bool t);
-  void dogfood          (game *g, player *p, item *it, bool t);
+  int sewage           (game *g, player *p, item *it, bool t);
+  int honeycomb        (game *g, player *p, item *it, bool t);
+  int royal_jelly      (game *g, player *p, item *it, bool t);
+  int bandage          (game *g, player *p, item *it, bool t);
+  int firstaid         (game *g, player *p, item *it, bool t);
+  int disinfectant     (game *g, player *p, item *it, bool t);
+  int caff             (game *g, player *p, item *it, bool t);
+  int alcohol          (game *g, player *p, item *it, bool t);
+  int alcohol_weak     (game *g, player *p, item *it, bool t);
+  int pkill            (game *g, player *p, item *it, bool t);
+  int xanax            (game *g, player *p, item *it, bool t);
+  int cig              (game *g, player *p, item *it, bool t);
+  int antibiotic       (game *g, player *p, item *it, bool t);
+  int fungicide        (game *g, player *p, item *it, bool t);
+  int weed             (game *g, player *p, item *it, bool t);
+  int coke             (game *g, player *p, item *it, bool t);
+  int crack            (game *g, player *p, item *it, bool t);
+  int grack            (game *g, player *p, item *it, bool t);
+  int meth             (game *g, player *p, item *it, bool t);
+  int vitamins         (game *g, player *p, item *it, bool t);
+  int vaccine          (game *g, player *p, item *it, bool t);
+  int poison           (game *g, player *p, item *it, bool t);
+  int hallu            (game *g, player *p, item *it, bool t);
+  int thorazine        (game *g, player *p, item *it, bool t);
+  int prozac           (game *g, player *p, item *it, bool t);
+  int sleep            (game *g, player *p, item *it, bool t);
+  int iodine           (game *g, player *p, item *it, bool t);
+  int flumed           (game *g, player *p, item *it, bool t);
+  int flusleep         (game *g, player *p, item *it, bool t);
+  int inhaler          (game *g, player *p, item *it, bool t);
+  int blech            (game *g, player *p, item *it, bool t);
+  int mutagen          (game *g, player *p, item *it, bool t);
+  int purifier         (game *g, player *p, item *it, bool t);
+  int marloss          (game *g, player *p, item *it, bool t);
+  int dogfood          (game *g, player *p, item *it, bool t);
 
 // TOOLS
-  void lighter          (game *g, player *p, item *it, bool t);
-  void primitive_fire   (game *g, player *p, item *it, bool t);
-  void sew              (game *g, player *p, item *it, bool t);
-  void extra_battery    (game *g, player *p, item *it, bool t);
-  bool valid_fabric     (game *g, player *p, item *it, bool t);
-  void cut_up           (game *g, player *p, item *it, item *cut, bool t);
-  void scissors         (game *g, player *p, item *it, bool t);
-  void extinguisher     (game *g, player *p, item *it, bool t);
-  void hammer           (game *g, player *p, item *it, bool t);
-  void light_off        (game *g, player *p, item *it, bool t);
-  void light_on         (game *g, player *p, item *it, bool t);
-  void gasoline_lantern_off (game *g, player *p, item *it, bool t);
-  void gasoline_lantern_on  (game *g, player *p, item *it, bool t);
-  void lightstrip       (game *g, player *p, item *it, bool t);
-  void lightstrip_active(game *g, player *p, item *it, bool t);
-  void glowstick        (game *g, player *p, item *it, bool t);
-  void glowstick_active (game *g, player *p, item *it, bool t);
-  void cauterize_elec   (game *g, player *p, item *it, bool t);
-  void solder_weld      (game *g, player *p, item *it, bool t);
-  void water_purifier   (game *g, player *p, item *it, bool t);
-  void two_way_radio    (game *g, player *p, item *it, bool t);
-  void directional_antenna (game *g, player *p, item *it, bool t);
-  void radio_off        (game *g, player *p, item *it, bool t);
-  void radio_on         (game *g, player *p, item *it, bool t);
-  void horn_bicycle     (game *g, player *p, item *it, bool t);
-  void noise_emitter_off(game *g, player *p, item *it, bool t);
-  void noise_emitter_on (game *g, player *p, item *it, bool t);
-  void roadmap          (game *g, player *p, item *it, bool t);
-  void roadmap_a_target (game *g, player *p, item *it, bool t, int target);
-  void roadmap_targets  (game *g, player *p, item *it, bool t, int target,
-                         int target_range, int distance, int reveal_distance);
-  void picklock         (game *g, player *p, item *it, bool t);
-  void crowbar          (game *g, player *p, item *it, bool t);
-  void makemound        (game *g, player *p, item *it, bool t);
-  void dig              (game *g, player *p, item *it, bool t);
-  void siphon           (game *g, player *p, item *it, bool t);
-  void chainsaw_off     (game *g, player *p, item *it, bool t);
-  void chainsaw_on      (game *g, player *p, item *it, bool t);
-  void shishkebab_off   (game *g, player *p, item *it, bool t);
-  void shishkebab_on    (game *g, player *p, item *it, bool t);
-  void firemachete_off  (game *g, player *p, item *it, bool t);
-  void firemachete_on   (game *g, player *p, item *it, bool t);
-  void broadfire_off    (game *g, player *p, item *it, bool t);
-  void broadfire_on     (game *g, player *p, item *it, bool t);
-  void firekatana_off   (game *g, player *p, item *it, bool t);
-  void firekatana_on    (game *g, player *p, item *it, bool t);
-  void zweifire_off     (game *g, player *p, item *it, bool t);
-  void zweifire_on      (game *g, player *p, item *it, bool t);
-  void jackhammer       (game *g, player *p, item *it, bool t);
-  void jacqueshammer    (game *g, player *p, item *it, bool t);
-  void pickaxe          (game *g, player *p, item *it, bool t);
-  void set_trap         (game *g, player *p, item *it, bool t);
-  void geiger           (game *g, player *p, item *it, bool t);
-  void teleport         (game *g, player *p, item *it, bool t);
-  void can_goo          (game *g, player *p, item *it, bool t);
-  void pipebomb         (game *g, player *p, item *it, bool t);
-  void pipebomb_act     (game *g, player *p, item *it, bool t);
-  void grenade          (game *g, player *p, item *it, bool t);
-  void grenade_act      (game *g, player *p, item *it, bool t);
-  void granade          (game *g, player *p, item *it, bool t);
-  void granade_act      (game *g, player *p, item *it, bool t);
-  void flashbang        (game *g, player *p, item *it, bool t);
-  void flashbang_act    (game *g, player *p, item *it, bool t);
-  void c4               (game *g, player *p, item *it, bool t);
-  void c4armed          (game *g, player *p, item *it, bool t);
-  void EMPbomb          (game *g, player *p, item *it, bool t);
-  void EMPbomb_act      (game *g, player *p, item *it, bool t);
-  void scrambler        (game *g, player *p, item *it, bool t);
-  void scrambler_act    (game *g, player *p, item *it, bool t);
-  void gasbomb          (game *g, player *p, item *it, bool t);
-  void gasbomb_act      (game *g, player *p, item *it, bool t);
-  void smokebomb        (game *g, player *p, item *it, bool t);
-  void smokebomb_act    (game *g, player *p, item *it, bool t);
-  void acidbomb         (game *g, player *p, item *it, bool t);
-  void arrow_flamable   (game *g, player *p, item *it, bool t);
-  void acidbomb_act     (game *g, player *p, item *it, bool t);
-  void molotov          (game *g, player *p, item *it, bool t);
-  void molotov_lit      (game *g, player *p, item *it, bool t);
-  void matchbomb        (game *g, player *p, item *it, bool t);
-  void matchbomb_act    (game *g, player *p, item *it, bool t);
-  void dynamite         (game *g, player *p, item *it, bool t);
-  void dynamite_act     (game *g, player *p, item *it, bool t);
-  void firecracker_pack (game *g, player *p, item *it, bool t);
-  void firecracker_pack_act (game *g, player *p, item *it, bool t);
-  void firecracker      (game *g, player *p, item *it, bool t);
-  void firecracker_act  (game *g, player *p, item *it, bool t);
-  void mininuke         (game *g, player *p, item *it, bool t);
-  void mininuke_act     (game *g, player *p, item *it, bool t);
-  void pheromone        (game *g, player *p, item *it, bool t);
-  void portal           (game *g, player *p, item *it, bool t);
-  void manhack          (game *g, player *p, item *it, bool t);
-  void turret           (game *g, player *p, item *it, bool t);
-  void UPS_off          (game *g, player *p, item *it, bool t);
-  void UPS_on           (game *g, player *p, item *it, bool t);
-  void adv_UPS_off      (game *g, player *p, item *it, bool t);
-  void adv_UPS_on       (game *g, player *p, item *it, bool t);
-  void tazer            (game *g, player *p, item *it, bool t);
-  void mp3              (game *g, player *p, item *it, bool t);
-  void mp3_on           (game *g, player *p, item *it, bool t);
-  void portable_game    (game *g, player *p, item *it, bool t);
-  void vortex           (game *g, player *p, item *it, bool t);
-  void dog_whistle      (game *g, player *p, item *it, bool t);
-  void vacutainer       (game *g, player *p, item *it, bool t);
-  void knife            (game *g, player *p, item *it, bool t);
-  static void cut_log_into_planks(game *g, player *p, item *it);
-  void lumber           (game *g, player *p, item *it, bool t);
-  void hacksaw          (game *g, player *p, item *it, bool t);
-  void tent             (game *g, player *p, item *it, bool t);
-  void shelter          (game *g, player *p, item *it, bool t);
-  void torch            (game *g, player *p, item *it, bool t);
-  void torch_lit        (game *g, player *p, item *it, bool t);
-  void battletorch            (game *g, player *p, item *it, bool t);
-  void battletorch_lit        (game *g, player *p, item *it, bool t);
-  void candle           (game *g, player *p, item *it, bool t);
-  void candle_lit       (game *g, player *p, item *it, bool t);
-  void bullet_puller    (game *g, player *p, item *it, bool t);
-  void boltcutters      (game *g, player *p, item *it, bool t);
-  void mop              (game *g, player *p, item *it, bool t);
-  void spray_can        (game *g, player *p, item *it, bool t);
-  void rag              (game *g, player *p, item *it, bool t);
-  void pda              (game *g, player *p, item *it, bool t);
-  void pda_flashlight   (game *g, player *p, item *it, bool t);
-  void LAW              (game *g, player *p, item *it, bool t);
-  void heatpack         (game *g, player *p, item *it, bool t);
-  void hotplate         (game *g, player *p, item *it, bool t);
-  void dejar            (game *g, player *p, item *it, bool t);
-  void rad_badge        (game *g, player *p, item *it, bool t);
-  void boots            (game *g, player *p, item *it, bool t);
-  void towel            (game *g, player *p, item *it, bool t);
-  void unfold_bicycle   (game *g, player *p, item *it, bool t);
-  void adrenaline_injector (game *g, player *p, item *it, bool t);
+  int lighter          (game *g, player *p, item *it, bool t);
+  int primitive_fire   (game *g, player *p, item *it, bool t);
+  int sew              (game *g, player *p, item *it, bool t);
+  int extra_battery    (game *g, player *p, item *it, bool t);
+  int cut_up           (game *g, player *p, item *it, item *cut, bool t);
+  int scissors         (game *g, player *p, item *it, bool t);
+  int extinguisher     (game *g, player *p, item *it, bool t);
+  int hammer           (game *g, player *p, item *it, bool t);
+  int light_off        (game *g, player *p, item *it, bool t);
+  int light_on         (game *g, player *p, item *it, bool t);
+  int gasoline_lantern_off (game *g, player *p, item *it, bool t);
+  int gasoline_lantern_on  (game *g, player *p, item *it, bool t);
+  int lightstrip       (game *g, player *p, item *it, bool t);
+  int lightstrip_active(game *g, player *p, item *it, bool t);
+  int glowstick        (game *g, player *p, item *it, bool t);
+  int glowstick_active (game *g, player *p, item *it, bool t);
+  int solder_weld      (game *g, player *p, item *it, bool t);
+  int water_purifier   (game *g, player *p, item *it, bool t);
+  int two_way_radio    (game *g, player *p, item *it, bool t);
+  int directional_antenna (game *g, player *p, item *it, bool t);
+  int radio_off        (game *g, player *p, item *it, bool t);
+  int radio_on         (game *g, player *p, item *it, bool t);
+  int horn_bicycle     (game *g, player *p, item *it, bool t);
+  int noise_emitter_off(game *g, player *p, item *it, bool t);
+  int noise_emitter_on (game *g, player *p, item *it, bool t);
+  int roadmap          (game *g, player *p, item *it, bool t);
+  int picklock         (game *g, player *p, item *it, bool t);
+  int crowbar          (game *g, player *p, item *it, bool t);
+  int makemound        (game *g, player *p, item *it, bool t);
+  int dig              (game *g, player *p, item *it, bool t);
+  int siphon           (game *g, player *p, item *it, bool t);
+  int chainsaw_off     (game *g, player *p, item *it, bool t);
+  int chainsaw_on      (game *g, player *p, item *it, bool t);
+  int shishkebab_off   (game *g, player *p, item *it, bool t);
+  int shishkebab_on    (game *g, player *p, item *it, bool t);
+  int firemachete_off  (game *g, player *p, item *it, bool t);
+  int firemachete_on   (game *g, player *p, item *it, bool t);
+  int broadfire_off    (game *g, player *p, item *it, bool t);
+  int broadfire_on     (game *g, player *p, item *it, bool t);
+  int firekatana_off   (game *g, player *p, item *it, bool t);
+  int firekatana_on    (game *g, player *p, item *it, bool t);
+  int zweifire_off     (game *g, player *p, item *it, bool t);
+  int zweifire_on      (game *g, player *p, item *it, bool t);
+  int jackhammer       (game *g, player *p, item *it, bool t);
+  int jacqueshammer    (game *g, player *p, item *it, bool t);
+  int pickaxe          (game *g, player *p, item *it, bool t);
+  int set_trap         (game *g, player *p, item *it, bool t);
+  int geiger           (game *g, player *p, item *it, bool t);
+  int teleport         (game *g, player *p, item *it, bool t);
+  int can_goo          (game *g, player *p, item *it, bool t);
+  int pipebomb         (game *g, player *p, item *it, bool t);
+  int pipebomb_act     (game *g, player *p, item *it, bool t);
+  int grenade          (game *g, player *p, item *it, bool t);
+  int grenade_act      (game *g, player *p, item *it, bool t);
+  int granade          (game *g, player *p, item *it, bool t);
+  int granade_act      (game *g, player *p, item *it, bool t);
+  int flashbang        (game *g, player *p, item *it, bool t);
+  int flashbang_act    (game *g, player *p, item *it, bool t);
+  int c4               (game *g, player *p, item *it, bool t);
+  int c4armed          (game *g, player *p, item *it, bool t);
+  int EMPbomb          (game *g, player *p, item *it, bool t);
+  int EMPbomb_act      (game *g, player *p, item *it, bool t);
+  int scrambler        (game *g, player *p, item *it, bool t);
+  int scrambler_act    (game *g, player *p, item *it, bool t);
+  int gasbomb          (game *g, player *p, item *it, bool t);
+  int gasbomb_act      (game *g, player *p, item *it, bool t);
+  int smokebomb        (game *g, player *p, item *it, bool t);
+  int smokebomb_act    (game *g, player *p, item *it, bool t);
+  int acidbomb         (game *g, player *p, item *it, bool t);
+  int arrow_flamable   (game *g, player *p, item *it, bool t);
+  int acidbomb_act     (game *g, player *p, item *it, bool t);
+  int molotov          (game *g, player *p, item *it, bool t);
+  int molotov_lit      (game *g, player *p, item *it, bool t);
+  int matchbomb        (game *g, player *p, item *it, bool t);
+  int matchbomb_act    (game *g, player *p, item *it, bool t);
+  int dynamite         (game *g, player *p, item *it, bool t);
+  int dynamite_act     (game *g, player *p, item *it, bool t);
+  int firecracker_pack (game *g, player *p, item *it, bool t);
+  int firecracker_pack_act (game *g, player *p, item *it, bool t);
+  int firecracker      (game *g, player *p, item *it, bool t);
+  int firecracker_act  (game *g, player *p, item *it, bool t);
+  int mininuke         (game *g, player *p, item *it, bool t);
+  int mininuke_act     (game *g, player *p, item *it, bool t);
+  int pheromone        (game *g, player *p, item *it, bool t);
+  int portal           (game *g, player *p, item *it, bool t);
+  int manhack          (game *g, player *p, item *it, bool t);
+  int turret           (game *g, player *p, item *it, bool t);
+  int UPS_off          (game *g, player *p, item *it, bool t);
+  int UPS_on           (game *g, player *p, item *it, bool t);
+  int adv_UPS_off      (game *g, player *p, item *it, bool t);
+  int adv_UPS_on       (game *g, player *p, item *it, bool t);
+  int tazer            (game *g, player *p, item *it, bool t);
+  int mp3              (game *g, player *p, item *it, bool t);
+  int mp3_on           (game *g, player *p, item *it, bool t);
+  int portable_game    (game *g, player *p, item *it, bool t);
+  int vortex           (game *g, player *p, item *it, bool t);
+  int dog_whistle      (game *g, player *p, item *it, bool t);
+  int vacutainer       (game *g, player *p, item *it, bool t);
+  int knife            (game *g, player *p, item *it, bool t);
+  static int cut_log_into_planks(game *g, player *p, item *it);
+  int lumber           (game *g, player *p, item *it, bool t);
+  int hacksaw          (game *g, player *p, item *it, bool t);
+  int tent             (game *g, player *p, item *it, bool t);
+  int shelter          (game *g, player *p, item *it, bool t);
+  int torch            (game *g, player *p, item *it, bool t);
+  int torch_lit        (game *g, player *p, item *it, bool t);
+  int battletorch            (game *g, player *p, item *it, bool t);
+  int battletorch_lit        (game *g, player *p, item *it, bool t);
+  int candle           (game *g, player *p, item *it, bool t);
+  int candle_lit       (game *g, player *p, item *it, bool t);
+  int bullet_puller    (game *g, player *p, item *it, bool t);
+  int boltcutters      (game *g, player *p, item *it, bool t);
+  int mop              (game *g, player *p, item *it, bool t);
+  int spray_can        (game *g, player *p, item *it, bool t);
+  int rag              (game *g, player *p, item *it, bool t);
+  int pda              (game *g, player *p, item *it, bool t);
+  int pda_flashlight   (game *g, player *p, item *it, bool t);
+  int LAW              (game *g, player *p, item *it, bool t);
+  int heatpack         (game *g, player *p, item *it, bool t);
+  int hotplate         (game *g, player *p, item *it, bool t);
+  int dejar            (game *g, player *p, item *it, bool t);
+  int rad_badge        (game *g, player *p, item *it, bool t);
+  int boots            (game *g, player *p, item *it, bool t);
+  int towel            (game *g, player *p, item *it, bool t);
+  int unfold_bicycle   (game *g, player *p, item *it, bool t);
+  int adrenaline_injector (game *g, player *p, item *it, bool t);
 // MACGUFFINS
-  void mcg_note         (game *g, player *p, item *it, bool t);
+  int mcg_note         (game *g, player *p, item *it, bool t);
 // ARTIFACTS
 // This function is used when an artifact is activated
 // It examines the item's artifact-specific properties
 // See artifact.h for a list
-  void artifact         (game *g, player *p, item *it, bool t);
-
-private:
-  bool heat_item(game *g, player *p);
-  void cauterize_effect(player *p, item *it, bool force = false);
+  int artifact         (game *g, player *p, item *it, bool t);
 };
+
+
+typedef int (iuse::*use_function_pointer)(game*,player*,item*,bool);
+
+struct use_function {
+    use_function_pointer cpp_function;
+
+    use_function() {};
+
+    use_function(use_function_pointer f)
+        : cpp_function(f)
+    { };
+
+    int call(game*,player*,item*,bool);
+
+    void operator=(use_function_pointer f) {
+        cpp_function = f;
+    }
+
+    bool operator==(use_function_pointer f) const {
+        return f == cpp_function;
+    }
+
+    bool operator!=(use_function_pointer f) const {
+        return f != cpp_function;
+    }
+};
+
 
 #endif

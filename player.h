@@ -289,7 +289,8 @@ public:
  void drench_mut_calc(); //Recalculate mutation drench protection for all bodyparts (ignored/good/neutral stats)
 
  char lookup_item(char let);
- bool eat(game *g, signed char invlet); // Eat item; returns false on fail
+ bool consume(game *g, signed char invlet);
+ bool eat(game *g, item *eat, it_comest *comest);
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
  bool wear(game *g, char let, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.

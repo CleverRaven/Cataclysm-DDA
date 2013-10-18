@@ -138,26 +138,23 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 
     g.name = jo.get_string("name");
     g.defaultMonster = jo.get_string("default");
-    if (jo.is_array("monsters")){
+    if (jo.has_array("monsters")){
         JsonArray monarr = jo.get_array("monsters");
 
-        const int monnum = monarr.size();
-        for (int i = 0; i < monnum; ++i){
-            if (monarr.get_index_type(i) == JVT_OBJECT){
-                JsonObject mon = monarr.get_object(i);
-                std::string name = mon.get_string("monster");
-                int freq = mon.get_int("freq");
-                int cost = mon.get_int("cost_multiplier");
-                int pack_min = 1;
-                int pack_max = 1;
-                if(mon.has_member("pack_size")){
-                    JsonArray packarr = mon.get_array("pack_size");
-                    pack_min = packarr.next_int();
-                    pack_max = packarr.next_int();
-                }
-
-                g.monsters.push_back(MonsterGroupEntry(name,freq,cost,pack_min,pack_max));
+        while (monarr.has_more()) {
+            JsonObject mon = monarr.next_object();
+            std::string name = mon.get_string("monster");
+            int freq = mon.get_int("freq");
+            int cost = mon.get_int("cost_multiplier");
+            int pack_min = 1;
+            int pack_max = 1;
+            if(mon.has_member("pack_size")){
+                JsonArray packarr = mon.get_array("pack_size");
+                pack_min = packarr.next_int();
+                pack_max = packarr.next_int();
             }
+
+            g.monsters.push_back(MonsterGroupEntry(name,freq,cost,pack_min,pack_max));
         }
     }
 

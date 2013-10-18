@@ -48,6 +48,12 @@ keys.push_back("rollmat");
 traps.push_back(new trap(id, "ROLLMAT", _("roll mat"), c_blue, '#',  -1, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
 
+    keys.clear();
+id++;
+keys.push_back("fur_rollmat");
+traps.push_back(new trap(id, "FUR_ROLLMAT", _("fur roll mat"), c_brown, '#',  -1, 0,
+    0, &trapfunc::none, &trapfuncm::none, keys));;
+    
 keys.clear();
 id++;
 keys.push_back("beartrap");
@@ -251,4 +257,15 @@ keys.push_back("null");
 // Snake spawn / hisssss
 traps.push_back(new trap(id, "", "", c_white, '^',  99, 99,
     99, &trapfunc::snake, &trapfuncm::snake, keys));;
+}
+
+void game::release_traps()
+{
+ std::vector<trap*>::iterator it;
+ for (it = traps.begin(); it != traps.end(); it++) {
+  if (*it != NULL) {
+   delete *it;
+  }
+ }
+ traps.clear();
 }

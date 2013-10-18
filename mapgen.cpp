@@ -1298,7 +1298,8 @@ t   t\n\
           } else if (rc <= 50) { vt = "car";
           } else if (rc <= 60) { vt = "electric_car";
           } else if (rc <= 65) { vt = "hippie_van";
-          } else if (rc <= 75) { vt = "bicycle";
+          } else if (rc <= 73) { vt = "bicycle";
+          } else if (rc <= 75) { vt = "unicycle";
           } else if (rc <= 90) { vt = "motorcycle";
           } else {               vt = "motorcycle_sidecart";
           }
@@ -12590,6 +12591,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  veh->posy = y % SEEY;
  veh->smx = smx;
  veh->smy = smy;
+ veh->place_spawn_items();
  veh->face.init(dir);
  veh->turn_dir = dir;
  veh->precalc_mounts (0, dir);
@@ -14574,7 +14576,7 @@ void map::add_extra(map_extra type, game *g)
   int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
   for (int i = x - size; i <= x + size; i++) {
    for (int j = y - size; j <= y + size; j++) {
-    ter_set(i, j, t_rubble);
+    destroy(g, i, j, false);
     radiation(i, j) += rng(20, 40);
    }
   }

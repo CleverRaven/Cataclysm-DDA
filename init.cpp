@@ -172,6 +172,16 @@ void init_data_structures()
     init_martial_arts();
 }
 
+void release_data_structures()
+{
+    std::map<type_string, TFunctor*>::iterator it;
+    for (it = type_function_map.begin(); it != type_function_map.end(); it++) {
+        if (it->second != NULL)
+            delete it->second;
+    }
+    type_function_map.clear();
+}
+
 void load_json_dir(std::string const &dirname)
 {
     // get a list of all files in the directory
