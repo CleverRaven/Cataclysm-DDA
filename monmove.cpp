@@ -771,6 +771,40 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
     return movecost;
 }
 
+/*
+ * Return valid points of an area extending 1 tile to either side and (maxdepth) tiles behind basher,
+ * taking blocking into account, only if basher is directly infront of bashee
+ */
+std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) {
+    std::vector<point> ret;
+    maxdepth++;
+    int diffx = basher.x - bashee.x;
+    int diffy = basher.y - bashee.y;
+    bool blocked[3] = { false, false, false };
+    if ( diffx == 0 || diffy == 0 ) { // not primary basher, bail
+       for(int offside=0; offside < 3; offside++) {
+          for(int offdepth = 0; offdepth < maxdepth; offdepth++) {
+             point hpos(0,0);
+             if ( diffx == 0 ) { // vertical
+                hpos = point(basher.x - 1 + offside, basher.y + ( offdepth * diffy ));
+             } else { // horizontal
+                hpos = point(basher.x + ( offdepth * diffx ), basher.y - 1 + offside );
+             }
+             if ( hpos.x != basher.x || hpos.y != basher.y ) { // zeds are beyond self-help
+                if ( g->m.move_cost(hpos.x, hpos.y) == 0 ) { // there's a wall or such here
+                   blocked[offside] = true;
+                }
+                if ( blocked[offside] == false ) { // mobs behind walls are not helpful
+                   // g->add_msg("bzone += %d,%d",hpos.x,hpos.y);
+                   ret.push_back( hpos );
+                }
+             }
+          }
+       }
+    }
+    return ret;
+}
+
 int monster::bash_at(int x, int y) {
     //Hallucinations can't bash stuff.
     if(is_hallucination()) {
@@ -781,7 +815,27 @@ int monster::bash_at(int x, int y) {
     if(try_bash && can_bash) {
         std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
         int bashskill = int(type->melee_dice * type->melee_sides);
-        // todo; pileup = more bashskill
+
+        // pileup = more bashskill, but only help bashing mob directly infront of target
+        const int max_helper_depth = 5;
+        const std::vector<point> bzone = get_bashing_zone( point(x, y), pos(), max_helper_depth );
+        int mo_bash = 0;
+        for( int i = 0; i < bzone.size(); i++ ) {
+           if ( g->mon_at( bzone[i] ) != -1 ) {
+              monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
+              // trying for the same door and can bash; put on helper hat
+              if ( helpermon.wandx == wandx && helpermon.wandy == wandy && helpermon.has_flag(MF_BASHES) ) {
+                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides); 
+                 // helpers lined up behind primary basher add full strength, others 50%
+                 addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
+                 mo_bash += addbash;
+                 // g->add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash, mo_bash );
+              }
+           }
+        }
+        // by our powers combined...
+        bashskill += int (mo_bash /= 2);
+
         g->m.bash(x, y, bashskill, bashsound);
         g->sound(x, y, 18, bashsound);
         moves -= 100;
@@ -789,7 +843,7 @@ int monster::bash_at(int x, int y) {
     } else if (g->m.move_cost(x, y) == 0 &&
             !g->m.is_divable(x, y) && //No smashing water into rubble!
             has_flag(MF_DESTROYS)) {
-        g->m.destroy(g, x, y, true);
+        g->m.destroy(g, x, y, true); //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
         moves -= 250;
         return 1;
     }
