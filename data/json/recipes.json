@@ -10803,7 +10803,7 @@
   "requires_skills": [ "tailor", 1 ],
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities" : [
     {"name":"CUT","level":1,"amount":1}
