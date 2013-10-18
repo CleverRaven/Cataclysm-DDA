@@ -2984,7 +2984,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3022,7 +3022,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3060,7 +3060,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3095,7 +3095,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3130,7 +3130,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3168,7 +3168,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3206,7 +3206,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3245,7 +3245,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3284,7 +3284,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3322,7 +3322,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3360,7 +3360,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3398,7 +3398,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3435,7 +3435,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3473,7 +3473,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3511,7 +3511,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3548,7 +3548,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3583,7 +3583,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3618,7 +3618,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3656,7 +3656,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3692,7 +3692,7 @@
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -10610,10 +10610,10 @@
   ],
   "components": [
     [
-      [ "rag", 20 ]
+      [ "rag", 10 ]
     ],
     [
-      [ "fur", 10 ]
+      [ "fur", 20 ]
     ]
   ]
 },{
@@ -12353,6 +12353,7 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 18 ],
       [ "hotplate", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
@@ -12981,7 +12982,7 @@
       ["toolset", 10],
       ["fire", -1],
       ["forge", 7],
-      [ "char_forge", 2]
+      ["char_forge", 2]
       ]
   ],
   "components": [
@@ -16505,8 +16506,8 @@
         "type" : "recipe",
   "result": "quikclot",
   "category": "CC_CHEM",
-  "skill_used": "firstaid",
-  "requires_skills": [ "cooking", 1 ],
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
   "difficulty": 4,
   "time": 1200,
   "reversible": false,
