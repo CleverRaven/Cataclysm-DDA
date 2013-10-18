@@ -14572,11 +14572,16 @@ void map::add_extra(map_extra type, game *g)
  case mx_crater:
  {
   int size = rng(2, 6);
+  int size_squared = size * size;
   int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
   for (int i = x - size; i <= x + size; i++) {
    for (int j = y - size; j <= y + size; j++) {
-    destroy(g, i, j, false);
-    radiation(i, j) += rng(20, 40);
+    //If we're using circular distances, make circular craters
+    //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
+    if(!trigdist || (((i-x)*(i-x) + (j-y)*(j-y)) <= size_squared)) {
+     destroy(g, i, j, false);
+     radiation(i, j) += rng(20, 40);
+    }
    }
   }
  }
