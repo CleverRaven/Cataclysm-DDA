@@ -7680,7 +7680,7 @@ void game::pickup(int posx, int posy, int min)
  // Now print the two lists; those on the ground and about to be added to inv
  // Continue until we hit return or space
   do {
-   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
+   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
    size_t idx=-1;
    for (int i = 1; i < pickupH; i++) {
      mvwprintw(w_pickup, i, 0, "                                                ");
