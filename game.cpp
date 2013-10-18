@@ -7630,6 +7630,9 @@ void game::pickup(int posx, int posy, int min)
  int selected=0;
  int last_selected=-1;
 
+ int itemcount = 0;
+ std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
+
  if (min == -1) { //Auto Pickup, select matching items
     bool bFoundSomething = false;
 
@@ -7677,12 +7680,16 @@ void game::pickup(int posx, int posy, int min)
  // Now print the two lists; those on the ground and about to be added to inv
  // Continue until we hit return or space
   do {
-   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
+   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
    size_t idx=-1;
    for (int i = 1; i < pickupH; i++) {
      mvwprintw(w_pickup, i, 0, "                                                ");
    }
-   if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
+   if (ch >= '0' && ch <= '9') {
+       ch = (char)ch - '0';
+       itemcount *= 10;
+       itemcount += ch;
+   } else if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
     start -= maxitems;
     selected = start;
     mvwprintw(w_pickup, maxitems + 2, 0, "         ");
@@ -7725,6 +7732,16 @@ void game::pickup(int posx, int posy, int min)
        idx = pickup_chars.find(ch);
    }
 
+   if(idx != -1)
+   {
+       if(itemcount != 0 || pickup_count[idx] == 0)
+       {
+           pickup_count[idx] = itemcount;
+           itemcount = 0;
+
+       }
+   }
+
    if ( idx < here.size()) {
     getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
     if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
@@ -7733,11 +7750,28 @@ void game::pickup(int posx, int posy, int min)
     }
 
     if (getitem[idx]) {
-        new_weight += here[idx].weight();
-        new_volume += here[idx].volume();
+        if((pickup_count[idx] != 0) && (pickup_count[idx] < here[idx].charges))
+        {
+            item temp = here[idx].clone();
+            temp.charges = pickup_count[idx];
+            new_weight += temp.weight();
+            new_volume += temp.volume();
+        } else {
+            new_weight += here[idx].weight();
+            new_volume += here[idx].volume();
+        }
     } else {
-        new_weight -= here[idx].weight();
-        new_volume -= here[idx].volume();
+        if((pickup_count[idx] != 0) && (pickup_count[idx] < here[idx].charges))
+        {
+            item temp = here[idx].clone();
+            temp.charges = pickup_count[idx];
+            new_weight -= temp.weight();
+            new_volume -= temp.volume();
+            pickup_count[idx] = 0;
+        } else {
+            new_weight -= here[idx].weight();
+            new_volume -= here[idx].volume();
+        }
     }
     update = true;
    }
@@ -7791,7 +7825,12 @@ void game::pickup(int posx, int posy, int min)
         mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
      }
      if (getitem[cur_it])
-      wprintz(w_pickup, c_ltblue, " + ");
+         if(pickup_count[cur_it] == 0)
+         {
+             wprintz(w_pickup, c_ltblue, " + ");
+         } else {
+             wprintz(w_pickup, c_ltblue, " # ");
+         }
      else
       wprintw(w_pickup, " - ");
      wprintz(w_pickup, icolor, here[cur_it].tname(this).c_str());
@@ -7866,6 +7905,19 @@ void game::pickup(int posx, int posy, int min)
     iter++;
     advance_nextinv();
    }
+
+   if(pickup_count[i] != 0)
+   {
+       int leftover_charges = here[i].charges - pickup_count[i];
+       if(leftover_charges > 0)
+       {
+           item temp = here[i].clone();
+           temp.charges = leftover_charges;
+           here[i].charges = pickup_count[i];
+           m.add_item(posx, posy, temp);
+       }
+   }
+
    if (iter == inv_chars.size()) {
     add_msg(_("You're carrying too many items!"));
     werase(w_pickup);
