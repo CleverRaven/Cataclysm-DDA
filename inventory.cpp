@@ -206,7 +206,7 @@ inventory inventory::filter_by_activation(player& u)
     inventory reduced_inv;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if(u.rate_action_use(&iter->front()) == HINT_GOOD) {
+        if(u.rate_action_use(&iter->front()) == HINT_GOOD || iter->front().is_food(&u) ) {
             reduced_inv.clone_stack(*iter);
         }
     }
