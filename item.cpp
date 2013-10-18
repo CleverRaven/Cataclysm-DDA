@@ -945,31 +945,66 @@ int item::weight() const
     return ret;
 }
 
-int item::volume() const
+/*
+ * precise_unit_volume: Returns the volume, multiplied by 1000.
+ * 1: -except- ammo, since the game treats the volume of count_by_charge items as 1/stack_size of the volume defined in .json
+ * 2: Ammo is also not totalled.
+ * 3: gun mods -are- added to the total, since a modded gun is not a splittable thing, in an inventory sense
+ * This allows one to obtain the volume of something consistent with game rules, with a precision that is lost
+ * when a 2 volume bullet is divided by ???? and returned as an int.
+ */
+int item::precise_unit_volume() const
 {
+   return volume(true, true);
+}
+
+/*
+ * note, the game currently has an undefined number of different scales of volume: items that are count_by_charges, and
+ * everything else:
+ *    everything else: volume = type->volume
+ *   count_by_charges: volume = type->volume / stack_size
+ * Also, this function will multiply count_by_charges items by the amount of charges before dividing by ???.
+ * If you need more precision, precise_value = true will return a multiple of 1000
+ * If you want to handle counting up charges elsewhere, unit value = true will skip that part,
+ *   except for guns.
+ * Default values are unit_value=false, precise_value=false
+ */
+int item::volume(bool unit_value, bool precise_value ) const
+{
+ int ret = 0;
  if (corpse != NULL && typeId() == "corpse" ) {
   switch (corpse->size) {
-   case MS_TINY:   return   2;
-   case MS_SMALL:  return  40;
-   case MS_MEDIUM: return  75;
-   case MS_LARGE:  return 160;
-   case MS_HUGE:   return 600;
+   case MS_TINY:   ret =    2;
+   case MS_SMALL:  ret =   40;
+   case MS_MEDIUM: ret =   75;
+   case MS_LARGE:  ret =  160;
+   case MS_HUGE:   ret =  600;
   }
+  if ( precise_value == true ) {
+      ret *= 1000;
+  }
+  return ret;
  }
 
  if( is_null() )
   return 0;
 
- int ret = type->volume;
+ ret = type->volume;
+
+ if ( precise_value == true ) {
+     ret *= 1000;
+ }
 
  if (count_by_charges()) {
-   ret *= charges;
+   if ( unit_value == false ) {
+       ret *= charges;
+   }
    ret /= max_charges();
  }
 
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++)
-   ret += contents[i].volume();
+   ret += contents[i].volume( false, precise_value );
  }
    return ret;
 }

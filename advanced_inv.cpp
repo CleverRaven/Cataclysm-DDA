@@ -468,7 +468,6 @@ void advanced_inventory::recalc_pane(int i)
     int aweight = 0;
 
     if(panes[i].area == isinventory) {
-
        const invslice & stacks = u.inv.slice(0, u.inv.size());
         for( int x = 0; x < stacks.size(); ++x ) {
             item &item = stacks[x]->front();
@@ -861,21 +860,21 @@ void advanced_inventory::display(game * gp, player * pp) {
                 int free_volume = ( squares[ destarea ].vstor >= 0 ?
                     squares[ destarea ].veh->free_volume( squares[ destarea ].vstor ) :
                     m.free_volume ( squares[ destarea ].x, squares[ destarea ].y )
-                ) * 100;
+                ) * 1000;
                 // TODO figure out a better way to get the item. Without invlets.
                 item* it = &u.inv.slice(item_pos, 1).front()->front();
                 std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
 
                 int amount = 1;
-                int volume = it->volume() * 100; // sigh
-
+//                int volume = it->volume() * 100; // sigh
+                int volume = it->precise_unit_volume();
                 bool askamount = false;
                 if ( stack.size() > 1) {
                     amount = stack.size();
                     askamount = true;
                 } else if ( it->count_by_charges() ) {
                     amount = it->charges;
-                    volume = it->type->volume;
+//                    volume = it->type->volume;
                     askamount = true;
                 }
 
@@ -1003,39 +1002,91 @@ void advanced_inventory::display(game * gp, player * pp) {
                     popup(_("Source area is the same as destination (%s)."),squares[destarea].name.c_str());
                     continue;
                 }
+            item *it = panes[src].items[list_pos].it;
 
-                std::vector<item> src_items = squares[s].vstor >= 0 ?
+/*                std::vector<item> src_items = squares[s].vstor >= 0 ?
                     squares[s].veh->parts[squares[s].vstor].items :
                     m.i_at(squares[s].x,squares[s].y);
                 if(src_items[item_pos].made_of(LIQUID))
+*/
+                if ( it->made_of(LIQUID) )
                 {
                     popup(_("You can't pick up a liquid."));
                     continue;
                 }
                 else // from veh/map
                 {
+                    int trycharges = -1;
                     if ( destarea == isinventory ) // if destination is inventory
                     {
-                        if(!u.can_pickVolume(src_items[item_pos].volume()))
+                        if(squares[destarea].size >= max_inv) {
+                            popup(_("Too many itens"));
+                            continue;
+                        }
+                        int tryvolume = it->volume();
+                        int tryweight = it->weight();
+                        int amount = 1;
+                        if ( it->count_by_charges() && it->charges > 1 ) {
+                           amount = it->charges;
+                           int unitvolume = it->precise_unit_volume();
+                           int unitweight = ( tryweight * 1000 ) / it->charges;
+                           int max_vol = u.volume_capacity() - u.volume_carried();
+                           int max_weight = ( u.weight_capacity() * 4 ) - u.weight_carried();
+                           max_vol *= 1000;
+                           max_weight *= 1000;
+                           int max = amount;
+                           if ( unitvolume > 0 && unitvolume * amount > max_vol ) {
+                              max = int( max_vol / unitvolume );
+                           }
+                           if ( unitweight > 0 && unitweight * amount > max_weight ) {
+                              max = int( max_weight / unitweight );
+                           }
+                           // popup("uvol: %d amt: %d mvol: %d mamt: %d", unitvolume, amount, max_vol, max);
+                           if ( max != 0 ) {
+                                std::string popupmsg=_("How many do you want to move? (0 to cancel)");
+                                if(amount > max) {
+                                    popupmsg=string_format(_("Destination can only hold %d! Move how many? (0 to cancel) "), max);
+                                }
+                                // fixme / todo make popup take numbers only (m = accept, q = cancel)
+                                amount = helper::to_int(
+                                    string_input_popup( popupmsg, 20,
+                                         helper::to_string(
+                                             ( amount > max ? max : amount )
+                                         )
+                                    )
+                                );
+                                if ( amount > max ) amount = max;
+                                if ( amount != it->charges ) {
+                                    tryvolume = ( unitvolume * amount ) / 1000;
+                                    tryweight = ( unitweight * amount ) / 1000;
+                                    trycharges = amount;
+                                }
+                                if ( trycharges == 0 ) continue;
+                            } else {
+                                continue;
+                            }
+                        }
+                        // ...not even going to think about checking for stack
+                        // at this time...
+                        if(!u.can_pickVolume(tryvolume))
                         {
                             popup(_("There's no room in your inventory."));
                             continue;
                         }
-                        else if(!u.can_pickWeight(src_items[item_pos].weight(), false))
+                        else if(!u.can_pickWeight(tryweight, false))
                         {
                             popup(_("This is too heavy!"));
-                            continue;
-                        }
-                        else if(squares[destarea].size >= max_inv)
-                        {
-                            popup(_("Too many itens"));
                             continue;
                         }
                     }
 
                     recalc=true;
 
-                    item new_item = src_items[item_pos];
+                    item new_item = (*it);
+                    
+                    if ( trycharges > 0 ) {
+                        new_item.charges = trycharges;
+                    }
                     if(destarea == isinventory) {
                         new_item.invlet = g->nextinv;
                         g->advance_nextinv();
@@ -1052,10 +1103,14 @@ void advanced_inventory::display(game * gp, player * pp) {
                             continue;
                         }
                     }
-                    if(panes[src].vstor>=0) {
-                        panes[src].veh->remove_item (panes[src].vstor, item_pos);
+                    if( trycharges > 0 ) {
+                        it->charges -= trycharges;
                     } else {
-                        m.i_rem(u.posx+panes[src].offx,u.posy+panes[src].offy, item_pos);
+                        if(panes[src].vstor>=0) {
+                            panes[src].veh->remove_item (panes[src].vstor, item_pos);
+                        } else {
+                            m.i_rem(u.posx+panes[src].offx,u.posy+panes[src].offy, item_pos);
+                        }
                     }
                 }
             }
