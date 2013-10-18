@@ -14561,14 +14561,6 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_wolfpack:
-  add_spawn("mon_wolf", rng(3, 6), SEEX, SEEY);
-  break;
-
-  case mx_cougar:
-  add_spawn("mon_cougar", 1, SEEX, SEEY);
-  break;
-
  case mx_crater:
  {
   int size = rng(2, 6);
