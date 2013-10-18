@@ -202,6 +202,7 @@
       ["ceramic_cup", 10],
       ["knife_butcher", 10],
       ["cookbook", 35],
+      ["textbook_cooking", 16],
       ["rag", 1],
       ["hotplate", 10],
       ["flashlight", 40],
@@ -479,6 +480,7 @@
       ["manual_speech", 50],
       ["manual_business", 40],
       ["manual_computers", 20],
+      ["manual_chemistry", 20],
       ["child_book", 20],
       ["tall_tales", 10],
       ["story_book", 4],
@@ -899,6 +901,7 @@
       ["mag_swimming", 10],
       ["flyer", 10],
       ["mag_fabrication", 30],
+      ["mag_chemistry", 20],
       ["mag_tailor", 25]
     ]
   },{
@@ -2045,6 +2048,7 @@
       ["manual_business", 40],
       ["manual_first_aid", 40],
       ["manual_computers", 20],
+      ["manual_chemistry", 20],
       ["howto_computer", 10],
       ["cookbook", 35],
       ["cookbook_italian", 25],
@@ -2092,6 +2096,7 @@
       ["manual_survival", 3],
       ["manual_swimming", 5],
       ["textbook_speech", 12],
+      ["textbook_cooking", 8],
       ["textbook_armeast", 3]
     ]
   },{
@@ -2389,6 +2394,7 @@
       ["manual_business", 40],
       ["textbook_business", 12],
       ["manual_computers", 20],
+      ["manual_chemistry", 10],
       ["howto_computer", 10],
       ["mag_fabrication", 12],
       ["textbook_computer", 8],
@@ -2435,6 +2441,7 @@
       ["battery", 50],
       ["mag_news", 35],
       ["manual_computers", 20],
+      ["manual_chemistry", 30],
       ["howto_computer", 20],
       ["mag_electronics", 35],
       ["manual_fabrication", 30],
@@ -2455,6 +2462,7 @@
       ["manual_computers", 20],
       ["mag_tailor", 10],
       ["cookbook", 35],
+      ["textbook_cooking", 8],
       ["cookbook_italian", 25],
       ["manual_electronics", 20],
       ["manual_tailor", 15],
@@ -2514,6 +2522,7 @@
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["child_book", 60],
+      ["mag_chemistry", 30],
       ["lighter", 60],
       ["ref_lighter", 4],
       ["matches", 60],
@@ -2875,6 +2884,7 @@
       ["manual_bashing", 1],
       ["mag_mechanics", 15],
       ["child_book", 1],
+      ["mag_chemistry", 1],
       ["lighter", 60],
       ["ref_lighter", 5],
       ["matches", 60],
@@ -3781,6 +3791,7 @@
       ["flyer", 10],
       ["gasoline_lantern", 10],
       ["child_book", 4],
+      ["mag_chemistry", 2],
       ["umbrella",1],
       ["pocketwatch", 1]
     ]
@@ -4556,6 +4567,7 @@
       ["usb_drive", 5],
       ["battery", 50],
       ["manual_computers", 20],
+      ["manual_chemistry", 10],
       ["textbook_computer", 8],
       ["computer_science", 7],
       ["solar_cell", 5],
