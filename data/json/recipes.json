@@ -13661,7 +13661,7 @@
 },{
         "type" : "recipe",
   "result": "fertilizer_liquid",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "skills_required": ["surivival", 2],
   "difficulty": 3,
