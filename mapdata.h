@@ -174,7 +174,6 @@ enum map_extra {
  mx_supplydrop,
  mx_portal,
  mx_minefield,
- mx_puddle,
  mx_crater,
  mx_fumarole,
  mx_portal_in,
@@ -185,7 +184,7 @@ enum map_extra {
 //Classic Extras is for when you have special zombies turned off.
 const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
   mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
-  mfb(mx_puddle) | mfb(mx_crater);
+  mfb(mx_crater);
 
 // Chances are relative to eachother; e.g. a 200 chance is twice as likely
 // as a 100 chance to appear.
@@ -199,7 +198,6 @@ const int map_extra_chance[num_map_extras + 1] = {
  10, // Supply drop
   5, // Portal
  70, // Minefield
-250, // Puddle
  10, // Crater
   8, // Fumarole
   7, // One-way portal into this world
@@ -212,7 +210,7 @@ struct map_extras {
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int stash = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0, int puddle = 0,
+            int portal = 0, int minefield = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
  {
@@ -225,12 +223,11 @@ struct map_extras {
   chances[ 6] = supply;
   chances[ 7] = portal;
   chances[ 8] = minefield;
-  chances[ 9] = puddle;
-  chances[10] = crater;
-  chances[11] = lava;
-  chances[12] = marloss;
-  chances[13] = anomaly;
-  chances[14] = 0;
+  chances[ 9] = crater;
+  chances[10] = lava;
+  chances[11] = marloss;
+  chances[12] = anomaly;
+  chances[13] = 0;
  }
 };
 
