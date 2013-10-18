@@ -1347,7 +1347,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
      }
   }
   if ( success == true ) {
-     int bday=int(time);
+     int bday=int(turn);
      sound += _(bash->sound.c_str());
      if ( jsfurn == true ) {
         furn_set(x,y, f_null);
