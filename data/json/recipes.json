@@ -6854,9 +6854,6 @@
   "tools": [
     [
       [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6876,9 +6873,6 @@
   "tools": [
     [
       [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6930,9 +6924,6 @@
   "tools": [
     [
       [ "chemistry_set", 50 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
