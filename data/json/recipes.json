@@ -13918,7 +13918,8 @@
       [ "meat", 1 ]
     ],
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "cheese", 2 ], [ "can_cheese", 1]
@@ -15655,7 +15656,8 @@
       [ "meat", 1 ]
     ],
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "pickle", 1],
