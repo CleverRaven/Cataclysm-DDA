@@ -77,6 +77,12 @@ traps.push_back(new trap(id, "NAILBOARD", _("spiked board"), c_ltgray, '_',  1, 
 
 keys.clear();
 id++;
+keys.push_back("caltrops");
+traps.push_back(new trap(id, "CALTROPS", _("caltrops"), c_dkgray, '_',  4, 6,
+    0, &trapfunc::caltrops, &trapfuncm::caltrops, keys));;
+    
+keys.clear();
+id++;
 keys.push_back("string_36");
 traps.push_back(new trap(id, "TRIPWIRE", _("tripwire"), c_ltred, '^',  6, 4,
     3, &trapfunc::tripwire, &trapfuncm::tripwire, keys));;

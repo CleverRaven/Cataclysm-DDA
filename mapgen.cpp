@@ -14367,7 +14367,7 @@ void map::add_extra(map_extra type, game *g)
       case 1:
       case 2:
       case 3: placed = tr_beartrap; break;
-      case 4:
+      case 4: placed = tr_caltrops; break;
       case 5: placed = tr_nailboard; break;
       case 6: placed = tr_crossbow; break;
       case 7: placed = tr_shotgun_2; break;
