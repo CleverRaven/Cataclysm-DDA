@@ -15694,7 +15694,8 @@
   ],
   "components": [
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "bacon", 1 ]
