@@ -1500,14 +1500,22 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if (!part_flag(p, "WHEEL") ||
-            parts[p].hp <= 0) {
-            continue;
+    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    if(wheel_indices.size() == 0) {
+        //No wheels!
+        return false;
+    } else if(wheel_indices.size() == 1) {
+        //Has to be a stable wheel
+        if(part_info(wheel_indices[0]).has_flag("STABLE")) {
+            //Valid only if the vehicle is 1 square in size (1 structural part)
+            return (all_parts_at_location("structure").size() == 1);
+        } else {
+            return false;
         }
-        if (!count)
-        {
+    }
+    for (int w = 0; w < wheel_indices.size(); w++) {
+        int p = wheel_indices[w];
+        if (!count) {
             x1 = x2 = parts[p].mount_dx;
             y1 = y2 = parts[p].mount_dy;
         }
@@ -1525,9 +1533,6 @@ bool vehicle::valid_wheel_config ()
         }
         count++;
     }
-    if (count < 2) {
-        return false;
-    }
     float xo = 0, yo = 0;
     float wo = 0, w2;
     for (int p = 0; p < parts.size(); p++)
@@ -1540,8 +1545,9 @@ bool vehicle::valid_wheel_config ()
         wo += w2;
     }
 //    g->add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
-    if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2)
+    if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2) {
         return false; // center of masses not inside support of wheels (roughly)
+    }
     return true;
 }
 

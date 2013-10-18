@@ -738,6 +738,10 @@ void player::update_bodytemp(game *g)
         {
             floor_bedding_warmth -= 1000;
         }
+        else if (trap_at_pos == tr_fur_rollmat)
+        {
+            floor_bedding_warmth += 0;
+        }
         else if (veh && veh->part_with_feature (vpart, "SEAT") >= 0)
         {
             floor_bedding_warmth += 200;
@@ -6311,11 +6315,6 @@ bool player::consume(game *g, signed char ch)
                             g->add_msg(_("%c - an empty %s"), it.invlet,it.tname(g).c_str());
                         }
                     }
-                    else if (it.type->id == "wrapper") // hack because wrappers aren't containers
-                    {
-                        g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
-                        g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
-                    }
                 } else if (OPTIONS["DROP_EMPTY"] == "all") {
                     g->add_msg(_("You drop the empty %s."), it.tname(g).c_str());
                     g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
@@ -8075,8 +8074,8 @@ void player::try_to_sleep(game *g)
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
-     furn_at_pos == f_armchair || furn_at_pos == f_sofa ||
-     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair || 
+     furn_at_pos == f_sofa ||(veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
@@ -8106,7 +8105,7 @@ bool player::can_sleep(game *g)
      furn_at_pos == f_sofa)
   sleepy += 4;
  else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
-      trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
+      trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair)
   sleepy += 3;
  else if (furn_at_pos == f_bed)
   sleepy += 5;

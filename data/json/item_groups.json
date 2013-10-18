@@ -298,6 +298,7 @@
       ["pockknife", 14],
       ["punch_dagger", 2],
       ["knife_trench", 7],
+      ["switchblade", 4],
       ["tongs", 28]
     ]
   },{
@@ -2174,6 +2175,7 @@
       ["clownshoes", 2],
       ["bondage_suit", 1],
       ["knife_trench", 14],
+      ["switchblade", 15],
       ["bondage_mask", 1]
     ]
   },{
@@ -2761,6 +2763,7 @@
       ["e_tool", 5],
       ["knife_trench", 7],
       ["sm_extinguisher", 10],
+      ["switchblade", 6],
       ["knee_pads", 10]
     ]
   },{
@@ -3478,6 +3481,7 @@
       ["bat_metal", 60],
       ["e_tool", 2],
       ["knife_trench", 7],
+      ["switchblade", 4],
       ["nodachi", 1]
     ]
   },{
@@ -4528,6 +4532,7 @@
       ["flask_hip", 10],
       ["chemistry_set", 2],
       ["knife_trench", 7],
+      ["switchblade", 4],
       ["pocketwatch", 2]
     ]
   },{

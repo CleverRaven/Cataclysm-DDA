@@ -515,6 +515,27 @@
     },
     {
         "type": "profession",
+        "description": "You've worked the streets since you were a kid, and now you use your street skills to survive. You've got your trusty switchblade, and the skill to use it.",
+        "ident": "thug",
+        "items": [
+            "jeans",
+            "tshirt",
+            "hoodie",
+            "sneakers",
+            "gloves_fingerless",
+            "switchblade"
+        ],
+        "name": "Street Thug",
+        "points": 2
+        "skills": [
+            {
+                "name": "cutting",
+                "level": 1
+            }
+	]
+    },
+    {
+        "type": "profession",
         "description": "You were about to marry your bride before the cataclysm, now you spend you days searching for her.",
         "ident": "groom",
         "items": [
