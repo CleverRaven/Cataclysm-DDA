@@ -275,8 +275,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 
         newmon->mat = jo.get_string("material");
 
-        newmon->species = get_tags(jo, "species");
-        newmon->categories = get_tags(jo, "categories");
+        newmon->species = jo.get_tags("species");
+        newmon->categories = jo.get_tags("categories");
 
         newmon->sym = jo.get_string("symbol")[0]; // will fail here if there is no symbol
         newmon->color = color_from_string(jo.get_string("color"));
@@ -303,10 +303,10 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sp_attack = get_attack_function(jo, "special_attack");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig, cats;
-        flags = get_tags(jo, "flags");
-        anger_trig = get_tags(jo, "anger_triggers");
-        placate_trig = get_tags(jo, "placate_triggers");
-        fear_trig = get_tags(jo, "fear_triggers");
+        flags = jo.get_tags("flags");
+        anger_trig = jo.get_tags("anger_triggers");
+        placate_trig = jo.get_tags("placate_triggers");
+        fear_trig = jo.get_tags("fear_triggers");
 
         newmon->flags = get_set_from_tags(flags, flag_map, MF_NULL);
         newmon->anger = get_set_from_tags(anger_trig, trigger_map, MTRIG_NULL);
@@ -324,10 +324,10 @@ void MonsterGenerator::load_species(JsonObject &jo)
         sid = jo.get_string("id");
 
         std::set<std::string> sflags, sanger, sfear, splacate;
-        sflags = get_tags(jo, "flags");
-        sanger = get_tags(jo, "anger_triggers");
-        sfear  = get_tags(jo, "fear_triggers");
-        splacate=get_tags(jo, "placate_triggers");
+        sflags = jo.get_tags("flags");
+        sanger = jo.get_tags("anger_triggers");
+        sfear  = jo.get_tags("fear_triggers");
+        splacate = jo.get_tags("placate_triggers");
 
         std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
         std::set<monster_trigger> anger, fear, placate;
@@ -341,24 +341,6 @@ void MonsterGenerator::load_species(JsonObject &jo)
     }
 }
 
-std::set<std::string> MonsterGenerator::get_tags(JsonObject &jo, std::string member)
-{
-    std::set<std::string> ret;
-
-    if (jo.has_member(member)){
-        json_value_type jvt = jo.get_member_type(member);
-        if (jvt == JVT_STRING){
-            ret.insert(jo.get_string(member));
-        }else if (jvt == JVT_ARRAY){
-            JsonArray jarr = jo.get_array(member);
-            while (jarr.has_more()){
-                ret.insert(jarr.next_string());
-            }
-        }
-    }
-
-    return ret;
-}
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
     static mtype *default_montype = mon_templates["mon_null"];

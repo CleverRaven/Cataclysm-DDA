@@ -1121,8 +1121,8 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
   } else if (ch == '<') {
    return -1;
   } else if (ch == '!') {
-   if (points > 0) {
-    popup(_("You cannot save a template with unused points!"));
+   if (points != 0) {
+    popup(_("You cannot save a template with nonzero unused points!"));
    } else
     save_template(u);
    mvwprintz(w,12, 2, c_ltgray, _("To go back and review your character, press <"));

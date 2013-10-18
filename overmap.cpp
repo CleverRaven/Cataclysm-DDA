@@ -1922,8 +1922,9 @@ point overmap::draw_overmap(game *g, int zlevel)
      timeout(BLINK_SPEED); // Enable blinking!
 
   int dirx, diry;
-  if (action != "ERROR")
+  if (action != "ANY_INPUT") {
    blink = true; // If any input is detected, make the blinkies on
+  }
   ictxt.get_direction(dirx, diry, action);
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
@@ -2018,8 +2019,9 @@ point overmap::draw_overmap(game *g, int zlevel)
     cursy = found.y;
    }
   }
-  else if (action == "ERROR") // Hit timeout on input, so make characters blink
+  else if (action == "ANY_INPUT") { // Hit timeout on input, so make characters blink
    blink = !blink;
+  }
  } while (action != "QUIT" && action != "CONFIRM");
  timeout(-1);
  werase(w_map);
