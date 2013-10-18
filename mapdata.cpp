@@ -54,7 +54,7 @@ std::ostream & operator<<(std::ostream & out, const submap & sm)
 }
 
 inline bool jsonint(JsonObject &jsobj, std::string key, int & var) {
-    if ( jsobj.is_number(key) ) {
+    if ( jsobj.has_number(key) ) {
         var = jsobj.get_int(key);
         return true;
     }
@@ -62,7 +62,7 @@ inline bool jsonint(JsonObject &jsobj, std::string key, int & var) {
 }
 
 inline bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
-    if ( jsobj.is_string(key) ) {
+    if ( jsobj.has_string(key) ) {
         var = jsobj.get_string(key);
         return true;
     }
@@ -70,7 +70,7 @@ inline bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
 }
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
-    if( jsobj.has_member(member) && jsobj.is_object(member) ) {
+    if( jsobj.has_member(member) && jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
 
         if ( jsonint(j, "num_tests", num_tests ) == false ) {
@@ -93,12 +93,12 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
            debugmsg("terrain[\"%s\"].bash.ter_set is not set!",jsobj.get_string("id").c_str() );
         }
 
-        if ( j.has_member("items") && j.is_array("items") ) {
+        if ( j.has_array("items") ) {
            JsonArray ja = j.get_array("items");
            if (ja.size() > 0) {
                int c=0;
                while ( ja.has_more() ) {
-                   if ( ja.get_index_type(c) == JVT_OBJECT ) {
+                   if ( ja.has_object(c) ) {
                        JsonObject jio = ja.next_object();
                        if ( jio.has_member("item") && jio.has_member("amount") ) {
                            int tmpchance = -1;
