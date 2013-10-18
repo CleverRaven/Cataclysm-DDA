@@ -100,18 +100,14 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
                while ( ja.has_more() ) {
                    if ( ja.has_object(c) ) {
                        JsonObject jio = ja.next_object();
-                       if ( jio.has_member("item") && jio.has_member("amount") ) {
-                           int tmpchance = -1;
-                           if ( jio.has_member("chance") ) {
-                               tmpchance = jio.get_int("chance");
-                           }
-                           if ( jio.has_member("minamount") ) {
+                       if ( jio.has_string("item") && jio.has_int("amount") ) {
+                           if ( jio.has_int("minamount") ) {
                                map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
-                               drop.chance = chance;
+                               jsonint(jio, "chance", drop.chance);
                                items.push_back(drop);
                            } else {
                                map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
-                               drop.chance = chance;
+                               jsonint(jio, "chance", drop.chance);
                                items.push_back(drop);
                            }
                        } else {
