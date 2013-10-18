@@ -120,16 +120,14 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 
     g.name = jo.get_string("name");
     g.defaultMonster = jo.get_string("default");
-    if (jo.is_array("monsters")){
+    if (jo.has_array("monsters")){
         JsonArray monarr = jo.get_array("monsters");
 
-        const int monnum = monarr.size();
-        for (int i = 0; i < monnum; ++i){
-            if (monarr.get_index_type(i) == JVT_OBJECT){
-                JsonObject mon = monarr.get_object(i);
-                g.monsters[mon.get_string("monster")] =
-                    std::pair<int,int>(mon.get_int("freq"), mon.get_int("cost_multiplier"));
-            }
+        while (monarr.has_more()) {
+            JsonObject mon = monarr.next_object();
+            g.monsters[mon.get_string("monster")] =
+                std::pair<int,int>(mon.get_int("freq"),
+                                   mon.get_int("cost_multiplier"));
         }
     }
 

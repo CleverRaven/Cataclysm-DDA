@@ -124,47 +124,46 @@ void game::load_vehicle(JsonObject &jo)
 
     vproto->id = jo.get_string("id");
     vproto->name = jo.get_string("name");
-    JsonArray parts = jo.get_array("parts");
 
+    JsonArray parts = jo.get_array("parts");
     while (parts.has_more()){
         JsonObject part = parts.next_object();
         vproto->parts.push_back(std::pair<point, std::string>(point(part.get_int("x"), part.get_int("y")), part.get_string("part")));
     }
 
-    if(jo.has_member("items")) {
-        JsonArray items = jo.get_array("items");
-        while(items.has_more()) {
-            JsonObject spawn_info = items.next_object();
-            vehicle_item_spawn next_spawn;
-            next_spawn.x = spawn_info.get_int("x");
-            next_spawn.y = spawn_info.get_int("y");
-            next_spawn.chance = spawn_info.get_int("chance");
-            if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
-                debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                    vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
-            }
-            if(spawn_info.is_array("items")) {
-                //Array of items that all spawn together (ie jack+tire)
-                JsonArray item_group = spawn_info.get_array("items");
-                while(item_group.has_more()) {
-                    next_spawn.item_ids.push_back(item_group.next_string());
-                }
-            } else if(spawn_info.is_string("items")) {
-                //Treat single item as array
-                next_spawn.item_ids.push_back(spawn_info.get_string("items"));
-            }
-            if(spawn_info.is_array("item_groups")) {
-                //Pick from a group of items, just like map::place_items
-                JsonArray item_group_names = spawn_info.get_array("item_groups");
-                while(item_group_names.has_more()) {
-                    next_spawn.item_groups.push_back(item_group_names.next_string());
-                }
-            } else if(spawn_info.is_string("item_groups")) {
-                next_spawn.item_groups.push_back(spawn_info.get_string("item_groups"));
-            }
-            vproto->item_spawns.push_back(next_spawn);
+    JsonArray items = jo.get_array("items");
+    while(items.has_more()) {
+        JsonObject spawn_info = items.next_object();
+        vehicle_item_spawn next_spawn;
+        next_spawn.x = spawn_info.get_int("x");
+        next_spawn.y = spawn_info.get_int("y");
+        next_spawn.chance = spawn_info.get_int("chance");
+        if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
+            debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
+                vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
         }
+        if(spawn_info.has_array("items")) {
+            //Array of items that all spawn together (ie jack+tire)
+            JsonArray item_group = spawn_info.get_array("items");
+            while(item_group.has_more()) {
+                next_spawn.item_ids.push_back(item_group.next_string());
+            }
+        } else if(spawn_info.has_string("items")) {
+            //Treat single item as array
+            next_spawn.item_ids.push_back(spawn_info.get_string("items"));
+        }
+        if(spawn_info.has_array("item_groups")) {
+            //Pick from a group of items, just like map::place_items
+            JsonArray item_group_names = spawn_info.get_array("item_groups");
+            while(item_group_names.has_more()) {
+                next_spawn.item_groups.push_back(item_group_names.next_string());
+            }
+        } else if(spawn_info.has_string("item_groups")) {
+            next_spawn.item_groups.push_back(spawn_info.get_string("item_groups"));
+        }
+        vproto->item_spawns.push_back(next_spawn);
     }
+
     vehprototypes.push(vproto);
 }
 /**
