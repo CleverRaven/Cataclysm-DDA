@@ -1319,15 +1319,31 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
   if ( success == true ) {
      int smin = bash->str_min;
      int smax = bash->str_max;
-
-     for( int i=0; i < bash->num_tests; i++ ) {
-         result = rng(smin, smax);
-         //g->add_msg("bash[%d/%d]: %d >= %d (%d/%d)", i+1,bash->num_tests, str, result,bash->str_min,bash->str_max);
-         if (i == 0 && res) *res = result;
-         if (str < result) {
-             success = false;
-             break;
+     if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
+         if( has_adjacent_furniture(x, y) ) {
+             if ( bash->str_min_blocked != -1 ) smin = bash->str_min_blocked;
+             if ( bash->str_max_blocked != -1 ) smax = bash->str_max_blocked;
          }
+     }
+     if ( str >= smin ) {
+        // roll min_str-max_str;
+        smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : smin );
+        // min_str is a qualifier, but roll 0-max; same delay as before
+        //   smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : 0 );
+
+        for( int i=0; i < bash->num_tests; i++ ) {
+            result = rng(smin, smax);
+            // g->add_msg("bash[%d/%d]: %d >= %d (%d/%d)", i+1,bash->num_tests, str, result,smin,smax);
+            if (i == 0 && res) *res = result;
+            if (str < result) {
+                success = false;
+                break;
+            }
+        }
+     } else {
+        // g->add_msg("bash[%d]: %d >= (%d/%d)", bash->num_tests, str,smin,smax);
+        // todo; bash->sound_too_weak = "feeble whump" ?
+        success = false;
      }
   }
   if ( success == true ) {

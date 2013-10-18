@@ -53,15 +53,15 @@ std::ostream & operator<<(std::ostream & out, const submap & sm)
  return out;
 }
 
-inline bool jsonint(JsonObject &jsobj, std::string key, int & var) {
-    if ( jsobj.has_number(key) ) {
+bool jsonint(JsonObject &jsobj, std::string key, int & var) {
+    if ( jsobj.has_int(key) ) {
         var = jsobj.get_int(key);
         return true;
     }
     return false;
 }
 
-inline bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
+bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
     if ( jsobj.has_string(key) ) {
         var = jsobj.get_string(key);
         return true;
@@ -70,7 +70,7 @@ inline bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
 }
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
-    if( jsobj.has_member(member) && jsobj.has_object(member) ) {
+    if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
 
         if ( jsonint(j, "num_tests", num_tests ) == false ) {
@@ -84,6 +84,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 
         jsonint(j, "str_min_blocked", str_min_blocked );
         jsonint(j, "str_max_blocked", str_max_blocked );
+        jsonint(j, "str_min_roll", str_min_roll );
         jsonint(j, "chance", chance );
         jsonstring(j, "sound", sound );
         jsonstring(j, "sound_fail", sound_fail );

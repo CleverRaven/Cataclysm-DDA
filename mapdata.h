@@ -45,7 +45,8 @@ struct map_bash_item_drop {
 };
 struct map_bash_info {
     int str_min;          // min str(*) required to bash
-    int str_max;          // max str required: bash succeeds if str >= random # between str_min & str_max
+    int str_max;          // max str required: bash succeeds if str >= random # between str_min_roll & str_max
+    int str_min_roll;     // lower bound of success check; defaults to str_min ( may set default to 0 )
     int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;  
     int num_tests;        // how many tests must succeed
@@ -54,7 +55,7 @@ struct map_bash_info {
     std::string sound;    // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
-    map_bash_info() : str_min(-1), str_max(-1), num_tests(-1), chance(-1), ter_set("") {};
+    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
