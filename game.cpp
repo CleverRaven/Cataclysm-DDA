@@ -7685,7 +7685,11 @@ void game::pickup(int posx, int posy, int min)
    for (int i = 1; i < pickupH; i++) {
      mvwprintw(w_pickup, i, 0, "                                                ");
    }
-   if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
+   if (ch >= '0' && ch <= '9') {
+       ch = (char)ch - '0';
+       itemcount *= 10;
+       itemcount += ch;
+   } else if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
     start -= maxitems;
     selected = start;
     mvwprintw(w_pickup, maxitems + 2, 0, "         ");
