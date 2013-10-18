@@ -6069,11 +6069,13 @@
   "tools": [
     [
       [ "hotplate", 15 ],
+      [ "chemistry_set", 15 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
-      [ "bottle_glass", -1 ],
+      [ "chemistry_set", -1 ],
+      [ "bottle_glass", 2 ],
       [ "hose", -1 ]
     ]
   ],
@@ -6102,12 +6104,14 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "hotplate", 8 ],
+      [ "chemistry_set", 8 ],
       [ "toolset", 1 ]
     ]
   ],
@@ -6135,13 +6139,15 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "components": [
@@ -6164,13 +6170,15 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "components": [
@@ -6193,13 +6201,15 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "qualities" : [
@@ -6249,10 +6259,12 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "chemistry_set", 3 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "chemistry_set", -1 ],
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
@@ -10259,7 +10271,6 @@
   "result": "hat_cotton",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
   "reversible": false,
@@ -13627,8 +13638,8 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
-    [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
+    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+    [ [ "chemistry_set", -1 ], [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
   ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -16473,10 +16484,12 @@
   "tools": [
     [
       [ "hotplate", 18 ],
+      [ "chemistry_set", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ]
