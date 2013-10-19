@@ -14,6 +14,7 @@ const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium"
 enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
+ toggle_overhead_lights,
  toggle_turrets,
  activate_horn,
  release_control,
@@ -291,11 +292,15 @@ void vehicle::use_controls()
  curent++;
 
  bool has_lights = false;
+ bool has_overhead_lights = false;
  bool has_horn = false;
  bool has_turrets = false;
  for (int p = 0; p < parts.size(); p++) {
-  if (part_flag(p, "LIGHT")) {
+  if (part_flag(p, "CONE_LIGHT")) {
    has_lights = true;
+  }
+  if (part_flag(p, "CIRCLE_LIGHT")) {
+   has_overhead_lights = true;
   }
   else if (part_flag(p, "TURRET")) {
    has_turrets = true;
@@ -309,7 +314,13 @@ void vehicle::use_controls()
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
-  options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
+  options_message.push_back(uimenu_entry(lights_on ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
+  curent++;
+ }
+
+ if (has_overhead_lights) {
+  options_choice.push_back(toggle_overhead_lights);
+  options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") : _("Turn on overhead lights"), 'v'));
   curent++;
  }
 
@@ -353,8 +364,9 @@ void vehicle::use_controls()
  int select=selectmenu.ret;
 // int select = menu_vec(true, "Vehicle controls", options_message);
 
- if (select == UIMENU_INVALID)
+ if (select == UIMENU_INVALID) {
     return;
+ }
 
  switch(options_choice[select]) {
   case toggle_cruise_control:
@@ -364,6 +376,10 @@ void vehicle::use_controls()
   case toggle_lights:
    lights_on = !lights_on;
    g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+   break;
+  case toggle_overhead_lights:
+   overhead_lights_on = !overhead_lights_on;
+   g->add_msg((lights_on) ? _("Overhead lights turned on") : _("Overhead lights turned off"));
    break;
   case activate_horn:
    g->add_msg(_("You honk the horn!"));
@@ -836,7 +852,7 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
  * If performance becomes an issue, certain lists (such as wheels) could be
  * cached and fast-returned here, but this is currently linear-time with
  * respect to the number of parts in the vehicle.
- * @param feature The flag (such as "WHEEL" or "LIGHT") to find.
+ * @param feature The flag (such as "WHEEL" or "CONE_LIGHT") to find.
  * @param unbroken true if only unbroken parts should be returned, false to
  *        return all matching parts.
  * @return A list of indices to all the parts with the specified feature.
