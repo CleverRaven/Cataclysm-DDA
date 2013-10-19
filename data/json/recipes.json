@@ -3392,8 +3392,8 @@
     ],
     [
 	  [ "incendiary", 300 ]
-	],
-	[
+    ],
+   [
       [ "lgrifle_primer", 20 ]
     ],
     [
@@ -3442,7 +3442,8 @@
     [
       [ "cu_pipe", 3 ]
     ]
-  ],{
+]
+  },{
         "type" : "recipe",
   "result": "50bmg",
   "category": "CC_AMMO",
