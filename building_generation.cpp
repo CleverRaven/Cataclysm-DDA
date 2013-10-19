@@ -385,7 +385,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
     }
 
     if (one_in(100000)) {  //1 or less per overmap, easter egg
-        m->add_spawn("mon_jabberwock", 1, SEEX, SEEY);
+        m->add_spawn("mon_shia", 1, SEEX, SEEY);
     }
 
 
