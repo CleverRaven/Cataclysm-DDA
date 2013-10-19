@@ -2380,11 +2380,11 @@ void vehicle::gain_moves (int mp)
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if (player_in_control(&g->u) && cruise_on &&
-        (velocity - cruise_velocity >= 10 * 100 ||
-         cruise_velocity - velocity >= acceleration()/3 ||
-         (cruise_velocity != 0 && velocity == 0) ||
-         (cruise_velocity == 0 && velocity != 0)) {
+    if (player_in_control(&g->u) && cruise_on ) {
+        if( velocity - cruise_velocity >= 10 * 100 ||
+            cruise_velocity - velocity >= acceleration()/3 ||
+            (cruise_velocity != 0 && velocity == 0) ||
+            (cruise_velocity == 0 && velocity != 0)) {
             thrust (cruise_velocity > velocity? 1 : -1);
         }
     }
