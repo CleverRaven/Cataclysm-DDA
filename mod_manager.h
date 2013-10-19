@@ -68,10 +68,10 @@ public:
 private:
     mod_manager *active_manager;
 
-    void show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note);
-    void draw_layering_ui_lines(WINDOW *win);
-    void draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers, unsigned char selected_header);
-    void draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist, bool header_active, int last_selection);
+    inline void show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note);
+    inline void draw_layering_ui_lines(WINDOW *win);
+    inline void draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers, unsigned char selected_header);
+    inline void draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist, bool header_active, int last_selection);
     int gather_input();
 
     void try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &active_list);

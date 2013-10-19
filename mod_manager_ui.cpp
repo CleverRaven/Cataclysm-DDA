@@ -48,6 +48,7 @@ int mod_ui::show_layering_ui()
     // set up windows for display
     WINDOW *mod_screen;//, *mod_infopanel, *mod_list, *mod_order;
     mod_screen = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    werase(mod_screen);
 
     std::vector<std::string> headers;
     headers.push_back(" Mod List ");
