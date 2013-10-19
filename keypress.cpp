@@ -6,39 +6,51 @@
 
 long input(long ch)
 {
- if (ch == -1) {
-  ch = getch();
- }
+    if (ch == -1) {
+        ch = get_keypress();
+    }
+    return convert_to_dialog_key(ch);
+}
 
-// Our current tiles and Windows code doesn't have ungetch()
+long get_keypress()
+{
+    long ch = getch();
+
+    // Our current tiles and Windows code doesn't have ungetch()
 #if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
- int newch;
+    int newch;
 
- // Clear the buffer of characters that match the one we're going to act on.
- timeout(0);
- do {
-  newch = getch();
- } while( newch != ERR && newch == ch );
- timeout(-1);
+    // Clear the buffer of characters that match the one we're going to act on.
+    timeout(0);
+    do {
+        newch = getch();
+    } while( newch != ERR && newch == ch );
+    timeout(-1);
 
- // If we read a different character than the one we're going to act on, re-queue it.
- if (newch != ERR && newch != ch) {
-  ungetch(newch);
- }
+    // If we read a different character than the one we're going to act on, re-queue it.
+    if (newch != ERR && newch != ch) {
+        ungetch(newch);
+    }
 #endif
 
-
- switch (ch) {
-  case KEY_UP:    return 'k';
-  case KEY_LEFT:  return 'h';
-  case KEY_RIGHT: return 'l';
-  case KEY_DOWN:  return 'j';
-  case KEY_NPAGE: return '>';
-  case KEY_PPAGE: return '<';
-  case 459: return '\n';
-  default:  return ch;
- }
+    return ch;
 }
+
+long convert_to_dialog_key(const long ch)
+{
+    switch (ch)
+    {
+        case KEY_UP:    return 'k';
+        case KEY_LEFT:  return 'h';
+        case KEY_RIGHT: return 'l';
+        case KEY_DOWN:  return 'j';
+        case KEY_NPAGE: return '>';
+        case KEY_PPAGE: return '<';
+        case 459:       return '\n';
+        default:        return ch;
+    }
+}
+
 
 bool input_wait(char & ret_ch, int delay_ms)
 {

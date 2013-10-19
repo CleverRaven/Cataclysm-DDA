@@ -14,6 +14,9 @@
 #include <map>
 #include <vector>
 #include "json.h"
+
+#include "input_defs.h"
+
 typedef int chtype;
 typedef unsigned short attr_t;
 typedef unsigned int u_int32_t;
@@ -74,6 +77,8 @@ typedef struct {
   curseline *line;
 
 } WINDOW;
+
+enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT=2 };
 
 #define A_NORMAL __NORMAL
 #define A_STANDOUT __STANDOUT
@@ -188,5 +193,6 @@ void curses_drawwindow(WINDOW* win);
 void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
+input_event getch_kyb_mouse(WINDOW* capture_win = NULL);
 int curses_start_color();
 #endif

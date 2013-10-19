@@ -668,6 +668,9 @@
     <ClInclude Include="..\savegame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\input_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource.rc">

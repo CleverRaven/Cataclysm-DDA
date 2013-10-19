@@ -108,6 +108,10 @@ class cata_tiles
         void draw(); /* Deprecated */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
 
+        /** How many rows and columns of tiles fit into given dimensions **/
+        void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
+        int get_tile_width() const;
+
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
