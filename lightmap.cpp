@@ -166,7 +166,7 @@ void map::generate_lightmap(game* g)
           part != light_indices.end(); ++part) {
          int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
          if (dpart >= 0) {
-             veh_luminance += ( vehs[v].v->part_info(*part).power / iteration );
+             veh_luminance += ( vehs[v].v->part_info(*part).par1 / iteration );
              iteration=iteration * 1.1;
          }
      }
