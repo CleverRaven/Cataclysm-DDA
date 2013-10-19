@@ -282,137 +282,142 @@ void vehicle::smash() {
 
 void vehicle::use_controls()
 {
- std::vector<vehicle_controls> options_choice;
- std::vector<uimenu_entry> options_message;
- // Alway have this option
- int curent=0;
- int letgoent=0;
- options_choice.push_back(toggle_cruise_control);
- options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") : _("Enable cruise control"), 'c'));
- curent++;
+    std::vector<vehicle_controls> options_choice;
+    std::vector<uimenu_entry> options_message;
+    // Alway have this option
+    int curent = 0;
+    int letgoent = 0;
+    options_choice.push_back(toggle_cruise_control);
+    options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
+                                           _("Enable cruise control"), 'c'));
+    curent++;
 
- bool has_lights = false;
- bool has_horn = false;
- bool has_turrets = false;
- for (int p = 0; p < parts.size(); p++) {
-  if (part_flag(p, "LIGHT")) {
-   has_lights = true;
-  }
-  else if (part_flag(p, "TURRET")) {
-   has_turrets = true;
-  }
-  else if (part_flag(p, "HORN")) {
-   has_horn = true;
-   }
- }
+    bool has_lights = false;
+    bool has_horn = false;
+    bool has_turrets = false;
+    for (int p = 0; p < parts.size(); p++) {
+        if (part_flag(p, "LIGHT")) {
+            has_lights = true;
+        }
+        else if (part_flag(p, "TURRET")) {
+            has_turrets = true;
+        }
+        else if (part_flag(p, "HORN")) {
+            has_horn = true;
+        }
+    }
 
 
- // Lights if they are there - Note you can turn them on even when damaged, they just don't work
- if (has_lights) {
-  options_choice.push_back(toggle_lights);
-  options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") : _("Turn on headlights"), 'h'));
-  curent++;
- }
+    // Lights if they are there - Note you can turn them on even when damaged, they just don't work
+    if (has_lights) {
+        options_choice.push_back(toggle_lights);
+        options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
+                                               _("Turn on headlights"), 'h'));
+        curent++;
+    }
 
- //Honk the horn!
- if (has_horn) {
-  options_choice.push_back(activate_horn);
-  options_message.push_back(uimenu_entry("Honk horn", 'o'));
-  curent++;
- }
+    //Honk the horn!
+    if (has_horn) {
+        options_choice.push_back(activate_horn);
+        options_message.push_back(uimenu_entry("Honk horn", 'o'));
+        curent++;
+    }
 
- // Turrets: off or burst mode
- if (has_turrets) {
-  options_choice.push_back(toggle_turrets);
-  options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") : _("Disable turrets"), 't'));
-  curent++;
- }
+    // Turrets: off or burst mode
+    if (has_turrets) {
+        options_choice.push_back(toggle_turrets);
+        options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
+                                               _("Disable turrets"), 't'));
+        curent++;
+    }
 
- if( !g->u.controlling_vehicle && tags.count("convertible") ) {
-  options_choice.push_back(convert_vehicle);
-  options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
-  curent++;
- }
+    if( !g->u.controlling_vehicle && tags.count("convertible") ) {
+        options_choice.push_back(convert_vehicle);
+        options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
+        curent++;
+    }
 
- // Exit vehicle, if we are in it.
- int vpart;
- if (g->u.controlling_vehicle &&
-     g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
-  options_choice.push_back(release_control);
-  options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
-  letgoent=curent;
- }
+    // Exit vehicle, if we are in it.
+    int vpart;
+    if (g->u.controlling_vehicle &&
+        g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+        options_choice.push_back(release_control);
+        options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
+        letgoent = curent;
+    }
 
- options_choice.push_back(control_cancel);
- options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
+    options_choice.push_back(control_cancel);
+    options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
 
- uimenu selectmenu;
- selectmenu.text=_("Vehicle controls");
- selectmenu.entries=options_message;
- selectmenu.selected=letgoent;
- selectmenu.query();
- int select=selectmenu.ret;
-// int select = menu_vec(true, "Vehicle controls", options_message);
+    uimenu selectmenu;
+    selectmenu.text = _("Vehicle controls");
+    selectmenu.entries = options_message;
+    selectmenu.selected = letgoent;
+    selectmenu.query();
+    int select = selectmenu.ret;
 
- if (select == UIMENU_INVALID)
-    return;
+    if (select == UIMENU_INVALID) {
+        return;
+    }
 
- switch(options_choice[select]) {
-  case toggle_cruise_control:
-   cruise_on = !cruise_on;
-   g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
-   break;
-  case toggle_lights:
-   if(set_lights(!lights_on))
-       g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
-   else
-       g->add_msg(_("The headlights won't come on!"));
-   break;
-  case activate_horn:
-   g->add_msg(_("You honk the horn!"));
-   honk_horn();
-   break;
-  case toggle_turrets:
-   if (++turret_mode > 1)
-    turret_mode = 0;
-   g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
-   break;
-  case release_control:
-   g->u.controlling_vehicle = false;
-   g->add_msg(_("You let go of the controls."));
-   break;
-  case convert_vehicle:
-  {
-   g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
-   // create a folding bicycle item
-   item bicycle;
-   bicycle.make(g->itypes["folding_bicycle"]);
+    switch(options_choice[select]) {
+    case toggle_cruise_control:
+        cruise_on = !cruise_on;
+        g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
+        break;
+    case toggle_lights:
+        if(set_lights(!lights_on)) {
+            g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+        } else {
+            g->add_msg(_("The headlights won't come on!"));
+        }
+        break;
+    case activate_horn:
+        g->add_msg(_("You honk the horn!"));
+        honk_horn();
+        break;
+    case toggle_turrets:
+        if (++turret_mode > 1) {
+            turret_mode = 0;
+        }
+        g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
+        break;
+    case release_control:
+        g->u.controlling_vehicle = false;
+        g->add_msg(_("You let go of the controls."));
+        break;
+    case convert_vehicle:
+    {
+        g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
+        // create a folding bicycle item
+        item bicycle;
+        bicycle.make( g->itypes["folding_bicycle"] );
 
-   std::ostringstream part_hps;
-   // Stash part HP in item
-   for (int p = 0; p < parts.size(); p++)
-   {
-       part_hps << parts[p].hp << " ";
-       if( part_flag( p, "CARGO" ) ) {
-           for( std::vector<item>::iterator it = parts[p].items.begin();
-                it != parts[p].items.end(); ++it) {
-               g->m.add_item_or_charges( g->u.posx, g->u.posy, *it );
-           }
-       }
-   }
-   bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
+        std::ostringstream part_hps;
+        // Stash part HP in item
+        for (int p = 0; p < parts.size(); p++)
+        {
+            part_hps << parts[p].hp << " ";
+            if( part_flag( p, "CARGO" ) ) {
+                for( std::vector<item>::iterator it = parts[p].items.begin();
+                     it != parts[p].items.end(); ++it ) {
+                    g->m.add_item_or_charges( g->u.posx, g->u.posy, *it );
+                }
+            }
+        }
+        bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
 
-   g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
-   // Remove vehicle
-   unboard_all();
-   g->m.destroy_vehicle(this);
+        g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
+        // Remove vehicle
+        unboard_all();
+        g->m.destroy_vehicle(this);
 
-   g->u.moves -= 500;
-   break;
-  }
-  case control_cancel:
-   break;
- }
+        g->u.moves -= 500;
+        break;
+    }
+    case control_cancel:
+        break;
+    }
 }
 
 void vehicle::honk_horn()
@@ -730,15 +735,16 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.id = id;
     new_part.mount_dx = dx;
     new_part.mount_dy = dy;
-    new_part.hp = hp < 0? vehicle_part_types[id].durability : hp;
+    new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
     item tmp(g->itypes[vehicle_part_types[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
-    if(part_flag(parts.size()-1,"HORN"))
-        horns.push_back(parts.size()-1);
+    if(part_flag(parts.size()-1,"HORN")) {
+        horns.push_back(parts.size() - 1);
+    }
     if(part_flag(parts.size()-1,"LIGHT"))
     {
         lights.push_back(parts.size()-1);
@@ -2366,25 +2372,21 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves (int mp)
 {
-    if (velocity)
-    {
+    if (velocity) {
         of_turn = 1 + of_turn_carry;
-    }
-    else
-    {
+    } else {
         of_turn = 0;
     }
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if (player_in_control(&g->u))
-    {
-        if (cruise_on)
-        if (velocity - cruise_velocity >= 10 * 100 ||
-            cruise_velocity - velocity >= acceleration()/3 ||
-            (cruise_velocity != 0 && velocity == 0) ||
-            (cruise_velocity == 0 && velocity != 0))
+    if (player_in_control(&g->u) && cruise_on &&
+        (velocity - cruise_velocity >= 10 * 100 ||
+         cruise_velocity - velocity >= acceleration()/3 ||
+         (cruise_velocity != 0 && velocity == 0) ||
+         (cruise_velocity == 0 && velocity != 0)) {
             thrust (cruise_velocity > velocity? 1 : -1);
+        }
     }
 
     refill ("battery", solar_power());
@@ -2427,10 +2429,8 @@ void vehicle::gain_moves (int mp)
 void vehicle::find_horns ()
 {
     horns.clear();
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if(part_flag( p,"HORN" ))
-        {
+    for (int p = 0; p < parts.size(); p++) {
+        if(part_flag( p,"HORN" )) {
             horns.push_back(p);
         }
     }
@@ -2439,10 +2439,8 @@ void vehicle::find_horns ()
 void vehicle::find_lights ()
 {
     lights.clear();
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if(part_flag( p,"LIGHT" ))
-        {
+    for (int p = 0; p < parts.size(); p++) {
+        if(part_flag( p,"LIGHT" )) {
             lights.push_back(p);
             lights_power += part_info(p).power;
         }
@@ -2452,10 +2450,8 @@ void vehicle::find_lights ()
 void vehicle::find_fuel_tanks ()
 {
     fuel.clear();
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if(part_flag( p,"FUEL_TANK" ))
-        {
+    for (int p = 0; p < parts.size(); p++) {
+        if(part_flag( p,"FUEL_TANK" )) {
             fuel.push_back(p);
         }
     }
@@ -2464,60 +2460,55 @@ void vehicle::find_fuel_tanks ()
 void vehicle::find_exhaust ()
 {
     int en = -1;
-    for (int p = 0; p < parts.size(); p++)
-        if (part_flag(p, "ENGINE") && part_info(p).fuel_type == "gasoline")
-        {
+    for (int p = 0; p < parts.size(); p++) {
+        if (part_flag(p, "ENGINE") && part_info(p).fuel_type == "gasoline") {
             en = p;
             break;
         }
-    if (en < 0)
-    {
+    }
+    if (en < 0) {
         exhaust_dy = 0;
         exhaust_dx = 0;
         return;
     }
     exhaust_dy = parts[en].mount_dy;
     exhaust_dx = parts[en].mount_dx;
-    for (int p = 0; p < parts.size(); p++)
+    for (int p = 0; p < parts.size(); p++) {
         if (parts[p].mount_dy == exhaust_dy &&
-            parts[p].mount_dx < exhaust_dx)
+            parts[p].mount_dx < exhaust_dx) {
             exhaust_dx = parts[p].mount_dx;
+        }
+    }
     exhaust_dx--;
 }
 
 void vehicle::refresh_insides ()
 {
     insides_dirty = false;
-    for (int p = 0; p < parts.size(); p++)
-    {
+    for (int p = 0; p < parts.size(); p++) {
         /* If there's no roof, or there is a roof but it's broken, it's outside.
          * (Use short-circuiting && so broken frames don't screw this up) */
-        if ( !(part_with_feature(p, "ROOF") >= 0 && parts[p].hp > 0) )
-        {
-/*            debugmsg ("part%d/%d(%s)%d,%d no roof=false", p, external_parts.size(),
-                      part_info(p).name, parts[p].mount_dx, parts[p].mount_dy);*/
+        if ( !(part_with_feature(p, "ROOF") >= 0 && parts[p].hp > 0) ) {
             parts[p].inside = false;
             continue;
         }
 
         parts[p].inside = true; // inside if not otherwise
-        for (int i = 0; i < 4; i++)
-        { // let's check four neighbour parts
+        for (int i = 0; i < 4; i++) { // let's check four neighbour parts
             int ndx = i < 2? (i == 0? -1 : 1) : 0;
             int ndy = i < 2? 0 : (i == 2? - 1: 1);
-            std::vector<int> parts_n3ar = parts_at_relative (parts[p].mount_dx + ndx, parts[p].mount_dy + ndy);
+            std::vector<int> parts_n3ar = parts_at_relative (parts[p].mount_dx + ndx,
+                                                             parts[p].mount_dy + ndy);
             bool cover = false; // if we aren't covered from sides, the roof at p won't save us
-            for (int j = 0; j < parts_n3ar.size(); j++)
-            {
+            for (int j = 0; j < parts_n3ar.size(); j++) {
                 int pn = parts_n3ar[j];
-                if (part_flag(pn, "ROOF") && parts[pn].hp > 0)
-                { // another roof -- cover
+                if (part_flag(pn, "ROOF") && parts[pn].hp > 0) { // another roof -- cover
                     cover = true;
                     break;
                 }
                 else
-                if (part_flag(pn, "OBSTACLE") && parts[pn].hp > 0)
-                { // found an obstacle, like board or windshield or door
+                if (part_flag(pn, "OBSTACLE") && parts[pn].hp > 0) {
+                    // found an obstacle, like board or windshield or door
                     if (parts[pn].inside || (part_flag(pn, "OPENABLE") && parts[pn].open)) {
                         continue; // door and it's open -- can't cover
                     }
@@ -2526,11 +2517,7 @@ void vehicle::refresh_insides ()
                 }
                 //Otherwise keep looking, there might be another part in that square
             }
-            if (!cover)
-            {
-/*                debugmsg ("part%d/%d(%s)%d,%d nb#%d(%s) no cover=false", p, external_parts.size(),
-                          part_info(p).name, parts[p].mount_dx, parts[p].mount_dy,
-                          i, parts_n3ar.size()> 0? part_info(parts_n3ar[0]).name : "<no part>");*/
+            if (!cover) {
                 parts[p].inside = false;
                 break;
             }
@@ -2553,7 +2540,8 @@ void vehicle::unboard_all ()
 {
     std::vector<int> bp = boarded_parts ();
     for (int i = 0; i < bp.size(); i++) {
-        g->m.unboard_vehicle (g, global_x() + parts[bp[i]].precalc_dx[0], global_y() + parts[bp[i]].precalc_dy[0]);
+        g->m.unboard_vehicle (g, global_x() + parts[bp[i]].precalc_dx[0], global_y() +
+                              parts[bp[i]].precalc_dy[0]);
     }
 }
 
