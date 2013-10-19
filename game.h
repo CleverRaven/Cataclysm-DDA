@@ -22,6 +22,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
+#include "live_view.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -320,6 +321,8 @@ class game
   WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
+  live_view liveview;
+
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
@@ -522,6 +525,9 @@ void load_artifacts(); // Load artifact data
 //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
   void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
   void quicksave();        // Saves the game without quitting
+
+// Input related
+  bool handle_mouseview(const mapped_input &minput); // Handles box showing items under mouse
 
 // On-request draw functions
   void draw_overmap();     // Draws the overmap, allows note-taking etc.

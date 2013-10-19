@@ -48,7 +48,7 @@ struct mapped_input {
 };
 
 InputEvent get_input(int ch = '\0');
-mapped_input get_input_from_kyb_mouse();
+mapped_input get_input_from_kyb_mouse(bool monitor_mouse_move);
 bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");

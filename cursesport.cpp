@@ -79,6 +79,10 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 //Deletes the window and marks it as free. Clears it just in case.
 int delwin(WINDOW *win)
 {
+    if (win == NULL) {
+        return 1;
+    }
+
     int j;
     win->inuse=false;
     win->draw=false;
@@ -89,6 +93,7 @@ int delwin(WINDOW *win)
         }
     delete win->line;
     delete win;
+    win = NULL;
     return 1;
 }
 

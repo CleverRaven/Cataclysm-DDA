@@ -215,6 +215,7 @@ void game::init_ui(){
     int locX, locY, locW, locH;
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
+    int mouseview_y, mouseview_h;
 
     if (use_narrow_sidebar()) {
         // First, figure out how large each element will be.
@@ -242,6 +243,12 @@ void game::init_ui(){
         stat2Y = locY + locH;
         messX = 0;
         messY = stat2Y + stat2H;
+
+        mouseview_y = messY + 7;
+        mouseview_h = TERMY - mouseview_y;
+        if (mouseview_h > 15) {
+            mouseview_h = 15;
+        }
     } else {
         // standard sidebar style
         minimapX = 0;
@@ -268,8 +275,11 @@ void game::init_ui(){
         // of the sidebar.
         stat2X = 0;
         stat2Y = statY + statH;
-        stat2H = TERMY - stat2Y;
+        stat2H = 1;
         stat2W = sidebarWidth;
+
+        mouseview_y = stat2Y + stat2H + 1;
+        mouseview_h = TERMY - mouseview_y;
     }
 
     int _y = VIEW_OFFSET_Y;
@@ -292,6 +302,10 @@ void game::init_ui(){
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
+
+    if (mouseview_h > 3) {
+        liveview.init(_x + minimapX, mouseview_y, sidebarWidth, mouseview_h);
+    }
 }
 
 void game::setup()
@@ -1599,10 +1613,30 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
 }
 //
 
+// Checks input to see if mouse was moved and handles the mouse view box accordingly.
+// Returns true if input requires breaking out into a game action.
+bool game::handle_mouseview(const mapped_input &minput)
+{
+    if (minput.evt.type == CATA_INPUT_MOUSE_MOVE) {
+        if (minput.evt.is_lost_focus_event()) {
+            liveview.hide();
+            if (use_narrow_sidebar()) {
+                write_msg();
+            }
+        } else {
+            liveview.show();
+        }
+    } else if (minput.evt.type == CATA_INPUT_KEYBOARD && minput.evt.is_valid_input()) {
+        liveview.hide();
+        return false;
+    }
+
+    return true;
+}
+
 bool game::handle_action()
 {
-    char ch = '.';
-
+    mapped_input minput;
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
     float fFactor = 0.01f;
@@ -1674,8 +1708,6 @@ bool game::handle_action()
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        int iCh;
-
         timeout(125);
         /*
         Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -1717,18 +1749,20 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-        } while ((iCh = getch()) == ERR);
+            minput = get_input_from_kyb_mouse(true);
+        } while (handle_mouseview(minput));
         timeout(-1);
-
-        ch = input(iCh);
     } else {
-        ch = input();
+        do {
+            minput = get_input_from_kyb_mouse(true);
+        } while (handle_mouseview(minput));
     }
 
-  if (keymap.find(ch) == keymap.end()) {
-   if (ch != ' ' && ch != '\n')
-    add_msg(_("Unknown command: '%c'"), ch);
-   return false;
+    char ch = static_cast<char>(input(minput.evt.get_first_input()));
+    if (keymap.find(ch) == keymap.end()) {
+        if (ch != ' ' && ch != '\n')
+            add_msg(_("Unknown command: '%c'"), ch);
+        return false;
   }
 
  action_id act = keymap[ch];
@@ -3621,6 +3655,7 @@ void game::draw()
     draw_HP();
     werase(w_status);
     werase(w_status2);
+    liveview.hide(true, true);
     u.disp_status(w_status, w_status2, this);
 
     bool sideStyle = use_narrow_sidebar();
@@ -6712,10 +6747,10 @@ point game::look_around()
   wrefresh(w_terrain);
 
   DebugLog() << __FUNCTION__ << ": calling get_input() \n";
-  input = get_input_from_kyb_mouse();
+  input = get_input_from_kyb_mouse(false);
   if (!u_see(lx, ly))
    mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
-  if (input.evt.type != CATA_INPUT_MOUSE) {
+  if (input.evt.type != CATA_INPUT_MOUSE_BUTTON) {
       get_direction(mx, my, input.command);
       if (mx != -2 && my != -2) { // Directional key pressed
        lx += mx;

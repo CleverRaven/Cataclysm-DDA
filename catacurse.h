@@ -79,10 +79,14 @@ enum input_event_t {
     CATA_INPUT_ERROR,
     CATA_INPUT_KEYBOARD,
     CATA_INPUT_GAMEPAD,
-    CATA_INPUT_MOUSE
+    CATA_INPUT_MOUSE_BUTTON,
+    CATA_INPUT_MOUSE_MOVE
 };
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT=2 };
+enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT, MOUSE_MOVE };
+
+#define ERR (-1) // Error return.
+#define OK (0)   // Success return.
 
 /**
  * An instance of an input, like a keypress etc.
@@ -106,21 +110,33 @@ struct input_event {
 
     input_event()
     {
+        type = CATA_INPUT_ERROR;
         mouse_x = mouse_y = 0;
     }
 
     long get_first_input() const
     {
         if (sequence.size() == 0) {
-            return 0;
+            return ERR;
         }
 
         return sequence[0];
     }
 
+    bool is_valid_input() const
+    {
+        return get_first_input() != ERR;
+    }
+
     void add_input(const long input)
     {
         sequence.push_back(input);
+    }
+
+    // True if mouse move event indicates a loss of focus from a given window
+    bool is_lost_focus_event() const
+    {
+        return mouse_x == -1;
     }
 
     bool operator==(const input_event& other) const
@@ -198,8 +214,6 @@ extern WINDOW *stdscr;
 #define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
 //Curses Functions
-#define ERR (-1) // Error return.
-#define OK (0) // Success return.
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 int delwin(WINDOW *win);
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);

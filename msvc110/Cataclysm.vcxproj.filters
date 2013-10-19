@@ -357,6 +357,9 @@
     <ClCompile Include="..\savegame_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\live_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\action.h">
@@ -666,6 +669,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\savegame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\live_view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
