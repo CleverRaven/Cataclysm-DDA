@@ -266,7 +266,7 @@
         "recoil" : 0,
         "count" : 200
     },
-	{   "type" : "AMMO",
+    {   "type" : "AMMO",
         "id" : "feather",
         "price" : 30,
         "name" : "feather",
@@ -2246,7 +2246,7 @@
         "count" : 4,
         "effects" : ["COOKOFF","LARGE_BEANBAG"]
     },
-	{   "type" : "AMMO",
+    {   "type" : "AMMO",
         "id" : "8mm_caseless",
         "price" : 500,
         "name" : "8x40mm caseless",
@@ -2269,7 +2269,7 @@
         "count" : 50,
         "effects" : ["COOKOFF"]
     },
-	{   "type" : "AMMO",
+    {   "type" : "AMMO",
         "id" : "8mm_bootleg",
         "price" : 300,
         "name" : "handmade 8x40mm caseless",
@@ -2292,7 +2292,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-	{   "type" : "AMMO",
+    {   "type" : "AMMO",
         "id" : "8mm_bootleg_jsp",
         "price" : 400,
         "name" : "handmade 8x40mm caseless JSP",
@@ -2315,7 +2315,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-	{   "type" : "AMMO",
+    {   "type" : "AMMO",
         "id" : "8mm_fmj",
         "price" : 500,
         "name" : "8x40mm FMJ caseless",
