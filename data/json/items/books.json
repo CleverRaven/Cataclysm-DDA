@@ -2429,7 +2429,7 @@
     },
     {
         "type" : "BOOK",
-        "id" : "texbook_computer",
+        "id" : "textbook_computer",
         "name" : "Principles of Advanced Programming",
         "max_level" : 6,
         "description" : "A heavy textbook dedicated to advanced-level software design, written for several different programming languages.",

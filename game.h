@@ -169,6 +169,7 @@ class game
   bool spawn_hallucination(); //Spawns a hallucination close to the player
 
   int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
+  int  mon_at(point p) const;
   bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
   bool isBetween(int test, int down, int up);
   bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
@@ -219,6 +220,7 @@ class game
   void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled = false);
 
   void nuke(int x, int y);
+  bool spread_fungus(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
   float natural_light_level() const;
@@ -402,6 +404,7 @@ void load_artifacts(); // Load artifact data
   void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
+  void release_traps();     // Release trap types memory
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_autosave();     // Initializes autosave parameters
@@ -543,7 +546,7 @@ void load_artifacts(); // Load artifact data
   std::map<point, int> z_at;
 
   signed char last_target; // The last monster targeted
-  char run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
+  int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
    //  monsters spawns, go to 2 - No movement allowed
   int mostseen;  // # of mons seen last turn; if this increases, run_mode++
   bool autosafemode; // is autosafemode enabled?

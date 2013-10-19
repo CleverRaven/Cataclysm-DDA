@@ -98,6 +98,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/items/mods.json");
     ret.push_back("data/json/items/ranged.json");
     ret.push_back("data/json/items/tools.json");
+    ret.push_back("data/json/items/vehicle_parts.json");
     ret.push_back("data/json/techniques.json");
     ret.push_back("data/json/martialarts.json");
 
@@ -169,6 +170,16 @@ void init_data_structures()
     init_mutation_parts();
     init_translation();
     init_martial_arts();
+}
+
+void release_data_structures()
+{
+    std::map<type_string, TFunctor*>::iterator it;
+    for (it = type_function_map.begin(); it != type_function_map.end(); it++) {
+        if (it->second != NULL)
+            delete it->second;
+    }
+    type_function_map.clear();
 }
 
 void load_json_dir(std::string const &dirname)

@@ -489,23 +489,27 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   }
   break;
 
- case ot_fungal_bloom:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (one_in(10))
-     ter_set(i, j, t_tree_fungal);
-    else if (one_in(300)) {
-     ter_set(i, j, t_marloss);
-     spawn_item(i, j, "marloss_berry", turn);
-    } else if (one_in(3))
-     ter_set(i, j, t_dirt);
-    else
-     ter_set(i, j, t_fungus);
-   }
-  }
-  square(this, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
-  add_spawn("mon_fungaloid_queen", 1, 12, 12);
-  break;
+    case ot_fungal_bloom:
+        for (int i = 0; i < SEEX * 2; i++) {
+            for (int j = 0; j < SEEY * 2; j++) {
+                if (one_in(10)) {
+                    if (one_in(3)) {
+                        ter_set(i, j, t_tree_fungal);
+                    } else {
+                        ter_set(i, j, t_tree_fungal_young);
+                    }
+                } else if (one_in(300)) {
+                    ter_set(i, j, t_marloss);
+                } else if (one_in(3)) {
+                    ter_set(i, j, t_fungus_mound);
+                } else {
+                    ter_set(i, j, t_fungus);
+                }
+            }
+        }
+    square(this, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
+    add_spawn("mon_fungaloid_queen", 1, 12, 12);
+    break;
 
  case ot_road_ns:
  case ot_road_ew:
@@ -1294,7 +1298,8 @@ t   t\n\
           } else if (rc <= 50) { vt = "car";
           } else if (rc <= 60) { vt = "electric_car";
           } else if (rc <= 65) { vt = "hippie_van";
-          } else if (rc <= 75) { vt = "bicycle";
+          } else if (rc <= 73) { vt = "bicycle";
+          } else if (rc <= 75) { vt = "unicycle";
           } else if (rc <= 90) { vt = "motorcycle";
           } else {               vt = "motorcycle_sidecart";
           }
@@ -11529,7 +11534,7 @@ case ot_farm_field:
    square(this, t_dirt, nodex, nodey, nodex + 3, nodey + 3);
 // Spawn a monster in there
    if (step > 2) { // First couple of chambers are safe
-    int monrng = rng(1, 20);
+    int monrng = rng(1, 25);
     int spawnx = nodex + rng(0, 3), spawny = nodey + rng(0, 3);
     if (monrng <= 5)
      add_spawn("mon_triffid", rng(1, 4), spawnx, spawny);
@@ -11537,6 +11542,8 @@ case ot_farm_field:
      add_spawn("mon_creeper_hub", 1, spawnx, spawny);
     else if (monrng <= 19)
      add_spawn("mon_biollante", 1, spawnx, spawny);
+    else if (monrng <= 24)
+     add_spawn("mon_fungal_fighter", 1, spawnx, spawny);
     else {
      for (int webx = nodex; webx <= nodex + 3; webx++) {
       for (int weby = nodey; weby <= nodey + 3; weby++)
@@ -12448,9 +12455,10 @@ void map::place_spawns(game *g, std::string group, const int chance,
    } while( move_cost(x, y) == 0 && tries );
 
    // Pick a monster type
-   std::string monster = MonsterGroupManager::GetMonsterFromGroup( group, &g->mtypes, &num );
-
-   add_spawn(monster, 1, x, y);
+   MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &g->mtypes, &num );
+  
+   //Hoping that if I pass a count of pack_size instead of 1, then more monsters will spawn. Who knows though amiright?
+   add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
   }
  }
 }
@@ -12583,6 +12591,7 @@ vehicle *map::add_vehicle(game *g, std::string type, const int x, const int y, c
  veh->posy = y % SEEY;
  veh->smx = smx;
  veh->smy = smy;
+ veh->place_spawn_items();
  veh->face.init(dir);
  veh->turn_dir = dir;
  veh->precalc_mounts (0, dir);
@@ -14360,7 +14369,7 @@ void map::add_extra(map_extra type, game *g)
       case 1:
       case 2:
       case 3: placed = tr_beartrap; break;
-      case 4:
+      case 4: placed = tr_caltrops; break;
       case 5: placed = tr_nailboard; break;
       case 6: placed = tr_crossbow; break;
       case 7: placed = tr_shotgun_2; break;
@@ -14553,21 +14562,13 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_wolfpack:
-  add_spawn("mon_wolf", rng(3, 6), SEEX, SEEY);
-  break;
-
-  case mx_cougar:
-  add_spawn("mon_cougar", 1, SEEX, SEEY);
-  break;
-
  case mx_crater:
  {
   int size = rng(2, 6);
   int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
   for (int i = x - size; i <= x + size; i++) {
    for (int j = y - size; j <= y + size; j++) {
-    ter_set(i, j, t_rubble);
+    destroy(g, i, j, false);
     radiation(i, j) += rng(20, 40);
    }
   }

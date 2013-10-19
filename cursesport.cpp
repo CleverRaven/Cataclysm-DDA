@@ -83,11 +83,11 @@ int delwin(WINDOW *win)
     win->inuse=false;
     win->draw=false;
     for (j=0; j<win->height; j++){
-        delete win->line[j].chars;
-        delete win->line[j].FG;
-        delete win->line[j].BG;
+        delete[] win->line[j].chars;
+        delete[] win->line[j].FG;
+        delete[] win->line[j].BG;
         }
-    delete win->line;
+    delete[] win->line;
     delete win;
     return 1;
 }

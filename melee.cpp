@@ -1143,7 +1143,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                                      _("<npcname> shocks %s."),
                                      target.c_str());
         } else {
-            p->hurt(g, bp_torso, 0, shock * rng(1, 3));
+            p->hurt(g, bp_torso, -1, shock * rng(1, 3));
             p->moves -= shock * 80;
         }
     }
@@ -1463,7 +1463,9 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam, int stab_dam)
 {
     if (ma_techniques.find(tec_id) != ma_techniques.end()) {
-        if (p.is_npc()) {
+        if (ma_techniques[tec_id].messages.size() < 2) {
+            return "The bugs nibble %s";
+        } else if (p.is_npc()) {
             return ma_techniques[tec_id].messages[1];
         } else {
             return ma_techniques[tec_id].messages[0];

@@ -47,10 +47,19 @@ struct veh_collision {
  veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
+struct vehicle_item_spawn
+{
+    int x, y;
+    int chance;
+    std::vector<std::string> item_ids;
+    std::vector<std::string> item_groups;
+};
+
 struct vehicle_prototype
 {
     std::string id, name;
     std::vector<std::pair<point, std::string> > parts;
+    std::vector<vehicle_item_spawn> item_spawns;
 };
 
 
@@ -385,6 +394,9 @@ public:
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
 
+// Generates starting items in the car, should only be called when placed on the map
+    void place_spawn_items();
+
     void gain_moves (int mp);
 
 // reduces velocity to 0
@@ -452,6 +464,7 @@ public:
     std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
     std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;

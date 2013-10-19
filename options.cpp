@@ -724,22 +724,19 @@ void show_options()
                 case '>':
                 case '\t': //Switch to next Page
                     iCurrentLine = 0;
-                    do { //skip empty pages
-                        iCurrentPage++;
-                        if (iCurrentPage >= vPages.size()) {
-                            iCurrentPage = 0;
-                        }
-                    } while(mPageItems[iCurrentPage].size() == 0);
-
+                    iStartPos = 0;
+                    iCurrentPage++;
+                    if (iCurrentPage >= vPages.size()) {
+                        iCurrentPage = 0;
+                    }
                     break;
                 case '<':
                     iCurrentLine = 0;
-                    do { //skip empty pages
-                        iCurrentPage--;
-                        if (iCurrentPage < 0) {
-                            iCurrentPage = vPages.size()-1;
-                        }
-                    } while(mPageItems[iCurrentPage].size() == 0);
+                    iStartPos = 0;
+                    iCurrentPage--;
+                    if (iCurrentPage < 0) {
+                        iCurrentPage = vPages.size()-1;
+                    }
                     break;
             }
         }
@@ -753,10 +750,10 @@ void show_options()
         }
     }
 
-    werase(w_options);
-    werase(w_options_border);
-    werase(w_options_header);
-    werase(w_options_tooltip);
+    delwin(w_options);
+    delwin(w_options_border);
+    delwin(w_options_header);
+    delwin(w_options_tooltip);
 }
 
 void load_options()

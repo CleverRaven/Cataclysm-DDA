@@ -898,6 +898,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "caltrops",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "traps", 1 ],
+  "difficulty": 2,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 100], ["char_forge", 20]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "nailbat",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -1835,7 +1870,7 @@
         "type" : "recipe",
   "result": "dart",
   "category": "CC_AMMO",
-
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -1852,6 +1887,7 @@
         "type" : "recipe",
   "result": "pebble",
   "category": "CC_AMMO",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -2557,7 +2593,7 @@
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
-        ["lgrfile_primer", 1],
+        ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
     ],
     [
@@ -3706,7 +3742,7 @@
 },{
         "type" : "recipe",
   "result": "acid",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
@@ -3734,7 +3770,7 @@
         "type" : "recipe",
   "result": "acid",
   "id_suffix": "from batteries",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "electronics",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 2,
@@ -3776,12 +3812,106 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
   "components": [
     [
       [ "meat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_meat",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_meat", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_veggy",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_veggy", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_fruit",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_fruit", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -3833,6 +3963,101 @@
   ]
 },{
         "type" : "recipe",
+  "result": "protein_powder",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "protein_drink",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "protein_powder", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "protein_shake",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "protein_powder", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "orange", 1 ],
+      [ "lemon", 1 ],
+      [ "banana", 1 ],
+      [ "apple", 1 ],
+      [ "rehydrated_fruit", 1 ],
+      [ "dry_fruit", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "dry_veggy",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -3858,7 +4083,7 @@
       [ "carrot", 2 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
-      [ "fluid_sac", 6 ]
+      [ "plant_sac", 6 ]
     ]
   ]
 },{
@@ -3944,6 +4169,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
@@ -4068,6 +4294,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
     ]
   ],
@@ -4965,6 +5192,7 @@
       [ "meat", 2 ],
       [ "meat_smoked", 2 ],
       [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "sausage", 1 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 15 ]
@@ -4972,6 +5200,7 @@
     [
       [ "veggy_wild", 2 ],
       [ "veggy", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ]
   ]
@@ -5040,6 +5269,7 @@
       [ "potato_raw", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "onion", 1 ]
@@ -5347,6 +5577,7 @@
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "sausage", 1 ],
       [ "jerky", 3 ],
       [ "meat_pickled", 1 ],
@@ -5455,6 +5686,7 @@
       [ "cranberries", 1 ],
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -5577,6 +5809,7 @@
       [ "pomegranate", 1 ],
       [ "mango", 1 ],
       [ "apricot", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -5609,11 +5842,13 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ],
     [
       [ "seasoning_italian", 20 ],
       [ "pepper", 20 ],
+      [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ]
     ]
   ]
@@ -5668,6 +5903,7 @@
       [ "papaya", 2 ],
       [ "apricot", 2 ],
       [ "kiwi", 2 ],
+      [ "rehydrated_fruit", 2 ],
       [ "dry_fruit", 2 ]
     ],
     [
@@ -5709,6 +5945,7 @@
       [ "veggy_vac", 2 ],
       [ "tomato", 2 ],
       [ "broccoli", 1 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ],
     [
@@ -5750,6 +5987,7 @@
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
       [ "meat_vac", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ],
     [
@@ -5802,6 +6040,7 @@
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
+      [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ]
   ]
@@ -5849,6 +6088,7 @@
     [
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ]
   ]
@@ -5974,6 +6214,38 @@
     ],
     [
       [ "poppy_flower", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fungicide",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "hotplate", 2 ]
+    ]
+  ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fighter_sting", 1 ]
+    ],
+    [
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -6745,6 +7017,7 @@
       [ "purple_drink", 6 ],
       [ "syrup", 4 ],
       [ "coffee_syrup", 5 ],
+      [ "bum_wine", 14 ],
       [ "con_milk", 1 ]
     ],
     [
@@ -6993,7 +7266,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7030,7 +7303,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7067,7 +7340,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7104,7 +7377,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -7141,7 +7414,7 @@
       ["press", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 50]
+      ["forge", 50], ["char_forge", 10]
       ]
     ],
     "components": [
@@ -8735,6 +9008,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "reinforced_glass_pane",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 35 ],
+      [ "welder_crude", 52 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "glass_sheet", 1 ]
+    ],
+    [
+      [ "wire", 8 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "reinforced_solar_panel",
   "category": "CC_ELECTRONIC",
   "skill_used": "fabrication",
@@ -8914,6 +9218,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "boots_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 18 ]
+    ],
+    [
+      [ "leather", 2 ],
+      [ "fur", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shorts",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -9029,8 +9360,10 @@
   ],
   "components": [
     [
-      [ "long_underpants", 1 ],
       [ "long_undertop", 1 ]
+    ],
+    [
+      [ "long_underpants", 1 ]
     ]
   ]
 },{
@@ -9739,6 +10072,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gauntlets_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 4 ]
+    ],
+    [
+      [ "bone", 12 ]
+    ],
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bandana",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -9976,6 +10339,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "helmet_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bone", 24 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "armor_chitin",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -9990,6 +10370,33 @@
     ],
     [
       [ "chitin_piece", 15 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 54 ],
+      [ "sewing_kit", 54 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 50 ]
+    ],
+    [
+      [ "leather", 20 ],
+      [ "fur", 20 ]
     ]
   ]
 },{
@@ -10562,6 +10969,31 @@
     ],
     [
       [ "damaged_shelter_kit", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fur_rollmat",
+  "category": "CC_MISC",
+  "skill_used": "survival",
+  "requires_skills": [ "tailor", 1 ],
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fur", 24 ]
+    ],
+    [
+      [ "thread", 360 ],
+      [ "sinew", 360 ],
+      [ "plant_fibre", 360 ],
+      [ "string_6", 6 ],
+      [ "string_36", 1 ]
     ]
   ]
 },{
@@ -11224,6 +11656,7 @@
     [
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
+      [ "bone", 20 ],
       [ "ant_egg", 1 ]
     ]
   ]
@@ -14247,6 +14680,44 @@
      [
       [ "fur", 2 ],
       [ "leather", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "knife_trench",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 390000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 300], ["char_forge", 60]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
      ]
     ]
 },{

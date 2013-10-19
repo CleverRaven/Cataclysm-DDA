@@ -6,10 +6,45 @@
 #include <map>
 #include "json.h"
 
-typedef std::map<std::string, std::pair<int,int> > FreqDef;
+struct MonsterGroupEntry;
+typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
 void init_translation();
+
+struct MonsterGroupEntry
+{
+    std::string name;
+    int frequency;
+    int cost_multiplier;
+    int pack_minimum;
+    int pack_maximum;
+
+    MonsterGroupEntry(std::string new_name, int new_freq, int new_cost, 
+                      int new_pack_max, int new_pack_min){
+      name = new_name;
+      frequency = new_freq;
+      cost_multiplier = new_cost;
+      pack_minimum = new_pack_min;
+      pack_maximum = new_pack_max;
+    }
+};
+
+struct MonsterGroupResult
+{
+    std::string name;
+    int pack_size;
+
+    MonsterGroupResult(){
+      name = "mon_null";
+      pack_size = 0;
+    }
+
+    MonsterGroupResult(std::string new_name, int new_pack_size){
+      name = new_name;
+      pack_size = new_pack_size;
+    }
+};
 
 struct MonsterGroup
 {
@@ -43,7 +78,7 @@ class MonsterGroupManager
 {
     public:
         static void LoadMonsterGroup(JsonObject &jo);
-        static std::string GetMonsterFromGroup(std::string, std::vector <mtype*> *,
+        static MonsterGroupResult GetResultFromGroup(std::string, std::vector <mtype*> *,
                                                int *quantity = 0, int turn = -1);
         static bool IsMonsterInGroup(std::string, std::string);
         static std::string Monster2Group(std::string);

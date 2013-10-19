@@ -7,17 +7,6 @@
 #include <map>
 #include <set>
 
-enum json_value_type
-{
-    JVT_UNKNOWN = 0, // used to handle errors
-    JVT_BOOL,
-    JVT_STRING,
-    JVT_NUMBER,
-    JVT_ARRAY,
-    JVT_OBJECT,
-    JVT_NULL
-};
-
 class JsonIn;
 class JsonObject;
 class JsonArray;
@@ -31,37 +20,45 @@ private:
     int end;
     JsonIn *jsin;
 
-    bool is_member_X(std::string member, json_value_type jvt);
+    int verify_position(const std::string &name,
+                        const bool throw_exception=true);
+
 public:
     JsonObject(JsonIn *jsin);
+    JsonObject(const JsonObject &jsobj);
 
     void finish(); // moves the stream to the end of the object
 
-    bool has_member(std::string name); // true iff named member exists
+    bool has_member(const std::string &name); // true iff named member exists
 
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
-    bool get_bool(std::string name);
-    bool get_bool(std::string name, bool fallback);
-    int get_int(std::string name);
-    int get_int(std::string name, int fallback);
-    double get_float(std::string name);
-    double get_float(std::string name, double fallback);
-    std::string get_string(std::string name);
-    std::string get_string(std::string name, std::string fallback);
+    bool get_bool(const std::string &name);
+    bool get_bool(const std::string &name, const bool fallback);
+    int get_int(const std::string &name);
+    int get_int(const std::string &name, const int fallback);
+    double get_float(const std::string &name);
+    double get_float(const std::string &name, const double fallback);
+    std::string get_string(const std::string &name);
+    std::string get_string(const std::string &name, const std::string &fallback);
 
-    // Type checking functions, should maybe add an is_char in there as well, and a get_char function so we don't need to do get_string(member)[0]
-    bool is_bool(std::string member);
-    bool is_number(std::string member);
-    bool is_string(std::string member);
-    bool is_array(std::string member);
-    bool is_object(std::string member);
+    // note: returns empty array if not found
+    JsonArray get_array(const std::string &name);
+    // note: throws exception if not found (can change behaviour if desirable)
+    JsonObject get_object(const std::string &name);
+    // note: returns empty set if not found
+    std::set<std::string> get_tags(const std::string &name);
+    // TODO: some sort of get_map(), maybe
 
-    json_value_type get_member_type(std::string member);
-
-    JsonArray get_array(std::string name); // returns empty array if not found
-    JsonObject get_object(std::string name);
-    std::set<std::string> get_tags(std::string name); // returns empty set if not found
+    // type checking
+    bool has_null(const std::string &name);
+    bool has_bool(const std::string &name);
+    bool has_int(const std::string &name);
+    bool has_float(const std::string &name);
+    bool has_number(const std::string &name) { return has_float(name); };
+    bool has_string(const std::string &name);
+    bool has_array(const std::string &name);
+    bool has_object(const std::string &name);
 
     // useful debug info
     std::string line_number(); // for occasional use only
@@ -78,7 +75,8 @@ private:
 
 public:
     JsonArray(JsonIn *jsin);
-    JsonArray() {};
+    JsonArray(const JsonArray &jsarr);
+    JsonArray() : positions(), start(0), index(0), jsin(NULL) {};
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();
@@ -99,9 +97,25 @@ public:
     JsonArray get_array(int index);
     JsonObject get_object(int index);
 
-    // type acquisition
-    json_value_type get_next_type();
-    json_value_type get_index_type(int index);
+    // iterative type checking
+    bool test_null();
+    bool test_bool();
+    bool test_int();
+    bool test_float();
+    bool test_number() { return test_float(); };
+    bool test_string();
+    bool test_array();
+    bool test_object();
+
+    // random-access type checking
+    bool has_null(int index);
+    bool has_bool(int index);
+    bool has_int(int index);
+    bool has_float(int index);
+    bool has_number(int index) { return has_float(index); };
+    bool has_string(int index);
+    bool has_array(int index);
+    bool has_object(int index);
 };
 
 class JsonIn {
@@ -116,8 +130,10 @@ public:
     char peek(); // what's the next char gonna be?
     bool good(); // whether stream is ok
 
+    // advance seek head to the next non-whitespace character
     void eat_whitespace();
 
+    // quick skipping for when values don't have to be parsed
     void skip_member();
     void skip_pair_separator();
     void skip_string();
@@ -130,6 +146,7 @@ public:
     void skip_number();
     void skip_separator();
 
+    // data parsing
     std::string get_string(); // get the next value as a string
     int get_int(); // get the next value as an int
     bool get_bool(); // get the next value as a bool
@@ -138,14 +155,24 @@ public:
     JsonObject get_object() { return JsonObject(this); };
     JsonArray get_array() { return JsonArray(this); };
 
+    // container control and iteration
     void start_array(); // verify array start
     bool end_array(); // returns false if it's not the end
     void start_object();
     bool end_object(); // returns false if it's not the end
 
+    // type testing
+    bool test_null();
+    bool test_bool();
+    bool test_int();
+    bool test_float();
+    bool test_number() { return test_float(); };
+    bool test_string();
+    bool test_array();
+    bool test_object();
+
     // useful debug info
     std::string line_number(int offset_modifier=0); // for occasional use only
-    json_value_type get_next_type();
 };
 
 #endif // _JSON_H_

@@ -1,6 +1,6 @@
 #include "mapdata.h"
 #include "color.h"
-
+#include "init.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;
@@ -53,6 +53,82 @@ std::ostream & operator<<(std::ostream & out, const submap & sm)
  return out;
 }
 
+bool jsonint(JsonObject &jsobj, std::string key, int & var) {
+    if ( jsobj.has_int(key) ) {
+        var = jsobj.get_int(key);
+        return true;
+    }
+    return false;
+}
+
+bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
+    if ( jsobj.has_string(key) ) {
+        var = jsobj.get_string(key);
+        return true;
+    }
+    return false;
+}
+
+bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
+    if( jsobj.has_object(member) ) {
+        JsonObject j = jsobj.get_object(member);
+
+        if ( jsonint(j, "num_tests", num_tests ) == false ) {
+           if ( jsonint(j, "str_min", str_min ) && jsonint(j, "str_max", str_max ) ) {
+               num_tests = 1;
+           }
+        } else if ( num_tests > 0 ) {
+           str_min = j.get_int("str_min");
+           str_max = j.get_int("str_max");
+        }
+
+        jsonint(j, "str_min_blocked", str_min_blocked );
+        jsonint(j, "str_max_blocked", str_max_blocked );
+        jsonint(j, "str_min_roll", str_min_roll );
+        jsonint(j, "chance", chance );
+        jsonstring(j, "sound", sound );
+        jsonstring(j, "sound_fail", sound_fail );
+
+        if ( jsonstring(j, "ter_set", ter_set ) == false && isfurniture == false ) {
+           ter_set = "t_rubble";
+           debugmsg("terrain[\"%s\"].bash.ter_set is not set!",jsobj.get_string("id").c_str() );
+        }
+
+        if ( j.has_array("items") ) {
+           JsonArray ja = j.get_array("items");
+           if (ja.size() > 0) {
+               int c=0;
+               while ( ja.has_more() ) {
+                   if ( ja.has_object(c) ) {
+                       JsonObject jio = ja.next_object();
+                       if ( jio.has_string("item") && jio.has_int("amount") ) {
+                           if ( jio.has_int("minamount") ) {
+                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
+                               jsonint(jio, "chance", drop.chance);
+                               items.push_back(drop);
+                           } else {
+                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
+                               jsonint(jio, "chance", drop.chance);
+                               items.push_back(drop);
+                           }
+                       } else {
+                           debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
+                       }
+                   } else {
+                       debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
+                   } 
+                   c++;
+               }
+           }
+        }
+     
+//debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
+    return true;
+  } else {
+    return false;
+  }
+}
+
 void load_furniture(JsonObject &jsobj)
 {
   furn_t new_furniture;
@@ -98,6 +174,7 @@ void load_furniture(JsonObject &jsobj)
   if ( jsobj.has_member("close") ) {
       new_furniture.close = jsobj.get_string("close");
   }
+  new_furniture.bash.load(jsobj, "bash", true);
 
   new_furniture.loadid = furnlist.size();
   furnmap[new_furniture.id] = new_furniture;
@@ -152,6 +229,18 @@ void load_terrain(JsonObject &jsobj)
   if ( jsobj.has_member("close") ) {
       new_terrain.close = jsobj.get_string("close");
   }
+/*
+  requires copying json object
+  if( jsobj.has_member("bash") ) {
+      if( jsobj.is_object("bash") ) {
+          JsonObject delayed(jsobj.get_object("bash"));
+          delayed_json["terrain_bash"][new_terrain.id] = delayed;//jsobj.get_object("bash");
+      } else if (jsobj.is_string("bash") ) {
+//          delayed_json["terrain_bash_link"][new_terrain.id] = jsobj.get_string("bash");
+      }
+  }
+*/
+  new_terrain.bash.load(jsobj, "bash", false);
 
   new_terrain.loadid=terlist.size();
   termap[new_terrain.id]=new_terrain;
@@ -211,7 +300,8 @@ ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus, t_tree_fungal,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
+    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
     t_water_sh, t_water_dp, t_water_pool, t_sewage,
     t_lava,
@@ -357,8 +447,17 @@ void set_ter_ids() {
     t_railing_v=terfind("t_railing_v");
     t_railing_h=terfind("t_railing_h");
     t_marloss=terfind("t_marloss");
+    t_fungus_floor_in=terfind("t_fungus_floor_in");
+    t_fungus_floor_sup=terfind("t_fungus_floor_sup");
+    t_fungus_floor_out=terfind("t_fungus_floor_out");
+    t_fungus_wall=terfind("t_fungus_wall");
+    t_fungus_wall_v=terfind("t_fungus_wall_v");
+    t_fungus_wall_h=terfind("t_fungus_wall_h");
+    t_fungus_mound=terfind("t_fungus_mound");
     t_fungus=terfind("t_fungus");
+    t_shrub_fungal=terfind("t_shrub_fungal");
     t_tree_fungal=terfind("t_tree_fungal");
+    t_tree_fungal_young=terfind("t_tree_fungal_young");
     t_water_sh=terfind("t_water_sh");
     t_water_dp=terfind("t_water_dp");
     t_water_pool=terfind("t_water_pool");
@@ -441,7 +540,7 @@ furn_id f_null,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     num_furniture_types;
@@ -492,6 +591,9 @@ void set_furn_ids() {
     f_skin_door_o=furnfind("f_skin_door_o");
     f_skin_groundsheet=furnfind("f_skin_groundsheet");
     f_mutpoppy=furnfind("f_mutpoppy");
+    f_fungal_mass=furnfind("f_fungal_mass");
+    f_fungal_clump=furnfind("f_fungal_clump");
+    f_flower_fungal=furnfind("f_flower_fungal");
     f_safe_c=furnfind("f_safe_c");
     f_safe_l=furnfind("f_safe_l");
     f_safe_o=furnfind("f_safe_o");

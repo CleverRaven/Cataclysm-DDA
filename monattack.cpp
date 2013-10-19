@@ -225,7 +225,7 @@ void mattack::boomer(game *g, monster *z)
  }
  if (!g->u.uncanny_dodge()) {
   if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
-   g->u.infect("boomered", bp_eyes, 3, 12, g);
+   g->u.infect("boomered", bp_eyes, 3, 12, false, 1, 1);
   else if (u_see)
    g->add_msg(_("You dodge it!"));
   g->u.practice(g->turn, "dodge", 10);
@@ -667,15 +667,12 @@ void mattack::triffid_heartbeat(game *g, monster *z)
 
 void mattack::fungus(game *g, monster *z)
 {
-    if (g->num_zombies() > 100) {
-        return; // Prevent crowding the monster list.
-    }
     // TODO: Infect NPCs?
     z->moves = -200;   // It takes a while
     z->sp_timeout = z->type->sp_freq; // Reset timer
     monster spore(GetMType("mon_spore"));
     int sporex, sporey;
-    int moncount = 0, mondex;
+    int mondex;
     //~ the sound of a fungus releasing spores
     g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
     if (g->u_see(z->posx(), z->posy())) {
@@ -689,9 +686,10 @@ void mattack::fungus(game *g, monster *z)
             sporex = z->posx() + i;
             sporey = z->posy() + j;
             mondex = g->mon_at(sporex, sporey);
-            if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
+            if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(sporex, sporey)) {
+                    if (g->u_see(sporex, sporey) && 
+                            !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
                     }
@@ -699,35 +697,64 @@ void mattack::fungus(game *g, monster *z)
                         g->kill_mon(mondex, (z->friendly != 0));
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
-                    g->u.infect("spores", bp_mouth, 4, 30, g); // Spores hit the player
-                } else { // Spawn a spore
+                    // Spores hit the player
+                    bool hit = false;
+                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                        hit = true;
+                    }
+                    if (hit) {
+                        g->add_msg(_("You're covered in tiny spores!"));
+                    }
+                } else if (one_in(4) && g->num_zombies() <= 1000) { // Spawn a spore
                     spore.spawn(sporex, sporey);
                     g->add_zombie(spore);
                 }
             }
         }
     }
+}
 
-    if (moncount >= 7) { // If we're surrounded by monsters, go dormant
-        z->poly(GetMType("mon_fungaloid_dormant"));
+void mattack::fungus_growth(game *g, monster *z)
+{
+    // Young fungaloid growing into an adult
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s young fungaloid grows into an adult!"),
+                      z->name().c_str());
     }
+    z->poly(GetMType("mon_fungaloid"));
 }
 
 void mattack::fungus_sprout(game *g, monster *z)
 {
- for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
-  for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
-   if (g->u.posx == x && g->u.posy == y) {
-    g->add_msg(_("You're shoved away as a fungal wall grows!"));
-    g->teleport();
-   }
-   if (g->is_empty(x, y)) {
-    monster wall(GetMType("mon_fungal_wall"));
-    wall.spawn(x, y);
-    g->add_zombie(wall);
-   }
-  }
- }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
+        for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
+            if (g->u.posx == x && g->u.posy == y) {
+                g->add_msg(_("You're shoved away as a fungal wall grows!"));
+                g->fling_player_or_monster(&g->u, 0, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx, g->u.posy), rng(10, 50));
+            }
+            if (g->is_empty(x, y)) {
+                monster wall(GetMType("mon_fungal_wall"));
+                wall.spawn(x, y);
+                g->add_zombie(wall);
+            }
+        }
+    }
 }
 
 void mattack::leap(game *g, monster *z)
@@ -796,16 +823,16 @@ void mattack::leap(game *g, monster *z)
 
 void mattack::dermatik(game *g, monster *z)
 {
- if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1 ||
-     g->u.has_disease("dermatik"))
-  return; // Too far to implant, or the player's already incubating bugs
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return; // Too far to implant
+    }
 
- z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout = z->type->sp_freq; // Reset timer
 
-  if (g->u.uncanny_dodge()) { return; }
-// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
- int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
- if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+    if (g->u.uncanny_dodge()) { return; }
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
     {
         g->add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         z->stumble(g, false);
@@ -813,52 +840,66 @@ void mattack::dermatik(game *g, monster *z)
         return;
     }
 
-// Can we swat the bug away?
- int dodge_roll = z->dodge_roll();
- int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
- int player_swat = dice(swat_skill, 10);
- if (player_swat > dodge_roll) {
-  g->add_msg(_("The %s lands on you, but you swat it off."), z->name().c_str());
-  if (z->hp >= z->type->hp / 2)
-   z->hurt(1);
-  if (player_swat > dodge_roll * 1.5)
-   z->stumble(g, false);
-  return;
- }
+    // Can we swat the bug away?
+    int dodge_roll = z->dodge_roll();
+    int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
+    int player_swat = dice(swat_skill, 10);
+    if (player_swat > dodge_roll) {
+        g->add_msg(_("The %s lands on you, but you swat it off."), z->name().c_str());
+        if (z->hp >= z->type->hp / 2) {
+            z->hurt(1);
+        }
+        if (player_swat > dodge_roll * 1.5) {
+            z->stumble(g, false);
+        }
+        return;
+    }
 
-// Can the bug penetrate our armor?
- body_part targeted = bp_head;
- if (!one_in(4))
-  targeted = bp_torso;
- else if (one_in(2))
-  targeted = bp_legs;
- else if (one_in(5))
-  targeted = bp_hands;
- else if (one_in(5))
-  targeted = bp_feet;
- if (one_in(g->u.armor_cut(targeted) / 3)) {
-  g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
-             z->name().c_str(), body_part_name(targeted, rng(0, 1)).c_str());
-  z->moves -= 150; // Attemped laying takes a while
-  return;
- }
+    // Can the bug penetrate our armor?
+    body_part targeted = random_body_part();
+    int side = random_side(targeted);
+    if (4 < g->u.armor_cut(targeted) / 3) {
+        g->add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
+                     z->name().c_str(), body_part_name(targeted, side).c_str());
+        z->moves -= 150; // Attemped laying takes a while
+        return;
+    }
 
-// Success!
- z->moves -= 500; // Successful laying takes a long time
- g->add_msg(_("The %s sinks its ovipositor into you!"), z->name().c_str());
- g->u.add_disease("dermatik", -1); // -1 = infinite
+    // Success!
+    z->moves -= 500; // Successful laying takes a long time
+    g->add_msg(_("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
+                 body_part_name(targeted, side).c_str());
+    g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
+    g->u.add_memorial_log(_("Injected with dermatik eggs."));
+}
+
+void mattack::dermatik_growth(game *g, monster *z)
+{
+    // Dermatik larva growing into an adult
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s dermatik larva grows into an adult!"),
+                      z->name().c_str());
+    }
+    z->poly(GetMType("mon_dermatik"));
 }
 
 void mattack::plant(game *g, monster *z)
 {
-// Spores taking seed and growing into a fungaloid
- if (g->m.has_flag("DIGGABLE", z->posx(), z->posy())) {
-  if (g->u_see(z->posx(), z->posy()))
-   g->add_msg(_("The %s takes seed and becomes a young fungaloid!"),
-              z->name().c_str());
-  z->poly(GetMType("mon_fungaloid_young"));
-  z->moves = -1000; // It takes a while
- }
+    // Spores taking seed and growing into a fungaloid
+    if (!g->spread_fungus(z->posx(), z->posy()) && one_in(20)) {
+        if (g->u_see(z->posx(), z->posy())) {
+            g->add_msg(_("The %s takes seed and becomes a young fungaloid!"),
+                          z->name().c_str());
+        }
+        z->poly(GetMType("mon_fungaloid_young"));
+        z->moves = -1000; // It takes a while
+    } else {
+        if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s falls to the ground and bursts!"),
+                       z->name().c_str());
+        }
+        z->hp = 0;
+    }
 }
 
 void mattack::disappear(game *g, monster *z)
@@ -1068,7 +1109,8 @@ void mattack::vortex(game *g, monster *z)
      bool hit_wall = false;
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS)) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
+          (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                    g->zombie(monhit).name().c_str());
@@ -1103,7 +1145,8 @@ void mattack::vortex(game *g, monster *z)
      int damage = rng(5, 10);
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS)) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
+           (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("You hit a %s!"), g->zombie(monhit).name().c_str());
        if (g->zombie(monhit).hurt(damage))
@@ -1148,6 +1191,32 @@ void mattack::gene_sting(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;
  g->add_msg(_("The %s shoots a dart into you!"), z->name().c_str());
  g->u.mutate(g);
+}
+
+void mattack::para_sting(game *g, monster *z)
+{
+    int j;
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
+         !g->sees_u(z->posx(), z->posy(), j))
+        return; // Not within range and/or sight
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
+    z->moves -= 150;
+    z->sp_timeout = z->type->sp_freq;
+    g->add_msg(_("The %s shoots a dart into you!"), z->name().c_str());
+    g->add_msg(_("You feel poison enter your body!"));
+    g->u.add_disease("paralyzepoison", 50, false, 1, 20, 100);
+}
+
+void mattack::triffid_growth(game *g, monster *z)
+{
+    // Young triffid growing into an adult
+    if (g->u_see(z->posx(), z->posy())) {
+        g->add_msg(_("The %s young triffid grows into an adult!"),
+                      z->name().c_str());
+    }
+    z->poly(GetMType("mon_triffid"));
 }
 
 void mattack::stare(game *g, monster *z)
@@ -1213,17 +1282,8 @@ void mattack::tazer(game *g, monster *z)
  z->moves = -200;   // It takes a while
  g->add_msg(_("The %s shocks you!"), z->name().c_str());
  int shock = rng(1, 5);
- g->u.hurt(g, bp_torso, 0, shock * rng(1, 3));
+ g->u.hurt(g, bp_torso, -1, shock * rng(1, 3));
  g->u.moves -= shock * 20;
-}
-
-int coord2angle ( const int x, const int y, const int tgtx, const int tgty ) {
-  const double DBLRAD2DEG = 57.2957795130823f;
-  //const double PI = 3.14159265358979f;
-  const double DBLPI = 6.28318530717958f;
-  double rad = atan2 ( static_cast<double>(tgty - y), static_cast<double>(tgtx - x) );
-  if ( rad < 0 ) rad = DBLPI - (0 - rad);
-  return int( rad * DBLRAD2DEG );
 }
 
 void mattack::smg(game *g, monster *z)
@@ -1243,7 +1303,7 @@ void mattack::smg(game *g, monster *z)
       g->sees_u(z->posx(), z->posy(), t) ) {
       iff_trig = true;
       if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity
-      u_angle = coord2angle (z->posx(), z->posy(), g->u.posx, g->u.posy );
+      u_angle = g->m.coord_to_angle (z->posx(), z->posy(), g->u.posx, g->u.posy );
   }
   for (int i = 0; i < g->num_zombies(); i++) {
     if ( g->m.sees(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy(), 18, t) ) {
@@ -1251,7 +1311,7 @@ void mattack::smg(game *g, monster *z)
       if (g->zombie(i).friendly == 0 ) {
         bool safe_target=true;
         if ( iff_trig ) {
-          int tangle = coord2angle (z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy() );
+          int tangle = g->m.coord_to_angle (z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy() );
           int diff = abs ( u_angle - tangle );
           if ( diff + iff_hangle > 360 || diff < iff_hangle ) {
               safe_target=false;
@@ -1546,11 +1606,11 @@ void mattack::bite(game *g, monster *z) {
 
         if(one_in(14 - dam)) {
             if (g->u.has_disease("bite", hit, side)) {
-                g->u.add_disease("bite", 400, 1, 1, hit, side, true, -1);
+                g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, side, true);
             } else if (g->u.has_disease("infected", hit, side)) {
-                g->u.add_disease("infected", 250, 1, 1, hit, side, true, -1);
+                g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, side, true);
             } else {
-                g->u.add_disease("bite", 3601, 1, 1, hit, side, true, 0); //6 hours + 1 "tick"
+                g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, side, true); //6 hours + 1 "tick"
             }
         }
     } else {

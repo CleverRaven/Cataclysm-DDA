@@ -515,6 +515,22 @@
     },
     {
         "type":"vehicle_part",
+        "id": "wheel_unicycle",
+        "name": "unicycle wheel",
+        "symbol": "|",
+        "color": "dark_gray",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "damage_modifier": 50,
+        "durability": 40,
+        "wheel_width": 2,
+        "item": "wheel_bicycle",
+        "difficulty": 2,
+        "location": "under",
+        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
+    },
+    {
+        "type":"vehicle_part",
         "id": "wheel_bicycle",
         "name": "bicycle wheel",
         "symbol": "|",
@@ -575,7 +591,7 @@
         "item": "wheel_caster",
         "difficulty": 1,
         "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
     },
     {
         "type":"vehicle_part",

@@ -3,6 +3,7 @@
 #include "output.h"
 #include "game.h"
 #include "item.h"
+#include "item_factory.h"
 #include <sstream>
 #include <stdlib.h>
 #include "cursesdef.h"
@@ -240,21 +241,43 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         }
     }
 }
-
 /**
  * Smashes up a vehicle that has already been placed; used for generating
- * very damaged vehicles.
+ * very damaged vehicles. Additionally, any spot where two vehicles overlapped
+ * (ie, any spot with multiple frames) will be completely destroyed, as that
+ * was the collision point.
  */
-void vehicle::smash()
-{
-  for (int part_index = 0; part_index < parts.size(); part_index++) {
-    //Drop by 10-120% of max HP (anything over 100 = broken)
-    int damage = (int) (dice(1, 12) * 0.1 * part_info(part_index).durability);
-    parts[part_index].hp -= damage;
-    if(parts[part_index].hp < 0) {
-      parts[part_index].hp = 0;
+void vehicle::smash() {
+    for (int part_index = 0; part_index < parts.size(); part_index++) {
+        //Skip any parts already mashed up
+        if(parts[part_index].hp == 0) {
+            continue;
+        }
+
+        vehicle_part next_part = parts[part_index];
+        std::vector<int> parts_in_square = parts_at_relative(next_part.mount_dx, next_part.mount_dy);
+        int structures_found = 0;
+        for (int square_part_index = 0; square_part_index < parts_in_square.size(); square_part_index++) {
+            if (part_info(parts_in_square[square_part_index]).location == "structure") {
+                structures_found++;
+            }
+        }
+
+        if(structures_found > 1) {
+            //Destroy everything in the square
+            for (int square_part_index = 0; square_part_index < parts_in_square.size(); square_part_index++) {
+                parts[parts_in_square[square_part_index]].hp = 0;
+            }
+            continue;
+        }
+
+        //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
+        int damage = (int) (dice(1, 12) * 0.1 * part_info(part_index).durability);
+        parts[part_index].hp -= damage;
+        if (parts[part_index].hp < 0) {
+            parts[part_index].hp = 0;
+        }
     }
-  }
 }
 
 void vehicle::use_controls()
@@ -1489,14 +1512,22 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if (!part_flag(p, "WHEEL") ||
-            parts[p].hp <= 0) {
-            continue;
+    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    if(wheel_indices.size() == 0) {
+        //No wheels!
+        return false;
+    } else if(wheel_indices.size() == 1) {
+        //Has to be a stable wheel
+        if(part_info(wheel_indices[0]).has_flag("STABLE")) {
+            //Valid only if the vehicle is 1 square in size (1 structural part)
+            return (all_parts_at_location("structure").size() == 1);
+        } else {
+            return false;
         }
-        if (!count)
-        {
+    }
+    for (int w = 0; w < wheel_indices.size(); w++) {
+        int p = wheel_indices[w];
+        if (!count) {
             x1 = x2 = parts[p].mount_dx;
             y1 = y2 = parts[p].mount_dy;
         }
@@ -1514,9 +1545,6 @@ bool vehicle::valid_wheel_config ()
         }
         count++;
     }
-    if (count < 2) {
-        return false;
-    }
     float xo = 0, yo = 0;
     float wo = 0, w2;
     for (int p = 0; p < parts.size(); p++)
@@ -1529,8 +1557,9 @@ bool vehicle::valid_wheel_config ()
         wo += w2;
     }
 //    g->add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
-    if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2)
+    if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2) {
         return false; // center of masses not inside support of wheels (roughly)
+    }
     return true;
 }
 
@@ -2303,6 +2332,36 @@ void vehicle::remove_item (int part, int itemdex)
     if (itemdex < 0 || itemdex >= parts[part].items.size())
         return;
     parts[part].items.erase (parts[part].items.begin() + itemdex);
+}
+
+void vehicle::place_spawn_items()
+{
+    for(std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();
+            next_spawn != item_spawns.end(); next_spawn++) {
+        if(rng(1, 100) <= next_spawn->chance) {
+            //Find the cargo part in that square
+            int part = part_at(next_spawn->x, next_spawn->y);
+            part = part_with_feature(part, "CARGO");
+            if(part < 0) {
+                debugmsg("No CARGO parts at (%d, %d) of %s!",
+                        next_spawn->x, next_spawn->y, name.c_str());
+            } else {
+                for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
+                        next_id != next_spawn->item_ids.end(); next_id++) {
+                    item new_item = item_controller->create(*next_id, g->turn);
+                    new_item = new_item.in_its_container(&(g->itypes));
+                    add_item(part, new_item);
+                }
+                for(std::vector<std::string>::iterator next_group_id = next_spawn->item_groups.begin();
+                        next_group_id != next_spawn->item_groups.end(); next_group_id++) {
+                    Item_tag group_tag = item_controller->id_from(*next_group_id);
+                    item new_item = item_controller->create(group_tag, g->turn);
+                    new_item = new_item.in_its_container(&(g->itypes));
+                    add_item(part, new_item);
+                }
+            }
+        }
+    }
 }
 
 void vehicle::gain_moves (int mp)
