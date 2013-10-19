@@ -35,6 +35,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    overhead_lights_on = false;
     insides_dirty = true;
 
     //type can be null if the type_id parameter is omitted
@@ -163,6 +164,11 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     //Turn on lights on some non-mint vehicles
     if(veh_status != 0 && one_in(20)) {
         lights_on = true;
+    }
+
+    //Turn flasher/overhead lights on separately (more likely since these are rarer)
+    if(veh_status != 0 && one_in(4)) {
+        overhead_lights_on = true;
     }
 
     //Don't bloodsplatter mint condition vehicles
