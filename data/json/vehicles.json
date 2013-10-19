@@ -1801,7 +1801,7 @@
             {"x": -2, "y": -2, "part": "frame_vertical"},
             {"x": -2, "y": -2, "part": "board_vertical"},
             {"x": -2, "y": 2, "part": "frame_vertical"},
-            {"x": -2, "y": 2, "part": "board_vertical"},
+            {"x": -2, "y": 2, "part": "door_opaque"},
             {"x": -3, "y": -1, "part": "frame_vertical"},
             {"x": -3, "y": -1, "part": "aisle_vertical"},
             {"x": -3, "y": -1, "part": "roof"},
