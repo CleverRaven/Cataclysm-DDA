@@ -384,6 +384,11 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         m->add_spawn("mon_jabberwock", 1, SEEX, SEEY);
     }
 
+    if (one_in(100000)) {  //1 or less per overmap, easter egg
+        m->add_spawn("mon_jabberwock", 1, SEEX, SEEY);
+    }
+
+
 
     if (one_in(100)) // One in 100 forests has a spider living in it :o
     {
