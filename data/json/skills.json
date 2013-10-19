@@ -93,7 +93,7 @@
         "type" : "skill",
         "ident" : "gun",
         "name" : "marksmanship",
-        "description" : "Your skill and finesse in ranged combat. With higher levels, this general experience increases accuracy with any ranged weapon that is not thrown, but is secondary to practice with the type of ranged weapon in question."
+        "description" : "Your overall skill in using bows and firearms. With higher levels, this general experience increases accuracy with any bows or firearms, but is secondary to practice with the type of ranged weapon in question."
     },{
         "type" : "skill",
         "ident" : "launcher",
