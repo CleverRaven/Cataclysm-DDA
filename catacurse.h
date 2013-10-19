@@ -78,8 +78,6 @@ typedef struct {
 
 } WINDOW;
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT=2 };
-
 #define A_NORMAL __NORMAL
 #define A_STANDOUT __STANDOUT
 #define A_UNDERLINE __UNDERSCORE

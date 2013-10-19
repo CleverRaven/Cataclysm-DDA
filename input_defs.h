@@ -12,6 +12,8 @@ enum input_event_t {
     CATA_INPUT_MOUSE
 };
 
+enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT=2 };
+
 /**
  * An instance of an input, like a keypress etc.
  *
