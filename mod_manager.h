@@ -48,14 +48,14 @@ class mod_manager
         MOD_INFORMATION *load_modfile(JsonObject &jo);
         void show_ui();
 
-        dependency_tree get_tree(){ return tree;}
+        dependency_tree *get_tree(){ return tree;}
         void clear();
     protected:
     private:
         bool load_mods_from(std::string path);
         bool load_mod_info(MOD_INFORMATION *mod, std::string info_file_path);
 
-        dependency_tree tree;
+        dependency_tree *tree;
 };
 
 class mod_ui
@@ -67,12 +67,14 @@ public:
     int show_layering_ui();
 private:
     mod_manager *active_manager;
+    dependency_tree *mm_tree;
 
-    inline void show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note);
-    inline void draw_layering_ui_lines(WINDOW *win);
-    inline void draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers, unsigned char selected_header);
-    inline void draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist, bool header_active, int last_selection);
-    int gather_input();
+    void show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note);
+    void draw_layering_ui_lines(WINDOW *win);
+    void draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers, unsigned char selected_header);
+    void draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist, bool header_active, int last_selection);
+    void draw_shift_information(WINDOW *win, int sy, int sx, const std::vector<std::string> active_mods_list, const int selection);
+    int gather_input(int &active_header, int &selection, std::vector<std::string> mod_list, std::vector<std::string> &active_mods_list);
 
     void try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &active_list);
     void try_rem(int selection, std::vector<std::string> &active_list);
@@ -80,7 +82,6 @@ private:
 
     bool can_shift_up(int selection, std::vector<std::string> active_list);
     bool can_shift_down(int selection, std::vector<std::string> active_list);
-
 };
 
 #endif // MOD_MANAGER_H
