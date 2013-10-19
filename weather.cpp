@@ -14,9 +14,68 @@ void weather_effect::glare(game *g)
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses") &&
      !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_disease("glare")) {
-            g->u.infect("glare", bp_eyes, 2, 2, g);
+            g->u.infect("glare", bp_eyes, 2, 2);
         } else {
-            g->u.infect("glare", bp_eyes, 2, 1, g);
+            g->u.infect("glare", bp_eyes, 2, 1);
+        }
+    }
+}
+
+// Add one charge of rain to given container, possibly contaminating it
+void add_rain_to_container(item *c, bool acid)
+{
+    if (c == NULL) {
+        return;
+    }
+
+    const char *typeId = acid ? "water_acid" : "water";
+    if (c->contents.empty()) {
+        // This is easy. Just add 1 charge of the rain liquid to the container.
+        item ret(item_controller->find_template(typeId), 0);
+        if (!acid) {
+            // Funnels aren't always clean enough for water.
+            ret.poison = one_in(10) ? 1 : 0;
+        }
+        c->put_in(ret);
+    } else {
+        // The container already has a liquid.
+        item &liq = c->contents[0];
+
+        it_container* ct = dynamic_cast<it_container*>(c->type);
+        if (liq.charges < ct->contains) {
+            liq.charges++;
+        }
+
+        if (liq.typeId() == typeId || liq.typeId() == "water_acid_weak") {
+            // The container already contains this liquid or weakly acidic water.
+            // Don't do anything special -- we already added liquid.
+        } else {
+            // The rain is different from what's in the container.
+            // Turn the container's liquid into weak acid with a probability
+            // based on its current volume.
+
+            // If it's raining acid and this container started with 7
+            // charges of water, the liquid will now be 1/8th acid or,
+            // equivalently, 1/4th weak acid (the rest being water). A
+            // stochastic approach gives the liquid a 1 in 4 (or 2 in
+            // liquid.charges) chance of becoming weak acid.
+            const bool transmute = x_in_y(2, liq.charges);
+
+            if (transmute) {
+                item transmuted(item_controller->find_template("water_acid_weak"), 0);
+                transmuted.charges = liq.charges;
+                c->contents[0] = transmuted;
+            } else if (liq.typeId() == "water") {
+                // The container has water, and the acid rain didn't turn it
+                // into weak acid. Poison the water instead, assuming 1
+                // charge of acid would act like a charge of water with poison 5.
+                int total_poison = liq.poison * (liq.charges - 1) + 5;
+                liq.poison = total_poison / liq.charges;
+                int leftover_poison = total_poison - liq.poison * liq.charges;
+                if (leftover_poison > rng(0, liq.charges)) {
+                    liq.poison++;
+                }
+            }
         }
     }
 }
@@ -40,13 +99,12 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
     const double ml_to_mm3 = 1000;
     const double turns_per_charge = charge_ml * ml_to_mm3 / vol_mm3_per_turn;
 
-    item *c = NULL;
-    char maxcontains = 0;
-
     // Give each funnel on the map a chance to collect the rain.
     std::set<point> funnel_locs = g->m.trap_locations(t);
     std::set<point>::iterator i;
     for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
+        item *c = NULL;
+        char maxcontains = 0;
         point loc = *i;
         std::vector<item>& items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) {
@@ -67,60 +125,9 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
                     }
                 }
             }
-        }
-    }
 
-    // If we found an eligible container, add some rain to it (or consider
-    // contaminating its current liquid).
-    if (c != NULL) {
-        const char *typeId = acid ? "water_acid" : "water";
-        if (c->contents.empty()) {
-            // This is easy. Just add 1 charge of the rain liquid to the container.
-            item ret(item_controller->find_template(typeId), 0);
-            if (!acid) {
-                // Funnels aren't always clean enough for water.
-                ret.poison = one_in(10) ? 1 : 0;
-            }
-            c->put_in(ret);
-        } else {
-            // The container already has a liquid.
-            item &liq = c->contents[0];
-
-            it_container* ct = dynamic_cast<it_container*>(c->type);
-            if (liq.charges < ct->contains) {
-                liq.charges++;
-            }
-
-            if (liq.typeId() == typeId || liq.typeId() == "water_acid_weak") {
-                // The container already contains this liquid or weakly acidic water.
-                // Don't do anything special -- we already added liquid.
-            } else {
-                // The rain is different from what's in the container.
-                // Turn the container's liquid into weak acid with a probability
-                // based on its current volume.
-
-                // If it's raining acid and this container started with 7
-                // charges of water, the liquid will now be 1/8th acid or,
-                // equivalently, 1/4th weak acid (the rest being water). A
-                // stochastic approach gives the liquid a 1 in 4 (or 2 in
-                // liquid.charges) chance of becoming weak acid.
-                const bool transmute = x_in_y(2, liq.charges);
-
-                if (transmute) {
-                    item transmuted(item_controller->find_template("water_acid_weak"), 0);
-                    transmuted.charges = liq.charges;
-                    c->contents[0] = transmuted;
-                } else if (liq.typeId() == "water") {
-                    // The container has water, and the acid rain didn't turn it
-                    // into weak acid. Poison the water instead, assuming 1
-                    // charge of acid would act like a charge of water with poison 5.
-                    int total_poison = liq.poison * (liq.charges - 1) + 5;
-                    liq.poison = total_poison / liq.charges;
-                    int leftover_poison = total_poison - liq.poison * liq.charges;
-                    if (leftover_poison > rng(0, liq.charges)) {
-                        liq.poison++;
-                    }
-                }
+            if (c != NULL) {
+                add_rain_to_container(c, acid);
             }
         }
     }
@@ -150,7 +157,7 @@ void decay_fire_and_scent(game *g, int fire_amount)
 
 void generic_wet(game *g, bool acid)
 {
-    if ((!g->u.is_wearing("coat_rain") || one_in(50)) &&
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
          (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
          one_in(2)) {
@@ -164,7 +171,7 @@ void generic_wet(game *g, bool acid)
 
 void generic_very_wet(game *g, bool acid)
 {
-    if ((!g->u.is_wearing("coat_rain") || one_in(25)) &&
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(25)) &&
          (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) && !g->u.has_trait("FEATHERS") &&
          (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
         g->u.drench(g, 60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
@@ -209,8 +216,8 @@ void weather_effect::light_acid(game *g)
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2)) {
             g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
         } else {
-            if (g->u.is_wearing("coat_rain") && !one_in(3)) {
-                g->add_msg(_("Your raincoat protects you from the acidic drizzle."));
+            if (g->u.worn_with_flag("RAINPROOF") && !one_in(3)) {
+                g->add_msg(_("Your clothing protects you from the acidic drizzle."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(4))) {
@@ -230,8 +237,8 @@ void weather_effect::acid(game *g)
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             g->add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
-            if (g->u.is_wearing("coat_rain") && one_in(2)) {
-                g->add_msg(_("Your raincoat protects you from the acid rain."));
+            if (g->u.worn_with_flag("RAINPROOF") && one_in(2)) {
+                g->add_msg(_("Your clothing protects you from the acid rain."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {

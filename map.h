@@ -171,6 +171,7 @@ class map
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty,
                           const bool bash = true);
 
+ int coord_to_angle (const int x, const int y, const int tgtx, const int tgty);
 // vehicles
  VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
@@ -237,6 +238,8 @@ class map
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag_ter(std::string flag, const int x, const int y);  // checks terrain
+ bool has_flag_furn(std::string flag, const int x, const int y);  // checks furniture
  bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
  bool has_flag_ter_and_furn(std::string flag, const int x, const int y); // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
@@ -431,6 +434,7 @@ private:
  std::map<trap_id, std::set<point> > traplocs;
 };
 
+std::vector<point> closest_points_first(int radius, point p);
 std::vector<point> closest_points_first(int radius,int x,int y);
 class tinymap : public map
 {

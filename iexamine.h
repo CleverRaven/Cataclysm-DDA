@@ -44,6 +44,7 @@ public:
  void pedestal_temple (game *g, player *p, map *m, int examx, int examy);
  void fswitch (game *g, player *p, map *m, int examx, int examy);
  void flower_poppy (game *g, player *p, map *m, int examx, int examy);
+ void fungus (game *g, player *p, map *m, int examx, int examy);
  void dirtmound (game *g, player *p, map *m, int examx, int examy);
  void aggie_plant (game *g, player *p, map *m, int examx, int examy);
  void pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds = false);

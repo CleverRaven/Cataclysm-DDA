@@ -577,7 +577,7 @@
     "recoil": 3,
     "durability": 7,
     "burst": 0,
-    "clip_size": 10,
+    "clip_size": 8,
     "reload": 400
   },
 
@@ -2313,7 +2313,7 @@
     "recoil": 3,
     "durability": 9,
     "burst": 0,
-    "clip_size": 7,
+    "clip_size": 10,
     "reload": 400
   },
   {

@@ -1254,8 +1254,11 @@ int npc::vehicle_danger(game *g, int radius)
    int by = ay + sin (facing * M_PI / 180.0) * radius;
 
    // fake size
-   int last_part = vehicles[i].v->external_parts.back();
-   int size = std::max(vehicles[i].v->parts[last_part].mount_dx, vehicles[i].v->parts[last_part].mount_dy);
+   /* This will almost certainly give the wrong size/location on customized
+    * vehicles. This should just count frames instead. Or actually find the
+    * size. */
+   vehicle_part last_part = vehicles[i].v->parts.back();
+   int size = std::max(last_part.mount_dx, last_part.mount_dy);
 
    float normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
    int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;

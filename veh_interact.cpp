@@ -712,24 +712,16 @@ void veh_interact::do_rename(int reason)
 }
 
 /**
- * Returns the first (external) part on the vehicle at the given position.
+ * Returns the first part on the vehicle at the given position.
  * @param dx The x-coordinate, relative to the viewport's 0-point (?)
  * @param dy The y-coordinate, relative to the viewport's 0-point (?)
- * @return The external vehicle part at the specified coordinates.
+ * @return The first vehicle part at the specified coordinates.
  */
 int veh_interact::part_at (int dx, int dy)
 {
     int vdx = -ddx - dy;
     int vdy = dx - ddy;
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
-    {
-        int p = veh->external_parts[ep];
-        if (veh->parts[p].mount_dx == vdx && veh->parts[p].mount_dy == vdy)
-        {
-            return p;
-        }
-    }
-    return -1;
+    return veh->part_displayed_at(vdx, vdy);
 }
 
 /**
@@ -827,9 +819,8 @@ void veh_interact::move_cursor (int dx, int dy)
 void veh_interact::display_veh ()
 {
     int x1 = 12, y1 = 12, x2 = -12, y2 = -12;
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
+    for (int p = 0; p < veh->parts.size(); p++)
     {
-        int p = veh->external_parts[ep];
         if (veh->parts[p].mount_dx < x1)
         {
             x1 = veh->parts[p].mount_dx;
@@ -874,9 +865,11 @@ void veh_interact::display_veh ()
         }
     }
 
-    for (int ep = 0; ep < veh->external_parts.size(); ep++)
+    //Iterate over structural parts so we only hit each square once
+    std::vector<int> structural_parts = veh->all_parts_at_location("structure");
+    for (int i = 0; i < structural_parts.size(); i++)
     {
-        int p = veh->external_parts[ep];
+        const int p = structural_parts[i];
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
         int y = -(veh->parts[p].mount_dx + ddx);

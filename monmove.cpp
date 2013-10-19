@@ -218,6 +218,13 @@ void monster::move(game *g)
  if (sp_timeout > 0) {
    sp_timeout--;
  }
+ //If this monster has the ability to heal in combat, do it now.
+ if (has_flag(MF_REGENERATES_50)) {
+    hp += 50;
+    if(hp > type->hp){
+      hp = type->hp;
+    }
+ }
  if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
    mattack ma;
    if(!is_hallucination()) {
@@ -335,7 +342,7 @@ void monster::footsteps(game *g, int x, int y)
   return; // Flying monsters don't have footsteps!
  made_footstep = true;
  int volume = 6; // same as player's footsteps
- if (has_flag(MF_DIGS))
+ if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y)))
   volume = 10;
  switch (type->size) {
   case MS_TINY:
@@ -519,8 +526,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     std::string your = (is_npc ? p.name + "'s" : "your");
     std::string Your = (is_npc ? p.name + "'s" : "Your");
     body_part bphit;
-    int side = rng(0, 1);
     int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
+    int side = random_side(bphit);
 
     //110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
@@ -632,28 +639,28 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     dam = p.hit(g, bphit, side, dam, cut);
 
                     //Monster effects
-                    if (dam > 0 && has_flag(MF_VENOM))
-                    {
-                        if (!is_npc)
-                        {
+                    if (dam > 0 && has_flag(MF_VENOM)) {
+                        if (!is_npc) {
                             g->add_msg(_("You're poisoned!"));
                         }
                         p.add_disease("poison", 30);
-                    }
-                    else if (dam > 0 && has_flag(MF_BADVENOM))
-                    {
-                        if (!is_npc)
-                        {
+                    } else if (dam > 0 && has_flag(MF_BADVENOM)) {
+                        if (!is_npc) {
                             g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
                         }
                         p.add_disease("badpoison", 40);
+                    } else if (dam > 0 && has_flag(MF_PARALYZE)) {
+                        if (!is_npc) {
+                            g->add_msg(_("You feel poison enter your body!"));
+                        }
+                        p.add_disease("paralyzepoison", 100, false, 1, 20, 100);
                     }
 
                     if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
                         if (!is_npc) {
                             g->add_msg(_("You're Bleeding!"));
                         }
-                        p.add_disease("bleed", 60, 1, 3, bphit, side, true);
+                        p.add_disease("bleed", 60, false, 1, 3, 120, 1, bphit, side, true);
                     }
 
                     //Same as monster's chance to not miss
@@ -726,7 +733,9 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
     float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
 
     // Digging and flying monsters ignore terrain cost
-    if (has_flag(MF_DIGS) || has_flag(MF_FLIES)) {
+    if (has_flag(MF_DIGS) || has_flag(MF_FLIES) ||
+        (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x1, y1) &&
+         g->m.has_flag("DIGGABLE", x2, y2))) {
         movecost = 100 * diag_mult;
     // Swimming monsters move super fast in water
     } else if (has_flag(MF_SWIMS)) {
@@ -772,6 +781,7 @@ int monster::bash_at(int x, int y) {
     if(try_bash && can_bash) {
         std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
         int bashskill = int(type->melee_dice * type->melee_sides);
+        // todo; pileup = more bashskill
         g->m.bash(x, y, bashskill, bashsound);
         g->sound(x, y, 18, bashsound);
         moves -= 100;
@@ -893,6 +903,7 @@ int monster::move_to(game *g, int x, int y, bool force)
   if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6))
      hurt(rng(1, 2));
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
+      (!has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
       g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
    trap* tr = g->traps[g->m.tr_at(posx(), posy())];
    if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
@@ -901,7 +912,7 @@ int monster::move_to(game *g, int x, int y, bool force)
    }
   }
 // Diggers turn the dirt into dirtmound
-  if (has_flag(MF_DIGS)){
+  if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))){
    g->m.ter_set(posx(), posy(), t_dirtmound);
   }
 // Acid trail monsters leave... a trail of acid
@@ -1013,7 +1024,7 @@ void monster::knock_back_from(game *g, int x, int y)
   npc *p = g->active_npc[npcdex];
   hurt(3);
   add_effect(ME_STUNNED, 1);
-  p->hit(g, bp_torso, 0, type->size, 0);
+  p->hit(g, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 

@@ -121,8 +121,12 @@ autoextract("techniques", format_strings=True)
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
     for filename in os.listdir(os.path.join(json_folder,"items")):
-        jsonfile = os.path.join(json_folder, "items", filename)
-        convert(jsonfile, items_jtl)
+        try:
+            jsonfile = os.path.join(json_folder, "items", filename)
+            convert(jsonfile, items_jtl)
+        except ValueError:
+            print(filename)
+            raise
 extracted.append("items")
 
 # data/json/materials.json

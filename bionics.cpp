@@ -250,7 +250,7 @@ void player::activate_bionic(int b, game *g)
    hurt(g, bp_arms, 1, rng(5, 10));
    hurt(g, bp_legs, 0, rng(7, 12));
    hurt(g, bp_legs, 1, rng(7, 12));
-   hurt(g, bp_torso, 0, rng(5, 15));
+   hurt(g, bp_torso, -1, rng(5, 15));
   }
   if (one_in(5))
    add_disease("teleglow", rng(50, 400));
@@ -345,7 +345,7 @@ void player::activate_bionic(int b, game *g)
   {
       inv.push_back(water);
       water = inv.item_by_type(water.typeId());
-      eat(g, water.invlet);
+      consume(g, water.invlet);
       moves -= 350;
   }
   else
@@ -417,7 +417,7 @@ void player::activate_bionic(int b, game *g)
               } else if (query_yn(_("Drink directly from the condensor?"))) {
                   inv.push_back(water);
                   water = inv.item_by_type(water.typeId());
-                  eat(g, water.invlet);
+                  consume(g, water.invlet);
                   moves -= 350;
               }
               extracted = true;

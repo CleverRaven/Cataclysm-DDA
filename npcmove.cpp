@@ -648,11 +648,11 @@ npc_action npc::address_player(game *g)
    int intense = disease_intensity("catch_up");
    if (intense < 10) {
     say(g, "<keep_up>");
-    add_disease("catch_up", 5, 1, 15);
+    add_disease("catch_up", 5, false, 1, 15);
     return npc_pause;
    } else if (intense == 10) {
     say(g, "<im_leaving_you>");
-    add_disease("catch_up", 5, 1, 15);
+    add_disease("catch_up", 5, false, 1, 15);
     return npc_pause;
    } else
     return npc_goto_destination;
@@ -741,17 +741,19 @@ void npc::use_escape_item(game *g, signed char invlet, int target)
  item* used = &(inv.item_by_letter(invlet));
 
  if (used->is_food() || used->is_food_container()) {
-  eat(g, invlet);
+  consume(g, invlet);
   return;
  }
 
  if (used->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(used->type);
-  iuse use;
-  (use.*tool->use)(g, this, used, false);
-  used->charges -= tool->charges_per_use;
-  if (used->invlet == 0) // is that ever going to happen?
-   inv.remove_item(used);
+  int charges_used = tool->use.call(g, this, used, false);
+  if( charges_used ) {
+      used->charges -= charges_used;
+      if (used->invlet == 0) {
+          inv.remove_item(used);
+      }
+  }
   return;
  }
 
@@ -1015,7 +1017,7 @@ void npc::move_to(game *g, int x, int y)
   g->sound(x, y, 18, bashsound);
  } else
  if (g->m.field_at(x, y).findField(fd_rubble))
-  g->u.add_disease("bouldering", 100, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
+  g->u.add_disease("bouldering", 100, false, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
  else
   g->u.rem_disease("bouldering");
   moves -= 100;
@@ -1635,13 +1637,12 @@ void npc::alt_attack(game *g, int target)
 void npc::activate_item(game *g, char invlet)
 {
  item *it = &(inv.item_by_letter(invlet));
- iuse use;
  if (it->is_tool()) {
-  it_tool* tool = dynamic_cast<it_tool*>(it->type);
-  (use.*tool->use)(g, this, it, false);
+     it_tool* tool = dynamic_cast<it_tool*>(it->type);
+     tool->use.call(g, this, it, false);
  } else if (it->is_food()) {
-  it_comest* comest = dynamic_cast<it_comest*>(it->type);
-  (use.*comest->use)(g, this, it, false);
+     it_comest* comest = dynamic_cast<it_comest*>(it->type);
+     comest->use.call(g, this, it, false);
  }
 }
 
@@ -1778,7 +1779,7 @@ void npc::use_painkiller(game *g)
   debugmsg("NPC tried to use painkillers, but has none!");
   move_pause();
  } else {
-  eat(g, it.invlet);
+  consume(g, it.invlet);
   moves = 0;
  }
 }
@@ -1820,7 +1821,7 @@ void npc::pick_and_eat(game *g)
   return;
  }
 
- eat(g, index);
+ consume(g, index);
  moves = 0;
 }
 

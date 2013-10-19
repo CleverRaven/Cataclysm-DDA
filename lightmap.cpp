@@ -161,25 +161,22 @@ void map::generate_lightmap(game* g)
      int dir = vehs[v].v->face.dir();
      float veh_luminance=0.0;
      float iteration=1.0;
-     for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-          part != vehs[v].v->external_parts.end(); ++part) {
+     std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("LIGHT");
+     for (std::vector<int>::iterator part = light_indices.begin();
+          part != light_indices.end(); ++part) {
          int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
          if (dpart >= 0) {
-             veh_luminance += ( vehs[v].v->part_info(dpart).power / iteration );
+             veh_luminance += ( vehs[v].v->part_info(*part).power / iteration );
              iteration=iteration * 1.1;
          }
      }
      if (veh_luminance > LL_LIT) {
-       for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-            part != vehs[v].v->external_parts.end(); ++part) {
+       for (std::vector<int>::iterator part = light_indices.begin();
+            part != light_indices.end(); ++part) {
          int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
          int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
          if(INBOUNDS(px, py)) {
-           int dpart = vehs[v].v->part_with_feature(*part , "LIGHT");
-
-           if (dpart >= 0) {
-             apply_light_arc(px, py, dir + vehs[v].v->parts[dpart].direction, veh_luminance, 45);
-           }
+           apply_light_arc(px, py, dir + vehs[v].v->parts[*part].direction, veh_luminance, 45);
          }
        }
      }

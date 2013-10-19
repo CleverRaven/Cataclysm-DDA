@@ -47,13 +47,13 @@ void trapfuncm::cot(game *g, monster *z, int x, int y)
 
 void trapfunc::beartrap(game *g, int x, int y)
 {
- g->add_msg(_("A bear trap closes on your foot!"));
- g->u.add_memorial_log(_("Caught by a beartrap."));
- g->sound(x, y, 8, _("SNAP!"));
- g->u.hit(g, bp_legs, rng(0, 1), 10, 16);
- g->u.add_disease("beartrap", -1);
- g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "beartrap", g->turn);
+    g->add_msg(_("A bear trap closes on your foot!"));
+    g->u.add_memorial_log(_("Caught by a beartrap."));
+    g->sound(x, y, 8, _("SNAP!"));
+    g->u.hit(g, bp_legs, random_side(bp_legs), 10, 16);
+    g->u.add_disease("beartrap", 1, true);
+    g->m.remove_trap(x, y);
+    g->m.spawn_item(x, y, "beartrap", g->turn);
 }
 
 void trapfuncm::beartrap(game *g, monster *z, int x, int y)
@@ -97,6 +97,27 @@ void trapfuncm::board(game *g, monster *z, int x, int y)
   z->moves -= 80;
 }
 
+void trapfunc::caltrops(game *g, int x, int y)
+{
+ g->add_msg(_("You step on a sharp metal caltrop!"));
+ g->u.add_memorial_log(_("Stepped on a caltrop."));
+ g->u.hit(g, bp_feet, 0, 0, rng(9, 30));
+ g->u.hit(g, bp_feet, 1, 0, rng(9, 30));
+}
+
+void trapfuncm::caltrops(game *g, monster *z, int x, int y)
+{
+    // tiny animals don't trigger caltrops, they can squeeze between them
+    if (z->type->size == MS_TINY)
+        return;
+
+ if (g->u_see(z))
+  g->add_msg(_("The %s steps on a caltrop!"), z->name().c_str());
+ if (z->hurt(rng(18, 30)))
+  g->kill_mon(g->mon_at(x, y));
+ else
+  z->moves -= 80;
+}
 void trapfunc::tripwire(game *g, int x, int y)
 {
  g->add_msg(_("You trip over a tripwire!"));
@@ -150,7 +171,7 @@ void trapfunc::crossbow(game *g, int x, int y)
    case  9: hit = bp_torso; break;
    case 10: hit = bp_head; break;
   }
-  int side = rng(0, 1);
+  int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
   g->u.hit(g, hit, side, 0, rng(20, 30));
   add_bolt = !one_in(10);
@@ -216,7 +237,7 @@ void trapfunc::shotgun(game *g, int x, int y)
    case  9: hit = bp_torso; break;
    case 10: hit = bp_head; break;
   }
-  int side = rng(0, 1);
+  int side = random_side(hit);
   g->add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
   g->u.hit(g, hit, side, 0, rng(40 * shots, 60 * shots));
  } else
@@ -262,7 +283,7 @@ void trapfunc::blade(game *g, int x, int y)
 {
  g->add_msg(_("A blade swings out and hacks your torso!"));
  g->u.add_memorial_log(_("Triggered a blade trap."));
- g->u.hit(g, bp_torso, 0, 12, 30);
+ g->u.hit(g, bp_torso, -1, 12, 30);
 }
 
 void trapfuncm::blade(game *g, monster *z, int x, int y)
@@ -483,7 +504,7 @@ void trapfunc::goo(game *g, int x, int y)
 {
  g->add_msg(_("You step in a puddle of thick goo."));
  g->u.add_memorial_log(_("Stepped into thick goo."));
- g->u.infect("slimed", bp_feet, 6, 20, g);
+ g->u.infect("slimed", bp_feet, 6, 20);
  if (one_in(3)) {
   g->add_msg(_("The acidic goo eats away at your feet."));
   g->u.hit(g, bp_feet, 0, 0, 5);
@@ -511,8 +532,8 @@ void trapfunc::dissector(game *g, int x, int y)
  g->u.add_memorial_log(_("Stepped into a dissector."));
  //~ the sound of a dissector dissecting
  g->sound(x, y, 10, _("BRZZZAP!"));
- g->u.hit(g, bp_head,  0, 0, 15);
- g->u.hit(g, bp_torso, 0, 0, 20);
+ g->u.hit(g, bp_head,  -1, 0, 15);
+ g->u.hit(g, bp_torso, -1, 0, 20);
  g->u.hit(g, bp_arms,  0, 0, 12);
  g->u.hit(g, bp_arms,  1, 0, 12);
  g->u.hit(g, bp_hands, 0, 0, 10);
@@ -549,7 +570,7 @@ void trapfunc::pit(game *g, int x, int y)
             g->add_msg(_("You land nimbly."));
         }
     }
-    g->u.add_disease("in_pit", -1);
+    g->u.add_disease("in_pit", 1, true);
 }
 
 void trapfuncm::pit(game *g, monster *z, int x, int y)
@@ -593,7 +614,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
             case  9:
             case 10: hit = bp_torso; break;
         }
-        int side = rng(0, 1);
+        int side = random_side(hit);
         g->add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
         g->u.hit(g, hit, side, 0, damage);
         if (one_in(4)) {
@@ -607,7 +628,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
             }
         }
     }
-    g->u.add_disease("in_pit", -1);
+    g->u.add_disease("in_pit", 1, true);
 }
 
 void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
@@ -932,7 +953,7 @@ void trapfuncm::snake(game *g, monster *z, int x, int y)
 
 bool trap::is_benign()
 {
-    return (id == tr_rollmat || id == tr_cot || id == tr_brazier || id == tr_funnel || id == tr_makeshift_funnel);
+    return (id == tr_rollmat || id == tr_fur_rollmat || id == tr_cot || id == tr_brazier || id == tr_funnel || id == tr_makeshift_funnel);
 }
 
 /**
@@ -963,6 +984,9 @@ trap_id trap_id_from_string(std::string trap_name) {
   if ("rollmat" == trap_name) {
     return tr_rollmat;
   }
+  if ("fur_rollmat" == trap_name) {
+    return tr_fur_rollmat;
+  }
   if ("beartrap" == trap_name) {
     return tr_beartrap;
   }
@@ -974,6 +998,9 @@ trap_id trap_id_from_string(std::string trap_name) {
   }
   if ("nailboard" == trap_name) {
     return tr_nailboard;
+  }
+  if ("caltrops" == trap_name) {
+    return tr_caltrops;
   }
   if ("tripwire" == trap_name) {
     return tr_tripwire;

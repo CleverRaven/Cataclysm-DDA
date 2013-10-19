@@ -671,6 +671,9 @@
     <ClInclude Include="..\savegame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\input_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\live_view.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -515,6 +515,22 @@
     },
     {
         "type":"vehicle_part",
+        "id": "wheel_unicycle",
+        "name": "unicycle wheel",
+        "symbol": "|",
+        "color": "dark_gray",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "damage_modifier": 50,
+        "durability": 40,
+        "wheel_width": 2,
+        "item": "wheel_bicycle",
+        "difficulty": 2,
+        "location": "under",
+        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
+    },
+    {
+        "type":"vehicle_part",
         "id": "wheel_bicycle",
         "name": "bicycle wheel",
         "symbol": "|",
@@ -575,7 +591,7 @@
         "item": "wheel_caster",
         "difficulty": 1,
         "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
     },
     {
         "type":"vehicle_part",
@@ -592,7 +608,7 @@
         "item": "1cyl_combustion",
         "difficulty": 2,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },
     {
         "type":"vehicle_part",
@@ -609,7 +625,7 @@
         "item": "v2_combustion",
         "difficulty": 2,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },
     {
         "type":"vehicle_part",
@@ -625,7 +641,7 @@
         "item": "i4_combustion",
         "difficulty": 3,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },
     {
         "type":"vehicle_part",
@@ -642,7 +658,7 @@
         "item": "v6_combustion",
         "difficulty": 4,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },
     {
         "type":"vehicle_part",
@@ -659,7 +675,7 @@
         "item": "v8_combustion",
         "difficulty": 4,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },
     {
         "type":"vehicle_part",
@@ -710,7 +726,7 @@
         "item": "plasma_engine",
         "difficulty": 6,
         "location": "engine_block",
-        "flags": ["ENGINE"]
+        "flags": ["ENGINE", "ALTERNATOR"]
     },
     {
         "type":"vehicle_part",
@@ -742,6 +758,23 @@
         "size": 3000,
         "fuel_type": "gasoline",
         "item": "metal_tank",
+        "difficulty": 1,
+        "location": "fuel_source",
+        "flags": ["FUEL_TANK"]
+    },
+    {
+        "type":"vehicle_part",
+        "id": "small_storage_battery",
+        "name": "small storage battery",
+        "symbol": "O",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 80,
+        "durability": 200,
+        "size": 1000,
+        "fuel_type": "battery",
+        "item": "small_storage_battery",
         "difficulty": 1,
         "location": "fuel_source",
         "flags": ["FUEL_TANK"]
@@ -813,6 +846,22 @@
         "difficulty": 1,
         "location": "fuel_source",
         "flags": ["FUEL_TANK"]
+    },
+    {
+        "type":"vehicle_part",
+        "id": "minifridge",
+        "name": "minifridge",
+        "symbol": "H",
+        "color": "light_blue",
+        "broken_symbol": "#",
+        "broken_color": "light_blue",
+        "damage_modifier": 80,
+        "durability": 100,
+        "size": 400,
+        "item": "minifridge",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["CARGO", "OBSTACLE"]
     },
     {
         "type":"vehicle_part",
@@ -1018,7 +1067,7 @@
         "fuel_type": "fusion",
         "item": "ftk93",
         "difficulty": 7,
-	"size": 10,
+        "size": 10,
         "location": "on_roof",
         "flags": ["TURRET", "CARGO"]
     },
@@ -1089,6 +1138,7 @@
         "broken_color": "white",
         "damage_modifier": 10,
         "durability": 20,
+        "power": 3,
         "par1": 480,
         "item": "flashlight",
         "difficulty": 1,
@@ -1153,6 +1203,54 @@
         "item": "horn_big",
         "difficulty": 3,
         "flags": ["HORN"]
+    },
+    {
+        "type":"vehicle_part",
+        "id": "battery_motorbike",
+        "name": "motorbike battery",
+        "symbol": "o",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 30,
+        "durability": 280,
+        "size": 12000,
+        "fuel_type": "battery",
+        "item": "battery_motorbike",
+        "difficulty": 2,
+        "flags": ["FUEL_TANK"]
+    },
+    {
+        "type":"vehicle_part",
+        "id": "battery_car",
+        "name": "car battery",
+        "symbol": "o",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 50,
+        "durability": 300,
+        "size": 30000,
+        "fuel_type": "battery",
+        "item": "battery_car",
+        "difficulty": 2,
+        "flags": ["FUEL_TANK"]
+    },
+    {
+        "type":"vehicle_part",
+        "id": "battery_truck",
+        "name": "truck battery",
+        "symbol": "o",
+        "color": "yellow",
+        "broken_symbol": "#",
+        "broken_color": "red",
+        "damage_modifier": 60,
+        "durability": 320,
+        "size": 50000,
+        "fuel_type": "battery",
+        "item": "battery_truck",
+        "difficulty": 2,
+        "flags": ["FUEL_TANK"]
     },
     {
         "type":"vehicle_part",

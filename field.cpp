@@ -815,14 +815,18 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                     add_item(newp.x, newp.y, tmp);
                                     if (g->u.posx == newp.x && g->u.posy == newp.y) {
                                         g->add_msg(_("A %s hits you!"), tmp.tname().c_str());
-                                        g->u.hit(g, random_body_part(), rng(0, 1), 6, 0);
+                                        body_part hit = random_body_part();
+                                        int side = random_side(hit);
+                                        g->u.hit(g, hit, side, 6, 0);
                                     }
                                     int npcdex = g->npc_at(newp.x, newp.y),
                                         mondex = g->mon_at(newp.x, newp.y);
 
                                     if (npcdex != -1) {
                                         npc *p = g->active_npc[npcdex];
-                                        p->hit(g, random_body_part(), rng(0, 1), 6, 0);
+                                        body_part hit = random_body_part();
+                                        int side = random_side(hit);
+                                        p->hit(g, hit, side, 6, 0);
                                         if (g->u_see(newp.x, newp.y)) {
                                             g->add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
@@ -1040,7 +1044,9 @@ void map::step_in_field(int x, int y, game *g)
             break;
 
         case fd_sludge:
-            g->add_msg(_("The sludge is thick and sticky."));
+            g->add_msg(_("The sludge is thick and sticky. You struggle to pull free."));
+            g->u.moves -= cur->getFieldDensity() * 300;
+            curfield.removeField( fd_sludge );
             break;
 
         case fd_fire:
@@ -1064,12 +1070,12 @@ void map::step_in_field(int x, int y, game *g)
                     g->add_msg(_("You're burning up!"));
                     g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
                     g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                    g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
                 } else if (adjusted_intensity == 3) {
                     g->add_msg(_("You're set ablaze!"));
                     g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
                     g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
-                    g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                    g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
                     g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
@@ -1077,18 +1083,18 @@ void map::step_in_field(int x, int y, game *g)
 
         case fd_rubble:
             //You are walking on rubble. Slow down.
-            g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
+            g->u.add_disease("bouldering", 0, false, cur->getFieldDensity(), 3);
             break;
 
         case fd_smoke:
             //Get smoke disease from standing in smoke.
             if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("smoke", bp_mouth, 4, 15, g);
+                g->u.infect("smoke", bp_mouth, 4, 15);
             } else if (cur->getFieldDensity() == 2 && !inside){
-                g->u.infect("smoke", bp_mouth, 2, 7, g);
+                g->u.infect("smoke", bp_mouth, 2, 7);
             } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
-                g->u.infect("smoke", bp_mouth, 1, 2, g);
+                g->u.infect("smoke", bp_mouth, 1, 2);
             }
             break;
 
@@ -1096,11 +1102,11 @@ void map::step_in_field(int x, int y, game *g)
             //Tear gas will both give you teargas disease and/or blind you.
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("teargas", bp_mouth, 5, 20, g);
+                g->u.infect("teargas", bp_mouth, 5, 20);
             }
             if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {
-                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
+                g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10);
             }
             break;
 
@@ -1108,13 +1114,13 @@ void map::step_in_field(int x, int y, game *g)
             // Toxic gas at low levels poisons you.
             // Toxic gas at high levels will cause very nasty poison.
             if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
-                g->u.infect("poison", bp_mouth, 5, 30, g);
+                g->u.infect("poison", bp_mouth, 5, 30);
             }
             else if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("badpoison", bp_mouth, 5, 30, g);
+                g->u.infect("badpoison", bp_mouth, 5, 30);
             } else if (cur->getFieldDensity() == 1 && (!inside)) {
-                g->u.infect("poison", bp_mouth, 2, 10, g);
+                g->u.infect("poison", bp_mouth, 2, 10);
             }
             break;
 
@@ -1136,7 +1142,7 @@ void map::step_in_field(int x, int y, game *g)
                 g->add_msg(_("You're torched by flames!"));
                 g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
                 g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
-                g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
+                g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
             } else
                 g->add_msg(_("These flames do not burn you."));
             break;
@@ -1187,7 +1193,8 @@ void map::step_in_field(int x, int y, game *g)
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
-    if (z->has_flag(MF_DIGS)) {
+    if (z->has_flag(MF_DIGS) || 
+      (z->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))) {
         return; // Digging monsters are immune to fields
     }
     field &curfield = field_at(x, y);
@@ -1217,6 +1224,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
  // TODO: Use acid resistance
         case fd_acid:
             if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
+                (!z->has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
                 !z->has_flag(MF_ACIDPROOF)) {
                 if (cur->getFieldDensity() == 3) {
                     dam += rng(4, 10) + rng(2, 8);
@@ -1237,8 +1245,12 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             break;
 
         case fd_sludge:
+            if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
+                !z->has_flag(MF_SLUDGEPROOF)) {
+              z->moves -= cur->getFieldDensity() * 300;
+              curfield.removeField( fd_sludge );
+            }
             break;
-
 
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:

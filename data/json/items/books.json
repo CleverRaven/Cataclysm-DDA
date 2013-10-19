@@ -18,7 +18,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 30,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 4
     },
     {
         "type" : "BOOK",
@@ -39,9 +40,10 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 30,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 4
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_barter",
         "name" : "car buyer's guide",
@@ -62,7 +64,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_computer",
         "name" : "Computer World",
@@ -83,7 +85,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_electronics",
         "name" : "Ham Radio Illustrated",
@@ -104,7 +106,7 @@
         "price" : 40,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_mechanics",
         "name" : "Popular Mechanics",
@@ -125,7 +127,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_survival",
         "name" : "Outdoor Adventures",
@@ -146,7 +148,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "fun_survival",
         "name" : "Through the Lens",
@@ -167,7 +169,7 @@
         "price" : 45,
         "required_level" : 1
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_traps",
         "name" : "Trapper's Life",
@@ -230,7 +232,7 @@
         "price" : 920,
         "required_level" : 5
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_bashing",
         "name" : "Batter Up!",
@@ -272,7 +274,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_cutting",
         "name" : "All About Swords",
@@ -314,7 +316,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_melee",
         "name" : "CQB Monthly",
@@ -356,7 +358,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_stabbing",
         "name" : "Duelist's Annual",
@@ -377,7 +379,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_unarmed",
         "name" : "Boxing Monthly",
@@ -398,7 +400,7 @@
         "price" : 45,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_launcher",
         "name" : "High Explosives Quarterly",
@@ -440,7 +442,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_pistol",
         "name" : "Tactical Handgun Digest",
@@ -482,7 +484,7 @@
         "price" : 180,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_rifle",
         "name" : "Modern Rifleman",
@@ -524,7 +526,7 @@
         "price" : 200,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_shotgun",
         "name" : "Trap and Field",
@@ -566,7 +568,7 @@
         "price" : 180,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_smg",
         "name" : "Submachine Gun Enthusiast",
@@ -1194,7 +1196,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1215,7 +1218,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 20
     },
     {
         "type" : "BOOK",
@@ -1236,7 +1240,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 20
     },
     {
         "type" : "BOOK",
@@ -1257,7 +1262,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1278,7 +1284,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1299,7 +1306,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1320,7 +1328,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1341,7 +1350,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1362,7 +1372,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1383,7 +1394,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 16
     },
     {
         "type" : "BOOK",
@@ -1404,7 +1416,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 20
     },
     {
         "type" : "BOOK",
@@ -1415,17 +1428,18 @@
         "weight" : 52,
         "to_hit" : 0,
         "color" : "pink",
-        "intelligence" : 5,
+        "intelligence" : 0,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 1,
         "bashing" : -3,
         "cutting" : 0,
-        "time" : 2,
-        "fun" : 0,
+        "time" : 4,
+        "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 4
     },
     {
         "type" : "BOOK",
@@ -1446,7 +1460,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1467,7 +1482,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1488,7 +1504,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1509,7 +1526,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1530,7 +1548,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1551,7 +1570,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1572,7 +1592,8 @@
         "fun" : 4,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1593,7 +1614,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1614,7 +1636,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1635,7 +1658,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 36
     },
     {
         "type" : "BOOK",
@@ -1656,7 +1680,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1677,7 +1702,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1698,7 +1724,8 @@
         "fun" : 1,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1719,7 +1746,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 36
     },
     {
         "type" : "BOOK",
@@ -1740,7 +1768,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 24
     },
     {
         "type" : "BOOK",
@@ -1761,7 +1790,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 40
     },
     {
         "type" : "BOOK",
@@ -1782,7 +1812,8 @@
         "fun" : 3,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 44
     },
     {
         "type" : "BOOK",
@@ -1803,7 +1834,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1824,7 +1856,8 @@
         "fun" : 5,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -1845,7 +1878,8 @@
         "fun" : 2,
         "skill" : "none",
         "price" : 55,
-        "required_level" : 0
+        "required_level" : 0,
+        "chapters": 28
     },
     {
         "type" : "BOOK",
@@ -2225,7 +2259,7 @@
         "price" : 190,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_tailor",
         "name" : "Sew Awesome Monthly",
@@ -2395,7 +2429,7 @@
     },
     {
         "type" : "BOOK",
-        "id" : "texbook_computer",
+        "id" : "textbook_computer",
         "name" : "Principles of Advanced Programming",
         "max_level" : 6,
         "description" : "A heavy textbook dedicated to advanced-level software design, written for several different programming languages.",
@@ -2543,7 +2577,7 @@
     {
         "type" : "BOOK",
         "id" : "book_icef",
-        "name" : "Internal Combustion Engine Fundamentals",
+        "name" : "Internal Combustion Fundamentals",
         "max_level" : 8,
         "description" : "A college-level textbook that details the operation, maintenance, and repair of internal combustion engines.",
         "weight" : 1587,
@@ -2855,7 +2889,7 @@
         "price" : 900,
         "required_level" : 0
     },
-	{
+    {
         "type" : "BOOK",
         "id" : "mag_fabrication",
         "name" : "Crafty Crafter's Quarterly",

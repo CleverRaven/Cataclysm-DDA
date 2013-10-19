@@ -47,10 +47,12 @@ void game::init_construction()
  CONSTRUCT(_("Dig Pit"), 0, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    TOOLCONT("digging_stick");
   STAGE(t_pit, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
 
  CONSTRUCT(_("Spike Pit"), 0, &construct::able_pit, &construct::done_nothing);
@@ -61,9 +63,11 @@ void game::init_construction()
  CONSTRUCT(_("Fill Pit"), 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_shallow, 5);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
   STAGE(t_dirt, 5);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
 
  CONSTRUCT(_("Chop Down Tree"), 0, &construct::able_tree, &construct::done_tree);
@@ -154,19 +158,23 @@ void game::init_construction()
  CONSTRUCT(_("Build Log Wall"), 2, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    TOOLCONT("digging_stick");
   STAGE(t_pit, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
   STAGE(t_wall_log_half, 20);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
    COMPCONT("2x4", 6);
   STAGE(t_wall_log, 20);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
@@ -175,13 +183,16 @@ void game::init_construction()
  CONSTRUCT(_("Build Palisade Wall"), 2, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    TOOLCONT("digging_stick");
   STAGE(t_pit, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
   STAGE(t_palisade, 20);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    COMP("log", 3);
    COMP("rope_6", 2);
@@ -195,13 +206,16 @@ void game::init_construction()
  CONSTRUCT(_("Build Palisade Gate"), 2, &construct::able_dig, &construct::done_nothing);
   STAGE(t_pit_shallow, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    TOOLCONT("digging_stick");
   STAGE(t_pit, 10);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
   STAGE(t_palisade_gate, 20);
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("2x4", 3);
@@ -296,6 +310,7 @@ void game::init_construction()
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
    TOOL("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 4);
@@ -395,16 +410,13 @@ void game::init_construction()
   STAGE(10);
    COMP("frame", 1);
 
- CONSTRUCT(_("Start cart construction"), 0, &construct::able_empty, &construct::done_cart);
-  STAGE(10);
-   COMP("wheel_caster", 1);
-
  CONSTRUCT(_("Fence Posts"), 0, &construct::able_dig,
                              &construct::done_nothing);
   STAGE(t_fence_post, 5);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    TOOLCONT("rock");
    TOOLCONT("hatchet");
@@ -426,6 +438,7 @@ void game::init_construction()
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("shovel");
+   TOOLCONT("e_tool");
    TOOLCONT("primitive_shovel");
    COMP("rock", 40);
 }
@@ -1046,27 +1059,6 @@ void construct::done_vehicle(game *g, point p)
     if (!veh)
     {
         debugmsg ("error constructing vehicle");
-        return;
-    }
-    veh->name = name;
-
-    //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
-    g->m.update_vehicle_cache(veh, true);
-
-}
-
-void construct::done_cart(game *g, point p)
-{
-    std::string name = string_input_popup(_("Enter new cart name:"), 20);
-    if(name.empty())
-    {
-        name = _("Cart");
-    }
-
-    vehicle *veh = g->m.add_vehicle (g, "custom_cart", p.x, p.y, 270, 0, 0);
-    if (!veh)
-    {
-        debugmsg ("error constructing cart");
         return;
     }
     veh->name = name;

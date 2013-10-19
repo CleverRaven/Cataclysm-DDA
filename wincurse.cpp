@@ -322,7 +322,7 @@ void curses_drawwindow(WINDOW *win)
                     int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
                     SetTextColor(backbuffer,color);
 
-                    int cw = mk_wcwidth((wchar_t)tmp);
+                    int cw = mk_wcwidth(tmp);
                     len = ANY_LENGTH-len;
                     if (cw > 1) {
                         FillRectDIB(drawx+fontwidth*(cw-1), drawy, fontwidth, fontheight, BG);

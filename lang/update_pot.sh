@@ -24,5 +24,8 @@ else
     exit 1
 fi
 
+# strip line-numbers from the .pot file
+python lang/strip_line_numbers.py lang/po/cataclysm-dda.pot
+
 cd $oldpwd
 

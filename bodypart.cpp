@@ -57,18 +57,50 @@ std::string encumb_text(body_part bp)
  }
 }
 
-body_part random_body_part()
+body_part random_body_part(bool main_parts_only)
 {
- int rn = rng(0, 100);
- if (rn == 0)
-  return bp_eyes;
- if (rn <= 1)
-  return bp_mouth;
- if (rn <= 7)
-  return bp_head;
- if (rn <= 28)
-  return bp_legs;
- if (rn <= 50)
-  return bp_arms;
- return bp_torso;
+    int rn = rng(0, 100);
+    if (!main_parts_only) {
+        if (rn == 0)
+            return bp_eyes;
+        if (rn <= 1)
+            return bp_mouth;
+        if (rn <= 7)
+            return bp_head;
+        if (rn <= 24)
+            return bp_legs;
+        if (rn <= 30)
+            return bp_feet;
+        if (rn <= 47)
+            return bp_arms;
+        if (rn <= 53)
+            return bp_hands;
+        return bp_torso;
+    } else {
+        if (rn <= 7)
+            return bp_head;
+        if (rn <= 30)
+            return bp_legs;
+        if (rn <= 53)
+            return bp_arms;
+        return bp_torso;
+    }
+}
+
+int random_side(body_part bp)
+{
+    switch (bp) {
+        case bp_torso:
+        case bp_head:
+        case bp_eyes:
+        case bp_mouth:
+            return -1;
+        case bp_arms:
+        case bp_hands:
+        case bp_legs:
+        case bp_feet:
+            return rng(0, 1);
+        default:
+            return rng(0, 1);
+    }
 }

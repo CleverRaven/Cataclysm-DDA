@@ -267,6 +267,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100")) {
       weapon->charges -= 100;
+  } else if (weapon->has_flag("FIRE_50")) {
+      weapon->charges -= 50;
   } else if (weapon->has_flag("CHARGE")) {
       weapon->active = false;
       weapon->charges = 0;
@@ -368,10 +370,11 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 //  OR it's not the monster we were aiming at and we were lucky enough to hit it
    int mondex = mon_at(tx, ty);
 // If we shot us a monster...
-   if (mondex != -1 && (!zombie(mondex).has_flag(MF_DIGS) ||
+   if (mondex != -1 && ((!zombie(mondex).has_flag(MF_DIGS) &&
+        (!zombie(mondex).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", tx, ty))) ||
        rl_dist(p.posx, p.posy, zombie(mondex).posx(), zombie(mondex).posy()) <= 1) &&
        ((!missed && i == trajectory.size() - 1) ||
-        one_in((5 - int(zombie(mondex).type->size))))) {
+        one_in((5 - int(zombie(mondex).type->size)))) ) {
     monster &z = zombie(mondex);
 
     double goodhit = missed_by;
@@ -413,7 +416,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   ammo_effects(this, tx, ty, effects);
   if (effects.count("BOUNCE"))
   {
-    for (int i = 0; i < num_zombies(); i++)
+    for (unsigned long int i = 0; i < num_zombies(); i++)
     {
         monster &z = zombie(i);
         // search for monsters in radius 4 around impact site
@@ -1048,7 +1051,8 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, 4, _("Fwoosh!"));
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
-          weapon->curammo->type != "pebble")
+          weapon->curammo->type != "pebble" &&
+          weapon->curammo->type != "dart")
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
@@ -1222,63 +1226,67 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
 
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
 {
- int npcdex = g->npc_at(h->posx, h->posy);
- // Gunmods don't have a type, so use the player gun type.
- it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- body_part hit;
- int side = rng(0, 1);
- if (goodhit < .003) {
-  hit = bp_eyes;
-  dam = rng(3 * dam, 5 * dam);
-  p.practice(g->turn, firing->skill_used, 5);
- } else if (goodhit < .066) {
-  if (one_in(25))
-   hit = bp_eyes;
-  else if (one_in(15))
-   hit = bp_mouth;
-  else
-   hit = bp_head;
-  dam = rng(2 * dam, 5 * dam);
-  p.practice(g->turn, firing->skill_used, 5);
- } else if (goodhit < .2) {
-  hit = bp_torso;
-  dam = rng(dam, 2 * dam);
-  p.practice(g->turn, firing->skill_used, 2);
- } else if (goodhit < .4) {
-  if (one_in(3))
-   hit = bp_torso;
-  else if (one_in(2))
-   hit = bp_arms;
-  else
-   hit = bp_legs;
-  dam = rng(int(dam * .9), int(dam * 1.5));
-  p.practice(g->turn, firing->skill_used, rng(0, 1));
- } else if (goodhit < .5) {
-  if (one_in(2))
-   hit = bp_arms;
-  else
-   hit = bp_legs;
-  dam = rng(dam / 2, dam);
- } else {
-  dam = 0;
- }
- if (dam > 0) {
-  h->moves -= rng(0, dam);
-  if (h == &(g->u))
-   g->add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
-              body_part_name(hit, side).c_str(), dam);
-  else {
-   if (&p == &(g->u)) {
-    g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
-               body_part_name(hit, side).c_str());
+    int npcdex = g->npc_at(h->posx, h->posy);
+    // Gunmods don't have a type, so use the player gun type.
+    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
+    body_part hit;
+    if (goodhit < .003) {
+        hit = bp_eyes;
+        dam = rng(3 * dam, 5 * dam);
+        p.practice(g->turn, firing->skill_used, 5);
+    } else if (goodhit < .066) {
+        if (one_in(25)) {
+            hit = bp_eyes;
+        } else if (one_in(15)) {
+            hit = bp_mouth;
+        } else {
+            hit = bp_head;
+        }
+        dam = rng(2 * dam, 5 * dam);
+        p.practice(g->turn, firing->skill_used, 5);
+    } else if (goodhit < .2) {
+        hit = bp_torso;
+        dam = rng(dam, 2 * dam);
+        p.practice(g->turn, firing->skill_used, 2);
+    } else if (goodhit < .4) {
+        if (one_in(3)) {
+            hit = bp_torso;
+        } else if (one_in(2)) {
+            hit = bp_arms;
+        } else {
+            hit = bp_legs;
+        }
+        dam = rng(int(dam * .9), int(dam * 1.5));
+        p.practice(g->turn, firing->skill_used, rng(0, 1));
+    } else if (goodhit < .5) {
+        if (one_in(2)) {
+            hit = bp_arms;
+        } else {
+            hit = bp_legs;
+        }
+        dam = rng(dam / 2, dam);
+    } else {
+        dam = 0;
+    }
+    if (dam > 0) {
+        int side = random_side(hit);
+        h->moves -= rng(0, dam);
+        if (h == &(g->u)) {
+            g->add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
+                          body_part_name(hit, side).c_str(), dam);
+        } else {
+            if (&p == &(g->u)) {
+                g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
+                               body_part_name(hit, side).c_str());
                 g->active_npc[npcdex]->make_angry();
- } else if (g->u_see(h->posx, h->posy))
-    g->add_msg(_("%s shoots %s's %s."),
-               (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),
-               h->name.c_str(), body_part_name(hit, side).c_str());
-  }
-  h->hit(g, hit, side, 0, dam);
- }
+            } else if (g->u_see(h->posx, h->posy)) {
+                g->add_msg(_("%s shoots %s's %s."),
+                   (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),
+                    h->name.c_str(), body_part_name(hit, side).c_str());
+            }
+        }
+        h->hit(g, hit, side, 0, dam);
+    }
 }
 
 void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)

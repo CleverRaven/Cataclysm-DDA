@@ -47,10 +47,19 @@ struct veh_collision {
  veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
+struct vehicle_item_spawn
+{
+    int x, y;
+    int chance;
+    std::vector<std::string> item_ids;
+    std::vector<std::string> item_groups;
+};
+
 struct vehicle_prototype
 {
     std::string id, name;
     std::vector<std::pair<point, std::string> > parts;
+    std::vector<vehicle_item_spawn> item_spawns;
 };
 
 
@@ -77,14 +86,14 @@ struct vehicle_part
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
     int precalc_dy[2];      // mount_dy translated to face.dir [0] and turn_dir [1]
     int hp;                 // current durability, if 0, then broken
-    int blood;              // how much blood covers part (in turns). only useful for external
+    int blood;              // how much blood covers part (in turns).
     int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     int flags;
     int passenger_id;       // carrying passenger
     union
     {
-        int amount;         // amount of fuel for tank
+        int amount;         // amount of fuel for tank/charge in battery
         int open;           // door is open
         int direction;      // direction the part is facing
     };
@@ -112,8 +121,7 @@ struct vehicle_part
  *   The second part is variable info, see `vehicle_part` structure.
  * - Parts are mounted at some point relative to vehicle position (or starting part)
  *   (`0, 0` in mount coords). There can be more than one part at
- *   given mount coords. First one is considered external,
- *   others are internal (or, as special case, "over" -- like trunk)
+ *   given mount coords, and they are mounted in different slots.
  *   Check tileray.h file to see a picture of coordinate axes.
  * - Vehicle can be rotated to arbitrary degree. This means that
  *   mount coords are rotated to match vehicle's face direction before
@@ -130,12 +138,8 @@ struct vehicle_part
  *     face      | where it's facing currently
  *     move      | where it's moving, it's different from face if it's skidding
  *     turn_dir  | where it will turn at next move, if it won't stop due to collision
- * - Some methods take `part` or `p` parameter. Some of them
- *   assume that's external part number, and all internal parts
- *   at this mount point are affected. There is separate
- *   vector in which a list of external parts is stored,
- *   it must correspond to actual list of external parts
- *   (assure this if you add/remove parts programmatically).
+ * - Some methods take `part` or `p` parameter. This is the index of a part in
+ *   the parts list.
  * - Driver doesn't know what vehicle he drives.
  *   There's only player::in_vehicle flag which
  *   indicates that he is inside vehicle. To figure
@@ -158,12 +162,14 @@ struct vehicle_part
  *   When adding parts, function checks possibility to install part at given
  *   coords. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
- *   There are a few rules: some parts are external, so one should be the first part
- *   at given mount point (tile). They require some part in neighbouring tile (with the "MOUNT_POINT" flag) to
- *   be mounted to. Other parts are internal or placed over. They can only be installed on top
- *   of external part. Some functional parts can be only in single instance per tile, i. e.,
- *   no two engines at one mount point.
- *   If you can't understand why installation fails, try to assemble your vehicle in game first.
+ *   There are a few rules: 
+ *   1. Every mount point (tile) must begin with a part in the 'structure'
+ *      location, usually a frame.
+ *   2. No part can stack with itself.
+ *   3. No part can stack with another part in the same location, unless that
+ *      part is so small as to have no particular location (such as headlights).
+ *   If you can't understand why installation fails, try to assemble your
+ *   vehicle in game first.
  */
 class vehicle
 {
@@ -172,7 +178,6 @@ private:
 
     bool has_structural_part(int dx, int dy);
     void open_or_close(int part_index, bool opening);
-    int part_displayed_at(int local_x, int local_y);
     bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
     void add_missing_frames();
 
@@ -214,7 +219,7 @@ public:
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
 
-// check if certain external part can be unmounted
+// check if certain part can be unmounted
     bool can_unmount (int p);
 
 // install a new part to vehicle (force to skip possibility check)
@@ -234,11 +239,14 @@ public:
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     std::vector<int> parts_at_relative (int dx, int dy);
 
-// returns the list of indeces of parts inside (or over) given
-    std::vector<int> internal_parts (int p);
-
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
+
+// returns indices of all parts in the vehicle with the given flag
+    std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
+
+// returns indices of all parts in the given location slot
+    std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f);
@@ -252,6 +260,7 @@ public:
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at (int dx, int dy);
     int global_part_at (int x, int y);
+    int part_displayed_at(int local_x, int local_y);
 
 // Given a part, finds its index in the vehicle
     int index_of_part(vehicle_part *part);
@@ -299,6 +308,10 @@ public:
     int basic_consumption (ammotype ftype);
 
     void consume_fuel ();
+
+    void power_parts ();
+
+    void charge_battery (int amount);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
@@ -381,12 +394,19 @@ public:
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
 
+// Generates starting items in the car, should only be called when placed on the map
+    void place_spawn_items();
+
     void gain_moves (int mp);
 
 // reduces velocity to 0
     void stop ();
 
-    void find_external_parts ();
+    void find_horns ();
+
+    void find_lights ();
+
+    void find_fuel_tanks ();
 
     void find_exhaust ();
 
@@ -400,7 +420,7 @@ public:
     // 0 - piercing
     // 1 - bashing (damage applied if it passes certain treshold)
     // 2 - incendiary
-    // damage individual external part. bash means damage
+    // damage individual part. bash means damage
     // must exceed certain threshold to be substracted from hp
     // (a lot light collisions will not destroy parts)
     // returns damage bypassed
@@ -421,6 +441,9 @@ public:
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
 
+    //Set all headlights on/off
+    bool set_lights(bool on);
+
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
@@ -438,7 +461,10 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-    std::vector<int> external_parts;   // List of external parts indeces
+    std::vector<int> horns;            // List of horn part indices
+    std::vector<int> lights;           // List of light part indices
+    std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;
@@ -464,6 +490,7 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
+    int lights_power;   // total power of components with LIGHT flag
 };
 
 #endif

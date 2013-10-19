@@ -14,7 +14,7 @@
     },{
         "type" : "technique",
         "id" : "BRUTAL",
-        "name" : "Wide Strike",
+        "name" : "Brutal Strike",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "crit_tec": true,
@@ -324,19 +324,20 @@
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_precise",
-        "name" : "",
+        "name" : "axe-kick",
         "min_unarmed": 2,
         "unarmed_allowed": true,
+        "crit_tec": true,
+        "stun_dur": 2,
         "messages" : [
-            "You quickly punch %s",
-            "<npcname> quickly punches %s"
+            "You axe-kick %s",
+            "<npcname> axe-kicks %s"
         ],
-        "quick": true
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_push",
         "name" : "side kick",
-        "min_unarmed":32,
+        "min_unarmed":3,
         "unarmed_allowed": true,
         "messages" : [
             "You side-kick %s",

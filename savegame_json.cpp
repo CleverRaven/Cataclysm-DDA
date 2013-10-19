@@ -253,6 +253,8 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
                     picoint(pdata,"bp", tmpbp);
                     tmpill.bp = (body_part)tmpbp;
                     picoint(pdata,"side", tmpill.side);
+                    picobool(pdata,"permanent", tmpill.permanent);
+                    picoint(pdata,"decay", tmpill.decay);
                     illness.push_back(tmpill);
                 }
             }
@@ -379,6 +381,8 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
         ptmpmap[ "intensity" ] = pv ( illness[i].intensity );
         ptmpmap[ "bp" ] = pv ( (int)illness[i].bp );
         ptmpmap[ "side" ] = pv ( illness[i].side );
+        ptmpmap[ "permanent" ] = pv ( illness[i].permanent );
+        ptmpmap[ "decay" ] = pv ( illness[i].decay );
         ptmpvect.push_back ( pv ( ptmpmap ) );
         ptmpmap.clear();
     }
@@ -1463,7 +1467,9 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
-    find_external_parts ();
+    find_horns ();
+    find_lights ();
+    find_fuel_tanks ();
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
@@ -1492,8 +1498,8 @@ picojson::value vehicle::json_save( bool save_contents ) {
 
     data["cruise_on"] = pv ( cruise_on );
     data["lights_on"] = pv ( lights_on );
-    data["turret_mode"] = pv ( turret_mode );
     data["skidding"] = pv ( skidding );
+    data["turret_mode"] = pv ( turret_mode );
 
     data["of_turn_carry"] = pv ( of_turn_carry );
     data["name"] = pv ( name );

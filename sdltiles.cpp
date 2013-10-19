@@ -304,7 +304,7 @@ void curses_drawwindow(WINDOW *win)
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp != UNKNOWN_UNICODE){
-                    int cw = mk_wcwidth((wchar_t)tmp);
+                    int cw = mk_wcwidth(tmp);
                     len = ANY_LENGTH-len;
                     if(cw>1)
                     {
