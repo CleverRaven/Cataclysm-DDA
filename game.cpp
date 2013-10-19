@@ -4836,20 +4836,20 @@ bool game::sound(int x, int y, int vol, std::string description)
     }
 
 // Loud sounds make the next spawn sooner!
- int spawn_range = int(MAPSIZE / 2) * SEEX;
- if (vol >= spawn_range) {
-  int max = (vol - spawn_range);
-  int min = int(max / 6);
-  if (max > spawn_range * 4)
-   max = spawn_range * 4;
-  if (min > spawn_range * 4)
-   min = spawn_range * 4;
-  int change = rng(min, max);
-  if (nextspawn < change)
-   nextspawn = 0;
-  else
-   nextspawn -= change;
- }
+// int spawn_range = int(MAPSIZE / 2) * SEEX;
+// if (vol >= spawn_range) {
+//  int max = (vol - spawn_range);
+//  int min = int(max / 6);
+//  if (max > spawn_range * 4)
+//   max = spawn_range * 4;
+//  if (min > spawn_range * 4)
+//   min = spawn_range * 4;
+//  int change = rng(min, max);
+//  if (nextspawn < change)
+//   nextspawn = 0;
+//  else
+//   nextspawn -= change;
+// }
 // Next, display the sound as the player hears it
  if (description == "")
   return false; // No description (e.g., footsteps)
