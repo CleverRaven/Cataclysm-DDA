@@ -2349,8 +2349,15 @@ void vehicle::place_spawn_items()
             int part = part_at(next_spawn->x, next_spawn->y);
             part = part_with_feature(part, "CARGO");
             if(part < 0) {
-                debugmsg("No CARGO parts at (%d, %d) of %s!",
-                        next_spawn->x, next_spawn->y, name.c_str());
+                //Is it broken, or was it never there in the first place?
+                if(part_with_feature(part, "CARGO", false) < 0) {
+                    //Was never there - mistake in placement
+                    debugmsg("No CARGO parts at (%d, %d) of %s!",
+                            next_spawn->x, next_spawn->y, name.c_str());
+                } else {
+                    //Present, but broken - don't place items
+                    continue;
+                }
             } else {
                 for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
                         next_id != next_spawn->item_ids.end(); next_id++) {
