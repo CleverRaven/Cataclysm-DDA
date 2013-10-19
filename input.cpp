@@ -80,12 +80,14 @@ InputEvent get_input(int ch)
 mapped_input get_input_from_kyb_mouse()
 {
     input_event raw_event;
-    if (is_mouse_enabled()) {
+
+#if (defined TILES || defined SDLTILES)
         raw_event = getch_kyb_mouse();
-    } else {
+#else
         raw_event.type = CATA_INPUT_KEYBOARD;
         raw_event.add_input(get_keypress());
-    }
+#endif
+
     mapped_input mapped;
     mapped.evt = raw_event;
     if (raw_event.type != CATA_INPUT_MOUSE) {
