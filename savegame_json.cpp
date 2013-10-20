@@ -1104,6 +1104,7 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
     picobool(data, "dead", dead);
     picoint(data, "anger", anger);
     picoint(data, "morale", morale);
+    picobool(data, "hallucination", hallucination);
 
     plans.clear();
     picojson::object::const_iterator pvplans_it = data.find("plans");
@@ -1166,6 +1167,7 @@ picojson::value monster::json_save(bool save_contents)
     data["dead"] = pv(dead);
     data["anger"] = pv(anger);
     data["morale"] = pv(morale);
+    data["hallucination"] = pv(hallucination);
 
     if ( plans.size() > 0 ) {
         std::vector<picojson::value> pvplans;
