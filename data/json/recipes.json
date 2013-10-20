@@ -897,7 +897,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -924,7 +924,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -974,7 +974,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1005,7 +1005,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1036,7 +1036,7 @@
       [ "welder", 30 ],
       [ "welder_crude", 30 ],
       [ "toolset", 3 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1056,7 +1056,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1091,7 +1091,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1129,7 +1129,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1175,7 +1175,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1222,7 +1222,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1257,7 +1257,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1308,7 +1308,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1333,7 +1333,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1368,7 +1368,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
