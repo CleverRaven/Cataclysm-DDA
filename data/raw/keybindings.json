@@ -287,5 +287,48 @@
                 "key":"JOY_3"
             }
         ]
+    },
+    {
+        "id":"FIRE",
+        "name":"Fire Weapon",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"F"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            },
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_LEFT"
+            }
+        ]
+    },
+    {
+        "id":"SELECT",
+        "name":"Select",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_RIGHT"
+            }
+        ]
+    },
+    {
+        "id":"SELECT",
+        "name":"Select",
+        "category":"LOOK",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_LEFT"
+            }
+        ]
     }
 ]
