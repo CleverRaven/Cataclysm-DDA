@@ -1693,7 +1693,6 @@ bool game::handle_action()
 
         int iCh;
 
-        timeout(125);
         /*
         Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
         Get tile information from above's weather information:
@@ -1734,8 +1733,9 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-        } while ((iCh = getch()) == ERR);
-        timeout(-1);
+            // Reset timeout before each call to input(), it sets it back to -1.
+            timeout(125);
+        } while ((iCh = input()) == ERR);
 
         ch = input(iCh);
     } else {
