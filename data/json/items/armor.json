@@ -5674,7 +5674,7 @@
         "description" : "A helmet made from a soup pot. It's not very good protection, but it's better than nothing.",
         "price" : 55,
         "material" : ["iron", "null"],
-        "volume" : 16,
+        "volume" : 8,
         "cutting" : 0,
         "warmth" : 5,
         "phase" : "solid",
