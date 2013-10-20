@@ -4907,7 +4907,7 @@ ff.......|....|WWWWWWWW|\n\
       else if (j == tw + 2)
        ter_set(i, j, t_concrete_h);
       else { // Empty space holds monsters!
-       std::string type = nethercreatures[(rng(0, 10))];
+       std::string type = nethercreatures[(rng(0, 9))];
        add_spawn(type, 1, i, j);
       }
      }
