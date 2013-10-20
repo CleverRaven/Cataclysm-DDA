@@ -6802,7 +6802,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "oxy_powder", 20 ]
+      [ "oxy_powder", 10 ]
     ]
   ]
 },{
@@ -6864,7 +6864,7 @@
     ],
     [
       [ "bleach", 1 ],
-      [ "oxy_powder", 100 ]
+      [ "oxy_powder", 50 ]
     ]
   ]
 },{
@@ -6878,7 +6878,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
+      [ "chemistry_set", 50 ]
     ]
   ],
   "components": [
@@ -6897,7 +6897,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
+      [ "chemistry_set", 50 ]
     ]
   ],
   "components": [
@@ -6934,7 +6934,11 @@
   ],
   "components": [
     [
-      [ "bleach", 2 ]
+      [ "bleach", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
     ]
   ]
 },{
@@ -7063,7 +7067,8 @@
   ],
   "components": [
     [
-      [ "rag", 1 ]
+      [ "rag", 1 ],
+      [ "bag_plastic", 1 ]
     ],
     [
       [ "oxy_powder", 5 ]
@@ -7234,21 +7239,21 @@
     "reversible": false,
     "autolearn": true,
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7271,21 +7276,21 @@
     "reversible": false,
     "autolearn": true,
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7308,21 +7313,21 @@
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7345,21 +7350,21 @@
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7382,21 +7387,21 @@
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7419,15 +7424,15 @@
     "reversible": false,
     "autolearn": true,
     "tools": [
-      [
+     [
       [ "press", -1 ]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -12804,7 +12809,8 @@
   ],
   "components": [
     [
-      [ "scrap", 3 ]
+      [ "scrap", 3 ],
+      [ "rebar", 1 ]
     ]
   ]
 },{
