@@ -10476,8 +10476,8 @@
   "result": "armor_larmor",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "difficulty": 7,
-  "time": 30000,
+  "difficulty": 3,
+  "time": 28000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
