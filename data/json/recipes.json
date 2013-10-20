@@ -1437,7 +1437,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1468,7 +1468,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1495,7 +1495,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1522,7 +1522,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1549,7 +1549,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1575,7 +1575,7 @@
     [
       [ "hotplate", 5 ],
       [ "toolset", 1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1599,7 +1599,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1623,7 +1623,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1710,7 +1710,7 @@
       [ "screwdriver", -1 ],
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1750,7 +1750,7 @@
       [ "screwdriver", -1 ],
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1788,7 +1788,7 @@
     [
       [ "soldering_iron", 6 ],
       [ "toolset", 1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1819,7 +1819,7 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1896,15 +1896,15 @@
     "reversible": false,
     "autolearn": true,
     "tools": [
-      [
+    [
       [ "press", -1 ]
-      ],
-      [
+    ],
+    [
       ["crucible", -1]
-      ],
-      [
+    ],
+    [
       ["forge", 100], ["char_forge", 20]
-      ]
+    ]
     ],
     "components": [
       [
@@ -1977,7 +1977,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2002,7 +2002,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2076,7 +2076,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2596,7 +2596,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2631,7 +2631,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2666,7 +2666,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2701,7 +2701,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2736,7 +2736,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2771,7 +2771,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2806,7 +2806,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2841,7 +2841,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -7006,7 +7006,7 @@
       [ "con_milk", 1 ]
     ],
     [
-      [ "lye_powder", 20 ]
+      [ "lye_powder", 50 ]
     ],
     [
       [ "water_clean", 1 ],
