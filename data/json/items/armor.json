@@ -2963,7 +2963,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "gauntlets_leather",
+        "id" : "gauntlets_larmor",
         "name" : "leather armor gauntlets",
         "weight" : 350,
         "color" : "brown",
@@ -2982,7 +2982,7 @@
         "encumbrance" : 1,
         "bashing" : 2,
         "flags" : ["VARSIZE"],
-        "coverage" : 65,
+        "coverage" : 60,
         "material_thickness" : 3
     },
     {
@@ -5453,6 +5453,31 @@
         "bashing" : 10,
         "coverage" : 95,
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "helmet_larmor",
+        "name" : "leather armor helmet",
+        "weight" : 435,
+        "color" : "brown",
+        "covers" : ["HEAD"],
+        "techniques" : ["WBLOCK_1"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A thick leather helmet that provides excellent protection for the head.",
+        "price" : 140,
+        "material" : ["leather "null"],
+        "volume" : 8,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 2,
+        "bashing" : 6,
+        "flags" : ["VARSIZE"],
+        "coverage" : 75,
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
