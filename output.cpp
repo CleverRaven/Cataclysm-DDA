@@ -539,7 +539,7 @@ std::string string_input_win(WINDOW * w, std::string input, int max_length, int 
       if(tmplen>0 && (tmplen+utf8_width(ret.c_str())<=max_length||max_length==0)) {
          ret.append(tmp);
       }
-    } else if( ch!=0 && (ret.size() < max_length || max_length == 0) ) {
+    } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
       if ( pos == ret.size() ) {
         ret += ch;
       } else {
