@@ -175,6 +175,7 @@ ifdef LUA
   #       (alternatively, expect them to use CMake =)
   LDFLAGS += $(shell pkg-config --libs lua5.1)
   CXXFLAGS += $(shell pkg-config --cflags lua5.1) -DLUA
+  EXTRA_DEPENDENCIES += catalua/catabindings.cpp
 endif
 
 ifdef TILES
@@ -280,7 +281,7 @@ endif
 all: version $(TARGET) $(L10N)
 	@
 
-$(TARGET): $(ODIR) $(DDIR) $(OBJS)
+$(TARGET): $(ODIR) $(DDIR) $(OBJS) $(EXTRA_DEPENDENCIES)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
@@ -308,6 +309,9 @@ $(ODIR)/SDLMain.o: SDLMain.m
 	$(CC) -c $(OSX_INC) $< -o $@
 
 version.cpp: version
+
+catalua/catabindings.cpp: catalua/class_definitions.lua catalua/generate_bindings.lua
+	cd catalua && lua generate_bindings.lua
 
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
