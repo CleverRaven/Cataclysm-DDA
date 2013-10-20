@@ -10497,6 +10497,31 @@
   ]
 },{
         "type" : "recipe",
+  "result": "armor_plarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "requires_skills": [ "tailor", 3 ],
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 22 ],
+      [ "sewing_kit", 22 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 6 ],
+      [ "scrap", 18 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "backpack",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
