@@ -47,6 +47,7 @@ struct monster_effect
 };
 
 class monster {
+ friend class editmap;
  public:
  monster();
  monster(mtype *t);
