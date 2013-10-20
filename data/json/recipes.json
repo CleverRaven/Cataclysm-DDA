@@ -73,7 +73,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -93,7 +93,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -125,7 +125,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -151,7 +151,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -215,7 +215,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -244,7 +244,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -363,7 +363,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -400,7 +400,7 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -432,7 +432,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -16636,34 +16636,36 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+    [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
       [ "toolset", 15 ],
       [ "soldering_iron", 150 ]
-      ] ],
+    ] ],
   "components":
     [
      [
-     [ "steel_lump", 5 ],
-     [ "steel_chunk", 20 ],
-     [ "scrap", 60 ]
+       [ "steel_lump", 5 ],
+       [ "steel_chunk", 20 ],
+       [ "scrap", 60 ]
      ],
-     [ [ "metal_tank", 1 ]
+     [ 
+       [ "metal_tank", 1 ]
      ],
-     [ ["pipe", 6]
+     [ 
+       ["pipe", 6]
      ]
   ]
 },{
@@ -16686,7 +16688,7 @@
     ],
     [
       [ "char_kiln", -1 ] ]
-  ],
+    ],
   "components": [
     [
       [ "2x4", 3 ],
@@ -16764,8 +16766,8 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 1],
-      ["fire", -1]
+      [ "toolset", 1],
+      [ "fire", -1]
     ]
   ],
   "components": [
@@ -16795,8 +16797,8 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 1],
-      ["fire", -1]
+      [ "toolset", 1],
+      [ "fire", -1]
     ]
   ],
   "components": [
