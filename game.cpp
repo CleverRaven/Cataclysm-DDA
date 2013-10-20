@@ -6779,6 +6779,7 @@ point game::look_around()
   ctxt.register_directions();
   ctxt.register_action("COORDINATE");
   ctxt.register_action("SELECT");
+  ctxt.register_action("QUIT");
   action = ctxt.handle_input();
   
   if (!u_see(lx, ly))
