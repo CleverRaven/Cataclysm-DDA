@@ -14369,7 +14369,7 @@ void map::add_extra(map_extra type, game *g)
       case 1:
       case 2:
       case 3: placed = tr_beartrap; break;
-      case 4:
+      case 4: placed = tr_caltrops; break;
       case 5: placed = tr_nailboard; break;
       case 6: placed = tr_crossbow; break;
       case 7: placed = tr_shotgun_2; break;
@@ -14562,22 +14562,19 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_wolfpack:
-  add_spawn("mon_wolf", rng(3, 6), SEEX, SEEY);
-  break;
-
-  case mx_cougar:
-  add_spawn("mon_cougar", 1, SEEX, SEEY);
-  break;
-
  case mx_crater:
  {
   int size = rng(2, 6);
+  int size_squared = size * size;
   int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
   for (int i = x - size; i <= x + size; i++) {
    for (int j = y - size; j <= y + size; j++) {
-    destroy(g, i, j, false);
-    radiation(i, j) += rng(20, 40);
+    //If we're using circular distances, make circular craters
+    //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
+    if(!trigdist || (((i-x)*(i-x) + (j-y)*(j-y)) <= size_squared)) {
+     destroy(g, i, j, false);
+     radiation(i, j) += rng(20, 40);
+    }
    }
   }
  }

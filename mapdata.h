@@ -35,6 +35,30 @@ class monster;
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+struct map_bash_item_drop {
+    std::string itemtype; // item id
+    int amount;           // number dropped
+    int minamount;        // optional: if >= amount drop is random # between minamount and amount
+    int chance;           // 
+    map_bash_item_drop(std::string str, int i) : itemtype(str), amount(i), minamount(-1), chance(-1) {};
+    map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
+};
+struct map_bash_info {
+    int str_min;          // min str(*) required to bash
+    int str_max;          // max str required: bash succeeds if str >= random # between str_min_roll & str_max
+    int str_min_roll;     // lower bound of success check; defaults to str_min ( may set default to 0 )
+    int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
+    int str_max_blocked;  
+    int num_tests;        // how many tests must succeed
+    int chance;
+    std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
+    std::string sound;    // sound made on success ('You hear a "smash!"')
+    std::string sound_fail; // sound  made on fail
+    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set("") {};
+    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+};
+
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
@@ -105,6 +129,9 @@ struct ter_t {
  iexamine_function examine; //What happens when the terrain is examined
  std::string open;          // open action: transform into terrain with matching id
  std::string close;         // close action: transform into terrain with matching id
+
+ map_bash_info bash;
+ 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
@@ -142,6 +169,8 @@ struct furn_t {
  std::string open;
  std::string close;
 
+ map_bash_info bash;
+ 
  bool has_flag(std::string flag) {
      return flags.count(flag) != 0;
  }
@@ -174,9 +203,6 @@ enum map_extra {
  mx_supplydrop,
  mx_portal,
  mx_minefield,
- mx_wolfpack,
- mx_cougar,
- mx_puddle,
  mx_crater,
  mx_fumarole,
  mx_portal_in,
@@ -187,7 +213,7 @@ enum map_extra {
 //Classic Extras is for when you have special zombies turned off.
 const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
   mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
-  mfb(mx_wolfpack) | mfb(mx_cougar) | mfb(mx_puddle) | mfb(mx_crater);
+  mfb(mx_crater);
 
 // Chances are relative to eachother; e.g. a 200 chance is twice as likely
 // as a 100 chance to appear.
@@ -201,9 +227,6 @@ const int map_extra_chance[num_map_extras + 1] = {
  10, // Supply drop
   5, // Portal
  70, // Minefield
- 30, // Wolf pack
- 40, // Cougar
-250, // Puddle
  10, // Crater
   8, // Fumarole
   7, // One-way portal into this world
@@ -216,7 +239,7 @@ struct map_extras {
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int stash = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0, int wolves = 0, int cougar = 0, int puddle = 0,
+            int portal = 0, int minefield = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
  {
@@ -229,14 +252,11 @@ struct map_extras {
   chances[ 6] = supply;
   chances[ 7] = portal;
   chances[ 8] = minefield;
-  chances[ 9] = wolves;
-  chances[10] = cougar;
-  chances[11] = puddle;
-  chances[12] = crater;
-  chances[13] = lava;
-  chances[14] = marloss;
-  chances[15] = anomaly;
-  chances[16] = 0;
+  chances[ 9] = crater;
+  chances[10] = lava;
+  chances[11] = marloss;
+  chances[12] = anomaly;
+  chances[13] = 0;
  }
 };
 
@@ -280,7 +300,8 @@ std::ostream & operator<<(std::ostream &, const submap &);
 void load_furniture(JsonObject &jsobj);
 void load_terrain(JsonObject &jsobj);
 
-
+void verify_furniture();
+void verify_terrain();
 
 /*
 runtime index: ter_id

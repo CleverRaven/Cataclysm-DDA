@@ -898,6 +898,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "caltrops",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "traps", 1 ],
+  "difficulty": 2,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 100], ["char_forge", 20]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "nailbat",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -12798,6 +12833,26 @@
     [
       [ "bandages", 2 ],
       [ "quikclot", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "jug_plastic",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "duct_tape", 10 ]
+    ],
+    [
+      [ "bottle_plastic", 5 ]
     ]
   ]
 },{

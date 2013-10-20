@@ -22,6 +22,7 @@ enum trap_id {
  tr_beartrap_buried,
  tr_snare,
  tr_nailboard,
+ tr_caltrops,
  tr_tripwire,
  tr_crossbow,
  tr_shotgun_2,
@@ -62,6 +63,7 @@ struct trapfunc {
     void snare_heavy    (game *g, int x, int y);
     void snare          (game *g, int x, int y) { };
     void board          (game *g, int x, int y);
+    void caltrops       (game *g, int x, int y);
     void tripwire       (game *g, int x, int y);
     void crossbow       (game *g, int x, int y);
     void shotgun        (game *g, int x, int y);
@@ -92,6 +94,7 @@ struct trapfuncm {
     void cot            (game *g, monster *z, int x, int y);
     void beartrap       (game *g, monster *z, int x, int y);
     void board          (game *g, monster *z, int x, int y);
+    void caltrops       (game *g, monster *z, int x, int y);
     void tripwire       (game *g, monster *z, int x, int y);
     void crossbow       (game *g, monster *z, int x, int y);
     void shotgun        (game *g, monster *z, int x, int y);

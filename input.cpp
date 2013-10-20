@@ -76,6 +76,36 @@ InputEvent get_input(int ch)
 
 }
 
+// Gets input from both keyboard and mouse
+mapped_input get_input_from_kyb_mouse()
+{
+    input_event raw_event;
+
+#if (defined TILES || defined SDLTILES)
+        raw_event = getch_kyb_mouse();
+#else
+        raw_event.type = CATA_INPUT_KEYBOARD;
+        raw_event.add_input(get_keypress());
+#endif
+
+    mapped_input mapped;
+    mapped.evt = raw_event;
+    if (raw_event.type != CATA_INPUT_MOUSE) {
+        mapped.command = get_input(raw_event.get_first_input());
+    }
+
+    return mapped;
+}
+
+bool is_mouse_enabled()
+{
+#if !(defined TILES || defined SDLTILES)
+    return false;
+#else
+    return true;
+#endif
+}
+
 void get_direction(int &x, int &y, InputEvent &input)
 {
     x = 0;
