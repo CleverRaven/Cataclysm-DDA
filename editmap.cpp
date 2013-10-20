@@ -288,7 +288,7 @@ point editmap::edit(point coords)
             origin = target;               // 'editmap.origin' only makes sense if we have a list of target points.
         }
         update_view(true);
-        uphelp("[t]rap, [f]ield, [HJKL] move++, [v] showall", "[g] terrain/furniture, [i]tems, [q]uit", "Looking around");
+        uphelp("[t]rap, [f]ield, [HJKL] move++, [v] showall", "[g] terrain/furn, [o] mapgen, [i]tems, [q]uit", "Looking around");
         timeout(BLINK_SPEED);
         ch = (int)getch();
       if(ch != ERR) {
