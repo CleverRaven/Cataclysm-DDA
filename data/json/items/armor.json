@@ -1276,7 +1276,7 @@
         "type" : "ARMOR",
         "id" : "armor_farmor",
         "name" : "fur body armor",
-        "weight" : 2614,
+        "weight" : 3414,
         "color" : "brown",
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "to_hit" : -5,
@@ -1292,7 +1292,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 3,
         "bashing" : 2,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 90,
         "material_thickness" : 5
     },
