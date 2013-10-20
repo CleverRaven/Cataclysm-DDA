@@ -9118,7 +9118,7 @@ void game::eat(char chInput)
  else
   ch = chInput;
 
- if (ch == ' ') {
+ if (ch == ' ' || ch == KEY_ESCAPE) {
   add_msg(_("Never mind."));
   return;
  }
