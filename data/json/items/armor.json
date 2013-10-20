@@ -1250,6 +1250,30 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "armor_larmor",
+        "name" : "leather body armor",
+        "weight" : 1928,
+        "color" : "brown",
+        "covers" : ["LEGS", "TORSO", "ARMS"],
+        "to_hit" : -5,
+        "storage" : 6,
+        "symbol" : "[",
+        "description" : "Thick leather body armor. Light and comfortable.",
+        "price" : 1000,
+        "material" : ["leather", "null"],
+        "volume" : 40,
+        "cutting" : 0,
+        "warmth" : 30,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 2,
+        "bashing" : 2,
+        "flags" : ["VARSIZE"],
+        "coverage" : 85,
+        "material_thickness" : 5
+    },
+    {
+        "type" : "ARMOR",
         "id" : "suit",
         "name" : "suit",
         "weight" : 1587,
@@ -2817,7 +2841,7 @@
         "encumbrance" : 0,
         "bashing" : -3,
         "coverage" : 40,
-        "material_thickness" : 2
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",

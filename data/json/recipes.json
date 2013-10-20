@@ -9263,7 +9263,8 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "fur", 18 ]
     ]
   ]
 },{
@@ -9286,7 +9287,8 @@
   ],
   "components": [
     [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "fur", 16 ]
     ]
   ]
 },{
@@ -10166,7 +10168,8 @@
   ],
   "components": [
     [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "fur", 6 ]
     ]
   ]
 },{
@@ -10466,6 +10469,30 @@
     [
       [ "leather", 20 ],
       [ "fur", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 42 ],
+      [ "fur", 42 ]
     ]
   ]
 },{
