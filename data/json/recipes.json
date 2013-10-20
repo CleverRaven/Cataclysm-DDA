@@ -17428,6 +17428,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pot_helmet",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "pot", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "juice",
   "category": "CC_DRINK",
   "skill_used": "cooking",
