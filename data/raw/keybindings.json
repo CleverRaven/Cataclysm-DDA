@@ -289,6 +289,20 @@
         ]
     },
     {
+        "id":"QUIT",
+        "name":"Exit Screen",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_3"
+            }
+        ]
+    },
+    {
         "id":"FIRE",
         "name":"Fire Weapon",
         "bindings":[
@@ -306,7 +320,7 @@
             },
             {
                 "input_method":"mouse",
-                "key":"MOUSE_LEFT"
+                "key":"MOUSE_RIGHT"
             }
         ]
     },
@@ -316,7 +330,7 @@
         "bindings":[
             {
                 "input_method":"mouse",
-                "key":"MOUSE_RIGHT"
+                "key":"MOUSE_LEFT"
             }
         ]
     },
