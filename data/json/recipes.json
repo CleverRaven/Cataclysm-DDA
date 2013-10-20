@@ -10102,6 +10102,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gauntlets_leather",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 4 ]
+    ],
+    [
+      [ "leather", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bandana",
   "category": "CC_ARMOR",
   "skill_used": "tailor",

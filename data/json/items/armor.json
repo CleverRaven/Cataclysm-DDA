@@ -2793,7 +2793,7 @@
         "encumbrance" : 0,
         "bashing" : -3,
         "coverage" : 40,
-        "material_thickness" : 1
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",
@@ -2936,6 +2936,30 @@
         "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 5
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "gauntlets_leather",
+        "name" : "leather armor gauntlets",
+        "weight" : 350,
+        "color" : "brown",
+        "covers" : ["HANDS"],
+        "to_hit" : -2,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Heavy fingerless leather gloves. Very flexible and comfortable.",
+        "price" : 340,
+        "material" : ["leather", "null"],
+        "volume" : 3,
+        "cutting" : 0,
+        "warmth" : 20,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "encumbrance" : 1,
+        "bashing" : 2,
+        "flags" : ["VARSIZE"],
+        "coverage" : 65,
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
