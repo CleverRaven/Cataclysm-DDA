@@ -2121,7 +2121,7 @@
     "type":"GENERIC",
     "id" : "tonfa",
     "name" : "tonfa",
-    "description" : "A plastic truncheon commonly employed by police. Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
+    "description" : "A hard plastic truncheon commonly employed by police. Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
     "weight" : 575,
     "to_hit" : 2,
     "color" : "dark_gray",
