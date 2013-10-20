@@ -6162,7 +6162,7 @@ void game::use_item(char chInput)
  else
   ch = chInput;
 
- if (ch == ' ') {
+ if (ch == ' ' || ch == KEY_ESCAPE) {
   add_msg(_("Never mind."));
   return;
  }
@@ -9118,7 +9118,7 @@ void game::eat(char chInput)
  else
   ch = chInput;
 
- if (ch == ' ') {
+ if (ch == ' ' || ch == KEY_ESCAPE) {
   add_msg(_("Never mind."));
   return;
  }
@@ -9153,6 +9153,11 @@ void game::takeoff(char chInput)
  else
   ch = chInput;
 
+ if (ch == ' ' || ch == KEY_ESCAPE) {
+  add_msg(_("Never mind."));
+  return;
+ }
+    
  if (u.takeoff(this, ch))
   u.moves -= 250; // TODO: Make this variable
  else
@@ -9439,6 +9444,11 @@ void game::wield(char chInput)
  else
   ch = chInput;
 
+ if (ch == ' ' || ch == KEY_ESCAPE) {
+  add_msg(_("Never mind."));
+  return;
+ }
+
  bool success = false;
  if (ch == '-')
   success = u.wield(this, -3);
@@ -9452,6 +9462,11 @@ void game::wield(char chInput)
 void game::read()
 {
  char ch = inv_type(_("Read:"), IC_BOOK);
+
+ if (ch == ' ' || ch == KEY_ESCAPE) {
+  add_msg(_("Never mind."));
+  return;
+ }
  u.read(this, ch);
 }
 
