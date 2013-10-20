@@ -370,8 +370,6 @@ void game::start_game()
  else
     turn += DAYS( (int) OPTIONS["SEASON_LENGTH"] * 3);
 
-
-
  run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
