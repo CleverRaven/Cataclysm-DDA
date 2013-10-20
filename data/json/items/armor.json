@@ -1311,7 +1311,7 @@
         "material" : ["leather", "plastic"],
         "volume" : 26,
         "cutting" : 0,
-        "warmth" : 20,
+        "warmth" : 25,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "encumbrance" : 1,
