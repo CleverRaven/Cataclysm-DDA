@@ -15398,34 +15398,34 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 250], ["char_forge", 50]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 250], ["char_forge", 50]
+     ]
+     ],
+  "components":
+   [
+    [
      [ "steel_lump", 8 ],
      [ "steel_chunk", 32 ],
      [ "scrap", 96 ]
-     ],
-     [
-      [ "fur", 16 ],
-      [ "leather", 16 ]
-     ]
+    ],
+    [
+     [ "fur", 16 ],
+     [ "leather", 16 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_plate",
@@ -15437,33 +15437,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 350], ["char_forge", 70]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 14 ],
-     [ "steel_chunk", 56 ]
+      ["tongs", -1]
      ],
      [
-      [ "fur", 4 ],
-      [ "leather", 4 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 14 ],
+     [ "steel_chunk", 56 ]
+    ],
+    [
+     [ "fur", 4 ],
+     [ "leather", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_barbute",
@@ -15475,33 +15475,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 10 ],
-     [ "steel_chunk", 40 ]
+      ["tongs", -1]
      ],
      [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 10 ],
+     [ "steel_chunk", 40 ]
+    ],
+    [
       [ "fur", 4 ],
       [ "leather", 4 ]
-     ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "armor_samurai",
@@ -15513,36 +15513,36 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 450], ["char_forge", 90]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 450], ["char_forge", 90]
+     ]
+    ],
+  "components":
+   [
+    [
      [ "steel_lump", 16 ],
      [ "steel_chunk", 64 ]
-     ],
-     [
-      [ "fur", 28 ],
-      [ "leather", 28 ]
-     ],
-     [
-      [ "rag", 10 ]
-     ]
+    ],
+    [
+     [ "fur", 28 ],
+     [ "leather", 28 ]
+    ],
+    [
+     [ "rag", 10 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_kabuto",
@@ -15554,35 +15554,35 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 450], ["char_forge", 90]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 12 ]
-     ],
-     [
-      [ "fur", 14 ],
-      [ "leather", 14 ]
-     ],
-     [
-      [ "rag", 4 ]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 12 ]
+    ],
+    [
+     [ "fur", 14 ],
+     [ "leather", 14 ]
+    ],
+    [
+     [ "rag", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "apron_leather",
@@ -15613,22 +15613,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 350], ["char_forge", 70]
-      ]
-      ],
+     ]
+    ],
   "components": [
     [
      [ "steel_lump", 1 ],
@@ -15769,13 +15769,13 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 6 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 6 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15783,10 +15783,10 @@
       [ "ragpouch", 4 ],
       [ "leather_pouch", 2 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 50 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15802,24 +15802,24 @@
     {"name":"CUT","level":1,"amount":1}
   ],
   "tools": [
-      [
+     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
-      ],
-      [
+     ],
+     [
       [ "needle_bone", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 30 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15827,15 +15827,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 200 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15851,27 +15851,27 @@
     {"name":"CUT","level":1,"amount":1}
   ],
   "tools": [
-      [
+     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
-      ],
-      [
+     ],
+     [
       [ "needle_bone", 150 ],
       [ "sewing_kit", 150 ]
-      ]
+     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 20 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15879,15 +15879,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15915,20 +15915,20 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 20 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 4 ],
       [ "scrap", 8 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15936,15 +15936,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15979,19 +15979,19 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 10 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "fur", 20 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15999,15 +15999,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16042,28 +16042,28 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "helmet_liner", 1 ],
       [ "hat_cotton", 1 ],
       [ "rag", 3 ]
-      ],
-      [
+     ],
+     [
       [ "tac_helmet", 1 ],
       [ "helmet_army", 1 ],
       [ "kevlar_plate", 6 ]
-      ],
-      [
+     ],
+     [
       [ "hood_rain", 1 ],
       [ "bag_plastic", 2 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 75 ]
-      ],
-      [
+     ],
+     [
       [ "helmet_riot", 1 ],
       [ "helmet_motor", 1 ],
       [ "helmet_football", 1 ],
@@ -16072,7 +16072,7 @@
       [ "helmet_bike", 1 ],
       [ "hat_hard", 1 ],
       [ "plastic_chunk", 8 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16107,29 +16107,29 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 2 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 2 ]
-      ],
-      [
+     ],
+     [
       [ "scrap", 4 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 50 ]
-      ],
-      [
+     ],
+     [
       [ "gloves_tactical", 1 ],
       [ "kevlar_plate", 4 ]
-      ],
-      [
+     ],
+     [
       [ "gloves_leather", 1 ],
       [ "gloves_light", 1 ],
       [ "gloves_liner", 1 ],
       [ "wetsuit_gloves", 1 ],
       [ "fire_gauntlets", 1 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16164,25 +16164,25 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 4 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 4 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 4 ],
       [ "scrap", 12 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 100 ]
-      ],
-      [
+     ],
+     [
       [ "boots_combat", 1 ],
       [ "boots_steel", 1 ],
       [ "boots_hiking", 1 ],
       [ "boots", 1 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16205,17 +16205,17 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "cleansuit", 1 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 600 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16238,17 +16238,17 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "hazmat_suit", 1 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 800 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16559,37 +16559,42 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 10 ],
       [ "soldering_iron", 100 ]
-      ] ],
+     ]
+    ],
   "components":
+   [
+    [ 
+     ["pilot_light", 1]
+    ],
     [
-     [ ["pilot_light", 1] ],
-     [
      [ "steel_lump", 3 ],
      [ "steel_chunk", 12 ],
      [ "scrap", 36 ]
-     ],
-     [ [ "metal_tank", 1 ]
-     ],
-     [ ["pipe", 3]
-     ]
-  ]
+    ],
+    [ 
+     [ "metal_tank", 1 ]
+    ],
+    [ 
+     [ "pipe", 3]
+    ]
+   ]
 },{
         "type" : "recipe",
   "result": "char_smoker",
@@ -16602,34 +16607,35 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 5 ],
       [ "soldering_iron", 50 ]
-      ] ],
-  "components":
-     [
-     [ ["pilot_light", 1] 
-     ],
-     [
-     [ "scrap", 4 ]
-     ],
-     [
-     [ "metal_tank", 1 ]
      ]
+    ],
+  "components":
+    [
+     [ ["pilot_light", 1] 
+    ],
+    [
+     [ "scrap", 4 ]
+    ],
+    [
+     [ "metal_tank", 1 ]
+    ]
   ]
 },{
         "type" : "recipe",
@@ -17055,7 +17061,7 @@
         [ "fire", -1 ],
         [ "toolset", 1 ],
         [ "press", 2 ]
-          ]
+      ]
     ],
     "components": [
       [
