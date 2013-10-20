@@ -1139,6 +1139,11 @@ bool map::has_flag(std::string flag, const int x, const int y)
  return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
 }
 
+bool map::can_put_items(const int x, const int y)
+{
+    return !has_flag("NOITEM", x, y) && !has_flag("SEALED", x, y);
+}
+
 bool map::has_flag_ter(std::string flag, const int x, const int y)
 {
  return terlist[ter(x, y)].has_flag(flag);

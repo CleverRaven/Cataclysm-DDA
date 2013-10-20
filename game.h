@@ -252,6 +252,10 @@ class game
   void peek();
   point look_debug(point pnt=point(-256,-256));
   point look_around();// Look at nearby terrain ';'
+
+  // Shared method to print "look around" info
+  void print_all_tile_info(int lx, int ly, WINDOW* w_look, int column, int &line, bool mouse_hover);
+
   void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
   int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
@@ -489,6 +493,13 @@ void load_artifacts(); // Load artifact data
   void chat(); // Talk to a nearby NPC  'C'
   void plthrow(char chInput = '.'); // Throw an item  't'
 
+  // Internal methods to show "look around" info
+  void print_fields_info(int lx, int ly, WINDOW* w_look, int column, int &line);
+  void print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line);
+  void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
+  void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
 // returns a Bresenham line to that square.  It is called by plfire() and

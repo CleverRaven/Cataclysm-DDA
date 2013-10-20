@@ -171,7 +171,7 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w, int vStart)
+int monster::print_info(game *g, WINDOW* w, int vStart /*= 6*/, int column /*= 1*/)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -182,7 +182,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
 
  const int vEnd = vStart + 5; // TODO: parameterize this
 
- mvwprintz(w, vStart, 1, c_white, "%s ", type->name.c_str());
+ mvwprintz(w, vStart++, column, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
   case MATT_FRIEND:
    wprintz(w, h_white, _("Friendly! "));
@@ -230,13 +230,14 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
   damage_info = _("it is nearly dead");
   col = c_red;
  }
- mvwprintz(w, vStart+1, 1, col, damage_info.c_str());
+ mvwprintz(w, vStart++, column, col, damage_info.c_str());
 
-    int line = vStart + 2;
-    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 2);
+    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
     int numlines = lines.size();
-    for (int i = 0; i < numlines && line <= vEnd; i++, line++)
-        mvwprintz(w, line, 1, c_white, lines[i].c_str());
+    for (int i = 0; i < numlines && vStart <= vEnd; i++)
+        mvwprintz(w, vStart++, column, c_white, lines[i].c_str());
+
+    return vStart;
 }
 
 char monster::symbol()

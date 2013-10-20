@@ -1015,10 +1015,10 @@ nc_color vehicle::part_color (int p)
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
+int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -1*/)
 {
     if (p < 0 || p >= parts.size()) {
-        return;
+        return y1;
     }
     std::vector<int> pl = this->parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
     int y = y1;
@@ -1081,6 +1081,8 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
         }
         y++;
     }
+
+    return y;
 }
 
 void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose)

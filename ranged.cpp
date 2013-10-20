@@ -709,7 +709,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
  if (is_mouse_enabled()) {
      mvwprintz(w_target, text_y++, 1, c_white,
-         _("Mouse - LMB: Target, Wheel: Cycle, RMB: Fire"));
+         _("Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"));
  }
 
  wrefresh(w_target);

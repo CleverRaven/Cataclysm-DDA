@@ -309,8 +309,8 @@ void game::init_ui(){
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
 
-    if (mouseview_h > 3) {
-        liveview.init(_x + minimapX, mouseview_y, sidebarWidth, mouseview_h);
+    if (mouseview_h > 2) {
+        liveview.init(this, _x + minimapX, mouseview_y, sidebarWidth, mouseview_h);
     }
 }
 
@@ -1641,7 +1641,7 @@ bool game::handle_mouseview(const mapped_input &minput)
                 write_msg();
             }
         } else {
-            liveview.show();
+            liveview.show(minput.evt.mouse_x, minput.evt.mouse_y);
         }
     } else if (minput.evt.type == CATA_INPUT_KEYBOARD && minput.evt.is_valid_input()) {
         liveview.hide();
@@ -6661,6 +6661,158 @@ point game::look_debug(point coords) {
   return ret;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
+
+void game::print_all_tile_info(int lx, int ly, WINDOW* w_look, int column, int &line, bool mouse_hover)
+{
+    print_terrain_info(lx, ly, w_look, column, line);
+    print_fields_info(lx, ly, w_look, column, line);
+    print_trap_info(lx, ly, w_look, column, line);
+    print_object_info(lx, ly, w_look, column, line, mouse_hover);
+}
+
+void game::print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line)
+{
+    int ending_line = line + 3;
+    std::string tile = m.tername(lx, ly);
+    if (m.has_furn(lx, ly)) {
+        tile += "; " + m.furnname(lx, ly);
+    }
+
+    if (m.move_cost(lx, ly) == 0) {
+        mvwprintw(w_look, line, column, _("%s; Impassable"), tile.c_str());
+    } else {
+        mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
+            m.move_cost(lx, ly) * 50);
+    }
+    mvwprintw(w_look, ++line, column, "%s", m.features(lx, ly).c_str());
+    if (line < ending_line) {
+        line = ending_line;
+    }
+}
+
+void game::print_fields_info(int lx, int ly, WINDOW* w_look, int column, int &line)
+{
+    field &tmpfield = m.field_at(lx, ly);
+    if (tmpfield.fieldCount() == 0) {
+        return;
+    }
+
+    field_entry *cur = NULL;
+    typedef std::map<field_id, field_entry*>::iterator field_iterator;
+    for (field_iterator it = tmpfield.getFieldStart(); it != tmpfield.getFieldEnd(); ++it) {
+        cur = it->second;
+        if (cur == NULL) {
+            continue;
+        }
+        mvwprintz(w_look, line++, column, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "%s",
+            fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str());
+    }
+}
+
+void game::print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line)
+{
+    trap_id trapid = m.tr_at(lx, ly);
+    if (trapid == tr_null) {
+        return;
+    }
+
+    int vis = traps[trapid]->visibility;
+    if (vis == -1 || u.per_cur - u.encumb(bp_eyes) >= vis) {
+        mvwprintz(w_look, line++, column, traps[trapid]->color, "%s", traps[trapid]->name.c_str());
+    }
+}
+
+void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
+{
+    int veh_part = 0;
+    vehicle *veh = m.veh_at(lx, ly, veh_part);
+    int dex = mon_at(lx, ly);
+    if (dex != -1 && u_see(&zombie(dex)))
+    {
+        if (!mouse_hover) {
+            zombie(dex).draw(w_terrain, lx, ly, true);
+        }
+        line = zombie(dex).print_info(this, w_look, line, column);
+        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
+    }
+    else if (npc_at(lx, ly) != -1)
+    {
+        if (!mouse_hover) {
+            active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
+        }
+        line = active_npc[npc_at(lx, ly)]->print_info(w_look, column, line);
+        handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
+    }
+    else if (veh)
+    {
+        mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
+        line = veh->print_part_desc(w_look, line, (mouse_hover) ? w_look->width : 48, veh_part);
+        if (!mouse_hover) {
+            m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+        }
+    }
+    else if (!m.has_flag("CONTAINER", lx, ly) && m.i_at(lx, ly).size() > 0)
+    {
+        if (!mouse_hover) {
+            mvwprintw(w_look, line++, column, _("There is a %s there."),
+                m.i_at(lx, ly)[0].tname(this).c_str());
+            if (m.i_at(lx, ly).size() > 1)
+            {
+                mvwprintw(w_look, line++, column, _("There are other items there as well."));
+            }
+            m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+        }
+    } else if (m.has_flag("CONTAINER", lx, ly)) {
+        mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
+        if (!mouse_hover) {
+            m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
+        }
+    }
+    // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
+    // Should not be putting the "You (name)" at this location
+    // Changing it to reflect actual position not view-center position
+    else if (lx == u.posx && ly == u.posy )
+    {
+        int x,y;
+        x = getmaxx(w_terrain)/2 - u.view_offset_x;
+        y = getmaxy(w_terrain)/2 - u.view_offset_y;
+        if (!mouse_hover) {
+            mvwputch_inv(w_terrain, y, x, u.color(), '@');
+        }
+
+        mvwprintw(w_look, line++, column, _("You (%s)"), u.name.c_str());
+        if (veh) {
+            mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
+            line = veh->print_part_desc(w_look, line, (mouse_hover) ? w_look->width : 48, veh_part);
+            if (!mouse_hover) {
+                m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+            }
+        }
+
+    }
+    else if (!mouse_hover)
+    {
+        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+    }
+}
+
+void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
+{
+    if (!m.has_flag("CONTAINER", lx, ly))
+    {
+        if (!mouse_hover) {
+            if (m.i_at(lx, ly).size() > 1) {
+                mvwprintw(w_look, line++, column, _("There are several items there."));
+            } else if (m.i_at(lx, ly).size() == 1) {
+                mvwprintw(w_look, line++, column, _("There is an item there."));
+            }
+        }
+    } else {
+        mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
+    }
+}
+
+
 point game::look_around()
 {
  draw_ter();
@@ -6687,127 +6839,16 @@ point game::look_around()
     mvwputch(w_look, i, j, c_white, ' ');
   }
 
-  // Debug helper
-  //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
   int junk;
-  int veh_part = 0;
-  int off = 4;
-  vehicle *veh = m.veh_at(lx, ly, veh_part);
+  int off = 1;
   if (u_see(lx, ly)) {
-   std::string tile = m.tername(lx, ly);
-   if (m.has_furn(lx, ly))
-    tile += "; " + m.furnname(lx, ly);
+      print_all_tile_info(lx, ly, w_look, 1, off, false);
 
-   if (m.move_cost(lx, ly) == 0)
-    mvwprintw(w_look, 1, 1, _("%s; Impassable"), tile.c_str());
-   else
-    mvwprintw(w_look, 1, 1, _("%s; Movement cost %d"), tile.c_str(),
-                                                    m.move_cost(lx, ly) * 50);
-   mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
-
-   field &tmpfield = m.field_at(lx, ly);
-
-   if (tmpfield.fieldCount() > 0) {
-        field_entry *cur = NULL;
-        for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
-            cur = field_list_it->second;
-            if(cur == NULL) continue;
-            mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "%s",
-                fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str());
-            off++; // 4ish
-        }
-    }
-   //if (tmpfield.type != fd_null)
-   // mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1],
-   //           "%s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
-
-   if (m.tr_at(lx, ly) != tr_null && (traps[m.tr_at(lx, ly)]->visibility == -1 ||
-       u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(lx, ly)]->visibility))
-    mvwprintz(w_look, ++off, 1, traps[m.tr_at(lx, ly)]->color, "%s",
-              traps[m.tr_at(lx, ly)]->name.c_str());
-
-   int dex = mon_at(lx, ly);
-   if (dex != -1 && u_see(&zombie(dex)))
-   {
-       zombie(dex).draw(w_terrain, lx, ly, true);
-       zombie(dex).print_info(this, w_look);
-       if (!m.has_flag("CONTAINER", lx, ly))
-       {
-           if (m.i_at(lx, ly).size() > 1)
-           {
-               mvwprintw(w_look, 3, 1, _("There are several items there."));
-           }
-           else if (m.i_at(lx, ly).size() == 1)
-           {
-               mvwprintw(w_look, 3, 1, _("There is an item there."));
-           }
-       } else {
-           mvwprintw(w_look, 3, 1, _("You cannot see what is inside of it."));
-       }
-   }
-   else if (npc_at(lx, ly) != -1)
-   {
-       active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
-       active_npc[npc_at(lx, ly)]->print_info(w_look);
-       if (!m.has_flag("CONTAINER", lx, ly))
-       {
-           if (m.i_at(lx, ly).size() > 1)
-           {
-               mvwprintw(w_look, 3, 1, _("There are several items there."));
-           }
-           else if (m.i_at(lx, ly).size() == 1)
-           {
-               mvwprintw(w_look, 3, 1, _("There is an item there."));
-           }
-       } else {
-           mvwprintw(w_look, 3, 1, _("You cannot see what is inside of it."));
-       }
-   }
-   else if (veh)
-   {
-       mvwprintw(w_look, 3, 1, _("There is a %s there. Parts:"), veh->name.c_str());
-       veh->print_part_desc(w_look, ++off, 48, veh_part);
-       m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   }
-   else if (!m.has_flag("CONTAINER", lx, ly) && m.i_at(lx, ly).size() > 0)
-   {
-       mvwprintw(w_look, 3, 1, _("There is a %s there."),
-                 m.i_at(lx, ly)[0].tname(this).c_str());
-       if (m.i_at(lx, ly).size() > 1)
-       {
-           mvwprintw(w_look, ++off, 1, _("There are other items there as well."));
-       }
-       m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   } else if (m.has_flag("CONTAINER", lx, ly)) {
-       mvwprintw(w_look, 3, 1, _("You cannot see what is inside of it."));
-       m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
-   }
-   // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
-   // Should not be putting the "You (name)" at this location
-   // Changing it to reflect actual position not view-center position
-   else if (lx == u.posx && ly == u.posy )
-   {
-       int x,y;
-       x = getmaxx(w_terrain)/2 - u.view_offset_x;
-       y = getmaxy(w_terrain)/2 - u.view_offset_y;
-       mvwputch_inv(w_terrain, y, x, u.color(), '@');
-
-       mvwprintw(w_look, 1, 1, _("You (%s)"), u.name.c_str());
-       if (veh) {
-           mvwprintw(w_look, 3, 1, _("There is a %s there. Parts:"), veh->name.c_str());
-           veh->print_part_desc(w_look, 4, 48, veh_part);
-           m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-       }
-
-   }
-   else
-   {
-       m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   }
   } else if (u.sight_impaired() &&
               m.light_at(lx, ly) == LL_BRIGHT &&
               rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
-              m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk)) {
+              m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk))
+  {
    if (u.has_disease("boomered"))
     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
    else
@@ -8577,7 +8618,7 @@ void game::drop_in_direction()
         to_veh = veh_part >= 0;
     }
 
-    if (m.has_flag("NOITEM", dirx, diry) || m.has_flag("SEALED", dirx, diry)) {
+    if (!m.can_put_items(dirx, diry)) {
         add_msg(_("You can't place items there!"));
         return;
     }

@@ -272,7 +272,7 @@ public:
     nc_color part_color (int p);
 
 // Vehicle parts description
-    void print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1);
+    int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1);
 
 // Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
     void print_fuel_indicator (void *w, int y, int x, bool fullsize = false, bool verbose = false);

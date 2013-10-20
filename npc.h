@@ -379,7 +379,7 @@ public:
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);
- void print_info(WINDOW* w);
+ int print_info(WINDOW* w, int column = 1, int line = 6);
  std::string short_description();
  std::string opinion_text();
 
