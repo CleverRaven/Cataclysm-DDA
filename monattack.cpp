@@ -1620,6 +1620,16 @@ void mattack::bite(game *g, monster *z) {
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
+void mattack::brandish(game *g, monster *z){
+    int linet;
+    if (!g->sees_u(z->posx(), z->posy(), linet)){
+        return; // Only brandish if we can see you!
+    }
+    z->sp_timeout = 10000; // Reset timer
+    g->add_msg("He's brandishing a knife!");
+    g->add_msg("Quiet, quiet");
+}
+
 void mattack::flesh_golem(game *g, monster *z)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
