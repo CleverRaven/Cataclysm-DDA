@@ -17428,6 +17428,24 @@
   ]
 },{
         "type" : "recipe",
+  "result" : "tonfa",
+  "category" : "CC_AMMO",
+  "skill_used" : "fabrication",
+  "skills_required" : ["melee", 1],
+  "difficulty" : 6,
+  "time" : 30000,
+  "reversible" : false,
+  "autolearn" : true,
+  "tools" : [ [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components" : [ [ ["plastic_chunk", 10] ] ]
+},{
+        "type" : "recipe",
   "result": "juice",
   "category": "CC_DRINK",
   "skill_used": "cooking",
