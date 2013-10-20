@@ -173,8 +173,8 @@ endif
 ifdef LUA
   # TODO: Support systems other than arch linux
   #       (alternatively, expect them to use CMake =)
-  LDFLAGS += -llua5.1
-  CXXFLAGS += -I/usr/include/lua5.1 -DLUA
+  LDFLAGS += $(shell pkg-config --libs lua5.1)
+  CXXFLAGS += $(shell pkg-config --cflags lua5.1) -DLUA
 endif
 
 ifdef TILES
