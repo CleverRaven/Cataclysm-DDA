@@ -338,7 +338,7 @@ void game::setup()
  messages.clear();
  events.clear();
 
- turn.set_season(SUMMER);    // ... with winter conveniently a long ways off
+ turn.set_season(SUMMER);    // ... with winter conveniently a long ways off   (not sure if we need this...)
 
  // reset kill counts
  kills.clear();
@@ -361,6 +361,17 @@ void game::setup()
 void game::start_game()
 {
  turn = HOURS(OPTIONS["INITIAL_TIME"]);
+
+ if (OPTIONS["INITIAL_SEASON"].getValue() == "spring");
+ else if (OPTIONS["INITIAL_SEASON"].getValue() == "summer")
+    turn += DAYS( (int) OPTIONS["SEASON_LENGTH"]);
+ else if (OPTIONS["INITIAL_SEASON"].getValue() == "autumn")
+    turn += DAYS( (int) OPTIONS["SEASON_LENGTH"] * 2);
+ else
+    turn += DAYS( (int) OPTIONS["SEASON_LENGTH"] * 3);
+
+
+
  run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -4309,7 +4320,7 @@ bool game::pl_sees(player *p, monster *mon, int &t)
 {
  // TODO: [lightmap] Allow npcs to use the lightmap
  if ((mon->has_flag(MF_DIGS) || (mon->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", mon->posx(), mon->posy()))) &&
-      !p->has_active_bionic("bio_ground_sonar") && 
+      !p->has_active_bionic("bio_ground_sonar") &&
        rl_dist(p->posx, p->posy, mon->posx(), mon->posy()) > 1)
   return false; // Can't see digging monsters until we're right next to them
  int range = p->sight_range(light_level());
@@ -8022,7 +8033,7 @@ void game::grab()
         if( veh ) {
             add_msg(_("You release the %s."), veh->name.c_str() );
         } else if ( m.can_move_furniture( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
-            add_msg(_("You release the %s."), m.furnname( u.posx + u.grab_point.x, u.posy + u.grab_point.y ).c_str() ); 
+            add_msg(_("You release the %s."), m.furnname( u.posx + u.grab_point.x, u.posy + u.grab_point.y ).c_str() );
         }
         u.grab_point.x = 0;
         u.grab_point.y = 0;
@@ -9667,8 +9678,8 @@ void game::plmove(int dx, int dy)
  int vpart0 = -1, vpart1 = -1, dpart = -1;
  vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);
  vehicle *veh1 = m.veh_at(x, y, vpart1);
- bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0 
- bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0 
+ bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
+ bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
  bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
  int movecost_modifier = 0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
@@ -9830,11 +9841,11 @@ void game::plmove(int dx, int dy)
           u.grab_type = OBJECT_NONE;
       } else {
           point fdest( fpos.x + dx, fpos.y + dy ); // intended destination of furniture.
-          
+
           // unfortunately, game::is_empty fails for tiles we're standing on, which will forbid pulling, so:
           bool canmove = (
                ( m.move_cost(fdest.x, fdest.y) > 0 || m.has_flag("LIQUID", fdest.x, fdest.y) ) &&
-               npc_at(fdest.x, fdest.y) == -1 && 
+               npc_at(fdest.x, fdest.y) == -1 &&
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
                !m.has_furn(fdest.x, fdest.y) &&
@@ -9846,7 +9857,7 @@ void game::plmove(int dx, int dy)
           const int src_items = m.i_at(fpos.x, fpos.y).size();
           const int dst_items = m.i_at(fdest.x, fdest.y).size();
           bool dst_item_ok = ( ! m.has_flag("NOITEM", fdest.x, fdest.y) &&
-                               ! m.has_flag("SWIMMABLE", fdest.x, fdest.y) && 
+                               ! m.has_flag("SWIMMABLE", fdest.x, fdest.y) &&
                                ! m.has_flag("DESTROY_ITEM", fdest.x, fdest.y) );
           bool src_item_ok = ( m.furn_at(fpos.x, fpos.y).has_flag("CONTAINER") ||
                                m.furn_at(fpos.x, fpos.y).has_flag("SEALED") );
@@ -9864,7 +9875,7 @@ void game::plmove(int dx, int dy)
               u.moves -= 50; // "oh was that your stuffed parrot? Sorry :-O"
               return;
           }
-          
+
           if ( pulling_furniture ) { // normalize movecost for pulling: furniture moves into our current square -then- we move away
               if ( furncost < 0 ) {  // this will make our exit-tile move cost 0
                    movecost_modifier += m.ter_at(fpos.x, fpos.y).movecost; // so add the base cost of our exit-tile's terrain.
@@ -9899,7 +9910,7 @@ void game::plmove(int dx, int dy)
           }
 
           if ( shifting_furniture ) { // we didn't move
-              if ( abs( u.grab_point.x + dx ) < 2 && abs( u.grab_point.y + dy ) < 2 ) { 
+              if ( abs( u.grab_point.x + dx ) < 2 && abs( u.grab_point.y + dy ) < 2 ) {
                   u.grab_point = point ( u.grab_point.x + dx , u.grab_point.y + dy ); // furniture moved relative to us
               } else { // we pushed furniture out of reach
                   add_msg( _("You let go of the %s"), furntype.name.c_str() );
@@ -9918,7 +9929,7 @@ void game::plmove(int dx, int dy)
        add_msg( _("Nothing at grabbed point %d,%d."),u.grab_point.x,u.grab_point.y );
        u.grab_point.x = 0;
        u.grab_point.y = 0;
-       u.grab_type = OBJECT_NONE;      
+       u.grab_type = OBJECT_NONE;
     }
   }
 
@@ -11306,7 +11317,7 @@ bool game::spread_fungus(int x, int y)
             for (int j = y - 1; j <= y + 1; j++) {
                 // One spread on average
                 if (!m.has_flag("FUNGUS", i, j) && one_in(9 - growth)) {
-                    //growth chance is 100 in X simplified 
+                    //growth chance is 100 in X simplified
                     if (m.has_flag("DIGGABLE", i, j)) {
                         m.ter_set(i, j, t_fungus);
                         converted = true;
