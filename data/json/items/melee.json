@@ -2119,6 +2119,22 @@
   },
   {
     "type":"GENERIC",
+    "id" : "tonfa",
+    "name" : "tonfa",
+    "description" : "A plastic truncheon commonly employed by police. Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
+    "weight" : 575,
+    "to_hit" : 2,
+    "color" : "dark_gray",
+    "symbol" : "/",
+    "material" : ["plastic", "null"],
+    "techniques" : ["WBLOCK_2"],
+    "volume" : 8,
+    "bashing" : 13,
+    "cutting" : 0,
+    "price" : 195
+  },
+  {
+    "type":"GENERIC",
     "id" : "cu_pipe",
     "name" : "copper tubing",
     "description" : "A copper tube, too thin to be much use ad a melee weapon, but will do if nothing else is available. Useful in a few crafting recipes.",

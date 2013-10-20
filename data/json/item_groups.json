@@ -2148,6 +2148,7 @@
       ["tazer", 3],
       ["shot_beanbag", 15],
       ["tac_helmet", 15],
+      ["tonfa", 20],
       ["swat_armor", 10]
     ]
   },{
@@ -3488,6 +3489,7 @@
       ["e_tool", 2],
       ["knife_trench", 7],
       ["switchblade", 4],
+      ["tonfa", 10],
       ["nodachi", 1]
     ]
   },{
@@ -4032,6 +4034,7 @@
       ["baton", 8],
       ["tazer", 3],
       ["kevlar_plate", 10],
+      ["tonfa", 10],
       ["alloy_plate", 10]
     ]
   },{
