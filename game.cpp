@@ -9153,6 +9153,11 @@ void game::takeoff(char chInput)
  else
   ch = chInput;
 
+ if (ch == ' ' || ch == KEY_ESCAPE) {
+  add_msg(_("Never mind."));
+  return;
+ }
+    
  if (u.takeoff(this, ch))
   u.moves -= 250; // TODO: Make this variable
  else
