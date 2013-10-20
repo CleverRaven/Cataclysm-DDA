@@ -407,6 +407,8 @@
 		<Unit filename="weather_data.cpp" />
 		<Unit filename="wincurse.cpp" />
 		<Unit filename="wish.cpp" />
+		<Unit filename="worldfactory.cpp" />
+		<Unit filename="worldfactory.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
