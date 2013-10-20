@@ -5571,7 +5571,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : 6,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 4
     },
