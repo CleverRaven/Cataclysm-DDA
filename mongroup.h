@@ -19,6 +19,7 @@ struct MonsterGroupEntry
     int cost_multiplier;
     int pack_minimum;
     int pack_maximum;
+    std::vector<std::string> conditions;
 
     MonsterGroupEntry(std::string new_name, int new_freq, int new_cost, 
                       int new_pack_max, int new_pack_min){

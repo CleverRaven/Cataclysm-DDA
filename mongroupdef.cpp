@@ -54,6 +54,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
         if(OPTIONS["CLASSIC_ZOMBIES"]){
             valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
         }
+        //Check to insure the various conditions for this spawn definition are met
+        for(std::vector<std::string>::iterator condition = it->conditions.begin(); condition != it->conditions.end(); ++condition){
+            
+        }
 
         //If the entry was valid, check to see if we actually spawn it
         if(valid_entry){
