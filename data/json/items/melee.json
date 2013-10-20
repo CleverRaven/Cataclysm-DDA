@@ -2127,7 +2127,7 @@
     "color" : "dark_gray",
     "symbol" : "/",
     "material" : ["plastic", "null"],
-        "techniques" : ["WBLOCK_2", "RAPID"],
+    "techniques" : ["WBLOCK_2", "RAPID"],
     "volume" : 8,
     "bashing" : 13,
     "cutting" : 0,
