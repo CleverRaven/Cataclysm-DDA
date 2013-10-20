@@ -2,6 +2,49 @@
 #include "color.h"
 #include "init.h"
 #include <ostream>
+#include "catacharset.h"
+////////////////////////////////////////////////////////
+long utf8string2long( std::string str, std::string & err ) {
+    const char *cstr = str.c_str();
+    int bytecount = sizeof(cstr);
+    if ( bytecount < 1 || bytecount > 5 ) {
+        err += "too many characters: '" + str + "'";
+        return 0; // obviously not 1 symbol
+    } else if ( utf8_width( cstr ) != 1 ) {
+        err += "symbol '" + str + "' is too wide";
+        return 0; // don't allow alignment-busting tile symbols
+    }
+    const char **inptr = &cstr;
+    unsigned char *in;
+    unsigned int uc, uc2;
+    int need = 0, bit = 0x80;
+
+    in = (unsigned char *)(* inptr);
+    uc = *in++;
+    while(uc & bit) {
+        need++;
+        bit >>= 1;
+    }
+    uc &= (bit - 1);
+    if (bytecount && bytecount < need) {
+        err += "truncated multi-byte string";
+        return 0; // short, how did this happen?
+    } else if (need == 1) {
+        err += "invalid utf8 string";
+        return 0; // invalid utf
+    } else if (need) {
+        while(--need) {
+            uc2 = *in++;
+            if ((uc2 & 0xc0) != 0x80) {
+                err += "invalid utf8 string";
+                return 0; // invalid utf
+            }
+            uc = ((uc << 6) | (uc2 & 0x3f));
+        }
+    }
+    return (long)uc;
+}
+///////
 
 std::vector<ter_t> terlist;
 std::map<std::string, ter_t> termap;
@@ -136,6 +179,17 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.name = _(jsobj.get_string("name").c_str());
   new_furniture.sym = jsobj.get_string("symbol").c_str()[0];
 
+  new_furniture.usym = 0;
+  if (jsobj.has_string("utfsymbol") ) {
+      std::string err = "";
+      long usym = utf8string2long( jsobj.get_string("utfsymbol"), err );
+      if ( usym == 0 ) {
+          debugmsg("furniture[%s].utfsymbol: %s",new_furniture.id.c_str(), err.c_str() );
+      } else {
+          new_furniture.usym = usym;
+      }
+  }
+
   bool has_color = jsobj.has_member("color");
   bool has_bgcolor = jsobj.has_member("bgcolor");
   if(has_color && has_bgcolor) {
@@ -180,7 +234,6 @@ void load_furniture(JsonObject &jsobj)
   furnmap[new_furniture.id] = new_furniture;
   furnlist.push_back(new_furniture);
 }
-
 void load_terrain(JsonObject &jsobj)
 {
   ter_t new_terrain;
@@ -196,7 +249,16 @@ void load_terrain(JsonObject &jsobj)
   } else {
     new_terrain.sym = symbol.c_str()[0];
   }
-
+  new_terrain.usym = 0;
+  if (jsobj.has_string("utfsymbol") ) {
+      std::string err = "";
+      long usym = utf8string2long( jsobj.get_string("utfsymbol"), err  );
+      if ( usym == 0 ) {
+          debugmsg("terrain[%s].utfsymbol: %s",new_terrain.id.c_str(), err.c_str() );
+      } else {
+          new_terrain.usym = usym;
+      }
+  }
   new_terrain.color = color_from_string(jsobj.get_string("color"));
   new_terrain.movecost = jsobj.get_int("move_cost");
 

@@ -2899,12 +2899,20 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  bool graf = false;
  bool normal_tercol = false, drew_field = false;
 
-
+bool utf=false;
  if (has_furn(x, y)) {
   sym = furnlist[curr_furn].sym;
+  if (furnlist[curr_furn].usym != 0) {
+      sym = furnlist[curr_furn].usym;
+      utf = true;
+  }
   tercol = furnlist[curr_furn].color;
  } else {
   sym = terlist[curr_ter].sym;
+  if (terlist[curr_ter].usym != 0) {
+      sym = terlist[curr_ter].usym;
+      utf = true;
+  }
   tercol = terlist[curr_ter].color;
  }
  if (u.has_disease("boomered"))
@@ -2931,6 +2939,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
    }
   } else
    sym = (*traps)[curr_trap]->sym;
+  utf = false;
  }
 // If there's a field here, draw that instead (unless its symbol is %)
  if (curr_field.fieldCount() > 0 && curr_field.findField(curr_field.fieldSymbol()) &&
@@ -2949,6 +2958,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
              curr_items.size() > 0) {
    sym = fieldlist[curr_field.fieldSymbol()].sym;
    drew_field = false;
+   utf = false;
   }
  }
 // If there's items here, draw those instead
@@ -2960,6 +2970,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
    if (curr_items.size() > 1)
     invert = !invert;
    sym = curr_items[curr_items.size() - 1].symbol();
+   utf = false;
   }
  }
 
@@ -2967,6 +2978,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  vehicle *veh = veh_at(x, y, veh_part);
  if (veh) {
   sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
+  utf = false;
   if (normal_tercol)
    tercol = veh->part_color(veh_part);
  }
@@ -2977,15 +2989,16 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
  if(sym == LINE_XOXO || sym == LINE_OXOX)//vertical or horizontal
   sym = determine_wall_corner(x, y, sym);
-
  if (invert)
-  mvwputch_inv(w, j, k, tercol, sym);
+  mvwtile_inv(w, j, k, tercol, sym);
  else if (hi)
-  mvwputch_hi (w, j, k, tercol, sym);
+  mvwtile_hi (w, j, k, tercol, sym);
  else if (graf)
-  mvwputch    (w, j, k, red_background(tercol), sym);
+  mvwtile    (w, j, k, red_background(tercol), sym);
+// else if (utf)
+//  mvwprintz   (w, j, k, tercol, "%lc", sym);
  else
-  mvwputch    (w, j, k, tercol, sym);
+  mvwtile    (w, j, k, tercol, sym);
 }
 
 /*

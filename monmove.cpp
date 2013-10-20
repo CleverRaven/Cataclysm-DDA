@@ -781,7 +781,7 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
     int diffx = basher.x - bashee.x;
     int diffy = basher.y - bashee.y;
     bool blocked[3] = { false, false, false };
-    if ( diffx == 0 || diffy == 0 ) { // not primary basher, bail
+    if ( diffx == 0 || diffy == 0 ) { // only assist mobs directly adjacent to target
        for(int offside=0; offside < 3; offside++) {
           for(int offdepth = 0; offdepth < maxdepth; offdepth++) {
              point hpos(0,0);

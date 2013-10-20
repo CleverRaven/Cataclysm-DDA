@@ -641,6 +641,7 @@
         "id": "t_door_c",
         "name": "closed wood door",
         "symbol": "+",
+        "utfsymbol": "⌻",
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF", "WALL"],
@@ -689,6 +690,7 @@
         "id": "t_door_locked_interior",
         "name": "closed wood door",
         "symbol": "+",
+        "utfsymbol": "⌻",
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
@@ -698,6 +700,7 @@
         "id": "t_door_locked",
         "name": "closed wood door",
         "symbol": "+",
+        "utfsymbol": "⌻",
         "color": "brown",
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "WALL"],
@@ -714,6 +717,7 @@
         "id": "t_door_locked_alarm",
         "name": "closed wood door",
         "symbol": "+",
+        "utfsymbol": "⌻",
         "color": "brown",
         "move_cost": 0,
         "flags": [
@@ -981,6 +985,7 @@
     {
         "type": "terrain",
         "id": "t_window_domestic",
+        "utfsymbol": "⍓",
         "name": "window",
         "symbol": "\"",
         "color": "ltcyan",
@@ -1040,6 +1045,7 @@
         "id": "t_curtains",
         "name": "closed curtains",
         "symbol": "\"",
+        "utfsymbol": "⍔",
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
@@ -1195,6 +1201,7 @@
         "id": "t_tree",
         "name": "tree",
         "symbol": "7",
+        "utfsymbol": "⍋",
         "color": "green",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE"]
@@ -1204,6 +1211,8 @@
         "id": "t_tree_young",
         "name": "young tree",
         "symbol": "1",
+        "utfsymbol": "ᾢ",
+        "badutfsymbol": "㎃",
         "color": "green",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "YOUNG"],
