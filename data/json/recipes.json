@@ -17429,7 +17429,7 @@
 },{
         "type" : "recipe",
   "result" : "tonfa",
-  "category" : "CC_AMMO",
+  "category" : "CC_WEAPON",
   "skill_used" : "fabrication",
   "skills_required" : ["melee", 1],
   "difficulty" : 6,
