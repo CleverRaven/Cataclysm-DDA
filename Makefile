@@ -171,11 +171,15 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 
 ifdef LUA
-  # TODO: Support systems other than arch linux
-  #       (alternatively, expect them to use CMake =)
-  LDFLAGS += $(shell pkg-config --libs lua5.1)
-  CXXFLAGS += $(shell pkg-config --cflags lua5.1) -DLUA
-  EXTRA_DEPENDENCIES += catalua/catabindings.cpp
+  ifeq ($(TARGETSYSTEM),WINDOWS)
+    # Windows expects to have lua unpacked at a specific location
+    LDFLAGS += -llua
+  else
+    # On unix-like systems, use pkg-config to find lua
+    LDFLAGS += $(shell pkg-config --libs lua5.1)
+    CXXFLAGS += $(shell pkg-config --cflags lua5.1) -DLUA
+    EXTRA_DEPENDENCIES += catalua/catabindings.cpp
+  endif
 endif
 
 ifdef TILES
