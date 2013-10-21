@@ -176,8 +176,8 @@ ifdef LUA
     LDFLAGS += -llua
   else
     # On unix-like systems, use pkg-config to find lua
-    LDFLAGS += $(shell pkg-config --libs lua5.1)
-    CXXFLAGS += $(shell pkg-config --cflags lua5.1) -DLUA
+    LDFLAGS += $(shell pkg-config --silence-errors --libs lua5.1 lua-5.1 lua)
+    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua5.1 lua-5.1 lua) -DLUA
     EXTRA_DEPENDENCIES += catalua/catabindings.cpp
   endif
 endif
