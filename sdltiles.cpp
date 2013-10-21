@@ -992,6 +992,9 @@ int curses_getch(WINDOW* win)
     input_event evt = inp_mngr.get_input_event(win);
     while(evt.type != CATA_INPUT_KEYBOARD) {
         evt = inp_mngr.get_input_event(win);
+        if (evt.type == CATA_INPUT_TIMEOUT) {
+            return ERR; // Calling functions expect an ERR on timeout
+        }
     }
     return evt.sequence[0];
 }
@@ -1117,6 +1120,8 @@ input_event input_manager::get_input_event(WINDOW *win) {
 
     wrefresh(win);
     lastchar=ERR;//ERR=-1
+    input_event rval;
+
     if (inputdelay < 0)
     {
         do
@@ -1131,34 +1136,39 @@ input_event input_manager::get_input_event(WINDOW *win) {
     {
         unsigned long starttime=SDL_GetTicks();
         unsigned long endtime;
+        bool timedout = false;
         do
         {
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
             SDL_Delay(1);
+            timedout = endtime >= starttime + inputdelay;
+            if (timedout) {
+                rval.type = CATA_INPUT_TIMEOUT;
+            }
         }
-        while (endtime<(starttime+inputdelay));
+        while (!timedout);
     }
     else
     {
         CheckMessages();
     }
 
-    input_event rval;
-
-    if(lastchar == ERR) {
-        rval.type = CATA_INPUT_ERROR;
-    } else if(lastchar_isbutton) {
-        rval.type = CATA_INPUT_GAMEPAD;
-        rval.add_input(lastchar);
-    } else if(lastchar_is_mouse) {
-        rval.type = CATA_INPUT_MOUSE;
-        rval.add_input(lastchar);
-        SDL_GetMouseState(&rval.mouse_x, &rval.mouse_y);
-    } else {
-        rval.type = CATA_INPUT_KEYBOARD;
-        rval.add_input(lastchar);
+    if (rval.type != CATA_INPUT_TIMEOUT) {
+        if (lastchar == ERR) {
+            rval.type = CATA_INPUT_ERROR;
+        } else if (lastchar_isbutton) {
+            rval.type = CATA_INPUT_GAMEPAD;
+            rval.add_input(lastchar);
+        } else if (lastchar_is_mouse) {
+            rval.type = CATA_INPUT_MOUSE;
+            rval.add_input(lastchar);
+            SDL_GetMouseState(&rval.mouse_x, &rval.mouse_y);
+        } else {
+            rval.type = CATA_INPUT_KEYBOARD;
+            rval.add_input(lastchar);
+        }
     }
 
     return rval;

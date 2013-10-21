@@ -302,8 +302,10 @@ std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
         } else {
             return "MOUSE_UNKNOWN";
         }
-    } else {
+    } else if (inp_type == CATA_INPUT_GAMEPAD) {
         return gamepad_keycode_to_keyname[ch];
+    } else {
+        return "UNKNOWN";
     }
 }
 
