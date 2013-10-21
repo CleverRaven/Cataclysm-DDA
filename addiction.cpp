@@ -72,7 +72,7 @@ void addict_effect(game *g, addiction &add)
                 if (g->u.pain < in * 3) {
                     g->u.pain++;
                 }
-                if ((in >= 40 || one_in((1200 - 30 * in))) && g->u.health > -100) {
+                if ((in >= 40 || one_in(1200 - 30 * in)) && g->u.health > -100) {
                     g->u.health--;
                 }
                 if (one_in(20) && dice(2, 20) < in) {
