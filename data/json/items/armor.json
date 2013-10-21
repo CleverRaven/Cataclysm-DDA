@@ -2254,7 +2254,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 90,
-        "material_thickness" : 5
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -2278,7 +2278,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS", "HOOD"],
         "coverage" : 95,
-        "material_thickness" : 6
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -2302,7 +2302,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
-        "material_thickness" : 5
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -4507,7 +4507,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : -5,
-        "coverage" : 95,
+        "coverage" : 85,
         "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
@@ -4531,7 +4531,7 @@
         "enviromental_protection" : 3,
         "encumbrance" : 1,
         "bashing" : -5,
-        "coverage" : 95,
+        "coverage" : 65,
         "flags" : ["OVERSIZE", "HOOD"],
         "material_thickness" : 3
     },
@@ -4555,7 +4555,7 @@
         "enviromental_protection" : 3,
         "encumbrance" : 1,
         "bashing" : -5,
-        "coverage" : 95,
+        "coverage" : 65,
         "flags" : ["OVERSIZE", "HOOD"],
         "material_thickness" : 4
     },
@@ -4579,7 +4579,7 @@
         "enviromental_protection" : 3,
         "encumbrance" : 1,
         "bashing" : -5,
-        "coverage" : 95,
+        "coverage" : 65,
         "flags" : ["OVERSIZE", "HOOD"],
         "material_thickness" : 4
     },
