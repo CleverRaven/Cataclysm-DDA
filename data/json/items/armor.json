@@ -5587,7 +5587,7 @@
         "symbol" : "[",
         "description" : "A thick leather helmet that provides excellent protection for the head.",
         "price" : 140,
-        "material" : ["leather "null"],
+        "material" : ["leather", "null"],
         "volume" : 8,
         "cutting" : 0,
         "warmth" : 10,
