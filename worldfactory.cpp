@@ -96,11 +96,6 @@ WORLDPTR worldfactory::make_new_world()
                 curtab = 0;
             }
         }
-        if (curtab == numtabs){
-            if (!query_yn(_("Finish construction of world and proceed?"))){
-                curtab = numtabs - 1;
-            }
-        }
     }
     if (curtab < 0){
         delete retworld;
@@ -671,8 +666,9 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW* win, WORLDPTR world)
                 mvwprintz(w_confirmation, 2, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
                 noname = true;
                 wrefresh(w_confirmation);
-                if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated.")))
+                if (!query_yn(_("Are you SURE you're finished? Your world's name will be randomly generated.")))
                 {
+                    continue;
                     continue;
                 }
                 else
