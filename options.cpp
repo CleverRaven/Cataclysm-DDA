@@ -500,6 +500,11 @@ void initOptions() {
                                              false
                                             );
 
+    OPTIONS["BLACK_ROAD"] =             cOpt("debug", _("Black Road"),
+                                             _("If true, spawn zombies at shelters."),
+                                             false
+                                            );
+    
     OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
