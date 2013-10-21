@@ -441,9 +441,6 @@ public:
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
 
-    //Set all headlights on/off
-    bool set_lights(bool on);
-
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
@@ -483,6 +480,7 @@ public:
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
     bool lights_on;     // lights on/off
+    bool overhead_lights_on; //emergency vehicle flasher lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)

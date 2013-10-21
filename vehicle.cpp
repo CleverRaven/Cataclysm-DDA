@@ -14,6 +14,7 @@ const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium"
 enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
+ toggle_overhead_lights,
  toggle_turrets,
  activate_horn,
  release_control,
@@ -35,6 +36,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    overhead_lights_on = false;
     insides_dirty = true;
 
     //type can be null if the type_id parameter is omitted
@@ -165,6 +167,11 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         lights_on = true;
     }
 
+    //Turn flasher/overhead lights on separately (more likely since these are rarer)
+    if(veh_status != 0 && one_in(4)) {
+        overhead_lights_on = true;
+    }
+
     //Don't bloodsplatter mint condition vehicles
     if(veh_status != 0 && one_in(10)) {
       blood_covered = true;
@@ -284,7 +291,7 @@ void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
-    // Alway have this option
+    // Always have this option
     int curent = 0;
     int letgoent = 0;
     options_choice.push_back(toggle_cruise_control);
@@ -293,9 +300,16 @@ void vehicle::use_controls()
     curent++;
 
     bool has_lights = false;
+    bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
     for (int p = 0; p < parts.size(); p++) {
+        if (part_flag(p, "CONE_LIGHT")) {
+            has_lights = true;
+        }
+        if (part_flag(p, "CIRCLE_LIGHT")) {
+            has_overhead_lights = true;
+        }
         if (part_flag(p, "LIGHT")) {
             has_lights = true;
         }
@@ -307,7 +321,6 @@ void vehicle::use_controls()
         }
     }
 
-
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
         options_choice.push_back(toggle_lights);
@@ -315,6 +328,13 @@ void vehicle::use_controls()
                                                _("Turn on headlights"), 'h'));
         curent++;
     }
+
+   if (has_overhead_lights) {
+       options_choice.push_back(toggle_overhead_lights);
+       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
+                                              _("Turn on overhead lights"), 'v'));
+       curent++;
+   }
 
     //Honk the horn!
     if (has_horn) {
@@ -366,10 +386,20 @@ void vehicle::use_controls()
         g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
-        if(set_lights(!lights_on)) {
+        if(!lights_on || fuel_left("battery") ) {
+            lights_on = !lights_on;
             g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
             g->add_msg(_("The headlights won't come on!"));
+        }
+        break;
+    case toggle_overhead_lights:
+        if( !overhead_lights_on || fuel_left("battery") ) {
+            overhead_lights_on = !overhead_lights_on;
+            g->add_msg((overhead_lights_on) ? _("Overhead lights turned on") :
+                       _("Overhead lights turned off"));
+        } else {
+            g->add_msg(_("The lights won't come on!"));
         }
         break;
     case activate_horn:
@@ -853,7 +883,7 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
  * If performance becomes an issue, certain lists (such as wheels) could be
  * cached and fast-returned here, but this is currently linear-time with
  * respect to the number of parts in the vehicle.
- * @param feature The flag (such as "WHEEL" or "LIGHT") to find.
+ * @param feature The flag (such as "WHEEL" or "CONE_LIGHT") to find.
  * @param unbroken true if only unbroken parts should be returned, false to
  *        return all matching parts.
  * @return A list of indices to all the parts with the specified feature.
@@ -1628,7 +1658,8 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
     if(power)
     {
-        set_lights(false);
+        lights_on = false;
+        overhead_lights_on = false;
         if(player_in_control(&g->u))
             g->add_msg("The %s's battery dies!",name.c_str());
     }
@@ -2807,32 +2838,6 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     }
 
     return true;
-}
-
-bool vehicle::set_lights(bool on)
-{
-    bool found=false;
-    if(on)
-    {
-        for(int p=0;p<parts.size();p++)
-        {
-            if(part_flag(p, "FUEL_TANK") && (part_info(p).fuel_type == "battery" || part_info(p).fuel_type == "plutonium") && parts[p].amount > 0)
-            {
-                found = true;
-                break;
-            }
-        }
-    }
-    lights_on = on;
-    if(found || !lights_on)
-    {
-        return true;
-    }
-    else
-    {
-        lights_on = false;
-        return false;
-    }
 }
 
 /**

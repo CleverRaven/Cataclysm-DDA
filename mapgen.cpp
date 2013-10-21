@@ -4907,7 +4907,7 @@ ff.......|....|WWWWWWWW|\n\
       else if (j == tw + 2)
        ter_set(i, j, t_concrete_h);
       else { // Empty space holds monsters!
-       std::string type = nethercreatures[(rng(0, 10))];
+       std::string type = nethercreatures[(rng(0, 9))];
        add_spawn(type, 1, i, j);
       }
      }
@@ -14829,8 +14829,12 @@ void map::add_road_vehicles(bool city, int facing)
             int vx = rng(0, 3) * 4 + 5;
             int vy = rng(0, 3) * 4 + 5;
             int car_type = rng(1, 100);
-            if (car_type <= 35) {
+            if (car_type <= 25) {
                 add_vehicle(g, "car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 30) {
+                add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
+            } else if (car_type <= 40) {
+                add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
             } else if (car_type <= 45) {
                 add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
             } else if (car_type <= 50) {
