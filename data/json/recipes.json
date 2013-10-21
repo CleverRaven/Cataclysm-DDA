@@ -17747,6 +17747,49 @@
   ],
   "components" : [ [ ["plastic_chunk", 10] ] ]
 },{
+  "type" : "recipe",
+  "result" : "shocktonfa_off",
+  "category" : "CC_WEAPON",
+  "skill_used" : "fabrication",
+  "skills_required" : ["melee", 1 "electronics", 3],
+  "difficulty" : 7,
+  "time" : 45000,
+  "reversible" : false,
+  "autolearn" : true,
+  "tools" : [
+     [ ["mold_plastic", -1] ],
+     [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+     ],
+     [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+     ],
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+     ]
+  ],
+  "components" : [
+     [
+      ["plastic_chunk", 10]
+     ],
+     [
+     ["amplifier", 2]
+     ],
+     [
+     ["power_supply", 1]
+     ],
+     [
+      [ "scrap", 2 ]
+     ],
+     [
+      [ "cable", 10 ]
+     ]
+    ]
+},{
         "type" : "recipe",
   "result": "juice",
   "category": "CC_DRINK",
