@@ -915,10 +915,17 @@ bool cata_tiles::draw_vpart(int x, int y)
 
     // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
     // get the vpart_id
-    std::string vpid = veh->part_id_string(veh_part);
+    std::vector<std::string> vpid = veh->part_id_string(veh_part);
+
     // prefix with vp_ ident
-    vpid = "vp_" + vpid;
-    return draw_from_id_string(vpid, x, y, 0, veh_dir);
+    vpid[0] = "vp_" + vpid[0];
+    int subtile = 0;
+    if (vpid.size() == 2 && vpid[1] == "o"){
+        subtile = 6;
+    }else if (vpid.size() == 2 && vpid[1] == "d"){
+        subtile = 7;
+    }
+    return draw_from_id_string(vpid[0], x, y, subtile, veh_dir);
 }
 
 bool cata_tiles::draw_entity(int x, int y)
