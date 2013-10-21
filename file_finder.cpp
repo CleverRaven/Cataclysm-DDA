@@ -104,7 +104,7 @@ std::vector<std::string> file_finder::get_folders_from_path(std::string extensio
     if (files.size() > 0){
         for (int i = 0; i < files.size(); ++i){
             // get the path to the file
-            unsigned file_index = files[i].find_last_of("/\\");
+            size_t file_index = files[i].find_last_of("/\\");
             // if the path is valid continue
             if (file_index != std::string::npos){
                 path = files[i].substr(0, file_index);
