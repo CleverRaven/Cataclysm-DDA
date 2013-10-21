@@ -4040,6 +4040,67 @@ int iuse::tazer(game *g, player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
+int iuse::shocktonfa_off(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true, _("Survival tonfa"), _("Zap something"),
+                      _("Turn on light"), _("Cancel"), NULL);
+    switch (choice) {
+    case 1:
+    {
+        return iuse::tazer(g, p, it, t);
+    }
+    break;
+    case 2:
+    {
+        if (it->charges == 0) {
+        g->add_msg_if_player(p,_("The batteries are dead."));
+        return 0;
+    } else {
+        g->add_msg_if_player(p,_("You turn the light on."));
+        it->make(g->itypes["shocktonfa_on"]);
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+    }
+    default:
+        return 0;
+    }
+}
+
+int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
+{
+    if (t)    // Effects while simply on
+    {
+        
+    }
+    else if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("Your survival tonfa is out of power"));
+        it->make(g->itypes["shocktonfa_off"]);
+        it->active = false;
+    }
+    else
+    {
+        int choice = menu(true, _("Survival tonfa"), _("Zap something"),
+                          _("turn off light"), _("cancel"), NULL);
+        switch (choice)
+        {
+        case 1:
+        {
+            return iuse::tazer(g, p, it, t);
+        }
+        break;
+        case 2:
+        {
+            g->add_msg_if_player(p,_("You turn off the light"));
+            it->make(g->itypes["shocktonfa_off"]);
+            it->active = false;
+        }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::mp3(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
