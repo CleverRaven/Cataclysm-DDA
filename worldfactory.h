@@ -4,7 +4,7 @@
 #include "options.h"
 #include "output.h"
 #include "debug.h"
-#include "catacurse.h"
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "keypress.h"
 #include "input.h"
@@ -18,7 +18,6 @@
 
 extern std::map<std::string, cOpt> OPTIONS;
 extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-extern bool awo_populated;
 
 struct WORLD
 {
