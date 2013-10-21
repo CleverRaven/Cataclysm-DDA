@@ -12437,10 +12437,10 @@ void map::post_process(game *g, unsigned zones)
 void map::place_spawns(game *g, std::string group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
- if (!OPTIONS["STATIC_SPAWN"])
+ if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"])
   return;
 
- float multiplier = OPTIONS["SPAWN_DENSITY"];
+ float multiplier = ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"];
 
  if( multiplier == 0.0 ) return;
 
@@ -12463,7 +12463,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
 
    // Pick a monster type
    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &g->mtypes, &num );
-  
+
    //Hoping that if I pass a count of pack_size instead of 1, then more monsters will spawn. Who knows though amiright?
    add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
   }
@@ -12545,7 +12545,7 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
             type.c_str(), count, x, y);
   return;
  }
- if( OPTIONS["CLASSIC_ZOMBIES"] && !GetMType(type)->in_category("CLASSIC") &&
+ if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && !GetMType(type)->in_category("CLASSIC") &&
      !GetMType(type)->in_category("WILDLIFE") ) {
      // Don't spawn non-classic monsters in classic zombie mode.
      return;
@@ -13863,7 +13863,7 @@ map_extra random_map_extra(map_extras embellishments)
     // Set pick to the total of all the chances for map extras
     for (int i = 0; i < num_map_extras; i++)
     {
-        if (!OPTIONS["CLASSIC_ZOMBIES"] || mfb(i) & classic_extras)
+        if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] || mfb(i) & classic_extras)
         {
             pick += embellishments.chances[i];
         }
@@ -13874,7 +13874,7 @@ map_extra random_map_extra(map_extras embellishments)
     while (pick >= 0)
     {
         choice++;
-        if(!OPTIONS["CLASSIC_ZOMBIES"] || mfb(choice) & classic_extras)
+        if(!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] || mfb(choice) & classic_extras)
         {
             pick -= embellishments.chances[choice];
         }

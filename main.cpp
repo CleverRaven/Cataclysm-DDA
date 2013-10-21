@@ -82,10 +82,10 @@ int main(int argc, char *argv[])
   exit_handler(-999);
  g->init_ui();
  MAPBUFFER.set_game(g);
- g->load_artifacts(); //artifacts have to be loaded before any items are created
+ //g->load_artifacts(); //artifacts have to be loaded before any items are created
  if(g->game_error())
   exit_handler(-999);
- MAPBUFFER.load();
+ //MAPBUFFER.load();
 
  curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 

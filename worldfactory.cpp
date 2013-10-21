@@ -268,8 +268,8 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             std::vector<std::string> world_sav_files=file_finder::get_files_from_path(SAVE_EXTENSION, world_dirs[i], false);
             // split the save file names between the directory and the extension
             for (int j = 0; j < world_sav_files.size(); ++j){
-                unsigned save_index = world_sav_files[j].find(SAVE_EXTENSION);
-                world_sav_files[j] = world_sav_files[j].substr(world_dirs[i].size() + 1, save_index);
+                size_t save_index = world_sav_files[j].find(SAVE_EXTENSION);
+                world_sav_files[j] = world_sav_files[j].substr(world_dirs[i].size() + 1, save_index - (world_dirs[i].size()+1));
             }
             // the directory name is the name of the world
             std::string worldname;
@@ -315,9 +315,7 @@ WORLDPTR worldfactory::pick_world()
     // if there are no worlds to pick from, ask if one should be created
     else if (world_names.empty()){
         if (query_yn("There are no valid worlds to pick from, would you like to make one?")){
-            if (!make_new_world()){
-                return NULL;
-            }
+            return make_new_world();
         }
     }
 

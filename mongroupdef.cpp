@@ -32,26 +32,26 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_name, std::vector <mtype*> *mtypes,
                                                       int *quantity, int turn )
-{   
+{
     int spawn_chance = rng(1, 1000);
     MonsterGroup group = monsterGroupMap[group_name];
-    
+
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster,1);
     //If the default monster is too difficult, replace this with "mon_null"
     if(turn!=-1 && (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))){
         spawn_details = MonsterGroupResult("mon_null",0);
     }
-    
+
     bool monster_found = false;
-    // Step through spawn definitions from the monster group until one is found or 
+    // Step through spawn definitions from the monster group until one is found or
     for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it){
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
         valid_entry = valid_entry && (turn == -1 || (turn+900) >= (MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->name)->difficulty)));
         // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
-        if(OPTIONS["CLASSIC_ZOMBIES"]){
+        if(ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]){
             valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
         }
 
@@ -66,12 +66,12 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
                 }
                 //And if a quantity pointer with remaining value was passed, will will modify the external value as a side effect
                 //We will reduce it by the spawn rule's cost multiplier
-                if(quantity){ 
-                    *quantity -= it->cost_multiplier * spawn_details.pack_size; 
+                if(quantity){
+                    *quantity -= it->cost_multiplier * spawn_details.pack_size;
                 }
                 monster_found = true;
             //Otherwise, subtract the frequency from spawn result for the next loop around
-            }else{ 
+            }else{
                 spawn_chance -= it->frequency;
             }
         }
