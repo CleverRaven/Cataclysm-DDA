@@ -84,11 +84,13 @@ class cOpt
 };
 
 extern std::map<std::string, cOpt> OPTIONS;
+extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 
 void initOptions();
 void load_options();
 void save_options();
 void show_options();
+void save_world_options(std::string world, std::map<std::string, cOpt> world_ops);
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
 

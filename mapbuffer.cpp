@@ -89,7 +89,9 @@ void mapbuffer::save()
 {
  std::map<tripoint, submap*, pointcomp>::iterator it;
  std::ofstream fout;
- fout.open("save/maps.txt");
+ std::stringstream mapfile;
+ mapfile << world_generator->active_world->world_path << "/maps.txt";
+ fout.open(mapfile.str().c_str());
  fout << "# version " << savegame_version << std::endl;
 
  std::map<std::string, picojson::value> metadata;
@@ -235,14 +237,17 @@ void mapbuffer::save()
  fout.close();
 }
 
-void mapbuffer::load()
+void mapbuffer::load(std::string worldname)
 {
  if (!master_game) {
   debugmsg("Can't load mapbuffer without a master_game");
   return;
  }
  std::ifstream fin;
- fin.open("save/maps.txt");
+ std::stringstream worldmap;
+ worldmap << world_generator->all_worlds[worldname]->world_path << "/maps.txt";
+
+ fin.open(worldmap.str().c_str());
  if (!fin.is_open())
   return;
  unserialize(fin);
