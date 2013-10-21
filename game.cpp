@@ -30,6 +30,7 @@
 #include "help.h"
 #include "action.h"
 #include "monstergenerator.h"
+#include "worldfactory.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -69,6 +70,7 @@ nc_color sev(int a); // Right now, ONLY used for scent debugging....
 
 //The one and only game instance
 game *g;
+extern worldfactory *world_generator;
 
 uistatedata uistate;
 
@@ -89,6 +91,7 @@ game::game() :
  mostseen(0),
  gamemode(NULL)
 {
+    world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
@@ -148,6 +151,8 @@ game::~game()
  delwin(w_location);
  delwin(w_status);
  delwin(w_status2);
+
+ delete world_generator;
 
  release_traps();
  release_data_structures();

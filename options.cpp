@@ -23,7 +23,6 @@ extern cata_tiles *tilecontext;
 
 std::map<std::string, cOpt> OPTIONS;
 std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-bool awo_populated;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
