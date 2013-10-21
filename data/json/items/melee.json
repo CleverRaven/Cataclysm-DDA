@@ -523,8 +523,8 @@
     "price": 60,
     "material": ["wood", "iron"],
     "techniques" : ["WBLOCK_1", "WIDE"],
-    "weight": 1400,
-    "volume": 18,
+    "weight": 2500,
+    "volume": 26,
     "bashing": 4,
     "cutting": 26,
     "to_hit": 2
