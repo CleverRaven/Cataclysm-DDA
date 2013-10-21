@@ -47,6 +47,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "muffler",
+        "name" : "muffler",
+        "description" : "A muffler from a car. Very unwieldy as a weapon. Useful in a few crafting recipes.",
+        "weight" : 9525,
+        "to_hit" : -3,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["iron", "null"],
+        "techniques" : ["WBLOCK_2"],
+        "volume" : 20,
+        "bashing" : 19,
+        "cutting" : 0,
+        "price" : 30
+    },
+    {
+        "type":"GENERIC",
         "id" : "vehicle_controls",
         "name" : "vehicle controls",
         "description" : "A set of various vehicle controls. Useful for crafting.",
