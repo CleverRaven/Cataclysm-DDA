@@ -4,6 +4,8 @@
     "name" : "GROUP_FOREST",
     "default" : "mon_squirrel",
     "monsters" : [
+      { "monster" : "mon_mosquito", "freq" : 100, "cost_multiplier" : 0, "conditions" : ["TWILIGHT"] }
+      { "monster" : "mon_mosquito", "freq" : 50, "cost_multiplier" : 0, "pack_size" : [1,14], "conditions" : ["TWILIGHT"] }
       { "monster" : "mon_rabbit", "freq" : 150, "cost_multiplier" : 0 },
       { "monster" : "mon_deer", "freq" : 20, "cost_multiplier" : 3 },
       { "monster" : "mon_deer", "freq" : 10, "cost_multiplier" : 3, "pack_size" : [2,3] },
