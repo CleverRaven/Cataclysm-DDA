@@ -96,28 +96,6 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
     return files;
 }
 
-std::vector<std::string> file_finder::get_folders_from_path(std::string extension, std::string root_path, bool recursive_search)
-{
-    std::vector<std::string> files = get_files_from_path(extension, root_path, recursive_search);
-    std::vector<std::string> dirs;
-    std::string path;
-    if (files.size() > 0){
-        for (int i = 0; i < files.size(); ++i){
-            // get the path to the file
-            size_t file_index = files[i].find_last_of("/\\");
-            // if the path is valid continue
-            if (file_index != std::string::npos){
-                path = files[i].substr(0, file_index);
-                // see if the path has already been added to the dir vector
-                if (std::find(dirs.begin(), dirs.end(), path) == dirs.end()){
-                    dirs.push_back(path);
-                }
-            }
-        }
-    }
-    return dirs;
-}
-
 std::vector<std::string> file_finder::get_directories_with(std::vector<std::string> extensions, std::string root_path, bool recursive_search)
 {
     std::vector<std::string> found;
