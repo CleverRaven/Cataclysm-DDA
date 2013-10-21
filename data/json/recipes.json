@@ -9245,6 +9245,54 @@
   ]
 },{
         "type" : "recipe",
+  "result": "boots_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 24 ],
+      [ "sewing_kit", 24 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 18 ],
+      [ "fur", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "helmet_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 16 ],
+      [ "fur", 16 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shorts",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -10102,6 +10150,30 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gauntlets_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "fur", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bandana",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -10397,6 +10469,115 @@
     [
       [ "leather", 20 ],
       [ "fur", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 42 ],
+      [ "fur", 42 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_farmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 48 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_blarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "requires_skills": [ "tailor", 3 ],
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "hotplate", 20 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 10 ],
+      [ "water_clean", 10 ]
+    ],
+    [
+      [ "wax", 2 ],
+      [ "vinegar", 10 ]
+    ],
+    [
+      [ "salt", 5 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_plarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "requires_skills": [ "tailor", 3 ],
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 22 ],
+      [ "sewing_kit", 22 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 6 ],
+      [ "scrap", 18 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
     ]
   ]
 },{
