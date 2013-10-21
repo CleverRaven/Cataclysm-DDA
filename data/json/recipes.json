@@ -1946,7 +1946,7 @@
     ],
     "components": [
       [
-        [ "scrap", 5 ]
+        [ "scrap", 5 ],
         [ "lead", 50 ],
         [ "gold_small", 50 ]
       ]
@@ -5692,7 +5692,7 @@
     ],
     [
       [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
@@ -15119,6 +15119,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "lajatang",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "q_staff", 1 ]
+    ],
+    [
+      [ "duct_tape", 100 ]
+    ],
+    [
+      [ "blade", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "wrench",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -17764,7 +17784,7 @@
   "components": [
     [
        [ "apple", 2 ],
-       [ "blueberries", 2 ]
+       [ "blueberries", 2 ],
        [ "orange", 2 ],
        [ "lemon", 2 ],
        [ "banana", 2 ],
