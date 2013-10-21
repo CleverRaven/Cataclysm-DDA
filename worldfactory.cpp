@@ -11,6 +11,7 @@
 #endif // _MSC_VER
 
 #define WORLD_OPTION_FILE "worldoptions.txt"
+#define SAVE_MASTER "master.gsav"
 #define SAVE_EXTENSION ".sav"
 #define SAVE_DIR "save"
 #define PATH_SEPARATOR "/"
@@ -242,8 +243,8 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         all_worlds.clear();
         all_worldnames.clear();
     }
-    // get the world option files. These determine the validity of a world
-    std::vector<std::string> world_dirs = file_finder::get_folders_from_path(WORLD_OPTION_FILE, SAVE_DIR, true);
+    // get the master files. These determine the validity of a world
+    std::vector<std::string> world_dirs = file_finder::get_folders_from_path(SAVE_MASTER, SAVE_DIR, true);
 
     // check to see if there are >0 world directories found
     if (world_dirs.size() > 0){
@@ -251,8 +252,13 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         // create worlds
         for (int i = 0; i < world_dirs.size(); ++i){
             // get the option file again
-            // we can assume that there is only one world_op_file, so just collect the first path
-            std::string world_op_file = file_finder::get_files_from_path(WORLD_OPTION_FILE, world_dirs[i], false)[0];
+            // we can assume that there is only one master.gsav, so just collect the first path
+            bool no_options = true;
+            std::vector<std::string> detected_world_op = file_finder::get_files_from_path(WORLD_OPTION_FILE, world_dirs[i], false);
+            std::string world_op_file = WORLD_OPTION_FILE;
+            if ( ! detected_world_op.empty() ) {
+                no_options = false;
+            }
             // get the save files
             std::vector<std::string> world_sav_files=file_finder::get_files_from_path(SAVE_EXTENSION, world_dirs[i], false);
             // split the save file names between the directory and the extension
@@ -274,10 +280,21 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             for (int j = 0; j < world_sav_files.size(); ++j){
                 retworlds[worldname]->world_saves.push_back(world_sav_files[j]);
             }
-            // load options into the world
-            retworlds[worldname]->world_options = get_world_options(world_op_file);
             // set world path
             retworlds[worldname]->world_path = world_dirs[i];
+
+            // load options into the world
+            if ( no_options ) {
+                for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it){
+                    if (it->second.getPage() == "world_default"){
+                        retworlds[worldname]->world_options[it->first] = it->second;
+                    }
+                }
+                retworlds[worldname]->world_options["DELETE_WORLD"].setValue("yes");
+                save_world(retworlds[worldname]);
+            } else {
+                retworlds[worldname]->world_options = get_world_options(world_op_file);
+            }
         }
     }
     all_worlds = retworlds;
@@ -809,6 +826,7 @@ std::map<std::string, cOpt> worldfactory::get_world_options(std::string path)
     if (!fin.is_open()){
         fin.close();
         save_options();
+
         fin.open(path.c_str());
         if (!fin.is_open()){
             fin.close();
