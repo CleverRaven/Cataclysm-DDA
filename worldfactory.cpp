@@ -236,6 +236,10 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
 {
     std::map<std::string, WORLDPTR> retworlds;
 
+    std::vector<std::string> qualifiers;
+    qualifiers.push_back(WORLD_OPTION_FILE);
+    qualifiers.push_back(SAVE_MASTER);
+
     if (all_worlds.size() > 0){
         for (std::map<std::string, WORLDPTR>::iterator it = all_worlds.begin(); it != all_worlds.end(); ++it){
             delete it->second;
@@ -244,8 +248,8 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         all_worldnames.clear();
     }
     // get the master files. These determine the validity of a world
-    std::vector<std::string> world_dirs = file_finder::get_folders_from_path(SAVE_MASTER, SAVE_DIR, true);
-
+    std::vector<std::string> world_dirs = file_finder::get_directories_with(qualifiers, SAVE_DIR, true);
+    
     // check to see if there are >0 world directories found
     if (world_dirs.size() > 0){
         // worlds exist by having an option file
