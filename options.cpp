@@ -478,7 +478,7 @@ void initOptions() {
     optionNames["summer"] = _("Summer");
     optionNames["autumn"] = _("Autumn");
     optionNames["winter"] = _("Winter");
-    OPTIONS["INITIAL_SEASON"] =         cOpt("debug", _("Initial season"),
+    OPTIONS["INITIAL_SEASON"] =         cOpt("world_default", _("Initial season"),
                                              _("Initial starting season of day on character generation."),
                                              "spring,summer,autumn,winter", "spring");
 

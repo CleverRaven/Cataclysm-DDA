@@ -365,18 +365,16 @@ void game::setup()
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
- turn = HOURS(OPTIONS["INITIAL_TIME"]);
-
- if (OPTIONS["INITIAL_SEASON"].getValue() == "spring");
- else if (OPTIONS["INITIAL_SEASON"].getValue() == "summer")
-    turn += DAYS( (int) OPTIONS["SEASON_LENGTH"]);
- else if (OPTIONS["INITIAL_SEASON"].getValue() == "autumn")
-    turn += DAYS( (int) OPTIONS["SEASON_LENGTH"] * 2);
+ MAPBUFFER.load(worldname);
+ turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+ if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
+ else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer")
+    turn += DAYS( (int) ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+ else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn")
+    turn += DAYS( (int) ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
  else
-    turn += DAYS( (int) OPTIONS["SEASON_LENGTH"] * 3);
-
+    turn += DAYS( (int) ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
  nextweather = turn + MINUTES(30);
-
  run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
