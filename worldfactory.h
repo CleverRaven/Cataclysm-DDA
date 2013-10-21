@@ -48,15 +48,12 @@ class worldfactory
         // Generate a world
         WORLDPTR make_new_world();
         WORLDPTR make_new_world(special_game_id special_type);
-        // Load an existing world
-        WORLDPTR load_world(std::string world_name, bool setactive = false);
 
         void set_active_world(WORLDPTR world);
         bool save_world(WORLDPTR world = NULL);
         std::map<std::string, WORLDPTR> get_all_worlds();
 
         WORLDPTR pick_world();
-        WORLDPTR pick_world(special_game_id special_type);
 
         WORLDPTR active_world;
 

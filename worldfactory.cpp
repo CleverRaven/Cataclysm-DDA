@@ -178,12 +178,6 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     return special_world;
 }
 
-WORLDPTR worldfactory::load_world(std::string world_name, bool setactive)
-{
-    // TODO: implement this
-    return NULL;
-}
-
 void worldfactory::set_active_world(WORLDPTR world)
 {
     world_generator->active_world = world;
@@ -484,11 +478,6 @@ WORLDPTR worldfactory::pick_world()
     werase(w_worlds_header);
     werase(w_worlds_tooltip);
 
-    return NULL;
-}
-
-WORLDPTR worldfactory::pick_world(special_game_id special_type)
-{
     return NULL;
 }
 

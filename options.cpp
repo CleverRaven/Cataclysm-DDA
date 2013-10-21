@@ -861,30 +861,6 @@ void save_options()
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
 }
 
-// the directory needs to be created before this can be run?
-void save_world_options(std::string world, std::map<std::string, cOpt> world_ops)
-{
-    std::ofstream fout;
-    std::stringstream woption;
-    woption << world_generator->all_worlds[world]->world_path << "/worldoptions.txt";
-    fout.open(woption.str().c_str());
-
-    if (!fout.is_open())
-    {
-        return;
-    }
-    //fout << world_options_header() << std::endl;
-
-    for (std::map<std::string, cOpt>::iterator it = world_ops.begin(); it != world_ops.end(); ++it)
-    {
-        fout << "#" << it->second.getTooltip() << std::endl;
-        fout << "#Default: " << it->second.getDefaultText() << std::endl;
-        fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
-    }
-
-    fout.close();
-}
-
 bool use_narrow_sidebar()
 {
     return (TERMY < 25 || OPTIONS["SIDEBAR_STYLE"] == "narrow");
