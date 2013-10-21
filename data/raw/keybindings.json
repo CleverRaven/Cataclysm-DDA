@@ -325,6 +325,34 @@
         ]
     },
     {
+        "id":"PREV_TARGET",
+        "name":"Prev Target",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_UP"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "id":"NEXT_TARGET",
+        "name":"Next Target",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
         "id":"SELECT",
         "name":"Select",
         "bindings":[

@@ -827,7 +827,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   tarx = 0; tary = 0;
   // Our coordinates will either be determined by coordinate input(mouse),
   // by a direction key, or by the previous value.
-  if(ctxt.get_coordinates(g->w_terrain, tarx, tary)) {
+  if (action == "SELECT" && ctxt.get_coordinates(g->w_terrain, tarx, tary)) {
       tarx = tarx - x;
       tary = tary - y;
   } else {
