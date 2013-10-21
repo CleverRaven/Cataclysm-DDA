@@ -372,5 +372,15 @@
                 "key":"MOUSE_LEFT"
             }
         ]
+    },
+    {
+        "id":"MOUSE_MOVE",
+        "name":"Mouse Move",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_MOVE"
+            }
+        ]
     }
 ]

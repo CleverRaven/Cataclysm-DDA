@@ -281,6 +281,7 @@ void input_manager::init_keycode_mapping() {
     keyname_to_keycode["MOUSE_RIGHT"] = MOUSE_BUTTON_RIGHT;
     keyname_to_keycode["SCROLL_UP"] = SCROLLWHEEL_UP;
     keyname_to_keycode["SCROLL_DOWN"] = SCROLLWHEEL_DOWN;
+    keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
 }
 
 long input_manager::get_keycode(std::string name) {
@@ -299,6 +300,8 @@ std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
             return "SCROLL_UP";
         } else if(ch == SCROLLWHEEL_DOWN) {
             return "SCROLL_DOWN";
+        } else if(ch == MOUSE_MOVE) {
+            return "MOUSE_MOVE";
         } else {
             return "MOUSE_UNKNOWN";
         }
