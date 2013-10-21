@@ -4129,11 +4129,12 @@ int iuse::tazer2(game *g, player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,_("Insufficient power"));
     }
+    return 0;
 }
 
 int iuse::shocktonfa_off(game *g, player *p, item *it, bool t)
 {
-    int choice = menu(true, _("Survival tonfa"), _("Zap something"),
+    int choice = menu(true, _("tactical tonfa"), _("Zap something"),
                       _("Turn on light"), _("Cancel"), NULL);
     switch (choice)
     {
@@ -4170,13 +4171,13 @@ int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
     }
     else if (it->charges == 0)
     {
-        g->add_msg_if_player(p,_("Your survival tonfa is out of power"));
+        g->add_msg_if_player(p,_("Your tactical tonfa is out of power"));
         it->make(g->itypes["shocktonfa_off"]);
         it->active = false;
     }
     else
     {
-        int choice = menu(true, _("Survival tonfa"), _("Zap something"),
+        int choice = menu(true, _("tactical tonfa"), _("Zap something"),
                           _("turn off light"), _("cancel"), NULL);
         switch (choice)
         {
