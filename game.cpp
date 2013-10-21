@@ -1632,6 +1632,7 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
 // Returns true if input requires breaking out into a game action.
+/*
 bool game::handle_mouseview(const mapped_input &minput)
 {
     if (minput.evt.type == CATA_INPUT_MOUSE_MOVE) {
@@ -1649,7 +1650,7 @@ bool game::handle_mouseview(const mapped_input &minput)
     }
 
     return true;
-}
+}*/
 
 bool game::handle_action()
 {

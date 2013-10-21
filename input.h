@@ -41,7 +41,7 @@ bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT=2, SCROLLWHEEL_UP=3, SCROLLWHEEL_DOWN=4 };
+enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
 enum input_event_t {
     CATA_INPUT_ERROR,

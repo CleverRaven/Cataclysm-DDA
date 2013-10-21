@@ -115,6 +115,9 @@ typedef struct {
 #define    KEY_PPAGE      0x153    /* page up */
 #define    KEY_ENTER      0x157    /* enter */
 
+#define ERR (-1) // Error return.
+#define OK (0)   // Success return.
+
 /* Curses external declarations. */
 
 extern WINDOW *stdscr;
