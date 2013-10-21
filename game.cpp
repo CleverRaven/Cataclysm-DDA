@@ -3919,16 +3919,18 @@ void game::draw_HP()
 
     static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
                            _("R ARM"), _("L LEG"), _("R LEG"), _("POWER") };
+    static body_part part[] = { bp_head, bp_torso, bp_arms,
+                           bp_arms, bp_legs, bp_legs, num_bp};
+    static int side[] = { -1, -1, 0, 1, 0, 1, -1};
     int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
     for (int i = 0; i < num_parts; i++) {
-        nc_color c = c_ltgray;
         const char *str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide)
-            wprintz(w_HP, c, " ");
-        wprintz(w_HP, c, str);
+            wprintz(w_HP, limb_color(&u, part[i], side[i]), " ");
+        wprintz(w_HP, limb_color(&u, part[i], side[i]), str);
         if (!wide)
-            wprintz(w_HP, c, ":");
+            wprintz(w_HP, limb_color(&u, part[i], side[i]), ":");
     }
 
     int powx = hpx;
@@ -3953,6 +3955,43 @@ void game::draw_HP()
         mvwprintz(w_HP, powy, powx, color, "%-3d", u.power_level);
     }
     wrefresh(w_HP);
+}
+
+nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bool infect)
+{
+    if (bp == num_bp) {
+        return c_ltgray;
+    }
+
+    int color_bit = 0;
+    nc_color i_color = c_ltgray;
+    if (bleed && p->has_disease("bleed", bp, side)) {
+        color_bit += 1;
+    }
+    if (bite && p->has_disease("bite", bp, side)) {
+        color_bit += 10;
+    }
+    if (infect && p->has_disease("infected", bp, side)) {
+        color_bit += 100;
+    }
+    switch (color_bit) {
+        case 1:
+            i_color = c_red;
+            break;
+        case 10:
+            i_color = c_blue;
+            break;
+        case 100:
+            i_color = c_green;
+            break;
+        case 11:
+            i_color = c_magenta;
+            break;
+        case 101:
+            i_color = c_yellow;
+            break;
+    }
+    return i_color;
 }
 
 void game::draw_minimap()

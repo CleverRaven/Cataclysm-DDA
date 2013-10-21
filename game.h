@@ -369,6 +369,9 @@ void load_artifacts(); // Load artifact data
 
   std::queue<vehicle_prototype*> vehprototypes;
 
+  nc_color limb_color(player *p, body_part bp, int side, bool bleed = true,
+                       bool bite = true, bool infect = true);
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -523,6 +526,7 @@ void load_artifacts(); // Load artifact data
   void msg_buffer();       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
+
 //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
   void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
   void quicksave();        // Saves the game without quitting
