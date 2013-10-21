@@ -1013,21 +1013,21 @@ char vehicle::part_sym (int p)
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
 // vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
-std::vector<std::string> vehicle::part_id_string(int p)
+std::string vehicle::part_id_string(int p, char &part_mod)
 {
-    std::vector<std::string> idinfo;
+    part_mod = 0;
+    std::string idinfo;
     if (p < 0 || p >= parts.size()){
-        idinfo.push_back("");
-        return idinfo;
+        return "";
     }
 
     int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-    idinfo.push_back(parts[displayed_part].id);
+    idinfo = parts[displayed_part].id;
 
     if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
-        idinfo.push_back("o"); // open
+        part_mod = 1; // open
     } else if (parts[displayed_part].hp <= 0){
-        idinfo.push_back("d"); // broken
+        part_mod = 2; // broken
     }
 
     return idinfo;

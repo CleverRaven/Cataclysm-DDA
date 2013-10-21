@@ -267,7 +267,7 @@ public:
 
 // get symbol for map
     char part_sym (int p);
-    std::vector<std::string> part_id_string(int p);
+    std::string part_id_string(int p, char &part_mod);
 
 // get color for map
     nc_color part_color (int p);
