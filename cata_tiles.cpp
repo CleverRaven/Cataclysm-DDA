@@ -292,10 +292,6 @@ void cata_tiles::load_tilejson(std::string path)
 
         tile_type *curr_tile = new tile_type();
         std::string t_id = entry.get("id").as_string();
-        if (t_id == "explosion")
-        {
-            DebugLog() << "Explosion tile id found\n";
-        }
         int t_fg, t_bg;
         t_fg = t_bg = -1;
         bool t_multi, t_rota;
@@ -310,10 +306,6 @@ void cata_tiles::load_tilejson(std::string path)
         if (t_multi)
         {
             t_rota = true;
-            if (t_id == "explosion")
-            {
-                DebugLog() << "--Explosion is Multitile\n";
-            }
 
             // fetch additional tiles
             if (entry.has("additional_tiles"))
@@ -348,11 +340,6 @@ void cata_tiles::load_tilejson(std::string path)
                     }
                     (*tile_ids)[m_id] = curr_subtile;
                     curr_tile->available_subtiles.push_back(s_id);
-                    if (t_id == "explosion")
-                    {
-                        DebugLog() << "--Explosion subtile ID Added: ["<< s_id <<
-                            "] with value: [" << m_id << "]\n";
-                    }
                 }
             }
         }
