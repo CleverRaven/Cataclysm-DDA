@@ -547,6 +547,7 @@ void load_artifacts(); // Load artifact data
 
   signed char last_target; // The last monster targeted
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
+  std::vector<int> new_seen_mon;
    //  monsters spawns, go to 2 - No movement allowed
   int mostseen;  // # of mons seen last turn; if this increases, run_mode++
   bool autosafemode; // is autosafemode enabled?
