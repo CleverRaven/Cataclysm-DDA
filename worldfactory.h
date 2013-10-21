@@ -22,12 +22,14 @@ extern bool awo_populated;
 
 struct WORLD
 {
+    std::string world_path;
     std::string world_name;
     std::map<std::string, cOpt> world_options;
     std::vector<std::string> world_saves;
 
     WORLD()
     {
+        world_path = "";
         world_name = "";
         world_options.clear();
         world_saves.clear();
@@ -51,7 +53,7 @@ class worldfactory
         WORLDPTR load_world(std::string world_name, bool setactive = false);
 
         void set_active_world(WORLDPTR world);
-        void save_world(WORLDPTR world = NULL);
+        bool save_world(WORLDPTR world = NULL);
         std::map<std::string, WORLDPTR> get_all_worlds();
 
         WORLDPTR pick_world();
@@ -74,5 +76,6 @@ class worldfactory
 
         std::map<std::string, cOpt> get_world_options(std::string path);
 };
+
 extern worldfactory *world_generator;
 #endif // WORLDFACTORY_H
