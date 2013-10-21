@@ -206,7 +206,7 @@ inventory inventory::filter_by_activation(player& u)
     inventory reduced_inv;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if(u.rate_action_use(&iter->front()) != HINT_CANT ) {
+        if(u.rate_action_use(&iter->front()) == HINT_GOOD) {
             reduced_inv.clone_stack(*iter);
         }
     }

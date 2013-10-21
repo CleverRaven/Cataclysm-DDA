@@ -217,33 +217,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
  wprintw(w, "%s", buff);
  wattroff(w, FG);
 }
-//////
-void mvwtile(WINDOW *w, int y, int x, nc_color FG, long ch)
-{
-  if (ch < 0xFFU || ch > 0x400069) {
 
-      wattron(w, FG);
-      mvwaddch(w, y, x, ch);
-      wattroff(w, FG);
-  } else {
-      char buff[6];
-      wattron(w, FG);
-      mvwprintw(w, y, x, "%lc", ch);
-      wattroff(w, FG);
-  }
-}
-
-void mvwtile_inv(WINDOW* w, int y, int x, nc_color FG, long ch)
-{
-    mvwtile(w, y, x, invert_color(FG), ch);
-}
-
-void mvwtile_hi(WINDOW* w, int y, int x, nc_color FG, long ch)
-{
-    mvwtile(w, y, x, hilite(FG), ch);
-}
-
-//////
 void draw_tabs(WINDOW *w, int active_tab, ...)
 {
  int win_width;

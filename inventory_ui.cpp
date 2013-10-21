@@ -136,7 +136,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  mvwprintw(w_inv, 1, 62, _("Items:  %d/%d "), n_items, inv_chars.size());
 }
 
-char game::inv(inventory& inv, std::string title)
+char game::inv(inventory inv, std::string title)
 {
     WINDOW* w_inv = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH + (use_narrow_sidebar() ? 45 : 55), VIEW_OFFSET_Y, VIEW_OFFSET_X);
     const int maxitems = TERRAIN_WINDOW_HEIGHT - 5;

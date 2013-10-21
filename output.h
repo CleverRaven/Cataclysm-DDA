@@ -63,10 +63,6 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 std::string word_rewrap (const std::string &ins, int width);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
-void mvwtile(WINDOW* w, int y, int x, nc_color FG, long ch);
-void mvwtile_hi(WINDOW* w, int y, int x, nc_color FG, long ch);
-void mvwtile_inv(WINDOW* w, int y, int x, nc_color FG, long ch);
-
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
 
