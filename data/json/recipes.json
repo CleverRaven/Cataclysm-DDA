@@ -10520,6 +10520,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "armor_blarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "requires_skills": [ "tailor", 3 ],
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "hotplate", 20 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 10 ],
+      [ "water_clean", 10 ]
+    ],
+    [
+      [ "wax", 2 ],
+      [ "vinegar", 10 ]
+    ],
+    [
+      [ "salt", 5 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "armor_plarmor",
   "category": "CC_ARMOR",
   "skill_used": "fabrication",
@@ -10540,8 +10577,7 @@
       [ "scrap", 18 ]
     ],
     [
-      [ "armor_larmor", 1 ],
-      [ "touring_suit", 1 ]
+      [ "armor_larmor", 1 ]
     ]
   ]
 },{
