@@ -89,11 +89,16 @@
 ```C++
 "name" : "GROUP_ANT",             // Unique ID. Must be one continuous word, use underscores if necessary
 "default" : "mon_ant",            // Default monster, automatically fills in any remaining spawn chances
-"monsters" : [
-  { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // To choose monster spawned game creates 1000 entries and picks one.
-  { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // Each monster will have a number of entries equal to it's "freq" and
-  { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // the default monster will fill in the remaining. "multiplier" increases
-]                                                                   // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
+"monsters" : [                    // To choose monster spawned game creates 1000 entries and picks one.
+  { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // Each monster will have a number of entries equal to it's "freq" and 
+  { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // the default monster will fill in the remaining. "multiplier" increases
+  { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
+  { "monster" : "mon_thing",              // Monsters id
+    "freq" : 100,                         // Chance of occurence, out of a thousand
+    "multiplier" : 0,                     // How many monsters each monster in this definition should count as, if spawning a limited number of monsters
+    "pack_size" : [3,5],                  // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
+    "conditions" : ["TWILIGHT","SUMMER"]  // Conditions limiting when monsters spawn. Valid options: SUMMER, WINTER, AUTUMN, SPRING, DAY, NIGHT, DUSK, DAWN, TWILIGHT
+  }
 ```
 ###NAMES
 ```C++
