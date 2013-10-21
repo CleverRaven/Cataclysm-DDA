@@ -7198,7 +7198,7 @@ void game::list_items()
                     break;
                 case DirectionE:
                     iPage++;
-                    if (iPage >= filtered_items[iActive].vIG.size()) {
+                    if ( !filtered_items.empty() && iPage >= filtered_items[iActive].vIG.size()) {
                         iPage = filtered_items[iActive].vIG.size()-1;
                     }
                     break;
