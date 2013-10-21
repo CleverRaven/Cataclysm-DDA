@@ -1294,7 +1294,7 @@
         "bashing" : 2,
         "flags" : ["VARSIZE"],
         "coverage" : 85,
-        "material_thickness" : 6
+        "material_thickness" : 7
     },
     {
         "type" : "ARMOR",
@@ -1332,7 +1332,7 @@
         "symbol" : "[",
         "description" : "Thick leather body armor that has been reinforced with strategically-placed metal plates. Strong and comfortable.",
         "price" : 1100,
-        "material" : ["leather", "steel"],
+        "material" : ["leather", "iron"],
         "volume" : 36,
         "cutting" : 0,
         "warmth" : 25,
@@ -1342,7 +1342,7 @@
         "bashing" : 2,
         "flags" : ["VARSIZE"],
         "coverage" : 90,
-        "material_thickness" : 6
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
