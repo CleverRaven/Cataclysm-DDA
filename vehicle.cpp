@@ -2376,46 +2376,44 @@ void vehicle::place_spawn_items()
     for(std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();
             next_spawn != item_spawns.end(); next_spawn++) {
         if(rng(1, 100) <= next_spawn->chance) {
-             int part = part_at(next_spawn->x, next_spawn->y);
-             part = part_with_feature(part, "CARGO", false);
-             if(part < 0) {
-                  debugmsg("No CARGO parts at (%d, %d) of %s!",
-                          next_spawn->x, next_spawn->y, name.c_str());
-             } else {
-                  bool partbroken = ( parts[part].hp < 1 );
-                  int idmg = 0;
-                  for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
-                          next_id != next_spawn->item_ids.end(); next_id++) {
-                     if ( partbroken ) {
-                         int idmg = rng(1, 10);
-                         if ( idmg > 5 ) {
-                             continue;
-                         }
-                     }
-                     item new_item = item_controller->create(*next_id, g->turn);
-                     new_item = new_item.in_its_container(&(g->itypes));
-                     if ( idmg > 0 ) {
-                         new_item.damage = (signed char)idmg;
-                     }
-                     add_item(part, new_item);
-                 }
-                 for(std::vector<std::string>::iterator next_group_id = next_spawn->item_groups.begin();
-
-                    //Present, but broken - don't place items
-                    continue;
-                }
+            //Find the cargo part in that square
+            int part = part_at(next_spawn->x, next_spawn->y);
+            part = part_with_feature(part, "CARGO", false);
+            if(part < 0) {
+                debugmsg("No CARGO parts at (%d, %d) of %s!",
+                        next_spawn->x, next_spawn->y, name.c_str());
             } else {
+                bool partbroken = ( parts[part].hp < 1 );
+                int idmg = 0;
                 for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
                         next_id != next_spawn->item_ids.end(); next_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     item new_item = item_controller->create(*next_id, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
                 for(std::vector<std::string>::iterator next_group_id = next_spawn->item_groups.begin();
                         next_group_id != next_spawn->item_groups.end(); next_group_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
                     item new_item = item_controller->create(group_tag, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
             }
