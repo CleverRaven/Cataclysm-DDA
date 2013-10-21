@@ -9,6 +9,8 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
+#include "debug.h"
+
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
@@ -545,7 +547,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         vpart_info other_part = vehicle_part_types[parts[parts_in_square[index]].id];
 
         //Parts with no location can stack with each other (but not themselves)
-        if(part.id == other_part.id || 
+        if(part.id == other_part.id ||
                 (!part.location.empty() && part.location == other_part.location)) {
             return false;
         }
@@ -1000,13 +1002,25 @@ char vehicle::part_sym (int p)
     }
 
     int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-    
+
     if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
         return '\''; // open door
     } else {
         return parts[displayed_part].hp <= 0 ?
             part_info(displayed_part).sym_broken : part_info(displayed_part).sym;
     }
+}
+
+// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
+std::string vehicle::part_id_string(int p)
+{
+    if (p < 0 || p >= parts.size()){
+        return "";
+    }
+
+    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+
+    return parts[displayed_part].id;
 }
 
 nc_color vehicle::part_color (int p)
@@ -1096,7 +1110,7 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
         } else {
             left_sym = "-"; right_sym = "-";
         }
-        
+
         mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, left_sym.c_str());
         mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, right_sym.c_str());

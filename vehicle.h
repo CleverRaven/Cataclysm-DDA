@@ -162,7 +162,7 @@ struct vehicle_part
  *   When adding parts, function checks possibility to install part at given
  *   coords. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
- *   There are a few rules: 
+ *   There are a few rules:
  *   1. Every mount point (tile) must begin with a part in the 'structure'
  *      location, usually a frame.
  *   2. No part can stack with itself.
@@ -267,6 +267,7 @@ public:
 
 // get symbol for map
     char part_sym (int p);
+    std::string part_id_string(int p);
 
 // get color for map
     nc_color part_color (int p);
