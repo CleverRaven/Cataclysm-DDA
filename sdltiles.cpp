@@ -70,8 +70,7 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
-bool lastchar_is_mouse_button; // Mouse button pressed
-bool lastchar_is_mouse_move;   // Mouse moved
+bool lastchar_is_mouse; // Mouse button pressed
 int inputdelay;         //How long getch will wait for a character to be typed
 int delaydpad = -1;     // Used for entering diagonal directions with d-pad.
 int dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
@@ -619,8 +618,7 @@ void CheckMessages()
         return;
     }
 
-    lastchar_is_mouse_button = false;
-    lastchar_is_mouse_move = false;
+    lastchar_is_mouse = false;
     while(SDL_PollEvent(&ev)) {
         switch(ev.type) {
             case SDL_KEYDOWN:
@@ -702,26 +700,21 @@ void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    lastchar_is_mouse_move = true;
+                    lastchar_is_mouse = true;
                     lastchar = MOUSE_MOVE;
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
+                lastchar_is_mouse = true;
                 if (ev.button.button == SDL_BUTTON_LEFT) {
-                    lastchar_is_mouse_button = true;
                     lastchar = MOUSE_BUTTON_LEFT;
                 } else if (ev.button.button == SDL_BUTTON_RIGHT) {
-                    lastchar_is_mouse_button = true;
                     lastchar = MOUSE_BUTTON_RIGHT;
                 } else if (ev.button.button == SDL_BUTTON_WHEELUP) {
-                    // Mouse wheel emulates '<' and '>'
-                    // FIXME This should really find current key from 'keymap', in case it's remapped, but
-                    // that's in action.h. When that's available at a different abstraction level,
-                    // this can be improved.
-                    lastchar = '<'; 
+                    lastchar = SCROLLWHEEL_UP;
                 } else if (ev.button.button == SDL_BUTTON_WHEELDOWN) {
-                    lastchar = '>';
+                    lastchar = SCROLLWHEEL_DOWN;
                 }
                 break;
 
@@ -996,87 +989,12 @@ WINDOW *curses_init(void)
 //but jday helped to figure most of it out
 int curses_getch(WINDOW* win)
 {
-    input_event evt;
-    do {
+    input_event evt = inp_mngr.get_input_event(win);
+    while(evt.type != CATA_INPUT_KEYBOARD) {
         evt = inp_mngr.get_input_event(win);
-        // Ignore mouse move events.
-    } while (evt.type == CATA_INPUT_MOUSE_MOVE);
-
-    if(evt.type != CATA_INPUT_KEYBOARD) {
-        return ERR;
-    } else {
-        return evt.sequence[0];
     }
+    return evt.sequence[0];
 }
-
-// Gets input from both keyboard and mouse (within a capture window)
-input_event getch_kyb_mouse(WINDOW *capture_win /* = NULL */)
-{
-    static WINDOW *last_focus_win = NULL;
-    input_event evt = inp_mngr.get_input_event(mainwin);
-
-    if (evt.sequence.size() == 0 && evt.type != CATA_INPUT_MOUSE_MOVE) {
-        evt.type = CATA_INPUT_ERROR;
-    }
-
-    if (evt.type == CATA_INPUT_ERROR) {
-        return evt;
-    }
-
-    if (evt.type == CATA_INPUT_MOUSE_BUTTON || evt.type == CATA_INPUT_MOUSE_MOVE) {
-        if (!capture_win) {
-            // For now we only care about the terrain window
-            capture_win = g->w_terrain;
-        }
-
-        // Check if mouse is within bounds of the window we care about
-        int win_left = capture_win->x * fontwidth;
-        int win_right = (capture_win->x + capture_win->width) * fontwidth;
-        int win_top = capture_win->y * fontheight;
-        int win_bottom = (capture_win->y + capture_win->height) * fontheight;
-        if (evt.mouse_x < win_left || evt.mouse_x > win_right || evt.mouse_y < win_top || evt.mouse_y > win_bottom) {
-            if (last_focus_win == capture_win) {
-                // Window we care about just lost focus. Calling function may want
-                // to know about this.
-                evt.mouse_x = -1;
-                evt.mouse_y = -1;
-            } else {
-                evt.type = CATA_INPUT_ERROR;
-            }
-            last_focus_win = NULL;
-            return evt;
-        }
-
-        last_focus_win = capture_win;
-        int view_columns, view_rows, selected_column, selected_row;
-
-        // Translate mouse coords to map coords based on tile size
-#ifdef SDLTILES
-        if (use_tiles)
-        {
-            tilecontext->get_window_tile_counts(
-                capture_win->width * fontwidth, capture_win->height * fontheight, view_columns, view_rows);
-
-            selected_column = (evt.mouse_x - win_left) / tilecontext->get_tile_width();
-            selected_row = (evt.mouse_y - win_top) / tilecontext->get_tile_width();
-        }
-        else
-#endif
-        {
-            view_columns = capture_win->width;
-            view_rows = capture_win->height;
-            selected_column = (evt.mouse_x - win_left) / fontwidth;
-            selected_row = (evt.mouse_y - win_top) / fontheight;
-        }
-
-        evt.mouse_x = g->ter_view_x - ((view_columns/2) - selected_column);
-        evt.mouse_y = g->ter_view_y - ((view_rows/2) - selected_row);
-    }
-
-    return evt;
-}
-
-
 
 //Ends the terminal, destroy everything
 int curses_destroy(void)
@@ -1234,13 +1152,9 @@ input_event input_manager::get_input_event(WINDOW *win) {
     } else if(lastchar_isbutton) {
         rval.type = CATA_INPUT_GAMEPAD;
         rval.add_input(lastchar);
-    } else if(lastchar_is_mouse_button) {
-        rval.type = CATA_INPUT_MOUSE_BUTTON;
+    } else if(lastchar_is_mouse) {
+        rval.type = CATA_INPUT_MOUSE;
         rval.add_input(lastchar);
-        SDL_GetMouseState(&rval.mouse_x, &rval.mouse_y);
-    }
-    else if(lastchar_is_mouse_move) {
-        rval.type = CATA_INPUT_MOUSE_MOVE;
         SDL_GetMouseState(&rval.mouse_x, &rval.mouse_y);
     } else {
         rval.type = CATA_INPUT_KEYBOARD;
@@ -1252,6 +1166,51 @@ input_event input_manager::get_input_event(WINDOW *win) {
 
 bool gamepad_available() {
     return joystick != NULL;
+}
+
+bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
+    if(!coordinate_input_received) {
+        return false;
+    }
+
+    if (!capture_win) {
+        capture_win = g->w_terrain;
+    }
+
+    // Check if click is within bounds of the window we care about
+    int win_left = capture_win->x * fontwidth;
+    int win_right = (capture_win->x + capture_win->width) * fontwidth;
+    int win_top = capture_win->y * fontheight;
+    int win_bottom = (capture_win->y + capture_win->height) * fontheight;
+    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+        return false;
+    }
+
+    int view_columns, view_rows, selected_column, selected_row;
+
+    // Translate mouse coords to map coords based on tile size
+#ifdef SDLTILES
+    if (use_tiles)
+    {
+        tilecontext->get_window_tile_counts(
+            capture_win->width * fontwidth, capture_win->height * fontheight, view_columns, view_rows);
+
+        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
+        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_width();
+    }
+    else
+#endif
+    {
+        view_columns = capture_win->width;
+        view_rows = capture_win->height;
+        selected_column = (coordinate_x - win_left) / fontwidth;
+        selected_row = (coordinate_y - win_top) / fontheight;
+    }
+
+    x = g->ter_view_x - ((view_columns/2) - selected_column);
+    y = g->ter_view_y - ((view_rows/2) - selected_row);
+
+    return true;
 }
 
 #endif // TILES

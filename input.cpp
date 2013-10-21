@@ -76,32 +76,6 @@ InputEvent get_input(int ch)
 
 }
 
-// Gets input from both keyboard and mouse
-mapped_input get_input_from_kyb_mouse(bool monitor_mouse_move)
-{
-    input_event raw_event;
-
-#if (defined TILES || defined SDLTILES)
-        while (raw_event.type == CATA_INPUT_ERROR) {
-            raw_event = getch_kyb_mouse();
-            if (!monitor_mouse_move && raw_event.type == CATA_INPUT_MOUSE_MOVE) {
-                raw_event.type = CATA_INPUT_ERROR;
-            }
-        }
-#else
-        raw_event.type = CATA_INPUT_KEYBOARD;
-        raw_event.add_input(get_keypress());
-#endif
-
-    mapped_input mapped;
-    mapped.evt = raw_event;
-    if (raw_event.type != CATA_INPUT_MOUSE_BUTTON && raw_event.type != CATA_INPUT_MOUSE_MOVE) {
-        mapped.command = get_input(raw_event.get_first_input());
-    }
-
-    return mapped;
-}
-
 bool is_mouse_enabled()
 {
 #if !(defined TILES || defined SDLTILES)
@@ -226,6 +200,8 @@ void input_manager::init() {
                 new_event.type = CATA_INPUT_KEYBOARD;
             } else if(input_method == "gamepad") {
                 new_event.type = CATA_INPUT_GAMEPAD;
+            } else if(input_method == "mouse") {
+                new_event.type = CATA_INPUT_MOUSE;
             }
 
             if(keybinding.get("key").is<std::string>()) {
@@ -300,6 +276,11 @@ void input_manager::init_keycode_mapping() {
     add_gamepad_keycode_pair(JOY_5,         "JOY_5");
     add_gamepad_keycode_pair(JOY_6,         "JOY_6");
     add_gamepad_keycode_pair(JOY_7,         "JOY_7");
+
+    keyname_to_keycode["MOUSE_LEFT"] = MOUSE_BUTTON_LEFT;
+    keyname_to_keycode["MOUSE_RIGHT"] = MOUSE_BUTTON_RIGHT;
+    keyname_to_keycode["SCROLL_UP"] = SCROLLWHEEL_UP;
+    keyname_to_keycode["SCROLL_DOWN"] = SCROLLWHEEL_DOWN;
 }
 
 long input_manager::get_keycode(std::string name) {
@@ -309,6 +290,18 @@ long input_manager::get_keycode(std::string name) {
 std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
     if(inp_type == CATA_INPUT_KEYBOARD) {
         return keycode_to_keyname[ch];
+    } else if(inp_type == CATA_INPUT_MOUSE) {
+        if(ch == MOUSE_BUTTON_LEFT) {
+            return "MOUSE_LEFT";
+        } else if(ch == MOUSE_BUTTON_RIGHT) {
+            return "MOUSE_RIGHT";
+        } else if(ch == SCROLLWHEEL_UP) {
+            return "SCROLL_UP";
+        } else if(ch == SCROLLWHEEL_DOWN) {
+            return "SCROLL_DOWN";
+        } else {
+            return "MOUSE_UNKNOWN";
+        }
     } else {
         return gamepad_keycode_to_keyname[ch];
     }
@@ -333,6 +326,7 @@ const std::string& input_manager::get_action_name(const std::string& action) {
 const std::string CATA_ERROR = "ERROR";
 const std::string UNDEFINED = "UNDEFINED";
 const std::string ANY_INPUT = "ANY_INPUT";
+const std::string COORDINATE = "COORDINATE";
 
 const std::string& input_context::input_to_action(input_event& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
@@ -352,6 +346,8 @@ const std::string& input_context::input_to_action(input_event& inp) {
 void input_context::register_action(const std::string& action_descriptor) {
     if(action_descriptor == "ANY_INPUT") {
         registered_any_input = true;
+    } else if(action_descriptor == "COORDINATE") {
+        handling_coordinate_input = true;
     }
 
     registered_actions.push_back(action_descriptor);
@@ -406,9 +402,22 @@ const std::string& input_context::handle_input() {
             continue;
         }
 
+        if(next_action.type == CATA_INPUT_MOUSE) {
+            if(!handling_coordinate_input) {
+                continue; // Ignore this mouse input.
+            }
+
+            coordinate_input_received = true;
+            coordinate_x = next_action.mouse_x;
+            coordinate_y = next_action.mouse_y;
+        } else {
+            coordinate_input_received = false;
+        }
+
         if(action != CATA_ERROR) {
             return action;
         }
+
         // If we registered to receive any input, return ANY_INPUT
         // to signify that an unregistered key was pressed.
         if(registered_any_input) {
@@ -538,6 +547,11 @@ void input_context::display_help() {
 
     // Also specify that we don't have a gamepad plugged in.
     bool gamepad_available() {
+        return false;
+    }
+
+    // Coordinates just never happen(no mouse input)
+    bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 #endif

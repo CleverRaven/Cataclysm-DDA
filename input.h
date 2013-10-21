@@ -36,22 +36,86 @@ enum InputEvent {
     Undefined
 };
 
-// Raw input that's been translated into a command
-struct mapped_input {
-    InputEvent command;
-    input_event evt;
-
-    mapped_input()
-    {
-        command = Undefined;
-    }
-};
-
 InputEvent get_input(int ch = '\0');
-mapped_input get_input_from_kyb_mouse(bool monitor_mouse_move);
 bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");
+
+enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT=2, SCROLLWHEEL_UP=3, SCROLLWHEEL_DOWN=4 };
+
+enum input_event_t {
+    CATA_INPUT_ERROR,
+    CATA_INPUT_KEYBOARD,
+    CATA_INPUT_GAMEPAD,
+    CATA_INPUT_MOUSE
+};
+
+/**
+ * An instance of an input, like a keypress etc.
+ *
+ * Gamepad, mouse and keyboard keypresses will be represented as `long`.
+ * Whether a gamepad, mouse or keyboard was used can be checked using the
+ * `type` member.
+ *
+ */
+struct input_event {
+    input_event_t type;
+
+    std::vector<long> modifiers; // Keys that need to be held down for
+                                 // this event to be activated.
+
+    std::vector<long> sequence; // The sequence of key or mouse events that
+                                // triggers this event. For single-key
+                                // events, simply make this of size 1.
+
+    int mouse_x, mouse_y;       // Mouse click co-ordinates, if applicable
+
+    input_event()
+    {
+        mouse_x = mouse_y = 0;
+    }
+
+    long get_first_input() const
+    {
+        if (sequence.size() == 0) {
+            return 0;
+        }
+
+        return sequence[0];
+    }
+
+    void add_input(const long input)
+    {
+        sequence.push_back(input);
+    }
+
+    bool operator==(const input_event& other) const
+    {
+        if(type != other.type) {
+            return false;
+        }
+
+        if(sequence.size() != other.sequence.size()) {
+            return false;
+        }
+        for(int i=0; i<sequence.size(); i++) {
+            if(sequence[i] != other.sequence[i]) {
+                return false;
+            }
+        }
+
+        if(modifiers.size() != other.modifiers.size()) {
+            return false;
+        }
+        for(int i=0; i<modifiers.size(); i++) {
+            if(modifiers[i] != other.modifiers[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
 
 // Definitions for joystick/gamepad.
 
@@ -114,7 +178,7 @@ public:
 
     /**
      * Get the key name associated with the given keyboard keycode.
-     * 
+     *
      * @param input_type Whether the keycode is a gamepad or a keyboard code.
      */
     std::string get_keyname(long ch, input_event_t input_type);
@@ -130,6 +194,8 @@ public:
      * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
      */
     input_event get_input_event(WINDOW* win);
+
+    bool translate_to_window_position();
 
 private:
     std::map<std::string, std::vector<input_event> > action_to_input;
@@ -163,6 +229,8 @@ extern input_manager inp_mngr;
 class input_context {
 public:
     input_context() : registered_any_input(false), category("default") {};
+    // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
+    // outside that window can be ignored
     input_context(std::string category) : registered_any_input(false), category(category) {};
 
     /**
@@ -175,6 +243,11 @@ public:
      * If `action_descriptor` is the special "ANY_INPUT", instead of ignoring
      * unregistered keys, those keys will all be linked to this "ANY_INPUT"
      * action.
+     *
+     * If `action_descriptor` is the special "COORDINATE", coordinate input will be processed
+     * and the specified coordinates can be retrieved using `get_coordinates()`. Currently the
+     * only form of coordinate input is mouse input(you can directly click coordinates on
+     * the screen).
      */
     void register_action(const std::string& action_descriptor);
 
@@ -190,6 +263,8 @@ public:
      * This internally calls getch() or whatever other input method
      * is available(e.g. gamepad).
      *
+     * If the action is mouse input, returns "MOUSE".
+     *
      * @return One of the input actions formerly registered with
      *         `register_action()`, or "ERROR" if an error happened.
      *
@@ -203,6 +278,17 @@ public:
      * @param dy Output parameter for y delta.
      */
     void get_direction(int& dx, int& dy, const std::string& action);
+
+    /**
+     * Get the coordinates associated with the last mouse click.
+     *
+     * TODO: This right now is more or less specific to the map window,
+     *       and returns the absolute map coordinate.
+     *       Eventually this should be made more flexible.
+     *
+     * @return true if we could process a click inside the window, false otherwise.
+     */
+    bool get_coordinates(WINDOW* window, int& x, int& y);
 
     // Below here are shortcuts for registering common key combinations.
     void register_directions();
@@ -222,15 +308,19 @@ public:
      */
 
 private:
+
     std::vector<std::string> registered_actions;
     const std::string& input_to_action(input_event& inp);
     bool registered_any_input;
     std::string category; // The input category this context uses.
+    int coordinate_x, coordinate_y;
+    bool coordinate_input_received;
+    bool handling_coordinate_input;
 };
 
 /**
  * Check whether a gamepad is plugged in/available.
- * 
+ *
  * Always false in non-SDL versions.
  */
 bool gamepad_available();

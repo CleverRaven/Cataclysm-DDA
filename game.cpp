@@ -1653,7 +1653,8 @@ bool game::handle_mouseview(const mapped_input &minput)
 
 bool game::handle_action()
 {
-    mapped_input minput;
+    char ch = '.';
+
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
     float fFactor = 0.01f;
@@ -1725,6 +1726,8 @@ bool game::handle_action()
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
+        int iCh;
+
         timeout(125);
         /*
         Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -1766,20 +1769,18 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-            minput = get_input_from_kyb_mouse(true);
-        } while (handle_mouseview(minput));
+        } while ((iCh = getch()) == ERR);
         timeout(-1);
+
+        ch = input(iCh);
     } else {
-        do {
-            minput = get_input_from_kyb_mouse(true);
-        } while (handle_mouseview(minput));
+        ch = input();
     }
 
-    char ch = static_cast<char>(input(minput.evt.get_first_input()));
-    if (keymap.find(ch) == keymap.end()) {
-        if (ch != ' ' && ch != '\n')
-            add_msg(_("Unknown command: '%c'"), ch);
-        return false;
+  if (keymap.find(ch) == keymap.end()) {
+   if (ch != ' ' && ch != '\n')
+    add_msg(_("Unknown command: '%c'"), ch);
+   return false;
   }
 
  action_id act = keymap[ch];
@@ -6818,7 +6819,7 @@ point game::look_around()
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my;
- mapped_input input;
+ std::string action;
 
  const int lookHeight = 13;
  const int lookWidth = getmaxx(w_messages);
@@ -6839,6 +6840,8 @@ point game::look_around()
     mvwputch(w_look, i, j, c_white, ' ');
   }
 
+  // Debug helper
+  //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
   int junk;
   int off = 1;
   if (u_see(lx, ly)) {
@@ -6865,25 +6868,34 @@ point game::look_around()
   wrefresh(w_terrain);
 
   DebugLog() << __FUNCTION__ << ": calling get_input() \n";
-  input = get_input_from_kyb_mouse(false);
+
+  input_context ctxt("LOOK");
+  ctxt.register_directions();
+  ctxt.register_action("COORDINATE");
+  ctxt.register_action("SELECT");
+  ctxt.register_action("QUIT");
+  action = ctxt.handle_input();
+  
   if (!u_see(lx, ly))
    mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
-  if (input.evt.type != CATA_INPUT_MOUSE_BUTTON) {
-      get_direction(mx, my, input.command);
-      if (mx != -2 && my != -2) { // Directional key pressed
-       lx += mx;
-       ly += my;
-      }
-  } else if (input.evt.get_first_input() == MOUSE_BUTTON_LEFT) {
-      // Left click on map
-      lx = input.evt.mouse_x;
-      ly = input.evt.mouse_y;
+   
+  // Our coordinates will either be determined by coordinate input(mouse),
+  // by a direction key, or by the previous value.
+  if(!ctxt.get_coordinates(g->w_terrain, lx, ly)) {
+    int dx, dy;
+    ctxt.get_direction(dx, dy, action);
+    if(dx == -2) {
+        dx = 0;
+        dy = 0;
+    }
+    lx += dx;
+    ly += dy;
   }
- } while (input.command != Close && input.command != Cancel && input.command != Confirm);
+ } while (action != "QUIT" && action != "CONFIRM");
 
  werase(w_look);
  delwin(w_look);
- if (input.command == Confirm)
+ if (action == "CONFIRM")
   return point(lx, ly);
  return point(-1, -1);
 }
