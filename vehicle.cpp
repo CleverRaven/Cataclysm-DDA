@@ -1012,15 +1012,25 @@ char vehicle::part_sym (int p)
 }
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
-std::string vehicle::part_id_string(int p)
+// vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
+std::string vehicle::part_id_string(int p, char &part_mod)
 {
+    part_mod = 0;
+    std::string idinfo;
     if (p < 0 || p >= parts.size()){
         return "";
     }
 
     int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+    idinfo = parts[displayed_part].id;
 
-    return parts[displayed_part].id;
+    if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
+        part_mod = 1; // open
+    } else if (parts[displayed_part].hp <= 0){
+        part_mod = 2; // broken
+    }
+
+    return idinfo;
 }
 
 nc_color vehicle::part_color (int p)
@@ -2392,29 +2402,42 @@ void vehicle::place_spawn_items()
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
             int part = part_at(next_spawn->x, next_spawn->y);
-            part = part_with_feature(part, "CARGO");
+            part = part_with_feature(part, "CARGO", false);
             if(part < 0) {
-                //Is it broken, or was it never there in the first place?
-                if(part_with_feature(part, "CARGO", false) < 0) {
-                    //Was never there - mistake in placement
-                    debugmsg("No CARGO parts at (%d, %d) of %s!",
-                            next_spawn->x, next_spawn->y, name.c_str());
-                } else {
-                    //Present, but broken - don't place items
-                    continue;
-                }
+                debugmsg("No CARGO parts at (%d, %d) of %s!",
+                        next_spawn->x, next_spawn->y, name.c_str());
             } else {
+                bool partbroken = ( parts[part].hp < 1 );
+                int idmg = 0;
                 for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
                         next_id != next_spawn->item_ids.end(); next_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     item new_item = item_controller->create(*next_id, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
                 for(std::vector<std::string>::iterator next_group_id = next_spawn->item_groups.begin();
                         next_group_id != next_spawn->item_groups.end(); next_group_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
                     item new_item = item_controller->create(group_tag, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
             }
