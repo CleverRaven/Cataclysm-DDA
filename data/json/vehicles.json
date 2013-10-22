@@ -749,7 +749,7 @@
             {"x": 5, "y": -2, "part": "headlight"},
             {"x": 5, "y": 2, "part": "frame_ne"},
             {"x": 5, "y": 2, "part": "halfboard_ne"},
-            {"x": 5, "y": -3, "part": "frame_nw"}
+            {"x": 5, "y": -3, "part": "frame_nw"},
             {"x": 5, "y": -3, "part": "halfboard_nw"}
         ]
     },
