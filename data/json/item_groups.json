@@ -17,7 +17,7 @@
       ["child_book", 50],
       ["tall_tales", 20],
       ["story_book", 4],
-      ["novel_pulp", 16],,
+      ["novel_pulp", 16],
       ["fairy_tales", 20],
       ["mag_comic", 20]
     ]
@@ -107,7 +107,7 @@
       ["child_book", 50],
       ["tall_tales", 10],
       ["story_book", 4],
-      ["novel_pulp", 16],,
+      ["novel_pulp", 16],
       ["fairy_tales", 10],
       ["mag_unarmed", 10],
       ["tailor_portfolio", 1],
@@ -487,7 +487,7 @@
       ["child_book", 20],
       ["tall_tales", 10],
       ["story_book", 4],
-      ["novel_pulp", 16],,
+      ["novel_pulp", 16],
       ["fairy_tales", 10],
       ["tailor_portfolio", 1],
       ["laptop", 10],
@@ -718,7 +718,7 @@
     "items":[
       ["water_clean", 90],
       ["oj", 50],
-      ["juice", 50]
+      ["juice", 50],
       ["cranberry_juice", 50],
       ["sports_drink", 50],
       ["apple_cider", 50],
@@ -788,7 +788,7 @@
       ["choc_drink", 40],
       ["rootbeer", 65],
       ["purple_drink", 35],
-      ["juice", 20]
+      ["juice", 20],
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
@@ -4647,7 +4647,7 @@
     "id":"shia_stuff",
     "items":[
       ["knife_steak", 3],
-      ["ax", 1],
+      ["ax", 1]
     ]
   }
 

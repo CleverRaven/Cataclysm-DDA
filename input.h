@@ -15,6 +15,7 @@ enum InputEvent {
     Confirm,
     Cancel,
     Close,
+    Tab,
     Help,
 
     DirectionN,
@@ -114,7 +115,7 @@ public:
 
     /**
      * Get the key name associated with the given keyboard keycode.
-     * 
+     *
      * @param input_type Whether the keycode is a gamepad or a keyboard code.
      */
     std::string get_keyname(long ch, input_event_t input_type);
@@ -230,7 +231,7 @@ private:
 
 /**
  * Check whether a gamepad is plugged in/available.
- * 
+ *
  * Always false in non-SDL versions.
  */
 bool gamepad_available();
