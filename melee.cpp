@@ -194,7 +194,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
     message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
 // Handles speed penalties to monster & us, etc
- melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
+ melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
  if (!is_quiet()) // check martial arts silence
