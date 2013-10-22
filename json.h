@@ -19,7 +19,6 @@ private:
     int start;
     int end;
     JsonIn *jsin;
-
     int verify_position(const std::string &name,
                         const bool throw_exception=true);
 
@@ -63,6 +62,9 @@ public:
     // useful debug info
     std::string line_number(); // for occasional use only
 
+    // sets and gets validation mode // todo constructor arg
+    bool strict;
+
     // dump substring of input, for error messages and copying
     std::string dump_input();
 };
@@ -74,7 +76,6 @@ private:
     int index;
     int end;
     JsonIn *jsin;
-
     void verify_index(int i);
 
 public:
@@ -121,6 +122,9 @@ public:
     bool has_array(int index);
     bool has_object(int index);
 
+    // sets and gets validation mode // todo constructor arg
+    bool strict;
+
     // dump substring of input, for error messages and copying
     std::string dump_input();
 };
@@ -142,17 +146,17 @@ public:
     void eat_whitespace();
 
     // quick skipping for when values don't have to be parsed
-    void skip_member();
-    void skip_pair_separator();
-    void skip_string();
-    void skip_value();
-    void skip_object();
-    void skip_array();
-    void skip_true();
-    void skip_false();
-    void skip_null();
-    void skip_number();
-    void skip_separator();
+    bool skip_member();
+    bool skip_pair_separator();
+    bool skip_string();
+    bool skip_value();
+    bool skip_object();
+    bool skip_array();
+    bool skip_true();
+    bool skip_false();
+    bool skip_null();
+    bool skip_number();
+    bool skip_separator();
 
     // data parsing
     std::string get_string(); // get the next value as a string
@@ -181,6 +185,9 @@ public:
 
     // useful debug info
     std::string line_number(int offset_modifier=0); // for occasional use only
+
+    // sets and gets validation mode // todo constructor arg
+    bool strict;
 
     // raw read of string, for dump_input
     void read(char * str, int len);

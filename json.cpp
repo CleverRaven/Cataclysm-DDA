@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <set>
+#define STRICT_JSON true
 
 /* JSON parsing and serialization tools for Cataclysm-DDA
  * ~
@@ -78,17 +79,30 @@ bool is_whitespace(char ch)
  */
 JsonObject::JsonObject(JsonIn *j) : positions()
 {
+    strict = STRICT_JSON;
     jsin = j;
     start = jsin->tell();
     // cache the position of the value for each member
     jsin->start_object();
+    bool gotsep = true;
+    bool lastsep = false;
     while (!jsin->end_object()) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
         positions[n] = p;
-        jsin->skip_value();
+        if ( strict && ! gotsep ) {
+            end = jsin->tell();
+            jsin->seek(start);
+            throw jsin->line_number() + ": missing comma: " + dump_input();
+        }
+        gotsep = jsin->skip_value();
+        lastsep = gotsep;
     }
     end = jsin->tell();
+    if ( strict && lastsep ) {
+        jsin->seek(start);
+        throw jsin->line_number() + ": trailing comma: " + dump_input();
+    }
 }
 
 JsonObject::JsonObject(const JsonObject &jo)
@@ -97,6 +111,7 @@ JsonObject::JsonObject(const JsonObject &jo)
     start = jo.start;
     positions = jo.positions;
     end = jo.end;
+    strict = jo.strict;
 }
 
 void JsonObject::finish()
@@ -344,16 +359,29 @@ std::string JsonObject::dump_input() {
  */
 JsonArray::JsonArray(JsonIn *j) : positions()
 {
+    strict = STRICT_JSON;
     jsin = j;
     start = jsin->tell();
     index = 0;
     // cache the position of each element
+    bool gotsep = true;
+    bool lastsep = false;
     jsin->start_array();
     while (!jsin->end_array()) {
         positions.push_back(jsin->tell());
-        jsin->skip_value();
+        if ( strict && ! gotsep ) {
+            end = jsin->tell();
+            jsin->seek(start);
+            throw jsin->line_number() + ": missing comma: " + dump_input();
+        }
+        gotsep = jsin->skip_value();
+        lastsep = gotsep;
     }
     end = jsin->tell();
+    if ( strict && lastsep ) {
+        jsin->seek(start);
+        throw jsin->line_number() + ": trailing comma: " + dump_input();
+    }
 }
 
 JsonArray::JsonArray(const JsonArray &ja)
@@ -363,6 +391,7 @@ JsonArray::JsonArray(const JsonArray &ja)
     index = 0;
     positions = ja.positions;
     end = ja.end;
+    strict = ja.strict;
 }
 
 bool JsonArray::has_more()
@@ -611,6 +640,7 @@ std::string JsonArray::dump_input() {
 JsonIn::JsonIn(std::istream *s)
 {
     stream = s;
+    strict = STRICT_JSON;
 }
 
 int JsonIn::tell() { return stream->tellg(); }
@@ -625,15 +655,15 @@ void JsonIn::eat_whitespace()
     }
 }
 
-void JsonIn::skip_member()
+bool JsonIn::skip_member()
 {
     skip_string();
     skip_pair_separator();
     skip_value();
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_pair_separator()
+bool JsonIn::skip_pair_separator()
 {
     char ch;
     eat_whitespace();
@@ -643,9 +673,10 @@ void JsonIn::skip_pair_separator()
         err << line_number(-1) << ": expected pair separator ':', not '" << ch << "'";
         throw err.str();
     }
+    return false;
 }
 
-void JsonIn::skip_string()
+bool JsonIn::skip_string()
 {
     char ch;
     eat_whitespace();
@@ -664,45 +695,47 @@ void JsonIn::skip_string()
             break;
         }
     }
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_value()
+bool JsonIn::skip_value()
 {
     char ch;
+    bool foundsep;
     eat_whitespace();
     ch = peek();
     // it's either a string '"'
     if (ch == '"') {
-        skip_string();
+        foundsep = skip_string();
     // or an object '{'
     } else if (ch == '{') {
-        skip_object();
+        foundsep = skip_object();
     // or an array '['
     } else if (ch == '[') {
-        skip_array();
+        foundsep = skip_array();
     // or a number (-0123456789)
     } else if (ch == '-' || (ch >= '0' && ch <= '9')) {
-        skip_number();
+        foundsep = skip_number();
     // or "true", "false" or "null"
     } else if (ch == 't') {
-        skip_true();
+        foundsep = skip_true();
     } else if (ch == 'f') {
-        skip_false();
+        foundsep = skip_false();
     } else if (ch == 'n') {
-        skip_null();
+        foundsep = skip_null();
     // or an error.
     } else {
         std::stringstream err;
         err << line_number() << ": expected JSON value but got '" << ch << "'";
         throw err.str();
     }
-    skip_separator();
+    return foundsep;//b( foundsep || skip_separator() );
 }
 
-void JsonIn::skip_object()
+bool JsonIn::skip_object()
 {
     char ch;
+    bool lastsep = false;
     int brackets = 1;
     eat_whitespace();
     int startpos = tell();
@@ -717,12 +750,26 @@ void JsonIn::skip_object()
         // ignore everything inside strings
         if (ch == '"') {
             stream->unget();
-            skip_string();
+            lastsep = skip_string();
         // otherwise count opening and closing brackets until they all match
         } else if (ch == '{') {
             brackets += 1;
+            lastsep = false;
         } else if (ch == '}') {
             brackets -= 1;
+            if ( strict && lastsep ) {
+                std::stringstream err;
+                std::string txt;
+                int errpos = tell();
+                err << line_number(-1) << ": trailing comma: ";
+                stream->seekg(startpos);
+                stream->read(&txt[0],errpos-startpos);
+                err << txt;
+                throw err.str();                 
+            }
+            lastsep = false;
+        } else if (!is_whitespace(ch)) {
+            lastsep = false;
         }
     }
     if (brackets != 0) {
@@ -746,12 +793,13 @@ void JsonIn::skip_object()
             throw err.str();
         }
     }
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_array()
+bool JsonIn::skip_array()
 {
     char ch;
+    bool lastsep = false;
     int brackets = 1;
     eat_whitespace();
     int startpos = tell();
@@ -766,13 +814,28 @@ void JsonIn::skip_array()
         // ignore everything inside strings
         if (ch == '"') {
             stream->unget();
-            skip_string();
+            lastsep = skip_string();
         // otherwise count opening and closing brackets until they all match
         } else if (ch == '[') {
             brackets += 1;
+            lastsep = false;
         } else if (ch == ']') {
             brackets -= 1;
+            if ( strict && lastsep ) {
+                std::stringstream err;
+                std::string txt;
+                int errpos = tell();
+                err << line_number(-1) << ": trailing comma: ";
+                stream->seekg(startpos);
+                stream->read(&txt[0],errpos-startpos);
+                err << txt;
+                throw err.str();                 
+            }
+            lastsep = false;
+        } else if (!is_whitespace(ch)) {
+            lastsep = false;
         }
+
     }
     if (brackets != 0) {
         // something messed up!
@@ -795,10 +858,10 @@ void JsonIn::skip_array()
             throw err.str();
         }
     }
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_true()
+bool JsonIn::skip_true()
 {
     char text[5];
     eat_whitespace();
@@ -808,10 +871,10 @@ void JsonIn::skip_true()
         err << line_number(-4) << ": expected \"true\", but found \"" << text << "\"";
         throw err.str();
     }
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_false()
+bool JsonIn::skip_false()
 {
     char text[6];
     eat_whitespace();
@@ -821,10 +884,10 @@ void JsonIn::skip_false()
         err << line_number(-5) << ": expected \"false\", but found \"" << text << "\"";
         throw err.str();
     }
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_null()
+bool JsonIn::skip_null()
 {
     char text[5];
     eat_whitespace();
@@ -834,10 +897,10 @@ void JsonIn::skip_null()
         err << line_number(-4) << ": expected \"null\", but found \"" << text << "\"";
         throw err.str();
     }
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_number()
+bool JsonIn::skip_number()
 {
     char ch;
     eat_whitespace();
@@ -847,20 +910,22 @@ void JsonIn::skip_number()
         if (ch != '+' && ch != '-' && (ch < '0' || ch > '9') &&
                 ch != 'e' && ch != 'E' && ch != '.') {
             stream->unget();
-            return;
+            return (ch==',');
         }
     }
-    skip_separator();
+    return skip_separator();
 }
 
-void JsonIn::skip_separator()
+bool JsonIn::skip_separator()
 {
     char ch;
     eat_whitespace();
     ch = peek();
     if (ch == ',') {
         stream->get();
+        return true;
     }
+    return false;
 }
 
 std::string JsonIn::get_member_name()
