@@ -526,7 +526,7 @@
             "switchblade"
         ],
         "name": "Street Thug",
-        "points": 2
+        "points": 2,
         "skills": [
             {
                 "name": "cutting",
