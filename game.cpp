@@ -2174,6 +2174,10 @@ bool game::handle_action()
   case ACTION_IGNORE_ENEMY:
    if (run_mode == 2) {
     add_msg(_("Ignoring enemy!"));
+    for(int i=0; i < new_seen_mon.size(); i++) {
+        monster &z = _active_monsters[new_seen_mon[i]];
+        z.ignoring = rl_dist( point(u.posx, u.posy), z.pos() );
+    }
     run_mode = 1;
    }
    break;
@@ -4500,6 +4504,8 @@ int game::mon_info(WINDOW *w)
     direction dir_to_mon, dir_to_npc;
     int viewx = u.posx + u.view_offset_x;
     int viewy = u.posy + u.view_offset_y;
+    new_seen_mon.clear();
+
     for (int i = 0; i < num_zombies(); i++) {
         monster &z = _active_monsters[i];
         if (u_see(&z)) {
@@ -4521,10 +4527,22 @@ int game::mon_info(WINDOW *w)
 
                 int mondist = rl_dist(u.posx, u.posy, z.posx(), z.posy());
                 if (mondist <= iProxyDist) {
-                    newseen++;
-                    if ( mondist < newdist ) {
-                        newdist = mondist; // todo: prioritize dist * attack+follow > attack > follow
-                        newtarget = i; // todo: populate alt targeting map
+                    bool passmon = false;
+
+                    if ( z.ignoring > 0 ) {
+                        if ( run_mode != 1 ) {
+                            z.ignoring = 0;
+                        } else if ( mondist > z.ignoring / 2 || mondist < 6 ) {
+                            passmon = true;
+                        }
+                    }
+                    if (!passmon) {
+                        newseen++;
+                        new_seen_mon.push_back(i);
+                        if ( mondist < newdist ) {
+                            newdist = mondist; // todo: prioritize dist * attack+follow > attack > follow
+                            newtarget = i; // todo: populate alt targeting map
+                        }
                     }
                 }
             }
