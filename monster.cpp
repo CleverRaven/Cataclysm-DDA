@@ -118,6 +118,11 @@ bool monster::setpos(const point &p, const bool level_change)
     return setpos(p.x, p.y, level_change);
 }
 
+point monster::pos()
+{
+    return point(_posx, _posy);
+}
+
 void monster::poly(mtype *t)
 {
  double hp_percentage = double(hp) / double(type->hp);
@@ -528,7 +533,8 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
  break;
  }
 
- if (has_flag(MF_DIGS))
+ if (has_flag(MF_DIGS) ||
+    (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", _posx, _posy)))
   highest_hit -= 8;
  if (has_flag(MF_FLIES))
   highest_hit += 20;

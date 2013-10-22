@@ -9,6 +9,7 @@
 #include "item.h"
 #include "options.h"
 #include "action.h"
+#include "input.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -369,10 +370,11 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 //  OR it's not the monster we were aiming at and we were lucky enough to hit it
    int mondex = mon_at(tx, ty);
 // If we shot us a monster...
-   if (mondex != -1 && (!zombie(mondex).has_flag(MF_DIGS) ||
+   if (mondex != -1 && ((!zombie(mondex).has_flag(MF_DIGS) &&
+        (!zombie(mondex).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", tx, ty))) ||
        rl_dist(p.posx, p.posy, zombie(mondex).posx(), zombie(mondex).posy()) <= 1) &&
        ((!missed && i == trajectory.size() - 1) ||
-        one_in((5 - int(zombie(mondex).type->size))))) {
+        one_in((5 - int(zombie(mondex).type->size)))) ) {
     monster &z = zombie(mondex);
 
     double goodhit = missed_by;
@@ -414,7 +416,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   ammo_effects(this, tx, ty, effects);
   if (effects.count("BOUNCE"))
   {
-    for (int i = 0; i < num_zombies(); i++)
+    for (unsigned long int i = 0; i < num_zombies(); i++)
     {
         monster &z = zombie(i);
         // search for monsters in radius 4 around impact site
@@ -692,13 +694,22 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  }
  wprintz(w_target, c_white, " >");
 /* Annoying clutter @ 2 3 4. */
- mvwprintz(w_target, getmaxy(w_target) - 4, 1, c_white,
+ int text_y = getmaxy(w_target) - 4;
+ if (is_mouse_enabled()) {
+     --text_y;
+ }
+ mvwprintz(w_target, text_y++, 1, c_white,
            _("Move cursor to target with directional keys"));
  if (relevent) {
-  mvwprintz(w_target, getmaxy(w_target) - 3, 1, c_white,
+  mvwprintz(w_target, text_y++, 1, c_white,
             _("'<' '>' Cycle targets; 'f' or '.' to fire"));
-  mvwprintz(w_target, getmaxy(w_target) - 2, 1, c_white,
+  mvwprintz(w_target, text_y++, 1, c_white,
             _("'0' target self; '*' toggle snap-to-target"));
+ }
+
+ if (is_mouse_enabled()) {
+     mvwprintz(w_target, text_y++, 1, c_white,
+         _("Mouse - LMB: Target, Wheel: Cycle, RMB: Fire"));
  }
 
  wrefresh(w_target);
@@ -797,10 +808,30 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   wrefresh(w_terrain);
   wrefresh(w_status);
   refresh();
-  ch = input();
-  get_direction(tarx, tary, ch);
+
+  mapped_input minput = get_input_from_kyb_mouse();
+  bool target_with_mouse = false;
+  if (minput.evt.type == CATA_INPUT_MOUSE) {
+      if (minput.evt.get_first_input() == MOUSE_BUTTON_LEFT) {
+          // Move target to tile clicked
+          target_with_mouse = true;
+          tarx = minput.evt.mouse_x - x;
+          tary = minput.evt.mouse_y - y;
+      } else if (minput.evt.get_first_input() == MOUSE_BUTTON_RIGHT) {
+          ch = '.'; // Fire
+      } else {
+          ch = 0; // Unsupported
+      }
+  } else {
+      ch = convert_to_dialog_key(minput.evt.get_first_input());
+  }
+
+  if (!target_with_mouse) {
+      get_direction(tarx, tary, ch);
+  }
+
   /* More drawing to terrain */
-  if (tarx != -2 && tary != -2 && ch != '.') { // Direction character pressed
+  if (target_with_mouse || (tarx != -2 && tary != -2 && ch != '.')) { // Direction character pressed
    int mondex = mon_at(x, y), npcdex = npc_at(x, y);
    if (mondex != -1 && u_see(&(zombie(mondex))))
     zombie(mondex).draw(w_terrain, center.x, center.y, false);
@@ -1020,7 +1051,8 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, 4, _("Fwoosh!"));
  else if (weapon->curammo->type != "bolt" &&
           weapon->curammo->type != "arrow" &&
-          weapon->curammo->type != "pebble")
+          weapon->curammo->type != "pebble" &&
+          weapon->curammo->type != "dart")
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 

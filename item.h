@@ -111,7 +111,9 @@ public:
  void put_in(item payload);
 
  int weight() const;
- int volume() const;
+
+ int precise_unit_volume() const;
+ int volume(bool unit_value=false, bool precise_value=false) const;
  int volume_contained();
  int attack_time();
  int damage_bash();

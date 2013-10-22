@@ -429,6 +429,7 @@ void cata_tiles::draw()
     // init lighting
     init_light();
 }
+
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) return;
@@ -437,8 +438,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     int posx = centerx;
     int posy = centery;
 
-    int sx = ceil((double)width / tile_width);
-    int sy = ceil((double)height / tile_height);
+    int sx, sy;
+    get_window_tile_counts(width, height, sx, sy);
 
     init_light();
 
@@ -514,6 +515,17 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
     SDL_BlitSurface(buffer, &srcrect, display_screen, &desrect);
+}
+
+void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
+{
+    columns = ceil((double) width / tile_width);
+    rows = ceil((double) height / tile_height);
+}
+
+int cata_tiles::get_tile_width() const
+{
+    return tile_width;
 }
 
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
@@ -836,35 +848,35 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     field f = g->m.field_at(x,y);
     // check for items
     std::vector<item> items = g->m.i_at(x, y);
-	field_id f_id = f.fieldSymbol();
-	bool is_draw_field;
-	bool do_item;
-	switch(f_id){
-	case fd_null:
-		//only draw items
-		is_draw_field = false;
-		do_item = true;
-		break;
-	case fd_blood:
-	case fd_gibs_flesh:
-	case fd_bile:
-	case fd_slime:
-	case fd_acid:
-	case fd_gibs_veggy:
-	case fd_sap:
-	case fd_sludge:
-		//need to draw fields and items both
-		is_draw_field = true;
-		do_item = true;
-		break;
-	default:
-		//only draw fields
-		do_item = false;
-		is_draw_field = true;
-		break;
-	}
-	bool ret_draw_field = true;
-	bool ret_draw_item = true;
+    field_id f_id = f.fieldSymbol();
+    bool is_draw_field;
+    bool do_item;
+    switch(f_id){
+    case fd_null:
+        //only draw items
+        is_draw_field = false;
+        do_item = true;
+        break;
+    case fd_blood:
+    case fd_gibs_flesh:
+    case fd_bile:
+    case fd_slime:
+    case fd_acid:
+    case fd_gibs_veggy:
+    case fd_sap:
+    case fd_sludge:
+        //need to draw fields and items both
+        is_draw_field = true;
+        do_item = true;
+        break;
+    default:
+        //only draw fields
+        do_item = false;
+        is_draw_field = true;
+        break;
+    }
+    bool ret_draw_field = true;
+    bool ret_draw_item = true;
     if (is_draw_field)
     {
         std::string fd_name = field_names[f.fieldSymbol()];
@@ -896,7 +908,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
 
         ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
     }
-	return ret_draw_field && ret_draw_item;
+    return ret_draw_field && ret_draw_item;
 }
 /** Deprecated: combined with field drawing as they are mutex */
 bool cata_tiles::draw_item(int x, int y)
@@ -913,11 +925,12 @@ bool cata_tiles::draw_vpart(int x, int y)
     // get a north-east-south-west value instead of east-south-west-north value to use with rotation
     int veh_dir = (veh->face.dir4() + 1) % 4;
     if (veh_dir == 1 || veh_dir == 3) veh_dir = (veh_dir + 2) % 4;
-    // get the veh part itself
-    vehicle_part vpart = veh->parts[veh_part];
-    // get the vpart_id
-    std::string vpid = vpart.id;
 
+    // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
+    // get the vpart_id
+    std::string vpid = veh->part_id_string(veh_part);
+    // prefix with vp_ ident
+    vpid = "vp_" + vpid;
     return draw_from_id_string(vpid, x, y, 0, veh_dir);
 }
 

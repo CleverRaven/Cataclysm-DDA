@@ -44,7 +44,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -73,7 +73,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -93,7 +93,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -125,7 +125,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -151,7 +151,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -215,7 +215,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -244,7 +244,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -363,7 +363,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -400,7 +400,7 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -432,7 +432,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -582,6 +582,7 @@
     ],
     [
       [ "stick", 1 ],
+      [ "2x4", 1 ],
       [ "mop", 1 ],
       [ "broom", 1 ]
     ]
@@ -644,7 +645,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "hose", 1 ]
@@ -664,7 +666,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -757,6 +760,7 @@
   "components": [
     [
       [ "stick", 1 ],
+      [ "2x4", 1 ],
       [ "broom", 1 ],
       [ "mop", 1 ]
     ],
@@ -789,10 +793,12 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -812,10 +818,12 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -835,10 +843,12 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -858,13 +868,15 @@
   ],
   "components": [
     [
-      [ "stick", 3 ]
+      [ "stick", 3 ],
+      [ "2x4", 2 ]
     ],
     [
       [ "bone", 3 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -885,7 +897,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -896,6 +908,41 @@
       [ "nail", 6 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "caltrops",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "traps", 1 ],
+  "difficulty": 2,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 100], ["char_forge", 20]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
 },{
         "type" : "recipe",
   "result": "nailbat",
@@ -912,7 +959,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -962,7 +1009,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -993,7 +1040,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1024,7 +1071,7 @@
       [ "welder", 30 ],
       [ "welder_crude", 30 ],
       [ "toolset", 3 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1044,7 +1091,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1079,11 +1126,11 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "stick", 3 ]
     ],
     [
@@ -1117,11 +1164,11 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "stick", 4 ]
     ],
     [
@@ -1163,11 +1210,11 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 4 ],
+      [ "2x4", 8 ],
       [ "stick", 16 ]
     ],
     [
@@ -1180,7 +1227,8 @@
       [ "spring", 4 ]
     ],
     [
-      [ "steel_chunk", 4 ]
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
     ],
     [
       [ "nail", 60 ]
@@ -1210,11 +1258,11 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 2 ],
+      [ "2x4", 4 ],
       [ "stick", 8 ]
     ],
     [
@@ -1245,7 +1293,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1296,7 +1344,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1321,7 +1369,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1356,7 +1404,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1425,7 +1473,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1456,14 +1504,15 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
       [ "pipe", 1 ]
     ],
     [
-      [ "2x4", 1 ]
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
     ],
     [
       [ "nail", 1 ]
@@ -1483,7 +1532,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1510,7 +1559,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1537,7 +1586,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1563,7 +1612,7 @@
     [
       [ "hotplate", 5 ],
       [ "toolset", 1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1587,7 +1636,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1611,7 +1660,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1698,7 +1747,7 @@
       [ "screwdriver", -1 ],
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1738,7 +1787,7 @@
       [ "screwdriver", -1 ],
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1776,7 +1825,7 @@
     [
       [ "soldering_iron", 6 ],
       [ "toolset", 1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1807,12 +1856,13 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
       [ "can_food", 2 ],
       [ "steel_chunk", 2 ],
+      [ "scrap", 6 ],
       [ "canister_empty", 1 ],
       [ "can_drink", 2 ]
     ],
@@ -1835,7 +1885,7 @@
         "type" : "recipe",
   "result": "dart",
   "category": "CC_AMMO",
-
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -1845,13 +1895,15 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
         "type" : "recipe",
   "result": "pebble",
   "category": "CC_AMMO",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -1882,15 +1934,15 @@
     "reversible": false,
     "autolearn": true,
     "tools": [
-      [
+    [
       [ "press", -1 ]
-      ],
-      [
+    ],
+    [
       ["crucible", -1]
-      ],
-      [
+    ],
+    [
       ["forge", 100], ["char_forge", 20]
-      ]
+    ]
     ],
     "components": [
       [
@@ -1938,7 +1990,7 @@
       [ "stick", 2 ],
       [ "broom", 2 ],
       [ "mop", 2 ],
-      [ "2x4", 2 ],
+      [ "2x4", 1 ],
       [ "bee_sting", 2 ]
     ]
   ]
@@ -1963,7 +2015,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -1988,7 +2040,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2062,7 +2114,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2474,7 +2526,7 @@
       [ "leather", 8 ]
     ],
     [
-      [ "scrap", 2 ],
+      [ "scrap", 3 ],
       [ "steel_chunk", 1]
     ]
   ]
@@ -2557,7 +2609,7 @@
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
-        ["lgrfile_primer", 1],
+        ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
     ],
     [
@@ -2582,7 +2634,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2617,7 +2669,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2652,7 +2704,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2687,7 +2739,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2722,7 +2774,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2757,7 +2809,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2792,7 +2844,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2827,7 +2879,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2970,7 +3022,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3008,7 +3060,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3046,7 +3098,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3081,7 +3133,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3116,7 +3168,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3154,7 +3206,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3192,7 +3244,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3231,7 +3283,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3270,7 +3322,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3308,7 +3360,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3346,7 +3398,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3384,7 +3436,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3421,7 +3473,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3459,7 +3511,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3497,7 +3549,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3534,7 +3586,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3569,7 +3621,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3604,7 +3656,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3642,7 +3694,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3678,7 +3730,7 @@
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3688,7 +3740,7 @@
 },{
         "type" : "recipe",
   "result": "salt_water",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
@@ -3706,7 +3758,7 @@
 },{
         "type" : "recipe",
   "result": "acid",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
@@ -3734,7 +3786,7 @@
         "type" : "recipe",
   "result": "acid",
   "id_suffix": "from batteries",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "electronics",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 2,
@@ -3776,12 +3828,106 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
   "components": [
     [
       [ "meat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_meat",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_meat", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_veggy",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_veggy", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_fruit",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_fruit", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -3922,6 +4068,7 @@
       [ "lemon", 1 ],
       [ "banana", 1 ],
       [ "apple", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -3952,7 +4099,7 @@
       [ "carrot", 2 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
-      [ "fluid_sac", 6 ]
+      [ "plant_sac", 6 ]
     ]
   ]
 },{
@@ -4038,6 +4185,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
   ],
@@ -4162,6 +4310,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "spear_knife", -1 ],
       [ "tongs", -1 ]
     ]
   ],
@@ -5059,6 +5208,7 @@
       [ "meat", 2 ],
       [ "meat_smoked", 2 ],
       [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "sausage", 1 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 15 ]
@@ -5066,6 +5216,7 @@
     [
       [ "veggy_wild", 2 ],
       [ "veggy", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ]
   ]
@@ -5134,6 +5285,7 @@
       [ "potato_raw", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "onion", 1 ]
@@ -5441,6 +5593,7 @@
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "sausage", 1 ],
       [ "jerky", 3 ],
       [ "meat_pickled", 1 ],
@@ -5549,6 +5702,7 @@
       [ "cranberries", 1 ],
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -5671,6 +5825,7 @@
       [ "pomegranate", 1 ],
       [ "mango", 1 ],
       [ "apricot", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ]
   ]
@@ -5703,11 +5858,13 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
+      [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
     ],
     [
       [ "seasoning_italian", 20 ],
       [ "pepper", 20 ],
+      [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ]
     ]
   ]
@@ -5762,6 +5919,7 @@
       [ "papaya", 2 ],
       [ "apricot", 2 ],
       [ "kiwi", 2 ],
+      [ "rehydrated_fruit", 2 ],
       [ "dry_fruit", 2 ]
     ],
     [
@@ -5803,6 +5961,7 @@
       [ "veggy_vac", 2 ],
       [ "tomato", 2 ],
       [ "broccoli", 1 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ],
     [
@@ -5844,6 +6003,7 @@
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
       [ "meat_vac", 2 ],
+      [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ],
     [
@@ -5896,6 +6056,7 @@
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
+      [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ]
   ]
@@ -5943,6 +6104,7 @@
     [
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
+      [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ]
     ]
   ]
@@ -5958,11 +6120,13 @@
   "tools": [
     [
       [ "hotplate", 15 ],
+      [ "chemistry_set", 15 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
-      [ "bottle_glass", -1 ],
+      [ "chemistry_set", -1 ],
+      [ "bottle_glass", 2 ],
       [ "hose", -1 ]
     ]
   ],
@@ -5991,12 +6155,14 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "hotplate", 8 ],
+      [ "chemistry_set", 8 ],
       [ "toolset", 1 ]
     ]
   ],
@@ -6024,13 +6190,15 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "components": [
@@ -6053,13 +6221,15 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "components": [
@@ -6068,6 +6238,40 @@
     ],
     [
       [ "poppy_flower", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fungicide",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
+    ]
+  ],
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fighter_sting", 1 ]
+    ],
+    [
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -6106,10 +6310,12 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "chemistry_set", 3 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "chemistry_set", -1 ],
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
@@ -6634,7 +6840,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "oxy_powder", 20 ]
+      [ "oxy_powder", 10 ]
     ]
   ]
 },{
@@ -6696,7 +6902,7 @@
     ],
     [
       [ "bleach", 1 ],
-      [ "oxy_powder", 100 ]
+      [ "oxy_powder", 50 ]
     ]
   ]
 },{
@@ -6710,10 +6916,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
+      [ "chemistry_set", 50 ]
     ]
   ],
   "components": [
@@ -6732,10 +6935,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
+      [ "chemistry_set", 50 ]
     ]
   ],
   "components": [
@@ -6772,7 +6972,11 @@
   ],
   "components": [
     [
-      [ "bleach", 2 ]
+      [ "bleach", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
     ]
   ]
 },{
@@ -6787,9 +6991,6 @@
   "tools": [
     [
       [ "chemistry_set", 50 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -6839,10 +7040,11 @@
       [ "purple_drink", 6 ],
       [ "syrup", 4 ],
       [ "coffee_syrup", 5 ],
+      [ "bum_wine", 14 ],
       [ "con_milk", 1 ]
     ],
     [
-      [ "lye_powder", 20 ]
+      [ "lye_powder", 50 ]
     ],
     [
       [ "water_clean", 1 ],
@@ -6903,7 +7105,8 @@
   ],
   "components": [
     [
-      [ "rag", 1 ]
+      [ "rag", 1 ],
+      [ "bag_plastic", 1 ]
     ],
     [
       [ "oxy_powder", 5 ]
@@ -7074,21 +7277,21 @@
     "reversible": false,
     "autolearn": true,
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
-      ["forge", 50], ["char_forge", 50]
-      ]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
     ],
     "components": [
       [
@@ -7111,21 +7314,21 @@
     "reversible": false,
     "autolearn": true,
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
-      ["forge", 50], ["char_forge", 50]
-      ]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
     ],
     "components": [
       [
@@ -7148,21 +7351,21 @@
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
-      ["forge", 50], ["char_forge", 50]
-      ]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
     ],
     "components": [
       [
@@ -7185,21 +7388,21 @@
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
-      ["forge", 50], ["char_forge", 50]
-      ]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
     ],
     "components": [
       [
@@ -7222,21 +7425,21 @@
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
-      ["forge", 50], ["char_forge", 50]
-      ]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
     ],
     "components": [
       [
@@ -7259,20 +7462,20 @@
     "reversible": false,
     "autolearn": true,
     "tools": [
-      [
+     [
       [ "press", -1 ]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
         [ "steel_chunk", 7 ],
-        [ "scrap", 20 ]
+        [ "scrap", 21 ]
       ]
     ]
   },{
@@ -7536,13 +7739,13 @@
   ],
   "components": [
     [
-      [ "ammonia", 1 ],
       [ "lemon", 1 ],
       [ "acid", 1 ],
       [ "vinegar", 1 ]
     ],
     [
       [ "steel_chunk", 1 ],
+      [ "scrap", 3 ],
       [ "knife_butter", 1 ],
       [ "knife_steak", 1 ],
       [ "bolt_steel", 1 ],
@@ -8829,6 +9032,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "reinforced_glass_pane",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 35 ],
+      [ "welder_crude", 52 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "glass_sheet", 1 ]
+    ],
+    [
+      [ "wire", 8 ]
+    ],
+    [
+      [ "superglue", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "reinforced_solar_panel",
   "category": "CC_ELECTRONIC",
   "skill_used": "fabrication",
@@ -9008,6 +9242,81 @@
   ]
 },{
         "type" : "recipe",
+  "result": "boots_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 18 ]
+    ],
+    [
+      [ "leather", 2 ],
+      [ "fur", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 24 ],
+      [ "sewing_kit", 24 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 18 ],
+      [ "fur", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "helmet_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 16 ],
+      [ "fur", 16 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shorts",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -9123,8 +9432,10 @@
   ],
   "components": [
     [
-      [ "long_underpants", 1 ],
       [ "long_undertop", 1 ]
+    ],
+    [
+      [ "long_underpants", 1 ]
     ]
   ]
 },{
@@ -9258,7 +9569,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9278,7 +9589,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9318,7 +9629,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 42000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9338,7 +9649,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9358,7 +9669,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9378,7 +9689,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9418,7 +9729,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9438,7 +9749,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9783,7 +10094,8 @@
       [ "string_6", 4 ]
     ],
     [
-      [ "steel_chunk", 2 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
     ]
   ]
 },{
@@ -9810,7 +10122,8 @@
       [ "string_6", 16 ]
     ],
     [
-      [ "steel_chunk", 4 ]
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
     ]
   ]
 },{
@@ -9829,6 +10142,60 @@
     ],
     [
       [ "chitin_piece", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gauntlets_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 4 ]
+    ],
+    [
+      [ "bone", 12 ]
+    ],
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gauntlets_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "fur", 6 ]
     ]
   ]
 },{
@@ -10034,7 +10401,6 @@
   "result": "hat_cotton",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
   "reversible": false,
@@ -10070,6 +10436,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "helmet_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bone", 24 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "armor_chitin",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -10084,6 +10467,142 @@
     ],
     [
       [ "chitin_piece", 15 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_bone",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 7,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 54 ],
+      [ "sewing_kit", 54 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 50 ]
+    ],
+    [
+      [ "leather", 20 ],
+      [ "fur", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 42 ],
+      [ "fur", 42 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_farmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 48 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_blarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "requires_skills": [ "tailor", 3 ],
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "hotplate", 20 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 10 ],
+      [ "water_clean", 10 ]
+    ],
+    [
+      [ "wax", 2 ],
+      [ "vinegar", 10 ]
+    ],
+    [
+      [ "salt", 5 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_plarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "requires_skills": [ "tailor", 3 ],
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 22 ],
+      [ "sewing_kit", 22 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 6 ],
+      [ "scrap", 18 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
     ]
   ]
 },{
@@ -10317,10 +10836,10 @@
   ],
   "components": [
     [
-      [ "rag", 20 ]
+      [ "rag", 10 ]
     ],
     [
-      [ "fur", 10 ]
+      [ "fur", 20 ]
     ]
   ]
 },{
@@ -10343,7 +10862,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10351,6 +10871,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10385,7 +10906,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -10411,6 +10933,7 @@
       [ "string_36", 1 ],
       [ "string_6", 6 ],
       [ "sinew", 20 ],
+      [ "thread", 20 ],
       [ "plant_fibre", 20 ]
     ]
   ]
@@ -10438,6 +10961,7 @@
       [ "string_36", 1 ],
       [ "string_6", 6 ],
       [ "sinew", 20 ],
+      [ "thread", 20 ],
       [ "plant_fibre", 20 ]
     ]
   ]
@@ -10466,6 +10990,7 @@
     ],
     [
       [ "sinew", 80 ],
+      [ "thread", 80 ],
       [ "plant_fibre", 80 ],
       [ "string_36", 1 ]
     ]
@@ -10491,7 +11016,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10499,6 +11025,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10523,7 +11050,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10531,6 +11059,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10570,6 +11099,7 @@
   "components": [
     [
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "string_36", 1 ]
     ],
@@ -10614,7 +11144,8 @@
   ],
   "components": [
     [
-      [ "stick", 10 ]
+      [ "stick", 10 ],
+      [ "2x4", 5 ]
     ],
     [
       [ "leather", 20 ]
@@ -10622,6 +11153,7 @@
     [
       [ "string_6", 10 ],
       [ "sinew", 500 ],
+      [ "thread", 500 ],
       [ "plant_fibre", 500 ]
     ]
   ]
@@ -10644,18 +11176,45 @@
   ],
   "components": [
     [
-      [ "stick", 3 ]
+      [ "stick", 3 ],
+      [ "2x4", 2 ]
     ],
     [
       [ "leather", 4 ]
     ],
     [
       [ "sinew", 60 ],
+      [ "thread", 60 ],
       [ "plant_fibre", 60 ],
       [ "string_6", 1 ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fur_rollmat",
+  "category": "CC_MISC",
+  "skill_used": "survival",
+  "requires_skills": [ "tailor", 1 ],
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fur", 24 ]
+    ],
+    [
+      [ "thread", 360 ],
+      [ "sinew", 360 ],
+      [ "plant_fibre", 360 ],
+      [ "string_6", 6 ],
+      [ "string_36", 1 ]
     ]
   ]
 },{
@@ -10673,7 +11232,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -10841,7 +11401,8 @@
       [ "pipe", 1 ]
     ],
     [
-      [ "steel_chunk", 2 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
     ],
     [
       [ "chain", 1 ]
@@ -11005,7 +11566,8 @@
       [ "pipe", 10 ]
     ],
     [
-      [ "steel_chunk", 12 ]
+      [ "steel_chunk", 12 ],
+      [ "scrap", 36 ]
     ],
     [
       [ "wire", 3 ]
@@ -11282,7 +11844,8 @@
   ],
   "components": [
     [
-      [ "steel_chunk", 2 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
     ],
     [
       [ "duct_tape", 30 ]
@@ -11318,6 +11881,7 @@
     [
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
+      [ "bone", 20 ],
       [ "ant_egg", 1 ]
     ]
   ]
@@ -11387,6 +11951,7 @@
   "components": [
     [
       [ "steel_chunk", 4 ],
+      [ "scrap", 12 ],
       [ "rebar", 2 ]
     ]
   ]
@@ -11405,7 +11970,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -11512,7 +12078,7 @@
     ],
     [
       [ "steel_chunk", 4 ],
-      [ "scrap", 8 ],
+      [ "scrap", 12 ],
       [ "spike", 4 ]
     ]
   ]
@@ -11803,7 +12369,7 @@
       [ "can_food", 1 ],
       [ "steel_chunk", 1 ],
       [ "canister_empty", 1 ],
-      [ "scrap", 4 ]
+      [ "scrap", 3 ]
     ],
     [
       [ "nail", 100 ],
@@ -11955,7 +12521,7 @@
       [ "stick", 2 ],
       [ "broom", 2 ],
       [ "mop", 2 ],
-      [ "2x4", 2 ],
+      [ "2x4", 1 ],
       [ "pool_cue", 2 ]
     ]
   ]
@@ -12017,6 +12583,7 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 18 ],
       [ "hotplate", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
@@ -12467,7 +13034,8 @@
   ],
   "components": [
     [
-      [ "scrap", 3 ]
+      [ "scrap", 3 ],
+      [ "rebar", 1 ]
     ]
   ]
 },{
@@ -12494,6 +13062,26 @@
     [
       [ "bandages", 2 ],
       [ "quikclot", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "jug_plastic",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"name":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "duct_tape", 10 ]
+    ],
+    [
+      [ "bottle_plastic", 5 ]
     ]
   ]
 },{
@@ -12564,7 +13152,8 @@
    ],
    "components": [
      [
-       ["2x4", 2]
+       ["2x4", 2],
+      [ "stick", 4 ]
      ]
    ]
 },{
@@ -12645,7 +13234,7 @@
       ["toolset", 10],
       ["fire", -1],
       ["forge", 7],
-      [ "char_forge", 2]
+      ["char_forge", 2]
       ]
   ],
   "components": [
@@ -13061,7 +13650,8 @@
       ["pipe", 1]
     ],
     [
-      ["2x4", 2]
+      ["2x4", 2],
+      [ "stick", 3 ]
     ],
     [
       ["nailgun", 1]
@@ -13150,13 +13740,15 @@
         ["superglue", 1]
     ],
     [
-        ["2x4", 1]
+        [ "2x4", 1],
+        [ "stick", 1 ]
     ],
     [
         ["metal_tank", 1]
     ],
     [
-        ["steel_chunk", 1]
+        ["steel_chunk", 1],
+        [ "scrap", 3 ]
     ],
     [
         ["scrap", 6]
@@ -13198,13 +13790,15 @@
       ["superglue", 1]
     ],
     [
-      ["2x4", 1]
+      ["2x4", 1],
+      [ "stick", 1 ]
     ],
     [
       ["metal_tank", 1]
     ],
     [
-      ["steel_chunk", 2]
+      ["steel_chunk", 2],
+      [ "scrap", 6]
     ],
     [
       ["scrap", 4]
@@ -13242,7 +13836,8 @@
       ["pipe", 1]
     ],
     [
-      ["2x4", 1]
+      ["2x4", 1],
+      [ "stick", 1 ]
     ],
     [
       ["scrap", 2]
@@ -13324,7 +13919,7 @@
 },{
         "type" : "recipe",
   "result": "fertilizer_liquid",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "skills_required": ["surivival", 2],
   "difficulty": 3,
@@ -13332,8 +13927,8 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
-    [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
+    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+    [ [ "chemistry_set", -1 ], [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
   ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -13378,7 +13973,7 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
-  "components": [ [ ["stick", 2] ], [ ["rock", 6] ] ]
+  "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
 },{
         "type" : "recipe",
   "result": "welder_crude",
@@ -13520,7 +14115,7 @@
   "autolearn": true,
   "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
     [ ["screwdriver", -1], ["toolset", -1] ] ],
-  "components": [ [ ["2x4", 4] ],
+  "components": [ [ ["2x4", 4], [ "stick", 8 ] ],
     [ ["rebar", 5] ] ]
 },{
         "type" : "recipe",
@@ -13581,7 +14176,8 @@
       [ "meat", 1 ]
     ],
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "cheese", 2 ], [ "can_cheese", 1]
@@ -14345,6 +14941,78 @@
     ]
 },{
         "type" : "recipe",
+  "result": "knife_trench",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 390000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 300], ["char_forge", 60]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "switchblade",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 460000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 400], ["char_forge", 80]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "pot",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -14459,22 +15127,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 200], ["char_forge", 40]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
@@ -14493,22 +15161,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 150], ["char_forge", 30]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
@@ -14527,33 +15195,33 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 200], ["char_forge", 40]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
      [ "scrap", 12 ]
-     ],
-     [
-      [ "plastic_chunk", 1 ]
-     ]
+    ],
+    [
+     [ "plastic_chunk", 1 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "boltcutters",
@@ -14564,33 +15232,33 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 300], ["char_forge", 60]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
-     ],
-     [
-      [ "plastic_chunk", 2 ]
-     ]
+    ],
+    [
+     [ "plastic_chunk", 2 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "shovel",
@@ -14601,34 +15269,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 200], ["char_forge", 40]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
-     ],
-     [
+    ],
+    [
       [ "2x4", 2 ],
       [ "stick", 4 ]
-     ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "e_tool",
@@ -14639,33 +15307,33 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 350], ["char_forge", 70]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
+     ]
+    ],
+  "components":
+   [
+    [
      [ "steel_lump", 4 ],
      [ "steel_chunk", 16 ],
      [ "scrap", 48 ]
-     ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "hoe",
@@ -14676,34 +15344,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 250], ["char_forge", 50]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
-     ],
-     [
-      [ "2x4", 2 ],
-      [ "stick", 4 ]
-     ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "ax",
@@ -14714,34 +15382,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 3 ],
-     [ "steel_chunk", 12 ],
-     [ "scrap", 36 ]
+      ["tongs", -1]
      ],
      [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 9 ],
+     [ "scrap", 27 ]
+    ],
+    [
+     [ "2x4", 3 ],
+     [ "stick", 6 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "saw",
@@ -14752,34 +15420,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 350], ["char_forge", 70]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 2 ],
-     [ "steel_chunk", 8 ],
-     [ "scrap", 24 ]
+      ["tongs", -1]
      ],
      [
-      [ "2x4", 2 ],
-      [ "stick", 4 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 6 ],
+     [ "scrap", 18 ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "hammer_sledge",
@@ -14790,31 +15458,31 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 8 ],
-     [ "steel_chunk", 32 ]
+      ["tongs", -1]
      ],
      [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 8 ],
+     [ "steel_chunk", 24 ]
+    ],
+    [
+     [ "2x4", 3 ],
+     [ "stick", 6 ]
      ]
     ]
 },{
@@ -14827,30 +15495,30 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 450], ["char_forge", 90]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 8 ],
-     [ "steel_chunk", 32 ]
+     [ "steel_chunk", 24 ]
      ]
     ]
 },{
@@ -14863,22 +15531,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 20], ["char_forge", 4]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
@@ -14897,26 +15565,26 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 450], ["char_forge", 90]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
-     [ "steel_lump", 30 ]
+      [ "steel_lump", 30 ]
      ],
      [
       [ "fur", 16 ],
@@ -14934,32 +15602,32 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 400], ["char_forge", 80]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 20 ],
-     [ "steel_chunk", 80 ]
+      ["tongs", -1]
      ],
      [
-      [ "fur", 20 ],
-      [ "leather", 20 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 400], ["char_forge", 80]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 20 ],
+     [ "steel_chunk", 80 ]
+    ],
+    [
+     [ "fur", 20 ],
+     [ "leather", 20 ]
+    ]
     ]
 },{
         "type" : "recipe",
@@ -14972,34 +15640,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 6 ],
-     [ "steel_chunk", 48 ],
-     [ "scrap", 72 ]
+      ["tongs", -1]
      ],
      [
-      [ "fur", 10 ],
-      [ "leather", 10 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 6 ],
+     [ "steel_chunk", 48 ]
+    ],
+    [
+     [ "fur", 10 ],
+     [ "leather", 10 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "boots_plate",
@@ -15011,34 +15678,34 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 250], ["char_forge", 50]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 250], ["char_forge", 50]
+     ]
+     ],
+  "components":
+   [
+    [
      [ "steel_lump", 8 ],
      [ "steel_chunk", 32 ],
      [ "scrap", 96 ]
-     ],
-     [
-      [ "fur", 16 ],
-      [ "leather", 16 ]
-     ]
+    ],
+    [
+     [ "fur", 16 ],
+     [ "leather", 16 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_plate",
@@ -15050,33 +15717,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 350], ["char_forge", 70]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 14 ],
-     [ "steel_chunk", 56 ]
+      ["tongs", -1]
      ],
      [
-      [ "fur", 4 ],
-      [ "leather", 4 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 14 ],
+     [ "steel_chunk", 56 ]
+    ],
+    [
+     [ "fur", 4 ],
+     [ "leather", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_barbute",
@@ -15088,33 +15755,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 10 ],
-     [ "steel_chunk", 40 ]
+      ["tongs", -1]
      ],
      [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 10 ],
+     [ "steel_chunk", 40 ]
+    ],
+    [
       [ "fur", 4 ],
       [ "leather", 4 ]
-     ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "armor_samurai",
@@ -15126,36 +15793,36 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 450], ["char_forge", 90]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 450], ["char_forge", 90]
+     ]
+    ],
+  "components":
+   [
+    [
      [ "steel_lump", 16 ],
      [ "steel_chunk", 64 ]
-     ],
-     [
-      [ "fur", 28 ],
-      [ "leather", 28 ]
-     ],
-     [
-      [ "rag", 10 ]
-     ]
+    ],
+    [
+     [ "fur", 28 ],
+     [ "leather", 28 ]
+    ],
+    [
+     [ "rag", 10 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_kabuto",
@@ -15167,35 +15834,35 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 450], ["char_forge", 90]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 12 ]
-     ],
-     [
-      [ "fur", 14 ],
-      [ "leather", 14 ]
-     ],
-     [
-      [ "rag", 4 ]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 12 ]
+    ],
+    [
+     [ "fur", 14 ],
+     [ "leather", 14 ]
+    ],
+    [
+     [ "rag", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "apron_leather",
@@ -15226,22 +15893,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 350], ["char_forge", 70]
-      ]
-      ],
+     ]
+    ],
   "components": [
     [
      [ "steel_lump", 1 ],
@@ -15280,7 +15947,8 @@
       [ "meat", 1 ]
     ],
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "pickle", 1],
@@ -15317,7 +15985,8 @@
   ],
   "components": [
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "bacon", 1 ]
@@ -15380,13 +16049,13 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 6 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 6 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15394,10 +16063,10 @@
       [ "ragpouch", 4 ],
       [ "leather_pouch", 2 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 50 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15413,24 +16082,24 @@
     {"name":"CUT","level":1,"amount":1}
   ],
   "tools": [
-      [
+     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
-      ],
-      [
+     ],
+     [
       [ "needle_bone", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 30 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15438,15 +16107,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 200 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15462,27 +16131,27 @@
     {"name":"CUT","level":1,"amount":1}
   ],
   "tools": [
-      [
+     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
-      ],
-      [
+     ],
+     [
       [ "needle_bone", 150 ],
       [ "sewing_kit", 150 ]
-      ]
+     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 20 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15490,15 +16159,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15526,20 +16195,20 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 20 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 4 ],
-      [ "scrap", 8 ]
-      ],
-      [
+      [ "scrap", 12 ]
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15547,15 +16216,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15590,19 +16259,19 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 10 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "fur", 20 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15610,15 +16279,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15653,28 +16322,28 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "helmet_liner", 1 ],
       [ "hat_cotton", 1 ],
       [ "rag", 3 ]
-      ],
-      [
+     ],
+     [
       [ "tac_helmet", 1 ],
       [ "helmet_army", 1 ],
       [ "kevlar_plate", 6 ]
-      ],
-      [
+     ],
+     [
       [ "hood_rain", 1 ],
       [ "bag_plastic", 2 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 75 ]
-      ],
-      [
+     ],
+     [
       [ "helmet_riot", 1 ],
       [ "helmet_motor", 1 ],
       [ "helmet_football", 1 ],
@@ -15683,7 +16352,7 @@
       [ "helmet_bike", 1 ],
       [ "hat_hard", 1 ],
       [ "plastic_chunk", 8 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15718,29 +16387,29 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 2 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 2 ]
-      ],
-      [
+     ],
+     [
       [ "scrap", 4 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 50 ]
-      ],
-      [
+     ],
+     [
       [ "gloves_tactical", 1 ],
       [ "kevlar_plate", 4 ]
-      ],
-      [
+     ],
+     [
       [ "gloves_leather", 1 ],
       [ "gloves_light", 1 ],
       [ "gloves_liner", 1 ],
       [ "wetsuit_gloves", 1 ],
       [ "fire_gauntlets", 1 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15775,25 +16444,25 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 4 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 4 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 4 ],
       [ "scrap", 12 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 100 ]
-      ],
-      [
+     ],
+     [
       [ "boots_combat", 1 ],
       [ "boots_steel", 1 ],
       [ "boots_hiking", 1 ],
       [ "boots", 1 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15816,17 +16485,17 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "cleansuit", 1 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 600 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15849,17 +16518,17 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "hazmat_suit", 1 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 800 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15887,9 +16556,9 @@
       [ "toolset", -1 ]
     ],
     [
-      ["welder", 100],
-      ["welder_crude", 150],
-      ["toolset", 4]
+      [ "welder", 100],
+      [ "welder_crude", 150],
+      [ "toolset", 4]
     ]
   ],
   "components": [
@@ -16131,8 +16800,8 @@
         "type" : "recipe",
   "result": "quikclot",
   "category": "CC_CHEM",
-  "skill_used": "firstaid",
-  "requires_skills": [ "cooking", 1 ],
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
   "difficulty": 4,
   "time": 1200,
   "reversible": false,
@@ -16140,10 +16809,12 @@
   "tools": [
     [
       [ "hotplate", 18 ],
+      [ "chemistry_set", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ]
@@ -16168,37 +16839,42 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 10 ],
       [ "soldering_iron", 100 ]
-      ] ],
+     ]
+    ],
   "components":
+   [
+    [ 
+     ["pilot_light", 1]
+    ],
     [
-     [ ["pilot_light", 1] ],
-     [
      [ "steel_lump", 3 ],
      [ "steel_chunk", 12 ],
      [ "scrap", 36 ]
-     ],
-     [ [ "metal_tank", 1 ]
-     ],
-     [ ["pipe", 3]
-     ]
-  ]
+    ],
+    [ 
+     [ "metal_tank", 1 ]
+    ],
+    [ 
+     [ "pipe", 3]
+    ]
+   ]
 },{
         "type" : "recipe",
   "result": "char_smoker",
@@ -16211,32 +16887,35 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 5 ],
       [ "soldering_iron", 50 ]
-      ] ],
+     ]
+    ],
   "components":
     [
-     [ ["pilot_light", 1] ],
-     [
+     [ ["pilot_light", 1] 
+    ],
+    [
      [ "scrap", 4 ]
-     ],
-     [ [ "metal_tank", 1 ]
-     ]
+    ],
+    [
+     [ "metal_tank", 1 ]
+    ]
   ]
 },{
         "type" : "recipe",
@@ -16249,34 +16928,36 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+    [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
       [ "toolset", 15 ],
       [ "soldering_iron", 150 ]
-      ] ],
+    ] ],
   "components":
     [
      [
-     [ "steel_lump", 5 ],
-     [ "steel_chunk", 20 ],
-     [ "scrap", 60 ]
+       [ "steel_lump", 5 ],
+       [ "steel_chunk", 20 ],
+       [ "scrap", 60 ]
      ],
-     [ [ "metal_tank", 1 ]
+     [ 
+       [ "metal_tank", 1 ]
      ],
-     [ ["pipe", 6]
+     [ 
+       ["pipe", 6]
      ]
   ]
 },{
@@ -16299,10 +16980,10 @@
     ],
     [
       [ "char_kiln", -1 ] ]
-  ],
+    ],
   "components": [
     [
-      [ "2x4", 5 ],
+      [ "2x4", 3 ],
       [ "stick", 5 ],
       [ "splinter", 20 ],
       [ "bone", 40 ],
@@ -16377,8 +17058,8 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 1],
-      ["fire", -1]
+      [ "toolset", 1],
+      [ "fire", -1]
     ]
   ],
   "components": [
@@ -16408,8 +17089,8 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 1],
-      ["fire", -1]
+      [ "toolset", 1],
+      [ "fire", -1]
     ]
   ],
   "components": [
@@ -16591,7 +17272,8 @@
       [ "power_supply", 1 ]
     ],
     [
-      [ "2x4", 1 ]
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
     ],
     [
       ["cable", 3]
@@ -16659,7 +17341,7 @@
         [ "fire", -1 ],
         [ "toolset", 1 ],
         [ "press", 2 ]
-          ]
+      ]
     ],
     "components": [
       [
@@ -17029,6 +17711,41 @@
       [ "sugar", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "pot_helmet",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "pot", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "tonfa",
+  "category" : "CC_WEAPON",
+  "skill_used" : "fabrication",
+  "skills_required" : ["melee", 1],
+  "difficulty" : 6,
+  "time" : 30000,
+  "reversible" : false,
+  "autolearn" : true,
+  "tools" : [ [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components" : [ [ ["plastic_chunk", 10] ] ]
 },{
         "type" : "recipe",
   "result": "juice",

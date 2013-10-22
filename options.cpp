@@ -467,6 +467,14 @@ void initOptions() {
                                              0, 23, 8
                                             );
 
+    optionNames["spring"] = _("Spring");
+    optionNames["summer"] = _("Summer");
+    optionNames["autumn"] = _("Autumn");
+    optionNames["winter"] = _("Winter");
+    OPTIONS["INITIAL_SEASON"] =         cOpt("debug", _("Initial season"),
+                                             _("Initial starting season of day on character generation."),
+                                             "spring,summer,autumn,winter", "spring");
+
     OPTIONS["VIEWPORT_X"] =             cOpt("interface", _("Viewport width"),
                                              _("SDL ONLY: Set the expansion of the viewport along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
                                              12, 93, 12
@@ -500,6 +508,11 @@ void initOptions() {
                                              false
                                             );
 
+    OPTIONS["BLACK_ROAD"] =             cOpt("debug", _("Black Road"),
+                                             _("If true, spawn zombies at shelters."),
+                                             false
+                                            );
+    
     OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
@@ -724,22 +737,19 @@ void show_options()
                 case '>':
                 case '\t': //Switch to next Page
                     iCurrentLine = 0;
-                    do { //skip empty pages
-                        iCurrentPage++;
-                        if (iCurrentPage >= vPages.size()) {
-                            iCurrentPage = 0;
-                        }
-                    } while(mPageItems[iCurrentPage].size() == 0);
-
+                    iStartPos = 0;
+                    iCurrentPage++;
+                    if (iCurrentPage >= vPages.size()) {
+                        iCurrentPage = 0;
+                    }
                     break;
                 case '<':
                     iCurrentLine = 0;
-                    do { //skip empty pages
-                        iCurrentPage--;
-                        if (iCurrentPage < 0) {
-                            iCurrentPage = vPages.size()-1;
-                        }
-                    } while(mPageItems[iCurrentPage].size() == 0);
+                    iStartPos = 0;
+                    iCurrentPage--;
+                    if (iCurrentPage < 0) {
+                        iCurrentPage = vPages.size()-1;
+                    }
                     break;
             }
         }
@@ -753,10 +763,10 @@ void show_options()
         }
     }
 
-    werase(w_options);
-    werase(w_options_border);
-    werase(w_options_header);
-    werase(w_options_tooltip);
+    delwin(w_options);
+    delwin(w_options_border);
+    delwin(w_options_header);
+    delwin(w_options_tooltip);
 }
 
 void load_options()

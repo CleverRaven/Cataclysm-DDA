@@ -122,9 +122,15 @@ void exit_handler(int s) {
              system("clear"); // Tell the terminal to clear itself
          #endif
 
-         if(g != NULL)
-             if(g->game_error())
+         if(g != NULL) {
+             if(g->game_error()) {
+                 delete g;
                  exit(1);
+             } else {
+                 delete g;
+                 exit(0);
+             }
+         }
          exit(0);
      }
 }

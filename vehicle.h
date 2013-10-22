@@ -47,10 +47,19 @@ struct veh_collision {
  veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
+struct vehicle_item_spawn
+{
+    int x, y;
+    int chance;
+    std::vector<std::string> item_ids;
+    std::vector<std::string> item_groups;
+};
+
 struct vehicle_prototype
 {
     std::string id, name;
     std::vector<std::pair<point, std::string> > parts;
+    std::vector<vehicle_item_spawn> item_spawns;
 };
 
 
@@ -84,7 +93,7 @@ struct vehicle_part
     int passenger_id;       // carrying passenger
     union
     {
-        int amount;         // amount of fuel for tank
+        int amount;         // amount of fuel for tank/charge in battery
         int open;           // door is open
         int direction;      // direction the part is facing
     };
@@ -153,7 +162,7 @@ struct vehicle_part
  *   When adding parts, function checks possibility to install part at given
  *   coords. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
- *   There are a few rules: 
+ *   There are a few rules:
  *   1. Every mount point (tile) must begin with a part in the 'structure'
  *      location, usually a frame.
  *   2. No part can stack with itself.
@@ -258,6 +267,7 @@ public:
 
 // get symbol for map
     char part_sym (int p);
+    std::string part_id_string(int p);
 
 // get color for map
     nc_color part_color (int p);
@@ -299,6 +309,10 @@ public:
     int basic_consumption (ammotype ftype);
 
     void consume_fuel ();
+
+    void power_parts ();
+
+    void charge_battery (int amount);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
@@ -381,10 +395,19 @@ public:
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
 
+// Generates starting items in the car, should only be called when placed on the map
+    void place_spawn_items();
+
     void gain_moves (int mp);
 
 // reduces velocity to 0
     void stop ();
+
+    void find_horns ();
+
+    void find_lights ();
+
+    void find_fuel_tanks ();
 
     void find_exhaust ();
 
@@ -436,6 +459,10 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    std::vector<int> horns;            // List of horn part indices
+    std::vector<int> lights;           // List of light part indices
+    std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;
@@ -454,6 +481,7 @@ public:
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
     bool lights_on;     // lights on/off
+    bool overhead_lights_on; //emergency vehicle flasher lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
@@ -461,6 +489,7 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
+    int lights_power;   // total power of components with LIGHT flag
 };
 
 #endif

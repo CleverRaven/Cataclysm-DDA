@@ -92,8 +92,8 @@
     },{
         "type" : "skill",
         "ident" : "gun",
-        "name" : "firearms",
-        "description" : "Your overall skill in using firearms. With higher levels, this general experience increases accuracy with any gun, but is secondary to practice with the type of gun in question."
+        "name" : "marksmanship",
+        "description" : "Your overall skill in using bows and firearms. With higher levels, this general experience increases accuracy with any bows or firearms, but is secondary to practice with the type of ranged weapon in question."
     },{
         "type" : "skill",
         "ident" : "launcher",

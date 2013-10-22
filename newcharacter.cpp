@@ -205,7 +205,7 @@ bool player::create(game *g, character_type type, std::string tempname)
         do {
             int choice = (PLTYPE_NOW==type)? rng(1, 5) :
                 menu(false, _("Pick your style:"), _("Karate"), _("Judo"), _("Aikido"),
-                     _("Tai Chi"), _("Capoeira"), NULL);
+                     _("Tai Chi"), _("Taekwondo"), NULL);
             if (choice == 1)
                 ma_type = "style_karate";
             if (choice == 2)
@@ -215,7 +215,7 @@ bool player::create(game *g, character_type type, std::string tempname)
             if (choice == 4)
                 ma_type = "style_tai_chi";
             if (choice == 5)
-                ma_type = "style_capoeira";
+                ma_type = "style_taekwondo";
         } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
         style_selected=ma_type;
@@ -225,7 +225,7 @@ bool player::create(game *g, character_type type, std::string tempname)
         do {
             int choice = (PLTYPE_NOW==type)? rng(1, 4) :
                 menu(false, _("Pick your style:"), _("Krav Maga"), _("Muay Thai"), _("Ninjutsu"),
-                     _("Taekwondo"), NULL);
+                     _("Capoeira"), NULL);
             if (choice == 1)
                 ma_type = "style_krav_maga";
             if (choice == 2)
@@ -233,7 +233,7 @@ bool player::create(game *g, character_type type, std::string tempname)
             if (choice == 3)
                 ma_type = "style_ninjutsu";
             if (choice == 4)
-                ma_type = "style_taekwondo";
+                ma_type = "style_capoeira";
         } while (PLTYPE_NOW!=type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
         style_selected=ma_type;
@@ -1121,8 +1121,8 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
   } else if (ch == '<') {
    return -1;
   } else if (ch == '!') {
-   if (points > 0) {
-    popup(_("You cannot save a template with unused points!"));
+   if (points != 0) {
+    popup(_("You cannot save a template with nonzero unused points!"));
    } else
     save_template(u);
    mvwprintz(w,12, 2, c_ltgray, _("To go back and review your character, press <"));

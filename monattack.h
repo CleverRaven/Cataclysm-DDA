@@ -28,9 +28,11 @@ public:
     void spit_sap           (game *g, monster *z);
     void triffid_heartbeat  (game *g, monster *z);
     void fungus             (game *g, monster *z);
+    void fungus_growth      (game *g, monster *z);
     void fungus_sprout      (game *g, monster *z);
     void leap               (game *g, monster *z);
     void dermatik           (game *g, monster *z);
+    void dermatik_growth    (game *g, monster *z);
     void plant              (game *g, monster *z);
     void disappear          (game *g, monster *z);
     void formblob           (game *g, monster *z);
@@ -38,6 +40,8 @@ public:
     void tentacle           (game *g, monster *z);
     void vortex             (game *g, monster *z);
     void gene_sting         (game *g, monster *z);
+    void para_sting         (game *g, monster *z);
+    void triffid_growth     (game *g, monster *z);
     void stare              (game *g, monster *z);
     void fear_paralyze      (game *g, monster *z);
     void photograph         (game *g, monster *z);
@@ -51,6 +55,7 @@ public:
     void upgrade            (game *g, monster *z);
     void breathe            (game *g, monster *z);
     void bite               (game *g, monster *z);
+    void brandish           (game *g, monster *z);
     void flesh_golem        (game *g, monster *z);
     void parrot             (game *g, monster *z);
 };

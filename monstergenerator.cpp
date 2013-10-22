@@ -2,6 +2,7 @@
 #include "color.h"
 #include "translations.h"
 #include "rng.h"
+#include "output.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -115,7 +116,6 @@ void MonsterGenerator::init_death()
     death_map["VINE_CUT"] = &mdeath::vine_cut;// Kill adjacent vine if it's cut
     death_map["TRIFFID_HEART"] = &mdeath::triffid_heart;// Destroy all roots
     death_map["FUNGUS"] = &mdeath::fungus;// Explodes in spores D:
-    death_map["FUNGUSAWAKE"] = &mdeath::fungusawake;// Turn into live fungaloid
     death_map["DISINTEGRATE"] = &mdeath::disintegrate;// Falls apart
     death_map["WORM"] = &mdeath::worm;// Spawns 2 half-worms
     death_map["DISAPPEAR"] = &mdeath::disappear;// Hallucination disappears
@@ -154,9 +154,11 @@ void MonsterGenerator::init_attack()
     attack_map["SPIT_SAP"] = &mattack::spit_sap;
     attack_map["TRIFFID_HEARTBEAT"] = &mattack::triffid_heartbeat;
     attack_map["FUNGUS"] = &mattack::fungus;
+    attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
     attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
+    attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
     attack_map["PLANT"] = &mattack::plant;
     attack_map["DISAPPEAR"] = &mattack::disappear;
     attack_map["FORMBLOB"] = &mattack::formblob;
@@ -164,6 +166,8 @@ void MonsterGenerator::init_attack()
     attack_map["TENTACLE"] = &mattack::tentacle;
     attack_map["VORTEX"] = &mattack::vortex;
     attack_map["GENE_STING"] = &mattack::gene_sting;
+    attack_map["PARA_STING"] = &mattack::para_sting;
+    attack_map["TRIFFID_GROWTH"] = &mattack::triffid_growth;
     attack_map["STARE"] = &mattack::stare;
     attack_map["FEAR_PARALYZE"] = &mattack::fear_paralyze;
     attack_map["PHOTOGRAPH"] = &mattack::photograph;
@@ -177,6 +181,7 @@ void MonsterGenerator::init_attack()
     attack_map["UPGRADE"] = &mattack::upgrade;
     attack_map["BREATHE"] = &mattack::breathe;
     attack_map["BITE"] = &mattack::bite;
+    attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
     attack_map["PARROT"] = &mattack::parrot;
 }
@@ -218,9 +223,11 @@ void MonsterGenerator::init_flags()
     flag_map["POISON"] = MF_POISON;// // Poisonous to eat
     flag_map["VENOM"] = MF_VENOM;// // Attack may poison the player
     flag_map["BADVENOM"] = MF_BADVENOM;// // Attack may SEVERELY poison the player
+    flag_map["PARALYZEVENOM"] = MF_PARALYZE;// // Attack may paralyze the player with venom
     flag_map["BLEED"] = MF_BLEED;//       // Causes player to bleed
     flag_map["WEBWALK"] = MF_WEBWALK;// // Doesn't destroy webs
     flag_map["DIGS"] = MF_DIGS;// // Digs through the ground
+    flag_map["CAN_DIG"] = MF_CAN_DIG;// // Digs through the ground
     flag_map["FLIES"] = MF_FLIES;// // Can fly (over water, etc)
     flag_map["AQUATIC"] = MF_AQUATIC;// // Confined to water
     flag_map["SWIMS"] = MF_SWIMS;// // Treats water as 50 movement point terrain
@@ -269,8 +276,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 
         newmon->mat = jo.get_string("material");
 
-        newmon->species = get_tags(jo, "species");
-        newmon->categories = get_tags(jo, "categories");
+        newmon->species = jo.get_tags("species");
+        newmon->categories = jo.get_tags("categories");
 
         newmon->sym = jo.get_string("symbol")[0]; // will fail here if there is no symbol
         newmon->color = color_from_string(jo.get_string("color"));
@@ -297,10 +304,10 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sp_attack = get_attack_function(jo, "special_attack");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig, cats;
-        flags = get_tags(jo, "flags");
-        anger_trig = get_tags(jo, "anger_triggers");
-        placate_trig = get_tags(jo, "placate_triggers");
-        fear_trig = get_tags(jo, "fear_triggers");
+        flags = jo.get_tags("flags");
+        anger_trig = jo.get_tags("anger_triggers");
+        placate_trig = jo.get_tags("placate_triggers");
+        fear_trig = jo.get_tags("fear_triggers");
 
         newmon->flags = get_set_from_tags(flags, flag_map, MF_NULL);
         newmon->anger = get_set_from_tags(anger_trig, trigger_map, MTRIG_NULL);
@@ -318,10 +325,10 @@ void MonsterGenerator::load_species(JsonObject &jo)
         sid = jo.get_string("id");
 
         std::set<std::string> sflags, sanger, sfear, splacate;
-        sflags = get_tags(jo, "flags");
-        sanger = get_tags(jo, "anger_triggers");
-        sfear  = get_tags(jo, "fear_triggers");
-        splacate=get_tags(jo, "placate_triggers");
+        sflags = jo.get_tags("flags");
+        sanger = jo.get_tags("anger_triggers");
+        sfear  = jo.get_tags("fear_triggers");
+        splacate = jo.get_tags("placate_triggers");
 
         std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
         std::set<monster_trigger> anger, fear, placate;
@@ -335,24 +342,6 @@ void MonsterGenerator::load_species(JsonObject &jo)
     }
 }
 
-std::set<std::string> MonsterGenerator::get_tags(JsonObject &jo, std::string member)
-{
-    std::set<std::string> ret;
-
-    if (jo.has_member(member)){
-        json_value_type jvt = jo.get_member_type(member);
-        if (jvt == JVT_STRING){
-            ret.insert(jo.get_string(member));
-        }else if (jvt == JVT_ARRAY){
-            JsonArray jarr = jo.get_array(member);
-            while (jarr.has_more()){
-                ret.insert(jarr.next_string());
-            }
-        }
-    }
-
-    return ret;
-}
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
     static mtype *default_montype = mon_templates["mon_null"];
@@ -361,7 +350,7 @@ mtype *MonsterGenerator::get_mtype(std::string mon)
     {
         return mon_templates[mon];
     }
-
+    debugmsg("Could not find monster with type %s", mon.c_str());
     return default_montype;
 }
 mtype *MonsterGenerator::get_mtype(int mon)

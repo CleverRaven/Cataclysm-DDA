@@ -152,6 +152,7 @@ bool game::opening_screen()
         if (tmp.find(".template") != std::string::npos)
             templates.push_back(tmp.substr(0, tmp.find(".template")));
     }
+    closedir(dir);
 
     int sel1 = 1, sel2 = 1, layer = 1;
     InputEvent input;
@@ -254,6 +255,8 @@ bool game::opening_screen()
                     display_help();
                 } else if (sel1 == 8) {
                     uquit = QUIT_MENU;
+                    delwin(w_open);
+                    delwin(w_background);
                     return false;
                 } else {
                     sel2 = 0;
@@ -437,6 +440,7 @@ bool game::opening_screen()
         }
     }
     delwin(w_open);
+    delwin(w_background);
     if (start == false)
         uquit = QUIT_MENU;
     return start;

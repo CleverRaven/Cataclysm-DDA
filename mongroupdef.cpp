@@ -29,35 +29,105 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-std::string MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
+//Quantity is adjusted directly as a side effect of this function
+MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_name, std::vector <mtype*> *mtypes,
                                                       int *quantity, int turn )
-{
-    int roll = rng(1, 1000);
-    MonsterGroup g = monsterGroupMap[group];
-    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
-    {
-        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->first)->difficulty))) &&
-           (!OPTIONS["CLASSIC_ZOMBIES"] ||
-            GetMType(it->first)->in_category("CLASSIC") ||
-            GetMType(it->first)->in_category("WILDLIFE")))
-        {   //Not too hard for us (or we dont care)
-            if(it->second.first >= roll)
-            {
-                if( quantity) { *quantity -= it->second.second; }
-                return it->first;
-            }
-            else { roll -= it->second.first; }
+{   
+    int spawn_chance = rng(1, 1000);
+    MonsterGroup group = monsterGroupMap[group_name];
+    
+    //Our spawn details specify, by default, a single instance of the default monster
+    MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster,1);
+    //If the default monster is too difficult, replace this with "mon_null"
+    if(turn!=-1 && (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))){
+        spawn_details = MonsterGroupResult("mon_null",0);
+    }
+    
+    bool monster_found = false;
+    // Step through spawn definitions from the monster group until one is found or 
+    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it){
+        // There's a lot of conditions to work through to see if this spawn definition is valid
+        bool valid_entry = true;
+        // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
+        valid_entry = valid_entry && (turn == -1 || (turn+900) >= (MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->name)->difficulty)));
+        // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
+        if(OPTIONS["CLASSIC_ZOMBIES"]){
+            valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
         }
+        //Check to insure the various conditions for this spawn definition are met
+        for(std::vector<std::string>::iterator condition = it->conditions.begin(); condition != it->conditions.end(); ++condition){
+            if((*condition) == "DAY"){
+                //Unless day, invalid
+                if(!(g->turn.get_turn() > g->turn.sunrise().get_turn() && g->turn.get_turn() < g->turn.sunset().get_turn())){
+                    valid_entry = false;
+                }
+            } else if((*condition) == "NIGHT"){
+                //Unless night, invalid
+                if( !(g->turn.get_turn() < g->turn.sunrise().get_turn() || g->turn.get_turn() > g->turn.sunset().get_turn()) ){
+                    valid_entry = false;
+                }
+            } else if((*condition) == "DUSK"){
+                //Unless we're a certain distance from sundown
+                if( !(g->turn.get_turn() > (g->turn.sunset().get_turn()-HOURS(1) ) &&
+                      g->turn.get_turn() < (g->turn.sunset().get_turn()+HOURS(1) )) ){
+                    valid_entry = false;
+                }
+            } else if((*condition) == "DAWN"){
+                //Unless we're a certain distance from sunup
+                if( !(g->turn.get_turn() > (g->turn.sunrise().get_turn()-HOURS(1) ) &&
+                      g->turn.get_turn() < (g->turn.sunrise().get_turn()+HOURS(1) )) ){
+                    valid_entry = false;
+                }
+            } else if((*condition) == "TWILIGHT"){
+                //Unless we're a certain distance from sunup OR sundown
+                if(!((g->turn.get_turn() > (g->turn.sunset().get_turn()-HOURS(1) ) && 
+                      g->turn.get_turn() < (g->turn.sunset().get_turn()+HOURS(1) ))|| //dusk OR
+                     (g->turn.get_turn() > (g->turn.sunrise().get_turn()-HOURS(1) ) && //dawn
+                      g->turn.get_turn() < (g->turn.sunrise().get_turn()+HOURS(1) )))){
+                    valid_entry = false;
+                }
+            }
+            if((*condition) == "SUMMER"){
+                if(g->turn.get_season() != SUMMER){
+                    valid_entry = false;
+                }
+            } else if((*condition) == "WINTER"){
+                if(g->turn.get_season() != WINTER){
+                    valid_entry = false;
+                }
+            } else if((*condition) == "AUTUMN"){
+                if(g->turn.get_season() != AUTUMN){
+                    valid_entry = false;
+                }
+            } else if((*condition) == "SPRING"){
+                if(g->turn.get_season() != SPRING){
+                    valid_entry = false;
+                }
+            }
+        }
+        //If the entry was valid, check to see if we actually spawn it
+        if(valid_entry){
+            //If the monsters frequency is greater than the spawn_chance, select this spawn rule
+            if(it->frequency >= spawn_chance){
+                if(it->pack_maximum > 1){
+                  spawn_details = MonsterGroupResult(it->name, rng(it->pack_minimum,it->pack_maximum));
+                } else {
+                  spawn_details = MonsterGroupResult(it->name, 1);
+                }
+                //And if a quantity pointer with remaining value was passed, will will modify the external value as a side effect
+                //We will reduce it by the spawn rule's cost multiplier
+                if(quantity){ 
+                    *quantity -= it->cost_multiplier * spawn_details.pack_size; 
+                }
+                monster_found = true;
+            //Otherwise, subtract the frequency from spawn result for the next loop around
+            }else{ 
+                spawn_chance -= it->frequency;
+            }
+        } 
     }
-    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(g.defaultMonster)->difficulty))
-        && (!OPTIONS["STATIC_SPAWN"]))
-    {
-        return "mon_null";
-    }
-    else
-    {
-        return g.defaultMonster;
-    }
+
+    return spawn_details;
 }
 
 bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
@@ -65,7 +135,7 @@ bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monste
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if(it->first == monster) return true;
+        if(it->name == monster) return true;
     }
     return false;
 }
@@ -92,7 +162,7 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
 
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        monsters.push_back(it->first);
+        monsters.push_back(it->name);
     }
     return monsters;
 }
@@ -119,19 +189,30 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     MonsterGroup g;
 
     g.name = jo.get_string("name");
-    g.defaultMonster = monStr2monId[jo.get_string("default")];
-
-    if (jo.is_array("monsters")){
+    g.defaultMonster = jo.get_string("default");
+    if (jo.has_array("monsters")){
         JsonArray monarr = jo.get_array("monsters");
 
-        const int monnum = monarr.size();
-        for (int i = 0; i < monnum; ++i){
-            if (monarr.get_index_type(i) == JVT_OBJECT){
-                JsonObject mon = monarr.get_object(i);
-
-                g.monsters[mon.get_string("monster")] =
-                    std::pair<int,int>(mon.get_int("freq"), mon.get_int("multiplier"));
+        while (monarr.has_more()) {
+            JsonObject mon = monarr.next_object();
+            std::string name = mon.get_string("monster");
+            int freq = mon.get_int("freq");
+            int cost = mon.get_int("cost_multiplier");
+            int pack_min = 1;
+            int pack_max = 1;
+            if(mon.has_member("pack_size")){
+                JsonArray packarr = mon.get_array("pack_size");
+                pack_min = packarr.next_int();
+                pack_max = packarr.next_int();
             }
+            MonsterGroupEntry new_mon_group = MonsterGroupEntry(name,freq,cost,pack_min,pack_max);
+            if(mon.has_member("conditions")){
+              JsonArray conditions_arr = mon.get_array("conditions");
+              while(conditions_arr.has_more()){
+                new_mon_group.conditions.push_back(conditions_arr.next_string());
+              }
+            }
+            g.monsters.push_back(new_mon_group);
         }
     }
 
@@ -152,9 +233,9 @@ void init_translation()
     monStr2monId["mon_boomer"] = mon_boomer; monStr2monId["mon_boomer_fungus"] = mon_boomer_fungus; monStr2monId["mon_skeleton"] = mon_skeleton; monStr2monId["mon_zombie_necro"] = mon_zombie_necro;
     monStr2monId["mon_zombie_scientist"] = mon_zombie_scientist; monStr2monId["mon_zombie_soldier"] = mon_zombie_soldier; monStr2monId["mon_zombie_grabber"] = mon_zombie_grabber;
     monStr2monId["mon_zombie_master"] = mon_zombie_master;  monStr2monId["mon_beekeeper"] = mon_beekeeper; monStr2monId["mon_zombie_child"] = mon_zombie_child;
-    monStr2monId["mon_triffid"] = mon_triffid; monStr2monId["mon_triffid_young"] = mon_triffid_young; monStr2monId["mon_triffid_queen"] = mon_triffid_queen; monStr2monId["mon_creeper_hub"] = mon_creeper_hub;
+    monStr2monId["mon_triffid"] = mon_triffid; monStr2monId["mon_triffid_young"] = mon_triffid_young; monStr2monId["mon_fungal_fighter"] = mon_fungal_fighter; monStr2monId["mon_triffid_queen"] = mon_triffid_queen; monStr2monId["mon_creeper_hub"] = mon_creeper_hub;
     monStr2monId["mon_creeper_vine"] = mon_creeper_vine; monStr2monId["mon_biollante"] = mon_biollante; monStr2monId["mon_vinebeast"] = mon_vinebeast; monStr2monId["mon_triffid_heart"] = mon_triffid_heart;
-    monStr2monId["mon_fungaloid"] = mon_fungaloid; monStr2monId["mon_fungaloid_dormant"] = mon_fungaloid_dormant; monStr2monId["mon_fungaloid_young"] = mon_fungaloid_young; monStr2monId["mon_spore"] = mon_spore;
+    monStr2monId["mon_fungaloid"] = mon_fungaloid; monStr2monId["mon_fungaloid_young"] = mon_fungaloid_young; monStr2monId["mon_spore"] = mon_spore;
     monStr2monId["mon_fungaloid_queen"] = mon_fungaloid_queen; monStr2monId["mon_fungal_wall"] = mon_fungal_wall;
     monStr2monId["mon_blob"] = mon_blob; monStr2monId["mon_blob_small"] = mon_blob_small;
     monStr2monId["mon_chud"] = mon_chud; monStr2monId["mon_one_eye"] = mon_one_eye; monStr2monId["mon_crawler"] = mon_crawler;

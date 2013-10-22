@@ -44,15 +44,15 @@
 
 map_extras no_extras(0);
 map_extras road_extras(
-// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
-    50, 40, 50,120,200, 30, 10, 5, 80, 20, 20, 200, 10,  8,  2,  3);
+// %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
+    50, 40, 50,120,200, 30, 10,  5, 80, 10,  8,  2,  3);
 map_extras field_extras(
-    60, 40, 15, 40, 80, 10, 10,  3, 50, 30, 40, 300, 10,  8,  1,  3);
+    60, 40, 15, 40, 80, 10, 10,  3, 50, 10,  8,  1,  3);
 map_extras subway_extras(
-// %%% HEL MIL SCI STA DRG SUP PRT MIN WLF CGR PUD CRT FUM 1WY ART
-    75,  0, 5, 12, 5,  5,  0,  7,  0,  0, 0, 120,  0, 20,  1,  3);
+// %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
+    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 20,  1,  3);
 map_extras build_extras(
-    90,  0, 5, 12,  0, 10,  0, 5,  5,  0, 0, 0, 60,  8,  1,  3);
+    90,  0,  5, 12,  0, 10,  0,  5,  5, 60,  8,  1,  3);
 
 //see omdata.h
 std::vector<oter_t> oterlist;
@@ -1922,8 +1922,9 @@ point overmap::draw_overmap(game *g, int zlevel)
      timeout(BLINK_SPEED); // Enable blinking!
 
   int dirx, diry;
-  if (action != "ERROR")
+  if (action != "ANY_INPUT") {
    blink = true; // If any input is detected, make the blinkies on
+  }
   ictxt.get_direction(dirx, diry, action);
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
@@ -2018,8 +2019,9 @@ point overmap::draw_overmap(game *g, int zlevel)
     cursy = found.y;
    }
   }
-  else if (action == "ERROR") // Hit timeout on input, so make characters blink
+  else if (action == "ANY_INPUT") { // Hit timeout on input, so make characters blink
    blink = !blink;
+  }
  } while (action != "QUIT" && action != "CONFIRM");
  timeout(-1);
  werase(w_map);
