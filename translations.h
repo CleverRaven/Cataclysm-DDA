@@ -20,6 +20,10 @@ const char * pgettext(const char *context, const char *msgid);
 
 #else // !LOCALIZE
 
+// on some systems <locale> pulls in libintl.h anyway,
+// so preemptively include it before the gettext overrides.
+#include <locale>
+
 const char * strip_positional_formatting(const char *msgid);
 #define _(STRING) strip_positional_formatting(STRING)
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
