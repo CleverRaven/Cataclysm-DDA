@@ -3988,7 +3988,7 @@ int iuse::tazer(game *g, player *p, item *it, bool t)
  int mondex = g->mon_at(dirx, diry);
  int npcdex = g->npc_at(dirx, diry);
  if (mondex == -1 && npcdex == -1) {
-  g->add_msg_if_player(p,_("Your tazer crackles in the air."));
+  g->add_msg_if_player(p,_("Electricity crackles in the air."));
   return it->type->charges_to_use();
  }
 

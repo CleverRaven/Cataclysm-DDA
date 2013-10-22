@@ -5259,5 +5259,29 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "NONE"
+  },
+  
+  {
+    "id": "shock_staff",
+    "type":"TOOL",
+    "symbol": "/",
+    "color": "brown",
+    "name": "powered quarterstaff",
+    "description": "An ironshod quarterstaff that has had a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent should beating them senseless with it prove too hazardous.",
+    "price": 80,
+    "material": [ "wood", "steel" ],
+    "techniques" : ["WBLOCK_1", "RAPID"],
+    "weight": 2351,
+    "volume": 19,
+    "bashing": 33,
+    "cutting": 0,
+    "to_hit": 3
+    "max_charges" : 500,
+    "initial_charges" : 0,
+    "charges_per_use" : 100,
+    "turns_per_charge" : 0,
+    "ammo" : "battery",
+    "revert_to" : "null",
+    "use_action" : "TAZER"
   }
 ]
