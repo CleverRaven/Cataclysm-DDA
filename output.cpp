@@ -572,7 +572,7 @@ char popup_getkey(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());
@@ -632,7 +632,7 @@ void popup_top(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());
@@ -670,7 +670,7 @@ void popup(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());
@@ -710,7 +710,7 @@ void popup_nowait(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());
