@@ -168,14 +168,15 @@ void defense_game::init_itypes(game *g)
 
 void defense_game::init_mtypes(game *g)
 {
- for (int i = 0; i < num_monsters; i++) {
-  g->mtypes[i]->difficulty *= 1.5;
-  g->mtypes[i]->difficulty += int(g->mtypes[i]->difficulty / 5);
-  g->mtypes[i]->flags.insert(MF_BASHES);
-  g->mtypes[i]->flags.insert(MF_SMELLS);
-  g->mtypes[i]->flags.insert(MF_HEARS);
-  g->mtypes[i]->flags.insert(MF_SEES);
- }
+    std::map<std::string, mtype*> montemplates = MonsterGenerator::generator().get_all_mtypes();
+    for (std::map<std::string, mtype*>::iterator it = montemplates.begin(); it != montemplates.end(); ++it){
+        it->second->difficulty *= 1.5;
+        it->second->difficulty += int(it->second->difficulty / 5);
+        it->second->flags.insert(MF_BASHES);
+        it->second->flags.insert(MF_SMELLS);
+        it->second->flags.insert(MF_HEARS);
+        it->second->flags.insert(MF_SEES);
+    }
 }
 
 void defense_game::init_constructions(game *g)
