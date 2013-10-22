@@ -332,7 +332,7 @@
         "messages" : [
             "You axe-kick %s",
             "<npcname> axe-kicks %s"
-        ],
+        ]
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_push",
