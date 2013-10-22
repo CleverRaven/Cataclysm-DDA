@@ -51,7 +51,7 @@
         "type" : "ARMOR",
         "id" : "sneakers",
         "name" : "sneakers",
-        "weight" : 640,
+        "weight" : 840,
         "color" : "light_blue",
         "covers" : ["FEET"],
         "to_hit" : 0,
