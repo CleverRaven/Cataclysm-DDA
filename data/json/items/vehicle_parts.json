@@ -419,7 +419,7 @@
         "volume": 4,
         "bashing": 1,
         "cutting": 0,
-        "price": 400,
+        "price": 400
     },
     {
         "type":"GENERIC",
@@ -434,6 +434,6 @@
         "volume": 4,
         "bashing": 1,
         "cutting": 0,
-        "price": 400,
+        "price": 400
     }
 ]

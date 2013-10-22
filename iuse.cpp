@@ -4298,7 +4298,7 @@ int iuse::knife(game *g, player *p, item *it, bool t)
         return 0;
     }
 
-    std::string verb = "cut";
+    std::string action = "cut";
     std::string found_mat = "plastic";
 
     item *result = NULL;
@@ -4328,7 +4328,7 @@ int iuse::knife(game *g, player *p, item *it, bool t)
         }
 
     } else if (cut->made_of("wood")) {
-        verb = "carve";
+        action = "carve";
         count = 2 * amount; // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
         result = new item(g->itypes["skewer"], int(g->turn), g->nextinv);
     } else { // TODO: add the rest of the materials, gold and what not.
@@ -4344,8 +4344,16 @@ int iuse::knife(game *g, player *p, item *it, bool t)
         return 0;
     }
 
-    g->add_msg(ngettext("You %4$s the %1$s into %2$i %3$s.", "You %4$s the %1$s into %2$i %3$ss.",
-                        count), cut->tname().c_str(), count, result->tname().c_str(), verb.c_str());
+    if (action == "carve") {
+        g->add_msg(ngettext("You carve the %1$s into %2$i %3$s.",
+                            "You carve the %1$s into %2$i %3$ss.", count),
+                   cut->tname().c_str(), count, result->tname().c_str());
+    } else {
+        g->add_msg(ngettext("You cut the %1$s into %2$i %3$s.",
+                            "You cut the %1$s into %2$i %3$ss.", count),
+                   cut->tname().c_str(), count, result->tname().c_str());
+    }
+
     // otherwise layout the goodies.
     p->i_rem(ch);
     bool drop = false;
