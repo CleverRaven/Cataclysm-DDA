@@ -8,9 +8,9 @@
 #include <algorithm>
 
 #include "output.h"
+
 #include "color.h"
 #include "input.h"
-#include "output.h"
 #include "rng.h"
 #include "keypress.h"
 #include "options.h"
@@ -18,6 +18,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "uistate.h"
+#include "translations.h"
 
 // Display data
 int TERMX;
@@ -302,31 +303,40 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
 
 bool query_yn(const char *mes, ...)
 {
- bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
- va_list ap;
- va_start(ap, mes);
- char buff[1024];
- vsprintf(buff, mes, ap);
- va_end(ap);
- int win_width = utf8_width(buff) + 26;
+    bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
+    va_list ap;
+    va_start(ap, mes);
+    char buff[1024];
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+    int win_width = utf8_width(buff) + 26;
 
- WINDOW *w = newwin(3, win_width, (TERMY-3)/2, (TERMX > win_width) ? (TERMX-win_width)/2 : 0);
+    WINDOW *w = newwin(3, win_width, (TERMY-3)/2,
+                       (TERMX > win_width) ? (TERMX-win_width)/2 : 0);
 
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, (force_uc ? _("%s (Y/N - Case Sensitive)") : _("%s (y/n)")), buff);
- wrefresh(w);
- char ch;
- do
-  ch = getch();
- while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE && ch != 'Y' && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
- werase(w);
- wrefresh(w);
- delwin(w);
- refresh();
- if (ch == 'Y' || ch == 'y')
-  return true;
- return false;
+    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+    if (force_uc) {
+        mvwprintz(w, 1, 1, c_ltred, _("%s (Y/N - Case Sensitive)"), buff);
+    } else {
+        mvwprintz(w, 1, 1, c_ltred, _("%s (y/n)"), buff);
+    }
+
+    wrefresh(w);
+    char ch;
+    do {
+        ch = getch();
+    } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE && ch != 'Y'
+             && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
+    werase(w);
+    wrefresh(w);
+    delwin(w);
+    refresh();
+    if (ch == 'Y' || ch == 'y') {
+        return true;
+    }
+    return false;
 }
 
 int query_int(const char *mes, ...)
@@ -562,7 +572,7 @@ char popup_getkey(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());
@@ -622,7 +632,7 @@ void popup_top(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());
@@ -660,7 +670,7 @@ void popup(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());
@@ -700,7 +710,7 @@ void popup_nowait(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> folded = foldstring(tmp, 99999);
+ std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH-2);
  height += folded.size();
  for(int i=0; i<folded.size(); i++) {
      int cw = utf8_width(folded[i].c_str());

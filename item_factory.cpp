@@ -22,8 +22,11 @@ Item_factory* item_controller = new Item_factory();
 Item_factory::Item_factory(){
     init();
     m_missing_item = new itype();
-    m_missing_item->name = _("Error: Item Missing.");
-    m_missing_item->description = _("There is only the space where an object should be, but isn't. No item template of this type exists.");
+    // intentionally left untranslated
+    // because using _() at global scope is problematic,
+    // and if this appears it's a bug anyway.
+    m_missing_item->name = "Error: Item Missing.";
+    m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 

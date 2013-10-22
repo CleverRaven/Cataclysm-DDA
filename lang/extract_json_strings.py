@@ -117,6 +117,7 @@ autoextract("monsters")
 autoextract("vehicle_parts")
 autoextract("vehicles")
 autoextract("techniques", format_strings=True)
+autoextract("tutorial")
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:
