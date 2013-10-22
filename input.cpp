@@ -58,6 +58,8 @@ InputEvent get_input(int ch)
         case 27: /* TODO Fix delay */
         case 'q':
             return Cancel;
+        case '\t':
+            return Tab;
         case '?':
             return Help;
 
