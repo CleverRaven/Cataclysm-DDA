@@ -7739,6 +7739,7 @@
   ],
   "components": [
     [
+      [ "ammonia", 1 ],
       [ "lemon", 1 ],
       [ "acid", 1 ],
       [ "vinegar", 1 ]
