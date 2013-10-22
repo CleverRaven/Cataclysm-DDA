@@ -4113,7 +4113,7 @@
         "description" : "A huge military rucksack, provides a lot of storage.",
         "price" : 210,
         "material" : ["plastic", "null"],
-        "volume" : 8
+        "volume" : 8,
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
