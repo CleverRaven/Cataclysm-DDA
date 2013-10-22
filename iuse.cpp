@@ -2413,6 +2413,38 @@ int iuse::chainsaw_on(game *g, player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
+int iuse::cs_lajatang_off(game *g, player *p, item *it, bool t)
+{
+ p->moves -= 80;
+ if (rng(0, 10) - it->damage > 5 && it->charges > 0) {
+  g->sound(p->posx, p->posy, 40,
+           _("With a roar, the chainsaws leap to life!"));
+  it->make(g->itypes["cs_lajatang_on"]);
+  it->active = true;
+ } else {
+  g->add_msg_if_player(p,_("You yank the cords, but nothing happens."));
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::cs_lajatang_on(game *g, player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(15)) {
+   g->sound(p->posx, p->posy, 12, _("Your chainsaws rumble."));
+  }
+  //Deduct an additional charge (since there are two of them)
+  if(it->charges > 0) {
+   it->charges--;
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your chainsaws die."));
+  it->make(g->itypes["cs_lajatang_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
 int iuse::shishkebab_off(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true, _("What's the plan?"), _("Bring the heat!"),
