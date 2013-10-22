@@ -3955,7 +3955,7 @@
         "symbol" : "[",
         "description" : "A huge military rucksack, provides a lot of storage.",
         "price" : 210,
-        "material" : ["cotton", "plastic"],
+        "material" : ["plastic", "null"],
         "volume" : 8
         "cutting" : 0,
         "warmth" : 10,
