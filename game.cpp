@@ -1951,9 +1951,22 @@ bool game::handle_action()
    peek();
    break;
 
-  case ACTION_LIST_ITEMS:
-   list_items();
-   break;
+  case ACTION_LIST_ITEMS: {
+    int iRetItems = -1;
+    int iRetMonsters = -1;
+
+    do {
+        iRetItems = list_items();
+        if (iRetItems != -1) {
+            iRetMonsters = list_monsters();
+        }
+    } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+
+    if (iRetItems == 0 && iRetMonsters == 0) {
+        add_msg(_("You dont see any items or monsters around you!"));
+    }
+  } break;
+
 
   case ACTION_INVENTORY: {
    int cMenu = ' ';
@@ -6881,20 +6894,20 @@ bool game::list_items_match(std::string sText, std::string sPattern)
  return false;
 }
 
-std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
+std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 {
     std::vector<item> here;
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
     std::vector<std::string> vOrder;
 
-    std::vector<point> points = closest_points_first(iSearchX, u.posx, u.posy);
+    std::vector<point> points = closest_points_first(iRadius, u.posx, u.posy);
 
     int iLastX = 0;
     int iLastY = 0;
 
     for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
-        if (p_it->y >= u.posy - iSearchY && p_it->y <= u.posy + iSearchY &&
+        if (p_it->y >= u.posy - iRadius && p_it->y <= u.posy + iRadius &&
             u_see(p_it->x,p_it->y) &&
             (!m.has_flag("CONTAINER", p_it->x, p_it->y) ||
             (rl_dist(u.posx, u.posy, p_it->x, p_it->y) == 1 && !m.has_flag("SEALED", p_it->x, p_it->y)))) {
@@ -6974,7 +6987,7 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
 }
 
 
-void game::draw_trail_to_square(int x, int y)
+void game::draw_trail_to_square(int x, int y, bool bDrawX)
 {
     //Reset terrain
     draw_ter();
@@ -6988,8 +7001,10 @@ void game::draw_trail_to_square(int x, int y)
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true, center.x, center.y);
     }
 
-    mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
-                        POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)), c_white, 'X');
+    if (bDrawX) {
+        mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
+                            POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)), c_white, 'X');
+    }
 
     wrefresh(w_terrain);
 }
@@ -7019,6 +7034,9 @@ void game::reset_item_list_state(WINDOW* window, int height)
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
 
+    mvwprintz(window, 0, 2, c_ltgreen, "< ");
+    wprintz(window, c_white, _("Items"));
+    wprintz(window, c_ltgreen, " >");
 
     std::vector<std::string> tokens;
     if (sFilter != "")
@@ -7095,7 +7113,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
     return id;
 }
 
-void game::list_items()
+int game::list_items()
 {
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
@@ -7104,11 +7122,10 @@ void game::list_items()
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
     //Area to search +- of players position.
-    const int iSearchX = 12 + (u.per_cur * 2);
-    const int iSearchY = 12 + (u.per_cur * 2);
+    const int iRadius = 12 + (u.per_cur * 2);
 
     //this stores the items found, along with the coordinates
-    std::vector<map_item_stack> ground_items = find_nearby_items(iSearchX, iSearchY);
+    std::vector<map_item_stack> ground_items = find_nearby_items(iRadius);
     //this stores only those items that match our filter
     std::vector<map_item_stack> filtered_items = (sFilter != "" ?
                                                   filter_item_stacks(ground_items, sFilter) :
@@ -7123,6 +7140,7 @@ void game::list_items()
     u.view_offset_x = 0;
     u.view_offset_y = 0;
 
+    int iReturn = -1;
     int iActive = 0; // Item index that we're looking at
     const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
     int iStartPos = 0;
@@ -7234,6 +7252,22 @@ void game::list_items()
                     if (iPage < 0) {
                         iPage = 0;
                     }
+                    break;
+                case Tab: //Switch to list_monsters();
+                case DirectionDown:
+                case DirectionUp:
+                    u.view_offset_x = iStoreViewOffsetX;
+                    u.view_offset_y = iStoreViewOffsetY;
+
+                    werase(w_items);
+                    werase(w_item_info);
+                    werase(w_item_info_border);
+                    delwin(w_items);
+                    delwin(w_item_info);
+                    delwin(w_item_info_border);
+                    return 1;
+                    break;
+                default:
                     break;
             }
 
@@ -7358,7 +7392,7 @@ void game::list_items()
                     }
                 }
 
-                draw_trail_to_square(iActiveX, iActiveY);
+                draw_trail_to_square(iActiveX, iActiveY, true);
             }
 
             wrefresh(w_items);
@@ -7371,7 +7405,7 @@ void game::list_items()
         }
         else
         {
-            add_msg(_("You dont see any items around you!"));
+            iReturn = 0;
             ch = ' ';
             input = Close;
         }
@@ -7388,6 +7422,227 @@ void game::list_items()
     delwin(w_item_info);
     delwin(w_item_info_border);
     refresh_all(); // TODO - figure out what precisely needs refreshing, rather than the whole screen
+
+    return iReturn;
+}
+
+
+std::vector<int> game::find_nearby_monsters(int iRadius)
+{
+    std::vector<int> ret;
+    std::vector<point> points = closest_points_first(iRadius, u.posx, u.posy);
+
+    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
+        int dex = mon_at(p_it->x, p_it->y);
+        if (dex != -1 && u_see(&zombie(dex))) {
+            ret.push_back(dex);
+        }
+    }
+
+    return ret;
+}
+
+int game::list_monsters()
+{
+    int iInfoHeight = 12;
+    const int width = use_narrow_sidebar() ? 45 : 55;
+    WINDOW* w_monsters = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+    WINDOW* w_monster_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
+    WINDOW* w_monster_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
+
+    //this stores the monsters found
+    std::vector<int> vMonsters = find_nearby_monsters(60);
+
+    const int iMonsterNum = vMonsters.size();
+
+    const int iStoreViewOffsetX = u.view_offset_x;
+    const int iStoreViewOffsetY = u.view_offset_y;
+
+    u.view_offset_x = 0;
+    u.view_offset_y = 0;
+
+    int iReturn = -1;
+    int iActive = 0; // monster index that we're looking at
+    const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
+    int iStartPos = 0;
+    int iActiveX = 0;
+    int iActiveY = 0;
+    int iLastActiveX = -1;
+    int iLastActiveY = -1;
+    InputEvent input = Undefined;
+    long ch = 0; //this is a long because getch returns a long
+    int iMonDex = -1;
+
+    for (int i = 1; i < TERMX; i++) {
+        if (i < width) {
+            mvwputch(w_monsters, 0, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+        }
+
+        if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
+            mvwputch(w_monsters, i, 0, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_monsters, i, width - 1, c_ltgray, LINE_XOXO); // |
+        }
+    }
+
+    mvwputch(w_monsters, 0, 0,         c_ltgray, LINE_OXXO); // |^
+    mvwputch(w_monsters, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+
+    mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
+
+    mvwprintz(w_monsters, 0, 2, c_ltgreen, "< ");
+    wprintz(w_monsters, c_white, _("Monsters"));
+    wprintz(w_monsters, c_ltgreen, " >");
+
+    do {
+        if (vMonsters.size() > 0) {
+            // we're switching on input here, whereas above it was if/else clauses on a char
+            switch(input) {
+                case DirectionN:
+                    iActive--;
+                    if (iActive < 0) {
+                        iActive = iMonsterNum - 1;
+                    }
+                    break;
+                case DirectionS:
+                    iActive++;
+                    if (iActive >= iMonsterNum) {
+                        iActive = 0;
+                    }
+                    break;
+                case Tab: //Switch to list_items();
+                case DirectionDown:
+                case DirectionUp:
+                    u.view_offset_x = iStoreViewOffsetX;
+                    u.view_offset_y = iStoreViewOffsetY;
+
+                    werase(w_monsters);
+                    werase(w_monster_info);
+                    werase(w_monster_info_border);
+                    delwin(w_monsters);
+                    delwin(w_monster_info);
+                    delwin(w_monster_info_border);
+                    return 1;
+                    break;
+                default:
+                    break;
+            }
+
+            //Draw Scrollbar
+            draw_scrollbar(w_monsters, iActive, iMaxRows, iMonsterNum, 1);
+
+            calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
+
+            for (int i = 0; i < iMaxRows; i++) {
+                wmove(w_monsters, i + 1, 1);
+                for (int i = 1; i < width - 1; i++)
+                    wprintz(w_monsters, c_black, " ");
+            }
+
+            int iNum = 0;
+            iActiveX = 0;
+            iActiveY = 0;
+            iMonDex = -1;
+
+            for (int i = 0; i < vMonsters.size(); ++i) {
+                if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ? iMonsterNum : iMaxRows) ) {
+
+                    if (iNum == iActive) {
+                        iMonDex = vMonsters[i];
+
+                        iActiveX = zombie(iMonDex).posx() - u.posx;
+                        iActiveY = zombie(iMonDex).posy() - u.posy;
+                    }
+
+                    mvwprintz(w_monsters, 1 + iNum - iStartPos, 2,
+                              ((iNum == iActive) ? c_ltgreen : c_white),
+                              "%s", (zombie(vMonsters[i]).name()).c_str());
+
+                    int numw = iMonsterNum > 9 ? 2 : 1;
+                    mvwprintz(w_monsters, 1 + iNum - iStartPos, width - (5 + numw),
+                              ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                              numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx, zombie(vMonsters[i]).posy() - u.posy),
+                              direction_name_short(direction_from(0, 0, zombie(vMonsters[i]).posx() - u.posx, zombie(vMonsters[i]).posy() - u.posy)).c_str()
+                             );
+                 }
+                 iNum++;
+            }
+
+            mvwprintz(w_monsters, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
+                      c_ltgreen, " %*d", ((iMonsterNum > 9) ? 2 : 1), iActive+1);
+            wprintz(w_monsters, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
+
+            werase(w_monster_info);
+
+            //print monster info
+            zombie(iMonDex).print_info(this, w_monster_info);
+
+            for (int j=0; j < iInfoHeight-1; j++) {
+                mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
+                mvwputch(w_monster_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+            }
+
+            for (int j=0; j < width - 1; j++) {
+                mvwputch(w_monster_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+            }
+
+            mvwputch(w_monster_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+            mvwputch(w_monster_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
+
+            //Only redraw trail/terrain if x/y position changed
+            if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
+                iLastActiveX = iActiveX;
+                iLastActiveY = iActiveY;
+
+                if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
+                    int xpos = POSX + iActiveX;
+                    if (xpos < 0) {
+                        u.view_offset_x = xpos;
+                    } else if (xpos >= TERRAIN_WINDOW_WIDTH) {
+                        u.view_offset_x = xpos - (TERRAIN_WINDOW_WIDTH - 1);
+                    } else {
+                        u.view_offset_x = 0;
+                    }
+                    int ypos = POSY + iActiveY;
+                    if (ypos < 0) {
+                        u.view_offset_y = ypos;
+                    } else if (ypos >= TERRAIN_WINDOW_HEIGHT) {
+                        u.view_offset_y = ypos - (TERRAIN_WINDOW_HEIGHT - 1);
+                    } else {
+                        u.view_offset_y = 0;
+                    }
+                }
+
+                draw_trail_to_square(iActiveX, iActiveY, false);
+            }
+
+            wrefresh(w_monsters);
+            wrefresh(w_monster_info_border);
+            wrefresh(w_monster_info);
+
+            refresh();
+            ch = getch();
+            input = get_input(ch);
+        } else {
+            iReturn = 0;
+            ch = ' ';
+            input = Close;
+        }
+    } while (input != Close && input != Cancel);
+
+    u.view_offset_x = iStoreViewOffsetX;
+    u.view_offset_y = iStoreViewOffsetY;
+
+    werase(w_monsters);
+    werase(w_monster_info);
+    werase(w_monster_info_border);
+    delwin(w_monsters);
+    delwin(w_monster_info);
+    delwin(w_monster_info_border);
+    refresh_all(); // TODO - figure out what precisely needs refreshing, rather than the whole screen
+
+    return iReturn;
 }
 
 // Pick up items at (posx, posy).
@@ -9223,7 +9478,7 @@ void game::takeoff(char chInput)
   add_msg(_("Never mind."));
   return;
  }
-    
+
  if (u.takeoff(this, ch))
   u.moves -= 250; // TODO: Make this variable
  else
