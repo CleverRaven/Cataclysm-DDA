@@ -327,6 +327,17 @@ bool JsonObject::has_object(const std::string &name)
     return false;
 }
 
+std::string JsonObject::dump_input() {
+    int origpos = jsin->tell();
+    jsin->seek(start);
+    jsin->eat_whitespace();
+    int len = end - jsin->tell();
+    std::string ret;
+    ret.resize(len);
+    jsin->read(&ret[0],len);
+    jsin->seek(origpos);
+    return ret;
+}
 /* class JsonArray
  * represents a JSON array,
  * providing access to the underlying data.
@@ -342,6 +353,7 @@ JsonArray::JsonArray(JsonIn *j) : positions()
         positions.push_back(jsin->tell());
         jsin->skip_value();
     }
+    end = jsin->tell();
 }
 
 JsonArray::JsonArray(const JsonArray &ja)
@@ -350,6 +362,7 @@ JsonArray::JsonArray(const JsonArray &ja)
     start = ja.start;
     index = 0;
     positions = ja.positions;
+    end = ja.end;
 }
 
 bool JsonArray::has_more()
@@ -579,6 +592,17 @@ bool JsonArray::has_object(int i)
     return jsin->test_object();
 }
 
+std::string JsonArray::dump_input() {
+    int origpos = jsin->tell();
+    jsin->seek(start);
+    jsin->eat_whitespace();
+    int len = end - jsin->tell();
+    std::string ret;
+    ret.resize(len);
+    jsin->read(&ret[0],len);
+    jsin->seek(origpos);
+    return ret;
+}
 
 /* class JsonIn
  * represents an istream of JSON data,
@@ -593,7 +617,7 @@ int JsonIn::tell() { return stream->tellg(); }
 void JsonIn::seek(int pos) { stream->seekg(pos, std::istream::beg); }
 char JsonIn::peek() { return (char)stream->peek(); }
 bool JsonIn::good() { return stream->good(); }
-
+void JsonIn::read(char * str, int len) { stream->read(str, len); }
 void JsonIn::eat_whitespace()
 {
     while (is_whitespace(peek())) {

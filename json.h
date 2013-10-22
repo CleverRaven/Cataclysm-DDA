@@ -62,6 +62,9 @@ public:
 
     // useful debug info
     std::string line_number(); // for occasional use only
+
+    // dump substring of input, for error messages and copying
+    std::string dump_input();
 };
 
 class JsonArray {
@@ -69,6 +72,7 @@ private:
     std::vector<int> positions;
     int start;
     int index;
+    int end;
     JsonIn *jsin;
 
     void verify_index(int i);
@@ -116,10 +120,14 @@ public:
     bool has_string(int index);
     bool has_array(int index);
     bool has_object(int index);
+
+    // dump substring of input, for error messages and copying
+    std::string dump_input();
 };
 
 class JsonIn {
 private:
+
     std::istream *stream;
 
 public:
@@ -173,6 +181,9 @@ public:
 
     // useful debug info
     std::string line_number(int offset_modifier=0); // for occasional use only
+
+    // raw read of string, for dump_input
+    void read(char * str, int len);
 };
 
 #endif // _JSON_H_
