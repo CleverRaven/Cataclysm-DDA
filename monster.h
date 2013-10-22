@@ -216,6 +216,7 @@ class monster {
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 
+ short ignoring;
 private:
  std::vector <point> plans;
  int _posx, _posy;
