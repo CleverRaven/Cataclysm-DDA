@@ -117,6 +117,12 @@ CARAVAN_TOOLS,
 NUM_CARAVAN_CATEGORIES
 };
 
+struct defense_game_monchanges
+{
+    int original_difficulty;
+    std::set<m_flag> added_flags;
+};
+
 struct defense_game : public special_game
 {
  defense_game();
@@ -135,9 +141,13 @@ private:
  void setup();
  void refresh_setup(WINDOW *w, int selection);
  void init_itypes(game *g);
+ void reset_itypes();
  void init_mtypes(game *g);
+ void reset_mtypes();
  void init_constructions(game *g);
+ void reset_constructions();
  void init_recipes(game *g);
+ void reset_recipes();
  void init_map(game *g);
  std::vector<itype_id> carvan_items(caravan_category cat);
 
