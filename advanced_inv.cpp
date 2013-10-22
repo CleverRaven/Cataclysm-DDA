@@ -1020,7 +1020,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     if ( destarea == isinventory ) // if destination is inventory
                     {
                         if(squares[destarea].size >= max_inv) {
-                            popup(_("Too many itens"));
+                            popup(_("Too many items."));
                             continue;
                         }
                         int tryvolume = it->volume();
