@@ -16,6 +16,7 @@
 #include "color.h"
 #include "monstergenerator.h"
 #include "inventory.h"
+#include "tutorial.h"
 
 #include <string>
 #include <vector>
@@ -102,6 +103,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/items/vehicle_parts.json");
     ret.push_back("data/json/techniques.json");
     ret.push_back("data/json/martialarts.json");
+    ret.push_back("data/json/tutorial.json");
 
     ret.push_back("data/json/recipes.json");
     return ret;
@@ -166,6 +168,8 @@ void init_data_structures()
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
+    type_function_map["tutorial_messages"] =
+        new StaticFunctionAccessor(&load_tutorial_messages);
 
     mutations_category[""].clear();
     init_mutation_parts();

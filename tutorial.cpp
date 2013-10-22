@@ -6,6 +6,8 @@
 #include "translations.h"
 #include "monstergenerator.h"
 
+std::vector<std::string> tut_text;
+
 bool tutorial_game::init(game *g)
 {
     // TODO: clean up old tutorial
@@ -226,6 +228,16 @@ void tutorial_game::add_message(game *g, tut_lesson lesson)
  if (tutorials_seen[lesson])
   return;
  tutorials_seen[lesson] = true;
- popup_top(_(tut_text[lesson].c_str()));
+ popup_top(tut_text[lesson].c_str());
  g->refresh_all();
+}
+
+void load_tutorial_messages(JsonObject &jo)
+{
+    // loading them all at once, as they have to be in exact order
+    tut_text.clear();
+    JsonArray messages = jo.get_array("messages");
+    while (messages.has_more()) {
+        tut_text.push_back(_(messages.next_string().c_str()));
+    }
 }
