@@ -1263,12 +1263,12 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
             case  2: subtile = iso_end_east; break;
             case  3: subtile = iso_corner_nw; break;
             case  4: subtile = iso_end_west; break;
-            case  5: subtile = iso_corner_sw; break;
+            case  5: subtile = iso_corner_ne; break;
             case  6: subtile = iso_edge_ew; break;
             case  7: subtile = iso_tcon_north; break;
             case  8: subtile = iso_end_south; break;
             case  9: subtile = iso_edge_ns; break;
-            case 10: subtile = iso_corner_ne; break;
+            case 10: subtile = iso_corner_sw; break;
             case 11: subtile = iso_tcon_east; break;
             case 12: subtile = iso_corner_se; break;
             case 13: subtile = iso_tcon_west; break;
