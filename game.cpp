@@ -2209,12 +2209,14 @@ bool game::handle_action()
     return false;
 
   case ACTION_QUIT:
-   if (query_yn(_("Commit suicide?"))) {
-    u.moves = 0;
-    place_corpse();
-    uquit = QUIT_SUICIDE;
-   }
-   break;
+    if (query_yn(_("Commit suicide?"))) {
+        if (query_yn(_("REALLY commit suicide?"))) {
+            u.moves = 0;
+            place_corpse();
+            uquit = QUIT_SUICIDE;
+        }
+    }
+    break;
 
   case ACTION_PL_INFO:
    u.disp_info(this);
