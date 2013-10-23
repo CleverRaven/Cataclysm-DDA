@@ -404,13 +404,18 @@ point monster::scent_move(game *g)
  std::vector<point> smoves;
 
  int maxsmell = 10; // Squares with smell 0 are not eligible targets.
+ int smell_threshold = 60; // Squares at or above this level are ineligible.
  if (has_flag(MF_KEENNOSE)) {
      maxsmell = 1;
+     smell_threshold = 100;
  }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
  const bool fleeing = is_fleeing(g->u);
+ if( !fleeing && g->scent( posx(), posy() ) > smell_threshold ) {
+     return next;
+ }
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
    const int nx = posx() + x;
@@ -421,16 +426,16 @@ point monster::scent_move(game *g)
        (can_move_to(g, nx, ny) ||
         (nx == g->u.posx && ny == g->u.posy) ||
         (g->m.has_flag("BASHABLE", nx, ny) && has_flag(MF_BASHES)))) {
-    if ((!fleeing && smell > maxsmell) ||
-        ( fleeing && smell < minsmell)   ) {
+    if ((!fleeing && smell > maxsmell ) ||
+        ( fleeing && smell < minsmell )   ) {
      smoves.clear();
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
      maxsmell = smell;
      minsmell = smell;
-    } else if ((!fleeing && smell == maxsmell) ||
-                ( fleeing && smell == minsmell)   ) {
+    } else if ((!fleeing && smell == maxsmell ) ||
+               ( fleeing && smell == minsmell )   ) {
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
