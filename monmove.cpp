@@ -51,11 +51,13 @@ bool monster::can_move_to(game *g, int x, int y)
     if (has_flag(MF_ANIMAL))
     {
         // don't enter sharp terrain unless tiny, or attacking
-        if (g->m.has_flag("SHARP", x, y) && !(attitude(&(g->u)) == MATT_ATTACK || type->size == MS_TINY))
+        if (g->m.has_flag("SHARP", x, y) && !(attitude(&(g->u)) == MATT_ATTACK ||
+                                              type->size == MS_TINY))
             return false;
 
         // don't enter open pits ever unless tiny or can fly
-        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) && (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
+        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) &&
+            (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
             return false;
 
         // don't enter lava ever
