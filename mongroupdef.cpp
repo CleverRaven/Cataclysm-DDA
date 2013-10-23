@@ -54,6 +54,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
         if(OPTIONS["CLASSIC_ZOMBIES"]){
             valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
         }
+        //Insure that the time is not before the spawn first appears or after it stops appearing
+        valid_entry = valid_entry && (HOURS(it->starts) < g->turn.get_turn());
+        valid_entry = valid_entry && (it->lasts_forever() || HOURS(it->ends) > g->turn.get_turn());
+
         //Check to insure the various conditions for this spawn definition are met
         for(std::vector<std::string>::iterator condition = it->conditions.begin(); condition != it->conditions.end(); ++condition){
             if((*condition) == "DAY"){
@@ -205,7 +209,15 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
                 pack_min = packarr.next_int();
                 pack_max = packarr.next_int();
             }
-            MonsterGroupEntry new_mon_group = MonsterGroupEntry(name,freq,cost,pack_min,pack_max);
+            int starts = 0;
+            int ends = 0;
+            if(mon.has_member("starts")){
+                starts = mon.get_int("starts");
+            } 
+            if(mon.has_member("ends")){
+                ends = mon.get_int("ends");
+            }
+            MonsterGroupEntry new_mon_group = MonsterGroupEntry(name,freq,cost,pack_min,pack_max,starts,ends);
             if(mon.has_member("conditions")){
               JsonArray conditions_arr = mon.get_array("conditions");
               while(conditions_arr.has_more()){
