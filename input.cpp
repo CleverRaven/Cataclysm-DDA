@@ -396,8 +396,9 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
 }
 
 const std::string& input_context::handle_input() {
+    next_action.type = CATA_INPUT_ERROR;
     while(1) {
-        input_event next_action = inp_mngr.get_input_event(NULL);
+        next_action = inp_mngr.get_input_event(NULL);
 
         const std::string& action = input_to_action(next_action);
 
@@ -532,6 +533,11 @@ void input_context::display_help() {
     while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) { ch = getch(); };
 
     werase(w_help);
+}
+
+input_event input_context::get_raw_input()
+{
+    return next_action;
 }
 
 #ifndef TILES

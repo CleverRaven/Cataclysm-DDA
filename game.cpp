@@ -251,10 +251,7 @@ void game::init_ui(){
         messY = stat2Y + stat2H;
 
         mouseview_y = messY + 7;
-        mouseview_h = TERMY - mouseview_y;
-        if (mouseview_h > 15) {
-            mouseview_h = 15;
-        }
+        mouseview_h = TERMY - mouseview_y - 5;
     } else {
         // standard sidebar style
         minimapX = 0;
@@ -284,7 +281,7 @@ void game::init_ui(){
         stat2H = 1;
         stat2W = sidebarWidth;
 
-        mouseview_y = stat2Y + stat2H + 1;
+        mouseview_y = stat2Y + stat2H;
         mouseview_h = TERMY - mouseview_y;
     }
 
@@ -1632,29 +1629,35 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
 // Returns true if input requires breaking out into a game action.
-/*
-bool game::handle_mouseview(const mapped_input &minput)
+bool game::handle_mouseview(input_context &ctxt, std::string &action)
 {
-    if (minput.evt.type == CATA_INPUT_MOUSE_MOVE) {
-        if (minput.evt.is_lost_focus_event()) {
-            liveview.hide();
-            if (use_narrow_sidebar()) {
-                write_msg();
+    action = ctxt.handle_input();
+    if (action == "MOUSE_MOVE") {
+        int mx, my;
+        if (!ctxt.get_coordinates(w_terrain, mx, my)) {
+            if (liveview.hide() && use_narrow_sidebar()) {
+                write_msg(); // In narrow sidebar mode, mouse view covers messages
             }
         } else {
-            liveview.show(minput.evt.mouse_x, minput.evt.mouse_y);
+            liveview.show(mx, my);
         }
-    } else if (minput.evt.type == CATA_INPUT_KEYBOARD && minput.evt.is_valid_input()) {
+    } else {
+        // Keyboard event, break out of animation loop
         liveview.hide();
         return false;
     }
 
     return true;
-}*/
+}
 
 bool game::handle_action()
 {
-    char ch = '.';
+    input_context ctxt("DEFAULTMODE");
+    ctxt.register_directions();
+    ctxt.register_action("ANY_INPUT");
+    ctxt.register_action("COORDINATE");
+    ctxt.register_action("MOUSE_MOVE");
+    std::string action;
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
@@ -1727,8 +1730,6 @@ bool game::handle_action()
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        int iCh;
-
         timeout(125);
         /*
         Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -1770,21 +1771,45 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-        } while ((iCh = getch()) == ERR);
+        } while (handle_mouseview(ctxt, action));
         timeout(-1);
 
-        ch = input(iCh);
     } else {
-        ch = input();
+        while (handle_mouseview(ctxt, action)) {;}
     }
 
-  if (keymap.find(ch) == keymap.end()) {
-   if (ch != ' ' && ch != '\n')
-    add_msg(_("Unknown command: '%c'"), ch);
-   return false;
-  }
+    action_id act = ACTION_NULL;
+    if (action == "ANY_INPUT") {
+        char ch = ctxt.get_raw_input().get_first_input();
+        if (keymap.find(ch) == keymap.end()) {
+            if (ch != ' ' && ch != '\n') {
+                add_msg(_("Unknown command: '%c'"), ch);
+            }
+            return false;
+        }
 
- action_id act = keymap[ch];
+        act = keymap[ch];
+    } else {
+        // Hack to turn new movement actions back into old ones, till this whole context
+        // gets updated to the new style
+        if (action == "UP") {
+            act = ACTION_MOVE_N;
+        } else if (action == "RIGHTUP") {
+            act = ACTION_MOVE_NE;
+        } else if (action == "RIGHT") {
+            act = ACTION_MOVE_E;
+        } else if (action == "RIGHTDOWN") {
+            act = ACTION_MOVE_SE;
+        } else if (action == "DOWN") {
+            act = ACTION_MOVE_S;
+        } else if (action == "LEFTDOWN") {
+            act = ACTION_MOVE_SW;
+        } else if (action == "LEFT") {
+            act = ACTION_MOVE_W;
+        } else {
+            act = ACTION_MOVE_NW;
+        }
+    }
 
 // This has no action unless we're in a special game mode.
  gamemode->pre_action(this, act);

@@ -542,7 +542,7 @@ void load_artifacts(); // Load artifact data
   void quicksave();        // Saves the game without quitting
 
 // Input related
-  //bool handle_mouseview(const mapped_input &minput); // Handles box showing items under mouse
+  bool handle_mouseview(input_context &ctxt, std::string &action); // Handles box showing items under mouse
 
 // On-request draw functions
   void draw_overmap();     // Draws the overmap, allows note-taking etc.

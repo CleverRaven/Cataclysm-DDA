@@ -44,9 +44,6 @@ void live_view::show(const int x, const int y)
         return;
     }
 
-    wborder(w_live_view, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
     map &m = g->m;
     mvwprintz(w_live_view, 0, START_COLUMN, c_white, "< ");
     wprintz(w_live_view, c_green, _("Mouse View"));
@@ -59,6 +56,15 @@ void live_view::show(const int x, const int y)
         std::vector<item> &items = m.i_at(x, y);
         print_items(items, line);
     }
+
+    int full_height = w_live_view->height;
+    if (line < w_live_view->height - 1) {
+        w_live_view->height = (line > 11) ? line : 11;
+    }
+    wborder(w_live_view, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+    w_live_view->height = full_height;
 
     w_live_view->inuse = true;
     wrefresh(w_live_view);

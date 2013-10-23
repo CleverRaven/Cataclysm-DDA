@@ -303,10 +303,18 @@ public:
      */
     void display_help();
 
+    /**
+     * Temporary method to retrieve the raw input received, so that input_contexts
+     * can be used in screens where not all possible actions have been defined in 
+     * keybindings.json yet.
+     */
+
+
     /* For the future, something like this might be nice:
      * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
      * (x, y, width, height) would describe an area on the visible window that, if clicked, triggers the action.
      */
+    input_event get_raw_input();
 
 private:
 
@@ -317,6 +325,7 @@ private:
     int coordinate_x, coordinate_y;
     bool coordinate_input_received;
     bool handling_coordinate_input;
+    input_event next_action;
 };
 
 /**
