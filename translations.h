@@ -24,8 +24,16 @@ const char * pgettext(const char *context, const char *msgid);
 // so preemptively include it before the gettext overrides.
 #include <locale>
 
-const char * strip_positional_formatting(const char *msgid);
-#define _(STRING) strip_positional_formatting(STRING)
+const char* strip_positional_formatting(const char* msgid);
+
+#if defined _WIN32 || defined __CYGWIN__
+ /* Temporary fix - defining this so it will actually compile on Windows.
+    It's used, but not defined anywhere, causing undefined refs with the _() macro.
+ */
+ #define _(STRING) STRING
+#else
+ #define _(STRING) strip_positional_formatting(STRING)
+#endif
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 

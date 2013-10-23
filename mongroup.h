@@ -21,7 +21,7 @@ struct MonsterGroupEntry
     int pack_maximum;
     std::vector<std::string> conditions;
 
-    MonsterGroupEntry(std::string new_name, int new_freq, int new_cost, 
+    MonsterGroupEntry(std::string new_name, int new_freq, int new_cost,
                       int new_pack_max, int new_pack_min){
       name = new_name;
       frequency = new_freq;
@@ -47,36 +47,38 @@ struct MonsterGroupResult
     }
 };
 
-struct MonsterGroup
-{
+struct MonsterGroup {
     std::string name;
     std::string defaultMonster;
     FreqDef  monsters;
 };
 
 struct mongroup {
- std::string type;
- int posx, posy, posz;
- unsigned char radius;
- unsigned int population;
- bool dying;
- bool diffuse;   // group size ind. of dist. from center and radius invariant
- mongroup(std::string ptype, int pposx, int pposy, int pposz, unsigned char prad,
-          unsigned int ppop) {
-  type = ptype;
-  posx = pposx;
-  posy = pposy;
-  posz = pposz;
-  radius = prad;
-  population = ppop;
-  dying = false;
-  diffuse = false;
- }
- bool is_safe() { return (type == "GROUP_NULL" || type == "GROUP_FOREST"); };
+    std::string type;
+    int posx, posy, posz;
+    unsigned char radius;
+    unsigned int population;
+    bool dying;
+    bool diffuse;   // group size ind. of dist. from center and radius invariant
+    mongroup(std::string ptype, int pposx, int pposy, int pposz,
+                unsigned char prad, unsigned int ppop) {
+        type = ptype;
+        posx = pposx;
+        posy = pposy;
+        posz = pposz;
+        radius = prad;
+        population = ppop;
+        dying = false;
+        diffuse = false;
+    }
+    bool is_safe() {
+        return (type == "GROUP_NULL" ||
+                type == "GROUP_FOREST" ||
+                type == "GROUP_DOMESTIC" );
+    };
 };
 
-class MonsterGroupManager
-{
+class MonsterGroupManager {
     public:
         static void LoadMonsterGroup(JsonObject &jo);
         static MonsterGroupResult GetResultFromGroup(std::string, std::vector <mtype*> *,
