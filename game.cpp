@@ -1631,15 +1631,19 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
 // Returns true if input requires breaking out into a game action.
 bool game::handle_mouseview(input_context &ctxt, std::string &action)
 {
-    action = ctxt.handle_input();
-    if (action == "MOUSE_MOVE") {
-        int mx, my;
-        if (!ctxt.get_coordinates(w_terrain, mx, my)) {
-            hide_mouseview();
-        } else {
-            liveview.show(mx, my);
+    do {
+        action = ctxt.handle_input();
+        if (action == "MOUSE_MOVE") {
+            int mx, my;
+            if (!ctxt.get_coordinates(w_terrain, mx, my)) {
+                hide_mouseview();
+            } else {
+                liveview.show(mx, my);
+            }
         }
-    } else if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
+    } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
+
+    if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
         // Keyboard event, break out of animation loop
         hide_mouseview();
         return false;
@@ -1738,7 +1742,6 @@ bool game::handle_action()
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        timeout(125);
         /*
         Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
         Get tile information from above's weather information:
@@ -1779,6 +1782,8 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
+            int frame_delay = 125;
+            timeout(125);
         } while (handle_mouseview(ctxt, action));
         timeout(-1);
 
