@@ -2798,7 +2798,7 @@
     "name": "mosquito",
     "species":"INSECT",
     "symbol":".",
-    "color":"ltgray",
+    "color":"brown",
     "size":"TINY",
     "material":"flesh",
     "diff":1,
@@ -2819,7 +2819,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A blood-sucking fly with a needle-like proboscis.  Its bite leaves behind itchy welts and can easily spread disease.",
-    "flags":["SMELLS", "HEARS", "STUMBLES", "SMALL_BITES", "FLIES"]
+    "flags":["SMELLS", "HEARS", "STUMBLES", "VERMIN", "SMALL_BITES", "FLIES"]
   },
   {
     "type":"MONSTER",
@@ -2827,7 +2827,7 @@
     "name": "giant mosquito",
     "species":"INSECT",
     "symbol":"y",
-    "color":"ltgray",
+    "color":"brown",
     "size":"SMALL",
     "material":"flesh",
     "diff":12,
@@ -2940,7 +2940,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A predatory segmented arthropod with dozens of legs and a venomous bite.",
-    "flags":["SMELLS", "HEARS", "SMALL_BITES"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES"]
   },
   {
     "type":"MONSTER",
@@ -3179,7 +3179,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A fairly large spider which tracks and catches prey through agility and stealth.  Its bite can be irritating even to large animals.",
-    "flags":["SMELLS", "HEARS", "SMALL_BITES", "HUNTS_VERMIN", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "CHITIN"]
   },
   {
     "type":"MONSTER",
