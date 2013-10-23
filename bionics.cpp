@@ -353,7 +353,7 @@ void player::activate_bionic(int b, game *g)
     power_level += bionics["bio_evap"]->power_cost;
   }
  } else if(bio.id == "bio_lighter"){
-  if(!g->choose_adjacent(_("Start a fire"), dirx, diry) ||
+  if(!g->choose_adjacent(_("Start a fire where?"), dirx, diry) ||
     (!g->m.add_field(g, dirx, diry, fd_fire, 1))){
        g->add_msg_if_player(this,_("You can't light a fire there."));
        power_level += bionics["bio_lighter"]->power_cost;
@@ -391,7 +391,7 @@ void player::activate_bionic(int b, game *g)
   g->plfire(false);
   weapon = tmp_item;
  } else if (bio.id == "bio_emp"){
-  if(g->choose_adjacent(_("create an EMP"), dirx, diry))
+  if(g->choose_adjacent(_("Create an EMP where?"), dirx, diry))
    g->emp_blast(dirx, diry);
   else{
    power_level += bionics["bio_emp"]->power_cost;
@@ -468,7 +468,7 @@ void player::activate_bionic(int b, game *g)
    }
   }
  } else if(bio.id == "bio_lockpick"){
-  if(!g->choose_adjacent(_("Activate your bio lockpick"), dirx, diry)){
+  if(!g->choose_adjacent(_("Activate your bio lockpick where?"), dirx, diry)){
    power_level += bionics["bio_lockpick"]->power_cost;
    return;
   }
