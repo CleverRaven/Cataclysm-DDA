@@ -2983,7 +2983,7 @@
     "diff":1,
     "aggression":0,
     "morale":0,
-    "speed":90,
+    "speed":80,
     "melee_skill":0,
     "melee_dice":0,
     "melee_dice_sides":0,
@@ -2998,7 +2998,7 @@
     "death_function":"NORMAL",
     "special_attack":"LEAP",
     "description":"The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
-    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "VERMIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "HUNTS_VERMIN"],
     "fear_triggers":["PLAYER_CLOSE", "HURT"]
   },
   {
