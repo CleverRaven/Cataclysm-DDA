@@ -28,6 +28,10 @@
 #include "help.h" // get_hint
 #include "martialarts.h"
 
+//Used for e^(x) functions
+#include <stdio.h>
+#include <math.h>
+
 #include <ctime>
 #include <algorithm>
 
@@ -4950,26 +4954,30 @@ void player::mend(game *g)
 
 void player::vomit(game *g)
 {
- add_memorial_log(_("Threw up."));
- g->add_msg(_("You throw up heavily!"));
- hunger += rng(30, 50);
- thirst += rng(30, 50);
- moves -= 100;
- for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == "foodpoison") {
-   illness[i].duration -= 300;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  } else if (illness[i].type == "drunk") {
-   illness[i].duration -= rng(1, 5) * 100;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  }
- }
- rem_disease("pkill1");
- rem_disease("pkill2");
- rem_disease("pkill3");
- rem_disease("sleep");
+    add_memorial_log(_("Threw up."));
+    g->add_msg(_("You throw up heavily!"));
+    int nut_loss = 100 / (1 + exp(.15 * (hunger / 100)));
+    int quench_loss = 100 / (1 + exp(.025 * (thirst / 10)));
+    hunger += rng(nut_loss / 2, nut_loss);
+    thirst += rng(quench_loss / 2, quench_loss);
+    moves -= 100;
+    for (int i = 0; i < illness.size(); i++) {
+        if (illness[i].type == "foodpoison") {
+            illness[i].duration -= 300;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        } else if (illness[i].type == "drunk") {
+            illness[i].duration -= rng(1, 5) * 100;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        }
+    }
+    rem_disease("pkill1");
+    rem_disease("pkill2");
+    rem_disease("pkill3");
+    rem_disease("sleep");
 }
 
 void player::drench(game *g, int saturation, int flags) {
