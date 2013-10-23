@@ -143,6 +143,45 @@ void edit_json( SAVEOBJ *it, game * g )
 
 }
 
+void editmap_hilight::draw( editmap * hm, bool update ) {
+    cur_blink++;
+    if ( cur_blink >= blink_interval.size() ) {
+        cur_blink = 0;
+    }
+    if ( blink_interval[ cur_blink ] == true || update == true ) {
+        for(std::map<point, char>::iterator it = points.begin(); it != points.end(); ++it ) {
+            int x = it->first.x;
+            int y = it->first.y;
+            int vpart = 0;
+            // but only if there's no vehicles/mobs/npcs on a point
+            if ( ! hm->g->m.veh_at(x, y, vpart) && ( hm->g->mon_at(x, y) == -1 ) && ( hm->g->npc_at(x, y) == -1 ) ) {
+                char t_sym = terlist[hm->g->m.ter(x, y)].sym;
+                nc_color t_col = terlist[hm->g->m.ter(x, y)].color;
+
+
+                if ( hm->g->m.furn(x, y) > 0 ) {
+                    furn_t furniture_type = furnlist[hm->g->m.furn(x, y)];
+                    t_sym = furniture_type.sym;
+                    t_col = furniture_type.color;
+                }
+                field *t_field = &hm->g->m.field_at(x, y);
+                if ( t_field->fieldCount() > 0 ) {
+                    field_id t_ftype = t_field->fieldSymbol();
+                    field_entry *t_fld = t_field->findField( t_ftype );
+                    if ( t_fld != NULL ) {
+                        t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity()-1];
+                        t_sym = fieldlist[t_ftype].sym;
+                    }
+                }
+                if (blink_interval[ cur_blink ] == true) {
+                    t_col = getbg(t_col);
+                }
+                point scrpos = hm->pos2screen( x, y );
+                mvwputch(hm->g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym);
+            }
+        }
+    }
+}
 /*
  * map position to screen position
  */
@@ -249,9 +288,12 @@ point editmap::edit(point coords)
             origin = target;               // 'editmap.origin' only makes sense if we have a list of target points.
         }
         update_view(true);
-        uphelp("[t]rap, [f]ield, [HJKL] move++, [v] showall", "[g] terrain/furniture, [i]tems, [q]uit", "Looking around");
+        uphelp("[t]rap, [f]ield, [HJKL] move++, [v] showall", "[g] terrain/furn, [o] mapgen, [i]tems, [q]uit", "Looking around");
+        timeout(BLINK_SPEED);
         ch = (int)getch();
-
+      if(ch != ERR) {
+        timeout(-1);
+        blink = true;
         if(ch) {
             input = get_input(ch); // get_input: Not very useful for arbitrary keys, so check getch value first.
         }
@@ -282,6 +324,7 @@ point editmap::edit(point coords)
             edit_veh(target);
           }
         } else if ( ch == 'o' ) {
+            edit_mapgen( target );
             lastop = 'o';
             target_list.clear();
             origin = target;
@@ -294,6 +337,9 @@ point editmap::edit(point coords)
                 }
             }
         }
+      } else {
+        blink = !blink;
+      }
     } while (input != Close && input != Cancel && ch != 'q');
 
     uistate.editmap_nsa_viewmode = uberdraw;
@@ -331,6 +377,9 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
     bool draw_itm = true;
     bool game_map = ( ( m == &g->m || w == g->w_terrain ) ? true : false );
     const int msize = SEEX * MAPSIZE;
+    if ( refresh_mplans == true ) {
+         hilights["mplan"].points.clear();
+    }
     for (int x = start.x, sx = 0; x <= end.x; x++, sx++) {
         for (int y = start.y, sy = 0; y <= end.y; y++, sy++) {
             nc_color col = c_dkgray;
@@ -341,6 +390,12 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                     int npc_idx = g->npc_at(x, y);
                     if ( mon_idx >= 0 ) {
                         g->zombie(mon_idx).draw(w, center.x, center.y, false);
+                        monster & mon=g->zombie(mon_idx);
+                        if ( refresh_mplans == true ) {
+                            for(int i=0; i< mon.plans.size(); i++) {
+                                hilights["mplan"].points[mon.plans[i]] = 1;
+                            }
+                        }
                     } else if ( npc_idx >= 0 ) {
                         g->active_npc[npc_idx]->draw(w, center.x, center.y, false);
                     } else {
@@ -353,6 +408,9 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                 mvwputch(w, sy, sx, col, sym);
             }
         }
+    }
+    if ( refresh_mplans == true ) {
+        refresh_mplans = false;
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -426,6 +484,13 @@ void editmap::update_view(bool update_info)
                 point scrpos = pos2screen( x, y );
                 mvwputch(g->w_terrain, scrpos.y, scrpos.x, t_col, t_sym);
             }
+        }
+    }
+
+    // custom hilight. todo; optimize
+    for(std::map<std::string, editmap_hilight>::iterator mit = hilights.begin(); mit != hilights.end(); ++mit ) {
+        if ( mit->second.points.size() > 0 ) {
+            mit->second.draw(this);
         }
     }
 
@@ -1206,6 +1271,7 @@ int editmap::edit_itm(point coords)
             ilmenu.addentry(-10, true, 'q', "Cancel");
             update_view(true);
             ilmenu.setup();
+            ilmenu.filterlist();
             ilmenu.refresh();
         }
     } while (ilmenu.ret >= 0 || ilmenu.ret == UIMENU_INVALID);
@@ -1451,4 +1517,354 @@ int editmap::select_shape(shapetype shape, int mode)
         update_view(false);
         return -1;
     }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * Display mapgen results over selected target position, and optionally regenerate / apply / abort
+ */
+int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
+{
+    int ret = 0;
+
+    oter_id orig_oters[3][3];
+    overmap *oms[3][3];
+    real_coords tz;
+    for(int omsy = 0; omsy < 3; omsy++) {
+        for (int omsx = 0; omsx < 3; omsx++) {
+            tz.fromabs(tc.abs_pos.x + ((omsx - 1) * 24), tc.abs_pos.y + ((omsy - 1) * 24) );
+            point omp = tz.om_pos;
+            point om = tz.abs_om;
+
+            oms[omsx][omsy] = &overmap_buffer.get(g, om.x, om.y );
+            orig_oters[omsx][omsy] = oms[omsx][omsy]->ter(omp.x, omp.y, zlevel);
+        }
+    }
+    hilights["mapgentgt"].points.clear();
+    hilights["mapgentgt"].points[point(target.x-12,target.y-12)]=1;
+    hilights["mapgentgt"].points[point(target.x+13,target.y+13)]=1;
+    hilights["mapgentgt"].points[point(target.x-12,target.y+13)]=1;
+    hilights["mapgentgt"].points[point(target.x+13,target.y-12)]=1;
+
+    update_view(true);
+
+    oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (oter_id)gmenu.ret;
+    tinymap tmpmap(&g->traps);
+    tmpmap.load(g, tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
+    // this should -not- be saved, map::save appends a dupe to mapbuffer.
+    tmpmap.generate(g, oms[1][1], tc.abs_sub.x, tc.abs_sub.y, zlevel, int(g->turn));;
+
+    point pofs = pos2screen(target.x - 11, target.y - 11); //
+    WINDOW *w_preview = newwin(24, 24, pofs.y, pofs.x );
+
+
+    gmenu.border_color = c_ltgray;
+    gmenu.hilight_color = c_black_white;
+    gmenu.redraw();
+    gmenu.show();
+
+    uimenu gpmenu;
+    gpmenu.w_width = width;
+    gpmenu.w_height = infoHeight - 4;
+    gpmenu.w_y = gmenu.w_height;
+    gpmenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
+    gpmenu.return_invalid = true;
+    gpmenu.addentry("Regenerate");
+    gpmenu.addentry("Rotate");
+    gpmenu.addentry("Apply");
+    gpmenu.addentry("Abort");
+
+    gpmenu.show();
+    uphelp("[pgup/pgdn]: prev/next oter type",
+           "[up/dn] select, [enter] accept, [q] abort",
+           string_format("Mapgen: %s", oterlist[(oter_id)gmenu.ret].name.substr(0, 40).c_str() )
+          );
+    int lastsel = gmenu.selected;
+    bool showpreview = true;
+    do {
+        if ( gmenu.selected != lastsel ) {
+            lastsel = gmenu.selected;
+            oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (oter_id)gmenu.selected;
+            cleartmpmap( tmpmap );
+            tmpmap.generate(g, oms[1][1], tc.abs_sub.x, tc.abs_sub.y, zlevel, int(g->turn));;
+            showpreview = true;
+        }
+        if ( showpreview ) {
+            hilights["mapgentgt"].draw(this, true);
+            wrefresh(g->w_terrain);
+            for(int x = 0; x < 24; x++) {
+                for(int y = 0; y < 24; y++) {
+                    tmpmap.drawsq(w_preview, g->u, x, y, false, true, 12, 12, false, true);
+                }
+            }
+            wrefresh(w_preview);
+        } else {
+            update_view(false);//wrefresh(g->w_terrain);
+        }
+        timeout(BLINK_SPEED * 3);
+        int gpmenupos = gpmenu.selected;
+        gpmenu.query(false);
+
+        if(gpmenu.keypress != ERR) {
+            if ( gpmenu.ret != UIMENU_INVALID ) {
+                timeout(-1);
+                if ( gpmenu.ret == 0 ) {
+
+                    cleartmpmap( tmpmap );
+                    tmpmap.generate(g, oms[1][1], tc.abs_sub.x, tc.abs_sub.y, zlevel, int(g->turn));;
+                    showpreview = true;
+                } else if ( gpmenu.ret == 1 ) {
+                    tmpmap.rotate(1);
+                    showpreview = true;
+                } else if ( gpmenu.ret == 2 ) {
+
+                    point target_sub(target.x / 12, target.y / 12);
+
+                    std::string s = "";
+                    for(int x = 0; x < 2; x++) {
+                        for(int y = 0; y < 2; y++) {
+                            // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                            // functions that would alter the results
+                            int dnonant = int(target_sub.x + x) + int(target_sub.y + y) * 11; // get the destination submap's grid id
+                            int snonant = x + y * 2;                                          // and the source
+                            submap *destsm = g->m.grid[dnonant];                              // make direct pointers
+                            submap *srcsm = tmpmap.getsubmap(snonant);                        // 
+
+                            for (int i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
+                                s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
+                                vehicle *veh1 = srcsm->vehicles[i];
+                                // vehicle *veh1 = veh;   // fixme: is this required?
+                                veh1->smx = target_sub.x + x;
+                                veh1->smy = target_sub.y + y;
+                                destsm->vehicles.push_back (veh1);
+                                srcsm->vehicles.erase (srcsm->vehicles.begin() + i);
+                                g->m.update_vehicle_cache(veh1);
+                            }
+                            g->m.update_vehicle_list(dnonant); // update real map's vcaches
+
+                            int spawns_todo = 0;
+                            for (int i = 0; i < srcsm->spawns.size(); i++) { // copy spawns
+                                int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
+                                s += string_format("  copying monster %d/%d pos %d,%d\n", i,srcsm->spawns.size(), mx, my );
+                                destsm->spawns.push_back( srcsm->spawns[i] );
+                                spawns_todo++;
+                            }
+
+                            for ( int sx = 0; sx < 12; sx++ ) { // copy fields
+                                for ( int sy = 0; sy < 12; sy++ ) {
+                                    destsm->fld[sx][sy] = srcsm->fld[sx][sy];
+                                }
+                            }
+                            destsm->field_count = srcsm->field_count; // and count
+
+                            memcpy( *destsm->ter, srcsm->ter, sizeof(srcsm->ter) ); // terrain
+                            memcpy( *destsm->frn, srcsm->frn, sizeof(srcsm->frn) ); // furniture
+                            memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
+                            memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
+                            memcpy( *destsm->itm, srcsm->itm, sizeof(srcsm->itm) ); // items
+                            memcpy( *destsm->graf, srcsm->graf, sizeof(srcsm->graf) ); // graffiti
+
+                            destsm->active_item_count = srcsm->active_item_count; // various misc variables
+                            destsm->temperature = srcsm->temperature;
+                            destsm->turn_last_touched = int(g->turn);
+                            destsm->comp = srcsm->comp;
+                            destsm->camp = srcsm->camp;
+
+                            if ( spawns_todo > 0 ) {                              // trigger spawnpoints
+                                g->m.spawn_monsters(g);
+                            }
+                        }
+                    }
+
+                    popup("Changed 4 submaps\n%s", s.c_str());
+
+                }
+            } else if ( gpmenu.keypress == 'm' ) {
+                // todo; keep preview as is and move target
+            } else if ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_PPAGE ||
+                        gpmenu.keypress == KEY_LEFT || gpmenu.keypress == KEY_RIGHT ) {
+
+                int dir = ( gpmenu.keypress == KEY_NPAGE || gpmenu.keypress == KEY_LEFT ? 1 : -1 );
+                gmenu.scrollby( dir );
+                gpmenu.selected = gpmenupos;
+                gmenu.show();
+                gmenu.refresh();
+            }
+        } else {
+            // fixme: too annoying, make a border instead. // showpreview = !showpreview;
+        }
+    } while ( gpmenu.ret != 2 && gpmenu.ret != 3 );
+
+    timeout(-1);
+    werase(w_preview);
+    wrefresh(w_preview);
+    delwin(w_preview);
+
+    update_view(true);
+    if ( gpmenu.ret != 2 ) { // we didn't apply, so restore the original om_ter
+        oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = orig_oters[1][1];
+    }
+    gmenu.border_color = c_magenta;
+    gmenu.hilight_color = h_white;
+    gmenu.redraw();
+    hilights["mapgentgt"].points.clear();
+    return ret;
+}
+
+/*
+ * Move mapgen's target, which is different enough from the standard tile edit to warrant it's own function.
+ */
+int editmap::mapgen_retarget ( WINDOW *preview, map *mptr)
+{
+    int ret = 0;
+    int ch = 0;
+    InputEvent input;
+    point origm = target;
+    int omx = -2;
+    int omy = -2;
+    uphelp("",
+           "[enter] accept, [q] abort", "Mapgen: Moving target");
+
+    do {
+        timeout(BLINK_SPEED);
+        ch = getch();
+        input = get_input(ch);
+        if(ch != ERR) {
+            get_direction(omx, omy, input);
+            if ( omx != -2 && omy != -2 ) {
+                point ptarget = point( target.x + (omx * 24), target.y + (omy * 24) );
+                if ( pinbounds(ptarget) && inbounds(ptarget.x + 24, ptarget.y + 24)) {
+                    target = ptarget;
+
+                    target_list.clear();
+                    for ( int x = target.x - 11; x < target.x + 13; x++) {
+                        for ( int y = target.y - 11; y < target.y + 13; y++) {
+                            target_list.push_back(point(x, y));
+                        }
+                    }
+                    blink = true;
+
+                }
+            }
+        } else {
+            blink = !blink;
+        }
+        update_view(false);
+    } while ( input != Close && input != Cancel && ch != 'q' && input != Confirm);
+    if ( input != Confirm ) {
+        target = origm;
+    }
+    timeout(-1);
+    blink = true;
+    return ret;
+}
+
+/*
+ * apply mapgen to a temporary map and overlay over terrain window, optionally regenerating, rotating, and applying to the real in-game map
+ */
+int editmap::edit_mapgen(point coords)
+{
+    int ret = 0;
+    point orig = target;
+    uimenu gmenu;
+    gmenu.w_width = width;
+    gmenu.w_height = TERRAIN_WINDOW_HEIGHT - infoHeight;
+    gmenu.w_y = 0;
+    gmenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
+    gmenu.return_invalid = true;
+
+    std::map<oter_id,bool> broken_oter_blacklist;
+    broken_oter_blacklist[ot_null]=true;
+    broken_oter_blacklist[ot_road_null]=true;
+    broken_oter_blacklist[ot_nuke_plant_entrance]=true;
+    broken_oter_blacklist[ot_nuke_plant]=true;
+    broken_oter_blacklist[ot_temple_core]=true;
+
+    for(int i = 0; i < num_ter_types; i++) {
+        gmenu.addentry(-1, true, 0, "%s", oterlist[i].name.c_str() );
+        if ( broken_oter_blacklist.find( (oter_id)i ) != broken_oter_blacklist.end() ) {
+            gmenu.entries[i].enabled = false;
+        }
+        std::string special = "";
+        if ( oter_special.find((oter_id)i) != oter_special.end() ) {
+            unsigned long flags =  overmap_specials[ oter_special[(oter_id)i] ].flags;
+            if (flags & mfb(OMS_FLAG_2X2)) {
+                special += " 2x2";
+            }
+            if (flags & mfb(OMS_FLAG_2X2_SECOND)) {
+                special += " 2x2s";
+            }
+            if (flags & mfb(OMS_FLAG_3X3)) {
+                special += " 3x3";
+            }
+            if (flags & mfb(OMS_FLAG_3X3_SECOND)) {
+                special += " 3x3s";
+            }
+            if (flags & mfb(OMS_FLAG_CLASSIC)) {
+                special += " clas";
+            }
+        }
+        if ( special.size() > 0 ) {
+            gmenu.entries[i].txt += " (" + special + " )";
+        }
+        gmenu.entries[i].extratxt.left = 1;
+        gmenu.entries[i].extratxt.color = oterlist[i].color;
+        gmenu.entries[i].extratxt.txt = string_format("%c", oterlist[i].sym);
+    }
+    real_coords tc;
+    do {
+        uphelp("[m]ove",
+               "[enter] change, [q]uit", "Mapgen stamp");
+        //        point msub=point(target.x/12, target.y/12);
+
+        tc.fromabs(g->m.getabs(target.x, target.y));
+        point omt = tc.om_pos;
+        point omt_lpos = g->m.getlocal(omt.x * 2 * 12, omt.y * 2 * 12);
+        point om_ltarget = point(omt_lpos.x + 11, omt_lpos.y + 11);
+
+        if ( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
+            target = om_ltarget;
+            tc.fromabs(g->m.getabs(target.x, target.y));
+        }
+        target_list.clear();
+        for ( int x = target.x - 11; x < target.x + 13; x++) {
+            for ( int y = target.y - 11; y < target.y + 13; y++) {
+                if ( x == target.x - 11 || x == target.x + 12 ||
+                     y == target.y - 11 || y == target.y + 12 ) {
+                    target_list.push_back(point(x, y));
+                }
+            }
+        }
+
+        blink = true;
+        update_view(false);
+        gmenu.query();
+
+        if ( gmenu.ret > 0 ) {
+            mapgen_preview( tc, gmenu );
+        } else {
+            if ( gmenu.keypress == 'm' ) {
+                mapgen_retarget();
+
+            }
+        }
+    } while ( ! menu_escape( gmenu.keypress ) );
+    return ret;
+}
+
+/*
+ * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
+ */
+void editmap::cleartmpmap( tinymap & tmpmap ) {
+    for(int x = 0; x < 2; x++) {
+       for(int y = 0; y < 2; y++) {
+          int snonant = x + y * 2;
+          submap *srcsm = tmpmap.getsubmap(snonant);
+          srcsm->vehicles.clear();
+       }
+    }
+
+    memset(tmpmap.veh_exists_at, 0, sizeof(tmpmap.veh_exists_at));
+    tmpmap.veh_cached_parts.clear();
+    tmpmap.vehicle_list.clear();
 }

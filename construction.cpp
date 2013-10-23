@@ -826,7 +826,7 @@ void game::place_construction(constructable *con)
  }
  //
  int dirx, diry;
- if (!choose_adjacent(_("Contruct"), dirx, diry))
+ if (!choose_adjacent(_("Contruct where?"), dirx, diry))
   return;
  bool point_is_okay = false;
  for (int i = 0; i < valid.size() && !point_is_okay; i++) {

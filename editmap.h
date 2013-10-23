@@ -11,6 +11,26 @@
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };
+
+class editmap;
+struct editmap_hilight {
+    std::vector<bool> blink_interval;
+    int cur_blink;
+    nc_color color;
+    std::map<point, char> points;
+    nc_color(*getbg)(nc_color);
+    void setup() {
+        getbg = ( color == c_red ? &red_background :
+         ( color == c_magenta ? &magenta_background :
+           ( color == c_cyan ? &cyan_background :
+             ( color == c_yellow ? &yellow_background : &green_background )
+           )
+         )
+       );
+    };
+    void draw(editmap * em, bool update=false);
+};
+
 class editmap
 {
     public:
@@ -29,6 +49,10 @@ class editmap
         int edit_mon(point coords);
         int edit_npc(point coords);
         int edit_veh(point coords);
+        int edit_mapgen(point coords);
+        void cleartmpmap( tinymap & tmpmap );
+        int mapgen_preview(real_coords &tc, uimenu &gmenu);
+        int mapgen_retarget(WINDOW * preview = NULL, map * mptr = NULL);
         int select_shape(shapetype shape, int mode = -1 );
 
         void update_fmenu_entry(uimenu *fmenu, field *field, int idx);
@@ -66,6 +90,7 @@ class editmap
         point target;
         point origin;
         bool moveall;
+        bool refresh_mplans;
         shapetype editshape;
 
         game *g;
@@ -75,6 +100,7 @@ class editmap
         std::string fids[num_fields];
 
         std::vector<point> target_list;
+        std::map<std::string, editmap_hilight> hilights;
         int lastop;
         bool blink;
         bool altblink;
@@ -111,6 +137,7 @@ class editmap
             altblink = false;
             moveall = false;
             editshape = editmap_rect;
+            refresh_mplans = true;
 
             tmaxx = getmaxx(g->w_terrain);
             tmaxy = getmaxy(g->w_terrain);
@@ -120,6 +147,20 @@ class editmap
             fids[fd_shock_vent] = "shock_vent";
             fids[fd_acid_vent] = "acid_vent";
             target_list.clear();
+            hilights.clear();
+            hilights["mplan"].blink_interval.push_back(true);
+            hilights["mplan"].blink_interval.push_back(false);
+            hilights["mplan"].cur_blink = 0;
+            hilights["mplan"].color = c_red;
+            hilights["mplan"].setup();
+
+            hilights["mapgentgt"].blink_interval.push_back(true);
+            hilights["mapgentgt"].blink_interval.push_back(false);
+            hilights["mapgentgt"].blink_interval.push_back(false);
+            hilights["mapgentgt"].cur_blink = 0;
+            hilights["mapgentgt"].color = c_cyan;
+            hilights["mapgentgt"].setup();
+
             oter_special.clear();
             zlevel = g->levz;
             uberdraw = false;
