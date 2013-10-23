@@ -589,12 +589,12 @@ bool game::do_turn()
             add_msg(_("You have starved to death."));
             u.add_memorial_log(_("Died of starvation."));
             u.hp_cur[hp_torso] = 0;
-        } else if (u.hunger >= 5000 && turn % 10 == 0){
+        } else if (u.hunger >= 5000 && turn % 20 == 0){
             add_msg(_("Food..."));
-        } else if (u.hunger >= 4000 && turn % 10 == 0){
+        } else if (u.hunger >= 4000 && turn % 20 == 0){
             add_msg(_("You are STARVING!"));
-        } else if (turn % 10 == 0){
-            add_msg(_("You haven't eaten in over a week!"));
+        } else if (turn % 20 == 0){
+            add_msg(_("Your stomach feels so empty..."));
         }
     }
 
@@ -604,12 +604,12 @@ bool game::do_turn()
             add_msg(_("You have died of dehydration."));
             u.add_memorial_log(_("Died of thirst."));
             u.hp_cur[hp_torso] = 0;
-        } else if (u.thirst >= 1000 && turn % 10 == 0){
-            add_msg(_("4 days... no water.."));
-        } else if (u.thirst >= 800 && turn % 10 == 0){
+        } else if (u.thirst >= 1000 && turn % 20 == 0){
+            add_msg(_("Even your eyes feel dry..."));
+        } else if (u.thirst >= 800 && turn % 20 == 0){
             add_msg(_("You are THIRSTY!"));
-        } else if (turn % 10 == 0){
-            add_msg(_("You haven't had anything to drink in 2 days!"));
+        } else if (turn % 20 == 0){
+            add_msg(_("Your mouth feels so dry..."));
         }
     }
 
