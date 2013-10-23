@@ -403,9 +403,8 @@ point monster::scent_move(game *g)
 {
  std::vector<point> smoves;
 
- int maxsmell = 2; // Squares with smell 0 are not eligible targets
- if (has_flag(MF_KEENNOSE))
- {
+ int maxsmell = 10; // Squares with smell 0 are not eligible targets.
+ if (has_flag(MF_KEENNOSE)) {
      maxsmell = 1;
  }
  int minsmell = 9999;
