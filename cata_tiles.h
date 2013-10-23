@@ -81,6 +81,8 @@ enum MULTITILE_TYPE
     t_connection,
     end_piece,
     unconnected,
+    open_,
+    broken,
     num_multitile_types
 };
 

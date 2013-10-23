@@ -922,7 +922,10 @@ bool cata_tiles::draw_vpart(int x, int y)
     vpid = "vp_" + vpid;
     int subtile = 0;
     if (part_mod > 0){
-        subtile = part_mod + 5;
+        switch (part_mod){
+            case 1: subtile = open_; break;
+            case 2: subtile = broken; break;
+        }
     }
     return draw_from_id_string(vpid, x, y, subtile, veh_dir);
 }
