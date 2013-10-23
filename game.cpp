@@ -4991,39 +4991,6 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
  return;
 }
 
-// draws footsteps that have been created by monsters moving about
-void game::draw_footsteps()
-{
- for (int i = 0; i < footsteps.size(); i++) {
-     if (!u_see(footsteps_source[i]->posx(),footsteps_source[i]->posy()))
-     {
-         std::vector<point> unseen_points;
-         for (int j = 0; j < footsteps[i].size(); j++)
-         {
-             if (!u_see(footsteps[i][j].x,footsteps[i][j].y))
-             {
-                 unseen_points.push_back(point(footsteps[i][j].x,
-                                               footsteps[i][j].y));
-             }
-         }
-
-         if (unseen_points.size() > 0)
-         {
-             point selected = unseen_points[rng(0,unseen_points.size() - 1)];
-
-             mvwputch(w_terrain,
-                      POSY + (selected.y - (u.posy + u.view_offset_y)),
-                      POSX + (selected.x - (u.posx + u.view_offset_x)),
-                      c_yellow, '?');
-         }
-     }
- }
- footsteps.clear();
- footsteps_source.clear();
- wrefresh(w_terrain);
- return;
-}
-
 void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 {
  int radius = int(sqrt(double(power / 4)));
@@ -9223,7 +9190,7 @@ void game::takeoff(char chInput)
   add_msg(_("Never mind."));
   return;
  }
-    
+
  if (u.takeoff(this, ch))
   u.moves -= 250; // TODO: Make this variable
  else
