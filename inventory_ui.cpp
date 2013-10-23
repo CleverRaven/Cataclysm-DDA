@@ -576,7 +576,7 @@ void game::compare(int iCompareX, int iCompareY)
  if (iCompareX != -999 && iCompareY != -999) {
   examx = u.posx + iCompareX;
   examy = u.posy + iCompareY;
- } else if (!choose_adjacent("Compare",examx,examy)) {
+ } else if (!choose_adjacent(_("Compare"),examx,examy)) {
      return;
  }
 

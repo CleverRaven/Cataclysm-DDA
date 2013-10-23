@@ -5012,7 +5012,7 @@ if (dirx == p->posx && diry == p->posy) {
 int iuse::mop(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent("Mop",dirx,diry)) {
+ if(!g->choose_adjacent(_("Mop"),dirx,diry)) {
   return 0;
  }
 
