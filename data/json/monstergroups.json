@@ -17,7 +17,7 @@
       { "monster" : "mon_fox_gray", "freq" : 20, "cost_multiplier" : 0 },
       { "monster" : "mon_fox_red", "freq" : 25, "cost_multiplier" : 0 },
       { "monster" : "mon_groundhog", "freq" : 10, "cost_multiplier" : 5, "pack_size" : [1,6] },
-      { "monster" : "mon_hare", "freq" : 30, "cost_multiplier" : 2, "pack_size" : [1,6] }
+      { "monster" : "mon_hare", "freq" : 30, "cost_multiplier" : 2, "pack_size" : [1,6] },
       { "monster" : "mon_mole", "freq" : 10, "cost_multiplier" : 2},
       { "monster" : "mon_moose", "freq" : 10, "cost_multiplier" : 3 },
       { "monster" : "mon_mosquito", "freq" : 100, "cost_multiplier" : 0, "conditions" : ["TWILIGHT"] },
@@ -132,7 +132,7 @@
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
-      { "monster" : "mon_beekeeper", "freq" : 1, "cost_multiplier" : 5 },
+      { "monster" : "mon_beekeeper", "freq" : 1, "cost_multiplier" : 5 }
     ]
   },
   {
@@ -195,13 +195,13 @@
     "name" : "GROUP_SWAMP",
     "default" : "mon_frog",
     "monsters" : [
-      { "monster" : "mon_mosquito", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [3,16]},
-      { "monster" : "mon_mosquito_giant", "freq" : 20, "cost_multiplier" : 0},
-      { "monster" : "mon_dragonfly", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [3,16]},
+      { "monster" : "mon_mosquito", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [3,16] },
+      { "monster" : "mon_mosquito_giant", "freq" : 20, "cost_multiplier" : 0 },
+      { "monster" : "mon_dragonfly", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [3,16] },
       { "monster" : "mon_dragonfly_giant", "freq" : 20, "cost_multiplier" : 0 },
-      { "monster" : "mon_centipede", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [1,4]},
+      { "monster" : "mon_centipede", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [1,4] },
       { "monster" : "mon_centipede_giant", "freq" : 20, "cost_multiplier" : 0 },
-      { "monster" : "mon_lemming", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [1,7]},
+      { "monster" : "mon_lemming", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [1,7] },
       { "monster" : "mon_frog_giant", "freq" : 25, "cost_multiplier" : 0 },
       { "monster" : "mon_slug", "freq" : 50, "cost_multiplier" : 0 },
       { "monster" : "mon_slug_giant", "freq" : 25, "cost_multiplier" : 2 },
@@ -218,8 +218,8 @@
       { "monster" : "mon_blob_small", "freq" : 25, "cost_multiplier" : 0, "pack_size" : [1,4] },
       { "monster" : "mon_manhack", "freq" : 200, "cost_multiplier" : 0 },
       { "monster" : "mon_manhack", "freq" : 45, "cost_multiplier" : 0, "pack_size" : [2,3] },
-      { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0 }
-      { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0, "pack_size" : [2,3] }
+      { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0 },
+      { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0, "pack_size" : [2,3] },
       { "monster" : "mon_skitterbot", "freq" : 1, "cost_multiplier" : 0, "pack_size" : [8,12] }
     ]
   },
@@ -231,7 +231,7 @@
       { "monster" : "mon_blob_small", "freq" : 25, "cost_multiplier" : 0, "pack_size" : [1,4] },
       { "monster" : "mon_manhack", "freq" : 200, "cost_multiplier" : 0 },
       { "monster" : "mon_manhack", "freq" : 45, "cost_multiplier" : 0, "pack_size" : [2,3] },
-      { "monster" : "mon_skitterbot", "freq" : 100, "cost_multiplier" : 0 }
+      { "monster" : "mon_skitterbot", "freq" : 100, "cost_multiplier" : 0 },
       { "monster" : "mon_skitterbot", "freq" : 145, "cost_multiplier" : 0, "pack_size" : [2,3] }
 
     ]
@@ -265,6 +265,7 @@
     "name" : "GROUP_VANILLA",
     "default" : "mon_zombie",
     "monsters" : [
+      { "monster" : "mon_zombie_fast", "freq" : 40, "cost_multiplier" : 0 }
     ]
   },
   {
@@ -425,7 +426,7 @@
     "name" : "GROUP_MAYBE_ZOMBIE", "_comment" : "10% chance of a zombie",
     "default" : "mon_null",
     "monsters" : [
-      { "monster" : "mon_zombie", "freq" : 60, "cost_multiplier": 0, "pack_size": [1,5]},
+      { "monster" : "mon_zombie", "freq" : 60, "cost_multiplier": 0, "pack_size": [1,5] },
       { "monster" : "mon_zombie_fast", "freq" : 10, "cost_multiplier" : 0 },
       { "monster" : "mon_zombie_child", "freq" : 10, "cost_multiplier" : 0 },
       { "monster" : "mon_skeleton", "freq" : 10, "cost_multiplier" : 5 },
