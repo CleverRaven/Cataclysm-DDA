@@ -2655,7 +2655,9 @@ void map::remove_trap(const int x, const int y)
         traplocs[t].erase(point(x, y));
     }
 }
-
+/*
+ * Get wrapper for all fields at xy
+ */
 field& map::field_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -2670,6 +2672,88 @@ field& map::field_at(const int x, const int y)
  return grid[nonant]->fld[lx][ly];
 }
 
+/*
+ * Increment/decrement age of field type at point.
+ * returns resulting age or -1 if not present.
+ */
+int map::adjust_field_age(const point p, const field_id t, const int offset) {
+    return set_field_age( p, t, offset, true);
+}
+
+/*
+ * Increment/decrement strength of field type at point, creating if not present, removing if strength becomes 0
+ * returns resulting strength, or 0 for not present
+ */
+int map::adjust_field_strength(game *g, const point p, const field_id t, const int offset) {
+    return set_field_strength(g, p, t, offset, true);
+}
+
+/*
+ * Set age of field type at point, or increment/decrement if offset=true
+ * returns resulting age or -1 if not present.
+ */
+int map::set_field_age(const point p, const field_id t, const int age, bool isoffset) {
+    field_entry * field_ptr = get_field( p, t );
+    if ( field_ptr != NULL ) {
+        int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
+        field_ptr->setFieldDensity( adj );
+        return adj;
+    }
+    return -1;
+}
+
+/*
+ * set strength of field type at point, creating if not present, removing if strength is 0
+ * returns resulting strength, or 0 for not present
+ */
+int map::set_field_strength(game * g, const point p, const field_id t, const int str, bool isoffset) {
+    field_entry * field_ptr = get_field( p, t );
+    if ( field_ptr != NULL ) {
+        int adj = ( isoffset ? field_ptr->getFieldDensity() : 0 ) + str;
+        if ( adj > 0 ) {
+            field_ptr->setFieldDensity( adj );
+            return adj;
+        } else {
+            remove_field( p.x, p.y, t );
+            return 0;
+        }
+    } else if ( 0 + str > 0 ) {
+        return ( add_field( g, p, t, str, 0 ) ? str : 0 );
+    }
+    return 0;
+}
+
+/*
+ * get age of field type at point. -1 = not present
+ */
+int map::get_field_age( const point p, const field_id t ) {
+    field_entry * field_ptr = get_field( p, t );
+    return ( field_ptr == NULL ? -1 : field_ptr->getFieldAge() );
+}
+
+/*
+ * get strength of field type at point. 0 = not present
+ */
+int map::get_field_strength( const point p, const field_id t ) {
+    field_entry * field_ptr = get_field( p, t );
+    return ( field_ptr == NULL ? 0 : field_ptr->getFieldDensity() );
+}
+
+/*
+ * get field type at point. NULL if not present
+ */
+field_entry * map::get_field( const point p, const field_id t ) {
+    if (!INBOUNDS(p.x, p.y))
+        return NULL;
+    const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
+    const int lx = p.x % SEEX;
+    const int ly = p.y % SEEY;
+    return grid[nonant]->fld[lx][ly].findField(t);
+}
+
+/*
+ * add field type at point, or set denity if present
+ */
 bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
 {
     if (!INBOUNDS(p.x, p.y))
@@ -2691,12 +2775,19 @@ bool map::add_field(game *g, const point p, const field_id t, unsigned int densi
     return true;
 }
 
+/*
+ * add field type at xy, or set denity if present
+ */
 bool map::add_field(game *g, const int x, const int y,
                     const field_id t, const unsigned char new_density)
 {
  return this->add_field(g,point(x,y),t,new_density,0);
 }
 
+
+/*
+ * remove field type at xy
+ */
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
 {
  if (!INBOUNDS(x, y))

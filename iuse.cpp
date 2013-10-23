@@ -1029,7 +1029,7 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
         g->add_msg_if_player(p, _("But you're already smokin' hot."));
         return false;
     }
-    if(g->m.field_at(posx, posy).findField(fd_fire)) {
+    if(g->m.get_field(point(posx, posy), fd_fire)) {
         // check if there's already a fire
         g->add_msg_if_player(p, _("There is already a fire."));
         return false;
@@ -1371,14 +1371,7 @@ int iuse::extinguisher(game *g, player *p, item *it, bool t)
 
  p->moves -= 140;
 
- field &current_field = g->m.field_at(x, y);
- if (current_field.findField(fd_fire)) {
-     current_field.findField(fd_fire)->setFieldDensity(current_field.findField(fd_fire)->getFieldDensity() - rng(2, 3));
-     if (current_field.findField(fd_fire)->getFieldDensity() <= 0) {
-   //g->m.field_at(x, y).density = 1;
-   g->m.remove_field(x, y, fd_fire);
-  }
- }
+ g->m.adjust_field_strength(g, point(x,y), fd_fire, 0 - rng(2, 3) );
  int mondex = g->mon_at(x, y);
  if (mondex != -1) {
   g->zombie(mondex).moves -= 150;
@@ -1396,14 +1389,7 @@ int iuse::extinguisher(game *g, player *p, item *it, bool t)
  if (g->m.move_cost(x, y) != 0) {
   x += (x - p->posx);
   y += (y - p->posy);
-
-  if (current_field.findField(fd_fire)) {
-   current_field.findField(fd_fire)->setFieldDensity(current_field.findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
-   if (current_field.findField(fd_fire)->getFieldDensity() <= 0) {
-    //g->m.field_at(x, y).density = 1;
-    g->m.remove_field(x, y,fd_fire);
-   }
-  }
+  g->m.adjust_field_strength(g, point(x,y), fd_fire, 0 - rng(0, 1) + rng(0, 1));
  }
  return it->type->charges_to_use();
 }

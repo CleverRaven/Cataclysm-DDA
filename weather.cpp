@@ -144,10 +144,7 @@ void decay_fire_and_scent(game *g, int fire_amount)
     for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
         for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
             if (g->m.is_outside(x, y)) {
-                field_entry *fd = (g->m.field_at(x, y).findField(fd_fire));
-                if (fd) {
-                    fd->setFieldAge(fd->getFieldAge() + fire_amount);
-                }
+                g->m.adjust_field_age(point(x, y), fd_fire, fire_amount);
                 if (g->scent(x, y) > 0)
                 g->scent(x, y)--;
             }

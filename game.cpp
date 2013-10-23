@@ -2298,7 +2298,6 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
-   field &field_at = m.field_at(x, y);
    const bool is_bashable = m.has_flag("BASHABLE", x, y);
    newscent[x][y] = 0;
    scale[x][y] = 1;
@@ -2335,9 +2334,9 @@ void game::update_scent()
     squares_used +=   grscent[x + 1] [y + 1] >= this_field;
 
     scale[x][y] += squares_used;
-    if (field_at.findField(fd_slime) && newscent[x][y] < 10 * field_at.findField(fd_slime)->getFieldDensity())
-    {
-        newscent[x][y] = 10 * field_at.findField(fd_slime)->getFieldDensity();
+    int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
+    if (fslime > 0 && newscent[x][y] < fslime) {
+        newscent[x][y] = fslime;
     }
     if (newscent[x][y] > 10000)
     {
