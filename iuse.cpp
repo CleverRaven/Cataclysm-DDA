@@ -997,7 +997,7 @@ int iuse::marloss(game *g, player *p, item *it, bool t)
 int iuse::dogfood(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
-    if(!g->choose_adjacent(_("Put the dog food"),dirx,diry)) {
+    if(!g->choose_adjacent(_("Put the dog food where?"),dirx,diry)) {
         return 0;
     }
     p->moves -= 15;
@@ -1021,7 +1021,7 @@ int iuse::dogfood(game *g, player *p, item *it, bool t)
 
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
-    if (!g->choose_adjacent(_("Light"),posx,posy)) {
+    if (!g->choose_adjacent(_("Light where?"),posx,posy)) {
         return false;
     }
     if (posx == p->posx && posy == p->posy) {
@@ -1365,7 +1365,7 @@ int iuse::extinguisher(game *g, player *p, item *it, bool t)
  int x, y;
  // If anyone other than the player wants to use one of these,
  // they're going to need to figure out how to aim it.
- if (!g->choose_adjacent("Spray", x, y)) {
+ if (!g->choose_adjacent(_("Spray where?"), x, y)) {
   return 0;
  }
 
@@ -1414,7 +1414,7 @@ int iuse::hammer(game *g, player *p, item *it, bool t)
     int x, y;
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    if (!g->choose_adjacent(_("Pry"), x, y)) {
+    if (!g->choose_adjacent(_("Pry where?"), x, y)) {
         return 0;
     }
 
@@ -2139,7 +2139,7 @@ int iuse::roadmap(game *g, player *p, item *it, bool t)
 int iuse::picklock(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Use your pick lock"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Use your pick lock where?"), dirx, diry)) {
   return 0;
  }
  if (dirx == p->posx && diry == p->posy) {
@@ -2217,7 +2217,7 @@ int iuse::picklock(game *g, player *p, item *it, bool t)
 int iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Pry"), dirx,diry)) {
+ if(!g->choose_adjacent(_("Pry where?"), dirx,diry)) {
      return 0;
  }
 
@@ -2366,7 +2366,7 @@ int iuse::siphon(game *g, player *p, item *it, bool t)
 {
     int posx = 0;
     int posy = 0;
-    if(!g->choose_adjacent(_("Siphon from"), posx, posy)) {
+    if(!g->choose_adjacent(_("Siphon from where?"), posx, posy)) {
       return 0;
     }
 
@@ -2794,7 +2794,7 @@ int iuse::zweifire_on(game *g, player *p, item *it, bool t)
 int iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Drill"),dirx,diry)) {
+ if(!g->choose_adjacent(_("Drill where?"),dirx,diry)) {
   return 0;
  }
 
@@ -2872,7 +2872,7 @@ int iuse::pickaxe(game *g, player *p, item *it, bool t)
 int iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Place trap"),dirx,diry)) {
+ if(!g->choose_adjacent(_("Place trap where?"),dirx,diry)) {
   return 0;
  }
 
@@ -3872,7 +3872,7 @@ int iuse::manhack(game *g, player *p, item *it, bool t)
 int iuse::turret(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Place the turret"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Place the turret where?"), dirx, diry)) {
   return 0;
  }
  if (!g->is_empty(dirx, diry)) {
@@ -3977,7 +3977,7 @@ int iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
 int iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Shock"),dirx,diry)){
+ if(!g->choose_adjacent(_("Shock where?"),dirx,diry)){
   return 0;
  }
 
@@ -4450,7 +4450,7 @@ int iuse::lumber(game *g, player *p, item *it, bool t)
 int iuse::hacksaw(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
-    if(!g->choose_adjacent(_("Cut up metal"), dirx, diry))
+    if(!g->choose_adjacent(_("Cut up metal where?"), dirx, diry))
         return 0;
 
     if (dirx == p->posx && diry == p->posy) {
@@ -4514,7 +4514,7 @@ int iuse::hacksaw(game *g, player *p, item *it, bool t)
 int iuse::tent(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Pitch the tent"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Pitch the tent where?"), dirx, diry)) {
   return 0;
  }
 
@@ -4551,7 +4551,7 @@ int iuse::tent(game *g, player *p, item *it, bool t)
 int iuse::shelter(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Put up the shelter"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Put up the shelter where?"), dirx, diry)) {
   return 0;
  }
 
@@ -4984,7 +4984,7 @@ int iuse::bullet_puller(game *g, player *p, item *it, bool t)
 int iuse::boltcutters(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Cut up metal"),dirx,diry)) {
+ if(!g->choose_adjacent(_("Cut up metal where?"),dirx,diry)) {
   return 0;
  }
 
@@ -5012,7 +5012,7 @@ if (dirx == p->posx && diry == p->posy) {
 int iuse::mop(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent("Mop",dirx,diry)) {
+ if(!g->choose_adjacent(_("Mop where?"),dirx,diry)) {
   return 0;
  }
 

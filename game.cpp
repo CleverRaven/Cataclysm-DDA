@@ -6014,7 +6014,7 @@ void game::revive_corpse(int x, int y, item *it)
 void game::open()
 {
     int openx, openy;
-    if (!choose_adjacent(_("Open"), openx, openy))
+    if (!choose_adjacent(_("Open where?"), openx, openy))
         return;
 
     u.moves -= 100;
@@ -6061,7 +6061,7 @@ void game::open()
 void game::close()
 {
     int closex, closey;
-    if (!choose_adjacent(_("Close"), closex, closey))
+    if (!choose_adjacent(_("Close where?"), closex, closey))
         return;
 
     bool didit = false;
@@ -6108,7 +6108,7 @@ void game::smash()
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
     int smashx, smashy;
 
-    if (!choose_adjacent(_("Smash"), smashx, smashy))
+    if (!choose_adjacent(_("Smash where?"), smashx, smashy))
         return;
 
     const int full_pulp_threshold = 4;
@@ -6254,13 +6254,14 @@ void game::use_wielded_item()
   u.use_wielded(this);
 }
 
-bool game::choose_adjacent(std::string verb, int &x, int &y)
+bool game::choose_adjacent(std::string message, int &x, int &y)
 {
     refresh_all();
-    std::string query_text = verb + _(" where? (Direction button)");
+    //~ appended to "Close where?" "Pry where?" etc.
+    std::string query_text = message + _(" (Direction button)");
     mvwprintw(w_terrain, 0, 0, query_text.c_str());
     wrefresh(w_terrain);
-    DebugLog() << "calling get_input() for " << verb << "\n";
+    DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
     last_action += input;
     if (input == Cancel || input == Close)
@@ -6586,7 +6587,7 @@ void game::control_vehicle()
         add_msg(_("You take control of the %s."), veh->name.c_str());
     } else {
         int examx, examy;
-        if (!choose_adjacent(_("Control vehicle"), examx, examy))
+        if (!choose_adjacent(_("Control vehicle where?"), examx, examy))
             return;
         veh = m.veh_at(examx, examy, veh_part);
         if (!veh) {
@@ -6604,7 +6605,7 @@ void game::control_vehicle()
 void game::examine()
 {
  int examx, examy;
- if (!choose_adjacent(_("Examine"), examx, examy))
+ if (!choose_adjacent(_("Examine where?"), examx, examy))
     return;
 
  int veh_part = 0;
@@ -6666,7 +6667,7 @@ void game::peek()
 {
     int prevx, prevy, peekx, peeky;
 
-    if (!choose_adjacent(_("Peek"), peekx, peeky))
+    if (!choose_adjacent(_("Peek where?"), peekx, peeky))
         return;
 
     if (m.move_cost(peekx, peeky) == 0)
@@ -8350,7 +8351,7 @@ void game::grab()
         u.grab_type = OBJECT_NONE;
         return;
     }
-    if( choose_adjacent( _("Grab"), grabx, graby ) ) {
+    if( choose_adjacent( _("Grab where?"), grabx, graby ) ) {
         vehicle *veh = m.veh_at(grabx, graby);
         if( veh != NULL ) { // If there's a vehicle, grab that.
             u.grab_point.x = grabx - u.posx;
@@ -8382,7 +8383,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (liquid.type->id == "gasoline" && vehicle_near() && query_yn(_("Refill vehicle?"))) {
         int vx = u.posx, vy = u.posy;
         refresh_all();
-        if (choose_adjacent(_("Refill vehicle"), vx, vy)) {
+        if (choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
             vehicle *veh = m.veh_at (vx, vy);
             if (veh) {
                 ammotype ftype = "gasoline";
@@ -8412,7 +8413,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                 add_msg (_("There isn't any vehicle there."));
             }
             return false;
-        } // if (choose_adjacent("Refill vehicle", vx, vy))
+        } // if (choose_adjacent(_("Refill vehicle where?"), vx, vy))
         return true;
     }
 
@@ -8836,7 +8837,7 @@ void game::drop(char chInput)
 void game::drop_in_direction()
 {
     int dirx, diry;
-    if (!choose_adjacent(_("Drop"), dirx, diry)) {
+    if (!choose_adjacent(_("Drop where?"), dirx, diry)) {
         return;
     }
 
