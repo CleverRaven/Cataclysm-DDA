@@ -6491,7 +6491,7 @@
         "addiction_type" : "none",
         "charges": 1,
         "heal": 0,
-        "fun": 10,
+        "fun": -5,
         "stim": 0,
         "phase": "liquid"
     },
@@ -6518,7 +6518,7 @@
         "addiction_type" : "none",
         "charges": 1,
         "heal": 0,
-        "fun": 15,
+        "fun": 0,
         "stim": 0,
         "phase": "liquid"
     },
@@ -6545,7 +6545,7 @@
         "addiction_type" : "none",
         "charges": 1,
         "heal": 0,
-        "fun": 15,
+        "fun": 0,
         "stim": 0,
         "phase": "liquid"
     },
