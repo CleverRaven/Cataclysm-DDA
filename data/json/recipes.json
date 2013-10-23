@@ -529,17 +529,22 @@
 },{
         "type" : "recipe",
   "result": "reinforced_glass_sheet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
+  "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 5000,
+  "difficulty": 4,
+  "time": 20000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "tools": [
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 15 ],
+      [ "soldering_iron", 150 ]
     ]
   ],
   "components": [
