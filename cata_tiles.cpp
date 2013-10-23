@@ -43,6 +43,8 @@ cata_tiles::cata_tiles()
     do_draw_hit = false;
     do_draw_line = false;
     do_draw_weather = false;
+    do_draw_footsteps = false;
+
     boomered = false;
     sight_impaired = false;
     bionight_bionic_active = false;
@@ -464,31 +466,29 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x,y);
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather;
-    if (in_animation)
-    {
-        if (do_draw_explosion)
-        {
+    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather || do_draw_footsteps;
+    if (in_animation){
+        if (do_draw_explosion){
             draw_explosion_frame(destx, desty, centerx, centery, width, height);
         }
-        if (do_draw_bullet)
-        {
+        if (do_draw_bullet){
             draw_bullet_frame(destx, desty, centerx, centery, width, height);
         }
-        if (do_draw_hit)
-        {
+        if (do_draw_hit){
             draw_hit_frame(destx, desty, centerx, centery, width, height);
             void_hit();
         }
-        if (do_draw_line)
-        {
+        if (do_draw_line){
             draw_line(destx, desty, centerx, centery, width, height);
             void_line();
         }
-        if (do_draw_weather)
-        {
+        if (do_draw_weather){
             draw_weather_frame(destx, desty, centerx, centery, width, height);
             void_weather();
+        }
+        if (do_draw_footsteps){
+            draw_footsteps_frame(destx, desty, centerx, centery, width, height);
+            void_footsteps();
         }
     }
     // check to see if player is located at ter
@@ -1007,6 +1007,11 @@ void cata_tiles::init_draw_weather(weather_printable weather, std::string name)
     weather_name = name;
     anim_weather = weather;
 }
+void cata_tiles::init_draw_footsteps(std::queue<point> steps)
+{
+    do_draw_footsteps = true;
+    footsteps = steps;
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -1043,6 +1048,10 @@ void cata_tiles::void_weather()
     do_draw_weather = false;
     weather_name = "";
     anim_weather.vdrops.clear();
+}
+void cata_tiles::void_footsteps()
+{
+    do_draw_footsteps = false;
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height)
@@ -1121,6 +1130,19 @@ void cata_tiles::draw_weather_frame(int destx, int desty, int centerx, int cente
         y = y + g->ter_view_y - getmaxy(g->w_terrain)/2;
 
         draw_from_id_string(weather_name, x, y,0, 0, false);
+    }
+}
+void cata_tiles::draw_footsteps_frame(int destx, int desty, int centerx, int centery, int width, int height)
+{
+    const std::string footstep_tilestring = "footstep";
+    while (!footsteps.empty()){
+        point p = footsteps.front();
+        footsteps.pop();
+
+        int x = p.x;
+        int y = p.y;
+
+        draw_from_id_string(footstep_tilestring, x, y, 0, 0, false);
     }
 }
 /* END OF ANIMATION FUNCTIONS */
