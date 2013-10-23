@@ -969,7 +969,7 @@
         "name" : "7.62x39mm M43",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "Designed during World War II by the Soviet Union, the popularity of the AK-47 and the SKS contributed to the widespread adaption of the 7.62x39mm rifle round. However, due to its lack of yaw, this round deals less damage than most.",
+        "description" : "Designed during World War II by the Soviet Union, the popularity of the AK-47 and the SKS contributed to the widespread adoption of the 7.62x39mm rifle round. However, due to its lack of yaw, this round deals less damage than most.",
         "material" : "steel",
         "volume" : 3,
         "weight" : 8,
