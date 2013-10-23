@@ -1,5 +1,6 @@
 #include "worldfactory.h"
 #include "file_finder.h"
+#include "char_validity_check.h"
 
 // FILE I/O
 #include <sys/stat.h>
@@ -19,26 +20,6 @@
 typedef int (worldfactory::*worldgen_display)(WINDOW *, WORLDPTR);
 // single instance of world generator
 worldfactory *world_generator;
-
-/**
- * Returns whether or not the given (ASCII) character is usable in a (player)
- * character's name. Only printable symbols not reserved by the filesystem are
- * permitted.
- * @param ch The char to check
- * @return true if the char is allowed in a name, false if not
- */
-bool char_allowed(char ch)
-{
-    // Allow everything EXCEPT the following reserved characters
-    return (ch > 31 // 0 - 31 are control characters
-         && ch < 127 // DEL character
-         && ch != '/' && ch != '\\' // Path separators
-         && ch != '?' && ch != '*' && ch != '%' // Wildcards
-         && ch != ':' // Mount point/drive marker
-         && ch != '|' // Output pipe
-         && ch != '"' // Filename (with spaces) marker
-         && ch != '>' && ch != '<'); // Input/output redirection
-}
 
 std::string world_options_header()
 {
@@ -249,7 +230,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     }
     // get the master files. These determine the validity of a world
     std::vector<std::string> world_dirs = file_finder::get_directories_with(qualifiers, SAVE_DIR, true);
-    
+
     // check to see if there are >0 world directories found
     if (world_dirs.size() > 0){
         // worlds exist by having an option file
@@ -747,7 +728,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW* win, WORLDPTR world)
                             wprintz(w_confirmation, h_ltgray, "_");
                         }
                     }
-                    else if (char_allowed(ch) && utf8_width(worldname.c_str()) < 30)
+                    else if (is_char_allowed(ch) && utf8_width(worldname.c_str()) < 30)
                     {
                         worldname.push_back(ch);
                     }

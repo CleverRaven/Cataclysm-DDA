@@ -217,6 +217,8 @@
 		<Unit filename="catacurse.h" />
 		<Unit filename="catajson.cpp" />
 		<Unit filename="catajson.h" />
+		<Unit filename="char_validity_check.cpp" />
+		<Unit filename="char_validity_check.h" />
 		<Unit filename="color.cpp" />
 		<Unit filename="color.h" />
 		<Unit filename="computer.cpp" />
