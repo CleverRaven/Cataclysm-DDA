@@ -1635,20 +1635,28 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
     if (action == "MOUSE_MOVE") {
         int mx, my;
         if (!ctxt.get_coordinates(w_terrain, mx, my)) {
-            if (liveview.hide() && use_narrow_sidebar()) {
-                write_msg(); // In narrow sidebar mode, mouse view covers messages
-            }
+            hide_mouseview();
         } else {
             liveview.show(mx, my);
         }
-    } else {
+    } else if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
         // Keyboard event, break out of animation loop
-        liveview.hide();
+        hide_mouseview();
         return false;
     }
 
+    // Mouse movement or un-handled key
     return true;
 }
+
+// Hides the mouse hover box and redraws what was under it
+void game::hide_mouseview()
+{
+    if (liveview.hide() && use_narrow_sidebar()) {
+        write_msg(); // In narrow sidebar mode, mouse view covers messages
+    }
+}
+
 
 bool game::handle_action()
 {

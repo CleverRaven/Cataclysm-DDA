@@ -3,7 +3,7 @@
 #include "game.h"
 
 #define START_LINE 1
-#define START_COLUMN 2
+#define START_COLUMN 1
 
 live_view::live_view() : w_live_view(NULL), enabled(false)
 {

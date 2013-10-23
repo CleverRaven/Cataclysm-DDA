@@ -543,6 +543,7 @@ void load_artifacts(); // Load artifact data
 
 // Input related
   bool handle_mouseview(input_context &ctxt, std::string &action); // Handles box showing items under mouse
+  void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
 
 // On-request draw functions
   void draw_overmap();     // Draws the overmap, allows note-taking etc.

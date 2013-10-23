@@ -332,6 +332,7 @@ const std::string CATA_ERROR = "ERROR";
 const std::string UNDEFINED = "UNDEFINED";
 const std::string ANY_INPUT = "ANY_INPUT";
 const std::string COORDINATE = "COORDINATE";
+const std::string TIMEOUT = "TIMEOUT";
 
 const std::string& input_context::input_to_action(input_event& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
@@ -399,6 +400,10 @@ const std::string& input_context::handle_input() {
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
         next_action = inp_mngr.get_input_event(NULL);
+
+        if (next_action.type == CATA_INPUT_TIMEOUT) {
+            return TIMEOUT;
+        }
 
         const std::string& action = input_to_action(next_action);
 
