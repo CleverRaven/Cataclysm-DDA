@@ -533,7 +533,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
     {
-        g->add_msg(_("The %s misses."), name().c_str());
+        if (u_see) {
+            g->add_msg(_("The %s misses."), name().c_str());
+        }
     }
     else
     {
@@ -552,7 +554,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             // then returns less with each additional point, reaching 99% at 16
             if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
             {
-                if (is_npc) {
+                if (is_npc && u_see) {
                     g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
                 } else {
                     g->add_msg(_("You dodge the %s."), name().c_str());
@@ -608,7 +610,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
                     int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
-                    if (is_npc) {
+                    if (is_npc && u_see) {
                         g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     } else {
