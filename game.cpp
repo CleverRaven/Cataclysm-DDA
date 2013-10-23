@@ -528,27 +528,22 @@ void game::cleanup_at_end(){
     // Clear the future weather for future projects
     weather_log.clear();
 
-    if (uquit == QUIT_DIED)
-    {
+    if (uquit == QUIT_DIED) {
         popup_top(_("Game over! Press spacebar..."));
     }
-    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-    {
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         death_screen();
         u.add_memorial_log("%s %s", u.name.c_str(),
-                uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
+        uquit == QUIT_SUICIDE ? _("committed suicide.") : _("was killed."));
         write_memorial_file();
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
         if (characters.empty()) {
             if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
-                (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
-                if (gamemode->id() == SGAME_NULL)
-                {
+            (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
+                if (gamemode->id() == SGAME_NULL) {
                     delete_world(world_generator->active_world->world_name, false);
-                }
-                else
-                {
+                } else {
                     delete_world(world_generator->active_world->world_name, true);
                 }
                 MAPBUFFER.reset();
@@ -567,8 +562,7 @@ void game::cleanup_at_end(){
             gamemode = new special_game; // null gamemode or something..
         }
     }
-    if (uquit == QUIT_SAVED && gamemode->id() != SGAME_NULL)
-    {
+    if (uquit == QUIT_SAVED && gamemode->id() != SGAME_NULL) {
         MAPBUFFER.reset();
         MAPBUFFER.make_volatile();
     }
