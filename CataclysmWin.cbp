@@ -345,6 +345,7 @@
 		<Unit filename="tile_id_data.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
+		<Unit filename="translations.cpp" />
 		<Unit filename="translations.h" />
 		<Unit filename="trap.h" />
 		<Unit filename="trapdef.cpp" />
