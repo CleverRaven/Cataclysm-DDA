@@ -100,11 +100,11 @@ MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
     std::string m_desc = jo.get_string("description", "No Description");
     std::vector<std::string> m_dependencies;
 
-    if (jo.has_member("dependencies") && jo.get_member_type("dependencies") == JVT_ARRAY){
+    if (jo.has_member("dependencies") && jo.has_array("dependencies")){
         JsonArray jarr = jo.get_array("dependencies");
 
         for (int i = 0; i < jarr.size(); ++i){
-            if (jarr.get_index_type(i) == JVT_STRING){
+            if (jarr.has_string(i)){
                 m_dependencies.push_back(jarr.get_string(i));
             }
         }
