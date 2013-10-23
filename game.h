@@ -22,6 +22,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
+#include "worldfactory.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -114,7 +115,7 @@ class game
   bool unserialize_master_legacy(std::ifstream & fin); // for old load
 
   void save();
-  void delete_save();
+  void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
   void write_memorial_file();
   void cleanup_at_end();
@@ -335,7 +336,7 @@ class game
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
-void load_artifacts(); // Load artifact data
+void load_artifacts(std::string worldname); // Load artifact data
                         // Needs to be called by main() before MAPBUFFER.load
 
  // Knockback functions: knock target at (tx,ty) along a line, either calculated
@@ -379,10 +380,10 @@ void load_artifacts(); // Load artifact data
   bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
-  bool load_master(); // Load the master data file, with factions &c
+  bool load_master(std::string worldname); // Load the master data file, with factions &c
   void load_weather(std::ifstream &fin);
-  void load(std::string name); // Load a player-specific save file
-  void start_game(); // Starts a new game
+  void load(std::string worldname, std::string name); // Load a player-specific save file
+  void start_game(std::string worldname); // Starts a new game in a world
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
@@ -394,7 +395,7 @@ void load_artifacts(); // Load artifact data
   void load_legacy_future_weather(std::string data);
   void load_legacy_future_weather(std::istream &fin);
   void save_uistate();
-  void load_uistate();
+  void load_uistate(std::string worldname);
 // Data Initialization
   void init_npctalk();
   void init_fields();
@@ -544,6 +545,8 @@ void load_artifacts(); // Load artifact data
   void display_scent();   // Displays the scent map
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
+
+  WORLDPTR pick_world_to_play();
 
 
 // ########################## DATA ################################
