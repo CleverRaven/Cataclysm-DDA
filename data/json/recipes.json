@@ -7794,9 +7794,9 @@
   ],
   "components": [
     [
-      [ "lemon", 1 ],
+      [ "lemon", 2 ],
       [ "acid", 1 ],
-      [ "vinegar", 1 ]
+      [ "vinegar", 2 ]
     ],
     [
       [ "steel_chunk", 1 ],
