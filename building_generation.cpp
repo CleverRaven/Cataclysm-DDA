@@ -593,20 +593,42 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 
     m->add_road_vehicles(sidewalks, one_in(2) ? 90 : 180);
     if (sidewalks) { //this crossroad has sidewalk => this crossroad is in the city
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-                    m->ter_set(i, j, t_sidewalk);
-                } else {
-                    if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
-                          ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX)) {
-                        m->ter_set(i, j, t_pavement_y);
-                    } else {
-                        m->ter_set(i, j, t_pavement);
-                    }
-                }
+        for (int i=0; i< SEEX * 2; i++) {
+            for (int j=0; j< SEEY*2; j++) {
+                m->ter_set(i,j, grass_or_dirt());
             }
         }
+        //draw lines diagonally
+        line(m, t_floor_blue, 4, 0, SEEX*2, SEEY*2-4);
+        line(m, t_pavement, SEEX*2-4, 0, SEEX*2, 4);
+        mapf::formatted_set_simple(m, 0, 0,
+"\
+ssss.......yy.......ssss\n\
+ssss.......yy........sss\n\
+ssss.......yy.........ss\n\
+ssss...................s\n\
+ssss.......yy...........\n\
+ssss.......yy...........\n\
+ssss.......yy...........\n\
+ssss.......yy...........\n\
+ssss........yy..........\n\
+ssss.........yy.........\n\
+ssss..........yy........\n\
+ssss...........yyyyy.yyy\n\
+ssss............yyyy.yyy\n\
+ssss...................\n\
+,ssss...................\n\
+,,ssss..................\n\
+,,,ssss.................\n\
+,,,,ssss................\n\
+,,,,,ssss...............\n\
+,,,,,,ssss..............\n\
+,,,,,,,sssssssssssssssss\n\
+,,,,,,,,ssssssssssssssss\n\
+,,,,,,,,,sssssssssssssss\n\
+,,,,,,,,,,ssssssssssssss\n",
+        mapf::basic_bind(". , y s", t_pavement, t_dirt, t_pavement_y, t_sidewalk),
+        mapf::basic_bind(". , y s", f_null, f_null, f_null, f_null, f_null));
     } else { //crossroad (turn) in the wilderness
         for (int i=0; i< SEEX * 2; i++) {
             for (int j=0; j< SEEY*2; j++) {
@@ -632,12 +654,12 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 ,,,,...........yyyyy.yyy\n\
 ,,,,............yyyy.yyy\n\
 ,,,,....................\n\
-,,,,....................\n\
 ,,,,,...................\n\
 ,,,,,,..................\n\
 ,,,,,,,.................\n\
 ,,,,,,,,................\n\
 ,,,,,,,,,...............\n\
+,,,,,,,,,,..............\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
