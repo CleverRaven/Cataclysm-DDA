@@ -51,11 +51,13 @@ bool monster::can_move_to(game *g, int x, int y)
     if (has_flag(MF_ANIMAL))
     {
         // don't enter sharp terrain unless tiny, or attacking
-        if (g->m.has_flag("SHARP", x, y) && !(attitude(&(g->u)) == MATT_ATTACK || type->size == MS_TINY))
+        if (g->m.has_flag("SHARP", x, y) && !(attitude(&(g->u)) == MATT_ATTACK ||
+                                              type->size == MS_TINY))
             return false;
 
         // don't enter open pits ever unless tiny or can fly
-        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) && (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
+        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) &&
+            (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
             return false;
 
         // don't enter lava ever
@@ -401,15 +403,19 @@ point monster::scent_move(game *g)
 {
  std::vector<point> smoves;
 
- int maxsmell = 2; // Squares with smell 0 are not eligible targets
- if (has_flag(MF_KEENNOSE))
- {
+ int maxsmell = 10; // Squares with smell 0 are not eligible targets.
+ int smell_threshold = 60; // Squares at or above this level are ineligible.
+ if (has_flag(MF_KEENNOSE)) {
      maxsmell = 1;
+     smell_threshold = 100;
  }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
  const bool fleeing = is_fleeing(g->u);
+ if( !fleeing && g->scent( posx(), posy() ) > smell_threshold ) {
+     return next;
+ }
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
    const int nx = posx() + x;
@@ -420,16 +426,16 @@ point monster::scent_move(game *g)
        (can_move_to(g, nx, ny) ||
         (nx == g->u.posx && ny == g->u.posy) ||
         (g->m.has_flag("BASHABLE", nx, ny) && has_flag(MF_BASHES)))) {
-    if ((!fleeing && smell > maxsmell) ||
-        ( fleeing && smell < minsmell)   ) {
+    if ((!fleeing && smell > maxsmell ) ||
+        ( fleeing && smell < minsmell )   ) {
      smoves.clear();
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
      maxsmell = smell;
      minsmell = smell;
-    } else if ((!fleeing && smell == maxsmell) ||
-                ( fleeing && smell == minsmell)   ) {
+    } else if ((!fleeing && smell == maxsmell ) ||
+               ( fleeing && smell == minsmell )   ) {
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
@@ -533,7 +539,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
     {
-        g->add_msg(_("The %s misses."), name().c_str());
+        if (u_see) {
+            g->add_msg(_("The %s misses."), name().c_str());
+        }
     }
     else
     {
@@ -552,7 +560,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             // then returns less with each additional point, reaching 99% at 16
             if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
             {
-                if (is_npc) {
+                if (is_npc && u_see) {
                     g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
                 } else {
                     g->add_msg(_("You dodge the %s."), name().c_str());
@@ -608,7 +616,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
                     int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
-                    if (is_npc) {
+                    if (is_npc && u_see) {
                         g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     } else {

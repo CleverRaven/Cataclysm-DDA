@@ -27,6 +27,11 @@
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
+#include "output.h"
+
+//Used for e^(x) functions
+#include <stdio.h>
+#include <math.h>
 
 #include <ctime>
 #include <algorithm>
@@ -1322,6 +1327,9 @@ std::string player::save_info()
 
 void player::memorial( std::ofstream &memorial_file )
 {
+    //Ask the player for their final words
+    std::string epitaph = string_input_popup(_("Do you have any last words?"), 256);
+
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
@@ -1356,6 +1364,9 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
+    if(epitaph.length() > 0) { //Don't record empty epitaphs
+        memorial_file << "\"" << epitaph << "\"" << "\n\n";
+    }
     memorial_file << pronoun << _(" was ") << profession_name.str()
                   << _(" when the apocalypse began.") << "\n";
     memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
@@ -4950,26 +4961,30 @@ void player::mend(game *g)
 
 void player::vomit(game *g)
 {
- add_memorial_log(_("Threw up."));
- g->add_msg(_("You throw up heavily!"));
- hunger += rng(30, 50);
- thirst += rng(30, 50);
- moves -= 100;
- for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == "foodpoison") {
-   illness[i].duration -= 300;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  } else if (illness[i].type == "drunk") {
-   illness[i].duration -= rng(1, 5) * 100;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  }
- }
- rem_disease("pkill1");
- rem_disease("pkill2");
- rem_disease("pkill3");
- rem_disease("sleep");
+    add_memorial_log(_("Threw up."));
+    g->add_msg(_("You throw up heavily!"));
+    int nut_loss = 100 / (1 + exp(.15 * (hunger / 100)));
+    int quench_loss = 100 / (1 + exp(.025 * (thirst / 10)));
+    hunger += rng(nut_loss / 2, nut_loss);
+    thirst += rng(quench_loss / 2, quench_loss);
+    moves -= 100;
+    for (int i = 0; i < illness.size(); i++) {
+        if (illness[i].type == "foodpoison") {
+            illness[i].duration -= 300;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        } else if (illness[i].type == "drunk") {
+            illness[i].duration -= rng(1, 5) * 100;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        }
+    }
+    rem_disease("pkill1");
+    rem_disease("pkill2");
+    rem_disease("pkill3");
+    rem_disease("sleep");
 }
 
 void player::drench(game *g, int saturation, int flags) {

@@ -564,29 +564,65 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rn = 0;
 
   add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
-         ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX))
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
+  if (rn== 1) { //this crossroad has sidewalk => this crossroad is in the city
+      for (int i = 0; i < SEEX * 2; i++) {
+          for (int j = 0; j < SEEY * 2; j++) {
+              if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
+                  ter_set(i, j, t_sidewalk);
+              } else {
+                  if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
+                      ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX)) {
+                      ter_set(i, j, t_pavement_y);
+                  } else {
+                      ter_set(i, j, t_pavement);
+                  }
+              }
+          }
+      }
+  } else { //crossroad (turn) in the wilderness
+      for (int i=0; i< SEEX * 2; i++) {
+          for (int j=0; j< SEEY*2; j++) {
+              ter_set(i,j, grass_or_dirt());
+          }
+      }
+      //draw lines diagonally
+      line(this, t_floor_blue, 4, 0, SEEX*2, SEEY*2-4);
+      line(this, t_pavement, SEEX*2-4, 0, SEEX*2, 4);
+      mapf::formatted_set_simple(this, 0, 0,
+"\
+,,,,.......yy......+,,,,\n\
+,,,,.......yy........,,,\n\
+,,,,.......yy.........,,\n\
+,,,,..................+,\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,........yy..........\n\
+,,,,.........yy.........\n\
+,,,,..........yy........\n\
+,,,,...........yyyyy.yyy\n\
+,,,,............yyyy.yyy\n\
+,,,,....................\n\
+,,,,....................\n\
+,,,,+...................\n\
+,,,,,+..................\n\
+,,,,,,+.................\n\
+,,,,,,,+................\n\
+,,,,,,,,................\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n",
+     mapf::basic_bind(". , y +", t_pavement, t_dirt, t_pavement_y, t_shrub),
+     mapf::basic_bind(". , y +", f_null, f_null, f_null, f_null));
   }
   if (terrain_type == ot_road_es)
    rotate(1);
   if (terrain_type == ot_road_sw)
    rotate(2);
   if (terrain_type == ot_road_wn)
-   rotate(3);
+   rotate(3); //looks like that the code above paints road_ne
   if(rn == 1)
    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -12463,7 +12499,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
 
    // Pick a monster type
    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &g->mtypes, &num );
-  
+
    add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
   }
  }
