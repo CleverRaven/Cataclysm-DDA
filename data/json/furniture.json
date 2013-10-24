@@ -359,7 +359,7 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["CONTAINER", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
@@ -380,7 +380,7 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM"],
+        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
@@ -401,7 +401,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR"],
         "bash": {
             "str_min": 3, "str_max": 45,
             "sound": "smash!",
@@ -421,7 +421,7 @@
         "color": "ltgray",
         "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"],
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT", "BLOCKSDOOR"],
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
@@ -441,7 +441,7 @@
         "color": "ltgray",
         "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "BASHABLE", "PLACE_ITEM", "DECONSTRUCT", "BLOCKSDOOR"],
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "metal screeching!",
@@ -461,7 +461,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"],
+        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC", "BLOCKSDOR"],
         "bash": {
             "str_min": 3, "str_max": 45,
             "sound": "smash!",
