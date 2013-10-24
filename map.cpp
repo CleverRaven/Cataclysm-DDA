@@ -3414,15 +3414,10 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
-bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, const int gridx, const int gridy,
-                const bool update_vehicles, overmap * om)
-{
-
- bool implicit_om = false;
+bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
+                const int gridx, const int gridy, const bool update_vehicles, overmap * om) {
  if (om == NULL) {
      om = g->cur_om;
- } else {
-     implicit_om = true;
  }
 
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
@@ -3518,56 +3513,34 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
   int newmapy = worldy + gridy - ((worldy + gridy) % 2);
   overmap* this_om = om;
 
-if ( ! implicit_om ) {
-  // new-style lookup is stable but old-style is retained by default, for extra paranoia.
-  // slightly out of bounds? to the east, south, or both?
-  // cur_om is the one containing the upper-left corner of the map
-  if (newmapx >= OMAPX*2){
-     newmapx -= OMAPX*2;
-     this_om = g->om_hori;
-     if (newmapy >= OMAPY*2){
-        newmapy -= OMAPY*2;
-        this_om = g->om_diag;
-     }
-  }
-  else if (newmapy >= OMAPY*2){
-     newmapy -= OMAPY*2;
-     this_om = g->om_vert;
-  }
-
-  if (worldx + gridx < 0)
-   newmapx = worldx + gridx;
-  if (worldy + gridy < 0)
-   newmapy = worldy + gridy;
-
-} else {
-  
-  int shx=0;
-  int shy=0;
+  int shiftx = 0;
+  int shifty = 0;
   if ( newmapx < 0 ) {
     while ( newmapx < 0 ) {
-      shx--; newmapx += OMAPX*2;
+      shiftx--;
+      newmapx += OMAPX * 2;
     }
-  } else if ( newmapx >= OMAPX*2 ) {
-    while ( newmapx >= OMAPX*2 ) {
-      shx++; newmapx -= OMAPX*2;
+  } else if ( newmapx >= OMAPX * 2 ) {
+    while ( newmapx >= OMAPX * 2 ) {
+      shiftx++;
+      newmapx -= OMAPX * 2;
     }
   }
   if ( newmapy < 0 ) {
     while ( newmapy < 0 ) {
-      shy--; newmapy += OMAPX*2;
+      shifty--;
+      newmapy += OMAPX * 2;
     }
-  } else if ( newmapy >= OMAPX*2 ) {
-    while ( newmapy >= OMAPX*2 ) {
-      shy++; newmapy -= OMAPX*2;
+  } else if ( newmapy >= OMAPX * 2 ) {
+    while ( newmapy >= OMAPX * 2 ) {
+      shifty++;
+      newmapy -= OMAPX * 2;
     }
   }
 
-  if ( shx !=0 || shy != 0 ) {
-       this_om = &overmap_buffer.get(g, om->pos().x + shx, om->pos().y + shy);
+  if ( shiftx != 0 || shifty != 0 ) {
+       this_om = &overmap_buffer.get(g, om->pos().x + shiftx, om->pos().y + shifty);
   }
-
-}
 
   tmp_map.generate(g, this_om, newmapx, newmapy, worldz, int(g->turn));
   return false;
