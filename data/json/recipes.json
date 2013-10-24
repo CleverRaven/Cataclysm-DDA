@@ -4584,13 +4584,13 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
-      [ "atomic_coffepot", -1 ],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ],
     [
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
-      [ "atomic_coffepot", -1 ]
+      [ "atomic_coffeepot", -1 ]
     ]
   ],
   "components": [
@@ -4784,7 +4784,7 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
-      [ "atomic_coffepot", -1 ],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ],
     [
@@ -17830,7 +17830,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "atomic_coffepot",
+  "result": "atomic_coffeepot",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
