@@ -17772,6 +17772,33 @@
   "components" : [ [ ["plastic_chunk", 10] ] ]
 },{
         "type" : "recipe",
+  "result": "atomic_light",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "juice",
   "category": "CC_DRINK",
   "skill_used": "cooking",
