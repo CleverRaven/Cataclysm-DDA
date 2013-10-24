@@ -527,3 +527,45 @@ void mapgen_spider_pit(map *m, mapgendata dat, int turn)
         }
     }
 }
+
+void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    bool sidewalks = false;
+    for (int i = 0; i < 4; i++) {
+        if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
+            sidewalks = true;
+        }
+    }
+
+    int veh_spawn_heading;
+    if (terrain_type == ot_road_ew) {
+        veh_spawn_heading = (one_in(2)? 0 : 180);
+    } else {
+        veh_spawn_heading = (one_in(2)? 270 : 90);
+    }
+
+    m->add_road_vehicles(sidewalks, veh_spawn_heading);
+
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (i < 4 || i >= SEEX * 2 - 4) {
+                if (sidewalks) {
+                    m->ter_set(i, j, t_sidewalk);
+                } else {
+                    m->ter_set(i, j, grass_or_dirt());
+                }
+            } else {
+                if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0) {
+                    m->ter_set(i, j, t_pavement_y);
+                } else {
+                    m->ter_set(i, j, t_pavement);
+                }
+            }
+        }
+    }
+    if (terrain_type == ot_road_ew)
+        m->rotate(1);
+    if(sidewalks)
+        m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+}

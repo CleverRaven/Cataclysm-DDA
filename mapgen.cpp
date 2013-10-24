@@ -277,7 +277,6 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  mapgendata facing_data(t_north, t_east, t_south, t_west);
 
  computer *tmpcomp = NULL;
- int veh_spawn_heading;
 
     switch (terrain_type) {
     case ot_null:
@@ -329,45 +328,10 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     add_spawn("mon_fungaloid_queen", 1, 12, 12);
     break;
 
- case ot_road_ns:
- case ot_road_ew:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
-
-  if (terrain_type == ot_road_ew) {
-   veh_spawn_heading = (one_in(2)? 0 : 180);
-  } else {
-   veh_spawn_heading = (one_in(2)? 270 : 90);
-  }
-
-  add_road_vehicles(rn > 0, veh_spawn_heading);
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 4 || i >= SEEX * 2 - 4) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0)
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_road_ew)
-   rotate(1);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
+    case ot_road_ns:
+    case ot_road_ew:
+        mapgen_road_straight(this, terrain_type, facing_data, turn, density);
+        break;
 
  case ot_road_ne:
  case ot_road_es:
