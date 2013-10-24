@@ -14632,25 +14632,24 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_portal_in:
- {
-     std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
-  int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
-  add_field(g, x, y, fd_fatigue, 3);
-  for (int i = x - 5; i <= x + 5; i++) {
-   for (int j = y - 5; j <= y + 5; j++) {
-    if (rng(0, 9) > trig_dist(x, y, i, j)) {
-     marlossify(i, j);
-     if (one_in(15)) {
-      monster creature(GetMType(monids[rng(0, 5)]));
-      creature.spawn(i, j);
-      g->add_zombie(creature);
-     }
+    case mx_portal_in: {
+        std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+        int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
+        add_field(g, x, y, fd_fatigue, 3);
+        for (int i = x - 5; i <= x + 5; i++) {
+            for (int j = y - 5; j <= y + 5; j++) {
+                if (rng(1, 9) >= trig_dist(x, y, i, j)) {
+                    marlossify(i, j);
+                    if (one_in(15)) {
+                        monster creature(GetMType(monids[rng(0, 5)]));
+                        creature.spawn(i, j);
+                        g->add_zombie(creature);
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
- break;
+    break;
 
  case mx_anomaly: {
   point center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
