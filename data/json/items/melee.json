@@ -2142,7 +2142,7 @@
     "color": "light_green",
     "name": "atomic coffee maker",
     "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker! Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
-    "price": 1250,
+    "price": 1000,
     "material": ["plastic", "steel"],
     "weight": 4102,
     "volume": 3,
