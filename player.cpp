@@ -27,6 +27,7 @@
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
+#include "output.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -1326,6 +1327,9 @@ std::string player::save_info()
 
 void player::memorial( std::ofstream &memorial_file )
 {
+    //Ask the player for their final words
+    std::string epitaph = string_input_popup(_("Do you have any last words?"), 256);
+
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
@@ -1360,6 +1364,9 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
+    if(epitaph.length() > 0) { //Don't record empty epitaphs
+        memorial_file << "\"" << epitaph << "\"" << "\n\n";
+    }
     memorial_file << pronoun << _(" was ") << profession_name.str()
                   << _(" when the apocalypse began.") << "\n";
     memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
