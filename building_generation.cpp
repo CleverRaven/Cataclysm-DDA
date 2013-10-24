@@ -1,6 +1,18 @@
 #include "building_generation.h"
 #include "output.h"
 #include "item_factory.h"
+#include "line.h"
+#include "mapgenformat.h"
+
+void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
+void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
+void fill_background(map *m, ter_id type);
+void fill_background(map *m, ter_id (*f)());
+void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
+void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
+void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
+void rough_circle(map *m, ter_id type, int x, int y, int rad);
+void add_corpse(game *g, map *m, int x, int y);
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west)
 {
@@ -565,6 +577,80 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     if (terrain_type == ot_road_ew)
         m->rotate(1);
+    if(sidewalks)
+        m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+}
+
+void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    bool sidewalks = false;
+    for (int i = 0; i < 4; i++) {
+        if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
+            sidewalks = true;
+        }
+    }
+
+    m->add_road_vehicles(sidewalks, one_in(2) ? 90 : 180);
+    if (sidewalks) { //this crossroad has sidewalk => this crossroad is in the city
+        for (int i = 0; i < SEEX * 2; i++) {
+            for (int j = 0; j < SEEY * 2; j++) {
+                if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
+                    m->ter_set(i, j, t_sidewalk);
+                } else {
+                    if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
+                          ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX)) {
+                        m->ter_set(i, j, t_pavement_y);
+                    } else {
+                        m->ter_set(i, j, t_pavement);
+                    }
+                }
+            }
+        }
+    } else { //crossroad (turn) in the wilderness
+        for (int i=0; i< SEEX * 2; i++) {
+            for (int j=0; j< SEEY*2; j++) {
+                m->ter_set(i,j, grass_or_dirt());
+            }
+        }
+        //draw lines diagonally
+        line(m, t_floor_blue, 4, 0, SEEX*2, SEEY*2-4);
+        line(m, t_pavement, SEEX*2-4, 0, SEEX*2, 4);
+        mapf::formatted_set_simple(m, 0, 0,
+"\
+,,,,.......yy......+,,,,\n\
+,,,,.......yy........,,,\n\
+,,,,.......yy.........,,\n\
+,,,,..................+,\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,........yy..........\n\
+,,,,.........yy.........\n\
+,,,,..........yy........\n\
+,,,,...........yyyyy.yyy\n\
+,,,,............yyyy.yyy\n\
+,,,,....................\n\
+,,,,....................\n\
+,,,,+...................\n\
+,,,,,+..................\n\
+,,,,,,+.................\n\
+,,,,,,,+................\n\
+,,,,,,,,................\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n",
+        mapf::basic_bind(". , y +", t_pavement, t_dirt, t_pavement_y, t_shrub),
+        mapf::basic_bind(". , y +", f_null, f_null, f_null, f_null));
+    }
+    if (terrain_type == ot_road_es)
+        m->rotate(1);
+    if (terrain_type == ot_road_sw)
+        m->rotate(2);
+    if (terrain_type == ot_road_wn)
+        m->rotate(3); //looks like that the code above paints road_ne
     if(sidewalks)
         m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);

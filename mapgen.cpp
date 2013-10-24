@@ -333,82 +333,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_road_straight(this, terrain_type, facing_data, turn, density);
         break;
 
- case ot_road_ne:
- case ot_road_es:
- case ot_road_sw:
- case ot_road_wn:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
-
-  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
-  if (rn== 1) { //this crossroad has sidewalk => this crossroad is in the city
-      for (int i = 0; i < SEEX * 2; i++) {
-          for (int j = 0; j < SEEY * 2; j++) {
-              if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-                  ter_set(i, j, t_sidewalk);
-              } else {
-                  if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
-                      ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX)) {
-                      ter_set(i, j, t_pavement_y);
-                  } else {
-                      ter_set(i, j, t_pavement);
-                  }
-              }
-          }
-      }
-  } else { //crossroad (turn) in the wilderness
-      for (int i=0; i< SEEX * 2; i++) {
-          for (int j=0; j< SEEY*2; j++) {
-              ter_set(i,j, grass_or_dirt());
-          }
-      }
-      //draw lines diagonally
-      line(this, t_floor_blue, 4, 0, SEEX*2, SEEY*2-4);
-      line(this, t_pavement, SEEX*2-4, 0, SEEX*2, 4);
-      mapf::formatted_set_simple(this, 0, 0,
-"\
-,,,,.......yy......+,,,,\n\
-,,,,.......yy........,,,\n\
-,,,,.......yy.........,,\n\
-,,,,..................+,\n\
-,,,,.......yy...........\n\
-,,,,.......yy...........\n\
-,,,,.......yy...........\n\
-,,,,.......yy...........\n\
-,,,,........yy..........\n\
-,,,,.........yy.........\n\
-,,,,..........yy........\n\
-,,,,...........yyyyy.yyy\n\
-,,,,............yyyy.yyy\n\
-,,,,....................\n\
-,,,,....................\n\
-,,,,+...................\n\
-,,,,,+..................\n\
-,,,,,,+.................\n\
-,,,,,,,+................\n\
-,,,,,,,,................\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n",
-     mapf::basic_bind(". , y +", t_pavement, t_dirt, t_pavement_y, t_shrub),
-     mapf::basic_bind(". , y +", f_null, f_null, f_null, f_null));
-  }
-  if (terrain_type == ot_road_es)
-   rotate(1);
-  if (terrain_type == ot_road_sw)
-   rotate(2);
-  if (terrain_type == ot_road_wn)
-   rotate(3); //looks like that the code above paints road_ne
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
+    case ot_road_ne:
+    case ot_road_es:
+    case ot_road_sw:
+    case ot_road_wn:
+        mapgen_road_curved(this, terrain_type, facing_data, turn, density);
+        break;
 
  case ot_road_nes:
  case ot_road_new:
