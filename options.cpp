@@ -306,6 +306,7 @@ bool cOpt::operator!=(const std::string sCompare) const {
 void initOptions() {
     vPages.clear();
     vPages.push_back(std::make_pair("general", _("General")));
+    vPages.push_back(std::make_pair("graphics", _("Graphics")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
 
@@ -340,7 +341,7 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("interface", _("No bright backgrounds"),
+    OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("graphics", _("No bright backgrounds"),
                                             _("If true, bright backgrounds are not used - some consoles are not compatible."),
                                              false
                                             );
@@ -396,7 +397,7 @@ void initOptions() {
                                              0, 127, 5
                                             );
 
-    OPTIONS["RAIN_ANIMATION"] =         cOpt("interface", _("Rain animation"),
+    OPTIONS["RAIN_ANIMATION"] =         cOpt("graphics", _("Rain animation"),
                                              _("If true, will display weather animations."),
                                              true
                                             );
@@ -475,12 +476,12 @@ void initOptions() {
                                              _("Initial starting season of day on character generation."),
                                              "spring,summer,autumn,winter", "spring");
 
-    OPTIONS["VIEWPORT_X"] =             cOpt("interface", _("Viewport width"),
+    OPTIONS["VIEWPORT_X"] =             cOpt("graphics", _("Viewport width"),
                                              _("SDL ONLY: Set the expansion of the viewport along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
                                              12, 93, 12
                                             );
 
-    OPTIONS["VIEWPORT_Y"] =             cOpt("interface", _("Viewport height"),
+    OPTIONS["VIEWPORT_Y"] =             cOpt("graphics", _("Viewport height"),
                                              _("SDL ONLY: Set the expansion of the viewport along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
                                              12, 93, 12
                                             );
@@ -579,12 +580,12 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["USE_TILES"] =              cOpt("interface", _("Use tiles"),
+    OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
                                              _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
                                              true
                                              );
 
-    OPTIONS["TILES"] =                  cOpt("interface", _("Choose tileset"),
+    OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
                                              _("Choose the tileset you want to use. Only applicable on SDL builds. Requires restart."),
                                              tileset_names, "hoder");   // populate the options dynamically
 
@@ -690,7 +691,7 @@ void show_options()
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), 5);
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2);
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
