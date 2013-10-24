@@ -3049,7 +3049,7 @@ if(it->type->id == "cot"){
    }
   }
  }
- return it->type->charges_to_use();
+ return it->type->charges_to_use() + 1;
 }
 
 int iuse::geiger(game *g, player *p, item *it, bool t)

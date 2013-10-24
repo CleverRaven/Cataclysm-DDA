@@ -7626,6 +7626,10 @@ void player::use(game *g, char let)
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
         if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
             int charges_used = tool->use.call(g, this, used, false);
+            if ( used->type->use == &iuse::set_trap && tool->charges_per_use + 1 <= charges_used ) {
+                charges_used --;
+                replace_item = false;
+            }
             if ( charges_used >= 1 ) {
                 used->charges -= std::min(used->charges, (int)tool->charges_per_use);
             }
