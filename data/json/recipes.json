@@ -3811,6 +3811,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "water_acid",
+  "id_suffix": "from electrolysis",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "meat_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4562,11 +4584,13 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
+      [ "atomic_coffepot", -1 ],
       [ "fire", -1 ]
     ],
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "atomic_coffepot", -1 ]
     ]
   ],
   "components": [
@@ -4760,11 +4784,13 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
+      [ "atomic_coffepot", -1 ],
       [ "fire", -1 ]
     ],
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "atomic_coffeepot", -1 ]
     ]
   ],
   "components": [
@@ -17775,6 +17801,63 @@
     ]
   ],
   "components" : [ [ ["plastic_chunk", 10] ] ]
+},{
+        "type" : "recipe",
+  "result": "atomic_light",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "atomic_coffepot",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 3 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "element", 1 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "juice",
