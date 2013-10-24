@@ -492,15 +492,18 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     case ot_fungal_bloom:
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
-                if (one_in(10)) {
+                if (one_in(rl_dist(i, j, 12, 12) * 2)) {
+                    ter_set(i, j, t_marloss);
+                } else if (one_in(10)) {
                     if (one_in(3)) {
                         ter_set(i, j, t_tree_fungal);
                     } else {
                         ter_set(i, j, t_tree_fungal_young);
                     }
-                } else if (one_in(300)) {
-                    ter_set(i, j, t_marloss);
-                } else if (one_in(3)) {
+                
+                } else if (one_in(5)) {
+                    ter_set(i, j, t_shrub_fungal);
+                } else if (one_in(10)) {
                     ter_set(i, j, t_fungus_mound);
                 } else {
                     ter_set(i, j, t_fungus);
