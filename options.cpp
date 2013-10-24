@@ -306,8 +306,8 @@ bool cOpt::operator!=(const std::string sCompare) const {
 void initOptions() {
     vPages.clear();
     vPages.push_back(std::make_pair("general", _("General")));
-    vPages.push_back(std::make_pair("graphics", _("Graphics")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
+    vPages.push_back(std::make_pair("graphics", _("Graphics")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
 
     OPTIONS.clear();
