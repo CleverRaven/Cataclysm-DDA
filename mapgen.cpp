@@ -294,138 +294,15 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   mapgen_dirtlot(this, g);
   break;
 
- case ot_forest:
- case ot_forest_thick:
- case ot_forest_water:
-  mapgen_forest_general(this, terrain_type, facing_data, turn);
-  break;
+    case ot_forest:
+    case ot_forest_thick:
+    case ot_forest_water:
+        mapgen_forest_general(this, terrain_type, facing_data, turn);
+    break;
 
- case ot_hive:
-// Start with a basic forest pattern
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    rn = rng(0, 14);
-    if (rn > 13) {
-     ter_set(i, j, t_tree);
-    } else if (rn > 11) {
-     ter_set(i, j, t_tree_young);
-    } else if (rn > 10) {
-     ter_set(i, j, t_underbrush);
-    } else {
-     ter_set(i, j, t_dirt);
-    }
-   }
-  }
-
-// j and i loop through appropriate hive-cell center squares
-  for (int j = 5; j < SEEY * 2 - 5; j += 6) {
-   for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
-    if (!one_in(8)) {
-// Caps are always there
-     ter_set(i    , j - 5, t_wax);
-     ter_set(i    , j + 5, t_wax);
-     for (int k = -2; k <= 2; k++) {
-      for (int l = -1; l <= 1; l++)
-       ter_set(i + k, j + l, t_floor_wax);
-     }
-     add_spawn("mon_bee", 2, i, j);
-     add_spawn("mon_beekeeper", 1, i, j);
-     ter_set(i    , j - 3, t_floor_wax);
-     ter_set(i    , j + 3, t_floor_wax);
-     ter_set(i - 1, j - 2, t_floor_wax);
-     ter_set(i    , j - 2, t_floor_wax);
-     ter_set(i + 1, j - 2, t_floor_wax);
-     ter_set(i - 1, j + 2, t_floor_wax);
-     ter_set(i    , j + 2, t_floor_wax);
-     ter_set(i + 1, j + 2, t_floor_wax);
-
-// Up to two of these get skipped; an entrance to the cell
-     int skip1 = rng(0, 23);
-     int skip2 = rng(0, 23);
-
-     ter_set(i - 1, j - 4, t_wax);
-     ter_set(i    , j - 4, t_wax);
-     ter_set(i + 1, j - 4, t_wax);
-     ter_set(i - 2, j - 3, t_wax);
-     ter_set(i - 1, j - 3, t_wax);
-     ter_set(i + 1, j - 3, t_wax);
-     ter_set(i + 2, j - 3, t_wax);
-     ter_set(i - 3, j - 2, t_wax);
-     ter_set(i - 2, j - 2, t_wax);
-     ter_set(i + 2, j - 2, t_wax);
-     ter_set(i + 3, j - 2, t_wax);
-     ter_set(i - 3, j - 1, t_wax);
-     ter_set(i - 3, j    , t_wax);
-     ter_set(i - 3, j - 1, t_wax);
-     ter_set(i - 3, j + 1, t_wax);
-     ter_set(i - 3, j    , t_wax);
-     ter_set(i - 3, j + 1, t_wax);
-     ter_set(i - 2, j + 3, t_wax);
-     ter_set(i - 1, j + 3, t_wax);
-     ter_set(i + 1, j + 3, t_wax);
-     ter_set(i + 2, j + 3, t_wax);
-     ter_set(i - 1, j + 4, t_wax);
-     ter_set(i    , j + 4, t_wax);
-     ter_set(i + 1, j + 4, t_wax);
-
-     if (skip1 ==  0 || skip2 ==  0)
-      ter_set(i - 1, j - 4, t_floor_wax);
-     if (skip1 ==  1 || skip2 ==  1)
-      ter_set(i    , j - 4, t_floor_wax);
-     if (skip1 ==  2 || skip2 ==  2)
-      ter_set(i + 1, j - 4, t_floor_wax);
-     if (skip1 ==  3 || skip2 ==  3)
-      ter_set(i - 2, j - 3, t_floor_wax);
-     if (skip1 ==  4 || skip2 ==  4)
-      ter_set(i - 1, j - 3, t_floor_wax);
-     if (skip1 ==  5 || skip2 ==  5)
-      ter_set(i + 1, j - 3, t_floor_wax);
-     if (skip1 ==  6 || skip2 ==  6)
-      ter_set(i + 2, j - 3, t_floor_wax);
-     if (skip1 ==  7 || skip2 ==  7)
-      ter_set(i - 3, j - 2, t_floor_wax);
-     if (skip1 ==  8 || skip2 ==  8)
-      ter_set(i - 2, j - 2, t_floor_wax);
-     if (skip1 ==  9 || skip2 ==  9)
-      ter_set(i + 2, j - 2, t_floor_wax);
-     if (skip1 == 10 || skip2 == 10)
-      ter_set(i + 3, j - 2, t_floor_wax);
-     if (skip1 == 11 || skip2 == 11)
-      ter_set(i - 3, j - 1, t_floor_wax);
-     if (skip1 == 12 || skip2 == 12)
-      ter_set(i - 3, j    , t_floor_wax);
-     if (skip1 == 13 || skip2 == 13)
-      ter_set(i - 3, j - 1, t_floor_wax);
-     if (skip1 == 14 || skip2 == 14)
-      ter_set(i - 3, j + 1, t_floor_wax);
-     if (skip1 == 15 || skip2 == 15)
-      ter_set(i - 3, j    , t_floor_wax);
-     if (skip1 == 16 || skip2 == 16)
-      ter_set(i - 3, j + 1, t_floor_wax);
-     if (skip1 == 17 || skip2 == 17)
-      ter_set(i - 2, j + 3, t_floor_wax);
-     if (skip1 == 18 || skip2 == 18)
-      ter_set(i - 1, j + 3, t_floor_wax);
-     if (skip1 == 19 || skip2 == 19)
-      ter_set(i + 1, j + 3, t_floor_wax);
-     if (skip1 == 20 || skip2 == 20)
-      ter_set(i + 2, j + 3, t_floor_wax);
-     if (skip1 == 21 || skip2 == 21)
-      ter_set(i - 1, j + 4, t_floor_wax);
-     if (skip1 == 22 || skip2 == 22)
-      ter_set(i    , j + 4, t_floor_wax);
-     if (skip1 == 23 || skip2 == 23)
-      ter_set(i + 1, j + 4, t_floor_wax);
-
-     if (t_north == ot_hive && t_east == ot_hive && t_south == ot_hive &&
-         t_west == ot_hive)
-      place_items("hive_center", 90, i - 2, j - 2, i + 2, j + 2, false, turn);
-     else
-      place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
-    }
-   }
-  }
-  break;
+    case ot_hive:
+        mapgen_hive(this, facing_data, turn);
+    break;
 
  case ot_spider_pit:
 // First generate a forest

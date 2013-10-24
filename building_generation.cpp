@@ -334,3 +334,133 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
     }
 }
+
+void mapgen_hive(map *m, mapgendata dat, int turn)
+{
+    // Start with a basic forest pattern
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            int rn = rng(0, 14);
+            if (rn > 13) {
+                m->ter_set(i, j, t_tree);
+            } else if (rn > 11) {
+                m->ter_set(i, j, t_tree_young);
+            } else if (rn > 10) {
+                m->ter_set(i, j, t_underbrush);
+            } else {
+                m->ter_set(i, j, t_dirt);
+            }
+        }
+    }
+
+    // j and i loop through appropriate hive-cell center squares
+    for (int j = 5; j < SEEY * 2 - 5; j += 6) {
+        for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
+            if (!one_in(8)) {
+                // Caps are always there
+                m->ter_set(i    , j - 5, t_wax);
+                m->ter_set(i    , j + 5, t_wax);
+                for (int k = -2; k <= 2; k++) {
+                    for (int l = -1; l <= 1; l++) {
+                        m->ter_set(i + k, j + l, t_floor_wax);
+                    }
+                }
+                m->add_spawn("mon_bee", 2, i, j);
+                m->add_spawn("mon_beekeeper", 1, i, j);
+                m->ter_set(i    , j - 3, t_floor_wax);
+                m->ter_set(i    , j + 3, t_floor_wax);
+                m->ter_set(i - 1, j - 2, t_floor_wax);
+                m->ter_set(i    , j - 2, t_floor_wax);
+                m->ter_set(i + 1, j - 2, t_floor_wax);
+                m->ter_set(i - 1, j + 2, t_floor_wax);
+                m->ter_set(i    , j + 2, t_floor_wax);
+                m->ter_set(i + 1, j + 2, t_floor_wax);
+
+                // Up to two of these get skipped; an entrance to the cell
+                int skip1 = rng(0, 23);
+                int skip2 = rng(0, 23);
+
+                m->ter_set(i - 1, j - 4, t_wax);
+                m->ter_set(i    , j - 4, t_wax);
+                m->ter_set(i + 1, j - 4, t_wax);
+                m->ter_set(i - 2, j - 3, t_wax);
+                m->ter_set(i - 1, j - 3, t_wax);
+                m->ter_set(i + 1, j - 3, t_wax);
+                m->ter_set(i + 2, j - 3, t_wax);
+                m->ter_set(i - 3, j - 2, t_wax);
+                m->ter_set(i - 2, j - 2, t_wax);
+                m->ter_set(i + 2, j - 2, t_wax);
+                m->ter_set(i + 3, j - 2, t_wax);
+                m->ter_set(i - 3, j - 1, t_wax);
+                m->ter_set(i - 3, j    , t_wax);
+                m->ter_set(i - 3, j - 1, t_wax);
+                m->ter_set(i - 3, j + 1, t_wax);
+                m->ter_set(i - 3, j    , t_wax);
+                m->ter_set(i - 3, j + 1, t_wax);
+                m->ter_set(i - 2, j + 3, t_wax);
+                m->ter_set(i - 1, j + 3, t_wax);
+                m->ter_set(i + 1, j + 3, t_wax);
+                m->ter_set(i + 2, j + 3, t_wax);
+                m->ter_set(i - 1, j + 4, t_wax);
+                m->ter_set(i    , j + 4, t_wax);
+                m->ter_set(i + 1, j + 4, t_wax);
+
+                if (skip1 ==  0 || skip2 ==  0)
+                    m->ter_set(i - 1, j - 4, t_floor_wax);
+                if (skip1 ==  1 || skip2 ==  1)
+                    m->ter_set(i    , j - 4, t_floor_wax);
+                if (skip1 ==  2 || skip2 ==  2)
+                    m->ter_set(i + 1, j - 4, t_floor_wax);
+                if (skip1 ==  3 || skip2 ==  3)
+                    m->ter_set(i - 2, j - 3, t_floor_wax);
+                if (skip1 ==  4 || skip2 ==  4)
+                    m->ter_set(i - 1, j - 3, t_floor_wax);
+                if (skip1 ==  5 || skip2 ==  5)
+                    m->ter_set(i + 1, j - 3, t_floor_wax);
+                if (skip1 ==  6 || skip2 ==  6)
+                    m->ter_set(i + 2, j - 3, t_floor_wax);
+                if (skip1 ==  7 || skip2 ==  7)
+                    m->ter_set(i - 3, j - 2, t_floor_wax);
+                if (skip1 ==  8 || skip2 ==  8)
+                    m->ter_set(i - 2, j - 2, t_floor_wax);
+                if (skip1 ==  9 || skip2 ==  9)
+                    m->ter_set(i + 2, j - 2, t_floor_wax);
+                if (skip1 == 10 || skip2 == 10)
+                    m->ter_set(i + 3, j - 2, t_floor_wax);
+                if (skip1 == 11 || skip2 == 11)
+                    m->ter_set(i - 3, j - 1, t_floor_wax);
+                if (skip1 == 12 || skip2 == 12)
+                    m->ter_set(i - 3, j    , t_floor_wax);
+                if (skip1 == 13 || skip2 == 13)
+                    m->ter_set(i - 3, j - 1, t_floor_wax);
+                if (skip1 == 14 || skip2 == 14)
+                    m->ter_set(i - 3, j + 1, t_floor_wax);
+                if (skip1 == 15 || skip2 == 15)
+                    m->ter_set(i - 3, j    , t_floor_wax);
+                if (skip1 == 16 || skip2 == 16)
+                    m->ter_set(i - 3, j + 1, t_floor_wax);
+                if (skip1 == 17 || skip2 == 17)
+                    m->ter_set(i - 2, j + 3, t_floor_wax);
+                if (skip1 == 18 || skip2 == 18)
+                    m->ter_set(i - 1, j + 3, t_floor_wax);
+                if (skip1 == 19 || skip2 == 19)
+                    m->ter_set(i + 1, j + 3, t_floor_wax);
+                if (skip1 == 20 || skip2 == 20)
+                    m->ter_set(i + 2, j + 3, t_floor_wax);
+                if (skip1 == 21 || skip2 == 21)
+                    m->ter_set(i - 1, j + 4, t_floor_wax);
+                if (skip1 == 22 || skip2 == 22)
+                    m->ter_set(i    , j + 4, t_floor_wax);
+                if (skip1 == 23 || skip2 == 23)
+                    m->ter_set(i + 1, j + 4, t_floor_wax);
+
+                if (dat.t_nesw[0] == ot_hive && dat.t_nesw[1] == ot_hive &&
+                      dat.t_nesw[2] == ot_hive && dat.t_nesw[3] == ot_hive) {
+                    m->place_items("hive_center", 90, i - 2, j - 2, i + 2, j + 2, false, turn);
+                } else {
+                    m->place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
+                }
+            }
+        }
+    }
+}

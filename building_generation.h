@@ -28,5 +28,6 @@ void mapgen_crater(map *m, mapgendata dat);
 void mapgen_field(map *m, int turn);
 void mapgen_dirtlot(map *m, game *g);
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn);
+void mapgen_hive(map *m, mapgendata dat, int turn);
 
 #endif
