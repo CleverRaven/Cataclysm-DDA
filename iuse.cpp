@@ -4042,93 +4042,104 @@ int iuse::tazer(game *g, player *p, item *it, bool t)
 
 int iuse::tazer2(game *g, player *p, item *it, bool t)
 {
-    if (it->charges >= 100)
-    {
+    if (it->charges >= 100) {
 
         int dirx, diry;
-        if(!g->choose_adjacent(_("Shock"),dirx,diry))
-        {
+
+        if(!g->choose_adjacent(_("Shock"), dirx, diry)) {
             return 0;
         }
 
-        if (dirx == p->posx && diry == p->posy)
-        {
-            g->add_msg_if_player(p,_("Umm. No."));
+        if (dirx == p->posx && diry == p->posy) {
+            g->add_msg_if_player(p, _("Umm. No."));
             return 0;
         }
+
         int mondex = g->mon_at(dirx, diry);
         int npcdex = g->npc_at(dirx, diry);
-        if (mondex == -1 && npcdex == -1)
-        {
-            g->add_msg_if_player(p,_("Electricity crackles in the air."));
+
+        if (mondex == -1 && npcdex == -1) {
+            g->add_msg_if_player(p, _("Electricity crackles in the air."));
             return it->charges -= 100;
         }
 
         int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel("melee") * 2;
         p->moves -= 100;
 
-        if (mondex != -1)
-        {
+        if (mondex != -1) {
             monster *z = &(g->zombie(mondex));
-            switch (z->type->size)
-            {
-            case MS_TINY:
-                numdice -= 2;
-                break;
-            case MS_SMALL:
-                numdice -= 1;
-                break;
-            case MS_LARGE:
-                numdice += 2;
-                break;
-            case MS_HUGE:
-                numdice += 4;
-                break;
+
+            switch (z->type->size) {
+                case MS_TINY:
+                    numdice -= 2;
+                    break;
+
+                case MS_SMALL:
+                    numdice -= 1;
+                    break;
+
+                case MS_LARGE:
+                    numdice += 2;
+                    break;
+
+                case MS_HUGE:
+                    numdice += 4;
+                    break;
             }
+
             int mondice = z->dodge();
-            if (dice(numdice, 10) < dice(mondice, 10))   // A miss!
-            {
-                g->add_msg_if_player(p,_("You attempt to shock the %s, but miss."), z->name().c_str());
+
+            if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
+                g->add_msg_if_player(p, _("You attempt to shock the %s, but miss."), z->name().c_str());
                 return it->charges -= 100;
             }
-            g->add_msg_if_player(p,_("You shock the %s!"), z->name().c_str());
+
+            g->add_msg_if_player(p, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-            if (z->hurt(shock))
+
+            if (z->hurt(shock)) {
                 g->kill_mon(mondex, (p == &(g->u)));
+            }
+
             return it->charges -= 100;
         }
 
-        if (npcdex != -1)
-        {
+        if (npcdex != -1) {
             npc *foe = g->active_npc[npcdex];
-            if (foe->attitude != NPCATT_FLEE)
+
+            if (foe->attitude != NPCATT_FLEE) {
                 foe->attitude = NPCATT_KILL;
-            if (foe->str_max >= 17)
-                numdice++; // Minor bonus against huge people
-            else if (foe->str_max <= 5)
-                numdice--; // Minor penalty against tiny people
-            if (dice(numdice, 10) <= dice(foe->dodge(g), 6))
-            {
-                g->add_msg_if_player(p,_("You attempt to shock %s, but miss."), foe->name.c_str());
+            }
+
+            if (foe->str_max >= 17) {
+                numdice++;    // Minor bonus against huge people
+            } else
+                if (foe->str_max <= 5) {
+                    numdice--;    // Minor penalty against tiny people
+                }
+
+            if (dice(numdice, 10) <= dice(foe->dodge(g), 6)) {
+                g->add_msg_if_player(p, _("You attempt to shock %s, but miss."), foe->name.c_str());
                 return it->charges -= 100;
             }
-            g->add_msg_if_player(p,_("You shock %s!"), foe->name.c_str());
+
+            g->add_msg_if_player(p, _("You shock %s!"), foe->name.c_str());
             int shock = rng(5, 20);
             foe->moves -= shock * 100;
             foe->hurtall(shock);
-            if (foe->hp_cur[hp_head]  <= 0 || foe->hp_cur[hp_torso] <= 0)
-            {
+
+            if (foe->hp_cur[hp_head]  <= 0 || foe->hp_cur[hp_torso] <= 0) {
                 foe->die(g, true);
                 g->active_npc.erase(g->active_npc.begin() + npcdex);
             }
         }
+
         return it->charges -= 100;
+    } else {
+        g->add_msg_if_player(p, _("Insufficient power"));
     }
-    else
-    {
-        g->add_msg_if_player(p,_("Insufficient power"));
-    }
+
     return 0;
 }
 
@@ -4136,64 +4147,58 @@ int iuse::shocktonfa_off(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true, _("tactical tonfa"), _("Zap something"),
                       _("Turn on light"), _("Cancel"), NULL);
-    switch (choice)
-    {
-    case 1:
-    {
-        return iuse::tazer2(g, p, it, t);
-    }
-    break;
-    case 2:
-    {
-        if (it->charges == 0)
-        {
-            g->add_msg_if_player(p,_("The batteries are dead."));
+
+    switch (choice) {
+        case 1: {
+            return iuse::tazer2(g, p, it, t);
+        }
+        break;
+
+        case 2: {
+            if (it->charges == 0) {
+                g->add_msg_if_player(p, _("The batteries are dead."));
+                return 0;
+            } else {
+                g->add_msg_if_player(p, _("You turn the light on."));
+                it->make(g->itypes["shocktonfa_on"]);
+                it->active = true;
+                return it->type->charges_to_use();
+            }
+        }
+
+        default
+                :
             return 0;
-        }
-        else
-        {
-            g->add_msg_if_player(p,_("You turn the light on."));
-            it->make(g->itypes["shocktonfa_on"]);
-            it->active = true;
-            return it->type->charges_to_use();
-        }
-    }
-    default:
-        return 0;
     }
 }
 
 int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
 {
-    if (t)    // Effects while simply on
-    {
+    if (t) {  // Effects while simply on
 
-    }
-    else if (it->charges == 0)
-    {
-        g->add_msg_if_player(p,_("Your tactical tonfa is out of power"));
-        it->make(g->itypes["shocktonfa_off"]);
-        it->active = false;
-    }
-    else
-    {
-        int choice = menu(true, _("tactical tonfa"), _("Zap something"),
-                          _("turn off light"), _("cancel"), NULL);
-        switch (choice)
-        {
-        case 1:
-        {
-            return iuse::tazer2(g, p, it, t);
-        }
-        break;
-        case 2:
-        {
-            g->add_msg_if_player(p,_("You turn off the light"));
+    } else
+        if (it->charges == 0) {
+            g->add_msg_if_player(p, _("Your tactical tonfa is out of power"));
             it->make(g->itypes["shocktonfa_off"]);
             it->active = false;
+        } else {
+            int choice = menu(true, _("tactical tonfa"), _("Zap something"),
+                              _("turn off light"), _("cancel"), NULL);
+
+            switch (choice) {
+                case 1: {
+                    return iuse::tazer2(g, p, it, t);
+                }
+                break;
+
+                case 2: {
+                    g->add_msg_if_player(p, _("You turn off the light"));
+                    it->make(g->itypes["shocktonfa_off"]);
+                    it->active = false;
+                }
+            }
         }
-        }
-    }
+
     return it->type->charges_to_use();
 }
 
