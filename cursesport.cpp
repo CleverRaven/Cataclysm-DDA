@@ -14,7 +14,7 @@ pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
 //***********************************
-//Psuedo-Curses Functions           *
+//Pseudo-Curses Functions           *
 //***********************************
 
 //Basic Init, create the font, backbuffer, etc
@@ -40,7 +40,6 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 
     int i, j;
     WINDOW *newwindow = new WINDOW;
-    //newwindow=&_windows[WindowCount];
     newwindow->x = begin_x;
     newwindow->y = begin_y;
     newwindow->width = ncols;
@@ -68,7 +67,6 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
             newwindow->line[j].BG[i] = 0;
         }
     }
-    //WindowCount++;
     return newwindow;
 }
 
@@ -371,8 +369,6 @@ inline int printstring(WINDOW *win, char *fmt)
                     x += len;
                 } else if (win->cursory <= win->height - 1) {
                     // don't write outside the window, but don't abort if there are still lines to write.
-                    //j += len-1;
-                    //x+=len;
                 } else {
                     return 0; //if we try and write anything outside the window, abort completely
                 }
