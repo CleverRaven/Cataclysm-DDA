@@ -951,7 +951,10 @@ int iuse::marloss(game *g, player *p, item *it, bool t)
                       rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
                     g->m.marlossify(x, y);
                 }
-                if ((x != p->posx && y != p->posy) &&
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
                      one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
                      (spore_spawned == 0 || one_in(spore_spawned * 2))) {
                     spore.spawn(x, y);
