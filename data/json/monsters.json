@@ -226,7 +226,7 @@
     "name": "zombear",
     "species":"ZOMBIE",
     "symbol":"B",
-    "color":"dkgreen",
+    "color":"green",
     "size":"LARGE",
     "material":"flesh",
     "diff":12,
