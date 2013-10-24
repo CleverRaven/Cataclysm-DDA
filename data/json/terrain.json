@@ -390,7 +390,7 @@
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT", "WALL"
         ],
         "bash": {
-            "str_min": 6, "str_max": 120, "num_tests": 2,
+            "str_min": 12, "str_max": 120, "num_tests": 2,
             "sound": "crunch!",
             "sound_fail": "whump!",
             "ter_set": "t_pit",
@@ -427,7 +427,7 @@
         "move_cost": 0,
         "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 120, "num_tests": 2,
+            "str_min": 12, "str_max": 120, "num_tests": 2,
             "sound": "crunch!",
             "sound_fail": "whump!",
             "ter_set": "t_wall_wood_chipped",
