@@ -7614,7 +7614,6 @@ void player::use(game *g, char let)
         used = &copy;
         replace_item = true;
     }
-
     if (used->is_null()) {
         g->add_msg(_("You do not have that item."));
         return;

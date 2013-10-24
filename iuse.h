@@ -187,13 +187,27 @@ class iuse
 
 typedef int (iuse::*use_function_pointer)(game*,player*,item*,bool);
 
-struct use_function {
-    use_function_pointer cpp_function;
+enum use_function_t {
+    USE_FUNCTION_CPP,
+    USE_FUNCTION_LUA
+};
 
-    use_function() {};
+struct use_function {
+    use_function_t function_type;
+
+    union {
+        use_function_pointer cpp_function;
+        int lua_function;
+    };
+
+    use_function() : function_type(USE_FUNCTION_CPP) {};
 
     use_function(use_function_pointer f)
-        : cpp_function(f)
+        : function_type(USE_FUNCTION_CPP), cpp_function(f)
+    { };
+
+    use_function(int f)
+        : function_type(USE_FUNCTION_LUA), lua_function(f)
     { };
 
     int call(game*,player*,item*,bool);
@@ -203,11 +217,11 @@ struct use_function {
     }
 
     bool operator==(use_function_pointer f) const {
-        return f == cpp_function;
+        return (function_type == USE_FUNCTION_CPP) && (f == cpp_function);
     }
 
     bool operator!=(use_function_pointer f) const {
-        return f != cpp_function;
+        return !(this->operator==(cpp_function));
     }
 };
 
