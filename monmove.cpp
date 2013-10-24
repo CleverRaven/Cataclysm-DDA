@@ -825,22 +825,26 @@ int monster::bash_at(int x, int y) {
         // pileup = more bashskill, but only help bashing mob directly infront of target
         const int max_helper_depth = 5;
         const std::vector<point> bzone = get_bashing_zone( point(x, y), pos(), max_helper_depth );
+        int diffx = pos().x - x;
+        int diffy = pos().y - y;
         int mo_bash = 0;
         for( int i = 0; i < bzone.size(); i++ ) {
            if ( g->mon_at( bzone[i] ) != -1 ) {
               monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
               // trying for the same door and can bash; put on helper hat
               if ( helpermon.wandx == wandx && helpermon.wandy == wandy && helpermon.has_flag(MF_BASHES) ) {
+                 // helpers lined up behind primary basher add full strength, so do those at either shoulder, others add 50%
+                 //addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
                  int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides); 
                  // helpers lined up behind primary basher add full strength, others 50%
-                 addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
+                 addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
                  mo_bash += addbash;
-                 // g->add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash, mo_bash );
+                 // g->add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash/2, mo_bash/2 );
               }
            }
         }
         // by our powers combined...
-        bashskill += int (mo_bash /= 2);
+        bashskill += int (mo_bash / 2);
 
         g->m.bash(x, y, bashskill, bashsound);
         g->sound(x, y, 18, bashsound);
