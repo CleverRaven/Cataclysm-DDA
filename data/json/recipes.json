@@ -3806,6 +3806,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "water_acid",
+  "id_suffix": "from electrolysis",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 5 ],
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "meat_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
