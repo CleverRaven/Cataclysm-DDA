@@ -564,29 +564,65 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rn = 0;
 
   add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
-         ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX))
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
+  if (rn== 1) { //this crossroad has sidewalk => this crossroad is in the city
+      for (int i = 0; i < SEEX * 2; i++) {
+          for (int j = 0; j < SEEY * 2; j++) {
+              if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
+                  ter_set(i, j, t_sidewalk);
+              } else {
+                  if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
+                      ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX)) {
+                      ter_set(i, j, t_pavement_y);
+                  } else {
+                      ter_set(i, j, t_pavement);
+                  }
+              }
+          }
+      }
+  } else { //crossroad (turn) in the wilderness
+      for (int i=0; i< SEEX * 2; i++) {
+          for (int j=0; j< SEEY*2; j++) {
+              ter_set(i,j, grass_or_dirt());
+          }
+      }
+      //draw lines diagonally
+      line(this, t_floor_blue, 4, 0, SEEX*2, SEEY*2-4);
+      line(this, t_pavement, SEEX*2-4, 0, SEEX*2, 4);
+      mapf::formatted_set_simple(this, 0, 0,
+"\
+,,,,.......yy......+,,,,\n\
+,,,,.......yy........,,,\n\
+,,,,.......yy.........,,\n\
+,,,,..................+,\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,.......yy...........\n\
+,,,,........yy..........\n\
+,,,,.........yy.........\n\
+,,,,..........yy........\n\
+,,,,...........yyyyy.yyy\n\
+,,,,............yyyy.yyy\n\
+,,,,....................\n\
+,,,,....................\n\
+,,,,+...................\n\
+,,,,,+..................\n\
+,,,,,,+.................\n\
+,,,,,,,+................\n\
+,,,,,,,,................\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n",
+     mapf::basic_bind(". , y +", t_pavement, t_dirt, t_pavement_y, t_shrub),
+     mapf::basic_bind(". , y +", f_null, f_null, f_null, f_null));
   }
   if (terrain_type == ot_road_es)
    rotate(1);
   if (terrain_type == ot_road_sw)
    rotate(2);
   if (terrain_type == ot_road_wn)
-   rotate(3);
+   rotate(3); //looks like that the code above paints road_ne
   if(rn == 1)
    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -3999,7 +4035,14 @@ case ot_shelter: {
   mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
   tmpcomp = add_computer(SEEX+6, 5, _("Evac shelter computer"), 0);
   tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
- }
+  if(OPTIONS["BLACK_ROAD"]) {
+      //place zombies outside
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4, SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3, SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
+  }
+  }
 
   break;
 //....
@@ -4907,7 +4950,7 @@ ff.......|....|WWWWWWWW|\n\
       else if (j == tw + 2)
        ter_set(i, j, t_concrete_h);
       else { // Empty space holds monsters!
-       std::string type = nethercreatures[(rng(0, 10))];
+       std::string type = nethercreatures[(rng(0, 9))];
        add_spawn(type, 1, i, j);
       }
      }
@@ -12455,9 +12498,9 @@ void map::place_spawns(game *g, std::string group, const int chance,
    } while( move_cost(x, y) == 0 && tries );
 
    // Pick a monster type
-   std::string monster = MonsterGroupManager::GetMonsterFromGroup( group, &g->mtypes, &num );
+   MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &g->mtypes, &num );
 
-   add_spawn(monster, 1, x, y);
+   add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
   }
  }
 }
@@ -14368,7 +14411,7 @@ void map::add_extra(map_extra type, game *g)
       case 1:
       case 2:
       case 3: placed = tr_beartrap; break;
-      case 4:
+      case 4: placed = tr_caltrops; break;
       case 5: placed = tr_nailboard; break;
       case 6: placed = tr_crossbow; break;
       case 7: placed = tr_shotgun_2; break;
@@ -14561,22 +14604,19 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_wolfpack:
-  add_spawn("mon_wolf", rng(3, 6), SEEX, SEEY);
-  break;
-
-  case mx_cougar:
-  add_spawn("mon_cougar", 1, SEEX, SEEY);
-  break;
-
  case mx_crater:
  {
   int size = rng(2, 6);
+  int size_squared = size * size;
   int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
   for (int i = x - size; i <= x + size; i++) {
    for (int j = y - size; j <= y + size; j++) {
-    destroy(g, i, j, false);
-    radiation(i, j) += rng(20, 40);
+    //If we're using circular distances, make circular craters
+    //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
+    if(!trigdist || (((i-x)*(i-x) + (j-y)*(j-y)) <= size_squared)) {
+     destroy(g, i, j, false);
+     radiation(i, j) += rng(20, 40);
+    }
    }
   }
  }
@@ -14831,8 +14871,12 @@ void map::add_road_vehicles(bool city, int facing)
             int vx = rng(0, 3) * 4 + 5;
             int vy = rng(0, 3) * 4 + 5;
             int car_type = rng(1, 100);
-            if (car_type <= 35) {
+            if (car_type <= 25) {
                 add_vehicle(g, "car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 30) {
+                add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
+            } else if (car_type <= 40) {
+                add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
             } else if (car_type <= 45) {
                 add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
             } else if (car_type <= 50) {

@@ -81,6 +81,8 @@ enum MULTITILE_TYPE
     t_connection,
     end_piece,
     unconnected,
+    open_,
+    broken,
     num_multitile_types
 };
 
@@ -107,6 +109,10 @@ class cata_tiles
         /** Draw to screen */
         void draw(); /* Deprecated */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
+
+        /** How many rows and columns of tiles fit into given dimensions **/
+        void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
+        int get_tile_width() const;
 
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
@@ -148,6 +154,10 @@ class cata_tiles
         void draw_hit_frame(int destx, int desty, int centerx, int centery, int width, int height);
         void void_hit();
 
+        void init_draw_footsteps(std::queue<point> steps);
+        void draw_footsteps_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void void_footsteps();
+
         // pseudo-animated layer, not really though.
         void init_draw_line(int x, int y, std::vector<point> trajectory, std::string line_end_name, bool target_line);
         void draw_line(int destx, int desty, int centerx, int centery, int width, int height);
@@ -188,6 +198,7 @@ class cata_tiles
         bool do_draw_hit;
         bool do_draw_line;
         bool do_draw_weather;
+        bool do_draw_footsteps;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -204,6 +215,8 @@ class cata_tiles
 
         weather_printable anim_weather;
         std::string weather_name;
+
+        std::queue<point> footsteps;
 
         // offset values
         int o_x, o_y;

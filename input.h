@@ -15,6 +15,7 @@ enum InputEvent {
     Confirm,
     Cancel,
     Close,
+    Tab,
     Help,
 
     DirectionN,
@@ -36,7 +37,20 @@ enum InputEvent {
     Undefined
 };
 
+// Raw input that's been translated into a command
+struct mapped_input {
+    InputEvent command;
+    input_event evt;
+
+    mapped_input()
+    {
+        command = Undefined;
+    }
+};
+
 InputEvent get_input(int ch = '\0');
+mapped_input get_input_from_kyb_mouse();
+bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname="input.txt");
 
@@ -64,55 +78,6 @@ std::string get_input_string_from_file(std::string fname="input.txt");
 #define JOY_RIGHTDOWN   256 + 6
 #define JOY_LEFTUP      256 + 7
 #define JOY_LEFTDOWN    256 + 8
-
-enum input_event_t {
-    CATA_INPUT_ERROR,
-    CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD
-};
-
-/**
- * An instance of an input, like a keypress etc.
- *
- * Both gamepad and keyboard keypresses will be represented as `long`.
- * Whether a gamepad or keyboard was used can be checked using the
- * `type` member.
- *
- */
-struct input_event {
-    input_event_t type;
-
-    std::vector<long> modifiers; // Keys that need to be held down for
-                                 // this event to be activated.
-
-    std::vector<long> sequence; // The sequence of key events that
-                                // triggers this event. For single-key
-                                // events, simply make this of size 1.
-
-    bool operator==(const input_event& other) const {
-        if(type != other.type) return false;
-
-        if(sequence.size() != other.sequence.size()) {
-            return false;
-        }
-        for(int i=0; i<sequence.size(); i++) {
-            if(sequence[i] != other.sequence[i]) {
-                return false;
-            }
-        }
-
-        if(modifiers.size() != other.modifiers.size()) {
-            return false;
-        }
-        for(int i=0; i<modifiers.size(); i++) {
-            if(modifiers[i] != other.modifiers[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-};
 
 /**
  * Manages the translation from action IDs to associated input.
@@ -150,7 +115,7 @@ public:
 
     /**
      * Get the key name associated with the given keyboard keycode.
-     * 
+     *
      * @param input_type Whether the keycode is a gamepad or a keyboard code.
      */
     std::string get_keyname(long ch, input_event_t input_type);
@@ -220,16 +185,16 @@ public:
      */
     const std::string get_desc(const std::string& action_descriptor);
 
-	/**
-	 * Handles input and returns the next action in the queue.
-	 *
-	 * This internally calls getch() or whatever other input method
-	 * is available(e.g. gamepad).
-	 *
-	 * @return One of the input actions formerly registered with
+    /**
+     * Handles input and returns the next action in the queue.
+     *
+     * This internally calls getch() or whatever other input method
+     * is available(e.g. gamepad).
+     *
+     * @return One of the input actions formerly registered with
      *         `register_action()`, or "ERROR" if an error happened.
-	 *
-	 */
+     *
+     */
     const std::string& handle_input();
 
     /**
@@ -266,7 +231,7 @@ private:
 
 /**
  * Check whether a gamepad is plugged in/available.
- * 
+ *
  * Always false in non-SDL versions.
  */
 bool gamepad_available();

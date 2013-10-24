@@ -43,6 +43,7 @@ monster::monster()
  made_footstep = false;
  unique_name = "";
  hallucination = false;
+ ignoring = 0;
 }
 
 monster::monster(mtype *t)
@@ -71,6 +72,7 @@ monster::monster(mtype *t)
  made_footstep = false;
  unique_name = "";
  hallucination = false;
+ ignoring = 0;
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -99,6 +101,7 @@ monster::monster(mtype *t, int x, int y)
  made_footstep = false;
  unique_name = "";
  hallucination = false;
+ ignoring = 0;
 }
 
 monster::~monster()

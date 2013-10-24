@@ -17,7 +17,7 @@
       ["child_book", 50],
       ["tall_tales", 20],
       ["story_book", 4],
-      ["novel_pulp", 16],,
+      ["novel_pulp", 16],
       ["fairy_tales", 20],
       ["mag_comic", 20]
     ]
@@ -76,6 +76,9 @@
       ["i4_combustion", 10],
       ["v6_combustion", 10],
       ["v8_combustion", 10],
+      ["battery_motorbike", 6],
+      ["battery_car", 6],
+      ["battery_truck", 6],
       ["foot_crank", 10],
       ["flyer", 10]
     ]
@@ -104,7 +107,7 @@
       ["child_book", 50],
       ["tall_tales", 10],
       ["story_book", 4],
-      ["novel_pulp", 16],,
+      ["novel_pulp", 16],
       ["fairy_tales", 10],
       ["mag_unarmed", 10],
       ["tailor_portfolio", 1],
@@ -150,6 +153,7 @@
       ["hat_fur", 15],
       ["helmet_bike", 35],
       ["helmet_motor", 40],
+      ["touring_suit", 15],
       ["mag_tv", 40],
       ["mag_dude", 40],
       ["mag_glam", 40],
@@ -218,6 +222,7 @@
       ["bleach", 20],
       ["ammonia", 24],
       ["flour", 50],
+      ["milk_powder", 15],
       ["cornmeal", 40],
       ["powder_eggs", 20],
       ["protein_powder", 15],
@@ -483,7 +488,7 @@
       ["child_book", 20],
       ["tall_tales", 10],
       ["story_book", 4],
-      ["novel_pulp", 16],,
+      ["novel_pulp", 16],
       ["fairy_tales", 10],
       ["tailor_portfolio", 1],
       ["laptop", 10],
@@ -648,6 +653,7 @@
       ["flashlight", 40],
       ["suit", 60],
       ["tophat", 10],
+      ["bowhat", 10],
       ["glasses_monocle", 2],
       ["duct_tape", 60],
       ["firecracker_pack", 5],
@@ -713,7 +719,7 @@
     "items":[
       ["water_clean", 90],
       ["oj", 50],
-      ["juice", 50]
+      ["juice", 50],
       ["cranberry_juice", 50],
       ["sports_drink", 50],
       ["apple_cider", 50],
@@ -783,7 +789,7 @@
       ["choc_drink", 40],
       ["rootbeer", 65],
       ["purple_drink", 35],
-      ["juice", 20]
+      ["juice", 20],
       ["sandwich_t", 30],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
@@ -958,6 +964,7 @@
       ["soup_veggy", 15],
       ["soup_meat", 15],
       ["flour", 30],
+      ["milk_powder", 20],
       ["cornmeal", 30],
       ["powder_eggs", 20],
       ["protein_powder", 15],
@@ -1925,6 +1932,7 @@
       ["pants", 75],
       ["suit", 60],
       ["tophat", 10],
+      ["bowhat", 10],
       ["glasses_monocle", 2],
       ["pants_leather", 60],
       ["pants_cargo", 70],
@@ -2145,6 +2153,7 @@
       ["tazer", 3],
       ["shot_beanbag", 15],
       ["tac_helmet", 15],
+      ["tonfa", 30],
       ["swat_armor", 10]
     ]
   },{
@@ -2623,6 +2632,7 @@
       ["glasses_monocle", 2],
       ["cell_phone", 20],
       ["tophat", 10],
+      ["bowhat", 10],
       ["hat_chef", 5],
       ["jacket_chef", 5],
       ["pda", 15],
@@ -2941,6 +2951,9 @@
       ["solar_cell", 5],
       ["bearing", 1],
       ["motor_large", 1],
+      ["battery_motorbike", 6],
+      ["battery_car", 6],
+      ["battery_truck", 6],
       ["storage_battery", 6],
       ["solar_panel", 3],
       ["jerrycan", 10],
@@ -3482,6 +3495,7 @@
       ["e_tool", 2],
       ["knife_trench", 7],
       ["switchblade", 4],
+      ["tonfa", 10],
       ["nodachi", 1]
     ]
   },{
@@ -3519,6 +3533,7 @@
       ["helmet_ball", 45],
       ["helmet_riot", 25],
       ["helmet_motor", 40],
+      ["touring_suit", 15],
       ["holster", 8],
       ["bootstrap", 3],
       ["UPS_off", 5],
@@ -4026,6 +4041,7 @@
       ["baton", 8],
       ["tazer", 3],
       ["kevlar_plate", 10],
+      ["tonfa", 10],
       ["alloy_plate", 10]
     ]
   },{
@@ -4483,6 +4499,7 @@
       ["electrohack", 3],
       ["hatchet", 10],
       ["nailboard", 5],
+      ["caltrops", 3],
       ["knife_combat", 14],
       ["punch_dagger", 12],
       ["bat", 60],
@@ -4627,5 +4644,13 @@
       ["vaccine_shot", 10],
       ["bio_claws_weapon", 0]
     ]
+  },{
+    "type":"item_group",
+    "id":"shia_stuff",
+    "items":[
+      ["knife_steak", 3],
+      ["ax", 1]
+    ]
   }
+
 ]

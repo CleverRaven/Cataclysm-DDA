@@ -28,6 +28,10 @@
 #include "help.h" // get_hint
 #include "martialarts.h"
 
+//Used for e^(x) functions
+#include <stdio.h>
+#include <math.h>
+
 #include <ctime>
 #include <algorithm>
 
@@ -4950,26 +4954,30 @@ void player::mend(game *g)
 
 void player::vomit(game *g)
 {
- add_memorial_log(_("Threw up."));
- g->add_msg(_("You throw up heavily!"));
- hunger += rng(30, 50);
- thirst += rng(30, 50);
- moves -= 100;
- for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == "foodpoison") {
-   illness[i].duration -= 300;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  } else if (illness[i].type == "drunk") {
-   illness[i].duration -= rng(1, 5) * 100;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  }
- }
- rem_disease("pkill1");
- rem_disease("pkill2");
- rem_disease("pkill3");
- rem_disease("sleep");
+    add_memorial_log(_("Threw up."));
+    g->add_msg(_("You throw up heavily!"));
+    int nut_loss = 100 / (1 + exp(.15 * (hunger / 100)));
+    int quench_loss = 100 / (1 + exp(.025 * (thirst / 10)));
+    hunger += rng(nut_loss / 2, nut_loss);
+    thirst += rng(quench_loss / 2, quench_loss);
+    moves -= 100;
+    for (int i = 0; i < illness.size(); i++) {
+        if (illness[i].type == "foodpoison") {
+            illness[i].duration -= 300;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        } else if (illness[i].type == "drunk") {
+            illness[i].duration -= rng(1, 5) * 100;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        }
+    }
+    rem_disease("pkill1");
+    rem_disease("pkill2");
+    rem_disease("pkill3");
+    rem_disease("sleep");
 }
 
 void player::drench(game *g, int saturation, int flags) {
@@ -7939,8 +7947,8 @@ void player::read(game *g, char ch)
 
     it_book* tmp = dynamic_cast<it_book*>(it->type);
     int time; //Declare this here so that we can change the time depending on whats needed
-    if (tmp->intel > 0 && has_trait("ILLITERATE"))
-    {
+    bool study = false;
+    if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         g->add_msg(_("You're illiterate!"));
         return;
     }
@@ -7978,6 +7986,19 @@ void player::read(game *g, char ch)
     {
         return;
     }
+    else if (!activity.continuous && !query_yn("Study %s?", tmp->type->name().c_str()))
+    {
+        study = false;
+    }
+    else
+    {
+        //If we just started studying, tell the player how to stop
+        if(!activity.continuous) {
+            g->add_msg(_("Now studying %s, %s to stop early."),
+                       it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
+        }
+        study = true;
+    }
 
     if (!tmp->recipes.empty() && !(activity.continuous))
     {
@@ -8002,11 +8023,13 @@ void player::read(game *g, char ch)
         g->add_msg(_("This book is too complex for you to easily understand. It will take longer to read."));
         time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
         activity = player_activity(ACT_READ, time, index, ch, "");
+        activity.continuous = study;
         moves = 0;
         return;
     }
 
     activity = player_activity(ACT_READ, time, index, ch, "");
+    activity.continuous = study;
     moves = 0;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay

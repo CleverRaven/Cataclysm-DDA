@@ -40,7 +40,7 @@ void load_recipe(JsonObject &jsobj)
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
 
     std::map<std::string, int> requires_skills;
-    jsarr = jsobj.get_array("requires_skills");
+    jsarr = jsobj.get_array("skills_required");
     if (jsarr.size() > 0) {
         // could be a single requirement, or multiple
         try {

@@ -163,39 +163,6 @@ int iuse::royal_jelly(game *g, player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
-static nc_color limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bool infect)
-{
-    int color_bit = 0;
-    nc_color i_color = c_ltgray;
-    if (bleed && p->has_disease("bleed", bp, side)) {
-        color_bit += 1;
-    }
-    if (bite && p->has_disease("bite", bp, side)) {
-        color_bit += 10;
-    }
-    if (infect && p->has_disease("infected", bp, side)) {
-        color_bit += 100;
-    }
-    switch (color_bit) {
-        case 1:
-            i_color = c_red;
-            break;
-        case 10:
-            i_color = c_blue;
-            break;
-        case 100:
-            i_color = c_green;
-            break;
-        case 11:
-            i_color = c_magenta;
-            break;
-        case 101:
-            i_color = c_yellow;
-            break;
-    }
-    return i_color;
-}
-
 static hp_part body_window(player *p, item *it, std::string item_name, int normal_bonus,
                            int head_bonus, int torso_bonus, int bleed,
                            int bite, int infect, bool force)
@@ -207,37 +174,37 @@ static hp_part body_window(player *p, item *it, std::string item_name, int norma
     mvwprintz(hp_window, 1, 1, c_ltred, _("Use %s:"), item_name.c_str());
     nc_color color = c_ltgray;
     if(p->hp_cur[hp_head] < p->hp_max[hp_head] || force) {
-        color = limb_color(p, bp_head, -1, bleed, bite, infect);
+        color = g->limb_color(p, bp_head, -1, bleed, bite, infect);
         if (color != c_ltgray || head_bonus != 0 ) {
             mvwprintz(hp_window, 2, 1, color, _("1: Head"));
         }
     }
     if(p->hp_cur[hp_torso] < p->hp_max[hp_torso] || force) {
-        color = limb_color(p, bp_torso, -1, bleed, bite, infect);
+        color = g->limb_color(p, bp_torso, -1, bleed, bite, infect);
         if (color != c_ltgray || torso_bonus != 0) {
             mvwprintz(hp_window, 3, 1, color, _("2: Torso"));
         }
     }
     if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l] || force) {
-        color = limb_color(p, bp_arms, 0, bleed, bite, infect);
+        color = g->limb_color(p, bp_arms, 0, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 4, 1, color, _("3: Left Arm"));
         }
     }
     if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r] || force) {
-        color = limb_color(p, bp_arms, 1, bleed, bite, infect);
+        color = g->limb_color(p, bp_arms, 1, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 5, 1, color, _("4: Right Arm"));
         }
     }
     if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l] || force) {
-        color = limb_color(p, bp_legs, 0, bleed, bite, infect);
+        color = g->limb_color(p, bp_legs, 0, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 6, 1, color, _("5: Left Leg"));
         }
     }
     if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r] || force) {
-        color = limb_color(p, bp_legs, 1, bleed, bite, infect);
+        color = g->limb_color(p, bp_legs, 1, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 7, 1, color, _("6: Right Leg"));
         }
@@ -1030,7 +997,7 @@ int iuse::marloss(game *g, player *p, item *it, bool t)
 int iuse::dogfood(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
-    if(!g->choose_adjacent(_("Put the dog food"),dirx,diry)) {
+    if(!g->choose_adjacent(_("Put the dog food where?"),dirx,diry)) {
         return 0;
     }
     p->moves -= 15;
@@ -1054,7 +1021,7 @@ int iuse::dogfood(game *g, player *p, item *it, bool t)
 
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
-    if (!g->choose_adjacent(_("Light"),posx,posy)) {
+    if (!g->choose_adjacent(_("Light where?"),posx,posy)) {
         return false;
     }
     if (posx == p->posx && posy == p->posy) {
@@ -1398,7 +1365,7 @@ int iuse::extinguisher(game *g, player *p, item *it, bool t)
  int x, y;
  // If anyone other than the player wants to use one of these,
  // they're going to need to figure out how to aim it.
- if (!g->choose_adjacent("Spray", x, y)) {
+ if (!g->choose_adjacent(_("Spray where?"), x, y)) {
   return 0;
  }
 
@@ -1447,7 +1414,7 @@ int iuse::hammer(game *g, player *p, item *it, bool t)
     int x, y;
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    if (!g->choose_adjacent(_("Pry"), x, y)) {
+    if (!g->choose_adjacent(_("Pry where?"), x, y)) {
         return 0;
     }
 
@@ -2172,7 +2139,7 @@ int iuse::roadmap(game *g, player *p, item *it, bool t)
 int iuse::picklock(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Use your pick lock"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Use your pick lock where?"), dirx, diry)) {
   return 0;
  }
  if (dirx == p->posx && diry == p->posy) {
@@ -2250,7 +2217,7 @@ int iuse::picklock(game *g, player *p, item *it, bool t)
 int iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Pry"), dirx,diry)) {
+ if(!g->choose_adjacent(_("Pry where?"), dirx,diry)) {
      return 0;
  }
 
@@ -2399,7 +2366,7 @@ int iuse::siphon(game *g, player *p, item *it, bool t)
 {
     int posx = 0;
     int posy = 0;
-    if(!g->choose_adjacent(_("Siphon from"), posx, posy)) {
+    if(!g->choose_adjacent(_("Siphon from where?"), posx, posy)) {
       return 0;
     }
 
@@ -2827,7 +2794,7 @@ int iuse::zweifire_on(game *g, player *p, item *it, bool t)
 int iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Drill"),dirx,diry)) {
+ if(!g->choose_adjacent(_("Drill where?"),dirx,diry)) {
   return 0;
  }
 
@@ -2905,7 +2872,7 @@ int iuse::pickaxe(game *g, player *p, item *it, bool t)
 int iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Place trap"),dirx,diry)) {
+ if(!g->choose_adjacent(_("Place trap where?"),dirx,diry)) {
   return 0;
  }
 
@@ -2964,6 +2931,11 @@ if(it->type->id == "cot"){
   message << string_format("You set the board trap on the %s, nails facing up.",
                            g->m.tername(posx, posy).c_str());
   type = tr_nailboard;
+  practice = 2;
+ } else if(it->type->id == "caltrops"){
+  message << string_format("You scatter the caltrops on the %s.",
+                           g->m.tername(posx, posy).c_str());
+  type = tr_caltrops;
   practice = 2;
   } else if(it->type->id == "funnel"){
   message << _("You place the funnel, waiting to collect rain.");
@@ -3900,7 +3872,7 @@ int iuse::manhack(game *g, player *p, item *it, bool t)
 int iuse::turret(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Place the turret"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Place the turret where?"), dirx, diry)) {
   return 0;
  }
  if (!g->is_empty(dirx, diry)) {
@@ -4005,7 +3977,7 @@ int iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
 int iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Shock"),dirx,diry)){
+ if(!g->choose_adjacent(_("Shock where?"),dirx,diry)){
   return 0;
  }
 
@@ -4326,7 +4298,7 @@ int iuse::knife(game *g, player *p, item *it, bool t)
         return 0;
     }
 
-    std::string verb = "cut";
+    std::string action = "cut";
     std::string found_mat = "plastic";
 
     item *result = NULL;
@@ -4356,7 +4328,7 @@ int iuse::knife(game *g, player *p, item *it, bool t)
         }
 
     } else if (cut->made_of("wood")) {
-        verb = "carve";
+        action = "carve";
         count = 2 * amount; // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
         result = new item(g->itypes["skewer"], int(g->turn), g->nextinv);
     } else { // TODO: add the rest of the materials, gold and what not.
@@ -4372,8 +4344,16 @@ int iuse::knife(game *g, player *p, item *it, bool t)
         return 0;
     }
 
-    g->add_msg(ngettext("You %4$s the %1$s into %2$i %3$s.", "You %4$s the %1$s into %2$i %3$ss.",
-                        count), cut->tname().c_str(), count, result->tname().c_str(), verb.c_str());
+    if (action == "carve") {
+        g->add_msg(ngettext("You carve the %1$s into %2$i %3$s.",
+                            "You carve the %1$s into %2$i %3$ss.", count),
+                   cut->tname().c_str(), count, result->tname().c_str());
+    } else {
+        g->add_msg(ngettext("You cut the %1$s into %2$i %3$s.",
+                            "You cut the %1$s into %2$i %3$ss.", count),
+                   cut->tname().c_str(), count, result->tname().c_str());
+    }
+
     // otherwise layout the goodies.
     p->i_rem(ch);
     bool drop = false;
@@ -4470,7 +4450,7 @@ int iuse::lumber(game *g, player *p, item *it, bool t)
 int iuse::hacksaw(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
-    if(!g->choose_adjacent(_("Cut up metal"), dirx, diry))
+    if(!g->choose_adjacent(_("Cut up metal where?"), dirx, diry))
         return 0;
 
     if (dirx == p->posx && diry == p->posy) {
@@ -4534,7 +4514,7 @@ int iuse::hacksaw(game *g, player *p, item *it, bool t)
 int iuse::tent(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Pitch the tent"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Pitch the tent where?"), dirx, diry)) {
   return 0;
  }
 
@@ -4571,7 +4551,7 @@ int iuse::tent(game *g, player *p, item *it, bool t)
 int iuse::shelter(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Put up the shelter"), dirx, diry)) {
+ if(!g->choose_adjacent(_("Put up the shelter where?"), dirx, diry)) {
   return 0;
  }
 
@@ -5004,7 +4984,7 @@ int iuse::bullet_puller(game *g, player *p, item *it, bool t)
 int iuse::boltcutters(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Cut up metal"),dirx,diry)) {
+ if(!g->choose_adjacent(_("Cut up metal where?"),dirx,diry)) {
   return 0;
  }
 
@@ -5032,7 +5012,7 @@ if (dirx == p->posx && diry == p->posy) {
 int iuse::mop(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent("Mop",dirx,diry)) {
+ if(!g->choose_adjacent(_("Mop where?"),dirx,diry)) {
   return 0;
  }
 

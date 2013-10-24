@@ -1441,7 +1441,7 @@
     "bashing": 12,
     "cutting": 4,
     "to_hit": 0,
-	"flags" : ["CHOP"],
+    "flags" : ["CHOP"],
     "techniques": ["WBLOCK_1"]
   },
   { "type":"GENERIC",
@@ -1588,22 +1588,6 @@
         "bashing" : 14,
         "cutting" : 0,
         "price" : 80
-    },
-    {
-        "type":"GENERIC",
-        "id" : "muffler",
-        "name" : "muffler",
-        "description" : "A muffler from a car. Very unwieldy as a weapon. Useful in a few crafting recipes.",
-        "weight" : 9525,
-        "to_hit" : -3,
-        "color" : "light_gray",
-        "symbol" : "/",
-        "material" : ["iron", "null"],
-        "techniques" : ["WBLOCK_2"],
-        "volume" : 20,
-        "bashing" : 19,
-        "cutting" : 0,
-        "price" : 30
     },
     {
         "type":"GENERIC",
@@ -2116,6 +2100,22 @@
     "bashing": 10,
     "cutting": 0,
     "to_hit": -2
+  },
+  {
+    "type":"GENERIC",
+    "id" : "tonfa",
+    "name" : "tonfa",
+    "description" : "A hard plastic truncheon commonly employed by police. Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
+    "weight" : 575,
+    "to_hit" : 2,
+    "color" : "dark_gray",
+    "symbol" : "/",
+    "material" : ["plastic", "null"],
+    "techniques" : ["WBLOCK_2", "RAPID"],
+    "volume" : 8,
+    "bashing" : 13,
+    "cutting" : 0,
+    "price" : 195
   },
   {
     "type":"GENERIC",

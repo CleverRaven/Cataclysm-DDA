@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 07:35+1300\n"
-"PO-Revision-Date: 2013-09-16 06:46+0000\n"
+"POT-Creation-Date: 2013-10-23 09:06+1300\n"
+"PO-Revision-Date: 2013-10-15 08:57+0000\n"
 "Last-Translator: Kevin Granade <Unknown>\n"
 "Language-Team: Serbian\n"
 "Language: sr\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-08 03:14+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-10-22 02:15+0000\n"
+"X-Generator: Launchpad (build 16807)\n"
 
 #: action.cpp
 msgid " ('_' (underscore)"
@@ -2622,9 +2622,8 @@ msgid "NEPower Mine(%d:%d) Log"
 msgstr ""
 
 #: computer.cpp
-#, fuzzy
 msgid "No data found."
-msgstr "Šablon ne postoji!"
+msgstr ""
 
 #: computer.cpp
 msgid "Nuclear missile disarmed!"
@@ -3588,13 +3587,8 @@ msgid "Zombies"
 msgstr ""
 
 #: disease.cpp
-#, c-format
-msgid "%s starts scratching herself all over!"
-msgstr "%s počinje da se češe svuda po telu!"
-
-#: disease.cpp
-#, c-format
-msgid "%s starts scratching himself all over!"
+#, fuzzy, c-format
+msgid "%s starts scratching their %s!"
 msgstr "%s počinje da se češe svuda po telu!"
 
 #: disease.cpp
@@ -3652,14 +3646,12 @@ msgid "Attack speed + %d"
 msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Bad Bleeding - "
-msgstr "Krvarenje"
+msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Badly Infected - "
-msgstr "Inficiran i Bolan Ugriz"
+msgstr ""
 
 #: disease.cpp
 msgid "Badly Poisoned"
@@ -3670,9 +3662,8 @@ msgid "Bite - "
 msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Bleeding - "
-msgstr "Krvarenje"
+msgstr ""
 
 #: disease.cpp
 msgid "Blind"
@@ -3707,7 +3698,8 @@ msgid "Boomered"
 msgstr "Bumer-ovan(a)"
 
 #: disease.cpp
-msgid "Bugs Under Skin"
+#, fuzzy
+msgid "Bugs in skin - "
 msgstr "Bube pod kožom"
 
 #: disease.cpp
@@ -3758,6 +3750,10 @@ msgstr "Cigareta"
 msgid "Clambering Over Rubble"
 msgstr "Spotičeš se preko šodera"
 
+#: disease.cpp player.cpp
+msgid "Cold"
+msgstr ""
+
 #: disease.cpp
 msgid "Cold arms!"
 msgstr "Hladne ruke!"
@@ -3791,13 +3787,16 @@ msgid "Common Cold"
 msgstr "Obična Prehlada"
 
 #: disease.cpp
+msgid "Completely Paralyzed"
+msgstr ""
+
+#: disease.cpp
 msgid "Contracted a fungal infection."
 msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Contracted an infection."
-msgstr "Rana koju imaš je inficirana."
+msgstr ""
 
 #: disease.cpp
 msgid "Cured the fungal infection."
@@ -3823,6 +3822,11 @@ msgstr ""
 #: disease.cpp
 msgid "Dexterity + 1;   Intelligence + 1;   Perception + 1"
 msgstr ""
+
+#: disease.cpp
+#, fuzzy, c-format
+msgid "Dexterity - %d"
+msgstr "Spretnost"
 
 #: disease.cpp
 #, c-format
@@ -3913,6 +3917,11 @@ msgid "Freezing torso!!"
 msgstr "Grudi se smrzavaju!!"
 
 #: disease.cpp
+#, fuzzy
+msgid "Frostbite"
+msgstr "Promrzline po licu"
+
+#: disease.cpp
 msgid "Frostbite - face"
 msgstr "Promrzline po licu"
 
@@ -3965,9 +3974,8 @@ msgid "Heavy Asthma"
 msgstr "Teži Oblik Astme"
 
 #: disease.cpp
-#, fuzzy
 msgid "Heavy Bleeding - "
-msgstr "Krvarenje"
+msgstr ""
 
 #: disease.cpp
 msgid "High"
@@ -3980,6 +3988,10 @@ msgstr "Urađen od amfetamina"
 #: disease.cpp
 msgid "Hit Bonus"
 msgstr "Bonus na Preciznost"
+
+#: disease.cpp player.cpp
+msgid "Hot"
+msgstr ""
 
 #: disease.cpp
 msgid "Hot arms!"
@@ -4024,17 +4036,12 @@ msgid ""
 msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Infected - "
-msgstr "Inficirana Rana"
+msgstr ""
 
 #: disease.cpp
 msgid "Influenza"
 msgstr "Virusni Grip"
-
-#: disease.cpp
-msgid "Injected with dermatik eggs."
-msgstr ""
 
 #: disease.cpp
 msgid "Insects begin to emerge from <npcname>'s skin!"
@@ -4052,6 +4059,10 @@ msgstr ""
 #: disease.cpp
 msgid "It is excruciating."
 msgstr "Postaje nepodnošljivo."
+
+#: disease.cpp
+msgid "Itchy skin - "
+msgstr ""
 
 #: disease.cpp
 msgid "Left Arm"
@@ -4080,9 +4091,12 @@ msgid "On Fire"
 msgstr "Goriš"
 
 #: disease.cpp
-#, fuzzy
 msgid "Painful Bite - "
-msgstr "Bolan Ujed"
+msgstr ""
+
+#: disease.cpp
+msgid "Partially Paralyzed"
+msgstr ""
 
 #: disease.cpp
 #, c-format
@@ -4117,9 +4131,8 @@ msgid "Poisoned"
 msgstr "Otrovan(a)"
 
 #: disease.cpp
-#, fuzzy
 msgid "Pus Filled - "
-msgstr "Gnojna Rana"
+msgstr ""
 
 #: disease.cpp
 msgid "Put out the fire."
@@ -4142,28 +4155,24 @@ msgid "Received a deep bite wound."
 msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Recoverd from a bite wound."
-msgstr "Imaš gadnu ranu od ujeda."
+msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Recovered from an infection... this time."
-msgstr "Oporavljaš se posle infektivne bolesti."
+msgstr ""
 
 #: disease.cpp
 msgid "Recovering From Infection"
 msgstr "Oporavak od Infekcije"
 
 #: disease.cpp
-#, fuzzy
 msgid "Right Arm"
-msgstr "upaljač"
+msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Right Leg"
-msgstr "upaljač"
+msgstr ""
 
 #: disease.cpp
 msgid "Sap-coated"
@@ -4205,6 +4214,14 @@ msgstr "Drhtavica"
 msgid "Slimed"
 msgstr "Sluzav(a)"
 
+#: disease.cpp
+msgid "Slowed"
+msgstr ""
+
+#: disease.cpp
+msgid "Sluggish"
+msgstr ""
+
 #: disease.cpp faction.cpp
 msgid "Smoke"
 msgstr "Dim"
@@ -4220,6 +4237,13 @@ msgstr ""
 #: disease.cpp
 msgid "Sounds will not be reported.  You cannot talk with NPCs."
 msgstr "Zvukovi neće biti registrovani. Ne možeš da razgovaraš sa NPC-evima."
+
+#: disease.cpp
+#, c-format
+msgid ""
+"Speed %d%%\n"
+"You can feel the tiny spores sinking directly into your flesh."
+msgstr ""
 
 #: disease.cpp
 msgid ""
@@ -4246,12 +4270,6 @@ msgid ""
 msgstr ""
 
 #: disease.cpp
-msgid ""
-"Speed -40%\n"
-"You can feel the tiny spores sinking directly into your flesh."
-msgstr ""
-
-#: disease.cpp
 msgid "Speed -40%;   Dexterity - 2"
 msgstr ""
 
@@ -4264,8 +4282,23 @@ msgid "Spontaneous teleport."
 msgstr ""
 
 #: disease.cpp
-msgid "Spores"
-msgstr "Spore"
+#, fuzzy
+msgid "Spore coated - "
+msgstr "Prekriven(a) si biljnim sokom!"
+
+#: disease.cpp
+#, fuzzy
+msgid "Spore covered"
+msgstr "poklopac šahta"
+
+#: disease.cpp
+#, fuzzy
+msgid "Spore covered - "
+msgstr "Prekriven(a) si biljnom kiselinom!"
+
+#: disease.cpp
+msgid "Spore dusted - "
+msgstr ""
 
 #: disease.cpp
 msgid "Stem cell treatment"
@@ -4302,13 +4335,6 @@ msgid "Strength - 1;   Dexterity - 4;   Speed - 25"
 msgstr ""
 
 #: disease.cpp
-msgid ""
-"Strength - 1;   Intelligence - 2\n"
-"You stop to scratch yourself frequently; high intelligence helps you resist\n"
-"this urge."
-msgstr ""
-
-#: disease.cpp
 msgid "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1"
 msgstr ""
 
@@ -4339,7 +4365,7 @@ msgstr ""
 msgid "Tear gas"
 msgstr "Suzavac"
 
-#: disease.cpp monattack.cpp mondeath.cpp
+#: disease.cpp iexamine.cpp iuse.cpp monattack.cpp mondeath.cpp
 #, c-format
 msgid "The %s is covered in tiny spores!"
 msgstr "%s prekrivaju sićušne spore!"
@@ -4375,10 +4401,6 @@ msgstr "Sunčev odsjaj otežava dnevnu vidljivost."
 #: disease.cpp
 msgid "The world takes on a dreamlike quality."
 msgstr ""
-
-#: disease.cpp
-msgid "There's bugs crawling under your skin!"
-msgstr "Nekakve bube počinju da puze pod tvojom kožom!"
 
 #: disease.cpp
 msgid "Things are returning to normal."
@@ -4446,14 +4468,16 @@ msgid "Webbed"
 msgstr "Upleten(a) u mreže"
 
 #: disease.cpp
-#, fuzzy
-msgid "You are losing blood."
-msgstr "Imaš blago krvarenje."
+msgid "Writhing skin - "
+msgstr ""
 
 #: disease.cpp
-#, fuzzy
+msgid "You are losing blood."
+msgstr ""
+
+#: disease.cpp
 msgid "You are rapidly loosing blood."
-msgstr "Imaš blago krvarenje."
+msgstr ""
 
 #: disease.cpp
 msgid "You are recovering from an infection."
@@ -4536,14 +4560,13 @@ msgid "You feel completely rundown."
 msgstr ""
 
 #: disease.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You feel feverish and nauseous, your %s wound has begun to turn green."
-msgstr "Padaš u groznicu, muka ti je, a rana poprima zelenu nijansu."
+msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "You feel feverish and nauseous."
-msgstr "Osećaš mučninu."
+msgstr ""
 
 #: disease.cpp
 msgid "You feel lightheaded."
@@ -4632,8 +4655,15 @@ msgid "You spasm suddenly!"
 msgstr "Doživljavaš iznenadne grčeve!"
 
 #: disease.cpp
-msgid "You start scratching yourself all over!"
+#, fuzzy, c-format
+msgid "You start scratching your %s!"
 msgstr "Počinješ da se češeš po celom telu!"
+
+#: disease.cpp
+msgid ""
+"You stop to scratch yourself frequently; high intelligence helps you resist\n"
+"this urge.\n"
+msgstr ""
 
 #: disease.cpp
 msgid "You succumb to the infection."
@@ -4701,10 +4731,6 @@ msgid "You're covered in thick goo!"
 msgstr "Prekriven(a) si čvrstom sluzi!"
 
 #: disease.cpp
-msgid "You're covered in tiny spores!"
-msgstr "Prekriven(a) si sićušnim sporama!"
-
-#: disease.cpp
 msgid "You're covered in webs!"
 msgstr "Prekriven(a) si mrežom!"
 
@@ -4750,24 +4776,24 @@ msgid "You're suddenly wracked with pain!"
 msgstr "Iznenada osećaš jaku bol!"
 
 #: disease.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s wound begins to feel better."
-msgstr "Osećaš da je ujed koji imaš inficiran."
+msgstr ""
 
 #: disease.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s wound feels swollen and painful."
-msgstr "Ujed koji osećaš počinje da natiče i boli te."
+msgstr ""
 
 #: disease.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s wound is incredibly painful."
-msgstr "Osećaš kako zaražena rana koju imaš jako boli."
+msgstr ""
 
 #: disease.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s wound really hurts."
-msgstr "Rana od ujeda stvarno počinje da boli."
+msgstr ""
 
 #: disease.cpp
 msgid "Your adrenaline rush wears off.  You feel AWFUL!"
@@ -5035,14 +5061,12 @@ msgid "Your head is very exposed to the cold. It is hard to concentrate."
 msgstr "Glava ti je duže vreme izložena hladnoći. Teško se koncentrišeš."
 
 #: disease.cpp
-#, fuzzy
 msgid "Your healing wound feels swollen and painful."
-msgstr "Ujed koji osećaš počinje da natiče i boli te."
+msgstr ""
 
 #: disease.cpp
-#, fuzzy
 msgid "Your healing wound is incredibly painful."
-msgstr "Osećaš kako zaražena rana koju imaš jako boli."
+msgstr ""
 
 #: disease.cpp
 msgid ""
@@ -5116,6 +5140,10 @@ msgid ""
 msgstr ""
 "Sledeći udarac biće Napad Guje. Izvešćeš ga ako su ti obe ruke potpuno\n"
 "čitave, a naneće ogromnu štetu protivniku."
+
+#: disease.cpp
+msgid "Your skin feels extremely itchy!"
+msgstr ""
 
 #: disease.cpp
 msgid "Your thoughts are unclear."
@@ -6478,7 +6506,7 @@ msgid "The sap sticks to you!"
 msgstr ""
 
 #: field.cpp
-msgid "The sludge is thick and sticky."
+msgid "The sludge is thick and sticky. You struggle to pull free."
 msgstr ""
 
 #: field.cpp
@@ -7264,6 +7292,10 @@ msgid "Examine"
 msgstr ""
 
 #: game.cpp
+msgid "Examine vehicle"
+msgstr ""
+
+#: game.cpp
 msgid "Example: -pipe,chunk,steel"
 msgstr ""
 
@@ -7288,7 +7320,7 @@ msgid "Female"
 msgstr ""
 
 #: game.cpp
-msgid "Fill a container?"
+msgid "Fill a container with water"
 msgstr ""
 
 #: game.cpp
@@ -7334,7 +7366,7 @@ msgid "Halfway down, the way down becomes blocked off."
 msgstr ""
 
 #: game.cpp
-msgid "Have a drink?"
+msgid "Have a drink"
 msgstr ""
 
 #: game.cpp
@@ -7540,11 +7572,6 @@ msgstr ""
 
 #: game.cpp
 #, c-format
-msgid "Now studying %s, %s to stop early."
-msgstr ""
-
-#: game.cpp
-#, c-format
 msgid ""
 "Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
 "requires a minimum terminal size of %dx%d to function. It just won't work "
@@ -7605,6 +7632,11 @@ msgstr ""
 #: game.cpp
 msgid "R LEG"
 msgstr ""
+
+#: game.cpp
+#, fuzzy
+msgid "RV kitchen:"
+msgstr "Mobilna kuhinja"
 
 #: game.cpp
 #, c-format
@@ -7746,11 +7778,6 @@ msgstr ""
 
 #: game.cpp
 msgid "Spawn a vehicle"
-msgstr ""
-
-#: game.cpp
-#, c-format
-msgid "Study %s?"
 msgstr ""
 
 #: game.cpp
@@ -7904,6 +7931,10 @@ msgstr ""
 
 #: game.cpp
 msgid "The barn doors opened!"
+msgstr ""
+
+#: game.cpp
+msgid "The battery is dead."
 msgstr ""
 
 #: game.cpp
@@ -8106,6 +8137,15 @@ msgstr ""
 
 #: game.cpp
 msgid "Use item:"
+msgstr ""
+
+#: game.cpp
+#, fuzzy
+msgid "Use the hotplate"
+msgstr "portabl rešo"
+
+#: game.cpp
+msgid "Use the welding rig?"
 msgstr ""
 
 #: game.cpp
@@ -8613,9 +8653,9 @@ msgid "You learn a little about %s! (%d%%%%)"
 msgstr ""
 
 #: game.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You let go of the %s"
-msgstr "Pluća su ti se napunila suzavcem."
+msgstr ""
 
 #: game.cpp
 #, c-format
@@ -10226,6 +10266,11 @@ msgid "That is a %s."
 msgstr ""
 
 #: iexamine.cpp
+#, fuzzy, c-format
+msgid "The %s crumbles into spores!"
+msgstr "%s prekrivaju sićušne spore!"
+
+#: iexamine.cpp
 msgid "The nearby doors slide into the floor."
 msgstr ""
 
@@ -10409,6 +10454,10 @@ msgstr ""
 msgid "You take down the tent"
 msgstr ""
 
+#: iexamine.cpp monattack.cpp mondeath.cpp
+msgid "You're covered in tiny spores!"
+msgstr "Prekriven(a) si sićušnim sporama!"
+
 #: iexamine.cpp
 msgid "Your electrohack is ruined!"
 msgstr ""
@@ -10479,14 +10528,12 @@ msgid "Items:  %d/%d "
 msgstr "Predmeti:  %d/%d "
 
 #: inventory_ui.cpp
-#, fuzzy
 msgid "MEDICINE/DRUGS:"
-msgstr "LEKOVI/OPIJATI"
+msgstr ""
 
 #: inventory_ui.cpp
-#, fuzzy
 msgid "MODS/BIONICS:"
-msgstr "MODIFIKACIJE/BIONIKA"
+msgstr ""
 
 #: inventory_ui.cpp
 msgid "Multidrop:"
@@ -10961,6 +11008,10 @@ msgid "This piece of clothing has pockets to warm your hands."
 msgstr ""
 
 #: item.cpp
+msgid "This piece of clothing is designed to keep you dry in the rain."
+msgstr ""
+
+#: item.cpp
 msgid "This tool has double the normal maximum charges."
 msgstr ""
 
@@ -11282,9 +11333,8 @@ msgid "infection data"
 msgstr ""
 
 #: itypedef.cpp
-#, fuzzy
 msgid "integrated toolset"
-msgstr "otcepljeno drvo"
+msgstr ""
 
 #: itypedef.cpp
 msgid "laser finger"
@@ -11554,9 +11604,8 @@ msgid "Bury the beartrap?"
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "Bury the land mine?"
-msgstr "nagazna mina"
+msgstr ""
 
 #: iuse.cpp
 msgid "But you can't touch this."
@@ -11655,6 +11704,7 @@ msgstr ""
 msgid "Cut up what?"
 msgstr ""
 
+#. ~ (Flammenschwert) "The fire on your blade burns brightly!"
 #: iuse.cpp
 msgid "Das Feuer um deine Schwertklinge leuchtet hell!"
 msgstr ""
@@ -11667,10 +11717,12 @@ msgstr ""
 msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
 msgstr ""
 
+#. ~ (Flammenschwert) "Your Flammenscwhert (firesword) is out of fuel!"
 #: iuse.cpp
 msgid "Deinem Flammenschwert ist der Brennstoff ausgegangen!"
 msgstr ""
 
+#. ~ (Flammenschwert) "The flames on your sword die out."
 #: iuse.cpp
 msgid "Die Flamme deines Schwertes erlischt."
 msgstr ""
@@ -11679,6 +11731,7 @@ msgstr ""
 msgid "Die Flamme entfachen."
 msgstr ""
 
+#. ~ (Flammenschwert) "Extinguish the flame."
 #: iuse.cpp
 msgid "Die Flamme erloschen."
 msgstr ""
@@ -11687,6 +11740,7 @@ msgstr ""
 msgid "Die Klinge deines Schwertes brennt!"
 msgstr ""
 
+#. ~ (jacqueshammer) "Invalid direction"
 #: iuse.cpp
 msgid "Direction invalide"
 msgstr ""
@@ -11712,6 +11766,7 @@ msgstr ""
 msgid "Drill"
 msgstr ""
 
+#. ~ (Flammenschwert) "Start a fire."
 #: iuse.cpp
 msgid "Ein Feuer entfachen."
 msgstr ""
@@ -11761,9 +11816,8 @@ msgid "Hammers can only remove boards from windows, doors and fences."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "Heat food"
-msgstr "hrana za mačke"
+msgstr ""
 
 #: iuse.cpp
 msgid "Heat up what?"
@@ -11788,11 +11842,6 @@ msgstr ""
 
 #: iuse.cpp
 msgid "Invalid Placement."
-msgstr ""
-
-#: iuse.cpp
-#, c-format
-msgid "It's %d squares to the %s"
 msgstr ""
 
 #: iuse.cpp
@@ -11848,6 +11897,7 @@ msgstr ""
 msgid "Modify what?"
 msgstr ""
 
+#. ~ (jacqueshammer) "My god! Let's talk it over, OK?"
 #: iuse.cpp
 msgid "Mon dieu! Nous allons en parler OK?"
 msgstr ""
@@ -11864,10 +11914,12 @@ msgstr ""
 msgid "NERFS!!"
 msgstr ""
 
+#. ~ (jacqueshammer) "Don't do anything rash."
 #: iuse.cpp
 msgid "Ne pas faire eruption rien.."
 msgstr ""
 
+#. ~ (Flammenschwert) "Do nothing."
 #: iuse.cpp
 msgid "Nichts tun."
 msgstr ""
@@ -11892,7 +11944,7 @@ msgstr ""
 msgid "No. 9"
 msgstr ""
 
-#. ~ the sound of a "jaqueshammer"
+#. ~ the sound of a "jacqueshammer"
 #: iuse.cpp
 msgid "OHOHOHOHOHOHOHOHO!"
 msgstr ""
@@ -11901,6 +11953,7 @@ msgstr ""
 msgid "Peace out."
 msgstr ""
 
+#. ~ (jacqueshammer) "Drill where?"
 #: iuse.cpp
 msgid "Percer dans quelle direction?"
 msgstr ""
@@ -12064,9 +12117,8 @@ msgid "That door isn't locked."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "That isn't a knife!"
-msgstr "kuhinjski nož"
+msgstr ""
 
 #: iuse.cpp
 msgid "That isn't clothing!"
@@ -12465,10 +12517,12 @@ msgstr ""
 msgid "Using knife:"
 msgstr ""
 
+#. ~ (jacqueshammer) "You can't drill there."
 #: iuse.cpp
 msgid "Vous ne pouvez pas percer la-bas.."
 msgstr ""
 
+#. ~ (Flammenschwert) "What will you do?"
 #: iuse.cpp
 msgid "Was willst du tun?"
 msgstr ""
@@ -12544,11 +12598,6 @@ msgstr ""
 
 #: iuse.cpp
 msgid "You activate the mininuke."
-msgstr ""
-
-#: iuse.cpp
-#, c-format
-msgid "You add a %s location to your map."
 msgstr ""
 
 #: iuse.cpp
@@ -12662,10 +12711,6 @@ msgid "You can't drill there."
 msgstr ""
 
 #: iuse.cpp
-msgid "You can't find a hospital near your location."
-msgstr ""
-
-#: iuse.cpp
 msgid "You can't find the direction if your radio isn't tuned."
 msgstr ""
 
@@ -12712,9 +12757,8 @@ msgid "You churn up the earth here."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "You clean the wound."
-msgstr "Rana koju imaš je inficirana."
+msgstr ""
 
 #: iuse.cpp
 #, c-format
@@ -12745,9 +12789,8 @@ msgid "You destroy it!"
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "You disinfect the wound."
-msgstr "Rana koju imaš je inficirana."
+msgstr ""
 
 #: iuse.cpp
 msgid "You do not have that item!"
@@ -12783,9 +12826,8 @@ msgid "You fail to spray a message here."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "You fail to stop the bleeding."
-msgstr "Lice ti je izloženo hladnoći."
+msgstr ""
 
 #: iuse.cpp
 msgid "You fail to write a message here."
@@ -13178,9 +13220,8 @@ msgid "You set the crossbow trap."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "You set the land mine."
-msgstr "Malo ti se zavrtelo."
+msgstr ""
 
 #: iuse.cpp
 msgid "You set the shotgun trap."
@@ -13264,9 +13305,8 @@ msgid "You squeeze the pheremone ball.."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "You stop the bleeding."
-msgstr "Infekcija uzima danak; razboleo/la si se."
+msgstr ""
 
 #: iuse.cpp
 msgid "You string up the tripwire."
@@ -13312,6 +13352,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "You take some antibiotics."
+msgstr ""
+
+#: iuse.cpp
+msgid "You take some fungicide."
 msgstr ""
 
 #: iuse.cpp
@@ -13539,14 +13583,12 @@ msgid "Your tazer crackles in the air."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "Your wound still aches."
-msgstr "Rana od ujeda stvarno počinje da boli."
+msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "Your wound still hurts."
-msgstr "Rana od ujeda stvarno počinje da boli."
+msgstr ""
 
 #: iuse.cpp
 msgid "a funky bassline."
@@ -13564,7 +13606,7 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-#: iuse.cpp map.cpp
+#: iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -13577,9 +13619,8 @@ msgid "dramatic classical music."
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "extinguish"
-msgstr "aparat za gašenje požara"
+msgstr ""
 
 #: iuse.cpp map.cpp monattack.cpp ranged.cpp
 msgid "glass breaking!"
@@ -13602,9 +13643,8 @@ msgid "kevlar plates"
 msgstr ""
 
 #: iuse.cpp
-#, fuzzy
 msgid "light something"
-msgstr "jednostavna zamka"
+msgstr ""
 
 #: iuse.cpp
 msgid "permanent_marker"
@@ -14842,6 +14882,19 @@ msgid "fireplace"
 msgstr ""
 
 #: lang/json/json_furniture.py
+msgid "fungal clump"
+msgstr ""
+
+#: lang/json/json_furniture.py
+msgid "fungal flower"
+msgstr ""
+
+#: lang/json/json_furniture.py
+#, fuzzy
+msgid "fungal mass"
+msgstr "gas maska"
+
+#: lang/json/json_furniture.py
 msgid "glass door fridge"
 msgstr ""
 
@@ -14878,9 +14931,8 @@ msgid "mutated poppy flower"
 msgstr ""
 
 #: lang/json/json_furniture.py lang/json/json_terrain.py
-#, fuzzy
 msgid "nothing"
-msgstr "perca za strele"
+msgstr ""
 
 #: lang/json/json_furniture.py
 msgid "open animalskin flap"
@@ -15543,8 +15595,9 @@ msgid ".22 LR"
 msgstr ".22 LR"
 
 #: lang/json/json_items.py
-msgid ".22 caliber retool"
-msgstr "alat za prepravku na .22 kalibar."
+#, fuzzy
+msgid ".22 caliber conversion kit"
+msgstr "alat za prepravku na snajper"
 
 #: lang/json/json_items.py
 msgid ".22 casing"
@@ -15559,7 +15612,8 @@ msgid ".223 Remington"
 msgstr ".223 Remington"
 
 #: lang/json/json_items.py
-msgid ".223 caliber retool"
+#, fuzzy
+msgid ".223 caliber conversion kit"
 msgstr "alat za prepravku na .223 kalibar."
 
 #: lang/json/json_items.py
@@ -15591,7 +15645,8 @@ msgid ".308 Winchester"
 msgstr ".308 Vinčester municija"
 
 #: lang/json/json_items.py
-msgid ".308 caliber retool"
+#, fuzzy
+msgid ".308 caliber conversion kit"
 msgstr "alat za prepravku na .308 kalibar."
 
 #: lang/json/json_items.py
@@ -15651,8 +15706,9 @@ msgid ".45 Super"
 msgstr ".45 Super"
 
 #: lang/json/json_items.py
-msgid ".45 caliber retool"
-msgstr "alat za prepravku na .45 kalibar."
+#, fuzzy
+msgid ".45 caliber conversion kit"
+msgstr "alat za prepravku na snajper"
 
 #: lang/json/json_items.py
 msgid ".45 casing"
@@ -15716,7 +15772,8 @@ msgid "3l glass jar"
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "4.6mm caliber retool"
+#, fuzzy
+msgid "4.6mm caliber conversion kit"
 msgstr "alat za prepravku na 4.6mm kalibar."
 
 #: lang/json/json_items.py
@@ -15736,9 +15793,8 @@ msgid "40mm beanbag"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "40mm buckshot"
-msgstr "40mm kanister za granatu"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "40mm canister"
@@ -15785,7 +15841,8 @@ msgid "5.56 incendiary"
 msgstr "5.56 zapaljiva municija"
 
 #: lang/json/json_items.py
-msgid "5.7mm caliber retool"
+#, fuzzy
+msgid "5.7mm caliber conversion kit"
 msgstr "alat za prepravku na 5.7mm kalibar"
 
 #: lang/json/json_items.py
@@ -15909,12 +15966,22 @@ msgid "9mm FMJ"
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "9mm caliber retool"
-msgstr "alat za prepravku na 9mm kalibar."
+#, fuzzy
+msgid "9mm caliber conversion kit"
+msgstr "alat za prepravku na snajper"
 
 #: lang/json/json_items.py
 msgid "9mm casing"
 msgstr "9mm čaura"
+
+#: lang/json/json_items.py
+msgid "A 12v lead-acid battery used to power car electrical systems."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A 12v lead-acid battery used to power smaller vehicles' electrical systems."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A 250 ml laboratory conical flask, with a rubber bung."
@@ -15931,9 +15998,8 @@ msgid "A 40mm beanbag that deals massive non lethal force."
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A 40mm grenade with a buckshot load."
-msgstr "40mm granata sa vrlo toksičnim, acidičnim sadržajem."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A 40mm grenade with a concussive explosion."
@@ -15981,9 +16047,8 @@ msgid "A 40mm grenade with an acid bomb load."
 msgstr "40mm granata sa vrlo toksičnim, acidičnim sadržajem."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A 40mm grenade with an armor-piercing flechette load."
-msgstr "40mm granata sa vrlo toksičnim, acidičnim sadržajem."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -16167,6 +16232,15 @@ msgid "A beautiful white wedding dress. What good will it be now?"
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A bedroll made of pelts which can be rolled up for transport. Insulates you "
+"from the floor, making it easier to sleep"
+msgstr ""
+"Dušek od penastog materijala koji se urola i tako spakuje. Koristan kada je "
+"potrebno izbeći spavanje na hladnoj i čvrstoj podlozi."
+
+#: lang/json/json_items.py
 msgid "A biannual magazine devoted to discus throw."
 msgstr "Časopis o atletici, tačnije bacanju diska. Izlazi dvaput godišnje."
 
@@ -16197,7 +16271,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "A bit cumbersome to wear, but provides some storage"
+#, fuzzy
+msgid "A bit cumbersome to wear, but provides some storage."
 msgstr "Pomalo nezgodno za nošenje, ali ima prostora za teret."
 
 #: lang/json/json_items.py
@@ -16673,13 +16748,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A custom-built, reinforced gas mask that covers the face and eyes. Provides "
 "excellent protection from smoke, teargas, and shrapnel."
 msgstr ""
-"Gas-maska koja pokriva lice i oči. Ima odlična svojstva protiv štetnih "
-"uticaja dima, suzavca i ostalih gasova."
 
 #: lang/json/json_items.py
 msgid ""
@@ -17077,6 +17149,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A grotesque, horned helmet carved from bone. Covers the entire head; very "
+"light and strong."
+msgstr ""
+"Kaciga od materijala egzoskeletalnih insekata. Izdržljiva je, lagana i "
+"prekriva kompletnu glavu."
+
+#: lang/json/json_items.py
 msgid "A guide detailing the basics of woodsmanship and outdoor survival."
 msgstr ""
 "Priručnik koji pokriva osnove života u divljini i preživljavanja uopšte."
@@ -17135,6 +17216,13 @@ msgid ""
 msgstr ""
 "Šlem od čvrste plastike koji pokriva glavu i uši. Osmišljen tako da može da "
 "zaštiti od bejzbol loptice."
+
+#: lang/json/json_items.py
+msgid ""
+"A hard plastic truncheon commonly employed by police. Originally an Okinawan "
+"weapon, it consists of a stick with a perpendicular handle attached a third "
+"of the way down its length."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -17206,11 +17294,6 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "A heavy cloak that is thrown over your body."
 msgstr "Težak ogrtač kojim se možeš zaogrnuti."
-
-#: lang/json/json_items.py
-msgid "A heavy cotton coat. Cumbersome, but warm and with deep pockets."
-msgstr ""
-"Kaput od debljeg pamuka. Iako je težak za kretnju, topao je i ima džepove."
 
 #: lang/json/json_items.py
 msgid "A heavy duty hauling frame designed to interface with power armor."
@@ -17318,6 +17401,12 @@ msgstr ""
 "da ostane čitava za ponovnu upotrebu."
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "A heavy wool coat. Cumbersome, but warm and with deep pockets."
+msgstr ""
+"Kaput od debljeg pamuka. Iako je težak za kretnju, topao je i ima džepove."
+
+#: lang/json/json_items.py
 msgid ""
 "A hefty long pork sausage that has been cured for long term storage. Very "
 "tasty, if you're in the market for human flesh."
@@ -17343,6 +17432,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A helmet liner that goes inside a helmet to make it warmer."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A helmet made from a soup pot. It's not very good protection, but it's "
+"better than nothing."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -17510,6 +17605,10 @@ msgstr ""
 "cev većeg kalibra. Koristi municiju za samostrel."
 
 #: lang/json/json_items.py
+msgid "A large 12v lead-acid battery used to power truck electrical systems."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A large American flag made to fly in even the worst conditions."
 msgstr ""
 "Oveća američka zastava, dovoljno čvrsta da se vijori na najjačem vetru."
@@ -17665,10 +17764,8 @@ msgid "A large rag, drenched in blood. It could be cleaned with boiling water."
 msgstr "Obična krpa natopljena krvlju. Može se isprati u ključaloj vodi."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A large sheet of glass strengthened with steel wiring."
 msgstr ""
-"Ogromno parče celog stakla. Lako se lomi. Korisno za zamenu prozora i sl."
 
 #: lang/json/json_items.py
 msgid "A large sheet of glass. Easily shattered. Useful for re-paning windows."
@@ -17893,7 +17990,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-msgid "A long cotton dress. Difficult to move in and lacks any storage space."
+msgid ""
+"A long and thin knife with a spring-loaded blade that rests inside the "
+"handle while not in use."
+msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A long cotton dress. Though comfortable to wear, it lacks any storage space."
 msgstr ""
 "Dugačka haljina od pamučne tkanine. Karakteriše je umanjena pokretljivost i "
 "nedostatak bilo kakvih džepova."
@@ -17933,9 +18038,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A long underwear top that helps to maintain body temperature."
-msgstr "Dugačke pamučne gaće, koje greju tokom hladnih noći."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A long white coat with several large pockets."
@@ -17957,9 +18061,8 @@ msgid ""
 msgstr "Metla sa dugačkom drškom, prilično beskorisna osim ako ne juriš mačke."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A long-sleeved cotton shirt."
-msgstr "Obična pamučna majica kratkih rukava."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -18070,13 +18173,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A medieval helmet that provides excellent protection for the head, with a Y "
 "shaped opening for the face."
 msgstr ""
-"Srednjevekovni borbeni šlem pruža odličnu zaštitu od udaraca po celoj glavi,"
-"ali ga je zato grozno teško nositi unaokolo."
 
 #: lang/json/json_items.py
 msgid ""
@@ -18295,11 +18395,10 @@ msgstr ""
 "alatka za drvo i umesto čekića."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A one-piece suit of full-body long underwear that helps to maintain body "
 "temperature."
-msgstr "Dugačke pamučne gaće, koje greju tokom hladnih noći."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -18320,9 +18419,8 @@ msgstr ""
 "jedna eksplodirati, pa se preporučuje brzo bacanje!"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A padded coat with deep pockets and a hood. Very warm."
-msgstr "Kaput sa postavom i dubokim džepovima. Vrlo topao."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -18428,11 +18526,10 @@ msgid ""
 msgstr "Kožne rukavice bez prstiju, čine mogućim gotovo sve radnje rukama."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A pair of leather gloves with no fingers, allowing greater manual dexterity. "
 "These have been crudely reinforced with steel guards across the back."
-msgstr "Kožne rukavice bez prstiju, čine mogućim gotovo sve radnje rukama."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A pair of leg guards hammered out from metal. Very stylish."
@@ -18481,12 +18578,9 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A pair of rubber boots, often used while cleaning with caustic materials."
 msgstr ""
-"Gumene rukavice, koriste se uglavnom pri čišćenju zbog kontakta sa opasnim "
-"materijama i nagrizajućim hemikalijama."
 
 #: lang/json/json_items.py
 msgid ""
@@ -18537,12 +18631,9 @@ msgid "A pair of warm mittens. They are extremely cumbersome."
 msgstr "Kuhinjske rukavice za prihvatanje. Tople ali užasno nezgodne."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A paperback book detailing 101 home repair projects the novice carpenter."
 msgstr ""
-"Velika knjiga sa običnim koricama i primerima nekolicine projekata u "
-"graditeljstvu."
 
 #: lang/json/json_items.py
 msgid "A pickled cucumber, rather sour but good and basically lasts forever."
@@ -18603,15 +18694,11 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A pistol bayonet is a stabbing weapon that can be attached to the front of a "
 "handgun, allowing a melee attack to deal piercing damage. The added length "
 "reduces the gun's overall handling somewhat."
 msgstr ""
-"Bajonet je hladno oružje koje se pričvrsti na vrh cevi puške, sačmarice ili "
-"malokalibarskog automatskog oružja i služi za probadanje protivnika iz "
-"blizine. Ovaj produžetak pomalo otežava ciljanje."
 
 #: lang/json/json_items.py
 msgid ""
@@ -18992,12 +19079,9 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A sealed glass jar containing a sliced fruit.  Activate to open and enjoy."
 msgstr ""
-"Hermetički zatvorena tegla sa komadima jabuke. (A)ktiviraj da otvoriš i "
-"uživaš."
 
 #: lang/json/json_items.py
 msgid "A sealed glass jar containing human meat.  Activate to open and enjoy."
@@ -19110,26 +19194,18 @@ msgstr ""
 "na redu sređivanje mesa."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A sharpened bolt carved from wood. It's very light, but doesn't do much "
 "damage and isn't particularly accurate. Stands a good chance of remaining "
 "intact once fired."
 msgstr ""
-"Drvena municija za samostrel sa oštrim vrhom. Lakša je odnosu na čeličnu,"
-"zbog čega nanosi manje štete i manje je precizna. Posle ispaljivanja ima "
-"solidnu šansu da ostane čitava."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A sharpened bolt made from metal of some kind. It's heavy and unwieldy, "
 "providing moderate damage and accuracy. Stands a good chance of remaining "
 "intact once fired."
 msgstr ""
-"Drvena municija za samostrel sa oštrim vrhom. Lakša je odnosu na čeličnu,"
-"zbog čega nanosi manje štete i manje je precizna. Posle ispaljivanja ima "
-"solidnu šansu da ostane čitava."
 
 #: lang/json/json_items.py
 msgid ""
@@ -19176,15 +19252,11 @@ msgstr ""
 "jedinice policije i vojske je često koriste."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A shell filled with tiny steel darts. Extremely damaging, plus the spread "
 "makes it very accurate at short range. Slices through most forms of armor "
 "with ease."
 msgstr ""
-"Patrona punjena gvozdenom sačmom. Nanosi ogromnu štetu, a raspršena sačma "
-"pokriva raspon širine i visine pa je takođe izuzetno precizna. Specijalne "
-"jedinice policije i vojske je često koriste."
 
 #: lang/json/json_items.py
 msgid ""
@@ -19203,6 +19275,11 @@ msgid ""
 "A short and sharp double edged dagger made to be gripped in the palm, with "
 "the blade protruding between the fingers."
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "A short dart from a fungal fighter. Makes an average melee weapon."
+msgstr "Žaoka džinovske pčele dugačka 15cm. Korisna u borbi."
 
 #: lang/json/json_items.py
 msgid "A short piece of nylon rope. Too small to be of much use."
@@ -19319,14 +19396,11 @@ msgid "A simple hand-powered stone quern."
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A simple hazardous materials handling suit. Though somewhat restrictive and "
 "fragile, wearing it will provide excellent protection against ambient "
 "radiation."
 msgstr ""
-"Zaštitno odelo. Iako je teško za nošenje i izgleda vrlo robusno, nošenje "
-"ovakvog odela pruža odličnu zaštitu od radijacije u okolini."
 
 #: lang/json/json_items.py
 msgid "A simple leather bikini top."
@@ -19657,9 +19731,8 @@ msgstr ""
 "Ovom konkretnom su potrebne popravke usled cepanja i lomljenja."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A small storage battery. Useful for crafting."
-msgstr "Akumulator električne energije. Koristan u izradi svega i svačega."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A small tent, just big enough to fit a person comfortably."
@@ -19754,12 +19827,10 @@ msgid "A smooth-skinned fruit, related to the peach."
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A snug cloth garment which clings tightly to the legs and can help maintain "
 "body temperature."
 msgstr ""
-"Komad sportske opreme koji se nosi preko grudi i u svrhu zagrevanja tela."
 
 #: lang/json/json_items.py
 msgid ""
@@ -19789,9 +19860,8 @@ msgid "A soft cotton hat commonly worn by armed forces and existentialists."
 msgstr "Mekana pamučna kapa kakve nose u vojsci i zanesenjaci za prirodom."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A soft wool hat commonly worn by armed forces and existentialists."
-msgstr "Mekana pamučna kapa kakve nose u vojsci i zanesenjaci za prirodom."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -20061,9 +20131,8 @@ msgid "A tasty and nutritious broth made from bones."
 msgstr "Buljon odnosno boršč, čorba od kostiju."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A tasty and nutritious fried bread treat."
-msgstr "Buljon odnosno boršč, čorba od kostiju."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A tasty summer squash."
@@ -20116,6 +20185,17 @@ msgstr ""
 "Deblji kaput od krzna, sa mnogobrojnim ušivenim džepovima u koje staje dosta."
 
 #: lang/json/json_items.py
+msgid ""
+"A thick leather body suit made for protection while riding motorcycles. "
+"Light and very comfortable."
+msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "A thick leather helmet that provides excellent protection for the head."
+msgstr "Otporna i čvrsta kaciga, štiti od najrazličitijih tipova udaraca."
+
+#: lang/json/json_items.py
 msgid "A thick leather trenchcoat, lined with pockets. Great for storage."
 msgstr "Deblji kožni kaput, sa mnogobrojnim džepovima u koje staje dosta."
 
@@ -20164,9 +20244,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "A thin cotton jacket with a hood. Good for brisk weather."
-msgstr "Tanka pamučna jakna. Super za prohladno vreme."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A thin cotton trenchcoat, lined with pockets. Great for storage."
@@ -20174,8 +20253,9 @@ msgstr ""
 "Tanji pamučni kaput, sa mnogobrojnim ušivenim džepovima u koje staje dosta."
 
 #: lang/json/json_items.py
-msgid "A thin pair of leather gloves. Good for doing manual labor."
-msgstr "Par tankih platnenih rukavica. Korisne za manuelne poslove."
+#, fuzzy
+msgid "A thin pair of black leather gloves."
+msgstr "Jednostavne pamučne rukavice."
 
 #: lang/json/json_items.py
 msgid "A thin sheet of metal."
@@ -20462,11 +20542,10 @@ msgid "A warm covering that protects the head and face from cold."
 msgstr "Topao komad odeće koji se nosi preko lica i glave."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "A waterproof hood made to be worn in bad weather. Provides extra protection "
 "from rain."
-msgstr "Teksas jakna, pruža solidnu zaštitu od posekotina."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "A watertight leather bag, can hold 1.5 liters of water."
@@ -20561,18 +20640,16 @@ msgid "A7 laser rifle"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "AEP suit"
-msgstr "odelo"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "AK-47"
 msgstr "AK-47"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "ANBC suit"
-msgstr "odelo"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "AR-15"
@@ -20702,10 +20779,9 @@ msgstr ""
 "prepravku i izradu svega i svačega."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "An advanced college textbook on circuit theory, design, and organization."
-msgstr "Fakultetski udžbenik na temu digitalne integrisane elektronike."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -20801,14 +20877,11 @@ msgstr ""
 "aktivira teleportovaće te na kratku razdaljinu."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "An armored environmental protection suit. Custom-built from a cleansuit and "
 "body armor, it provides excellent protection against both physical harm and "
 "ambient radiation."
 msgstr ""
-"Zaštitno odelo. Iako je teško za nošenje i izgleda vrlo robusno, nošenje "
-"ovakvog odela pruža odličnu zaštitu od radijacije u okolini."
 
 #: lang/json/json_items.py
 msgid ""
@@ -20924,9 +20997,8 @@ msgid "An empty casing from a 9mm round."
 msgstr "9mm čaura"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "An empty hull from a 5x50mm flechette round."
-msgstr "Telo patrone za sačmaricu (čaura)."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "An empty hull from a shotgun round."
@@ -20946,9 +21018,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "An entry-level textbook about computers."
-msgstr "Fakultetski udžbenik iz računarskih tehnologija."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -20969,12 +21040,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "An expandable pouch secured with straps. Provides a bit of extra storage "
 "without encumbering you at all."
 msgstr ""
-"Nosi se kao kako bi za nijansu proširio nosivost, gotovo da se ne oseća."
 
 #: lang/json/json_items.py
 msgid "An extensive volume that details numerous methods of trapping game."
@@ -21011,14 +21080,11 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "An impermeable whole-body garment worn as protection against hazardous "
 "materials. Though very restrictive and fragile, wearing it will provide "
 "complete protection against ambient radiation."
 msgstr ""
-"Zaštitno odelo. Iako je teško za nošenje i izgleda vrlo robusno, nošenje "
-"ovakvog odela pruža odličnu zaštitu od radijacije u okolini."
 
 #: lang/json/json_items.py
 msgid ""
@@ -21197,10 +21263,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
 msgid ""
-"Antibacterial medication designed to prevent or stop the spread of "
-"infection, in exchange for making future infections harder to stop or "
-"prevent."
+"Antibacterial medication designed to prevent or stop the spread of infection."
+msgstr "Medicinsko sredstvo koje ubija bakterije i sprečava širenje zaraze."
+
+#: lang/json/json_items.py
+msgid ""
+"Antifungal medication designed to destroy fungal infections and force spores "
+"from the body."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21249,11 +21320,10 @@ msgid "BB gun"
 msgstr "Vazdušna puška"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "Baby cow food, appropriated for adult humans. Having been canned, this milk "
 "should last for a very long time."
-msgstr "Hrana za telad, spakovana za ljudsku upotrebu. Brzo kvarljivo."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Baby cow food, appropriated for adult humans. Spoils rapidly."
@@ -21292,9 +21362,8 @@ msgid "Batter Up!"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Beauty Magazine"
-msgstr "produženi šaržer"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -21318,6 +21387,12 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "Blood, possibly that of a human. Disgusting!"
 msgstr "Krv, verovatno ljudska. Odvratno!"
+
+#: lang/json/json_items.py
+msgid ""
+"Body armor consisting of a leather backing suit with bone reinforcement. "
+"Light and strong."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Boeing XM-P plasma rifle"
@@ -21351,9 +21426,8 @@ msgid "Boots made from the exoskeletons of insects. Light and durable."
 msgstr "Čizme od materijala egzoskeletalnih insekata. Izdržljive su i lagane."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Boxing Monthly"
-msgstr "Mesečnik o Kućicama za Ptice."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Bread and turkey, that's it."
@@ -21388,9 +21462,8 @@ msgid "C4-Explosive (armed)"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "CQB Monthly"
-msgstr "Mesečnik o Kućicama za Ptice."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Calico M960"
@@ -21460,18 +21533,16 @@ msgid "Computer Gaming"
 msgstr "Računarske Igre"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Computer Science 101"
-msgstr "Računarska Tehnika 301"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Computer Science 301"
 msgstr "Računarska Tehnika 301"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Computer World"
-msgstr "Računarske Igre"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Concentrated acid from an acid rainstorm. Don't drink it."
@@ -21945,9 +22016,8 @@ msgid "Foons are for scrubs, real men use sporks."
 msgstr "Kombinacija viljuške i kašike. Ova izgleda ozbiljnije."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "French fries"
-msgstr "francuski ključ"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Fresh blueberries, cooked with sugar to make them last longer."
@@ -21982,19 +22052,17 @@ msgid "Freshly cooked meat. Very nutritious."
 msgstr "Sveže spremljeno meso. Vrlo hranljivo."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Freshly-squeezed from real fruit! Tasty and nutritious."
-msgstr "Prirodan sok od svežih pomorandži. Ukusan i pun vitamina."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Freshly-squeezed from real oranges! Tasty and nutritious."
 msgstr "Prirodan sok od svežih pomorandži. Ukusan i pun vitamina."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "Fruit slices soaked in a sugar syrup, to preserve freshness and appearance."
-msgstr "Komadići jabuke u šećernom sirupu, koji čuva svežinu, sastav i oblik."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -22160,13 +22228,16 @@ msgstr ""
 "probojnu moć i nanosiće više štete."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Healthy and filling cornbread."
-msgstr "Zdravo i zasićujuće."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Healthy and filling."
 msgstr "Zdravo i zasićujuće."
+
+#: lang/json/json_items.py
+msgid "Heavy fingerless leather gloves. Very flexible and comfortable."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -22288,9 +22359,8 @@ msgid "Internal Combustion Fundamentals"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Irish coffee"
-msgstr "kafa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "It could be eaten raw if you're desperate, but is much better cooked."
@@ -22299,14 +22369,11 @@ msgstr ""
 "ukusnije ako se skuva."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "It seems to be a guide to edged weapon combat, poorly photocopied and "
 "released on spiral- bound paper. Still, there are lots of useful tips for "
 "beginners."
 msgstr ""
-"Izgleda kao udžbenik rvačkog sporta. Fotokopija je loša a sveska je uvezana "
-"spiralom. Možeš da iskoristiš par dobrih saveta za borbu golim rukama."
 
 #: lang/json/json_items.py
 msgid ""
@@ -22370,8 +22437,17 @@ msgid "Learn the moves of the trendiest dances right now."
 msgstr "Naučite korake najmodernijeg plesa, ovde i sada."
 
 #: lang/json/json_items.py
+msgid ""
+"Leather boots armored with reinforcements made from bone. Light and strong."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Leather boots with a steel toe. Extremely durable."
 msgstr "Tvrde, kožne cokule sa čeličnim vrhom. Izuzetno izdržljive."
+
+#: lang/json/json_items.py
+msgid "Leather gauntlets with bone armor reinforcement. Very light and strong."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -22707,6 +22783,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"One of the blue-colored lights from the top of an emergency services "
+"vehicle. When turned on, the lights rotate to shine in all directions."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "One of the most popular shotguns on the market, the Remington 870 is used by "
 "hunters and law enforcement agencies alike thanks to its high accuracy and "
 "muzzle velocity."
@@ -22735,6 +22817,12 @@ msgid ""
 "One of the most recognizable handguns due to its popularity in movies, the "
 "\"Deagle\" is better known for its menacing appearance than its performance. "
 "It's highly inaccurate, but its heavy weight reduces recoil."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"One of the red-colored lights from the top of an emergency services vehicle. "
+"When turned on, the lights rotate to shine in all directions."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -22837,9 +22925,8 @@ msgid "Pocket Guide to Firearm Safety"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Pocket Guide to First Aid"
-msgstr "Domaći Lekar"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Pocket Survival Guide"
@@ -23019,6 +23106,24 @@ msgid "Really cheap fortified red wine."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"Reconstituted fruit flakes, which are much more enjoyable to eat now that "
+"they have been rehydrated."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Reconstituted meat flakes, which are much more enjoyable to eat now that "
+"they have been rehydrated."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Reconstituted vegetable flakes, which are much more enjoyable to eat now "
+"that they have been rehydrated."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Remington 700"
 msgstr "Remington 700"
 
@@ -23174,11 +23279,9 @@ msgid "Savage 111F"
 msgstr "Sevidž 111F"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "Sealed glass jar containing preserved fruit.  Bland, mushy and losing color."
 msgstr ""
-"Tegla konzerviranih jabuka u soku. Slabog ukusa i polako gube sastav i boju."
 
 #: lang/json/json_items.py
 msgid ""
@@ -23258,6 +23361,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"Small metal objects covered with many sharp points. If an unsuspecting "
+"victim steps on it, they'll get a spine through the foot."
+msgstr ""
+"Daščice spojene manjim ekserima, sa nekolicinom većih eksera koji vire iznad."
+"Ukoliko se nagazi, probiće đon i (inače) povrediti stopalo."
+
+#: lang/json/json_items.py
 msgid "Smells faintly of elderberries, but mostly booze."
 msgstr "Ukusom podseća na aromu divlje, šumske zove, u suštini šljoka."
 
@@ -23279,6 +23391,10 @@ msgstr "Čarape. Nose se oko stopala."
 
 #: lang/json/json_items.py
 msgid "Some blueberry seeds."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Some fungal seeds."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -23356,9 +23472,8 @@ msgid "Sweet and delicious cookies, just like grandma used to bake."
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "Sweet and delicious, real Vermont maple syrup."
-msgstr "Hranljiva, ukusna, nadasve sočna supa od mesa."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Sweet citrus fruit. Also comes in juice form."
@@ -23546,9 +23661,8 @@ msgid "The Big Book of First Aid"
 msgstr "Domaći Lekar"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "The Book of Dances"
-msgstr "Domaći Lekar"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -23579,7 +23693,6 @@ msgstr ""
 "pruža odličnu zaštitu, ali je neverovatno težak za nošenje."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, "
 "offering very good protection against attacks, but hard to move in. This "
@@ -23587,8 +23700,6 @@ msgid ""
 "longer requires power, but also encumbers you greatly and doesn't provide "
 "internal thermal regulation."
 msgstr ""
-"DoubleTech-ov oklop sa jedinicom za napajanje, Mk I: Težak komad oklopa koji "
-"pruža odličnu zaštitu, ali je neverovatno težak za nošenje."
 
 #: lang/json/json_items.py
 msgid "The Gun Owner's Handbook"
@@ -23945,6 +24056,31 @@ msgstr "Vodeći časopis u sferi sportova na vodi i u vodi."
 #: lang/json/json_items.py
 msgid "They're blue, but that doesn't mean they're sad."
 msgstr "Ako su plave, ne znači da su tužne."
+
+#: lang/json/json_items.py
+msgid "Thick body armor made from furs. Warm and comfortable."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Thick leather body armor that has been hardened via chemical treatment. "
+"Light and strong."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Thick leather body armor that has been reinforced with strategically-placed "
+"metal plates. Strong and comfortable."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Thick leather body armor. Light and comfortable."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Thick leather boots made specifically to protect the feet. Light and tough."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -24519,13 +24655,19 @@ msgstr ""
 "već i nije, budući da je osigurač izvučen."
 
 #: lang/json/json_items.py
+msgid ""
+"This stout combat knife features a steel guard to protect the user's "
+"knuckles, which can be used for striking or blocking. It can also be used to "
+"butcher corpses."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "This white flour is useful for baking."
 msgstr "Pšenično brašno, pomeša se sa tečnošću i peče u rerni ili na vatri."
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "This yellow cornmeal is useful for baking."
-msgstr "Pšenično brašno, pomeša se sa tečnošću i peče u rerni ili na vatri."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Thorazine"
@@ -24763,12 +24905,9 @@ msgid "V8"
 msgstr "V8"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "Vacuum packed fruit slices in plastic packaging.  Activate to open and enjoy."
 msgstr ""
-"Isečeni komadi mesa životinje, vakuumirani u plastičnom pakovanju. (A)"
-"ktiviraj da bi otvorio/la kesicu i prepustio/la se uživanju."
 
 #: lang/json/json_items.py
 msgid ""
@@ -24880,15 +25019,11 @@ msgid "Whole fresh eggs, dehydrated into an easy to store powder."
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid ""
 "Will you be able to place the arrow right into the bullseye? It is not that "
 "easy, but once you know how it's done, you will have a lot of fun with "
 "archery."
 msgstr ""
-"Da li možeš da ispališ strelu u sam centar mete? To i nije tako lako kao što "
-"izgleda, ali uz dovoljno vežbe, i TI možeš da se zabavljaš koristeći luk i "
-"strelu."
 
 #: lang/json/json_items.py
 msgid ""
@@ -24999,9 +25134,8 @@ msgid "advanced UPS (on)"
 msgstr "noviji UPS (uklj)"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "adventure novel"
-msgstr "ljubavni roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "aluminium bat"
@@ -25060,24 +25194,20 @@ msgid "arm splint"
 msgstr "ortopedska pločica za ruku"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "arm warmers"
-msgstr "Toplo po rukama"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "armored boots"
-msgstr "čizme sa gvozdenim vrhom"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "armored fingerless gloves"
-msgstr "rukavice bez prstiju"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "armored gauntlets"
-msgstr "zaštitne rukavice"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "army helmet"
@@ -25156,9 +25286,8 @@ msgid "barrel extension"
 msgstr "produžetak puščane cevi"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "baseball"
-msgstr "bejzbol kapa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "baseball bat"
@@ -25265,14 +25394,12 @@ msgid "black box transcript"
 msgstr "transkript Crne kutije"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "black pepper"
-msgstr "lula za krek"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "blackberries"
-msgstr "borovnice"
+msgstr ""
 
 #: lang/json/json_items.py lang/json/json_vehicle_parts.py
 msgid "blade"
@@ -25307,9 +25434,8 @@ msgid "blowgun"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "blt"
-msgstr "ćebe"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "blueberries"
@@ -25321,6 +25447,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "blueberry seeds"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "boiled leather armor"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25342,6 +25472,26 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "bone"
 msgstr "kost"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "bone armor boots"
+msgstr "zimske čizme"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "bone armor gauntlets"
+msgstr "zaštitne rukavice"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "bone armor helmet"
+msgstr "kaciga za oklop na napajanje"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "bone body armor"
+msgstr "boršč od kostiju"
 
 #: lang/json/json_items.py
 msgid "bone broth"
@@ -25440,14 +25590,12 @@ msgid "broth"
 msgstr "boršč (buljon)"
 
 #: lang/json/json_items.py trapdef.cpp
-#, fuzzy
 msgid "bubble wrap"
-msgstr "plastični mehurići (folija)"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "buddy novel"
-msgstr "špijunski roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "burnt out bionic"
@@ -25506,27 +25654,29 @@ msgid "cannabis"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "canned fruit"
-msgstr "konzervirano meso"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "canned meat"
 msgstr "konzervirano meso"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "canned pineapple"
-msgstr "ananas"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "canned salmon"
-msgstr "konzervirano meso"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "canned veggy"
 msgstr "konzervirano povrće"
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+#, fuzzy
+msgid "car battery"
+msgstr "akumulator"
 
 #: lang/json/json_items.py
 msgid "car buyer's guide"
@@ -25649,9 +25799,8 @@ msgid "chemistry textbook"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cherries"
-msgstr "borovnice"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "chest rig"
@@ -25662,9 +25811,8 @@ msgid "chewing gum"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "children's book"
-msgstr "čizme od hitina"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "chitin arm guards"
@@ -25695,9 +25843,8 @@ msgid "chocolate bar"
 msgstr "tabla čokolade"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "chocolate drink"
-msgstr "tabla čokolade"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "chocolate-covered coffee beans"
@@ -25724,9 +25871,8 @@ msgid "cigars"
 msgstr "cigare"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "circuit board"
-msgstr "daska sa ekserima"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "clam chowder"
@@ -25737,9 +25883,8 @@ msgid "clams"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cleansuit"
-msgstr "farmerke"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "cleats"
@@ -25774,9 +25919,8 @@ msgid "coal pallet"
 msgstr "paleta uglja"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "coconut"
-msgstr "kokosovo mleko"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "coconut milk"
@@ -25795,9 +25939,8 @@ msgid "coffee powder"
 msgstr "mlevena kafa"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "coffee syrup"
-msgstr "kafa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "coilgun"
@@ -25820,9 +25963,8 @@ msgid "comic book"
 msgstr "strip sveska"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "coming of age novel"
-msgstr "ljubavni roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "composite bow"
@@ -25837,9 +25979,8 @@ msgid "concentrated acid"
 msgstr "koncentrovana kiselina"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "condensed milk"
-msgstr "kokosovo mleko"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "cooked TV dinner"
@@ -25854,18 +25995,16 @@ msgid "cooked creep"
 msgstr "kuvano ljudsko meso"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cooked fruit"
-msgstr "kuvano meso"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "cooked meat"
 msgstr "kuvano meso"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cooked oatmeal"
-msgstr "kuvano meso"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "cooked plant marrow"
@@ -25888,9 +26027,8 @@ msgid "cooking oil"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "copper tubing"
-msgstr "bakarna žica"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "copper wire"
@@ -25905,14 +26043,12 @@ msgid "corn"
 msgstr "kukuruz"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cornbread"
-msgstr "hleb"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cornmeal"
-msgstr "kukuruz"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "corporate accounting ledger"
@@ -25935,24 +26071,20 @@ msgid "crack pipe"
 msgstr "lula za krek"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "crackers"
-msgstr "krek"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cranberries"
-msgstr "jagode"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "cranberry juice"
-msgstr "sok od narandže"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "crime novel"
-msgstr "ljubavni roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "crossbow"
@@ -25991,24 +26123,20 @@ msgid "dead glowstick"
 msgstr "ugašeni fluorescentni štap"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "dehydrated fruit"
-msgstr "Dehidracija"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "dehydrated meat"
-msgstr "Dehidracija"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "dehydrated vegetables"
-msgstr "divlje povrće"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "deluxe cooked oatmeal"
-msgstr "kuvano meso"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "deluxe scrambled eggs"
@@ -26107,13 +26235,20 @@ msgid "electrohack"
 msgstr "hakerski enkoder"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "electronic scrap"
-msgstr "elektromotor"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "emergency blanket"
 msgstr "ćebence hitne pomoći"
+
+#: lang/json/json_items.py
+msgid "emergency vehicle light (blue)"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "emergency vehicle light (red)"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "empty canister"
@@ -26128,18 +26263,16 @@ msgid "enhanced grip"
 msgstr "poboljšana drška oružja"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "entrenching tool"
-msgstr "Spržene grudi!!"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "ergonomic grip"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "erotic novel"
-msgstr "ljubavni roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "etched human skull"
@@ -26150,9 +26283,8 @@ msgid "expandable baton"
 msgstr "pendrek na skupljanje"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "experimental novel"
-msgstr "dramski roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "exploding arrow"
@@ -26163,9 +26295,8 @@ msgid "exploding arrowhead"
 msgstr "vrh eksplozivne strele"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "explosive crossbow bolt"
-msgstr "čelična municija samostrela"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "explosive slug"
@@ -26252,9 +26383,8 @@ msgid "firecracker (lit)"
 msgstr "petarda (aktivna)"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "first aid kit"
-msgstr "komplet prve pomoći"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "fish mutagen"
@@ -26357,9 +26487,8 @@ msgid "foot crank"
 msgstr "bicikl pedale"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "football"
-msgstr "bilijarska kugla"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "football armor"
@@ -26386,37 +26515,44 @@ msgid "frozen dinner"
 msgstr "instant obrok"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "fruit jam"
-msgstr "voćna pita"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "fruit juice"
-msgstr "voćna pita"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "fruit leather"
-msgstr "perce"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "fruit pancakes"
-msgstr "voćna pita"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "fruit pie"
 msgstr "voćna pita"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "fruit slices"
-msgstr "voćna pita"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "frying pan"
 msgstr "tiganj"
+
+#: lang/json/json_items.py
+msgid "fungal fighter sting"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "fungal seeds"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "fungicide"
+msgstr ""
 
 #: lang/json/json_items.py trapdef.cpp
 msgid "funnel"
@@ -26429,6 +26565,11 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "fur blanket"
 msgstr "krzneno ćebe"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "fur body armor"
+msgstr "vojna potkošulja"
 
 #: lang/json/json_items.py
 msgid "fur boots"
@@ -26465,6 +26606,11 @@ msgstr "krznene pantalone"
 #: lang/json/json_items.py
 msgid "fur pelt"
 msgstr "krzno"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "fur rollmat"
+msgstr "prostirka za spavanje"
 
 #: lang/json/json_items.py
 msgid "fur sleeping bag"
@@ -26575,14 +26721,12 @@ msgid "goo canister"
 msgstr "kanister sa sivom masom"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "grape drink"
-msgstr "energetski napitak"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "grapefruit"
-msgstr "energetski napitak"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "grapes"
@@ -26649,9 +26793,8 @@ msgid "hard plating"
 msgstr "vrlo debela limarija"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "hardtack"
-msgstr "radni šlem"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "hatchet"
@@ -26958,12 +27101,32 @@ msgid "leather apron"
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "leather armor boots"
+msgstr "kožne pantalone"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "leather armor gauntlets"
+msgstr "kožne pantalone"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "leather armor helmet"
+msgstr "kaciga oklopa na napajanje"
+
+#: lang/json/json_items.py
 msgid "leather backpack"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid "leather bikini top"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "leather body armor"
+msgstr "kožni ogrtač"
 
 #: lang/json/json_items.py
 msgid "leather cat ears"
@@ -27014,6 +27177,11 @@ msgid "leather pouch"
 msgstr "kožna torbica"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "leather touring suit"
+msgstr "teški kožni kaput"
+
+#: lang/json/json_items.py
 msgid "leather trenchcoat"
 msgstr "teški kožni kaput"
 
@@ -27034,9 +27202,8 @@ msgid "lemon"
 msgstr "limun"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "lemonade"
-msgstr "limun"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "lettuce"
@@ -27099,32 +27266,32 @@ msgid "long island iced tea"
 msgstr "Long Ajlend ledeni čaj"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "long underwear bottom"
-msgstr "dugačke gaće"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "long underwear top"
-msgstr "dugačke gaće"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "long-sleeved shirt"
-msgstr "Obična pamučna majica kratkih rukava."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "longbow"
 msgstr "dugi luk"
 
 #: lang/json/json_items.py
+msgid "loose caltrops"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "lump of steel"
 msgstr "veće parče čelika"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "lye powder"
-msgstr "mlevena kafa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "mac & cheese"
@@ -27139,9 +27306,8 @@ msgid "machete"
 msgstr "mačeta"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "makeshift crowbar"
-msgstr "ručno izrađeno halberd koplje"
+msgstr ""
 
 #: lang/json/json_items.py trapdef.cpp
 msgid "makeshift funnel"
@@ -27244,9 +27410,8 @@ msgid "metal arrow shaft"
 msgstr "telo metalne strele"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "metal crossbow bolt"
-msgstr "čelična municija samostrela"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "metal leg guards"
@@ -27339,6 +27504,11 @@ msgstr "krpa s drškom"
 #: lang/json/json_items.py
 msgid "morningstar"
 msgstr "perčin-buzdovan"
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+#, fuzzy
+msgid "motorbike battery"
+msgstr "akumulator"
 
 #: lang/json/json_items.py
 msgid "motorcycle helmet"
@@ -27445,9 +27615,8 @@ msgid "ornamental plate armor"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "oxidizer powder"
-msgstr "mlevena kafa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "oxycodone"
@@ -27466,9 +27635,8 @@ msgid "packed M72 LAW"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "pancakes"
-msgstr "torta"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "pane of reinforced glass"
@@ -27495,9 +27663,8 @@ msgid "patient treatment records"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "peach"
-msgstr "izbeljivač"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "peacoat"
@@ -27604,9 +27771,8 @@ msgid "pipe shotgun"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "pistol bayonet"
-msgstr "bajonet"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "pistol crossbow"
@@ -27681,9 +27847,12 @@ msgid "plastic shaft"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "plate armor"
-msgstr "srednjevekovni metalni oklop"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "plated leather armor"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "plums"
@@ -27762,6 +27931,11 @@ msgid "pot"
 msgstr "šerpa"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "pot helmet"
+msgstr "kaciga za specijalce"
+
+#: lang/json/json_items.py
 msgid "potato chips"
 msgstr "čips"
 
@@ -27794,23 +27968,20 @@ msgid "processor board"
 msgstr "štampana ploča"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "protein drink"
-msgstr "energetski napitak"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "protein powder"
-msgstr "mlevena kafa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "protein shake"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "pulp novel"
-msgstr "špijunski roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "punch dagger"
@@ -27861,9 +28032,8 @@ msgid "rain coat"
 msgstr "kabanica"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "rain hood"
-msgstr "kabanica"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "rapid blowback"
@@ -27874,9 +28044,8 @@ msgid "rapier"
 msgstr "rapijer"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "raspberries"
-msgstr "jagode"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "rat mutagen"
@@ -27936,8 +28105,22 @@ msgstr "savitljivi dv. zakrivljeni luk"
 
 #: lang/json/json_items.py
 #, fuzzy
+msgid "rehydrated fruit"
+msgstr "Dehidracija"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "rehydrated meat"
+msgstr "Dehidracija"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "rehydrated vegetables"
+msgstr "divlje povrće"
+
+#: lang/json/json_items.py
 msgid "reinforced solar panel"
-msgstr "solarna tabla"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "repeating crossbow"
@@ -27968,9 +28151,8 @@ msgid "road map"
 msgstr "mapa puteva"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "road novel"
-msgstr "ljubavni roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "rock"
@@ -28009,9 +28191,8 @@ msgid "royal jelly"
 msgstr "kraljevski žele"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "rubber boots"
-msgstr "gumeno crevo"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "rubber gloves"
@@ -28058,19 +28239,16 @@ msgid "salted veggy chunks"
 msgstr "usoljeno povrće"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "salvaged power armor"
-msgstr "lakši oklop na napajanje"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "salvaged power armor helmet"
-msgstr "kaciga lakšeg okl. na napajanje"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "samurai novel"
-msgstr "dramski roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "sap soup"
@@ -28085,9 +28263,8 @@ msgid "sardines"
 msgstr "sardine"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "satire novel"
-msgstr "roman tajanstvenog zapleta"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "sausage"
@@ -28126,9 +28303,8 @@ msgid "scissors"
 msgstr "makaze"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "scrambled eggs"
-msgstr "unapređena EMP bomba"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "scrambler grenade"
@@ -28147,9 +28323,8 @@ msgid "sealed 3-litre jar of kompot"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "sealed jar of canned fruit"
-msgstr "zimnica - komadi mesa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "sealed jar of canned meat"
@@ -28212,9 +28387,8 @@ msgid "sheet of glass"
 msgstr "paravan stakla"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "sheet of reinforced glass"
-msgstr "paravan stakla"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "shelter kit"
@@ -28341,6 +28515,11 @@ msgid "small LCD screen"
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "small fire extinguisher"
+msgstr "aparat za gašenje požara"
+
+#: lang/json/json_items.py
 msgid "small game arrow"
 msgstr "strela za sitnu divljač"
 
@@ -28357,23 +28536,20 @@ msgid "small rifle primer"
 msgstr "kapisla manjeg puščanog metka"
 
 #: lang/json/json_items.py lang/json/json_vehicle_parts.py
-#, fuzzy
 msgid "small storage battery"
-msgstr "akumulator"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "smoke bomb"
 msgstr "dimna bomba"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "smoked meat"
-msgstr "kuvano meso"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "smoked sucker"
-msgstr "paradajz sos"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "snare trigger"
@@ -28460,9 +28636,8 @@ msgid "sports jersey"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "sports novel"
-msgstr "špijunski roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "spray can"
@@ -28601,19 +28776,16 @@ msgid "suppressor"
 msgstr "prigušivač"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "survivor boots"
-msgstr "krznene čizme"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "survivor gloves"
-msgstr "krznene rukavice"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "survivor helmet"
-msgstr "kaciga za specijalce"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "survivor mask"
@@ -28632,9 +28804,8 @@ msgid "swage and die set"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "swashbuckling novel"
-msgstr "naučno-fantastični roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "sweater"
@@ -28659,6 +28830,11 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "swimming trunks"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "switchblade"
+msgstr "sečivo"
 
 #: lang/json/json_items.py
 msgid "syringe"
@@ -28737,14 +28913,12 @@ msgid "tequila"
 msgstr "tekila"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "thriller novel"
-msgstr "horor roman"
+msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "tights"
-msgstr "upaljač"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "tin can"
@@ -28767,6 +28941,10 @@ msgid "tomato"
 msgstr "paradajz"
 
 #: lang/json/json_items.py
+msgid "tonfa"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "tool belt"
 msgstr ""
 
@@ -28787,9 +28965,8 @@ msgid "towel"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "tragedy novel"
-msgstr "fantastični roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "tramadol"
@@ -28798,6 +28975,11 @@ msgstr "tramadol"
 #: lang/json/json_items.py
 msgid "transponder circuit"
 msgstr "kolo ponavljača signala"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "trench knife"
+msgstr "mesarski nož"
 
 #: lang/json/json_items.py
 msgid "trenchcoat"
@@ -28814,6 +28996,11 @@ msgstr "žičana zamka"
 #: lang/json/json_items.py
 msgid "troglobite mutagen"
 msgstr "mutagen troglodita"
+
+#: lang/json/json_items.py lang/json/json_vehicle_parts.py
+#, fuzzy
+msgid "truck battery"
+msgstr "akumulator"
 
 #: lang/json/json_items.py lang/json/json_vehicle_parts.py
 msgid "truck horn"
@@ -28852,9 +29039,8 @@ msgid "underslung shotgun"
 msgstr "montažna sačmarica"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "union suit"
-msgstr "kostim vuka"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "used heatpack"
@@ -28873,9 +29059,8 @@ msgid "vacuum sealer"
 msgstr "vakuum pumpa za pakovanje"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "vacuum-packed fruit slices"
-msgstr "vakumizirani komadi mesa"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "vacuum-packed meat slices"
@@ -28922,9 +29107,8 @@ msgid "walking cane"
 msgstr "štap za hodanje"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "war novel"
-msgstr "dramski roman"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "wasp sting"
@@ -28943,9 +29127,8 @@ msgid "water purifier"
 msgstr "prečišćivač za vodu"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "watermelon"
-msgstr "voda"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "waterskin"
@@ -28972,9 +29155,8 @@ msgid "welding goggles"
 msgstr "naočari za zavarivanje"
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "western novel"
-msgstr "roman tajanstvenog zapleta"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "wetsuit"
@@ -29061,9 +29243,8 @@ msgid "woods soup"
 msgstr ""
 
 #: lang/json/json_items.py
-#, fuzzy
 msgid "wool beret"
-msgstr "beretka"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "wool gloves"
@@ -29130,9 +29311,8 @@ msgid "Exit Screen"
 msgstr ""
 
 #: lang/json/json_keybindings.py
-#, fuzzy
 msgid "Go Down"
-msgstr "Opijen(a)"
+msgstr ""
 
 #: lang/json/json_keybindings.py
 msgid "Go Up"
@@ -29175,9 +29355,8 @@ msgid "Pan up-right"
 msgstr ""
 
 #: lang/json/json_keybindings.py
-#, fuzzy
 msgid "Search"
-msgstr "Spržen(a)"
+msgstr ""
 
 #: lang/json/json_lab_notes.py
 msgid ""
@@ -31143,7 +31322,7 @@ msgstr ""
 msgid ""
 "A plant that grows as high as your head,\n"
 "with one thick, bark-coated stalk\n"
-"supporting a flower-like head with a sharp\n"
+"supporting a flower-like head with a paralyzing\n"
 "sting within."
 msgstr ""
 
@@ -31197,6 +31376,14 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
+"A short, spiky plant that can dig through\n"
+"the ground and shoot darts. It's sting and\n"
+"darts are highly venemous and have special\n"
+"properties against fungal creatures."
+msgstr ""
+
+#: lang/json/json_monsters.py
+msgid ""
 "A skeleton picked clean of all but a few\n"
 "rotten scraps of flesh, somehow still in\n"
 "motion."
@@ -31206,7 +31393,7 @@ msgstr ""
 msgid ""
 "A sluglike creature, eight feet long and the width of a refrigerator, its "
 "black body glistens as it oozes its way along the ground. Eye stalks "
-"occassionally push their way out of the oily mass and look around."
+"occasionally push their way out of the oily mass and look around."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31401,6 +31588,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_monsters.py
+msgid "Actual Cannibal Shia LaBeouf"
+msgstr ""
+
+#: lang/json/json_monsters.py
 msgid "Amigara horror"
 msgstr ""
 
@@ -31526,6 +31717,14 @@ msgid ""
 "a thick covering of scar tissue, it will be\n"
 "much harder to damage than an ordinary zombie\n"
 "but moves a bit slower"
+msgstr ""
+
+#: lang/json/json_monsters.py
+msgid ""
+"Living in the woods! (Quiet, quiet)\n"
+"Killing for sport! (Quiet, quiet)\n"
+"Eating  all the bodies!\n"
+"Actual cannibal Shia LaBeouf!"
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31799,6 +31998,11 @@ msgid "fungal boomer"
 msgstr ""
 
 #: lang/json/json_monsters.py
+#, fuzzy
+msgid "fungal fighter"
+msgstr "upaljač"
+
+#: lang/json/json_monsters.py
 msgid "fungal insect"
 msgstr ""
 
@@ -31806,7 +32010,7 @@ msgstr ""
 msgid "fungal spire"
 msgstr ""
 
-#: lang/json/json_monsters.py
+#: lang/json/json_monsters.py lang/json/json_terrain.py
 msgid "fungal wall"
 msgstr ""
 
@@ -32907,9 +33111,8 @@ msgid "Stubby Tail"
 msgstr ""
 
 #: lang/json/json_mutations.py player.cpp
-#, fuzzy
 msgid "Stylish"
-msgstr "Moderan ogrtač."
+msgstr ""
 
 #: lang/json/json_mutations.py
 msgid "Sunlight dependent"
@@ -33884,9 +34087,9 @@ msgid "Your muscles are a little stronger. Strength + 1"
 msgstr ""
 
 #: lang/json/json_mutations.py
-#, fuzzy, no-python-format
+#, no-python-format
 msgid "Your muscles are generally slow to move. You run 10% slower."
-msgstr "Noge su ti duže vreme izložene hladnoći. To utiče na ukupnu snagu."
+msgstr ""
 
 #: lang/json/json_mutations.py
 msgid "Your muscles are much stronger. Strength + 4"
@@ -33897,18 +34100,18 @@ msgid "Your muscles are noticeably bulging. Strength + 7"
 msgstr ""
 
 #: lang/json/json_mutations.py
-#, fuzzy, no-python-format
+#, no-python-format
 msgid "Your muscles are quite slow to move. You run 20% slower."
-msgstr "Noge su ti duže vreme izložene hladnoći. To utiče na ukupnu snagu."
+msgstr ""
 
 #: lang/json/json_mutations.py
 msgid "Your muscles are stronger. Strength + 2"
 msgstr ""
 
 #: lang/json/json_mutations.py
-#, fuzzy, no-python-format
+#, no-python-format
 msgid "Your muscles are very slow to move. You run 30% slower."
-msgstr "Noge su ti duže vreme izložene hladnoći. To utiče na ukupnu snagu."
+msgstr ""
 
 #: lang/json/json_mutations.py
 msgid ""
@@ -34064,10 +34267,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Acworth"
-msgstr "Sever:"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -34407,10 +34609,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Appleton"
-msgstr "jabuka"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -34462,10 +34663,9 @@ msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Full Name"
 msgid "Artcher"
-msgstr "vrećica za čaure"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -34577,10 +34777,9 @@ msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Autumn"
-msgstr "Jesen"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
@@ -34632,10 +34831,9 @@ msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Family Name"
 msgid "Baker"
-msgstr "patike"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -34681,10 +34879,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Barkhamsted"
-msgstr "Iscrpljen(a)"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -34772,10 +34969,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Beddington"
-msgstr "Krvarenje"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -34857,10 +35053,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Bennington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -34954,17 +35149,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Blaine"
-msgstr "kokain"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Blake"
-msgstr "Ugašena Žeđ"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35148,10 +35341,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Brewer"
-msgstr "drveni ražnjić"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35191,10 +35383,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Bridgewater"
-msgstr "kisela kišnica"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35234,10 +35425,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Brockton"
-msgstr "kamen"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -35319,10 +35509,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Brownington"
-msgstr "Brauning BLR"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35530,10 +35719,9 @@ msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Caroline"
-msgstr "benzin"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35657,10 +35845,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Charlemont"
-msgstr "limun"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -35748,10 +35935,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Chester"
-msgstr "futrola za oružje"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35767,10 +35953,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Chichester"
-msgstr ".270 Vinčester municija"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35780,10 +35965,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Chilmark"
-msgstr "Hladnjikave ruke"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35835,10 +36019,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Claremont"
-msgstr "limun"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -35896,10 +36079,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Colchester"
-msgstr "futrola za oružje"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -36041,10 +36223,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Coventry"
-msgstr "Spisak Predmeta:"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
@@ -36078,10 +36259,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Cranston"
-msgstr "spiralni kamen"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36115,10 +36295,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Cummington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36284,10 +36463,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Deering"
-msgstr "kuglični ležajevi"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36327,10 +36505,9 @@ msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Destiny"
-msgstr "pčelinja žaoka"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36340,10 +36517,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Dexter"
-msgstr "Spretnost"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
@@ -36407,10 +36583,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Douglas"
-msgstr "čaša"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36462,17 +36637,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Dummer"
-msgstr "Leto"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Dummerston"
-msgstr "Leto"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36524,10 +36697,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "East Bridgewater"
-msgstr "slana voda"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36567,10 +36739,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "East Haven"
-msgstr "zverinji mutagen"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36628,17 +36799,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Eastford"
-msgstr "Istok:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Eastham"
-msgstr "Istok:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36648,17 +36817,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Easton"
-msgstr "Istok:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Eastport"
-msgstr "Istok:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36722,10 +36889,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Egremont"
-msgstr "limun"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -36855,10 +37021,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Erving"
-msgstr "Gladuješ!"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36910,10 +37075,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Everett"
-msgstr "beretka"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -36977,17 +37141,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Farmington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Fayette"
-msgstr "Cigareta"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37033,10 +37195,9 @@ msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Family Name"
 msgid "Flores"
-msgstr "Spore"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37070,17 +37231,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Foster"
-msgstr "futrola za oružje"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Family Name"
 msgid "Foster"
-msgstr "futrola za oružje"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37102,10 +37261,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Franconia"
-msgstr "tečni amonijak"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37133,10 +37291,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Freeport"
-msgstr "teleporter"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37146,17 +37303,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Fremont"
-msgstr "limun"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Frenchboro"
-msgstr "francuski ključ"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37220,10 +37375,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Gardiner"
-msgstr "sardine"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37287,10 +37441,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Gilead"
-msgstr "olovo"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37348,10 +37501,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Glocester"
-msgstr "futrola za oružje"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37643,10 +37795,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Hammond"
-msgstr "tečni amonijak"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37692,10 +37843,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Hanover"
-msgstr "poklopac šahta"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37819,17 +37969,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Heath"
-msgstr "perce"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Heather"
-msgstr "perce"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37881,10 +38029,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Highgate"
-msgstr "Urađen"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37948,10 +38095,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Holbrook"
-msgstr "metla"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37967,10 +38113,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Holland"
-msgstr "zrnevlje biljke mesožderke"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -37992,10 +38137,9 @@ msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Full Name"
 msgid "Homer"
-msgstr "Bumer-ovan(a)"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38083,17 +38227,15 @@ msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Hunter"
-msgstr "Zima"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Huntington"
-msgstr "Halucinacije"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38133,10 +38275,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Ira"
-msgstr "krpa"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38278,10 +38419,9 @@ msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Jasmine"
-msgstr "nagazna mina"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -38615,10 +38755,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Kensington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38724,10 +38863,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Kittery"
-msgstr "baterije"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38761,17 +38899,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Laconia"
-msgstr "tečni amonijak"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Lagrange"
-msgstr "pomorandža"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38793,10 +38929,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Lancaster"
-msgstr "toster"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38842,10 +38977,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Lawrence"
-msgstr "francuski ključ"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
@@ -38903,17 +39037,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Lemington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Lempster"
-msgstr "prazan kanister"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -38947,10 +39079,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Leverett"
-msgstr "beretka"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
@@ -38966,10 +39097,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Lexington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -39015,10 +39145,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Limington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -39124,10 +39253,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Lovell"
-msgstr "lopata"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -39239,10 +39367,9 @@ msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Madeline"
-msgstr "benzin"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
@@ -39294,10 +39421,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Manchester"
-msgstr ".270 Vinčester municija"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -39325,10 +39451,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Marblehead"
-msgstr "Toplo po glavi"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
@@ -39422,10 +39547,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Masardis"
-msgstr "sardine"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -39513,10 +39637,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Mechanic Falls"
-msgstr "Vrhunske Majstorije"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -39604,10 +39727,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Methuen"
-msgstr "Spuštanje sa Amfetamina"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -39995,10 +40117,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Nantucket"
-msgstr "teksas jakna"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40296,10 +40417,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Newington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40429,10 +40549,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "North Hero"
-msgstr "Sever:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40490,17 +40609,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Northfield"
-msgstr "Sever:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Northport"
-msgstr "Sever:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40510,17 +40627,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Northwood"
-msgstr "Sever:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Norton"
-msgstr "Sever:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40578,10 +40693,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Oakham"
-msgstr "bušilica"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40627,10 +40741,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Orange"
-msgstr "pomorandža"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40652,10 +40765,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Orleans"
-msgstr "farmerke"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40803,17 +40915,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Patten"
-msgstr "kuhinjske rukavice za hvatanje"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Family Name"
 msgid "Patterson"
-msgstr "baterije"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
@@ -40853,10 +40963,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Peacham"
-msgstr "izbeljivač"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -40950,17 +41059,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Phillips"
-msgstr "Hladnjikav%s"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Family Name"
 msgid "Phillips"
-msgstr "Hladnjikav%s"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -41060,10 +41167,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Porter"
-msgstr "teleporter"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -41115,10 +41221,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Preston"
-msgstr "sos sa belim lukom"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
@@ -41134,10 +41239,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Proctor"
-msgstr "mini reaktor"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -41177,10 +41281,9 @@ msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Rachel"
-msgstr "mačeta"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
@@ -41244,10 +41347,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Reading"
-msgstr "Krvarenje"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -41377,10 +41479,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Rochester"
-msgstr "futrola za oružje"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -41648,10 +41749,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Sandwich"
-msgstr "sendvič s mesom"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -41727,10 +41827,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Seabrook"
-msgstr "metla"
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -41962,10 +42061,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Somerset"
-msgstr "Bumer-ovan(a)"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42023,10 +42121,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "South Hero"
-msgstr "Jug:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42072,10 +42169,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Southbury"
-msgstr "Jug:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42085,10 +42181,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Southport"
-msgstr "Jug:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42098,10 +42193,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Southwick"
-msgstr "Jug:"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
@@ -42129,10 +42223,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Springfield"
-msgstr "Proleće"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42214,10 +42307,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Sterling"
-msgstr "praćka"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42275,10 +42367,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Stoneham"
-msgstr "primitivni čekić od kamena"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42564,10 +42655,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Thorndike"
-msgstr "Torazin"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42613,10 +42703,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Tolland"
-msgstr "zrnevlje biljke mesožderke"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
@@ -42686,10 +42775,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Tremont"
-msgstr "limun"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42777,10 +42865,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Tyringham"
-msgstr "špric i igla"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42856,10 +42943,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Veazie"
-msgstr "fenjer"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -42899,10 +42985,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Vienna"
-msgstr "antena"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43122,10 +43207,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Weathersfield"
-msgstr "perce"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43159,10 +43243,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Wellington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43196,10 +43279,9 @@ msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Family Name"
 msgid "West"
-msgstr "Zapad:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43215,10 +43297,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "West Bridgewater"
-msgstr "slana voda"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43240,10 +43321,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "West Gardiner"
-msgstr "sardine"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43325,10 +43405,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Westerly"
-msgstr "Zapad:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43338,17 +43417,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Westford"
-msgstr "Zapad:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Westhampton"
-msgstr "metamfetamin"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43364,10 +43441,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Westmore"
-msgstr "Zapad:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43377,24 +43453,21 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Weston"
-msgstr "Zapad:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Westport"
-msgstr "Zapad:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Westwood"
-msgstr "Zapad:"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43422,10 +43495,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Wheelock"
-msgstr "potpetice"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
@@ -43525,10 +43597,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Wilmington"
-msgstr "Remington 870"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43556,10 +43627,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Winchester"
-msgstr ".270 Vinčester municija"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43581,10 +43651,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Winhall"
-msgstr "pumpica sa kiseonikom"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43612,17 +43681,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Winter Harbor"
-msgstr "zimske čizme"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Winterport"
-msgstr "Zima"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43632,10 +43699,9 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Winthrop"
-msgstr "Zima"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43711,17 +43777,15 @@ msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Woonsocket"
-msgstr "vunene čarape"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "City Name"
 msgid "Worcester"
-msgstr "futrola za oružje"
+msgstr ""
 
 #. ~ proper name; usage=city
 #: lang/json/json_names.py
@@ -43737,10 +43801,9 @@ msgstr ""
 
 #. ~ proper name; gender=unisex; usage=family
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Family Name"
 msgid "Wright"
-msgstr "Težina: "
+msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
@@ -43780,10 +43843,9 @@ msgstr ""
 
 #. ~ proper name; gender=male; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Zachary"
-msgstr "punjenje"
+msgstr ""
 
 #. ~ proper name; gender=unisex; usage=backer
 #: lang/json/json_names.py
@@ -43799,10 +43861,9 @@ msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
-#, fuzzy
 msgctxt "Given Name"
 msgid "Zoe"
-msgstr "grabulje"
+msgstr ""
 
 #. ~ proper name; gender=female; usage=given
 #: lang/json/json_names.py
@@ -43848,9 +43909,8 @@ msgid "Ballroom Dancer"
 msgstr ""
 
 #: lang/json/json_professions.py
-#, fuzzy
 msgid "Baseball Player"
-msgstr "bejzbol kapa"
+msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
@@ -44070,6 +44130,11 @@ msgstr ""
 #: lang/json/json_professions.py
 msgid "Shower Victim"
 msgstr ""
+
+#: lang/json/json_professions.py
+#, fuzzy
+msgid "Street Thug"
+msgstr "Snaga"
 
 #: lang/json/json_professions.py
 msgid "Student"
@@ -44316,6 +44381,13 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
+"You've worked the streets since you were a kid, and now you use your street "
+"skills to survive. You've got your trusty switchblade, and the skill to use "
+"it."
+msgstr ""
+
+#: lang/json/json_professions.py
+msgid ""
 "Your body has bionics worth millions payed by public taxes. The government "
 "employed you as a spy: you have night vision, an alarm and a hacking module "
 "powered by your own metabolism."
@@ -44398,9 +44470,9 @@ msgstr ""
 
 #: lang/json/json_skills.py
 msgid ""
-"Your overall skill in using firearms. With higher levels, this general "
-"experience increases accuracy with any gun, but is secondary to practice "
-"with the type of gun in question."
+"Your overall skill in using bows and firearms. With higher levels, this "
+"general experience increases accuracy with any bows or firearms, but is "
+"secondary to practice with the type of ranged weapon in question."
 msgstr ""
 
 #: lang/json/json_skills.py
@@ -44585,10 +44657,6 @@ msgid "fabrication"
 msgstr ""
 
 #: lang/json/json_skills.py
-msgid "firearms"
-msgstr ""
-
-#: lang/json/json_skills.py
 msgid "first aid"
 msgstr "komplet prve pomoći"
 
@@ -44598,6 +44666,10 @@ msgstr ""
 
 #: lang/json/json_skills.py
 msgid "launchers"
+msgstr ""
+
+#: lang/json/json_skills.py
+msgid "marksmanship"
 msgstr ""
 
 #: lang/json/json_skills.py
@@ -44850,6 +44922,11 @@ msgstr ""
 
 #: lang/json/json_techniques.py
 #, python-format
+msgid "<npcname> axe-kicks %s"
+msgstr ""
+
+#: lang/json/json_techniques.py
+#, python-format
 msgid "<npcname> disarms %s"
 msgstr ""
 
@@ -44864,9 +44941,9 @@ msgid "<npcname> feints at %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, fuzzy, python-format
+#, python-format
 msgid "<npcname> flying knees %s"
-msgstr "tiganj"
+msgstr ""
 
 #: lang/json/json_techniques.py
 #, python-format
@@ -44949,6 +45026,10 @@ msgid "<npcname> wraps up %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
+msgid "Brutal Strike"
+msgstr ""
+
+#: lang/json/json_techniques.py
 msgid "Grab Break"
 msgstr ""
 
@@ -44974,6 +45055,11 @@ msgstr ""
 
 #: lang/json/json_techniques.py
 #, python-format
+msgid "You axe-kick %s"
+msgstr ""
+
+#: lang/json/json_techniques.py
+#, python-format
 msgid "You disarm %s"
 msgstr ""
 
@@ -44988,9 +45074,9 @@ msgid "You feint at %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, fuzzy, python-format
+#, python-format
 msgid "You flying knee %s"
-msgstr "tiganj"
+msgstr ""
 
 #: lang/json/json_techniques.py
 #, python-format
@@ -45068,9 +45154,13 @@ msgid "You throw %s"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, fuzzy, python-format
+#, python-format
 msgid "You wrap up %s"
-msgstr "Budiš se."
+msgstr ""
+
+#: lang/json/json_techniques.py
+msgid "axe-kick"
+msgstr ""
 
 #: lang/json/json_techniques.py
 msgid "disarm"
@@ -45085,9 +45175,8 @@ msgid "feint at"
 msgstr ""
 
 #: lang/json/json_techniques.py
-#, fuzzy
 msgid "flying knee"
-msgstr "tiganj"
+msgstr ""
 
 #: lang/json/json_techniques.py
 msgid "grab"
@@ -45327,6 +45416,18 @@ msgstr ""
 
 #: lang/json/json_terrain.py
 msgid "fungal bed"
+msgstr ""
+
+#: lang/json/json_terrain.py
+msgid "fungal floor"
+msgstr ""
+
+#: lang/json/json_terrain.py
+msgid "fungal mound"
+msgstr ""
+
+#: lang/json/json_terrain.py
+msgid "fungal shrub"
 msgstr ""
 
 #: lang/json/json_terrain.py
@@ -45694,6 +45795,10 @@ msgid "yellow switch"
 msgstr ""
 
 #: lang/json/json_terrain.py
+msgid "young fungal tree"
+msgstr ""
+
+#: lang/json/json_terrain.py
 msgid "young tree"
 msgstr ""
 
@@ -45704,6 +45809,11 @@ msgstr ""
 #: lang/json/json_vehicle_parts.py
 msgid "aisle"
 msgstr ""
+
+#: lang/json/json_vehicle_parts.py
+#, fuzzy
+msgid "blue light"
+msgstr "starter el. upaljača"
 
 #: lang/json/json_vehicle_parts.py
 msgid "board"
@@ -45778,6 +45888,16 @@ msgid "opaque door"
 msgstr ""
 
 #: lang/json/json_vehicle_parts.py
+#, fuzzy
+msgid "quarterpanel"
+msgstr "solarna tabla"
+
+#: lang/json/json_vehicle_parts.py
+#, fuzzy
+msgid "red light"
+msgstr "upaljač"
+
+#: lang/json/json_vehicle_parts.py
 msgid "reinforced windshield"
 msgstr ""
 
@@ -45794,9 +45914,8 @@ msgid "shutter door"
 msgstr ""
 
 #: lang/json/json_vehicle_parts.py
-#, fuzzy
 msgid "sliding door"
-msgstr "lemilica"
+msgstr ""
 
 #: lang/json/json_vehicle_parts.py
 msgid "trunk"
@@ -45804,6 +45923,10 @@ msgstr ""
 
 #: lang/json/json_vehicle_parts.py
 msgid "trunk door"
+msgstr ""
+
+#: lang/json/json_vehicle_parts.py
+msgid "unicycle wheel"
 msgstr ""
 
 #: lang/json/json_vehicle_parts.py
@@ -45820,6 +45943,10 @@ msgstr ""
 
 #: lang/json/json_vehicle_parts.py
 msgid "windshield"
+msgstr ""
+
+#: lang/json/json_vehicles.py
+msgid "Ambulance"
 msgstr ""
 
 #: lang/json/json_vehicles.py
@@ -45887,6 +46014,10 @@ msgid "Motorcycle Chassis"
 msgstr ""
 
 #: lang/json/json_vehicles.py
+msgid "Police Car"
+msgstr ""
+
+#: lang/json/json_vehicles.py
 msgid "Quad Bike"
 msgstr ""
 
@@ -45919,14 +46050,16 @@ msgid "Truck Trailer"
 msgstr ""
 
 #: lang/json/json_vehicles.py
-#, fuzzy
-msgid "Welding Cart"
-msgstr "eksplozivna strela"
+msgid "Unicycle"
+msgstr ""
 
 #: lang/json/json_vehicles.py
-#, fuzzy
+msgid "Welding Cart"
+msgstr ""
+
+#: lang/json/json_vehicles.py
 msgid "Wheelbarrow"
-msgstr "metalna strela"
+msgstr ""
 
 #: lang/json/json_vehicles.py
 msgid "custom"
@@ -46053,16 +46186,14 @@ msgid "<R>andom Character"
 msgstr ""
 
 #: main_menu.cpp
-#, fuzzy
 msgctxt "Main Menu"
 msgid "<R>eset"
-msgstr "Resetovanje"
+msgstr ""
 
 #: main_menu.cpp
-#, fuzzy
 msgctxt "Main Menu"
 msgid "<S>pecial"
-msgstr ".38 Specijalna municija"
+msgstr ""
 
 #: main_menu.cpp
 msgid "Delete the world and all saves?"
@@ -46199,44 +46330,12 @@ msgstr ""
 msgid "Your %s sank."
 msgstr ""
 
-#: map.cpp
-msgid "brush."
-msgstr ""
-
-#: map.cpp
-msgid "clang!"
-msgstr ""
-
-#: map.cpp
-msgid "crak"
-msgstr ""
-
 #: map.cpp vehicle.cpp
 msgid "crash!"
 msgstr ""
 
 #: map.cpp
-msgid "crunch."
-msgstr ""
-
-#: map.cpp
 msgid "ke-rash!"
-msgstr ""
-
-#: map.cpp
-msgid "ker-rash!"
-msgstr ""
-
-#: map.cpp
-msgid "metal screeching!"
-msgstr ""
-
-#: map.cpp
-msgid "plunk."
-msgstr ""
-
-#: map.cpp
-msgid "porcelain breaking!"
 msgstr ""
 
 #: map.cpp
@@ -46253,26 +46352,6 @@ msgstr ""
 
 #: map.cpp
 msgid "thump!"
-msgstr ""
-
-#: map.cpp
-msgid "whack!"
-msgstr ""
-
-#: map.cpp
-msgid "wham!"
-msgstr ""
-
-#: map.cpp
-msgid "whump!"
-msgstr ""
-
-#: map.cpp
-msgid "whump."
-msgstr ""
-
-#: map.cpp
-msgid "whunk!"
 msgstr ""
 
 #: mapbuffer.cpp
@@ -46349,14 +46428,12 @@ msgid "Disarm Missile"
 msgstr ""
 
 #: mapgen.cpp
-#, fuzzy
 msgid "Divert power to elevator"
-msgstr "kaciga lakšeg okl. na napajanje"
+msgstr ""
 
 #: mapgen.cpp
-#, fuzzy
 msgid "Divert sample"
-msgstr "uzorak otpadnih voda"
+msgstr ""
 
 #: mapgen.cpp
 msgid "Download Map Data"
@@ -46387,18 +46464,16 @@ msgid "ERROR:  SIGNAL DISCONNECT"
 msgstr ""
 
 #: mapgen.cpp
-#, fuzzy
 msgid "Emergency Message"
-msgstr "ćebence hitne pomoći"
+msgstr ""
 
 #: mapgen.cpp
 msgid "EnviroCom OS v2.03"
 msgstr ""
 
 #: mapgen.cpp
-#, fuzzy
 msgid "Evac shelter computer"
-msgstr "laptop računar"
+msgstr ""
 
 #: mapgen.cpp
 msgid "First United Bank"
@@ -46441,9 +46516,8 @@ msgid "Medical Supply Access"
 msgstr ""
 
 #: mapgen.cpp
-#, fuzzy
 msgid "Missile Controls"
-msgstr "komplet kontrola za vozilo"
+msgstr ""
 
 #: mapgen.cpp
 msgid "Mk IV Algorithmic Data Analyzer"
@@ -46514,9 +46588,8 @@ msgid "Security Reminder [1057]"
 msgstr ""
 
 #: mapgen.cpp
-#, fuzzy
 msgid "Stem Cell Treatment"
-msgstr "Terapija matičnim ćelijama"
+msgstr ""
 
 #: mapgen.cpp
 msgid "Sub-prime contact console"
@@ -46825,9 +46898,9 @@ msgid "Contact with %s shocks you!"
 msgstr ""
 
 #: melee.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You batter %s"
-msgstr "baterije"
+msgstr ""
 
 #: melee.cpp
 #, c-format
@@ -46839,9 +46912,9 @@ msgid "You break the grab!"
 msgstr ""
 
 #: melee.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You butt %s with your antlers!"
-msgstr "Počinješ da se češeš po celom telu!"
+msgstr ""
 
 #: melee.cpp
 #, c-format
@@ -46878,9 +46951,9 @@ msgid "You force %s to the ground!"
 msgstr ""
 
 #: melee.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You hack %s"
-msgstr "Budiš se."
+msgstr ""
 
 #: melee.cpp
 #, c-format
@@ -46941,9 +47014,9 @@ msgid "You poison %s!"
 msgstr ""
 
 #: melee.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You poke %s"
-msgstr "Budiš se."
+msgstr ""
 
 #: melee.cpp
 #, c-format
@@ -46961,9 +47034,9 @@ msgid "You slap %s with your tentacle!"
 msgstr ""
 
 #: melee.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You slice %s"
-msgstr "konzervirano ljudsko meso"
+msgstr ""
 
 #: melee.cpp
 #, c-format
@@ -46990,9 +47063,9 @@ msgid "You swing wildly and miss."
 msgstr ""
 
 #: melee.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You whack %s"
-msgstr "Budiš se."
+msgstr ""
 
 #: melee.cpp
 #, c-format
@@ -48176,6 +48249,10 @@ msgid "Bile splatters on the %s!"
 msgstr ""
 
 #: monattack.cpp
+msgid "Injected with dermatik eggs."
+msgstr ""
+
+#: monattack.cpp
 #, c-format
 msgid "Pointed in your direction, the %s emits %d annoyed sounding beeps."
 msgstr ""
@@ -48211,7 +48288,17 @@ msgstr ""
 
 #: monattack.cpp
 #, c-format
+msgid "The %s dermatik larva grows into an adult!"
+msgstr ""
+
+#: monattack.cpp
+#, c-format
 msgid "The %s drops a flask of acid!"
+msgstr ""
+
+#: monattack.cpp
+#, c-format
+msgid "The %s falls to the ground and bursts!"
 msgstr ""
 
 #: monattack.cpp
@@ -48311,7 +48398,7 @@ msgstr ""
 
 #: monattack.cpp
 #, c-format
-msgid "The %s sinks its ovipositor into you!"
+msgid "The %s sinks its ovipositor into your %s!"
 msgstr ""
 
 #: monattack.cpp
@@ -48362,6 +48449,16 @@ msgstr ""
 #: monattack.cpp
 #, c-format
 msgid "The %s tries to land on you, but you dodge."
+msgstr ""
+
+#: monattack.cpp
+#, c-format
+msgid "The %s young fungaloid grows into an adult!"
+msgstr ""
+
+#: monattack.cpp
+#, c-format
+msgid "The %s young triffid grows into an adult!"
 msgstr ""
 
 #: monattack.cpp
@@ -48418,6 +48515,10 @@ msgstr ""
 
 #: monattack.cpp
 msgid "You dodge the beam!"
+msgstr ""
+
+#: monattack.cpp monmove.cpp
+msgid "You feel poison enter your body!"
 msgstr ""
 
 #: monattack.cpp
@@ -49085,7 +49186,7 @@ msgid "You already picked a conflicting trait!"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "You cannot save a template with unused points!"
+msgid "You cannot save a template with nonzero unused points!"
 msgstr ""
 
 #: newcharacter.cpp
@@ -51780,6 +51881,14 @@ msgstr ""
 msgid "Auto-safemode on by default"
 msgstr ""
 
+#: options.cpp weather_data.cpp
+msgid "Autumn"
+msgstr "Jesen"
+
+#: options.cpp
+msgid "Black Road"
+msgstr ""
+
 #. ~ capped at a value
 #: options.cpp
 msgid "Capped"
@@ -51970,6 +52079,10 @@ msgid ""
 msgstr ""
 
 #: options.cpp
+msgid "If true, spawn zombies at shelters."
+msgstr ""
+
+#: options.cpp
 msgid ""
 "If true, the game will calculate range in a realistic way: light sources "
 "will be circles diagonal movement will cover more ground and take longer. If "
@@ -52001,6 +52114,15 @@ msgstr ""
 
 #: options.cpp
 msgid "Initial points available on character generation."
+msgstr ""
+
+#: options.cpp
+#, fuzzy
+msgid "Initial season"
+msgstr "Italijanski začini"
+
+#: options.cpp
+msgid "Initial starting season of day on character generation."
 msgstr ""
 
 #: options.cpp
@@ -52088,9 +52210,8 @@ msgid ""
 msgstr ""
 
 #: options.cpp
-#, fuzzy
 msgid "Periodically autosave"
-msgstr "hanzaplast traka"
+msgstr ""
 
 #: options.cpp
 msgid "Query"
@@ -52189,9 +52310,12 @@ msgid ""
 msgstr ""
 
 #: options.cpp
-#, fuzzy
 msgid "Speed units"
-msgstr "Brzina"
+msgstr ""
+
+#: options.cpp weather_data.cpp
+msgid "Spring"
+msgstr "Proleće"
 
 #: options.cpp
 msgid "Standard"
@@ -52204,6 +52328,10 @@ msgstr ""
 #: options.cpp
 msgid "Static spawn"
 msgstr ""
+
+#: options.cpp weather_data.cpp
+msgid "Summer"
+msgstr "Leto"
 
 #: options.cpp
 msgid "Switch between Celsius and Fahrenheit."
@@ -52260,6 +52388,10 @@ msgstr ""
 #: options.cpp
 msgid "Watertight"
 msgstr ""
+
+#: options.cpp weather_data.cpp
+msgid "Winter"
+msgstr "Zima"
 
 #: options.cpp player.cpp
 msgid "km/h"
@@ -52809,9 +52941,8 @@ msgid " (Rising)"
 msgstr " (Raste)"
 
 #: player.cpp
-#, fuzzy
 msgid " Damage"
-msgstr "Bonus na štetu"
+msgstr ""
 
 #: player.cpp
 msgid " Head: "
@@ -53037,10 +53168,6 @@ msgid "Cocaine Craving"
 msgstr ""
 
 #: player.cpp
-msgid "Cold"
-msgstr ""
-
-#: player.cpp
 #, c-format
 msgid "Cold-Blooded        -%s%d%%%%"
 msgstr ""
@@ -53072,9 +53199,8 @@ msgid "Damage Healed: "
 msgstr ""
 
 #: player.cpp
-#, fuzzy
 msgid "Damage Taken: "
-msgstr "Bonus na štetu"
+msgstr ""
 
 #: player.cpp
 msgid "Dead tired"
@@ -53270,10 +53396,6 @@ msgstr ""
 
 #: player.cpp
 msgid "Heard Disturbing Scream"
-msgstr ""
-
-#: player.cpp
-msgid "Hot"
 msgstr ""
 
 #: player.cpp
@@ -53487,6 +53609,11 @@ msgstr "Uobičajeno"
 
 #: player.cpp
 msgid "Nothing to see here!"
+msgstr ""
+
+#: player.cpp
+#, c-format
+msgid "Now studying %s, %s to stop early."
 msgstr ""
 
 #: player.cpp
@@ -54571,6 +54698,10 @@ msgid "Kra-kow!!"
 msgstr ""
 
 #: ranged.cpp
+msgid "Mouse - LMB: Target, Wheel: Cycle, RMB: Fire"
+msgstr ""
+
+#: ranged.cpp
 msgid "Move cursor to target with directional keys"
 msgstr ""
 
@@ -54674,8 +54805,17 @@ msgid "buried land mine"
 msgstr ""
 
 #: trapdef.cpp
+msgid "caltrops"
+msgstr ""
+
+#: trapdef.cpp
 msgid "dissector"
 msgstr ""
+
+#: trapdef.cpp
+#, fuzzy
+msgid "fur roll mat"
+msgstr "prostirka za spavanje"
 
 #: trapdef.cpp
 msgid "goo pit"
@@ -54841,6 +54981,10 @@ msgid "Stepped into thick goo."
 msgstr ""
 
 #: trapfunc.cpp
+msgid "Stepped on a caltrop."
+msgstr ""
+
+#: trapfunc.cpp
 msgid "Stepped on a land mine."
 msgstr ""
 
@@ -54849,9 +54993,8 @@ msgid "Stepped on a spiked board."
 msgstr ""
 
 #: trapfunc.cpp
-#, fuzzy
 msgid "Stepped on bubble wrap."
-msgstr "plastični mehurići (folija)"
+msgstr ""
 
 #: trapfunc.cpp
 #, c-format
@@ -54881,6 +55024,11 @@ msgstr ""
 #: trapfunc.cpp
 #, c-format
 msgid "The %s has been snared!"
+msgstr ""
+
+#: trapfunc.cpp
+#, c-format
+msgid "The %s steps on a caltrop!"
 msgstr ""
 
 #: trapfunc.cpp
@@ -54952,9 +55100,8 @@ msgid "Triggered a blade trap."
 msgstr ""
 
 #: trapfunc.cpp
-#, fuzzy
 msgid "Triggered a booby trap."
-msgstr "zamka za hvatanje"
+msgstr ""
 
 #: trapfunc.cpp
 msgid "Triggered a crossbow trap."
@@ -55051,6 +55198,10 @@ msgstr ""
 
 #: trapfunc.cpp
 msgid "You step on a loose tile, and water starts to flood the room!"
+msgstr ""
+
+#: trapfunc.cpp
+msgid "You step on a sharp metal caltrop!"
 msgstr ""
 
 #: trapfunc.cpp
@@ -55802,6 +55953,14 @@ msgid "Out"
 msgstr ""
 
 #: vehicle.cpp
+msgid "Overhead lights turned off"
+msgstr ""
+
+#: vehicle.cpp
+msgid "Overhead lights turned on"
+msgstr ""
+
+#: vehicle.cpp
 msgid "Swinnng!"
 msgstr ""
 
@@ -55845,11 +56004,27 @@ msgid "The fuel tank of the %s exploded!"
 msgstr ""
 
 #: vehicle.cpp
+msgid "The headlights won't come on!"
+msgstr ""
+
+#: vehicle.cpp
+msgid "The lights won't come on!"
+msgstr ""
+
+#: vehicle.cpp
 msgid "Turn off headlights"
 msgstr ""
 
 #: vehicle.cpp
+msgid "Turn off overhead lights"
+msgstr ""
+
+#: vehicle.cpp
 msgid "Turn on headlights"
+msgstr ""
+
+#: vehicle.cpp
+msgid "Turn on overhead lights"
 msgstr ""
 
 #: vehicle.cpp
@@ -55865,9 +56040,8 @@ msgid "Vehicle controls"
 msgstr ""
 
 #: vehicle.cpp
-#, fuzzy
 msgid "You honk the horn!"
-msgstr "Padaš na zemlju od udara!"
+msgstr ""
 
 #: vehicle.cpp
 msgid "You let go of the controls."
@@ -55957,15 +56131,15 @@ msgid "Your %s protects you from the acidic drizzle."
 msgstr ""
 
 #: weather.cpp
+msgid "Your clothing protects you from the acid rain."
+msgstr ""
+
+#: weather.cpp
+msgid "Your clothing protects you from the acidic drizzle."
+msgstr ""
+
+#: weather.cpp
 msgid "Your power armor protects you from the acidic drizzle."
-msgstr ""
-
-#: weather.cpp
-msgid "Your raincoat protects you from the acid rain."
-msgstr ""
-
-#: weather.cpp
-msgid "Your raincoat protects you from the acidic drizzle."
 msgstr ""
 
 #: weather.cpp
@@ -55979,10 +56153,6 @@ msgstr "Kisela Kiša"
 #: weather_data.cpp
 msgid "Acidic Drizzle"
 msgstr "Sitna Kisela Kiša"
-
-#: weather_data.cpp
-msgid "Autumn"
-msgstr "Jesen"
 
 #: weather_data.cpp
 msgid "Clear"
@@ -56017,24 +56187,12 @@ msgid "Snowstorm"
 msgstr "Snežna oluja"
 
 #: weather_data.cpp
-msgid "Spring"
-msgstr "Proleće"
-
-#: weather_data.cpp
-msgid "Summer"
-msgstr "Leto"
-
-#: weather_data.cpp
 msgid "Sunny"
 msgstr "Sunčano"
 
 #: weather_data.cpp
 msgid "Thunder Storm"
 msgstr "Oluja i Grmljavina"
-
-#: weather_data.cpp
-msgid "Winter"
-msgstr "Zima"
 
 #: wish.cpp
 msgid "Add-ons:"
@@ -56076,11 +56234,118 @@ msgstr ""
 msgid "Valid"
 msgstr ""
 
+#~ msgid "Your bite wound really hurts."
+#~ msgstr "Rana od ujeda stvarno počinje da boli."
+
+#~ msgid "Your bite wound feels swollen and painful."
+#~ msgstr "Ujed koji osećaš počinje da natiče i boli te."
+
+#~ msgid "You feel feverish and nauseous, your wound has begun to turn green."
+#~ msgstr "Padaš u groznicu, muka ti je, a rana poprima zelenu nijansu."
+
+#~ msgid "Bleeding"
+#~ msgstr "Krvarenje"
+
 #~ msgid "Bite Wound"
 #~ msgstr "Ugriz"
 
+#~ msgid "Painful Bite Wound"
+#~ msgstr "Bolan Ujed"
+
+#~ msgid "Infected Wound"
+#~ msgstr "Inficirana Rana"
+
+#~ msgid "Painful Infected Wound"
+#~ msgstr "Inficiran i Bolan Ugriz"
+
+#~ msgid "Pus Filled Wound"
+#~ msgstr "Gnojna Rana"
+
+#~ msgid "MEDICINE/DRUGS"
+#~ msgstr "LEKOVI/OPIJATI"
+
+#~ msgid "MODS/BIONICS"
+#~ msgstr "MODIFIKACIJE/BIONIKA"
+
+#~ msgid "long underwear"
+#~ msgstr "dugačke gaće"
+
+#~ msgid ""
+#~ "A hazardous materials suit. Though quite bulky and cumbersome, wearing it "
+#~ "will provide excellent protection against ambient radiation."
+#~ msgstr ""
+#~ "Zaštitno odelo. Iako je teško za nošenje i izgleda vrlo robusno, nošenje "
+#~ "ovakvog odela pruža odličnu zaštitu od radijacije u okolini."
+
+#~ msgid "plate mail"
+#~ msgstr "srednjevekovni metalni oklop"
+
+#~ msgid "A thin cotton jacket. Good for brisk weather."
+#~ msgstr "Tanka pamučna jakna. Super za prohladno vreme."
+
+#~ msgid "A padded coat with deep pockets. Very warm."
+#~ msgstr "Kaput sa postavom i dubokim džepovima. Vrlo topao."
+
+#~ msgid ""
+#~ "Will you be able to place the arrow right into bull's eye? It is not that "
+#~ "easy, but once you know how it's done, you will have a lot of fun with "
+#~ "archery."
+#~ msgstr ""
+#~ "Da li možeš da ispališ strelu u sam centar mete? To i nije tako lako kao "
+#~ "što izgleda, ali uz dovoljno vežbe, i TI možeš da se zabavljaš koristeći "
+#~ "luk i strelu."
+
+#~ msgid ""
+#~ "A sharpened bolt carved from wood. It's lighter than a steel bolt, but "
+#~ "does less damage and is less accurate. Stands a good chance of remaining "
+#~ "intact once fired."
+#~ msgstr ""
+#~ "Drvena municija za samostrel sa oštrim vrhom. Lakša je odnosu na čeličnu,"
+#~ "zbog čega nanosi manje štete i manje je precizna. Posle ispaljivanja ima "
+#~ "solidnu šansu da ostane čitava."
+
 #~ msgid "cooked spaghetti"
 #~ msgstr "kuvane špagete"
+
+#~ msgid "canned apple slices"
+#~ msgstr "konzervirani komadi jabuke"
+
+#~ msgid ""
+#~ "Sealed glass jar containing preserved apples.  Bland, mushy and losing "
+#~ "color."
+#~ msgstr ""
+#~ "Tegla konzerviranih jabuka u soku. Slabog ukusa i polako gube sastav i "
+#~ "boju."
+
+#~ msgid "apple slices"
+#~ msgstr "komadići jabuke"
+
+#~ msgid ""
+#~ "Apple slices soaked in a sugar syrup, to preserve freshness and appearance"
+#~ msgstr ""
+#~ "Komadići jabuke u šećernom sirupu, koji čuva svežinu, sastav i oblik."
+
+#~ msgid "bubblewrap"
+#~ msgstr "plastični mehurići (folija)"
+
+#~ msgid "sealed jar of canned apple"
+#~ msgstr "zimnica - komadi jabuke"
+
+#~ msgid ""
+#~ "A sealed glass jar containing a sliced apple.  Activate to open and enjoy."
+#~ msgstr ""
+#~ "Hermetički zatvorena tegla sa komadima jabuke. (A)ktiviraj da otvoriš i "
+#~ "uživaš."
+
+#~ msgid "vacuum-packed apple slices"
+#~ msgstr "vakumizirani komadi jabuke"
+
+#~ msgid ""
+#~ "Vacuum packed apple slices in plastic packaging..  Activate to open and "
+#~ "enjoy."
+#~ msgstr ""
+#~ "Isečeni komadi jabuke, vakuumirani u plastičnom pakovanju. (A)ktiviraj da "
+#~ "bi otvorio/la kesicu i prepustio/la se uživanju."
 
 #, fuzzy
 #~ msgid "You flub the installation"
@@ -56290,10 +56555,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Porok pravih džentlmena. Cigare čine tu razliku između čoveka i divljaka."
 
-#~ msgid ""
-#~ "Medication designed to stop the spread of, and kill, bacterial infections."
-#~ msgstr "Medicinsko sredstvo koje ubija bakterije i sprečava širenje zaraze."
-
 #~ msgid "Sleeping pills made by refining mutated poppy seeds."
 #~ msgstr "Domaće pilule za spavanje od semenja mutirane biljke maka."
 
@@ -56357,21 +56618,23 @@ msgstr ""
 #~ msgid " - 3 IF not resistant, -1 otherwise\n"
 #~ msgstr " - 3 AKO nema otpornost, -1 inače\n"
 
-#~ msgid ""
-#~ "Vacuum packed apple slices in plastic packaging..  Activate to open and "
-#~ "enjoy."
-#~ msgstr ""
-#~ "Isečeni komadi jabuke, vakuumirani u plastičnom pakovanju. (A)ktiviraj da "
-#~ "bi otvorio/la kesicu i prepustio/la se uživanju."
+#~ msgid "A thin pair of leather gloves. Good for doing manual labor."
+#~ msgstr "Par tankih platnenih rukavica. Korisne za manuelne poslove."
 
-#~ msgid "vacuum-packed apple slices"
-#~ msgstr "vakumizirani komadi jabuke"
+#~ msgid "9mm caliber retool"
+#~ msgstr "alat za prepravku na 9mm kalibar."
 
-#~ msgid "sealed jar of canned apple"
-#~ msgstr "zimnica - komadi jabuke"
+#~ msgid ".45 caliber retool"
+#~ msgstr "alat za prepravku na .45 kalibar."
 
-#~ msgid "apple slices"
-#~ msgstr "komadići jabuke"
+#~ msgid ".22 caliber retool"
+#~ msgstr "alat za prepravku na .22 kalibar."
 
-#~ msgid "canned apple slices"
-#~ msgstr "konzervirani komadi jabuke"
+#~ msgid "There's bugs crawling under your skin!"
+#~ msgstr "Nekakve bube počinju da puze pod tvojom kožom!"
+
+#~ msgid "Spores"
+#~ msgstr "Spore"
+
+#~ msgid "%s starts scratching himself all over!"
+#~ msgstr "%s počinje da se češe svuda po telu!"

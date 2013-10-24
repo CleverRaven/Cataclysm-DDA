@@ -43,6 +43,8 @@ cata_tiles::cata_tiles()
     do_draw_hit = false;
     do_draw_line = false;
     do_draw_weather = false;
+    do_draw_footsteps = false;
+
     boomered = false;
     sight_impaired = false;
     bionight_bionic_active = false;
@@ -292,10 +294,6 @@ void cata_tiles::load_tilejson(std::string path)
 
         tile_type *curr_tile = new tile_type();
         std::string t_id = entry.get("id").as_string();
-        if (t_id == "explosion")
-        {
-            DebugLog() << "Explosion tile id found\n";
-        }
         int t_fg, t_bg;
         t_fg = t_bg = -1;
         bool t_multi, t_rota;
@@ -310,10 +308,6 @@ void cata_tiles::load_tilejson(std::string path)
         if (t_multi)
         {
             t_rota = true;
-            if (t_id == "explosion")
-            {
-                DebugLog() << "--Explosion is Multitile\n";
-            }
 
             // fetch additional tiles
             if (entry.has("additional_tiles"))
@@ -348,11 +342,6 @@ void cata_tiles::load_tilejson(std::string path)
                     }
                     (*tile_ids)[m_id] = curr_subtile;
                     curr_tile->available_subtiles.push_back(s_id);
-                    if (t_id == "explosion")
-                    {
-                        DebugLog() << "--Explosion subtile ID Added: ["<< s_id <<
-                            "] with value: [" << m_id << "]\n";
-                    }
                 }
             }
         }
@@ -429,6 +418,7 @@ void cata_tiles::draw()
     // init lighting
     init_light();
 }
+
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) return;
@@ -437,8 +427,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     int posx = centerx;
     int posy = centery;
 
-    int sx = ceil((double)width / tile_width);
-    int sy = ceil((double)height / tile_height);
+    int sx, sy;
+    get_window_tile_counts(width, height, sx, sy);
 
     init_light();
 
@@ -476,31 +466,29 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x,y);
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather;
-    if (in_animation)
-    {
-        if (do_draw_explosion)
-        {
+    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather || do_draw_footsteps;
+    if (in_animation){
+        if (do_draw_explosion){
             draw_explosion_frame(destx, desty, centerx, centery, width, height);
         }
-        if (do_draw_bullet)
-        {
+        if (do_draw_bullet){
             draw_bullet_frame(destx, desty, centerx, centery, width, height);
         }
-        if (do_draw_hit)
-        {
+        if (do_draw_hit){
             draw_hit_frame(destx, desty, centerx, centery, width, height);
             void_hit();
         }
-        if (do_draw_line)
-        {
+        if (do_draw_line){
             draw_line(destx, desty, centerx, centery, width, height);
             void_line();
         }
-        if (do_draw_weather)
-        {
+        if (do_draw_weather){
             draw_weather_frame(destx, desty, centerx, centery, width, height);
             void_weather();
+        }
+        if (do_draw_footsteps){
+            draw_footsteps_frame(destx, desty, centerx, centery, width, height);
+            void_footsteps();
         }
     }
     // check to see if player is located at ter
@@ -514,6 +502,17 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
     SDL_BlitSurface(buffer, &srcrect, display_screen, &desrect);
+}
+
+void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
+{
+    columns = ceil((double) width / tile_width);
+    rows = ceil((double) height / tile_height);
+}
+
+int cata_tiles::get_tile_width() const
+{
+    return tile_width;
 }
 
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
@@ -836,35 +835,35 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     field f = g->m.field_at(x,y);
     // check for items
     std::vector<item> items = g->m.i_at(x, y);
-	field_id f_id = f.fieldSymbol();
-	bool is_draw_field;
-	bool do_item;
-	switch(f_id){
-	case fd_null:
-		//only draw items
-		is_draw_field = false;
-		do_item = true;
-		break;
-	case fd_blood:
-	case fd_gibs_flesh:
-	case fd_bile:
-	case fd_slime:
-	case fd_acid:
-	case fd_gibs_veggy:
-	case fd_sap:
-	case fd_sludge:
-		//need to draw fields and items both
-		is_draw_field = true;
-		do_item = true;
-		break;
-	default:
-		//only draw fields
-		do_item = false;
-		is_draw_field = true;
-		break;
-	}
-	bool ret_draw_field = true;
-	bool ret_draw_item = true;
+    field_id f_id = f.fieldSymbol();
+    bool is_draw_field;
+    bool do_item;
+    switch(f_id){
+    case fd_null:
+        //only draw items
+        is_draw_field = false;
+        do_item = true;
+        break;
+    case fd_blood:
+    case fd_gibs_flesh:
+    case fd_bile:
+    case fd_slime:
+    case fd_acid:
+    case fd_gibs_veggy:
+    case fd_sap:
+    case fd_sludge:
+        //need to draw fields and items both
+        is_draw_field = true;
+        do_item = true;
+        break;
+    default:
+        //only draw fields
+        do_item = false;
+        is_draw_field = true;
+        break;
+    }
+    bool ret_draw_field = true;
+    bool ret_draw_item = true;
     if (is_draw_field)
     {
         std::string fd_name = field_names[f.fieldSymbol()];
@@ -896,7 +895,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
 
         ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
     }
-	return ret_draw_field && ret_draw_item;
+    return ret_draw_field && ret_draw_item;
 }
 /** Deprecated: combined with field drawing as they are mutex */
 bool cata_tiles::draw_item(int x, int y)
@@ -913,12 +912,22 @@ bool cata_tiles::draw_vpart(int x, int y)
     // get a north-east-south-west value instead of east-south-west-north value to use with rotation
     int veh_dir = (veh->face.dir4() + 1) % 4;
     if (veh_dir == 1 || veh_dir == 3) veh_dir = (veh_dir + 2) % 4;
-    // get the veh part itself
-    vehicle_part vpart = veh->parts[veh_part];
-    // get the vpart_id
-    std::string vpid = vpart.id;
 
-    return draw_from_id_string(vpid, x, y, 0, veh_dir);
+    // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
+    // get the vpart_id
+    char part_mod = 0;
+    std::string vpid = veh->part_id_string(veh_part, part_mod);
+
+    // prefix with vp_ ident
+    vpid = "vp_" + vpid;
+    int subtile = 0;
+    if (part_mod > 0){
+        switch (part_mod){
+            case 1: subtile = open_; break;
+            case 2: subtile = broken; break;
+        }
+    }
+    return draw_from_id_string(vpid, x, y, subtile, veh_dir);
 }
 
 bool cata_tiles::draw_entity(int x, int y)
@@ -998,6 +1007,11 @@ void cata_tiles::init_draw_weather(weather_printable weather, std::string name)
     weather_name = name;
     anim_weather = weather;
 }
+void cata_tiles::init_draw_footsteps(std::queue<point> steps)
+{
+    do_draw_footsteps = true;
+    footsteps = steps;
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -1034,6 +1048,10 @@ void cata_tiles::void_weather()
     do_draw_weather = false;
     weather_name = "";
     anim_weather.vdrops.clear();
+}
+void cata_tiles::void_footsteps()
+{
+    do_draw_footsteps = false;
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame(int destx, int desty, int centerx, int centery, int width, int height)
@@ -1112,6 +1130,19 @@ void cata_tiles::draw_weather_frame(int destx, int desty, int centerx, int cente
         y = y + g->ter_view_y - getmaxy(g->w_terrain)/2;
 
         draw_from_id_string(weather_name, x, y,0, 0, false);
+    }
+}
+void cata_tiles::draw_footsteps_frame(int destx, int desty, int centerx, int centery, int width, int height)
+{
+    const std::string footstep_tilestring = "footstep";
+    while (!footsteps.empty()){
+        point p = footsteps.front();
+        footsteps.pop();
+
+        int x = p.x;
+        int y = p.y;
+
+        draw_from_id_string(footstep_tilestring, x, y, 0, 0, false);
     }
 }
 /* END OF ANIMATION FUNCTIONS */

@@ -97,6 +97,27 @@ void trapfuncm::board(game *g, monster *z, int x, int y)
   z->moves -= 80;
 }
 
+void trapfunc::caltrops(game *g, int x, int y)
+{
+ g->add_msg(_("You step on a sharp metal caltrop!"));
+ g->u.add_memorial_log(_("Stepped on a caltrop."));
+ g->u.hit(g, bp_feet, 0, 0, rng(9, 30));
+ g->u.hit(g, bp_feet, 1, 0, rng(9, 30));
+}
+
+void trapfuncm::caltrops(game *g, monster *z, int x, int y)
+{
+    // tiny animals don't trigger caltrops, they can squeeze between them
+    if (z->type->size == MS_TINY)
+        return;
+
+ if (g->u_see(z))
+  g->add_msg(_("The %s steps on a caltrop!"), z->name().c_str());
+ if (z->hurt(rng(18, 30)))
+  g->kill_mon(g->mon_at(x, y));
+ else
+  z->moves -= 80;
+}
 void trapfunc::tripwire(game *g, int x, int y)
 {
  g->add_msg(_("You trip over a tripwire!"));
@@ -977,6 +998,9 @@ trap_id trap_id_from_string(std::string trap_name) {
   }
   if ("nailboard" == trap_name) {
     return tr_nailboard;
+  }
+  if ("caltrops" == trap_name) {
+    return tr_caltrops;
   }
   if ("tripwire" == trap_name) {
     return tr_tripwire;

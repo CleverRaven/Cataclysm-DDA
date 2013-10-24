@@ -24,6 +24,7 @@ const std::string trap_names[num_trap_types] =
     toString(tr_beartrap_buried),
     toString(tr_snare),
     toString(tr_nailboard),
+    toString(tr_caltrops),
     toString(tr_tripwire),
     toString(tr_crossbow),
     toString(tr_shotgun_2),
@@ -222,7 +223,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_tankbot),
     toString(mon_turret),
     toString(mon_exploder),
-    
+
     toString(mon_hallu_mom),
 
     toString(mon_generator),
@@ -240,7 +241,9 @@ const std::string multitile_keys[] =
     toString(edge),
     toString(t_connection),
     toString(end_piece),
-    toString(unconnected)
+    toString(unconnected),
+    toString(open),
+    toString(broken)
 };
 
 #endif // TILE_ID_DATA

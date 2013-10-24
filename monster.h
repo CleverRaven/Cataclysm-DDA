@@ -47,6 +47,7 @@ struct monster_effect
 };
 
 class monster {
+ friend class editmap;
  public:
  monster();
  monster(mtype *t);
@@ -216,6 +217,7 @@ class monster {
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 
+ short ignoring;
 private:
  std::vector <point> plans;
  int _posx, _posy;

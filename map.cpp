@@ -14,6 +14,8 @@
 #include "debug.h"
 #include "item_factory.h"
 
+#include "overmapbuffer.h"
+
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -411,6 +413,7 @@ void map::vehmove(game *g)
         for(int v = 0; v < vehs.size(); ++v) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves (abs (veh->velocity));
+            veh->power_parts();
         }
     }
 
@@ -1347,7 +1350,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
      }
   }
   if ( success == true ) {
-     int bday=int(time);
+     int bday=int(g->turn);
      sound += _(bash->sound.c_str());
      if ( jsfurn == true ) {
         furn_set(x,y, f_null);
@@ -3269,12 +3272,12 @@ void map::save(overmap *om, unsigned const int turn, const int x, const int y, c
  }
 }
 
-void map::load(game *g, const int wx, const int wy, const int wz, const bool update_vehicle)
+void map::load(game *g, const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
 {
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(g, wx, wy, wz, gridx, gridy, update_vehicle))
-    loadn(g, wx, wy, wz, gridx, gridy, update_vehicle);
+   if (!loadn(g, wx, wy, wz, gridx, gridy, update_vehicle, om))
+    loadn(g, wx, wy, wz, gridx, gridy, update_vehicle, om);
   }
  }
 }
@@ -3411,13 +3414,16 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
-bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, const int gridx, const int gridy,
-                const bool update_vehicles)
-{
+bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
+                const int gridx, const int gridy, const bool update_vehicles, overmap * om) {
+ if (om == NULL) {
+     om = g->cur_om;
+ }
+
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = g->cur_om->pos().x * OMAPX * 2 + worldx + gridx,
-           absy = g->cur_om->pos().y * OMAPY * 2 + worldy + gridy,
+ const int absx = om->pos().x * OMAPX * 2 + worldx + gridx,
+           absy = om->pos().y * OMAPY * 2 + worldy + gridy,
            gridn = gridx + gridy * my_MAPSIZE;
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
@@ -3505,27 +3511,37 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 //  squares divisible by 2.
   int newmapx = worldx + gridx - ((worldx + gridx) % 2);
   int newmapy = worldy + gridy - ((worldy + gridy) % 2);
-  overmap* this_om = g->cur_om;
+  overmap* this_om = om;
 
-  // slightly out of bounds? to the east, south, or both?
-  // cur_om is the one containing the upper-left corner of the map
-  if (newmapx >= OMAPX*2){
-     newmapx -= OMAPX*2;
-     this_om = g->om_hori;
-     if (newmapy >= OMAPY*2){
-        newmapy -= OMAPY*2;
-        this_om = g->om_diag;
-     }
+  int shiftx = 0;
+  int shifty = 0;
+  if ( newmapx < 0 ) {
+    while ( newmapx < 0 ) {
+      shiftx--;
+      newmapx += OMAPX * 2;
+    }
+  } else if ( newmapx >= OMAPX * 2 ) {
+    while ( newmapx >= OMAPX * 2 ) {
+      shiftx++;
+      newmapx -= OMAPX * 2;
+    }
   }
-  else if (newmapy >= OMAPY*2){
-     newmapy -= OMAPY*2;
-     this_om = g->om_vert;
+  if ( newmapy < 0 ) {
+    while ( newmapy < 0 ) {
+      shifty--;
+      newmapy += OMAPX * 2;
+    }
+  } else if ( newmapy >= OMAPX * 2 ) {
+    while ( newmapy >= OMAPX * 2 ) {
+      shifty++;
+      newmapy -= OMAPX * 2;
+    }
   }
 
-  if (worldx + gridx < 0)
-   newmapx = worldx + gridx;
-  if (worldy + gridy < 0)
-   newmapy = worldy + gridy;
+  if ( shiftx != 0 || shifty != 0 ) {
+       this_om = &overmap_buffer.get(g, om->pos().x + shiftx, om->pos().y + shifty);
+  }
+
   tmp_map.generate(g, this_om, newmapx, newmapy, worldz, int(g->turn));
   return false;
  }
@@ -3888,6 +3904,10 @@ void map::set_abs_sub( const int x, const int y, const int z ) {
   world_z = z;
   abs_min=point(x*SEEX, y*SEEY);
   abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
+}
+
+submap * map::getsubmap( const int grididx ) {
+    return grid[grididx];
 }
 
 

@@ -45,20 +45,23 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.color_broken = color_from_string(jo.get_string("broken_color"));
     next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
     next_part.durability = jo.get_int("durability");
+    if(jo.has_member("power")) {
+        next_part.power = jo.get_int("power");
+    } else { //defaults to 0
+        next_part.power = 0;
+    }
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
-                      + (jo.has_member("power") ? 1 : 0)
                       + (jo.has_member("size") ? 1 : 0)
                       + (jo.has_member("wheel_width") ? 1 : 0)
                       + (jo.has_member("bonus") ? 1 : 0);
+
     if(element_count == 0) {
       //If not specified, assume 0
       next_part.par1 = 0;
     } else if(element_count == 1) {
       if(jo.has_member("par1")) {
         next_part.par1 = jo.get_int("par1");
-      } else if(jo.has_member("power")) {
-        next_part.par1 = jo.get_int("power");
       } else if(jo.has_member("size")) {
         next_part.par1 = jo.get_int("size");
       } else if(jo.has_member("wheel_width")) {
@@ -125,10 +128,19 @@ void game::load_vehicle(JsonObject &jo)
     vproto->id = jo.get_string("id");
     vproto->name = jo.get_string("name");
 
+    std::map<point, bool> cargo_spots;
+
     JsonArray parts = jo.get_array("parts");
+    point pxy;
+    std::string pid;
     while (parts.has_more()){
         JsonObject part = parts.next_object();
-        vproto->parts.push_back(std::pair<point, std::string>(point(part.get_int("x"), part.get_int("y")), part.get_string("part")));
+        pxy = point(part.get_int("x"), part.get_int("y"));
+        pid = part.get_string("part");
+        vproto->parts.push_back(std::pair<point, std::string>(pxy, pid));
+        if ( vehicle_part_types[pid].has_flag("CARGO") ) {
+            cargo_spots[pxy] = true;
+        }
     }
 
     JsonArray items = jo.get_array("items");
@@ -140,6 +152,9 @@ void game::load_vehicle(JsonObject &jo)
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
+                vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
+        } else if ( cargo_spots.find( point(next_spawn.x, next_spawn.y) ) == cargo_spots.end() ) {
+            debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                 vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {
