@@ -184,8 +184,7 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
         mvwaddch(win, win->height - 1, win->width - 1, LINE_XOOX);
     }
 
-    //_windows[w].cursorx=oldx;//methods above move the cursor, put it back
-    //_windows[w].cursory=oldy;//methods above move the cursor, put it back
+    //methods above move the cursor, put it back
     wmove(win, oldy, oldx);
     wattroff(win, c_white);
     return 1;
