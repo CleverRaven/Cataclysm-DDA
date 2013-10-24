@@ -560,8 +560,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             // then returns less with each additional point, reaching 99% at 16
             if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
             {
-                if (is_npc && u_see) {
-                    g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
+                if (is_npc) {
+                    if(u_see) {
+                        g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
+                    }
                 } else {
                     g->add_msg(_("You dodge the %s."), name().c_str());
                 }
@@ -575,8 +577,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 
                 if(!p.block_hit(g, this, NULL, bphit, side, dam, cut, stab) && u_see) {
                     if (is_npc) {
-                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                            p.name.c_str(), body_part_name(bphit, side).c_str());
+                        if( u_see ) {
+                            g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                                       p.name.c_str(), body_part_name(bphit, side).c_str());
+                        }
                     } else {
                         g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
                                    body_part_name(bphit, side).c_str());
@@ -610,15 +614,18 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("%s's offensive defense system shocks it!"),
                                    p.name.c_str());
                     }
-                    if (hurt(rng(10, 40)))
+                    if (hurt(rng(10, 40))) {
                         die(g);
+                    }
                 }
                 if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
                     int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
-                    if (is_npc && u_see) {
-                        g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
-                                   (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
+                    if (is_npc) {
+                        if( u_see ) {
+                            g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
+                                       (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
+                        }
                     } else {
                         g->add_msg(_("Your %s puncture it!"),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
@@ -648,26 +655,18 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 
                     //Monster effects
                     if (dam > 0 && has_flag(MF_VENOM)) {
-                        if (!is_npc) {
-                            g->add_msg(_("You're poisoned!"));
-                        }
+                        g->add_msg_if_player(&p, _("You're poisoned!"));
                         p.add_disease("poison", 30);
                     } else if (dam > 0 && has_flag(MF_BADVENOM)) {
-                        if (!is_npc) {
-                            g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
-                        }
+                        g->add_msg_if_player(&p, _("You feel poison flood your body, wracking you with pain..."));
                         p.add_disease("badpoison", 40);
                     } else if (dam > 0 && has_flag(MF_PARALYZE)) {
-                        if (!is_npc) {
-                            g->add_msg(_("You feel poison enter your body!"));
-                        }
+                        g->add_msg_if_player(&p, _("You feel poison enter your body!"));
                         p.add_disease("paralyzepoison", 100, false, 1, 20, 100);
                     }
 
                     if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
-                        if (!is_npc) {
-                            g->add_msg(_("You're Bleeding!"));
-                        }
+                        g->add_msg_if_player(&p, _("You're Bleeding!"));
                         p.add_disease("bleed", 60, false, 1, 3, 120, 1, bphit, side, true);
                     }
 
@@ -675,17 +674,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     if (can_grab && has_flag(MF_GRABS) &&
                         (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
                     {
-                        if (!is_npc)
-                        {
-                            g->add_msg(_("The %s grabs you!"), name().c_str());
-                        }
+                        g->add_msg(_("The %s grabs you!"), name().c_str());
                         if (p.has_grab_break_tec() &&
                             dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                         {
-                            if (!is_npc)
-                            {
-                                g->add_msg(_("You break the grab!"));
-                            }
+                            g->add_msg_if_player(&p, _("You break the grab!"));
                         } else {
                             hit_player(g, p, false); //We grabed, so hit them again
                         }
