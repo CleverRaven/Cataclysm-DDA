@@ -618,10 +618,10 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
         line(m, t_pavement, SEEX*2-4, 0, SEEX*2, 4);
         mapf::formatted_set_simple(m, 0, 0,
 "\
-,,,,.......yy......+,,,,\n\
+,,,,.......yy.......,,,,\n\
 ,,,,.......yy........,,,\n\
 ,,,,.......yy.........,,\n\
-,,,,..................+,\n\
+,,,,...................,\n\
 ,,,,.......yy...........\n\
 ,,,,.......yy...........\n\
 ,,,,.......yy...........\n\
@@ -633,17 +633,17 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 ,,,,............yyyy.yyy\n\
 ,,,,....................\n\
 ,,,,....................\n\
-,,,,+...................\n\
-,,,,,+..................\n\
-,,,,,,+.................\n\
-,,,,,,,+................\n\
+,,,,,...................\n\
+,,,,,,..................\n\
+,,,,,,,.................\n\
 ,,,,,,,,................\n\
+,,,,,,,,,...............\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-        mapf::basic_bind(". , y +", t_pavement, t_dirt, t_pavement_y, t_shrub),
-        mapf::basic_bind(". , y +", f_null, f_null, f_null, f_null));
+        mapf::basic_bind(". , y", t_pavement, t_dirt, t_pavement_y),
+        mapf::basic_bind(". , y", f_null, f_null, f_null, f_null));
     }
     if (terrain_type == ot_road_es)
         m->rotate(1);
