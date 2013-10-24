@@ -398,10 +398,12 @@ WORLDPTR worldfactory::pick_world()
 
         //Draw Tabs
         mvwprintz(w_worlds_header, 0, 7, c_white, "");
+
         for (int i = 0; i < num_pages; ++i) {
+            nc_color tabcolor = (selpage == i) ? hilite(c_white):c_white;
             if (world_pages[i].size() > 0) { //skip empty pages
                 wprintz(w_worlds_header, c_white, "[");
-                wprintz(w_worlds_header, (selpage == i) ? hilite(c_white) : c_white, "Page %d", i + 1);
+                wprintz(w_worlds_header, tabcolor, "Page %d", i + 1);
                 wprintz(w_worlds_header, c_white, "]");
                 wputch(w_worlds_header, c_white, LINE_OXOX);
             }
