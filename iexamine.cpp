@@ -821,6 +821,10 @@ void iexamine::shrub_strawberry(game *g, player *p, map *m, int examx, int examy
   pick_plant(g, p, m, examx, examy, "strawberries", t_shrub, true);
 }
 
+void iexamine::shrub_marloss(game *g, player *p, map *m, int examx, int examy) {
+  pick_plant(g, p, m, examx, examy, "marloss_berry", t_shrub_fungal);
+}
+
 void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {
  if(!query_yn(_("Pick %s?"),m->tername(examx, examy).c_str())) return;
 
@@ -1085,6 +1089,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(game*
   }
   if ("shrub_strawberry" == function_name) {
     return &iexamine::shrub_strawberry;
+  }
+  if ("shrub_marloss" == function_name) {
+    return &iexamine::shrub_marloss;
   }
   if ("shrub_wildveggies" == function_name) {
     return &iexamine::shrub_wildveggies;
