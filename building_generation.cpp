@@ -16,23 +16,22 @@ mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west)
 
 void mapgendata::set_dir(int dir_in, int val)
 {
-    switch (dir_in)
-    {
-        case 0:
-            n_fac = val;
-            break;
-        case 1:
-            e_fac = val;
-            break;
-        case 2:
-            s_fac = val;
-            break;
-        case 3:
-            w_fac = val;
-            break;
-        default:
-            debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
-            break;
+    switch (dir_in) {
+    case 0:
+        n_fac = val;
+        break;
+    case 1:
+        e_fac = val;
+        break;
+    case 2:
+        s_fac = val;
+        break;
+    case 3:
+        w_fac = val;
+        break;
+    default:
+        debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
+        break;
     }
 }
 
@@ -46,25 +45,24 @@ void mapgendata::fill(int val)
 
 int& mapgendata::dir(int dir_in)
 {
-    switch (dir_in)
-    {
-        case 0:
-            return n_fac;
-            break;
-        case 1:
-            return e_fac;
-            break;
-        case 2:
-            return s_fac;
-            break;
-        case 3:
-            return w_fac;
-            break;
-        default:
-            debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
-            //return something just so the compiler doesn't freak out. Not really correct, though.
-            return n_fac;
-            break;
+    switch (dir_in) {
+    case 0:
+        return n_fac;
+        break;
+    case 1:
+        return e_fac;
+        break;
+    case 2:
+        return s_fac;
+        break;
+    case 3:
+        return w_fac;
+        break;
+    default:
+        debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
+        //return something just so the compiler doesn't freak out. Not really correct, though.
+        return n_fac;
+        break;
     }
 }
 
@@ -175,15 +173,15 @@ void mapgen_dirtlot(map *m, game *g)
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn)
 {
     switch (terrain_type) {
-        case ot_forest_thick:
-            dat.fill(8);
-            break;
-        case ot_forest_water:
-            dat.fill(4);
-            break;
-        case ot_forest:
-            dat.fill(0);
-            break;
+    case ot_forest_thick:
+        dat.fill(8);
+        break;
+    case ot_forest_water:
+        dat.fill(4);
+        break;
+    case ot_forest:
+        dat.fill(0);
+        break;
     }
     for (int i = 0; i < 4; i++) {
         if (dat.t_nesw[i] == ot_forest || dat.t_nesw[i] == ot_forest_water) {
@@ -460,6 +458,71 @@ void mapgen_hive(map *m, mapgendata dat, int turn)
                 } else {
                     m->place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
                 }
+            }
+        }
+    }
+}
+
+void mapgen_spider_pit(map *m, mapgendata dat, int turn)
+{
+    // First generate a forest
+    dat.fill(4);
+    for (int i = 0; i < 4; i++) {
+        if (dat.t_nesw[i] == ot_forest || dat.t_nesw[i] == ot_forest_water) {
+            dat.dir(i) += 14;
+        } else if (dat.t_nesw[i] == ot_forest_thick) {
+            dat.dir(i) += 18;
+        }
+    }
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            int forest_chance = 0, num = 0;
+            if (j < dat.n_fac) {
+                forest_chance += dat.n_fac - j;
+                num++;
+            }
+            if (SEEX * 2 - 1 - i < dat.e_fac) {
+                forest_chance += dat.e_fac - (SEEX * 2 - 1 - i);
+                num++;
+            }
+            if (SEEY * 2 - 1 - j < dat.s_fac) {
+                forest_chance += dat.s_fac - (SEEX * 2 - 1 - j);
+                num++;
+            }
+            if (i < dat.w_fac) {
+                forest_chance += dat.w_fac - i;
+                num++;
+            }
+            if (num > 0) {
+                forest_chance /= num;
+            }
+            int rn = rng(0, forest_chance);
+            if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
+                m->ter_set(i, j, t_tree);
+            } else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance)) {
+                m->ter_set(i, j, t_tree_young);
+            } else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance)) {
+                m->ter_set(i, j, t_underbrush);
+            } else {
+                m->ter_set(i, j, t_dirt);
+            }
+        }
+    }
+    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+    // Next, place webs and sinkholes
+    for (int i = 0; i < 4; i++) {
+        int x = rng(3, SEEX * 2 - 4), y = rng(3, SEEY * 2 - 4);
+        if (i == 0)
+            m->ter_set(x, y, t_slope_down);
+        else {
+            m->ter_set(x, y, t_dirt);
+            m->add_trap(x, y, tr_sinkhole);
+        }
+        for (int x1 = x - 3; x1 <= x + 3; x1++) {
+            for (int y1 = y - 3; y1 <= y + 3; y1++) {
+                m->add_field(NULL, x1, y1, fd_web, rng(2, 3));
+                if (m->ter(x1, y1) != t_slope_down)
+                    m->ter_set(x1, y1, t_dirt);
             }
         }
     }

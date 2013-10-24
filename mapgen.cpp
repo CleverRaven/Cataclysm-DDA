@@ -279,92 +279,33 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  computer *tmpcomp = NULL;
  int veh_spawn_heading;
 
- switch (terrain_type) {
-
- case ot_null:
-  mapgen_null(this);
-  break;
- case ot_crater:
-  mapgen_crater(this, facing_data);
-  break;
- case ot_field:
-  mapgen_field(this, turn);
-  break;
- case ot_dirtlot:
-  mapgen_dirtlot(this, g);
-  break;
+    switch (terrain_type) {
+    case ot_null:
+        mapgen_null(this);
+        break;
+    case ot_crater:
+        mapgen_crater(this, facing_data);
+        break;
+    case ot_field:
+        mapgen_field(this, turn);
+        break;
+    case ot_dirtlot:
+        mapgen_dirtlot(this, g);
+        break;
 
     case ot_forest:
     case ot_forest_thick:
     case ot_forest_water:
         mapgen_forest_general(this, terrain_type, facing_data, turn);
-    break;
+        break;
 
     case ot_hive:
         mapgen_hive(this, facing_data, turn);
-    break;
+        break;
 
- case ot_spider_pit:
-// First generate a forest
-  std::fill_n(nesw_fac, 4, 0);
-  for (int i = 0; i < 4; i++)
-  {
-   if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_water)
-    nesw_fac[i] += 14;
-   else if (t_nesw[i] == ot_forest_thick)
-    nesw_fac[i] += 18;
-  }
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    int forest_chance = 0, num = 0;
-    if (j < n_fac) {
-     forest_chance += n_fac - j;
-     num++;
-    }
-    if (SEEX * 2 - 1 - i < e_fac) {
-     forest_chance += e_fac - (SEEX * 2 - 1 - i);
-     num++;
-    }
-    if (SEEY * 2 - 1 - j < s_fac) {
-     forest_chance += s_fac - (SEEX * 2 - 1 - j);
-     num++;
-    }
-    if (i < w_fac) {
-     forest_chance += w_fac - i;
-     num++;
-    }
-    if (num > 0)
-     forest_chance /= num;
-    rn = rng(0, forest_chance);
-         if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance))
-     ter_set(i, j, t_tree);
-    else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance))
-     ter_set(i, j, t_tree_young);
-    else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance))
-     ter_set(i, j, t_underbrush);
-    else
-     ter_set(i, j, t_dirt);
-   }
-  }
-  place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
-// Next, place webs and sinkholes
-  for (int i = 0; i < 4; i++) {
-   int x = rng(3, SEEX * 2 - 4), y = rng(3, SEEY * 2 - 4);
-   if (i == 0)
-    ter_set(x, y, t_slope_down);
-   else {
-    ter_set(x, y, t_dirt);
-    add_trap(x, y, tr_sinkhole);
-   }
-   for (int x1 = x - 3; x1 <= x + 3; x1++) {
-    for (int y1 = y - 3; y1 <= y + 3; y1++) {
-     add_field(NULL, x1, y1, fd_web, rng(2, 3));
-     if (ter(x1, y1) != t_slope_down)
-      ter_set(x1, y1, t_dirt);
-    }
-   }
-  }
-  break;
+    case ot_spider_pit:
+        mapgen_spider_pit(this, facing_data, turn);
+        break;
 
     case ot_fungal_bloom:
         for (int i = 0; i < SEEX * 2; i++) {
