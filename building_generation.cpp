@@ -128,19 +128,21 @@ void mapgen_field(map *m, int turn)
         berry_bush_factor = 2;
         bush_factor = 40;
     }
+    ter_id bush_type;
+    if (one_in(2)) {
+        bush_type = t_shrub_blueberry;
+    } else {
+        bush_type = t_shrub_strawberry;
+    }
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             m->ter_set(i, j, grass_or_dirt());
             if (one_in(bush_factor)) {
                 if (one_in(berry_bush_factor)) {
-                    m->ter_set(i, j, t_shrub_blueberry);
+                    m->ter_set(i, j, bush_type);
                 } else {
-                    if (one_in(berry_bush_factor)) {
-                        m->ter_set(i, j, t_shrub_strawberry);
-                    } else {
-                        m->ter_set(i, j, t_shrub);
-                    }
+                    m->ter_set(i, j, t_shrub);
                 }
             }
             else {
