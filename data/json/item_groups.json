@@ -179,6 +179,7 @@
       ["gum", 30],
       ["flask_hip", 5],
       ["sm_extinguisher", 10],
+      ["atomic_light", 1],
       ["nic_gum", 2]
     ]
   },{
@@ -291,6 +292,8 @@
       ["flask_hip", 5],
       ["lye_powder", 5],
       ["sm_extinguisher", 10],
+      ["atomic_light", 1],
+      ["atomic_coffeepot", 2],
       ["charcoal", 5]
     ]
   },{
@@ -424,6 +427,7 @@
       ["jar_3l_glass", 40],
       ["flotation_vest", 1],
       ["bearing", 1],
+      ["atomic_light", 1],
       ["charcoal", 20]
     ]
   },{
@@ -492,6 +496,7 @@
       ["fairy_tales", 10],
       ["tailor_portfolio", 1],
       ["laptop", 10],
+      ["atomic_light", 2],
       ["cell_phone", 40],
       ["pda", 3],
       ["lighter", 60],
@@ -2774,6 +2779,8 @@
       ["knife_trench", 7],
       ["sm_extinguisher", 10],
       ["switchblade", 6],
+      ["atomic_light", 1],
+      ["atomic_coffeepot", 1],
       ["knee_pads", 10]
     ]
   },{
@@ -3790,6 +3797,7 @@
       ["matches", 60],
       ["flashlight", 40],
       ["laptop", 20],
+      ["atomic_light", 1],
       ["pda", 5],
       ["cell_phone", 30],
       ["rag", 1],
@@ -3854,6 +3862,8 @@
       ["leather", 0],
       ["id_science", 2],
       ["laptop", 5],
+      ["atomic_light", 10],
+      ["atomic_coffeepot", 5],
       ["pda", 3],
       ["id_military", 3],
       ["bayonet", 10],
