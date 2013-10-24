@@ -733,8 +733,9 @@ void veh_interact::move_cursor (int dx, int dy)
 {
     mvwputch (w_disp, cursor_y + 6, cursor_x + 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
-    cursor_x += dx;
-    cursor_y += dy;
+    ddx += dy;
+    ddy -= dx;
+    display_veh();
     cpart = part_at (cursor_x, cursor_y);
     int vdx = -ddx - cursor_y;
     int vdy = cursor_x - ddy;
@@ -818,53 +819,7 @@ void veh_interact::move_cursor (int dx, int dy)
  */
 void veh_interact::display_veh ()
 {
-    int x1 = 12, y1 = 12, x2 = -12, y2 = -12;
-    for (int p = 0; p < veh->parts.size(); p++)
-    {
-        if (veh->parts[p].mount_dx < x1)
-        {
-            x1 = veh->parts[p].mount_dx;
-        }
-        if (veh->parts[p].mount_dy < y1)
-        {
-            y1 = veh->parts[p].mount_dy;
-        }
-        if (veh->parts[p].mount_dx > x2)
-        {
-            x2 = veh->parts[p].mount_dx;
-        }
-        if (veh->parts[p].mount_dy > y2)
-        {
-            y2 = veh->parts[p].mount_dy;
-        }
-    }
-    ddx = 0;
-    ddy = 0;
-    if (x2 - x1 < 11) { x1--; x2++; }
-    if (y2 - y1 < 11 ) { y1--; y2++; }
-    if (x1 < -5)
-    {
-        ddx = -5 - x1;
-    }
-    else
-    {
-        if (x2 > 6)
-        {
-            ddx = 6 - x2;
-        }
-    }
-    if (y1 < -6)
-    {
-        ddy = -6 - y1;
-    }
-    else
-    {
-        if (y2 > 5)
-        {
-            ddy = 5 - y2;
-        }
-    }
-
+    werase(w_disp);
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     for (int i = 0; i < structural_parts.size(); i++)
