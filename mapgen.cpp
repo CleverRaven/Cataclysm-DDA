@@ -14641,8 +14641,6 @@ void map::add_extra(map_extra type, game *g)
    for (int j = y - 5; j <= y + 5; j++) {
     if (rng(0, 9) > trig_dist(x, y, i, j)) {
      marlossify(i, j);
-     if (ter(i, j) == t_marloss)
-      spawn_item(x, y, "marloss_berry", g->turn);
      if (one_in(15)) {
       monster creature(GetMType(monids[rng(0, 5)]));
       creature.spawn(i, j);
