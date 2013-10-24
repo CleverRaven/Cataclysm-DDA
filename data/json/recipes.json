@@ -4755,11 +4755,13 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "atomic_coffeepot", -1 ]
     ],
     [
       [ "pot", -1 ],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "atomic_coffeepot", -1 ]
     ]
   ],
   "components": [
@@ -17792,6 +17794,36 @@
     ],
     [
       [ "power_supply", 1 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "atomic_coffepot",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 3 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "element", 1 ]
     ],
     [
       [ "plut_cell", 1 ]

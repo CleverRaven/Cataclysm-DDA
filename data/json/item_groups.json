@@ -293,6 +293,7 @@
       ["lye_powder", 5],
       ["sm_extinguisher", 10],
       ["atomic_light", 1],
+      ["atomic_coffeepot", 2],
       ["charcoal", 5]
     ]
   },{
@@ -2779,6 +2780,7 @@
       ["sm_extinguisher", 10],
       ["switchblade", 6],
       ["atomic_light", 1],
+      ["atomic_coffeepot", 1],
       ["knee_pads", 10]
     ]
   },{
@@ -3861,6 +3863,7 @@
       ["id_science", 2],
       ["laptop", 5],
       ["atomic_light", 10],
+      ["atomic_coffeepot", 5],
       ["pda", 3],
       ["id_military", 3],
       ["bayonet", 10],
