@@ -1133,6 +1133,22 @@
     },
     {
         "type":"vehicle_part",
+        "id": "craft_rig",
+        "name": "FOODCO kitchen buddy",
+        "symbol": "&",
+        "color": "light_green",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "damage_modifier": 10,
+        "durability": 20,
+        "size": 400,
+        "item": "craftrig",
+        "difficulty": 4,
+        "location": "center",
+        "flags": ["CARGO", "OBSTACLE", "CRAFTRIG"]
+    },
+    {
+        "type":"vehicle_part",
         "id": "m249",
         "name": "mounted M249",
         "symbol": "t",
