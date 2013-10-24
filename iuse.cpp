@@ -931,34 +931,38 @@ int iuse::purifier(game *g, player *p, item *it, bool t)
 
 int iuse::marloss(game *g, player *p, item *it, bool t)
 {
- if (p->is_npc()) {
-  return it->type->charges_to_use();
- }
- // If we have the marloss in our veins, we are a "breeder" and will spread
- // alien lifeforms.
- p->add_memorial_log("Ate a marloss berry.");
- if (p->has_trait("MARLOSS")) {
-  g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
-  p->add_morale(MORALE_MARLOSS, 100, 1000);
-  p->hunger = -100;
-  monster goo(GetMType("mon_blob"));
-  goo.friendly = -1;
-  int goo_spawned = 0;
-  for (int x = p->posx - 4; x <= p->posx + 4; x++) {
-   for (int y = p->posy - 4; y <= p->posy + 4; y++) {
-    if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
-        rng(0, 10) > trig_dist(x, y, p->posx, p->posy)   )
-     g->m.marlossify(x, y);
-    if (one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
-        (goo_spawned == 0 || one_in(goo_spawned * 2))) {
-     goo.spawn(x, y);
-     g->add_zombie(goo);
-     goo_spawned++;
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
     }
-   }
-  }
-  return it->type->charges_to_use();
- }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log("Ate a marloss berry.");
+
+    if (p->has_trait("MARLOSS")) {
+        g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                      rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                if ((x != p->posx && y != p->posy) &&
+                     one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
 /* If we're not already carriers of Marloss, roll for a random effect:
  * 1 - Mutate
  * 2 - Mutate
@@ -970,28 +974,28 @@ int iuse::marloss(game *g, player *p, item *it, bool t)
  * 8 - Vomit
  * 9 - Give Marloss mutation
  */
- int effect = rng(1, 9);
- if (effect <= 3) {
-  g->add_msg_if_player(p,_("This berry tastes extremely strange!"));
-  p->mutate(g);
- } else if (effect <= 6) { // Radiation cleanse is below
-  g->add_msg_if_player(p,_("This berry makes you feel better all over."));
-  p->pkill += 30;
-  this->purifier(g, p, it, t);
-  if (effect == 6) {
-   p->radiation = 0;
-  }
- } else if (effect == 7) {
-  g->add_msg_if_player(p,_("This berry is delicious, and very filling!"));
-  p->hunger = -100;
- } else if (effect == 8) {
-  g->add_msg_if_player(p,_("You take one bite, and immediately vomit!"));
-  p->vomit(g);
- } else if (!p->has_trait("MARLOSS")) {
-  g->add_msg_if_player(p,_("You feel a strange warmth spreading throughout your body..."));
-  p->toggle_mutation("MARLOSS");
- }
- return it->type->charges_to_use();
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        g->add_msg_if_player(p,_("This berry tastes extremely strange!"));
+        p->mutate(g);
+    } else if (effect <= 6) { // Radiation cleanse is below
+        g->add_msg_if_player(p,_("This berry makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(g, p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        g->add_msg_if_player(p,_("This berry is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        g->add_msg_if_player(p,_("You take one bite, and immediately vomit!"));
+        p->vomit(g);
+    } else if (!p->has_trait("MARLOSS")) {
+        g->add_msg_if_player(p,_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS");
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::dogfood(game *g, player *p, item *it, bool t)

@@ -1953,20 +1953,18 @@ bool map::hit_with_fire(game *g, const int x, const int y)
     return true;
 }
 
-void map::marlossify(const int x, const int y)
+bool map::marlossify(const int x, const int y)
 {
- const int type = rng(1, 9);
- switch (type) {
-  case 1:
-  case 2:
-  case 3:
-  case 4: ter_set(x, y, t_fungus);      break;
-  case 5:
-  case 6:
-  case 7: ter_set(x, y, t_marloss);     break;
-  case 8: ter_set(x, y, t_tree_fungal); break;
-  case 9: ter_set(x, y, t_slime);       break;
- }
+    if (one_in(5) && (terlist[ter(x, y)].movecost != 0 && furnlist[furn(x, y)].movecost >= 0)) {
+        ter_set(x, y, t_marloss);
+        return true;
+    }
+    for (int i = 0; i < 25; i++) {
+        if(!g->spread_fungus(x, y)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool map::open_door(const int x, const int y, const bool inside)
