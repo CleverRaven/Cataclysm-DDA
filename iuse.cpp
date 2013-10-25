@@ -599,9 +599,13 @@ int iuse::antibiotic(game *g, player *p, item *it, bool t) {
 int iuse::fungicide(game *g, player *p, item *it, bool t) {
     g->add_msg_if_player(p,_("You take some fungicide."));
     if (p->has_disease("fungus")) {
-        p->rem_disease("infected");
+        p->rem_disease("fungus");
+        g->add_msg_if_player(p,_("You feel a burning sensation under your skin that quickly fades away."));
     }
     if (p->has_disease("spores")) {
+        if (!p->has_disease("fungus")) {
+            g->add_msg_if_player(p,_("Your skin grows warm for a moment."));
+        }
         int fungus_int = p->disease_intensity("spores", true);
         p->rem_disease("spores");
         int spore_count = rng(fungus_int / 5, fungus_int);
