@@ -1497,7 +1497,8 @@
             "sound": "crunch!",
             "sound_fail": "whack!",
             "ter_set": "t_fungus"
-        }
+        },
+        "examine_action": "shrub_marloss"
     },
     {
         "type": "terrain",

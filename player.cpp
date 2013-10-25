@@ -776,26 +776,22 @@ void player::update_bodytemp(game *g)
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
-        for (int j = -6 ; j <= 6 ; j++)
-        {
-            for (int k = -6 ; k <= 6 ; k++)
-            {
+        for (int j = -6 ; j <= 6 ; j++) {
+            for (int k = -6 ; k <= 6 ; k++) {
                 int heat_intensity = 0;
-                field &local_field = g->m.field_at(posx + j, posy + k);
-                if(local_field.findField(fd_fire))
-                {
-                    heat_intensity = local_field.findField(fd_fire)->getFieldDensity();
-                }
-                else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
-                {
+
+                int ffire = g->m.get_field_strength( point(posx + j, posy + k), fd_fire );
+                if(ffire > 0) {
+                    heat_intensity = ffire;
+                } else if (g->m.tr_at(posx + j, posy + k) == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if (heat_intensity > 0 && g->u_see(posx + j, posy + k))
-                {
-                    // Ensure fire_dist >=1 to avoid divide-by-zero errors.
+                if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
+                    // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max(j, k));
-                    if (frostbite_timer[i] > 0)
-                        { frostbite_timer[i] -= heat_intensity - fire_dist / 2;}
+                    if (frostbite_timer[i] > 0) {
+                        frostbite_timer[i] -= heat_intensity - fire_dist / 2;
+                    }
                     temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
                 }
@@ -803,11 +799,10 @@ void player::update_bodytemp(game *g)
         }
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
-        if (has_disease("onfire")) { temp_cur[i] += 250; }
-        field &local_field = g->m.field_at(posx, posy);
-        if ((local_field.findField(fd_fire) && local_field.findField(fd_fire)->getFieldDensity() > 2)
-            || trap_at_pos == tr_lava)
-        {
+        if (has_disease("onfire")) {
+            temp_cur[i] += 250;
+        }
+        if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
             temp_cur[i] += 250;
         }
         // WEATHER

@@ -14,8 +14,6 @@
  */
 veh_interact::veh_interact ()
 {
-    cursor_x = 0;
-    cursor_y = 0;
     cpart = -1;
     ddx = 0;
     ddy = 0;
@@ -153,10 +151,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         if (ch == KEY_ESCAPE || ch == 'q' ) {
             finish = true;
         } else {
-            if (dx != -2 && (dx || dy) &&
-                cursor_x + dx >= -6 && cursor_x + dx < 6 &&
-                cursor_y + dy >= -6 && cursor_y + dy < 6)
-            {
+            if (dx != -2 && (dx || dy)) {
                 move_cursor(dx, dy);
             }
             else
@@ -731,13 +726,14 @@ int veh_interact::part_at (int dx, int dy)
  */
 void veh_interact::move_cursor (int dx, int dy)
 {
-    mvwputch (w_disp, cursor_y + 6, cursor_x + 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
+    mvwputch (w_disp, 6, 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
-    cursor_x += dx;
-    cursor_y += dy;
-    cpart = part_at (cursor_x, cursor_y);
-    int vdx = -ddx - cursor_y;
-    int vdy = cursor_x - ddy;
+    ddx += dy;
+    ddy -= dx;
+    display_veh();
+    cpart = part_at (0, 0);
+    int vdx = -ddx;
+    int vdy = -ddy;
     int vx, vy;
     veh->coord_translate (vdx, vdy, vx, vy);
     int vehx = veh->global_x() + vx;
@@ -749,7 +745,7 @@ void veh_interact::move_cursor (int dx, int dy)
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
-    mvwputch (w_disp, cursor_y + 6, cursor_x + 6, obstruct ? red_background(col) : hilite(col),
+    mvwputch (w_disp, 6, 6, obstruct ? red_background(col) : hilite(col),
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     wrefresh (w_disp);
     werase (w_parts);
@@ -818,53 +814,7 @@ void veh_interact::move_cursor (int dx, int dy)
  */
 void veh_interact::display_veh ()
 {
-    int x1 = 12, y1 = 12, x2 = -12, y2 = -12;
-    for (int p = 0; p < veh->parts.size(); p++)
-    {
-        if (veh->parts[p].mount_dx < x1)
-        {
-            x1 = veh->parts[p].mount_dx;
-        }
-        if (veh->parts[p].mount_dy < y1)
-        {
-            y1 = veh->parts[p].mount_dy;
-        }
-        if (veh->parts[p].mount_dx > x2)
-        {
-            x2 = veh->parts[p].mount_dx;
-        }
-        if (veh->parts[p].mount_dy > y2)
-        {
-            y2 = veh->parts[p].mount_dy;
-        }
-    }
-    ddx = 0;
-    ddy = 0;
-    if (x2 - x1 < 11) { x1--; x2++; }
-    if (y2 - y1 < 11 ) { y1--; y2++; }
-    if (x1 < -5)
-    {
-        ddx = -5 - x1;
-    }
-    else
-    {
-        if (x2 > 6)
-        {
-            ddx = 6 - x2;
-        }
-    }
-    if (y1 < -6)
-    {
-        ddy = -6 - y1;
-    }
-    else
-    {
-        if (y2 > 5)
-        {
-            ddy = 5 - y2;
-        }
-    }
-
+    werase(w_disp);
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     for (int i = 0; i < structural_parts.size(); i++)
@@ -874,11 +824,11 @@ void veh_interact::display_veh ()
         nc_color col = veh->part_color (p);
         int y = -(veh->parts[p].mount_dx + ddx);
         int x = veh->parts[p].mount_dy + ddy;
-        mvwputch (w_disp, 6+y, 6+x, cursor_x == x && cursor_y == y? hilite(col) : col, special_symbol(sym));
-        if (cursor_x == x && cursor_y == y)
-        {
+        if(x == 0 && y == 0) {
+            col = hilite(col);
             cpart = p;
         }
+        mvwputch (w_disp, 6+y, 6+x, col, special_symbol(sym));
     }
     wrefresh (w_disp);
 }

@@ -2302,7 +2302,6 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
-   field &field_at = m.field_at(x, y);
    const bool is_bashable = m.has_flag("BASHABLE", x, y);
    newscent[x][y] = 0;
    scale[x][y] = 1;
@@ -2339,9 +2338,9 @@ void game::update_scent()
     squares_used +=   grscent[x + 1] [y + 1] >= this_field;
 
     scale[x][y] += squares_used;
-    if (field_at.findField(fd_slime) && newscent[x][y] < 10 * field_at.findField(fd_slime)->getFieldDensity())
-    {
-        newscent[x][y] = 10 * field_at.findField(fd_slime)->getFieldDensity();
+    int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
+    if (fslime > 0 && newscent[x][y] < fslime) {
+        newscent[x][y] = fslime;
     }
     if (newscent[x][y] > 10000)
     {
@@ -6378,10 +6377,9 @@ void game::handbrake ()
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 {
     veh_interact vehint;
-    vehint.cursor_x = cx;
-    vehint.cursor_y = cy;
+    vehint.ddx = cx;
+    vehint.ddy = cy;
     vehint.exec(this, &veh, examx, examy);
-//    debugmsg ("exam_vehicle cmd=%c %d", vehint.sel_cmd, (int) vehint.sel_cmd);
     if (vehint.sel_cmd != ' ')
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,
@@ -6390,10 +6388,10 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
                                      (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
-        u.activity.values.push_back (vehint.cursor_x);   // values[2]
-        u.activity.values.push_back (vehint.cursor_y);   // values[3]
-        u.activity.values.push_back (-vehint.ddx - vehint.cursor_y);   // values[4]
-        u.activity.values.push_back (vehint.cursor_x - vehint.ddy);   // values[5]
+        u.activity.values.push_back (vehint.ddx);   // values[2]
+        u.activity.values.push_back (vehint.ddy);   // values[3]
+        u.activity.values.push_back (-vehint.ddx);   // values[4]
+        u.activity.values.push_back (-vehint.ddy);   // values[5]
         u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part)); // values[6]
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         if(vehint.sel_vpart_info != NULL) {
