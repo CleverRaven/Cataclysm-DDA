@@ -91,141 +91,150 @@ void add_corpse(game *g, map *m, int x, int y);
 
 void map::generate(game *g, overmap *om, const int x, const int y, const int z, const int turn)
 {
- dbg(D_INFO) << "map::generate( g["<<g<<"], om["<<(void*)om<<"], x["<<x<<"], "
+    dbg(D_INFO) << "map::generate( g["<<g<<"], om["<<(void*)om<<"], x["<<x<<"], "
             << "y["<<y<<"], turn["<<turn<<"] )";
 
-// First we have to create new submaps and initialize them to 0 all over
-// We create all the submaps, even if we're not a tinymap, so that map
-//  generation which overflows won't cause a crash.  At the bottom of this
-//  function, we save the upper-left 4 submaps, and delete the rest.
- for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-  grid[i] = new submap;
-  grid[i]->active_item_count = 0;
-  grid[i]->field_count = 0;
-  grid[i]->turn_last_touched = turn;
-  grid[i]->temperature = 0;
-  grid[i]->comp = computer();
-  grid[i]->camp = basecamp();
-  for (int x = 0; x < SEEX; x++) {
-   for (int y = 0; y < SEEY; y++) {
-    grid[i]->ter[x][y] = t_null;
-    grid[i]->frn[x][y] = f_null;
-    grid[i]->trp[x][y] = tr_null;
-    grid[i]->rad[x][y] = 0;
-    grid[i]->graf[x][y] = graffiti();
-   }
-  }
- }
+    // First we have to create new submaps and initialize them to 0 all over
+    // We create all the submaps, even if we're not a tinymap, so that map
+    //  generation which overflows won't cause a crash.  At the bottom of this
+    //  function, we save the upper-left 4 submaps, and delete the rest.
+    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+        grid[i] = new submap;
+        grid[i]->active_item_count = 0;
+        grid[i]->field_count = 0;
+        grid[i]->turn_last_touched = turn;
+        grid[i]->temperature = 0;
+        grid[i]->comp = computer();
+        grid[i]->camp = basecamp();
+        for (int x = 0; x < SEEX; x++) {
+            for (int y = 0; y < SEEY; y++) {
+                grid[i]->ter[x][y] = t_null;
+                grid[i]->frn[x][y] = f_null;
+                grid[i]->trp[x][y] = tr_null;
+                grid[i]->rad[x][y] = 0;
+                grid[i]->graf[x][y] = graffiti();
+            }
+        }
+    }
 
- oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
- unsigned zones = 0;
- int overx = x / 2;
- int overy = y / 2;
- if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
-  dbg(D_INFO) << "map::generate: In section 1";
+    oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
+    unsigned zones = 0;
+    int overx = x / 2;
+    int overy = y / 2;
+    if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
+        dbg(D_INFO) << "map::generate: In section 1";
 
-// This happens when we're at the very edge of the overmap, and are generating
-// terrain for the adjacent overmap.
-  int sx = 0, sy = 0;
-  overx = (x % (OMAPX * 2)) / 2;
-  if (x >= OMAPX * 2)
-   sx = 1;
-  if (x < 0) {
-   sx = -1;
-   overx = (OMAPX * 2 + x) / 2;
-  }
-  overy = (y % (OMAPY * 2)) / 2;
-  if (y >= OMAPY * 2)
-   sy = 1;
-  if (y < 0) {
-   overy = (OMAPY * 2 + y) / 2;
-   sy = -1;
-  }
-  overmap tmp = overmap_buffer.get(g, om->pos().x + sx, om->pos().y + sy);
-  terrain_type = tmp.ter(overx, overy, z);
-  //zones = tmp.zones(overx, overy);
-  t_above = tmp.ter(overx, overy, z + 1);
+    // This happens when we're at the very edge of the overmap, and are generating
+    // terrain for the adjacent overmap.
+        int sx = 0, sy = 0;
+        overx = (x % (OMAPX * 2)) / 2;
+        if (x >= OMAPX * 2) {
+            sx = 1;
+        }
+        if (x < 0) {
+            sx = -1;
+            overx = (OMAPX * 2 + x) / 2;
+        }
+        overy = (y % (OMAPY * 2)) / 2;
+        if (y >= OMAPY * 2) {
+            sy = 1;
+        }
+        if (y < 0) {
+            overy = (OMAPY * 2 + y) / 2;
+            sy = -1;
+        }
+        overmap tmp = overmap_buffer.get(g, om->pos().x + sx, om->pos().y + sy);
+        terrain_type = tmp.ter(overx, overy, z);
+        //zones = tmp.zones(overx, overy);
+        t_above = tmp.ter(overx, overy, z + 1);
 
-  if (overy - 1 >= 0)
-   t_north = tmp.ter(overx, overy - 1, z);
-  else
-   t_north = om->ter(overx, OMAPY - 1, z);
-  if (overx + 1 < OMAPX)
-   t_east = tmp.ter(overx + 1, overy - 1, z);
-  else
-   t_east = om->ter(0, overy, z);
-  if (overy + 1 < OMAPY)
-   t_south = tmp.ter(overx, overy + 1, z);
-  else
-   t_south = om->ter(overx, 0, z);
-  if (overx - 1 >= 0)
-   t_west = tmp.ter(overx - 1, overy, z);
-  else
-   t_west = om->ter(OMAPX - 1, overy, z);
- } else {
-  dbg(D_INFO) << "map::generate: In section 2";
+        if (overy - 1 >= 0) {
+            t_north = tmp.ter(overx, overy - 1, z);
+        } else {
+            t_north = om->ter(overx, OMAPY - 1, z);
+        }
 
-  t_above = om->ter(overx, overy, z + 1);
-  terrain_type = om->ter(overx, overy, z);
-  if (overy - 1 >= 0)
-   t_north = om->ter(overx, overy - 1, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
-   t_north = tmp.ter(overx, OMAPY - 1, z);
-  }
-  if (overx + 1 < OMAPX)
-   t_east = om->ter(overx + 1, overy, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
-   t_east = tmp.ter(0, overy, z);
-  }
-  if (overy + 1 < OMAPY)
-   t_south = om->ter(overx, overy + 1, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
-   t_south = tmp.ter(overx, 0, z);
-  }
-  if (overx - 1 >= 0)
-   t_west = om->ter(overx - 1, overy, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
-   t_west = tmp.ter(OMAPX - 1, overy, z);
-  }
- }
+        if (overx + 1 < OMAPX) {
+            t_east = tmp.ter(overx + 1, overy - 1, z);
+        } else {
+            t_east = om->ter(0, overy, z);
+        }
 
- // This attempts to scale density of zombies inversely with distance from the nearest city.
- // In other words, make city centers dense and perimiters sparse.
- float density = 0.0;
- for (int i = overx-MON_RADIUS; i <= overx+MON_RADIUS; i++)
- {
-     for (int j = overy-MON_RADIUS; j <= overy+MON_RADIUS; j++)
-     {
-         density += oterlist[om->ter(i,j,z)].mondensity;
-     }
- }
- density = density/100;
+        if (overy + 1 < OMAPY) {
+            t_south = tmp.ter(overx, overy + 1, z);
+        } else {
+            t_south = om->ter(overx, 0, z);
+        }
 
- draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density, z);
+        if (overx - 1 >= 0) {
+            t_west = tmp.ter(overx - 1, overy, z);
+        } else {
+            t_west = om->ter(OMAPX - 1, overy, z);
+        }
 
- if ( one_in( oterlist[terrain_type].embellishments.chance ))
-  add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
+    } else {
+        dbg(D_INFO) << "map::generate: In section 2";
 
- post_process(g, zones);
+        t_above = om->ter(overx, overy, z + 1);
+        terrain_type = om->ter(overx, overy, z);
+        if (overy - 1 >= 0) {
+            t_north = om->ter(overx, overy - 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            t_north = tmp.ter(overx, OMAPY - 1, z);
+        }
+        if (overx + 1 < OMAPX) {
+            t_east = om->ter(overx + 1, overy, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            t_east = tmp.ter(0, overy, z);
+        }
+        if (overy + 1 < OMAPY) {
+            t_south = om->ter(overx, overy + 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            t_south = tmp.ter(overx, 0, z);
+        }
+        if (overx - 1 >= 0) {
+            t_west = om->ter(overx - 1, overy, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            t_west = tmp.ter(OMAPX - 1, overy, z);
+        }
+    }
 
-// Okay, we know who are neighbors are.  Let's draw!
-// And finally save used submaps and delete the rest.
- for (int i = 0; i < my_MAPSIZE; i++) {
-  for (int j = 0; j < my_MAPSIZE; j++) {
+    // This attempts to scale density of zombies inversely with distance from the nearest city.
+    // In other words, make city centers dense and perimiters sparse.
+    float density = 0.0;
+    for (int i = overx-MON_RADIUS; i <= overx+MON_RADIUS; i++) {
+        for (int j = overy-MON_RADIUS; j <= overy+MON_RADIUS; j++) {
+            density += oterlist[om->ter(i,j,z)].mondensity;
+        }
+    }
+    density = density/100;
 
-   dbg(D_INFO) << "map::generate: submap ("<<i<<","<<j<<")";
-   dbg(D_INFO) << grid[i+j];
+    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density, z);
 
-   if (i <= 1 && j <= 1)
-    saven(om, turn, x, y, z, i, j);
-   else
-    delete grid[i + j * my_MAPSIZE];
-  }
- }
+    if ( one_in( oterlist[terrain_type].embellishments.chance )) {
+        add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
+    }
+
+    post_process(g, zones);
+
+    // Okay, we know who are neighbors are.  Let's draw!
+    // And finally save used submaps and delete the rest.
+    for (int i = 0; i < my_MAPSIZE; i++) {
+        for (int j = 0; j < my_MAPSIZE; j++) {
+            dbg(D_INFO) << "map::generate: submap ("<<i<<","<<j<<")";
+            dbg(D_INFO) << grid[i+j];
+
+            if (i <= 1 && j <= 1) {
+                saven(om, turn, x, y, z, i, j);
+            } else {
+                delete grid[i + j * my_MAPSIZE];
+            }
+        }
+    }
 }
 
 // TODO: clean up variable shadowing in this function
