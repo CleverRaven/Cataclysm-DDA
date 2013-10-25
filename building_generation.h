@@ -32,5 +32,6 @@ void mapgen_hive(map *m, mapgendata dat, int turn);
 void mapgen_spider_pit(map *m, mapgendata dat, int turn);
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 #endif

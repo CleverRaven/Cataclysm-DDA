@@ -340,46 +340,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_road_curved(this, terrain_type, facing_data, turn, density);
         break;
 
- case ot_road_nes:
- case ot_road_new:
- case ot_road_nsw:
- case ot_road_esw:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
-
-  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
-         ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX))
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_road_esw)
-   rotate(1);
-  if (terrain_type == ot_road_nsw)
-   rotate(2);
-  if (terrain_type == ot_road_new)
-   rotate(3);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
+    case ot_road_nes:
+    case ot_road_new:
+    case ot_road_nsw:
+    case ot_road_esw:
+        mapgen_road_tee(this, terrain_type, facing_data, turn, density);
+        break;
 
  case ot_road_nesw:
  case ot_road_nesw_manhole:
