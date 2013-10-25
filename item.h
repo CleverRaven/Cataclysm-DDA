@@ -109,6 +109,7 @@ public:
  bool invlet_is_okay();
  bool stacks_with(item rhs);
  void put_in(item payload);
+ void add_rain_to_container(bool acid, int charges = 1);
 
  int weight() const;
 
@@ -175,6 +176,7 @@ public:
  bool is_container() const;
  bool is_watertight_container() const;
  int is_funnel_container(int bigger_than) const;
+ 
  bool is_tool() const;
  bool is_software() const;
  bool is_macguffin() const;
