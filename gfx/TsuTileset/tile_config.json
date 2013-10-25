@@ -3485,11 +3485,11 @@
 			[
 				{
 					"id":"open",
-					"fg":1772
+					"fg":1771
 				},
 				{
 					"id":"broken",
-					"fg":1769
+					"fg":1768
 				}
 			]
         },
@@ -3502,11 +3502,11 @@
 			[
 				{
 					"id":"open",
-					"fg":1773
+					"fg":1772
 				},
 				{
 					"id":"broken",
-					"fg":1770
+					"fg":1769
 				}
 			]
         },
@@ -3519,11 +3519,11 @@
 			[
 				{
 					"id":"open",
-					"fg":1774
+					"fg":1773
 				},
 				{
 					"id":"broken",
-					"fg":1771
+					"fg":1770
 				}
 			]
         },
@@ -3713,7 +3713,7 @@
         },
 		 {
             "id":"vp_reinforced_solar_panel",
-            "fg":1754,
+            "fg":1753,
             "rotates":true
         },
         {
@@ -3783,92 +3783,92 @@
         },
 		 {
             "id":"vp_light_red",
-            "fg":148,
+            "fg":1774,
             "rotates":true
         },
 		 {
             "id":"vp_light_blue",
-            "fg":148,
+            "fg":1775,
             "rotates":true
         },
 		{
             "id":"vp_reinforced_windshield",
-            "fg":1755,
+            "fg":1754,
             "rotates":true
         },
 		 {
             "id":"vp_horn_bicycle",
-            "fg":1756,
+            "fg":1755,
             "rotates":true
         },
 		 {
             "id":"vp_horn_car",
-            "fg":1756,
+            "fg":1755,
             "rotates":true
         },
 		 {
             "id":"vp_horn_big",
-            "fg":1756,
+            "fg":1755,
             "rotates":true
         },
 		 {
             "id":"vp_door_trunk",
-            "fg":1757,
+            "fg":1756,
             "rotates":true
         },
 		 {
             "id":"vp_door_shutter",
-            "fg":1758,
+            "fg":1757,
             "rotates":true
         },
 		 {
             "id":"vp_door_sliding",
-            "fg":1759,
+            "fg":1758,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_horizontal",
-            "fg":1760,
+            "fg":1759,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_vertical",
-            "fg":1761,
+            "fg":1760,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_nw",
-            "fg":1762,
+            "fg":1761,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_ne",
-            "fg":1763,
+            "fg":1762,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_se",
-            "fg":1764,
+            "fg":1763,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_sw",
-            "fg":1765,
+            "fg":1764,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_horizontal_2",
-            "fg":1766,
+            "fg":1765,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_vertical_2",
-            "fg":1767,
+            "fg":1766,
             "rotates":true
         },
 		{
             "id":"vp_halfboard_cover",
-            "fg":1768,
+            "fg":1767,
             "rotates":true
         },
       { 
@@ -12200,6 +12200,18 @@
          "bg" : 193, 
          "rotates" : false, 
          "multitile" : false
-      }
+      },
+	  {
+			"id":"tr_caltrops",
+			"fg":1776,
+			"bg":3,
+			"rotates":false
+	  },
+	  {
+			"id":"caltrops",
+			"fg":1776,
+			"bg":2,
+			"rotates":false
+	  }
     ]
 }
