@@ -1343,6 +1343,7 @@
         "size": 12000,
         "fuel_type": "battery",
         "item": "battery_motorbike",
+        "location": "fuel_source",
         "difficulty": 2,
         "flags": ["FUEL_TANK"]
     },
@@ -1359,6 +1360,7 @@
         "size": 30000,
         "fuel_type": "battery",
         "item": "battery_car",
+        "location": "fuel_source",
         "difficulty": 2,
         "flags": ["FUEL_TANK"]
     },
@@ -1375,6 +1377,7 @@
         "size": 50000,
         "fuel_type": "battery",
         "item": "battery_truck",
+        "location": "fuel_source",
         "difficulty": 2,
         "flags": ["FUEL_TANK"]
     },
