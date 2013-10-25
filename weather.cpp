@@ -113,16 +113,9 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
             // impure water and acid.
             for (int j = 0; j < items.size(); j++) {
                 item *it = &(items[j]);
-                if (it->is_container() && it->has_flag("WATERTIGHT") && it->has_flag("SEALS")) {
-                    it_container* ct = dynamic_cast<it_container*>(it->type);
-                    if (ct->contains > maxcontains && (
-                            it->contents.empty() ||
-                            it->contents[0].typeId() == "water" ||
-                            it->contents[0].typeId() == "water_acid" ||
-                            it->contents[0].typeId() == "water_acid_weak")) {
-                        c = it;
-                        maxcontains = ct->contains;
-                    }
+                int ismax = it->is_funnel_container( maxcontains );
+                if ( ismax > maxcontains ) {
+                    c = it;
                 }
             }
 
