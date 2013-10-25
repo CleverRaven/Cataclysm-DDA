@@ -26,7 +26,7 @@
         "price" : 50,
         "name" : "thread",
         "symbol" : "=",
-        "color" : "white",
+        "color" : "light_gray",
         "description" : "A small quantity of thread that could be used to refill a sewing kit.",
         "material" : "cotton",
         "volume" : 1,
@@ -49,7 +49,7 @@
         "price" : 120,
         "name" : "sinew",
         "symbol" : "=",
-        "color" : "light_gray",
+        "color" : "light_red",
         "description" : "A tough sinew cut from a corpse, useable as thread.",
         "material" : "flesh",
         "volume" : 1,
@@ -139,7 +139,7 @@
         "price" : 1500,
         "name" : "plutonium cell",
         "symbol" : "=",
-        "color" : "light_green",
+        "color" : "green",
         "description" : "A nuclear-powered battery. Used to charge advanced and rare electronics.",
         "material" : "steel",
         "volume" : 1,
@@ -155,6 +155,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 5
+        "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
         "id" : "nail",
@@ -271,7 +272,7 @@
         "price" : 30,
         "name" : "feather",
         "symbol" : "=",
-        "color" : "white",
+        "color" : "brown",
         "description" : "Feathers from a bird. Useful for fletching arrows",
         "material" : "cotton",
         "volume" : 1,
@@ -380,7 +381,7 @@
         "recoil" : 20,
         "count" : 5,
         "stack_size" : 25,
-        "effects" : ["EXPLOSIVE"]
+        "effects" : ["COOKOFF", "EXPLOSIVE"]
     },
     {   "type" : "AMMO",
         "id" : "shot_flechette",
@@ -1083,7 +1084,7 @@
         "recoil" : 32,
         "count" : 30,
         "stack_size": 40,
-        "effects" : ["INCENDIARY"]
+        "effects" : ["COOKOFF", "INCENDIARY"]
     },
     {   "type" : "AMMO",
         "id" : "270",
@@ -1178,7 +1179,7 @@
         "recoil" : 35,
         "count" : 5,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY"]
+        "effects" : ["COOKOFF", "INCENDIARY"]
     },
     {   "type" : "AMMO",
         "id" : "308",
@@ -1248,7 +1249,7 @@
         "recoil" : 32,
         "count" : 10,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY"]
+        "effects" : ["COOKOFF", "INCENDIARY"]
     },
     {   "type" : "AMMO",
         "id" : "laser_pack",
@@ -1292,7 +1293,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["EXPLOSIVE"]
+        "effects" : ["COOKOFF", "EXPLOSIVE"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_frag",
@@ -1315,7 +1316,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["FRAG"]
+        "effects" : ["COOKOFF", "FRAG"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_incendiary",
@@ -1338,7 +1339,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["NAPALM"]
+        "effects" : ["COOKOFF", "NAPALM"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_teargas",
@@ -1361,7 +1362,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["TEARGAS"]
+        "effects" : ["COOKOFF", "TEARGAS"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_smoke",
@@ -1385,7 +1386,7 @@
         "recoil" : 15,
         "count" : 4,
         "stack_size" : 4,
-        "effects" : ["SMOKE", "TRAIL"]
+        "effects" : ["COOKOFF", "SMOKE", "TRAIL"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_flashbang",
@@ -1409,7 +1410,7 @@
         "recoil" : 15,
         "count" : 4,
         "stack_size" : 4,
-        "effects" : ["FLASHBANG"]
+        "effects" : ["COOKOFF", "FLASHBANG"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_acidbomb",
@@ -1433,7 +1434,7 @@
         "recoil" : 15,
         "count" : 1,
         "stack_size" : 4,
-        "effects" : ["ACIDBOMB"]
+        "effects" : ["COOKOFF", "ACIDBOMB"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_shot",
@@ -1457,7 +1458,7 @@
         "recoil" : 35,
         "count" : 4,
         "stack_size" : 4,
-        "effects" : ["SHOT"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_flechette",
@@ -1481,7 +1482,7 @@
         "recoil" : 35,
         "count" : 4,
         "stack_size" : 4,
-        "effects" : ["SHOT"]
+        "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
         "id" : "66mm_HEAT",
@@ -1504,7 +1505,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 1,
-        "effects" : ["EXPLOSIVE_BIG", "TRAIL"]
+        "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
     },
     {   "type" : "AMMO",
         "id" : "12mm",
@@ -2227,7 +2228,7 @@
         "dispersion" : 8,
         "recoil" : 20,
         "count" : 25,
-        "effects" : ["COOKOFF","BEANBAG"]
+        "effects" : ["COOKOFF", "BEANBAG"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_beanbag",
@@ -2250,7 +2251,7 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["COOKOFF","LARGE_BEANBAG"]
+        "effects" : ["COOKOFF", "LARGE_BEANBAG"]
     },
     {   "type" : "AMMO",
         "id" : "8mm_caseless",
@@ -2441,7 +2442,7 @@
         "dispersion" : 4,
         "recoil" : 3,
         "count" : 1,
-        "effects" : ["EXPLOSIVE_BIG", "FRAG"]
+        "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "FRAG"]
     },
     {   "type" : "AMMO",
         "id" : "84x246mm_hedp",
@@ -2464,7 +2465,7 @@
         "dispersion" : 5,
         "recoil" : 4,
         "count" : 1,
-        "effects" : ["EXPLOSIVE_HUGE"]
+        "effects" : ["COOKOFF", "EXPLOSIVE_HUGE"]
     },
     {   "type" : "AMMO",
         "id" : "84x246mm_smoke",
@@ -2487,7 +2488,7 @@
         "dispersion" : 2,
         "recoil" : 3,
         "count" : 1,
-        "effects" : ["SMOKE_BIG"]
+        "effects" : ["COOKOFF", "SMOKE_BIG"]
     },
     {
         "type" : "AMMO",
@@ -2511,7 +2512,7 @@
         "dispersion" : 5,
         "recoil" : 30,
         "count" : 1,
-        "effects" : ["EXPLOSIVE_BIG", "TRAIL"]
+        "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
     },
     {   "type" : "AMMO",
         "id" : "m235tpa",
@@ -2534,7 +2535,7 @@
         "dispersion" : 10,
         "recoil" : 10,
         "count" : 4,
-        "effects" : ["NAPALM_BIG", "TRAIL"]
+        "effects" : ["COOKOFF", "NAPALM_BIG", "TRAIL"]
     },
     {
         "type" : "AMMO",
