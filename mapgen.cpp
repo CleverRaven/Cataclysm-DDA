@@ -155,7 +155,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
         }
 
         if (overx + 1 < OMAPX) {
-            t_east = tmp.ter(overx + 1, overy - 1, z);
+            t_east = tmp.ter(overx + 1, overy, z);
         } else {
             t_east = om->ter(0, overy, z);
         }
@@ -177,24 +177,28 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 
         t_above = om->ter(overx, overy, z + 1);
         terrain_type = om->ter(overx, overy, z);
+
         if (overy - 1 >= 0) {
             t_north = om->ter(overx, overy - 1, z);
         } else {
             overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
             t_north = tmp.ter(overx, OMAPY - 1, z);
         }
+
         if (overx + 1 < OMAPX) {
             t_east = om->ter(overx + 1, overy, z);
         } else {
             overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
             t_east = tmp.ter(0, overy, z);
         }
+
         if (overy + 1 < OMAPY) {
             t_south = om->ter(overx, overy + 1, z);
         } else {
             overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
             t_south = tmp.ter(overx, 0, z);
         }
+
         if (overx - 1 >= 0) {
             t_west = om->ter(overx - 1, overy, z);
         } else {
