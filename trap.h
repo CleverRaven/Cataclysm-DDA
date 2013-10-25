@@ -140,7 +140,7 @@ struct trap {
 
  // non-generic numbers for special cases
  int funnel_radius_mm;
- double funnel_charges_per_turn( double rain_depth_mm_per_hour ) const;
+ double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
  /* pending jsonize
  std::set<std::string> flags
  std::string id;
