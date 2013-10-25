@@ -6378,10 +6378,9 @@ void game::handbrake ()
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 {
     veh_interact vehint;
-    vehint.cursor_x = cx;
-    vehint.cursor_y = cy;
+    vehint.ddx = cx;
+    vehint.ddy = cy;
     vehint.exec(this, &veh, examx, examy);
-//    debugmsg ("exam_vehicle cmd=%c %d", vehint.sel_cmd, (int) vehint.sel_cmd);
     if (vehint.sel_cmd != ' ')
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,
@@ -6390,10 +6389,10 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
                                      (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
-        u.activity.values.push_back (vehint.cursor_x);   // values[2]
-        u.activity.values.push_back (vehint.cursor_y);   // values[3]
-        u.activity.values.push_back (-vehint.ddx - vehint.cursor_y);   // values[4]
-        u.activity.values.push_back (vehint.cursor_x - vehint.ddy);   // values[5]
+        u.activity.values.push_back (vehint.ddx);   // values[2]
+        u.activity.values.push_back (vehint.ddy);   // values[3]
+        u.activity.values.push_back (-vehint.ddx);   // values[4]
+        u.activity.values.push_back (-vehint.ddy);   // values[5]
         u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part)); // values[6]
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         if(vehint.sel_vpart_info != NULL) {
