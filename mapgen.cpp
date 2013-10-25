@@ -9071,6 +9071,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
 }break;
 
     case ot_cave:
+
         if (t_above == ot_cave) {
             // We're underground!
             for (int i = 0; i < SEEX * 2; i++) {
@@ -9086,48 +9087,76 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             }
 
             square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
-            if (one_in(5)) {
-                place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-            } else if (one_in(5)) {
-                place_items("ant_food", 86, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-            } else if (one_in(10)) {
-                // hermit cave
-                int origx = rng(SEEX - 1, SEEX),
-                    origy = rng(SEEY - 1, SEEY),
-                    hermx = rng(SEEX - 6, SEEX + 5),
-                    hermy = rng(SEEX - 6, SEEY + 5);
-                std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
-                for (int ii = 0; ii < bloodline.size(); ii++) {
-                    add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
-                }
-                item body;
-                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
-                add_item(hermx, hermy, body);
-                place_items("rare", 25, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+
+            switch(rng(1, 10)) {
+                case 1:
+                    // natural refuse
+                    place_items("monparts", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 2:
+                    // trash
+                    place_items("trash", 10, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 3:
+                    // bat corpses
+                    for (int i = rng(1,12); i < 0; i--) {
+                        body.make_corpse(g->itypes["corpse"], GetMType("mon_bat"), g->turn);
+                    }
+                case 4:
+                    // ant food, chance of 80
+                    place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 5:
+                    // hermitage
+                    int origx = rng(SEEX - 1, SEEX),
+                        origy = rng(SEEY - 1, SEEY),
+                        hermx = rng(SEEX - 6, SEEX + 5),
+                        hermy = rng(SEEX - 6, SEEY + 5);
+                    std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
+                    for (int ii = 0; ii < bloodline.size(); ii++) {
+                        add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
+                    }
+                    item body;
+                    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+                    add_item(hermx, hermy, body);
+                    // This seems verbose.  Maybe a function to spawn from a list of item groups?
+                    place_items("stash_food", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_tools", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_armor", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("weapons", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("magazines", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("rare", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    break;
+                default:
+                    // nothing, half the time
+                    break;
             }
             place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, density);
         } else { // We're above ground!
-// First, draw a forest
-   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density, zlevel);
-// Clear the center with some rocks
-   square(this, t_rock, SEEX-6, SEEY-6, SEEX+5, SEEY+5);
-   int pathx, pathy;
-   if (one_in(2)) {
-    pathx = rng(SEEX - 6, SEEX + 5);
-    pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
-   } else {
-    pathx = (one_in(2) ? SEEX - 8 : SEEX + 7);
-    pathy = rng(SEEY - 6, SEEY + 5);
-   }
-   std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
-   for (int ii = 0; ii < pathline.size(); ii++)
-    square(this, t_dirt, pathline[ii].x,     pathline[ii].y,
-                         pathline[ii].x + 1, pathline[ii].y + 1);
-   while (!one_in(8))
-    ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
-   square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
-  }
-  break;
+            // First, draw a forest
+            draw_map(ot_forest, t_north, t_east, t_south, t_west,
+                                t_above, turn, g, density, zlevel);
+            // Clear the center with some rocks
+            square(this, t_rock, SEEX-6, SEEY-6, SEEX+5, SEEY+5);
+            int pathx, pathy;
+            if (one_in(2)) {
+                pathx = rng(SEEX - 6, SEEX + 5);
+                pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
+            } else {
+                pathx = (one_in(2) ? SEEX - 8 : SEEX + 7);
+                pathy = rng(SEEY - 6, SEEY + 5);
+            }
+            std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
+            for (int ii = 0; ii < pathline.size(); ii++) {
+                square(this, t_dirt, pathline[ii].x, pathline[ii].y,
+                                     pathline[ii].x + 1, pathline[ii].y + 1);
+            }
+            while (!one_in(8)) {
+                ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
+            }
+            square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
+        }
+        break;
 
  case ot_cave_rat:
   fill_background(this, t_rock);
