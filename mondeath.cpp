@@ -23,7 +23,6 @@ void mdeath::normal(game *g, monster *z) {
         g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
     }
 
-    bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
     bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
     if (leaveCorpse) {
         int maxHP = z->type->hp;
@@ -33,6 +32,7 @@ void mdeath::normal(game *g, monster *z) {
 
         int gibAmount = -2;
         int corpseDamage = 0;
+        bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
 
         for (int i = 5; i >= 1; i--) {
             if (overflowDamage > maxHP / i) {
@@ -42,8 +42,7 @@ void mdeath::normal(game *g, monster *z) {
                 }
             }
         }
-
-        if (!isFleshy && (overflowDamage < maxHP * 2) && (monSize < (int)MS_MEDIUM)) {
+        if (isFleshy && ((overflowDamage < maxHP * 2) || (monSize >= (int)MS_MEDIUM))) {
             // the corpse still exists, let's place it
             item corpse;
             corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
@@ -51,12 +50,12 @@ void mdeath::normal(game *g, monster *z) {
             g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
         }
 
-        // leave gibs
+        // leave gibs, if there are any
+        const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
         for (int i = 0; i < gibAmount; i++) {
             const int gibX = z->posx() + rng(1,6) - 3;
             const int gibY = z->posy() + rng(1,6) - 3;
             const int gibDensity = rng(1, 3);
-            const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
             g->m.add_field(g, gibX, gibY, gibType, gibDensity);
         }
     }
@@ -71,7 +70,7 @@ void mdeath::acid(game *g, monster *z) {
 
 void mdeath::boomer(game *g, monster *z) {
     std::string tmp;
-    g->sound(z->posx(), z->posy(), 24, _("a boomer explodes!"));
+    g->sound(z->posx(), z->posy(), 24, _("a boomer explode!"));
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.bash(z->posx() + i, z->posy() + j, 10, tmp);
@@ -155,7 +154,9 @@ void mdeath::vine_cut(game *g, monster *z) {
 }
 
 void mdeath::triffid_heart(game *g, monster *z) {
-    g->add_msg(_("The root walls begin to crumble around you."));
+    if (g->u_see(z)) {
+        g->add_msg(_("The surrounding roots begin to crack and crumble."));
+    }
     g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
 }
 
@@ -219,7 +220,7 @@ void mdeath::fungus(game *g, monster *z) {
 
 void mdeath::disintegrate(game *g, monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("It disintegrates!"));
+        g->add_msg(_("The %s disintegrates!"), z->name().c_str());
     }
 }
 
@@ -253,12 +254,11 @@ void mdeath::worm(game *g, monster *z) {
 }
 
 void mdeath::disappear(game *g, monster *z) {
-    g->add_msg(_("The %s disappears!  Was it in your head?"), z->name().c_str());
+    g->add_msg(_("The %s disappears."), z->name().c_str());
 }
 
 void mdeath::guilt(game *g, monster *z) {
     const int MAX_GUILT_DISTANCE = 5;
-
     /*  TODO:   Replace default cannibal checks with more elaborate conditions,
                  and add a "PSYCHOPATH" trait for terminally guilt-free folk.
                  Guilty cannibals could make for good drama!
@@ -377,7 +377,7 @@ void mdeath::explode(game *g, monster *z) {
 void mdeath::ratking(game *g, monster *z) {
     g->u.rem_disease("rat");
     if (g->u_see(z)) {
-        g->add_msg(_("Swarming rats converge on you."));
+        g->add_msg(_("Rats suddenly swarm into view."));
     }
 
     std::vector <point> ratspots;
@@ -404,7 +404,7 @@ void mdeath::ratking(game *g, monster *z) {
 
 void mdeath::smokeburst(game *g, monster *z) {
     std::string tmp;
-    g->sound(z->posx(), z->posy(), 24, _("a smoker explodes!"));
+    g->sound(z->posx(), z->posy(), 24, _("a smoker explode!"));
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.add_field(g, z->posx() + i, z->posy() + j, fd_smoke, 3);
@@ -495,13 +495,13 @@ void mdeath::zombie(game *g, monster *z) {
 }
 
 void mdeath::gameover(game *g, monster *z) {
-    g->add_msg(_("Your %s was destroyed!  GAME OVER!"), z->name().c_str());
+    g->add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;
 }
 
 void mdeath::kill_breathers(game *g, monster *z) {
     for (int i = 0; i < g->num_zombies(); i++) {
-        std::string monID = g->zombie(i).type->id;
+        const std::string monID = g->zombie(i).type->id;
         if (monID == "mon_breather_hub " || monID == "mon_breather") {
             g->zombie(i).dead = true;
         }
