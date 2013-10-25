@@ -108,8 +108,10 @@ int iuse::none(game *g, player *p, item *it, bool t)
   return it->type->charges_to_use();
 }
 
-/* To mark an item as "removed from inventory", set its invlet to 0
-   This is useful for traps (placed on ground), inactive bots, etc
+/* iuse methods return the number of charges expended, which is usually it->charges_to_use().
+ * Some items that don't normally use charges return 1 to indicate they're used up.
+ * Regardless, returning 0 indicates the item has not been used up,
+ * though it may have been successfully activated.
  */
 int iuse::sewage(game *g, player *p, item *it, bool t)
 {
@@ -120,7 +122,7 @@ int iuse::sewage(game *g, player *p, item *it, bool t)
   if (one_in(4)) {
     p->mutate(g);
   }
-  return 0;
+  return it->type->charges_to_use();
 }
 
 int iuse::honeycomb(game *g, player *p, item *it, bool t)
@@ -994,6 +996,8 @@ int iuse::marloss(game *g, player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
+// TOOLS below this point!
+
 int iuse::dogfood(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
@@ -1013,11 +1017,8 @@ int iuse::dogfood(game *g, player *p, item *it, bool t)
     } else {
         g->add_msg_if_player(p,_("You spill the dogfood all over the ground."));
     }
-    return it->type->charges_to_use();
+    return 1;
 }
-
-
-// TOOLS below this point!
 
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
@@ -2196,10 +2197,8 @@ int iuse::picklock(game *g, player *p, item *it, bool t)
 
   std::string sStatus = rm_prefix(_("<door_status>damage"));
   if (it->damage >= 5) {
-   sStatus = rm_prefix(_("<door_status>destroy"));
-   it->invlet = 0; // no copy to inventory in player.cpp:4472 ->
+      sStatus = rm_prefix(_("<door_status>destroy"));
   }
-
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it, and you %s your tool.", sStatus.c_str());
  } else {
   g->add_msg_if_player(p,_("The lock stumps your efforts to pick it."));
@@ -2211,6 +2210,11 @@ int iuse::picklock(game *g, player *p, item *it, bool t)
    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
   }
  }
+ // Special handling, normally the item isn't used up, but it is if broken.
+ if (it->damage >= 5) {
+     return 1;
+ }
+
  return it->type->charges_to_use();
 }
 
@@ -3049,7 +3053,7 @@ if(it->type->id == "cot"){
    }
   }
  }
- return it->type->charges_to_use();
+ return 1;
 }
 
 int iuse::geiger(game *g, player *p, item *it, bool t)
@@ -3857,7 +3861,6 @@ int iuse::manhack(game *g, player *p, item *it, bool t)
  }
  int index = rng(0, valid.size() - 1);
  p->moves -= 60;
- it->invlet = 0; // Remove the manhack from the player's inv
  monster m_manhack(GetMType("mon_manhack"), valid[index].x, valid[index].y);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 4)) {
@@ -3866,7 +3869,7 @@ int iuse::manhack(game *g, player *p, item *it, bool t)
   m_manhack.friendly = -1;
  }
  g->add_zombie(m_manhack);
- return it->type->charges_to_use();
+ return 1;
 }
 
 int iuse::turret(game *g, player *p, item *it, bool t)
@@ -3881,7 +3884,6 @@ int iuse::turret(game *g, player *p, item *it, bool t)
  }
 
  p->moves -= 100;
- it->invlet = 0; // Remove the turret from the player's inv
  monster mturret(GetMType("mon_turret"), dirx, diry);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 6)) {
@@ -3890,7 +3892,7 @@ int iuse::turret(game *g, player *p, item *it, bool t)
   mturret.friendly = -1;
  }
  g->add_zombie(mturret);
- return it->type->charges_to_use();
+ return 1;
 }
 
 int iuse::UPS_off(game *g, player *p, item *it, bool t)
@@ -4544,8 +4546,7 @@ int iuse::tent(game *g, player *p, item *it, bool t)
  }
  g->m.furn_set(posx, posy, f_groundsheet);
  g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
- it->invlet = 0;
- return it->type->charges_to_use();
+ return 1;
 }
 
 int iuse::shelter(game *g, player *p, item *it, bool t)
@@ -4581,8 +4582,7 @@ int iuse::shelter(game *g, player *p, item *it, bool t)
  }
  g->m.furn_set(posx, posy, f_skin_groundsheet);
  g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_skin_door);
- it->invlet = 0;
- return it->type->charges_to_use();
+ return 1;
 }
 
 int iuse::torch(game *g, player *p, item *it, bool t)
@@ -5670,12 +5670,11 @@ int iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
         }
         g->add_msg_if_player(p, _("You painstakingly unfold the bicycle and make it ready to ride."));
         p->moves -= 500;
-        it->invlet = 0;
     } else {
         g->add_msg_if_player(p, _("There's no room to unfold the bicycle."));
         return 0;
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 int iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
