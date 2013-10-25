@@ -2156,14 +2156,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
 
         if (part_flag(part, "SHARP")) {
-            field &local_field = g->m.field_at(x, y);
-            if (local_field.findField(fd_blood) &&
-                local_field.findField(fd_blood)->getFieldDensity() < 2) {
-                local_field.findField(fd_blood)->
-                    setFieldDensity(local_field.findField(fd_blood)->getFieldDensity() + 1);
-            } else {
-                g->m.add_field(g, x, y, fd_blood, 1);
-            }
+            g->m.adjust_field_strength(g, point(x, y), fd_blood, 1 );
         } else {
             g->sound (x, y, 20, "");
         }

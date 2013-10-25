@@ -306,6 +306,14 @@ class map
 
 // Fields
  field& field_at(const int x, const int y);
+
+ int get_field_age(const point p, const field_id t);
+ int get_field_strength(const point p, const field_id t);
+ int adjust_field_age(const point p, const field_id t, const int offset);
+ int adjust_field_strength(game *g, const point p, const field_id t, const int offset);
+ int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
+ int set_field_strength(game *g, const point p, const field_id t, const int str, bool isoffset = false);
+ field_entry * get_field( const point p, const field_id t );
  bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
