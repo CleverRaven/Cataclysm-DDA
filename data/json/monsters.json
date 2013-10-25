@@ -1718,7 +1718,7 @@
     "aggression":100,
     "morale":100,
     "speed":150,
-    "melee_skill":8,
+    "melee_skill":6,
     "melee_dice":1,
     "melee_dice_sides":6,
     "melee_cut":4,
@@ -2113,7 +2113,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"LEAP",
     "description":"A deformed human body, once living.  It runs on all fours, leaping around on bulging legs, and its nails have lengthened into menacing claws.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
   },
   {
