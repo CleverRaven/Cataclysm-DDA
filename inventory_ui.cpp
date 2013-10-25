@@ -202,16 +202,16 @@ char game::inv(inventory& inv, std::string title)
     mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory(&u) ), " %s",
               it.tname(this).c_str());
     if (slice[cur_it]->size() > 1)
-     wprintw(w_inv, " [%d]", slice[cur_it]->size());
+     wprintw(w_inv, " x %d", slice[cur_it]->size());
     if (it.charges > 0)
-     wprintw(w_inv, " (%d)", it.charges);
+     wprintw(w_inv, " [%d]", it.charges);
     else if (it.contents.size() == 1 &&
              it.contents[0].charges > 0)
-     wprintw(w_inv, " (%d)", it.contents[0].charges);
+     wprintw(w_inv, " [%d]", it.contents[0].charges);
     cur_line++;
     max_it=cur_it;
    }
-//   cur_line++;
+
   }
   if (start > 0)
    mvwprintw(w_inv, maxitems + 4, 0, _("< Go Back"));
@@ -381,19 +381,19 @@ std::vector<item> game::multidrop()
     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
               it.tname(this).c_str());
     if (stacks[cur_it]->size() > 1)
-     wprintz(w_inv, col, " [%d]", stacks[cur_it]->size());
+     wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
     if (it.charges > 0)
-     wprintz(w_inv, col, " (%d)", it.charges);
+     wprintz(w_inv, col, " [%d]", it.charges);
     else if (it.contents.size() == 1 &&
              it.contents[0].charges > 0)
-     wprintw(w_inv, " (%d)", it.contents[0].charges);
+     wprintw(w_inv, " [%d]", it.contents[0].charges);
     if (icon=='+'||icon=='#') {
       mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname(this).c_str());
       if (icon=='+'){
         if (stacks[cur_it]->size() > 1)
-          wprintz(w_inv, col, " [%d]", stacks[cur_it]->size());
+          wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
         if (it.charges > 0)
-          wprintz(w_inv, col, " (%d)", it.charges);
+          wprintz(w_inv, col, " [%d]", it.charges);
       }
       if (icon=='#') {
         wprintz(w_inv, col, " {%d}", dropping[it.invlet]);
@@ -660,12 +660,12 @@ void game::compare(int iCompareX, int iCompareY)
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                it.tname(this).c_str());
      if (stacks[cur_it-groundsize]->size() > 1)
-      wprintz(w_inv, col, " [%d]", stacks[cur_it-groundsize]->size());
+      wprintz(w_inv, col, " x %d", stacks[cur_it-groundsize]->size());
      if (it.charges > 0)
-      wprintz(w_inv, col, " (%d)", it.charges);
+      wprintz(w_inv, col, " [%d]", it.charges);
      else if (it.contents.size() == 1 &&
               it.contents[0].charges > 0)
-      wprintw(w_inv, " (%d)", it.contents[0].charges);
+      wprintw(w_inv, " [%d]", it.contents[0].charges);
     }
    }
    cur_line++;
