@@ -51,6 +51,7 @@ public:
  void tree_apple (game *g, player *p, map *m, int examx, int examy);
  void shrub_blueberry (game *g, player *p, map *m, int examx, int examy);
  void shrub_strawberry (game *g, player *p, map *m, int examx, int examy);
+ void shrub_marloss (game *g, player *p, map *m, int examx, int examy);
  void shrub_wildveggies (game *g, player *p, map *m, int examx, int examy);
  void recycler (game *g, player *p, map *m, int examx, int examy);
  void trap(game *g, player *p, map *m, int examx, int examy);

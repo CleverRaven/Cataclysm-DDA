@@ -263,7 +263,7 @@ class map
             const std::set<std::string>& ammo_effects);
  bool hit_with_acid(game *g, const int x, const int y);
  bool hit_with_fire(game *g, const int x, const int y);
- void marlossify(const int x, const int y);
+ bool marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
 

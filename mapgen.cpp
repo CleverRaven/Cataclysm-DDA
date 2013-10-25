@@ -492,15 +492,18 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     case ot_fungal_bloom:
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
-                if (one_in(10)) {
+                if (one_in(rl_dist(i, j, 12, 12) * 2)) {
+                    ter_set(i, j, t_marloss);
+                } else if (one_in(10)) {
                     if (one_in(3)) {
                         ter_set(i, j, t_tree_fungal);
                     } else {
                         ter_set(i, j, t_tree_fungal_young);
                     }
-                } else if (one_in(300)) {
-                    ter_set(i, j, t_marloss);
-                } else if (one_in(3)) {
+                
+                } else if (one_in(5)) {
+                    ter_set(i, j, t_shrub_fungal);
+                } else if (one_in(10)) {
                     ter_set(i, j, t_fungus_mound);
                 } else {
                     ter_set(i, j, t_fungus);
@@ -14632,27 +14635,24 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_portal_in:
- {
-     std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
-  int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
-  add_field(g, x, y, fd_fatigue, 3);
-  for (int i = x - 5; i <= x + 5; i++) {
-   for (int j = y - 5; j <= y + 5; j++) {
-    if (rng(0, 9) > trig_dist(x, y, i, j)) {
-     marlossify(i, j);
-     if (ter(i, j) == t_marloss)
-      spawn_item(x, y, "marloss_berry", g->turn);
-     if (one_in(15)) {
-      monster creature(GetMType(monids[rng(0, 5)]));
-      creature.spawn(i, j);
-      g->add_zombie(creature);
-     }
+    case mx_portal_in: {
+        std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+        int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
+        add_field(g, x, y, fd_fatigue, 3);
+        for (int i = x - 5; i <= x + 5; i++) {
+            for (int j = y - 5; j <= y + 5; j++) {
+                if (rng(1, 9) >= trig_dist(x, y, i, j)) {
+                    marlossify(i, j);
+                    if (one_in(15)) {
+                        monster creature(GetMType(monids[rng(0, 5)]));
+                        creature.spawn(i, j);
+                        g->add_zombie(creature);
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
- break;
+    break;
 
  case mx_anomaly: {
   point center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
