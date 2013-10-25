@@ -101,4 +101,7 @@ std::string weather_forecast(game *g, radio_tower tower);
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature(float fahrenheit, int decimals = 0);
 
+void retroactively_fill_from_funnel( game * g, item *it, const trap_id t, const int endturn );
+
+
 #endif // _WEATHER_H_
