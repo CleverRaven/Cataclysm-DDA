@@ -64,7 +64,7 @@ void mdeath::normal(game *g, monster *z) {
 
 void mdeath::acid(game *g, monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s's body melts away into acid."), z->name().c_str());
+        g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
     }
     g->m.add_field(g, z->posx(), z->posy(), fd_acid, 3);
 }
@@ -290,9 +290,11 @@ void mdeath::guilt(game *g, monster *z) {
 void mdeath::blobsplit(game *g, monster *z) {
     int speed = z->speed - rng(30, 50);
     if (speed <= 0) {
-    if (g->u_see(z))
-        g->add_msg(_("The %s splatters apart."), z->name().c_str());
-        return;
+        if (g->u_see(z)) {
+            //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
+            g->add_msg(_("The %s splatters apart."), z->name().c_str());
+            return;
+        }
     }
     monster blob(GetMType((speed < 50 ? "mon_blob_small" : "mon_blob")));
     blob.speed = speed;
@@ -326,7 +328,7 @@ void mdeath::blobsplit(game *g, monster *z) {
 
 void mdeath::melt(game *g, monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s melts into a puddle."), z->name().c_str());
+        g->add_msg(_("The %s melts away."), z->name().c_str());
     }
 }
 
@@ -482,7 +484,6 @@ void mdeath::zombie(game *g, monster *z) {
         default:
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             g->m.put_items_from("shirts", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            //
             if (one_in(5)) {
                 g->m.put_items_from("jackets", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
@@ -499,9 +500,8 @@ void mdeath::gameover(game *g, monster *z) {
 }
 
 void mdeath::kill_breathers(game *g, monster *z) {
-    std::string monID;
     for (int i = 0; i < g->num_zombies(); i++) {
-        monID = g->zombie(i).type->id;
+        std::string monID = g->zombie(i).type->id;
         if (monID == "mon_breather_hub " || monID == "mon_breather") {
             g->zombie(i).dead = true;
         }

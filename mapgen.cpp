@@ -9087,7 +9087,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             }
 
             square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
-
+            item body;
             switch(rng(1, 10)) {
                 case 1:
                     // natural refuse
@@ -9101,12 +9101,15 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     // bat corpses
                     for (int i = rng(1,12); i < 0; i--) {
                         body.make_corpse(g->itypes["corpse"], GetMType("mon_bat"), g->turn);
+                        add_item(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                     }
+                    break;
                 case 4:
                     // ant food, chance of 80
                     place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                     break;
                 case 5:
+                    {
                     // hermitage
                     int origx = rng(SEEX - 1, SEEX),
                         origy = rng(SEEY - 1, SEEY),
@@ -9116,7 +9119,6 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     for (int ii = 0; ii < bloodline.size(); ii++) {
                         add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
                     }
-                    item body;
                     body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
                     add_item(hermx, hermy, body);
                     // This seems verbose.  Maybe a function to spawn from a list of item groups?
@@ -9127,6 +9129,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     place_items("magazines", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
                     place_items("rare", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
                     break;
+                    }
                 default:
                     // nothing, half the time
                     break;

@@ -61,7 +61,7 @@ struct mongroup {
     bool dying;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup(std::string ptype, int pposx, int pposy, int pposz,
-                unsigned char prad, unsigned int ppop) {
+                                unsigned char prad, unsigned int ppop) {
         type = ptype;
         posx = pposx;
         posy = pposy;
@@ -73,8 +73,7 @@ struct mongroup {
     }
     bool is_safe() {
         return (type == "GROUP_NULL" ||
-                type == "GROUP_FOREST" ||
-                type == "GROUP_DOMESTIC" );
+                type == "GROUP_SAFE" );
     };
 };
 
