@@ -939,6 +939,7 @@
     <ClCompile Include="..\skill.cpp" />
     <ClCompile Include="..\text_snippets.cpp" />
     <ClCompile Include="..\tileray.cpp" />
+    <ClCompile Include="..\translations.cpp" />
     <ClCompile Include="..\trapdef.cpp" />
     <ClCompile Include="..\trapfunc.cpp" />
     <ClCompile Include="..\tutorial.cpp" />
