@@ -277,230 +277,50 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  mapgendata facing_data(t_north, t_east, t_south, t_west);
 
  computer *tmpcomp = NULL;
- int veh_spawn_heading;
 
- switch (terrain_type) {
+    switch (terrain_type) {
+    case ot_null:
+        mapgen_null(this);
+        break;
+    case ot_crater:
+        mapgen_crater(this, facing_data);
+        break;
+    case ot_field:
+        mapgen_field(this, turn);
+        break;
+    case ot_dirtlot:
+        mapgen_dirtlot(this, g);
+        break;
 
- case ot_null:
-  mapgen_null(this);
-  break;
- case ot_crater:
-  mapgen_crater(this, facing_data);
-  break;
- case ot_field:
-  mapgen_field(this, turn);
-  break;
- case ot_dirtlot:
-  mapgen_dirtlot(this, g);
-  break;
+    case ot_forest:
+    case ot_forest_thick:
+    case ot_forest_water:
+        mapgen_forest_general(this, terrain_type, facing_data, turn);
+        break;
 
- case ot_forest:
- case ot_forest_thick:
- case ot_forest_water:
-  mapgen_forest_general(this, terrain_type, facing_data, turn);
-  break;
+    case ot_hive:
+        mapgen_hive(this, facing_data, turn);
+        break;
 
- case ot_hive:
-// Start with a basic forest pattern
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    rn = rng(0, 14);
-    if (rn > 13) {
-     ter_set(i, j, t_tree);
-    } else if (rn > 11) {
-     ter_set(i, j, t_tree_young);
-    } else if (rn > 10) {
-     ter_set(i, j, t_underbrush);
-    } else {
-     ter_set(i, j, t_dirt);
-    }
-   }
-  }
-
-// j and i loop through appropriate hive-cell center squares
-  for (int j = 5; j < SEEY * 2 - 5; j += 6) {
-   for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
-    if (!one_in(8)) {
-// Caps are always there
-     ter_set(i    , j - 5, t_wax);
-     ter_set(i    , j + 5, t_wax);
-     for (int k = -2; k <= 2; k++) {
-      for (int l = -1; l <= 1; l++)
-       ter_set(i + k, j + l, t_floor_wax);
-     }
-     add_spawn("mon_bee", 2, i, j);
-     add_spawn("mon_beekeeper", 1, i, j);
-     ter_set(i    , j - 3, t_floor_wax);
-     ter_set(i    , j + 3, t_floor_wax);
-     ter_set(i - 1, j - 2, t_floor_wax);
-     ter_set(i    , j - 2, t_floor_wax);
-     ter_set(i + 1, j - 2, t_floor_wax);
-     ter_set(i - 1, j + 2, t_floor_wax);
-     ter_set(i    , j + 2, t_floor_wax);
-     ter_set(i + 1, j + 2, t_floor_wax);
-
-// Up to two of these get skipped; an entrance to the cell
-     int skip1 = rng(0, 23);
-     int skip2 = rng(0, 23);
-
-     ter_set(i - 1, j - 4, t_wax);
-     ter_set(i    , j - 4, t_wax);
-     ter_set(i + 1, j - 4, t_wax);
-     ter_set(i - 2, j - 3, t_wax);
-     ter_set(i - 1, j - 3, t_wax);
-     ter_set(i + 1, j - 3, t_wax);
-     ter_set(i + 2, j - 3, t_wax);
-     ter_set(i - 3, j - 2, t_wax);
-     ter_set(i - 2, j - 2, t_wax);
-     ter_set(i + 2, j - 2, t_wax);
-     ter_set(i + 3, j - 2, t_wax);
-     ter_set(i - 3, j - 1, t_wax);
-     ter_set(i - 3, j    , t_wax);
-     ter_set(i - 3, j - 1, t_wax);
-     ter_set(i - 3, j + 1, t_wax);
-     ter_set(i - 3, j    , t_wax);
-     ter_set(i - 3, j + 1, t_wax);
-     ter_set(i - 2, j + 3, t_wax);
-     ter_set(i - 1, j + 3, t_wax);
-     ter_set(i + 1, j + 3, t_wax);
-     ter_set(i + 2, j + 3, t_wax);
-     ter_set(i - 1, j + 4, t_wax);
-     ter_set(i    , j + 4, t_wax);
-     ter_set(i + 1, j + 4, t_wax);
-
-     if (skip1 ==  0 || skip2 ==  0)
-      ter_set(i - 1, j - 4, t_floor_wax);
-     if (skip1 ==  1 || skip2 ==  1)
-      ter_set(i    , j - 4, t_floor_wax);
-     if (skip1 ==  2 || skip2 ==  2)
-      ter_set(i + 1, j - 4, t_floor_wax);
-     if (skip1 ==  3 || skip2 ==  3)
-      ter_set(i - 2, j - 3, t_floor_wax);
-     if (skip1 ==  4 || skip2 ==  4)
-      ter_set(i - 1, j - 3, t_floor_wax);
-     if (skip1 ==  5 || skip2 ==  5)
-      ter_set(i + 1, j - 3, t_floor_wax);
-     if (skip1 ==  6 || skip2 ==  6)
-      ter_set(i + 2, j - 3, t_floor_wax);
-     if (skip1 ==  7 || skip2 ==  7)
-      ter_set(i - 3, j - 2, t_floor_wax);
-     if (skip1 ==  8 || skip2 ==  8)
-      ter_set(i - 2, j - 2, t_floor_wax);
-     if (skip1 ==  9 || skip2 ==  9)
-      ter_set(i + 2, j - 2, t_floor_wax);
-     if (skip1 == 10 || skip2 == 10)
-      ter_set(i + 3, j - 2, t_floor_wax);
-     if (skip1 == 11 || skip2 == 11)
-      ter_set(i - 3, j - 1, t_floor_wax);
-     if (skip1 == 12 || skip2 == 12)
-      ter_set(i - 3, j    , t_floor_wax);
-     if (skip1 == 13 || skip2 == 13)
-      ter_set(i - 3, j - 1, t_floor_wax);
-     if (skip1 == 14 || skip2 == 14)
-      ter_set(i - 3, j + 1, t_floor_wax);
-     if (skip1 == 15 || skip2 == 15)
-      ter_set(i - 3, j    , t_floor_wax);
-     if (skip1 == 16 || skip2 == 16)
-      ter_set(i - 3, j + 1, t_floor_wax);
-     if (skip1 == 17 || skip2 == 17)
-      ter_set(i - 2, j + 3, t_floor_wax);
-     if (skip1 == 18 || skip2 == 18)
-      ter_set(i - 1, j + 3, t_floor_wax);
-     if (skip1 == 19 || skip2 == 19)
-      ter_set(i + 1, j + 3, t_floor_wax);
-     if (skip1 == 20 || skip2 == 20)
-      ter_set(i + 2, j + 3, t_floor_wax);
-     if (skip1 == 21 || skip2 == 21)
-      ter_set(i - 1, j + 4, t_floor_wax);
-     if (skip1 == 22 || skip2 == 22)
-      ter_set(i    , j + 4, t_floor_wax);
-     if (skip1 == 23 || skip2 == 23)
-      ter_set(i + 1, j + 4, t_floor_wax);
-
-     if (t_north == ot_hive && t_east == ot_hive && t_south == ot_hive &&
-         t_west == ot_hive)
-      place_items("hive_center", 90, i - 2, j - 2, i + 2, j + 2, false, turn);
-     else
-      place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
-    }
-   }
-  }
-  break;
-
- case ot_spider_pit:
-// First generate a forest
-  std::fill_n(nesw_fac, 4, 0);
-  for (int i = 0; i < 4; i++)
-  {
-   if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_water)
-    nesw_fac[i] += 14;
-   else if (t_nesw[i] == ot_forest_thick)
-    nesw_fac[i] += 18;
-  }
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    int forest_chance = 0, num = 0;
-    if (j < n_fac) {
-     forest_chance += n_fac - j;
-     num++;
-    }
-    if (SEEX * 2 - 1 - i < e_fac) {
-     forest_chance += e_fac - (SEEX * 2 - 1 - i);
-     num++;
-    }
-    if (SEEY * 2 - 1 - j < s_fac) {
-     forest_chance += s_fac - (SEEX * 2 - 1 - j);
-     num++;
-    }
-    if (i < w_fac) {
-     forest_chance += w_fac - i;
-     num++;
-    }
-    if (num > 0)
-     forest_chance /= num;
-    rn = rng(0, forest_chance);
-         if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance))
-     ter_set(i, j, t_tree);
-    else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance))
-     ter_set(i, j, t_tree_young);
-    else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance))
-     ter_set(i, j, t_underbrush);
-    else
-     ter_set(i, j, t_dirt);
-   }
-  }
-  place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
-// Next, place webs and sinkholes
-  for (int i = 0; i < 4; i++) {
-   int x = rng(3, SEEX * 2 - 4), y = rng(3, SEEY * 2 - 4);
-   if (i == 0)
-    ter_set(x, y, t_slope_down);
-   else {
-    ter_set(x, y, t_dirt);
-    add_trap(x, y, tr_sinkhole);
-   }
-   for (int x1 = x - 3; x1 <= x + 3; x1++) {
-    for (int y1 = y - 3; y1 <= y + 3; y1++) {
-     add_field(NULL, x1, y1, fd_web, rng(2, 3));
-     if (ter(x1, y1) != t_slope_down)
-      ter_set(x1, y1, t_dirt);
-    }
-   }
-  }
-  break;
+    case ot_spider_pit:
+        mapgen_spider_pit(this, facing_data, turn);
+        break;
 
     case ot_fungal_bloom:
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
-                if (one_in(10)) {
+                if (one_in(rl_dist(i, j, 12, 12) * 2)) {
+                    ter_set(i, j, t_marloss);
+                } else if (one_in(10)) {
                     if (one_in(3)) {
                         ter_set(i, j, t_tree_fungal);
                     } else {
                         ter_set(i, j, t_tree_fungal_young);
                     }
-                } else if (one_in(300)) {
-                    ter_set(i, j, t_marloss);
-                } else if (one_in(3)) {
+                
+                } else if (one_in(5)) {
+                    ter_set(i, j, t_shrub_fungal);
+                } else if (one_in(10)) {
                     ter_set(i, j, t_fungus_mound);
                 } else {
                     ter_set(i, j, t_fungus);
@@ -511,86 +331,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     add_spawn("mon_fungaloid_queen", 1, 12, 12);
     break;
 
- case ot_road_ns:
- case ot_road_ew:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
+    case ot_road_ns:
+    case ot_road_ew:
+        mapgen_road_straight(this, terrain_type, facing_data, turn, density);
+        break;
 
-  if (terrain_type == ot_road_ew) {
-   veh_spawn_heading = (one_in(2)? 0 : 180);
-  } else {
-   veh_spawn_heading = (one_in(2)? 270 : 90);
-  }
-
-  add_road_vehicles(rn > 0, veh_spawn_heading);
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 4 || i >= SEEX * 2 - 4) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0)
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_road_ew)
-   rotate(1);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
-
- case ot_road_ne:
- case ot_road_es:
- case ot_road_sw:
- case ot_road_wn:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
-
-  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
-         ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX))
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_road_es)
-   rotate(1);
-  if (terrain_type == ot_road_sw)
-   rotate(2);
-  if (terrain_type == ot_road_wn)
-   rotate(3);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
+    case ot_road_ne:
+    case ot_road_es:
+    case ot_road_sw:
+    case ot_road_wn:
+        mapgen_road_curved(this, terrain_type, facing_data, turn, density);
+        break;
 
  case ot_road_nes:
  case ot_road_new:
@@ -3999,7 +3750,14 @@ case ot_shelter: {
   mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
   tmpcomp = add_computer(SEEX+6, 5, _("Evac shelter computer"), 0);
   tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
- }
+  if(OPTIONS["BLACK_ROAD"]) {
+      //place zombies outside
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4, SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3, SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
+  }
+  }
 
   break;
 //....
@@ -4907,7 +4665,7 @@ ff.......|....|WWWWWWWW|\n\
       else if (j == tw + 2)
        ter_set(i, j, t_concrete_h);
       else { // Empty space holds monsters!
-       std::string type = nethercreatures[(rng(0, 10))];
+       std::string type = nethercreatures[(rng(0, 9))];
        add_spawn(type, 1, i, j);
       }
      }
@@ -9063,67 +8821,96 @@ $$$$-|-|=HH-|-HHHH-|####\n",
   }
 }break;
 
- case ot_cave:
-  if (t_above == ot_cave) { // We're underground!
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++) {
-     if (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||
-         rng(0, 6) < j || SEEY * 2 - rng(1, 7) > j   )
-      ter_set(i, j, t_rock_floor);
-     else
-      ter_set(i, j, t_rock);
-    }
-   }
-   square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
+    case ot_cave:
 
-   switch (rng(1, 3)) { // What type of cave is it?
-   case 1: // Bear cave
-    add_spawn("mon_bear", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
-    if (one_in(4))
-     add_spawn("mon_bear", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
-    place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    break;
-   case 2: // Wolf cave!
-    do
-     add_spawn("mon_wolf", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
-    while (one_in(2));
-    place_items("ant_food", 86, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    break;
-   case 3: { // Hermit cave
-    int origx = rng(SEEX - 1, SEEX), origy = rng(SEEY - 1, SEEY),
-        hermx = rng(SEEX - 6, SEEX + 5), hermy = rng(SEEX - 6, SEEY + 5);
-    std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
-    for (int ii = 0; ii < bloodline.size(); ii++)
-     add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
-    item body;
-    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
-    add_item(hermx, hermy, body);
-    place_items("rare", 25, hermx - 1, hermy - 1, hermx + 1, hermy + 1,true,0);
-   } break;
-   }
+        if (t_above == ot_cave) {
+            // We're underground!
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    bool floorHere = (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||
+                                      rng(0, 6) < j || SEEY * 2 - rng(1, 7) > j );
+                    if (floorHere) {
+                        ter_set(i, j, t_rock_floor);
+                    } else {
+                        ter_set(i, j, t_rock);
+                    }
+                }
+            }
 
-  } else { // We're above ground!
-// First, draw a forest
-   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density, zlevel);
-// Clear the center with some rocks
-   square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
-   int pathx, pathy;
-   if (one_in(2)) {
-    pathx = rng(SEEX - 6, SEEX + 5);
-    pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
-   } else {
-    pathx = (one_in(2) ? SEEX - 8 : SEEX + 7);
-    pathy = rng(SEEY - 6, SEEY + 5);
-   }
-   std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
-   for (int ii = 0; ii < pathline.size(); ii++)
-    square(this, t_dirt, pathline[ii].x,     pathline[ii].y,
-                         pathline[ii].x + 1, pathline[ii].y + 1);
-   while (!one_in(8))
-    ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
-   square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
-  }
-  break;
+            square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
+            item body;
+            switch(rng(1, 10)) {
+                case 1:
+                    // natural refuse
+                    place_items("monparts", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 2:
+                    // trash
+                    place_items("trash", 10, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 3:
+                    // bat corpses
+                    for (int i = rng(1,12); i < 0; i--) {
+                        body.make_corpse(g->itypes["corpse"], GetMType("mon_bat"), g->turn);
+                        add_item(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
+                    }
+                    break;
+                case 4:
+                    // ant food, chance of 80
+                    place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 5:
+                    {
+                    // hermitage
+                    int origx = rng(SEEX - 1, SEEX),
+                        origy = rng(SEEY - 1, SEEY),
+                        hermx = rng(SEEX - 6, SEEX + 5),
+                        hermy = rng(SEEX - 6, SEEY + 5);
+                    std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
+                    for (int ii = 0; ii < bloodline.size(); ii++) {
+                        add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
+                    }
+                    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+                    add_item(hermx, hermy, body);
+                    // This seems verbose.  Maybe a function to spawn from a list of item groups?
+                    place_items("stash_food", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_tools", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_armor", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("weapons", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("magazines", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("rare", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    break;
+                    }
+                default:
+                    // nothing, half the time
+                    break;
+            }
+            place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, density);
+        } else { // We're above ground!
+            // First, draw a forest
+            draw_map(ot_forest, t_north, t_east, t_south, t_west,
+                                t_above, turn, g, density, zlevel);
+            // Clear the center with some rocks
+            square(this, t_rock, SEEX-6, SEEY-6, SEEX+5, SEEY+5);
+            int pathx, pathy;
+            if (one_in(2)) {
+                pathx = rng(SEEX - 6, SEEX + 5);
+                pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
+            } else {
+                pathx = (one_in(2) ? SEEX - 8 : SEEX + 7);
+                pathy = rng(SEEY - 6, SEEY + 5);
+            }
+            std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
+            for (int ii = 0; ii < pathline.size(); ii++) {
+                square(this, t_dirt, pathline[ii].x, pathline[ii].y,
+                                     pathline[ii].x + 1, pathline[ii].y + 1);
+            }
+            while (!one_in(8)) {
+                ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
+            }
+            square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
+        }
+        break;
 
  case ot_cave_rat:
   fill_background(this, t_rock);
@@ -9561,7 +9348,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (one_in(2)) {
          add_spawn("mon_zombie", rng(1, 6), 4, 14);
         } else {
-         add_spawn("mon_zombie", rng(1, 6), 12, 17);
+            place_spawns(g, "GROUP_DOMESTIC", 2, 10, 15, 12, 17, 1);
         }
     } else {
         fill_background(this, &grass_or_dirt);
@@ -9677,8 +9464,10 @@ case ot_farm_field:
         place_items("mechanics", 40, 8, 4, 15, 19, true, 0);
         place_items("home_hw", 50, 4, 19, 7, 19, true, 0);
         place_items("tools", 50, 4, 19, 7, 19, true, 0);
-        if (one_in(10)) {
+        if (one_in(3)) {
             add_spawn("mon_zombie", rng(3, 6), 12, 12);
+        } else {
+            place_spawns(g, "GROUP_DOMESTIC", 2, 0, 0, 15, 15, 1);
         }
 
     } else {
@@ -12456,8 +12245,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
 
    // Pick a monster type
    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &g->mtypes, &num );
-  
-   //Hoping that if I pass a count of pack_size instead of 1, then more monsters will spawn. Who knows though amiright?
+
    add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
   }
  }
@@ -14590,27 +14378,24 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_portal_in:
- {
-     std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
-  int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
-  add_field(g, x, y, fd_fatigue, 3);
-  for (int i = x - 5; i <= x + 5; i++) {
-   for (int j = y - 5; j <= y + 5; j++) {
-    if (rng(0, 9) > trig_dist(x, y, i, j)) {
-     marlossify(i, j);
-     if (ter(i, j) == t_marloss)
-      spawn_item(x, y, "marloss_berry", g->turn);
-     if (one_in(15)) {
-      monster creature(GetMType(monids[rng(0, 5)]));
-      creature.spawn(i, j);
-      g->add_zombie(creature);
-     }
+    case mx_portal_in: {
+        std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+        int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
+        add_field(g, x, y, fd_fatigue, 3);
+        for (int i = x - 5; i <= x + 5; i++) {
+            for (int j = y - 5; j <= y + 5; j++) {
+                if (rng(1, 9) >= trig_dist(x, y, i, j)) {
+                    marlossify(i, j);
+                    if (one_in(15)) {
+                        monster creature(GetMType(monids[rng(0, 5)]));
+                        creature.spawn(i, j);
+                        g->add_zombie(creature);
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
- break;
+    break;
 
  case mx_anomaly: {
   point center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
@@ -14829,8 +14614,12 @@ void map::add_road_vehicles(bool city, int facing)
             int vx = rng(0, 3) * 4 + 5;
             int vy = rng(0, 3) * 4 + 5;
             int car_type = rng(1, 100);
-            if (car_type <= 35) {
+            if (car_type <= 25) {
                 add_vehicle(g, "car", vx, vy, facing, -1, 1);
+            } else if (car_type <= 30) {
+                add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
+            } else if (car_type <= 40) {
+                add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
             } else if (car_type <= 45) {
                 add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
             } else if (car_type <= 50) {

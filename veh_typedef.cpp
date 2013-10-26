@@ -128,10 +128,19 @@ void game::load_vehicle(JsonObject &jo)
     vproto->id = jo.get_string("id");
     vproto->name = jo.get_string("name");
 
+    std::map<point, bool> cargo_spots;
+
     JsonArray parts = jo.get_array("parts");
+    point pxy;
+    std::string pid;
     while (parts.has_more()){
         JsonObject part = parts.next_object();
-        vproto->parts.push_back(std::pair<point, std::string>(point(part.get_int("x"), part.get_int("y")), part.get_string("part")));
+        pxy = point(part.get_int("x"), part.get_int("y"));
+        pid = part.get_string("part");
+        vproto->parts.push_back(std::pair<point, std::string>(pxy, pid));
+        if ( vehicle_part_types[pid].has_flag("CARGO") ) {
+            cargo_spots[pxy] = true;
+        }
     }
 
     JsonArray items = jo.get_array("items");
@@ -143,6 +152,9 @@ void game::load_vehicle(JsonObject &jo)
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
+                vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
+        } else if ( cargo_spots.find( point(next_spawn.x, next_spawn.y) ) == cargo_spots.end() ) {
+            debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                 vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {

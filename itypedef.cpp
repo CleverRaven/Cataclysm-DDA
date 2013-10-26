@@ -329,6 +329,7 @@ GUN("bio_lightning", _("Chain Lightning"),  0,c_magenta, "steel", "plastic",
 
 std::string ammo_name(ammotype t)
 {
+    if( t == "50")          return _(".50 BMG");
     if( t == "nail")        return _("nails");
     if( t == "BB" )         return _("BBs");
     if( t == "bolt" )       return _("bolts");
@@ -411,5 +412,6 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "5x50"  )        return  "5x50dart";
     if( guntype == "UPS"  )         return _("UPS");
     if( guntype == "components"  )  return _("components");
+    if( guntype == "50"  )          return "50bmg";
     return "null";
 }

@@ -22,6 +22,13 @@
 
 std::string caravan_category_name(caravan_category cat);
 std::vector<itype_id> caravan_items(caravan_category cat);
+std::set<m_flag> monflags_to_add;
+
+std::map<std::string, defense_game_monchanges> montype_changes;
+std::map<std::string, std::vector<int> > original_itype_values;
+std::map<int, std::vector<int> > original_construction_values;
+std::vector<int> original_recipe_values;
+
 
 int caravan_price(player &u, int price);
 
@@ -155,36 +162,113 @@ void defense_game::post_action(game *g, action_id act)
 
 void defense_game::game_over(game *g)
 {
- popup(_("You managed to survive through wave %d!"), current_wave);
+    popup(_("You managed to survive through wave %d!"), current_wave);
+    // Reset changed information
+    reset_mtypes();
+    reset_itypes();
+    reset_constructions();
+    reset_recipes();
+    // Clear the changes from memory so that they are not added to multiple times in successive Defense games in one sitting.
+    montype_changes.clear();
+    original_construction_values.clear();
+    original_itype_values.clear();
+    original_recipe_values.clear();
+}
+
+void defense_game::reset_mtypes()
+{
+    // Reset mtype changes
+    std::map<std::string, mtype*> montemplates = MonsterGenerator::generator().get_all_mtypes();
+    for (std::map<std::string, mtype*>::iterator it = montemplates.begin(); it != montemplates.end(); ++it){
+        defense_game_monchanges change = montype_changes[it->first];
+
+        it->second->difficulty = change.original_difficulty;
+        for (std::set<m_flag>::iterator fit = change.added_flags.begin(); fit != change.added_flags.end(); ++fit){
+            it->second->flags.erase(*fit);
+        }
+    }
+}
+
+void defense_game::reset_itypes()
+{
+    g->itypes["2x4"]->volume = original_itype_values["2x4"][0];
+    g->itypes["2x4"]->weight = original_itype_values["2x4"][1];
+    g->itypes["landmine"]->price = original_itype_values["landmine"][0];
+    g->itypes["bot_turret"]->price = original_itype_values["bot_turret"][0];
+}
+
+void defense_game::reset_constructions()
+{
+    for (int i = 0; i < g->constructions.size(); i++) {
+        for (int j = 0; j < g->constructions[i]->stages.size(); j++) {
+            g->constructions[i]->stages[j].time = original_construction_values[i][j];
+        }
+    }
+}
+
+void defense_game::reset_recipes()
+{
+    std::vector<int>::iterator it = original_recipe_values.begin();
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
+    {
+        for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter, ++it)
+        {
+            (*list_iter)->time = *it; // Things take turns, not minutes
+        }
+    }
 }
 
 void defense_game::init_itypes(game *g)
 {
- g->itypes["2x4"]->volume = 0;
- g->itypes["2x4"]->weight = 0;
- g->itypes["landmine"]->price = 300;
- g->itypes["bot_turret"]->price = 6000;
+    std::vector<int> change_2x4, change_landmine, change_bot;
+    change_2x4.push_back(g->itypes["2x4"]->volume);
+    change_2x4.push_back(g->itypes["2x4"]->weight);
+    change_landmine.push_back(g->itypes["landmine"]->price);
+    change_bot.push_back(g->itypes["bot_turret"]->price);
+
+    original_itype_values["2x4"] = change_2x4;
+    original_itype_values["landmine"] = change_landmine;
+    original_itype_values["bot_turret"] = change_bot;
+
+    g->itypes["2x4"]->volume = 0;
+    g->itypes["2x4"]->weight = 0;
+    g->itypes["landmine"]->price = 300;
+    g->itypes["bot_turret"]->price = 6000;
 }
 
 void defense_game::init_mtypes(game *g)
 {
- for (int i = 0; i < num_monsters; i++) {
-  g->mtypes[i]->difficulty *= 1.5;
-  g->mtypes[i]->difficulty += int(g->mtypes[i]->difficulty / 5);
-  g->mtypes[i]->flags.insert(MF_BASHES);
-  g->mtypes[i]->flags.insert(MF_SMELLS);
-  g->mtypes[i]->flags.insert(MF_HEARS);
-  g->mtypes[i]->flags.insert(MF_SEES);
- }
+    m_flag flags[] = {MF_BASHES, MF_SMELLS, MF_HEARS, MF_SEES};
+    monflags_to_add.insert(flags, flags + 4);
+
+    std::map<std::string, mtype*> montemplates = MonsterGenerator::generator().get_all_mtypes();
+    std::pair<std::set<m_flag>::iterator, bool> ret;
+
+    for (std::map<std::string, mtype*>::iterator it = montemplates.begin(); it != montemplates.end(); ++it){
+        defense_game_monchanges change;
+        change.original_difficulty = it->second->difficulty;
+
+        it->second->difficulty *= 1.5;
+        it->second->difficulty += int(it->second->difficulty / 5);
+        for (std::set<m_flag>::iterator fit = monflags_to_add.begin(); fit != monflags_to_add.end(); ++fit){
+            ret = it->second->flags.insert(*fit);
+            if (ret.second){
+                change.added_flags.insert(*fit);
+            }
+        }
+
+        montype_changes[it->first] = change;
+    }
 }
 
 void defense_game::init_constructions(game *g)
 {
- for (int i = 0; i < g->constructions.size(); i++) {
-  for (int j = 0; j < g->constructions[i]->stages.size(); j++) {
-   g->constructions[i]->stages[j].time = 1; // Everything takes 1 minute
-  }
- }
+    for (int i = 0; i < g->constructions.size(); i++) {
+        for (int j = 0; j < g->constructions[i]->stages.size(); j++) {
+            original_construction_values[i].push_back(g->constructions[i]->stages[j].time);
+            g->constructions[i]->stages[j].time = 1; // Everything takes 1 minute
+        }
+    }
 }
 
 void defense_game::init_recipes(game *g)
@@ -193,6 +277,7 @@ void defense_game::init_recipes(game *g)
     {
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
         {
+            original_recipe_values.push_back((*list_iter)->time);
             (*list_iter)->time /= 10; // Things take turns, not minutes
         }
     }

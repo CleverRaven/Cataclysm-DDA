@@ -15,6 +15,7 @@ enum InputEvent {
     Confirm,
     Cancel,
     Close,
+    Tab,
     Help,
 
     DirectionN,

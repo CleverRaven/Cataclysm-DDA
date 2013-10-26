@@ -81,6 +81,8 @@ enum MULTITILE_TYPE
     t_connection,
     end_piece,
     unconnected,
+    open_,
+    broken,
     num_multitile_types
 };
 
@@ -137,6 +139,8 @@ class cata_tiles
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
 
+        bool draw_item_highlight(int x, int y);
+
         // Animation layers
         bool draw_hit(int x, int y);
 
@@ -151,6 +155,10 @@ class cata_tiles
         void init_draw_hit(int x, int y, std::string name);
         void draw_hit_frame(int destx, int desty, int centerx, int centery, int width, int height);
         void void_hit();
+
+        void init_draw_footsteps(std::queue<point> steps);
+        void draw_footsteps_frame(int destx, int desty, int centerx, int centery, int width, int height);
+        void void_footsteps();
 
         // pseudo-animated layer, not really though.
         void init_draw_line(int x, int y, std::vector<point> trajectory, std::string line_end_name, bool target_line);
@@ -168,6 +176,8 @@ class cata_tiles
         void init(SDL_Surface *screen, std::string json_path, std::string tileset_path);
         /* initialize from an outside file */
         void init(SDL_Surface *screen, std::string load_file_path);
+        /* Reinitializes the tile context using the original screen information */
+        void reinit(std::string load_file_path);
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
@@ -192,6 +202,7 @@ class cata_tiles
         bool do_draw_hit;
         bool do_draw_line;
         bool do_draw_weather;
+        bool do_draw_footsteps;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -208,6 +219,8 @@ class cata_tiles
 
         weather_printable anim_weather;
         std::string weather_name;
+
+        std::queue<point> footsteps;
 
         // offset values
         int o_x, o_y;

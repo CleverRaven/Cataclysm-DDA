@@ -1015,12 +1015,15 @@ void npc::move_to(game *g, int x, int y)
   int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
   g->m.bash(x, y, smashskill, bashsound);
   g->sound(x, y, 18, bashsound);
- } else
- if (g->m.field_at(x, y).findField(fd_rubble))
-  g->u.add_disease("bouldering", 100, false, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
- else
-  g->u.rem_disease("bouldering");
-  moves -= 100;
+ } else {
+     int frubble = g->m.get_field_strength( point(x, y), fd_rubble );
+     if (frubble > 0 ) {
+        g->u.add_disease("bouldering", 100, false, frubble, 3);
+     } else {
+        g->u.rem_disease("bouldering");
+     }
+     moves -= 100;
+  }
  }
 }
 

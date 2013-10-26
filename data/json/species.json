@@ -5,6 +5,26 @@
     "fear_triggers":["HURT", "FIRE", "FRIEND_DIED"]
   }, {
     "type":"SPECIES",
+    "id":"AMPHIBIAN",
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"BIRD",
+    "fear_triggers":["HURT", "SOUND"]
+  }, {
+    "type":"SPECIES",
+    "id":"REPTILE",
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"FISH",
+    "fear_triggers":["HURT", "FRIEND_ATTACKED"]
+  }, {
+    "type":"SPECIES",
+    "id":"MUTANT",
+    "fear_triggers":["FIRE"]
+  }, {
+    "type":"SPECIES",
     "id":"NETHER",
     "fear_triggers":["HURT"]
   }, {
@@ -18,7 +38,16 @@
     "fear_triggers":["HURT", "FIRE"]
   }, {
     "type":"SPECIES",
+    "id":"SPIDER",
+    "anger_triggers":["FRIEND_DIED"],
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
     "id":"PLANT",
+    "fear_triggers":["HURT", "FIRE"]
+  }, {
+    "type":"SPECIES",
+    "id":"MOLLUSK",
     "fear_triggers":["HURT", "FIRE"]
   }, {
     "type":"SPECIES",
@@ -30,6 +59,12 @@
   }, {
     "type":"SPECIES",
     "id":"ROBOT"
+  }, {
+    "type":"SPECIES",
+    "id":"HORROR"
+  }, {
+    "type":"SPECIES",
+    "id":"ABBERATION"
   }, {
     "type":"SPECIES",
     "id":"HALLUCINATION"

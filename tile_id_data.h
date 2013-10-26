@@ -223,7 +223,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_tankbot),
     toString(mon_turret),
     toString(mon_exploder),
-    
+
     toString(mon_hallu_mom),
 
     toString(mon_generator),
@@ -232,7 +232,43 @@ const std::string monster_names[num_monsters] =
     toString(mon_raccoon),
     toString(mon_opossum),
     toString(mon_rattlesnake),
-    toString(mon_giant_crayfish)
+    toString(mon_giant_crayfish),
+// 0.8 -> 0.9
+    toString(mon_black_rat),
+    toString(mon_mosquito_giant),
+    toString(mon_dragonfly_giant),
+    toString(mon_centipede_giant),
+    toString(mon_frog_giant),
+    toString(mon_slug_giant),
+    toString(mon_spider_jumping_giant),
+    toString(mon_spider_trapdoor_giant),
+    toString(mon_spider_web_giant),
+    toString(mon_spider_widow_giant),
+    toString(mon_spider_wolf_giant),
+    toString(mon_bat),
+    toString(mon_beaver),
+    toString(mon_bobcat),
+    toString(mon_chicken),
+    toString(mon_chipmunk),
+    toString(mon_cow),
+    toString(mon_coyote_wolf),
+    toString(mon_deer_mouse),
+    toString(mon_fox_gray),
+    toString(mon_fox_red),
+    toString(mon_groundhog),
+    toString(mon_hare),
+    toString(mon_horse),
+    toString(mon_lemming),
+    toString(mon_mink),
+    toString(mon_mole),
+    toString(mon_muskrat),
+    toString(mon_otter),
+    toString(mon_pig),
+    toString(mon_sheep),
+    toString(mon_shrew),
+    toString(mon_squirrel_red),
+    toString(mon_weasel)
+
 };
 const std::string multitile_keys[] =
 {
@@ -241,7 +277,9 @@ const std::string multitile_keys[] =
     toString(edge),
     toString(t_connection),
     toString(end_piece),
-    toString(unconnected)
+    toString(unconnected),
+    toString(open),
+    toString(broken)
 };
 
 #endif // TILE_ID_DATA

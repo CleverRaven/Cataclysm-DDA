@@ -5,6 +5,9 @@
 #include "keypress.h"
 #include "translations.h"
 #include "file_finder.h"
+#ifdef SDLTILES
+#include "cata_tiles.h"
+#endif // SDLTILES
 
 #include <stdlib.h>
 #include <fstream>
@@ -12,6 +15,11 @@
 
 bool trigdist;
 bool use_tiles;
+
+bool used_tiles_changed;
+#ifdef SDLTILES
+extern cata_tiles *tilecontext;
+#endif // SDLTILES
 
 std::map<std::string, cOpt> OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
@@ -307,6 +315,7 @@ void initOptions() {
     vPages.clear();
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
+    vPages.push_back(std::make_pair("graphics", _("Graphics")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
 
     OPTIONS.clear();
@@ -340,7 +349,7 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("interface", _("No bright backgrounds"),
+    OPTIONS["NO_BRIGHT_BACKGROUNDS"] =  cOpt("graphics", _("No bright backgrounds"),
                                             _("If true, bright backgrounds are not used - some consoles are not compatible."),
                                              false
                                             );
@@ -396,7 +405,7 @@ void initOptions() {
                                              0, 127, 5
                                             );
 
-    OPTIONS["RAIN_ANIMATION"] =         cOpt("interface", _("Rain animation"),
+    OPTIONS["RAIN_ANIMATION"] =         cOpt("graphics", _("Rain animation"),
                                              _("If true, will display weather animations."),
                                              true
                                             );
@@ -467,12 +476,20 @@ void initOptions() {
                                              0, 23, 8
                                             );
 
-    OPTIONS["VIEWPORT_X"] =             cOpt("interface", _("Viewport width"),
+    optionNames["spring"] = _("Spring");
+    optionNames["summer"] = _("Summer");
+    optionNames["autumn"] = _("Autumn");
+    optionNames["winter"] = _("Winter");
+    OPTIONS["INITIAL_SEASON"] =         cOpt("debug", _("Initial season"),
+                                             _("Initial starting season of day on character generation."),
+                                             "spring,summer,autumn,winter", "spring");
+
+    OPTIONS["VIEWPORT_X"] =             cOpt("graphics", _("Viewport width"),
                                              _("SDL ONLY: Set the expansion of the viewport along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
                                              12, 93, 12
                                             );
 
-    OPTIONS["VIEWPORT_Y"] =             cOpt("interface", _("Viewport height"),
+    OPTIONS["VIEWPORT_Y"] =             cOpt("graphics", _("Viewport height"),
                                              _("SDL ONLY: Set the expansion of the viewport along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
                                              12, 93, 12
                                             );
@@ -497,6 +514,11 @@ void initOptions() {
 
     OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("debug", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
+                                             false
+                                            );
+
+    OPTIONS["BLACK_ROAD"] =             cOpt("debug", _("Black Road"),
+                                             _("If true, spawn zombies at shelters."),
                                              false
                                             );
 
@@ -566,12 +588,12 @@ void initOptions() {
                                              true
                                             );
 
-    OPTIONS["USE_TILES"] =              cOpt("interface", _("Use tiles"),
+    OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
                                              _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
                                              true
                                              );
 
-    OPTIONS["TILES"] =                  cOpt("interface", _("Choose tileset"),
+    OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
                                              _("Choose the tileset you want to use. Only applicable on SDL builds. Requires restart."),
                                              tileset_names, "hoder");   // populate the options dynamically
 
@@ -634,6 +656,8 @@ void show_options()
 
     std::stringstream sTemp;
 
+    used_tiles_changed = false;
+
     do {
         //Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
@@ -677,7 +701,7 @@ void show_options()
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), 5);
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2);
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
@@ -742,14 +766,21 @@ void show_options()
         }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
+    used_tiles_changed = (OPTIONS_OLD["TILES"] != OPTIONS["TILES"]) || (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
+
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
             save_options();
         } else {
+            used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
         }
     }
-
+#ifdef SDLTILES
+    if (used_tiles_changed){
+        tilecontext->reinit("gfx");
+    }
+#endif // SDLTILES
     delwin(w_options);
     delwin(w_options_border);
     delwin(w_options_header);
@@ -824,6 +855,7 @@ void save_options()
     fout.close();
 
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
+    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
 }
 
 bool use_narrow_sidebar()

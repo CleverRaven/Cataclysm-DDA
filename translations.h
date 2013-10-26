@@ -14,31 +14,21 @@
 #include <cstdio>
 #include <libintl.h>
 #include <clocale>
-#include <string>
+
 #define _(STRING) gettext(STRING)
-inline const char * pgettext(const char *context, const char *msgid)
-{
-    // need to construct the string manually,
-    // to correctly handle strings loaded from json.
-    // could probably do this more efficiently without using std::string.
-    std::string context_id(context);
-    context_id += '\004';
-    context_id += msgid;
-    // null domain, uses global translation domain
-    const char *msg_ctxt_id = context_id.c_str();
-    const char *translation = dcgettext(NULL, msg_ctxt_id, LC_MESSAGES);
-    if (translation == msg_ctxt_id) {
-        return msgid;
-    } else {
-        return translation;
-    }
-}
+const char * pgettext(const char *context, const char *msgid);
 
 #else // !LOCALIZE
 
-#define _(STRING) STRING
-#define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? STRING1 : STRING2)
-#define pgettext(STRING1, STRING2) STRING2
+// on some systems <locale> pulls in libintl.h anyway,
+// so preemptively include it before the gettext overrides.
+#include <locale>
+
+const char* strip_positional_formatting(const char* msgid);
+
+#define _(STRING) strip_positional_formatting(STRING)
+#define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
+#define pgettext(STRING1, STRING2) _(STRING2)
 
 #endif // LOCALIZE
 

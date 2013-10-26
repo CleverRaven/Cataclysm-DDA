@@ -206,7 +206,7 @@ inventory inventory::filter_by_activation(player& u)
     inventory reduced_inv;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        if(u.rate_action_use(&iter->front()) == HINT_GOOD) {
+        if(u.rate_action_use(&iter->front()) != HINT_CANT ) {
             reduced_inv.clone_stack(*iter);
         }
     }
@@ -490,56 +490,37 @@ void inventory::restack(player *p)
     // 2. remove items from non-matching stacks
     // 3. combine matching stacks
 
-    if (!p)
-    {
+    if (!p) {
         return;
     }
 
     std::list<item> to_restack;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet))
-        {
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet)) {
             assign_empty_invlet(iter->front());
-            for (std::list<item>::iterator stack_iter = iter->begin();
-                 stack_iter != iter->end();
-                 ++stack_iter)
-            {
+            for( std::list<item>::iterator stack_iter = iter->begin();
+                 stack_iter != iter->end(); ++stack_iter ) {
                 stack_iter->invlet = iter->front().invlet;
             }
         }
 
-        // remove non-matching items
-        while (iter->size() > 0 && !iter->front().stacks_with(iter->back()))
-        {
-            to_restack.splice(to_restack.begin(), *iter, iter->begin());
-        }
-        if (iter->size() <= 0)
-        {
-            iter = items.erase(iter);
-            --iter;
-            continue;
+        // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
+        while( iter->size() > 1 && !iter->front().stacks_with(iter->back()) ) {
+            to_restack.splice(to_restack.begin(), *iter, --iter->end());
         }
     }
 
     // combine matching stacks
     // separate loop to ensure that ALL stacks are homogeneous
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        for (invstack::iterator other = iter; other != items.end(); ++other)
-        {
-            if (iter != other && iter->front().type->id == other->front().type->id)
-            {
-                if (other->front().charges != -1 && (other->front().is_food() || other->front().is_ammo()))
-                {
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        for (invstack::iterator other = iter; other != items.end(); ++other) {
+            if (iter != other && iter->front().type->id == other->front().type->id) {
+                if (other->front().charges != -1 && (other->front().is_food() ||
+                                                     other->front().is_ammo())) {
                     iter->front().charges += other->front().charges;
-                }
-                else if (iter->front().stacks_with(other->front()))
-                {
+                } else if (iter->front().stacks_with(other->front())) {
                     iter->splice(iter->begin(), *other);
-                }
-                else
-                {
+                } else {
                     continue;
                 }
                 other = items.erase(other);

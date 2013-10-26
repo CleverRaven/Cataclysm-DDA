@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <locale>
 
 std::map<std::string, std::string> mapAutoPickupItems;
 std::vector<cPickupRules> vAutoPickupRules[5];

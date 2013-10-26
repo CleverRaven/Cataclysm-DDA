@@ -51,11 +51,13 @@ bool monster::can_move_to(game *g, int x, int y)
     if (has_flag(MF_ANIMAL))
     {
         // don't enter sharp terrain unless tiny, or attacking
-        if (g->m.has_flag("SHARP", x, y) && !(attitude(&(g->u)) == MATT_ATTACK || type->size == MS_TINY))
+        if (g->m.has_flag("SHARP", x, y) && !(attitude(&(g->u)) == MATT_ATTACK ||
+                                              type->size == MS_TINY))
             return false;
 
         // don't enter open pits ever unless tiny or can fly
-        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) && (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
+        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) &&
+            (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
             return false;
 
         // don't enter lava ever
@@ -401,15 +403,19 @@ point monster::scent_move(game *g)
 {
  std::vector<point> smoves;
 
- int maxsmell = 2; // Squares with smell 0 are not eligible targets
- if (has_flag(MF_KEENNOSE))
- {
+ int maxsmell = 10; // Squares with smell 0 are not eligible targets.
+ int smell_threshold = 60; // Squares at or above this level are ineligible.
+ if (has_flag(MF_KEENNOSE)) {
      maxsmell = 1;
+     smell_threshold = 100;
  }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
  const bool fleeing = is_fleeing(g->u);
+ if( !fleeing && g->scent( posx(), posy() ) > smell_threshold ) {
+     return next;
+ }
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
    const int nx = posx() + x;
@@ -420,16 +426,16 @@ point monster::scent_move(game *g)
        (can_move_to(g, nx, ny) ||
         (nx == g->u.posx && ny == g->u.posy) ||
         (g->m.has_flag("BASHABLE", nx, ny) && has_flag(MF_BASHES)))) {
-    if ((!fleeing && smell > maxsmell) ||
-        ( fleeing && smell < minsmell)   ) {
+    if ((!fleeing && smell > maxsmell ) ||
+        ( fleeing && smell < minsmell )   ) {
      smoves.clear();
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
      maxsmell = smell;
      minsmell = smell;
-    } else if ((!fleeing && smell == maxsmell) ||
-                ( fleeing && smell == minsmell)   ) {
+    } else if ((!fleeing && smell == maxsmell ) ||
+               ( fleeing && smell == minsmell )   ) {
      pbuff.x = nx;
      pbuff.y = ny;
      smoves.push_back(pbuff);
@@ -533,7 +539,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     //Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
     {
-        g->add_msg(_("The %s misses."), name().c_str());
+        if (u_see) {
+            g->add_msg(_("The %s misses."), name().c_str());
+        }
     }
     else
     {
@@ -553,7 +561,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
             {
                 if (is_npc) {
-                    g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
+                    if(u_see) {
+                        g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
+                    }
                 } else {
                     g->add_msg(_("You dodge the %s."), name().c_str());
                 }
@@ -567,8 +577,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 
                 if(!p.block_hit(g, this, NULL, bphit, side, dam, cut, stab) && u_see) {
                     if (is_npc) {
-                        g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                            p.name.c_str(), body_part_name(bphit, side).c_str());
+                        if( u_see ) {
+                            g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                                       p.name.c_str(), body_part_name(bphit, side).c_str());
+                        }
                     } else {
                         g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
                                    body_part_name(bphit, side).c_str());
@@ -602,15 +614,18 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("%s's offensive defense system shocks it!"),
                                    p.name.c_str());
                     }
-                    if (hurt(rng(10, 40)))
+                    if (hurt(rng(10, 40))) {
                         die(g);
+                    }
                 }
                 if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
                     int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
                     if (is_npc) {
-                        g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
-                                   (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
+                        if( u_see ) {
+                            g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
+                                       (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
+                        }
                     } else {
                         g->add_msg(_("Your %s puncture it!"),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
@@ -640,26 +655,18 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 
                     //Monster effects
                     if (dam > 0 && has_flag(MF_VENOM)) {
-                        if (!is_npc) {
-                            g->add_msg(_("You're poisoned!"));
-                        }
+                        g->add_msg_if_player(&p, _("You're poisoned!"));
                         p.add_disease("poison", 30);
                     } else if (dam > 0 && has_flag(MF_BADVENOM)) {
-                        if (!is_npc) {
-                            g->add_msg(_("You feel poison flood your body, wracking you with pain..."));
-                        }
+                        g->add_msg_if_player(&p, _("You feel poison flood your body, wracking you with pain..."));
                         p.add_disease("badpoison", 40);
                     } else if (dam > 0 && has_flag(MF_PARALYZE)) {
-                        if (!is_npc) {
-                            g->add_msg(_("You feel poison enter your body!"));
-                        }
+                        g->add_msg_if_player(&p, _("You feel poison enter your body!"));
                         p.add_disease("paralyzepoison", 100, false, 1, 20, 100);
                     }
 
                     if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
-                        if (!is_npc) {
-                            g->add_msg(_("You're Bleeding!"));
-                        }
+                        g->add_msg_if_player(&p, _("You're Bleeding!"));
                         p.add_disease("bleed", 60, false, 1, 3, 120, 1, bphit, side, true);
                     }
 
@@ -667,17 +674,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     if (can_grab && has_flag(MF_GRABS) &&
                         (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
                     {
-                        if (!is_npc)
-                        {
-                            g->add_msg(_("The %s grabs you!"), name().c_str());
-                        }
+                        g->add_msg(_("The %s grabs you!"), name().c_str());
                         if (p.has_grab_break_tec() &&
                             dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                         {
-                            if (!is_npc)
-                            {
-                                g->add_msg(_("You break the grab!"));
-                            }
+                            g->add_msg_if_player(&p, _("You break the grab!"));
                         } else {
                             hit_player(g, p, false); //We grabed, so hit them again
                         }

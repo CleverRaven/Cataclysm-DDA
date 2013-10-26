@@ -162,7 +162,7 @@ struct vehicle_part
  *   When adding parts, function checks possibility to install part at given
  *   coords. If it shows debug messages that it can't add parts, when you start
  *   the game, you did something wrong.
- *   There are a few rules: 
+ *   There are a few rules:
  *   1. Every mount point (tile) must begin with a part in the 'structure'
  *      location, usually a frame.
  *   2. No part can stack with itself.
@@ -267,6 +267,7 @@ public:
 
 // get symbol for map
     char part_sym (int p);
+    std::string part_id_string(int p, char &part_mod);
 
 // get color for map
     nc_color part_color (int p);
@@ -441,9 +442,6 @@ public:
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges);
 
-    //Set all headlights on/off
-    bool set_lights(bool on);
-
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
@@ -483,6 +481,7 @@ public:
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
     bool lights_on;     // lights on/off
+    bool overhead_lights_on; //emergency vehicle flasher lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)

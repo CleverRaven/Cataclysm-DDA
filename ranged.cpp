@@ -1318,13 +1318,8 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
  std::vector<point> spurt = continue_line(trajectory, distance);
 
  for (int i = 0; i < spurt.size(); i++) {
-  int tarx = spurt[i].x, tary = spurt[i].y;
-  field &bloody_field = g->m.field_at(tarx, tary);
-  if (bloody_field.findField(fd_blood) &&
-      bloody_field.findField(fd_blood)->getFieldDensity() < 3)
-      bloody_field.findField(fd_blood)->setFieldDensity(bloody_field.findField(fd_blood)->getFieldDensity() + 1);
-  else
-   g->m.add_field(g, tarx, tary, blood, 1);
+    int tarx = spurt[i].x, tary = spurt[i].y;
+    g->m.adjust_field_strength(g, point(tarx, tary), blood, 1 );
  }
 }
 

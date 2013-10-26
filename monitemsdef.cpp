@@ -1,8 +1,10 @@
 #include "game.h"
 #include "setvector.h"
 
-void game::init_monitems()
-{
+void game::init_monitems() {
+
+    // This seems like a good candidate for json.
+
     // for zombies only: clothing is generated separately upon mondeath
     // monitems should therefore not include main clothing items but extra items
     // that zombies might be carrying
@@ -26,6 +28,7 @@ void game::init_monitems()
     monitems["mon_zombie_necro"]      = monitems["mon_zombie"];
     monitems["mon_zombie_grabber"]    = monitems["mon_zombie"];
     monitems["mon_zombie_master"]     = monitems["mon_zombie"];
+    monitems["mon_zombie_hunter"]     = monitems["mon_zombie"];
 
     setvector(&monitems["mon_beekeeper"], "hive", 80, NULL);
     setvector(&monitems["mon_zombie_cop"], "cop_weapons", 20, NULL);
@@ -63,5 +66,5 @@ void game::init_monitems()
     setvector(&monitems["mon_tankbot"], "robots", 4, "tankbot", 1, NULL);
     setvector(&monitems["mon_turret"], "robots", 10, "turret", 1, NULL);
     setvector(&monitems["mon_fungal_fighter"], "fungal_sting", 1, NULL);
-
+    setvector(&monitems["mon_shia"], "shia_stuff", 1, NULL);
 }

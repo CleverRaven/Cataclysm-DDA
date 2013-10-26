@@ -9,11 +9,14 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
+#include "debug.h"
+
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
+ toggle_overhead_lights,
  toggle_turrets,
  activate_horn,
  release_control,
@@ -35,6 +38,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    overhead_lights_on = false;
     insides_dirty = true;
 
     //type can be null if the type_id parameter is omitted
@@ -165,6 +169,11 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         lights_on = true;
     }
 
+    //Turn flasher/overhead lights on separately (more likely since these are rarer)
+    if(veh_status != 0 && one_in(4)) {
+        overhead_lights_on = true;
+    }
+
     //Don't bloodsplatter mint condition vehicles
     if(veh_status != 0 && one_in(10)) {
       blood_covered = true;
@@ -284,7 +293,7 @@ void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
-    // Alway have this option
+    // Always have this option
     int curent = 0;
     int letgoent = 0;
     options_choice.push_back(toggle_cruise_control);
@@ -293,9 +302,16 @@ void vehicle::use_controls()
     curent++;
 
     bool has_lights = false;
+    bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
     for (int p = 0; p < parts.size(); p++) {
+        if (part_flag(p, "CONE_LIGHT")) {
+            has_lights = true;
+        }
+        if (part_flag(p, "CIRCLE_LIGHT")) {
+            has_overhead_lights = true;
+        }
         if (part_flag(p, "LIGHT")) {
             has_lights = true;
         }
@@ -307,7 +323,6 @@ void vehicle::use_controls()
         }
     }
 
-
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
         options_choice.push_back(toggle_lights);
@@ -315,6 +330,13 @@ void vehicle::use_controls()
                                                _("Turn on headlights"), 'h'));
         curent++;
     }
+
+   if (has_overhead_lights) {
+       options_choice.push_back(toggle_overhead_lights);
+       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
+                                              _("Turn on overhead lights"), 'v'));
+       curent++;
+   }
 
     //Honk the horn!
     if (has_horn) {
@@ -366,10 +388,20 @@ void vehicle::use_controls()
         g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
-        if(set_lights(!lights_on)) {
+        if(!lights_on || fuel_left("battery") ) {
+            lights_on = !lights_on;
             g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
             g->add_msg(_("The headlights won't come on!"));
+        }
+        break;
+    case toggle_overhead_lights:
+        if( !overhead_lights_on || fuel_left("battery") ) {
+            overhead_lights_on = !overhead_lights_on;
+            g->add_msg((overhead_lights_on) ? _("Overhead lights turned on") :
+                       _("Overhead lights turned off"));
+        } else {
+            g->add_msg(_("The lights won't come on!"));
         }
         break;
     case activate_horn:
@@ -515,7 +547,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         vpart_info other_part = vehicle_part_types[parts[parts_in_square[index]].id];
 
         //Parts with no location can stack with each other (but not themselves)
-        if(part.id == other_part.id || 
+        if(part.id == other_part.id ||
                 (!part.location.empty() && part.location == other_part.location)) {
             return false;
         }
@@ -853,7 +885,7 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
  * If performance becomes an issue, certain lists (such as wheels) could be
  * cached and fast-returned here, but this is currently linear-time with
  * respect to the number of parts in the vehicle.
- * @param feature The flag (such as "WHEEL" or "LIGHT") to find.
+ * @param feature The flag (such as "WHEEL" or "CONE_LIGHT") to find.
  * @param unbroken true if only unbroken parts should be returned, false to
  *        return all matching parts.
  * @return A list of indices to all the parts with the specified feature.
@@ -970,7 +1002,7 @@ char vehicle::part_sym (int p)
     }
 
     int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-    
+
     if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
         return '\''; // open door
     } else {
@@ -979,30 +1011,62 @@ char vehicle::part_sym (int p)
     }
 }
 
+// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
+// vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
+std::string vehicle::part_id_string(int p, char &part_mod)
+{
+    part_mod = 0;
+    std::string idinfo;
+    if (p < 0 || p >= parts.size()){
+        return "";
+    }
+
+    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+    idinfo = parts[displayed_part].id;
+
+    if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
+        part_mod = 1; // open
+    } else if (parts[displayed_part].hp <= 0){
+        part_mod = 2; // broken
+    }
+
+    return idinfo;
+}
+
 nc_color vehicle::part_color (int p)
 {
     if (p < 0 || p >= parts.size()) {
         return c_black;
     }
 
+    nc_color col;
+
     //If armoring is present, it colors the visible part
     int parm = part_with_feature(p, "ARMOR", false);
     if (parm >= 0) {
-        return part_info(parm).color;
-    }
-
-    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-
-    if (parts[displayed_part].blood > 200) {
-        return c_red;
-    } else if (parts[displayed_part].blood > 0) {
-        return c_ltred;
-    }
-
-    if (parts[displayed_part].hp <= 0) {
-        return part_info(displayed_part).color_broken;
+        col = part_info(parm).color;
     } else {
-        return part_info(displayed_part).color;
+
+        int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+
+        if (parts[displayed_part].blood > 200) {
+            col = c_red;
+        } else if (parts[displayed_part].blood > 0) {
+            col = c_ltred;
+        } else if (parts[displayed_part].hp <= 0) {
+            col = part_info(displayed_part).color_broken;
+        } else {
+            col = part_info(displayed_part).color;
+        }
+
+    }
+
+    //Invert colors for cargo parts with stuff in them
+    int cargo_part = part_with_feature(p, "CARGO");
+    if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
+        return invert_color(col);
+    } else {
+        return col;
     }
 }
 
@@ -1066,7 +1130,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
         } else {
             left_sym = "-"; right_sym = "-";
         }
-        
+
         mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, left_sym.c_str());
         mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, right_sym.c_str());
@@ -1630,7 +1694,8 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
     if(power)
     {
-        set_lights(false);
+        lights_on = false;
+        overhead_lights_on = false;
         if(player_in_control(&g->u))
             g->add_msg("The %s's battery dies!",name.c_str());
     }
@@ -2103,14 +2168,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
 
         if (part_flag(part, "SHARP")) {
-            field &local_field = g->m.field_at(x, y);
-            if (local_field.findField(fd_blood) &&
-                local_field.findField(fd_blood)->getFieldDensity() < 2) {
-                local_field.findField(fd_blood)->
-                    setFieldDensity(local_field.findField(fd_blood)->getFieldDensity() + 1);
-            } else {
-                g->m.add_field(g, x, y, fd_blood, 1);
-            }
+            g->m.adjust_field_strength(g, point(x, y), fd_blood, 1 );
         } else {
             g->sound (x, y, 20, "");
         }
@@ -2349,29 +2407,42 @@ void vehicle::place_spawn_items()
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
             int part = part_at(next_spawn->x, next_spawn->y);
-            part = part_with_feature(part, "CARGO");
+            part = part_with_feature(part, "CARGO", false);
             if(part < 0) {
-                //Is it broken, or was it never there in the first place?
-                if(part_with_feature(part, "CARGO", false) < 0) {
-                    //Was never there - mistake in placement
-                    debugmsg("No CARGO parts at (%d, %d) of %s!",
-                            next_spawn->x, next_spawn->y, name.c_str());
-                } else {
-                    //Present, but broken - don't place items
-                    continue;
-                }
+                debugmsg("No CARGO parts at (%d, %d) of %s!",
+                        next_spawn->x, next_spawn->y, name.c_str());
             } else {
+                bool partbroken = ( parts[part].hp < 1 );
+                int idmg = 0;
                 for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
                         next_id != next_spawn->item_ids.end(); next_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     item new_item = item_controller->create(*next_id, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
                 for(std::vector<std::string>::iterator next_group_id = next_spawn->item_groups.begin();
                         next_group_id != next_spawn->item_groups.end(); next_group_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
                     item new_item = item_controller->create(group_tag, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
             }
@@ -2809,32 +2880,6 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     }
 
     return true;
-}
-
-bool vehicle::set_lights(bool on)
-{
-    bool found=false;
-    if(on)
-    {
-        for(int p=0;p<parts.size();p++)
-        {
-            if(part_flag(p, "FUEL_TANK") && (part_info(p).fuel_type == "battery" || part_info(p).fuel_type == "plutonium") && parts[p].amount > 0)
-            {
-                found = true;
-                break;
-            }
-        }
-    }
-    lights_on = on;
-    if(found || !lights_on)
-    {
-        return true;
-    }
-    else
-    {
-        lights_on = false;
-        return false;
-    }
 }
 
 /**

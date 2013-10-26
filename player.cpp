@@ -27,6 +27,11 @@
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
+#include "output.h"
+
+//Used for e^(x) functions
+#include <stdio.h>
+#include <math.h>
 
 #include <ctime>
 #include <algorithm>
@@ -771,26 +776,22 @@ void player::update_bodytemp(game *g)
         if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
-        for (int j = -6 ; j <= 6 ; j++)
-        {
-            for (int k = -6 ; k <= 6 ; k++)
-            {
+        for (int j = -6 ; j <= 6 ; j++) {
+            for (int k = -6 ; k <= 6 ; k++) {
                 int heat_intensity = 0;
-                field &local_field = g->m.field_at(posx + j, posy + k);
-                if(local_field.findField(fd_fire))
-                {
-                    heat_intensity = local_field.findField(fd_fire)->getFieldDensity();
-                }
-                else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
-                {
+
+                int ffire = g->m.get_field_strength( point(posx + j, posy + k), fd_fire );
+                if(ffire > 0) {
+                    heat_intensity = ffire;
+                } else if (g->m.tr_at(posx + j, posy + k) == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if (heat_intensity > 0 && g->u_see(posx + j, posy + k))
-                {
-                    // Ensure fire_dist >=1 to avoid divide-by-zero errors.
+                if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
+                    // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max(j, k));
-                    if (frostbite_timer[i] > 0)
-                        { frostbite_timer[i] -= heat_intensity - fire_dist / 2;}
+                    if (frostbite_timer[i] > 0) {
+                        frostbite_timer[i] -= heat_intensity - fire_dist / 2;
+                    }
                     temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
                 }
@@ -798,11 +799,10 @@ void player::update_bodytemp(game *g)
         }
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
-        if (has_disease("onfire")) { temp_cur[i] += 250; }
-        field &local_field = g->m.field_at(posx, posy);
-        if ((local_field.findField(fd_fire) && local_field.findField(fd_fire)->getFieldDensity() > 2)
-            || trap_at_pos == tr_lava)
-        {
+        if (has_disease("onfire")) {
+            temp_cur[i] += 250;
+        }
+        if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
             temp_cur[i] += 250;
         }
         // WEATHER
@@ -1322,6 +1322,9 @@ std::string player::save_info()
 
 void player::memorial( std::ofstream &memorial_file )
 {
+    //Ask the player for their final words
+    std::string epitaph = string_input_popup(_("Do you have any last words?"), 256);
+
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
@@ -1356,6 +1359,9 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
     memorial_file << "\n";
     memorial_file << _("In memory of: ") << name << "\n";
+    if(epitaph.length() > 0) { //Don't record empty epitaphs
+        memorial_file << "\"" << epitaph << "\"" << "\n\n";
+    }
     memorial_file << pronoun << _(" was ") << profession_name.str()
                   << _(" when the apocalypse began.") << "\n";
     memorial_file << pronoun << _(" died on ") << _(season_name[g->turn.get_season()].c_str())
@@ -4950,26 +4956,30 @@ void player::mend(game *g)
 
 void player::vomit(game *g)
 {
- add_memorial_log(_("Threw up."));
- g->add_msg(_("You throw up heavily!"));
- hunger += rng(30, 50);
- thirst += rng(30, 50);
- moves -= 100;
- for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == "foodpoison") {
-   illness[i].duration -= 300;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  } else if (illness[i].type == "drunk") {
-   illness[i].duration -= rng(1, 5) * 100;
-   if (illness[i].duration < 0)
-    rem_disease(illness[i].type);
-  }
- }
- rem_disease("pkill1");
- rem_disease("pkill2");
- rem_disease("pkill3");
- rem_disease("sleep");
+    add_memorial_log(_("Threw up."));
+    g->add_msg(_("You throw up heavily!"));
+    int nut_loss = 100 / (1 + exp(.15 * (hunger / 100)));
+    int quench_loss = 100 / (1 + exp(.025 * (thirst / 10)));
+    hunger += rng(nut_loss / 2, nut_loss);
+    thirst += rng(quench_loss / 2, quench_loss);
+    moves -= 100;
+    for (int i = 0; i < illness.size(); i++) {
+        if (illness[i].type == "foodpoison") {
+            illness[i].duration -= 300;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        } else if (illness[i].type == "drunk") {
+            illness[i].duration -= rng(1, 5) * 100;
+            if (illness[i].duration < 0) {
+                rem_disease(illness[i].type);
+            }
+        }
+    }
+    rem_disease("pkill1");
+    rem_disease("pkill2");
+    rem_disease("pkill3");
+    rem_disease("sleep");
 }
 
 void player::drench(game *g, int saturation, int flags) {
@@ -7591,14 +7601,6 @@ hint_rating player::rate_action_use(item *it)
 void player::use(game *g, char let)
 {
     item* used = &i_at(let);
-    item copy;
-    bool replace_item = false;
-    if (!inv.item_by_letter(let).is_null()) {
-        copy = inv.remove_item_by_letter(let);
-        copy.invlet = let;
-        used = &copy;
-        replace_item = true;
-    }
 
     if (used->is_null()) {
         g->add_msg(_("You do not have that item."));
@@ -7612,36 +7614,27 @@ void player::use(game *g, char let)
         if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
             int charges_used = tool->use.call(g, this, used, false);
             if ( charges_used >= 1 ) {
-                used->charges -= std::min(used->charges, (int)tool->charges_per_use);
+                if( tool->charges_per_use > 0 ) {
+                    used->charges -= std::min(used->charges, charges_used);
+                } else {
+                    // An item that doesn't normally expend charges is destroyed instead.
+                    i_rem(let);
+                }
             }
+            // We may have fiddled with the state of the item in the iuse method,
+            // so restack to sort things out.
+            inv.restack();
         } else {
             g->add_msg(_("Your %s has %d charges but needs %d."), used->tname(g).c_str(),
                        used->charges, tool->charges_per_use);
         }
-
-        if (tool->use == &iuse::dogfood) {
-            replace_item = false;
-        }
-
-        if (replace_item && used->invlet != 0) {
-            inv.add_item_keep_invlet(copy);
-        } else if (used->invlet == 0 && used == &weapon) {
-            remove_weapon();
-        }
-        return;
     } else if (used->type->use == &iuse::boots) {
         used->type->use.call(g, this, used, false);
-        if (replace_item) {
-            inv.add_item_keep_invlet(copy);
-        }
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
             g->add_msg(_("You need to be at least level 1 in the firearms skill before you\
  can modify guns."));
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         }
         char gunlet = g->inv(_("Select gun to modify:"));
@@ -7649,121 +7642,76 @@ void player::use(game *g, char let)
         item* gun = &(i_at(gunlet));
         if (gun->is_null()) {
             g->add_msg(_("You do not have that item."));
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         } else if (!gun->is_gun()) {
             g->add_msg(_("That %s is not a gun."), gun->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         }
         it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
         if (guntype->skill_used == Skill::skill("archery") ||
             guntype->skill_used == Skill::skill("launcher")) {
             g->add_msg(_("You cannot mod your %s."), gun->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         }
         if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
             g->add_msg(_("That %s cannot be attached to a handgun."),
                        used->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
             g->add_msg(_("That %s cannot be attached to a shotgun."),
                        used->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
             g->add_msg(_("That %s cannot be attached to a submachine gun."),
                        used->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
             g->add_msg(_("That %s cannot be attached to a rifle."),
                        used->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         } else if ( mod->acceptible_ammo_types.size() &&
                     mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
             g->add_msg(_("That %s cannot be used on a %s gun."), used->tname(g).c_str(),
                        ammo_name(guntype->ammo).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         } else if (gun->contents.size() >= 4) {
             g->add_msg(_("Your %s already has 4 mods installed!  To remove the mods, \
 press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         }
         if ((mod->id == "clip" || mod->id == "clip2" || mod->id == "spare_mag") &&
             gun->clip_size() <= 2) {
             g->add_msg(_("You can not extend the ammo capacity of your %s."),
                        gun->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         }
         if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
             g->add_msg(_("You can not use a spare magazine with your %s."),
                        gun->tname(g).c_str());
-            if (replace_item) {
-                inv.add_item_keep_invlet(copy);
-            }
             return;
         }
         for (int i = 0; i < gun->contents.size(); i++) {
             if (gun->contents[i].type->id == used->type->id) {
                 g->add_msg(_("Your %s already has a %s."), gun->tname(g).c_str(),
                            used->tname(g).c_str());
-                if (replace_item) {
-                    inv.add_item_keep_invlet(copy);
-                }
                 return;
             } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
                        !gun->contents[i].has_flag("MODE_AUX") &&
                        (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
                 g->add_msg(_("Your %s's caliber has already been modified."),
                            gun->tname(g).c_str());
-                if (replace_item) {
-                    inv.add_item_keep_invlet(copy);
-                }
                 return;
             } else if ((mod->id == "barrel_big" || mod->id == "barrel_small") &&
                        (gun->contents[i].type->id == "barrel_big" ||
                         gun->contents[i].type->id == "barrel_small")) {
                 g->add_msg(_("Your %s already has a barrel replacement."),
                            gun->tname(g).c_str());
-                if (replace_item) {
-                    inv.add_item_keep_invlet(copy);
-                }
                 return;
             } else if ((mod->id == "barrel_ported" || mod->id == "suppressor") &&
                        (gun->contents[i].type->id == "barrel_ported" ||
                         gun->contents[i].type->id == "suppressor")) {
                 g->add_msg(_("Your %s cannot use a suppressor and a ported barrel at the same time."),
                            gun->tname(g).c_str());
-                if (replace_item) {
-                    inv.add_item_keep_invlet(copy);
-                }
                 return;
             } else if ((mod->id == "improve_sights" || mod->id == "red_dot_sight" ||
                         mod->id == "holo_sight" || mod->id == "rifle_scope") &&
@@ -7774,18 +7722,12 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                 //intentionally leaving laser_sight off the list so that it CAN be used with optics
                 g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
                            gun->tname(g).c_str());
-                if (replace_item) {
-                    inv.add_item_keep_invlet(copy);
-                }
                 return;
             } else if ((mod->id == "clip" || mod->id == "clip2") &&
                        (gun->contents[i].type->id == "clip" ||
                         gun->contents[i].type->id == "clip2")) {
                 g->add_msg(_("Your %s already has its magazine size extended."),
                            gun->tname(g).c_str());
-                if (replace_item) {
-                    inv.add_item_keep_invlet(copy);
-                }
                 return;
             } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
                         mod->id == "masterkey" || mod->id == "u_shotgun" ||
@@ -7798,56 +7740,33 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                         gun->contents[i].type->id == "gun_crossbow")) {
                 g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
                            gun->tname(g).c_str());
-                if (replace_item) {
-                    inv.add_item_keep_invlet(copy);
-                }
                 return;
             }
         }
         g->add_msg(_("You attach the %s to your %s."), used->tname(g).c_str(),
                    gun->tname(g).c_str());
-        if (replace_item) {
-            gun->contents.push_back(copy);
-        } else {
-            gun->contents.push_back(i_rem(let));
-        }
+        gun->contents.push_back(i_rem(let));
         return;
 
     } else if (used->is_bionic()) {
         it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
         if (install_bionics(g, tmp)) {
-            if (!replace_item) {
-                i_rem(let);
-            }
-        } else if (replace_item) {
-            inv.add_item_keep_invlet(copy);
+            i_rem(let);
         }
         return;
     } else if (used->is_food() || used->is_food_container()) {
-        if (replace_item) {
-            inv.add_item_keep_invlet(copy);
-        }
         consume(g, lookup_item(let));
         return;
     } else if (used->is_book()) {
-        if (replace_item) {
-            inv.add_item_keep_invlet(copy);
-        }
         read(g, let);
         return;
     } else if (used->is_armor()) {
-        if (replace_item) {
-            inv.add_item_keep_invlet(copy);
-        }
         wear(g, let);
         return;
     } else {
         g->add_msg(_("You can't do anything interesting with your %s."),
                    used->tname(g).c_str());
-    }
-
-    if (replace_item) {
-        inv.add_item_keep_invlet(copy);
+        return;
     }
 }
 

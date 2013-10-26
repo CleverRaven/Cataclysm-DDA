@@ -43,6 +43,7 @@ monster::monster()
  made_footstep = false;
  unique_name = "";
  hallucination = false;
+ ignoring = 0;
 }
 
 monster::monster(mtype *t)
@@ -71,6 +72,7 @@ monster::monster(mtype *t)
  made_footstep = false;
  unique_name = "";
  hallucination = false;
+ ignoring = 0;
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -99,6 +101,7 @@ monster::monster(mtype *t, int x, int y)
  made_footstep = false;
  unique_name = "";
  hallucination = false;
+ ignoring = 0;
 }
 
 monster::~monster()
@@ -499,8 +502,7 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
      }
     }
     if (check_fire) {
-     if (g->m.field_at(x, y).findField(fd_fire))
-      ret += 5 * g->m.field_at(x, y).findField(fd_fire)->getFieldDensity();
+      ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
     }
    }
   }
