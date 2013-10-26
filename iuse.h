@@ -82,6 +82,8 @@ class iuse
   int siphon           (game *g, player *p, item *it, bool t);
   int chainsaw_off     (game *g, player *p, item *it, bool t);
   int chainsaw_on      (game *g, player *p, item *it, bool t);
+  int cs_lajatang_off  (game *g, player *p, item *it, bool t);
+  int cs_lajatang_on   (game *g, player *p, item *it, bool t);
   int shishkebab_off   (game *g, player *p, item *it, bool t);
   int shishkebab_on    (game *g, player *p, item *it, bool t);
   int firemachete_off  (game *g, player *p, item *it, bool t);
