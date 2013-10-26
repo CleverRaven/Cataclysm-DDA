@@ -204,10 +204,10 @@ char game::inv(inventory& inv, std::string title)
     if (slice[cur_it]->size() > 1)
      wprintw(w_inv, " x %d", slice[cur_it]->size());
     if (it.charges > 0)
-     wprintw(w_inv, " [%d]", it.charges);
+     wprintw(w_inv, " (%d)", it.charges);
     else if (it.contents.size() == 1 &&
              it.contents[0].charges > 0)
-     wprintw(w_inv, " [%d]", it.contents[0].charges);
+     wprintw(w_inv, " (%d)", it.contents[0].charges);
     cur_line++;
     max_it=cur_it;
    }
@@ -383,17 +383,17 @@ std::vector<item> game::multidrop()
     if (stacks[cur_it]->size() > 1)
      wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
     if (it.charges > 0)
-     wprintz(w_inv, col, " [%d]", it.charges);
+     wprintz(w_inv, col, " (%d)", it.charges);
     else if (it.contents.size() == 1 &&
              it.contents[0].charges > 0)
-     wprintw(w_inv, " [%d]", it.contents[0].charges);
+     wprintw(w_inv, " (%d)", it.contents[0].charges);
     if (icon=='+'||icon=='#') {
       mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname(this).c_str());
       if (icon=='+'){
         if (stacks[cur_it]->size() > 1)
           wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
         if (it.charges > 0)
-          wprintz(w_inv, col, " [%d]", it.charges);
+          wprintz(w_inv, col, " (%d)", it.charges);
       }
       if (icon=='#') {
         wprintz(w_inv, col, " {%d}", dropping[it.invlet]);
@@ -662,10 +662,10 @@ void game::compare(int iCompareX, int iCompareY)
      if (stacks[cur_it-groundsize]->size() > 1)
       wprintz(w_inv, col, " x %d", stacks[cur_it-groundsize]->size());
      if (it.charges > 0)
-      wprintz(w_inv, col, " [%d]", it.charges);
+      wprintz(w_inv, col, " (%d)", it.charges);
      else if (it.contents.size() == 1 &&
               it.contents[0].charges > 0)
-      wprintw(w_inv, " [%d]", it.contents[0].charges);
+      wprintw(w_inv, " (%d)", it.contents[0].charges);
     }
    }
    cur_line++;
