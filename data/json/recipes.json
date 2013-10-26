@@ -3425,7 +3425,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "50_incendary",
+  "result": "50_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
   "requires_skills": [ "gun", 7 ],
@@ -15145,6 +15145,39 @@
      [
       [ "2x4", 1 ],
       [ "stick", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "throwing_knife",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 200], ["char_forge", 40]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
      ]
     ]
 },{
