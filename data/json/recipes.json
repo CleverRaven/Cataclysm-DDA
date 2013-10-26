@@ -3425,7 +3425,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "50_incendary",
+  "result": "50_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
   "requires_skills": [ "gun", 7 ],
