@@ -1,7 +1,6 @@
 [
     {
-        "type" : "tutorial_messages",
-        "messages" : [
+        "messages": [
             "Welcome to the Cataclysm tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.  Pressing spacebar will close the pop-up.",
             "The '@' character in the center of the screen represents you.  To move, you can use the numpad, the vikeys (hjklyubn), or the arrow keys.  To have your character wait in place, press '.'",
             "To see what the symbols around you mean, press ';'.  You'll be able to scroll around and get information on the terrain, monsters, and items in the world around you.",
@@ -42,6 +41,7 @@
             "It's dark down here!  Without a source of light, you'll be limited to seeing only one space in any direction.  You'll encounter darkness while underground or at night.  Press '<' to go back upstairs, and look around for a flashlight.",
             "It's dark down here!  Fortunately, you have a flashlight.  Press 'a' and then select your flashlight to turn it on.",
             "~ is a terrain symbol that indicates water.  From a water source like this, you can fill any containers you might have.  Step onto the water, then press the pickup key (',' or 'g'), then select a watertight container to put the water into."
-        ]
+        ],
+        "type": "tutorial_messages"
     }
 ]
