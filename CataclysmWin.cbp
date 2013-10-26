@@ -15,17 +15,7 @@
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
-					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
 				</Compiler>
-				<Linker>
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add directory="WinDepend\SDL-1.2.15\lib" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
-					<Add directory="WinDepend\libiconv\lib" />
-				</Linker>
 			</Target>
 			<Target title="Release - Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
