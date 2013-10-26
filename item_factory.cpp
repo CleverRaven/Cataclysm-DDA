@@ -162,6 +162,9 @@ void Item_factory::init(){
     iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
     iuse_function_list["adv_UPS_ON"] = &iuse::adv_UPS_on;
     iuse_function_list["TAZER"] = &iuse::tazer;
+    iuse_function_list["TAZER2"] = &iuse::tazer2;
+    iuse_function_list["SHOCKTONFA_OFF"] = &iuse::shocktonfa_off;
+    iuse_function_list["SHOCKTONFA_ON"] = &iuse::shocktonfa_on;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
     iuse_function_list["PORTABLE_GAME"] = &iuse::portable_game;
