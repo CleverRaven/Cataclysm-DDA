@@ -17,6 +17,7 @@
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
+#include "file_finder.h"
 
 #include <string>
 #include <vector>
@@ -27,6 +28,9 @@
 
 typedef std::string type_string;
 std::map<type_string, TFunctor*> type_function_map;
+std::map<type_string, int> type_delayed_order;
+std::vector<std::vector<std::string> > type_delayed;
+std::set<std::string> type_ignored;
 
 std::map<int,int> reverse_legacy_ter_id;
 std::map<int,int> reverse_legacy_furn_id;
@@ -70,52 +74,24 @@ void init_data_mappings() {
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
-
-    ret.push_back("data/json/materials.json");
-    ret.push_back("data/json/bionics.json");
-    ret.push_back("data/json/professions.json");
-    ret.push_back("data/json/skills.json");
-    ret.push_back("data/json/dreams.json");
-    ret.push_back("data/json/mutations.json");
-    ret.push_back("data/json/snippets.json");
-    ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/lab_notes.json");
-    ret.push_back("data/json/hints.json");
-    ret.push_back("data/json/furniture.json");
-    ret.push_back("data/json/terrain.json");
-    ret.push_back("data/json/migo_speech.json");
-    ret.push_back("data/json/names.json");
-    ret.push_back("data/json/vehicle_parts.json");
-    ret.push_back("data/json/vehicles.json");
-    ret.push_back("data/json/species.json");
-    ret.push_back("data/json/monsters.json");
-    ret.push_back("data/json/monstergroups.json");
-    ret.push_back("data/json/items/ammo.json");
-    ret.push_back("data/json/items/archery.json");
-    ret.push_back("data/json/items/armor.json");
-    ret.push_back("data/json/items/books.json");
-    ret.push_back("data/json/items/comestibles.json");
-    ret.push_back("data/json/items/containers.json");
-    ret.push_back("data/json/items/melee.json");
-    ret.push_back("data/json/items/mods.json");
-    ret.push_back("data/json/items/ranged.json");
-    ret.push_back("data/json/items/tools.json");
-    ret.push_back("data/json/items/vehicle_parts.json");
-    ret.push_back("data/json/techniques.json");
-    ret.push_back("data/json/martialarts.json");
-    ret.push_back("data/json/tutorial.json");
-
-    ret.push_back("data/json/recipes.json");
+    ret = file_finder::get_files_from_path(".json", dirname, true); 
+/*
+    ret.push_back("data/json/materials.json"); // should this be implicitly first? Works fine..
+*/
     return ret;
 }
 
-void load_object(JsonObject &jo)
+void load_object(JsonObject &jo, bool initialrun)
 {
     std::string type = jo.get_string("type");
     if (type_function_map.find(type) != type_function_map.end())
     {
+        if ( initialrun && type_delayed_order.find(type) != type_delayed_order.end() ) {
+            type_delayed[ type_delayed_order[type] ].push_back( jo.dump_input() );
+            return;
+        }
         (*type_function_map[type])(jo);
-    } else {
+    } else if ( type_ignored.count(type) == 0) {
         std::stringstream err;
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
@@ -127,6 +103,18 @@ void null_load_target(JsonObject &jo){}
 
 void init_data_structures()
 {
+    type_ignored.insert("colordef");   // loaded earlier.
+    type_ignored.insert("INSTRUMENT"); // ...unimplemented?
+
+    const int delayed_queue_size = 3;      // for now this is only 1 depth, then mods + mods delayed (likely overkill); 
+    type_delayed_order["recipe"] = 0;      // after items
+    type_delayed_order["martial_art"] = 0; //
+
+    type_delayed.resize(delayed_queue_size);
+    for(int i = 0; i < delayed_queue_size; i++ ) {
+        type_delayed[i].clear();
+    }
+
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -142,7 +130,6 @@ void init_data_structures()
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     type_function_map["monstergroup"] = new StaticFunctionAccessor(&MonsterGroupManager::LoadMonsterGroup);
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
-
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
@@ -168,6 +155,7 @@ void init_data_structures()
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
+
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
 
@@ -190,6 +178,7 @@ void release_data_structures()
 
 void load_json_dir(std::string const &dirname)
 {
+    //    load_overlay("data/overlay.json");
     // get a list of all files in the directory
     std::vector<std::string> dir = listfiles(dirname);
     // iterate over each file
@@ -213,7 +202,25 @@ void load_json_dir(std::string const &dirname)
             throw *(it) + ": " + e;
         }
     }
-    init_data_mappings();
+
+    for( int i = 0; i < type_delayed.size(); i++ ) {
+        for ( int d = 0; d < type_delayed[i].size(); d++ ) {
+            std::istringstream iss( type_delayed[i][d] );
+            try {
+                JsonIn jsin(&iss);
+                jsin.eat_whitespace(); // should not be needed
+                JsonObject jo = jsin.get_object();
+                load_object(jo, false); // don't re-queue, parse
+            } catch (std::string e) {
+                throw *(it) + ": " + e;
+            }
+        }
+        type_delayed[i].clear();
+    }
+
+    if ( t_floor != termap["t_floor"].loadid ) {
+        init_data_mappings(); // this should only kick off once
+    }
 }
 
 void load_all_from_json(JsonIn &jsin)
