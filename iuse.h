@@ -141,6 +141,9 @@ class iuse
   int adv_UPS_off      (game *g, player *p, item *it, bool t);
   int adv_UPS_on       (game *g, player *p, item *it, bool t);
   int tazer            (game *g, player *p, item *it, bool t);
+  int tazer2           (game *g, player *p, item *it, bool t);
+  int shocktonfa_off   (game *g, player *p, item *it, bool t);
+  int shocktonfa_on    (game *g, player *p, item *it, bool t);
   int mp3              (game *g, player *p, item *it, bool t);
   int mp3_on           (game *g, player *p, item *it, bool t);
   int portable_game    (game *g, player *p, item *it, bool t);
