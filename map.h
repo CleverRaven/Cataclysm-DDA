@@ -376,6 +376,12 @@ class map
  bool inbounds(const int x, const int y);
 
  int getmapsize() { return my_MAPSIZE; };
+
+ // Not protected/private for building_generation.cpp access
+ void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
+                              // Useful for houses, shops, etc
+ void add_road_vehicles(bool city, int facing);
+
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
@@ -386,8 +392,6 @@ protected:
                const oter_id t_south, const oter_id t_west, const oter_id t_above, const int turn,
                game *g, const float density, const int zlevel);
  void add_extra(map_extra type, game *g);
- void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
-            // Useful for houses, shops, etc
  void build_transparency_cache();
  void build_outside_cache(const game *g);
  void generate_lightmap(game *g);
@@ -429,7 +433,6 @@ submap * getsubmap( const int grididx );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
- void add_road_vehicles(bool city, int facing);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
