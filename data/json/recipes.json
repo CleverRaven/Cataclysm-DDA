@@ -11384,15 +11384,13 @@
   ],
   "components": [
     [
-      [ "steel_chunk", 16 ],
-      [ "steel_plate", 2 ]
+      [ "frame", 1 ]
     ],
     [
       ["soldering_iron", 1]
     ],
     [
-      [ "welder", 1 ],
-      [ "welder_crude", 3 ]
+      [ "welder", 1 ]
     ],
     [
       ["cable", 5]
