@@ -60,6 +60,7 @@
  */
 
 #include <wchar.h>
+#include <stdint.h>
 
 struct interval {
   int first;
