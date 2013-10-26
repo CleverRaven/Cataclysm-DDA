@@ -797,7 +797,7 @@ void veh_interact::move_cursor (int dx, int dy)
             {
                 ptank = &veh->parts[p];
             }
-            if (veh->part_flag(p, "WHEEL") && veh->parts[p].amount < veh->part_info(p).size)
+            if (veh->part_flag(p, "WHEEL"))
             {
                 wheel = &veh->parts[p];
             }
