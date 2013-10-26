@@ -139,6 +139,8 @@ class cata_tiles
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
 
+        bool draw_item_highlight(int x, int y);
+
         // Animation layers
         bool draw_hit(int x, int y);
 
@@ -174,6 +176,8 @@ class cata_tiles
         void init(SDL_Surface *screen, std::string json_path, std::string tileset_path);
         /* initialize from an outside file */
         void init(SDL_Surface *screen, std::string load_file_path);
+        /* Reinitializes the tile context using the original screen information */
+        void reinit(std::string load_file_path);
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();

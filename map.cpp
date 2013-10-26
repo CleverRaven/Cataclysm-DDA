@@ -3541,31 +3541,65 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
    }
   }
 
+  // fixme; roll off into some function elsewhere ---v
+
     // check traps
+    std::map<point, trap_id> rain_backlog;
+    bool do_funnels = ( worldz >= 0 && g->weather_log.size() > 0 ); // empty if just loaded a save here
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             const trap_id t = tmpsub->trp[x][y];
             if (t != tr_null) {
+
                 const int fx = x + gridx * SEEX;
                 const int fy = y + gridy * SEEY;
                 traplocs[t].insert(point(fx, fy));
+                if ( do_funnels &&
+                     g->traps[t]->funnel_radius_mm > 0 &&             // funnel
+                     has_flag_ter_or_furn("INDOORS", fx, fy) == false // we have no outside_cache
+                   ) {
+                    rain_backlog[point(x, y)] = t;
+                }
             }
         }
     }
 
-  // check spoiled stuff
+  // check spoiled stuff, and fill up funnels while we're at it
   for (int x = 0; x < SEEX; x++) {
       for (int y = 0; y < SEEY; y++) {
+          int biggest_container_idx = -1;
+          int maxvolume = 0;
+          bool do_container_check = false;
+
+          if ( do_funnels && ! rain_backlog.empty() && rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
+              do_container_check = true;
+          }
+          int intidx = 0;
+
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
-              if(it->goes_bad()) {
+              if ( do_container_check == true ) { // cannot link trap to mapitems
+                  int itvol = it->is_funnel_container(maxvolume); // big
+                  if ( itvol > maxvolume ) {                      // biggest
+                      biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
+                      itvol = maxvolume;
+                  }
+              }
+              if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
                   int maxShelfLife = it->bday + (food->spoils * 600)*2;
                   if(g->turn >= maxShelfLife) {
                       it = tmpsub->itm[x][y].erase(it);
-                  } else { ++it; }
-              } else { ++it; }
+                  } else { ++it; intidx++; }
+              } else { ++it; intidx++; }
           }
+
+          if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
+              item * it = &tmpsub->itm[x][y][biggest_container_idx];
+              trap_id fun_trap_id = rain_backlog[point(x,y)];
+              retroactively_fill_from_funnel(g, it, fun_trap_id, int(g->turn) ); // bucket: what inside??
+          }
+
       }
   }
 
@@ -3583,6 +3617,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
           furn = (furn_id((int)furn + 1));
           seed.bday += plantEpoch;
 
+          // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
           tmpsub->itm[x][y].resize(1);
 
           tmpsub->itm[x][y][0].bday = seed.bday;
@@ -3591,6 +3626,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
       }
     }
   }
+  // fixme; roll off into some function elsewhere ---^
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";

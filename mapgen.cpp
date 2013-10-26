@@ -277,217 +277,34 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  mapgendata facing_data(t_north, t_east, t_south, t_west);
 
  computer *tmpcomp = NULL;
- int veh_spawn_heading;
 
- switch (terrain_type) {
+    switch (terrain_type) {
+    case ot_null:
+        mapgen_null(this);
+        break;
+    case ot_crater:
+        mapgen_crater(this, facing_data);
+        break;
+    case ot_field:
+        mapgen_field(this, turn);
+        break;
+    case ot_dirtlot:
+        mapgen_dirtlot(this, g);
+        break;
 
- case ot_null:
-  mapgen_null(this);
-  break;
- case ot_crater:
-  mapgen_crater(this, facing_data);
-  break;
- case ot_field:
-  mapgen_field(this, turn);
-  break;
- case ot_dirtlot:
-  mapgen_dirtlot(this, g);
-  break;
+    case ot_forest:
+    case ot_forest_thick:
+    case ot_forest_water:
+        mapgen_forest_general(this, terrain_type, facing_data, turn);
+        break;
 
- case ot_forest:
- case ot_forest_thick:
- case ot_forest_water:
-  mapgen_forest_general(this, terrain_type, facing_data, turn);
-  break;
+    case ot_hive:
+        mapgen_hive(this, facing_data, turn);
+        break;
 
- case ot_hive:
-// Start with a basic forest pattern
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    rn = rng(0, 14);
-    if (rn > 13) {
-     ter_set(i, j, t_tree);
-    } else if (rn > 11) {
-     ter_set(i, j, t_tree_young);
-    } else if (rn > 10) {
-     ter_set(i, j, t_underbrush);
-    } else {
-     ter_set(i, j, t_dirt);
-    }
-   }
-  }
-
-// j and i loop through appropriate hive-cell center squares
-  for (int j = 5; j < SEEY * 2 - 5; j += 6) {
-   for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
-    if (!one_in(8)) {
-// Caps are always there
-     ter_set(i    , j - 5, t_wax);
-     ter_set(i    , j + 5, t_wax);
-     for (int k = -2; k <= 2; k++) {
-      for (int l = -1; l <= 1; l++)
-       ter_set(i + k, j + l, t_floor_wax);
-     }
-     add_spawn("mon_bee", 2, i, j);
-     add_spawn("mon_beekeeper", 1, i, j);
-     ter_set(i    , j - 3, t_floor_wax);
-     ter_set(i    , j + 3, t_floor_wax);
-     ter_set(i - 1, j - 2, t_floor_wax);
-     ter_set(i    , j - 2, t_floor_wax);
-     ter_set(i + 1, j - 2, t_floor_wax);
-     ter_set(i - 1, j + 2, t_floor_wax);
-     ter_set(i    , j + 2, t_floor_wax);
-     ter_set(i + 1, j + 2, t_floor_wax);
-
-// Up to two of these get skipped; an entrance to the cell
-     int skip1 = rng(0, 23);
-     int skip2 = rng(0, 23);
-
-     ter_set(i - 1, j - 4, t_wax);
-     ter_set(i    , j - 4, t_wax);
-     ter_set(i + 1, j - 4, t_wax);
-     ter_set(i - 2, j - 3, t_wax);
-     ter_set(i - 1, j - 3, t_wax);
-     ter_set(i + 1, j - 3, t_wax);
-     ter_set(i + 2, j - 3, t_wax);
-     ter_set(i - 3, j - 2, t_wax);
-     ter_set(i - 2, j - 2, t_wax);
-     ter_set(i + 2, j - 2, t_wax);
-     ter_set(i + 3, j - 2, t_wax);
-     ter_set(i - 3, j - 1, t_wax);
-     ter_set(i - 3, j    , t_wax);
-     ter_set(i - 3, j - 1, t_wax);
-     ter_set(i - 3, j + 1, t_wax);
-     ter_set(i - 3, j    , t_wax);
-     ter_set(i - 3, j + 1, t_wax);
-     ter_set(i - 2, j + 3, t_wax);
-     ter_set(i - 1, j + 3, t_wax);
-     ter_set(i + 1, j + 3, t_wax);
-     ter_set(i + 2, j + 3, t_wax);
-     ter_set(i - 1, j + 4, t_wax);
-     ter_set(i    , j + 4, t_wax);
-     ter_set(i + 1, j + 4, t_wax);
-
-     if (skip1 ==  0 || skip2 ==  0)
-      ter_set(i - 1, j - 4, t_floor_wax);
-     if (skip1 ==  1 || skip2 ==  1)
-      ter_set(i    , j - 4, t_floor_wax);
-     if (skip1 ==  2 || skip2 ==  2)
-      ter_set(i + 1, j - 4, t_floor_wax);
-     if (skip1 ==  3 || skip2 ==  3)
-      ter_set(i - 2, j - 3, t_floor_wax);
-     if (skip1 ==  4 || skip2 ==  4)
-      ter_set(i - 1, j - 3, t_floor_wax);
-     if (skip1 ==  5 || skip2 ==  5)
-      ter_set(i + 1, j - 3, t_floor_wax);
-     if (skip1 ==  6 || skip2 ==  6)
-      ter_set(i + 2, j - 3, t_floor_wax);
-     if (skip1 ==  7 || skip2 ==  7)
-      ter_set(i - 3, j - 2, t_floor_wax);
-     if (skip1 ==  8 || skip2 ==  8)
-      ter_set(i - 2, j - 2, t_floor_wax);
-     if (skip1 ==  9 || skip2 ==  9)
-      ter_set(i + 2, j - 2, t_floor_wax);
-     if (skip1 == 10 || skip2 == 10)
-      ter_set(i + 3, j - 2, t_floor_wax);
-     if (skip1 == 11 || skip2 == 11)
-      ter_set(i - 3, j - 1, t_floor_wax);
-     if (skip1 == 12 || skip2 == 12)
-      ter_set(i - 3, j    , t_floor_wax);
-     if (skip1 == 13 || skip2 == 13)
-      ter_set(i - 3, j - 1, t_floor_wax);
-     if (skip1 == 14 || skip2 == 14)
-      ter_set(i - 3, j + 1, t_floor_wax);
-     if (skip1 == 15 || skip2 == 15)
-      ter_set(i - 3, j    , t_floor_wax);
-     if (skip1 == 16 || skip2 == 16)
-      ter_set(i - 3, j + 1, t_floor_wax);
-     if (skip1 == 17 || skip2 == 17)
-      ter_set(i - 2, j + 3, t_floor_wax);
-     if (skip1 == 18 || skip2 == 18)
-      ter_set(i - 1, j + 3, t_floor_wax);
-     if (skip1 == 19 || skip2 == 19)
-      ter_set(i + 1, j + 3, t_floor_wax);
-     if (skip1 == 20 || skip2 == 20)
-      ter_set(i + 2, j + 3, t_floor_wax);
-     if (skip1 == 21 || skip2 == 21)
-      ter_set(i - 1, j + 4, t_floor_wax);
-     if (skip1 == 22 || skip2 == 22)
-      ter_set(i    , j + 4, t_floor_wax);
-     if (skip1 == 23 || skip2 == 23)
-      ter_set(i + 1, j + 4, t_floor_wax);
-
-     if (t_north == ot_hive && t_east == ot_hive && t_south == ot_hive &&
-         t_west == ot_hive)
-      place_items("hive_center", 90, i - 2, j - 2, i + 2, j + 2, false, turn);
-     else
-      place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
-    }
-   }
-  }
-  break;
-
- case ot_spider_pit:
-// First generate a forest
-  std::fill_n(nesw_fac, 4, 0);
-  for (int i = 0; i < 4; i++)
-  {
-   if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_water)
-    nesw_fac[i] += 14;
-   else if (t_nesw[i] == ot_forest_thick)
-    nesw_fac[i] += 18;
-  }
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    int forest_chance = 0, num = 0;
-    if (j < n_fac) {
-     forest_chance += n_fac - j;
-     num++;
-    }
-    if (SEEX * 2 - 1 - i < e_fac) {
-     forest_chance += e_fac - (SEEX * 2 - 1 - i);
-     num++;
-    }
-    if (SEEY * 2 - 1 - j < s_fac) {
-     forest_chance += s_fac - (SEEX * 2 - 1 - j);
-     num++;
-    }
-    if (i < w_fac) {
-     forest_chance += w_fac - i;
-     num++;
-    }
-    if (num > 0)
-     forest_chance /= num;
-    rn = rng(0, forest_chance);
-         if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance))
-     ter_set(i, j, t_tree);
-    else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance))
-     ter_set(i, j, t_tree_young);
-    else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance))
-     ter_set(i, j, t_underbrush);
-    else
-     ter_set(i, j, t_dirt);
-   }
-  }
-  place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
-// Next, place webs and sinkholes
-  for (int i = 0; i < 4; i++) {
-   int x = rng(3, SEEX * 2 - 4), y = rng(3, SEEY * 2 - 4);
-   if (i == 0)
-    ter_set(x, y, t_slope_down);
-   else {
-    ter_set(x, y, t_dirt);
-    add_trap(x, y, tr_sinkhole);
-   }
-   for (int x1 = x - 3; x1 <= x + 3; x1++) {
-    for (int y1 = y - 3; y1 <= y + 3; y1++) {
-     add_field(NULL, x1, y1, fd_web, rng(2, 3));
-     if (ter(x1, y1) != t_slope_down)
-      ter_set(x1, y1, t_dirt);
-    }
-   }
-  }
-  break;
+    case ot_spider_pit:
+        mapgen_spider_pit(this, facing_data, turn);
+        break;
 
     case ot_fungal_bloom:
         for (int i = 0; i < SEEX * 2; i++) {
@@ -514,122 +331,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     add_spawn("mon_fungaloid_queen", 1, 12, 12);
     break;
 
- case ot_road_ns:
- case ot_road_ew:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
+    case ot_road_ns:
+    case ot_road_ew:
+        mapgen_road_straight(this, terrain_type, facing_data, turn, density);
+        break;
 
-  if (terrain_type == ot_road_ew) {
-   veh_spawn_heading = (one_in(2)? 0 : 180);
-  } else {
-   veh_spawn_heading = (one_in(2)? 270 : 90);
-  }
-
-  add_road_vehicles(rn > 0, veh_spawn_heading);
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 4 || i >= SEEX * 2 - 4) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0)
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_road_ew)
-   rotate(1);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
-
- case ot_road_ne:
- case ot_road_es:
- case ot_road_sw:
- case ot_road_wn:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
-
-  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
-  if (rn== 1) { //this crossroad has sidewalk => this crossroad is in the city
-      for (int i = 0; i < SEEX * 2; i++) {
-          for (int j = 0; j < SEEY * 2; j++) {
-              if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-                  ter_set(i, j, t_sidewalk);
-              } else {
-                  if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0 && j < SEEY - 1) ||
-                      ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX)) {
-                      ter_set(i, j, t_pavement_y);
-                  } else {
-                      ter_set(i, j, t_pavement);
-                  }
-              }
-          }
-      }
-  } else { //crossroad (turn) in the wilderness
-      for (int i=0; i< SEEX * 2; i++) {
-          for (int j=0; j< SEEY*2; j++) {
-              ter_set(i,j, grass_or_dirt());
-          }
-      }
-      //draw lines diagonally
-      line(this, t_floor_blue, 4, 0, SEEX*2, SEEY*2-4);
-      line(this, t_pavement, SEEX*2-4, 0, SEEX*2, 4);
-      mapf::formatted_set_simple(this, 0, 0,
-"\
-,,,,.......yy......+,,,,\n\
-,,,,.......yy........,,,\n\
-,,,,.......yy.........,,\n\
-,,,,..................+,\n\
-,,,,.......yy...........\n\
-,,,,.......yy...........\n\
-,,,,.......yy...........\n\
-,,,,.......yy...........\n\
-,,,,........yy..........\n\
-,,,,.........yy.........\n\
-,,,,..........yy........\n\
-,,,,...........yyyyy.yyy\n\
-,,,,............yyyy.yyy\n\
-,,,,....................\n\
-,,,,....................\n\
-,,,,+...................\n\
-,,,,,+..................\n\
-,,,,,,+.................\n\
-,,,,,,,+................\n\
-,,,,,,,,................\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n\
-,,,,,,,,,,,,,,,,,,,,,,,,\n",
-     mapf::basic_bind(". , y +", t_pavement, t_dirt, t_pavement_y, t_shrub),
-     mapf::basic_bind(". , y +", f_null, f_null, f_null, f_null));
-  }
-  if (terrain_type == ot_road_es)
-   rotate(1);
-  if (terrain_type == ot_road_sw)
-   rotate(2);
-  if (terrain_type == ot_road_wn)
-   rotate(3); //looks like that the code above paints road_ne
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
+    case ot_road_ne:
+    case ot_road_es:
+    case ot_road_sw:
+    case ot_road_wn:
+        mapgen_road_curved(this, terrain_type, facing_data, turn, density);
+        break;
 
  case ot_road_nes:
  case ot_road_new:
