@@ -143,8 +143,9 @@ bool game::opening_screen()
     std::vector<std::string> savegames, templates;
     dirent *dp;
     DIR *dir;
-    /* = opendir("save");
-    if (!dir) {
+
+    dir = opendir("save");
+    if (!dir){
         #if (defined _WIN32 || defined __WIN32__)
             mkdir("save");
         #else
@@ -158,12 +159,8 @@ bool game::opening_screen()
         endwin();
         exit(1);
     }
-    while ((dp = readdir(dir))) {
-        std::string tmp = dp->d_name;
-        if (tmp.find(".sav") != std::string::npos)
-            savegames.push_back(tmp.substr(0, tmp.find(".sav")));
-    }
-    closedir(dir); //*/
+    closedir(dir);
+
     dir = opendir("data");
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
