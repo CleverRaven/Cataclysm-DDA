@@ -5,6 +5,9 @@
 #include "keypress.h"
 #include "translations.h"
 #include "file_finder.h"
+#ifdef SDLTILES
+#include "cata_tiles.h"
+#endif // SDLTILES
 
 #include <stdlib.h>
 #include <fstream>
@@ -12,6 +15,11 @@
 
 bool trigdist;
 bool use_tiles;
+
+bool used_tiles_changed;
+#ifdef SDLTILES
+extern cata_tiles *tilecontext;
+#endif // SDLTILES
 
 std::map<std::string, cOpt> OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
@@ -512,7 +520,7 @@ void initOptions() {
                                              _("If true, spawn zombies at shelters."),
                                              false
                                             );
-    
+
     OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
@@ -647,6 +655,8 @@ void show_options()
 
     std::stringstream sTemp;
 
+    used_tiles_changed = false;
+
     do {
         //Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
@@ -755,14 +765,21 @@ void show_options()
         }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
+    used_tiles_changed = (OPTIONS_OLD["TILES"] != OPTIONS["TILES"]) || (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
+
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
             save_options();
         } else {
+            used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
         }
     }
-
+#ifdef SDLTILES
+    if (used_tiles_changed){
+        tilecontext->reinit("gfx");
+    }
+#endif // SDLTILES
     delwin(w_options);
     delwin(w_options_border);
     delwin(w_options_header);
@@ -837,6 +854,7 @@ void save_options()
     fout.close();
 
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
+    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
 }
 
 bool use_narrow_sidebar()
