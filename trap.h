@@ -136,13 +136,22 @@ struct trap {
  void (trapfuncm::*actm)(game *, monster *, int x, int y);
 // Type of trap
  bool is_benign();
+ bool benign;
+
+ // non-generic numbers for special cases
+ int funnel_radius_mm;
+ double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
+ /* pending jsonize
+ std::set<std::string> flags
+ std::string id;
+ */
 
  trap(int pid, std::string string_id, std::string pname, nc_color pcolor, char psym,
       int pvisibility, int pavoidance, int pdifficulty,
       void (trapfunc::*pact)(game *, int x, int y),
       void (trapfuncm::*pactm)(game *, monster *, int x, int y),
       std::vector<std::string> keys) {
-  //string_id is ignored at the moment, will later replace the id
+  //string_id is ignored at the moment, will later replace the id 
   id = pid;
   sym = psym;
   color = pcolor;
@@ -154,6 +163,11 @@ struct trap {
   actm = pactm;
 
   components.insert(components.end(), keys.begin(), keys.end());
+
+  // It's a traaaap! So default;
+  benign = false;
+  // Traps are not typically funnels
+  funnel_radius_mm = 0;
  };
 };
 

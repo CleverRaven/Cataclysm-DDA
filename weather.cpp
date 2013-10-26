@@ -21,29 +21,101 @@ void weather_effect::glare(game *g)
     }
 }
 
-// Add one charge of rain to given container, possibly contaminating it
-void add_rain_to_container(item *c, bool acid)
+////// Funnels.
+/*
+ * mm/h of rain/acid for weather type (should move to weather_data)
+ */
+std::pair<int, int> rain_or_acid_level( const int wt )
 {
-    if (c == NULL) {
+    if ( wt == WEATHER_ACID_RAIN || wt == WEATHER_ACID_DRIZZLE ) {
+        return std::make_pair(0, (wt == WEATHER_ACID_RAIN  ? 8 : 4 ));
+    } else if (wt == WEATHER_DRIZZLE ) {
+        return std::make_pair(4, 0);
+        // why isnt this in weather data. now we have multiple rain/turn scales =[
+    } else if ( wt ==  WEATHER_RAINY || wt == WEATHER_THUNDER || wt == WEATHER_LIGHTNING ) {
+        return std::make_pair(8, 0);
+        // todo; bucket of melted snow?
+    } else {
+        return std::make_pair(0, 0);
+    }
+}
+
+/*
+ * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point
+ */
+void retroactively_fill_from_funnel( game * g, item *it, const trap_id t, const int endturn )
+{
+    const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
+    if ( startturn > endturn || g->traps[t]->funnel_radius_mm < 1 ) {
         return;
     }
 
+    it->bday = endturn; // bday == last fill check
+    double fillrain = 0;
+    double fillacid = 0;
+    int firstfill = 0;
+
+    for( std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( startturn );
+         wit != g->weather_log.end() && wit->first < endturn; ++wit
+       ) {
+        int fillstart = ( wit->first < startturn ? startturn : wit->first );
+        int fillend = g->weather_log.upper_bound(wit->first)->first;
+        fillend = ( fillend > endturn ? endturn : fillend );
+
+        std::pair<int, int> wlev = rain_or_acid_level( wit->second.weather );
+
+        if ( wlev.first != 0 ) {
+            fillrain += (fillend - fillstart ) / g->traps[t]->funnel_turns_per_charge( wlev.first );
+            if ( firstfill == 0 ) {
+                firstfill = 1;
+            }
+        } else if ( wlev.second != 0 ) {
+            fillacid += (fillend - fillstart ) / g->traps[t]->funnel_turns_per_charge( wlev.second );
+            if ( firstfill == 0 ) {
+                firstfill = 2;
+            }
+        }
+
+    }
+    // todo: refactor add_rain function
+    //dbg(D_INFO) << string_format("retroactive funnel fill %s %.4f, %.4f",it->typeId().c_str() ,fillrain,fillacid);
+    if ( firstfill == 1 ) {
+        it->add_rain_to_container( false, int(fillrain) );
+        if ( fillacid != 0 ) {
+            it->add_rain_to_container( true, int(fillacid) );
+        }
+    } else if ( firstfill == 2 ) {
+        it->add_rain_to_container( true, int(fillacid) );
+        if ( fillrain != 0 ) {
+            it->add_rain_to_container( false, int(fillrain) );
+        }
+    }
+}
+
+// Add charge(s) of rain to given container, possibly contaminating it
+void item::add_rain_to_container(bool acid, int charges)
+{
     const char *typeId = acid ? "water_acid" : "water";
-    if (c->contents.empty()) {
+    int max = dynamic_cast<it_container*>(type)->contains;
+    int orig = 0;
+    int added = charges;
+    if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         item ret(item_controller->find_template(typeId), 0);
         if (!acid) {
-            // Funnels aren't always clean enough for water.
+            // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
         }
-        c->put_in(ret);
+        ret.charges = ( charges > max ? max : charges );
+        put_in(ret);
     } else {
         // The container already has a liquid.
-        item &liq = c->contents[0];
-
-        it_container* ct = dynamic_cast<it_container*>(c->type);
-        if (liq.charges < ct->contains) {
-            liq.charges++;
+        item &liq = contents[0];
+        orig = liq.charges;
+        max -= liq.charges;
+        added = ( charges > max ? max : charges );
+        if (max > 0 ) {
+            liq.charges += added;
         }
 
         if (liq.typeId() == typeId || liq.typeId() == "water_acid_weak") {
@@ -59,17 +131,17 @@ void add_rain_to_container(item *c, bool acid)
             // equivalently, 1/4th weak acid (the rest being water). A
             // stochastic approach gives the liquid a 1 in 4 (or 2 in
             // liquid.charges) chance of becoming weak acid.
-            const bool transmute = x_in_y(2, liq.charges);
+            const bool transmute = x_in_y(2*added, liq.charges);
 
             if (transmute) {
                 item transmuted(item_controller->find_template("water_acid_weak"), 0);
                 transmuted.charges = liq.charges;
-                c->contents[0] = transmuted;
+                contents[0] = transmuted;
             } else if (liq.typeId() == "water") {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                int total_poison = liq.poison * (liq.charges - 1) + 5;
+                int total_poison = liq.poison * (orig) + (5*added);
                 liq.poison = total_poison / liq.charges;
                 int leftover_poison = total_poison - liq.poison * liq.charges;
                 if (leftover_poison > rng(0, liq.charges)) {
@@ -80,25 +152,33 @@ void add_rain_to_container(item *c, bool acid)
     }
 }
 
-void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
-{
-    int funnel_radius_mm = 0;
-    switch (t) {
-        case tr_funnel:             funnel_radius_mm = 380; break;
-        case tr_makeshift_funnel:   funnel_radius_mm =  85; break;
-        default: return;
-    }
-
+double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
+    // 1mm rain on 1m^2 == 1 liter water == 1000ml
+    // 1 liter == 4 volume
+    // 1 volume == 250ml: containers
+    // 1 volume == 200ml: water
     // How many turns should it take for us to collect 1 charge of rainwater?
-    item water(item_controller->find_template("water"), 0);
-    const double charge_ml = (double) (water.weight()) / water.charges;
+    // "..."
+    if ( rain_depth_mm_per_hour == 0 ) {
+        return 0;
+    }
+    const item water(item_controller->find_template("water"), 0);
+    const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
     const double PI = 3.14159265358979f;
+   
     const double surface_area_mm2 = PI * (funnel_radius_mm * funnel_radius_mm);
+
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
     const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
-    const double ml_to_mm3 = 1000;
-    const double turns_per_charge = charge_ml * ml_to_mm3 / vol_mm3_per_turn;
 
+    const double ml_to_mm3 = 1000;
+    const double turns_per_charge = (charge_ml * ml_to_mm3) / vol_mm3_per_turn;
+    return turns_per_charge;// / rain_depth_mm_per_hour;
+}
+
+void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
+{
+    const double turns_per_charge = g->traps[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
     std::set<point> funnel_locs = g->m.trap_locations(t);
     std::set<point>::iterator i;
@@ -107,27 +187,22 @@ void fill_funnels(game *g, int rain_depth_mm_per_hour, bool acid, trap_id t)
         char maxcontains = 0;
         point loc = *i;
         std::vector<item>& items = g->m.i_at(loc.x, loc.y);
-        if (one_in(turns_per_charge)) {
+        if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
+            //g->add_msg("%d mm/h %d tps %.4f: fill",int(g->turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
             for (int j = 0; j < items.size(); j++) {
                 item *it = &(items[j]);
-                if (it->is_container() && it->has_flag("WATERTIGHT") && it->has_flag("SEALS")) {
-                    it_container* ct = dynamic_cast<it_container*>(it->type);
-                    if (ct->contains > maxcontains && (
-                            it->contents.empty() ||
-                            it->contents[0].typeId() == "water" ||
-                            it->contents[0].typeId() == "water_acid" ||
-                            it->contents[0].typeId() == "water_acid_weak")) {
-                        c = it;
-                        maxcontains = ct->contains;
-                    }
+                int ismax = it->is_funnel_container( maxcontains );
+                if ( ismax > maxcontains ) {
+                    c = it;
                 }
             }
 
             if (c != NULL) {
-                add_rain_to_container(c, acid);
+                c->add_rain_to_container(acid, 1);
+                c->bday = int(g->turn);
             }
         }
     }
@@ -162,7 +237,7 @@ void generic_wet(game *g, bool acid)
                      mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head));
     }
 
-    fill_water_collectors(g, 4, acid);
+    fill_water_collectors(g, 4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
     decay_fire_and_scent(g, 15);
 }
 
