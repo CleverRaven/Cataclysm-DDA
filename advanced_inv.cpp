@@ -177,9 +177,9 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname(g).c_str() );
 
         if(items[i].it->charges > 0) {
-            wprintz(window, thiscolor, " [%d]",items[i].it->charges);
+            wprintz(window, thiscolor, " (%d)",items[i].it->charges);
         } else if(items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
-            wprintz(window, thiscolor, " [%d]",items[i].it->contents[0].charges);
+            wprintz(window, thiscolor, " (%d)",items[i].it->contents[0].charges);
         }
 
         if( isinventory && items[i].stacks > 1 ) {
