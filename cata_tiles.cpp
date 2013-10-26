@@ -17,6 +17,8 @@
     #endif
 #endif
 
+#define ITEM_HIGHLIGHT "highlight_item"
+
 extern game *g;
 //extern SDL_Surface *screen;
 extern int WindowHeight, WindowWidth;
@@ -886,14 +888,21 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     {
         if (g->m.has_flag("CONTAINER", x, y) || items.empty())
         {
+            // if there is an item in/on the container we want to draw the highlight
+            // before returning
+            if (items.size() > 0){
+                draw_item_highlight(x, y);
+            }
             return false;
         }
         // get the last item in the stack, it will be used for display
         item display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
         std::string it_name = display_item.type->id;
-
         ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
+        if (ret_draw_item && items.size() > 1){
+            draw_item_highlight(x, y);
+        }
     }
     return ret_draw_field && ret_draw_item;
 }
@@ -927,7 +936,13 @@ bool cata_tiles::draw_vpart(int x, int y)
             case 2: subtile = broken; break;
         }
     }
-    return draw_from_id_string(vpid, x, y, subtile, veh_dir);
+    int cargopart = veh->part_with_feature(veh_part, "CARGO");
+    bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
+    bool ret = draw_from_id_string(vpid, x, y, subtile, veh_dir);
+    if (ret && draw_highlight){
+        draw_item_highlight(x, y);
+    }
+    return ret;
 }
 
 bool cata_tiles::draw_entity(int x, int y)
@@ -967,6 +982,18 @@ bool cata_tiles::draw_entity(int x, int y)
         return draw_from_id_string(ent_name, x, y, subtile, 0);
     }
     return false;
+}
+
+bool cata_tiles::draw_item_highlight(int x, int y)
+{
+    DebugLog() << "Trying to draw item highlight at <"<<x<<", "<<y<<"> -- ";
+    if (tile_ids->find(ITEM_HIGHLIGHT) != tile_ids->end()){
+        DebugLog() << "Done\n";
+        return draw_from_id_string(ITEM_HIGHLIGHT, x, y, 0, 0);
+    }else{
+        DebugLog() << "Not Done\n";
+        return true;
+    }
 }
 
 /* Animation Functions */
