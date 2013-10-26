@@ -11352,7 +11352,8 @@
         "type" : "recipe",
   "result": "weldrig",
   "category": "CC_MISC",
-  "skill_used": "electronics",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",4],
   "difficulty": 4,
   "time": 60000,
   "reversible": true,
@@ -11391,6 +11392,62 @@
     ],
     [
       [ "welder", 1 ]
+    ],
+    [
+      ["cable", 5]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "craftrig",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",3],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fabrication", 4 ]],
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "frame", 1 ]
+    ],
+    [
+      ["vac_sealer", 1]
+    ],
+    [
+      [ "dehydrator", 1 ]
+    ],
+    [
+      [ "water_purifier", 1 ]
+    ],
+    [
+      [ "press", 1 ]
     ],
     [
       ["cable", 5]
