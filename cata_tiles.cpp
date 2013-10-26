@@ -806,8 +806,11 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
-
-    return draw_from_id_string(f_name, x, y, subtile, rotation); // for now just draw it normally, add in rotations later
+    bool ret = draw_from_id_string(f_name, x, y, subtile, rotation);
+    if (ret && g->m.i_at(x, y).size() > 0){
+        draw_item_highlight(x, y);
+    }
+    return ret;
 }
 
 bool cata_tiles::draw_trap(int x, int y)
@@ -866,8 +869,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     }
     bool ret_draw_field = true;
     bool ret_draw_item = true;
-    if (is_draw_field)
-    {
+    if (is_draw_field){
         std::string fd_name = field_names[f.fieldSymbol()];
 
         // for rotation inforomation
@@ -884,15 +886,8 @@ bool cata_tiles::draw_field_or_item(int x, int y)
 
         ret_draw_field = draw_from_id_string(fd_name, x, y, subtile, rotation);
     }
-    if(do_item)
-    {
-        if (g->m.has_flag("CONTAINER", x, y) || items.empty())
-        {
-            // if there is an item in/on the container we want to draw the highlight
-            // before returning
-            if (items.size() > 0){
-                draw_item_highlight(x, y);
-            }
+    if(do_item){
+        if (g->m.has_flag("CONTAINER", x, y) || g->m.has_furn(x,y) || items.empty()){
             return false;
         }
         // get the last item in the stack, it will be used for display
