@@ -940,6 +940,7 @@
     <ClCompile Include="..\skill.cpp" />
     <ClCompile Include="..\text_snippets.cpp" />
     <ClCompile Include="..\tileray.cpp" />
+    <ClCompile Include="..\translations.cpp" />
     <ClCompile Include="..\trapdef.cpp" />
     <ClCompile Include="..\trapfunc.cpp" />
     <ClCompile Include="..\tutorial.cpp" />
@@ -994,6 +995,7 @@
     <ClInclude Include="..\iexamine.h" />
     <ClInclude Include="..\init.h" />
     <ClInclude Include="..\input.h" />
+    <ClInclude Include="..\input_defs.h" />
     <ClInclude Include="..\inventory.h" />
     <ClInclude Include="..\item.h" />
     <ClInclude Include="..\item_factory.h" />
