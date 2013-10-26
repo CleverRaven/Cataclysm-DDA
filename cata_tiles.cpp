@@ -93,7 +93,9 @@ cata_tiles::~cata_tiles()
 
 void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string tileset_path)
 {
-    display_screen = screen;
+    if (screen){
+        display_screen = screen;
+    }
     // load files
     DebugLog() << "Attempting to Load JSON file\n";
     load_tilejson(json_path);
@@ -109,6 +111,12 @@ void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
     get_tile_information(load_file_path, json_path, tileset_path);
     // send this information to old init to avoid redundant code
     init(screen, json_path, tileset_path);
+}
+void cata_tiles::reinit(std::string load_file_path)
+{
+    std::string json_path, tileset_path;
+    get_tile_information(load_file_path, json_path, tileset_path);
+    init(NULL, json_path, tileset_path);
 }
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
@@ -194,6 +202,13 @@ void cata_tiles::load_tileset(std::string path)
     {
         SDL_FreeSurface(tile_atlas);
     }
+    /* release stored rectangles */
+    if (tile_values){
+        for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it){
+            delete it->second;
+        }
+        tile_values->clear();
+    }
     /** create the buffer screen */
     buffer = SDL_AllocSurface(SDL_SWSURFACE, WindowWidth, WindowHeight, 32, 0xff0000, 0xff00, 0xff, 0);
 
@@ -249,6 +264,13 @@ DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->
 void cata_tiles::load_tilejson(std::string path)
 {
     catajson config(path);
+
+    if (tile_ids){
+        for (tile_id_iterator it = tile_ids->begin(); it != tile_ids->end(); ++it){
+            delete it->second;
+        }
+        tile_ids->clear();
+    }
 
     if (!json_good())
     {
