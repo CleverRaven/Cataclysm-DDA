@@ -1,6 +1,5 @@
 [
     {
-        "type": "profession",
         "description": "They say you don't have any \"useful skills\", but at least your clothes fit well.",
         "ident": "unemployed",
         "items": [
@@ -9,10 +8,10 @@
             "sneakers"
         ],
         "name": "Unemployed",
-        "points": 0
+        "points": 0,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You've made and adjusted clothing for some of the biggest names in town. Now, their undead bodies are trying to eat your brains. At least you'll be able to keep your own clothing repaired.",
         "ident": "tailor",
         "items": [
@@ -30,10 +29,10 @@
                 "level": 1,
                 "name": "tailor"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "It was your first day in the lab when the cataclysm hit. You were evacuated with all the civilians, but at least you kept your lab gear.",
         "ident": "labtech",
         "items": [
@@ -45,10 +44,10 @@
             "glasses_safety"
         ],
         "name": "Lab Technician",
-        "points": 1
+        "points": 1,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "Although you never got your driver's license, you've always loved cars. At least now you'll never be wanting for materials.",
         "ident": "mechanic",
         "items": [
@@ -66,10 +65,10 @@
                 "level": 1,
                 "name": "mechanics"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "Your flexible outlook on law has ensured your survival, but now what? You have some of your \"sundries\", and one additional level of melee.",
         "ident": "scoundrel",
         "items": [
@@ -88,10 +87,10 @@
                 "level": 1,
                 "name": "melee"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "Your time spent fighting in back-alley brawls just might serve you well in the rough-and-tumble world left behind after the apocalypse.",
         "ident": "brawler",
         "items": [
@@ -111,10 +110,10 @@
                 "level": 1,
                 "name": "dodge"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You were a high school drop-out with one goal in mind: to join the military. You finally got in, and now it's hell on Earth in cataclysmic proportions. You start out with some military gear, and a level in survival and firearms.",
         "ident": "soldier",
         "items": [
@@ -135,10 +134,10 @@
                 "level": 1,
                 "name": "gun"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You were a pre-med student just starting out in your medical career. You start with some bandages and a level in first aid.",
         "ident": "medic",
         "items": [
@@ -156,10 +155,10 @@
                 "level": 1,
                 "name": "firstaid"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "When it came to getting dirty, the boss knew you could be trusted to get the job done. From performing hits to \"attitude adjustment\", you were the best. Now, at the end of the world, you've finally found your place in society.",
         "ident": "thug",
         "items": [
@@ -176,10 +175,10 @@
                 "level": 1,
                 "name": "unarmed"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "When you got the call about the disturbances, you came to the rescue only to realize you were in over your head, and needed rescuing yourself. You start with a level in firearms.",
         "ident": "sheriff",
         "items": [
@@ -197,10 +196,10 @@
                 "level": 1,
                 "name": "gun"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "addictions": [
             {
                 "intensity": 10,
@@ -217,10 +216,10 @@
             "ref_lighter"
         ],
         "name": "Chain Smoker",
-        "points": -1
+        "points": -1,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You would have sold your own mother for a dollar, and not felt guilty. In fact, you sold her a broken down beater right before the cataclysm. You start with bartering skills.",
         "ident": "salesman",
         "items": [
@@ -234,10 +233,10 @@
                 "level": 1,
                 "name": "barter"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "addictions": [
             {
                 "intensity": 20,
@@ -252,10 +251,10 @@
             "can_beans"
         ],
         "name": "Hobo",
-        "points": -4
+        "points": -4,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "Ever since you were a child you loved hunting, and you loved the challenge of hunting with a bow even more. You start with a level in archery and survival.",
         "ident": "hunter",
         "items": [
@@ -274,10 +273,10 @@
                 "level": 1,
                 "name": "survival"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You used to work at a local hardware store, and you did a lot of home renovations yourself. You start with a level in construction.",
         "ident": "cworker",
         "items": [
@@ -294,10 +293,10 @@
                 "level": 1,
                 "name": "carpentry"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You've worked in the woods your whole life, and start with some woodsman gear.",
         "ident": "lumberjack",
         "items": [
@@ -307,10 +306,10 @@
             "jacket_flannel"
         ],
         "name": "Lumberjack",
-        "points": 1
+        "points": 1,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You've traveled for a living, sightseeing here and there, and living off your parents' trust fund. But now they're gone, and the only thing between you and death is the open road and your backpack.",
         "ident": "backpacker",
         "items": [
@@ -321,10 +320,10 @@
             "socks"
         ],
         "name": "Backpacker",
-        "points": 2
+        "points": 2,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You used to work at a fancy fast food joint a week ago, but now you show the meaning of \"fast\" food by running for your life. You start with a level in cooking.",
         "ident": "fastfoodcook",
         "items": [
@@ -340,10 +339,10 @@
                 "level": 1,
                 "name": "cooking"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You were one of those guys who watched one too many survivalist shows. At least you're well-equipped for surviving on your own.",
         "ident": "survivalist",
         "items": [
@@ -361,10 +360,10 @@
                 "level": 1,
                 "name": "survival"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You used to work for some small-time business owner doing minor electrical work, and you just so happened to be working on an evac shelter when the cataclysm struck. You start with a level in electronics.",
         "ident": "electrician",
         "items": [
@@ -379,10 +378,10 @@
                 "level": 1,
                 "name": "electronics"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "Caffeine pills and all-nighters in front of a computer screen have given you some basic hacking skills. You start with a level in computers.",
         "ident": "hacker",
         "items": [
@@ -397,10 +396,10 @@
                 "level": 1,
                 "name": "computer"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You were a high school student until the teachers literally tried to pick your brains. But on the bright side, you'll never have to write a test again.",
         "ident": "student",
         "items": [
@@ -411,19 +410,18 @@
             "backpack"
         ],
         "name": "Student",
-        "points": 2
+        "points": 2,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You were in the middle of a nice shower when the cataclysm struck! You fled without so much as a towel.",
         "ident": "svictim",
-        "items": [
-        ],
+        "items": [],
         "name": "Shower Victim",
-        "points": -1
+        "points": -1,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You spent most of your life on a Harley, and it's only natural you spend the rest of it riding one.",
         "ident": "biker",
         "items": [
@@ -435,10 +433,10 @@
             "jacket_leather"
         ],
         "name": "Biker",
-        "points": 2
+        "points": 2,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You used to be a ballroom dancer before the cataclysm, and now you use your skills to save your life. You start with a level in dodging.",
         "ident": "dancer",
         "items": [
@@ -452,10 +450,10 @@
                 "level": 1,
                 "name": "dodge"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You worked for a small-time security company guarding local businesses, but there's nothing in the company policy for dealing with zombies.",
         "ident": "security",
         "items": [
@@ -465,10 +463,10 @@
             "flashlight"
         ],
         "name": "Security Guard",
-        "points": 1
+        "points": 1,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You've always loved tinkering with stuff. You know a little bit about mechanics, tailoring, electronics, and carpentry.",
         "ident": "tinkerer",
         "items": [
@@ -496,10 +494,10 @@
                 "level": 1,
                 "name": "carpentry"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You've worked the streets since you were a kid, and now you use your street skills to survive. You kept your gun, but fired the last bullet during your escape.",
         "ident": "ddealer",
         "items": [
@@ -511,10 +509,10 @@
             "coke"
         ],
         "name": "Drug Dealer",
-        "points": 2
+        "points": 2,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You've worked the streets since you were a kid, and now you use your street skills to survive. You've got your trusty switchblade, and the skill to use it.",
         "ident": "thug",
         "items": [
@@ -529,13 +527,13 @@
         "points": 2,
         "skills": [
             {
-                "name": "cutting",
-                "level": 1
+                "level": 1,
+                "name": "cutting"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You were about to marry your bride before the cataclysm, now you spend you days searching for her.",
         "ident": "groom",
         "items": [
@@ -543,10 +541,10 @@
             "dress_shoes"
         ],
         "name": "Groom",
-        "points": 0
+        "points": 0,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You chose a bad day for your wedding. You just barely escaped with your wedding dress intact.",
         "ident": "bride",
         "items": [
@@ -554,14 +552,12 @@
             "dress_shoes"
         ],
         "name": "Bride",
-        "points": 0
+        "points": 0,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "punkgirl",
-        "name": "Punk Rock Girl",
         "description": "The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
-        "points": 4,
+        "ident": "punkgirl",
         "items": [
             "skirt",
             "corset",
@@ -573,38 +569,52 @@
             "cig",
             "mp3",
             "ref_lighter"
-        ]
+        ],
+        "name": "Punk Rock Girl",
+        "points": 4,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "junkie",
-        "name": "Junkie",
-        "description": "Before the Apocalypse, you turned to Heroin to soothe your many problems. Now, your habit is your only comfort and your only drive.",
-        "points": -2,
-        "items": ["pants", "dress_shirt", "dress_shoes", "heroin", "syringe"],
         "addictions": [
             {
-                "type": "opiate",
-                "intensity": 10
+                "intensity": 10,
+                "type": "opiate"
             }
-        ]
+        ],
+        "description": "Before the Apocalypse, you turned to Heroin to soothe your many problems. Now, your habit is your only comfort and your only drive.",
+        "ident": "junkie",
+        "items": [
+            "pants",
+            "dress_shirt",
+            "dress_shoes",
+            "heroin",
+            "syringe"
+        ],
+        "name": "Junkie",
+        "points": -2,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "chef",
-        "name": "Chef",
         "description": "Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
+        "ident": "chef",
+        "items": [
+            "knife_butcher",
+            "hat_chef",
+            "jacket_chef",
+            "pants_checkered",
+            "dress_shoes"
+        ],
+        "name": "Chef",
         "points": 3,
-        "items": ["knife_butcher", "hat_chef", "jacket_chef", "pants_checkered", "dress_shoes"],
         "skills": [
             {
-                "name": "cooking",
-                "level": 3
+                "level": 3,
+                "name": "cooking"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "addictions": [
             {
                 "intensity": 20,
@@ -621,10 +631,10 @@
             "crack"
         ],
         "name": "Prostitute",
-        "points": -4
+        "points": -4,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You spent most of your life trapping with your father. Both of you made a decent living off of your catches, and trapping tutorials. You start with a skill in trapping.",
         "ident": "trapper",
         "items": [
@@ -641,10 +651,10 @@
                 "level": 1,
                 "name": "traps"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "You were going through your community college's metalsmithing program when the world ended. You start with a few related tools and some skill in fabrication.",
         "ident": "blacksmith",
         "items": [
@@ -662,47 +672,47 @@
                 "level": 1,
                 "name": "fabrication"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "clown",
-        "name": "Clown",
         "description": "All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now.",
-        "points": 0,
+        "ident": "clown",
         "items": [
             "clown_suit",
             "clownshoes"
-        ]
+        ],
+        "name": "Clown",
+        "points": 0,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "lost_sub",
-        "name": "Lost Submissive",
         "description": "Early in the rush to safety, you were separated from your master by cruel fate. Now you are on your own with nothing to your name but a suit of really kinky black leather. Unfortunately, there's no safewords in the apocalypse.",
-        "points": 0,
+        "ident": "lost_sub",
         "items": [
             "bondage_suit",
             "bondage_mask",
             "boots"
-        ]
+        ],
+        "name": "Lost Submissive",
+        "points": 0,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "senior",
-        "name": "Senior Citizen",
         "description": "You haven't seen this much blood since the war. The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
-        "points": 1,
+        "ident": "senior",
         "items": [
             "dress_shirt",
             "pants_checkered",
             "dress_shoes",
             "cane",
             "pocketwatch"
-        ]
+        ],
+        "name": "Senior Citizen",
+        "points": 1,
+        "type": "profession"
     },
     {
-        "type": "profession",
         "description": "Being a paramedic put you in a bad spot when it all ended. You had to fight your way out of a hospital full of infected to get to the shelter. You start with some skill in first aid.",
         "ident": "paramedic",
         "items": [
@@ -719,13 +729,12 @@
                 "level": 1,
                 "name": "firstaid"
             }
-        ]
+        ],
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "cosplay",
-        "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
+        "ident": "cosplay",
         "items": [
             "shorts",
             "sneakers",
@@ -737,13 +746,13 @@
             "fur_collar",
             "cheeseburger"
         ],
-        "points": 4
+        "name": "Otaku",
+        "points": 4,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "goalie",
-        "name": "Hockey Player",
         "description": "You were a minor-league hockey goalie before the rest of your team became zombies. It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",
+        "ident": "goalie",
         "items": [
             "mask_hockey",
             "hockey_stick",
@@ -752,13 +761,13 @@
             "sneakers",
             "puck"
         ],
-        "points": 2
+        "name": "Hockey Player",
+        "points": 2,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "batter",
-        "name": "Baseball Player",
         "description": "You were a batter on a local minor league team before the cataclysm. You escaped with your equipment, but how long can you survive until your innings are up?",
+        "ident": "batter",
         "items": [
             "bat",
             "helmet_ball",
@@ -767,13 +776,13 @@
             "cleats",
             "baseball"
         ],
-        "points": 2
+        "name": "Baseball Player",
+        "points": 2,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "linebacker",
-        "name": "Football Player",
         "description": "You were the star player for the local football team, adored by teammates and fans alike. Now they just adore your brains. You've still got your bulky football gear on.",
+        "ident": "linebacker",
         "items": [
             "football_armor",
             "tank_top",
@@ -782,13 +791,13 @@
             "cleats",
             "football"
         ],
-        "points": 4
+        "name": "Football Player",
+        "points": 4,
+        "type": "profession"
     },
     {
-        "type": "profession",
-        "ident": "golfer",
-        "name": "Golfer",
         "description": "A birdie is 1 under par, but how much is a zombie? Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+        "ident": "golfer",
         "items": [
             "hat_ball",
             "dress_shirt",
@@ -796,75 +805,68 @@
             "sneakers",
             "golf_club"
         ],
-        "points": 1
+        "name": "Golfer",
+        "points": 1,
+        "type": "profession"
     },
     {
-        "type" : "profession",
-        "ident": "bionic_thief",
-        "name": "Bionic Thief",
+        "CBMs": [
+            "bio_batteries",
+            "bio_lockpick",
+            "bio_power_storage_mkII"
+        ],
         "description": "You have done many high profile heists, but your gains mean nothing in this world. All you have left is your bionic lockpick that you keep powered via batteries.",
-        "items":[
+        "ident": "bionic_thief",
+        "items": [
             "sunglasses",
             "jeans",
             "dress_shirt",
             "dress_shoes"
         ],
-        "CBMs":[
-            "bio_batteries",
-            "bio_lockpick",
-            "bio_power_storage_mkII"
-        ],
-        "points": 4
+        "name": "Bionic Thief",
+        "points": 4,
+        "type": "profession"
     },
     {
-        "type" : "profession",
-        "ident": "bionic_patient",
-        "name": "Bionic Patient",
-        "description": "Medical advances have saved your body from certain death. You are augmented with bionic muscles and sensors monitoring your blood powered by your own metabolism. Make the most of your second chance at life.",
-        "items":[
-            "jeans",
-            "tshirt",
-            "sneakers"
-        ],
-        "CBMs":[
+        "CBMs": [
             "bio_metabolics",
             "bio_hydraulics",
             "bio_blood_anal",
             "bio_power_storage_mkII"
         ],
-        "points": 4
+        "description": "Medical advances have saved your body from certain death. You are augmented with bionic muscles and sensors monitoring your blood powered by your own metabolism. Make the most of your second chance at life.",
+        "ident": "bionic_patient",
+        "items": [
+            "jeans",
+            "tshirt",
+            "sneakers"
+        ],
+        "name": "Bionic Patient",
+        "points": 4,
+        "type": "profession"
     },
     {
-        "type" : "profession",
-        "ident": "bionic_spy",
-        "name": "Bionic Spy",
-        "description": "Your body has bionics worth millions payed by public taxes. The government employed you as a spy: you have night vision, an alarm and a hacking module powered by your own metabolism.",
-        "items":[
-            "boots",
-            "pants_army",
-            "jacket_army",
-            "mask_bal"
-        ],
-        "CBMs":[
+        "CBMs": [
             "bio_fingerhack",
             "bio_alarm",
             "bio_night_vision",
             "bio_batteries",
             "bio_power_storage_mkII"
         ],
-        "points": 6
+        "description": "Your body has bionics worth millions payed by public taxes. The government employed you as a spy: you have night vision, an alarm and a hacking module powered by your own metabolism.",
+        "ident": "bionic_spy",
+        "items": [
+            "boots",
+            "pants_army",
+            "jacket_army",
+            "mask_bal"
+        ],
+        "name": "Bionic Spy",
+        "points": 6,
+        "type": "profession"
     },
     {
-        "type" : "profession",
-        "ident": "faulty_bionic",
-        "name": "Failed Android",
-        "description": "Your body is a wreck of bionic parts. You have a large capacity for power, but are filled with broken bionics. At least your ethanol power supply still works.",
-        "items":[
-            "sneakers",
-            "jeans",
-            "tshirt"
-        ],
-        "CBMs":[
+        "CBMs": [
             "bio_drain",
             "bio_noise",
             "bio_dis_acid",
@@ -873,18 +875,27 @@
             "bio_power_storage_mkII",
             "bio_power_storage_mkII"
         ],
-        "points": 0
+        "description": "Your body is a wreck of bionic parts. You have a large capacity for power, but are filled with broken bionics. At least your ethanol power supply still works.",
+        "ident": "faulty_bionic",
+        "items": [
+            "sneakers",
+            "jeans",
+            "tshirt"
+        ],
+        "name": "Failed Android",
+        "points": 0,
+        "type": "profession"
     },
     {
-        "type" : "profession",
-        "ident" : "hitchhiker",
-        "name" : "Hitchhiker",
-        "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
-        "items" : [
+        "description": "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
+        "ident": "hitchhiker",
+        "items": [
             "house_coat",
             "towel",
             "guidebook"
         ],
-        "points" : 0
+        "name": "Hitchhiker",
+        "points": 0,
+        "type": "profession"
     }
 ]

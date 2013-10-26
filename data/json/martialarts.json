@@ -1,202 +1,224 @@
 [
     {
-        "type" : "martial_art",
-        "id" : "style_none",
-        "name" : "No style",
-        "description" : "Not a martial art, this is just plain old punching and kicking.",
-        "arm_block" : -1,
-        "leg_block" : -1
-    },{
-        "type" : "martial_art",
-        "id" : "style_karate",
-        "name" : "Karate",
-        "description" : "Karate is a popular martial art, originating from Japan. It focuses on rapid, precise attacks, blocks, and fluid movement. A successful hit allows you an extra dodge and two extra blocks on the following round.",
-        "arm_block" : 2,
-        "onhit_buffs" : [
+        "arm_block": -1,
+        "description": "Not a martial art, this is just plain old punching and kicking.",
+        "id": "style_none",
+        "leg_block": -1,
+        "name": "No style",
+        "type": "martial_art"
+    },
+    {
+        "arm_block": 2,
+        "description": "Karate is a popular martial art, originating from Japan. It focuses on rapid, precise attacks, blocks, and fluid movement. A successful hit allows you an extra dodge and two extra blocks on the following round.",
+        "id": "style_karate",
+        "name": "Karate",
+        "onhit_buffs": [
             {
-                "id" : "karate_hit_buff",
-                "name" : "Karate Hit",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 3,
-                "description" : "+1 Dodges, +2 Blocks",
-                "bonus_dodges" : 1,
-                "bonus_blocks" : 2
+                "bonus_blocks": 2,
+                "bonus_dodges": 1,
+                "buff_duration": 3,
+                "description": "+1 Dodges, +2 Blocks",
+                "id": "karate_hit_buff",
+                "min_unarmed": 0,
+                "name": "Karate Hit",
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : ["tec_karate_rapid", "tec_karate_precise"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_aikido",
-        "name" : "Aikido",
-        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defense throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
-        "static_buffs" : [
+        "techniques": [
+            "tec_karate_rapid",
+            "tec_karate_precise"
+        ],
+        "type": "martial_art"
+    },
+    {
+        "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defense throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
+        "id": "style_aikido",
+        "name": "Aikido",
+        "static_buffs": [
             {
-                "id" : "aikido_half_damage",
-                "name" : "Aikido",
-                "unarmed_allowed" : true,
-                "bash_mult" : 0.5,
-                "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "description" : "Half damage to enemies"
+                "bash_mult": 0.5,
+                "buff_duration": 2,
+                "description": "Half damage to enemies",
+                "id": "aikido_half_damage",
+                "min_unarmed": 0,
+                "name": "Aikido",
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : [
+        "techniques": [
             "tec_aikido_feint",
             "tec_aikido_disarm",
             "tec_aikido_throw"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_judo",
-        "name" : "Judo",
-        "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive. It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
-        "static_buffs" : [
+        ],
+        "type": "martial_art"
+    },
+    {
+        "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive. It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
+        "id": "style_judo",
+        "name": "Judo",
+        "static_buffs": [
             {
-        "id" : "judo_recovery",
-        "name" : "Judo",
-        "unarmed_allowed" : true,
-        "min_unarmed" : 0,
-        "buff_duration" : 2,
-        "throw_immune" : true,
-        "description" : "Immune to throws and knockdowns"
+                "buff_duration": 2,
+                "description": "Immune to throws and knockdowns",
+                "id": "judo_recovery",
+                "min_unarmed": 0,
+                "name": "Judo",
+                "throw_immune": true,
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : ["tec_judo_grab", "tec_judo_throw"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_tai_chi",
-        "name" : "Tai Chi",
-        "description" : "Though tai chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense. Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
-        "arm_block" : 1,
-        "static_buffs" : [
+        "techniques": [
+            "tec_judo_grab",
+            "tec_judo_throw"
+        ],
+        "type": "martial_art"
+    },
+    {
+        "arm_block": 1,
+        "description": "Though tai chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense. Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+        "id": "style_tai_chi",
+        "name": "Tai Chi",
+        "static_buffs": [
             {
-                "id" : "tai_chi_block",
-                "name" : "Tai Chi",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "block_per" : 0.8,
-                "description" : "Perception decreases damage when blocking"
+                "block_per": 0.8,
+                "buff_duration": 2,
+                "description": "Perception decreases damage when blocking",
+                "id": "tai_chi_block",
+                "min_unarmed": 0,
+                "name": "Tai Chi",
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : ["tec_taichi_disarm", "tec_taichi_precise"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_capoeira",
-        "name" : "Capoeira",
-        "description" : "A dance-like style with its roots in Brazilian slavery, capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
-        "onhit_buffs" : [
+        "techniques": [
+            "tec_taichi_disarm",
+            "tec_taichi_precise"
+        ],
+        "type": "martial_art"
+    },
+    {
+        "description": "A dance-like style with its roots in Brazilian slavery, capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
+        "id": "style_capoeira",
+        "name": "Capoeira",
+        "onhit_buffs": [
             {
-                "id" : "capoeira_hit_buff",
-                "name" : "Capoeira Tempo",
-                "description" : "+1 dodge and +1 blocks per stack",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 3,
-                "buff_duration" : 5,
-                "max_stacks" : 3,
-                "bonus_blocks" : 1,
-                "dodge" : 1
+                "bonus_blocks": 1,
+                "buff_duration": 5,
+                "description": "+1 dodge and +1 blocks per stack",
+                "dodge": 1,
+                "id": "capoeira_hit_buff",
+                "max_stacks": 3,
+                "min_unarmed": 3,
+                "name": "Capoeira Tempo",
+                "unarmed_allowed": true
             }
         ],
-        "onmove_buffs" : [
+        "onmove_buffs": [
             {
-                "id" : "capoeira_move_buff",
-                "name" : "Capoeira Momentum",
-                "description" : "+2 bash and +1 hit per stack",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 2,
-                "buff_duration" : 3,
-                "max_stacks" : 3,
-                "bash" : 2,
-                "hit" : 1
+                "bash": 2,
+                "buff_duration": 3,
+                "description": "+2 bash and +1 hit per stack",
+                "hit": 1,
+                "id": "capoeira_move_buff",
+                "max_stacks": 3,
+                "min_unarmed": 2,
+                "name": "Capoeira Momentum",
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : ["tec_capoeira_feint"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_krav_maga",
-        "name" : "Krav Maga",
-        "description" : "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively. It focuses on applicable attacks rather than showy or complex moves. Popular among police and armed forces everywhere.",
-        "arm_block" : 2,
-        "leg_block" : 4,
-        "static_buffs" : [
+        "techniques": [
+            "tec_capoeira_feint"
+        ],
+        "type": "martial_art"
+    },
+    {
+        "arm_block": 2,
+        "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively. It focuses on applicable attacks rather than showy or complex moves. Popular among police and armed forces everywhere.",
+        "id": "style_krav_maga",
+        "leg_block": 4,
+        "name": "Krav Maga",
+        "static_buffs": [
             {
-                "id" : "krav_maga_static",
-                "name" : "Krav Maga",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "bash_str" : 0.15,
-                "description" : "Slightly increased unarmed damage"
+                "bash_str": 0.15,
+                "buff_duration": 2,
+                "description": "Slightly increased unarmed damage",
+                "id": "krav_maga_static",
+                "min_unarmed": 0,
+                "name": "Krav Maga",
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : [
+        "techniques": [
             "tec_krav_maga_rapid",
             "tec_krav_maga_feint",
             "tec_krav_maga_precise",
             "tec_krav_maga_disarm",
             "tec_krav_maga_grab"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_muay_thai",
-        "name" : "Muay Thai",
-        "description" : "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes. Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.",
-        "arm_block" : 3,
-        "leg_block" : 4,
-        "static_buffs" : [
+        ],
+        "type": "martial_art"
+    },
+    {
+        "arm_block": 3,
+        "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes. Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.",
+        "id": "style_muay_thai",
+        "leg_block": 4,
+        "name": "Muay Thai",
+        "static_buffs": [
             {
-                "id" : "muay_thai_static",
-                "name" : "Muay Thai",
-                "unarmed_allowed" : true,
-                "bash" : -5,
-                "bash_str" : 0.5,
-                "description" : "Attacks scale better with strength"
+                "bash": -5,
+                "bash_str": 0.5,
+                "description": "Attacks scale better with strength",
+                "id": "muay_thai_static",
+                "name": "Muay Thai",
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : [
+        "techniques": [
             "tec_muay_thai_elbow",
             "tec_muay_thai_kick",
             "tec_muay_thai_knee"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_ninjutsu",
-        "name" : "Ninjutsu",
-        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is entirely silent. It also provides small combat bonuses the turn after moving a tile.",
-        "arm_block" : 3,
-        "static_buffs" : [
+        ],
+        "type": "martial_art"
+    },
+    {
+        "arm_block": 3,
+        "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is entirely silent. It also provides small combat bonuses the turn after moving a tile.",
+        "id": "style_ninjutsu",
+        "name": "Ninjutsu",
+        "static_buffs": [
             {
-                "id" : "ninjutsu_static",
-                "name" : "Ninjutsu",
-                "unarmed_allowed" : true,
-                "melee_allowed" : true,
-                "quiet" : true,
-                "description" : "Silent melee attacks"
+                "description": "Silent melee attacks",
+                "id": "ninjutsu_static",
+                "melee_allowed": true,
+                "name": "Ninjutsu",
+                "quiet": true,
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : ["tec_ninjutsu_precise"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_taekwondo",
-        "name" : "Taekwondo",
-        "description" : "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century. Focused on kicks and punches, it also includes strength training; your blocks absorb extra damage the stronger you are.",
-        "arm_block" : 2,
-        "leg_block" : 3,
-        "static_buffs" : [
+        "techniques": [
+            "tec_ninjutsu_precise"
+        ],
+        "type": "martial_art"
+    },
+    {
+        "arm_block": 2,
+        "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century. Focused on kicks and punches, it also includes strength training; your blocks absorb extra damage the stronger you are.",
+        "id": "style_taekwondo",
+        "leg_block": 3,
+        "name": "Taekwondo",
+        "static_buffs": [
             {
-                "id" : "taekwondo_static",
-                "name" : "Taekwondo",
-                "unarmed_allowed" : true,
-                "block_str" : 0.8,
-                "description" : "Strength decreases damage when blocking"
+                "block_str": 0.8,
+                "description": "Strength decreases damage when blocking",
+                "id": "taekwondo_static",
+                "name": "Taekwondo",
+                "unarmed_allowed": true
             }
         ],
-        "techniques" : [
+        "techniques": [
             "tec_taekwondo_precise",
             "tec_taekwondo_push",
             "tec_taekwondo_sweep"
-        ]
+        ],
+        "type": "martial_art"
     }
 ]
