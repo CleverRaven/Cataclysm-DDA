@@ -167,7 +167,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     while (!valid){
         test_worldname.str("");
         test_worldname << test_world_prefix << test_value;
-        if (valid_worldname(test_worldname.str())){
+        if (valid_worldname(test_worldname.str(), true)){
             worldname = test_worldname.str();
             valid = true;
         }else{
@@ -819,14 +819,20 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, int current, std::vector<std::s
     mvwputch(w, 24, 79, c_ltgray, LINE_XOOX);// _|
 }
 
-bool worldfactory::valid_worldname(std::string name)
+bool worldfactory::valid_worldname(std::string name, bool automated)
 {
-    if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
-        return true;
-    }
     std::stringstream msg;
-    msg << name << " is not a valid world name, already exists!";
-    popup_getkey(msg.str().c_str());
+
+    if (name == "save"){
+        msg << name << " is not a valid world name, it is a reserved name";
+    }else if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
+        return true;
+    }else{
+        msg << name << " is not a valid world name, already exists!";
+    }
+    if (!automated){
+        popup_getkey(msg.str().c_str());
+    }
     return false;
 }
 

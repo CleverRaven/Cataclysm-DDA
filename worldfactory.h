@@ -69,7 +69,7 @@ class worldfactory
         int show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world);
 
         void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
-        bool valid_worldname(std::string name);
+        bool valid_worldname(std::string name, bool automated = false);
 
         std::map<std::string, cOpt> get_world_options(std::string path);
 };
