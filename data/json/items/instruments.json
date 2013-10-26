@@ -1,33 +1,39 @@
 [
-  { "type":"INSTRUMENT",
-    "id":"GUITAR",
-    "symbol": "$",
-    "color": "red",
-    "name":"Guitar",
-    "description":"An acoustic six-string guitar. A bit out of tune, but in good shape otherwise.",
-    "material": "wood",
-    "weight": 2766,
-    "volume": 24,
-    "damage": 14,
-    "to_hit": 1,
-    "use": "PLAY_GUITAR",
-    "variations": [
-      { "odds" : 200,
-        "name" : "Specific Variation"
-      }
-    ]
-  }, 
-  { "type":"INSTRUMENT",
-    "id":"DRUM",
-    "symbol": "o",
-    "color": "green",
-    "name":"Bongo",
-    "description": "A handheld drum. Suitable for making loud noises into all hours of the night.",
-    "material": ["wood", "steel"],
-    "weight": 400,
-    "volume": 10,
-    "damage": 11,
-    "to_hit": 1,
-    "use": "PLAY_DRUM"
-  }
+    {
+        "color": "red",
+        "damage": 14,
+        "description": "An acoustic six-string guitar. A bit out of tune, but in good shape otherwise.",
+        "id": "GUITAR",
+        "material": "wood",
+        "name": "Guitar",
+        "symbol": "$",
+        "to_hit": 1,
+        "type": "INSTRUMENT",
+        "use": "PLAY_GUITAR",
+        "variations": [
+            {
+                "name": "Specific Variation",
+                "odds": 200
+            }
+        ],
+        "volume": 24,
+        "weight": 2766
+    },
+    {
+        "color": "green",
+        "damage": 11,
+        "description": "A handheld drum. Suitable for making loud noises into all hours of the night.",
+        "id": "DRUM",
+        "material": [
+            "wood",
+            "steel"
+        ],
+        "name": "Bongo",
+        "symbol": "o",
+        "to_hit": 1,
+        "type": "INSTRUMENT",
+        "use": "PLAY_DRUM",
+        "volume": 10,
+        "weight": 400
+    }
 ]
