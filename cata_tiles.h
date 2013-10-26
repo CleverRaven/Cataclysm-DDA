@@ -139,6 +139,8 @@ class cata_tiles
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
 
+        bool draw_item_highlight(int x, int y);
+
         // Animation layers
         bool draw_hit(int x, int y);
 
