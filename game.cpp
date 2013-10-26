@@ -4524,7 +4524,7 @@ int game::mon_info(WINDOW *w)
 
     for (int i = 0; i < num_zombies(); i++) {
         monster &z = _active_monsters[i];
-        if (u_see(&z)) {
+        if (u_see(&z) && !z.type->has_flag(MF_VERMIN)) {
             dir_to_mon = direction_from(viewx, viewy, z.posx(), z.posy());
             int index;
             int mx = POSX + (z.posx() - viewx);
@@ -9885,10 +9885,11 @@ void game::plmove(int dx, int dy)
 
 // Check if our movement is actually an attack on a monster
  int mondex = mon_at(x, y);
- bool displace = false; // Are we displacing a monster?
+ // Are we displacing a monster?  If it's vermin, always.
+ bool displace = false;
  if (mondex != -1) {
      monster &z = zombie(mondex);
-     if (z.friendly == 0) {
+     if (z.friendly == 0 && !(z.type->has_flag(MF_VERMIN))) {
          int udam = u.hit_mon(this, &z);
          if (z.hurt(udam) || z.is_hallucination()) {
              kill_mon(mondex, true);
