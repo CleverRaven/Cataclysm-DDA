@@ -193,7 +193,7 @@ class game
   bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
   // Get input from the player to choose an adjacent tile (for examine() etc)
-  bool choose_adjacent(std::string verb, int &x, int&y);
+  bool choose_adjacent(std::string message, int &x, int&y);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -252,24 +252,25 @@ class game
   void peek();
   point look_debug(point pnt=point(-256,-256));
   point look_around();// Look at nearby terrain ';'
-
+  int list_items(); //List all items around the player
+  int list_monsters(); //List all monsters around the player
   // Shared method to print "look around" info
   void print_all_tile_info(int lx, int ly, WINDOW* w_look, int column, int &line, bool mouse_hover);
 
-  void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
   int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
   int list_filter_low_priority(std::vector<map_item_stack> &stack,int start, std::string prorities);
   std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
-  std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
+  std::vector<map_item_stack> find_nearby_items(int iRadius);
+  std::vector<int> find_nearby_monsters(int iRadius);
   std::string ask_item_filter(WINDOW* window, int rows);
-  void draw_trail_to_square(int x, int y);
+  void draw_trail_to_square(int x, int y, bool bDrawX);
   void reset_item_list_state(WINDOW* window, int height);
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;
   std::string list_item_downvote;
   char inv(std::string title);
-  char inv(inventory,std::string);
+  char inv(inventory&,std::string);
   char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
@@ -327,7 +328,6 @@ class game
   WINDOW *w_status;
   WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
-
   live_view liveview;
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
@@ -375,6 +375,9 @@ void load_artifacts(); // Load artifact data
   void finalize_vehicles();
 
   std::queue<vehicle_prototype*> vehprototypes;
+
+  nc_color limb_color(player *p, body_part bp, int side, bool bleed = true,
+                       bool bite = true, bool infect = true);
 
  private:
 // Game-start procedures
@@ -537,6 +540,7 @@ void load_artifacts(); // Load artifact data
   void msg_buffer();       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
+
 //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
   void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
   void quicksave();        // Saves the game without quitting
@@ -565,6 +569,7 @@ void load_artifacts(); // Load artifact data
 
   signed char last_target; // The last monster targeted
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
+  std::vector<int> new_seen_mon;
    //  monsters spawns, go to 2 - No movement allowed
   int mostseen;  // # of mons seen last turn; if this increases, run_mode++
   bool autosafemode; // is autosafemode enabled?
