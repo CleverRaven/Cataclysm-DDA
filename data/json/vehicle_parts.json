@@ -1149,6 +1149,21 @@
     },
     {
         "type":"vehicle_part",
+        "id": "veh_forge",
+        "name": "mounted electric forge",
+        "symbol": "&",
+        "color": "red",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "damage_modifier": 10,
+        "durability": 20,
+        "item": "forge",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["OBSTACLE", "FORGE"]
+    },
+    {
+        "type":"vehicle_part",
         "id": "m249",
         "name": "mounted M249",
         "symbol": "t",

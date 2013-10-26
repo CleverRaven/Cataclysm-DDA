@@ -312,7 +312,7 @@ void inventory::clone_stack (const std::list<item> & rhs) {
        newstack.push_back(*iter);
     }
     items.push_back(newstack);
-//    return *this;    
+//    return *this;
 }
 
 void inventory::push_back(std::list<item> newits)
@@ -386,7 +386,7 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 item& inventory::add_item(item newit, bool keep_invlet)
 {
 //dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
- 
+
     bool reuse_cached_letter = false;
 
     // Check how many stacks of this type already are in our inventory.
@@ -588,6 +588,8 @@ void inventory::form_from_map(game *g, point origin, int range)
    if (veh) {
      const int kpart = veh->part_with_feature(vpart, "KITCHEN");
      const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+     const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+     const int forgepart = veh->part_with_feature(vpart, "FORGE");
 
      if (kpart >= 0) {
        item hotplate(g->itypes["hotplate"], 0);
@@ -611,6 +613,24 @@ void inventory::form_from_map(game *g, point origin, int range)
        item soldering_iron(g->itypes["soldering_iron"], 0);
        soldering_iron.charges = veh->fuel_left("battery", true);
        add_item(soldering_iron);
+       }
+     if (craftpart >= 0) {
+       item vac_sealer(g->itypes["vac_sealer"], 0);
+       vac_sealer.charges = veh->fuel_left("battery", true);
+       add_item(vac_sealer);
+
+       item dehydrator(g->itypes["dehydrator"], 0);
+       dehydrator.charges = veh->fuel_left("battery", true);
+       add_item(dehydrator);
+
+       item press(g->itypes["press"], 0);
+       press.charges = veh->fuel_left("battery", true);
+       add_item(press);
+       }
+     if (forgepart >= 0) {
+       item forge(g->itypes["forge"], 0);
+       forge.charges = veh->fuel_left("battery", true);
+       add_item(forge);
        }
      }
    }
