@@ -156,6 +156,54 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     return special_world;
 }
 
+WORLDPTR worldfactory::convert_to_world(std::string origin_path)
+{
+    // prompt for worldname? Nah, just make a worldname... the user can fix it later if they really don't want this as a name...
+    int test_value = 1;
+    std::stringstream test_worldname;
+    const std::string test_world_prefix = "ConvWorld ";
+    bool valid = false;
+    std::string worldname;
+    while (!valid){
+        test_worldname.str("");
+        test_worldname << test_world_prefix << test_value;
+        if (valid_worldname(test_worldname.str())){
+            worldname = test_worldname.str();
+            valid = true;
+        }else{
+            ++test_value;
+        }
+    }
+
+    // check and loop on validity
+
+    // create world informations
+    WORLDPTR newworld = new WORLD();
+    newworld->world_name = worldname;
+
+    std::stringstream path;
+    path << SAVE_DIR << PATH_SEPARATOR << worldname;
+    newworld->world_path = path.str();
+
+    // save world as conversion world
+    if (save_world(newworld, true)){
+        // move files from origin_path into new world path
+        std::vector<std::string> origin_files = file_finder::get_files_from_path(".", origin_path, false);
+        for (int i = 0; i < origin_files.size(); ++i){
+            std::string filename = origin_files[i].substr(origin_files[i].find_last_of("/\\"));
+
+            rename(origin_files[i].c_str(), std::string(newworld->world_path + filename).c_str());
+        }
+
+        DebugLog() << "worldfactory::convert_to_world -- World Converted Successfully!\n";
+        return newworld;
+    }else{
+        // something horribly wrong happened
+        DebugLog() << "worldfactory::convert_to_world -- World Conversion Failed!\n";
+        return NULL;
+    }
+}
+
 void worldfactory::set_active_world(WORLDPTR world)
 {
     world_generator->active_world = world;
@@ -164,7 +212,7 @@ void worldfactory::set_active_world(WORLDPTR world)
     }
 }
 
-bool worldfactory::save_world(WORLDPTR world)
+bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 {
     // if world is NULL then change it to the active_world
     if (!world) {
@@ -198,19 +246,21 @@ bool worldfactory::save_world(WORLDPTR world)
     }
     closedir(dir); // don't need to keep the directory open
 
-    fout.open(woption.str().c_str());
-    if (!fout.is_open()) {
-        fout.close();
-        return false;
-    }
-    fout << world_options_header() << std::endl;
+    if (!is_conversion){
+        fout.open(woption.str().c_str());
+        if (!fout.is_open()) {
+            fout.close();
+            return false;
+        }
+        fout << world_options_header() << std::endl;
 
-    for (std::map<std::string, cOpt>::iterator it = world->world_options.begin(); it != world->world_options.end(); ++it) {
-        fout << "#" << it->second.getTooltip() << std::endl;
-        fout << "#Default: " << it->second.getDefaultText() << std::endl;
-        fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
+        for (std::map<std::string, cOpt>::iterator it = world->world_options.begin(); it != world->world_options.end(); ++it) {
+            fout << "#" << it->second.getTooltip() << std::endl;
+            fout << "#Default: " << it->second.getDefaultText() << std::endl;
+            fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
+        }
+        fout.close();
     }
-    fout.close();
     return true;
 }
 
@@ -279,8 +329,26 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
                 retworlds[worldname]->world_options["DELETE_WORLD"].setValue("yes");
                 save_world(retworlds[worldname]);
             } else {
-                retworlds[worldname]->world_options = get_world_options(world_op_file);
+                retworlds[worldname]->world_options = get_world_options(detected_world_op[0]);
             }
+        }
+    }
+    // check to see if there exists a worldname "save" which denotes that a world exists in the save
+    // directory and not in a sub-world directory
+    if (retworlds.find("save") != retworlds.end()){
+        WORLDPTR converted_world = convert_to_world(retworlds["save"]->world_path);
+        if (converted_world){
+            converted_world->world_saves = retworlds["save"]->world_saves;
+            converted_world->world_options = retworlds["save"]->world_options;
+
+            std::vector<std::string>::iterator oldindex = std::find(all_worldnames.begin(), all_worldnames.end(), "save");
+
+            delete retworlds["save"];
+            retworlds.erase("save");
+            all_worldnames.erase(oldindex);
+
+            retworlds[converted_world->world_name] = converted_world;
+            all_worldnames.push_back(converted_world->world_name);
         }
     }
     all_worlds = retworlds;

@@ -48,9 +48,10 @@ class worldfactory
         // Generate a world
         WORLDPTR make_new_world();
         WORLDPTR make_new_world(special_game_id special_type);
+        WORLDPTR convert_to_world(std::string origin_path);
 
         void set_active_world(WORLDPTR world);
-        bool save_world(WORLDPTR world = NULL);
+        bool save_world(WORLDPTR world = NULL, bool is_conversion = false);
         std::map<std::string, WORLDPTR> get_all_worlds();
 
         WORLDPTR pick_world();
