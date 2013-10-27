@@ -1250,9 +1250,7 @@ bool map::has_adjacent_furniture(const int x, const int y)
     {
         const int adj_x = x + cx[i];
         const int adj_y = y + cy[i];
-        furn_id fid = furn(adj_x, adj_y);
-        if ( fid == f_fridge || fid == f_glass_fridge || fid == f_dresser ||
-            fid == f_rack || fid == f_bookcase || fid == old_f_locker ) {
+        if ( has_furn(adj_x, adj_y) && furn_at(adj_x, adj_y).has_flag("BLOCKSDOOR") ) {
             return true;
         }
     }
