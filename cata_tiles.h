@@ -93,6 +93,40 @@ typedef std::map<std::string, tile_type*> tile_id_map;
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
 
+// Cache of a single tile, used to avoid redrawing what didn't change.
+struct tile_drawing_cache {
+
+    tile_drawing_cache() { };
+
+    // Sprite indices drawn on this tile.
+    // The same indices in a different order need to be drawn differently!
+    std::vector<tile_type*> sprites;
+    std::vector<int> rotations;
+
+    bool operator==(const tile_drawing_cache& other) const {
+        if(sprites.size() != other.sprites.size()) {
+            return false;
+        } else {
+            for(int i=0; i<sprites.size(); i++) {
+                if(sprites[i] != other.sprites[i] || rotations[i] != other.rotations[i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool operator!=(const tile_drawing_cache& other) const {
+        return !(this->operator==(other));
+    }
+
+    void operator=(const tile_drawing_cache& other) {
+        this->sprites = other.sprites;
+        this->rotations = other.rotations;
+    }
+};
+
 class cata_tiles
 {
     public:
@@ -116,6 +150,11 @@ class cata_tiles
 
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
+
+        /**
+         * Redraws all the tiles that have changed since the last frame.
+         */
+        void apply_changes();
 
         /** Surface/Sprite rotation specifics */
         SDL_Surface *rotate_tile(SDL_Surface *src, SDL_Rect *rect, int rota);
@@ -172,6 +211,16 @@ class cata_tiles
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
+        /**
+         * Scroll the map widget by (x, y)
+         *
+         * scroll(1, 1) would move the view one to the right and one down.
+         *
+         * Useful for keeping part of the previous "frame" and redrawing
+         * only what changed.
+         */
+        void scroll(int x, int y);
+
         /** Used to properly initialize everything for display */
         void init(SDL_Surface *screen, std::string json_path, std::string tileset_path);
         /* initialize from an outside file */
@@ -221,6 +270,8 @@ class cata_tiles
         std::string weather_name;
 
         std::queue<point> footsteps;
+        std::map<point, tile_drawing_cache> cache;
+        std::map<point, tile_drawing_cache> tiles_to_draw_this_frame;
 
         // offset values
         int o_x, o_y;
@@ -239,6 +290,7 @@ class cata_tiles
             boomered,
             sight_impaired,
             bionight_bionic_active;
+        int last_pos_x, last_pos_y;
 
 };
 
