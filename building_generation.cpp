@@ -202,7 +202,7 @@ void mapgen_field(map *m, int turn)
     m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 }
 
-void mapgen_dirtlot(map *m, game *g)
+void mapgen_dirtlot(map *m)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {

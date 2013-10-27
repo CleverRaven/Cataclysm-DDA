@@ -398,7 +398,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_field(this, turn);
         break;
     case ot_dirtlot:
-        mapgen_dirtlot(this, g);
+        mapgen_dirtlot(this);
         break;
 
     case ot_forest:
