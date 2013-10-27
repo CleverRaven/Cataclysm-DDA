@@ -416,29 +416,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         break;
 
     case ot_fungal_bloom:
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (one_in(rl_dist(i, j, 12, 12) * 2)) {
-                    ter_set(i, j, t_marloss);
-                } else if (one_in(10)) {
-                    if (one_in(3)) {
-                        ter_set(i, j, t_tree_fungal);
-                    } else {
-                        ter_set(i, j, t_tree_fungal_young);
-                    }
-                
-                } else if (one_in(5)) {
-                    ter_set(i, j, t_shrub_fungal);
-                } else if (one_in(10)) {
-                    ter_set(i, j, t_fungus_mound);
-                } else {
-                    ter_set(i, j, t_fungus);
-                }
-            }
-        }
-    square(this, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
-    add_spawn("mon_fungaloid_queen", 1, 12, 12);
-    break;
+        mapgen_fungal_bloom(this);
+        break;
 
     case ot_road_ns:
     case ot_road_ew:
