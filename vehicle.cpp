@@ -1926,6 +1926,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
        return ret;
     }
 
+    //Damage armor before damaging any other parts
     int parm = part_with_feature (part, "ARMOR");
     if (parm < 0) {
         parm = part;
