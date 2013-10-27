@@ -589,12 +589,12 @@ void initOptions() {
                                             );
 
     OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
-                                             _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
+                                             _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
                                              true
                                              );
 
     OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
-                                             _("Choose the tileset you want to use. Only applicable on SDL builds. Requires restart."),
+                                             _("Choose the tileset you want to use. Only applicable on SDL builds."),
                                              tileset_names, "hoder");   // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
