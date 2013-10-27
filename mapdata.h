@@ -103,6 +103,9 @@ struct map_bash_info {
  * TREE - This terrain is a tree
  * YOUNG - This terrain is a young tree
  * FUNGUS - Fungal covered
+ *
+ * Furniture only:
+ * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
  */
 typedef int ter_id;
 typedef int furn_id;
