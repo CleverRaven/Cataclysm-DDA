@@ -1207,3 +1207,77 @@ void mapgen_park(map *m)
     }
     m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
 }
+
+void mapgen_gas_station(map *m, oter_id terrain_type, int turn, float density)
+{
+    int top_w = rng(5, 14);
+    int bottom_w = SEEY * 2 - rng(1, 2);
+    int middle_w = rng(top_w + 5, bottom_w - 3);
+    if (middle_w < bottom_w - 5) {
+        middle_w = bottom_w - 5;
+    }
+    int left_w = rng(0, 3);
+    int right_w = SEEX * 2 - rng(1, 4);
+    int center_w = rng(left_w + 4, right_w - 5);
+    int pump_count = rng(3, 6);
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEX * 2; j++) {
+            if (j < top_w && (top_w - j) % 4 == 0 && i > left_w && i < right_w &&
+                 (i - (1 + left_w)) % pump_count == 0) {
+                m->place_gas_pump(i, j, rng(1000, 10000));
+            } else if ((j < 2 && i > 7 && i < 16) || (j < top_w && i > left_w && i < right_w)) {
+                m->ter_set(i, j, t_pavement);
+            } else if (j == top_w && (i == left_w + 6 || i == left_w + 7 || i == right_w - 7 ||
+                      i == right_w - 6)) {
+                m->ter_set(i, j, t_window);
+            } else if (((j == top_w || j == bottom_w) && i >= left_w && i <= right_w) ||
+                      (j == middle_w && (i >= center_w && i < right_w))) {
+                m->ter_set(i, j, t_wall_h);
+            } else if (((i == left_w || i == right_w) && j > top_w && j < bottom_w) ||
+                      (j > middle_w && j < bottom_w && (i == center_w || i == right_w - 2))) {
+                m->ter_set(i, j, t_wall_v);
+            } else if (i == left_w + 1 && j > top_w && j < bottom_w) {
+                m->set(i, j, t_floor, f_glass_fridge);
+            } else if (i > left_w + 2 && i < left_w + 12 && i < center_w && i % 2 == 1 &&
+                      j > top_w + 1 && j < middle_w - 1) {
+                m->set(i, j, t_floor, f_rack);
+            } else if ((i == right_w - 5 && j > top_w + 1 && j < top_w + 4) ||
+                      (j == top_w + 3 && i > right_w - 5 && i < right_w)) {
+                m->set(i, j, t_floor, f_counter);
+            } else if (i > left_w && i < right_w && j > top_w && j < bottom_w) {
+                m->ter_set(i, j, t_floor);
+            } else {
+                m->ter_set(i, j, grass_or_dirt());
+            }
+        }
+    }
+    m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
+    m->ter_set(right_w - 1, middle_w, t_door_c);
+    m->ter_set(right_w - 1, bottom_w - 1, t_floor);
+    m->place_toilet(right_w - 1, bottom_w - 1);
+    m->ter_set(rng(10, 13), top_w, t_door_c);
+    if (one_in(5)) {
+        m->ter_set(rng(left_w + 1, center_w - 1), bottom_w, (one_in(4) ? t_door_c : t_door_locked));
+    }
+    for (int i = left_w + (left_w % 2 == 0 ? 3 : 4); i < center_w && i < left_w + 12; i += 2) {
+        if (!one_in(3)) {
+            m->place_items("snacks", 74, i, top_w + 2, i, middle_w - 2, false, 0);
+        } else {
+            m->place_items("magazines", 74, i, top_w + 2, i, middle_w - 2, false, 0);
+        }
+    }
+    m->place_items("fridgesnacks", 82, left_w + 1, top_w + 1, left_w + 1, bottom_w - 1, false, 0);
+    m->place_items("road",  12, 0,      0,  SEEX*2 - 1, top_w - 1, false, 0);
+    m->place_items("behindcounter", 70, right_w - 4, top_w + 1, right_w - 1, top_w + 2, false, 0);
+    m->place_items("softdrugs", 12, right_w - 1, bottom_w - 2, right_w - 1, bottom_w - 2, false, 0);
+    if (terrain_type == ot_s_gas_east) {
+        m->rotate(1);
+    }
+    if (terrain_type == ot_s_gas_south) {
+        m->rotate(2);
+    }
+    if (terrain_type == ot_s_gas_west) {
+        m->rotate(3);
+    }
+    m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+}

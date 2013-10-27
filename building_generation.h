@@ -49,5 +49,6 @@ void mapgen_river_curved(map *m, oter_id terrain_type);
 void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn);
 void mapgen_pool(map *m);
 void mapgen_park(map *m);
+void mapgen_gas_station(map *m, oter_id terrain_type, int turn, float density);
 
 #endif

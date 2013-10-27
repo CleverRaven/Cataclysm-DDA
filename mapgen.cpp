@@ -909,73 +909,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_park(this);
         break;
 
- case ot_s_gas_north:
- case ot_s_gas_east:
- case ot_s_gas_south:
- case ot_s_gas_west:
-  tw = rng(5, 14);
-  bw = SEEY * 2 - rng(1, 2);
-  mw = rng(tw + 5, bw - 3);
-  if (mw < bw - 5)
-   mw = bw - 5;
-  lw = rng(0, 3);
-  rw = SEEX * 2 - rng(1, 4);
-  cw = rng(lw + 4, rw - 5);
-  rn = rng(3, 6); // Frequency of gas pumps
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEX * 2; j++) {
-    if (j < tw && (tw - j) % 4 == 0 && i > lw && i < rw &&
-        (i - (1 + lw)) % rn == 0)
-     place_gas_pump(i, j, rng(1000, 10000));
-    else if ((j < 2 && i > 7 && i < 16) || (j < tw && i > lw && i < rw))
-     ter_set(i, j, t_pavement);
-    else if (j == tw && (i == lw+6 || i == lw+7 || i == rw-7 || i == rw-6))
-     ter_set(i, j, t_window);
-    else if (((j == tw || j == bw) && i >= lw && i <= rw) ||
-             (j == mw && (i >= cw && i < rw)))
-     ter_set(i, j, t_wall_h);
-    else if (((i == lw || i == rw) && j > tw && j < bw) ||
-             (j > mw && j < bw && (i == cw || i == rw - 2)))
-     ter_set(i, j, t_wall_v);
-    else if (i == lw + 1 && j > tw && j < bw)
-     set(i, j, t_floor, f_glass_fridge);
-    else if (i > lw + 2 && i < lw + 12 && i < cw && i % 2 == 1 &&
-             j > tw + 1 && j < mw - 1)
-     set(i, j, t_floor, f_rack);
-    else if ((i == rw - 5 && j > tw + 1 && j < tw + 4) ||
-             (j == tw + 3 && i > rw - 5 && i < rw))
-     set(i, j, t_floor, f_counter);
-    else if (i > lw && i < rw && j > tw && j < bw)
-     ter_set(i, j, t_floor);
-    else
-     ter_set(i, j, grass_or_dirt());
-   }
-  }
-  ter_set(cw, rng(mw + 1, bw - 1), t_door_c);
-  ter_set(rw - 1, mw, t_door_c);
-  ter_set(rw - 1, bw - 1, t_floor);
-  place_toilet(rw - 1, bw - 1);
-  ter_set(rng(10, 13), tw, t_door_c);
-  if (one_in(5))
-   ter_set(rng(lw + 1, cw - 1), bw, (one_in(4) ? t_door_c : t_door_locked));
-  for (int i = lw + (lw % 2 == 0 ? 3 : 4); i < cw && i < lw + 12; i += 2) {
-   if (!one_in(3))
-    place_items("snacks", 74, i, tw + 2, i, mw - 2, false, 0);
-   else
-    place_items("magazines", 74, i, tw + 2, i, mw - 2, false, 0);
-  }
-  place_items("fridgesnacks", 82, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
-  place_items("road",  12, 0,      0,  SEEX*2 - 1, tw - 1, false, 0);
-  place_items("behindcounter", 70, rw - 4, tw + 1, rw - 1, tw + 2, false, 0);
-  place_items("softdrugs", 12, rw - 1, bw - 2, rw - 1, bw - 2, false, 0);
-  if (terrain_type == ot_s_gas_east)
-   rotate(1);
-  if (terrain_type == ot_s_gas_south)
-   rotate(2);
-  if (terrain_type == ot_s_gas_west)
-   rotate(3);
-  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  break;
+    case ot_s_gas_north:
+    case ot_s_gas_east:
+    case ot_s_gas_south:
+    case ot_s_gas_west:
+        mapgen_gas_station(this, terrain_type, turn, density);
+        break;
 
  case ot_s_pharm_north:
  case ot_s_pharm_east:
