@@ -40,5 +40,8 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_field(map *m, int turn);
+void mapgen_bridge(map *m, oter_id terrain_type, int turn);
+void mapgen_highway(map *m, oter_id terrain_type, int turn);
 
 #endif

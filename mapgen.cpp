@@ -443,77 +443,15 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
         break;
 
- case ot_bridge_ns:
- case ot_bridge_ew:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 4 || i >= SEEX * 2 - 4)
-     ter_set(i, j, t_water_dp);
-    else if (i == 4 || i == SEEX * 2 - 5)
-     ter_set(i, j, t_railing_v);
-    else {
-     if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0)
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-   // spawn regular road out of fuel vehicles
-   if (one_in(2)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
+    case ot_bridge_ns:
+    case ot_bridge_ew:
+        mapgen_bridge(this, terrain_type, turn);
+        break;
 
-  if (terrain_type == ot_bridge_ew)
-   rotate(1);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
-
- case ot_hiway_ns:
- case ot_hiway_ew:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 3 || i >= SEEX * 2 - 3)
-     ter_set(i, j, grass_or_dirt());
-    else if (i == 3 || i == SEEX * 2 - 4)
-     ter_set(i, j, t_railing_v);
-    else {
-     if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0)
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_hiway_ew)
-   rotate(1);
-  place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-
-  // spawn regular road out of fuel vehicles
-   if (one_in(2)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
-  break;
+    case ot_hiway_ns:
+    case ot_hiway_ew:
+        mapgen_highway(this, terrain_type, turn);
+        break;
 
  case ot_river_center:
   fill_background(this, t_water_dp);
