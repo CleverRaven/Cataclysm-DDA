@@ -768,3 +768,83 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
+
+void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    bool plaza = false;
+    for (int i = 0; i < 4; i++) {
+        if (dat.t_nesw[i]  == ot_road_nesw || dat.t_nesw[i] == ot_road_nesw_manhole) {
+            plaza = true;
+        }
+    }
+    bool sidewalks = false;
+    for (int i = 0; i < 8; i++) {
+        if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
+            sidewalks = true;
+        }
+    }
+
+    // spawn city car wrecks
+    if (sidewalks) {
+        m->add_road_vehicles(true, one_in(2) ? 90 : 180);
+    }
+
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (plaza) {
+                m->ter_set(i, j, t_sidewalk);
+            } else if ((i < 4 || i >= SEEX * 2 - 4) && (j < 4 || j >= SEEY * 2 - 4)) {
+                if (sidewalks) {
+                    m->ter_set(i, j, t_sidewalk);
+                } else {
+                    m->ter_set(i, j, grass_or_dirt());
+                }
+            } else {
+                if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
+                      ((j == SEEY - 1 || j == SEEY) && i % 4 != 0)) {
+                    m->ter_set(i, j, t_pavement_y);
+                } else {
+                    m->ter_set(i, j, t_pavement);
+                }
+            }
+        }
+    }
+    if (plaza) { // Special embellishments for a plaza
+        if (one_in(10)) { // Fountain
+            for (int i = SEEX - 2; i <= SEEX + 2; i++) {
+                m->ter_set(i, i, t_water_sh);
+                m->ter_set(i, SEEX * 2 - i, t_water_sh);
+            }
+        }
+        if (one_in(10)) { // Small trees in center
+            mapf::formatted_set_terrain(m, SEEX-2, SEEY-2,
+"\
+ t t\n\
+t   t\n\
+\n\
+t   t\n\
+ t t\n\
+",
+            mapf::basic_bind("t", t_tree_young), mapf::end());
+        }
+        if (one_in(14)) { // Rows of small trees
+            int gap = rng(2, 4);
+            int start = rng(0, 4);
+            for (int i = 2; i < SEEX * 2 - start; i += gap) {
+                m->ter_set(i, start, t_tree_young);
+                m->ter_set(SEEX * 2 - 1 - i, start, t_tree_young);
+                m->ter_set(start, i, t_tree_young);
+                m->ter_set(start, SEEY * 2 - 1 - i, t_tree_young);
+            }
+        }
+        m->place_items("trash", 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
+    } else {
+        m->place_items("road",  5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    }
+    if(sidewalks) {
+        m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+    }
+    if (terrain_type == ot_road_nesw_manhole) {
+        m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
+    }
+}

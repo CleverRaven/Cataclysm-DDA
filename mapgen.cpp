@@ -459,74 +459,10 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_road_tee(this, terrain_type, facing_data, turn, density);
         break;
 
- case ot_road_nesw:
- case ot_road_nesw_manhole:
-  if ((t_west  == ot_road_nesw || t_west  == ot_road_nesw_manhole) &&
-      (t_east  == ot_road_nesw || t_east  == ot_road_nesw_manhole) &&
-      (t_north == ot_road_nesw || t_north == ot_road_nesw_manhole) &&
-      (t_south == ot_road_nesw || t_south == ot_road_nesw_manhole)   )
-   rn = 2; // rn = 2 if this is actually a plaza
-  else
-   rn = 1; // rn = 1 if this road has sidewalks
-
-  // spawn city car wrecks
-  if (rn > 0) {
-    add_road_vehicles(true, one_in(2) ? 90 : 180);
-  }
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (rn == 2)
-     ter_set(i, j, t_sidewalk);
-    else if ((i < 4 || i >= SEEX * 2 - 4) && (j < 4 || j >= SEEY * 2 - 4)) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
-         ((j == SEEY - 1 || j == SEEY) && i % 4 != 0))
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (rn == 2) { // Special embellishments for a plaza
-   if (one_in(10)) { // Fountain
-    for (int i = SEEX - 2; i <= SEEX + 2; i++) {
-     ter_set(i, i, t_water_sh);
-     ter_set(i, SEEX * 2 - i, t_water_sh);
-    }
-   }
-   if (one_in(10)) { // Small trees in center
-    mapf::formatted_set_terrain(this, SEEX-2, SEEY-2,
-"\
- t t\n\
-t   t\n\
-\n\
-t   t\n\
- t t\n\
-", mapf::basic_bind("t", t_tree_young), mapf::end());
-   }
-   if (one_in(14)) { // Rows of small trees
-    int gap = rng(2, 4);
-    int start = rng(0, 4);
-    for (int i = 2; i < SEEX * 2 - start; i += gap) {
-     ter_set(i               , start, t_tree_young);
-     ter_set(SEEX * 2 - 1 - i, start, t_tree_young);
-     ter_set(start, i               , t_tree_young);
-     ter_set(start, SEEY * 2 - 1 - i, t_tree_young);
-    }
-   }
-   place_items("trash", 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
-  } else
-   place_items("road",  5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  if (terrain_type == ot_road_nesw_manhole)
-   ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
-  break;
+    case ot_road_nesw:
+    case ot_road_nesw_manhole:
+        mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
+        break;
 
  case ot_bridge_ns:
  case ot_bridge_ew:
