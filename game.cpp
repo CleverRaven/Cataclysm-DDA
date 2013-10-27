@@ -1793,7 +1793,6 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-            int frame_delay = 125;
             timeout(125);
         } while (handle_mouseview(ctxt, action));
         timeout(-1);
