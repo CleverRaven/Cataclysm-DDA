@@ -21,19 +21,66 @@
 
 #include <string>
 #include <vector>
+#include <queue>
 #include <fstream>
 #include <sstream> // for throwing errors
 
 #include "savegame.h"
 
 typedef std::string type_string;
+typedef std::queue<std::string> load_queue;
+
 std::map<type_string, TFunctor*> type_function_map;
-std::map<type_string, int> type_delayed_order;
-std::vector<std::vector<std::string> > type_delayed;
 std::set<std::string> type_ignored;
+
+std::map<type_string, load_queue> type_delayed_load_queues;
+std::vector<type_string> type_delayed_load_order;
 
 std::map<int,int> reverse_legacy_ter_id;
 std::map<int,int> reverse_legacy_furn_id;
+
+void init_load_order()
+{
+    // This is a strictly defined load order for all json data.
+    type_delayed_load_order.push_back("material");
+    type_delayed_load_order.push_back("bionic");
+    type_delayed_load_order.push_back("profession");
+    type_delayed_load_order.push_back("skill");
+    type_delayed_load_order.push_back("dream");
+    type_delayed_load_order.push_back("mutation");
+    type_delayed_load_order.push_back("lab_note");
+    type_delayed_load_order.push_back("hint");
+    type_delayed_load_order.push_back("furniture");
+    type_delayed_load_order.push_back("terrain");
+    type_delayed_load_order.push_back("monstergroup");
+    type_delayed_load_order.push_back("snippet");
+    type_delayed_load_order.push_back("migo_speech");
+    type_delayed_load_order.push_back("NAME");
+    type_delayed_load_order.push_back("vehicle_part");
+    type_delayed_load_order.push_back("vehicle");
+    type_delayed_load_order.push_back("item_group");
+    type_delayed_load_order.push_back("AMMO");
+    type_delayed_load_order.push_back("GUN");
+    type_delayed_load_order.push_back("ARMOR");
+    type_delayed_load_order.push_back("TOOL");
+    type_delayed_load_order.push_back("BOOK");
+    type_delayed_load_order.push_back("COMESTIBLE");
+    type_delayed_load_order.push_back("CONTAINER");
+    type_delayed_load_order.push_back("GUNMOD");
+    type_delayed_load_order.push_back("GENERIC");
+    type_delayed_load_order.push_back("MONSTER");
+    type_delayed_load_order.push_back("SPECIES");
+    type_delayed_load_order.push_back("technique");
+    type_delayed_load_order.push_back("martial_art");
+    type_delayed_load_order.push_back("tutorial_messages");
+    type_delayed_load_order.push_back("recipe_category");
+    type_delayed_load_order.push_back("recipe");
+
+    for (int i = 0; i < type_delayed_load_order.size(); ++i){
+        type_delayed_load_queues[type_delayed_load_order[i]] = load_queue();
+    }
+}
+
 /*
  * Populate optional ter_id and furn_id variables
  */
@@ -74,10 +121,8 @@ void init_data_mappings() {
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
-    ret = file_finder::get_files_from_path(".json", dirname, true); 
-/*
-    ret.push_back("data/json/materials.json"); // should this be implicitly first? Works fine..
-*/
+    ret = file_finder::get_files_from_path(".json", dirname, true);
+
     return ret;
 }
 
@@ -86,8 +131,9 @@ void load_object(JsonObject &jo, bool initialrun)
     std::string type = jo.get_string("type");
     if (type_function_map.find(type) != type_function_map.end())
     {
-        if ( initialrun && type_delayed_order.find(type) != type_delayed_order.end() ) {
-            type_delayed[ type_delayed_order[type] ].push_back( jo.dump_input() );
+        if ( initialrun){// && type_delayed_order.find(type) != type_delayed_order.end() ) {
+            //type_delayed[ type_delayed_order[type] ].push_back( jo.dump_input() );
+            type_delayed_load_queues[type].push(jo.dump_input());
             return;
         }
         (*type_function_map[type])(jo);
@@ -105,15 +151,6 @@ void init_data_structures()
 {
     type_ignored.insert("colordef");   // loaded earlier.
     type_ignored.insert("INSTRUMENT"); // ...unimplemented?
-
-    const int delayed_queue_size = 3;      // for now this is only 1 depth, then mods + mods delayed (likely overkill); 
-    type_delayed_order["recipe"] = 0;      // after items
-    type_delayed_order["martial_art"] = 0; //
-
-    type_delayed.resize(delayed_queue_size);
-    for(int i = 0; i < delayed_queue_size; i++ ) {
-        type_delayed[i].clear();
-    }
 
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
@@ -160,6 +197,7 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_tutorial_messages);
 
     mutations_category[""].clear();
+    init_load_order();
     init_mutation_parts();
     init_translation();
     init_martial_arts();
@@ -174,6 +212,8 @@ void release_data_structures()
             delete it->second;
     }
     type_function_map.clear();
+    type_delayed_load_order.clear();
+    type_delayed_load_queues.clear();
 }
 
 void load_json_dir(std::string const &dirname)
@@ -203,9 +243,11 @@ void load_json_dir(std::string const &dirname)
         }
     }
 
-    for( int i = 0; i < type_delayed.size(); i++ ) {
-        for ( int d = 0; d < type_delayed[i].size(); d++ ) {
-            std::istringstream iss( type_delayed[i][d] );
+    for (int i = 0; i < type_delayed_load_order.size(); ++i){
+        std::string type = type_delayed_load_order[i];
+        while (!type_delayed_load_queues[type].empty()){
+            std::istringstream iss( type_delayed_load_queues[type].front() );
+            type_delayed_load_queues[type].pop();
             try {
                 JsonIn jsin(&iss);
                 jsin.eat_whitespace(); // should not be needed
@@ -215,7 +257,6 @@ void load_json_dir(std::string const &dirname)
                 throw *(it) + ": " + e;
             }
         }
-        type_delayed[i].clear();
     }
 
     if ( t_floor != termap["t_floor"].loadid ) {
