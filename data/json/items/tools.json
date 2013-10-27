@@ -4754,7 +4754,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "electric forge",
-    "description": "A portable electric metalworking forge, powered by standard batteries. Combined with the right tools, you can use this for metalworking.",
+    "description": "A portable electric metalworking forge, powered by standard batteries. Combined with the right tools, you can use this for metalworking.  With a little mechanical know-how, you could probably even hook it directly to a vehicle's power system.",
     "price": 400,
     "material": ["steel", "plastic"],
     "weight": 10000,

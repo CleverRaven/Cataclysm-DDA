@@ -6658,7 +6658,8 @@ void game::examine()
   int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
   int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
   int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0)
+  int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
+  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg (_("You can't do that while onboard."));
@@ -7762,10 +7763,12 @@ void game::pickup(int posx, int posy, int min)
  int veh_part = 0;
  int k_part = 0;
  int w_part = 0;
+ int craft_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
  if (min != -1 && veh) {
   k_part = veh->part_with_feature(veh_part, "KITCHEN");
   w_part = veh->part_with_feature(veh_part, "WELDRIG");
+  craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
   veh_part = veh->part_with_feature(veh_part, "CARGO", false);
   from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
@@ -7868,6 +7871,28 @@ void game::pickup(int posx, int posy, int min)
                                 tmptool->use.call( g, &u, &tmp_welder, false );
                                 tmp_welder.charges -= tmptool->charges_per_use;
                                 veh->refill( "battery", tmp_welder.charges );
+                            }
+                        }
+                    } else {
+                        add_msg(_("The battery is dead."));
+                    }
+                }
+            }
+            
+            if (craft_part >= 0) {
+                if (query_yn(_("Use the water purifier?"))) {
+                    used_feature = true;
+                    if (veh->fuel_left("battery") > 0) {
+                        //Will be -1 if no battery at all
+                        item tmp_purifier( g->itypes["water_purifier"], 0 );
+                        // Drain a ton of power
+                        tmp_purifier.charges = veh->drain( "battery", 100 );
+                        if( tmp_purifier.is_tool() ) {
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_purifier)->type);
+                            if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
+                                tmptool->use.call( g, &u, &tmp_purifier, false );
+                                tmp_purifier.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_purifier.charges );
                             }
                         }
                     } else {
