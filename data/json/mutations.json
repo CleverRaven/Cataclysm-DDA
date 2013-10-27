@@ -1428,7 +1428,8 @@
         "name": "Insanely Dextrous",
         "points": 4,
         "description": "You are much nimbler than before. Dexterity + 7",
-        "prereqs": ["DEX_UP_3"]
+        "prereqs": ["DEX_UP_3"],
+        "category": ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id": "INT_UP",
@@ -1463,7 +1464,8 @@
         "visibility": 3,
         "ugliness": 3,
         "description": "Your skull bulges noticeably with your impressive brain. Intelligence + 7",
-        "prereqs": ["INT_UP_3"]
+        "prereqs": ["INT_UP_3"],
+        "category": ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id": "PER_UP",
@@ -1493,7 +1495,8 @@
         "name": "Insanely Perceptive",
         "points": 4,
         "description": "You can sense things you never imagined. Perception + 7",
-        "prereqs": ["PER_UP_3"]
+        "prereqs": ["PER_UP_3"],
+        "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
         "id": "HEADBUMPS",
