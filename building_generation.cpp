@@ -1130,3 +1130,80 @@ void mapgen_pool(map *m)
     mapf::basic_bind( "n", f_dive_block));
     m->add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY);
 }
+
+void mapgen_park(map *m)
+{
+    if (one_in(3)) { // Playground
+        fill_background(m, t_grass);
+        mapf::formatted_set_simple(m, 0, 0,
+"\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+             t          \n\
+      t         ##      \n\
+                ##      \n\
+                        \n\
+    mmm                 \n\
+    mmm    s        t   \n\
+   tmmm    s            \n\
+           s            \n\
+           s            \n\
+                        \n\
+                        \n\
+      -            t    \n\
+     t-                 \n\
+               t        \n\
+         t              \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n",
+        mapf::basic_bind( "# m s t", t_sandbox, t_monkey_bars, t_slide, t_tree ),
+        mapf::basic_bind( "-", f_bench));
+        m->rotate(rng(0, 3));
+
+        int vx = one_in(2) ? 1 : 20;
+        int vy = one_in(2) ? 1 : 20;
+        if(one_in(3)) {
+            m->add_vehicle (g, "ice_cream_cart", vx, vy, 0, -1, -1);
+        } else if(one_in(2)) {
+            m->add_vehicle (g, "food_cart", vx, vy, one_in(2)? 90 : 180, -1, -1);
+        }
+
+    } else { // Basketball court
+        fill_background(m, t_pavement);
+        mapf::formatted_set_simple(m, 0, 0,
+"\
+                        \n\
+|-+------------------+-|\n\
+|     .  . 7 .  .      |\n\
+|     .  .   .  .      |\n\
+|#    .  .....  .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#     .       .      #|\n\
+|#      .     .       #|\n\
+|......................|\n\
+|#      .     .       #|\n\
+|#     .       .      #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .  .....  .     #|\n\
+|     .  .   .  .      |\n\
+|     .  . 7 .  .      |\n\
+|-+------------------+-|\n\
+                        \n\
+                        \n",
+        mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
+        mapf::basic_bind("#", f_bench));
+        m->rotate(rng(0, 3));
+    }
+    m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
+}
