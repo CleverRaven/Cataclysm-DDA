@@ -1428,6 +1428,29 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
 }
 
 void cata_tiles::scroll(int x, int y) {
+    if(abs(x) > 1 || abs(y) > 1) {
+        cache.clear();
+        return;
+    }
+
+    {
+        // Annoying but necessary:If our drawing pane gets
+        // "clipped"(half-tiles get drawn at border), we need
+        // to manually invalidate the "borders"
+        int rightMostTile = (WindowWidth / tile_width) * tile_width;
+        int bottomMostTile = (WindowHeight / tile_height) * tile_height;
+        if(rightMostTile != WindowWidth && x == 1) {
+            for(int y=0; y < WindowHeight; y+=tile_height) {
+                cache[point(rightMostTile, y)] = tile_drawing_cache();
+            }
+        }
+        if(bottomMostTile != WindowHeight && y == 1) {
+            for(int x=0; x < WindowWidth; x+=tile_width) {
+                cache[point(x, bottomMostTile)] = tile_drawing_cache();
+            }
+        }
+    }
+
     // Convert from tile shift to screen shift
     x *= tile_width;
     y *= tile_height;
