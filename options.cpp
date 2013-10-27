@@ -494,6 +494,11 @@ void initOptions() {
                                              12, 93, 12
                                             );
 
+    OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
+                                             _("SDL ONLY: Determines how many times per second an action will be performed by holding down a key. The delay is in milliseconds. Requires restart."),
+                                             1, 500, 60
+                                            );
+
     optionNames["standard"] = _("Standard");
     //~ sidebar style
     optionNames["narrow"] = _("Narrow");
