@@ -2700,7 +2700,7 @@
     },
     {   "type" : "AMMO",
         "id" : "50_casing",
-        "price" : 600,
+        "price" : 300,
         "name" : ".50 BMG casing",
         "symbol" : "=",
         "color" : "blue",
