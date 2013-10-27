@@ -464,45 +464,19 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_river_curved_not(this, terrain_type);
         break;
 
- case ot_river_north:
- case ot_river_east:
- case ot_river_south:
- case ot_river_west:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (j < 4)
-      ter_set(i, j, t_water_sh);
-    else
-     ter_set(i, j, t_water_dp);
-   }
-  }
-  if (terrain_type == ot_river_east)
-   rotate(1);
-  if (terrain_type == ot_river_south)
-   rotate(2);
-  if (terrain_type == ot_river_west)
-   rotate(3);
-  break;
+    case ot_river_north:
+    case ot_river_east:
+    case ot_river_south:
+    case ot_river_west:
+        mapgen_river_straight(this, terrain_type);
+        break;
 
- case ot_river_ne:
- case ot_river_se:
- case ot_river_sw:
- case ot_river_nw:
-  for (int i = SEEX * 2 - 1; i >= 0; i--) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i >= SEEX * 2 - 4 || j < 4)
-     ter_set(i, j, t_water_sh);
-    else
-     ter_set(i, j, t_water_dp);
-   }
-  }
-  if (terrain_type == ot_river_se)
-   rotate(1);
-  if (terrain_type == ot_river_sw)
-   rotate(2);
-  if (terrain_type == ot_river_nw)
-   rotate(3);
-  break;
+    case ot_river_ne:
+    case ot_river_se:
+    case ot_river_sw:
+    case ot_river_nw:
+        mapgen_river_curved(this, terrain_type);
+        break;
 
  case ot_house_base_north:
  case ot_house_base_east:

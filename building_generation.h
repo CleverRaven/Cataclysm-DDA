@@ -43,6 +43,8 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_field(map *m, int turn);
 void mapgen_bridge(map *m, oter_id terrain_type, int turn);
 void mapgen_highway(map *m, oter_id terrain_type, int turn);
-void mapgen_river_curve_not(map *m, oter_id terrain_type);
+void mapgen_river_curved_not(map *m, oter_id terrain_type);
+void mapgen_river_straight(map *m, oter_id terrain_type);
+void mapgen_river_curved(map *m, oter_id terrain_type);
 
 #endif

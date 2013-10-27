@@ -958,19 +958,63 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type)
     for (int i = SEEX * 2 - 1; i >= 0; i--) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (j < 4 && i >= SEEX * 2 - 4) {
-                ter_set(i, j, t_water_sh);
+                m->ter_set(i, j, t_water_sh);
             } else {
-                ter_set(i, j, t_water_dp);
+                m->ter_set(i, j, t_water_dp);
             }
         }
     }
     if (terrain_type == ot_river_c_not_se) {
-        rotate(1);
+        m->rotate(1);
     }
     if (terrain_type == ot_river_c_not_sw) {
-        rotate(2);
+        m->rotate(2);
     }
     if (terrain_type == ot_river_c_not_nw) {
-        rotate(3);
+        m->rotate(3);
+    }
+}
+
+void mapgen_river_straight(map *m, oter_id terrain_type)
+{
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (j < 4) {
+                m->ter_set(i, j, t_water_sh);
+            } else {
+                m->ter_set(i, j, t_water_dp);
+            }
+        }
+    }
+    if (terrain_type == ot_river_east) {
+        m->rotate(1);
+    }
+    if (terrain_type == ot_river_south) {
+        m->rotate(2);
+    }
+    if (terrain_type == ot_river_west) {
+        m->rotate(3);
+    }
+}
+
+void mapgen_river_curved(map *m, oter_id terrain_type)
+{
+    for (int i = SEEX * 2 - 1; i >= 0; i--) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (i >= SEEX * 2 - 4 || j < 4) {
+                m->ter_set(i, j, t_water_sh);
+            } else {
+                m->ter_set(i, j, t_water_dp);
+            }
+        }
+    }
+    if (terrain_type == ot_river_se) {
+        m->rotate(1);
+    }
+    if (terrain_type == ot_river_sw) {
+        m->rotate(2);
+    }
+    if (terrain_type == ot_river_nw) {
+        m->rotate(3);
     }
 }
