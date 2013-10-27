@@ -263,7 +263,7 @@ class map
             const std::set<std::string>& ammo_effects);
  bool hit_with_acid(game *g, const int x, const int y);
  bool hit_with_fire(game *g, const int x, const int y);
- void marlossify(const int x, const int y);
+ bool marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
 
@@ -306,6 +306,14 @@ class map
 
 // Fields
  field& field_at(const int x, const int y);
+
+ int get_field_age(const point p, const field_id t);
+ int get_field_strength(const point p, const field_id t);
+ int adjust_field_age(const point p, const field_id t, const int offset);
+ int adjust_field_strength(game *g, const point p, const field_id t, const int offset);
+ int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
+ int set_field_strength(game *g, const point p, const field_id t, const int str, bool isoffset = false);
+ field_entry * get_field( const point p, const field_id t );
  bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);

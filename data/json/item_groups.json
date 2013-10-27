@@ -303,6 +303,7 @@
       ["knife_steak", 85],
       ["knife_butcher", 10],
       ["knife_combat", 14],
+      ["throwing_knife", 4],
       ["pockknife", 14],
       ["punch_dagger", 2],
       ["knife_trench", 7],
@@ -1284,6 +1285,7 @@
       ["hotplate", 10],
       ["tin_plate", 10],
       ["knife_combat", 14],
+      ["throwing_knife", 7],
       ["machete", 5],
       ["vest", 15],
       ["backpack", 38],
@@ -1415,6 +1417,7 @@
       ["binoculars", 20],
       ["hotplate", 10],
       ["knife_combat", 14],
+      ["throwing_knife", 7],
       ["machete", 5],
       ["vest", 15],
       ["backpack", 38],
@@ -2159,6 +2162,7 @@
       ["shot_beanbag", 15],
       ["tac_helmet", 15],
       ["tonfa", 30],
+      ["shocktonfa_off", 15],
       ["swat_armor", 10]
     ]
   },{
@@ -2176,6 +2180,7 @@
       ["syringe", 8],
       ["electrohack", 3],
       ["knife_combat", 14],
+      ["throwing_knife", 7],
       ["punch_dagger", 12],
       ["crowbar", 18],
       ["tazer", 3],
@@ -2664,6 +2669,7 @@
       ["ax", 8],
       ["knife_butcher", 10],
       ["knife_combat", 14],
+      ["throwing_knife", 7],
       ["punch_dagger", 12],
       ["bat", 60],
       ["petrified_eye", 1],
@@ -2788,6 +2794,7 @@
     "id":"mil_surplus",
     "items":[
       ["knife_combat", 14],
+      ["throwing_knife", 14],
       ["duffelbag", 25],
       ["binoculars", 20],
       ["bolt_steel", 7],
@@ -3490,6 +3497,7 @@
       ["hatchet", 10],
       ["ax", 8],
       ["knife_combat", 14],
+      ["throwing_knife", 7],
       ["punch_dagger", 6],
       ["pipe", 20],
       ["bat", 60],
@@ -3503,6 +3511,7 @@
       ["knife_trench", 7],
       ["switchblade", 4],
       ["tonfa", 10],
+      ["shocktonfa_off", 5],
       ["nodachi", 1]
     ]
   },{
@@ -4052,6 +4061,7 @@
       ["tazer", 3],
       ["kevlar_plate", 10],
       ["tonfa", 10],
+      ["shocktonfa_off", 5],
       ["alloy_plate", 10]
     ]
   },{
@@ -4169,6 +4179,7 @@
       ["adrenaline_injector", 4],
       ["cig", 90],
       ["knife_combat", 14],
+      ["throwing_knife", 7],
       ["boots_steel", 50],
       ["boots_combat", 50],
       ["pants_army", 30],
@@ -4516,6 +4527,7 @@
       ["nailboard", 5],
       ["caltrops", 3],
       ["knife_combat", 14],
+      ["throwing_knife", 7],
       ["punch_dagger", 12],
       ["bat", 60],
       ["machete", 5],

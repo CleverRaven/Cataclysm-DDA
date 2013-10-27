@@ -418,15 +418,18 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     case ot_fungal_bloom:
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
-                if (one_in(10)) {
+                if (one_in(rl_dist(i, j, 12, 12) * 2)) {
+                    ter_set(i, j, t_marloss);
+                } else if (one_in(10)) {
                     if (one_in(3)) {
                         ter_set(i, j, t_tree_fungal);
                     } else {
                         ter_set(i, j, t_tree_fungal_young);
                     }
-                } else if (one_in(300)) {
-                    ter_set(i, j, t_marloss);
-                } else if (one_in(3)) {
+                
+                } else if (one_in(5)) {
+                    ter_set(i, j, t_shrub_fungal);
+                } else if (one_in(10)) {
                     ter_set(i, j, t_fungus_mound);
                 } else {
                     ter_set(i, j, t_fungus);
@@ -8893,68 +8896,95 @@ $$$$-|-|=HH-|-HHHH-|####\n",
   }
 }break;
 
- case ot_cave:
-  if (t_above == ot_cave) { // We're underground!
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++) {
-     if (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||
-         rng(0, 6) < j || SEEY * 2 - rng(1, 7) > j   )
-      ter_set(i, j, t_rock_floor);
-     else
-      ter_set(i, j, t_rock);
-    }
-   }
-   square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
+    case ot_cave:
 
-   switch (rng(1, 3)) { // What type of cave is it?
-   case 1: // Bear cave
-    add_spawn("mon_bear", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
-    if (one_in(4))
-     add_spawn("mon_bear", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
-    place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    break;
-   case 2: // Wolf cave!
-    do
-     add_spawn("mon_wolf", 1, rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5));
-    while (one_in(2));
-    place_items("ant_food", 86, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    break;
-   case 3: { // Hermit cave
-    int origx = rng(SEEX - 1, SEEX), origy = rng(SEEY - 1, SEEY),
-        hermx = rng(SEEX - 6, SEEX + 5), hermy = rng(SEEX - 6, SEEY + 5);
-    std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
-    for (int ii = 0; ii < bloodline.size(); ii++)
-     add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
-    item body;
-    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
-    add_item(hermx, hermy, body);
-    place_items("rare", 25, hermx - 1, hermy - 1, hermx + 1, hermy + 1,true,0);
-   } break;
-   }
-
-  } else { // We're above ground!
-// First, draw a forest
-   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
-              t_above, turn, g, density, zlevel);
-// Clear the center with some rocks
-   square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
-   int pathx, pathy;
-   if (one_in(2)) {
-    pathx = rng(SEEX - 6, SEEX + 5);
-    pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
-   } else {
-    pathx = (one_in(2) ? SEEX - 8 : SEEX + 7);
-    pathy = rng(SEEY - 6, SEEY + 5);
-   }
-   std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
-   for (int ii = 0; ii < pathline.size(); ii++)
-    square(this, t_dirt, pathline[ii].x,     pathline[ii].y,
-                         pathline[ii].x + 1, pathline[ii].y + 1);
-   while (!one_in(8))
-    ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
-   square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
-  }
-  break;
+        if (t_above == ot_cave) {
+            // We're underground!
+            for (int i = 0; i < SEEX * 2; i++) {
+                for (int j = 0; j < SEEY * 2; j++) {
+                    bool floorHere = (rng(0, 6) < i || SEEX * 2 - rng(1, 7) > i ||
+                                      rng(0, 6) < j || SEEY * 2 - rng(1, 7) > j );
+                    if (floorHere) {
+                        ter_set(i, j, t_rock_floor);
+                    } else {
+                        ter_set(i, j, t_rock);
+                    }
+                }
+            }
+            square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
+            item body;
+            switch(rng(1, 10)) {
+                case 1:
+                    // natural refuse
+                    place_items("monparts", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 2:
+                    // trash
+                    place_items("trash", 10, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 3:
+                    // bat corpses
+                    for (int i = rng(1,12); i < 0; i--) {
+                        body.make_corpse(g->itypes["corpse"], GetMType("mon_bat"), g->turn);
+                        add_item(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
+                    }
+                    break;
+                case 4:
+                    // ant food, chance of 80
+                    place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    break;
+                case 5:
+                    {
+                    // hermitage
+                    int origx = rng(SEEX - 1, SEEX),
+                        origy = rng(SEEY - 1, SEEY),
+                        hermx = rng(SEEX - 6, SEEX + 5),
+                        hermy = rng(SEEX - 6, SEEY + 5);
+                    std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
+                    for (int ii = 0; ii < bloodline.size(); ii++) {
+                        add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
+                    }
+                    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+                    add_item(hermx, hermy, body);
+                    // This seems verbose.  Maybe a function to spawn from a list of item groups?
+                    place_items("stash_food", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_tools", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_armor", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("weapons", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("magazines", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("rare", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    break;
+                    }
+                default:
+                    // nothing, half the time
+                    break;
+            }
+            place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, density);
+        } else { // We're above ground!
+            // First, draw a forest
+            draw_map(ot_forest, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+                      t_above, turn, g, density, zlevel);
+            // Clear the center with some rocks
+            square(this, t_rock, SEEX-6, SEEY-6, SEEX+5, SEEY+5);
+            int pathx, pathy;
+            if (one_in(2)) {
+                pathx = rng(SEEX - 6, SEEX + 5);
+                pathy = (one_in(2) ? SEEY - 8 : SEEY + 7);
+            } else {
+                pathx = (one_in(2) ? SEEX - 8 : SEEX + 7);
+                pathy = rng(SEEY - 6, SEEY + 5);
+            }
+            std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
+            for (int ii = 0; ii < pathline.size(); ii++) {
+                square(this, t_dirt, pathline[ii].x, pathline[ii].y,
+                                     pathline[ii].x + 1, pathline[ii].y + 1);
+            }
+            while (!one_in(8)) {
+                ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
+            }
+            square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
+        }
+        break;
 
  case ot_cave_rat:
   fill_background(this, t_rock);
@@ -9392,7 +9422,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (one_in(2)) {
          add_spawn("mon_zombie", rng(1, 6), 4, 14);
         } else {
-         add_spawn("mon_zombie", rng(1, 6), 12, 17);
+            place_spawns(g, "GROUP_DOMESTIC", 2, 10, 15, 12, 17, 1);
         }
     } else {
         fill_background(this, &grass_or_dirt);
@@ -9508,8 +9538,10 @@ case ot_farm_field:
         place_items("mechanics", 40, 8, 4, 15, 19, true, 0);
         place_items("home_hw", 50, 4, 19, 7, 19, true, 0);
         place_items("tools", 50, 4, 19, 7, 19, true, 0);
-        if (one_in(10)) {
+        if (one_in(3)) {
             add_spawn("mon_zombie", rng(3, 6), 12, 12);
+        } else {
+            place_spawns(g, "GROUP_DOMESTIC", 2, 0, 0, 15, 15, 1);
         }
 
     } else {
@@ -14420,27 +14452,24 @@ void map::add_extra(map_extra type, game *g)
  }
  break;
 
- case mx_portal_in:
- {
-     std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
-  int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
-  add_field(g, x, y, fd_fatigue, 3);
-  for (int i = x - 5; i <= x + 5; i++) {
-   for (int j = y - 5; j <= y + 5; j++) {
-    if (rng(0, 9) > trig_dist(x, y, i, j)) {
-     marlossify(i, j);
-     if (ter(i, j) == t_marloss)
-      spawn_item(x, y, "marloss_berry", g->turn);
-     if (one_in(15)) {
-      monster creature(GetMType(monids[rng(0, 5)]));
-      creature.spawn(i, j);
-      g->add_zombie(creature);
-     }
+    case mx_portal_in: {
+        std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+        int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
+        add_field(g, x, y, fd_fatigue, 3);
+        for (int i = x - 5; i <= x + 5; i++) {
+            for (int j = y - 5; j <= y + 5; j++) {
+                if (rng(1, 9) >= trig_dist(x, y, i, j)) {
+                    marlossify(i, j);
+                    if (one_in(15)) {
+                        monster creature(GetMType(monids[rng(0, 5)]));
+                        creature.spawn(i, j);
+                        g->add_zombie(creature);
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
- break;
+    break;
 
  case mx_anomaly: {
   point center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );

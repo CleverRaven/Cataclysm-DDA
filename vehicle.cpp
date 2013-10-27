@@ -1039,24 +1039,34 @@ nc_color vehicle::part_color (int p)
         return c_black;
     }
 
+    nc_color col;
+
     //If armoring is present, it colors the visible part
     int parm = part_with_feature(p, "ARMOR", false);
     if (parm >= 0) {
-        return part_info(parm).color;
-    }
-
-    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-
-    if (parts[displayed_part].blood > 200) {
-        return c_red;
-    } else if (parts[displayed_part].blood > 0) {
-        return c_ltred;
-    }
-
-    if (parts[displayed_part].hp <= 0) {
-        return part_info(displayed_part).color_broken;
+        col = part_info(parm).color;
     } else {
-        return part_info(displayed_part).color;
+
+        int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+
+        if (parts[displayed_part].blood > 200) {
+            col = c_red;
+        } else if (parts[displayed_part].blood > 0) {
+            col = c_ltred;
+        } else if (parts[displayed_part].hp <= 0) {
+            col = part_info(displayed_part).color_broken;
+        } else {
+            col = part_info(displayed_part).color;
+        }
+
+    }
+
+    //Invert colors for cargo parts with stuff in them
+    int cargo_part = part_with_feature(p, "CARGO");
+    if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
+        return invert_color(col);
+    } else {
+        return col;
     }
 }
 
@@ -2156,14 +2166,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
 
         if (part_flag(part, "SHARP")) {
-            field &local_field = g->m.field_at(x, y);
-            if (local_field.findField(fd_blood) &&
-                local_field.findField(fd_blood)->getFieldDensity() < 2) {
-                local_field.findField(fd_blood)->
-                    setFieldDensity(local_field.findField(fd_blood)->getFieldDensity() + 1);
-            } else {
-                g->m.add_field(g, x, y, fd_blood, 1);
-            }
+            g->m.adjust_field_strength(g, point(x, y), fd_blood, 1 );
         } else {
             g->sound (x, y, 20, "");
         }

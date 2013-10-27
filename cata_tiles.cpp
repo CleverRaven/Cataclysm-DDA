@@ -17,6 +17,8 @@
     #endif
 #endif
 
+#define ITEM_HIGHLIGHT "highlight_item"
+
 extern game *g;
 //extern SDL_Surface *screen;
 extern int WindowHeight, WindowWidth;
@@ -93,7 +95,9 @@ cata_tiles::~cata_tiles()
 
 void cata_tiles::init(SDL_Surface *screen, std::string json_path, std::string tileset_path)
 {
-    display_screen = screen;
+    if (screen){
+        display_screen = screen;
+    }
     // load files
     DebugLog() << "Attempting to Load JSON file\n";
     load_tilejson(json_path);
@@ -109,6 +113,12 @@ void cata_tiles::init(SDL_Surface *screen, std::string load_file_path)
     get_tile_information(load_file_path, json_path, tileset_path);
     // send this information to old init to avoid redundant code
     init(screen, json_path, tileset_path);
+}
+void cata_tiles::reinit(std::string load_file_path)
+{
+    std::string json_path, tileset_path;
+    get_tile_information(load_file_path, json_path, tileset_path);
+    init(NULL, json_path, tileset_path);
 }
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
@@ -194,6 +204,13 @@ void cata_tiles::load_tileset(std::string path)
     {
         SDL_FreeSurface(tile_atlas);
     }
+    /* release stored rectangles */
+    if (tile_values){
+        for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it){
+            delete it->second;
+        }
+        tile_values->clear();
+    }
     /** create the buffer screen */
     buffer = SDL_AllocSurface(SDL_SWSURFACE, WindowWidth, WindowHeight, 32, 0xff0000, 0xff00, 0xff, 0);
 
@@ -249,6 +266,13 @@ DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->
 void cata_tiles::load_tilejson(std::string path)
 {
     catajson config(path);
+
+    if (tile_ids){
+        for (tile_id_iterator it = tile_ids->begin(); it != tile_ids->end(); ++it){
+            delete it->second;
+        }
+        tile_ids->clear();
+    }
 
     if (!json_good())
     {
@@ -804,8 +828,11 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
-
-    return draw_from_id_string(f_name, x, y, subtile, rotation); // for now just draw it normally, add in rotations later
+    bool ret = draw_from_id_string(f_name, x, y, subtile, rotation);
+    if (ret && g->m.i_at(x, y).size() > 0){
+        draw_item_highlight(x, y);
+    }
+    return ret;
 }
 
 bool cata_tiles::draw_trap(int x, int y)
@@ -864,8 +891,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     }
     bool ret_draw_field = true;
     bool ret_draw_item = true;
-    if (is_draw_field)
-    {
+    if (is_draw_field){
         std::string fd_name = field_names[f.fieldSymbol()];
 
         // for rotation inforomation
@@ -882,18 +908,18 @@ bool cata_tiles::draw_field_or_item(int x, int y)
 
         ret_draw_field = draw_from_id_string(fd_name, x, y, subtile, rotation);
     }
-    if(do_item)
-    {
-        if (g->m.has_flag("CONTAINER", x, y) || items.empty())
-        {
+    if(do_item){
+        if (g->m.has_flag("CONTAINER", x, y) || g->m.has_furn(x,y) || items.empty()){
             return false;
         }
         // get the last item in the stack, it will be used for display
         item display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
         std::string it_name = display_item.type->id;
-
         ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
+        if (ret_draw_item && items.size() > 1){
+            draw_item_highlight(x, y);
+        }
     }
     return ret_draw_field && ret_draw_item;
 }
@@ -927,7 +953,13 @@ bool cata_tiles::draw_vpart(int x, int y)
             case 2: subtile = broken; break;
         }
     }
-    return draw_from_id_string(vpid, x, y, subtile, veh_dir);
+    int cargopart = veh->part_with_feature(veh_part, "CARGO");
+    bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
+    bool ret = draw_from_id_string(vpid, x, y, subtile, veh_dir);
+    if (ret && draw_highlight){
+        draw_item_highlight(x, y);
+    }
+    return ret;
 }
 
 bool cata_tiles::draw_entity(int x, int y)
@@ -967,6 +999,18 @@ bool cata_tiles::draw_entity(int x, int y)
         return draw_from_id_string(ent_name, x, y, subtile, 0);
     }
     return false;
+}
+
+bool cata_tiles::draw_item_highlight(int x, int y)
+{
+    DebugLog() << "Trying to draw item highlight at <"<<x<<", "<<y<<"> -- ";
+    if (tile_ids->find(ITEM_HIGHLIGHT) != tile_ids->end()){
+        DebugLog() << "Done\n";
+        return draw_from_id_string(ITEM_HIGHLIGHT, x, y, 0, 0);
+    }else{
+        DebugLog() << "Not Done\n";
+        return true;
+    }
 }
 
 /* Animation Functions */

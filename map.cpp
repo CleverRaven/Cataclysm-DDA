@@ -1250,9 +1250,7 @@ bool map::has_adjacent_furniture(const int x, const int y)
     {
         const int adj_x = x + cx[i];
         const int adj_y = y + cy[i];
-        furn_id fid = furn(adj_x, adj_y);
-        if ( fid == f_fridge || fid == f_glass_fridge || fid == f_dresser ||
-            fid == f_rack || fid == f_bookcase || fid == old_f_locker ) {
+        if ( has_furn(adj_x, adj_y) && furn_at(adj_x, adj_y).has_flag("BLOCKSDOOR") ) {
             return true;
         }
     }
@@ -1953,20 +1951,18 @@ bool map::hit_with_fire(game *g, const int x, const int y)
     return true;
 }
 
-void map::marlossify(const int x, const int y)
+bool map::marlossify(const int x, const int y)
 {
- const int type = rng(1, 9);
- switch (type) {
-  case 1:
-  case 2:
-  case 3:
-  case 4: ter_set(x, y, t_fungus);      break;
-  case 5:
-  case 6:
-  case 7: ter_set(x, y, t_marloss);     break;
-  case 8: ter_set(x, y, t_tree_fungal); break;
-  case 9: ter_set(x, y, t_slime);       break;
- }
+    if (one_in(5) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))) {
+        ter_set(x, y, t_marloss);
+        return true;
+    }
+    for (int i = 0; i < 25; i++) {
+        if(!g->spread_fungus(x, y)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool map::open_door(const int x, const int y, const bool inside)
@@ -2465,6 +2461,8 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
       if (veh) { // check if a vehicle part is present to provide water/power
         const int kpart = veh->part_with_feature(vpart, "KITCHEN");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -2489,6 +2487,40 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (type == "welder")
             ftype = "battery";
           else if (type == "soldering_iron")
+            ftype = "battery";
+
+          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+          tmp.charges = veh->drain(ftype, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
+
+          if (quantity == 0)
+            return ret;
+        }
+        
+        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+          ammotype ftype = "NULL";
+
+          if (type == "press")
+            ftype = "battery";
+          else if (type == "vac_sealer")
+            ftype = "battery";
+          else if (type == "dehydrator")
+            ftype = "battery";
+
+          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+          tmp.charges = veh->drain(ftype, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
+
+          if (quantity == 0)
+            return ret;
+        }
+        
+        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+          ammotype ftype = "NULL";
+
+          if (type == "forge")
             ftype = "battery";
 
           item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
@@ -2657,7 +2689,9 @@ void map::remove_trap(const int x, const int y)
         traplocs[t].erase(point(x, y));
     }
 }
-
+/*
+ * Get wrapper for all fields at xy
+ */
 field& map::field_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -2672,6 +2706,88 @@ field& map::field_at(const int x, const int y)
  return grid[nonant]->fld[lx][ly];
 }
 
+/*
+ * Increment/decrement age of field type at point.
+ * returns resulting age or -1 if not present.
+ */
+int map::adjust_field_age(const point p, const field_id t, const int offset) {
+    return set_field_age( p, t, offset, true);
+}
+
+/*
+ * Increment/decrement strength of field type at point, creating if not present, removing if strength becomes 0
+ * returns resulting strength, or 0 for not present
+ */
+int map::adjust_field_strength(game *g, const point p, const field_id t, const int offset) {
+    return set_field_strength(g, p, t, offset, true);
+}
+
+/*
+ * Set age of field type at point, or increment/decrement if offset=true
+ * returns resulting age or -1 if not present.
+ */
+int map::set_field_age(const point p, const field_id t, const int age, bool isoffset) {
+    field_entry * field_ptr = get_field( p, t );
+    if ( field_ptr != NULL ) {
+        int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
+        field_ptr->setFieldDensity( adj );
+        return adj;
+    }
+    return -1;
+}
+
+/*
+ * set strength of field type at point, creating if not present, removing if strength is 0
+ * returns resulting strength, or 0 for not present
+ */
+int map::set_field_strength(game * g, const point p, const field_id t, const int str, bool isoffset) {
+    field_entry * field_ptr = get_field( p, t );
+    if ( field_ptr != NULL ) {
+        int adj = ( isoffset ? field_ptr->getFieldDensity() : 0 ) + str;
+        if ( adj > 0 ) {
+            field_ptr->setFieldDensity( adj );
+            return adj;
+        } else {
+            remove_field( p.x, p.y, t );
+            return 0;
+        }
+    } else if ( 0 + str > 0 ) {
+        return ( add_field( g, p, t, str, 0 ) ? str : 0 );
+    }
+    return 0;
+}
+
+/*
+ * get age of field type at point. -1 = not present
+ */
+int map::get_field_age( const point p, const field_id t ) {
+    field_entry * field_ptr = get_field( p, t );
+    return ( field_ptr == NULL ? -1 : field_ptr->getFieldAge() );
+}
+
+/*
+ * get strength of field type at point. 0 = not present
+ */
+int map::get_field_strength( const point p, const field_id t ) {
+    field_entry * field_ptr = get_field( p, t );
+    return ( field_ptr == NULL ? 0 : field_ptr->getFieldDensity() );
+}
+
+/*
+ * get field type at point. NULL if not present
+ */
+field_entry * map::get_field( const point p, const field_id t ) {
+    if (!INBOUNDS(p.x, p.y))
+        return NULL;
+    const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
+    const int lx = p.x % SEEX;
+    const int ly = p.y % SEEY;
+    return grid[nonant]->fld[lx][ly].findField(t);
+}
+
+/*
+ * add field type at point, or set denity if present
+ */
 bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
 {
     if (!INBOUNDS(p.x, p.y))
@@ -2693,12 +2809,19 @@ bool map::add_field(game *g, const point p, const field_id t, unsigned int densi
     return true;
 }
 
+/*
+ * add field type at xy, or set denity if present
+ */
 bool map::add_field(game *g, const int x, const int y,
                     const field_id t, const unsigned char new_density)
 {
  return this->add_field(g,point(x,y),t,new_density,0);
 }
 
+
+/*
+ * remove field type at xy
+ */
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
 {
  if (!INBOUNDS(x, y))
@@ -3452,31 +3575,65 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
    }
   }
 
+  // fixme; roll off into some function elsewhere ---v
+
     // check traps
+    std::map<point, trap_id> rain_backlog;
+    bool do_funnels = ( worldz >= 0 && g->weather_log.size() > 0 ); // empty if just loaded a save here
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             const trap_id t = tmpsub->trp[x][y];
             if (t != tr_null) {
+
                 const int fx = x + gridx * SEEX;
                 const int fy = y + gridy * SEEY;
                 traplocs[t].insert(point(fx, fy));
+                if ( do_funnels &&
+                     g->traps[t]->funnel_radius_mm > 0 &&             // funnel
+                     has_flag_ter_or_furn("INDOORS", fx, fy) == false // we have no outside_cache
+                   ) {
+                    rain_backlog[point(x, y)] = t;
+                }
             }
         }
     }
 
-  // check spoiled stuff
+  // check spoiled stuff, and fill up funnels while we're at it
   for (int x = 0; x < SEEX; x++) {
       for (int y = 0; y < SEEY; y++) {
+          int biggest_container_idx = -1;
+          int maxvolume = 0;
+          bool do_container_check = false;
+
+          if ( do_funnels && ! rain_backlog.empty() && rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
+              do_container_check = true;
+          }
+          int intidx = 0;
+
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
-              if(it->goes_bad()) {
+              if ( do_container_check == true ) { // cannot link trap to mapitems
+                  int itvol = it->is_funnel_container(maxvolume); // big
+                  if ( itvol > maxvolume ) {                      // biggest
+                      biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
+                      itvol = maxvolume;
+                  }
+              }
+              if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
                   int maxShelfLife = it->bday + (food->spoils * 600)*2;
                   if(g->turn >= maxShelfLife) {
                       it = tmpsub->itm[x][y].erase(it);
-                  } else { ++it; }
-              } else { ++it; }
+                  } else { ++it; intidx++; }
+              } else { ++it; intidx++; }
           }
+
+          if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
+              item * it = &tmpsub->itm[x][y][biggest_container_idx];
+              trap_id fun_trap_id = rain_backlog[point(x,y)];
+              retroactively_fill_from_funnel(g, it, fun_trap_id, int(g->turn) ); // bucket: what inside??
+          }
+
       }
   }
 
@@ -3494,6 +3651,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
           furn = (furn_id((int)furn + 1));
           seed.bday += plantEpoch;
 
+          // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
           tmpsub->itm[x][y].resize(1);
 
           tmpsub->itm[x][y][0].bday = seed.bday;
@@ -3502,6 +3660,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
       }
     }
   }
+  // fixme; roll off into some function elsewhere ---^
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
