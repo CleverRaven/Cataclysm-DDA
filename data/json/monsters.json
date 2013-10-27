@@ -1944,7 +1944,7 @@
   {
     "type":"MONSTER",
     "id":"mon_zombie_necro",
-    "name": "zombie shaman",
+    "name": "zombie necromancer",
     "species":"ZOMBIE",
     "symbol":"Z",
     "color":"dkgray",
@@ -2062,7 +2062,7 @@
   {
     "type":"MONSTER",
     "id":"mon_zombie_master",
-    "name": "zombie lord",
+    "name": "zombie master",
     "species":"ZOMBIE",
     "symbol":"Z",
     "color":"pink",
@@ -3501,7 +3501,7 @@
   {
     "type":"MONSTER",
     "id":"mon_amigara_horror",
-    "name": "amigarajin",
+    "name": "amigara horror",
     "species":"HORROR",
     "symbol":"&",
     "color":"white",
@@ -4113,7 +4113,7 @@
   {
     "type":"MONSTER",
     "id":"mon_dementia",
-    "name": "zombie inmate",
+    "name": "dementia",
     "species":"ZOMBIE",
     "symbol":"Z",
     "color":"ltgray",
