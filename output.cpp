@@ -1053,11 +1053,13 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
  }
 }
 
-void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY, const int iOffsetX)
+void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
+					const int iNumEntries, const int iOffsetY, const int iOffsetX,
+					nc_color bar_color)
 {
     //Clear previous scrollbar
     for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
-        mvwputch(window, i, iOffsetX, c_white, LINE_XOXO);
+        mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);
     }
 
     if (iContentHeight >= iNumEntries) {

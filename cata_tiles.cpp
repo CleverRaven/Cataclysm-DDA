@@ -50,6 +50,8 @@ cata_tiles::cata_tiles()
     boomered = false;
     sight_impaired = false;
     bionight_bionic_active = false;
+
+    last_pos_x = 0; last_pos_y = 0;
 }
 
 cata_tiles::~cata_tiles()
@@ -434,8 +436,6 @@ void cata_tiles::draw()
     {
         return;
     }
-    // Clear buffer
-    SDL_FillRect(buffer, NULL, 0);
 
     // get player position
 
@@ -446,7 +446,7 @@ void cata_tiles::draw()
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) return;
-    SDL_FillRect(buffer, NULL, 0);
+    tiles_to_draw_this_frame.clear();
 
     int posx = centerx;
     int posy = centery;
@@ -522,6 +522,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
      }
 
+    apply_changes();
+
     SDL_Rect srcrect = {0, 0, (Uint16)width, (Uint16)height};
     SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
@@ -591,8 +593,33 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
         screen_x = x * tile_width;
         screen_y = y * tile_width;
     }
-    // call to draw_tile
-    return draw_tile_at(display_tile, screen_x, screen_y, rota);
+
+    // Schedule the draw call to be invoked later
+    tile_drawing_cache& cache_item = tiles_to_draw_this_frame[point(screen_x, screen_y)];
+    cache_item.rotations.push_back(rota); cache_item.sprites.push_back(display_tile);
+
+    return true;
+}
+
+void cata_tiles::apply_changes() {
+    // Scroll to avoid too much redrawing
+    scroll(g->u.posx - last_pos_x, g->u.posy - last_pos_y);
+    last_pos_x = g->u.posx; last_pos_y = g->u.posy;
+
+    for(std::map<point,tile_drawing_cache>::iterator i = tiles_to_draw_this_frame.begin(); i != tiles_to_draw_this_frame.end(); i++) {
+        const point& location = i->first;
+        const tile_drawing_cache& compare_to = cache[location];
+        tile_drawing_cache& to_draw = i->second;
+
+        if(to_draw != compare_to) {
+            // TODO: fill with black
+            for(int i=0; i < to_draw.sprites.size(); i++) {
+                draw_tile_at(to_draw.sprites[i], location.x, location.y, to_draw.rotations[i]);
+            }
+        }
+    }
+
+    cache = tiles_to_draw_this_frame;
 }
 
 bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
@@ -1399,4 +1426,49 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
     }
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
 }
+
+void cata_tiles::scroll(int x, int y) {
+    if(abs(x) > 1 || abs(y) > 1) {
+        cache.clear();
+        return;
+    }
+
+    {
+        // Annoying but necessary:If our drawing pane gets
+        // "clipped"(half-tiles get drawn at border), we need
+        // to manually invalidate the "borders"
+        int rightMostTile = (WindowWidth / tile_width) * tile_width;
+        int bottomMostTile = (WindowHeight / tile_height) * tile_height;
+        if(rightMostTile != WindowWidth && x == 1) {
+            for(int y=0; y < WindowHeight; y+=tile_height) {
+                cache[point(rightMostTile, y)] = tile_drawing_cache();
+            }
+        }
+        if(bottomMostTile != WindowHeight && y == 1) {
+            for(int x=0; x < WindowWidth; x+=tile_width) {
+                cache[point(x, bottomMostTile)] = tile_drawing_cache();
+            }
+        }
+    }
+
+    // Convert from tile shift to screen shift
+    x *= tile_width;
+    y *= tile_height;
+
+    SDL_Rect srcrect;
+    srcrect.x = x;
+    srcrect.y = y;
+    srcrect.w = WindowWidth - x;
+    srcrect.h = WindowHeight - y;
+
+    SDL_BlitSurface(buffer, &srcrect, buffer, NULL);
+
+    std::map<point, tile_drawing_cache> new_cache;
+    for(std::map<point,tile_drawing_cache>::iterator i=cache.begin(); i!=cache.end(); i++) {
+        const point& old_point = i->first;
+        new_cache[point(old_point.x - x, old_point.y - y)] = i->second;
+    }
+    cache = new_cache;
+}
+
 #endif // SDL_TILES

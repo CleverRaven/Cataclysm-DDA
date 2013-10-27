@@ -121,7 +121,7 @@ bool WinCreate()
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
     SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(500, 60);
+    SDL_EnableKeyRepeat(500, OPTIONS["INPUT_DELAY"]);
 
     atexit(SDL_Quit);
 
