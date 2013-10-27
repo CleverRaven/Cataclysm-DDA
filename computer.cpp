@@ -475,7 +475,7 @@ void computer::activate_function(game *g, computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[rng(0, lab_notes.size()-1)];
+            log = lab_notes[(g->levx + g->levy + g->levz) % lab_notes.size()];
         }
 
         print_text(log.c_str());
