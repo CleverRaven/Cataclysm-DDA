@@ -1700,6 +1700,9 @@
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "welding_rig"}
+        ],
+        "items": [
+            {"x": 0, "y": 0, "chance": 30, "items": ["goggles_welding"]}
         ]
     },
     {
