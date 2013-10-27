@@ -6892,7 +6892,6 @@ point game::look_around()
 {
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
- int mx, my;
  std::string action;
 
  const int lookHeight = 13;
