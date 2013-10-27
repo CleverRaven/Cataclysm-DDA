@@ -952,3 +952,25 @@ void mapgen_highway(map *m, oter_id terrain_type, int turn)
         }
     }
 }
+
+void mapgen_river_curved_not(map *m, oter_id terrain_type)
+{
+    for (int i = SEEX * 2 - 1; i >= 0; i--) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (j < 4 && i >= SEEX * 2 - 4) {
+                ter_set(i, j, t_water_sh);
+            } else {
+                ter_set(i, j, t_water_dp);
+            }
+        }
+    }
+    if (terrain_type == ot_river_c_not_se) {
+        rotate(1);
+    }
+    if (terrain_type == ot_river_c_not_sw) {
+        rotate(2);
+    }
+    if (terrain_type == ot_river_c_not_nw) {
+        rotate(3);
+    }
+}

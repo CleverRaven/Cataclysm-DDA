@@ -453,29 +453,16 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_highway(this, terrain_type, turn);
         break;
 
- case ot_river_center:
-  fill_background(this, t_water_dp);
-  break;
+    case ot_river_center:
+        fill_background(this, t_water_dp);
+        break;
 
- case ot_river_c_not_ne:
- case ot_river_c_not_se:
- case ot_river_c_not_sw:
- case ot_river_c_not_nw:
-  for (int i = SEEX * 2 - 1; i >= 0; i--) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (j < 4 && i >= SEEX * 2 - 4)
-      ter_set(i, j, t_water_sh);
-    else
-     ter_set(i, j, t_water_dp);
-   }
-  }
-  if (terrain_type == ot_river_c_not_se)
-   rotate(1);
-  if (terrain_type == ot_river_c_not_sw)
-   rotate(2);
-  if (terrain_type == ot_river_c_not_nw)
-   rotate(3);
-  break;
+    case ot_river_c_not_ne:
+    case ot_river_c_not_se:
+    case ot_river_c_not_sw:
+    case ot_river_c_not_nw:
+        mapgen_river_curved_not(this, terrain_type);
+        break;
 
  case ot_river_north:
  case ot_river_east:
