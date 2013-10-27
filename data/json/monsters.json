@@ -4115,7 +4115,7 @@
     "id":"mon_dementia",
     "name": "dementia",
     "species":"ZOMBIE",
-    "symbol":"Z",
+    "symbol":"@",
     "color":"ltgray",
     "size":"MEDIUM",
     "material":"flesh",
@@ -4136,7 +4136,7 @@
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
-    "description":"A human body, once living.  The scars on its shaved head suggest some kind of lobotomy.",
+    "description":"A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "BLEED", "HUMAN", "POISON", "REVIVES"]
   },
   {
