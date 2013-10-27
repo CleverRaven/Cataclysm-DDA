@@ -901,38 +901,9 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_parking_lot(this, terrain_type, facing_data, turn);
         break;
 
- case ot_pool: {
-   fill_background(this, t_grass);
-   mapf::formatted_set_simple(this, 0, 0,
-"\
-........................\n\
-........................\n\
-..++n++n++n++n++n++n++..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..++n++n++n++n++n++n++..\n\
-........................\n\
-........................\n",
-   mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
-   mapf::basic_bind( "n", f_dive_block));
-   add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY);
- } break;
+    case ot_pool:
+        mapgen_pool(this);
+        break;
 
  case ot_park: {
   if (one_in(3)) { // Playground

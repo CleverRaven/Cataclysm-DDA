@@ -1096,3 +1096,37 @@ void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn)
         }
     }
 }
+
+void mapgen_pool(map *m)
+{
+    fill_background(m, t_grass);
+    mapf::formatted_set_simple(m, 0, 0,
+"\
+........................\n\
+........................\n\
+..++n++n++n++n++n++n++..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..+wwwwwwwwwwwwwwwwww+..\n\
+..++n++n++n++n++n++n++..\n\
+........................\n\
+........................\n",
+    mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
+    mapf::basic_bind( "n", f_dive_block));
+    m->add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY);
+}
