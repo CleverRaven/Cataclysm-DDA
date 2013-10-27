@@ -75,6 +75,7 @@ void init_data_structures();
 void release_data_structures();
 
 void load_json_dir(std::string const &dirname);
+void load_json_files(std::vector<std::string> const &files);
 void load_all_from_json(JsonIn &jsin);
 
 #endif // _INIT_H_

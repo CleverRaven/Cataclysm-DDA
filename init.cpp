@@ -74,7 +74,7 @@ void init_data_mappings() {
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
-    ret = file_finder::get_files_from_path(".json", dirname, true); 
+    ret = file_finder::get_files_from_path(".json", dirname, true);
 /*
     ret.push_back("data/json/materials.json"); // should this be implicitly first? Works fine..
 */
@@ -99,14 +99,13 @@ void load_object(JsonObject &jo, bool initialrun)
     }
 }
 
-void null_load_target(JsonObject &jo){}
-
 void init_data_structures()
 {
     type_ignored.insert("colordef");   // loaded earlier.
     type_ignored.insert("INSTRUMENT"); // ...unimplemented?
 
-    const int delayed_queue_size = 3;      // for now this is only 1 depth, then mods + mods delayed (likely overkill); 
+    const int delayed_queue_size = 3;      // for now this is only 1 depth, then mods + mods delayed (likely overkill);
+    type_delayed_order["vehicle"] = 0;     // after vehicle_parts
     type_delayed_order["recipe"] = 0;      // after items
     type_delayed_order["martial_art"] = 0; //
 
@@ -160,13 +159,8 @@ void init_data_structures()
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
 
-    // Unused types need to be diverted to the null_target which does absolutely nothing with data passed to it.
-    type_function_map["INSTRUMENT"] = null_target;
-    type_function_map["colordef"] = null_target;
-
     mutations_category[""].clear();
     init_mutation_parts();
-    init_translation();
     init_martial_arts();
     init_inventory_categories();
 }
@@ -186,6 +180,14 @@ void load_json_dir(std::string const &dirname)
     //    load_overlay("data/overlay.json");
     // get a list of all files in the directory
     std::vector<std::string> dir = listfiles(dirname);
+
+    // moved to avoid code duplication for when all mod-files are being loaded at one time.
+    load_json_files(dir);
+}
+
+void load_json_files(std::vector<std::string> const &files)
+{
+    std::vector<std::string> dir = files;
     // iterate over each file
     std::vector<std::string>::iterator it;
     for (it = dir.begin(); it != dir.end(); it++) {
