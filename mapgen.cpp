@@ -897,67 +897,9 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rotate(3);
   break;
 
- case ot_s_lot:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if ((j == 5 || j == 9 || j == 13 || j == 17 || j == 21) &&
-        ((i > 1 && i < 8) || (i > 14 && i < SEEX * 2 - 2)))
-     ter_set(i, j, t_pavement_y);
-    else if ((j < 2 && i > 7 && i < 17) ||
-             (j >= 2 && j < SEEY * 2 - 2 && i > 1 && i < SEEX * 2 - 2))
-     ter_set(i, j, t_pavement);
-    else
-     ter_set(i, j, grass_or_dirt());
-   }
-  }
-  {
-      int vx = rng (0, 3) * 4 + 5;
-      int vy = 4;
-      std::string vt = "";
-      int r = rng(1, 100);
-      if (r <= 5) { //specials
-          int ra = rng(1, 100);
-          if (ra <= 3) {         vt = "military_cargo_truck";
-          } else if (ra <= 10) { vt = "bubble_car";
-          } else if (ra <= 15) { vt = "rv";
-          } else if (ra <= 20) { vt = "schoolbus";
-          } else {               vt = "quad_bike";
-          }
-      } else if (r <= 15) { //commercial
-          int rb = rng(1, 100);
-          if (rb <= 25) {        vt = "truck_trailer";
-          } else if (rb <= 35) { vt = "semi_truck";
-          } else if (rb <= 50) { vt = "cube_van";
-          } else {               vt = "flatbed_truck";
-          }
-      } else if (r < 50) { //commons
-          int rc = rng(1, 100);
-          if (rc <= 4) {         vt = "golf_cart";
-          } else if (rc <= 11) { vt = "scooter";
-          } else if (rc <= 21) { vt = "beetle";
-          } else if (rc <= 50) { vt = "car";
-          } else if (rc <= 60) { vt = "electric_car";
-          } else if (rc <= 65) { vt = "hippie_van";
-          } else if (rc <= 73) { vt = "bicycle";
-          } else if (rc <= 75) { vt = "unicycle";
-          } else if (rc <= 90) { vt = "motorcycle";
-          } else {               vt = "motorcycle_sidecart";
-          }
-      } else {
-          vt = "shopping_cart";
-      }
-
-      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
-  }
-
-  place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
-  if (t_east  >= ot_road_null && t_east  <= ot_road_nesw_manhole)
-   rotate(1);
-  if (t_south >= ot_road_null && t_south <= ot_road_nesw_manhole)
-   rotate(2);
-  if (t_west  >= ot_road_null && t_west  <= ot_road_nesw_manhole)
-   rotate(3);
-  break;
+    case ot_s_lot:
+        mapgen_parking_lot(this, terrain_type, facing_data, turn);
+        break;
 
  case ot_pool: {
    fill_background(this, t_grass);

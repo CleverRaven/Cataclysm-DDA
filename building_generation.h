@@ -46,5 +46,6 @@ void mapgen_highway(map *m, oter_id terrain_type, int turn);
 void mapgen_river_curved_not(map *m, oter_id terrain_type);
 void mapgen_river_straight(map *m, oter_id terrain_type);
 void mapgen_river_curved(map *m, oter_id terrain_type);
+void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn);
 
 #endif

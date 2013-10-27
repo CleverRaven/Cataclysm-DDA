@@ -1018,3 +1018,81 @@ void mapgen_river_curved(map *m, oter_id terrain_type)
         m->rotate(3);
     }
 }
+
+void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn)
+{
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if ((j == 5 || j == 9 || j == 13 || j == 17 || j == 21) &&
+                 ((i > 1 && i < 8) || (i > 14 && i < SEEX * 2 - 2)))
+                m->ter_set(i, j, t_pavement_y);
+            else if ((j < 2 && i > 7 && i < 17) || (j >= 2 && j < SEEY * 2 - 2 && i > 1 &&
+                      i < SEEX * 2 - 2))
+                m->ter_set(i, j, t_pavement);
+            else
+                m->ter_set(i, j, grass_or_dirt());
+        }
+    }
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = 4;
+    std::string veh_type = "";
+    int roll = rng(1, 100);
+    if (roll <= 5) { //specials
+        int ra = rng(1, 100);
+        if (ra <= 3) {
+            veh_type = "military_cargo_truck";
+        } else if (ra <= 10) {
+            veh_type = "bubble_car";
+        } else if (ra <= 15) {
+            veh_type = "rv";
+        } else if (ra <= 20) {
+            veh_type = "schoolbus";
+        } else {
+            veh_type = "quad_bike";
+        }
+    } else if (roll <= 15) { //commercial
+        int rb = rng(1, 100);
+        if (rb <= 25) {
+            veh_type = "truck_trailer";
+        } else if (rb <= 35) {
+            veh_type = "semi_truck";
+        } else if (rb <= 50) {
+            veh_type = "cube_van";
+        } else {
+            veh_type = "flatbed_truck";
+        }
+    } else if (roll < 50) { //commons
+        int rc = rng(1, 100);
+        if (rc <= 4) {
+            veh_type = "golf_cart";
+        } else if (rc <= 11) {
+            veh_type = "scooter";
+        } else if (rc <= 21) {
+            veh_type = "beetle";
+        } else if (rc <= 50) {
+            veh_type = "car";
+        } else if (rc <= 60) {
+            veh_type = "electric_car";
+        } else if (rc <= 65) {
+            veh_type = "hippie_van";
+        } else if (rc <= 73) {
+            veh_type = "bicycle";
+        } else if (rc <= 75) {
+            veh_type = "unicycle";
+        } else if (rc <= 90) {
+            veh_type = "motorcycle";
+        } else {
+            veh_type = "motorcycle_sidecart";
+        }
+    } else {
+        veh_type = "shopping_cart";
+    }
+    m->add_vehicle (g, veh_type, vx, vy, one_in(2)? 90 : 270, -1, -1);
+
+    m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+    for (int i = 1; i < 4; i++) {
+        if (dat.t_nesw[1] >= ot_road_null && dat.t_nesw[1] <= ot_road_nesw_manhole) {
+            m->rotate(i);
+        }
+    }
+}
