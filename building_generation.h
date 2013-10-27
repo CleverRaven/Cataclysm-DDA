@@ -7,13 +7,18 @@
 struct mapgendata
 {
 public:
-  oter_id t_nesw[4];
+  oter_id t_nesw[7];
   int n_fac; // dir == 0
   int e_fac; // dir == 1
   int s_fac; // dir == 2
   int w_fac; // dir == 3
+  int ne_fac; // dir == 4
+  int se_fac; // dir == 5
+  int nw_fac; // dir == 6
+  int sw_fac; // dir == 7
   
-  mapgendata(oter_id north, oter_id east, oter_id south, oter_id west);
+  mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west, oter_id t_neast,
+              oter_id t_seast, oter_id t_nwest, oter_id t_swest);
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);

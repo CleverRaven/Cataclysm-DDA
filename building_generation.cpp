@@ -14,16 +14,25 @@ void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void add_corpse(game *g, map *m, int x, int y);
 
-mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west)
+mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
+                       oter_id northwest, oter_id southeast, oter_id southwest)
 {
     t_nesw[0] = north;
     t_nesw[1] = east;
     t_nesw[2] = south;
     t_nesw[3] = west;
+    t_nesw[4] = northeast;
+    t_nesw[5] = southeast;
+    t_nesw[6] = northwest;
+    t_nesw[7] = southwest;
     n_fac = 0;
     e_fac = 0;
     s_fac = 0;
     w_fac = 0;
+    ne_fac = 0;
+    se_fac = 0;
+    nw_fac = 0;
+    sw_fac = 0;
 }
 
 void mapgendata::set_dir(int dir_in, int val)
@@ -41,6 +50,18 @@ void mapgendata::set_dir(int dir_in, int val)
     case 3:
         w_fac = val;
         break;
+    case 4:
+        ne_fac = val;
+        break;
+    case 5:
+        se_fac = val;
+        break;
+    case 6:
+        nw_fac = val;
+        break;
+    case 7:
+        sw_fac = val;
+        break;
     default:
         debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
         break;
@@ -53,6 +74,10 @@ void mapgendata::fill(int val)
     e_fac = val;
     s_fac = val;
     w_fac = val;
+    ne_fac = val;
+    nw_fac = val;
+    se_fac = val;
+    sw_fac = val;
 }
 
 int& mapgendata::dir(int dir_in)
@@ -69,6 +94,18 @@ int& mapgendata::dir(int dir_in)
         break;
     case 3:
         return w_fac;
+        break;
+    case 4:
+        return ne_fac;
+        break;
+    case 5:
+        return se_fac;
+        break;
+    case 6:
+        return nw_fac;
+        break;
+    case 7:
+        return sw_fac;
         break;
     default:
         debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
@@ -249,7 +286,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 
     if (terrain_type == ot_forest_water) {
         // Reset *_fac to handle where to place water
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             if (dat.t_nesw[i] == ot_forest_water) {
                 dat.set_dir(i, 2);
             } else if (dat.t_nesw[i] >= ot_river_center && dat.t_nesw[i] <= ot_river_nw) {
@@ -280,28 +317,32 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             if (y < 0 || y >= SEEY * 2) {
                 y = SEEY / 2 + rng(0, SEEY);
             }
-            for (int j = 0; j < dat.n_fac; j++) {
+            int factor = dat.n_fac + (dat.ne_fac / 2) + (dat.nw_fac / 2);
+            for (int j = 0; j < factor; j++) {
                 int wx = rng(0, SEEX * 2 -1), wy = rng(0, SEEY - 1);
                 if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
                     m->ter(wx, wy) == t_underbrush) {
                     m->ter_set(wx, wy, t_water_sh);
                 }
             }
-            for (int j = 0; j < dat.e_fac; j++) {
+            factor = dat.e_fac + (dat.ne_fac / 2) + (dat.se_fac / 2);
+            for (int j = 0; j < factor; j++) {
                 int wx = rng(SEEX, SEEX * 2 - 1), wy = rng(0, SEEY * 2 - 1);
                 if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
                       m->ter(wx, wy) == t_underbrush) {
                     m->ter_set(wx, wy, t_water_sh);
                 }
             }
-            for (int j = 0; j < dat.s_fac; j++) {
+            factor = dat.s_fac + (dat.se_fac / 2) + (dat.sw_fac / 2);
+            for (int j = 0; j < factor; j++) {
                 int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
                 if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
                       m->ter(wx, wy) == t_underbrush) {
                     m->ter_set(wx, wy, t_water_sh);
                 }
             }
-            for (int j = 0; j < dat.w_fac; j++) {
+            factor = dat.w_fac + (dat.nw_fac / 2) + (dat.sw_fac / 2);
+            for (int j = 0; j < factor; j++) {
                 int wx = rng(0, SEEX - 1), wy = rng(0, SEEY * 2 - 1);
                 if (m->ter(wx, wy) == t_dirt || m->ter(wx, wy) == t_grass ||
                       m->ter(wx, wy) == t_underbrush) {
@@ -543,7 +584,7 @@ void mapgen_spider_pit(map *m, mapgendata dat, int turn)
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 8; i++) {
         if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
             sidewalks = true;
         }
@@ -587,7 +628,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 8; i++) {
         if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
             sidewalks = true;
         }
@@ -687,7 +728,7 @@ ssss...................\n\
 void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 8; i++) {
         if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
             sidewalks = true;
         }

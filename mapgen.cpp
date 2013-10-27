@@ -117,7 +117,8 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
         }
     }
 
-    oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
+    oter_id terrain_type, t_north, t_neast, t_east, t_seast, t_south,
+                          t_nwest, t_west, t_swest, t_above;
     unsigned zones = 0;
     int overx = x / 2;
     int overy = y / 2;
@@ -154,10 +155,30 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
             t_north = om->ter(overx, OMAPY - 1, z);
         }
 
+        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
+            t_neast = tmp.ter(overx + 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            t_neast = om->ter(0, overy - 1, z);
+        } else if (overx + 1 < OMAPX) {
+            t_neast = om->ter(overx + 1, OMAPY - 1, z);
+        } else {
+            t_neast = om->ter(0, OMAPY - 1, z);
+        }
+
         if (overx + 1 < OMAPX) {
             t_east = tmp.ter(overx + 1, overy, z);
         } else {
             t_east = om->ter(0, overy, z);
+        }
+
+        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
+            t_seast = tmp.ter(overx + 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            t_seast = om->ter(0, overy + 1, z);
+        } else if (overx + 1 < OMAPX) {
+            t_seast = om->ter(overx + 1, 0, z);
+        } else {
+            t_seast = om->ter(0, 0, z);
         }
 
         if (overy + 1 < OMAPY) {
@@ -166,10 +187,30 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
             t_south = om->ter(overx, 0, z);
         }
 
+        if (overy - 1 >= 0 && overx - 1 >= 0) {
+            t_nwest = tmp.ter(overx - 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            t_nwest = om->ter(OMAPX - 1, overy - 1, z);
+        } else if (overx - 1 >= 0) {
+            t_nwest = om->ter(overx - 1, OMAPY - 1, z);
+        } else {
+            t_nwest = om->ter(OMAPX - 1, OMAPY - 1, z);
+        }
+
         if (overx - 1 >= 0) {
             t_west = tmp.ter(overx - 1, overy, z);
         } else {
             t_west = om->ter(OMAPX - 1, overy, z);
+        }
+
+        if (overy + 1 < OMAPY && overx - 1 >= 0) {
+            t_swest = tmp.ter(overx - 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            t_swest = om->ter(OMAPX - 1, overy + 1, z);
+        } else if (overx - 1 >= 0) {
+            t_swest = om->ter(overx - 1, 0, z);
+        } else {
+            t_swest = om->ter(OMAPX - 1, 0, z);
         }
 
     } else {
@@ -185,11 +226,37 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
             t_north = tmp.ter(overx, OMAPY - 1, z);
         }
 
+        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
+            t_neast = om->ter(overx + 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            t_neast = tmp.ter(0, overy - 1, z);
+        } else if (overx + 1 < OMAPX) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            t_neast = tmp.ter(overx + 1, OMAPY - 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y - 1);
+            t_neast = tmp.ter(0, OMAPY - 1, z);
+        }
+
         if (overx + 1 < OMAPX) {
             t_east = om->ter(overx + 1, overy, z);
         } else {
             overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
             t_east = tmp.ter(0, overy, z);
+        }
+
+        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
+            t_seast = om->ter(overx + 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            t_seast = tmp.ter(0, overy + 1, z);
+        } else if (overx + 1 < OMAPX) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            t_seast = tmp.ter(overx + 1, 0, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y + 1);
+            t_seast = tmp.ter(0, 0, z);
         }
 
         if (overy + 1 < OMAPY) {
@@ -199,11 +266,37 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
             t_south = tmp.ter(overx, 0, z);
         }
 
+        if (overy - 1 >= 0 && overx - 1 >= 0) {
+            t_nwest = om->ter(overx - 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            t_nwest = tmp.ter(OMAPX - 1, overy - 1, z);
+        } else if (overx - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            t_nwest = tmp.ter(overx - 1, OMAPY - 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y - 1);
+            t_nwest = tmp.ter(OMAPX - 1, OMAPY - 1, z);
+        }
+
         if (overx - 1 >= 0) {
             t_west = om->ter(overx - 1, overy, z);
         } else {
             overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
             t_west = tmp.ter(OMAPX - 1, overy, z);
+        }
+
+        if (overy + 1 < OMAPY && overx - 1 >= 0) {
+            t_swest = om->ter(overx - 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            t_swest = tmp.ter(OMAPX - 1, overy + 1, z);
+        } else if (overx - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            t_swest = tmp.ter(overx - 1, 0, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y + 1);
+            t_swest = tmp.ter(OMAPX - 1, 0, z);
         }
     }
 
@@ -217,7 +310,8 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     }
     density = density/100;
 
-    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density, z);
+    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+              t_above, turn, g, density, z);
 
     if ( one_in( oterlist[terrain_type].embellishments.chance )) {
         add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
@@ -247,8 +341,10 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 // I suggest that we break the function down into smaller parts
 
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                   const oter_id t_south, const oter_id t_west, const oter_id t_above,
-                   const int turn, game *g, const float density, const int zlevel)
+                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
+                    const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                    const oter_id t_above, const int turn, game *g, const float density,
+                    const int zlevel)
 {
 // Big old switch statement with a case for each overmap terrain type.
 // Many of these can be copied from another type, then rotated; for instance,
@@ -283,11 +379,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  bool ice_lab = true;
  bool ice_lab_finale = true;
 
- oter_id t_nesw[] = {t_north, t_east, t_south, t_west};
- int nesw_fac[] = {0, 0, 0, 0};
+ oter_id t_nesw[] = {t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest};
+ int nesw_fac[] = {0, 0, 0, 0, 0, 0, 0, 0};
  int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
- mapgendata facing_data(t_north, t_east, t_south, t_west);
+ mapgendata facing_data(t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest);
 
  computer *tmpcomp = NULL;
 
@@ -8838,7 +8934,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
 
   } else { // We're above ground!
 // First, draw a forest
-   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_above, turn, g, density, zlevel);
+   draw_map(ot_forest, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+              t_above, turn, g, density, zlevel);
 // Clear the center with some rocks
    square(this, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5);
    int pathx, pathy;
