@@ -7,7 +7,7 @@
 struct mapgendata
 {
 public:
-  oter_id t_nesw[7];
+  oter_id t_nesw[8];
   int n_fac; // dir == 0
   int e_fac; // dir == 1
   int s_fac; // dir == 2
