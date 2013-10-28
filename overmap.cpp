@@ -309,7 +309,7 @@ oter_id shop(int dir)
 
 oter_id house(int dir)
 {
- bool base = one_in(30);
+ bool base = one_in(2);
  if (dir < 0) dir += 4;
  switch (dir) {
   case 0:  return base ? ot_house_base_north : ot_house_north;
@@ -1263,136 +1263,137 @@ bool overmap::generate_sub(int const z)
  std::vector<point> hotel_tower_3_points;
 
  for (int i = 0; i < OMAPX; i++) {
-  for (int j = 0; j < OMAPY; j++) {
-   if (ter(i, j, z + 1) >= ot_house_base_north &&
-       ter(i, j, z + 1) <= ot_house_base_west) {
-       ter(i, j, z) = ot_basement;
-   } else if (ter(i, j, z + 1) >= ot_sub_station_north &&
-              ter(i, j, z + 1) <= ot_sub_station_west) {
-    ter(i, j, z) = ot_subway_nesw;
-    subway_points.push_back(city(i, j, 0));
+     for (int j = 0; j < OMAPY; j++) {
+         if (ter(i, j, z + 1) >= ot_house_base_north &&
+             ter(i, j, z + 1) <= ot_house_base_west) {
+             ter(i, j, z) = ot_basement;
+         } else if (ter(i, j, z + 1) >= ot_sub_station_north &&
+                    ter(i, j, z + 1) <= ot_sub_station_west) {
+             ter(i, j, z) = ot_subway_nesw;
+             subway_points.push_back(city(i, j, 0));
 
-   } else if (ter(i, j, z + 1) == ot_road_nesw_manhole) {
-    ter(i, j, z) = ot_sewer_nesw;
-    sewer_points.push_back(city(i, j, 0));
+         } else if (ter(i, j, z + 1) == ot_road_nesw_manhole) {
+             ter(i, j, z) = ot_sewer_nesw;
+             sewer_points.push_back(city(i, j, 0));
 
-   } else if (ter(i, j, z + 1) == ot_sewage_treatment) {
-    for (int x = i-1; x <= i+1; x++) {
-     for (int y = j-1; y <= j+1; y++) {
-      ter(x, y, z) = ot_sewage_treatment_under;
+         } else if (ter(i, j, z + 1) == ot_sewage_treatment) {
+             for (int x = i-1; x <= i+1; x++) {
+                 for (int y = j-1; y <= j+1; y++) {
+                     ter(x, y, z) = ot_sewage_treatment_under;
+                 }
+             }
+             ter(i, j, z) = ot_sewage_treatment_hub;
+             sewer_points.push_back(city(i, j, 0));
+
+         } else if (ter(i, j, z + 1) == ot_spider_pit) {
+             ter(i, j, z) = ot_spider_pit_under;
+         } else if (ter(i, j, z + 1) == ot_cave && z == -1) {
+             if (one_in(3)) {
+                 ter(i, j, z) = ot_cave_rat;
+                 requires_sub = true; // rat caves are two level
+             } else {
+                 ter(i, j, z) = ot_cave;
+             }
+         } else if (ter(i, j, z + 1) == ot_cave_rat && z == -2) {
+             ter(i, j, z) = ot_cave_rat;
+
+         } else if (ter(i, j, z + 1) == ot_anthill) {
+             int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
+             ant_points.push_back(city(i, j, size));
+             zg.push_back(mongroup("GROUP_ANT", i * 2, j * 2, z, size * 1.5, rng(6000, 8000)));
+
+         } else if (ter(i, j, z + 1) == ot_slimepit_down) {
+             int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
+             goo_points.push_back(city(i, j, size));
+
+         } else if (ter(i, j, z + 1) == ot_forest_water) {
+             ter(i, j, z) = ot_cavern;
+
+         } else if (ter(i, j, z + 1) == ot_triffid_grove ||
+                    ter(i, j, z + 1) == ot_triffid_roots) {
+             triffid_points.push_back( point(i, j) );
+
+         } else if (ter(i, j, z + 1) == ot_temple_stairs) {
+             temple_points.push_back( point(i, j) );
+
+         } else if (ter(i, j, z + 1) == ot_lab_core ||
+                    (z == -1 && ter(i, j, z + 1) == ot_lab_stairs)) {
+             lab_points.push_back(city(i, j, rng(1, 5 + z)));
+
+         } else if (ter(i, j, z + 1) == ot_lab_stairs) {
+             ter(i, j, z) = ot_lab;
+
+         } else if (ter(i, j, z + 1) == ot_ice_lab_core ||
+                    (z == -1 && ter(i, j, z + 1) == ot_ice_lab_stairs)) {
+             ice_lab_points.push_back(city(i, j, rng(1, 5 + z)));
+
+         } else if (ter(i, j, z + 1) == ot_ice_lab_stairs) {
+             ter(i, j, z) = ot_ice_lab;
+
+         } else if (ter(i, j, z + 1) == ot_bunker && z == -1) {
+             bunker_points.push_back( point(i, j) );
+
+         } else if (ter(i, j, z + 1) == ot_shelter) {
+             shelter_points.push_back( point(i, j) );
+
+         } else if (ter(i, j, z + 1) == ot_lmoe) {
+             lmoe_points.push_back( point(i, j) );
+
+         } else if (ter(i, j, z + 1) == ot_cabin_strange) {
+             cabin_strange_points.push_back( point(i, j) );
+
+         } else if (ter(i, j, z + 1) == ot_mine_entrance) {
+             shaft_points.push_back( point(i, j) );
+
+         } else if (ter(i, j, z + 1) == ot_mine_shaft ||
+                    ter(i, j, z + 1) == ot_mine_down    ) {
+             ter(i, j, z) = ot_mine;
+             mine_points.push_back(city(i, j, rng(6 + z, 10 + z)));
+             // technically not all finales need a sub level, but at this point we don't know
+             requires_sub = true;
+         } else if (ter(i, j, z + 1) == ot_mine_finale) {
+             for (int x = i - 1; x <= i + 1; x++) {
+                 for (int y = j - 1; y <= j + 1; y++) {
+                     ter(x, y, z) = ot_spiral;
+                 }
+             }
+             ter(i, j, z) = ot_spiral_hub;
+             zg.push_back(mongroup("GROUP_SPIRAL", i * 2, j * 2, z, 2, 200));
+
+         } else if (ter(i, j, z + 1) == ot_silo) {
+             if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z)) {
+                 ter(i, j, z) = ot_silo_finale;
+             } else {
+                 ter(i, j, z) = ot_silo;
+                 requires_sub = true;
+             }
+         } else if (ter(i, j, z + 1) == ot_office_tower_1_entrance) {
+             office_entrance_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_office_tower_1) {
+             office_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_prison_1 || ter(i, j, z + 1) == ot_prison_3 ||
+                    ter(i, j, z + 1) == ot_prison_4 || ter(i, j, z + 1) == ot_prison_5 ||
+                    ter(i, j, z + 1) == ot_prison_6 || ter(i, j, z + 1) == ot_prison_7 ||
+                    ter(i, j, z + 1) == ot_prison_8 || ter(i, j, z + 1) == ot_prison_9) {
+             prison_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_prison_2) {
+             prison_entrance_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_haz_sar_entrance) {
+             haz_sar_entrance_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_haz_sar) {
+             haz_sar_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_cathedral_1_entrance) {
+             cathedral_entrance_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_cathedral_1) {
+             cathedral_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_hotel_tower_1_7) {
+             hotel_tower_1_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_hotel_tower_1_8) {
+             hotel_tower_2_points.push_back( point(i, j) );
+         } else if (ter(i, j, z + 1) == ot_hotel_tower_1_9) {
+             hotel_tower_3_points.push_back( point(i, j) );
+         }
      }
-    }
-    ter(i, j, z) = ot_sewage_treatment_hub;
-    sewer_points.push_back(city(i, j, 0));
-
-   } else if (ter(i, j, z + 1) == ot_spider_pit)
-    ter(i, j, z) = ot_spider_pit_under;
-   else if (ter(i, j, z + 1) == ot_cave && z == -1) {
-    if (one_in(3)) {
-     ter(i, j, z) = ot_cave_rat;
-     requires_sub = true; // rat caves are two level
-    }
-    else
-     ter(i, j, z) = ot_cave;
-
-   } else if (ter(i, j, z + 1) == ot_cave_rat && z == -2)
-    ter(i, j, z) = ot_cave_rat;
-
-   else if (ter(i, j, z + 1) == ot_anthill) {
-    int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
-    ant_points.push_back(city(i, j, size));
-    zg.push_back(mongroup("GROUP_ANT", i * 2, j * 2, z, size * 1.5, rng(6000, 8000)));
-
-   } else if (ter(i, j, z + 1) == ot_slimepit_down) {
-    int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
-    goo_points.push_back(city(i, j, size));
-
-   } else if (ter(i, j, z + 1) == ot_forest_water)
-    ter(i, j, z) = ot_cavern;
-
-   else if (ter(i, j, z + 1) == ot_triffid_grove ||
-            ter(i, j, z + 1) == ot_triffid_roots)
-    triffid_points.push_back( point(i, j) );
-
-   else if (ter(i, j, z + 1) == ot_temple_stairs)
-    temple_points.push_back( point(i, j) );
-
-   else if (ter(i, j, z + 1) == ot_lab_core ||
-            (z == -1 && ter(i, j, z + 1) == ot_lab_stairs))
-    lab_points.push_back(city(i, j, rng(1, 5 + z)));
-
-   else if (ter(i, j, z + 1) == ot_lab_stairs)
-    ter(i, j, z) = ot_lab;
-
-   else if (ter(i, j, z + 1) == ot_ice_lab_core ||
-            (z == -1 && ter(i, j, z + 1) == ot_ice_lab_stairs))
-    ice_lab_points.push_back(city(i, j, rng(1, 5 + z)));
-
-   else if (ter(i, j, z + 1) == ot_ice_lab_stairs)
-    ter(i, j, z) = ot_ice_lab;
-
-   else if (ter(i, j, z + 1) == ot_bunker && z == -1)
-    bunker_points.push_back( point(i, j) );
-
-   else if (ter(i, j, z + 1) == ot_shelter)
-    shelter_points.push_back( point(i, j) );
-
-   else if (ter(i, j, z + 1) == ot_lmoe)
-    lmoe_points.push_back( point(i, j) );
-
-   else if (ter(i, j, z + 1) == ot_cabin_strange)
-    cabin_strange_points.push_back( point(i, j) );
-
-   else if (ter(i, j, z + 1) == ot_mine_entrance)
-    shaft_points.push_back( point(i, j) );
-
-   else if (ter(i, j, z + 1) == ot_mine_shaft ||
-            ter(i, j, z + 1) == ot_mine_down    ) {
-    ter(i, j, z) = ot_mine;
-    mine_points.push_back(city(i, j, rng(6 + z, 10 + z)));
-    // technically not all finales need a sub level, but at this point we don't know
-    requires_sub = true;
-   } else if (ter(i, j, z + 1) == ot_mine_finale) {
-    for (int x = i - 1; x <= i + 1; x++) {
-     for (int y = j - 1; y <= j + 1; y++)
-      ter(x, y, z) = ot_spiral;
-    }
-    ter(i, j, z) = ot_spiral_hub;
-    zg.push_back(mongroup("GROUP_SPIRAL", i * 2, j * 2, z, 2, 200));
-
-   } else if (ter(i, j, z + 1) == ot_silo) {
-    if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z))
-     ter(i, j, z) = ot_silo_finale;
-    else {
-     ter(i, j, z) = ot_silo;
-     requires_sub = true;
-    }
-   }
-   else if (ter(i, j, z + 1) == ot_office_tower_1_entrance)
-    office_entrance_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_office_tower_1)
-    office_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_prison_1 || ter(i, j, z + 1) == ot_prison_3 ||
-            ter(i, j, z + 1) == ot_prison_4 || ter(i, j, z + 1) == ot_prison_5 || ter(i, j, z + 1) == ot_prison_6 ||
-            ter(i, j, z + 1) == ot_prison_7 || ter(i, j, z + 1) == ot_prison_8 || ter(i, j, z + 1) == ot_prison_9)
-    prison_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_prison_2)
-    prison_entrance_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_haz_sar_entrance)
-    haz_sar_entrance_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_haz_sar)
-    haz_sar_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_cathedral_1_entrance)
-    cathedral_entrance_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_cathedral_1)
-    cathedral_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_hotel_tower_1_7)
-    hotel_tower_1_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_hotel_tower_1_8)
-    hotel_tower_2_points.push_back( point(i, j) );
-   else if (ter(i, j, z + 1) == ot_hotel_tower_1_9)
-    hotel_tower_3_points.push_back( point(i, j) );
-  }
  }
 
  for (int i = 0; i < goo_points.size(); i++)
