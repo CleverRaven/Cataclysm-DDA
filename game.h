@@ -375,9 +375,9 @@ void load_artifacts(std::string worldname); // Load artifact data
   nc_color limb_color(player *p, body_part bp, int side, bool bleed = true,
                        bool bite = true, bool infect = true);
 
+  bool opening_screen();// Warn about screen size, then present the main menu
  private:
 // Game-start procedures
-  bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master(std::string worldname); // Load the master data file, with factions &c

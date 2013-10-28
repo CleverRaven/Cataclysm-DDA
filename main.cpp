@@ -96,7 +96,9 @@ int main(int argc, char *argv[])
  #endif
 
  do {
-  g->setup();
+  if(!g->opening_screen()) {
+     quit_game = true;
+  }
   while (!g->do_turn()) ;
   if (g->game_quit() || g->game_error())
    quit_game = true;

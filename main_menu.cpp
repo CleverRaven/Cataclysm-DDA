@@ -344,6 +344,10 @@ bool game::opening_screen()
                         }
                         werase(w_background);
                         wrefresh(w_background);
+
+                        load_artifacts(world->world_name);
+                        MAPBUFFER.load(world->world_name);
+                        setup();
                         start_game(world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
@@ -533,6 +537,10 @@ bool game::opening_screen()
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(world);
 
+                        load_artifacts(world->world_name);
+                        MAPBUFFER.load(world->world_name);
+                        setup();
+
                         load(world->world_name, savegames[sel3]);
                         start = true;
                     }
@@ -653,6 +661,11 @@ bool game::opening_screen()
                     }
                     werase(w_background);
                     wrefresh(w_background);
+
+                    load_artifacts(world_generator->active_world->world_name);
+                    MAPBUFFER.load(world_generator->active_world->world_name);
+                    setup();
+
                     start_game(world_generator->active_world->world_name);
                     start = true;
                 }
@@ -661,7 +674,11 @@ bool game::opening_screen()
     }
     delwin(w_open);
     delwin(w_background);
-    if (start == false)
+    if (start == false) {
         uquit = QUIT_MENU;
+    } else {
+        refresh_all();
+        draw();
+    }
     return start;
 }

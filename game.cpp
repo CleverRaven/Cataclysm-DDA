@@ -305,6 +305,9 @@ void game::init_ui(){
     werase(w_status2);
 }
 
+/*
+ * Initialize more stuff after mapbuffer is loaded.
+ */
 void game::setup()
 {
  u = player();
@@ -354,19 +357,12 @@ void game::setup()
  }
 
  load_auto_pickup(false); // Load global auto pickup rules
-
- if (opening_screen()) {// Opening menu
-// Finally, draw the screen!
-  refresh_all();
-  draw();
- }
+ // back to menu for save loading, new game etc
 }
 
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
-    load_artifacts(worldname);
-    MAPBUFFER.load(worldname);
  turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
  if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
  else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer")
@@ -2704,11 +2700,8 @@ void game::load_artifacts(std::string worldname)
     }
 }
 
-
 void game::load(std::string worldname, std::string name)
 {
-    load_artifacts(worldname);
-    MAPBUFFER.load(worldname);
  std::ifstream fin;
  std::string worldpath = world_generator->all_worlds[worldname]->world_path;
  worldpath += "/";
