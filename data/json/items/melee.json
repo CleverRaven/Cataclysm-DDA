@@ -1571,7 +1571,7 @@
         "material" : ["wood", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
-        "bashing" : 18,
+        "bashing" : 20,
         "cutting" : 6,
         "flags" : ["STAB"],
         "price" : 160
@@ -1604,7 +1604,7 @@
         "material" : ["steel", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 4,
-        "bashing" : 12,
+        "bashing" : 16,
         "cutting" : 0,
         "price" : 75
     },
@@ -1620,7 +1620,7 @@
         "material" : ["wood", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
-        "bashing" : 18,
+        "bashing" : 20,
         "cutting" : 0,
         "price" : 160
     },
@@ -1636,7 +1636,7 @@
         "material" : ["steel", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
-        "bashing" : 18,
+        "bashing" : 20,
         "cutting" : 0,
         "price" : 160
     },
@@ -1653,7 +1653,7 @@
         "techniques" : ["WBLOCK_1", "RAPID"],
         "volume" : 5,
         "bashing" : 4,
-        "cutting" : 14,
+        "cutting" : 12,
         "flags" : ["SPEAR"],
         "price" : 40
     },
@@ -1785,7 +1785,7 @@
         "material" : ["wood", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 8,
-        "bashing" : 12,
+        "bashing" : 10,
         "cutting" : 0,
         "price" : 80
     },
@@ -1818,7 +1818,7 @@
         "techniques" : ["WBLOCK_1", "RAPID"],
         "volume" : 4,
         "bashing" : 6,
-        "cutting" : 12,
+        "cutting" : 10,
         "flags" : ["SPEAR"],
         "price" : 40
     },
