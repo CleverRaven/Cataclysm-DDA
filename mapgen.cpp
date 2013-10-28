@@ -11205,6 +11205,8 @@ case ot_farm_field:
    }
    break;
   }
+  // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
+  place_spawns(g, "GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
   break;
 
 // TODO: Maybe subway systems could have broken down trains in them?

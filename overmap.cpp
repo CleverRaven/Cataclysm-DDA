@@ -584,7 +584,7 @@ void game::init_overmap()
     {_("triffid grove"), 'T', c_ltred, 5, no_extras, true, false, 0},
     {_("triffid roots"), 'T', c_ltred, 5, no_extras, true, true, 0},
     {_("triffid heart"), 'T', c_red, 5, no_extras, false, true, 0},
-    {_("basement"), 'O', c_dkgray, 5, no_extras, false, true, 0},
+    {_("basement"), 'O', c_dkgray, 5, no_extras, false, true, 2},
     {_("cavern"), '0', c_ltgray, 5, no_extras, false, false, 0},
     {_("solid rock"), '%', c_dkgray, 5, no_extras, false, false, 0},
     {_("rift"), '^', c_red,  2, no_extras, false, false, 0},
