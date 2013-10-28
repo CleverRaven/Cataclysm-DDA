@@ -297,11 +297,7 @@ cOpt::operator float() const {
 
 // if (class == "string")
 bool cOpt::operator==(const std::string sCompare) const {
-    if ( sType == "string" && sSet == sCompare ) {
-        return true;
-    }
-
-    return false;
+    return (sType == "string" && sSet == sCompare);
 }
 
 // if (class != "string")
@@ -494,6 +490,11 @@ void initOptions() {
                                              12, 93, 12
                                             );
 
+    OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
+                                             _("SDL ONLY: Determines how many times per second an action will be performed by holding down a key. The delay is in milliseconds. Requires restart."),
+                                             1, 500, 60
+                                            );
+
     optionNames["standard"] = _("Standard");
     //~ sidebar style
     optionNames["narrow"] = _("Narrow");
@@ -589,12 +590,12 @@ void initOptions() {
                                             );
 
     OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
-                                             _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
+                                             _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
                                              true
                                              );
 
     OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
-                                             _("Choose the tileset you want to use. Only applicable on SDL builds. Requires restart."),
+                                             _("Choose the tileset you want to use. Only applicable on SDL builds."),
                                              tileset_names, "hoder");   // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
@@ -628,11 +629,11 @@ void show_options()
     WINDOW* w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    mvwputch(w_options_border, iTooltipHeight + 1,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_options_border, iTooltipHeight + 1, 79, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_options_border, iTooltipHeight + 1,  0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_options_border, iTooltipHeight + 1, 79, c_dkgray, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
+        mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_dkgray, LINE_XXOX); // _|_
     }
 
     mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
@@ -640,9 +641,9 @@ void show_options()
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
-            mvwputch(w_options_header, 0, i, c_ltgray, LINE_OXXX);
+            mvwputch(w_options_header, 0, i, c_dkgray, LINE_OXXX);
         } else {
-            mvwputch(w_options_header, 0, i, c_ltgray, LINE_OXOX); // Draw header line
+            mvwputch(w_options_header, 0, i, c_dkgray, LINE_OXOX); // Draw header line
         }
     }
 
@@ -663,7 +664,7 @@ void show_options()
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if (mapLines[j]) {
-                    mvwputch(w_options, i, j, c_ltgray, LINE_XOXO);
+                    mvwputch(w_options, i, j, c_dkgray, LINE_XOXO);
                 } else {
                     mvwputch(w_options, i, j, c_black, ' ');
                 }
@@ -701,7 +702,7 @@ void show_options()
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2);
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2, 0, c_dkgray);
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
@@ -710,7 +711,7 @@ void show_options()
                 wprintz(w_options_header, c_white, "[");
                 wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
                 wprintz(w_options_header, c_white, "]");
-                wputch(w_options_header, c_ltgray, LINE_OXOX);
+                wputch(w_options_header, c_dkgray, LINE_OXOX);
             }
         }
 

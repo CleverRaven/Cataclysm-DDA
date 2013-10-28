@@ -91,141 +91,248 @@ void add_corpse(game *g, map *m, int x, int y);
 
 void map::generate(game *g, overmap *om, const int x, const int y, const int z, const int turn)
 {
- dbg(D_INFO) << "map::generate( g["<<g<<"], om["<<(void*)om<<"], x["<<x<<"], "
+    dbg(D_INFO) << "map::generate( g["<<g<<"], om["<<(void*)om<<"], x["<<x<<"], "
             << "y["<<y<<"], turn["<<turn<<"] )";
 
-// First we have to create new submaps and initialize them to 0 all over
-// We create all the submaps, even if we're not a tinymap, so that map
-//  generation which overflows won't cause a crash.  At the bottom of this
-//  function, we save the upper-left 4 submaps, and delete the rest.
- for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-  grid[i] = new submap;
-  grid[i]->active_item_count = 0;
-  grid[i]->field_count = 0;
-  grid[i]->turn_last_touched = turn;
-  grid[i]->temperature = 0;
-  grid[i]->comp = computer();
-  grid[i]->camp = basecamp();
-  for (int x = 0; x < SEEX; x++) {
-   for (int y = 0; y < SEEY; y++) {
-    grid[i]->ter[x][y] = t_null;
-    grid[i]->frn[x][y] = f_null;
-    grid[i]->trp[x][y] = tr_null;
-    grid[i]->rad[x][y] = 0;
-    grid[i]->graf[x][y] = graffiti();
-   }
-  }
- }
+    // First we have to create new submaps and initialize them to 0 all over
+    // We create all the submaps, even if we're not a tinymap, so that map
+    //  generation which overflows won't cause a crash.  At the bottom of this
+    //  function, we save the upper-left 4 submaps, and delete the rest.
+    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+        grid[i] = new submap;
+        grid[i]->active_item_count = 0;
+        grid[i]->field_count = 0;
+        grid[i]->turn_last_touched = turn;
+        grid[i]->temperature = 0;
+        grid[i]->comp = computer();
+        grid[i]->camp = basecamp();
+        for (int x = 0; x < SEEX; x++) {
+            for (int y = 0; y < SEEY; y++) {
+                grid[i]->ter[x][y] = t_null;
+                grid[i]->frn[x][y] = f_null;
+                grid[i]->trp[x][y] = tr_null;
+                grid[i]->rad[x][y] = 0;
+                grid[i]->graf[x][y] = graffiti();
+            }
+        }
+    }
 
- oter_id terrain_type, t_north, t_east, t_south, t_west, t_above;
- unsigned zones = 0;
- int overx = x / 2;
- int overy = y / 2;
- if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
-  dbg(D_INFO) << "map::generate: In section 1";
+    oter_id terrain_type, t_north, t_neast, t_east, t_seast, t_south,
+                          t_nwest, t_west, t_swest, t_above;
+    unsigned zones = 0;
+    int overx = x / 2;
+    int overy = y / 2;
+    if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
+        dbg(D_INFO) << "map::generate: In section 1";
 
-// This happens when we're at the very edge of the overmap, and are generating
-// terrain for the adjacent overmap.
-  int sx = 0, sy = 0;
-  overx = (x % (OMAPX * 2)) / 2;
-  if (x >= OMAPX * 2)
-   sx = 1;
-  if (x < 0) {
-   sx = -1;
-   overx = (OMAPX * 2 + x) / 2;
-  }
-  overy = (y % (OMAPY * 2)) / 2;
-  if (y >= OMAPY * 2)
-   sy = 1;
-  if (y < 0) {
-   overy = (OMAPY * 2 + y) / 2;
-   sy = -1;
-  }
-  overmap tmp = overmap_buffer.get(g, om->pos().x + sx, om->pos().y + sy);
-  terrain_type = tmp.ter(overx, overy, z);
-  //zones = tmp.zones(overx, overy);
-  t_above = tmp.ter(overx, overy, z + 1);
+    // This happens when we're at the very edge of the overmap, and are generating
+    // terrain for the adjacent overmap.
+        int sx = 0, sy = 0;
+        overx = (x % (OMAPX * 2)) / 2;
+        if (x >= OMAPX * 2) {
+            sx = 1;
+        }
+        if (x < 0) {
+            sx = -1;
+            overx = (OMAPX * 2 + x) / 2;
+        }
+        overy = (y % (OMAPY * 2)) / 2;
+        if (y >= OMAPY * 2) {
+            sy = 1;
+        }
+        if (y < 0) {
+            overy = (OMAPY * 2 + y) / 2;
+            sy = -1;
+        }
+        overmap tmp = overmap_buffer.get(g, om->pos().x + sx, om->pos().y + sy);
+        terrain_type = tmp.ter(overx, overy, z);
+        //zones = tmp.zones(overx, overy);
+        t_above = tmp.ter(overx, overy, z + 1);
 
-  if (overy - 1 >= 0)
-   t_north = tmp.ter(overx, overy - 1, z);
-  else
-   t_north = om->ter(overx, OMAPY - 1, z);
-  if (overx + 1 < OMAPX)
-   t_east = tmp.ter(overx + 1, overy - 1, z);
-  else
-   t_east = om->ter(0, overy, z);
-  if (overy + 1 < OMAPY)
-   t_south = tmp.ter(overx, overy + 1, z);
-  else
-   t_south = om->ter(overx, 0, z);
-  if (overx - 1 >= 0)
-   t_west = tmp.ter(overx - 1, overy, z);
-  else
-   t_west = om->ter(OMAPX - 1, overy, z);
- } else {
-  dbg(D_INFO) << "map::generate: In section 2";
+        if (overy - 1 >= 0) {
+            t_north = tmp.ter(overx, overy - 1, z);
+        } else {
+            t_north = om->ter(overx, OMAPY - 1, z);
+        }
 
-  t_above = om->ter(overx, overy, z + 1);
-  terrain_type = om->ter(overx, overy, z);
-  if (overy - 1 >= 0)
-   t_north = om->ter(overx, overy - 1, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
-   t_north = tmp.ter(overx, OMAPY - 1, z);
-  }
-  if (overx + 1 < OMAPX)
-   t_east = om->ter(overx + 1, overy, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
-   t_east = tmp.ter(0, overy, z);
-  }
-  if (overy + 1 < OMAPY)
-   t_south = om->ter(overx, overy + 1, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
-   t_south = tmp.ter(overx, 0, z);
-  }
-  if (overx - 1 >= 0)
-   t_west = om->ter(overx - 1, overy, z);
-  else {
-   overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
-   t_west = tmp.ter(OMAPX - 1, overy, z);
-  }
- }
+        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
+            t_neast = tmp.ter(overx + 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            t_neast = om->ter(0, overy - 1, z);
+        } else if (overx + 1 < OMAPX) {
+            t_neast = om->ter(overx + 1, OMAPY - 1, z);
+        } else {
+            t_neast = om->ter(0, OMAPY - 1, z);
+        }
 
- // This attempts to scale density of zombies inversely with distance from the nearest city.
- // In other words, make city centers dense and perimiters sparse.
- float density = 0.0;
- for (int i = overx-MON_RADIUS; i <= overx+MON_RADIUS; i++)
- {
-     for (int j = overy-MON_RADIUS; j <= overy+MON_RADIUS; j++)
-     {
-         density += oterlist[om->ter(i,j,z)].mondensity;
-     }
- }
- density = density/100;
+        if (overx + 1 < OMAPX) {
+            t_east = tmp.ter(overx + 1, overy, z);
+        } else {
+            t_east = om->ter(0, overy, z);
+        }
 
- draw_map(terrain_type, t_north, t_east, t_south, t_west, t_above, turn, g, density, z);
+        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
+            t_seast = tmp.ter(overx + 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            t_seast = om->ter(0, overy + 1, z);
+        } else if (overx + 1 < OMAPX) {
+            t_seast = om->ter(overx + 1, 0, z);
+        } else {
+            t_seast = om->ter(0, 0, z);
+        }
 
- if ( one_in( oterlist[terrain_type].embellishments.chance ))
-  add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
+        if (overy + 1 < OMAPY) {
+            t_south = tmp.ter(overx, overy + 1, z);
+        } else {
+            t_south = om->ter(overx, 0, z);
+        }
 
- post_process(g, zones);
+        if (overy - 1 >= 0 && overx - 1 >= 0) {
+            t_nwest = tmp.ter(overx - 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            t_nwest = om->ter(OMAPX - 1, overy - 1, z);
+        } else if (overx - 1 >= 0) {
+            t_nwest = om->ter(overx - 1, OMAPY - 1, z);
+        } else {
+            t_nwest = om->ter(OMAPX - 1, OMAPY - 1, z);
+        }
 
-// Okay, we know who are neighbors are.  Let's draw!
-// And finally save used submaps and delete the rest.
- for (int i = 0; i < my_MAPSIZE; i++) {
-  for (int j = 0; j < my_MAPSIZE; j++) {
+        if (overx - 1 >= 0) {
+            t_west = tmp.ter(overx - 1, overy, z);
+        } else {
+            t_west = om->ter(OMAPX - 1, overy, z);
+        }
 
-   dbg(D_INFO) << "map::generate: submap ("<<i<<","<<j<<")";
-   dbg(D_INFO) << grid[i+j];
+        if (overy + 1 < OMAPY && overx - 1 >= 0) {
+            t_swest = tmp.ter(overx - 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            t_swest = om->ter(OMAPX - 1, overy + 1, z);
+        } else if (overx - 1 >= 0) {
+            t_swest = om->ter(overx - 1, 0, z);
+        } else {
+            t_swest = om->ter(OMAPX - 1, 0, z);
+        }
 
-   if (i <= 1 && j <= 1)
-    saven(om, turn, x, y, z, i, j);
-   else
-    delete grid[i + j * my_MAPSIZE];
-  }
- }
+    } else {
+        dbg(D_INFO) << "map::generate: In section 2";
+
+        t_above = om->ter(overx, overy, z + 1);
+        terrain_type = om->ter(overx, overy, z);
+
+        if (overy - 1 >= 0) {
+            t_north = om->ter(overx, overy - 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            t_north = tmp.ter(overx, OMAPY - 1, z);
+        }
+
+        if (overy - 1 >= 0 && overx + 1 < OMAPX) {
+            t_neast = om->ter(overx + 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            t_neast = tmp.ter(0, overy - 1, z);
+        } else if (overx + 1 < OMAPX) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            t_neast = tmp.ter(overx + 1, OMAPY - 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y - 1);
+            t_neast = tmp.ter(0, OMAPY - 1, z);
+        }
+
+        if (overx + 1 < OMAPX) {
+            t_east = om->ter(overx + 1, overy, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            t_east = tmp.ter(0, overy, z);
+        }
+
+        if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
+            t_seast = om->ter(overx + 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            t_seast = tmp.ter(0, overy + 1, z);
+        } else if (overx + 1 < OMAPX) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            t_seast = tmp.ter(overx + 1, 0, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y + 1);
+            t_seast = tmp.ter(0, 0, z);
+        }
+
+        if (overy + 1 < OMAPY) {
+            t_south = om->ter(overx, overy + 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            t_south = tmp.ter(overx, 0, z);
+        }
+
+        if (overy - 1 >= 0 && overx - 1 >= 0) {
+            t_nwest = om->ter(overx - 1, overy - 1, z);
+        } else if (overy - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            t_nwest = tmp.ter(OMAPX - 1, overy - 1, z);
+        } else if (overx - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            t_nwest = tmp.ter(overx - 1, OMAPY - 1, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y - 1);
+            t_nwest = tmp.ter(OMAPX - 1, OMAPY - 1, z);
+        }
+
+        if (overx - 1 >= 0) {
+            t_west = om->ter(overx - 1, overy, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            t_west = tmp.ter(OMAPX - 1, overy, z);
+        }
+
+        if (overy + 1 < OMAPY && overx - 1 >= 0) {
+            t_swest = om->ter(overx - 1, overy + 1, z);
+        } else if (overy + 1 < OMAPY) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            t_swest = tmp.ter(OMAPX - 1, overy + 1, z);
+        } else if (overx - 1 >= 0) {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            t_swest = tmp.ter(overx - 1, 0, z);
+        } else {
+            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y + 1);
+            t_swest = tmp.ter(OMAPX - 1, 0, z);
+        }
+    }
+
+    // This attempts to scale density of zombies inversely with distance from the nearest city.
+    // In other words, make city centers dense and perimiters sparse.
+    float density = 0.0;
+    for (int i = overx-MON_RADIUS; i <= overx+MON_RADIUS; i++) {
+        for (int j = overy-MON_RADIUS; j <= overy+MON_RADIUS; j++) {
+            density += oterlist[om->ter(i,j,z)].mondensity;
+        }
+    }
+    density = density/100;
+
+    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+              t_above, turn, g, density, z);
+
+    if ( one_in( oterlist[terrain_type].embellishments.chance )) {
+        add_extra( random_map_extra( oterlist[terrain_type].embellishments ), g);
+    }
+
+    post_process(g, zones);
+
+    // Okay, we know who are neighbors are.  Let's draw!
+    // And finally save used submaps and delete the rest.
+    for (int i = 0; i < my_MAPSIZE; i++) {
+        for (int j = 0; j < my_MAPSIZE; j++) {
+            dbg(D_INFO) << "map::generate: submap ("<<i<<","<<j<<")";
+            dbg(D_INFO) << grid[i+j];
+
+            if (i <= 1 && j <= 1) {
+                saven(om, turn, x, y, z, i, j);
+            } else {
+                delete grid[i + j * my_MAPSIZE];
+            }
+        }
+    }
 }
 
 // TODO: clean up variable shadowing in this function
@@ -234,8 +341,10 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 // I suggest that we break the function down into smaller parts
 
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                   const oter_id t_south, const oter_id t_west, const oter_id t_above,
-                   const int turn, game *g, const float density, const int zlevel)
+                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
+                    const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                    const oter_id t_above, const int turn, game *g, const float density,
+                    const int zlevel)
 {
 // Big old switch statement with a case for each overmap terrain type.
 // Many of these can be copied from another type, then rotated; for instance,
@@ -270,11 +379,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  bool ice_lab = true;
  bool ice_lab_finale = true;
 
- oter_id t_nesw[] = {t_north, t_east, t_south, t_west};
- int nesw_fac[] = {0, 0, 0, 0};
+ oter_id t_nesw[] = {t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest};
+ int nesw_fac[] = {0, 0, 0, 0, 0, 0, 0, 0};
  int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
- mapgendata facing_data(t_north, t_east, t_south, t_west);
+ mapgendata facing_data(t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest);
 
  computer *tmpcomp = NULL;
 
@@ -289,7 +398,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_field(this, turn);
         break;
     case ot_dirtlot:
-        mapgen_dirtlot(this, g);
+        mapgen_dirtlot(this);
         break;
 
     case ot_forest:
@@ -307,29 +416,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         break;
 
     case ot_fungal_bloom:
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (one_in(rl_dist(i, j, 12, 12) * 2)) {
-                    ter_set(i, j, t_marloss);
-                } else if (one_in(10)) {
-                    if (one_in(3)) {
-                        ter_set(i, j, t_tree_fungal);
-                    } else {
-                        ter_set(i, j, t_tree_fungal_young);
-                    }
-                
-                } else if (one_in(5)) {
-                    ter_set(i, j, t_shrub_fungal);
-                } else if (one_in(10)) {
-                    ter_set(i, j, t_fungus_mound);
-                } else {
-                    ter_set(i, j, t_fungus);
-                }
-            }
-        }
-    square(this, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
-    add_spawn("mon_fungaloid_queen", 1, 12, 12);
-    break;
+        mapgen_fungal_bloom(this);
+        break;
 
     case ot_road_ns:
     case ot_road_ew:
@@ -343,251 +431,52 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_road_curved(this, terrain_type, facing_data, turn, density);
         break;
 
- case ot_road_nes:
- case ot_road_new:
- case ot_road_nsw:
- case ot_road_esw:
-  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
-      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
-      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
-   rn = 1; // rn = 1 if this road has sidewalks
-  else
-   rn = 0;
+    case ot_road_nes:
+    case ot_road_new:
+    case ot_road_nsw:
+    case ot_road_esw:
+        mapgen_road_tee(this, terrain_type, facing_data, turn, density);
+        break;
 
-  add_road_vehicles(rn > 0, one_in(2) ? 90 : 180);
+    case ot_road_nesw:
+    case ot_road_nesw_manhole:
+        mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
+        break;
 
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
-         ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX))
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_road_esw)
-   rotate(1);
-  if (terrain_type == ot_road_nsw)
-   rotate(2);
-  if (terrain_type == ot_road_new)
-   rotate(3);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
+    case ot_bridge_ns:
+    case ot_bridge_ew:
+        mapgen_bridge(this, terrain_type, turn);
+        break;
 
- case ot_road_nesw:
- case ot_road_nesw_manhole:
-  if ((t_west  == ot_road_nesw || t_west  == ot_road_nesw_manhole) &&
-      (t_east  == ot_road_nesw || t_east  == ot_road_nesw_manhole) &&
-      (t_north == ot_road_nesw || t_north == ot_road_nesw_manhole) &&
-      (t_south == ot_road_nesw || t_south == ot_road_nesw_manhole)   )
-   rn = 2; // rn = 2 if this is actually a plaza
-  else
-   rn = 1; // rn = 1 if this road has sidewalks
+    case ot_hiway_ns:
+    case ot_hiway_ew:
+        mapgen_highway(this, terrain_type, turn);
+        break;
 
-  // spawn city car wrecks
-  if (rn > 0) {
-    add_road_vehicles(true, one_in(2) ? 90 : 180);
-  }
+    case ot_river_center:
+        fill_background(this, t_water_dp);
+        break;
 
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (rn == 2)
-     ter_set(i, j, t_sidewalk);
-    else if ((i < 4 || i >= SEEX * 2 - 4) && (j < 4 || j >= SEEY * 2 - 4)) {
-     if (rn == 1)
-      ter_set(i, j, t_sidewalk);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else {
-     if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
-         ((j == SEEY - 1 || j == SEEY) && i % 4 != 0))
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (rn == 2) { // Special embellishments for a plaza
-   if (one_in(10)) { // Fountain
-    for (int i = SEEX - 2; i <= SEEX + 2; i++) {
-     ter_set(i, i, t_water_sh);
-     ter_set(i, SEEX * 2 - i, t_water_sh);
-    }
-   }
-   if (one_in(10)) { // Small trees in center
-    mapf::formatted_set_terrain(this, SEEX-2, SEEY-2,
-"\
- t t\n\
-t   t\n\
-\n\
-t   t\n\
- t t\n\
-", mapf::basic_bind("t", t_tree_young), mapf::end());
-   }
-   if (one_in(14)) { // Rows of small trees
-    int gap = rng(2, 4);
-    int start = rng(0, 4);
-    for (int i = 2; i < SEEX * 2 - start; i += gap) {
-     ter_set(i               , start, t_tree_young);
-     ter_set(SEEX * 2 - 1 - i, start, t_tree_young);
-     ter_set(start, i               , t_tree_young);
-     ter_set(start, SEEY * 2 - 1 - i, t_tree_young);
-    }
-   }
-   place_items("trash", 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
-  } else
-   place_items("road",  5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  if(rn == 1)
-   place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  if (terrain_type == ot_road_nesw_manhole)
-   ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
-  break;
+    case ot_river_c_not_ne:
+    case ot_river_c_not_se:
+    case ot_river_c_not_sw:
+    case ot_river_c_not_nw:
+        mapgen_river_curved_not(this, terrain_type);
+        break;
 
- case ot_bridge_ns:
- case ot_bridge_ew:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 4 || i >= SEEX * 2 - 4)
-     ter_set(i, j, t_water_dp);
-    else if (i == 4 || i == SEEX * 2 - 5)
-     ter_set(i, j, t_railing_v);
-    else {
-     if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0)
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-   // spawn regular road out of fuel vehicles
-   if (one_in(2)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
+    case ot_river_north:
+    case ot_river_east:
+    case ot_river_south:
+    case ot_river_west:
+        mapgen_river_straight(this, terrain_type);
+        break;
 
-  if (terrain_type == ot_bridge_ew)
-   rotate(1);
-  place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-  break;
-
- case ot_hiway_ns:
- case ot_hiway_ew:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i < 3 || i >= SEEX * 2 - 3)
-     ter_set(i, j, grass_or_dirt());
-    else if (i == 3 || i == SEEX * 2 - 4)
-     ter_set(i, j, t_railing_v);
-    else {
-     if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0)
-      ter_set(i, j, t_pavement_y);
-     else
-      ter_set(i, j, t_pavement);
-    }
-   }
-  }
-  if (terrain_type == ot_hiway_ew)
-   rotate(1);
-  place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-
-  // spawn regular road out of fuel vehicles
-   if (one_in(2)) {
-    int vx = rng (10, 12);
-    int vy = rng (10, 12);
-    int rc = rng(1, 10);
-    if (rc <= 5)
-        add_vehicle (g, "car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 8)
-        add_vehicle (g, "flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else if (rc <= 9)
-        add_vehicle (g, "semi_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
-    else
-        add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
-   }
-  break;
-
- case ot_river_center:
-  fill_background(this, t_water_dp);
-  break;
-
- case ot_river_c_not_ne:
- case ot_river_c_not_se:
- case ot_river_c_not_sw:
- case ot_river_c_not_nw:
-  for (int i = SEEX * 2 - 1; i >= 0; i--) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (j < 4 && i >= SEEX * 2 - 4)
-      ter_set(i, j, t_water_sh);
-    else
-     ter_set(i, j, t_water_dp);
-   }
-  }
-  if (terrain_type == ot_river_c_not_se)
-   rotate(1);
-  if (terrain_type == ot_river_c_not_sw)
-   rotate(2);
-  if (terrain_type == ot_river_c_not_nw)
-   rotate(3);
-  break;
-
- case ot_river_north:
- case ot_river_east:
- case ot_river_south:
- case ot_river_west:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (j < 4)
-      ter_set(i, j, t_water_sh);
-    else
-     ter_set(i, j, t_water_dp);
-   }
-  }
-  if (terrain_type == ot_river_east)
-   rotate(1);
-  if (terrain_type == ot_river_south)
-   rotate(2);
-  if (terrain_type == ot_river_west)
-   rotate(3);
-  break;
-
- case ot_river_ne:
- case ot_river_se:
- case ot_river_sw:
- case ot_river_nw:
-  for (int i = SEEX * 2 - 1; i >= 0; i--) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (i >= SEEX * 2 - 4 || j < 4)
-     ter_set(i, j, t_water_sh);
-    else
-     ter_set(i, j, t_water_dp);
-   }
-  }
-  if (terrain_type == ot_river_se)
-   rotate(1);
-  if (terrain_type == ot_river_sw)
-   rotate(2);
-  if (terrain_type == ot_river_nw)
-   rotate(3);
-  break;
+    case ot_river_ne:
+    case ot_river_se:
+    case ot_river_sw:
+    case ot_river_nw:
+        mapgen_river_curved(this, terrain_type);
+        break;
 
  case ot_house_base_north:
  case ot_house_base_east:
@@ -1008,244 +897,24 @@ t   t\n\
    rotate(3);
   break;
 
- case ot_s_lot:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if ((j == 5 || j == 9 || j == 13 || j == 17 || j == 21) &&
-        ((i > 1 && i < 8) || (i > 14 && i < SEEX * 2 - 2)))
-     ter_set(i, j, t_pavement_y);
-    else if ((j < 2 && i > 7 && i < 17) ||
-             (j >= 2 && j < SEEY * 2 - 2 && i > 1 && i < SEEX * 2 - 2))
-     ter_set(i, j, t_pavement);
-    else
-     ter_set(i, j, grass_or_dirt());
-   }
-  }
-  {
-      int vx = rng (0, 3) * 4 + 5;
-      int vy = 4;
-      std::string vt = "";
-      int r = rng(1, 100);
-      if (r <= 5) { //specials
-          int ra = rng(1, 100);
-          if (ra <= 3) {         vt = "military_cargo_truck";
-          } else if (ra <= 10) { vt = "bubble_car";
-          } else if (ra <= 15) { vt = "rv";
-          } else if (ra <= 20) { vt = "schoolbus";
-          } else {               vt = "quad_bike";
-          }
-      } else if (r <= 15) { //commercial
-          int rb = rng(1, 100);
-          if (rb <= 25) {        vt = "truck_trailer";
-          } else if (rb <= 35) { vt = "semi_truck";
-          } else if (rb <= 50) { vt = "cube_van";
-          } else {               vt = "flatbed_truck";
-          }
-      } else if (r < 50) { //commons
-          int rc = rng(1, 100);
-          if (rc <= 4) {         vt = "golf_cart";
-          } else if (rc <= 11) { vt = "scooter";
-          } else if (rc <= 21) { vt = "beetle";
-          } else if (rc <= 50) { vt = "car";
-          } else if (rc <= 60) { vt = "electric_car";
-          } else if (rc <= 65) { vt = "hippie_van";
-          } else if (rc <= 73) { vt = "bicycle";
-          } else if (rc <= 75) { vt = "unicycle";
-          } else if (rc <= 90) { vt = "motorcycle";
-          } else {               vt = "motorcycle_sidecart";
-          }
-      } else {
-          vt = "shopping_cart";
-      }
+    case ot_s_lot:
+        mapgen_parking_lot(this, terrain_type, facing_data, turn);
+        break;
 
-      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
-  }
+    case ot_pool:
+        mapgen_pool(this);
+        break;
 
-  place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
-  if (t_east  >= ot_road_null && t_east  <= ot_road_nesw_manhole)
-   rotate(1);
-  if (t_south >= ot_road_null && t_south <= ot_road_nesw_manhole)
-   rotate(2);
-  if (t_west  >= ot_road_null && t_west  <= ot_road_nesw_manhole)
-   rotate(3);
-  break;
+ case ot_park:
+        mapgen_park(this);
+        break;
 
- case ot_pool: {
-   fill_background(this, t_grass);
-   mapf::formatted_set_simple(this, 0, 0,
-"\
-........................\n\
-........................\n\
-..++n++n++n++n++n++n++..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..+wwwwwwwwwwwwwwwwww+..\n\
-..++n++n++n++n++n++n++..\n\
-........................\n\
-........................\n",
-   mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
-   mapf::basic_bind( "n", f_dive_block));
-   add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY);
- } break;
-
- case ot_park: {
-  if (one_in(3)) { // Playground
-   fill_background(this, t_grass);
-   mapf::formatted_set_simple(this, 0, 0,
-"\
-                        \n\
-                        \n\
-                        \n\
-                        \n\
-             t          \n\
-      t         ##      \n\
-                ##      \n\
-                        \n\
-    mmm                 \n\
-    mmm    s        t   \n\
-   tmmm    s            \n\
-           s            \n\
-           s            \n\
-                        \n\
-                        \n\
-      -            t    \n\
-     t-                 \n\
-               t        \n\
-         t              \n\
-                        \n\
-                        \n\
-                        \n\
-                        \n\
-                        \n",
-   mapf::basic_bind( "# m s t", t_sandbox, t_monkey_bars, t_slide, t_tree ),
-   mapf::basic_bind( "-", f_bench));
-   rotate(rng(0, 3));
-
-   int vx = one_in(2) ? 1 : 20;
-   int vy = one_in(2) ? 1 : 20;
-   if(one_in(3)) {
-       add_vehicle (g, "ice_cream_cart", vx, vy, 0, -1, -1);
-   } else if(one_in(2)) {
-       add_vehicle (g, "food_cart", vx, vy, one_in(2)? 90 : 180, -1, -1);
-   }
-
-  } else { // Basketball court
-   fill_background(this, t_pavement);
-   mapf::formatted_set_simple(this, 0, 0,
-"\
-                        \n\
-|-+------------------+-|\n\
-|     .  . 7 .  .      |\n\
-|     .  .   .  .      |\n\
-|#    .  .....  .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#     .       .      #|\n\
-|#      .     .       #|\n\
-|......................|\n\
-|#      .     .       #|\n\
-|#     .       .      #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .  .....  .     #|\n\
-|     .  .   .  .      |\n\
-|     .  . 7 .  .      |\n\
-|-+------------------+-|\n\
-                        \n\
-                        \n",
-  mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
-  mapf::basic_bind("#", f_bench));
-  rotate(rng(0, 3));
-  }
-  add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
- } break;
-
- case ot_s_gas_north:
- case ot_s_gas_east:
- case ot_s_gas_south:
- case ot_s_gas_west:
-  tw = rng(5, 14);
-  bw = SEEY * 2 - rng(1, 2);
-  mw = rng(tw + 5, bw - 3);
-  if (mw < bw - 5)
-   mw = bw - 5;
-  lw = rng(0, 3);
-  rw = SEEX * 2 - rng(1, 4);
-  cw = rng(lw + 4, rw - 5);
-  rn = rng(3, 6); // Frequency of gas pumps
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEX * 2; j++) {
-    if (j < tw && (tw - j) % 4 == 0 && i > lw && i < rw &&
-        (i - (1 + lw)) % rn == 0)
-     place_gas_pump(i, j, rng(1000, 10000));
-    else if ((j < 2 && i > 7 && i < 16) || (j < tw && i > lw && i < rw))
-     ter_set(i, j, t_pavement);
-    else if (j == tw && (i == lw+6 || i == lw+7 || i == rw-7 || i == rw-6))
-     ter_set(i, j, t_window);
-    else if (((j == tw || j == bw) && i >= lw && i <= rw) ||
-             (j == mw && (i >= cw && i < rw)))
-     ter_set(i, j, t_wall_h);
-    else if (((i == lw || i == rw) && j > tw && j < bw) ||
-             (j > mw && j < bw && (i == cw || i == rw - 2)))
-     ter_set(i, j, t_wall_v);
-    else if (i == lw + 1 && j > tw && j < bw)
-     set(i, j, t_floor, f_glass_fridge);
-    else if (i > lw + 2 && i < lw + 12 && i < cw && i % 2 == 1 &&
-             j > tw + 1 && j < mw - 1)
-     set(i, j, t_floor, f_rack);
-    else if ((i == rw - 5 && j > tw + 1 && j < tw + 4) ||
-             (j == tw + 3 && i > rw - 5 && i < rw))
-     set(i, j, t_floor, f_counter);
-    else if (i > lw && i < rw && j > tw && j < bw)
-     ter_set(i, j, t_floor);
-    else
-     ter_set(i, j, grass_or_dirt());
-   }
-  }
-  ter_set(cw, rng(mw + 1, bw - 1), t_door_c);
-  ter_set(rw - 1, mw, t_door_c);
-  ter_set(rw - 1, bw - 1, t_floor);
-  place_toilet(rw - 1, bw - 1);
-  ter_set(rng(10, 13), tw, t_door_c);
-  if (one_in(5))
-   ter_set(rng(lw + 1, cw - 1), bw, (one_in(4) ? t_door_c : t_door_locked));
-  for (int i = lw + (lw % 2 == 0 ? 3 : 4); i < cw && i < lw + 12; i += 2) {
-   if (!one_in(3))
-    place_items("snacks", 74, i, tw + 2, i, mw - 2, false, 0);
-   else
-    place_items("magazines", 74, i, tw + 2, i, mw - 2, false, 0);
-  }
-  place_items("fridgesnacks", 82, lw + 1, tw + 1, lw + 1, bw - 1, false, 0);
-  place_items("road",  12, 0,      0,  SEEX*2 - 1, tw - 1, false, 0);
-  place_items("behindcounter", 70, rw - 4, tw + 1, rw - 1, tw + 2, false, 0);
-  place_items("softdrugs", 12, rw - 1, bw - 2, rw - 1, bw - 2, false, 0);
-  if (terrain_type == ot_s_gas_east)
-   rotate(1);
-  if (terrain_type == ot_s_gas_south)
-   rotate(2);
-  if (terrain_type == ot_s_gas_west)
-   rotate(3);
-  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-  break;
+    case ot_s_gas_north:
+    case ot_s_gas_east:
+    case ot_s_gas_south:
+    case ot_s_gas_west:
+        mapgen_gas_station(this, terrain_type, turn, density);
+        break;
 
  case ot_s_pharm_north:
  case ot_s_pharm_east:
@@ -8836,7 +8505,6 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     }
                 }
             }
-
             square(this, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY);
             item body;
             switch(rng(1, 10)) {
@@ -8888,8 +8556,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, density);
         } else { // We're above ground!
             // First, draw a forest
-            draw_map(ot_forest, t_north, t_east, t_south, t_west,
-                                t_above, turn, g, density, zlevel);
+            draw_map(ot_forest, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+                      t_above, turn, g, density, zlevel);
             // Clear the center with some rocks
             square(this, t_rock, SEEX-6, SEEY-6, SEEX+5, SEEY+5);
             int pathx, pathy;
