@@ -491,7 +491,7 @@
     "techniques" : ["WBLOCK_1", "RAPID"],
     "weight": 1400,
     "volume": 12,
-    "bashing": 22,
+    "bashing": 23,
     "cutting": 0,
     "to_hit": 3
   },
@@ -508,7 +508,7 @@
     "techniques" : ["WBLOCK_1", "RAPID"],
     "weight": 2200,
     "volume": 12,
-    "bashing": 28,
+    "bashing": 29,
     "cutting": 0,
     "to_hit": 3
   },
