@@ -11137,16 +11137,18 @@ case ot_farm_field:
      ter_set(i, j, t_rock_floor);
    }
   }
+  ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
+  ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
+  line(this, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
+  line(this, t_rock, SEEX + 1, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 2);
+  line(this, t_door_locked, SEEX - 1, SEEY * 2 - 4, SEEX, SEEY * 2 - 4);
   switch (rng(0, 4)) { // TODO: More types!
 
   case 0: // Junk!
-   ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
-   ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    place_items("bedroom", 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
    place_items("home_hw", 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
    place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
    break;
-
 
   case 1: // Weapons cache
    for (int i = 2; i < SEEX * 2 - 2; i++) {
@@ -11158,8 +11160,6 @@ case ot_farm_field:
    place_items("ammo",    94, 2, 5, SEEX * 2 - 3, 5, false, 0);
    place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
    place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
-   ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
-   ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    break;
 
   case 2: // Survival Bunker
@@ -11176,8 +11176,6 @@ case ot_farm_field:
    place_items("homeguns",  72, SEEX - 1,  7, SEEX,  7, false, 0);
    place_items("survival_tools",83, SEEX - 1,  8, SEEX, 10, false, 0);
    place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
-   ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
-   ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    break;
 
   case 3: // Chem lab
@@ -11190,18 +11188,11 @@ case ot_farm_field:
     place_items("chemistry", 90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
    else
     place_items("electronics", 90, SEEX*2-2, 1, SEEX*2-2, SEEY + 3, false, 0);
-   ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
-   ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    break;
 
   case 4: // Weed grow
    line_furn(this, f_counter, 1, 1, 1, SEEY * 2 - 2);
    line_furn(this, f_counter, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY * 2 - 2);
-   ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
-   ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
-   line(this, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
-   line(this, t_rock, SEEX + 1, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 2);
-   line(this, t_door_locked, SEEX - 1, SEEY * 2 - 4, SEEX, SEEY * 2 - 4);
    for (int i = 3; i < SEEX * 2 - 3; i += 5) {
     for (int j = 3; j < 16; j += 5) {
      square(this, t_dirt, i, j, i + 2, j + 2);
