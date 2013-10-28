@@ -36,7 +36,7 @@
         "to_hit" : 0,
         "ammo_type" : "thread",
         "casing" : "NULL",
-        "damage" : 0, 
+        "damage" : 0,
         "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
