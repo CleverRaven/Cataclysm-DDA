@@ -1956,16 +1956,30 @@ bool game::handle_action()
   case ACTION_LIST_ITEMS: {
     int iRetItems = -1;
     int iRetMonsters = -1;
-
+    int startas = uistate.list_item_mon;
     do {
-        iRetItems = list_items();
-        if (iRetItems != -1) {
+        if ( startas != 2 ) { // last mode 2 = list_monster
+            startas = 0;      // but only for the first bit of the loop
+            iRetItems = list_items();
+        } else {
+            iRetItems = -2;   // so we'll try list_items if list_monsters found 0
+        }
+        if (iRetItems != -1 || startas == 2 ) {
+            startas = 0;
             iRetMonsters = list_monsters();
+            if ( iRetMonsters == 2 ) {
+                iRetItems = -1; // will fire, exit loop
+            } else if ( iRetMonsters == -1 && iRetItems == -2 ) {
+                iRetItems = -1; // exit if requested on list_monsters firstrun
+            }
         }
     } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
 
     if (iRetItems == 0 && iRetMonsters == 0) {
         add_msg(_("You dont see any items or monsters around you!"));
+    } else if ( iRetMonsters == 2 ) {
+        refresh_all();
+        plfire(false);
     }
   } break;
 
@@ -7084,6 +7098,52 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
     return id;
 }
 
+void centerlistview(game *g, int iActiveX, int iActiveY)
+{
+    player & u = g->u;
+    if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] != "false") {
+        int xpos = POSX + iActiveX;
+        int ypos = POSY + iActiveY;
+        if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] == "centered") {
+            int xOffset = TERRAIN_WINDOW_WIDTH / 2;
+            int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
+            if ( xpos < 0 || xpos >= TERRAIN_WINDOW_WIDTH ||
+                 ypos < 0 || ypos >= TERRAIN_WINDOW_HEIGHT ) {
+                if (xpos < 0) {
+                    u.view_offset_x = xpos - xOffset;
+                } else {
+                    u.view_offset_x = xpos - (TERRAIN_WINDOW_WIDTH - 1) + xOffset;
+                }
+                if (xpos < 0) {
+                    u.view_offset_y = ypos - yOffset;
+                } else {
+                    u.view_offset_y = ypos - (TERRAIN_WINDOW_HEIGHT - 1) + yOffset;
+                }
+            } else {
+                u.view_offset_x = 0;
+                u.view_offset_y = 0;
+            }
+        } else {
+            if (xpos < 0) {
+                u.view_offset_x = xpos;
+            } else if (xpos >= TERRAIN_WINDOW_WIDTH) {
+                u.view_offset_x = xpos - (TERRAIN_WINDOW_WIDTH - 1);
+            } else {
+                u.view_offset_x = 0;
+            }
+            if (ypos < 0) {
+                u.view_offset_y = ypos;
+            } else if (ypos >= TERRAIN_WINDOW_HEIGHT) {
+                u.view_offset_y = ypos - (TERRAIN_WINDOW_HEIGHT - 1);
+            } else {
+                u.view_offset_y = 0;
+            }
+        }
+    }
+
+}
+
+
 int game::list_items()
 {
     int iInfoHeight = 12;
@@ -7104,7 +7164,9 @@ int game::list_items()
     int highPEnd = list_filter_high_priority(filtered_items,list_item_upvote);
     int lowPStart = list_filter_low_priority(filtered_items,highPEnd,list_item_downvote);
     const int iItemNum = ground_items.size();
-
+    if ( iItemNum > 0 ) {
+        uistate.list_item_mon = 1; // remember we've tabbed here
+    }
     const int iStoreViewOffsetX = u.view_offset_x;
     const int iStoreViewOffsetY = u.view_offset_y;
 
@@ -7343,26 +7405,7 @@ int game::list_items()
             {
                 iLastActiveX = iActiveX;
                 iLastActiveY = iActiveY;
-
-                if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
-                    int xpos = POSX + iActiveX;
-                    if (xpos < 0) {
-                        u.view_offset_x = xpos;
-                    } else if (xpos >= TERRAIN_WINDOW_WIDTH) {
-                        u.view_offset_x = xpos - (TERRAIN_WINDOW_WIDTH - 1);
-                    } else {
-                        u.view_offset_x = 0;
-                    }
-                    int ypos = POSY + iActiveY;
-                    if (ypos < 0) {
-                        u.view_offset_y = ypos;
-                    } else if (ypos >= TERRAIN_WINDOW_HEIGHT) {
-                        u.view_offset_y = ypos - (TERRAIN_WINDOW_HEIGHT - 1);
-                    } else {
-                        u.view_offset_y = 0;
-                    }
-                }
-
+                centerlistview(this, iActiveX, iActiveY);
                 draw_trail_to_square(iActiveX, iActiveY, true);
             }
 
@@ -7421,10 +7464,16 @@ int game::list_monsters()
     WINDOW* w_monster_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
     WINDOW* w_monster_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
+    uistate.list_item_mon = 2; // remember we've tabbed here
     //this stores the monsters found
-    std::vector<int> vMonsters = find_nearby_monsters(60);
+    std::vector<int> vMonsters = find_nearby_monsters(DAYLIGHT_LEVEL);
 
     const int iMonsterNum = vMonsters.size();
+
+    if ( iMonsterNum > 0 ) {
+        uistate.list_item_mon = 2; // remember we've tabbed here
+    }
+    const int iWeaponRange = u.weapon.range(&u);
 
     const int iStoreViewOffsetX = u.view_offset_x;
     const int iStoreViewOffsetY = u.view_offset_y;
@@ -7496,8 +7545,34 @@ int game::list_monsters()
                     delwin(w_monster_info_border);
                     return 1;
                     break;
-                default:
-                    break;
+                default: {
+                    action_id act = keymap[ch];
+                    switch (act) {
+                        case ACTION_LOOK: {
+                            point recentered=look_around();
+                            iLastActiveX=recentered.x;
+                            iLastActiveY=recentered.y;
+                            } break;
+                        case ACTION_FIRE: {
+                            if ( rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
+                                last_target = iMonDex;
+                                u.view_offset_x = iStoreViewOffsetX;
+                                u.view_offset_y = iStoreViewOffsetY;
+                                werase(w_monsters);
+                                werase(w_monster_info);
+                                werase(w_monster_info_border);
+                                delwin(w_monsters);
+                                delwin(w_monster_info);
+                                delwin(w_monster_info_border);
+                                return 2;
+                            }
+                        }
+                        break;
+                        default:
+                        break;
+                    }
+                }
+                break;
             }
 
             //Draw Scrollbar
@@ -7554,8 +7629,17 @@ int game::list_monsters()
                 mvwputch(w_monster_info_border, j, width - 1, c_ltgray, LINE_XOXO);
             }
 
+
             for (int j=0; j < width - 1; j++) {
                 mvwputch(w_monster_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+            }
+
+             mvwprintz(w_monsters, getmaxy(w_monsters)-1, 5, c_ltgreen, "x ");
+            wprintz(w_monsters, c_ltgray, "%s",_("look around"));
+            if ( rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
+               mvwprintz(w_monsters,  TERMY - getmaxy(w_monsters)-1, 25, c_ltgreen, "f ");
+               wprintz(w_monsters, c_ltgray, "%s", _("shoot"));
+
             }
 
             mvwputch(w_monster_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
@@ -7565,26 +7649,7 @@ int game::list_monsters()
             if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
                 iLastActiveX = iActiveX;
                 iLastActiveY = iActiveY;
-
-                if (OPTIONS["SHIFT_LIST_ITEM_VIEW"]) {
-                    int xpos = POSX + iActiveX;
-                    if (xpos < 0) {
-                        u.view_offset_x = xpos;
-                    } else if (xpos >= TERRAIN_WINDOW_WIDTH) {
-                        u.view_offset_x = xpos - (TERRAIN_WINDOW_WIDTH - 1);
-                    } else {
-                        u.view_offset_x = 0;
-                    }
-                    int ypos = POSY + iActiveY;
-                    if (ypos < 0) {
-                        u.view_offset_y = ypos;
-                    } else if (ypos >= TERRAIN_WINDOW_HEIGHT) {
-                        u.view_offset_y = ypos - (TERRAIN_WINDOW_HEIGHT - 1);
-                    } else {
-                        u.view_offset_y = 0;
-                    }
-                }
-
+                centerlistview(this, iActiveX, iActiveY);
                 draw_trail_to_square(iActiveX, iActiveY, false);
             }
 
