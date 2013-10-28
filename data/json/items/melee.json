@@ -474,9 +474,9 @@
     "material": "wood",
     "weight": 1700,
     "volume": 5,
-    "bashing": 10,
+    "bashing": 14,
     "cutting": 0,
-    "to_hit": 3
+    "to_hit": -2
   },
 
   {
@@ -556,7 +556,7 @@
     "description": "A cast-iron pan. Makes a decent melee weapon, and is used for cooking.",
     "price": 50,
     "material": "iron",
-    "weight": 3628,
+    "weight": 2628,
     "volume": 4,
     "bashing": 10,
     "cutting": 0,
@@ -1817,8 +1817,8 @@
         "material" : ["wood", "null"],
         "techniques" : ["WBLOCK_1", "RAPID"],
         "volume" : 4,
-        "bashing" : 6,
-        "cutting" : 10,
+        "bashing" : 4,
+        "cutting" : 9,
         "flags" : ["SPEAR"],
         "price" : 40
     },
