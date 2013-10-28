@@ -538,6 +538,11 @@ void game::cleanup_at_end(){
         write_memorial_file();
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
+        // remove current player from the active characters list, as they are dead
+        std::vector<std::string>::iterator curchar = std::find(characters.begin(), characters.end(), u.name);
+        if (curchar != characters.end()){
+            characters.erase(curchar);
+        }
         if (characters.empty()) {
             if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
             (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" && query_yn(_("Delete saved world?")))) {
@@ -2383,8 +2388,20 @@ void game::update_scent()
 
 bool game::is_game_over()
 {
-    if (uquit != QUIT_NO)
+    if (uquit == QUIT_SUICIDE){
+        if (u.in_vehicle)
+            g->m.unboard_vehicle(this, u.posx, u.posy);
+        place_corpse();
+        std::stringstream playerfile;
+        playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
+        DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
+        bool ok = (unlink(playerfile.str().c_str()) == 0);
+        DebugLog() << (ok?"SUCCESS":"FAIL") << "\n";
         return true;
+    }
+    if (uquit != QUIT_NO){
+        return true;
+    }
     for (int i = 0; i <= hp_torso; i++){
         if (u.hp_cur[i] < 1) {
             if (u.in_vehicle)
@@ -2392,7 +2409,9 @@ bool game::is_game_over()
             place_corpse();
             std::stringstream playerfile;
             playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-            unlink(playerfile.str().c_str());
+            DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
+            bool ok = (unlink(playerfile.str().c_str()) == 0);
+            DebugLog() << (ok?"SUCCESS":"FAIL") << "\n";
             uquit = QUIT_DIED;
             return true;
         }
@@ -7777,7 +7796,7 @@ void game::pickup(int posx, int posy, int min)
                     }
                 }
             }
-            
+
             if (craft_part >= 0) {
                 if (query_yn(_("Use the water purifier?"))) {
                     used_feature = true;
