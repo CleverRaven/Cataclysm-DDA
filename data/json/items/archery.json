@@ -20,7 +20,7 @@
       "range" : 0,
       "dispersion" : 0,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
       "stack_size" : 20
    },
    {
@@ -44,7 +44,7 @@
       "range" : 0,
       "dispersion" : 0,
       "recoil" : 0,
-      "count" : 10
+      "count" : 10,
       "stack_size" : 100
    },
    {
@@ -391,7 +391,7 @@
       "range" : 8,
       "dispersion" : 9,
       "recoil" : 0,
-      "count" : 8
+      "count" : 8,
       "stack_size" : 10
    },
    {
@@ -552,7 +552,7 @@
       "dispersion" : 9,
       "recoil" : 0,
       "count" : 1,
-      "stack_size" : 10
+      "stack_size" : 10,
       "effects" : ["COOKOFF", "EXPLOSIVE"]
    },
    {
