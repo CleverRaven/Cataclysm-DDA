@@ -5841,7 +5841,7 @@ int player::butcher_factor()
  if (inv_factor < lowest_factor) {
   lowest_factor = inv_factor;
  }
- if (weapon.damage_cut() >= 10 && !weapon.has_flag("SPEAR")) {
+ if (weapon.has_quality("CUT") && !weapon.has_flag("SPEAR")) {
   int factor = weapon.volume() * 5 - weapon.weight() / 75 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)
