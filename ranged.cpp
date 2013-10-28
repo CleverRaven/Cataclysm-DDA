@@ -995,7 +995,7 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  // noise() doesn't suport gunmods, but it does return the right value
  int noise = p.weapon.noise();
  if(weapon->is_gunmod()){ //TODO make this produce the correct sound
-  g->sound(p.posx, p.posy, noise, "Whatever sound this gunmod should make");
+  g->sound(p.posx, p.posy, noise, "Boom!");
   return;
  }
 
