@@ -395,7 +395,7 @@ mtype *MonsterGenerator::get_valid_hallucination()
         }
     }
 
-    return potentials[rng(0, potentials.size())];
+    return potentials[rng(0, potentials.size() - 1)];
 }
 
 MonDeathFunction MonsterGenerator::get_death_function(JsonObject& jo, std::string member)
