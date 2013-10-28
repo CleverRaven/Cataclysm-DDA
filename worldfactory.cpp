@@ -38,9 +38,6 @@ worldfactory::worldfactory()
 
 worldfactory::~worldfactory()
 {
-    if (active_world) {
-        delete active_world;
-    }
     for (std::map<std::string, WORLDPTR>::iterator it = all_worlds.begin(); it != all_worlds.end(); ++it) {
         delete it->second;
     }
