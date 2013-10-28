@@ -3432,10 +3432,26 @@ case ot_shelter: {
 //....
 
 case ot_shelter_under:
+    // Make the whole area rock, then plop an open area in the center.
     square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-    square(this, t_rock_floor, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9);
-    line(this, t_stairs_up, SEEX - 1, SEEY * 2 - 8, SEEX, SEEY * 2 - 8);
-    place_items("shelter", 80, 8, 8, SEEX * 2 - 9, SEEY * 2 - 9, false, 0);
+    square(this, t_rock_floor, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8);
+    // Create an anteroom with hte stairs and some locked doors.
+    ter_set(SEEX - 1, SEEY * 2 - 7, t_door_locked);
+    ter_set(SEEX    , SEEY * 2 - 7, t_door_locked);
+    ter_set(SEEX - 1, SEEY * 2 - 6, t_rock_floor);
+    ter_set(SEEX    , SEEY * 2 - 6, t_rock_floor);
+    ter_set(SEEX - 1, SEEY * 2 - 5, t_stairs_up);
+    ter_set(SEEX    , SEEY * 2 - 5, t_stairs_up);
+    if( one_in(10) ) {
+        // Scatter around lots of items and some zombies.
+        for( int x = 0; x < 10; ++x ) {
+            place_items("shelter", 90, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
+        }
+        place_spawns(g, "GROUP_ZOMBIE", 1, 6, 6, SEEX * 2 - 8, SEEX * 2 - 8, 0.2);
+    } else {
+        // Scatter around some items.
+        place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
+    }
     break;
 
 case ot_lmoe:
