@@ -16,6 +16,8 @@ public:
     void show(const int x, const int y);
     bool hide(bool refresh = true, bool force = false);
 
+    bool compact_view;
+
 private:
     WINDOW *w_live_view;
     int width, height;

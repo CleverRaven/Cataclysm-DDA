@@ -87,7 +87,8 @@ game::game() :
  om_diag(NULL),
  run_mode(1),
  mostseen(0),
- gamemode(NULL)
+ gamemode(NULL),
+ lookHeight(13)
 {
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -274,8 +275,6 @@ void game::init_ui(){
         statW = sidebarWidth;
 
         // The default style only uses one status window.
-        // The second status window needs to consume the void at the bottom
-        // of the sidebar.
         stat2X = 0;
         stat2Y = statY + statH;
         stat2H = 1;
@@ -303,12 +302,23 @@ void game::init_ui(){
     w_status = newwin(statH, statW, _y + statY, _x + statX);
     werase(w_status);
 
+    int mouse_view_x = _x + minimapX;
+    int mouse_view_width = sidebarWidth;
+    if (mouseview_h < lookHeight) {
+        // Not enough room below the status bar, just use the regular lookaround area
+        get_lookaround_dimensions(mouse_view_width, mouseview_y, mouse_view_x);
+        mouseview_h = lookHeight;
+        liveview.compact_view = true;
+        if (!use_narrow_sidebar()) {
+            // Second status window must now take care of clearing the area to the
+            // bottom of the screen.
+            stat2H = TERMY - stat2Y;
+        }
+    } 
+    liveview.init(this, mouse_view_x, mouseview_y, sidebarWidth, mouseview_h);
+
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
-
-    if (mouseview_h > 2) {
-        liveview.init(this, _x + minimapX, mouseview_y, sidebarWidth, mouseview_h);
-    }
 }
 
 void game::setup()
@@ -1667,8 +1677,8 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
 // Hides the mouse hover box and redraws what was under it
 void game::hide_mouseview()
 {
-    if (liveview.hide() && use_narrow_sidebar()) {
-        write_msg(); // In narrow sidebar mode, mouse view covers messages
+    if (liveview.hide()) {
+        write_msg(); // Redraw anything hidden by mouseview
     }
 }
 
@@ -3746,7 +3756,9 @@ void game::draw()
     draw_HP();
     werase(w_status);
     werase(w_status2);
-    liveview.hide(true, true);
+    if (!liveview.compact_view) {
+        liveview.hide(true, true);
+    }
     u.disp_status(w_status, w_status2, this);
 
     bool sideStyle = use_narrow_sidebar();
@@ -6887,17 +6899,26 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int colu
 }
 
 
+void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const
+{
+    lookWidth = getmaxx(w_messages);
+    begin_y = TERMY - lookHeight + 1;
+    if (getbegy(w_messages) < begin_y) {
+        begin_y = getbegy(w_messages);
+    }
+    begin_x = getbegx(w_messages);
+}
+
+
 point game::look_around()
 {
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  std::string action;
 
- const int lookHeight = 13;
- const int lookWidth = getmaxx(w_messages);
- int lookY = TERMY - lookHeight + 1;
- if (getbegy(w_messages) < lookY) lookY = getbegy(w_messages);
- WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, getbegx(w_messages));
+ int lookWidth, lookY, lookX;
+ get_lookaround_dimensions(lookWidth, lookY, lookX);
+ WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, lookX);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, _("Looking Around"));

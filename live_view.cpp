@@ -5,7 +5,7 @@
 #define START_LINE 1
 #define START_COLUMN 1
 
-live_view::live_view() : w_live_view(NULL), enabled(false)
+live_view::live_view() : w_live_view(NULL), enabled(false), compact_view(false)
 {
 
 }

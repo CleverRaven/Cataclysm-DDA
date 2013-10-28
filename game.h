@@ -502,6 +502,7 @@ void load_artifacts(); // Load artifact data
   void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
   void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
   
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -596,6 +597,7 @@ void load_artifacts(); // Load artifact data
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
+  const int lookHeight; // Look Around window height
 };
 
 #endif
