@@ -4513,7 +4513,7 @@
     "special_freq":4,
     "death_function":"NORMAL",
     "special_attack":"MULTI_ROBOT",
-    "description":"The Northrop Emancipator is the first and only model of automated tank, made shortly after the slit-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
+    "description":"The Northrop Emancipator is the first and only model of automated tank, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
     "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC"]
   },
   {
