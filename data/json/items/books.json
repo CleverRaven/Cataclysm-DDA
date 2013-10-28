@@ -1556,7 +1556,7 @@
         "id" : "novel_fantasy",
         "name" : "fantasy novel",
         "max_level" : 0,
-        "description" : "Basic Sword & Sorcery.",
+        "description" : "Basic sword & sorcery.",
         "weight" : 227,
         "to_hit" : 0,
         "color" : "light_blue",

@@ -277,7 +277,7 @@ void mdeath::guilt(game *g, monster *z) {
 
     g->add_msg(_("Killing %s fills you with guilt."), z->name().c_str());
 
-    int moraleMalus = 50;
+    int moraleMalus = -50;
     int maxMalus = -250;
     int duration = 300;
     int decayDelay = 30;
