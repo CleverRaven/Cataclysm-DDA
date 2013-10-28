@@ -1264,8 +1264,11 @@ bool overmap::generate_sub(int const z)
 
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
-   if (ter(i, j, z + 1) >= ot_sub_station_north &&
-       ter(i, j, z + 1) <= ot_sub_station_west) {
+   if (ter(i, j, z + 1) >= ot_house_base_north &&
+       ter(i, j, z + 1) <= ot_house_base_west) {
+       ter(i, j, z) = ot_basement;
+   } else if (ter(i, j, z + 1) >= ot_sub_station_north &&
+              ter(i, j, z + 1) <= ot_sub_station_west) {
     ter(i, j, z) = ot_subway_nesw;
     subway_points.push_back(city(i, j, 0));
 
@@ -1430,14 +1433,6 @@ bool overmap::generate_sub(int const z)
  place_rifts(z);
  for (int i = 0; i < mine_points.size(); i++)
   build_mine(mine_points[i].x, mine_points[i].y, z, mine_points[i].s);
-// Basements done last so sewers, etc. don't overwrite them
- for (int i = 0; i < OMAPX; i++) {
-  for (int j = 0; j < OMAPY; j++) {
-   if (ter(i, j, z + 1) >= ot_house_base_north &&
-       ter(i, j, z + 1) <= ot_house_base_west)
-    ter(i, j, z) = ot_basement;
-  }
- }
 
  for (int i = 0; i < shaft_points.size(); i++) {
   ter(shaft_points[i].x, shaft_points[i].y, z) = ot_mine_shaft;
