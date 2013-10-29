@@ -17,19 +17,70 @@
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
+#include "file_finder.h"
 
 #include <string>
 #include <vector>
+#include <queue>
 #include <fstream>
 #include <sstream> // for throwing errors
 
 #include "savegame.h"
 
 typedef std::string type_string;
+typedef std::queue<std::string> load_queue;
+
 std::map<type_string, TFunctor*> type_function_map;
+std::set<std::string> type_ignored;
+
+std::map<type_string, load_queue> type_delayed_load_queues;
+std::vector<type_string> type_delayed_load_order;
 
 std::map<int,int> reverse_legacy_ter_id;
 std::map<int,int> reverse_legacy_furn_id;
+
+void init_load_order()
+{
+    // This is a strictly defined load order for all json data.
+    type_delayed_load_order.push_back("material");
+    type_delayed_load_order.push_back("bionic");
+    type_delayed_load_order.push_back("profession");
+    type_delayed_load_order.push_back("skill");
+    type_delayed_load_order.push_back("dream");
+    type_delayed_load_order.push_back("mutation");
+    type_delayed_load_order.push_back("lab_note");
+    type_delayed_load_order.push_back("hint");
+    type_delayed_load_order.push_back("furniture");
+    type_delayed_load_order.push_back("terrain");
+    type_delayed_load_order.push_back("monstergroup");
+    type_delayed_load_order.push_back("snippet");
+    type_delayed_load_order.push_back("migo_speech");
+    type_delayed_load_order.push_back("NAME");
+    type_delayed_load_order.push_back("vehicle_part");
+    type_delayed_load_order.push_back("vehicle");
+    type_delayed_load_order.push_back("item_group");
+    type_delayed_load_order.push_back("AMMO");
+    type_delayed_load_order.push_back("GUN");
+    type_delayed_load_order.push_back("ARMOR");
+    type_delayed_load_order.push_back("TOOL");
+    type_delayed_load_order.push_back("BOOK");
+    type_delayed_load_order.push_back("COMESTIBLE");
+    type_delayed_load_order.push_back("CONTAINER");
+    type_delayed_load_order.push_back("GUNMOD");
+    type_delayed_load_order.push_back("GENERIC");
+    type_delayed_load_order.push_back("MONSTER");
+    type_delayed_load_order.push_back("SPECIES");
+    type_delayed_load_order.push_back("technique");
+    type_delayed_load_order.push_back("martial_art");
+    type_delayed_load_order.push_back("tutorial_messages");
+    type_delayed_load_order.push_back("recipe_category");
+    type_delayed_load_order.push_back("recipe");
+
+    for (int i = 0; i < type_delayed_load_order.size(); ++i){
+        type_delayed_load_queues[type_delayed_load_order[i]] = load_queue();
+    }
+}
+
 /*
  * Populate optional ter_id and furn_id variables
  */
@@ -70,52 +121,23 @@ void init_data_mappings() {
 std::vector<std::string> listfiles(std::string const &dirname)
 {
     std::vector<std::string> ret;
+    ret = file_finder::get_files_from_path(".json", dirname, true);
 
-    ret.push_back("data/json/materials.json");
-    ret.push_back("data/json/bionics.json");
-    ret.push_back("data/json/professions.json");
-    ret.push_back("data/json/skills.json");
-    ret.push_back("data/json/dreams.json");
-    ret.push_back("data/json/mutations.json");
-    ret.push_back("data/json/snippets.json");
-    ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/lab_notes.json");
-    ret.push_back("data/json/hints.json");
-    ret.push_back("data/json/furniture.json");
-    ret.push_back("data/json/terrain.json");
-    ret.push_back("data/json/migo_speech.json");
-    ret.push_back("data/json/names.json");
-    ret.push_back("data/json/vehicle_parts.json");
-    ret.push_back("data/json/vehicles.json");
-    ret.push_back("data/json/species.json");
-    ret.push_back("data/json/monsters.json");
-    ret.push_back("data/json/monstergroups.json");
-    ret.push_back("data/json/items/ammo.json");
-    ret.push_back("data/json/items/archery.json");
-    ret.push_back("data/json/items/armor.json");
-    ret.push_back("data/json/items/books.json");
-    ret.push_back("data/json/items/comestibles.json");
-    ret.push_back("data/json/items/containers.json");
-    ret.push_back("data/json/items/melee.json");
-    ret.push_back("data/json/items/mods.json");
-    ret.push_back("data/json/items/ranged.json");
-    ret.push_back("data/json/items/tools.json");
-    ret.push_back("data/json/items/vehicle_parts.json");
-    ret.push_back("data/json/techniques.json");
-    ret.push_back("data/json/martialarts.json");
-    ret.push_back("data/json/tutorial.json");
-
-    ret.push_back("data/json/recipes.json");
     return ret;
 }
 
-void load_object(JsonObject &jo)
+void load_object(JsonObject &jo, bool initialrun)
 {
     std::string type = jo.get_string("type");
     if (type_function_map.find(type) != type_function_map.end())
     {
+        if ( initialrun){// && type_delayed_order.find(type) != type_delayed_order.end() ) {
+            //type_delayed[ type_delayed_order[type] ].push_back( jo.dump_input() );
+            type_delayed_load_queues[type].push(jo.dump_input());
+            return;
+        }
         (*type_function_map[type])(jo);
-    } else {
+    } else if ( type_ignored.count(type) == 0) {
         std::stringstream err;
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
@@ -127,6 +149,9 @@ void null_load_target(JsonObject &jo){}
 
 void init_data_structures()
 {
+    type_ignored.insert("colordef");   // loaded earlier.
+    type_ignored.insert("INSTRUMENT"); // ...unimplemented?
+
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -142,7 +167,6 @@ void init_data_structures()
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     type_function_map["monstergroup"] = new StaticFunctionAccessor(&MonsterGroupManager::LoadMonsterGroup);
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
-
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
@@ -168,10 +192,12 @@ void init_data_structures()
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
+
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
 
     mutations_category[""].clear();
+    init_load_order();
     init_mutation_parts();
     init_translation();
     init_martial_arts();
@@ -186,10 +212,13 @@ void release_data_structures()
             delete it->second;
     }
     type_function_map.clear();
+    type_delayed_load_order.clear();
+    type_delayed_load_queues.clear();
 }
 
 void load_json_dir(std::string const &dirname)
 {
+    //    load_overlay("data/overlay.json");
     // get a list of all files in the directory
     std::vector<std::string> dir = listfiles(dirname);
     // iterate over each file
@@ -213,7 +242,26 @@ void load_json_dir(std::string const &dirname)
             throw *(it) + ": " + e;
         }
     }
-    init_data_mappings();
+
+    for (int i = 0; i < type_delayed_load_order.size(); ++i){
+        std::string type = type_delayed_load_order[i];
+        while (!type_delayed_load_queues[type].empty()){
+            std::istringstream iss( type_delayed_load_queues[type].front() );
+            type_delayed_load_queues[type].pop();
+            try {
+                JsonIn jsin(&iss);
+                jsin.eat_whitespace(); // should not be needed
+                JsonObject jo = jsin.get_object();
+                load_object(jo, false); // don't re-queue, parse
+            } catch (std::string e) {
+                throw *(it) + ": " + e;
+            }
+        }
+    }
+
+    if ( t_floor != termap["t_floor"].loadid ) {
+        init_data_mappings(); // this should only kick off once
+    }
 }
 
 void load_all_from_json(JsonIn &jsin)
