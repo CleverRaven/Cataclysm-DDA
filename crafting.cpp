@@ -89,18 +89,11 @@ void load_recipe(JsonObject &jsobj)
 
     jsarr = jsobj.get_array("qualities");
     while(jsarr.has_more()){
-        std::vector<quality_requirement> tool_choices;
         JsonObject quality_data = jsarr.next_object();
-        std::string name = quality_data.get_string("name");
-        int level=1;
-        int amount=1;
-        if(quality_data.has_member("level")){
-          level = quality_data.get_int("level");
-        }
-        if(quality_data.has_member("amount")){
-          amount = quality_data.get_int("amount");
-        }
-        rec->qualities.push_back(quality_requirement(name, level, amount));
+        std::string ident = quality_data.get_string("id");
+        int level = quality_data.get_int("level", 1);
+        int amount = quality_data.get_int("amount", 1);
+        rec->qualities.push_back(quality_requirement(ident, level, amount));
     }
 
     jsarr = jsobj.get_array("tools");
@@ -202,10 +195,10 @@ bool game::can_make(recipe *r)
     std::vector<quality_requirement> &qualities = r->qualities;
     std::vector<quality_requirement>::iterator quality_iter = qualities.begin();
     while(quality_iter != qualities.end()){
-        std::string name = quality_iter->name;
+        std::string id = quality_iter->id;
         int amount = quality_iter->count;
         int level = quality_iter->level;
-        if(crafting_inv.has_items_with_quality(name, level, amount)){
+        if(crafting_inv.has_items_with_quality(id, level, amount)){
             quality_iter->available = true;
         } else {
             quality_iter->available = false;
@@ -684,7 +677,7 @@ recipe* game::select_crafting_recipe()
                     }
                     
                     std::stringstream qualinfo;
-                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, iter->name.c_str(), iter->level);
+                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, iter->id.c_str(), iter->level);
                     mvwprintz(w_data, ypos, xpos, toolcol, qualinfo.str().c_str());
                 }
                 // Loop to print the required tools

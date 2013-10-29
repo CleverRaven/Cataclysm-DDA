@@ -25,14 +25,14 @@ struct component
 
 struct quality_requirement
 {
-  std::string name;
+  std::string id;
   int count;
   bool available;
   int level;
 
-  quality_requirement() { name = "UNKNOWN"; count = 0; available = false; level = 0;}
-  quality_requirement(std::string new_name, int new_count, int new_level){ 
-    name = new_name; 
+  quality_requirement() { id = "UNKNOWN"; count = 0; available = false; level = 0;}
+  quality_requirement(std::string new_id, int new_count, int new_level){ 
+    id = new_id; 
     count = new_count;
     level = new_level;
     available = false; 

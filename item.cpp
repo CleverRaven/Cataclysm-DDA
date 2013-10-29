@@ -1086,11 +1086,12 @@ bool item::has_flag(std::string f) const
     return ret;
 }
 
-bool item::has_quality(std::string quality_name) const {
-    return has_quality(quality_name, 1);
+bool item::has_quality(std::string quality_id) const {
+    return has_quality(quality_id, 1);
 }
 
-bool item::has_quality(std::string quality_name, int quality_value) const {
+bool item::has_quality(std::string quality_id, int quality_value) const {
+    // TODO: actually implement this >:(
     bool ret = false;
 
     if(type->qualities.size() > 0){
