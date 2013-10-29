@@ -10061,8 +10061,22 @@ void game::plmove(int dx, int dy)
         if (cur == NULL) {
             continue;
         }
-        bool tolerateSmoke = (cur->getFieldType() == fd_smoke && (u.resist(bp_mouth) >= 7));
-        bool dangerous = (cur->is_dangerous() && !tolerateSmoke);
+        field_id curType = cur->getFieldType();
+        bool dangerous = false;
+
+        switch (curType) {
+            case fd_smoke:
+                dangerous = !(u.resist(bp_mouth) >= 7);
+                break;
+            case fd_tear_gas:
+            case fd_toxic_gas:
+            case fd_gas_vent:
+                dangerous = !(u.resist(bp_mouth) >= 15);
+                break;
+            default:
+                dangerous = cur->is_dangerous();
+                break;
+        }
         if ((dangerous) && !query_yn(_("Really step into that %s?"), cur->name().c_str())) {
             return;
         }
