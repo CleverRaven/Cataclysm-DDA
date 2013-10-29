@@ -1237,7 +1237,7 @@ int inventory::butcher_factor() const
              ++stack_iter)
         {
             const item& cur_item = *stack_iter;
-            if (cur_item.damage_cut() >= 10 && !cur_item.has_flag("SPEAR"))
+            if (cur_item.has_quality("CUT") && !cur_item.has_flag("SPEAR"))
             {
                 int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
                              cur_item.damage_cut();
