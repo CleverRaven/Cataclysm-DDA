@@ -908,75 +908,78 @@ int monster::attack_at(int x, int y) {
 
 int monster::move_to(game *g, int x, int y, bool force)
 {
-  // Make sure that we can move there, unless force is true.
-  if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
-      return 0;
-  }
-
-  if (has_effect(ME_BEARTRAP)) {
-   moves = 0;
-   return 0;
-  }
-
-  if (plans.size() > 0)
-   plans.erase(plans.begin());
-
-  moves -= calc_movecost(g, posx(), posy(), x, y);
-
-  if (has_flag(MF_SLUDGETRAIL) && !is_hallucination()) {
-    for (int dx = -1; dx <= 1; dx++) {
-      for (int dy = -1; dy <= 1; dy++) {
-        const int fstr = 3 - (abs(dx) + abs(dy));
-        if (fstr >= 2) {
-          g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
-        }
-      }
+    // Make sure that we can move there, unless force is true.
+    if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
+        return 0;
     }
-  }
 
-  //Check for moving into/out of water
-  bool was_water = g->m.is_divable(posx(), posy());
-  bool will_be_water = g->m.is_divable(x, y);
+    if (has_effect(ME_BEARTRAP)) {
+        moves = 0;
+        return 0;
+    }
 
-  if(was_water && !will_be_water && g->u_see(x, y)) {
-    //Use more dramatic messages for swimming monsters
-    g->add_msg(_("A %s %s from the %s!"), name().c_str(),
-            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
-            g->m.tername(posx(), posy()).c_str());
-  } else if(!was_water && will_be_water && g->u_see(x, y)) {
-    g->add_msg(_("A %s %s into the %s!"), name().c_str(),
-            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
-            g->m.tername(x, y).c_str());
-  }
+    if (plans.size() > 0) {
+        plans.erase(plans.begin());
+    }
 
-  setpos(x, y);
-  footsteps(g, x, y);
-  if(is_hallucination()) {
-    //Hallucinations don't do any of the stuff after this point
+    moves -= calc_movecost(g, posx(), posy(), x, y);
+
+    if (has_flag(MF_SLUDGETRAIL) && !is_hallucination()) {
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                const int fstr = 3 - (abs(dx) + abs(dy));
+                if (fstr >= 2) {
+                    g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
+                }
+            }
+        }
+    }
+
+    //Check for moving into/out of water
+    bool was_water = g->m.is_divable(posx(), posy());
+    bool will_be_water = g->m.is_divable(x, y);
+
+    if(was_water && !will_be_water && g->u_see(x, y)) {
+        //Use more dramatic messages for swimming monsters
+        g->add_msg(_("A %s %s from the %s!"), name().c_str(),
+                   has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
+                   g->m.tername(posx(), posy()).c_str());
+    } else if(!was_water && will_be_water && g->u_see(x, y)) {
+        g->add_msg(_("A %s %s into the %s!"), name().c_str(),
+                   has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
+                   g->m.tername(x, y).c_str());
+    }
+
+    setpos(x, y);
+    footsteps(g, x, y);
+    if(is_hallucination()) {
+        //Hallucinations don't do any of the stuff after this point
+        return 1;
+    }
+    if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4)) {
+        hurt(rng(2, 3));
+    }
+    if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6)) {
+        hurt(rng(1, 2));
+    }
+    if (!digging() && !has_flag(MF_FLIES) &&
+          g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
+        trap* tr = g->traps[g->m.tr_at(posx(), posy())];
+        if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
+            trapfuncm f;
+            (f.*(tr->actm))(g, this, posx(), posy());
+        }
+    }
+    // Diggers turn the dirt into dirtmound
+    if (digging()){
+        g->m.ter_set(posx(), posy(), t_dirtmound);
+    }
+    // Acid trail monsters leave... a trail of acid
+    if (has_flag(MF_ACIDTRAIL) && !is_hallucination()){
+        g->m.add_field(g, posx(), posy(), fd_acid, 3);
+    }
+
     return 1;
-  }
-  if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4))
-     hurt(rng(2, 3));
-  if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6))
-     hurt(rng(1, 2));
-  if (!digging() && !has_flag(MF_FLIES) &&
-        g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
-   trap* tr = g->traps[g->m.tr_at(posx(), posy())];
-   if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
-    trapfuncm f;
-    (f.*(tr->actm))(g, this, posx(), posy());
-   }
-  }
-// Diggers turn the dirt into dirtmound
-  if (digging()){
-   g->m.ter_set(posx(), posy(), t_dirtmound);
-  }
-// Acid trail monsters leave... a trail of acid
-  if (has_flag(MF_ACIDTRAIL) && !is_hallucination()){
-   g->m.add_field(g, posx(), posy(), fd_acid, 3);
-  }
-
-  return 1;
 }
 
 /* Random walking even when we've moved
