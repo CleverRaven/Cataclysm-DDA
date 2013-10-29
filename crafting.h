@@ -39,6 +39,12 @@ struct quality_requirement
   }
 };
 
+struct quality
+{
+    std::string id;
+    std::string name;
+};
+
 struct recipe {
   std::string ident;
   int id;
@@ -108,5 +114,8 @@ void load_recipe(JsonObject &jsobj);
 recipe* recipe_by_name(std::string name);
 
 extern recipe_map recipes; // The list of valid recipes
+
+void load_quality(JsonObject &jo);
+extern std::map<std::string,quality> qualities;
 
 #endif

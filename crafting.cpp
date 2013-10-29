@@ -15,6 +15,7 @@
 std::vector<craft_cat> craft_cat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
+std::map<std::string,quality> qualities;
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
@@ -123,6 +124,14 @@ void load_recipe(JsonObject &jsobj)
     }
 
     recipes[category].push_back(rec);
+}
+
+void load_quality(JsonObject &jo)
+{
+    quality qual;
+    qual.id = jo.get_string("id");
+    qual.name = _(jo.get_string("name").c_str());
+    qualities[qual.id] = qual;
 }
 
 bool game::crafting_allowed()
@@ -677,7 +686,7 @@ recipe* game::select_crafting_recipe()
                     }
                     
                     std::stringstream qualinfo;
-                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, iter->id.c_str(), iter->level);
+                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
                     mvwprintz(w_data, ypos, xpos, toolcol, qualinfo.str().c_str());
                 }
                 // Loop to print the required tools
