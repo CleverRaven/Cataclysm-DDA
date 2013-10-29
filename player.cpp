@@ -3420,7 +3420,7 @@ void player::pause(game *g)
     vehicle* veh = NULL;
     for (int v = 0; v < vehs.size(); ++v) {
         veh = vehs[v].v;
-        if (veh && veh->velocity > 0 && veh->player_in_control(this)) {
+        if (veh && veh->velocity != 0 && veh->player_in_control(this)) {
             if (one_in(10)) {
                 practice(g->turn, "driving", 1);
             }
@@ -6235,28 +6235,8 @@ bool player::consume(game *g, signed char ch)
                     return false;
                 }
             }
-            hunger -= comest->nutr;
-            thirst -= comest->quench;
-            health += comest->healthy;
+            consume_effects(to_eat, comest);
             moves -= 250;
-            add_addiction(comest->add, comest->addict);
-            if (addiction_craving(comest->add) != MORALE_NULL) {
-                rem_morale(addiction_craving(comest->add));
-            }
-            if (comest->fun < 0) {
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
-            } else if (comest->fun > 0) {
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
-            }
-            if (hunger < -20 || thirst < -20) {
-                g->add_msg_if_player(this,_("You can't finish it all!"));
-            }
-            if (hunger < -20) {
-                hunger = -20;
-            }
-            if (thirst < -20) {
-                thirst = -20;
-            }
             was_consumed = true;
         } else {
             debugmsg("Unknown comestible type of item: %s\n", to_eat->tname(g).c_str());
@@ -6284,7 +6264,7 @@ bool player::consume(game *g, signed char ch)
             if (to_eat->type->m1 == "leather" || to_eat->type->m2 == "leather") {
                 charge /= 4;
             }
-            if (to_eat->type->m1 == "wood"    || to_eat->type->m2 == "wood") {
+            if (to_eat->type->m1 == "wood" || to_eat->type->m2 == "wood") {
                 charge /= 2;
             }
             charge_power(charge);
@@ -6403,23 +6383,14 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         if (!has_trait("SAPROVORE") && (!has_bionic("bio_digestion") || one_in(3))) {
             add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
-        hunger -= rng(0, comest->nutr);
-        thirst -= comest->quench;
-        if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            health -= 3;
-        }
+        consume_effects(eaten, comest, spoiled);
     } else {
-        hunger -= comest->nutr;
-        thirst -= comest->quench;
-
-        if (has_bionic("bio_digestion")) {
-            hunger -= rng(0, comest->nutr);
-        } else if (!has_trait("GOURMAND")) {
+        consume_effects(eaten, comest);
+        if (!has_trait("GOURMAND")) {
             if ((overeating && rng(-200, 0) > hunger)) {
                 vomit(g);
             }
         }
-        health += comest->healthy;
     }
     // At this point, we've definitely eaten the item, so use up some turns.
     if (has_trait("GOURMAND")) {
@@ -6445,21 +6416,6 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
 
     if (g->itypes[comest->tool]->is_tool()) {
         use_charges(comest->tool, 1); // Tools like lighters get used
-    }
-    if (comest->stim > 0) {
-        if (comest->stim < 10 && stim < comest->stim) {
-            stim += comest->stim;
-            if (stim > comest->stim) {
-                stim = comest->stim;
-            }
-        } else if (comest->stim >= 10 && stim < comest->stim * 3) {
-            stim += comest->stim;
-        }
-    }
-
-    add_addiction(comest->add, comest->addict);
-    if (addiction_craving(comest->add) != MORALE_NULL) {
-        rem_morale(addiction_craving(comest->add));
     }
 
     if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol) {
@@ -6494,6 +6450,40 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
             hunger += int(comest->nutr * .75);
         }
     }
+    return true;
+}
+
+void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
+{
+    if (rotten) {
+        hunger -= rng(0, comest->nutr);
+        thirst -= comest->quench;
+        if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
+            health -= 3;
+        }
+    } else {
+        hunger -= comest->nutr;
+        thirst -= comest->quench;
+        health += comest->healthy;
+    }
+
+    if (has_bionic("bio_digestion")) {
+        hunger -= rng(0, comest->nutr);
+    }
+
+    if (comest->stim != 0) {
+        if (abs(stim) < (abs(comest->stim) * 3)) {
+            if (comest->stim < 0) {
+                stim = std::max(comest->stim * 3, stim + comest->stim);
+            } else {
+                stim = std::min(comest->stim * 3, stim + comest->stim);
+            }
+        }
+    }
+    add_addiction(comest->add, comest->addict);
+    if (addiction_craving(comest->add) != MORALE_NULL) {
+        rem_morale(addiction_craving(comest->add));
+    }
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
     }
@@ -6503,7 +6493,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }
-        if (hunger < -60 || thirst < -60) {
+        if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
         if (hunger < -60) {
@@ -6518,7 +6508,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
         }
-        if (hunger < -20 || thirst < -20) {
+        if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
         if (hunger < -20) {
@@ -6528,7 +6518,6 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
             thirst = -20;
         }
     }
-    return true;
 }
 
 bool player::wield(game *g, signed char ch, bool autodrop)
