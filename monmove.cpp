@@ -964,20 +964,23 @@ int monster::move_to(game *g, int x, int y, bool force)
         int factor = 0;
         switch (type->size) {
         case MS_TINY:
-            factor = 10;
+            factor = 100;
             break;
         case MS_SMALL:
-            factor = 6;
+            factor = 30;
             break;
         case MS_MEDIUM:
-            factor = 3;
+            factor = 6;
             break;
         case MS_LARGE:
-            factor = 2;
+            factor = 3;
             break;
         case MS_HUGE:
             factor = 1;
             break;
+        }
+        if (has_flag(MF_VERMIN)) {
+            factor *= 100;
         }
         if (one_in(factor)) {
             g->m.ter_set(posx(), posy(), t_dirtmound);
