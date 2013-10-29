@@ -10057,11 +10057,22 @@ void game::plmove(int dx, int dy)
   for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
       field_list_it != tmpfld.getFieldEnd(); ++field_list_it) {
         cur = field_list_it->second;
-        if(cur == NULL) continue;
-        if (cur->is_dangerous() &&
-            !query_yn(_("Really step into that %s?"), cur->name().c_str()))
+        if(cur == NULL){ 
+            continue;
+        }
+        if (  cur->is_dangerous() &&
+              !query_yn(_("Really step into that %s?"), cur->name().c_str())){
             return;
-    }
+        }
+  }
+
+  if (m.tr_at(x, y) != tr_null &&
+    u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility){
+        if (  !traps[m.tr_at(x, y)]->is_benign() &&
+              !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str())){
+            return;
+        }
+  }
 
   float drag_multiplier = 1.0;
   vehicle *grabbed_vehicle = NULL;
