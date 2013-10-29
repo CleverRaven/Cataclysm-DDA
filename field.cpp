@@ -1087,14 +1087,33 @@ void map::step_in_field(int x, int y, game *g)
             break;
 
         case fd_smoke:
-            //Get smoke disease from standing in smoke.
-            if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("smoke", bp_mouth, 4, 15);
-            } else if (cur->getFieldDensity() == 2 && !inside){
-                g->u.infect("smoke", bp_mouth, 2, 7);
-            } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
-                g->u.infect("smoke", bp_mouth, 1, 2);
+                //Get smoke disease from standing in smoke.
+                int coughStr = 0;
+                int coughDur = 0;
+
+                if (!inside) {
+                    switch (cur->getFieldDensity()) {
+                        case 1:
+                            if (one_in(2)) {
+                                coughStr = 1;
+                                coughDur = 2;
+                            }
+                            break;
+                        case 2:
+                            coughStr = 2;
+                            coughDur = 7;
+                            break;
+                        case 3:
+                            coughStr = 4;
+                            coughDur = 15;
+                            break;
+                        default: break;
+                    }
+                }
+                if (coughStr > 0 && coughDur > 0) {
+                    g->u.infect("smoke", bp_mouth, coughStr, coughDur);
+                }
             }
             break;
 
@@ -1193,7 +1212,7 @@ void map::step_in_field(int x, int y, game *g)
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
-    if (z->has_flag(MF_DIGS) || 
+    if (z->has_flag(MF_DIGS) ||
       (z->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))) {
         return; // Digging monsters are immune to fields
     }

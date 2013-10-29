@@ -7751,7 +7751,7 @@ void game::pickup(int posx, int posy, int min)
                     }
                 }
             }
-            
+
             if (craft_part >= 0) {
                 if (query_yn(_("Use the water purifier?"))) {
                     used_feature = true;
@@ -10048,23 +10048,25 @@ void game::plmove(int dx, int dy)
  }
 
 
- if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) { // move_cost() of 0 = impassible (e.g. a wall)
-  u.set_underwater(false);
+ if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture ) {
+    // move_cost() of 0 = impassible (e.g. a wall)
+    u.set_underwater(false);
 
-  //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
-  field_entry *cur = NULL;
-  field &tmpfld = m.field_at(x, y);
-  for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
-      field_list_it != tmpfld.getFieldEnd(); ++field_list_it) {
-        cur = field_list_it->second;
-        if(cur == NULL){ 
+    //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
+    field_entry *cur = NULL;
+    field &tmpfld = m.field_at(x, y);
+    std::map<field_id, field_entry*>::iterator field_it;
+    for (field_it = tmpfld.getFieldStart(); field_it != tmpfld.getFieldEnd(); ++field_it) {
+        cur = field_it->second;
+        if (cur == NULL) {
             continue;
         }
-        if (  cur->is_dangerous() &&
-              !query_yn(_("Really step into that %s?"), cur->name().c_str())){
+        bool tolerateSmoke = (cur->getFieldType() == fd_smoke && (u.resist(bp_mouth) >= 7));
+        bool dangerous = (cur->is_dangerous() && !tolerateSmoke);
+        if ((dangerous) && !query_yn(_("Really step into that %s?"), cur->name().c_str())) {
             return;
         }
-  }
+    }
 
   if (m.tr_at(x, y) != tr_null &&
     u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility){
