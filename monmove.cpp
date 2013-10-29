@@ -924,17 +924,6 @@ int monster::move_to(game *g, int x, int y, bool force)
 
     moves -= calc_movecost(g, posx(), posy(), x, y);
 
-    if (has_flag(MF_SLUDGETRAIL) && !is_hallucination()) {
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                const int fstr = 3 - (abs(dx) + abs(dy));
-                if (fstr >= 2) {
-                    g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
-                }
-            }
-        }
-    }
-
     //Check for moving into/out of water
     bool was_water = g->m.is_divable(posx(), posy());
     bool will_be_water = g->m.is_divable(x, y);
@@ -995,8 +984,19 @@ int monster::move_to(game *g, int x, int y, bool force)
         }
     }
     // Acid trail monsters leave... a trail of acid
-    if (has_flag(MF_ACIDTRAIL) && !is_hallucination()){
+    if (has_flag(MF_ACIDTRAIL)){
         g->m.add_field(g, posx(), posy(), fd_acid, 3);
+    }
+
+    if (has_flag(MF_SLUDGETRAIL)) {
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                const int fstr = 3 - (abs(dx) + abs(dy));
+                if (fstr >= 2) {
+                    g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
+                }
+            }
+        }
     }
 
     return 1;
