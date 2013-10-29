@@ -1156,13 +1156,13 @@ bool inventory::has_item(item *it) const
     return false;
 }
 
-bool inventory::has_items_with_quality(std::string name, int level, int amount) const
+bool inventory::has_items_with_quality(std::string id, int level, int amount) const
 {
     int found = 0;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter){
         for(std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter){
             std::map<std::string,int> qualities = stack_iter->type->qualities;
-            std::map<std::string,int>::const_iterator quality_iter = qualities.find(name);
+            std::map<std::string,int>::const_iterator quality_iter = qualities.find(id);
             if(quality_iter!=qualities.end() && level >= quality_iter->second){
               found++;
             }

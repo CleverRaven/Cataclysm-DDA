@@ -520,7 +520,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],  "components": [
     [
       [ "amplifier", 1 ]
@@ -602,7 +602,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -623,7 +623,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -646,7 +646,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -667,7 +667,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -689,7 +689,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -728,7 +728,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -794,7 +794,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -819,7 +819,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -844,7 +844,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -869,7 +869,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -1114,7 +1114,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -1191,7 +1191,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -1250,7 +1250,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -1896,7 +1896,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -1966,7 +1966,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -1988,7 +1988,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2064,7 +2064,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2087,7 +2087,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2110,7 +2110,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2143,7 +2143,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2167,7 +2167,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2188,7 +2188,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2209,7 +2209,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2245,7 +2245,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2297,7 +2297,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2323,7 +2323,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2350,7 +2350,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2374,7 +2374,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2546,7 +2546,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -4107,7 +4107,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -4224,7 +4224,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -4254,7 +4254,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -4281,7 +4281,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -4373,7 +4373,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -4615,7 +4615,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
     [
@@ -5886,7 +5886,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -6196,7 +6196,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -6434,7 +6434,7 @@
     ]
   ],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -9420,7 +9420,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -9447,7 +9447,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -9471,7 +9471,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -10086,7 +10086,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10143,7 +10143,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10324,7 +10324,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -10354,7 +10354,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -10440,7 +10440,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10614,7 +10614,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10649,7 +10649,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -10676,7 +10676,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -10700,7 +10700,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -11055,7 +11055,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -11072,7 +11072,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -11288,7 +11288,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -11373,7 +11373,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -11398,7 +11398,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -12120,7 +12120,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12930,7 +12930,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12967,7 +12967,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13003,7 +13003,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13040,7 +13040,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13095,7 +13095,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13132,7 +13132,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13187,7 +13187,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13299,7 +13299,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -13319,7 +13319,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -13373,7 +13373,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "components": [
      [
@@ -13392,7 +13392,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -14078,7 +14078,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -14224,7 +14224,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [ [ ["spray_can", 1] ],
     [ ["duct_tape", 25] ],
@@ -14251,7 +14251,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [ ["rock", -1], ["primitive_hammer", -1],
@@ -14308,7 +14308,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [ [ ["paper", 300] ],
     [ ["duct_tape", 150] ] ]
@@ -14383,7 +14383,7 @@
    "reversible": false,
    "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -15336,7 +15336,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -16218,7 +16218,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
    [
@@ -16259,7 +16259,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
     [
@@ -16297,7 +16297,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
     [
@@ -16329,7 +16329,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
       [
@@ -16368,7 +16368,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
      [
@@ -16417,7 +16417,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
      [
@@ -16469,7 +16469,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16764,7 +16764,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16797,7 +16797,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16896,7 +16896,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16944,7 +16944,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16985,7 +16985,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 5 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
  "tools": [
     [
@@ -17369,7 +17369,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -17405,7 +17405,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -17441,7 +17441,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -17472,7 +17472,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -17503,7 +17503,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -17523,7 +17523,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
