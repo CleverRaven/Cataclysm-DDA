@@ -1522,6 +1522,19 @@ void game::complete_disassemble()
   recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
 
+  int min_required = 1;
+  if (dis_item->count_by_charges()){
+    // required number of item in inventory for disassembly to succeed
+    min_required = dis_item->type->stack_size;
+    int quantity = dis_item->charges;
+    int num_disassemblies_available = quantity / min_required;
+
+    if (num_disassemblies_available == 0){
+      add_msg(_("You cannot disassemble the %s into its components, too few items."), dis_item->name.c_str());
+      return;
+    }
+  }
+
   add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
   // remove any batteries or ammo first
     if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL")
@@ -1547,7 +1560,15 @@ void game::complete_disassemble()
       else
         m.add_item_or_charges(u.posx, u.posy, ammodrop);
     }
-    u.i_rem(u.activity.values[0]);  // remove the item
+
+    if (dis_item->count_by_charges()){
+        dis_item->charges -= min_required;
+        if (dis_item->charges == 0){
+            u.i_rem(u.activity.values[0]);
+        }
+    }else{
+        u.i_rem(u.activity.values[0]);  // remove the item
+    }
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)
