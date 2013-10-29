@@ -9,8 +9,6 @@
 
 void mdeath::normal(game *g, monster *z) {
     const int CORPSE_DAM_MAX = 4;
-    int monSize = z->type->size;
-
     if (g->u_see(z)) {
         g->add_msg(_("The %s dies!"), z->name().c_str());
     }
@@ -23,40 +21,38 @@ void mdeath::normal(game *g, monster *z) {
         g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
     }
 
+    bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
     bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
     if (leaveCorpse) {
         int maxHP = z->type->hp;
-        signed int overflowDamage = -(z->hp);
+        if (!maxHP) {
+            return;
+        }
+        float overflowDamage = -(z->hp);
 
         // determine how much of a mess is left, for flesh and veggy creatures
-
-        int gibAmount = -2;
-        int corpseDamage = 0;
-        bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
-
-        for (int i = 5; i >= 1; i--) {
-            if (overflowDamage > maxHP / i) {
-                corpseDamage += 1;
-                if (i > 5 && isFleshy) {
-                    gibAmount += rng(1,3);
-                }
-            }
-        }
-        if (isFleshy && ((overflowDamage < maxHP * 2) || (monSize >= (int)MS_MEDIUM))) {
+        float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
+        int gibAmount = corpseDamage - 1;
+        bool pulverized = (corpseDamage > 5 && overflowDamage > 50);
+        if (!pulverized) {
             // the corpse still exists, let's place it
             item corpse;
             corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
-            corpse.damage = corpseDamage > CORPSE_DAM_MAX ? CORPSE_DAM_MAX : corpseDamage;
+            corpse.damage = corpseDamage > CORPSE_DAM_MAX ? CORPSE_DAM_MAX : int(corpseDamage);
             g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
+        } else {
+            gibAmount += rng(1,6);
         }
-
-        // leave gibs, if there are any
-        const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
-        for (int i = 0; i < gibAmount; i++) {
-            const int gibX = z->posx() + rng(1,6) - 3;
-            const int gibY = z->posy() + rng(1,6) - 3;
-            const int gibDensity = rng(1, 3);
-            g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+        // no gibs for non-fleshy creatures until implemented
+        if (gibAmount > 0 && isFleshy) {
+            const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
+            for (int i = 0; i < gibAmount; i++) {
+                // leave gibs, if there are any
+                const int gibX = z->posx() + rng(1,6) - 3;
+                const int gibY = z->posy() + rng(1,6) - 3;
+                const int gibDensity = rng(1, i+1);
+                g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+            }
         }
     }
 }
