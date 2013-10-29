@@ -6453,7 +6453,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     return true;
 }
 
-void player::consume_effects(item *eaten, it_comest *comest,bool rotten)
+void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if (rotten) {
         hunger -= rng(0, comest->nutr);
