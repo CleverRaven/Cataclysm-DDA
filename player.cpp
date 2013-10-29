@@ -3420,7 +3420,7 @@ void player::pause(game *g)
     vehicle* veh = NULL;
     for (int v = 0; v < vehs.size(); ++v) {
         veh = vehs[v].v;
-        if (veh && veh->velocity > 0 && veh->player_in_control(this)) {
+        if (veh && veh->velocity != 0 && veh->player_in_control(this)) {
             if (one_in(10)) {
                 practice(g->turn, "driving", 1);
             }
