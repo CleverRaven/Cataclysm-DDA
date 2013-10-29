@@ -344,7 +344,7 @@ void monster::footsteps(game *g, int x, int y)
   return; // Flying monsters don't have footsteps!
  made_footstep = true;
  int volume = 6; // same as player's footsteps
- if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y)))
+ if (digging())
   volume = 10;
  switch (type->size) {
   case MS_TINY:
@@ -734,9 +734,7 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
     float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
 
     // Digging and flying monsters ignore terrain cost
-    if (has_flag(MF_DIGS) || has_flag(MF_FLIES) ||
-        (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x1, y1) &&
-         g->m.has_flag("DIGGABLE", x2, y2))) {
+    if (has_flag(MF_FLIES) || (digging() && g->m.has_flag("DIGGABLE", x2, y2))) {
         movecost = 100 * diag_mult;
     // Swimming monsters move super fast in water
     } else if (has_flag(MF_SWIMS)) {
@@ -961,9 +959,8 @@ int monster::move_to(game *g, int x, int y, bool force)
      hurt(rng(2, 3));
   if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6))
      hurt(rng(1, 2));
-  if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
-      (!has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
-      g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
+  if (!digging() && !has_flag(MF_FLIES) &&
+        g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
    trap* tr = g->traps[g->m.tr_at(posx(), posy())];
    if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
     trapfuncm f;
@@ -971,7 +968,7 @@ int monster::move_to(game *g, int x, int y, bool force)
    }
   }
 // Diggers turn the dirt into dirtmound
-  if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))){
+  if (digging()){
    g->m.ter_set(posx(), posy(), t_dirtmound);
   }
 // Acid trail monsters leave... a trail of acid

@@ -4360,8 +4360,7 @@ bool game::u_see(monster *mon)
  if (u.has_trait("ANTENNAE") && dist <= 3) {
   return true;
  }
- if ((mon->has_flag(MF_DIGS) || (mon->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", mon->posx(), mon->posy()))) &&
-      !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
+ if (mon->digging() && !u.has_active_bionic("bio_ground_sonar") && dist > 1) {
   return false; // Can't see digging monsters until we're right next to them
  }
  if (m.is_divable(mon->posx(), mon->posy()) && mon->can_submerge()
@@ -4376,8 +4375,7 @@ bool game::u_see(monster *mon)
 bool game::pl_sees(player *p, monster *mon, int &t)
 {
  // TODO: [lightmap] Allow npcs to use the lightmap
- if ((mon->has_flag(MF_DIGS) || (mon->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", mon->posx(), mon->posy()))) &&
-      !p->has_active_bionic("bio_ground_sonar") &&
+ if (mon->digging() && !p->has_active_bionic("bio_ground_sonar") &&
        rl_dist(p->posx, p->posy, mon->posx(), mon->posy()) > 1)
   return false; // Can't see digging monsters until we're right next to them
  int range = p->sight_range(light_level());
