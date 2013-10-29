@@ -254,7 +254,6 @@ void init_translation() {
     monStr2monId["mon_horse"] = mon_horse;
     monStr2monId["mon_lemming"] = mon_lemming;
     monStr2monId["mon_mink"] = mon_mink;
-    monStr2monId["mon_mole"] = mon_mole;
     monStr2monId["mon_moose"] = mon_moose;
     monStr2monId["mon_muskrat"] = mon_muskrat;
     monStr2monId["mon_otter"] = mon_otter;

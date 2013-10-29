@@ -90,7 +90,7 @@ enum mon_id {
     mon_chicken, mon_chipmunk, mon_cow, mon_coyote_wolf,
     mon_deer_mouse, mon_fox_gray, mon_fox_red,
     mon_groundhog, mon_hare, mon_horse, mon_lemming,
-    mon_mink, mon_mole, mon_muskrat, mon_otter, mon_pig,
+    mon_mink, mon_muskrat, mon_otter, mon_pig,
     mon_sheep, mon_shrew, mon_squirrel_red,
     mon_weasel,
     num_monsters
