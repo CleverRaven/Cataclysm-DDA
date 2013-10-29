@@ -673,11 +673,10 @@ recipe* game::select_crafting_recipe()
             }
             else
             {
-                ypos = 5;
+                ypos = 6;
                 // Loop to print the required tool qualities
                 for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin(); 
                         iter != current[line]->qualities.end(); ++iter){
-                    ypos++;
                     xpos = 32;
                     mvwputch(w_data, ypos, 30, col, '>');
                     nc_color toolcol = c_red;
@@ -687,8 +686,9 @@ recipe* game::select_crafting_recipe()
                     
                     std::stringstream qualinfo;
                     qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
-                    mvwprintz(w_data, ypos, xpos, toolcol, qualinfo.str().c_str());
+                    ypos += fold_and_print(w_data, ypos, xpos, getmaxx(w_data)-xpos-1, toolcol, qualinfo.str().c_str());
                 }
+                ypos--;
                 // Loop to print the required tools
                 for (int i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++)
                 {
