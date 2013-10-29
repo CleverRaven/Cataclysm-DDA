@@ -471,7 +471,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral."
+    "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS40", "BONES"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
@@ -888,7 +888,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A cute wiggling nose, cotton tail, made of delicious flesh."
+    "description":"A cute wiggling nose, cotton tail, made of delicious flesh.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -1529,7 +1529,7 @@
     "special_freq":0,
     "death_function":"MELT",
     "special_attack":"NONE",
-    "description":"A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground. Eye stalks occassionally push their way out of the oily mass and look around."
+    "description":"A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground. Eye stalks occassionally push their way out of the oily mass and look around.",
     "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "VIS30", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE"]
   },
   {
@@ -1764,7 +1764,7 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -2084,7 +2084,7 @@
     "special_freq":3,
     "death_function":"ZOMBIE",
     "special_attack":"UPGRADE",
-    "description":"Once human, it's features have tightened, it's lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath it's large, piercing eyes. It stands tall, it's movements are fluid and tightly controlled. A feeling of danger permeates the air around it, and the light that falls on it somehow harsher and more glaring."
+    "description":"Once human, it's features have tightened, it's lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath it's large, piercing eyes. It stands tall, it's movements are fluid and tightly controlled. A feeling of danger permeates the air around it, and the light that falls on it somehow harsher and more glaring.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "REGENERATES_50", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
