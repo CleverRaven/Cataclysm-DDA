@@ -471,7 +471,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.",
+    "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral."
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS40", "BONES"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
@@ -570,7 +570,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.  It can move over two tons of earth while digging its burrow, and while it's suited to living beneath the soil, it is quite capable of using its digging claws to escape up a tree if the need arises.",
+    "description":"Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "VIS40", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -632,7 +632,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A hooved grazing mammal with a mane of hair and a sweeping tail.  It is a swift runner and spooks easily, allowing it to escape its enemies easily.",
+    "description":"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful looking muscles",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
     "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
@@ -888,7 +888,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"The cottontail rabbit, a small herbivore possessed of a stubby tail, long ears, and a propensity to proliferate.",
+    "description":"A cute wiggling nose, cotton tail, made of delicious flesh."
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -935,23 +935,23 @@
     "size":"TINY",
     "material":"flesh",
     "diff":3,
-    "aggression":5,
-    "morale":5,
+    "aggression":20,
+    "morale":40,
     "speed":100,
     "melee_skill":10,
     "melee_dice":1,
-    "melee_dice_sides":1,
+    "melee_dice_sides":2,
     "melee_cut":1,
     "dodge":2,
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":0,
     "luminance":0,
-    "hp":6,
+    "hp":10,
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"The brown rat, a squat, worm-tailed rodent with prominent whiskers and black beady eyes.  It scampers quickly across the ground, which it is constantly sniffing for traces of food.",
+    "description":"A worm-tailed rodent with long whiskers and beady eyes. The way it squeeks makes it sound... hungry.",
     "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "VIS40", "BONES"],
     "anger_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -1171,7 +1171,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"The Gray Wolf, a cunning canine pack predator.  The wolf was once extirpated from New England, but successful conservation efforts have brought it back to the countryside.",
+    "description":"A cunning pack predator, once extinct in the New England area, was successfully reintroduced and their numbers reached record highs in the decade before the cataclysm. Lucky you.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"],
@@ -1204,7 +1204,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A pulsating mass of glistening white flesh, the size of a large cat.  On one end is a set of squirming mouth parts.",
+    "description":"A pulsating sausage of glistening white flesh, the size of a large cat.  On one end is a set of squirming mouth parts.",
     "flags":["SMELLS", "POISON"]
   },
   {
@@ -1323,7 +1323,7 @@
     "special_freq":200,
     "death_function":"NORMAL",
     "special_attack":"FUNGUS",
-    "description":"A giant, ragged-looking ant, a pale, sickly gray in color.  Its cracked exoskeleton is held together by the coils of fungus erupting from every joint in its body.",
+    "description":"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
     "flags":["SMELLS", "POISON"]
   },
   {
@@ -1382,7 +1382,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A mutant strain of honey bee, the size of a small dog.  It is relatively benign, but beware its hooked jaws, and the benighted, dagger-sized stinger hanging beneath its behind.",
+    "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it indisturbed.",
     "flags":["SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN"],
     "anger_triggers":["HURT", "FRIEND_DIED"]
   },
@@ -1442,7 +1442,7 @@
     "special_freq":0,
     "death_function":"WORM",
     "special_attack":"NONE",
-    "description":"A monstrous beast with a tripartite mouth that opens to reveal hundreds of writhing tongues and crystalline teeth.  It keeps most of its enormous body hidden underground.",
+    "description":"A monstrous beast with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
     "flags":["DIGS", "HEARS", "POISON", "GOODHEARING", "DESTROYS", "WARM", "LEATHER"]
   },
   {
@@ -1461,7 +1461,7 @@
     "melee_skill":8,
     "melee_dice":4,
     "melee_dice_sides":6,
-    "melee_cut":6,
+    "melee_cut":3,
     "dodge":0,
     "armor_bash":2,
     "armor_cut":0,
@@ -1471,7 +1471,7 @@
     "special_freq":0,
     "death_function":"WORM",
     "special_attack":"NONE",
-    "description":"An enormous, mutated nightcrawler with jagged jaws, slithering across the ground.  Its pink skin is coated in a slurry of soil and worm slime.",
+    "description":"An enormous, mutated creature that might once have been a nightcrawler, it's large fanged mouth and and long slender body that comes up to your shoulders, with even more surely hiding underground, it's now something far worse.",
     "flags":["DIGS", "HEARS", "GOODHEARING", "WARM", "LEATHER"]
   },
   {
@@ -1529,7 +1529,7 @@
     "special_freq":0,
     "death_function":"MELT",
     "special_attack":"NONE",
-    "description":"A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground.",
+    "description":"A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground. Eye stalks occassionally push their way out of the oily mass and look around."
     "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "VIS30", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE"]
   },
   {
@@ -1550,7 +1550,7 @@
     "melee_dice_sides":4,
     "melee_cut":0,
     "dodge":0,
-    "armor_bash":1,
+    "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
     "luminance":0,
@@ -1558,7 +1558,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"A human body, once living.  It treads forward on uncertain legs, possessed with an unstoppable rage.",
+    "description":"A human body, swaying as it moves, an unstoppable rage is visible beneath it's oily black eyes.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
   },
@@ -1588,7 +1588,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
-    "description":"A human body, once living.  It's encapsulated by a weather-beaten set of riot gear.",
+    "description":"A human body covered by a weather-beaten and badly damaged set of riot gear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
   },
@@ -1612,13 +1612,13 @@
     "dodge":1,
     "armor_bash":0,
     "armor_cut":0,
-    "item_chance":50,
+    "item_chance":40,
     "luminance":0,
     "hp":60,
     "special_freq":10,
     "death_function":"ZOMBIE",
     "special_attack":"SHRIEK",
-    "description":"A deformed human body, once living.  Its lower jaw has come off, leaving behind a gory hole from neck to nose.",
+    "description":"An elongated human body with a swollen chest and a gaping hole where it's jaw used to be",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
@@ -1647,7 +1647,7 @@
     "special_freq":20,
     "death_function":"ACID",
     "special_attack":"ACID",
-    "description":"A deformed human body, once living.  Its mouth has deformed into a gaping, smoking abscess, its swollen belly ruptured and spilling with bile.",
+    "description":"A hunched human body with it's eyes pushed up into it's forehead and drooping cheeks, most of it's face is occupied by a puckered mouth. It's stomache is swollen and nearly translucent, with a sickly yellow tint.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"]
   },
   {
@@ -1676,7 +1676,7 @@
     "special_freq":25,
     "death_function":"ZOMBIE",
     "special_attack":"SHOCKSTORM",
-    "description":"A deformed human body, once living.  Its flesh is a pale blue, crackling with electrical energy.",
+    "description":"A human body with pale blue flesh, crackling with electrical energy.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM", "NO_BREATHE",  "VIS40", "REVIVES"]
   },
   {
@@ -1705,7 +1705,7 @@
     "special_freq":1,
     "death_function":"SMOKEBURST",
     "special_attack":"SMOKECLOUD",
-    "description":"A deformed human body, once living.  Pieces of its flesh hang off the bones like bloody rags, and it emits a constant haze of thick black smoke.",
+    "description":"A blackened and twisted naked human body, strips of flesh hang from it's body, and it emits a constant haze of thick black smoke.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "HARDTOSHOOT", "FRIENDLY_SPECIAL", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
@@ -1734,7 +1734,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"A deformed human body, once living.  Its hands and feet are webbed, and it is clad in swimwear.",
+    "description":"A slick and glistening human body. It's hands and feet are webbed, and it is clad in swimwear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "BLEED", "SWIMS", "REVIVES"]
   },
   {
@@ -1765,7 +1765,6 @@
     "special_attack":"BITE",
     "description":"The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
-    "categories":["CLASSIC"]
   },
   {
     "type":"MONSTER",
@@ -1793,7 +1792,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"A deformed human body, once living.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description":"Its entire body bulges with distended muscles and swollen, festering wounds.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
   },
   {
@@ -1809,20 +1808,20 @@
     "aggression":100,
     "morale":100,
     "speed":115,
-    "melee_skill":6,
+    "melee_skill":7,
     "melee_dice":5,
     "melee_dice_sides":12,
     "melee_cut":0,
     "dodge":0,
     "armor_bash":10,
-    "armor_cut":4,
+    "armor_cut":8,
     "item_chance":80,
     "luminance":0,
     "hp":280,
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
-    "description":"A deformed human body, once living.  It has swollen to the size of six men, with arms as wide as a trash can.",
+    "description":"A human body now swollen to the size of six men, with arms as wide as a trash can.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
@@ -1851,7 +1850,7 @@
     "special_freq":200,
     "death_function":"ZOMBIE",
     "special_attack":"FUNGUS",
-    "description":"A deformed human body, once living.  Fungal tendrils sprout from its orifices, holding together the shambling, mold-covered flesh.",
+    "description":"Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS30"]
   },
   {
@@ -1880,7 +1879,7 @@
     "special_freq":20,
     "death_function":"BOOMER",
     "special_attack":"BOOMER",
-    "description":"A deformed human body, once living.  Bloated beyond belief, it emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
+    "description":"A rotund human body, bloated beyond belief and layered in rolls of fat. It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
   },
   {
@@ -1909,7 +1908,7 @@
     "special_freq":200,
     "death_function":"FUNGUS",
     "special_attack":"FUNGUS",
-    "description":"A deformed human body, once living.  Its pasty, fungus-ridden flesh is swollen to a horrific extent, and its mouth drips with a frothing gray sludge.",
+    "description":"A rotund and bloated human body with pasty, fungus-ridden flesh. Its mouth drips with a frothing gray sludge.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS30"]
   },
   {
@@ -1938,7 +1937,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"A human skeleton missing all but a few rotten scraps of flesh, somehow still moving.",
+    "description":"It's skin so tight the cracked bones are visible beneath it, covered in scar tissue and coils of scabbed black liquid and with eyes so deeply sunken into it's skill they are barely visible, it's a wonder this once-human creature can move at all.",
     "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "NO_BREATHE", "VIS30"]
   },
   {
@@ -1967,7 +1966,7 @@
     "special_freq":4,
     "death_function":"ZOMBIE",
     "special_attack":"RESURRECT",
-    "description":"A deformed human body, once living.  It has jet black skin, glowing red eyes, and a dreadful, gibbering voice to announce its presence.",
+    "description":"A twisted mockery of the human form, emaciated, with jet black skin andglowing red eyes. It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
@@ -1997,7 +1996,7 @@
     "special_freq":20,
     "death_function":"ZOMBIE",
     "special_attack":"SCIENCE",
-    "description":"A deformed human body, once living.  Clad in a tattered lab coat, it looks to have some measure of self-awareness.",
+    "description":"Apart from the jet black eyes it would be easy to believe this scientist was still alive. Clad in a tattered lab coat, it looks to have some measure of situational awareness and resourcefulness.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
@@ -2026,7 +2025,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
-    "description":"A deformed human body, once living.  It is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
+    "description":"Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
   },
@@ -2085,7 +2084,7 @@
     "special_freq":3,
     "death_function":"ZOMBIE",
     "special_attack":"UPGRADE",
-    "description":"A deformed human body, once living.  The scaly crust of its skin is covered in patches of bloody soot, and it seems to have a better grasp of movement than other zombies.",
+    "description":"Once human, it's features have tightened, it's lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath it's large, piercing eyes. It stands tall, it's movements are fluid and tightly controlled. A feeling of danger permeates the air around it, and the light that falls on it somehow harsher and more glaring."
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "REGENERATES_50", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
@@ -2115,13 +2114,13 @@
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
-    "description":"A deformed human body, once living.  Its skin has been transformed into one thick, calloused envelope of scar tissue.",
+    "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
     "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES"]
   },
   {
     "type":"MONSTER",
     "id":"mon_zombie_hunter",
-    "name": "zombie hunter",
+    "name": "feral hunter",
     "species":"ZOMBIE",
     "symbol":"Z",
     "color":"brown",
@@ -2144,7 +2143,7 @@
     "special_freq":5,
     "death_function":"ZOMBIE",
     "special_attack":"LEAP",
-    "description":"A deformed human body, once living.  It runs on all fours, leaping around on bulging legs, and its nails have lengthened into menacing claws.",
+    "description":"This once-human body is barely recognizable, scrambling about on all fours, it's nails and teeth both sharpened into dangerous looking spikes.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
   },
@@ -2174,7 +2173,7 @@
     "special_freq":0,
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
-    "description":"A deformed human body, once living.  It was only a child.",
+    "description":"It was only a child, and little is different about it now aside from the hungry look in it's eyes. You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
   },
