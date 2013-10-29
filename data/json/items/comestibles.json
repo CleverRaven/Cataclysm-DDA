@@ -5868,7 +5868,7 @@
         "type" : "COMESTIBLE",
         "id" : "inhaler",
         "name" : "inhaler",
-        "weight" : 10,
+        "weight" : 1,
         "color" : "light_blue",
         "addiction_type" : "none",
         "spoils_in" : 0,
