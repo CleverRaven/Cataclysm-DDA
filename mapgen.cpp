@@ -10621,7 +10621,7 @@ case ot_farm_field:
   square_furn(this, f_fema_groundsheet, 5, 5, 8, 18);
   square_furn(this, f_fema_groundsheet, 10, 5, 13, 5);
   square_furn(this, f_fema_groundsheet, 10, 18, 13, 18);
-  square_furn(this, f_fema_groundsheet, 15, 5, 18, 8);
+  square_furn(this, f_fema_groundsheet, 15, 5, 18, 7);
   square_furn(this, f_fema_groundsheet, 15, 16, 18, 18);
   square_furn(this, f_fema_groundsheet, 16, 10, 17, 14);
   square_furn(this, f_fema_groundsheet, 9, 7, 14, 16);
