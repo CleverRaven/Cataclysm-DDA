@@ -31,26 +31,17 @@ void mdeath::normal(game *g, monster *z) {
         float overflowDamage = -(z->hp);
 
         // determine how much of a mess is left, for flesh and veggy creatures
-        int corpseDamage = 5 * (overflowDamage / (maxHP * 3));
-        int gibAmount = (int)corpseDamage - 1;
+        float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
+        int gibAmount = corpseDamage - 1;
         bool pulverized = (corpseDamage > 5 && overflowDamage > 50);
         if (!pulverized) {
             // the corpse still exists, let's place it
             item corpse;
             corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
-            corpse.damage = corpseDamage > CORPSE_DAM_MAX ? CORPSE_DAM_MAX : corpseDamage;
+            corpse.damage = corpseDamage > CORPSE_DAM_MAX ? CORPSE_DAM_MAX : int(corpseDamage);
             g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
         } else {
             gibAmount += rng(1,6);
-        }
-
-        switch (z->type->size) {
-            case MS_TINY:
-                gibAmount -= 1;
-                break;
-            case MS_HUGE:
-                gibAmount += 1;
-                break;
         }
         // no gibs for non-fleshy creatures until implemented
         if (gibAmount > 0 && isFleshy) {
