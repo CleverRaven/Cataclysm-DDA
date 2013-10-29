@@ -329,6 +329,7 @@ bool game::opening_screen()
                 }
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
+                        setup();
                         if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             delwin(w_open);
@@ -347,7 +348,6 @@ bool game::opening_screen()
 
                         load_artifacts(world->world_name);
                         MAPBUFFER.load(world->world_name);
-                        setup();
                         start_game(world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
@@ -486,6 +486,7 @@ bool game::opening_screen()
                         if (world)
                         {
                             world_generator->set_active_world(world);
+                            setup();
                         }
 
                         if (world == NULL || !gamemode->init(this)) {
@@ -495,6 +496,9 @@ bool game::opening_screen()
                             delwin(w_open);
                             return (opening_screen());
                         }
+                        load_artifacts(world->world_name);
+                        MAPBUFFER.load(world->world_name);
+
                         start = true;
                     }
                 }
