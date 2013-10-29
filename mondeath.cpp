@@ -22,7 +22,7 @@ void mdeath::normal(game *g, monster *z) {
     }
 
     bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
-    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+    bool leaveCorpse = (isFleshy && !(z->type->has_flag(MF_VERMIN)));
     if (leaveCorpse) {
         int maxHP = z->type->hp;
         if (!maxHP) {
@@ -163,7 +163,7 @@ void mdeath::fungus(game *g, monster *z) {
     int mondex = -1;
     int sporex, sporey;
     //~ the sound of a fungus dying
-    g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
+    g->sound(z->posx(), z->posy(), 10, _("'pouf!'"));
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             sporex = z->posx() + i;
