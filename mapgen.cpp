@@ -10613,9 +10613,18 @@ case ot_farm_field:
   }
   else if (t_west == ot_fema_entrance) {
 
-  square(this, t_dirt, 1, 1, 22, 22);
-  square_furn(this, f_canvas_wall, 4, 4, 19, 19); //Supply tent
-  square_furn(this, f_fema_groundsheet, 5, 5, 18, 18);
+  square(this, t_dirt, 1, 1, 22, 22); //Supply tent
+  line_furn(this, f_canvas_wall, 4, 4, 19, 4);
+  line_furn(this, f_canvas_wall, 4, 4, 4, 19);
+  line_furn(this, f_canvas_wall, 19, 19, 19, 4);
+  line_furn(this, f_canvas_wall, 19, 19, 4, 19);
+  square_furn(this, f_fema_groundsheet, 5, 5, 8, 18);
+  square_furn(this, f_fema_groundsheet, 10, 5, 13, 5);
+  square_furn(this, f_fema_groundsheet, 10, 18, 13, 18);
+  square_furn(this, f_fema_groundsheet, 15, 5, 18, 7);
+  square_furn(this, f_fema_groundsheet, 15, 16, 18, 18);
+  square_furn(this, f_fema_groundsheet, 16, 10, 17, 14);
+  square_furn(this, f_fema_groundsheet, 9, 7, 14, 16);
   line_furn(this, f_canvas_door, 11, 4, 12, 4);
   line_furn(this, f_canvas_door, 11, 19, 12, 19);
   square_furn(this, f_crate_c, 5, 6, 7, 7);
