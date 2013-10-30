@@ -1270,7 +1270,7 @@ int iuse::extra_battery(game *g, player *p, item *it, bool t)
 
     modded->item_tags.insert("DOUBLE_AMMO");
     g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static bool valid_fabric(game *g, player *p, item *it, bool t)
@@ -2131,7 +2131,7 @@ int iuse::roadmap(game *g, player *p, item *it, bool t)
 
  g->add_msg_if_player(p, _("You add roads and points of interest to your map."));
 
- return it->type->charges_to_use();
+ return 1;
 }
 
 int iuse::picklock(game *g, player *p, item *it, bool t)
@@ -2908,6 +2908,10 @@ if(it->type->id == "cot"){
  } else if(it->type->id == "rollmat"){
   message << _("You unroll the mat and lay it on the ground.");
   type = tr_rollmat;
+  practice = 0;
+ } else if(it->type->id == "fur_rollmat"){
+  message << _("You unroll the fur mat and lay it on the ground.");
+  type = tr_fur_rollmat;
   practice = 0;
  } else if(it->type->id == "brazier"){
   message << _("You place the brazier securely.");

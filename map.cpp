@@ -1362,7 +1362,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
         int chance = bash->items[i].chance;
         if ( chance == -1 || rng(0, 100) >= chance ) {
            int numitems = bash->items[i].amount;
-           
+
            if ( bash->items[i].minamount != -1 ) {
               numitems = rng( bash->items[i].minamount, bash->items[i].amount );
            }
@@ -1387,7 +1387,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
   }
 } else {
  furn_id furnid = furn(x, y);
- if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o || 
+ if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
       furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
       furnid == f_canvas_door_o || furnid == f_groundsheet ) {
   result = rng(0, 6);
@@ -3638,7 +3638,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
   }
 
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
+  const int plantEpoch = 14400 * (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 2;
 
   // check plants
   for (int x = 0; x < SEEX; x++) {

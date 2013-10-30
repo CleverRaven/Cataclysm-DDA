@@ -9,6 +9,7 @@
 #include "options.h"
 #include "catacharset.h"
 #include "debug.h"
+#include "char_validity_check.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -42,7 +43,6 @@ int set_profession(WINDOW* w, game* g, player *u, character_type type, int &poin
 int set_skills(WINDOW* w, game* g, player *u, character_type type, int &points);
 int set_description(WINDOW* w, game* g, player *u, character_type type, int &points);
 
-bool is_char_allowed(char ch);
 int random_skill();
 
 int calc_HP(int strength, bool tough);
@@ -1177,27 +1177,6 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
    }
   }
  } while (true);
-}
-
-/**
- * Returns whether or not the given (ASCII) character is usable in a (player)
- * character's name. Only printable symbols not reserved by the filesystem are
- * permitted.
- * @param ch The char to check.
- * @return true if the char is allowed in a name, false if not.
- */
-bool is_char_allowed(char ch) {
-
-  //Allow everything EXCEPT the following reserved characters:
-  return (ch > 31 //0-31 are control characters
-          && ch < 127 //DEL character
-          && ch != '/' && ch != '\\' //Path separators
-          && ch != '?' && ch != '*' && ch != '%' //Wildcards
-          && ch != ':' //Mount point/drive marker
-          && ch != '|' //Output pipe
-          && ch != '"' //Filename (with spaces) marker
-          && ch != '>' && ch != '<'); //Input/output redirection
-
 }
 
 std::string player::random_good_trait()
