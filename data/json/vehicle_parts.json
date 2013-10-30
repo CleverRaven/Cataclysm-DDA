@@ -1095,9 +1095,8 @@
         "power": 30,
         "item": "reinforced_solar_panel",
         "difficulty": 6,
-        "flags": [
-            "OVER", "SOLAR_PANEL"
-        ]
+        "location": "on_roof",
+        "flags": ["SOLAR_PANEL"]
     },
     {
         "type":"vehicle_part",
