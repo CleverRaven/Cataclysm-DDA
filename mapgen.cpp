@@ -14311,8 +14311,8 @@ void map::add_road_vehicles(bool city, int facing)
         // spawn city car wrecks
         int maxwrecks = rng(0, 3);
         for (int nv = 0; nv < maxwrecks; nv++) {
-            int vx = rng(0, 3) * 4 + 5;
-            int vy = rng(0, 3) * 4 + 5;
+            int vx = rng(0, 19);
+            int vy = rng(0, 19);
             int car_type = rng(1, 100);
             if (car_type <= 25) {
                 add_vehicle(g, "car", vx, vy, facing, -1, 1);
