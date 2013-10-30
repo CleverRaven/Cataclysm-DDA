@@ -4,7 +4,8 @@
 
 
 // http://software.intel.com/en-us/articles/fast-random-number-generator-on-the-intel-pentiumr-4-processor
-// fastrand() is 5x faster than rand().  Not crypto secure, but better than rand.
+// fastrand() is significantly faster than rand().  Not crypto secure, but good for CataDDA.
+// These functions should be revisited if the code moves to C++11
 static unsigned int g_seed;
 
 //Used to seed the generator.
@@ -12,17 +13,17 @@ void fast_srand( int seed ) {
     g_seed = seed;
 }
 
-//fastrand routine returns one integer, modified from the intel version to give a max of 1048576.
+//fastrand routine returns one integer between 0 and 2^15-1
 inline int fastrand() {
     g_seed = (214013*g_seed+2531011);
-    return (g_seed>>12); 
+    return (g_seed>>16)&0x7FFFF; 
 }
 
 long rng(long val1, long val2)
 {
     long minVal = (val1 < val2) ? val1 : val2;
     long maxVal = (val1 < val2) ? val2 : val1;
-    return minVal + long((maxVal - minVal + 1) * double(fastrand() / double(1048577)));
+    return minVal + long((maxVal - minVal + 1) * double(fastrand() / 32768.0));
 }
 
 bool one_in(int chance)
@@ -32,7 +33,7 @@ bool one_in(int chance)
 
 bool x_in_y(double x, double y)
 {
-    return ((double)fastrand() / 1048577) <= ((double)x/y);
+    return ((double)fastrand() / 32768.0) <= ((double)x/y);
 }
 
 int dice(int number, int sides)
