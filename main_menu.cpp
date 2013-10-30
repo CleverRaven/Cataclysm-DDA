@@ -210,6 +210,8 @@ bool game::opening_screen()
         }
     }
 
+    u = player();
+
     while(!start) {
         if (layer == 1) {
             print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
@@ -649,6 +651,7 @@ bool game::opening_screen()
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (input == DirectionE || input == Confirm) {
+                    setup();
                     if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
                         u = player();
                         delwin(w_open);
@@ -668,7 +671,6 @@ bool game::opening_screen()
 
                     load_artifacts(world_generator->active_world->world_name);
                     MAPBUFFER.load(world_generator->active_world->world_name);
-                    setup();
 
                     start_game(world_generator->active_world->world_name);
                     start = true;
