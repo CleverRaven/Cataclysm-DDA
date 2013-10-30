@@ -564,7 +564,7 @@ void inventory::form_from_map(game *g, point origin, int range)
    }
    // kludge that can probably be done better to check specifically for toilet water to use in
    // crafting
-   if ((furnlist[g->m.furn(x,y)].examine == &iexamine::toilet)){
+   if (furnlist[g->m.furn(x,y)].examine == &iexamine::toilet){
     // get water charges at location
      std::vector<item> toiletitems = g->m.i_at(x,y);
      int waterindex = -1;
