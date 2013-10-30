@@ -1,7 +1,9 @@
 #ifndef _LIVE_VIEW_H_
 #define _LIVE_VIEW_H_
 
-#include "catacurse.h"
+#include <vector>
+
+#include "cursesdef.h"
 
 class game;
 class item;
