@@ -12209,191 +12209,205 @@ computer* map::add_computer(int x, int y, std::string name, int security)
  return &(grid[nonant]->comp);
 }
 
-void map::rotate(int turns)
-{
- ter_id rotated         [SEEX*2][SEEY*2];
- furn_id furnrot        [SEEX*2][SEEY*2];
- trap_id traprot        [SEEX*2][SEEY*2];
- std::vector<item> itrot[SEEX*2][SEEY*2];
- std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
- computer tmpcomp;
- std::vector<vehicle*> tmpveh;
+/**
+ * Rotates this map, and all of its contents, by the specified multiple of 90
+ * degrees.
+ * @param turns How many 90-degree turns to rotate the map.
+ */
+void map::rotate(int turns) {
 
- switch (turns) {
- case 1:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    rotated[i][j] = ter  (j, SEEX * 2 - 1 - i);
-    furnrot[i][j] = furn (j, SEEX * 2 - 1 - i);
-    itrot  [i][j] = i_at (j, SEEX * 2 - 1 - i);
-    traprot[i][j] = tr_at(j, SEEX * 2 - 1 - i);
-    i_clear(j, SEEX * 2 - 1 - i);
-   }
-  }
-// Now, spawn points
-  for (int sx = 0; sx < 2; sx++) {
-   for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * my_MAPSIZE;
-    int gridto = sx * my_MAPSIZE + 1 - sy;
-    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
-     spawn_point tmp = grid[gridfrom]->spawns[j];
-     int tmpy = tmp.posy;
-     tmp.posy = tmp.posx;
-     tmp.posx = SEEY - 1 - tmpy;
-     sprot[gridto].push_back(tmp);
+    //Handle anything outside the 1-3 range gracefully; rotate(0) is a no-op.
+    turns = turns % 4;
+    if(turns == 0) {
+        return;
     }
-   }
-  }
-// Finally, computers
-  tmpcomp = grid[0]->comp;
-  grid[0]->comp = grid[my_MAPSIZE]->comp;
-  grid[my_MAPSIZE]->comp = grid[my_MAPSIZE + 1]->comp;
-  grid[my_MAPSIZE + 1]->comp = grid[1]->comp;
-  grid[1]->comp = tmpcomp;
-// ...and vehicles
-  tmpveh = grid[0]->vehicles;
-  grid[0]->vehicles = grid[my_MAPSIZE]->vehicles;
-  grid[my_MAPSIZE]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
-  grid[my_MAPSIZE + 1]->vehicles = grid[1]->vehicles;
-  grid[1]->vehicles = tmpveh;
-  break;
 
- case 2:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    rotated[i][j] = ter  (SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
-    furnrot[i][j] = furn (SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
-    itrot  [i][j] = i_at (SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
-    traprot[i][j] = tr_at(SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
-    i_clear(SEEX * 2 - 1 - i, SEEY * 2 - 1 - j);
-   }
-  }
-// Now, spawn points
-  for (int sx = 0; sx < 2; sx++) {
-   for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * my_MAPSIZE;
-    int gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
-    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
-     spawn_point tmp = grid[gridfrom]->spawns[j];
-     tmp.posy = SEEY - 1 - tmp.posy;
-     tmp.posx = SEEX - 1 - tmp.posx;
-     sprot[gridto].push_back(tmp);
+    ter_id rotated [SEEX * 2][SEEY * 2];
+    furn_id furnrot [SEEX * 2][SEEY * 2];
+    trap_id traprot [SEEX * 2][SEEY * 2];
+    std::vector<item> itrot[SEEX * 2][SEEY * 2];
+    std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
+    computer tmpcomp;
+    std::vector<vehicle*> tmpveh;
+
+    //Rotate terrain first
+    for (int old_x = 0; old_x < SEEX * 2; old_x++) {
+        for (int old_y = 0; old_y < SEEY * 2; old_y++) {
+            int new_x, new_y;
+            switch(turns) {
+                case 1:
+                    new_x = old_y;
+                    new_y = SEEX * 2 - 1 - old_x;
+                    break;
+                case 2:
+                    new_x = SEEX * 2 - 1 - old_x;
+                    new_y = SEEY * 2 - 1 - old_y;
+                    break;
+                case 3:
+                    new_x = SEEY * 2 - 1 - old_y;
+                    new_y = old_x;
+                    break;
+            }
+            rotated[old_x][old_y] = ter(new_x, new_y);
+            furnrot[old_x][old_y] = furn(new_x, new_y);
+            itrot [old_x][old_y] = i_at(new_x, new_y);
+            traprot[old_x][old_y] = tr_at(new_x, new_y);
+            i_clear(new_x, new_y);
+        }
     }
-   }
-  }
-  tmpcomp = grid[0]->comp;
-  grid[0]->comp = grid[my_MAPSIZE + 1]->comp;
-  grid[my_MAPSIZE + 1]->comp = tmpcomp;
-  tmpcomp = grid[1]->comp;
-  grid[1]->comp = grid[my_MAPSIZE]->comp;
-  grid[my_MAPSIZE]->comp = tmpcomp;
-// ...and vehicles
-  tmpveh = grid[0]->vehicles;
-  grid[0]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
-  grid[my_MAPSIZE + 1]->vehicles = tmpveh;
-  tmpveh = grid[1]->vehicles;
-  grid[1]->vehicles = grid[my_MAPSIZE]->vehicles;
-  grid[my_MAPSIZE]->vehicles = tmpveh;
-  break;
 
- case 3:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    rotated[i][j] = ter  (SEEY * 2 - 1 - j, i);
-    furnrot[i][j] = furn (SEEY * 2 - 1 - j, i);
-    itrot  [i][j] = i_at (SEEY * 2 - 1 - j, i);
-    traprot[i][j] = tr_at(SEEY * 2 - 1 - j, i);
-    i_clear(SEEY * 2 - 1 - j, i);
-   }
-  }
-// Now, spawn points
-  for (int sx = 0; sx < 2; sx++) {
-   for (int sy = 0; sy < 2; sy++) {
-    int gridfrom = sx + sy * my_MAPSIZE;
-    int gridto = (1 - sx) * my_MAPSIZE + sy;
-    for (int j = 0; j < grid[gridfrom]->spawns.size(); j++) {
-     spawn_point tmp = grid[gridfrom]->spawns[j];
-     int tmpy = tmp.posy;
-     tmp.posy = SEEX - 1 - tmp.posx;
-     tmp.posx = tmpy;
-     sprot[gridto].push_back(tmp);
+    //Next, spawn points
+    for (int sx = 0; sx < 2; sx++) {
+        for (int sy = 0; sy < 2; sy++) {
+            int gridfrom = sx + sy * my_MAPSIZE;
+            int gridto;
+            switch(turns) {
+                case 1:
+                    gridto = sx * my_MAPSIZE + 1 - sy;
+                    break;
+                case 2:
+                    gridto = (1 - sy) * my_MAPSIZE + 1 - sx;
+                    break;
+                case 3:
+                    gridto = (1 - sx) * my_MAPSIZE + sy;
+                    break;
+            }
+            for (int spawn = 0; spawn < grid[gridfrom]->spawns.size(); spawn++) {
+                spawn_point tmp = grid[gridfrom]->spawns[spawn];
+                int new_x, new_y;
+                switch(turns) {
+                    case 1:
+                        new_x = SEEY - 1 - tmp.posy;
+                        new_y = tmp.posx;
+                        break;
+                    case 2:
+                        new_x = SEEX - 1 - tmp.posx;
+                        new_y = SEEY - 1 - tmp.posy;
+                        break;
+                    case 3:
+                        new_x = tmp.posy;
+                        new_y = SEEX - 1 - tmp.posx;
+                        break;
+                }
+                tmp.posx = new_x;
+                tmp.posy = new_y;
+                sprot[gridto].push_back(tmp);
+            }
+        }
     }
-   }
-  }
-  tmpcomp = grid[0]->comp;
-  grid[0]->comp = grid[1]->comp;
-  grid[1]->comp = grid[my_MAPSIZE + 1]->comp;
-  grid[my_MAPSIZE + 1]->comp = grid[my_MAPSIZE]->comp;
-  grid[my_MAPSIZE]->comp = tmpcomp;
-// ...and vehicles
-  tmpveh = grid[0]->vehicles;
-  grid[0]->vehicles = grid[1]->vehicles;
-  grid[1]->vehicles = grid[my_MAPSIZE + 1]->vehicles;
-  grid[my_MAPSIZE + 1]->vehicles = grid[my_MAPSIZE]->vehicles;
-  grid[my_MAPSIZE]->vehicles = tmpveh;
-  break;
 
- default:
-  return;
- }
+    //Then computers
+    switch (turns) {
+        case 1:
+            tmpcomp = grid[0]->comp;
+            grid[0]->comp = grid[my_MAPSIZE]->comp;
+            grid[my_MAPSIZE]->comp = grid[my_MAPSIZE + 1]->comp;
+            grid[my_MAPSIZE + 1]->comp = grid[1]->comp;
+            grid[1]->comp = tmpcomp;
+            break;
 
-// change vehicles' directions
- for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
-     for (int v = 0; v < grid[i]->vehicles.size(); v++)
-         if (turns >= 1 && turns <= 3)
-            grid[i]->vehicles[v]->turn (turns * 90);
+        case 2:
+            tmpcomp = grid[0]->comp;
+            grid[0]->comp = grid[my_MAPSIZE + 1]->comp;
+            grid[my_MAPSIZE + 1]->comp = tmpcomp;
+            tmpcomp = grid[1]->comp;
+            grid[1]->comp = grid[my_MAPSIZE]->comp;
+            grid[my_MAPSIZE]->comp = tmpcomp;
+            break;
 
-// Set the spawn points
- grid[0]->spawns = sprot[0];
- grid[1]->spawns = sprot[1];
- grid[my_MAPSIZE]->spawns = sprot[my_MAPSIZE];
- grid[my_MAPSIZE + 1]->spawns = sprot[my_MAPSIZE + 1];
- for (int i = 0; i < SEEX * 2; i++) {
-  for (int j = 0; j < SEEY * 2; j++) {
-   ter_set(i, j, rotated[i][j]);
-   furn_set(i, j, furnrot[i][j]);
-   i_at (i, j) = itrot  [i][j];
-   add_trap(i, j, traprot[i][j]);
-   if (turns % 2 == 1) {  // Rotate things like walls 90 degrees
-    if (ter(i, j) == t_wall_v)
-     ter_set(i, j, t_wall_h);
-    else if (ter(i, j) == t_wall_h)
-     ter_set(i, j, t_wall_v);
-    else if (ter(i, j) == t_wall_metal_v)
-     ter_set(i, j, t_wall_metal_h);
-    else if (ter(i, j) == t_wall_metal_h)
-     ter_set(i, j, t_wall_metal_v);
-    else if (ter(i, j) == t_railing_v)
-     ter_set(i, j, t_railing_h);
-    else if (ter(i, j) == t_railing_h)
-     ter_set(i, j, t_railing_v);
-    else if (ter(i, j) == t_wall_glass_h)
-     ter_set(i, j, t_wall_glass_v);
-    else if (ter(i, j) == t_wall_glass_v)
-     ter_set(i, j, t_wall_glass_h);
-    else if (ter(i, j) == t_wall_glass_h_alarm)
-     ter_set(i, j, t_wall_glass_v_alarm);
-    else if (ter(i, j) == t_wall_glass_v_alarm)
-     ter_set(i, j, t_wall_glass_h_alarm);
-    else if (ter(i, j) == t_reinforced_glass_h)
-     ter_set(i, j, t_reinforced_glass_v);
-    else if (ter(i, j) == t_reinforced_glass_v)
-     ter_set(i, j, t_reinforced_glass_h);
-    else if (ter(i, j) == t_fence_v)
-     ter_set(i, j, t_fence_h);
-    else if (ter(i, j) == t_fence_h)
-     ter_set(i, j, t_fence_v);
-    else if (ter(i,j) == t_chainfence_h)
-     ter_set(i, j, t_chainfence_v);
-    else if (ter(i, j) == t_chainfence_v)
-     ter_set(i, j, t_chainfence_h);
-    else if (ter(i,j) == t_concrete_h)
-     ter_set(i, j, t_concrete_v);
-    else if (ter(i, j) == t_concrete_v)
-     ter_set(i, j, t_concrete_h);
-   }
-  }
- }
+        case 3:
+            tmpcomp = grid[0]->comp;
+            grid[0]->comp = grid[1]->comp;
+            grid[1]->comp = grid[my_MAPSIZE + 1]->comp;
+            grid[my_MAPSIZE + 1]->comp = grid[my_MAPSIZE]->comp;
+            grid[my_MAPSIZE]->comp = tmpcomp;
+            break;
+    }
+
+    for(std::set<vehicle*>::iterator next_vehicle = vehicle_list.begin();
+            next_vehicle != vehicle_list.end(); next_vehicle++) {
+
+        int new_x, new_y;
+        switch(turns) {
+            case 1:
+                new_x = SEEY - 1 - (*next_vehicle)->smy;
+                new_y = (*next_vehicle)->smx;
+                break;
+            case 2:
+                new_x = SEEX - 1 - (*next_vehicle)->smx;
+                new_y = SEEY - 1 - (*next_vehicle)->smy;
+                break;
+            case 3:
+                new_x = (*next_vehicle)->smy;
+                new_y = SEEX - 1 - (*next_vehicle)->smx;
+                break;
+        }
+        (*next_vehicle)->smx = new_x;
+        (*next_vehicle)->smy = new_y;
+
+    }
+
+    // change vehicles' directions
+    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+        for (int v = 0; v < grid[i]->vehicles.size(); v++) {
+            if (turns >= 1 && turns <= 3) {
+                grid[i]->vehicles[v]->turn(turns * 90);
+            }
+        }
+    }
+
+    // Set the spawn points
+    grid[0]->spawns = sprot[0];
+    grid[1]->spawns = sprot[1];
+    grid[my_MAPSIZE]->spawns = sprot[my_MAPSIZE];
+    grid[my_MAPSIZE + 1]->spawns = sprot[my_MAPSIZE + 1];
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            ter_set(i, j, rotated[i][j]);
+            furn_set(i, j, furnrot[i][j]);
+            i_at(i, j) = itrot [i][j];
+            add_trap(i, j, traprot[i][j]);
+            if (turns % 2 == 1) { // Rotate things like walls 90 degrees
+                if (ter(i, j) == t_wall_v) {
+                    ter_set(i, j, t_wall_h);
+                } else if (ter(i, j) == t_wall_h) {
+                    ter_set(i, j, t_wall_v);
+                } else if (ter(i, j) == t_wall_metal_v) {
+                    ter_set(i, j, t_wall_metal_h);
+                } else if (ter(i, j) == t_wall_metal_h) {
+                    ter_set(i, j, t_wall_metal_v);
+                } else if (ter(i, j) == t_railing_v) {
+                    ter_set(i, j, t_railing_h);
+                } else if (ter(i, j) == t_railing_h) {
+                    ter_set(i, j, t_railing_v);
+                } else if (ter(i, j) == t_wall_glass_h) {
+                    ter_set(i, j, t_wall_glass_v);
+                } else if (ter(i, j) == t_wall_glass_v) {
+                    ter_set(i, j, t_wall_glass_h);
+                } else if (ter(i, j) == t_wall_glass_h_alarm) {
+                    ter_set(i, j, t_wall_glass_v_alarm);
+                } else if (ter(i, j) == t_wall_glass_v_alarm) {
+                    ter_set(i, j, t_wall_glass_h_alarm);
+                } else if (ter(i, j) == t_reinforced_glass_h) {
+                    ter_set(i, j, t_reinforced_glass_v);
+                } else if (ter(i, j) == t_reinforced_glass_v) {
+                    ter_set(i, j, t_reinforced_glass_h);
+                } else if (ter(i, j) == t_fence_v) {
+                    ter_set(i, j, t_fence_h);
+                } else if (ter(i, j) == t_fence_h) {
+                    ter_set(i, j, t_fence_v);
+                } else if (ter(i, j) == t_chainfence_h) {
+                    ter_set(i, j, t_chainfence_v);
+                } else if (ter(i, j) == t_chainfence_v) {
+                    ter_set(i, j, t_chainfence_h);
+                } else if (ter(i, j) == t_concrete_h) {
+                    ter_set(i, j, t_concrete_v);
+                } else if (ter(i, j) == t_concrete_v) {
+                    ter_set(i, j, t_concrete_h);
+                }
+            }
+        }
+    }
 }
 
 // Hideous function, I admit...
