@@ -586,9 +586,12 @@ void initOptions() {
                                              false
                                             );
 
+    optionNames["false"] = _("False");
+    optionNames["centered"] = _("Centered");
+    optionNames["edge"] = _("To edge");
     OPTIONS["SHIFT_LIST_ITEM_VIEW"] =   cOpt("interface", _("Shift list item view"),
-                                             _("If true, shift the view toward the selected item if it is outside of your current viewport."),
-                                             true
+                                             _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
+                                             "false,centered,edge",  "centered"
                                             );
 
     OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
