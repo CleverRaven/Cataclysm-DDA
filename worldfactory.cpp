@@ -624,7 +624,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, curoption, 62, (sel == curoption) ? hilite(cLineColor) : cLineColor, "%s", (it->second.getName()).c_str());
+            mvwprintz(w_options, curoption, 62, (sel == curoption) ? hilite(cLineColor) : cLineColor, "%s", (it->second.getValueName()).c_str());
             ++curoption;
         }
 

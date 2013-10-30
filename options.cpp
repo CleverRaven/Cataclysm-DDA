@@ -151,7 +151,7 @@ std::string cOpt::getValue() {
     return "";
 }
 
-std::string cOpt::getName() {
+std::string cOpt::getValueName() {
     if (sType == "string") {
         return optionNames[sSet];
 
@@ -700,7 +700,7 @@ void show_options()
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getName()).c_str());
+            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
         }
 
         //Draw Scrollbar
