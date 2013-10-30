@@ -205,7 +205,7 @@ void event::actualize(game *g)
     case 1: montype = "mon_sewer_snake";  break;
     case 2: montype = "mon_centipede";    break;
     case 3: montype = "mon_dermatik";     break;
-    case 4: montype = "mon_spider_widow"; break;
+    case 4: montype = "mon_spider_widow_giant"; break;
    }
    monster spawned( GetMType(montype) );
    int tries = 0, x, y;
