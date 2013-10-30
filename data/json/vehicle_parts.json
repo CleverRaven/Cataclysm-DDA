@@ -1150,17 +1150,18 @@
     {
         "type":"vehicle_part",
         "id": "veh_forge",
-        "name": "mounted electric forge",
+        "name": "portable smithy",
         "symbol": "&",
         "color": "red",
         "broken_symbol": "x",
         "broken_color": "light_gray",
         "damage_modifier": 10,
         "durability": 20,
-        "item": "forge",
-        "difficulty": 3,
+        "size": 400,
+        "item": "veh_forge",
+        "difficulty": 4,
         "location": "center",
-        "flags": ["OBSTACLE", "FORGE"]
+        "flags": ["CARGO", "OBSTACLE", "FORGE"]
     },
     {
         "type":"vehicle_part",

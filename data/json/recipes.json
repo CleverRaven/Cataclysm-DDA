@@ -11600,6 +11600,51 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "veh_forge",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "frame", 1 ]
+    ],
+    [
+      ["forge", 1]
+    ],
+    [
+      ["cable", 5]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "foot_crank",
   "category": "CC_MISC",
