@@ -1999,8 +1999,9 @@ bool game::handle_action()
    int cMenu = ' ';
    do {
      char chItem = inv(_("Inventory:"));
-     cMenu=inventory_item_menu(chItem);
-   } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
+     cMenu = inventory_item_menu(chItem);
+   } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
+            cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
    refresh_all();
   } break;
 
@@ -7619,7 +7620,8 @@ int game::list_monsters()
             iMonDex = -1;
 
             for (int i = 0; i < vMonsters.size(); ++i) {
-                if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ? iMonsterNum : iMaxRows) ) {
+                if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ?
+                                                             iMonsterNum : iMaxRows) ) {
 
                     if (iNum == iActive) {
                         iMonDex = vMonsters[i];
@@ -7635,9 +7637,11 @@ int game::list_monsters()
                     int numw = iMonsterNum > 9 ? 2 : 1;
                     mvwprintz(w_monsters, 1 + iNum - iStartPos, width - (5 + numw),
                               ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                              numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx, zombie(vMonsters[i]).posy() - u.posy),
-                              direction_name_short(direction_from(0, 0, zombie(vMonsters[i]).posx() - u.posx, zombie(vMonsters[i]).posy() - u.posy)).c_str()
-                             );
+                              numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx,
+                                              zombie(vMonsters[i]).posy() - u.posy),
+                              direction_name_short(
+                                  direction_from( 0, 0, zombie(vMonsters[i]).posx() - u.posx,
+                                                  zombie(vMonsters[i]).posy() - u.posy)).c_str() );
                  }
                  iNum++;
             }
