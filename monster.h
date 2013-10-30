@@ -69,6 +69,7 @@ class monster {
  bool can_hear();     // MF_HEARS and no ME_DEAF
  bool can_submerge(); // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
  bool can_drown();    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
+ bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
  bool made_of(std::string m); // Returns true if it's made of m
  bool made_of(phase_id p); // Returns true if its phase is p
  bool json_load(picojson::value parsed, std::vector<mtype*> *mtypes);
