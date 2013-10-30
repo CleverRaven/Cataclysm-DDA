@@ -6832,7 +6832,7 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
     else if (veh)
     {
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
-        line = veh->print_part_desc(w_look, line, (mouse_hover) ? w_look->width : 48, veh_part);
+        line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
         }
@@ -6869,7 +6869,7 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
         mvwprintw(w_look, line++, column, _("You (%s)"), u.name.c_str());
         if (veh) {
             mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
-            line = veh->print_part_desc(w_look, line, (mouse_hover) ? w_look->width : 48, veh_part);
+            line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
             if (!mouse_hover) {
                 m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
             }
