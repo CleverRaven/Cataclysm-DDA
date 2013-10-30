@@ -6093,8 +6093,7 @@ void game::smash()
     }
     if (!corpses.empty())
     {
-        add_msg(ngettext("You swing at the corpse.",
-                         "You swing at the corpses.", corpses.size()));
+        const int num_corpses = corpses.size();
 
         // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
         // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
@@ -6102,56 +6101,48 @@ void game::smash()
 
         int cut_power = u.weapon.type->melee_cut;
         // stabbing weapons are a lot less effective at pulping
-        if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR"))
-        {
+        if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR")) {
             cut_power /= 2;
         }
-        double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) * sqrt((double)(cut_power + 1));
+        double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) *
+                            sqrt((double)(cut_power + 1));
+        pulp_power = std::min(pulp_power, (double)u.str_cur);
         pulp_power *= 20; // constant multiplier to get the chance right
-        int rn = rng(0, (long)pulp_power);
-        while (rn > 0 && !corpses.empty())
-        {
+        int smashes = 0;
+        while( !corpses.empty() ) {
             item *it = corpses.front();
             corpses.pop_front();
-            int damage = rn / it->volume();
-            if (damage + it->damage > full_pulp_threshold)
-            {
-                damage = full_pulp_threshold - it->damage;
-            }
-            rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
+            int damage = pulp_power / it->volume();
+            do {
+                smashes++;
 
-            // chance of a critical success, higher chance for small critters
-            // comes AFTER the loss of power from the above calculation
-            if (one_in(it->volume()))
-            {
-                damage++;
-            }
-
-            if (damage > 0)
-            {
-                if (damage > 1) {
-                    add_msg(_("You greatly damage the %s!"), it->tname().c_str());
-                } else {
-                    add_msg(_("You damage the %s!"), it->tname().c_str());
+                // Increase damage as we keep smashing,
+                // to insure that we eventually smash the target.
+                if (x_in_y(pulp_power, it->volume())) {
+                    damage++;
                 }
+
                 it->damage += damage;
-                if (it->damage >= 4)
-                {
-                    add_msg(_("The corpse is now thoroughly pulped."));
-                    it->damage = 4;
-                    // TODO mark corpses as inactive when appropriate
-                }
                 // Splatter some blood around
                 for (int x = smashx - 1; x <= smashx + 1; x++) {
                     for (int y = smashy - 1; y <= smashy + 1; y++) {
                         if (!one_in(damage+1)) {
-                             m.add_field(this, x, y, fd_blood, 1);
+                            m.add_field(this, x, y, fd_blood, 1);
                         }
                     }
                 }
-            }
+                if (it->damage >= full_pulp_threshold) {
+                    it->damage = full_pulp_threshold;
+                    // TODO mark corpses as inactive when appropriate
+                }
+            } while( it->damage < full_pulp_threshold );
         }
-        u.moves -= move_cost;
+
+        // TODO: Factor in how long it took to do the smashing.
+        add_msg(ngettext("The corpse is thoroughly pulped.",
+                         "The corpses are thoroughly pulped.", num_corpses));
+
+        u.moves -= smashes * move_cost;
         return; // don't smash terrain if we've smashed a corpse
     }
     else
