@@ -1193,8 +1193,7 @@ void map::step_in_field(int x, int y, game *g)
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
-    if (z->has_flag(MF_DIGS) || 
-      (z->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))) {
+    if (z->digging()) {
         return; // Digging monsters are immune to fields
     }
     field &curfield = field_at(x, y);
@@ -1223,9 +1222,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
  // TODO: Use acid resistance
         case fd_acid:
-            if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
-                (!z->has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
-                !z->has_flag(MF_ACIDPROOF)) {
+            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_ACIDPROOF)) {
                 if (cur->getFieldDensity() == 3) {
                     dam += rng(4, 10) + rng(2, 8);
                 } else {
