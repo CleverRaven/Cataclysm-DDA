@@ -562,6 +562,23 @@ void inventory::form_from_map(game *g, point origin, int range)
     water.charges = 50;
     add_item(water);
    }
+   // kludge that can probably be done better to check specifically for toilet water to use in
+   // crafting
+   if ((furnlist[g->m.furn(x,y)].examine == &iexamine::toilet)){
+    // get water charges at location
+     std::vector<item> toiletitems = g->m.i_at(x,y);
+     int waterindex = -1;
+     for (int i = 0; i < toiletitems.size(); ++i){
+        if (toiletitems[i].typeId() == "water"){
+            waterindex = i;
+            break;
+        }
+     }
+     if (waterindex >= 0 && toiletitems[waterindex].charges > 0){
+        add_item(toiletitems[waterindex]);
+     }
+
+   }
 
    int vpart = -1;
    vehicle *veh = g->m.veh_at(x, y, vpart);
