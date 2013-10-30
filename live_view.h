@@ -25,6 +25,7 @@ private:
     int width, height;
     bool enabled;
     game *g;
+    int inuse;
 
     void print_items(std::vector<item> &items, int &line) const;
 };

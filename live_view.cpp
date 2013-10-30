@@ -5,7 +5,8 @@
 #define START_LINE 1
 #define START_COLUMN 1
 
-live_view::live_view() : compact_view(false), w_live_view(NULL), enabled(false)
+live_view::live_view() : compact_view(false), w_live_view(NULL), 
+    enabled(false), inuse(false)
 {
 
 }
@@ -71,18 +72,18 @@ void live_view::show(const int x, const int y)
     w_live_view->height = full_height;
 #endif
 
-    w_live_view->inuse = true;
+    inuse = true;
     wrefresh(w_live_view);
 }
 
 bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
 {
-    if (!enabled || (!w_live_view->inuse && !force)) {
+    if (!enabled || (!inuse && !force)) {
         return false;
     }
 
     werase(w_live_view);
-    w_live_view->inuse = false;
+    inuse = false;
     if (refresh) {
         wrefresh(w_live_view);
     }
