@@ -7665,12 +7665,12 @@ int game::list_monsters()
                 mvwputch(w_monster_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
             }
 
-             mvwprintz(w_monsters, getmaxy(w_monsters)-1, 5, c_ltgreen, "x ");
-            wprintz(w_monsters, c_ltgray, "%s",_("look around"));
+            mvwprintz(w_monsters, getmaxy(w_monsters)-1, 1, c_ltgreen, press_x(ACTION_LOOK).c_str());
+            wprintz(w_monsters, c_ltgray, " %s",_("to look around"));
             if ( rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
-               mvwprintz(w_monsters,  TERMY - getmaxy(w_monsters)-1, 25, c_ltgreen, "f ");
-               wprintz(w_monsters, c_ltgray, "%s", _("shoot"));
-
+                wprintz(w_monsters, c_ltgray, "%s", " ");
+                wprintz(w_monsters, c_ltgreen, press_x(ACTION_FIRE).c_str());
+                wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
             }
 
             mvwputch(w_monster_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
