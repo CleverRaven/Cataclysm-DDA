@@ -40,6 +40,7 @@ worldfactory::~worldfactory()
 {
     for (std::map<std::string, WORLDPTR>::iterator it = all_worlds.begin(); it != all_worlds.end(); ++it) {
         delete it->second;
+        it->second = NULL;
     }
     all_worlds.clear();
     all_worldnames.clear();
