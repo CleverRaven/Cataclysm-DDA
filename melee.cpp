@@ -901,9 +901,7 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
             count_hit++;
             int dam = roll_bash_damage(&(g->zombie(mondex)), false) +
                 roll_cut_damage (&(g->zombie(mondex)), false);
-            if (g->zombie(mondex).hurt(dam)) {
-                g->zombie(mondex).die(g);
-            }
+            g->zombie(mondex).hurt(dam);
             if (weapon.has_flag("FLAMING"))  { // Add to wide attacks
                 g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
             }
