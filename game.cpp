@@ -310,7 +310,6 @@ void game::init_ui(){
  */
 void game::setup()
 {
- u = player();
  m = map(&traps); // Init the root map with our vectors
  _active_monsters.reserve(1000); // Reserve some space
 

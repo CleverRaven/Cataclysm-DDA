@@ -872,7 +872,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     for (int j = 0; j < SEEY * 2; j++) {
      if (ter(i, j) == t_floor) {
       if (one_in(15)) {
-       add_spawn("mon_spider_widow", rng(1, 2), i, j);
+       add_spawn("mon_spider_widow_giant", rng(1, 2), i, j);
        for (int x = i - 1; x <= i + 1; x++) {
         for (int y = j - 1; y <= j + 1; y++) {
          if (ter(x, y) == t_floor)
