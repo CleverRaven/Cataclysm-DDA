@@ -3502,12 +3502,12 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
-    if (OPTIONS["SKILL_RUST"] == "off") {
+    if (ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "off") {
         return 0;
     }
 
     int intel = (real_life ? int_cur : int_max);
-    int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
+    int ret = ((ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "vanilla" || ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
@@ -7997,7 +7997,7 @@ void player::try_to_sleep(game *g)
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
-     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair || 
+     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
      furn_at_pos == f_sofa ||(veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
@@ -8143,7 +8143,7 @@ int player::warmth(body_part bp)
     {
         ret += 10;
     }
-    
+
     // If the players head is not encumbered, check if hood can be put up
     if(bp == bp_head && encumb(bp_head) < 1 && worn_with_flag("HOOD"))
     {

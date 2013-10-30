@@ -84,6 +84,7 @@ class cOpt
 };
 
 extern std::map<std::string, cOpt> OPTIONS;
+extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 
 void initOptions();
 void load_options();

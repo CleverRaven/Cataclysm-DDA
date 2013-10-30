@@ -3419,12 +3419,12 @@ case ot_shelter: {
   mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
   tmpcomp = add_computer(SEEX+6, 5, _("Evac shelter computer"), 0);
   tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
-  if(OPTIONS["BLACK_ROAD"]) {
+  if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"]) {
       //place zombies outside
-      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
-      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
-      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4, SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
-      place_spawns(g, "GROUP_ZOMBIE", OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3, SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4, SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
+      place_spawns(g, "GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3, SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
   }
   }
 
@@ -11905,10 +11905,10 @@ void map::post_process(game *g, unsigned zones)
 void map::place_spawns(game *g, std::string group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
- if (!OPTIONS["STATIC_SPAWN"])
+ if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"])
   return;
 
- float multiplier = OPTIONS["SPAWN_DENSITY"];
+ float multiplier = ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"];
 
  if( multiplier == 0.0 ) return;
 
@@ -12012,7 +12012,7 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
             type.c_str(), count, x, y);
   return;
  }
- if( OPTIONS["CLASSIC_ZOMBIES"] && !GetMType(type)->in_category("CLASSIC") &&
+ if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && !GetMType(type)->in_category("CLASSIC") &&
      !GetMType(type)->in_category("WILDLIFE") ) {
      // Don't spawn non-classic monsters in classic zombie mode.
      return;
@@ -13330,7 +13330,7 @@ map_extra random_map_extra(map_extras embellishments)
     // Set pick to the total of all the chances for map extras
     for (int i = 0; i < num_map_extras; i++)
     {
-        if (!OPTIONS["CLASSIC_ZOMBIES"] || mfb(i) & classic_extras)
+        if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] || mfb(i) & classic_extras)
         {
             pick += embellishments.chances[i];
         }
@@ -13341,7 +13341,7 @@ map_extra random_map_extra(map_extras embellishments)
     while (pick >= 0)
     {
         choice++;
-        if(!OPTIONS["CLASSIC_ZOMBIES"] || mfb(choice) & classic_extras)
+        if(!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] || mfb(choice) & classic_extras)
         {
             pick -= embellishments.chances[choice];
         }
