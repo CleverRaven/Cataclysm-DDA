@@ -57,14 +57,19 @@ void live_view::show(const int x, const int y)
         print_items(items, line);
     }
 
+#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
     int full_height = w_live_view->height;
     if (line < w_live_view->height - 1) {
         w_live_view->height = (line > 11) ? line : 11;
     }
+#endif
+
     wborder(w_live_view, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
+#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
+#endif
 
     w_live_view->inuse = true;
     wrefresh(w_live_view);
