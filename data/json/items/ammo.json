@@ -163,7 +163,7 @@
         "name" : "nails",
         "symbol" : "=",
         "color" : "cyan",
-        "description" : "This is a box of nails. Its mainly useful with a hammer.",
+        "description" : "This is a box of nails. It's mainly useful with a hammer.",
         "material" : "iron",
         "volume" : 1,
         "weight" : 4,

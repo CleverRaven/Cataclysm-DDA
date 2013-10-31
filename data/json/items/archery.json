@@ -193,7 +193,7 @@
       "name" : "fletched fire hardened wood arrow",
       "symbol" : "=",
       "color" : "green",
-      "description" : "This is a simple arrow has a fire hardened point and fletching.",
+      "description" : "This is a simple arrow that has a fire hardened point and fletching.",
       "material" : "wood",
       "volume" : 1,
       "weight" : 43,
