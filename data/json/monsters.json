@@ -2243,7 +2243,7 @@
     "size":"SMALL",
     "material":"veggy",
     "diff":8,
-    "aggression":50,
+    "aggression":10,
     "morale":10,
     "speed":50,
     "melee_skill":6,
