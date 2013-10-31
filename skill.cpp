@@ -132,7 +132,7 @@ static int rustRate(int level)
 
 bool SkillLevel::isRusting(const calendar& turn) const
 {
-    return ACTIVE_WORLD_OPTIONS["SKILL_RUST"] != "off" && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+    return OPTIONS["SKILL_RUST"] != "off" && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
 }
 
 bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
@@ -145,7 +145,7 @@ bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
 
         if (_exercise < 0)
         {
-            if (ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "vanilla" || ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "int")
+            if (OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "int")
             {
                 _exercise = (100 * _level) - 1;
                 --_level;
