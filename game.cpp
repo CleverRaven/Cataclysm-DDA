@@ -4913,18 +4913,17 @@ void game::monmove()
 
 bool game::sound(int x, int y, int vol, std::string description)
 {
-    // Scale the sound a little.
-    vol *= 1.5;
-
+    // --- Monster sound handling here ---
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &z = _active_monsters[i];
         // rl_dist() is faster than z.has_flag() or z.can_hear(), so we'll check it first.
         int dist = rl_dist(x, y, z.posx(), z.posy());
-        int vol_goodhearing = vol - int(dist / 2);
+        int vol_goodhearing = vol * 2 - dist;
         if (vol_goodhearing > 0 && z.can_hear()) {
             const bool goodhearing = z.has_flag(MF_GOODHEARING);
             int volume = goodhearing ? vol_goodhearing : (vol - dist);
+            // Error is based on volume, louder sound = less error
             if (volume > 0) {
                 int max_error = 0;
                 if(volume < 2) {
@@ -4947,65 +4946,83 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
-// Next, display the sound as the player hears it
- if (description == "")
-  return false; // No description (e.g., footsteps)
- if (u.has_disease("deaf"))
-  return false; // We're deaf, can't hear it
+    // --- Player stuff below this point ---
+    int dist = rl_dist(x, y, u.posx, u.posy);
 
- if (u.has_bionic("bio_ears"))
-  vol *= 3.5;
- if (u.has_trait("BADHEARING"))
-  vol *= .5;
- if (u.has_trait("CANINE_EARS"))
-  vol *= 1.5;
- int dist = rl_dist(x, y, u.posx, u.posy);
- if (dist > vol)
-  return false; // Too far away, we didn't hear it!
- if (u.has_disease("sleep") &&
-     ((!u.has_trait("HEAVYSLEEPER") && dice(2, 20) < vol - dist) ||
-      ( u.has_trait("HEAVYSLEEPER") && dice(3, 20) < vol - dist)   )) {
-  u.rem_disease("sleep");
-  if (description != "alarm_clock")
-   add_msg(_("You're woken up by a noise."));
-  return true;
- } else if (description == "alarm_clock") {
-  return false;
- }
- if (!u.has_bionic("bio_ears") && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
-  int duration = (vol - dist - 130) / 4;
-  if (duration > 40)
-   duration = 40;
-  u.add_disease("deaf", duration);
- }
- if (x != u.posx || y != u.posy) {
-  if(u.activity.ignore_trivial != true) {
-    std::string query;
-    if (description == "") {
-        query = string_format(_("Heard %s!"), description.c_str());
+    // Player volume meter includes all sounds from their tile and adjacent tiles
+    if (dist <= 1) {
+        u.volume += vol;
+    }
+
+    // Mutation/Bionic volume modifiers
+    if (u.has_bionic("bio_ears")) {
+        vol *= 3.5;
+    }
+    if (u.has_trait("BADHEARING")) {
+        vol *= .5;
+    }
+    if (u.has_trait("CANINE_EARS")) {
+        vol *= 1.5;
+    }
+
+    // Too far away, we didn't hear it!
+    if (dist > vol) {
+        return false;
+    }
+
+    if (u.has_disease("deaf")) {
+        // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
+        if (!u.has_bionic("bio_ears") && rng((vol - dist) / 2, (vol - dist)) >= 150) {
+            int duration = std::min(40, (vol - dist - 130) / 4);
+            u.add_disease("deaf", duration);
+        }
+        // We're deaf, can't hear it
+        return false;
+    }
+
+    // Check for deafness
+    if (!u.has_bionic("bio_ears") && rng((vol - dist) / 2, (vol - dist)) >= 150) {
+        int duration = (vol - dist - 130) / 4;
+        u.add_disease("deaf", duration);
+    }
+
+    // See if we need to wake someone up
+    if (u.has_disease("sleep") && ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
+          (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist))) {
+        u.rem_disease("sleep");
+        add_msg(_("You're woken up by a noise."));
     } else {
-        query = _("Heard a noise!");
+        return false;
     }
-    if( cancel_activity_or_ignore_query(query.c_str()) ) {
-        u.activity.ignore_trivial = true;
-    }
-  }
- } else {
-     u.volume += vol;
- }
 
-// We need to figure out where it was coming from, relative to the player
- int dx = x - u.posx;
- int dy = y - u.posy;
-// If it came from us, don't print a direction
- if (dx == 0 && dy == 0) {
-  capitalize_letter(description, 0);
-  add_msg("%s", description.c_str());
-  return true;
- }
- std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
- add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
- return true;
+    if (x != u.posx || y != u.posy) {
+        if(u.activity.ignore_trivial != true) {
+            std::string query;
+            if (description != "") {
+                query = string_format(_("Heard %s!"), description.c_str());
+            } else {
+                query = _("Heard a noise!");
+            }
+
+            if (cancel_activity_or_ignore_query(query.c_str())) {
+                u.activity.ignore_trivial = true;
+            }
+        }
+    }
+
+    // Only print a description if it exists
+    if (description != "") {
+        // If it came from us, don't print a direction
+        if (x == u.posx && y == u.posy) {
+            capitalize_letter(description, 0);
+            add_msg("%s", description.c_str());
+        } else {
+            // Else print a direction as well
+            std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
+            add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
+        }
+    }
+    return true;
 }
 
 // add_footstep will create a list of locations to draw monster
