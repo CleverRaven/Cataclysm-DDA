@@ -598,6 +598,12 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         keys.push_back(it->first);
     }
 
+    for (std::map<int, bool>::iterator mLine = mapLines.begin(); mLine != mapLines.end(); ++mLine){
+        if (mLine->second){
+            mvwputch(win, FULL_SCREEN_HEIGHT-1, mLine->first+1, c_ltgray, LINE_XXOX); // _|_
+        }
+    }
+
     wrefresh(win);
     refresh();
 
