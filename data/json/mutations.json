@@ -1,7 +1,7 @@
 [
     {
         "type" : "mutation",
-        "id": "FLEET",
+        "id" : "FLEET",
         "name": "Fleet-Footed",
         "points": 3,
         "description": "You can run more quickly than most, resulting in a 15% speed bonus on sure footing.",
@@ -11,7 +11,7 @@
         "category": ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "PARKOUR",
+        "id" : "PARKOUR",
         "name": "Parkour Expert",
         "points": 2,
         "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
@@ -19,7 +19,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "QUICK",
+        "id" : "QUICK",
         "name": "Quick",
         "points": 3,
         "description": "You're just generally quick! You get a 10% bonus to action points.",
@@ -27,7 +27,7 @@
         "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "OPTIMISTIC",
+        "id" : "OPTIMISTIC",
         "name": "Optimist",
         "points": 2,
         "description": "Nothing gets you down! You savor the joys of life, ignore its hardships, and are generally happier than most people.",
@@ -35,7 +35,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "FASTHEALER",
+        "id" : "FASTHEALER",
         "name": "Fast Healer",
         "points": 2,
         "description": "You heal a little faster than most; sleeping will heal more lost HP.",
@@ -44,7 +44,7 @@
         "changes_to": ["FASTHEALER2"]
     },{
         "type" : "mutation",
-        "id": "LIGHTEATER",
+        "id" : "LIGHTEATER",
         "name": "Light Eater",
         "points": 3,
         "description": "Your metabolism is a little slower, and you require less food than most.",
@@ -52,7 +52,7 @@
         "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "PAINRESIST",
+        "id" : "PAINRESIST",
         "name": "Pain Resistant",
         "points": 2,
         "description": "You have a high tolerance for pain.",
@@ -60,7 +60,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "NIGHTVISION",
+        "id" : "NIGHTVISION",
         "name": "Night Vision",
         "points": 1,
         "description": "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
@@ -69,7 +69,7 @@
         "category": ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "POISRESIST",
+        "id" : "POISRESIST",
         "name": "Poison Resistant",
         "points": 1,
         "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
@@ -77,7 +77,7 @@
         "category": ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "FASTREADER",
+        "id" : "FASTREADER",
         "name": "Fast Reader",
         "points": 1,
         "description": "You're a quick reader, and can get through books a lot faster than most.",
@@ -86,7 +86,7 @@
         "cancels": ["ILLITERATE"]
     },{
         "type" : "mutation",
-        "id": "TOUGH",
+        "id" : "TOUGH",
         "name": "Tough",
         "points": 3,
         "description": "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
@@ -95,7 +95,7 @@
         "cancels": ["HARDCORE", "GLASSJAW"]
     },{
         "type" : "mutation",
-        "id": "THICKSKIN",
+        "id" : "THICKSKIN",
         "name": "Thick-Skinned",
         "points": 2,
         "description": "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
@@ -119,7 +119,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "PACKMULE",
+        "id" : "PACKMULE",
         "name": "Packmule",
         "points": 3,
         "description": "You can manage to find space for anything! You can carry 40% more volume.",
@@ -127,7 +127,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "FASTLEARNER",
+        "id" : "FASTLEARNER",
         "name": "Fast Learner",
         "points": 3,
         "description": "You have a flexible mind, allowing you to learn skills much faster than others. Note that this only applies to real-world experience, not to skill gain from other sources like books.",
@@ -135,7 +135,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "DEFT",
+        "id" : "DEFT",
         "name": "Deft",
         "points": 2,
         "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
@@ -143,7 +143,7 @@
         "category": ["MUTCAT_BIRD", "MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "DRUNKEN",
+        "id" : "DRUNKEN",
         "name": "Drunken Master",
         "points": 2,
         "description": "The ancient arts of drunken brawling come naturally to you! While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
@@ -152,7 +152,7 @@
         "cancels": ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
-        "id": "GOURMAND",
+        "id" : "GOURMAND",
         "name": "Gourmand",
         "points": 2,
         "description": "You eat faster, and can eat and drink more, than anyone else! You also enjoy food more; delicious food is better for your morale, and you don't mind some unsavory meals.",
@@ -160,7 +160,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "ANIMALEMPATH",
+        "id" : "ANIMALEMPATH",
         "name": "Animal Empathy",
         "points": 1,
         "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack. This only applies to natural animals such as woodland creatures.",
@@ -168,7 +168,7 @@
         "category": ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "TERRIFYING",
+        "id" : "TERRIFYING",
         "name": "Terrifying",
         "points": 2,
         "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
@@ -176,7 +176,7 @@
         "category": ["MUTCAT_BEAST", "MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "DISRESISTANT",
+        "id" : "DISRESISTANT",
         "name": "Disease Resistant",
         "points": 1,
         "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
@@ -185,7 +185,7 @@
         "category": ["MUTCAT_CATTLE", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "ADRENALINE",
+        "id" : "ADRENALINE",
         "name": "High Adrenaline",
         "points": 3,
         "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
@@ -193,7 +193,7 @@
         "category": ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "SELFAWARE",
+        "id" : "SELFAWARE",
         "name": "Self-aware",
         "points": 1,
         "description": "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
@@ -201,7 +201,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "INCONSPICUOUS",
+        "id" : "INCONSPICUOUS",
         "name": "Inconspicuous",
         "points": 2,
         "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
@@ -209,7 +209,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "MASOCHIST",
+        "id" : "MASOCHIST",
         "name": "Masochist",
         "points": 2,
         "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
@@ -217,7 +217,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "STYLISH",
+        "id" : "STYLISH",
         "name": "Stylish",
         "points": 2,
         "description": "Practicality is far less important than style. Even at the end of the world, it's important to look your best.",
@@ -225,7 +225,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "LIGHTSTEP",
+        "id" : "LIGHTSTEP",
         "name": "Light Step",
         "points": 1,
         "description": "You make less noise while walking. You're also less likely to set off traps.",
@@ -233,7 +233,7 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "ROBUST",
+        "id" : "ROBUST",
         "name": "Robust Genetics",
         "points": 2,
         "description": "You have a very strong genetic base. If you mutate, the odds that the mutation will be beneficial are greatly increased.",
@@ -241,7 +241,7 @@
         "category": ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "CANNIBAL",
+        "id" : "CANNIBAL",
         "name": "Cannibal",
         "points": 3,
         "description": "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
@@ -250,7 +250,7 @@
         "cancels": ["VEGETARIAN"]
     },{
         "type" : "mutation",
-        "id": "MARTIAL_ARTS",
+        "id" : "MARTIAL_ARTS",
         "name": "Martial Arts Training",
         "points": 3,
         "description": "You have received some martial arts training at a local dojo. You start with your choice of karate, judo, aikido, tai chi, or taekwondo.",
@@ -258,7 +258,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "MARTIAL_ARTS2",
+        "id" : "MARTIAL_ARTS2",
         "name": "Self-Defense Classes",
         "points": 3,
         "description": "You have taken some self-defense classes at a nearby gym. You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
@@ -266,7 +266,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "LIAR",
+        "id" : "LIAR",
         "name": "Skilled Liar",
         "points": 2,
         "description": "You have no qualms about bending the truth, and have practically no tells. Telling lies and otherwise bluffing will be much easier for you.",
@@ -274,7 +274,7 @@
         "cancels": ["TRUTHTELLER"]
     },{
         "type" : "mutation",
-        "id": "PRETTY",
+        "id" : "PRETTY",
         "name": "Pretty",
         "points": 1,
         "ugliness": -2,
@@ -284,7 +284,7 @@
         "changes_to": ["BEAUTIFUL"]
     },{
         "type" : "mutation",
-        "id": "MYOPIC",
+        "id" : "MYOPIC",
         "name": "Near-Sighted",
         "points": -2,
         "description": "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
@@ -292,7 +292,7 @@
         "category": ["MUTCAT_BEAST", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "HYPEROPIC",
+        "id" : "HYPEROPIC",
         "name": "Far-Sighted",
         "points": -2,
         "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting. However, you are guaranteed to start with a pair of reading glasses.",
@@ -300,7 +300,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "HEAVYSLEEPER",
+        "id" : "HEAVYSLEEPER",
         "name": "Heavy Sleeper",
         "points": -1,
         "description": "You're quite the heavy sleeper. Noises are unlikely to wake you up.",
@@ -308,7 +308,7 @@
         "category": ["MUTCAT_INSECT", "MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id": "ASTHMA",
+        "id" : "ASTHMA",
         "name": "Asthmatic",
         "points": -4,
         "description": "You will occasionally need to use an inhaler, or else suffer severe physical limitations. However, you are guaranteed to start with an inhaler.",
@@ -316,7 +316,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "BADBACK",
+        "id" : "BADBACK",
         "name": "Bad Back",
         "points": -3,
         "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
@@ -324,7 +324,7 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "ILLITERATE",
+        "id" : "ILLITERATE",
         "name": "Illiterate",
         "points": -5,
         "description": "You never learned to read! Books and computers are off-limits to you.",
@@ -333,7 +333,7 @@
         "cancels": ["FASTREADER"]
     },{
         "type" : "mutation",
-        "id": "BADHEARING",
+        "id" : "BADHEARING",
         "name": "Poor Hearing",
         "points": -2,
         "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
@@ -341,7 +341,7 @@
         "category": ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id": "INSOMNIA",
+        "id" : "INSOMNIA",
         "name": "Insomniac",
         "points": -2,
         "description": "You have a hard time falling asleep, even under the best circumstances!",
@@ -349,7 +349,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "VEGETARIAN",
+        "id" : "VEGETARIAN",
         "name": "Meat Intolerance",
         "points": -3,
         "description": "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
@@ -358,7 +358,7 @@
         "cancels": ["CANNIBAL"]
     },{
         "type" : "mutation",
-        "id": "GLASSJAW",
+        "id" : "GLASSJAW",
         "name": "Glass Jaw",
         "points": -3,
         "description": "Your head can't take much abuse. Its maximum HP is 20% lower than usual.",
@@ -367,7 +367,7 @@
         "cancels": ["TOUGH"]
     },{
         "type" : "mutation",
-        "id": "FORGETFUL",
+        "id" : "FORGETFUL",
         "name": "Forgetful",
         "points": -3,
         "description": "You have a hard time remembering things. Your skills will erode slightly faster than usual.",
@@ -375,7 +375,7 @@
         "category": ["MUTCAT_BEAST", ""]
     },{
         "type" : "mutation",
-        "id": "LIGHTWEIGHT",
+        "id" : "LIGHTWEIGHT",
         "name": "Lightweight",
         "points": -1,
         "description": "Alcohol and drugs go straight to your head. You suffer the negative effects of these for longer.",
@@ -383,7 +383,7 @@
         "cancels": ["DRUNKEN"]
     },{
         "type" : "mutation",
-        "id": "ADDICTIVE",
+        "id" : "ADDICTIVE",
         "name": "Addictive Personality",
         "points": -3,
         "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
@@ -391,7 +391,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "TRIGGERHAPPY",
+        "id" : "TRIGGERHAPPY",
         "name": "Trigger Happy",
         "points": -2,
         "description": "On rare occasion, you will go full-auto when you intended to fire a single shot. This has no effect when firing handguns or other semi-automatic firearms.",
@@ -399,7 +399,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "SMELLY",
+        "id" : "SMELLY",
         "name": "Smelly",
         "points": -1,
         "description": "Your scent is particularly strong. It's not offensive to humans, but animals that track your scent will do so more easily.",
@@ -407,7 +407,7 @@
         "changes_to": ["SMELLY2"]
     },{
         "type" : "mutation",
-        "id": "CHEMIMBALANCE",
+        "id" : "CHEMIMBALANCE",
         "name": "Chemical Imbalance",
         "points": -2,
         "description": "You suffer from a minor chemical imbalance, whether mental or physical. Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
@@ -415,7 +415,7 @@
         "category": ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "SCHIZOPHRENIC",
+        "id" : "SCHIZOPHRENIC",
         "name": "Schizophrenic",
         "points": -5,
         "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations. Some of these effects may be controlled through the use of Thorazine.",
@@ -423,7 +423,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "JITTERY",
+        "id" : "JITTERY",
         "name": "Jittery",
         "points": -3,
         "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your dexterity.",
@@ -431,7 +431,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "HOARDER",
+        "id" : "HOARDER",
         "name": "Hoarder",
         "points": -4,
         "description": "You don't feel right unless you're carrying as much as you can. You suffer morale penalties for carrying less than maximum volume (weight is ignored). Xanax can help control this anxiety.",
@@ -439,7 +439,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "SAVANT",
+        "id" : "SAVANT",
         "name": "Savant",
         "points": -4,
         "description": "You tend to specialize in one skill and be poor at all others. You advance at half speed in all skills except your best one. Note that combining this with Fast Learner will come out to a slower rate of learning for all skills.",
@@ -447,7 +447,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "MOODSWINGS",
+        "id" : "MOODSWINGS",
         "name": "Mood Swings",
         "points": -1,
         "description": "Your morale will shift up and down at random, often dramatically.",
@@ -455,7 +455,7 @@
         "valid": false
     },{
         "type" : "mutation",
-        "id": "WEAKSTOMACH",
+        "id" : "WEAKSTOMACH",
         "name": "Weak Stomach",
         "points": -1,
         "description": "You are more likely to throw up from food poisoning, alcohol, etc.",
@@ -463,7 +463,7 @@
         "changes_to": ["NAUSEA"]
     },{
         "type" : "mutation",
-        "id": "WOOLALLERGY",
+        "id" : "WOOLALLERGY",
         "name": "Wool Allergy",
         "points": -1,
         "description": "You are badly allergic to wool, and can not wear any clothing made of the substance.",
@@ -471,7 +471,7 @@
         "valid": true
     },{
         "type" : "mutation",
-        "id": "TRUTHTELLER",
+        "id" : "TRUTHTELLER",
         "name": "Truth Teller",
         "points": -2,
         "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed. Telling lies and otherwise bluffing will be much more difficult for you.",
@@ -479,7 +479,7 @@
         "cancels": ["LIAR"]
     },{
         "type" : "mutation",
-        "id": "UGLY",
+        "id" : "UGLY",
         "name": "Ugly",
         "points": -1,
         "ugliness": 2,
@@ -489,7 +489,7 @@
         "changes_to": ["DEFORMED"]
     },{
         "type" : "mutation",
-        "id": "HARDCORE",
+        "id" : "HARDCORE",
         "name": "Hardcore",
         "points": -6,
         "description": "Your whole body can't take much abuse. Its maximum HP is 75% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
@@ -498,7 +498,7 @@
         "cancels": ["TOUGH"]
     },{
         "type" : "mutation",
-        "id": "SKIN_ROUGH",
+        "id" : "SKIN_ROUGH",
         "name": "Rough Skin",
         "points": 0,
         "visibility": 2,
@@ -508,7 +508,7 @@
         "category": ["MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
-        "id": "NIGHTVISION2",
+        "id" : "NIGHTVISION2",
         "name": "High Night Vision",
         "points": 3,
         "description": "You can see incredibly well in the dark!",
@@ -517,7 +517,7 @@
         "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "NIGHTVISION3",
+        "id" : "NIGHTVISION3",
         "name": "Full Night Vision",
         "points": 5,
         "description": "You can see in pitch blackness as if you were wearing night-vision goggles.",
@@ -526,7 +526,7 @@
         "category": ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "INFRARED",
+        "id" : "INFRARED",
         "name": "Infrared Vision",
         "points": 5,
         "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
@@ -534,7 +534,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "FASTHEALER2",
+        "id" : "FASTHEALER2",
         "name": "Very Fast Healer",
         "points": 5,
         "description": "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
@@ -544,7 +544,7 @@
         "category": ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id": "REGEN",
+        "id" : "REGEN",
         "name": "Regeneration",
         "points": 10,
         "description": "Your flesh regenerates from wounds incredibly quickly.",
@@ -553,7 +553,7 @@
         "category": ["MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "FANGS",
+        "id" : "FANGS",
         "name": "Fangs",
         "points": 2,
         "visibility": 2,
@@ -563,7 +563,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "MEMBRANE",
+        "id" : "MEMBRANE",
         "name": "Nictitating Membrane",
         "points": 1,
         "visibility": 1,
@@ -579,7 +579,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "GILLS",
+        "id" : "GILLS",
         "name": "Gills",
         "points": 3,
         "visibility": 5,
@@ -594,7 +594,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "SCALES",
+        "id" : "SCALES",
         "name": "Scales",
         "points": 6,
         "visibility": 10,
@@ -630,7 +630,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "THICK_SCALES",
+        "id" : "THICK_SCALES",
         "name": "Thick Scales",
         "points": 6,
         "visibility": 10,
@@ -666,7 +666,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "SLEEK_SCALES",
+        "id" : "SLEEK_SCALES",
         "name": "Sleek Scales",
         "points": 8,
         "visibility": 10,
@@ -703,14 +703,14 @@
       ]
     },{
         "type" : "mutation",
-        "id": "LIGHT_BONES",
+        "id" : "LIGHT_BONES",
         "name": "Light Bones",
         "points": 2,
         "description": "Your bones are very light. This enables you to run and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
         "changes_to": ["HOLLOW_BONES"]
     },{
         "type" : "mutation",
-        "id": "FEATHERS",
+        "id" : "FEATHERS",
         "name": "Feathers",
         "points": 2,
         "visibility": 10,
@@ -721,7 +721,7 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "LIGHTFUR",
+        "id" : "LIGHTFUR",
         "name": "Lightly Furred",
         "points": 1,
         "visibility": 6,
@@ -732,7 +732,7 @@
         "changes_to": ["FUR"]
     },{
         "type" : "mutation",
-        "id": "FUR",
+        "id" : "FUR",
         "name": "Furry",
         "points": 2,
         "visibility": 10,
@@ -743,7 +743,7 @@
         "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "CHITIN",
+        "id" : "CHITIN",
         "name": "Chitinous Skin",
         "points": 2,
         "visibility": 3,
@@ -780,7 +780,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "CHITIN2",
+        "id" : "CHITIN2",
         "name": "Chitinous Armor",
         "points": 2,
         "visibility": 6,
@@ -817,7 +817,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "CHITIN3",
+        "id" : "CHITIN3",
         "name": "Chitinous Plate",
         "points": 2,
         "visibility": 8,
@@ -853,21 +853,21 @@
       ]
     },{
         "type" : "mutation",
-        "id": "SPINES",
+        "id" : "SPINES",
         "name": "Spines",
         "points": 1,
         "description": "Your skin is covered with fine spines. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive moderate damage.",
         "changes_to": ["QUILLS"]
     },{
         "type" : "mutation",
-        "id": "QUILLS",
+        "id" : "QUILLS",
         "name": "Quills",
         "points": 3,
         "description": "Your body is covered with large quills. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive significant damage.",
         "prereqs": ["SPINES"]
     },{
         "type" : "mutation",
-        "id": "PLANTSKIN",
+        "id" : "PLANTSKIN",
         "name": "Phelloderm",
         "points": 4,
         "visibility": 3,
@@ -904,7 +904,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "BARK",
+        "id" : "BARK",
         "name": "Bark",
         "points": 5,
         "visibility": 10,
@@ -940,7 +940,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "THORNS",
+        "id" : "THORNS",
         "name": "Thorns",
         "points": 6,
         "visibility": 8,
@@ -950,7 +950,7 @@
         "category": ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id": "LEAVES",
+        "id" : "LEAVES",
         "name": "Leaves",
         "points": 6,
         "visibility": 8,
@@ -966,7 +966,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "NAILS",
+        "id" : "NAILS",
         "name": "Long Fingernails",
         "points": 1,
         "visibility": 1,
@@ -974,7 +974,7 @@
         "changes_to": ["CLAWS", "TALONS"]
     },{
         "type" : "mutation",
-        "id": "CLAWS",
+        "id" : "CLAWS",
         "name": "Claws",
         "points": 2,
         "visibility": 3,
@@ -985,7 +985,7 @@
         "category": ["MUTCAT_BEAST", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "TALONS",
+        "id" : "TALONS",
         "name": "Large Talons",
         "points": 2,
         "visibility": 4,
@@ -996,21 +996,21 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "RADIOGENIC",
+        "id" : "RADIOGENIC",
         "name": "Radiogenic",
         "points": 3,
         "description": "Your system has adapted to radiation. While irradiated, you will actually heal slowly, converting the radiation into hit points.",
         "category": ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "MARLOSS",
+        "id" : "MARLOSS",
         "name": "Marloss Carrier",
         "points": 4,
         "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to eat more.",
         "valid": false
     },{
         "type" : "mutation",
-        "id": "PHEROMONE_INSECT",
+        "id" : "PHEROMONE_INSECT",
         "name": "Insect Pheromones",
         "points": 8,
         "description": "Your body produces low-level pheromones, identifying you as a friend to many species of insects. Insects will attack you much less.",
@@ -1019,7 +1019,7 @@
         "category": ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "PHEROMONE_MAMMAL",
+        "id" : "PHEROMONE_MAMMAL",
         "name": "Mammal Pheromones",
         "points": 8,
         "description": "Your body produces low-level pheromones which puts mammals at ease. They will be less likely to attack or flee from you.",
@@ -1028,7 +1028,7 @@
         "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
-        "id": "DISIMMUNE",
+        "id" : "DISIMMUNE",
         "name": "Disease Immune",
         "points": 6,
         "description": "Your body is simply immune to diseases. You will never catch an ambient disease.",
@@ -1036,7 +1036,7 @@
         "category": ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "POISONOUS",
+        "id" : "POISONOUS",
         "name": "Poisonous",
         "points": 8,
         "description": "Your body produces a potent venom. Any special attacks from mutations have a chance to poison your target.",
@@ -1044,7 +1044,7 @@
         "category": ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "SLIME_HANDS",
+        "id" : "SLIME_HANDS",
         "name": "Slime Hands",
         "points": 4,
         "visibility": 5,
@@ -1060,7 +1060,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "COMPOUND_EYES",
+        "id" : "COMPOUND_EYES",
         "name": "Compound Eyes",
         "points": 2,
         "visibility": 9,
@@ -1070,7 +1070,7 @@
         "category": ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "PADDED_FEET",
+        "id" : "PADDED_FEET",
         "name": "Padded Feet",
         "points": 1,
         "visibility": 1,
@@ -1085,7 +1085,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "HOOVES",
+        "id" : "HOOVES",
         "name": "Hooves",
         "points": -4,
         "visibility": 2,
@@ -1101,7 +1101,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "SAPROVORE",
+        "id" : "SAPROVORE",
         "name": "Saprovore",
         "points": 4,
         "description": "Your digestive system is specialized to allow you to consume decaying material. You can eat rotten food, albeit for less nutrition than usual.",
@@ -1110,7 +1110,7 @@
         "category": ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "RUMINANT",
+        "id" : "RUMINANT",
         "name": "Ruminant",
         "points": 5,
         "description": "Your digestive system is capable of digesting cellulose and other rough plant material. You can eat underbrush by standing over it and pressing E.",
@@ -1119,7 +1119,7 @@
         "category": ["MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
-        "id": "HORNS",
+        "id" : "HORNS",
         "name": "Horns",
         "points": 2,
         "visibility": 3,
@@ -1131,7 +1131,7 @@
         "category": ["MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
-        "id": "HORNS_CURLED",
+        "id" : "HORNS_CURLED",
         "name": "Curled Horns",
         "points": 1,
         "visibility": 8,
@@ -1141,7 +1141,7 @@
         "cancels": ["ANTENNAE", "HORNS_POINTED", "ANTLERS"]
     },{
         "type" : "mutation",
-        "id": "HORNS_POINTED",
+        "id" : "HORNS_POINTED",
         "name": "Pointed Horns",
         "points": 2,
         "visibility": 8,
@@ -1151,7 +1151,7 @@
         "cancels": ["ANTENNAE", "HORNS_CURLED", "ANTLERS"]
     },{
         "type" : "mutation",
-        "id": "ANTLERS",
+        "id" : "ANTLERS",
         "name": "Antlers",
         "points": -2,
         "visibility": 10,
@@ -1161,7 +1161,7 @@
         "cancels": ["ANTENNAE", "HORNS_CURLED", "HORNS_POINTED"]
     },{
         "type" : "mutation",
-        "id": "ANTENNAE",
+        "id" : "ANTENNAE",
         "name": "Antennae",
         "points": 1,
         "visibility": 9,
@@ -1172,7 +1172,7 @@
         "category": ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "FLEET2",
+        "id" : "FLEET2",
         "name": "Road-Runner",
         "points": 4,
         "description": "Your legs are extremely limber and fast-moving. You run 30% faster on flat surfaces.",
@@ -1181,7 +1181,7 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "TAIL_STUB",
+        "id" : "TAIL_STUB",
         "name": "Stubby Tail",
         "points": 0,
         "visibility": 1,
@@ -1190,7 +1190,7 @@
         "changes_to": ["TAIL_LONG", "TAIL_FIN"]
     },{
         "type" : "mutation",
-        "id": "TAIL_FIN",
+        "id" : "TAIL_FIN",
         "name": "Tail Fin",
         "points": 1,
         "visibility": 4,
@@ -1207,7 +1207,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "TAIL_LONG",
+        "id" : "TAIL_LONG",
         "name": "Long Tail",
         "points": 2,
         "visibility": 6,
@@ -1219,7 +1219,7 @@
         "category": ["MUTCAT_CATTLE", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "TAIL_FLUFFY",
+        "id" : "TAIL_FLUFFY",
         "name": "Fluffy Tail",
         "points": 2,
         "visibility": 7,
@@ -1229,7 +1229,7 @@
         "category": ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "TAIL_STING",
+        "id" : "TAIL_STING",
         "name": "Spiked Tail",
         "points": 2,
         "visibility": 6,
@@ -1240,7 +1240,7 @@
         "category": ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "TAIL_CLUB",
+        "id" : "TAIL_CLUB",
         "name": "Club Tail",
         "points": 2,
         "visibility": 7,
@@ -1250,14 +1250,14 @@
         "cancels": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"]
     },{
         "type" : "mutation",
-        "id": "PAINREC1",
+        "id" : "PAINREC1",
         "name": "Pain Recovery",
         "points": 3,
         "description": "You recover from pain slightly faster than normal.",
         "changes_to": ["PAINREC2"]
     },{
         "type" : "mutation",
-        "id": "PAINREC2",
+        "id" : "PAINREC2",
         "name": "Quick Pain Recovery",
         "points": 5,
         "description": "You recover from pain faster than normal.",
@@ -1265,14 +1265,14 @@
         "changes_to": ["PAINREC3"]
     },{
         "type" : "mutation",
-        "id": "PAINREC3",
+        "id" : "PAINREC3",
         "name": "Very Quick Pain Recovery",
         "points": 8,
         "description": "You recover from pain much faster than normal.",
         "prereqs": ["PAINREC2"]
     },{
         "type" : "mutation",
-        "id": "WINGS_BIRD",
+        "id" : "WINGS_BIRD",
         "name": "Bird Wings",
         "points": 2,
         "visibility": 4,
@@ -1283,7 +1283,7 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "WINGS_INSECT",
+        "id" : "WINGS_INSECT",
         "name": "Insect Wings",
         "points": 3,
         "visibility": 4,
@@ -1294,7 +1294,7 @@
         "category": ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "MOUTH_TENTACLES",
+        "id" : "MOUTH_TENTACLES",
         "name": "Mouth Tentacles",
         "points": 1,
         "visibility": 8,
@@ -1311,7 +1311,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "MANDIBLES",
+        "id" : "MANDIBLES",
         "name": "Mandibles",
         "points": 2,
         "visibility": 8,
@@ -1328,7 +1328,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "CANINE_EARS",
+        "id" : "CANINE_EARS",
         "name": "Canine Ears",
         "points": 2,
         "visibility": 4,
@@ -1337,14 +1337,14 @@
         "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
-        "id": "WEB_WALKER",
+        "id" : "WEB_WALKER",
         "name": "Web Walker",
         "points": 3,
         "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs. Walking through webs does not affect you at all.",
         "leads_to": ["WEB_WEAVER"]
     },{
         "type" : "mutation",
-        "id": "WEB_WEAVER",
+        "id" : "WEB_WEAVER",
         "name": "Web Weaver",
         "points": 3,
         "description": "Your body produces webs. As you move, there is a chance that you will leave webs in your wake.",
@@ -1353,7 +1353,7 @@
         "category": ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "WHISKERS",
+        "id" : "WHISKERS",
         "name": "Whiskers",
         "points": 1,
         "visibility": 3,
@@ -1362,7 +1362,7 @@
         "category": ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "STR_UP",
+        "id" : "STR_UP",
         "name": "Strong",
         "points": 1,
         "description": "Your muscles are a little stronger. Strength + 1",
@@ -1370,7 +1370,7 @@
         "category": ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "STR_UP_2",
+        "id" : "STR_UP_2",
         "name": "Very Strong",
         "points": 2,
         "description": "Your muscles are stronger. Strength + 2",
@@ -1379,7 +1379,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id": "STR_UP_3",
+        "id" : "STR_UP_3",
         "name": "Extremely Strong",
         "points": 4,
         "visibility": 1,
@@ -1388,7 +1388,7 @@
         "changes_to": ["STR_UP_4"]
     },{
         "type" : "mutation",
-        "id": "STR_UP_4",
+        "id" : "STR_UP_4",
         "name": "Insanely Strong",
         "points": 7,
         "visibility": 2,
@@ -1398,7 +1398,7 @@
         "category": ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "DEX_UP",
+        "id" : "DEX_UP",
         "name": "Dextrous",
         "points": 1,
         "description": "You are a little nimbler. Dexterity + 1",
@@ -1406,7 +1406,7 @@
         "category": ["MUTCAT_INSECT", "MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "DEX_UP_2",
+        "id" : "DEX_UP_2",
         "name": "Very Dextrous",
         "points": 2,
         "description": "You are nimbler. Dexterity + 2",
@@ -1415,7 +1415,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "DEX_UP_3",
+        "id" : "DEX_UP_3",
         "name": "Extremely Dextrous",
         "points": 3,
         "description": "You are nimble and quick. Dexterity + 4",
@@ -1424,7 +1424,7 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "DEX_UP_4",
+        "id" : "DEX_UP_4",
         "name": "Insanely Dextrous",
         "points": 4,
         "description": "You are much nimbler than before. Dexterity + 7",
@@ -1432,7 +1432,7 @@
         "category": ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
-        "id": "INT_UP",
+        "id" : "INT_UP",
         "name": "Smart",
         "points": 1,
         "description": "You are a little smarter. Intelligence + 1",
@@ -1440,7 +1440,7 @@
         "category": ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "INT_UP_2",
+        "id" : "INT_UP_2",
         "name": "Very Smart",
         "points": 2,
         "ugliness": 0,"description": "You are smarter. Intelligence + 2",
@@ -1448,7 +1448,7 @@
         "changes_to": ["INT_UP_3"]
     },{
         "type" : "mutation",
-        "id": "INT_UP_3",
+        "id" : "INT_UP_3",
         "name": "Extremely Smart",
         "points": 3,
         "visibility": 1,
@@ -1458,7 +1458,7 @@
         "changes_to": ["INT_UP_4"]
     },{
         "type" : "mutation",
-        "id": "INT_UP_4",
+        "id" : "INT_UP_4",
         "name": "Insanely Smart",
         "points": 4,
         "visibility": 3,
@@ -1468,14 +1468,14 @@
         "category": ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
-        "id": "PER_UP",
+        "id" : "PER_UP",
         "name": "Perceptive",
         "points": 1,
         "description": "Your senses are a little keener. Perception + 1",
         "changes_to": ["PER_UP_2"]
     },{
         "type" : "mutation",
-        "id": "PER_UP_2",
+        "id" : "PER_UP_2",
         "name": "Very Perceptive",
         "points": 2,
         "description": "Your senses are keener. Perception + 2",
@@ -1483,7 +1483,7 @@
         "changes_to": ["PER_UP_3"]
     },{
         "type" : "mutation",
-        "id": "PER_UP_3",
+        "id" : "PER_UP_3",
         "name": "Extremely Perceptive",
         "points": 3,
         "description": "Your senses are much keener. Perception + 4",
@@ -1491,7 +1491,7 @@
         "changes_to": ["PER_UP_4"]
     },{
         "type" : "mutation",
-        "id": "PER_UP_4",
+        "id" : "PER_UP_4",
         "name": "Insanely Perceptive",
         "points": 4,
         "description": "You can sense things you never imagined. Perception + 7",
@@ -1499,7 +1499,7 @@
         "category": ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
-        "id": "HEADBUMPS",
+        "id" : "HEADBUMPS",
         "name": "Head Bumps",
         "points": 0,
         "visibility": 3,
@@ -1508,7 +1508,7 @@
         "changes_to": ["HORNS", "ANTENNAE"]
     },{
         "type" : "mutation",
-        "id": "SLIT_NOSTRILS",
+        "id" : "SLIT_NOSTRILS",
         "name": "Slit Nostrils",
         "points": -2,
         "visibility": 7,
@@ -1517,7 +1517,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
-        "id": "FORKED_TONGUE",
+        "id" : "FORKED_TONGUE",
         "name": "Forked Tongue",
         "points": 0,
         "visibility": 1,
@@ -1526,7 +1526,7 @@
         "category": ["MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
-        "id": "EYEBULGE",
+        "id" : "EYEBULGE",
         "name": "Bulging Eyes",
         "points": 0,
         "visibility": 8,
@@ -1536,7 +1536,7 @@
         "changes_to": ["COMPOUND_EYES"]
     },{
         "type" : "mutation",
-        "id": "MOUTH_FLAPS",
+        "id" : "MOUTH_FLAPS",
         "name": "Mouth Flaps",
         "points": -1,
         "visibility": 7,
@@ -1545,7 +1545,7 @@
         "leads_to": ["MOUTH_TENTACLES", "MANDIBLES"]
     },{
         "type" : "mutation",
-        "id": "WINGS_STUB",
+        "id" : "WINGS_STUB",
         "name": "Wing Stubs",
         "points": 0,
         "visibility": 2,
@@ -1554,7 +1554,7 @@
         "changes_to": ["WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT"]
     },{
         "type" : "mutation",
-        "id": "WINGS_BAT",
+        "id" : "WINGS_BAT",
         "name": "Bat Wings",
         "points": -1,
         "visibility": 9,
@@ -1564,7 +1564,7 @@
         "cancels": ["WINGS_BIRD", "WINGS_INSECT"]
     },{
         "type" : "mutation",
-        "id": "PALE",
+        "id" : "PALE",
         "name": "Pale Skin",
         "points": 0,
         "visibility": 3,
@@ -1574,7 +1574,7 @@
         "leads_to": ["TROGLO"]
     },{
         "type" : "mutation",
-        "id": "SPOTS",
+        "id" : "SPOTS",
         "name": "Spots",
         "points": 0,
         "visibility": 6,
@@ -1583,7 +1583,7 @@
         "changes_to": ["SORES"]
     },{
         "type" : "mutation",
-        "id": "SMELLY2",
+        "id" : "SMELLY2",
         "name": "Very Smelly",
         "points": -4,
         "visibility": 4,
@@ -1594,7 +1594,7 @@
         "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "DEFORMED",
+        "id" : "DEFORMED",
         "name": "Deformed",
         "points": -2,
         "visibility": 4,
@@ -1606,7 +1606,7 @@
         "category": ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
-        "id": "DEFORMED2",
+        "id" : "DEFORMED2",
         "name": "Badly Deformed",
         "points": -4,
         "visibility": 7,
@@ -1618,7 +1618,7 @@
         "category": ["MUTCAT_BEAST", "MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id": "DEFORMED3",
+        "id" : "DEFORMED3",
         "name": "Grotesque",
         "points": -7,
         "visibility": 10,
@@ -1629,7 +1629,7 @@
         "category": ["MUTCAT_SLIME", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "BEAUTIFUL",
+        "id" : "BEAUTIFUL",
         "name": "Beautiful",
         "points": 2,
         "visibility": -4,
@@ -1640,7 +1640,7 @@
         "changes_to": ["BEAUTIFUL2"]
     },{
         "type" : "mutation",
-        "id": "BEAUTIFUL2",
+        "id" : "BEAUTIFUL2",
         "name": "Very Beautiful",
         "points": 4,
         "visibility": -7,
@@ -1651,7 +1651,7 @@
         "changes_to": ["BEAUTIFUL3"]
     },{
         "type" : "mutation",
-        "id": "BEAUTIFUL3",
+        "id" : "BEAUTIFUL3",
         "name": "Glorious",
         "points": 7,
         "visibility": -10,
@@ -1661,7 +1661,7 @@
         "prereqs": ["BEAUTIFUL2"]
     },{
         "type" : "mutation",
-        "id": "HOLLOW_BONES",
+        "id" : "HOLLOW_BONES",
         "name": "Hollow Bones",
         "points": -6,
         "description": "You have Avian Bone Syndrome--your bones are nearly hollow. Your body is very light as a result, enabling you to run and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
@@ -1669,7 +1669,7 @@
         "category": ["MUTCAT_BIRD", "MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "NAUSEA",
+        "id" : "NAUSEA",
         "name": "Nausea",
         "points": -3,
         "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
@@ -1677,7 +1677,7 @@
         "changes_to": ["VOMITOUS"]
     },{
         "type" : "mutation",
-        "id": "VOMITOUS",
+        "id" : "VOMITOUS",
         "name": "Vomitous",
         "points": -8,
         "description": "You have a major digestive disorder, which causes you to vomit frequently.",
@@ -1685,21 +1685,21 @@
         "category": ["MUTCAT_SLIME", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "HUNGER",
+        "id" : "HUNGER",
         "name": "Fast Metabolism",
         "points": -2,
         "description": "You require more food than most people.",
         "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "THIRST",
+        "id" : "THIRST",
         "name": "High Thirst",
         "points": -3,
         "description": "Your body dries out easily; you need to drink a lot more water.",
         "category": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
-        "id": "ROT1",
+        "id" : "ROT1",
         "name": "Weakening",
         "points": -6,
         "description": "You feel as though you are slowly weakening, but it's so slight a feeling that it does not affect you at all.",
@@ -1707,7 +1707,7 @@
         "changes_to": ["ROT2"]
     },{
         "type" : "mutation",
-        "id": "ROT2",
+        "id" : "ROT2",
         "name": "Deterioration",
         "points": -8,
         "description": "Your body is very slowly wasting away.",
@@ -1716,7 +1716,7 @@
         "changes_to": ["ROT3"]
     },{
         "type" : "mutation",
-        "id": "ROT3",
+        "id" : "ROT3",
         "name": "Disintegration",
         "points": -10,
         "description": "Your body is slowly wasting away!",
@@ -1724,7 +1724,7 @@
         "prereqs": ["ROT2"]
     },{
         "type" : "mutation",
-        "id": "ALBINO",
+        "id" : "ALBINO",
         "name": "Albino",
         "points": -2,
         "description": "Your skin lacks pigment, and is nearly transparent. You suffer serious burns in direct sunlight.",
@@ -1732,7 +1732,7 @@
         "category": ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "SORES",
+        "id" : "SORES",
         "name": "Sores",
         "points": -2,
         "visibility": 5,
@@ -1742,7 +1742,7 @@
         "category": ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "TROGLO",
+        "id" : "TROGLO",
         "name": "Light Sensitive",
         "points": -2,
         "description": "Sunlight makes you uncomfortable. If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
@@ -1751,7 +1751,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "TROGLO2",
+        "id" : "TROGLO2",
         "name": "Very Light Sensitive",
         "points": -3,
         "description": "Sunlight makes you very uncomfortable. If you are outdoors during the day, you suffer -1 to all stats; -2 if the weather is Sunny.",
@@ -1761,7 +1761,7 @@
         "category": ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "TROGLO3",
+        "id" : "TROGLO3",
         "name": "Troglobite",
         "points": -5,
         "description": "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
@@ -1770,7 +1770,7 @@
         "category": ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
-        "id": "WEBBED",
+        "id" : "WEBBED",
         "name": "Webbed Hands",
         "points": -1,
         "visibility": 3,
@@ -1785,7 +1785,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "BEAK",
+        "id" : "BEAK",
         "name": "Beak",
         "points": -1,
         "visibility": 8,
@@ -1801,14 +1801,14 @@
       ]
     },{
         "type" : "mutation",
-        "id": "UNSTABLE",
+        "id" : "UNSTABLE",
         "name": "Genetically Unstable",
         "points": -4,
         "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
         "category": ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "RADIOACTIVE1",
+        "id" : "RADIOACTIVE1",
         "name": "Minor Radioactivity",
         "points": -4,
         "description": "Your body has become radioactive! You continuously emit low levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
@@ -1816,7 +1816,7 @@
         "category": ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
-        "id": "RADIOACTIVE2",
+        "id" : "RADIOACTIVE2",
         "name": "Radioactivity",
         "points": -4,
         "description": "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
@@ -1824,14 +1824,14 @@
         "changes_to": ["RADIOACTIVE3"]
     },{
         "type" : "mutation",
-        "id": "RADIOACTIVE3",
+        "id" : "RADIOACTIVE3",
         "name": "Severe Radioactivity",
         "points": -4,
         "description": "Your body has become radioactive! You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs": ["RADIOACTIVE2"]
     },{
         "type" : "mutation",
-        "id": "SLIMY",
+        "id" : "SLIMY",
         "name": "Slimy",
         "points": 2,
         "visibility": 7,
@@ -1873,7 +1873,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "HERBIVORE",
+        "id" : "HERBIVORE",
         "name": "Herbivore",
         "points": -3,
         "description": "Your body's ability to digest meat is severely hampered. Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
@@ -1881,7 +1881,7 @@
         "leads_to": ["RUMINANT"]
     },{
         "type" : "mutation",
-        "id": "CARNIVORE",
+        "id" : "CARNIVORE",
         "name": "Carnivore",
         "points": -3,
         "description": "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
@@ -1890,7 +1890,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "PONDEROUS1",
+        "id" : "PONDEROUS1",
         "name": "Ponderous",
         "points": -3,
         "description": "Your muscles are generally slow to move. You run 10% slower.",
@@ -1898,7 +1898,7 @@
         "changes_to": ["PONDEROUS2"]
     },{
         "type" : "mutation",
-        "id": "PONDEROUS2",
+        "id" : "PONDEROUS2",
         "name": "Very Ponderous",
         "points": -5,
         "description": "Your muscles are quite slow to move. You run 20% slower.",
@@ -1908,7 +1908,7 @@
         "category": ["MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
-        "id": "PONDEROUS3",
+        "id" : "PONDEROUS3",
         "name": "Extremely Ponderous",
         "points": -8,
         "description": "Your muscles are very slow to move. You run 30% slower.",
@@ -1917,14 +1917,14 @@
         "category": ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id": "SUNLIGHT_DEPENDENT",
+        "id" : "SUNLIGHT_DEPENDENT",
         "name": "Sunlight dependent",
         "points": -5,
         "description": "You feel very sluggish when not in direct sunlight. You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
         "cancels": ["TROGLO", "TROGLO2", "TROGLO3"]
     },{
         "type" : "mutation",
-        "id": "COLDBLOOD",
+        "id" : "COLDBLOOD",
         "name": "Heat dependent",
         "points": -2,
         "description": "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
@@ -1932,7 +1932,7 @@
         "category": ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
-        "id": "COLDBLOOD2",
+        "id" : "COLDBLOOD2",
         "name": "Very Heat dependent",
         "points": -3,
         "description": "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
@@ -1941,7 +1941,7 @@
         "category": ["MUTCAT_LIZARD", "MUTCAT_FISH"]
     },{
         "type" : "mutation",
-        "id": "COLDBLOOD3",
+        "id" : "COLDBLOOD3",
         "name": "Cold Blooded",
         "points": -5,
         "description": "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
@@ -1949,7 +1949,7 @@
         "category": ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
-        "id": "GROWL",
+        "id" : "GROWL",
         "name": "Growling Voice",
         "points": -1,
         "description": "You have a growling, rough voice. Persuading NPCs will be more difficult, but threatening them will be easier.",
@@ -1957,7 +1957,7 @@
         "category": ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
-        "id": "SNARL",
+        "id" : "SNARL",
         "name": "Snarling Voice",
         "points": -2,
         "description": "You have a threatening snarl in your voice. Persuading NPCs will be near impossible, but threatening them will be much easier.",
@@ -1965,14 +1965,14 @@
         "category": ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "SHOUT1",
+        "id" : "SHOUT1",
         "name": "Shouter",
         "points": -2,
         "description": "You occasionally shout uncontrollably.",
         "changes_to": ["SHOUT2"]
     },{
         "type" : "mutation",
-        "id": "SHOUT2",
+        "id" : "SHOUT2",
         "name": "Screamer",
         "points": -3,
         "description": "You sometimes scream uncontrollably.",
@@ -1980,7 +1980,7 @@
         "changes_to": ["SHOUT3"]
     },{
         "type" : "mutation",
-        "id": "SHOUT3",
+        "id" : "SHOUT3",
         "name": "Howler",
         "points": -5,
         "description": "You frequently let out a piercing howl.",
@@ -1988,7 +1988,7 @@
         "category": ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
-        "id": "ARM_TENTACLES",
+        "id" : "ARM_TENTACLES",
         "name": "Tentacle Arms",
         "points": -5,
         "visibility": 7,
@@ -2007,7 +2007,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "ARM_TENTACLES_4",
+        "id" : "ARM_TENTACLES_4",
         "name": "4 Tentacles",
         "points": -3,
         "visibility": 8,
@@ -2027,7 +2027,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "ARM_TENTACLES_8",
+        "id" : "ARM_TENTACLES_8",
         "name": "8 Tentacles",
         "points": -2,
         "visibility": 9,
@@ -2047,7 +2047,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "SHELL",
+        "id" : "SHELL",
         "name": "Shell",
         "points": -5,
         "visibility": 8,
@@ -2064,7 +2064,7 @@
       ]
     },{
         "type" : "mutation",
-        "id": "LEG_TENTACLES",
+        "id" : "LEG_TENTACLES",
         "name": "Leg Tentacles",
         "points": -3,
         "visibility": 8,
