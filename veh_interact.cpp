@@ -91,28 +91,28 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                       LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
-    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + msg_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
-    mvwputch(w_border, mode_h + msg_h + 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
+    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, 0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + msg_h + 1, 0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
+    mvwputch(w_border, mode_h + msg_h + 1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
 
     wrefresh(w_border);
 
     // Two lines dividing the three middle sections.
     for (int i = winy1; i < winy2; i++) {
-        mvwputch(w_grid, i, winx2, c_ltgray, LINE_XOXO);
-        mvwputch(w_grid, i, winx1, c_ltgray, LINE_XOXO);
+        mvwputch(w_grid, i, winx2, c_dkgray, LINE_XOXO);
+        mvwputch(w_grid, i, winx1, c_dkgray, LINE_XOXO);
     }
     // Two lines dividing the vertical menu sections.
     for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
-        mvwputch( w_grid, winy1, i, c_ltgray, LINE_OXOX );
-        mvwputch( w_grid, winy2-1, i, c_ltgray, LINE_OXOX );
+        mvwputch( w_grid, winy1, i, c_dkgray, LINE_OXOX );
+        mvwputch( w_grid, winy2-1, i, c_dkgray, LINE_OXOX );
     }
     // Fix up the line intersections.
-    mvwputch( w_grid, winy1, winx1, c_ltgray, LINE_OXXX );
-    mvwputch( w_grid, winy1, winx2, c_ltgray, LINE_OXXX );
-    mvwputch( w_grid, winy2 - 1, winx1, c_ltgray, LINE_XXOX );
-    mvwputch( w_grid, winy2 - 1, winx2, c_ltgray, LINE_XXOX );
+    mvwputch( w_grid, winy1, winx1, c_dkgray, LINE_OXXX );
+    mvwputch( w_grid, winy1, winx2, c_dkgray, LINE_OXXX );
+    mvwputch( w_grid, winy2 - 1, winx1, c_dkgray, LINE_XXOX );
+    mvwputch( w_grid, winy2 - 1, winx2, c_dkgray, LINE_XXOX );
 
     wrefresh(w_grid);
 

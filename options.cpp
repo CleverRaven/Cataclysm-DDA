@@ -436,7 +436,7 @@ void initOptions() {
     //~ based on intelligence and capped
     optionNames["intcap"] = _("IntCap");
     optionNames["off"] = _("Off");
-    OPTIONS["SKILL_RUST"] =             cOpt("world_default", _("Skill rust"),
+    OPTIONS["SKILL_RUST"] =             cOpt("debug", _("Skill rust"),
                                              _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
                                              "vanilla,capped,int,intcap,off", "vanilla"
                                             );
@@ -524,7 +524,7 @@ void initOptions() {
                                              _("If true, spawn zombies at shelters."),
                                              false
                                             );
-    
+
     OPTIONS["SEASON_LENGTH"] =          cOpt("world_default", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14

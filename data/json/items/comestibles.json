@@ -5234,7 +5234,7 @@
         "tool" : "null",
         "volume" : 2,
         "cutting" : 0,
-        "phase" : "solid",
+        "phase" : "liquid",
         "charges" : 5,
         "bashing" : 0,
         "fun" : 6

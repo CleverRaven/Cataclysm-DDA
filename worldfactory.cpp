@@ -31,6 +31,28 @@ std::string world_options_header()
 ";
 }
 
+
+std::string get_next_valid_worldname(std::string test, worldfactory *factory)
+{
+    int test_value = 1;
+    std::stringstream test_worldname;
+    const std::string test_world_prefix = test + std::string(1, ' ');
+    bool valid = factory->valid_worldname(test, true);
+    std::string worldname = test;
+    while (!valid){
+        test_worldname.str("");
+        test_worldname << test_world_prefix << test_value;
+        if (factory->valid_worldname(test_worldname.str(), true)){
+            worldname = test_worldname.str();
+            valid = true;
+        }else{
+            ++test_value;
+        }
+    }
+
+    return worldname;
+}
+
 worldfactory::worldfactory()
 {
     active_world = NULL;
@@ -66,14 +88,16 @@ WORLDPTR worldfactory::make_new_world()
     tab_strings.push_back(_("CONFIRMATION"));
 
     int curtab = 0;
+    int lasttab; // give placement memory to menus, sorta.
     const int numtabs = tabs.size();
     while (curtab >= 0 && curtab < numtabs) {
+        lasttab = curtab;
         draw_worldgen_tabs(wf_win, curtab, tab_strings);
         curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
 
         if (curtab < 0) {
             if (!query_yn(_("Do you want to abort World Generation?"))) {
-                curtab = 0;
+                curtab = lasttab;
             }
         }
     }
@@ -157,21 +181,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
 WORLDPTR worldfactory::convert_to_world(std::string origin_path)
 {
     // prompt for worldname? Nah, just make a worldname... the user can fix it later if they really don't want this as a name...
-    int test_value = 1;
-    std::stringstream test_worldname;
-    const std::string test_world_prefix = "ConvWorld ";
-    bool valid = false;
-    std::string worldname;
-    while (!valid){
-        test_worldname.str("");
-        test_worldname << test_world_prefix << test_value;
-        if (valid_worldname(test_worldname.str(), true)){
-            worldname = test_worldname.str();
-            valid = true;
-        }else{
-            ++test_value;
-        }
-    }
+    std::string worldname = get_next_valid_worldname("ConvWorld", this);
 
     // check and loop on validity
 
@@ -556,7 +566,7 @@ void worldfactory::remove_world(std::string worldname)
 std::string worldfactory::pick_random_name()
 {
     // TODO: add some random worldname parameters to name generator
-    return "WOOT";
+    return get_next_valid_worldname("WOOT", this);
 }
 
 int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
@@ -588,10 +598,18 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         keys.push_back(it->first);
     }
 
+    for (std::map<int, bool>::iterator mLine = mapLines.begin(); mLine != mapLines.end(); ++mLine){
+        if (mLine->second){
+            mvwputch(win, FULL_SCREEN_HEIGHT-1, mLine->first+1, c_ltgray, LINE_XXOX); // _|_
+        }
+    }
+
     wrefresh(win);
     refresh();
 
-    char ch = ' ';
+    InputEvent ch;
+
+    //char ch = ' ';
     int sel = 0;
 
     int curoption = 0;
@@ -633,37 +651,41 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         wrefresh(w_options);
         refresh();
 
-        ch = input();
-        if (world->world_options.size() > 0 || ch == '\t') {
+        //ch = input();
+        ch = get_input();
+        if (world->world_options.size() > 0 || ch == Tab) {
             switch(ch) {
-                case 'j': //move down
+                case DirectionS: //move down
                     sel++;
                     if (sel >= world->world_options.size()) {
                         sel = 0;
                     }
                     break;
-                case 'k': //move up
+                case DirectionN: //move up
                     sel--;
                     if (sel < 0) {
                         sel = world->world_options.size() - 1;
                     }
                     break;
-                case 'l': //set to prev value
+                case DirectionW: //set to prev value
                     world->world_options[keys[sel]].setNext();
                     break;
-                case 'h': //set to next value
+                case DirectionE: //set to next value
                     world->world_options[keys[sel]].setPrev();
                     break;
 
-                case '<':
+                case DirectionUp: // '<'
                     werase(w_options);
                     delwin(w_options);
                     return -1;
                     break;
-                case '>':
+                case DirectionDown: // '>'
                     werase(w_options);
                     delwin(w_options);
                     return 1;
+                    break;
+                case Cancel:
+                    return -999;
                     break;
             }
         }
@@ -747,6 +769,9 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
         } else if (ch == '?') {
             mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________");
             world->world_name = worldname = pick_random_name();
+        } else if (ch == KEY_ESCAPE){
+            world->world_name = worldname; // cache the current worldname just in case they say No to the exit query
+            return -999;
         } else {
             switch (line) {
                 case 1:
@@ -859,8 +884,11 @@ std::map<std::string, cOpt> worldfactory::get_world_options(std::string path)
 
         if (sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
             int ipos = sLine.find(' ');
-            retoptions[sLine.substr(0, ipos)] = OPTIONS[sLine.substr(0, ipos)]; // init to OPTIONS current
-            retoptions[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
+            // make sure that the option being loaded is part of the world_default page in OPTIONS
+            if(OPTIONS[sLine.substr(0, ipos)].getPage() == "world_default"){
+                retoptions[sLine.substr(0, ipos)] = OPTIONS[sLine.substr(0, ipos)]; // init to OPTIONS current
+                retoptions[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
+            }
         }
     }
     fin.close();
