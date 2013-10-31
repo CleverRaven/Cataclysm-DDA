@@ -285,6 +285,7 @@ void mdeath::guilt(game *g, monster *z) {
 }
 void mdeath::blobsplit(game *g, monster *z) {
     int speed = z->speed - rng(30, 50);
+    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", g->turn, 0, 0, rng(5,10));
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)

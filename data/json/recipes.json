@@ -6525,6 +6525,7 @@
     [
       [ "meat_tainted", 3 ],
       [ "veggy_tainted", 5 ],
+      [ "slime_scrap", 5 ],
       [ "fetus", 1 ],
       [ "arm", 2 ],
       [ "leg", 2 ]
@@ -6665,7 +6666,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "sewage", 3 ]
+      [ "sewage", 3 ],
+      [ "slime_scrap", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -6938,6 +6940,29 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "canister_goo",
+  "category": "CC_CHEM",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "canister_empty", 1 ]
+    ],
+    [
+      [ "slime_scrap", 10 ]
     ]
   ]
 },{
@@ -12107,7 +12132,8 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
-      [ "ant_egg", 1 ]
+      [ "ant_egg", 1 ],
+      [ "slime_scrap", 1 ]
     ]
   ]
 },{
