@@ -8685,6 +8685,11 @@ std::string player::weapname(bool charges)
    dump << ")";
   }
   return dump.str();
+ } else if (weapon.is_container()) {
+  std::stringstream dump;
+  dump << weapon.tname().c_str();
+  dump << " (" << weapon.contents.size() << ")";
+  return dump.str();
  } else if (weapon.is_null()) {
   return _("fists");
  } else
