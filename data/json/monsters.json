@@ -632,7 +632,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A hooved, grazing mammal with a mane of hair, a sweeping tail, and powerful looking muscles",
+    "description":"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful looking muscles.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
     "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
