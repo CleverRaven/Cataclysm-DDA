@@ -1,7 +1,7 @@
 [
     {
         "type" : "vehicle_part",
-        "id": "null",
+        "id" : "null",
         "name": "null part",
         "symbol": "?",
         "color": "red",
@@ -13,7 +13,7 @@
         "flags": ["NOINSTALL"]
     },{
         "type" : "vehicle_part",
-        "id": "seat",
+        "id" : "seat",
         "name": "seat",
         "symbol": "#",
         "color": "red",
@@ -30,7 +30,7 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id": "saddle",
+        "id" : "saddle",
         "name": "saddle",
         "symbol": "#",
         "color": "red",
@@ -46,7 +46,7 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id": "bed",
+        "id" : "bed",
         "name": "bed",
         "symbol": "#",
         "color": "magenta",
@@ -63,7 +63,7 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id": "frame_horizontal",
+        "id" : "frame_horizontal",
         "name": "frame",
         "symbol": "h",
         "color": "light_gray",
@@ -76,7 +76,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_vertical",
+        "id" : "frame_vertical",
         "name": "frame",
         "symbol": "j",
         "color": "light_gray",
@@ -89,7 +89,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_cross",
+        "id" : "frame_cross",
         "name": "frame",
         "symbol": "c",
         "color": "light_gray",
@@ -102,7 +102,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_nw",
+        "id" : "frame_nw",
         "name": "frame",
         "symbol": "y",
         "color": "light_gray",
@@ -115,7 +115,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_ne",
+        "id" : "frame_ne",
         "name": "frame",
         "symbol": "u",
         "color": "light_gray",
@@ -128,7 +128,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_se",
+        "id" : "frame_se",
         "name": "frame",
         "symbol": "n",
         "color": "light_gray",
@@ -141,7 +141,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_sw",
+        "id" : "frame_sw",
         "name": "frame",
         "symbol": "b",
         "color": "light_gray",
@@ -154,7 +154,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_horizontal_2",
+        "id" : "frame_horizontal_2",
         "name": "frame",
         "symbol": "=",
         "color": "light_gray",
@@ -167,7 +167,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_vertical_2",
+        "id" : "frame_vertical_2",
         "name": "frame",
         "symbol": "H",
         "color": "light_gray",
@@ -180,7 +180,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_cover",
+        "id" : "frame_cover",
         "name": "frame",
         "symbol": "^",
         "color": "light_gray",
@@ -193,7 +193,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "frame_handle",
+        "id" : "frame_handle",
         "name": "handle",
         "symbol": "^",
         "color": "light_cyan",
@@ -206,7 +206,7 @@
         "flags": []
     },{
         "type" : "vehicle_part",
-        "id": "board_horizontal",
+        "id" : "board_horizontal",
         "name": "board",
         "symbol": "h",
         "color": "light_gray",
@@ -219,7 +219,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "board_vertical",
+        "id" : "board_vertical",
         "name": "board",
         "symbol": "j",
         "color": "light_gray",
@@ -232,7 +232,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "board_nw",
+        "id" : "board_nw",
         "name": "board",
         "symbol": "y",
         "color": "light_gray",
@@ -245,7 +245,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "board_ne",
+        "id" : "board_ne",
         "name": "board",
         "symbol": "u",
         "color": "light_gray",
@@ -258,7 +258,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "board_se",
+        "id" : "board_se",
         "name": "board",
         "symbol": "n",
         "color": "light_gray",
@@ -271,7 +271,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "board_sw",
+        "id" : "board_sw",
         "name": "board",
         "symbol": "b",
         "color": "light_gray",
@@ -284,7 +284,7 @@
         "flags": ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_horizontal",
+        "id" : "halfboard_horizontal",
         "name": "quarterpanel",
         "symbol": "h",
         "color": "light_gray",
@@ -297,7 +297,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_vertical",
+        "id" : "halfboard_vertical",
         "name": "quarterpanel",
         "symbol": "j",
         "color": "light_gray",
@@ -310,7 +310,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_nw",
+        "id" : "halfboard_nw",
         "name": "quarterpanel",
         "symbol": "y",
         "color": "light_gray",
@@ -323,7 +323,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_ne",
+        "id" : "halfboard_ne",
         "name": "quarterpanel",
         "symbol": "u",
         "color": "light_gray",
@@ -336,7 +336,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_se",
+        "id" : "halfboard_se",
         "name": "quarterpanel",
         "symbol": "n",
         "color": "light_gray",
@@ -349,7 +349,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_sw",
+        "id" : "halfboard_sw",
         "name": "quarterpanel",
         "symbol": "b",
         "color": "light_gray",
@@ -362,7 +362,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_horizontal_2",
+        "id" : "halfboard_horizontal_2",
         "name": "quarterpanel",
         "symbol": "=",
         "color": "light_gray",
@@ -375,7 +375,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_vertical_2",
+        "id" : "halfboard_vertical_2",
         "name": "quarterpanel",
         "symbol": "H",
         "color": "light_gray",
@@ -388,7 +388,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "halfboard_cover",
+        "id" : "halfboard_cover",
         "name": "quarterpanel",
         "symbol": "^",
         "color": "light_gray",
@@ -401,7 +401,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "aisle_horizontal",
+        "id" : "aisle_horizontal",
         "name": "aisle",
         "symbol": "=",
         "color": "white",
@@ -414,7 +414,7 @@
         "flags": ["AISLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "aisle_vertical",
+        "id" : "aisle_vertical",
         "name": "aisle",
         "symbol": "H",
         "color": "white",
@@ -427,7 +427,7 @@
         "flags": ["AISLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "trunk_floor",
+        "id" : "trunk_floor",
         "name": "floor trunk",
         "symbol": "=",
         "color": "white",
@@ -441,7 +441,7 @@
         "flags": ["AISLE", "BOARDABLE", "CARGO"]
     },{
         "type" : "vehicle_part",
-        "id": "roof",
+        "id" : "roof",
         "name": "roof",
         "symbol": "#",
         "color": "light_gray",
@@ -454,7 +454,7 @@
         "flags": ["ROOF"]
     },{
         "type" : "vehicle_part",
-        "id": "door",
+        "id" : "door",
         "name": "door",
         "symbol": "+",
         "color": "cyan",
@@ -468,7 +468,7 @@
         "flags": ["OBSTACLE", "OPENABLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "door_opaque",
+        "id" : "door_opaque",
         "name": "opaque door",
         "symbol": "+",
         "color": "cyan",
@@ -482,7 +482,7 @@
         "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "door_internal",
+        "id" : "door_internal",
         "name": "internal door",
         "symbol": "+",
         "color": "cyan",
@@ -496,7 +496,7 @@
         "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "windshield",
+        "id" : "windshield",
         "name": "windshield",
         "symbol": "\"",
         "color": "light_cyan",
@@ -510,7 +510,7 @@
         "flags": ["OVER", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "blade_horizontal",
+        "id" : "blade_horizontal",
         "name": "blade",
         "symbol": "-",
         "color": "white",
@@ -524,7 +524,7 @@
         "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },{
         "type" : "vehicle_part",
-        "id": "blade_vertical",
+        "id" : "blade_vertical",
         "name": "blade",
         "symbol": "|",
         "color": "white",
@@ -538,7 +538,7 @@
         "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },{
         "type" : "vehicle_part",
-        "id": "spike",
+        "id" : "spike",
         "name": "spike",
         "symbol": ".",
         "color": "white",
@@ -552,7 +552,7 @@
         "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel",
+        "id" : "wheel",
         "name": "wheel",
         "symbol": "0",
         "color": "dark_gray",
@@ -567,7 +567,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel_wide",
+        "id" : "wheel_wide",
         "name": "wide wheel",
         "symbol": "O",
         "color": "dark_gray",
@@ -582,7 +582,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel_underbody",
+        "id" : "wheel_underbody",
         "name": "wide wheel (underbody)",
         "symbol": "H",
         "color": "dark_gray",
@@ -597,7 +597,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel_unicycle",
+        "id" : "wheel_unicycle",
         "name": "unicycle wheel",
         "symbol": "|",
         "color": "dark_gray",
@@ -612,7 +612,7 @@
         "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel_bicycle",
+        "id" : "wheel_bicycle",
         "name": "bicycle wheel",
         "symbol": "|",
         "color": "dark_gray",
@@ -627,7 +627,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel_motorbike",
+        "id" : "wheel_motorbike",
         "name": "motorbike wheel",
         "symbol": "o",
         "color": "dark_gray",
@@ -642,7 +642,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel_small",
+        "id" : "wheel_small",
         "name": "small wheel",
         "symbol": "o",
         "color": "dark_gray",
@@ -657,7 +657,7 @@
         "flags": ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "wheel_caster",
+        "id" : "wheel_caster",
         "name": "casters",
         "symbol": "o",
         "color": "dark_gray",
@@ -672,7 +672,7 @@
         "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_1cyl",
+        "id" : "engine_1cyl",
         "name": "1-cylinder engine",
         "symbol": "*",
         "color": "light_red",
@@ -688,7 +688,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_vtwin",
+        "id" : "engine_vtwin",
         "name": "V-twin engine",
         "symbol": "*",
         "color": "light_red",
@@ -704,7 +704,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_inline4",
+        "id" : "engine_inline4",
         "name": "Inline-4 engine",
         "symbol": "*", "color": "light_red",
         "broken_symbol": "#",
@@ -719,7 +719,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_v6",
+        "id" : "engine_v6",
         "name": "V6 engine",
         "symbol": "*",
         "color": "light_red",
@@ -735,7 +735,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_v8",
+        "id" : "engine_v8",
         "name": "V8 engine",
         "symbol": "*",
         "color": "light_red",
@@ -751,7 +751,7 @@
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_electric",
+        "id" : "engine_electric",
         "name": "electric motor",
         "symbol": "*",
         "color": "yellow",
@@ -767,7 +767,7 @@
         "flags": ["ENGINE"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_electric_large",
+        "id" : "engine_electric_large",
         "name": "large electric motor",
         "symbol": "*",
         "color": "yellow",
@@ -783,7 +783,7 @@
         "flags": ["ENGINE"]
     },{
         "type" : "vehicle_part",
-        "id": "engine_plasma",
+        "id" : "engine_plasma",
         "name": "plasma engine",
         "symbol": "*",
         "color": "light_blue",
@@ -799,7 +799,7 @@
         "flags": ["ENGINE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
-        "id": "foot_pedals",
+        "id" : "foot_pedals",
         "name": "Foot pedals",
         "symbol": "*",
         "color": "light_gray",
@@ -815,7 +815,7 @@
         "flags": ["ENGINE"]
     },{
         "type" : "vehicle_part",
-        "id": "gas_tank",
+        "id" : "gas_tank",
         "name": "gasoline tank",
         "symbol": "O",
         "color": "light_red",
@@ -831,7 +831,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "small_storage_battery",
+        "id" : "small_storage_battery",
         "name": "small storage battery",
         "symbol": "O",
         "color": "yellow",
@@ -847,7 +847,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "storage_battery",
+        "id" : "storage_battery",
         "name": "storage battery",
         "symbol": "O",
         "color": "yellow",
@@ -863,7 +863,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "minireactor",
+        "id" : "minireactor",
         "name": "minireactor",
         "symbol": "O",
         "color": "light_green",
@@ -879,7 +879,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "hydrogen_tank",
+        "id" : "hydrogen_tank",
         "name": "hydrogen tank",
         "symbol": "O",
         "color": "light_blue",
@@ -895,7 +895,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "water_tank",
+        "id" : "water_tank",
         "name": "water tank",
         "symbol": "O",
         "color": "light_cyan",
@@ -911,7 +911,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "minifridge",
+        "id" : "minifridge",
         "name": "minifridge",
         "symbol": "H",
         "color": "light_blue",
@@ -926,7 +926,7 @@
         "flags": ["CARGO", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "trunk",
+        "id" : "trunk",
         "name": "trunk",
         "symbol": "H",
         "color": "brown",
@@ -941,7 +941,7 @@
         "flags": ["CARGO"]
     },{
         "type" : "vehicle_part",
-        "id": "box",
+        "id" : "box",
         "name": "box",
         "symbol": "o",
         "color": "brown",
@@ -956,7 +956,7 @@
         "flags": ["CARGO", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "controls",
+        "id" : "controls",
         "name": "controls",
         "symbol": "$",
         "color": "light_gray",
@@ -969,7 +969,7 @@
         "flags": ["CONTROLS"]
     },{
         "type" : "vehicle_part",
-        "id": "muffler",
+        "id" : "muffler",
         "name": "muffler",
         "symbol": "/",
         "color": "light_gray",
@@ -983,7 +983,7 @@
         "flags": ["MUFFLER"]
     },{
         "type" : "vehicle_part",
-        "id": "seatbelt",
+        "id" : "seatbelt",
         "name": "seatbelt",
         "symbol": ",",
         "color": "light_gray",
@@ -998,7 +998,7 @@
         "flags": ["SEATBELT"]
     },{
         "type" : "vehicle_part",
-        "id": "solar_panel",
+        "id" : "solar_panel",
         "name": "solar panel",
         "symbol": "#",
         "color": "yellow",
@@ -1013,7 +1013,7 @@
         "flags": ["SOLAR_PANEL"]
     },{
         "type" : "vehicle_part",
-        "id": "reinforced_solar_panel",
+        "id" : "reinforced_solar_panel",
         "name": "solar panel",
         "symbol": "#",
         "color": "light_blue",
@@ -1029,7 +1029,7 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id": "kitchen_unit",
+        "id" : "kitchen_unit",
         "name": "kitchen unit",
         "symbol": "&",
         "color": "light_cyan",
@@ -1044,7 +1044,7 @@
         "flags": ["CARGO", "OBSTACLE", "KITCHEN"]
     },{
         "type" : "vehicle_part",
-        "id": "welding_rig",
+        "id" : "welding_rig",
         "name": "welding rig",
         "symbol": "&",
         "color": "light_red",
@@ -1059,7 +1059,7 @@
         "flags": ["CARGO", "OBSTACLE", "WELDRIG"]
     },{
         "type" : "vehicle_part",
-        "id": "craft_rig",
+        "id" : "craft_rig",
         "name": "FOODCO kitchen buddy",
         "symbol": "&",
         "color": "light_green",
@@ -1074,7 +1074,7 @@
         "flags": ["CARGO", "OBSTACLE", "CRAFTRIG"]
     },{
         "type" : "vehicle_part",
-        "id": "veh_forge",
+        "id" : "veh_forge",
         "name": "mounted electric forge",
         "symbol": "&",
         "color": "red",
@@ -1088,7 +1088,7 @@
         "flags": ["OBSTACLE", "FORGE"]
     },{
         "type" : "vehicle_part",
-        "id": "m249",
+        "id" : "m249",
         "name": "mounted M249",
         "symbol": "t",
         "color": "cyan",
@@ -1104,7 +1104,7 @@
         "flags": ["TURRET"]
     },{
         "type" : "vehicle_part",
-        "id": "flamethrower",
+        "id" : "flamethrower",
         "name": "mounted flamethrower",
         "symbol": "t",
         "color": "dark_gray",
@@ -1119,7 +1119,7 @@
         "flags": ["TURRET"]
     },{
         "type" : "vehicle_part",
-        "id": "plasma_gun",
+        "id" : "plasma_gun",
         "name": "mounted plasma gun",
         "symbol": "t",
         "color": "light_blue",
@@ -1134,7 +1134,7 @@
         "flags": ["TURRET"]
     },{
         "type" : "vehicle_part",
-        "id": "fusion_gun",
+        "id" : "fusion_gun",
         "name": "mounted fusion gun",
         "symbol": "t",
         "color": "magenta",
@@ -1150,7 +1150,7 @@
         "flags": ["TURRET", "CARGO"]
     },{
         "type" : "vehicle_part",
-        "id": "plating_steel",
+        "id" : "plating_steel",
         "name": "steel plating",
         "symbol": ")",
         "color": "light_cyan",
@@ -1163,7 +1163,7 @@
         "flags": ["ARMOR"]
     },{
         "type" : "vehicle_part",
-        "id": "plating_superalloy",
+        "id" : "plating_superalloy",
         "name": "superalloy plating",
         "symbol": ")",
         "color": "dark_gray",
@@ -1176,7 +1176,7 @@
         "flags": ["ARMOR"]
     },{
         "type" : "vehicle_part",
-        "id": "plating_spiked",
+        "id" : "plating_spiked",
         "name": "spiked plating",
         "symbol": ")",
         "color": "red",
@@ -1190,7 +1190,7 @@
         "flags": ["ARMOR", "SHARP"]
     },{
         "type" : "vehicle_part",
-        "id": "plating_hard",
+        "id" : "plating_hard",
         "name": "hard plating",
         "symbol": ")",
         "color": "cyan",
@@ -1203,7 +1203,7 @@
         "flags": ["ARMOR"]
     },{
         "type" : "vehicle_part",
-        "id": "headlight",
+        "id" : "headlight",
         "name": "head light",
         "symbol": "*",
         "color": "white",
@@ -1218,7 +1218,7 @@
         "flags": ["CONE_LIGHT"]
     },{
         "type" : "vehicle_part",
-        "id": "reinforced_windshield",
+        "id" : "reinforced_windshield",
         "name": "reinforced windshield",
         "symbol": "\"",
         "color": "light_blue",
@@ -1232,7 +1232,7 @@
         "flags": ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
-        "id": "horn_bicycle",
+        "id" : "horn_bicycle",
         "name": "bicycle horn",
         "symbol": "*",
         "color": "light_gray",
@@ -1246,7 +1246,7 @@
         "flags": ["HORN"]
     },{
         "type" : "vehicle_part",
-        "id": "horn_car",
+        "id" : "horn_car",
         "name": "car horn",
         "symbol": "*",
         "color": "light_gray",
@@ -1260,7 +1260,7 @@
         "flags": ["HORN"]
     },{
         "type" : "vehicle_part",
-        "id": "horn_big",
+        "id" : "horn_big",
         "name": "truck horn",
         "symbol": "*",
         "color": "light_gray",
@@ -1274,7 +1274,7 @@
         "flags": ["HORN"]
     },{
         "type" : "vehicle_part",
-        "id": "battery_motorbike",
+        "id" : "battery_motorbike",
         "name": "motorbike battery",
         "symbol": "o",
         "color": "yellow",
@@ -1289,7 +1289,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "battery_car",
+        "id" : "battery_car",
         "name": "car battery",
         "symbol": "o",
         "color": "yellow",
@@ -1304,7 +1304,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "battery_truck",
+        "id" : "battery_truck",
         "name": "truck battery",
         "symbol": "o",
         "color": "yellow",
@@ -1319,7 +1319,7 @@
         "flags": ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
-        "id": "door_trunk",
+        "id" : "door_trunk",
         "name": "trunk door",
         "symbol": "+",
         "color": "light_gray",
@@ -1333,7 +1333,7 @@
         "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "door_shutter",
+        "id" : "door_shutter",
         "name": "shutter door",
         "symbol": "+",
         "color": "white",
@@ -1347,7 +1347,7 @@
         "flags": ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "door_sliding",
+        "id" : "door_sliding",
         "name": "sliding door",
         "symbol": "+",
         "color": "light_cyan",
@@ -1361,7 +1361,7 @@
         "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
-        "id": "light_red",
+        "id" : "light_red",
         "name": "red light",
         "symbol": "*",
         "color": "red",
@@ -1377,7 +1377,7 @@
         "flags": ["CIRCLE_LIGHT", "ODDTURN"]
     },{
         "type" : "vehicle_part",
-        "id": "light_blue",
+        "id" : "light_blue",
         "name": "blue light",
         "symbol": "*",
         "color": "blue",
