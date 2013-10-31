@@ -370,11 +370,9 @@ WORLDPTR worldfactory::pick_world()
     if (world_names.size() == 1) {
         return worlds[world_names[0]];
     }
-    // if there are no worlds to pick from, ask if one should be created
+    // if there are no worlds to pick from, immediately try to make one
     else if (world_names.empty()) {
-        if (query_yn("There are no valid worlds to pick from, would you like to make one?")) {
-            return make_new_world();
-        }
+        return make_new_world();
     }
 
     const int iTooltipHeight = 3;
