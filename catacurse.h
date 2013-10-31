@@ -191,4 +191,8 @@ void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
 int curses_start_color();
+#ifndef TILES
+// Helper function so curses getch can tell its caller if input timeout is active
+bool can_input_timeout();
+#endif
 #endif

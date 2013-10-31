@@ -554,7 +554,11 @@ input_event input_context::get_raw_input()
         input_event rval;
 
         if(key == ERR) {
-            rval.type = CATA_INPUT_ERROR;
+            if (can_input_timeout()) {
+                rval.type = CATA_INPUT_TIMEOUT;
+            } else {
+                rval.type = CATA_INPUT_ERROR;
+            }
         } else {
             rval.type = CATA_INPUT_KEYBOARD;
             rval.sequence.push_back(key);
