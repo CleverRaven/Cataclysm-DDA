@@ -31,6 +31,28 @@ std::string world_options_header()
 ";
 }
 
+
+std::string get_next_valid_worldname(std::string test, worldfactory *factory)
+{
+    int test_value = 1;
+    std::stringstream test_worldname;
+    const std::string test_world_prefix = test + std::string(1, ' ');
+    bool valid = factory->valid_worldname(test, true);
+    std::string worldname = test;
+    while (!valid){
+        test_worldname.str("");
+        test_worldname << test_world_prefix << test_value;
+        if (factory->valid_worldname(test_worldname.str(), true)){
+            worldname = test_worldname.str();
+            valid = true;
+        }else{
+            ++test_value;
+        }
+    }
+
+    return worldname;
+}
+
 worldfactory::worldfactory()
 {
     active_world = NULL;
@@ -159,21 +181,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
 WORLDPTR worldfactory::convert_to_world(std::string origin_path)
 {
     // prompt for worldname? Nah, just make a worldname... the user can fix it later if they really don't want this as a name...
-    int test_value = 1;
-    std::stringstream test_worldname;
-    const std::string test_world_prefix = "ConvWorld ";
-    bool valid = false;
-    std::string worldname;
-    while (!valid){
-        test_worldname.str("");
-        test_worldname << test_world_prefix << test_value;
-        if (valid_worldname(test_worldname.str(), true)){
-            worldname = test_worldname.str();
-            valid = true;
-        }else{
-            ++test_value;
-        }
-    }
+    std::string worldname = get_next_valid_worldname("ConvWorld", this);
 
     // check and loop on validity
 
@@ -558,7 +566,7 @@ void worldfactory::remove_world(std::string worldname)
 std::string worldfactory::pick_random_name()
 {
     // TODO: add some random worldname parameters to name generator
-    return "WOOT";
+    return get_next_valid_worldname("WOOT", this);
 }
 
 int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
