@@ -4,16 +4,17 @@
  * Who knows
  */
 
-#include "cursesdef.h"
-#include <ctime>
-#include "game.h"
-#include "color.h"
-#include "options.h"
-#include "mapbuffer.h"
-#include "debug.h"
-#include <sys/stat.h>
 #include <cstdlib>
+#include <ctime>
 #include <signal.h>
+#include <sys/stat.h>
+#include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "game.h"
+#include "mapbuffer.h"
+#include "options.h"
+#include "rng.h"
 #ifdef LOCALIZE
 #include <libintl.h>
 #endif
@@ -74,6 +75,8 @@ int main(int argc, char *argv[])
  set_escdelay(10); // Make escape actually responsive
 
  std::srand(seed);
+// using fastrand as much as possible, but rand is still in a few places
+ fast_srand(seed);
 
  bool quit_game = false;
  g = new game;
