@@ -1157,11 +1157,10 @@
         "broken_color": "light_gray",
         "damage_modifier": 10,
         "durability": 20,
-        "size": 400,
         "item": "veh_forge",
         "difficulty": 4,
         "location": "center",
-        "flags": ["CARGO", "OBSTACLE", "FORGE"]
+        "flags": ["OBSTACLE", "FORGE"]
     },
     {
         "type":"vehicle_part",
