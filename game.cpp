@@ -1755,7 +1755,7 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-        } while ((iCh = getch()) == ERR);
+        } while ((iCh = get_keypress()) == ERR);
         timeout(-1);
 
         ch = input(iCh);
