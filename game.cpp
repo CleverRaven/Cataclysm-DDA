@@ -3362,7 +3362,22 @@ Current turn: %d; Next spawn %d.\n\
         weather = (weather_type) selected_weather;
       } else if(weather_menu.ret == -10) {
           uimenu weather_log_menu;
-          weather_log_menu.text = string_format("turn: %d, nextweather: %d",int(turn),int(nextweather));
+          int pweather = 0;
+          int cweather = 0;
+          std::map<int, weather_segment>::iterator pit = weather_log.lower_bound(int(turn));
+          --pit;
+          if ( pit != weather_log.end() ) {
+              cweather = pit->first;
+          }
+          if ( cweather > 5 ) {
+              --pit;
+              if ( pit != weather_log.end() ) {
+                  pweather = pit->first;
+              }
+          }
+          weather_log_menu.text = string_format("turn: %d, next: %d, current: %d, prev: %d",
+              int(turn), int(nextweather), cweather, pweather
+          );
           for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {
               weather_log_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
                   it->second.deadline.days(),it->second.deadline.hours(),
@@ -3371,6 +3386,9 @@ Current turn: %d; Next spawn %d.\n\
                   it->second.weather,
                   (int)it->second.temperature
               );
+              if ( it->first == cweather ) {
+                  weather_log_menu.entries.back().text_color = c_yellow;
+              }
           }
           weather_log_menu.query();
       }
