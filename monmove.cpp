@@ -227,6 +227,13 @@ void monster::move(game *g)
       hp = type->hp;
     }
  }
+ if (has_flag(MF_REGENERATES_10)) {
+    hp += 10;
+    if(hp > type->hp){
+      hp = type->hp;
+    }
+ }
+
  if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
    mattack ma;
    if(!is_hallucination()) {

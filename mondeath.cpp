@@ -159,9 +159,9 @@ void mdeath::triffid_heart(game *g, monster *z) {
 void mdeath::fungus(game *g, monster *z) {
     mdeath::normal(g, z);
     monster spore(GetMType("mon_spore"));
-    bool fungal;
+    bool fungal = false;
+    int mondex = -1;
     int sporex, sporey;
-    int mondex;
     //~ the sound of a fungus dying
     g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
     for (int i = -1; i <= 1; i++) {
@@ -169,10 +169,10 @@ void mdeath::fungus(game *g, monster *z) {
             sporex = z->posx() + i;
             sporey = z->posy() + j;
             mondex = g->mon_at(sporex, sporey);
-            fungal = g->zombie(mondex).type->in_species("FUNGUS");
             if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) {
                     // Spores hit a monster
+                    fungal = g->zombie(mondex).type->in_species("FUNGUS");
                     if (g->u_see(sporex, sporey) && !fungal) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                    g->zombie(mondex).name().c_str());

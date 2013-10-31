@@ -1087,14 +1087,24 @@ void map::step_in_field(int x, int y, game *g)
             break;
 
         case fd_smoke:
-            //Get smoke disease from standing in smoke.
-            if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("smoke", bp_mouth, 4, 15);
-            } else if (cur->getFieldDensity() == 2 && !inside){
-                g->u.infect("smoke", bp_mouth, 2, 7);
-            } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
-                g->u.infect("smoke", bp_mouth, 1, 2);
+                if (!inside) {
+                    //Get smoke disease from standing in smoke.
+                    signed char density = cur->getFieldDensity();
+                    int coughStr;
+                    int coughDur;
+                    if (density >= 3) {   // thick smoke
+                        coughStr = 4;
+                        coughDur = 15;
+                    } else if (density == 2) {  // smoke
+                        coughStr = 2;
+                        coughDur = 7;
+                    } else {    // density 1, thin smoke
+                        coughStr = 1;
+                        coughDur = 2;
+                    }
+                    g->u.infect("smoke", bp_mouth, coughStr, coughDur);
+                }
             }
             break;
 

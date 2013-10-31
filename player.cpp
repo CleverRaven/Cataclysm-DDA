@@ -3502,12 +3502,12 @@ int player::read_speed(bool real_life)
 
 int player::rust_rate(bool real_life)
 {
-    if (ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "off") {
+    if (OPTIONS["SKILL_RUST"] == "off") {
         return 0;
     }
 
     int intel = (real_life ? int_cur : int_max);
-    int ret = ((ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "vanilla" || ACTIVE_WORLD_OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
+    int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
         ret *= 1.33;
@@ -8684,6 +8684,11 @@ std::string player::weapname(bool charges)
     dump << "+" << weapon.contents[i].charges;
    dump << ")";
   }
+  return dump.str();
+ } else if (weapon.is_container()) {
+  std::stringstream dump;
+  dump << weapon.tname().c_str();
+  dump << " (" << weapon.contents.size() << ")";
   return dump.str();
  } else if (weapon.is_null()) {
   return _("fists");

@@ -788,13 +788,11 @@ void dis_effect(player &p, disease &dis) {
             {
                 if (p.has_disease("sleep")) {
                     if (dis.duration == 1) {
-                        if (!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
-                            // You didn't hear the alarm
-                            dis.duration += 100; // 10 minute alarm interval
-                            // g->add_msg(_("An alarm rings but you don't hear it."));
-                            // If we don't hear it, how do we know it rings?
+                        if(!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
+                            // 10 minute automatic snooze
+                            dis.duration += 100;
                         } else {
-                            g->add_msg(_("You wake up to the ringing of an alarm-clock."));
+                            g->add_msg(_("You turn off your alarm-clock."));
                         }
                     }
                 } else if (!p.has_disease("lying_down")) {

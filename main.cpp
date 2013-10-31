@@ -104,7 +104,6 @@ int main(int argc, char *argv[])
    quit_game = true;
  } while (!quit_game);
 
- MAPBUFFER.save_if_dirty();
 
  exit_handler(-999);
 
