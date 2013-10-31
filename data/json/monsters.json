@@ -3755,7 +3755,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"PARROT",
-    "description":"A flexible monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
+    "description":"A flexuous monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
     "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50"]
   },
   {
