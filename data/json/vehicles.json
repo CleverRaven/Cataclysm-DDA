@@ -1,6 +1,6 @@
 [
     {
-        "type":"vehicle",
+        "type" : "vehicle",
         "id": "custom",
         "name": "custom",
         "blueprint": "H",
@@ -8,9 +8,8 @@
         "parts": [
             {"x": 0, "y": 0, "part": "frame_vertical_2"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "unicycle",
         "name": "Unicycle",
         "blueprint": "#",
@@ -21,9 +20,8 @@
             {"x": 0, "y": 0, "part": "foot_pedals"},
             {"x": 0, "y": 0, "part": "wheel_unicycle"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "bicycle",
         "name": "Bicycle",
         "blueprint": "o#o",
@@ -39,9 +37,8 @@
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
             {"x": -1, "y": 0, "part": "box"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "motorcycle_chassis",
         "name": "Motorcycle Chassis",
         "blueprint": "o#>",
@@ -53,9 +50,8 @@
             {"x": -1, "y": 0, "part": "frame_vertical"},
             {"x": -1, "y": 0, "part": "wheel_motorbike"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "motorcycle",
         "name": "Motorcycle",
         "blueprint": "o#>o",
@@ -75,9 +71,8 @@
             {"x": -1, "y": 0, "part": "wheel_motorbike"},
             {"x": -1, "y": 0, "part": "box"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "motorcycle_sidecart",
         "name": "Motorcycle",
         "blueprint": [
@@ -105,9 +100,8 @@
             {"x": 1, "y": 1, "part": "frame_handle"},
             {"x": 1, "y": 1, "part": "box"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "quad_bike",
         "name": "Quad Bike",
         "blueprint": [
@@ -137,9 +131,8 @@
             {"x": -1, "y": 1, "part": "frame_horizontal"},
             {"x": -1, "y": 1, "part": "wheel_motorbike"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "quad_bike_chassis",
         "name": "Quad Bike Chassis",
         "blueprint": [
@@ -159,9 +152,8 @@
             {"x": -1, "y": 1, "part": "frame_horizontal"},
             {"x": -1, "y": 1, "part": "wheel_motorbike"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "car",
         "name": "Car",
         "blueprint": [
@@ -257,9 +249,8 @@
             {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
             {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "car_chassis",
         "name": "Car Chassis",
         "blueprint": [
@@ -308,9 +299,8 @@
             {"x": -3, "y": 2, "part": "halfboard_se"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "hippie_van",
         "name": "Hippie Van",
         "blueprint": [
@@ -416,9 +406,8 @@
             {"x": -1, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]},
             {"x": -2, "y": 0, "chance": 2, "items": ["weed", "rolling_paper"]}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "flatbed_truck",
         "name": "Flatbed Truck",
         "blueprint": [
@@ -511,9 +500,8 @@
             {"x": 0, "y": 0, "chance": 2, "items": ["beer", "beer", "beer", "beer", "beer", "beer"]},
             {"x": -2, "y": 0, "chance": 2, "item_groups": "bigtools"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "cube_van",
         "name": "Cube Van",
         "blueprint": [
@@ -626,9 +614,8 @@
             {"x": -4, "y": 2, "part": "wheel_wide"},
             {"x": -4, "y": 2, "part": "roof"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "semi_truck",
         "name": "Semi Truck",
         "blueprint": [
@@ -773,9 +760,8 @@
             {"x": 5, "y": -3, "part": "frame_nw"},
             {"x": 5, "y": -3, "part": "halfboard_nw"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "truck_trailer",
         "name": "Truck Trailer",
         "blueprint": [
@@ -948,9 +934,8 @@
             {"x": 5, "y": -3, "part": "frame_nw"},
             {"x": 5, "y": -3, "part": "board_nw"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "beetle",
         "name": "Beetle",
         "blueprint": [
@@ -1008,9 +993,8 @@
             {"x": 2, "y": 2, "part": "headlight"},
             {"x": 2, "y": 2, "part": "wheel"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "bubble_car",
         "name": "Bubble Car",
         "blueprint": [
@@ -1082,9 +1066,8 @@
             {"x": -2, "y": -1, "part": "frame_sw"},
             {"x": -2, "y": -1, "part": "windshield"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "golf_cart",
         "name": "Golf Cart",
         "blueprint": [
@@ -1114,9 +1097,8 @@
             {"x": -1, "y": 1, "part": "halfboard_se"},
             {"x": -1, "y": 1, "part": "wheel_small"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "scooter",
         "name": "Scooter",
         "blueprint": "o>o",
@@ -1133,9 +1115,8 @@
             {"x": -1, "y": 0, "part": "frame_vertical"},
             {"x": -1, "y": 0, "part": "wheel_small"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "military_cargo_truck",
         "name": "Military Cargo Truck",
         "blueprint": [
@@ -1277,9 +1258,8 @@
             {"x": -4, "y": 2, "part": "halfboard_vertical"},
             {"x": -4, "y": 2, "part": "plating_steel"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "schoolbus",
         "name": "Schoolbus",
         "blueprint": [
@@ -1437,9 +1417,8 @@
             {"x": -8, "y": 2, "part": "frame_horizontal"},
             {"x": -8, "y": 2, "part": "windshield"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "electric_car",
         "name": "Electric Car",
         "blueprint": [
@@ -1521,9 +1500,8 @@
             {"x": -3, "y": 2, "part": "halfboard_se"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "rv",
         "name": "RV",
         "blueprint": [
@@ -1678,9 +1656,8 @@
             {"x": -6, "y": -2, "part": "board_sw"},
             {"x": -6, "y": -2, "part": "roof"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "shopping_cart",
         "name": "Shopping Cart",
         "blueprint": "o",
@@ -1689,9 +1666,8 @@
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "box"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "welding_cart",
         "name": "Welding Cart",
         "blueprint": "&",
@@ -1704,9 +1680,8 @@
         "items": [
             {"x": 0, "y": 0, "chance": 30, "items": ["goggles_welding"]}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "ice_cream_cart",
         "name": "Ice Cream Cart",
         "blueprint": "#",
@@ -1716,9 +1691,8 @@
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "minifridge"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "food_cart",
         "name": "Food Vendor Cart",
         "blueprint": [
@@ -1734,9 +1708,8 @@
             {"x": 0, "y": 1, "part": "wheel_caster"},
             {"x": 0, "y": 1, "part": "minifridge"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "wheelbarrow",
         "name": "Wheelbarrow",
         "blueprint": "o",
@@ -1745,9 +1718,8 @@
             {"x": 0, "y": 0, "part": "wheel_small"},
             {"x": 0, "y": 0, "part": "box"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "luggage_cart",
         "name": "Luggage Cart",
         "blueprint": "o",
@@ -1756,9 +1728,8 @@
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "box"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "swivel_chair",
         "name": "Swivel Chair",
         "blueprint": "#",
@@ -1767,9 +1738,8 @@
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "seat"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "armored_car",
         "name": "Armored Car",
         "blueprint": [
@@ -1893,9 +1863,8 @@
             {"x": -3, "y": -2, "part": "plating_steel"},
             {"x": -3, "y": -2, "part": "wheel_wide"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "policecar",
         "name": "Police Car",
         "blueprint": [
@@ -1978,9 +1947,8 @@
             {"x": -3, "y": 2, "part": "halfboard_se"},
             {"x": -3, "y": 2, "part": "wheel"}
         ]
-    },
-    {
-        "type":"vehicle",
+    },{
+        "type" : "vehicle",
         "id": "ambulance",
         "name": "Ambulance",
         "blueprint": [
