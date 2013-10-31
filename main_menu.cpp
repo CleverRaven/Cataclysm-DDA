@@ -399,23 +399,18 @@ bool game::opening_screen()
 
                 int world_subs_to_display = (world_generator->all_worldnames.size() > 0)? vWorldSubItems.size(): 1;
                 std::vector<std::string> world_subs;
-                int xoffset = 24 + iMenuOffsetX;
+                int xoffset = 25 + iMenuOffsetX;
                 int yoffset = iMenuOffsetY - 2;
                 int xlen = 0;
                 for (int i = 0; i < world_subs_to_display; ++i)
                 {
                     world_subs.push_back(vWorldSubItems[i]);
                     xlen += vWorldSubItems[i].size()+2; // open and close brackets added
-                    /*
-                    int line = iMenuOffsetY - 2 - i;
-                    //mvwprintz(w_open, line, 26 + iMenuOffsetX, (sel2 == i ? h_white : c_white), world_sub_items[i].c_str());
-                    //shortcut_print(w_in, h_white, h_white, vItems[i].c_str());
-                    //mvwprintz(w_open, line, 26 + iMenuOffsetX, h_white, (sel2 == i ? h_white : c_white), world_sub_items[i].c_str());
-                    mvwprintz(w_open, line, 26 + iMenuOffsetX, h_white, "");
-                    shortcut_print(w_open, (sel2 == i? h_white:c_ltgray), (sel2 == i ? h_white : c_white), vWorldSubItems[i].c_str());
-                    */
                 }
                 xlen += world_subs.size() - 1;
+                if (world_subs.size() > 1){
+                    xoffset -= 6;
+                }
                 print_menu_items(w_open, world_subs, sel2, yoffset, xoffset - (xlen/4));
                 wrefresh(w_open);
                 refresh();
@@ -468,27 +463,35 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 4) { // Special game
+                std::vector<std::string> special_names;
+                int xoffset = 32 + iMenuOffsetX;
+                int yoffset = iMenuOffsetY - 2;
+                int xlen = 0;
                 for (int i = 1; i < NUM_SPECIAL_GAMES; i++) {
-                    mvwprintz(w_open, iMenuOffsetY-i-1, 34 + iMenuOffsetX, (sel2 == i-1 ? h_white : c_white),
-                    special_game_name( special_game_id(i) ).c_str());
+                    std::string spec_name = special_game_name(special_game_id(i));
+                    special_names.push_back(spec_name);
+                    xlen += spec_name.size() + 2;
                 }
+                xlen += special_names.size()-1;
+                print_menu_items(w_open, special_names, sel2, yoffset, xoffset - (xlen/4));
+
                 wrefresh(w_open);
                 refresh();
                 input = get_input();
-                if (input == DirectionS) {
+                if (input == DirectionW) {
                     if (sel2 > 0)
                         sel2--;
                     else
                         sel2 = NUM_SPECIAL_GAMES - 2;
-                } else if (input == DirectionN) {
+                } else if (input == DirectionE) {
                     if (sel2 < NUM_SPECIAL_GAMES - 2)
                         sel2++;
                     else
                         sel2 = 0;
-                } else if (input == DirectionW || input == Cancel) {
+                } else if (input == DirectionS || input == Cancel) {
                     layer = 1;
                 }
-                if (input == DirectionE || input == Confirm) {
+                if (input == DirectionN || input == Confirm) {
                     if (sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1) {
                         delete gamemode;
                         gamemode = get_special_game( special_game_id(sel2+1) );
@@ -569,7 +572,7 @@ bool game::opening_screen()
                      it != world_generator->all_worldnames.end();
                      ++it)
                 {
-                    int line = iMenuOffsetY - 3 - i;
+                    int line = iMenuOffsetY - 4 - i;
                     mvwprintz(w_open, line, 26+iMenuOffsetX, (sel3 == i ? h_white : c_white), (*it).c_str());
                     ++i;
                 }
