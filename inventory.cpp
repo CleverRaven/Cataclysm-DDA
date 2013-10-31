@@ -629,6 +629,21 @@ void inventory::form_from_map(game *g, point origin, int range)
        item forge(g->itypes["forge"], 0);
        forge.charges = veh->fuel_left("battery", true);
        add_item(forge);
+       
+       item anvil(g->itypes["anvil"], 0);
+       add_item(anvil);
+       
+       item crucible(g->itypes["crucible"], 0);
+       add_item(crucible);
+       
+       item tongs(g->itypes["tongs"], 0);
+       add_item(tongs);
+       
+       item chisel(g->itypes["chisel"], 0);
+       add_item(chisel);
+       
+       item hammer(g->itypes["hammer"], 0);
+       add_item(hammer);
        }
      }
    }
