@@ -1,7 +1,7 @@
 [
     {
-        "type"          : "material",
-        "ident"         : "null",
+        "type" : "material",
+        "ident" : "null",
         "name"          : "Null",
         "bash_resist"   :   0,
         "cut_resist"    :   0,
@@ -12,10 +12,9 @@
         "elec_resist"   :   0,
         "fire_resist"   :   0,
         "density"       :   1
-    },
-    {
-        "type"          : "material",
-        "ident"         : "veggy",
+    },{
+        "type" : "material",
+        "ident" : "veggy",
         "name"          : "Plant Matter",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
@@ -26,10 +25,9 @@
         "elec_resist"   :   1,
         "fire_resist"   :   0,
         "density"       :   4
-    },
-    {
-        "type"          : "material",
-        "ident"         : "flesh",
+    },{
+        "type" : "material",
+        "ident" : "flesh",
         "name"          : "Flesh",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
@@ -40,10 +38,9 @@
         "elec_resist"   :   1,
         "fire_resist"   :   0,
         "density"       :   5
-    },
-    {
-        "type"          : "material",
-        "ident"         : "powder",
+    },{
+        "type" : "material",
+        "ident" : "powder",
         "name"          : "Powder",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
@@ -54,10 +51,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   1
-    },
-    {
-        "type"          : "material",
-        "ident"         : "hflesh",
+    },{
+        "type" : "material",
+        "ident" : "hflesh",
         "name"          : "Human Flesh",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
@@ -68,10 +64,9 @@
         "elec_resist"   :   1,
         "fire_resist"   :   0,
         "density"       :   5
-    },
-    {
-        "type"          : "material",
-        "ident"         : "cotton",
+    },{
+        "type" : "material",
+        "ident" : "cotton",
         "name"          : "Cotton",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
@@ -82,10 +77,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   3
-    },
-    {
-        "type"          : "material",
-        "ident"         : "wool",
+    },{
+        "type" : "material",
+        "ident" : "wool",
         "name"          : "Wool",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
@@ -96,10 +90,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   9
-    },
-    {
-        "type"          : "material",
-        "ident"         : "leather",
+    },{
+        "type" : "material",
+        "ident" : "leather",
         "name"          : "Leather",
         "bash_resist"   :   2,
         "cut_resist"    :   2,
@@ -110,10 +103,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   1,
         "density"       :   6
-    },
-    {
-        "type"          : "material",
-        "ident"         : "kevlar",
+    },{
+        "type" : "material",
+        "ident" : "kevlar",
         "name"          : "Kevlar",
         "bash_resist"   :   2,
         "cut_resist"    :   4,
@@ -124,10 +116,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   1,
         "density"       :   10
-    },
-    {
-        "type"          : "material",
-        "ident"         : "fur",
+    },{
+        "type" : "material",
+        "ident" : "fur",
         "name"          : "Fur",
         "bash_resist"   :   2,
         "cut_resist"    :   2,
@@ -138,10 +129,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   9
-    },
-    {
-        "type"          : "material",
-        "ident"         : "chitin",
+    },{
+        "type" : "material",
+        "ident" : "chitin",
         "name"          : "Chitin",
         "bash_resist"   :   3,
         "cut_resist"    :   4,
@@ -152,10 +142,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   2,
         "density"       :   10
-    },
-    {
-        "type"          : "material",
-        "ident"         : "bone",
+    },{
+        "type" : "material",
+        "ident" : "bone",
         "name"          : "Bone",
         "bash_resist"   :   2,
         "cut_resist"    :   3,
@@ -166,10 +155,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   4,
         "density"       :   7
-    },
-    {
-        "type"          : "material",
-        "ident"         : "stone",
+    },{
+        "type" : "material",
+        "ident" : "stone",
         "name"          : "Stone",
         "bash_resist"   :   6,
         "cut_resist"    :   6,
@@ -180,10 +168,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   2,
         "density"       :   17
-    },
-    {
-        "type"          : "material",
-        "ident"         : "paper",
+    },{
+        "type" : "material",
+        "ident" : "paper",
         "name"          : "Paper",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
@@ -194,10 +181,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   4
-    },
-    {
-        "type"          : "material",
-        "ident"         : "wood",
+    },{
+        "type" : "material",
+        "ident" : "wood",
         "name"          : "Wood",
         "bash_resist"   :   3,
         "cut_resist"    :   2,
@@ -208,10 +194,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   4
-    },
-    {
-        "type"          : "material",
-        "ident"         : "plastic",
+    },{
+        "type" : "material",
+        "ident" : "plastic",
         "name"          : "Plastic",
         "bash_resist"   :   2,
         "cut_resist"    :   2,
@@ -222,10 +207,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   8
-    },
-    {
-        "type"          : "material",
-        "ident"         : "glass",
+    },{
+        "type" : "material",
+        "ident" : "glass",
         "name"          : "Glass",
         "bash_resist"   :   3,
         "cut_resist"    :   4,
@@ -236,10 +220,9 @@
         "elec_resist"   :   2,
         "fire_resist"   :   2,
         "density"       :   14
-    },
-    {
-        "type"          : "material",
-        "ident"         : "iron",
+    },{
+        "type" : "material",
+        "ident" : "iron",
         "name"          : "Iron",
         "bash_resist"   :   4,
         "cut_resist"    :   4,
@@ -250,10 +233,9 @@
         "elec_resist"   :   0,
         "fire_resist"   :   2,
         "density"       :   52
-    },
-    {
-        "type"          : "material",
-        "ident"         : "steel",
+    },{
+        "type" : "material",
+        "ident" : "steel",
         "name"          : "Steel",
         "bash_resist"   :   6,
         "cut_resist"    :   6,
@@ -264,10 +246,9 @@
         "elec_resist"   :   0,
         "fire_resist"   :   2,
         "density"       :   52
-    },
-    {
-        "type"          : "material",
-        "ident"         : "silver",
+    },{
+        "type" : "material",
+        "ident" : "silver",
         "name"          : "Silver",
         "bash_resist"   :   2,
         "cut_resist"    :   3,
@@ -278,10 +259,9 @@
         "elec_resist"   :   0,
         "fire_resist"   :   2,
         "density"       :   70
-    },
-    {
-        "type"          : "material",
-        "ident"         : "gold",
+    },{
+        "type" : "material",
+        "ident" : "gold",
         "name"          : "Gold",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
