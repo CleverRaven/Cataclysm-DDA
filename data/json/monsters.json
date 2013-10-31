@@ -186,7 +186,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A domesticated jungle fowl, it may still be the most numerous bird in the world. Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
+    "description":"A domesticated descendant of junglefowl, it may still be the most numerous bird in the world. Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER"],
     "categories":["WILDLIFE"]
   },
