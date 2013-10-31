@@ -66,14 +66,16 @@ WORLDPTR worldfactory::make_new_world()
     tab_strings.push_back(_("CONFIRMATION"));
 
     int curtab = 0;
+    int lasttab; // give placement memory to menus, sorta.
     const int numtabs = tabs.size();
     while (curtab >= 0 && curtab < numtabs) {
+        lasttab = curtab;
         draw_worldgen_tabs(wf_win, curtab, tab_strings);
         curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
 
         if (curtab < 0) {
             if (!query_yn(_("Do you want to abort World Generation?"))) {
-                curtab = 0;
+                curtab = lasttab;
             }
         }
     }
@@ -591,7 +593,9 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     wrefresh(win);
     refresh();
 
-    char ch = ' ';
+    InputEvent ch;
+
+    //char ch = ' ';
     int sel = 0;
 
     int curoption = 0;
@@ -633,37 +637,41 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         wrefresh(w_options);
         refresh();
 
-        ch = input();
-        if (world->world_options.size() > 0 || ch == '\t') {
+        //ch = input();
+        ch = get_input();
+        if (world->world_options.size() > 0 || ch == Tab) {
             switch(ch) {
-                case 'j': //move down
+                case DirectionS: //move down
                     sel++;
                     if (sel >= world->world_options.size()) {
                         sel = 0;
                     }
                     break;
-                case 'k': //move up
+                case DirectionN: //move up
                     sel--;
                     if (sel < 0) {
                         sel = world->world_options.size() - 1;
                     }
                     break;
-                case 'l': //set to prev value
+                case DirectionW: //set to prev value
                     world->world_options[keys[sel]].setNext();
                     break;
-                case 'h': //set to next value
+                case DirectionE: //set to next value
                     world->world_options[keys[sel]].setPrev();
                     break;
 
-                case '<':
+                case DirectionUp: // '<'
                     werase(w_options);
                     delwin(w_options);
                     return -1;
                     break;
-                case '>':
+                case DirectionDown: // '>'
                     werase(w_options);
                     delwin(w_options);
                     return 1;
+                    break;
+                case Cancel:
+                    return -999;
                     break;
             }
         }
@@ -747,6 +755,9 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
         } else if (ch == '?') {
             mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________");
             world->world_name = worldname = pick_random_name();
+        } else if (ch == KEY_ESCAPE){
+            world->world_name = worldname; // cache the current worldname just in case they say No to the exit query
+            return -999;
         } else {
             switch (line) {
                 case 1:
