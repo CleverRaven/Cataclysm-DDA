@@ -207,6 +207,8 @@ void worldfactory::set_active_world(WORLDPTR world)
     world_generator->active_world = world;
     if (world) {
         ACTIVE_WORLD_OPTIONS = world->world_options;
+    }else{
+        ACTIVE_WORLD_OPTIONS.clear();
     }
 }
 
