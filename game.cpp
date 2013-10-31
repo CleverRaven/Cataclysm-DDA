@@ -374,6 +374,8 @@ void game::start_game(std::string worldname)
  run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
+ clear();
+ refresh();
  popup_nowait(_("Please wait as we build your world"));
 // Init some factions.
  if (!load_master(worldname)) // Master data record contains factions.
