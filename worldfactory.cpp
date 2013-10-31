@@ -241,7 +241,8 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     DIR *dir = opendir(world->world_path.c_str());
 
     if (!dir) {
-        closedir(dir);
+        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
+        //closedir(dir);
 #if(defined _WIN32 || defined __WIN32__)
         mkdir(world->world_path.c_str());
 #else
@@ -250,11 +251,13 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         dir = opendir(world->world_path.c_str());
     }
     if (!dir) {
-        closedir(dir);
+        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
+        //closedir(dir);
         DebugLog() << "Unable to create or open world[" << world->world_name << "] directory for saving\n";
         return false;
     }
-    closedir(dir); // don't need to keep the directory open
+    if (dir)
+        closedir(dir); // don't need to keep the directory open
 
     if (!is_conversion){
         fout.open(woption.str().c_str());
