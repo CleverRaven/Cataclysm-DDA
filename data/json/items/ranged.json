@@ -2239,6 +2239,33 @@
     "clip_size": 25,
     "reload": 600
   },
+
+  {
+    "id": "rm614_lmg",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "RM614 LMG",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.",
+    "price": 7500,
+    "material": ["steel", "kevlar"],
+    "flags": "MODE_BURST",
+    "skill": "rifle",
+    "ammo": "8x40mm",
+    "weight": 5500,
+    "volume": 10,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 12,
+    "recoil": 5,
+    "durability": 9,
+    "burst": 10,
+    "clip_size": 200,
+    "reload": 750
+  },
   {
     "id": "rm2000_smg",
     "type": "GUN",
