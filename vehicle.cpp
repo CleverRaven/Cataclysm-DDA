@@ -2152,7 +2152,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (snd.length() > 0) {
             g->add_msg (_("You hear a %s"), snd.c_str());
         }
-        g->sound (x, y, smashed? 80 : 50, "");
+        g->sound(x, y, smashed? 80 : 50, "");
     } else {
         std::string dname;
         if (z) {
@@ -2169,7 +2169,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (part_flag(part, "SHARP")) {
             g->m.adjust_field_strength(g, point(x, y), fd_blood, 1 );
         } else {
-            g->sound (x, y, 20, "");
+            g->sound(x, y, 20, "");
         }
     }
 
@@ -2299,7 +2299,7 @@ void vehicle::handle_trap (int x, int y, int part)
     if (msg.size() > 0 && g->u_see(x, y))
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
     if (noise > 0)
-        g->sound (x, y, noise, snd);
+        g->sound(x, y, noise, snd);
     if (wreckit && chance >= rng (1, 100))
         damage (part, 500);
     if (expl > 0)
