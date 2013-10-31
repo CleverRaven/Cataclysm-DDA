@@ -10869,13 +10869,23 @@ void game::vertical_move(int movez, bool force)
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
  bool rope_ladder = false;
+
+    const int omtilesz=SEEX * 2;
+    real_coords rc( m.getabs(u.posx, u.posy) );
+
+    point omtile_align_start(
+        m.getlocal(
+            ( rc.om_pos.x * 2 * 12 ),
+            ( rc.om_pos.y * 2 * 12 )
+        )
+    );
  if (force) {
   stairx = u.posx;
   stairy = u.posy;
  } else { // We need to find the stairs.
   int best = 999;
-   for (int i = u.posx - SEEX * 2; i <= u.posx + SEEX * 2; i++) {
-    for (int j = u.posy - SEEY * 2; j <= u.posy + SEEY * 2; j++) {
+   for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
+    for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
     if (rl_dist(u.posx, u.posy, i, j) <= best &&
         ((movez == -1 && tmpmap.has_flag("GOES_UP", i, j)) ||
          (movez == 1 && (tmpmap.has_flag("GOES_DOWN", i, j) ||
