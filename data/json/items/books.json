@@ -858,7 +858,7 @@
         "cutting" : 0,
         "time" : 24,
         "fun" : 1,
-        "skill" : "tailor",
+        "skill" : "survival",
         "price" : 45,
         "required_level" : 0
     },
