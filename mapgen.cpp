@@ -14350,19 +14350,18 @@ void map::add_road_vehicles(bool city, int facing)
             int block_type = rng(0, 100);
             if(block_type <= 75) {
                 //Jack-knifed semi
-                //As close to the edge of a submap as possible so it can smash into buildings
                 int semi_x, semi_y, trailer_x, trailer_y;
                 if(facing == 0) {
-                    semi_x = rng(0, 16); semi_y = rng(10, 20);
+                    semi_x = rng(0, 16); semi_y = rng(14, 16);
                     trailer_x = semi_x + 4; trailer_y = semi_y - 10;
                 } else if(facing == 90) {
-                    semi_x = rng(0, 8); semi_y = rng(0, 19);
+                    semi_x = rng(0, 8); semi_y = rng(4, 15);
                     trailer_x = semi_x + 12; trailer_y = semi_y + 1;
                 } else if(facing == 180) {
-                    semi_x = rng(4, 16); semi_y = rng(0, 10);
+                    semi_x = rng(4, 16); semi_y = rng(4, 6);
                     trailer_x = semi_x - 4; trailer_y = semi_y + 10;
                 } else {
-                    semi_x = rng(12, 20); semi_y = rng(1, 20);
+                    semi_x = rng(12, 20); semi_y = rng(5, 16);
                     trailer_x = semi_x - 12; trailer_y = semi_y - 1;
                 }
                 add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
