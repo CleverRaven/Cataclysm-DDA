@@ -1098,15 +1098,17 @@ bool map::trans(const int x, const int y)
  vehicle *veh = veh_at(x, y, vpart);
  bool tertr;
  if (veh) {
-  tertr = !veh->part_with_feature(vpart, "OPAQUE") || veh->parts[vpart].hp <= 0;
+  tertr = veh->part_with_feature(vpart, "OPAQUE") < 0;
   if (!tertr) {
    const int dpart = veh->part_with_feature(vpart, "OPENABLE");
-   if (dpart >= 0 && veh->parts[dpart].open)
+   if (veh->parts[dpart].open) {
     tertr = true; // open opaque door
+   }
   }
- } else
+ } else {
   tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
- if( tertr ){
+ }
+ if( tertr ) {
   // Fields may obscure the view, too
   field &curfield = field_at(x,y);
   if(curfield.fieldCount() > 0){
