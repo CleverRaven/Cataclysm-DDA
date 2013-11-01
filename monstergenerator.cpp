@@ -38,8 +38,35 @@ void MonsterGenerator::finalize_mtypes()
 {
     for (std::map<std::string, mtype*>::iterator monentry = mon_templates.begin(); monentry != mon_templates.end(); ++monentry){
         mtype *mon = monentry->second;
+
+        mon->flags = get_set_from_tags(mon->string_flags, flag_map, MF_NULL);
+        mon->anger = get_set_from_tags(mon->string_anger, trigger_map, MTRIG_NULL);
+        mon->placate = get_set_from_tags(mon->string_placate, trigger_map, MTRIG_NULL);
+        mon->fear = get_set_from_tags(mon->string_fear, trigger_map, MTRIG_NULL);
+
+        mon->string_flags.clear();
+        mon->string_anger.clear();
+        mon->string_placate.clear();
+        mon->string_fear.clear();
+
         apply_species_attributes(mon);
         set_mtype_flags(mon);
+    }
+}
+void MonsterGenerator::finalize_species()
+{
+    for (std::map<std::string, species_type*>::iterator specentry = mon_species.begin(); specentry != mon_species.end(); ++specentry){
+        species_type *spec = specentry->second;
+
+        spec->flags = get_set_from_tags(spec->string_flags, flag_map, MF_NULL);
+        spec->anger_trig = get_set_from_tags(spec->string_anger, trigger_map, MTRIG_NULL);
+        spec->placate_trig = get_set_from_tags(spec->string_placate, trigger_map, MTRIG_NULL);
+        spec->fear_trig = get_set_from_tags(spec->string_fear, trigger_map, MTRIG_NULL);
+
+        spec->string_flags.clear();
+        spec->string_anger.clear();
+        spec->string_placate.clear();
+        spec->string_fear.clear();
     }
 }
 
@@ -308,15 +335,10 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sp_attack = get_attack_function(jo, "special_attack");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig, cats;
-        flags = jo.get_tags("flags");
-        anger_trig = jo.get_tags("anger_triggers");
-        placate_trig = jo.get_tags("placate_triggers");
-        fear_trig = jo.get_tags("fear_triggers");
-
-        newmon->flags = get_set_from_tags(flags, flag_map, MF_NULL);
-        newmon->anger = get_set_from_tags(anger_trig, trigger_map, MTRIG_NULL);
-        newmon->fear = get_set_from_tags(fear_trig, trigger_map, MTRIG_NULL);
-        newmon->placate = get_set_from_tags(placate_trig, trigger_map, MTRIG_NULL);
+        newmon->string_flags = jo.get_tags("flags");
+        newmon->string_anger = jo.get_tags("anger_triggers");
+        newmon->string_placate = jo.get_tags("placate_triggers");
+        newmon->string_fear = jo.get_tags("fear_triggers");
 
         mon_templates[mid] = newmon;
     }
@@ -334,15 +356,22 @@ void MonsterGenerator::load_species(JsonObject &jo)
         sfear  = jo.get_tags("fear_triggers");
         splacate = jo.get_tags("placate_triggers");
 
-        std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
-        std::set<monster_trigger> anger, fear, placate;
-        anger = get_set_from_tags(sanger, trigger_map, MTRIG_NULL);
-        fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
-        placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
-
-        species_type *new_species = new species_type(sid, flags, anger, fear, placate);
+        species_type *new_species = new species_type(sid, sflags, sanger, sfear, splacate);
 
         mon_species[sid] = new_species;
+    }
+}
+
+void MonsterGenerator::load_flag_group(JsonObject &jo)
+{
+    std::string sid;
+    if (jo.has_member("id")){
+        sid = jo.get_string("id");
+        flag_group *group = new flag_group;
+        group->id = sid;
+        group->flags = jo.get_tags("group_tags");
+
+        mon_flag_groups[sid] = group;
     }
 }
 
@@ -430,7 +459,16 @@ std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std:
     if (tags.size() > 0){
         for (std::set<std::string>::iterator it = tags.begin(); it != tags.end(); ++it){
             if (conversion_map.find(*it) != conversion_map.end()){
+                // looks up in the supplied conversion map and adds it to returned value
                 ret.insert(conversion_map[*it]);
+            }else if (mon_flag_groups.find(*it) != mon_flag_groups.end()){
+                // see if the flag groups contain this key instead! if so then work through
+                // the same was as above.
+                for (std::set<std::string>::iterator mfg_it = mon_flag_groups[*it]->flags.begin(); mfg_it != mon_flag_groups[*it]->flags.end(); ++mfg_it){
+                    if (conversion_map.find(*mfg_it) != conversion_map.end()){
+                        ret.insert(conversion_map[*mfg_it]);
+                    }
+                }
             }
         }
     }
