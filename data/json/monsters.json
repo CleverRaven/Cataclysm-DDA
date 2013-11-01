@@ -3078,9 +3078,9 @@
     "hp":1,
     "special_freq":10,
     "death_function":"NORMAL",
-    "special_attack":"ACID",
+    "special_attack":"NONE",
     "description":"The leopard slug, an omnivorous gastropod.  It consumes decaying matter as well as planted crops, and will attack and eat other slugs that cross its path.",
-    "flags":["SEES", "SMELLS", "ACIDPROOF"],
+    "flags":["SEES", "SMELLS", "VERMIN", "ACIDPROOF"],
     "fear_triggers":["PLAYER_CLOSE"]
   },
   {
