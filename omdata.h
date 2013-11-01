@@ -16,25 +16,25 @@
 class overmap;
 
 struct oter_t {
- std::string name;
- long sym; // This is a long, so we can support curses linedrawing
- nc_color color;
- unsigned char see_cost; // Affects how far the player can see in the overmap
- map_extras& embellishments;
- bool known_down;
- bool known_up;
- int mondensity;
- oter_t& operator=(const oter_t right){
-    name = right.name;
-    sym = right.sym;
-    color = right.color;
-    see_cost = right.see_cost;
-    embellishments = right.embellishments;
-    known_down = right.known_down;
-    known_up = right.known_up;
-    mondensity = right.mondensity;
-    return *this;
- }
+    std::string name;
+    long sym; // This is a long, so we can support curses linedrawing
+    nc_color color;
+    unsigned char see_cost; // Affects how far the player can see in the overmap
+    map_extras& embellishments;
+    bool known_down;
+    bool known_up;
+    int mondensity;
+    oter_t& operator=(const oter_t right){
+        name = right.name;
+        sym = right.sym;
+        color = right.color;
+        see_cost = right.see_cost;
+        embellishments = right.embellishments;
+        known_down = right.known_down;
+        known_up = right.known_up;
+        mondensity = right.mondensity;
+        return *this;
+    }
 };
 
 enum oter_id {
