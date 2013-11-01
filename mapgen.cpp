@@ -14309,7 +14309,7 @@ void map::add_road_vehicles(bool city, int facing)
 {
     if (city) {
         int spawn_type = rng(0, 100);
-        if(spawn_type <= 66) {
+        if(spawn_type <= 33) {
             //Randomly-distributed wrecks
             int maxwrecks = rng(1, 3);
             for (int nv = 0; nv < maxwrecks; nv++) {
@@ -14341,6 +14341,26 @@ void map::add_road_vehicles(bool city, int facing)
                 } else {
                     add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
                 }
+            }
+        } else if(spawn_type <= 66) {
+            //Parked vehicles
+            int veh_x, veh_y;
+            if(facing == 0) {
+                veh_x = rng(4, 16); veh_y = 17;
+            } else if(facing == 90) {
+                veh_x = 6; veh_y = rng(4, 16);
+            } else if(facing == 180) {
+                veh_x = rng(4, 16); veh_y = 6;
+            } else if(facing == 270) {
+                veh_x = 17; veh_y = rng(4, 16);
+            }
+            int veh_type = rng(0, 100);
+            if(veh_type <= 70) {
+                add_vehicle(g, "car", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 95) {
+                add_vehicle(g, "electric_car", veh_x, veh_y, facing, -1, 1);
+            } else {
+                add_vehicle(g, "policecar", veh_x, veh_y, facing, -1, 1);
             }
         } else if(spawn_type <= 99) {
             //Totally clear section of road
