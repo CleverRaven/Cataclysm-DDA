@@ -123,6 +123,7 @@ void game::init_data()
     init_savedata_translation_tables();
     inp_mngr.init();            // Load input config JSON
 
+    MonsterGenerator::generator().finalize_species();
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
  } catch(std::string &error_message)
@@ -5021,7 +5022,7 @@ bool game::sound(int x, int y, int vol, std::string description)
     }
 
     // See if we need to wake someone up
-    if (u.has_disease("sleep")){ 
+    if (u.has_disease("sleep")){
         if ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
               (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
             u.rem_disease("sleep");
