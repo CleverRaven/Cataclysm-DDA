@@ -439,6 +439,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "veh_forge",
+        "name" : "portable smithy",
+        "description" : "A portable smithy that can be installed in a vehicle, and draws power from the vehicle's storage battery.  Has practically everything you might want for any blacksmithing job, big or small.  It also weighs more by itself than most vehicles; so remember to lift with your legs, not your back.",
+        "weight" : 96243,
+        "to_hit" : -2,
+        "color" : "red",
+        "symbol" : "&",
+        "material" : ["steel", "null"],
+        "volume" : 131,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 400
+    },
+    {
+        "type":"GENERIC",
         "id": "light_emergency_red",
         "name": "emergency vehicle light (red)",
         "description": "One of the red-colored lights from the top of an emergency services vehicle. When turned on, the lights rotate to shine in all directions.",
