@@ -199,6 +199,14 @@ public:
 
     bool translate_to_window_position();
 
+    /**
+     * Sets input polling timeout as appropriate for the current interface system.
+     * Use this method to set timeouts when using input_manager, rather than calling
+     * the old timeout() method, as using this method will cause CATA_INPUT_TIMEOUT
+     * events to be generated correctly.
+     */
+    void set_timeout(int delay);
+
 private:
     std::map<std::string, std::vector<input_event> > action_to_input;
     std::map<std::string, std::map<std::string,std::vector<input_event> > > action_contexts;
@@ -213,6 +221,8 @@ private:
     void init_keycode_mapping();
     void add_keycode_pair(long ch, const std::string& name);
     void add_gamepad_keycode_pair(long ch, const std::string& name);
+
+    bool should_timeout;
 };
 
 // Singleton for our input manager.
@@ -309,13 +319,13 @@ public:
      * can be used in screens where not all possible actions have been defined in 
      * keybindings.json yet.
      */
+    input_event get_raw_input();
 
 
     /* For the future, something like this might be nice:
      * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
      * (x, y, width, height) would describe an area on the visible window that, if clicked, triggers the action.
      */
-    input_event get_raw_input();
 
 private:
 

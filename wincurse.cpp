@@ -638,9 +638,4 @@ void curses_timeout(int t)
     inputdelay = t;
 }
 
-bool can_input_timeout()
-{
-    return inputdelay > 0;
-}
-
 #endif

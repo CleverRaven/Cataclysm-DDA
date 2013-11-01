@@ -351,6 +351,14 @@ const std::string& input_context::input_to_action(input_event& inp) {
     return CATA_ERROR;
 }
 
+void input_manager::set_timeout(int delay)
+{
+    timeout(delay);
+    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    should_timeout = delay > 0;
+}
+
+
 void input_context::register_action(const std::string& action_descriptor) {
     if(action_descriptor == "ANY_INPUT") {
         registered_any_input = true;
@@ -550,11 +558,11 @@ input_event input_context::get_raw_input()
 #ifndef TILES
     // If we're using curses, we need to provide get_input_event() here.
     input_event input_manager::get_input_event(WINDOW* win) {
-        int key = getch();
+        int key = get_keypress();
         input_event rval;
 
         if(key == ERR) {
-            if (can_input_timeout()) {
+            if (should_timeout) {
                 rval.type = CATA_INPUT_TIMEOUT;
             } else {
                 rval.type = CATA_INPUT_ERROR;
@@ -563,7 +571,7 @@ input_event input_context::get_raw_input()
             rval.type = CATA_INPUT_KEYBOARD;
             rval.sequence.push_back(key);
         }
-
+        should_timeout = false;
         return rval;
     }
 

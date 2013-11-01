@@ -1803,9 +1803,9 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-            timeout(125);
+            inp_mngr.set_timeout(125);
         } while (handle_mouseview(ctxt, action));
-        timeout(-1);
+        inp_mngr.set_timeout(-1);
 
     } else {
         while (handle_mouseview(ctxt, action)) {;}
