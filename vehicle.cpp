@@ -551,6 +551,11 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
                 (!part.location.empty() && part.location == other_part.location)) {
             return false;
         }
+        // Until we have an interface for handling multiple components with CARGO space,
+        // exclude them from being mounted in the same tile.
+        if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
+            return false;
+        }
 
     }
 
