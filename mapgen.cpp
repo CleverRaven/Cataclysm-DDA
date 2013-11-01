@@ -14308,37 +14308,62 @@ void add_corpse(game *g, map *m, int x, int y)
 void map::add_road_vehicles(bool city, int facing)
 {
     if (city) {
-        // spawn city car wrecks
-        int maxwrecks = rng(0, 3);
-        for (int nv = 0; nv < maxwrecks; nv++) {
-            int vx = rng(0, 19);
-            int vy = rng(0, 19);
-            int car_type = rng(1, 100);
-            if (car_type <= 25) {
-                add_vehicle(g, "car", vx, vy, facing, -1, 1);
-            } else if (car_type <= 30) {
-                add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
-            } else if (car_type <= 40) {
-                add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
-            } else if (car_type <= 45) {
-                add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
-            } else if (car_type <= 50) {
-                add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
-            } else if (car_type <= 55) {
-                add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
-            } else if (car_type <= 65) {
-                add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
-            } else if (car_type <= 70) {
-                add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
-            } else if (car_type <= 80) {
-                add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
-            } else if (car_type <= 90) {
-                add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
-            } else if (car_type <= 95) {
-                add_vehicle(g, "rv", vx, vy, facing, -1, 1);
-            } else {
-                add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
+        int spawn_type = 89;
+        if(spawn_type <= 70) {
+            //Randomly-distributed wrecks
+            int maxwrecks = rng(1, 3);
+            for (int nv = 0; nv < maxwrecks; nv++) {
+                int vx = rng(0, 19);
+                int vy = rng(0, 19);
+                int car_type = rng(1, 100);
+                if (car_type <= 25) {
+                    add_vehicle(g, "car", vx, vy, facing, -1, 1);
+                } else if (car_type <= 30) {
+                    add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
+                } else if (car_type <= 40) {
+                    add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
+                } else if (car_type <= 45) {
+                    add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 50) {
+                    add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
+                } else if (car_type <= 55) {
+                    add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 65) {
+                    add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
+                } else if (car_type <= 70) {
+                    add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
+                } else if (car_type <= 80) {
+                    add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
+                } else if (car_type <= 90) {
+                    add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
+                } else if (car_type <= 95) {
+                    add_vehicle(g, "rv", vx, vy, facing, -1, 1);
+                } else {
+                    add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
+                }
             }
+        } else if(spawn_type <= 99) {
+            //Totally clear section of road
+            return;
+        } else {
+            //Jack-knifed semi
+            //As close to the edge of a submap as possible so it can smash into buildings
+            int semi_x, semi_y, trailer_x, trailer_y;
+            if(facing == 0) {
+                semi_x = rng(0, 16); semi_y = rng(10, 20);
+                trailer_x = semi_x + 4; trailer_y = semi_y - 10;
+            } else if(facing == 90) {
+                semi_x = rng(0, 8); semi_y = rng(0, 19);
+                trailer_x = semi_x + 12; trailer_y = semi_y + 1;
+            } else if(facing == 180) {
+                semi_x = rng(4, 16); semi_y = rng(0, 10);
+                trailer_x = semi_x - 4; trailer_y = semi_y + 10;
+            } else {
+                semi_x = rng(12, 20); semi_y = rng(1, 20);
+                trailer_x = semi_x - 12; trailer_y = semi_y - 1;
+            }
+            add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
+            add_vehicle(g, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
         }
     } else {
         // spawn regular road out of fuel vehicles
