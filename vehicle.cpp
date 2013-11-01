@@ -2924,7 +2924,7 @@ void vehicle::open_or_close(int part_index, bool opening)
       //Look for parts 1 square off in any cardinal direction
       int xdiff = parts[next_index].mount_dx - parts[part_index].mount_dx;
       int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
-      if(((xdiff * xdiff == 1) != (ydiff * ydiff == 1)) && // != used as XOR
+      if((xdiff * xdiff + ydiff * ydiff == 1) && // (x^2 + y^2) == 1
               (part_info(next_index).id == part_info(part_index).id) &&
               (parts[next_index].open == opening ? 0 : 1)) {
         open_or_close(next_index, opening);
