@@ -2387,7 +2387,8 @@ int iuse::siphon(game *g, player *p, item *it, bool t)
         fillv = g->m.veh_at(x, y);
         if ( fillv != NULL && 
           fillv != veh &&
-          foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() ) {
+          foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
+          fillv->fuel_capacity("gasoline") > 0 ) {
             foundv[point(fillv->posx, fillv->posy)] = fillv;
         }
       }
@@ -2418,15 +2419,11 @@ int iuse::siphon(game *g, player *p, item *it, bool t)
     if ( fillv != NULL ) {
         int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
         int got = veh->drain("gasoline", want);
-        if ( got > 0 ) {
-            int amt=fillv->refill("gasoline",got);
-            g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-               "gasoline", veh->name.c_str(), fillv->name.c_str(), 
-               (amt > 0 ? "." : ", draining the tank completely.") );
-            p->moves -= 200;
-        } else {
-            g->add_msg("The %s has no fuel.",veh->name.c_str());
-        }
+        int amt=fillv->refill("gasoline",got);
+        g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
+           "gasoline", veh->name.c_str(), fillv->name.c_str(), 
+           (amt > 0 ? "." : ", draining the tank completely.") );
+        p->moves -= 200;
     } else {
         if (p->siphon(g, veh, "gasoline")) {
             p->moves -= 200;
