@@ -57,7 +57,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The North American beaver, the continent's largest rodent.  Its paddle-shaped tail helps ferry it through the water, and its prominent teeth can chew through wood, which it uses to build dam-like nests in lakes and streams.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "SWIMS", "WARM", "FUR", "BONES"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
@@ -89,7 +89,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The American black bear.  A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter.  It can pose a considerable threat, although most individuals are shy around humans.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "VIS40"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "VIS40"],
     "anger_triggers":["HURT"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -187,7 +187,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A domesticated juglefowl, it may still be the most numerous bird in the world.  Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER"],
     "categories":["WILDLIFE"]
   },
   {
@@ -281,7 +281,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
     "anger_triggers":["HURT"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -314,7 +314,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The Eastern Coyote, also called the Tweed Wolf, is a territorial canine descended from the offspring of grey wolves and true coyotes.  It is intimidated by humans and other predators, but will fight if threatened.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -347,7 +347,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The Northeastern Coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
     "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -380,7 +380,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A small, elegant black bird, famous for its distinctive call.  An intelligent bird, there is a glitter of mischief behind its eyes.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS40", "BONES", "FEATHER"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FLIES", "VIS40", "BONES", "FEATHER"],
     "categories":["WILDLIFE"]
   },
   {
@@ -410,7 +410,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "VIS40", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
@@ -472,7 +472,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS40", "BONES"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -505,7 +505,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A small omnivorous canine with an almost cat-like manner.  It is a solitary hunter, and one of the only canids able to climb trees.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -538,7 +538,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -633,7 +633,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful looking muscles",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
     "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -697,7 +697,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The American mink, a partially-aquatic weasel, once factory-farmed for its fur.  It is a capable fisher, but the presence of otters in these parts makes it rely more on food from the land.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "VIS40", "BONES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -730,7 +730,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The Eastern Moose, the largest living species of deer.  The bulls are quite ill-tempered, especially in the rutting season.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "VIS40", "ATTACKMON", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "BLEED", "VIS40", "ATTACKMON", "BONES"],
     "anger_triggers":["HURT"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND"],
@@ -794,7 +794,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The North American river otter is a shy waterborne weasel living in large families along the banks of streams.  It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
@@ -825,7 +825,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A domesticated omnivore descended from the wild boar, intelligent and inquisitive. Left to its own devices, it has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "KEENNOSE", "BLEED", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "KEENNOSE", "BLEED", "BONES"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -858,7 +858,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A cute wiggling nose, cotton tail, made of delicious flesh.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
@@ -953,7 +953,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A timid hooved grazing mammal, and one of the first animals ever domesticated, its body is covered in a thick layer of wool, and the males have long, spiraling horns.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "WOOL", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "WOOL", "BONES"],
     "anger_triggers":[],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
@@ -986,7 +986,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"This black bear's eyes ooze with black fluid, and it's flesh is torn and scarred. It shuffles as it walks.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"],
     "categories":["WILDLIFE"]
@@ -1049,7 +1049,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A small granivorous rodent with a long bushy tail, often seen darting amid the branches of trees.  A skittish varmint with an expression of unwavering austerity, it is the mortal enemy of cat and dog alike.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
@@ -1110,7 +1110,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The long-tailed weasel, a small but interminable predator whose range extends across the continent.  It forms its den in small burrows, preferring to occupy the nesting holes of its prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "SWIMS", "WARM", "FUR", "VIS40", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
@@ -1141,7 +1141,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A cunning pack predator, once extinct in the New England area, was successfully reintroduced and their numbers reached record highs in the decade before the cataclysm. Lucky you.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -1528,7 +1528,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"A human body, swaying as it moves, an unstoppable rage is visible beneath it's oily black eyes.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
   },
   {
@@ -1558,7 +1558,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
     "description":"A human body covered by a weather-beaten and badly damaged set of riot gear.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
   },
   {
@@ -1588,7 +1588,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"SHRIEK",
     "description":"An elongated human body with a swollen chest and a gaping hole where it's jaw used to be",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1617,7 +1617,7 @@
     "death_function":"ACID",
     "special_attack":"ACID",
     "description":"A hunched human body with it's eyes pushed up into it's forehead and drooping cheeks, most of it's face is occupied by a puckered mouth. It's stomache is swollen and nearly translucent, with a sickly yellow tint.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1646,7 +1646,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"SHOCKSTORM",
     "description":"A human body with pale blue flesh, crackling with electrical energy.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM", "NO_BREATHE",  "VIS40", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM", "NO_BREATHE",  "VIS40", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1675,7 +1675,7 @@
     "death_function":"SMOKEBURST",
     "special_attack":"SMOKECLOUD",
     "description":"A blackened and twisted naked human body, strips of flesh hang from it's body, and it emits a constant haze of thick black smoke.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "HARDTOSHOOT", "FRIENDLY_SPECIAL", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "HARDTOSHOOT", "FRIENDLY_SPECIAL", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1704,7 +1704,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"A slick and glistening human body. It's hands and feet are webbed, and it is clad in swimwear.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "BLEED", "SWIMS", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "BLEED", "SWIMS", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1733,7 +1733,7 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1762,7 +1762,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"Its entire body bulges with distended muscles and swollen, festering wounds.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1791,7 +1791,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
     "description":"A human body now swollen to the size of six men, with arms as wide as a trash can.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1849,7 +1849,7 @@
     "death_function":"BOOMER",
     "special_attack":"BOOMER",
     "description":"A rotund human body, bloated beyond belief and layered in rolls of fat. It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1878,7 +1878,7 @@
     "death_function":"FUNGUS",
     "special_attack":"FUNGUS",
     "description":"A rotund and bloated human body with pasty, fungus-ridden flesh. Its mouth drips with a frothing gray sludge.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS30"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS30"]
   },
   {
     "type":"MONSTER",
@@ -1936,7 +1936,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"RESURRECT",
     "description":"A twisted mockery of the human form, emaciated, with jet black skin andglowing red eyes. It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
   {
@@ -1966,7 +1966,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"SCIENCE",
     "description":"Apart from the jet black eyes it would be easy to believe this scientist was still alive. Clad in a tattered lab coat, it looks to have some measure of situational awareness and resourcefulness.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -1995,7 +1995,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
   },
   {
@@ -2025,7 +2025,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
     "description":"A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "GRABS", "NO_BREATHE", "VIS30", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "GRABS", "NO_BREATHE", "VIS30", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -2054,7 +2054,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"UPGRADE",
     "description":"Once human, it's features have tightened, it's lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath it's large, piercing eyes. It stands tall, it's movements are fluid and tightly controlled. A feeling of danger permeates the air around it, and the light that falls on it somehow harsher and more glaring.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
   {
@@ -2113,7 +2113,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"LEAP",
     "description":"This once-human body is barely recognizable, scrambling about on all fours, it's nails and teeth both sharpened into dangerous looking spikes.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
   },
   {
@@ -2143,7 +2143,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
     "description":"It was only a child, and little is different about it now aside from the hungry look in it's eyes. You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "VIS30", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
   },
   {
@@ -2173,7 +2173,7 @@
     "death_function":"NORMAL",
     "special_attack":"FLESH_GOLEM",
     "description":"A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "LEATHER", "BONES", "VIS50", "POISON"]
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "LEATHER", "BONES", "VIS50", "POISON"]
   },
   {
     "type":"MONSTER",
@@ -2726,7 +2726,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A conglomeration of human parts fused together in a horrible mishmash of function, slowly dragging its eldritch body across the ground.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "HUMAN", "VIS40", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BASHES", "POISON", "HUMAN", "VIS40", "BONES"],
     "fear_triggers":["HURT", "FIRE"]
   },
   {
@@ -4105,7 +4105,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
     "description":"A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "BLEED", "HUMAN", "POISON", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BASHES", "BLEED", "HUMAN", "POISON", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -4134,7 +4134,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"NONE",
     "description":"A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "BLEED", "HUMAN", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BASHES", "BLEED", "HUMAN", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -4163,7 +4163,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"FEAR_PARALYZE",
     "description":"A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -4192,7 +4192,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"FEAR_PARALYZE",
     "description":"A tall and slender man lacking skin and any normalcy of countenance.  Wings of muscle curl forth from its back and a third eye dominates the forehead.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES"]
+    "flags":["F_SEE_HEAR_SMELL", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES"]
   },
   {
     "type":"MONSTER",
@@ -4627,7 +4627,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A large and colorful game bird native to the forests of North America.  Its head and beak are covered in fleshy accretions.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS50", "BONES", "FEATHER"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FLIES", "VIS50", "BONES", "FEATHER"],
     "fear_triggers":["PLAYER_CLOSE", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
   },
@@ -4658,7 +4658,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A small mammal native to North America, distinctive for its dextrous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "categories":["WILDLIFE"]
   },
@@ -4689,7 +4689,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The Virginia opossum, a small omnivorous marsupial native to North America.  About the size of a cat, it is hardy and adaptive, and a fairly common sight in urban areas.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50"],
+    "flags":["F_SEE_HEAR_SMELL", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -4721,7 +4721,7 @@
     "death_function":"NORMAL",
     "special_attack":"RATTLE",
     "description":"The timber rattlesnake is the most venomous viper native to New England.  Climatic changes have extended its range far into the north.",
-    "flags":["SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "LEATHER", "VIS30", "BONES"],
+    "flags":["F_SEE_HEAR_SMELL", "BADVENOM", "HARDTOSHOOT", "SWIMS", "LEATHER", "VIS30", "BONES"],
     "anger_triggers":["HURT"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["PLAYER_CLOSE"],
@@ -4785,7 +4785,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"The shuffling corpse of a once-proud bear, its eyes ooze with black fluid, and its flesh is torn and scarred.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["F_SEE_HEAR_SMELL", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "categories":["WILDLIFE"]
   },
