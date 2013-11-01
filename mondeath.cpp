@@ -5,6 +5,7 @@
 #include "rng.h"
 #include "line.h"
 #include "monstergenerator.h"
+#include <math.h>  // rounding
 #include <sstream>
 
 void mdeath::normal(game *g, monster *z) {
@@ -16,35 +17,47 @@ void mdeath::normal(game *g, monster *z) {
         g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
     }
 
-    bool warmBlooded = z->has_flag(MF_WARM);
-    if (z->made_of("flesh") && warmBlooded) {
-        g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
-    }
-
-    bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
+    m_size monSize = (z->type->size);
+    bool isFleshy = (z->made_of("flesh") || z->made_of("hflesh"));
     bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+    // Limit chunking to organic creatures until inorganic gibs are supported.
+    bool leaveGibs = (isFleshy || z->made_of("veggy"));
+
     if (leaveCorpse) {
         int maxHP = z->type->hp;
         if (!maxHP) {
             return;
         }
+
+        // leave a spot of blood
+        bool warmBlooded = z->has_flag(MF_WARM);
+        if (isFleshy && warmBlooded) {
+            g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
+        }
+
         float overflowDamage = -(z->hp);
 
-        // determine how much of a mess is left, for flesh and veggy creatures
+        // Determine how much of a mess is left, for flesh and veggy creatures
         float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
-        int gibAmount = corpseDamage - 1;
-        bool pulverized = (corpseDamage > 5 && overflowDamage > 50);
+        int gibAmount = int(floor(corpseDamage)) - 1;
+        // allow one extra gib per 5 HP
+        int maxGibs = 1 + (maxHP / 5.0);
+        if (gibAmount > maxGibs) {
+            gibAmount = maxGibs;
+        }
+
+        bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
         if (!pulverized) {
             // the corpse still exists, let's place it
             item corpse;
             corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
             corpse.damage = corpseDamage > CORPSE_DAM_MAX ? CORPSE_DAM_MAX : int(corpseDamage);
             g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
-        } else {
+        } else if (monSize >= MS_MEDIUM) {
             gibAmount += rng(1,6);
         }
         // no gibs for non-fleshy creatures until implemented
-        if (gibAmount > 0 && isFleshy) {
+        if (leaveGibs && gibAmount > 0) {
             const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
             for (int i = 0; i < gibAmount; i++) {
                 // leave gibs, if there are any
@@ -52,6 +65,11 @@ void mdeath::normal(game *g, monster *z) {
                 const int gibY = z->posy() + rng(1,6) - 3;
                 const int gibDensity = rng(1, i+1);
                 g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+                if (warmBlooded) {
+                    const int bloodX = z->posx() + (rng(1,3) - 2);
+                    const int bloodY = z->posy() + (rng(1,3) - 2);
+                    g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
+                }
             }
         }
     }
