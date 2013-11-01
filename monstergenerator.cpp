@@ -407,14 +407,14 @@ bool MonsterGenerator::is_friendly_with(const mtype *lhs, mtype *rhs)
 {
     std::set<std::string> lhs_spec = lhs->species, rhs_spec = rhs->species;
     std::set<std::string> checker;
-    for (std::set<std::string>::const_iterator it = lhs_spec.begin(); it != lhs_spec.end(); ++it){
+    for (std::set<std::string>::const_iterator it = rhs_spec.begin(); it != rhs_spec.end(); ++it){
         // add the species, and all of its friendly with species to checker
         checker.insert(*it);
         std::string it_string = *it;
         std::set<std::string> it_friendlies = mon_species[it_string]->friendly_species;
         checker.insert(it_friendlies.begin(), it_friendlies.end());
     }
-    for (std::set<std::string>::iterator it = rhs_spec.begin(); it != rhs_spec.end(); ++it){
+    for (std::set<std::string>::iterator it = lhs_spec.begin(); it != lhs_spec.end(); ++it){
         // check for mtype's species entry (*it) inside of the friendly list (checker)
         if (checker.find(*it) != checker.end()){
             return true;
