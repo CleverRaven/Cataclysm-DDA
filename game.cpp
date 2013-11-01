@@ -8343,7 +8343,7 @@ void game::pickup(int posx, int posy, int min)
            item temp = here[i].clone();
            temp.charges = leftover_charges;
            here[i].charges = pickup_count[i];
-           m.add_item(posx, posy, temp);
+           m.add_item_or_charges(posx, posy, temp);
        }
    }
 
@@ -11790,7 +11790,7 @@ bool game::spread_fungus(int x, int y)
                     m.i_rem(x, y, k);
                 }
                 item seeds(g->itypes["fungal_seeds"], int(g->turn));
-                m.add_item(x, y, seeds);
+                m.add_item_or_charges(x, y, seeds);
             }
         }
         return true;
@@ -11874,7 +11874,7 @@ bool game::spread_fungus(int x, int y)
                                 m.i_rem(i, j, k);
                             }
                             item seeds(g->itypes["fungal_seeds"], int(g->turn));
-                            m.add_item(x, y, seeds);
+                            m.add_item_or_charges(x, y, seeds);
                         }
                     }
                 }
