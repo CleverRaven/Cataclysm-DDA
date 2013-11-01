@@ -1091,41 +1091,43 @@ int map::combined_movecost(const int x1, const int y1,
 
 bool map::trans(const int x, const int y)
 {
- // Control statement is a problem. Normally returning false on an out-of-bounds
- // is how we stop rays from going on forever.  Instead we'll have to include
- // this check in the ray loop.
- int vpart = -1;
- vehicle *veh = veh_at(x, y, vpart);
- bool tertr;
- if (veh) {
-  tertr = veh->part_with_feature(vpart, "OPAQUE") < 0;
-  if (!tertr) {
-   const int dpart = veh->part_with_feature(vpart, "OPENABLE");
-   if (veh->parts[dpart].open) {
-    tertr = true; // open opaque door
-   }
-  }
- } else {
-  tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
- }
- if( tertr ) {
-  // Fields may obscure the view, too
-  field &curfield = field_at(x,y);
-  if(curfield.fieldCount() > 0){
-  field_entry *cur = NULL;
-   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
-       field_list_it != curfield.getFieldEnd(); ++field_list_it){
-    cur = field_list_it->second;
-    if(cur == NULL) continue;
-    //If ANY field blocks vision, the tile does.
-    if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
-     return false;
+    // Control statement is a problem. Normally returning false on an out-of-bounds
+    // is how we stop rays from going on forever.  Instead we'll have to include
+    // this check in the ray loop.
+    int vpart = -1;
+    vehicle *veh = veh_at(x, y, vpart);
+    bool tertr;
+    if (veh) {
+        tertr = veh->part_with_feature(vpart, "OPAQUE") < 0;
+        if (!tertr) {
+            const int dpart = veh->part_with_feature(vpart, "OPENABLE");
+            if (veh->parts[dpart].open) {
+                tertr = true; // open opaque door
+            }
+        }
+    } else {
+        tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
     }
-   }
-  }
-  return true; //no blockers found, this is transparent
- }
- return false; //failsafe block vision
+    if( tertr ) {
+        // Fields may obscure the view, too
+        field &curfield = field_at( x,y );
+        if( curfield.fieldCount() > 0 ) {
+            field_entry *cur = NULL;
+            for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+                 field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
+                cur = field_list_it->second;
+                if( cur == NULL ) {
+                    continue;
+                }
+                //If ANY field blocks vision, the tile does.
+                if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+                    return false;
+                }
+            }
+        }
+        return true; //no blockers found, this is transparent
+    }
+    return false; //failsafe block vision
 }
 
 bool map::has_flag(std::string flag, const int x, const int y)
