@@ -2683,6 +2683,8 @@ void game::load_artifacts_from_file(std::ifstream *f)
 
             itypes[id] = art_type;
         }
+
+        jo.finish();
     }
 }
 
