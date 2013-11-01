@@ -329,10 +329,13 @@ void MonsterGenerator::load_species(JsonObject &jo)
         sid = jo.get_string("id");
 
         std::set<std::string> sflags, sanger, sfear, splacate;
+        std::set<std::string> friendlies;
         sflags = jo.get_tags("flags");
         sanger = jo.get_tags("anger_triggers");
         sfear  = jo.get_tags("fear_triggers");
         splacate = jo.get_tags("placate_triggers");
+
+        friendlies = jo.get_tags("friends_with_species");
 
         std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
         std::set<monster_trigger> anger, fear, placate;
@@ -341,6 +344,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
         placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
 
         species_type *new_species = new species_type(sid, flags, anger, fear, placate);
+        new_species->friendly_species = friendlies;
 
         mon_species[sid] = new_species;
     }
@@ -397,6 +401,26 @@ mtype *MonsterGenerator::get_valid_hallucination()
     }
 
     return potentials[rng(0, potentials.size() - 1)];
+}
+
+bool MonsterGenerator::is_friendly_with(const mtype *lhs, mtype *rhs)
+{
+    std::set<std::string> lhs_spec = lhs->species, rhs_spec = rhs->species;
+    std::set<std::string> checker;
+    for (std::set<std::string>::const_iterator it = lhs_spec.begin(); it != lhs_spec.end(); ++it){
+        // add the species, and all of its friendly with species to checker
+        checker.insert(*it);
+        std::string it_string = *it;
+        std::set<std::string> it_friendlies = mon_species[it_string]->friendly_species;
+        checker.insert(it_friendlies.begin(), it_friendlies.end());
+    }
+    for (std::set<std::string>::iterator it = rhs_spec.begin(); it != rhs_spec.end(); ++it){
+        // check for mtype's species entry (*it) inside of the friendly list (checker)
+        if (checker.find(*it) != checker.end()){
+            return true;
+        }
+    }
+    return false;
 }
 
 MonDeathFunction MonsterGenerator::get_death_function(JsonObject& jo, std::string member)

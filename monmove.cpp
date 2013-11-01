@@ -726,8 +726,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     {
         for (int i = 0; i < g->num_zombies(); i++)
         {
-            g->zombie(i).morale += morale_adjust;
-            g->zombie(i).anger += anger_adjust;
+            if (type->friends_with(g->zombie(i).type)){
+                g->zombie(i).morale += morale_adjust;
+                g->zombie(i).anger += anger_adjust;
+            }
         }
     }
 }
@@ -832,7 +834,7 @@ int monster::bash_at(int x, int y) {
               if ( helpermon.wandx == wandx && helpermon.wandy == wandy && helpermon.has_flag(MF_BASHES) ) {
                  // helpers lined up behind primary basher add full strength, so do those at either shoulder, others add 50%
                  //addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
-                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides); 
+                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
                  // helpers lined up behind primary basher add full strength, others 50%
                  addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
                  mo_bash += addbash;

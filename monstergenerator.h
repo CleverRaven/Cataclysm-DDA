@@ -17,6 +17,7 @@ struct species_type
     std::string id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
+    std::set<std::string> friendly_species;
 
     species_type():id("null_species")
     {
@@ -59,6 +60,7 @@ class MonsterGenerator
         std::map<std::string, mtype*> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
+        bool is_friendly_with(const mtype *lhs, mtype *rhs);
     protected:
     private:
         /** Default constructor */
