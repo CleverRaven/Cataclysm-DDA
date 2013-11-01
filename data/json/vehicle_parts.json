@@ -9,8 +9,8 @@
         "broken_color": "red",
         "durability": 100,
         "item": "NULL",
-        "difficulty": 0,
-        "flags": ["NOINSTALL"]
+        "difficulty" : 0,
+        "flags" : ["NOINSTALL"]
     },{
         "type" : "vehicle_part",
         "id" : "seat",
@@ -23,11 +23,9 @@
         "durability": 300,
         "size": 400,
         "item": "seat",
-        "difficulty": 1,
-        "location": "center",
-        "flags": [
-            "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
-        ]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["SEAT", "BOARDABLE", "CARGO", "BELTABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "saddle",
@@ -39,11 +37,9 @@
         "damage_modifier": 20,
         "durability": 200,
         "item": "saddle",
-        "difficulty": 1,
-        "location": "center",
-        "flags": [
-            "SEAT", "BOARDABLE"
-        ]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["SEAT", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "bed",
@@ -56,11 +52,9 @@
         "durability": 300,
         "size": 400,
         "item": "seat",
-        "difficulty": 1,
-        "location": "center",
-        "flags": [
-            "BED", "BOARDABLE", "CARGO"
-        ]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["BED", "BOARDABLE", "CARGO"]
     },{
         "type" : "vehicle_part",
         "id" : "frame_horizontal",
@@ -71,9 +65,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_vertical",
@@ -84,9 +77,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_cross",
@@ -97,9 +89,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_nw",
@@ -110,9 +101,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_ne",
@@ -123,9 +113,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_se",
@@ -136,9 +125,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_sw",
@@ -149,9 +137,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_horizontal_2",
@@ -162,9 +149,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_vertical_2",
@@ -175,9 +161,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_cover",
@@ -188,9 +173,8 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "frame_handle",
@@ -201,9 +185,8 @@
         "broken_color": "light_cyan",
         "durability": 300,
         "item": "frame",
-        "difficulty": 1,
-        "location": "structure",
-        "flags": []
+        "difficulty" : 1,
+        "location" : "structure"
     },{
         "type" : "vehicle_part",
         "id" : "board_horizontal",
@@ -214,9 +197,9 @@
         "broken_color": "light_gray",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "board_vertical",
@@ -227,9 +210,9 @@
         "broken_color": "light_gray",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "board_nw",
@@ -240,9 +223,9 @@
         "broken_color": "light_gray",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "board_ne",
@@ -253,9 +236,9 @@
         "broken_color": "light_gray",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "board_se",
@@ -266,9 +249,9 @@
         "broken_color": "light_gray",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "board_sw",
@@ -279,9 +262,9 @@
         "broken_color": "light_gray",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_horizontal",
@@ -292,9 +275,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_vertical",
@@ -305,9 +288,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_nw",
@@ -318,9 +301,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_ne",
@@ -331,9 +314,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_se",
@@ -344,9 +327,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_sw",
@@ -357,9 +340,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_horizontal_2",
@@ -370,9 +353,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_vertical_2",
@@ -383,9 +366,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_cover",
@@ -396,9 +379,9 @@
         "broken_color": "light_gray",
         "durability": 500,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
@@ -409,9 +392,9 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["AISLE", "BOARDABLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "aisle_vertical",
@@ -422,9 +405,9 @@
         "broken_color": "light_gray",
         "durability": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["AISLE", "BOARDABLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "trunk_floor",
@@ -436,9 +419,9 @@
         "durability": 400,
         "size": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["AISLE", "BOARDABLE", "CARGO"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "CARGO"]
     },{
         "type" : "vehicle_part",
         "id" : "roof",
@@ -449,9 +432,9 @@
         "broken_color": "dark_gray",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 1,
-        "location": "roof",
-        "flags": ["ROOF"]
+        "difficulty" : 1,
+        "location" : "roof",
+        "flags" : ["ROOF"]
     },{
         "type" : "vehicle_part",
         "id" : "door",
@@ -463,9 +446,9 @@
         "damage_modifier": 80,
         "durability": 200,
         "item": "frame",
-        "difficulty": 2,
-        "location": "center",
-        "flags": ["OBSTACLE", "OPENABLE", "BOARDABLE"]
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "door_opaque",
@@ -477,9 +460,9 @@
         "damage_modifier": 80,
         "durability": 200,
         "item": "frame",
-        "difficulty": 2,
-        "location": "center",
-        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"]
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "door_internal",
@@ -491,9 +474,9 @@
         "damage_modifier": 75,
         "durability": 75,
         "item": "frame",
-        "difficulty": 2,
-        "location": "center",
-        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"]
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "windshield",
@@ -505,9 +488,9 @@
         "damage_modifier": 70,
         "durability": 50,
         "item": "glass_sheet",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["OVER", "OBSTACLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OVER", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "blade_horizontal",
@@ -519,9 +502,9 @@
         "damage_modifier": 250,
         "durability": 100,
         "item": "blade",
-        "difficulty": 2,
-        "location": "structure",
-        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },{
         "type" : "vehicle_part",
         "id" : "blade_vertical",
@@ -533,9 +516,9 @@
         "damage_modifier": 250,
         "durability": 100,
         "item": "blade",
-        "difficulty": 2,
-        "location": "structure",
-        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },{
         "type" : "vehicle_part",
         "id" : "spike",
@@ -547,9 +530,9 @@
         "damage_modifier": 300,
         "durability": 100,
         "item": "spike",
-        "difficulty": 2,
-        "location": "structure",
-        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel",
@@ -562,9 +545,9 @@
         "durability": 200,
         "wheel_width": 9,
         "item": "wheel",
-        "difficulty": 4,
-        "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "difficulty" : 4,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_wide",
@@ -577,9 +560,9 @@
         "durability": 400,
         "wheel_width": 14,
         "item": "wheel_wide",
-        "difficulty": 5,
-        "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "difficulty" : 5,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_underbody",
@@ -592,9 +575,9 @@
         "durability": 400,
         "wheel_width": 14,
         "item": "wheel_wide",
-        "difficulty": 6,
-        "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "difficulty" : 6,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_unicycle",
@@ -607,9 +590,9 @@
         "durability": 40,
         "wheel_width": 2,
         "item": "wheel_bicycle",
-        "difficulty": 2,
-        "location": "under",
-        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_bicycle",
@@ -622,9 +605,9 @@
         "durability": 40,
         "wheel_width": 2,
         "item": "wheel_bicycle",
-        "difficulty": 1,
-        "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "difficulty" : 1,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_motorbike",
@@ -637,9 +620,9 @@
         "durability": 90,
         "wheel_width": 4,
         "item": "wheel_motorbike",
-        "difficulty": 2,
-        "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_small",
@@ -652,9 +635,9 @@
         "durability": 70,
         "wheel_width": 6,
         "item": "wheel_small",
-        "difficulty": 2,
-        "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_caster",
@@ -667,9 +650,9 @@
         "durability": 70,
         "wheel_width": 6,
         "item": "wheel_caster",
-        "difficulty": 1,
-        "location": "under",
-        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
+        "difficulty" : 1,
+        "location" : "under",
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_1cyl",
@@ -683,9 +666,9 @@
         "power": 40,
         "fuel_type": "gasoline",
         "item": "1cyl_combustion",
-        "difficulty": 2,
-        "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "difficulty" : 2,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_vtwin",
@@ -699,9 +682,9 @@
         "power": 120,
         "fuel_type": "gasoline",
         "item": "v2_combustion",
-        "difficulty": 2,
-        "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "difficulty" : 2,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_inline4",
@@ -714,9 +697,9 @@
         "power": 300,
         "fuel_type": "gasoline",
         "item": "i4_combustion",
-        "difficulty": 3,
-        "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "difficulty" : 3,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_v6",
@@ -730,9 +713,9 @@
         "power": 800,
         "fuel_type": "gasoline",
         "item": "v6_combustion",
-        "difficulty": 4,
-        "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "difficulty" : 4,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_v8",
@@ -746,9 +729,9 @@
         "power": 800,
         "fuel_type": "gasoline",
         "item": "v8_combustion",
-        "difficulty": 4,
-        "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "difficulty" : 4,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_electric",
@@ -762,9 +745,9 @@
         "power": 70,
         "fuel_type": "battery",
         "item": "motor",
-        "difficulty": 3,
-        "location": "engine_block",
-        "flags": ["ENGINE"]
+        "difficulty" : 3,
+        "location" : "engine_block",
+        "flags" : ["ENGINE"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_electric_large",
@@ -778,9 +761,9 @@
         "power": 350,
         "fuel_type": "battery",
         "item": "motor_large",
-        "difficulty": 4,
-        "location": "engine_block",
-        "flags": ["ENGINE"]
+        "difficulty" : 4,
+        "location" : "engine_block",
+        "flags" : ["ENGINE"]
     },{
         "type" : "vehicle_part",
         "id" : "engine_plasma",
@@ -794,9 +777,9 @@
         "power": 400,
         "fuel_type": "plasma",
         "item": "plasma_engine",
-        "difficulty": 6,
-        "location": "engine_block",
-        "flags": ["ENGINE", "ALTERNATOR"]
+        "difficulty" : 6,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "ALTERNATOR"]
     },{
         "type" : "vehicle_part",
         "id" : "foot_pedals",
@@ -810,9 +793,9 @@
         "power": 70,
         "fuel_type": "muscle",
         "item": "foot_crank",
-        "difficulty": 1,
-        "location": "engine_block",
-        "flags": ["ENGINE"]
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "flags" : ["ENGINE"]
     },{
         "type" : "vehicle_part",
         "id" : "gas_tank",
@@ -826,9 +809,9 @@
         "size": 3000,
         "fuel_type": "gasoline",
         "item": "metal_tank",
-        "difficulty": 1,
-        "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "small_storage_battery",
@@ -842,9 +825,9 @@
         "size": 1000,
         "fuel_type": "battery",
         "item": "small_storage_battery",
-        "difficulty": 1,
-        "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "storage_battery",
@@ -858,9 +841,9 @@
         "size": 100000,
         "fuel_type": "battery",
         "item": "storage_battery",
-        "difficulty": 2,
-        "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 2,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "minireactor",
@@ -874,9 +857,9 @@
         "size": 10000,
         "fuel_type": "plutonium",
         "item": "minireactor",
-        "difficulty": 7,
-        "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 7,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "hydrogen_tank",
@@ -890,9 +873,9 @@
         "size": 3000,
         "fuel_type": "plasma",
         "item": "metal_tank",
-        "difficulty": 1,
-        "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "water_tank",
@@ -906,9 +889,9 @@
         "size": 400,
         "fuel_type": "water",
         "item": "metal_tank",
-        "difficulty": 1,
-        "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "minifridge",
@@ -921,9 +904,9 @@
         "durability": 100,
         "size": 400,
         "item": "minifridge",
-        "difficulty": 3,
-        "location": "center",
-        "flags": ["CARGO", "OBSTACLE"]
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "trunk",
@@ -936,9 +919,9 @@
         "durability": 300,
         "size": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["CARGO"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO"]
     },{
         "type" : "vehicle_part",
         "id" : "box",
@@ -951,9 +934,9 @@
         "durability": 100,
         "size": 400,
         "item": "frame",
-        "difficulty": 1,
-        "location": "center",
-        "flags": ["CARGO", "BOARDABLE"]
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "controls",
@@ -965,8 +948,8 @@
         "damage_modifier": 10,
         "durability": 250,
         "item": "vehicle_controls",
-        "difficulty": 3,
-        "flags": ["CONTROLS"]
+        "difficulty" : 3,
+        "flags" : ["CONTROLS"]
     },{
         "type" : "vehicle_part",
         "id" : "muffler",
@@ -979,8 +962,8 @@
         "durability": 150,
         "bonus": 40,
         "item": "muffler",
-        "difficulty": 2,
-        "flags": ["MUFFLER"]
+        "difficulty" : 2,
+        "flags" : ["MUFFLER"]
     },{
         "type" : "vehicle_part",
         "id" : "seatbelt",
@@ -993,9 +976,9 @@
         "durability": 200,
         "bonus": 25,
         "item": "rope_6",
-        "difficulty": 1,
-        "location": "on_seat",
-        "flags": ["SEATBELT"]
+        "difficulty" : 1,
+        "location" : "on_seat",
+        "flags" : ["SEATBELT"]
     },{
         "type" : "vehicle_part",
         "id" : "solar_panel",
@@ -1008,9 +991,9 @@
         "durability": 20,
         "power": 30,
         "item": "solar_panel",
-        "difficulty": 6,
-        "location": "on_roof",
-        "flags": ["SOLAR_PANEL"]
+        "difficulty" : 6,
+        "location" : "on_roof",
+        "flags" : ["SOLAR_PANEL"]
     },{
         "type" : "vehicle_part",
         "id" : "reinforced_solar_panel",
@@ -1023,9 +1006,9 @@
         "durability": 300,
         "power": 30,
         "item": "reinforced_solar_panel",
-        "difficulty": 6,
-        "location": "on_roof",
-        "flags": ["SOLAR_PANEL"]
+        "difficulty" : 6,
+        "location" : "on_roof",
+        "flags" : ["SOLAR_PANEL"]
     },{
         "type" : "vehicle_part",
         "id" : "kitchen_unit",
@@ -1038,9 +1021,9 @@
         "durability": 20,
         "size": 400,
         "item": "kitchen_unit",
-        "difficulty": 4,
-        "location": "center",
-        "flags": ["CARGO", "OBSTACLE", "KITCHEN"]
+        "difficulty" : 4,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "KITCHEN"]
     },{
         "type" : "vehicle_part",
         "id" : "welding_rig",
@@ -1053,9 +1036,9 @@
         "durability": 20,
         "size": 400,
         "item": "weldrig",
-        "difficulty": 4,
-        "location": "center",
-        "flags": ["CARGO", "OBSTACLE", "WELDRIG"]
+        "difficulty" : 4,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "WELDRIG"]
     },{
         "type" : "vehicle_part",
         "id" : "craft_rig",
@@ -1068,9 +1051,9 @@
         "durability": 20,
         "size": 400,
         "item": "craftrig",
-        "difficulty": 4,
-        "location": "center",
-        "flags": ["CARGO", "OBSTACLE", "CRAFTRIG"]
+        "difficulty" : 4,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "CRAFTRIG"]
     },{
         "type" : "vehicle_part",
         "id" : "veh_forge",
@@ -1082,9 +1065,9 @@
         "damage_modifier": 10,
         "durability": 20,
         "item": "forge",
-        "difficulty": 3,
-        "location": "center",
-        "flags": ["OBSTACLE", "FORGE"]
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FORGE"]
     },{
         "type" : "vehicle_part",
         "id" : "m249",
@@ -1098,9 +1081,9 @@
         "fuel_type": "223",
         "item": "m249",
         "size" : 40,
-        "difficulty": 6,
-        "location": "on_roof",
-        "flags": ["TURRET"]
+        "difficulty" : 6,
+        "location" : "on_roof",
+        "flags" : ["TURRET"]
     },{
         "type" : "vehicle_part",
         "id" : "flamethrower",
@@ -1113,9 +1096,9 @@
         "durability": 400,
         "fuel_type": "gasoline",
         "item": "flamethrower",
-        "difficulty": 7,
-        "location": "on_roof",
-        "flags": ["TURRET"]
+        "difficulty" : 7,
+        "location" : "on_roof",
+        "flags" : ["TURRET"]
     },{
         "type" : "vehicle_part",
         "id" : "plasma_gun",
@@ -1128,9 +1111,9 @@
         "durability": 400,
         "fuel_type": "plasma",
         "item": "plasma_rifle",
-        "difficulty": 7,
-        "location": "on_roof",
-        "flags": ["TURRET"]
+        "difficulty" : 7,
+        "location" : "on_roof",
+        "flags" : ["TURRET"]
     },{
         "type" : "vehicle_part",
         "id" : "fusion_gun",
@@ -1143,10 +1126,10 @@
         "durability": 400,
         "fuel_type": "fusion",
         "item": "ftk93",
-        "difficulty": 7,
+        "difficulty" : 7,
         "size": 10,
-        "location": "on_roof",
-        "flags": ["TURRET", "CARGO"]
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"]
     },{
         "type" : "vehicle_part",
         "id" : "plating_steel",
@@ -1157,9 +1140,9 @@
         "broken_color": "light_cyan",
         "durability": 1000,
         "item": "steel_plate",
-        "difficulty": 3,
-        "location": "armor",
-        "flags": ["ARMOR"]
+        "difficulty" : 3,
+        "location" : "armor",
+        "flags" : ["ARMOR"]
     },{
         "type" : "vehicle_part",
         "id" : "plating_superalloy",
@@ -1170,9 +1153,9 @@
         "broken_color": "dark_gray",
         "durability": 900,
         "item": "alloy_plate",
-        "difficulty": 4,
-        "location": "armor",
-        "flags": ["ARMOR"]
+        "difficulty" : 4,
+        "location" : "armor",
+        "flags" : ["ARMOR"]
     },{
         "type" : "vehicle_part",
         "id" : "plating_spiked",
@@ -1184,9 +1167,9 @@
         "damage_modifier": 150,
         "durability": 900,
         "item": "spiked_plate",
-        "difficulty": 3,
-        "location": "armor",
-        "flags": ["ARMOR", "SHARP"]
+        "difficulty" : 3,
+        "location" : "armor",
+        "flags" : ["ARMOR", "SHARP"]
     },{
         "type" : "vehicle_part",
         "id" : "plating_hard",
@@ -1197,9 +1180,9 @@
         "broken_color": "cyan",
         "durability": 2300,
         "item": "hard_plate",
-        "difficulty": 4,
-        "location": "armor",
-        "flags": ["ARMOR"]
+        "difficulty" : 4,
+        "location" : "armor",
+        "flags" : ["ARMOR"]
     },{
         "type" : "vehicle_part",
         "id" : "headlight",
@@ -1213,8 +1196,8 @@
         "power": 3,
         "bonus": 480,
         "item": "flashlight",
-        "difficulty": 1,
-        "flags": ["CONE_LIGHT"]
+        "difficulty" : 1,
+        "flags" : ["CONE_LIGHT"]
     },{
         "type" : "vehicle_part",
         "id" : "reinforced_windshield",
@@ -1226,9 +1209,9 @@
         "damage_modifier": 80,
         "durability": 300,
         "item": "reinforced_glass_sheet",
-        "difficulty": 6,
-        "location": "center",
-        "flags": ["OBSTACLE"]
+        "difficulty" : 6,
+        "location" : "center",
+        "flags" : ["OBSTACLE"]
     },{
         "type" : "vehicle_part",
         "id" : "horn_bicycle",
@@ -1241,8 +1224,8 @@
         "durability": 250,
         "bonus": 15,
         "item": "horn_bicycle",
-        "difficulty": 1,
-        "flags": ["HORN"]
+        "difficulty" : 1,
+        "flags" : ["HORN"]
     },{
         "type" : "vehicle_part",
         "id" : "horn_car",
@@ -1255,8 +1238,8 @@
         "durability": 260,
         "bonus": 30,
         "item": "horn_car",
-        "difficulty": 3,
-        "flags": ["HORN"]
+        "difficulty" : 3,
+        "flags" : ["HORN"]
     },{
         "type" : "vehicle_part",
         "id" : "horn_big",
@@ -1269,8 +1252,8 @@
         "durability": 270,
         "bonus": 45,
         "item": "horn_big",
-        "difficulty": 3,
-        "flags": ["HORN"]
+        "difficulty" : 3,
+        "flags" : ["HORN"]
     },{
         "type" : "vehicle_part",
         "id" : "battery_motorbike",
@@ -1284,8 +1267,8 @@
         "size": 12000,
         "fuel_type": "battery",
         "item": "battery_motorbike",
-        "difficulty": 2,
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 2,
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "battery_car",
@@ -1299,8 +1282,8 @@
         "size": 30000,
         "fuel_type": "battery",
         "item": "battery_car",
-        "difficulty": 2,
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 2,
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "battery_truck",
@@ -1314,8 +1297,8 @@
         "size": 50000,
         "fuel_type": "battery",
         "item": "battery_truck",
-        "difficulty": 2,
-        "flags": ["FUEL_TANK"]
+        "difficulty" : 2,
+        "flags" : ["FUEL_TANK"]
     },{
         "type" : "vehicle_part",
         "id" : "door_trunk",
@@ -1327,9 +1310,9 @@
         "damage_modifier": 80,
         "durability": 200,
         "item": "frame",
-        "difficulty": 2,
-        "location": "center",
-        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "door_shutter",
@@ -1341,9 +1324,9 @@
         "damage_modifier": 80,
         "durability": 200,
         "item": "steel_plate",
-        "difficulty": 3,
-        "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "door_sliding",
@@ -1355,9 +1338,9 @@
         "damage_modifier": 80,
         "durability": 200,
         "item": "frame",
-        "difficulty": 2,
-        "location": "center",
-        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "light_red",
@@ -1371,9 +1354,9 @@
         "power": 2,
         "bonus": 350,
         "item": "light_emergency_red",
-        "difficulty": 1,
-        "location": "on_roof",
-        "flags": ["CIRCLE_LIGHT", "ODDTURN"]
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["CIRCLE_LIGHT", "ODDTURN"]
     },{
         "type" : "vehicle_part",
         "id" : "light_blue",
@@ -1387,8 +1370,8 @@
         "power": 2,
         "bonus": 350,
         "item": "light_emergency_blue",
-        "difficulty": 1,
-        "location": "on_roof",
-        "flags": ["CIRCLE_LIGHT", "EVENTURN"]
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["CIRCLE_LIGHT", "EVENTURN"]
     }
 ]
