@@ -388,7 +388,7 @@ void vehicle::use_controls()
         g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
-        if(!lights_on || fuel_left("battery") ) {
+        if(lights_on || fuel_left("battery") ) {
             lights_on = !lights_on;
             g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
