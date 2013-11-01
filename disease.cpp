@@ -1000,7 +1000,7 @@ void dis_effect(player &p, disease &dis) {
                                               body_part_name(dis.bp, dis.side).c_str());
                      g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    g->add_msg(_("%s starts scratching their %s!"), p.name.c_str(), 
+                    g->add_msg(_("%s starts scratching their %s!"), p.name.c_str(),
                                        body_part_name(dis.bp, dis.side).c_str());
                 }
                 p.moves -= 150;
@@ -2245,8 +2245,13 @@ void manage_fungal_infection(player& p, disease& dis) {
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
     if(int(g->turn) % 25 == 0) {
+        // Accelerated recovery capped to 4x over 800 turns
+        // Pulling at arbitrary values, may need rebalancing
+        if (dis.intensity <= 32) {
+            dis.intensity += 1;
+        }
         if (p.fatigue > 0) {
-            p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
+            p.fatigue -= 1 + rng(0, 1) * rng(0, 1) + (dis.intensity / 8);
         }
         if (p.has_trait("FASTHEALER")) {
             p.healall(rng(0, 1));
