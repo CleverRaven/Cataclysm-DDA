@@ -2403,7 +2403,6 @@ bool game::is_game_over()
     if (uquit == QUIT_SUICIDE){
         if (u.in_vehicle)
             g->m.unboard_vehicle(this, u.posx, u.posy);
-        place_corpse();
         std::stringstream playerfile;
         playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
         DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
@@ -5021,7 +5020,7 @@ bool game::sound(int x, int y, int vol, std::string description)
     }
 
     // See if we need to wake someone up
-    if (u.has_disease("sleep")){ 
+    if (u.has_disease("sleep")){
         if ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
               (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
             u.rem_disease("sleep");
