@@ -1662,7 +1662,7 @@
         "id" : "spear_steel",
         "name" : "steel spear",
         "description" : "A stout metal pole with a sharp point.",
-        "weight" : 898,
+        "weight" : 1398,
         "to_hit" : 1,
         "color" : "light_gray",
         "symbol" : "/",
