@@ -675,7 +675,7 @@ recipe* game::select_crafting_recipe()
             {
                 ypos = 6;
                 // Loop to print the required tool qualities
-                for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin(); 
+                for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin();
                         iter != current[line]->qualities.end(); ++iter){
                     xpos = 32;
                     mvwputch(w_data, ypos, 30, col, '>');
@@ -683,7 +683,7 @@ recipe* game::select_crafting_recipe()
                     if(iter->available){
                         toolcol = c_green;
                     }
-                    
+
                     std::stringstream qualinfo;
                     qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
                     ypos += fold_and_print(w_data, ypos, xpos, getmaxx(w_data)-xpos-1, toolcol, qualinfo.str().c_str());
@@ -1481,7 +1481,18 @@ void game::disassemble(char ch)
                 // all tools present, so assign the activity
                 if (have_all_tools)
                 {
+                  // check to see if it's even possible to disassemble if it happens to be a count_by_charge item
+                  // (num_charges / charges_required) > 0
+                  // done before query because it doesn't make sense to query and then say "woops, can't do that!"
+                  if (dis_item->count_by_charges()){
+                    // required number of item in inventory for disassembly to succeed
+                    int num_disassemblies_available = dis_item->charges / dis_item->type->stack_size;;
 
+                    if (num_disassemblies_available == 0){
+                      add_msg(_("You cannot disassemble the %s into its components, too few items."), dis_item->name.c_str());
+                      return;
+                    }
+                  }
                   if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
                   {
                    return;
@@ -1547,7 +1558,15 @@ void game::complete_disassemble()
       else
         m.add_item_or_charges(u.posx, u.posy, ammodrop);
     }
-    u.i_rem(u.activity.values[0]);  // remove the item
+
+    if (dis_item->count_by_charges()){
+        dis_item->charges -= dis_item->type->stack_size;
+        if (dis_item->charges == 0){
+            u.i_rem(u.activity.values[0]);
+        }
+    }else{
+        u.i_rem(u.activity.values[0]);  // remove the item
+    }
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)

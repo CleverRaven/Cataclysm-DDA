@@ -90,7 +90,7 @@ enum mon_id {
     mon_chicken, mon_chipmunk, mon_cow, mon_coyote_wolf,
     mon_deer_mouse, mon_fox_gray, mon_fox_red,
     mon_groundhog, mon_hare, mon_horse, mon_lemming,
-    mon_mink, mon_mole, mon_muskrat, mon_otter, mon_pig,
+    mon_mink, mon_muskrat, mon_otter, mon_pig,
     mon_sheep, mon_shrew, mon_squirrel_red,
     mon_weasel,
     num_monsters
@@ -180,6 +180,7 @@ enum m_flag {
     MF_HUMAN,               // It's a live human, as long as it's alive
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_REGENERATES_50,      // Monster regenerates very quickly over time
+    MF_REGENERATES_10,      // Monster regenerates very quickly over time
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_CHITIN,              // May produce chitin when butchered

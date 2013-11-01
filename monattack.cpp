@@ -1109,8 +1109,7 @@ void mattack::vortex(game *g, monster *z)
      bool hit_wall = false;
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
-          (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                    g->zombie(monhit).name().c_str());
@@ -1145,8 +1144,7 @@ void mattack::vortex(game *g, monster *z)
      int damage = rng(5, 10);
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
-           (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("You hit a %s!"), g->zombie(monhit).name().c_str());
        if (g->zombie(monhit).hurt(damage))
@@ -1528,7 +1526,7 @@ void mattack::upgrade(game *g, monster *z)
            break;
   case  6:
   case  7:
-  case  8: newtype = "mon_zombie_fast";
+  case  8: newtype = "mon_zombie_hunter";
            break;
   case  9: newtype = "mon_zombie_brute";
            break;

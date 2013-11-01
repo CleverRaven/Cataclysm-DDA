@@ -27,6 +27,7 @@ struct uistatedata {
   bool debug_ranged;
   point adv_inv_last_coords;
   int last_inv_start, last_inv_sel;
+  int list_item_mon;
   /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
      output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
   */
@@ -61,6 +62,7 @@ struct uistatedata {
       editmap_nsa_viewmode = false;
       last_inv_start = -2;
       last_inv_sel = -2;
+      list_item_mon = 1;
       // internal stuff
       _testing_save = true;        // internal: whine on json errors. set false if no complaints in 2 weeks.
       _really_testing_save = false; // internal: spammy
@@ -87,6 +89,7 @@ struct uistatedata {
       data[std::string("adv_inv_rightarea")] = picojson::value(adv_inv_rightarea);
       data[std::string("adv_inv_last_popup_dest")] = picojson::value(adv_inv_last_popup_dest);
       data[std::string("editmap_nsa_viewmode")] = picojson::value(editmap_nsa_viewmode);
+      data[std::string("list_item_mon")] = picojson::value(list_item_mon);
 
       std::map<std::string, picojson::value> histmap;
       for(std::map<std::string, std::vector<std::string>*>::iterator it = input_history.begin(); it != input_history.end(); ++it ) {
@@ -117,6 +120,7 @@ struct uistatedata {
           picoint(data,"adv_inv_rightarea",              adv_inv_rightarea);
           picoint(data,"adv_inv_last_popup_dest",        adv_inv_last_popup_dest);
           picobool(data,"editmap_nsa_viewmode",          editmap_nsa_viewmode);
+          picoint(data,"list_item_mon",                  list_item_mon);
 
           picojson::object::const_iterator hmit = data.find("input_history");
           if ( ! picoverify() ) return false;

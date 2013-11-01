@@ -51,7 +51,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_na
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
         valid_entry = valid_entry && (turn == -1 || (turn+900) >= (MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->name)->difficulty)));
         // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
-        if(OPTIONS["CLASSIC_ZOMBIES"]){
+        if(ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]){
             valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
         }
         //Insure that the time is not before the spawn first appears or after it stops appearing
@@ -254,7 +254,6 @@ void init_translation() {
     monStr2monId["mon_horse"] = mon_horse;
     monStr2monId["mon_lemming"] = mon_lemming;
     monStr2monId["mon_mink"] = mon_mink;
-    monStr2monId["mon_mole"] = mon_mole;
     monStr2monId["mon_moose"] = mon_moose;
     monStr2monId["mon_muskrat"] = mon_muskrat;
     monStr2monId["mon_otter"] = mon_otter;

@@ -7997,7 +7997,7 @@ void player::try_to_sleep(game *g)
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
-     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair || 
+     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
      furn_at_pos == f_sofa ||(veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
@@ -8143,7 +8143,7 @@ int player::warmth(body_part bp)
     {
         ret += 10;
     }
-    
+
     // If the players head is not encumbered, check if hood can be put up
     if(bp == bp_head && encumb(bp_head) < 1 && worn_with_flag("HOOD"))
     {
@@ -8684,6 +8684,11 @@ std::string player::weapname(bool charges)
     dump << "+" << weapon.contents[i].charges;
    dump << ")";
   }
+  return dump.str();
+ } else if (weapon.is_container()) {
+  std::stringstream dump;
+  dump << weapon.tname().c_str();
+  dump << " (" << weapon.contents.size() << ")";
   return dump.str();
  } else if (weapon.is_null()) {
   return _("fists");

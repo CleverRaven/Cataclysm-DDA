@@ -40,7 +40,7 @@ class mapbuffer
   void make_volatile();
 
   /** Load the entire world from savefiles into submaps in this instance. **/
-  void load();
+  void load(std::string worldname);
   void unserialize(std::ifstream & fin);
   bool unserialize_legacy(std::ifstream & fin);
   /** Store all submaps in this instance into savefiles. **/
@@ -53,7 +53,7 @@ class mapbuffer
   void reset();
 
   /** Add a new submap to the buffer.
-   * 
+   *
    * @param x, y, z The absolute world position in submap coordinates.
    */
   bool add_submap(int x, int y, int z, submap *sm);

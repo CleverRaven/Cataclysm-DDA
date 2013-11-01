@@ -22,6 +22,7 @@ extern cata_tiles *tilecontext;
 #endif // SDLTILES
 
 std::map<std::string, cOpt> OPTIONS;
+std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
@@ -150,7 +151,7 @@ std::string cOpt::getValue() {
     return "";
 }
 
-std::string cOpt::getName() {
+std::string cOpt::getValueName() {
     if (sType == "string") {
         return optionNames[sSet];
 
@@ -313,6 +314,7 @@ void initOptions() {
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
+    vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
 
@@ -442,7 +444,7 @@ void initOptions() {
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
-    OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete world"),
+    OPTIONS["DELETE_WORLD"] =           cOpt("world_default", _("Delete world"),
                                              _("Delete the world when the last active character dies."),
                                              "no,yes,query", "no"
                                             );
@@ -457,17 +459,17 @@ void initOptions() {
                                              0, 25, 12
                                             );
 
-    OPTIONS["SPAWN_DENSITY"] =          cOpt("general", _("Spawn rate scaling factor"),
+    OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),
                                              _("A scaling factor that determines density of monster spawns."),
                                              0.0, 50.0, 1.0, 0.1
                                             );
 
-    OPTIONS["CITY_SIZE"] =              cOpt("general", _("Size of cities"),
+    OPTIONS["CITY_SIZE"] =              cOpt("world_default", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
                                              1, 16, 4
                                             );
 
-    OPTIONS["INITIAL_TIME"] =           cOpt("debug", _("Initial time"),
+    OPTIONS["INITIAL_TIME"] =           cOpt("world_default", _("Initial time"),
                                              _("Initial starting time of day on character generation."),
                                              0, 23, 8
                                             );
@@ -476,7 +478,7 @@ void initOptions() {
     optionNames["summer"] = _("Summer");
     optionNames["autumn"] = _("Autumn");
     optionNames["winter"] = _("Winter");
-    OPTIONS["INITIAL_SEASON"] =         cOpt("debug", _("Initial season"),
+    OPTIONS["INITIAL_SEASON"] =         cOpt("world_default", _("Initial season"),
                                              _("Initial starting season of day on character generation."),
                                              "spring,summer,autumn,winter", "spring");
 
@@ -508,37 +510,37 @@ void initOptions() {
                                              1, 50, 1
                                             );
 
-    OPTIONS["STATIC_SPAWN"] =           cOpt("debug", _("Static spawn"),
+    OPTIONS["STATIC_SPAWN"] =           cOpt("world_default", _("Static spawn"),
                                              _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                              true
                                             );
 
-    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("debug", _("Classic zombies"),
+    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
                                              false
                                             );
 
-    OPTIONS["BLACK_ROAD"] =             cOpt("debug", _("Black Road"),
+    OPTIONS["BLACK_ROAD"] =             cOpt("world_default", _("Black Road"),
                                              _("If true, spawn zombies at shelters."),
                                              false
                                             );
 
-    OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
+    OPTIONS["SEASON_LENGTH"] =          cOpt("world_default", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
                                             );
 
-    OPTIONS["STATIC_NPC"] =             cOpt("debug", _("Static npcs"),
+    OPTIONS["STATIC_NPC"] =             cOpt("world_default", _("Static npcs"),
                                              _("If true, the game will spawn static NPC at the start of the game, requires world reset."),
                                              false
                                             );
 
-    OPTIONS["RANDOM_NPC"] =             cOpt("debug", _("Random npcs"),
+    OPTIONS["RANDOM_NPC"] =             cOpt("world_default", _("Random npcs"),
                                              _("If true, the game will randomly spawn NPC during gameplay."),
                                              false
                                             );
 
-    OPTIONS["RAD_MUTATION"] =           cOpt("general", _("Mutations by radiation"),
+    OPTIONS["RAD_MUTATION"] =           cOpt("world_default", _("Mutations by radiation"),
                                              _("If true, radiation causes the player to mutate."),
                                              true
                                             );
@@ -584,9 +586,12 @@ void initOptions() {
                                              false
                                             );
 
+    optionNames["false"] = _("False");
+    optionNames["centered"] = _("Centered");
+    optionNames["edge"] = _("To edge");
     OPTIONS["SHIFT_LIST_ITEM_VIEW"] =   cOpt("interface", _("Shift list item view"),
-                                             _("If true, shift the view toward the selected item if it is outside of your current viewport."),
-                                             true
+                                             _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
+                                             "false,centered,edge",  "centered"
                                             );
 
     OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
@@ -698,7 +703,7 @@ void show_options()
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getName()).c_str());
+            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
         }
 
         //Draw Scrollbar

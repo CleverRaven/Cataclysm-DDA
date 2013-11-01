@@ -227,6 +227,13 @@ void monster::move(game *g)
       hp = type->hp;
     }
  }
+ if (has_flag(MF_REGENERATES_10)) {
+    hp += 10;
+    if(hp > type->hp){
+      hp = type->hp;
+    }
+ }
+
  if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
    mattack ma;
    if(!is_hallucination()) {
@@ -344,7 +351,7 @@ void monster::footsteps(game *g, int x, int y)
   return; // Flying monsters don't have footsteps!
  made_footstep = true;
  int volume = 6; // same as player's footsteps
- if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y)))
+ if (digging())
   volume = 10;
  switch (type->size) {
   case MS_TINY:
@@ -614,9 +621,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("%s's offensive defense system shocks it!"),
                                    p.name.c_str());
                     }
-                    if (hurt(rng(10, 40))) {
-                        die(g);
-                    }
+                    hurt(rng(10, 40));
                 }
                 if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
@@ -630,8 +635,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("Your %s puncture it!"),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     }
-                    if (hurt(spine))
-                        die(g);
+                    hurt(spine);
                 }
 
                 if (dam + cut <= 0)
@@ -734,9 +738,7 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
     float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
 
     // Digging and flying monsters ignore terrain cost
-    if (has_flag(MF_DIGS) || has_flag(MF_FLIES) ||
-        (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x1, y1) &&
-         g->m.has_flag("DIGGABLE", x2, y2))) {
+    if (has_flag(MF_FLIES) || (digging() && g->m.has_flag("DIGGABLE", x2, y2))) {
         movecost = 100 * diag_mult;
     // Swimming monsters move super fast in water
     } else if (has_flag(MF_SWIMS)) {
@@ -910,76 +912,101 @@ int monster::attack_at(int x, int y) {
 
 int monster::move_to(game *g, int x, int y, bool force)
 {
-  // Make sure that we can move there, unless force is true.
-  if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
-      return 0;
-  }
-
-  if (has_effect(ME_BEARTRAP)) {
-   moves = 0;
-   return 0;
-  }
-
-  if (plans.size() > 0)
-   plans.erase(plans.begin());
-
-  moves -= calc_movecost(g, posx(), posy(), x, y);
-
-  if (has_flag(MF_SLUDGETRAIL) && !is_hallucination()) {
-    for (int dx = -1; dx <= 1; dx++) {
-      for (int dy = -1; dy <= 1; dy++) {
-        const int fstr = 3 - (abs(dx) + abs(dy));
-        if (fstr >= 2) {
-          g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
-        }
-      }
+    // Make sure that we can move there, unless force is true.
+    if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
+        return 0;
     }
-  }
 
-  //Check for moving into/out of water
-  bool was_water = g->m.is_divable(posx(), posy());
-  bool will_be_water = g->m.is_divable(x, y);
+    if (has_effect(ME_BEARTRAP)) {
+        moves = 0;
+        return 0;
+    }
 
-  if(was_water && !will_be_water && g->u_see(x, y)) {
-    //Use more dramatic messages for swimming monsters
-    g->add_msg(_("A %s %s from the %s!"), name().c_str(),
-            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
-            g->m.tername(posx(), posy()).c_str());
-  } else if(!was_water && will_be_water && g->u_see(x, y)) {
-    g->add_msg(_("A %s %s into the %s!"), name().c_str(),
-            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
-            g->m.tername(x, y).c_str());
-  }
+    if (plans.size() > 0) {
+        plans.erase(plans.begin());
+    }
 
-  setpos(x, y);
-  footsteps(g, x, y);
-  if(is_hallucination()) {
-    //Hallucinations don't do any of the stuff after this point
+    moves -= calc_movecost(g, posx(), posy(), x, y);
+
+    //Check for moving into/out of water
+    bool was_water = g->m.is_divable(posx(), posy());
+    bool will_be_water = g->m.is_divable(x, y);
+
+    if(was_water && !will_be_water && g->u_see(x, y)) {
+        //Use more dramatic messages for swimming monsters
+        g->add_msg(_("A %s %s from the %s!"), name().c_str(),
+                   has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
+                   g->m.tername(posx(), posy()).c_str());
+    } else if(!was_water && will_be_water && g->u_see(x, y)) {
+        g->add_msg(_("A %s %s into the %s!"), name().c_str(),
+                   has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
+                   g->m.tername(x, y).c_str());
+    }
+
+    setpos(x, y);
+    footsteps(g, x, y);
+    if(is_hallucination()) {
+        //Hallucinations don't do any of the stuff after this point
+        return 1;
+    }
+    if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4)) {
+        hurt(rng(2, 3));
+    }
+    if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6)) {
+        hurt(rng(1, 2));
+    }
+    if (!digging() && !has_flag(MF_FLIES) &&
+          g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
+        trap* tr = g->traps[g->m.tr_at(posx(), posy())];
+        if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
+            trapfuncm f;
+            (f.*(tr->actm))(g, this, posx(), posy());
+        }
+    }
+    // Diggers turn the dirt into dirtmound
+    if (digging()){
+        int factor = 0;
+        switch (type->size) {
+        case MS_TINY:
+            factor = 100;
+            break;
+        case MS_SMALL:
+            factor = 30;
+            break;
+        case MS_MEDIUM:
+            factor = 6;
+            break;
+        case MS_LARGE:
+            factor = 3;
+            break;
+        case MS_HUGE:
+            factor = 1;
+            break;
+        }
+        if (has_flag(MF_VERMIN)) {
+            factor *= 100;
+        }
+        if (one_in(factor)) {
+            g->m.ter_set(posx(), posy(), t_dirtmound);
+        }
+    }
+    // Acid trail monsters leave... a trail of acid
+    if (has_flag(MF_ACIDTRAIL)){
+        g->m.add_field(g, posx(), posy(), fd_acid, 3);
+    }
+
+    if (has_flag(MF_SLUDGETRAIL)) {
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                const int fstr = 3 - (abs(dx) + abs(dy));
+                if (fstr >= 2) {
+                    g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
+                }
+            }
+        }
+    }
+
     return 1;
-  }
-  if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4))
-     hurt(rng(2, 3));
-  if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6))
-     hurt(rng(1, 2));
-  if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
-      (!has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
-      g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
-   trap* tr = g->traps[g->m.tr_at(posx(), posy())];
-   if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
-    trapfuncm f;
-    (f.*(tr->actm))(g, this, posx(), posy());
-   }
-  }
-// Diggers turn the dirt into dirtmound
-  if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))){
-   g->m.ter_set(posx(), posy(), t_dirtmound);
-  }
-// Acid trail monsters leave... a trail of acid
-  if (has_flag(MF_ACIDTRAIL) && !is_hallucination()){
-   g->m.add_field(g, posx(), posy(), fd_acid, 3);
-  }
-
-  return 1;
 }
 
 /* Random walking even when we've moved
