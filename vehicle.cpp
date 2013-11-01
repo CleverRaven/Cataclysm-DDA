@@ -867,13 +867,11 @@ std::vector<int> vehicle::parts_at_relative (int dx, int dy)
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
 {
-    if (part_flag(part, flag)) {
-        return part;
-    }
     std::vector<int> parts_here = parts_at_relative(parts[part].mount_dx, parts[part].mount_dy);
-    for (int i = 0; i < parts_here.size(); i++) {
-        if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
-            return parts_here[i];
+    for( std::vector<int>::iterator part_it = parts_here.begin();
+         part_it != parts_here.end(); ++part_it ) {
+        if (part_flag(*part_it, flag) && (!unbroken || parts[*part_it].hp > 0)) {
+            return *part_it;
         }
     }
     return -1;
