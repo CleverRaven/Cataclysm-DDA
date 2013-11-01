@@ -29,9 +29,8 @@ void mdeath::normal(game *g, monster *z) {
             return;
         }
 
-        // leave a spot of blood
-        bool warmBlooded = z->has_flag(MF_WARM);
-        if (isFleshy && warmBlooded) {
+        // leave some blood if we have to
+        if (isFleshy && z->has_flag(MF_WARM)) {
             g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
         }
 
@@ -58,19 +57,7 @@ void mdeath::normal(game *g, monster *z) {
         }
         // no gibs for non-fleshy creatures until implemented
         if (leaveGibs && gibAmount > 0) {
-            const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
-            for (int i = 0; i < gibAmount; i++) {
-                // leave gibs, if there are any
-                const int gibX = z->posx() + rng(1,6) - 3;
-                const int gibY = z->posy() + rng(1,6) - 3;
-                const int gibDensity = rng(1, i+1);
-                g->m.add_field(g, gibX, gibY, gibType, gibDensity);
-                if (warmBlooded) {
-                    const int bloodX = z->posx() + (rng(1,3) - 2);
-                    const int bloodY = z->posy() + (rng(1,3) - 2);
-                    g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
-                }
-            }
+            make_gibs(g, z, gibAmount);
         }
     }
 }
@@ -519,6 +506,25 @@ void mdeath::kill_breathers(game *g, monster *z) {
         const std::string monID = g->zombie(i).type->id;
         if (monID == "mon_breather_hub " || monID == "mon_breather") {
             g->zombie(i).dead = true;
+        }
+    }
+}
+
+void make_gibs(game* g, monster* z, int amount) {
+    if (amount <= 0) {
+        return;
+    }
+    const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
+    for (int i = 0; i < amount; i++) {
+        // leave gibs, if there are any
+        const int gibX = z->posx() + rng(1,6) - 3;
+        const int gibY = z->posy() + rng(1,6) - 3;
+        const int gibDensity = rng(1, i+1);
+        g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+        if (z->has_flag(MF_WARM)) {
+            const int bloodX = z->posx() + (rng(1,3) - 2);
+            const int bloodY = z->posy() + (rng(1,3) - 2);
+            g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
         }
     }
 }

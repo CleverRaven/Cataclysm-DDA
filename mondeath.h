@@ -33,4 +33,6 @@ public:
     void gameover       (game *g, monster *z); // Game over!  Defense mode
 };
 
+void make_gibs(game* g, monster* z, int amount);
+
 #endif
