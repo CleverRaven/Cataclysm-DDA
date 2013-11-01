@@ -277,7 +277,18 @@ void cata_tiles::load_tilejson(std::string path)
         return;
     }
 
-    JsonIn config_json(&config_file);
+    try {
+        load_tilejson_from_file(&config_file);
+    } catch (std::string e) {
+        debugmsg("%s: %s", path.c_str(), e.c_str());
+    }
+
+    config_file.close();
+}
+
+void cata_tiles::load_tilejson_from_file(std::ifstream *f)
+{
+    JsonIn config_json(f);
     // it's all one json object
     JsonObject config = config_json.get_object();
 
@@ -291,8 +302,7 @@ void cata_tiles::load_tilejson(std::string path)
     /** 1) Make sure that the loaded file has the "tile_info" section */
     if (!config.has_member("tile_info"))
     {
-        DebugLog() << (std::string)"ERROR: "+path+ (std::string)" --\"tile_info\" missing\n";
-        return;
+        throw (std::string)"ERROR: \"tile_info\" missing\n";
     }
 
     JsonArray info = config.get_array("tile_info");
@@ -305,8 +315,7 @@ void cata_tiles::load_tilejson(std::string path)
     /** 2) Load tile information if available */
     if (!config.has_member("tiles"))
     {
-        DebugLog() << (std::string)"ERROR: "+path+ (std::string)" --\"tiles\" section missing\n";
-        return;
+        throw (std::string)"ERROR: \"tiles\" section missing\n";
     }
 
     JsonArray tiles = config.get_array("tiles");
@@ -356,8 +365,6 @@ void cata_tiles::load_tilejson(std::string path)
         (*tile_ids)[t_id] = curr_tile;
     }
     DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids->size() << "\n";
-
-    config_file.close();
 }
 
 void cata_tiles::create_rotation_cache()

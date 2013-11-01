@@ -2574,8 +2574,19 @@ void game::load_artifacts(std::string worldname)
         return;
     }
 
+    try {
+        load_artifacts_from_file(&file_test);
+    } catch (std::string e) {
+        debugmsg("%s: %s", artifactfile.str().c_str(), e.c_str());
+    }
+
+    file_test.close();
+}
+
+void game::load_artifacts_from_file(std::ifstream *f)
+{
     // read artifacts from json array in artifacts.gsav
-    JsonIn artifact_json(&file_test);
+    JsonIn artifact_json(f);
     artifact_json.start_array();
     while (!artifact_json.end_array()) {
         JsonObject jo = artifact_json.get_object();
@@ -2673,8 +2684,6 @@ void game::load_artifacts(std::string worldname)
             itypes[id] = art_type;
         }
     }
-
-    file_test.close();
 }
 
 void game::load(std::string worldname, std::string name)
