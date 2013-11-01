@@ -14286,7 +14286,7 @@ void add_corpse(game *g, map *m, int x, int y)
 {
  item body;
  body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
- m->add_item(x, y, body);
+ m->add_item_or_charges(x, y, body);
  m->put_items_from("shoes",  1, x, y, 0, 0, 0);
  m->put_items_from("pants",  1, x, y, 0, 0, 0);
  m->put_items_from("shirts", 1, x, y, 0, 0, 0);
