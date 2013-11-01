@@ -33,24 +33,22 @@ void mdeath::normal(game *g, monster *z) {
     float overflowDamage = -(z->hp);
     float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
 
-    // Limit chunking to organic creatures until inorganic gibs are supported.
-    bool leaveGibs = (isFleshy || z->made_of("veggy"));
-    int gibAmount = int(floor(corpseDamage)) - 1;
-
     if (leaveCorpse) {
+        int gibAmount = int(floor(corpseDamage)) - 1;
+        // allow one extra gib per 5 HP
+        int gibLimit = 1 + (maxHP / 5.0);
+        if (gibAmount > gibLimit) {
+            gibAmount = gibLimit;
+        }
         bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
         if (!pulverized) {
             make_mon_corpse(g, z, int(floor(corpseDamage)));
         } else if (monSize >= MS_MEDIUM) {
             gibAmount += rng(1,6);
         }
-        // no gibs for non-fleshy creatures until implemented
+        // Limit chunking to flesh and veggy creatures until other kinds are supported.
+        bool leaveGibs = (isFleshy || z->made_of("veggy"));
         if (leaveGibs) {
-            // allow one extra gib per 5 HP
-            int maxGibs = 1 + (maxHP / 5.0);
-            if (gibAmount > maxGibs) {
-                gibAmount = maxGibs;
-            }
             make_gibs(g, z, gibAmount);
         }
     }
