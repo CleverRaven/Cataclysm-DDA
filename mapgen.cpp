@@ -14308,8 +14308,8 @@ void add_corpse(game *g, map *m, int x, int y)
 void map::add_road_vehicles(bool city, int facing)
 {
     if (city) {
-        int spawn_type = 89;
-        if(spawn_type <= 70) {
+        int spawn_type = rng(0, 100);
+        if(spawn_type <= 66) {
             //Randomly-distributed wrecks
             int maxwrecks = rng(1, 3);
             for (int nv = 0; nv < maxwrecks; nv++) {
@@ -14346,24 +14346,59 @@ void map::add_road_vehicles(bool city, int facing)
             //Totally clear section of road
             return;
         } else {
-            //Jack-knifed semi
-            //As close to the edge of a submap as possible so it can smash into buildings
-            int semi_x, semi_y, trailer_x, trailer_y;
-            if(facing == 0) {
-                semi_x = rng(0, 16); semi_y = rng(10, 20);
-                trailer_x = semi_x + 4; trailer_y = semi_y - 10;
-            } else if(facing == 90) {
-                semi_x = rng(0, 8); semi_y = rng(0, 19);
-                trailer_x = semi_x + 12; trailer_y = semi_y + 1;
-            } else if(facing == 180) {
-                semi_x = rng(4, 16); semi_y = rng(0, 10);
-                trailer_x = semi_x - 4; trailer_y = semi_y + 10;
+            //Road-blocking obstacle of some kind.
+            int block_type = rng(0, 100);
+            if(block_type <= 75) {
+                //Jack-knifed semi
+                //As close to the edge of a submap as possible so it can smash into buildings
+                int semi_x, semi_y, trailer_x, trailer_y;
+                if(facing == 0) {
+                    semi_x = rng(0, 16); semi_y = rng(10, 20);
+                    trailer_x = semi_x + 4; trailer_y = semi_y - 10;
+                } else if(facing == 90) {
+                    semi_x = rng(0, 8); semi_y = rng(0, 19);
+                    trailer_x = semi_x + 12; trailer_y = semi_y + 1;
+                } else if(facing == 180) {
+                    semi_x = rng(4, 16); semi_y = rng(0, 10);
+                    trailer_x = semi_x - 4; trailer_y = semi_y + 10;
+                } else {
+                    semi_x = rng(12, 20); semi_y = rng(1, 20);
+                    trailer_x = semi_x - 12; trailer_y = semi_y - 1;
+                }
+                add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
+                add_vehicle(g, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
             } else {
-                semi_x = rng(12, 20); semi_y = rng(1, 20);
-                trailer_x = semi_x - 12; trailer_y = semi_y - 1;
+                //Huge pileup of random vehicles
+                std::string next_vehicle;
+                int num_cars = rng(18, 22);
+                bool policecars = block_type >= 95; //Policecar pileup, Blues Brothers style
+                vehicle *last_added_car;
+                for(int i = 0; i < num_cars; i++) {
+                    if(policecars) {
+                        next_vehicle = "policecar";
+                    } else {
+                        //Random car
+                        int car_type = rng(0, 100);
+                        if(car_type <= 70) {
+                            next_vehicle = "car";
+                        } else if(car_type <= 90) {
+                            next_vehicle = "flatbed_truck";
+                        } else if(car_type <= 95) {
+                            next_vehicle = "cube_van";
+                        } else {
+                            next_vehicle = "hippie_van";
+                        }
+                    }
+                    last_added_car = add_vehicle(g, next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
+                }
+
+                //Hopefully by the last one we've got a giant pileup, so name it
+                if(policecars) {
+                    last_added_car->name = _("policecar pile-up");
+                } else {
+                    last_added_car->name = _("pile-up");
+                }
             }
-            add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
-            add_vehicle(g, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
         }
     } else {
         // spawn regular road out of fuel vehicles
