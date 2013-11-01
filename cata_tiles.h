@@ -19,7 +19,6 @@
 
 #include "game.h"
 #include "options.h"
-#include "catajson.h"
 #include "mapdata.h"
 #include "tile_id_data.h"
 #include "enums.h"
