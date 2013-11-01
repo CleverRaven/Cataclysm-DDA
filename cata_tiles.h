@@ -75,6 +75,24 @@ enum LIGHTING
 };
 enum MULTITILE_TYPE
 {
+    // isometric tile codes
+	iso_unconnected,
+	iso_center,
+	iso_end_north,
+	iso_end_east,
+	iso_end_south,
+	iso_end_west,
+	iso_edge_ns,
+	iso_edge_ew,
+	iso_corner_nw,
+	iso_corner_ne,
+	iso_corner_se,
+	iso_corner_sw,
+	iso_tcon_north,
+	iso_tcon_east,
+	iso_tcon_south,
+	iso_tcon_west,
+	// top down tile codes
     center,
     corner,
     edge,
@@ -240,6 +258,7 @@ class cata_tiles
         std::map<int, std::vector<SDL_Surface*> > rotation_cache;
 
         int tile_height, tile_width;
+        bool is_isometric;
         int screentile_width, screentile_height;
         tile *screen_tiles;
         int num_tiles;

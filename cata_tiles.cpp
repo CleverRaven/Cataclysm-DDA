@@ -301,6 +301,14 @@ void cata_tiles::load_tilejson(std::string path)
         }
         tile_height = curr_info.get("height").as_int();
         tile_width = curr_info.get("width").as_int();
+        // assume top-down tiles initially, then check to see if there is a value "display_type" to check to set display_type as isometric.
+        is_isometric = false;
+        if (curr_info.has("display_type") && curr_info.get("display_type").is_string()){
+            std::string display_type = curr_info.get("display_type").as_string();
+            if (display_type == "isometric"){
+                is_isometric = true;
+            }
+        }
     }
 
     /** 2) Load tile information if available */
@@ -1343,42 +1351,64 @@ void cata_tiles::get_terrain_orientation(int x, int y, int& rota, int& subtile)
 }
 void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects, int &rotation, int &subtile)
 {
-    switch(num_connects)
-    {
-        case 0: rotation = 0; subtile = unconnected; break;
-        case 4: rotation = 0; subtile = center; break;
-        case 1: // all end pieces
-            subtile = end_piece;
-            switch(val)
-            {
-                case 8: rotation = 2; break;
-                case 4: rotation = 3; break;
-                case 2: rotation = 1; break;
-                case 1: rotation = 0; break;
-            }
-            break;
-        case 2:
-            switch(val)
-            {// edges
-                case 9: subtile = edge; rotation = 0; break;
-                case 6: subtile = edge; rotation = 1; break;
-             // corners
-                case 12: subtile = corner; rotation = 2; break;
-                case 10: subtile = corner; rotation = 1; break;
-                case 3:  subtile = corner; rotation = 0; break;
-                case 5:  subtile = corner; rotation = 3; break;
-            }
-            break;
-        case 3: // all t_connections
-            subtile = t_connection;
-            switch(val)
-            {
-                case 14: rotation = 2; break;
-                case 11: rotation = 1; break;
-                case 7:  rotation = 0; break;
-                case 13: rotation = 3; break;
-            }
-            break;
+    if (is_isometric){
+        rotation = 0;
+        switch(val){
+            case  0: subtile = iso_unconnected; break;
+            case  1: subtile = iso_end_north; break;
+            case  2: subtile = iso_end_east; break;
+            case  3: subtile = iso_corner_nw; break;
+            case  4: subtile = iso_end_west; break;
+            case  5: subtile = iso_corner_ne; break;
+            case  6: subtile = iso_edge_ew; break;
+            case  7: subtile = iso_tcon_north; break;
+            case  8: subtile = iso_end_south; break;
+            case  9: subtile = iso_edge_ns; break;
+            case 10: subtile = iso_corner_sw; break;
+            case 11: subtile = iso_tcon_east; break;
+            case 12: subtile = iso_corner_se; break;
+            case 13: subtile = iso_tcon_west; break;
+            case 14: subtile = iso_tcon_south; break;
+            case 15: subtile = iso_center; break;
+        }
+    }else{
+        switch(num_connects)
+        {
+            case 0: rotation = 0; subtile = unconnected; break;
+            case 4: rotation = 0; subtile = center; break;
+            case 1: // all end pieces
+                subtile = end_piece;
+                switch(val)
+                {
+                    case 8: rotation = 2; break;
+                    case 4: rotation = 3; break;
+                    case 2: rotation = 1; break;
+                    case 1: rotation = 0; break;
+                }
+                break;
+            case 2:
+                switch(val)
+                {// edges
+                    case 9: subtile = edge; rotation = 0; break;
+                    case 6: subtile = edge; rotation = 1; break;
+                 // corners
+                    case 12: subtile = corner; rotation = 2; break;
+                    case 10: subtile = corner; rotation = 1; break;
+                    case 3:  subtile = corner; rotation = 0; break;
+                    case 5:  subtile = corner; rotation = 3; break;
+                }
+                break;
+            case 3: // all t_connections
+                subtile = t_connection;
+                switch(val)
+                {
+                    case 14: rotation = 2; break;
+                    case 11: rotation = 1; break;
+                    case 7:  rotation = 0; break;
+                    case 13: rotation = 3; break;
+                }
+                break;
+        }
     }
 }
 void cata_tiles::get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int& subtile, int& rotation)

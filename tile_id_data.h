@@ -271,6 +271,24 @@ const std::string monster_names[num_monsters] =
 };
 const std::string multitile_keys[] =
 {
+    // isometric keys
+	toString(iso_unconnected),
+	toString(iso_center),
+	toString(iso_end_north),
+	toString(iso_end_east),
+	toString(iso_end_south),
+	toString(iso_end_west),
+	toString(iso_edge_ns),
+	toString(iso_edge_ew),
+	toString(iso_corner_nw),
+	toString(iso_corner_ne),
+	toString(iso_corner_se),
+	toString(iso_corner_sw),
+	toString(iso_tcon_north),
+	toString(iso_tcon_east),
+	toString(iso_tcon_south),
+	toString(iso_tcon_west),
+	// top-down keys
     toString(center),
     toString(corner),
     toString(edge),
