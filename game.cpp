@@ -11504,6 +11504,16 @@ void game::write_msg()
     // Print monster info and start our output below it.
     const int topline = mon_info(w_messages) + 2;
 
+    if ( u.has_item_with_flag("GPS") ) {
+        real_coords rc( m.getabs(u.posx, u.posy) );
+        mvwprintz(w_messages,3,0,c_cyan,"%d,%d sm:%d,%d om:%d,%d [%d,%d]",
+           rc.abs_pos.x, rc.abs_pos.y,
+           rc.abs_sub.x,rc.abs_sub.y,
+           rc.om_pos.x,rc.om_pos.y,
+           cur_om->pos().x,cur_om->pos().y
+        );
+    }
+
     int line = getmaxy(w_messages) - 1;
     for (int i = messages.size() - 1; i >= 0 && line >= topline; i--) {
         game_message &m = messages[i];

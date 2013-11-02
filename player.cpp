@@ -3197,22 +3197,25 @@ void player::charge_power(int amount)
 /*
  * Calculate player brightness based on the brightest active item, as
  * per itype tag LIGHT_* and optional CHARGEDIM ( fade starting at 20% charge )
- * item.light.* is -unimplemented- for the moment, as it is a custom override for
- * applying light sources/arcs with specific angle and direction.
+ * item.light.* is implemented, but will cast directional lighting as dimmer circles
  */
 float player::active_light()
 {
     float lumination = 0;
-
-    int maxlum = 0;
+    float maxlum = 0;
+    float lumit = 0;
+    int itw = 0;
+    int ita = 0;
     const invslice & stacks = inv.slice(0, inv.size());
     for( int x = 0; x < stacks.size(); ++x ) {
         item &itemit = stacks[x]->front();
         item * stack_iter = &itemit;
         if (stack_iter->active && stack_iter->charges > 0) {
-            int lumit = stack_iter->getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
+            if ( stack_iter->getlight(lumit, itw, ita, true) ) {
+                lumit = ( itw > 0 ? lumit * (itw/360) : lumit );
+                if ( maxlum < lumit ) {
+                    maxlum = lumit;
+                }
             }
         }
     }
@@ -3221,9 +3224,11 @@ float player::active_light()
 
     if (!weapon.is_null()) {
         if ( weapon.active  && weapon.charges > 0) {
-            int lumit = weapon.getlight_emit(true);
-            if ( maxlum < lumit ) {
-                maxlum = lumit;
+            if ( weapon.getlight(lumit, itw, ita, true) ) {
+                lumit = ( itw > 0 ? lumit * (itw/360) : lumit );
+                if ( maxlum < lumit ) {
+                    maxlum = lumit;
+                }
             }
         }
     }

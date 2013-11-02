@@ -169,6 +169,7 @@
       ["usb_drive", 5],
       ["beer", 60],
       ["cell_phone", 50],
+      ["smartphone", 5],
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["umbrella", 50],
@@ -499,6 +500,7 @@
       ["laptop", 10],
       ["atomic_light", 2],
       ["cell_phone", 40],
+      ["smartphone", 5],
       ["pda", 3],
       ["lighter", 60],
       ["ref_lighter", 2],
@@ -1214,6 +1216,7 @@
       ["cable", 60],
       ["vac_sealer", 10],
       ["cell_phone", 50],
+      ["smartphone", 20],
       ["pda", 20],
       ["wristwatch", 15]
     ]
@@ -3122,6 +3125,7 @@
       ["small_lcd_screen", 20],
       ["battery_compartment", 20],
       ["cell_phone", 20],
+      ["smartphone", 5],
       ["pda", 10],
       ["cable", 30],
       ["soldering_iron", 70],
