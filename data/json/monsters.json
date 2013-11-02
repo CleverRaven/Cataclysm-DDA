@@ -453,7 +453,7 @@
     "size":"SMALL",
     "material":"flesh",
     "diff":5,
-    "aggression":0,
+    "aggression":2,
     "morale":15,
     "speed":150,
     "melee_skill":12,
