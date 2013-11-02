@@ -158,8 +158,10 @@ class iuse
   int shelter          (game *g, player *p, item *it, bool t);
   int torch            (game *g, player *p, item *it, bool t);
   int torch_lit        (game *g, player *p, item *it, bool t);
-  int battletorch            (game *g, player *p, item *it, bool t);
-  int battletorch_lit        (game *g, player *p, item *it, bool t);
+  int handflare        (game *g, player *p, item *it, bool t);
+  int handflare_lit    (game *g, player *p, item *it, bool t);
+  int battletorch      (game *g, player *p, item *it, bool t);
+  int battletorch_lit  (game *g, player *p, item *it, bool t);
   int candle           (game *g, player *p, item *it, bool t);
   int candle_lit       (game *g, player *p, item *it, bool t);
   int bullet_puller    (game *g, player *p, item *it, bool t);

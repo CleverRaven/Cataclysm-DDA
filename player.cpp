@@ -5656,6 +5656,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
+    } else if (has_charges("handflare_lit", 1)) {
+        return true;
     } else if (has_charges("candle_lit", 1)) {
         return true;
     } else if (has_bionic("bio_tools")) {
@@ -5705,6 +5707,8 @@ void player::use_fire(const int quantity)
     if (has_charges("torch_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
+        return;
+    } else if (has_charges("handflare_lit", 1)) {
         return;
     } else if (has_charges("candle_lit", 1)) {
         return;

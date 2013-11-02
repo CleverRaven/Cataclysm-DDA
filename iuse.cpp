@@ -1563,6 +1563,30 @@ int iuse::glowstick_active(game *g, player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::handflare(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,_("You strike your flare and light it."));
+    it->make(g->itypes["handflare_lit"]);
+    it->active = true;
+    return it->type->charges_to_use();
+}
+
+int iuse::handflare_lit(game *g, player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+        // Do nothing... player::active_light and the lightmap::generate deal with this
+    } else {
+        if (it->charges > 0) {
+            g->add_msg_if_player(p,_("You can't turn off a flare."));
+            return 0;
+        } else {
+            g->add_msg_if_player(p,_("The flare sputters out."));
+            it->active = false;
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 static int cauterize_effect(player *p, item *it, bool force = true)
 {
     hp_part hpart = use_healing_item(g, p, it, -2, -2, -2, it->name, 100, 50, 0, force);
