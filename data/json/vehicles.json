@@ -2265,7 +2265,13 @@
         ],
         "items": [
             {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
-            {"x": -1, "y": 0, "chance": 10, "items": ["flashlight", "1st_aid"]}
+            {"x": -1, "y": 0, "chance": 8, "items": "1st_aid"},
+            {"x": -4, "y": 1, "chance": 2, "items": ["hose", "flashlight"]},
+            {"x": -4, "y": -1, "chance": 7, "items": "flashlight"},
+            {"x": -5, "y": 1, "chance": 3, "items": ["hazmat_suit", "mask_gas"]},
+            {"x": -5, "y": -1, "chance": 5, "items": "hazmat_suit"},
+            {"x": -6, "y": 1, "chance": 5, "items": "mask_gas"},
+            {"x": -6, "y": -1, "chance": 2, "items": ["hazmat_suit", "mask_gas"]}
         ]
     }
 ]
