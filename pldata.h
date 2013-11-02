@@ -90,6 +90,7 @@ struct player_activity
  std::vector<int> values;
  std::vector<std::string> str_values;
  point placement;
+ bool warned_of_proximity; // True if player has been warned of dangerously close monsters
 
  player_activity() : name(""), placement(point(-1,-1)) { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
                      continuous = false; ignore_trivial = true; }
@@ -102,6 +103,7 @@ struct player_activity
   invlet = ch;
   continuous = false;
   ignore_trivial = false;
+  warned_of_proximity = false;
  }
 
  player_activity(const player_activity &copy) : name(copy.name), placement(copy.placement)
@@ -112,6 +114,7 @@ struct player_activity
   invlet = copy.invlet;
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
+  warned_of_proximity = false;
   values.clear();
   for (int i = 0; i < copy.values.size(); i++) {
    values.push_back(copy.values[i]);

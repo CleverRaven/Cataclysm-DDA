@@ -8646,12 +8646,14 @@ void player::learn_recipe(recipe *rec)
 
 void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
 {
- if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
-     backlog.name == name && query_yn(_("Resume task?"))) {
-  activity = backlog;
-  backlog = player_activity();
- } else
-  activity = player_activity(type, moves, index, invlet, name);
+    if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
+        backlog.name == name && query_yn(_("Resume task?"))) {
+            activity = backlog;
+            backlog = player_activity();
+    } else {
+        activity = player_activity(type, moves, index, invlet, name);
+    }
+    activity.warned_of_proximity = false;
 }
 
 void player::cancel_activity()

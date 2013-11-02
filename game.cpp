@@ -89,7 +89,8 @@ game::game() :
  om_diag(NULL),
  run_mode(1),
  mostseen(0),
- gamemode(NULL)
+ gamemode(NULL),
+ dangerous_proximity(5)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -1111,7 +1112,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   return false;
 }
 
-void game::cancel_activity_query(const char* message, ...)
+bool game::cancel_activity_query(const char* message, ...)
 {
  char buff[1024];
  va_list ap;
@@ -1142,6 +1143,8 @@ void game::cancel_activity_query(const char* message, ...)
 
  if (doit)
   u.cancel_activity();
+
+ return doit;
 }
 
 void game::update_weather()
@@ -1498,6 +1501,19 @@ void game::process_missions()
 }
 
 void game::handle_key_blocking_activity() {
+    // If player is performing a task and a monster is dangerously close, warn them
+    // regardless of previous safemode warnings
+    if (is_hostile_nearby(dangerous_proximity) && 
+        u.activity.type != ACT_NULL &&
+        u.activity.moves_left > 0 &&
+        !u.activity.warned_of_proximity)
+    {
+        u.activity.warned_of_proximity = true;
+        if (cancel_activity_query(_("Monster dangerously close!"))) {
+            return;
+        }
+    }
+
     if (u.activity.moves_left > 0 && u.activity.continuous == true &&
         (  // bool activity_is_abortable() ?
             u.activity.type == ACT_READ ||
@@ -4529,9 +4545,12 @@ bool vector_has(std::vector<int> vec, int test)
  return false;
 }
 
-bool game::is_hostile_nearby()
+bool game::is_hostile_nearby(int iProxyDist /*= -1*/)
 {
-    const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    if (iProxyDist == -1) {
+        iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    }
+
     for (int i = 0; i < num_zombies(); i++) {
         monster &z = _active_monsters[i];
         if (!u_see(&z))
@@ -4660,8 +4679,6 @@ int game::mon_info(WINDOW *w)
     }
 
     if (newseen > mostseen) {
-        if (u.activity.type == ACT_REFILL_VEHICLE)
-            cancel_activity_query(_("Monster Spotted!"));
         cancel_activity_query(_("Monster spotted!"));
         turnssincelastmon = 0;
         if (run_mode == 1) {
