@@ -2567,7 +2567,7 @@ void game::load_artifacts(std::string worldname)
 {
     std::stringstream artifactfile;
     artifactfile << world_generator->all_worlds[worldname]->world_path << "/artifacts.gsav";
-    std::ifstream file_test(artifactfile.str().c_str());
+    std::ifstream file_test(artifactfile.str().c_str(), std::ifstream::in | std::ifstream::binary);
     if (!file_test.good()) {
         file_test.close();
         return;
