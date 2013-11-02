@@ -122,9 +122,9 @@
     "special_attack":"NONE",
     "description":"A spotted wild cat living across much of North America.  It is not a serious threat to humans, but it can be aggressive if not left alone.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "VIS40", "BONES"],
-    "anger_triggers":["FRIEND_ATTACKED", "PLAYER_CLOSE"],
+    "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
-    "fear_triggers":["SOUND"],
+    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
