@@ -17395,8 +17395,7 @@
   ],
   "components": [
     [
-      [ "jug_plastic", 1 ],
-      [ "bottle_plastic", 5 ]
+      [ "jug_plastic", 1 ]
     ],
     [
       [ "rag", 4 ]
