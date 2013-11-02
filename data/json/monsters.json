@@ -186,7 +186,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A domesticated juglefowl, it may still be the most numerous bird in the world.  Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
+    "description":"A domesticated junglefowl , it may still be the most numerous bird in the world.  Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER"],
     "categories":["WILDLIFE"]
   },
@@ -632,7 +632,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful looking muscles",
+    "description":"A hoofed grazing mammal with a mane of hair, a sweeping tail, and powerful looking muscles",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
     "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
@@ -920,7 +920,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A worm-tailed rodent with long whiskers and beady eyes. The way it squeeks makes it sound... hungry.",
+    "description":"A worm-tailed rodent with long whiskers and beady eyes. The way it squeaks makes it sound... hungry.",
     "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "VIS40", "BONES"],
     "anger_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -952,7 +952,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A timid hooved grazing mammal, and one of the first animals ever domesticated, its body is covered in a thick layer of wool, and the males have long, spiraling horns.",
+    "description":"A timid hoofed grazing mammal, and one of the first animals ever domesticated, its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "WOOL", "BONES"],
     "anger_triggers":[],
     "placate_triggers":["PLAYER_WEAK"],
@@ -1017,7 +1017,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"The Northern short-tailed shrew, an insectvorous mammal that resembles a cross between a mouse and a mole.  Notably for a mammal, it has a venomous bite, which can prove painful for humans.",
+    "description":"The Northern short-tailed shrew, an insectivorous mammal that resembles a cross between a mouse and a mole.  Notably for a mammal, it has a venomous bite, which can prove painful for humans.",
     "flags":["HEARS", "VENOM", "ANIMAL", "WARM", "FUR", "BONES", "VERMIN"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -1262,7 +1262,7 @@
     "special_freq":1,
     "death_function":"NORMAL",
     "special_attack":"ANTQUEEN",
-    "description":"A colossal red ant with a bulging, bloated thorax.  It moves slowly and delibrately, tending to nearby eggs and ever laying more.",
+    "description":"A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and ever laying more.",
     "flags":["SMELLS", "QUEEN", "CHITIN"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"]
   },
@@ -1351,7 +1351,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it indisturbed.",
+    "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
     "flags":["SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN"],
     "anger_triggers":["HURT", "FRIEND_DIED"]
   },
@@ -1498,7 +1498,7 @@
     "special_freq":0,
     "death_function":"MELT",
     "special_attack":"NONE",
-    "description":"A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground. Eye stalks occassionally push their way out of the oily mass and look around.",
+    "description":"A slug-like creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground. Eye stalks occasionally push their way out of the oily mass and look around.",
     "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "VIS30", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE"]
   },
   {
@@ -1616,7 +1616,7 @@
     "special_freq":20,
     "death_function":"ACID",
     "special_attack":"ACID",
-    "description":"A hunched human body with it's eyes pushed up into it's forehead and drooping cheeks, most of it's face is occupied by a puckered mouth. It's stomache is swollen and nearly translucent, with a sickly yellow tint.",
+    "description":"A hunched human body with it's eyes pushed up into it's forehead and drooping cheeks, most of it's face is occupied by a puckered mouth. It's stomach is swollen and nearly translucent, with a sickly yellow tint.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"]
   },
   {
@@ -1935,7 +1935,7 @@
     "special_freq":4,
     "death_function":"ZOMBIE",
     "special_attack":"RESURRECT",
-    "description":"A twisted mockery of the human form, emaciated, with jet black skin andglowing red eyes. It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
+    "description":"A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes. It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
@@ -3139,7 +3139,7 @@
     "special_freq":14400,
     "death_function":"NORMAL",
     "special_attack":"DERMATIK_GROWTH",
-    "description":"A fat white grub as big as a squirrel, with a pair of large, spadelike mandibles.",
+    "description":"A fat white grub as big as a squirrel, with a pair of large, spade-like mandibles.",
     "flags":["HEARS", "SMELLS", "POISON", "CAN_DIG"]
   },
   {
@@ -3638,7 +3638,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A human body, but with its limbs, neck, and\nhair impossibly twisted.  It clambors around swiftly, making awful screeching sounds.",
+    "description":"A human body, but with its limbs, neck, and\nhair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
     "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "VIS40"]
   },
   {
@@ -3725,7 +3725,7 @@
     "special_freq":0,
     "death_function":"MELT",
     "special_attack":"NONE",
-    "description":"A man-sized wormish creature that swoops around on bat-like wings. Its form dramatically shifts and changes from moment to moment, although its gigantic eyes and teeth are always prominent.",
+    "description":"A man-sized worm-like creature that swoops around on bat-like wings. Its form dramatically shifts and changes from moment to moment, although its gigantic eyes and teeth are always prominent.",
     "flags":["SEES", "SMELLS", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "SUNDEATH", "NO_BREATHE", "HIT_AND_RUN"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED"]
   },
@@ -3755,7 +3755,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"PARROT",
-    "description":"A flexous monstrosity seeming as a giant crab covered in writhing antennae, clawform tentacles and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
+    "description":"A flexible monstrosity seeming as a giant crab covered in writhing antennae, clawform tentacles and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
     "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50"]
   },
   {
@@ -3813,7 +3813,7 @@
     "special_freq":4,
     "death_function":"MELT",
     "special_attack":"FORMBLOB",
-    "description":"A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
+    "description":"A formless slime mould the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
     "flags":["SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD"],
     "phase":"LIQUID"
   },
@@ -4657,7 +4657,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A small mammal native to North America, distinctive for its dextrous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
+    "description":"A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "categories":["WILDLIFE"]
@@ -4753,7 +4753,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A mutant, landfaring variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
+    "description":"A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
     "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
