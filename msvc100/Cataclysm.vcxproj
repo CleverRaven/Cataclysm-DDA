@@ -764,7 +764,6 @@
     <ClCompile Include="..\building_generation.cpp" />
     <ClCompile Include="..\calendar.cpp" />
     <ClCompile Include="..\catacharset.cpp" />
-    <ClCompile Include="..\catajson.cpp" />
     <ClCompile Include="..\cata_tiles.cpp" />
     <ClCompile Include="..\char_validity_check.cpp" />
     <ClCompile Include="..\color.cpp" />
@@ -882,7 +881,6 @@
     <ClInclude Include="..\calendar.h" />
     <ClInclude Include="..\catacharset.h" />
     <ClInclude Include="..\catacurse.h" />
-    <ClInclude Include="..\catajson.h" />
     <ClInclude Include="..\cata_tiles.h" />
     <ClInclude Include="..\char_validity_check.h" />
     <ClInclude Include="..\color.h" />
