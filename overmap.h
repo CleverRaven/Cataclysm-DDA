@@ -4,7 +4,6 @@
 #include "string.h"
 #include "omdata.h"
 #include "mongroup.h"
-#include "settlement.h"
 #include "output.h"
 #include <vector>
 #include <iosfwd>
@@ -15,7 +14,6 @@
 #include "input.h"
 
 class npc;
-struct settlement;
 
 #define OVERMAP_DEPTH 10
 #define OVERMAP_HEIGHT 0
@@ -140,7 +138,6 @@ class overmap
   std::vector<npc *> npcs;
   std::vector<city> cities;
   std::vector<city> roads_out;
-  std::vector<settlement> towns;
 
  private:
   point loc;

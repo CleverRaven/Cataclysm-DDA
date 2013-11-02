@@ -7,7 +7,6 @@
 #include "overmap.h"
 #include "rng.h"
 #include "line.h"
-#include "settlement.h"
 #include "game.h"
 #include "npc.h"
 #include "keypress.h"
@@ -187,8 +186,6 @@ overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)}
 };
 
-
-void settlement_building(settlement &set, int x, int y);
 
 double dist(int x1, int y1, int x2, int y2)
 {
@@ -673,7 +670,6 @@ overmap::overmap(overmap const& o)
     , npcs(o.npcs)
     , cities(o.cities)
     , roads_out(o.roads_out)
-    , towns(o.towns)
     , loc(o.loc)
     , prefix(o.prefix)
     , name(o.name)
@@ -706,7 +702,6 @@ overmap& overmap::operator=(overmap const& o)
     npcs = o.npcs;
     cities = o.cities;
     roads_out = o.roads_out;
-    towns = o.towns;
     loc = o.loc;
     prefix = o.prefix;
     name = o.name;
@@ -1160,7 +1155,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
    place_river(river_start[i], river_end[i]);
  }
 
-// Cities, forests, and settlements come next.
+// Cities and forests come next.
 // These're agnostic of adjacent maps, so it's very simple.
  place_cities();
  place_forest();

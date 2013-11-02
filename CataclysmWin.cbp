@@ -372,8 +372,6 @@
 		<Unit filename="savegame_json.cpp" />
 		<Unit filename="savegame_legacy.cpp" />
 		<Unit filename="sdltiles.cpp" />
-		<Unit filename="settlement.cpp" />
-		<Unit filename="settlement.h" />
 		<Unit filename="setvector.cpp" />
 		<Unit filename="setvector.h" />
 		<Unit filename="skill.cpp" />
