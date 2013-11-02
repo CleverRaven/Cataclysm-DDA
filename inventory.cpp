@@ -636,9 +636,6 @@ void inventory::form_from_map(game *g, point origin, int range)
        item crucible(g->itypes["crucible"], 0);
        add_item(crucible);
        
-       item swage(g->itypes["swage"], 0);
-       add_item(swage);
-       
        item tongs(g->itypes["tongs"], 0);
        add_item(tongs);
        
