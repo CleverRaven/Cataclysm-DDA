@@ -6779,7 +6779,7 @@ point game::look_around()
    if (dex != -1 && u_see(&zombie(dex)))
    {
        zombie(dex).draw(w_terrain, lx, ly, true);
-       zombie(dex).print_info(this, w_look);
+       zombie(dex).print_info(this, w_look,5,6);
        if (!m.has_flag("CONTAINER", lx, ly))
        {
            if (m.i_at(lx, ly).size() > 1)
@@ -7656,7 +7656,7 @@ int game::list_monsters()
             werase(w_monster_info);
 
             //print monster info
-            zombie(iMonDex).print_info(this, w_monster_info);
+            zombie(iMonDex).print_info(this, w_monster_info,1,11);
 
             for (int j=0; j < iInfoHeight-1; j++) {
                 mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
