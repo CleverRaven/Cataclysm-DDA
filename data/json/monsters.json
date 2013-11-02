@@ -73,7 +73,7 @@
     "material":"flesh",
     "diff":10,
     "aggression":-10,
-    "morale":40,
+    "morale":60,
     "speed":140,
     "melee_skill":12,
     "melee_dice":3,
@@ -90,9 +90,8 @@
     "special_attack":"NONE",
     "description":"The American black bear.  A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter.  It can pose a considerable threat, although most individuals are shy around humans.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "VIS40"],
-    "anger_triggers":["HURT"],
+    "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
-    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
@@ -123,9 +122,9 @@
     "special_attack":"NONE",
     "description":"A spotted wild cat living across much of North America.  It is not a serious threat to humans, but it can be aggressive if not left alone.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "VIS40", "BONES"],
-    "anger_triggers":["FRIEND_ATTACKED"],
+    "anger_triggers":["FRIEND_ATTACKED", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
-    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
+    "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
   },
   {
@@ -232,7 +231,7 @@
     "material":"flesh",
     "diff":12,
     "aggression":0,
-    "morale":20,
+    "morale":40,
     "speed":180,
     "melee_skill":14,
     "melee_dice":2,
@@ -284,7 +283,7 @@
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "VIS40"],
     "anger_triggers":["HURT"],
     "placate_triggers":["PLAYER_WEAK"],
-    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
+    "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
@@ -315,9 +314,8 @@
     "special_attack":"NONE",
     "description":"The Eastern Coyote, also called the Tweed Wolf, is a territorial canine descended from the offspring of grey wolves and true coyotes.  It is intimidated by humans and other predators, but will fight if threatened.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
-    "anger_triggers":["STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT"],
+    "anger_triggers":["STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
-    "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
   },
   {
@@ -348,9 +346,8 @@
     "special_attack":"NONE",
     "description":"The Northeastern Coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
-    "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK"],
+    "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
-    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
@@ -381,6 +378,7 @@
     "special_attack":"NONE",
     "description":"A small, elegant black bird, famous for its distinctive call.  An intelligent bird, there is a glitter of mischief behind its eyes.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS40", "BONES", "FEATHER"],
+    "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
@@ -455,7 +453,7 @@
     "size":"SMALL",
     "material":"flesh",
     "diff":5,
-    "aggression":2,
+    "aggression":0,
     "morale":15,
     "speed":150,
     "melee_skill":12,
@@ -475,7 +473,6 @@
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "VIS40", "BONES"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
-    "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
   },
   {
@@ -521,7 +518,7 @@
     "size":"SMALL",
     "material":"flesh",
     "diff":5,
-    "aggression":5,
+    "aggression":-5,
     "morale":60,
     "speed":145,
     "melee_skill":8,
@@ -713,7 +710,7 @@
     "size":"LARGE",
     "material":"flesh",
     "diff":1,
-    "aggression":-10,
+    "aggression":-15,
     "morale":80,
     "speed":200,
     "melee_skill":10,
@@ -731,7 +728,7 @@
     "special_attack":"NONE",
     "description":"The Eastern Moose, the largest living species of deer.  The bulls are quite ill-tempered, especially in the rutting season.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "VIS40", "ATTACKMON", "BONES"],
-    "anger_triggers":["HURT"],
+    "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
@@ -891,7 +888,7 @@
     "description":"The black rat, an omnivorous rodent with sheer black fur and a long, rough tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm over the dead or dying.",
     "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "VIS40", "BONES"],
     "anger_triggers":["PLAYER_WEAK"],
-    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
+    "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
@@ -904,7 +901,7 @@
     "size":"TINY",
     "material":"flesh",
     "diff":3,
-    "aggression":20,
+    "aggression":0,
     "morale":40,
     "speed":100,
     "melee_skill":10,
@@ -922,8 +919,8 @@
     "special_attack":"NONE",
     "description":"A worm-tailed rodent with long whiskers and beady eyes. The way it squeeks makes it sound... hungry.",
     "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "VIS40", "BONES"],
-    "anger_triggers":["PLAYER_WEAK"],
-    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
+    "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED"],
+    "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
@@ -1136,15 +1133,14 @@
     "armor_cut":0,
     "item_chance":0,
     "luminance":0,
-    "hp":28,
+    "hp":36,
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A cunning pack predator, once extinct in the New England area, was successfully reintroduced and their numbers reached record highs in the decade before the cataclysm. Lucky you.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "VIS50"],
-    "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK"],
+    "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
-    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
