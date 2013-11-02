@@ -2720,7 +2720,7 @@
         "recoil" : 14,
         "count" : 4,
         "stack_size" : 20,
-        "effects" : ["COOKOFF", "FLARE"]
+        "effects" : ["INCENDIARY", "FLARE"]
     },
     {   "type" : "AMMO",
         "id" : "50_casing",
