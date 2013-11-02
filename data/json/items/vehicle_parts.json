@@ -441,7 +441,7 @@
         "type":"GENERIC",
         "id" : "veh_forge",
         "name" : "portable smithy",
-        "description" : "A portable smithy that can be installed in a vehicle, and draws power from the vehicle's storage battery.  Includes an electric forge, storage for tools and materials, and convenient mounting points for extra blacksmithing equipment.  (Note - Other equipment sold separatly)",
+        "description" : "A portable smithy that can be installed in a vehicle, and draws power from the vehicle's storage battery.  Includes an electric forge and a small amount of storage space for extra blacksmithing equipment.",
         "weight" : 23617,
         "to_hit" : -2,
         "color" : "red",

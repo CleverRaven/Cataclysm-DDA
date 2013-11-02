@@ -1157,7 +1157,7 @@
         "broken_color": "light_gray",
         "damage_modifier": 10,
         "durability": 20,
-        "size": 400,
+        "size": 50,
         "item": "veh_forge",
         "difficulty": 4,
         "location": "center",
