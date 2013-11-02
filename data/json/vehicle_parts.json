@@ -474,8 +474,8 @@
     },
     {
         "type":"vehicle_part",
-        "id": "storeboard_horizontal",
-        "name": "storage board",
+        "id": "stowboard_horizontal",
+        "name": "stow board",
         "symbol": "h",
         "color": "white",
         "broken_symbol": "#",
@@ -483,14 +483,14 @@
         "durability": 700,
         "size": 200,
         "item": "steel_plate",
-        "difficulty": 1,
+        "difficulty": 3,
         "location": "center",
         "flags": ["OBSTACLE", "OPAQUE", "CARGO"]
     },
     {
         "type":"vehicle_part",
-        "id": "storeboard_vertical",
-        "name": "storage board",
+        "id": "stowboard_vertical",
+        "name": "stow board",
         "symbol": "j",
         "color": "white",
         "broken_symbol": "#",
@@ -498,7 +498,7 @@
         "durability": 700,
         "size": 200,
         "item": "steel_plate",
-        "difficulty": 1,
+        "difficulty": 3,
         "location": "center",
         "flags": ["OBSTACLE", "OPAQUE", "CARGO"]
     },
