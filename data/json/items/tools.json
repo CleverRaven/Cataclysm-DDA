@@ -1974,7 +1974,7 @@
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode. You should probably get far, far away from it.",
     "price": 0,
     "material": ["steel", "plastic"],
-    "weight": 9071,
+    "weight": 4071,
     "volume": 3,
     "bashing": 8,
     "cutting": 0,
