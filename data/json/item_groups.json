@@ -1361,6 +1361,8 @@
       ["pur_tablets", 10],
       ["e_tool", 10],
       ["knife_trench", 7],
+      ["flaregun", 20],
+      ["signal_flare", 25],
       ["charcoal", 20]
     ]
   },{
@@ -1493,6 +1495,8 @@
       ["protein_shake", 15],
       ["knife_trench", 7],
       ["sm_extinguisher", 10],
+      ["flaregun", 10],
+      ["signal_flare", 15],
       ["quikclot", 10]
     ]
   },{
@@ -1753,6 +1757,8 @@
       ["rm99_pistol", 2],
       ["rm103a_pistol", 1],
       ["needlegun", 4],
+      ["flaregun", 8],
+      ["signal_flare", 5],
       ["blowgun", 5]
     ]
   },{
@@ -2790,6 +2796,8 @@
       ["switchblade", 6],
       ["atomic_light", 1],
       ["atomic_coffeepot", 1],
+      ["flaregun", 10],
+      ["signal_flare", 15],
       ["knee_pads", 10]
     ]
   },{
@@ -2848,6 +2856,8 @@
       ["helmet_liner", 20],
       ["pur_tablets", 10],
       ["knife_trench", 14],
+      ["flaregun", 20],
+      ["signal_flare", 25],
       ["quikclot", 20]
     ]
   },{
@@ -2936,6 +2946,8 @@
       ["pocketwatch", 5],
       ["e_tool", 2],
       ["sm_extinguisher", 10],
+      ["flaregun", 5],
+      ["signal_flare", 10],
       ["pur_tablets", 5]
     ]
   },{
@@ -3617,6 +3629,8 @@
       ["e_tool", 15],
       ["dehydrator", 10],
       ["sm_extinguisher", 10],
+      ["flaregun", 20],
+      ["signal_flare", 25],
       ["charcoal", 5]
     ]
   },{
@@ -4162,6 +4176,8 @@
       ["tac_helmet", 5],
       ["mask_bal", 1],
       ["sm_extinguisher", 10],
+      ["flaregun", 20],
+      ["signal_flare", 25],
       ["glasses_bal", 10]
     ]
   },{
@@ -4303,6 +4319,8 @@
       ["e_tool", 20],
       ["knife_trench", 14],
       ["fungicide", 3],
+      ["flaregun", 20],
+      ["signal_flare", 25],
       ["quikclot", 20]
     ]
   },{
@@ -4474,6 +4492,7 @@
       ["8mm_fmj", 2],
       ["cu_pipe", 5],
       ["8mm_hvp", 2],
+      ["signal_flare", 5],
       ["8mm_inc", 2]
     ]
   },{
