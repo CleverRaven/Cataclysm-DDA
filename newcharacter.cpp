@@ -1141,7 +1141,7 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
            u->name.erase(u->name.size()-1);
        }
        u->name.erase(u->name.size()-1);
-       mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
+       mvwprintz(w, 6, namebar_pos, c_ltgray, "_______________________________");
        mvwprintz(w, 6, namebar_pos, c_ltgray, "%s", u->name.c_str());
        wprintz(w, h_ltgray, "_");
       }
