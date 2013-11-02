@@ -17406,6 +17406,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "char_purifier",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "jug_plastic", 1 ]
+    ],
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "leather_cat_ears",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
