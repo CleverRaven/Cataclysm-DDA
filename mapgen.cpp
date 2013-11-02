@@ -8569,7 +8569,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     // nothing, half the time
                     break;
             }
-            place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, density);
+            place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, 1.0);
         } else { // We're above ground!
             // First, draw a forest
             draw_map(ot_forest, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
