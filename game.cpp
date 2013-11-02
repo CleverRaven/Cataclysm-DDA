@@ -10879,10 +10879,11 @@ void game::vertical_move(int movez, bool force)
 
     point omtile_align_start(
         m.getlocal(
-            ( rc.om_pos.x * 2 * 12 ),
-            ( rc.om_pos.y * 2 * 12 )
+            (cur_om->pos().x * omtilesz * OMAPX) + ( rc.om_pos.x * 2 * 12 ),
+            (cur_om->pos().y * omtilesz * OMAPY) + ( rc.om_pos.y * 2 * 12 )
         )
     );
+
  if (force) {
   stairx = u.posx;
   stairy = u.posy;
