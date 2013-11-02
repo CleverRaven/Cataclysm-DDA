@@ -9471,18 +9471,21 @@ void game::complete_butcher(int index)
  else {
   itype_id meat;
   if (corpse->has_flag(MF_POISON)) {
-    if (corpse->mat == "flesh")
+    if (corpse->mat == "flesh") {
      meat = "meat_tainted";
-    else
+    } else {
      meat = "veggy_tainted";
+    }
   } else {
-   if (corpse->mat == "flesh" || corpse->mat == "hflesh")
-    if(corpse->has_flag(MF_HUMAN))
+   if (corpse->mat == "flesh" || corpse->mat == "hflesh") {
+    if(corpse->has_flag(MF_HUMAN)) {
      meat = "human_flesh";
-    else
+    } else {
      meat = "meat";
-   else
+    }
+   } else {
     meat = "veggy";
+   }
   }
   item tmpitem=item_controller->create(meat, age);
   tmpitem.corpse=dynamic_cast<mtype*>(corpse);
