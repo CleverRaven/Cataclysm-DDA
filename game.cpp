@@ -4516,7 +4516,7 @@ bool vector_has(std::vector<int> vec, int test)
  return false;
 }
 
-bool game::is_hostile_nearby(int iProxyDist /*= -1*/)
+bool game::is_hostile_nearby(int iProxyDist)
 {
     if (iProxyDist == -1) {
         iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
@@ -9299,7 +9299,7 @@ void game::butcher()
   return;
  }
 
- if (is_hostile_nearby() &&
+ if (is_hostile_nearby(-1) &&
      !query_yn(_("Hostiles are nearby! Start Butchering anyway?")))
  {
      return;
