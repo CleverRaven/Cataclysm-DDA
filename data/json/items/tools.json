@@ -5283,5 +5283,28 @@
     "ammo" : "battery",
     "revert_to" : "null",
     "use_action" : "TAZER"
+  },
+  {
+    "id": "smartphone",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "blue",
+    "name": "Smartphone",
+    "description": "One of the newer smartphones. Had civilization not ended, the next model might have been smarter than some of it's users.",
+    "price": 35,
+    "material": ["plastic", "iron"],
+    "weight": 141,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 200,
+    "initial_charges": 200,
+    "charges_per_use": 1,
+    "turns_per_charge": 20,
+    "ammo": "battery",
+    "revert_to": "smartphone",
+    "flags": [ "WATCH" ],
+    "use_action": "SMARTPHONE"
   }
 ]

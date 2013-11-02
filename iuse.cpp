@@ -1563,6 +1563,64 @@ int iuse::glowstick_active(game *g, player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::smartphone(game *g, player *p, item *it, bool t) {
+    bool oa = it->active;
+    int in = it->charges;
+    if (p == NULL) {
+       if ( ! t ) { // map turning us off.
+           g->add_msg("The %s shuts down.act: %d p: %s t: %d i: %d",it->tname().c_str());
+       } else { // on map, active cycle tick
+       }
+    } else {
+       if ( ! t ) {
+         if( in > 2 ) {
+           uimenu m;
+           m.return_invalid = true;
+           do {
+             m.entries.clear();
+             m.addentry(-1,true,-2,"BattStatus.app [%d]",it->charges);
+             m.addentry(-1,true,-2,"SpotLight.app [%s]",it->active ? "on" : "off");
+             m.addentry(-1,true,-2,"GPS.app [%s]", it->has_flag("GPS") ? "on" : "off");
+             m.addentry(-1,true,-2,"Games/");
+             m.setup();
+             m.filterlist();
+             m.query();
+             switch(m.ret) {
+               case 1: {
+                 it->active = !it->active;
+                 g->add_msg("%s the camera flash.", ( it->active ? "activated" : "deactivated" ) );
+               } break;
+               case 2: {
+                 if( it->has_flag("GPS") ) {
+                     it->item_tags.erase("GPS");
+                 } else {
+                     it->item_tags.insert("GPS");
+                 }
+               } break;
+               case 3: {
+                 int drain = portable_game(g,p,it,t);
+                 it->charges -= drain;
+               } break;
+             }
+           } while ( m.ret >= 0 && it->charges > 1 );
+         } else {
+           g->add_msg("The %s emits a depressed sounding low battery warble and shuts down.", it->tname().c_str());
+         }
+       } else { // held by player, active cycle tick
+       }
+    }
+    if(it->charges < 2) {
+       it->charges = 2;    // OOC: item deactivating because crazy iuse callers insist on deleting it
+       it->active = false; // IC: smartphone halt to prevent unclean shutdown 
+       g->add_msg("The %s emits a depressed sounding low battery warble and shuts down.", it->tname().c_str());
+    }
+    if ( it->active != oa ) {
+       it->light.luminance = ( it->active ? 120 : 0 );
+       
+    }
+    return 0;
+}
+
 static int cauterize_effect(player *p, item *it, bool force = true)
 {
     hp_part hpart = use_healing_item(g, p, it, -2, -2, -2, it->name, 100, 50, 0, force);
