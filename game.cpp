@@ -636,7 +636,7 @@ bool game::do_turn()
             u.try_to_sleep(this);
         } else if (u.fatigue >= 800 && turn % 10 == 0){
             add_msg(_("Anywhere would be a good place to sleep..."));
-        } else if (turn % 10 == 0) {
+        } else if (turn % 50 == 0) {
             add_msg(_("You feel like you haven't slept in days."));
         }
     }
