@@ -786,7 +786,7 @@
 },{
         "type" : "recipe",
   "result": "spear_steel",
-  "category": "CC_MISC",
+  "category": "CC_WEAPON",
   "skill_used": "fabrication",
   "requires_skills": [ "melee", 1 ],
   "difficulty": 1,
