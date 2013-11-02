@@ -10878,10 +10878,7 @@ void game::vertical_move(int movez, bool force)
     real_coords rc( m.getabs(u.posx, u.posy) );
 
     point omtile_align_start(
-        m.getlocal(
-            (rc.abs_om.x * omtilesz * OMAPX) + ( rc.om_pos.x * omtilesz ),
-            (rc.abs_om.y * omtilesz * OMAPY) + ( rc.om_pos.y * omtilesz )
-        )
+        m.getlocal( rc.begin_om_pos() )
     );
 
  if (force) {
