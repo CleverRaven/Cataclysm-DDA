@@ -15397,6 +15397,29 @@
     ]
 },{
         "type" : "recipe",
+  "result": "teapot",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [ ["tongs", -1] ],
+      [ ["chisel", -1]],
+      [ ["anvil", -1] ],
+      [ ["forge", 100], ["char_forge", 20] ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "punch_dagger",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
