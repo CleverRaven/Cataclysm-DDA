@@ -26,6 +26,7 @@ private:
     bool enabled;
     game *g;
     int inuse;
+    int last_height;
 
     void print_items(std::vector<item> &items, int &line) const;
 };

@@ -1,12 +1,13 @@
 #include "live_view.h"
 #include "output.h"
 #include "game.h"
+#include "options.h"
 
 #define START_LINE 1
 #define START_COLUMN 1
 
 live_view::live_view() : compact_view(false), w_live_view(NULL), 
-    enabled(false), inuse(false)
+    enabled(false), inuse(false), last_height(-1)
 {
 
 }
@@ -59,10 +60,18 @@ void live_view::show(const int x, const int y)
     }
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+    // Because of the way the status UI is done, the live view window must
+    // be tall enough to clear the entire height of the viewport below the
+    // status bar. This hack allows the border around the live view box to
+    // be drawn only as big as it needs to be, while still leaving the
+    // window tall enough. Won't work for ncurses in Linux, but that doesn't
+    // currently support the mouse. If and when it does, there'll need to
+    // be a different code path here that works for ncurses.
     int full_height = w_live_view->height;
     if (line < w_live_view->height - 1) {
         w_live_view->height = (line > 11) ? line : 11;
     }
+    last_height = w_live_view->height;
 #endif
 
     wborder(w_live_view, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -82,8 +91,23 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
         return false;
     }
 
+#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+    int full_height = w_live_view->height;
+    if (use_narrow_sidebar() && last_height > 0) {
+        // When using the narrow sidebar mode, the lower part of the screen
+        // is used for the message queue. Best not to obscure too much of it.
+        w_live_view->height = last_height;
+    }
+#endif
+
     werase(w_live_view);
+
+#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+    w_live_view->height = full_height;
+#endif
+
     inuse = false;
+    last_height = -1;
     if (refresh) {
         wrefresh(w_live_view);
     }
