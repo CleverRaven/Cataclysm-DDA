@@ -223,7 +223,7 @@ int veh_interact::cant_do (char mode)
         has_tools = has_welder;
         break;
     case 'f': // refill mode
-        valid_target = ptank != NULL;
+        valid_target = (ptank != NULL && ptank->hp > 0);
         has_tools = has_fuel;
         break;
     case 'o': // remove mode
