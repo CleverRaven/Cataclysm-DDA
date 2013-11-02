@@ -11605,7 +11605,7 @@
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 90000,
+  "time": 60000,
   "reversible": true,
   "autolearn": true,
   "tools": [
@@ -11624,9 +11624,9 @@
       [ "goggles_welding", -1 ]
     ],
     [
-      [ "welder", 200 ],
-      [ "welder_crude", 300 ],
-      [ "toolset", 10 ]
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
     ],
     [
       [ "hacksaw", -1 ],
@@ -11639,24 +11639,6 @@
     ],
     [
       ["forge", 1]
-    ],
-    [
-      ["anvil", 1]
-    ],
-    [
-      ["crucible", 1]
-    ],
-    [
-      ["tongs", 1]
-    ],
-    [
-      ["chisel", 1]
-    ],
-    [
-      ["hammer", 1]
-    ],
-    [
-      ["swage", 1]
     ],
     [
       ["cable", 5]
