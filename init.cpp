@@ -179,6 +179,7 @@ void init_data_structures()
     init_translation();
     init_martial_arts();
     init_inventory_categories();
+    init_colormap();
 }
 
 void release_data_structures()

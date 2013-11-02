@@ -632,6 +632,174 @@ nc_color rand_color()
     return c_dkgray;
 }
 
+std::map<std::string,nc_color> colormap;
+
+void init_colormap()
+{
+    colormap["black"] = c_black;
+    colormap["white"] = c_white;
+    colormap["ltgray"] = c_ltgray;
+    colormap["light_gray"] = c_ltgray;
+    colormap["dkgray"] = c_dkgray;
+    colormap["dark_gray"] = c_dkgray;
+    colormap["red"] = c_red;
+    colormap["green"] = c_green;
+    colormap["blue"] = c_blue;
+    colormap["cyan"] = c_cyan;
+    colormap["magenta"] = c_magenta;
+    colormap["brown"] = c_brown;
+    colormap["ltred"] = c_ltred;
+    colormap["light_red"] = c_ltred;
+    colormap["ltgreen"] = c_ltgreen;
+    colormap["light_green"] = c_ltgreen;
+    colormap["ltblue"] = c_ltblue;
+    colormap["light_blue"] = c_ltblue;
+    colormap["ltcyan"] = c_ltcyan;
+    colormap["light_cyan"] = c_ltcyan;
+    colormap["pink"] = c_pink;
+    colormap["yellow"] = c_yellow;
+
+    colormap["h_black"] = h_black;
+    colormap["h_white"] = h_white;
+    colormap["h_ltgray"] = h_ltgray;
+    colormap["h_dkgray"] = h_dkgray;
+    colormap["h_red"] = h_red;
+    colormap["h_green"] = h_green;
+    colormap["h_blue"] = h_blue;
+    colormap["h_cyan"] = h_cyan;
+    colormap["h_magenta"] = h_magenta;
+    colormap["h_brown"] = h_brown;
+    colormap["h_ltred"] = h_ltred;
+    colormap["h_ltgreen"] = h_ltgreen;
+    colormap["h_ltblue"] = h_ltblue;
+    colormap["h_ltcyan"] = h_ltcyan;
+    colormap["h_pink"] = h_pink;
+    colormap["h_yellow"] = h_yellow;
+
+    colormap["i_black"] = i_black;
+    colormap["i_white"] = i_white;
+    colormap["i_ltgray"] = i_ltgray;
+    colormap["i_dkgray"] = i_dkgray;
+    colormap["i_red"] = i_red;
+    colormap["i_green"] = i_green;
+    colormap["i_blue"] = i_blue;
+    colormap["i_cyan"] = i_cyan;
+    colormap["i_magenta"] = i_magenta;
+    colormap["i_brown"] = i_brown;
+    colormap["i_ltred"] = i_ltred;
+    colormap["i_ltgreen"] = i_ltgreen;
+    colormap["i_ltblue"] = i_ltblue;
+    colormap["i_ltcyan"] = i_ltcyan;
+    colormap["i_pink"] = i_pink;
+    colormap["i_yellow"] = i_yellow;
+
+    colormap["white_red"] = c_white_red;
+    colormap["ltgray_red"] = c_ltgray_red;
+    colormap["light_gray_red"] = c_ltgray_red;
+    colormap["dkgray_red"] = c_dkgray_red;
+    colormap["dark_gray_red"] = c_dkgray_red;
+    colormap["red_red"] = c_red_red;
+    colormap["green_red"] = c_green_red;
+    colormap["blue_red"] = c_blue_red;
+    colormap["cyan_red"] = c_cyan_red;
+    colormap["magenta_red"] = c_magenta_red;
+    colormap["brown_red"] = c_brown_red;
+    colormap["ltred_red"] = c_ltred_red;
+    colormap["light_red_red"] = c_ltred_red;
+    colormap["ltgreen_red"] = c_ltgreen_red;
+    colormap["light_green_red"] = c_ltgreen_red;
+    colormap["ltblue_red"] = c_ltblue_red;
+    colormap["light_blue_red"] = c_ltblue_red;
+    colormap["ltcyan_red"] = c_ltcyan_red;
+    colormap["light_cyan_red"] = c_ltcyan_red;
+    colormap["pink_red"] = c_pink_red;
+    colormap["yellow_red"] = c_yellow_red;
+
+    colormap["unset"] = c_unset;
+
+    colormap["black_white"] = c_black_white;
+    colormap["dkgray_white"] = c_dkgray_white;
+    colormap["ltgray_white"] = c_ltgray_white;
+    colormap["white_white"] = c_white_white;
+    colormap["red_white"] = c_red_white;
+    colormap["ltred_white"] = c_ltred_white;
+    colormap["green_white"] = c_green_white;
+    colormap["ltgreen_white"] = c_ltgreen_white;
+    colormap["brown_white"] = c_brown_white;
+    colormap["yellow_white"] = c_yellow_white;
+    colormap["blue_white"] = c_blue_white;
+    colormap["ltblue_white"] = c_ltblue_white;
+    colormap["magenta_white"] = c_magenta_white;
+    colormap["pink_white"] = c_pink_white;
+    colormap["cyan_white"] = c_cyan_white;
+    colormap["ltcyan_white"] = c_ltcyan_white;
+
+    colormap["black_green"] = c_black_green;
+    colormap["dkgray_green"] = c_dkgray_green;
+    colormap["ltgray_green"] = c_ltgray_green;
+    colormap["white_green"] = c_white_green;
+    colormap["red_green"] = c_red_green;
+    colormap["ltred_green"] = c_ltred_green;
+    colormap["green_green"] = c_green_green;
+    colormap["ltgreen_green"] = c_ltgreen_green;
+    colormap["brown_green"] = c_brown_green;
+    colormap["yellow_green"] = c_yellow_green;
+    colormap["blue_green"] = c_blue_green;
+    colormap["ltblue_green"] = c_ltblue_green;
+    colormap["magenta_green"] = c_magenta_green;
+    colormap["pink_green"] = c_pink_green;
+    colormap["cyan_green"] = c_cyan_green;
+    colormap["ltcyan_green"] = c_ltcyan_green;
+    colormap["black_yellow"] = c_black_yellow;
+    colormap["dkgray_yellow"] = c_dkgray_yellow;
+    colormap["ltgray_yellow"] = c_ltgray_yellow;
+    colormap["white_yellow"] = c_white_yellow;
+    colormap["red_yellow"] = c_red_yellow;
+    colormap["ltred_yellow"] = c_ltred_yellow;
+    colormap["green_yellow"] = c_green_yellow;
+    colormap["ltgreen_yellow"] = c_ltgreen_yellow;
+    colormap["brown_yellow"] = c_brown_yellow;
+    colormap["yellow_yellow"] = c_yellow_yellow;
+    colormap["blue_yellow"] = c_blue_yellow;
+    colormap["ltblue_yellow"] = c_ltblue_yellow;
+    colormap["magenta_yellow"] = c_magenta_yellow;
+    colormap["pink_yellow"] = c_pink_yellow;
+    colormap["cyan_yellow"] = c_cyan_yellow;
+    colormap["ltcyan_yellow"] = c_ltcyan_yellow;
+    colormap["black_magenta"] = c_black_magenta;
+    colormap["dkgray_magenta"] = c_dkgray_magenta;
+    colormap["ltgray_magenta"] = c_ltgray_magenta;
+    colormap["white_magenta"] = c_white_magenta;
+    colormap["red_magenta"] = c_red_magenta;
+    colormap["ltred_magenta"] = c_ltred_magenta;
+    colormap["green_magenta"] = c_green_magenta;
+    colormap["ltgreen_magenta"] = c_ltgreen_magenta;
+    colormap["brown_magenta"] = c_brown_magenta;
+    colormap["yellow_magenta"] = c_yellow_magenta;
+    colormap["blue_magenta"] = c_blue_magenta;
+    colormap["ltblue_magenta"] = c_ltblue_magenta;
+    colormap["magenta_magenta"] = c_magenta_magenta;
+    colormap["pink_magenta"] = c_pink_magenta;
+    colormap["cyan_magenta"] = c_cyan_magenta;
+    colormap["ltcyan_magenta"] = c_ltcyan_magenta;
+    colormap["black_cyan"] = c_black_cyan;
+    colormap["dkgray_cyan"] = c_dkgray_cyan;
+    colormap["ltgray_cyan"] = c_ltgray_cyan;
+    colormap["white_cyan"] = c_white_cyan;
+    colormap["red_cyan"] = c_red_cyan;
+    colormap["ltred_cyan"] = c_ltred_cyan;
+    colormap["green_cyan"] = c_green_cyan;
+    colormap["ltgreen_cyan"] = c_ltgreen_cyan;
+    colormap["brown_cyan"] = c_brown_cyan;
+    colormap["yellow_cyan"] = c_yellow_cyan;
+    colormap["blue_cyan"] = c_blue_cyan;
+    colormap["ltblue_cyan"] = c_ltblue_cyan;
+    colormap["magenta_cyan"] = c_magenta_cyan;
+    colormap["pink_cyan"] = c_pink_cyan;
+    colormap["cyan_cyan"] = c_cyan_cyan;
+    colormap["ltcyan_cyan"] = c_ltcyan_cyan;
+}
+
 /**
  * Given the name of a color, returns the nc_color constant that matches. If
  * no match is found, c_white is returned.
@@ -639,70 +807,11 @@ nc_color rand_color()
  * @return The nc_color constant that matches the input.
  */
 nc_color color_from_string(std::string new_color){
-    if("red"==new_color){
-        return c_red;
-    } else if("blue"==new_color){
-        return c_blue;
-    } else if("green"==new_color){
-        return c_green;
-    } else if("light_cyan"==new_color || "ltcyan"==new_color){
-        return c_ltcyan;
-    } else if("brown"==new_color){
-        return c_brown;
-    } else if("light_red"==new_color || "ltred"==new_color){
-        return c_ltred;
-    } else if("white"==new_color){
-        return c_white;
-    } else if("black"==new_color){
-        return c_black;
-    } else if("light_blue"==new_color || "ltblue"==new_color){
-        return c_ltblue;
-    } else if("yellow"==new_color){
-        return c_yellow;
-    } else if("magenta"==new_color){
-        return c_magenta;
-    } else if("cyan"==new_color){
-        return c_cyan;
-    } else if("light_gray"==new_color || "ltgray"==new_color){
-        return c_ltgray;
-    } else if("dark_gray"==new_color || "dkgray"==new_color){
-        return c_dkgray;
-    } else if("light_green"==new_color || "ltgreen"==new_color){
-        return c_ltgreen;
-    } else if("pink"==new_color){
-        return c_pink;
-    } else if("white_red"==new_color){
-        return c_white_red;
-    } else if("ltgray_red"==new_color || "light_gray_red"==new_color){
-        return c_ltgray_red;
-    } else if("dkgray_red"==new_color || "dark_gray_red"==new_color){
-        return c_dkgray_red;
-    } else if("red_red"==new_color){
-        return c_red_red;
-    } else if("green_red"==new_color){
-        return c_green_red;
-    } else if("blue_red"==new_color){
-        return c_blue_red;
-    } else if("cyan_red"==new_color){
-        return c_cyan_red;
-    } else if("magenta_red"==new_color){
-        return c_magenta_red;
-    } else if("brown_red"==new_color){
-        return c_brown_red;
-    } else if("ltred_red"==new_color || "light_red_red"==new_color){
-        return c_ltred_red;
-    } else if("ltgreen_red"==new_color || "light_green_red"==new_color){
-        return c_ltgreen_red;
-    } else if("ltblue_red"==new_color || "light_blue_red"==new_color){
-        return c_ltblue_red;
-    } else if("ltcyan_red"==new_color || "light_cyan_red"==new_color){
-        return c_ltcyan_red;
-    } else if("pink_red"==new_color){
-        return c_pink_red;
-    } else if("yellow_red"==new_color){
-        return c_yellow_red;
+    std::map<std::string,nc_color>::iterator iter = colormap.find(new_color);
+    if (iter == colormap.end()) {
+        return c_unset;
     } else {
-        return c_white;
+        return iter->second;
     }
 }
 

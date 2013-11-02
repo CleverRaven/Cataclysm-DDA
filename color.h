@@ -188,6 +188,7 @@ nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
 
 void setattr(nc_color &col, col_attribute attr);
 void load_colors(JsonObject &jo);
+void init_colormap();
 
 #endif
 
