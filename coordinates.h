@@ -20,10 +20,10 @@
  *    real_coords rc( g->m.getabs(g->u.posx, g->u.posy ) );
  */
 struct real_coords {
-  static const int subsize = SEEX;
-  static const int subsizen = subsize - 1;
-  static const int omsize = OMAPX * 2;
-  static const int omsizen = omsize - 1;
+  static const int tiles_in_sub = SEEX;
+  static const int tiles_in_sub_n = tiles_in_sub - 1;
+  static const int subs_in_om = OMAPX * 2;
+  static const int subs_in_om_n = subs_in_om - 1;
     
   point abs_pos;     // 1 per tile, starting from tile 0,0 of submap 0,0 of overmap 0,0
   point abs_sub;     // submap: 12 tiles.
@@ -49,30 +49,28 @@ struct real_coords {
     if ( absx < 0 ) {
       abs_sub.x = (absx-11)/12;
       sub_pos.x = 11-((normx-1) % 12);
-      abs_om.x = (abs_sub.x-omsizen)/omsize;
-      om_sub.x = omsizen-(((normx-1)/12) % omsize);
-      om_pos.x = om_sub.x / 2;
+      abs_om.x = (abs_sub.x-subs_in_om_n)/subs_in_om;
+      om_sub.x = subs_in_om_n-(((normx-1)/12) % subs_in_om);
     } else {
       abs_sub.x = normx/12;
       sub_pos.x = absx % 12;
-      abs_om.x = abs_sub.x/omsize;
-      om_sub.x = abs_sub.x % omsize;
-      om_pos.x = om_sub.x / 2;
+      abs_om.x = abs_sub.x/subs_in_om;
+      om_sub.x = abs_sub.x % subs_in_om;
     }
+    om_pos.x = om_sub.x / 2;
 
     if ( absy < 0 ) {
       abs_sub.y = (absy-11)/12;
       sub_pos.y = 11-((normy-1) % 12);
-      abs_om.y = (abs_sub.y-omsizen)/omsize;
-      om_sub.y = omsizen-(((normy-1)/12) % omsize);
-      om_pos.y = om_sub.y / 2;
+      abs_om.y = (abs_sub.y-subs_in_om_n)/subs_in_om;
+      om_sub.y = subs_in_om_n-(((normy-1)/12) % subs_in_om);
     } else {
       abs_sub.y = normy/12;
       sub_pos.y = absy % 12;
-      abs_om.y=abs_sub.y/omsize;
-      om_sub.y = abs_sub.y % omsize;
-      om_pos.y = om_sub.y / 2;
+      abs_om.y = abs_sub.y/subs_in_om;
+      om_sub.y = abs_sub.y % subs_in_om;
     }
+    om_pos.y = om_sub.y / 2;
   }
 
   void fromabs(point absolute) {
@@ -86,5 +84,17 @@ struct real_coords {
     fromabs(ax*24, ay*24);
   }
 
+  // helper functions to return abs_pos of submap/overmap tile/overmap's start 
+
+  point begin_sub() {
+    return point( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub );
+  }
+  point begin_om_pos() {
+    return point( (abs_om.x * subs_in_om * tiles_in_sub) + ( om_pos.x * 2 * tiles_in_sub ),
+                  (abs_om.y * subs_in_om * tiles_in_sub) + ( om_pos.y * 2 * tiles_in_sub ) );
+  }
+  point begin_om() {
+    return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub);
+  }
 };
 #endif
