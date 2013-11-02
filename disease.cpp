@@ -2244,23 +2244,27 @@ void manage_fungal_infection(player& p, disease& dis) {
 
 void manage_sleep(player& p, disease& dis) {
     p.moves = 0;
-    if(int(g->turn) % 25 == 0) {
-        // Accelerated recovery capped to 4x over 800 turns
-        // Pulling at arbitrary values, may need rebalancing
-        if (dis.intensity <= 32) {
-            dis.intensity += 1;
+    if(int(g->turn) % 50 == 0) {
+        int recovery_chance;
+        // Accelerated recovery capped to 2x over 2 hours
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        if (dis.intensity < 24) {
+            dis.intensity++;
+        } else if (dis.intensity < 1) {
+            dis.intensity = 1;
         }
+        recovery_chance = 24 - dis.intensity + 1;
         if (p.fatigue > 0) {
-            p.fatigue -= 1 + rng(0, 1) * rng(0, 1) + (dis.intensity / 8);
+            p.fatigue -= 1 + one_in(recovery_chance);
         }
         if (p.has_trait("FASTHEALER")) {
-            p.healall(rng(0, 1));
+            p.healall(1);
         } else if (p.has_trait("FASTHEALER2")) {
-            p.healall(rng(0, 2));
+            p.healall(1 + one_in(2));
         } else if (p.has_trait("REGEN")) {
-            p.healall(rng(1, 2));
+            p.healall(2);
         } else {
-            p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
+            p.healall(one_in(2));
         }
 
         if (p.fatigue <= 0 && p.fatigue > -20) {

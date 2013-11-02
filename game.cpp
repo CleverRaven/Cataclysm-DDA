@@ -648,7 +648,10 @@ bool game::do_turn()
   if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
       (!u.has_trait("PLANTSKIN") || !one_in(5)))
    u.thirst++;
-  u.fatigue++;
+   // Don't increase fatigue if sleeping or trying to sleep
+   if (!(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+    u.fatigue++;
+   }
   if (u.fatigue == 192 && !u.has_disease("lying_down") &&
       !u.has_disease("sleep")) {
    if (u.activity.type == ACT_NULL)
@@ -5021,7 +5024,7 @@ bool game::sound(int x, int y, int vol, std::string description)
     }
 
     // See if we need to wake someone up
-    if (u.has_disease("sleep")){ 
+    if (u.has_disease("sleep")){
         if ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
               (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
             u.rem_disease("sleep");
