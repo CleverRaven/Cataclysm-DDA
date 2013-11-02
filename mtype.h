@@ -205,6 +205,8 @@ struct mtype {
     m_size size;
     std::string mat;
     phase_id phase;
+    // temporary string sets so that flag_groups can be dealt with first
+    std::set<std::string> string_flags, string_anger, string_fear, string_placate;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger, placate, fear;
 

@@ -12,15 +12,35 @@ typedef void (mattack::*MonAttackFunction)(game*, monster*);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 
+// flag_group is used to group sets of flags together so they can be applied all at once
+struct flag_group
+{
+    std::string id;
+    std::set<std::string> flags;
+};
+
 struct species_type
 {
     std::string id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
+    std::set<std::string> string_flags, string_anger, string_fear, string_placate;
 
     species_type():id("null_species")
     {
 
+    }
+    species_type(std::string _id,
+                 std::set<std::string> _flags,
+                 std::set<std::string> _anger,
+                 std::set<std::string> _fear,
+                 std::set<std::string> _placate)
+    {
+        id = _id;
+        string_flags = _flags;
+        string_anger = _anger;
+        string_fear = _fear;
+        string_placate = _placate;
     }
     species_type(std::string _id,
                  std::set<m_flag> _flags,
@@ -50,9 +70,11 @@ class MonsterGenerator
         // JSON loading functions
         void load_monster(JsonObject &jo);
         void load_species(JsonObject &jo);
+        void load_flag_group(JsonObject &jo);
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
+        void finalize_species();
 
         mtype *get_mtype(std::string mon);
         mtype *get_mtype(int mon);
@@ -87,6 +109,7 @@ class MonsterGenerator
 
         std::map<std::string, mtype*> mon_templates;
         std::map<std::string, species_type*> mon_species;
+        std::map<std::string, flag_group*> mon_flag_groups;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, m_size> size_map;

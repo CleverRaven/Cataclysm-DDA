@@ -87,6 +87,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/names.json");
     ret.push_back("data/json/vehicle_parts.json");
     ret.push_back("data/json/vehicles.json");
+    ret.push_back("data/json/tag_groups.json");
     ret.push_back("data/json/species.json");
     ret.push_back("data/json/monsters.json");
     ret.push_back("data/json/monstergroups.json");
@@ -164,6 +165,7 @@ void init_data_structures()
 
     type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_species);
+    type_function_map["TAG_SET"] = new ClassFunctionAccessor<MonsterGenerator>(&MonsterGenerator::generator(), &MonsterGenerator::load_flag_group);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);

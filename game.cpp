@@ -123,6 +123,7 @@ void game::init_data()
     init_savedata_translation_tables();
     inp_mngr.init();            // Load input config JSON
 
+    MonsterGenerator::generator().finalize_species();
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
  } catch(std::string &error_message)

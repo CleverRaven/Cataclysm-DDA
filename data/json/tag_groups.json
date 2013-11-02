@@ -1,0 +1,7 @@
+[
+    {
+        "type" : "TAG_SET",
+        "id" : "F_SEE_HEAR_SMELL",
+        "group_tags" : ["SEES", "HEARS", "SMELLS"]
+    }
+]
