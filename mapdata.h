@@ -295,11 +295,6 @@ struct submap {
     std::vector<vehicle*> vehicles;
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
-
-    submap() : active_item_count(0)
-    {
-
-    }
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);
