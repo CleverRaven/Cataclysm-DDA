@@ -125,6 +125,7 @@ void game::init_data()
 
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
+     finalize_recipes();
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
