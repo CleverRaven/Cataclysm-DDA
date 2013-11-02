@@ -19,7 +19,7 @@
 #include "uistate.h"
 #include "item_factory.h"
 #include "helper.h"
-#include "catajson.h"
+#include "json.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
 #include "trap.h"
@@ -100,7 +100,7 @@ void game::init_data()
  dout() << "Game initialized.";
 
  try {
- if(!json_good())
+ if(!picojson::get_last_error().empty())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
@@ -1757,7 +1757,7 @@ bool game::handle_action()
             draw_weather(wPrint);
 
             wrefresh(w_terrain);
-        } while ((iCh = getch()) == ERR);
+        } while ((iCh = get_keypress()) == ERR);
         timeout(-1);
 
         ch = input(iCh);
@@ -2403,7 +2403,6 @@ bool game::is_game_over()
     if (uquit == QUIT_SUICIDE){
         if (u.in_vehicle)
             g->m.unboard_vehicle(this, u.posx, u.posy);
-        place_corpse();
         std::stringstream playerfile;
         playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
         DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
@@ -2569,55 +2568,51 @@ void game::load_artifacts(std::string worldname)
     std::stringstream artifactfile;
     artifactfile << world_generator->all_worlds[worldname]->world_path << "/artifacts.gsav";
     std::ifstream file_test(artifactfile.str().c_str());
-    if(!file_test.good())
-    {
+    if (!file_test.good()) {
         file_test.close();
         return;
     }
-    file_test.close();
 
-    catajson artifact_list(std::string(artifactfile.str().c_str()));
-
-    if(!json_good())
-    {
-        uquit = QUIT_ERROR;
-        return;
+    try {
+        load_artifacts_from_file(&file_test);
+    } catch (std::string e) {
+        debugmsg("%s: %s", artifactfile.str().c_str(), e.c_str());
     }
 
-    artifact_list.set_begin();
-    while (artifact_list.has_curr())
-    {
-        catajson artifact = artifact_list.curr();
-        std::string id = artifact.get(std::string("id")).as_string();
-        unsigned int price = artifact.get(std::string("price")).as_int();
-        std::string name = artifact.get(std::string("name")).as_string();
-        std::string description =
-            artifact.get(std::string("description")).as_string();
-        char sym = artifact.get(std::string("sym")).as_int();
-        nc_color color =
-            int_to_color(artifact.get(std::string("color")).as_int());
-        std::string m1 = artifact.get(std::string("m1")).as_string();
-        std::string m2 = artifact.get(std::string("m2")).as_string();
-        unsigned int volume = artifact.get(std::string("volume")).as_int();
-        unsigned int weight = artifact.get(std::string("weight")).as_int();
-        signed char melee_dam = artifact.get(std::string("melee_dam")).as_int();
-        signed char melee_cut = artifact.get(std::string("melee_cut")).as_int();
-        signed char m_to_hit = artifact.get(std::string("m_to_hit")).as_int();
-        std::set<std::string> item_tags = artifact.get(std::string("item_flags")).as_tags();
+    file_test.close();
+}
 
-        std::string type = artifact.get(std::string("type")).as_string();
+void game::load_artifacts_from_file(std::ifstream *f)
+{
+    // read artifacts from json array in artifacts.gsav
+    JsonIn artifact_json(f);
+    artifact_json.start_array();
+    while (!artifact_json.end_array()) {
+        JsonObject jo = artifact_json.get_object();
+
+        std::string id = jo.get_string("id");
+        unsigned int price = jo.get_int("price");
+        std::string name = jo.get_string("name");
+        std::string description = jo.get_string("description");
+        char sym = jo.get_int("sym");
+        nc_color color = int_to_color(jo.get_int("color"));
+        std::string m1 = jo.get_string("m1");
+        std::string m2 = jo.get_string("m2");
+        unsigned int volume = jo.get_int("volume");
+        unsigned int weight = jo.get_int("weight");
+        signed char melee_dam = jo.get_int("melee_dam");
+        signed char melee_cut = jo.get_int("melee_cut");
+        signed char m_to_hit = jo.get_int("m_to_hit");
+        std::set<std::string> item_tags = jo.get_tags("item_flags");
+
+        std::string type = jo.get_string("type");
         if (type == "artifact_tool") {
-            unsigned int max_charges =
-                artifact.get(std::string("max_charges")).as_int();
-            unsigned int def_charges =
-                artifact.get(std::string("def_charges")).as_int();
-            unsigned char charges_per_use =
-                artifact.get(std::string("charges_per_use")).as_int();
-            unsigned char turns_per_charge =
-                artifact.get(std::string("turns_per_charge")).as_int();
-            ammotype ammo = artifact.get(std::string("ammo")).as_string();
-            std::string revert_to =
-                artifact.get(std::string("revert_to")).as_string();
+            unsigned int max_charges = jo.get_int("max_charges");
+            unsigned int def_charges = jo.get_int("def_charges");
+            unsigned char charges_per_use = jo.get_int("charges_per_use");
+            unsigned char turns_per_charge = jo.get_int("turns_per_charge");
+            ammotype ammo = jo.get_string("ammo");
+            std::string revert_to = jo.get_string("revert_to");
 
             it_artifact_tool* art_type = new it_artifact_tool(
                     id, price, name, description, sym, color, m1, m2, volume,
@@ -2625,40 +2620,30 @@ void game::load_artifacts(std::string worldname)
                     max_charges, def_charges, charges_per_use, turns_per_charge,
                     ammo, revert_to);
 
-            art_charge charge_type =
-                (art_charge)artifact.get(std::string("charge_type")).as_int();
+            art_charge charge_type = (art_charge)jo.get_int("charge_type");
 
-            catajson effects_wielded_json =
-            artifact.get(std::string("effects_wielded"));
-            effects_wielded_json.set_begin();
+            JsonArray effects_wielded_json = jo.get_array("effects_wielded");
             std::vector<art_effect_passive> effects_wielded;
-            while (effects_wielded_json.has_curr()) {
+            while (effects_wielded_json.has_more()) {
                 art_effect_passive effect =
-                    (art_effect_passive)effects_wielded_json.curr().as_int();
+                    (art_effect_passive)effects_wielded_json.next_int();
                 effects_wielded.push_back(effect);
-                effects_wielded_json.next();
             }
 
-            catajson effects_activated_json =
-                artifact.get(std::string("effects_activated"));
-            effects_activated_json.set_begin();
+            JsonArray effects_activated_json = jo.get_array("effects_activated");
             std::vector<art_effect_active> effects_activated;
-            while (effects_activated_json.has_curr()) {
+            while (effects_activated_json.has_more()) {
                 art_effect_active effect =
-                    (art_effect_active)effects_activated_json.curr().as_int();
+                    (art_effect_active)effects_activated_json.next_int();
                 effects_activated.push_back(effect);
-                effects_activated_json.next();
             }
 
-            catajson effects_carried_json =
-                artifact.get(std::string("effects_carried"));
-            effects_carried_json.set_begin();
+            JsonArray effects_carried_json = jo.get_array("effects_carried");
             std::vector<art_effect_passive> effects_carried;
-            while (effects_carried_json.has_curr()) {
+            while (effects_carried_json.has_more()) {
                 art_effect_passive effect =
-                    (art_effect_passive)effects_carried_json.curr().as_int();
+                    (art_effect_passive)effects_carried_json.next_int();
                 effects_carried.push_back(effect);
-                effects_carried_json.next();
             }
 
             art_type->charge_type = charge_type;
@@ -2670,21 +2655,14 @@ void game::load_artifacts(std::string worldname)
         }
         else if (type == "artifact_armor")
         {
-            unsigned char covers =
-                artifact.get(std::string("covers")).as_int();
-            signed char encumber =
-                artifact.get(std::string("encumber")).as_int();
-            unsigned char coverage =
-                artifact.get(std::string("coverage")).as_int();
-            unsigned char thickness =
-                artifact.get(std::string("material_thickness")).as_int();
-            unsigned char env_resist =
-                artifact.get(std::string("env_resist")).as_int();
-            signed char warmth = artifact.get(std::string("warmth")).as_int();
-            unsigned char storage =
-                artifact.get(std::string("storage")).as_int();
-            bool power_armor =
-                artifact.get(std::string("power_armor")).as_bool();
+            unsigned char covers = jo.get_int("covers");
+            signed char encumber = jo.get_int("encumber");
+            unsigned char coverage = jo.get_int("coverage");
+            unsigned char thickness = jo.get_int("material_thickness");
+            unsigned char env_resist = jo.get_int("env_resist");
+            signed char warmth = jo.get_int("warmth");
+            unsigned char storage = jo.get_int("storage");
+            bool power_armor = jo.get_bool("power_armor");
 
             it_artifact_armor* art_type = new it_artifact_armor(
                     id, price, name, description, sym, color, m1, m2, volume,
@@ -2693,26 +2671,19 @@ void game::load_artifacts(std::string worldname)
                     storage);
             art_type->power_armor = power_armor;
 
-            catajson effects_worn_json =
-                artifact.get(std::string("effects_worn"));
-            effects_worn_json.set_begin();
+            JsonArray effects_worn_json = jo.get_array("effects_worn");
             std::vector<art_effect_passive> effects_worn;
-            while (effects_worn_json.has_curr()) {
+            while (effects_worn_json.has_more()) {
                 art_effect_passive effect =
-                    (art_effect_passive)effects_worn_json.curr().as_int();
+                    (art_effect_passive)effects_worn_json.next_int();
                 effects_worn.push_back(effect);
-                effects_worn_json.next();
             }
             art_type->effects_worn = effects_worn;
 
             itypes[id] = art_type;
         }
 
-        artifact_list.next();
-    }
-
-    if (!json_good()) {
-        uquit = QUIT_ERROR;
+        jo.finish();
     }
 }
 
@@ -3364,7 +3335,22 @@ Current turn: %d; Next spawn %d.\n\
         weather = (weather_type) selected_weather;
       } else if(weather_menu.ret == -10) {
           uimenu weather_log_menu;
-          weather_log_menu.text = string_format("turn: %d, nextweather: %d",int(turn),int(nextweather));
+          int pweather = 0;
+          int cweather = 0;
+          std::map<int, weather_segment>::iterator pit = weather_log.lower_bound(int(turn));
+          --pit;
+          if ( pit != weather_log.end() ) {
+              cweather = pit->first;
+          }
+          if ( cweather > 5 ) {
+              --pit;
+              if ( pit != weather_log.end() ) {
+                  pweather = pit->first;
+              }
+          }
+          weather_log_menu.text = string_format("turn: %d, next: %d, current: %d, prev: %d",
+              int(turn), int(nextweather), cweather, pweather
+          );
           for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {
               weather_log_menu.addentry(-1,true,-1,"%dd%dh %d %s[%d] %d",
                   it->second.deadline.days(),it->second.deadline.hours(),
@@ -3373,6 +3359,9 @@ Current turn: %d; Next spawn %d.\n\
                   it->second.weather,
                   (int)it->second.temperature
               );
+              if ( it->first == cweather ) {
+                  weather_log_menu.entries.back().text_color = c_yellow;
+              }
           }
           weather_log_menu.query();
       }
@@ -4929,18 +4918,17 @@ void game::monmove()
 
 bool game::sound(int x, int y, int vol, std::string description)
 {
-    // Scale the sound a little.
-    vol *= 1.5;
-
+    // --- Monster sound handling here ---
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &z = _active_monsters[i];
         // rl_dist() is faster than z.has_flag() or z.can_hear(), so we'll check it first.
         int dist = rl_dist(x, y, z.posx(), z.posy());
-        int vol_goodhearing = vol - int(dist / 2);
+        int vol_goodhearing = vol * 2 - dist;
         if (vol_goodhearing > 0 && z.can_hear()) {
             const bool goodhearing = z.has_flag(MF_GOODHEARING);
             int volume = goodhearing ? vol_goodhearing : (vol - dist);
+            // Error is based on volume, louder sound = less error
             if (volume > 0) {
                 int max_error = 0;
                 if(volume < 2) {
@@ -4963,65 +4951,85 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
-// Next, display the sound as the player hears it
- if (description == "")
-  return false; // No description (e.g., footsteps)
- if (u.has_disease("deaf"))
-  return false; // We're deaf, can't hear it
+    // --- Player stuff below this point ---
+    int dist = rl_dist(x, y, u.posx, u.posy);
 
- if (u.has_bionic("bio_ears"))
-  vol *= 3.5;
- if (u.has_trait("BADHEARING"))
-  vol *= .5;
- if (u.has_trait("CANINE_EARS"))
-  vol *= 1.5;
- int dist = rl_dist(x, y, u.posx, u.posy);
- if (dist > vol)
-  return false; // Too far away, we didn't hear it!
- if (u.has_disease("sleep") &&
-     ((!u.has_trait("HEAVYSLEEPER") && dice(2, 20) < vol - dist) ||
-      ( u.has_trait("HEAVYSLEEPER") && dice(3, 20) < vol - dist)   )) {
-  u.rem_disease("sleep");
-  if (description != "alarm_clock")
-   add_msg(_("You're woken up by a noise."));
-  return true;
- } else if (description == "alarm_clock") {
-  return false;
- }
- if (!u.has_bionic("bio_ears") && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
-  int duration = (vol - dist - 130) / 4;
-  if (duration > 40)
-   duration = 40;
-  u.add_disease("deaf", duration);
- }
- if (x != u.posx || y != u.posy) {
-  if(u.activity.ignore_trivial != true) {
-    std::string query;
-    if (description == "") {
-        query = string_format(_("Heard %s!"), description.c_str());
-    } else {
-        query = _("Heard a noise!");
+    // Player volume meter includes all sounds from their tile and adjacent tiles
+    if (dist <= 1) {
+        u.volume += vol;
     }
-    if( cancel_activity_or_ignore_query(query.c_str()) ) {
-        u.activity.ignore_trivial = true;
-    }
-  }
- } else {
-     u.volume += vol;
- }
 
-// We need to figure out where it was coming from, relative to the player
- int dx = x - u.posx;
- int dy = y - u.posy;
-// If it came from us, don't print a direction
- if (dx == 0 && dy == 0) {
-  capitalize_letter(description, 0);
-  add_msg("%s", description.c_str());
-  return true;
- }
- std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
- add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
- return true;
+    // Mutation/Bionic volume modifiers
+    if (u.has_bionic("bio_ears")) {
+        vol *= 3.5;
+    }
+    if (u.has_trait("BADHEARING")) {
+        vol *= .5;
+    }
+    if (u.has_trait("CANINE_EARS")) {
+        vol *= 1.5;
+    }
+
+    // Too far away, we didn't hear it!
+    if (dist > vol) {
+        return false;
+    }
+
+    if (u.has_disease("deaf")) {
+        // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
+        if (!u.has_bionic("bio_ears") && rng((vol - dist) / 2, (vol - dist)) >= 150) {
+            int duration = std::min(40, (vol - dist - 130) / 4);
+            u.add_disease("deaf", duration);
+        }
+        // We're deaf, can't hear it
+        return false;
+    }
+
+    // Check for deafness
+    if (!u.has_bionic("bio_ears") && rng((vol - dist) / 2, (vol - dist)) >= 150) {
+        int duration = (vol - dist - 130) / 4;
+        u.add_disease("deaf", duration);
+    }
+
+    // See if we need to wake someone up
+    if (u.has_disease("sleep")){
+        if ((!u.has_trait("HEAVYSLEEPER") && dice(2, 15) < vol - dist) ||
+              (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist)) {
+            u.rem_disease("sleep");
+            add_msg(_("You're woken up by a noise."));
+        } else {
+            return false;
+        }
+    }
+
+    if (x != u.posx || y != u.posy) {
+        if(u.activity.ignore_trivial != true) {
+            std::string query;
+            if (description != "") {
+                query = string_format(_("Heard %s!"), description.c_str());
+            } else {
+                query = _("Heard a noise!");
+            }
+
+            if (cancel_activity_or_ignore_query(query.c_str())) {
+                u.activity.ignore_trivial = true;
+            }
+        }
+    }
+
+    // Only print a description if it exists
+    if (description != "") {
+        // If it came from us, don't print a direction
+        if (x == u.posx && y == u.posy) {
+            capitalize_letter(description, 0);
+            add_msg("%s", description.c_str());
+        } else {
+            // Else print a direction as well
+            std::string direction = direction_name(direction_from(u.posx, u.posy, x, y));
+            add_msg(_("From the %s you hear %s"), direction.c_str(), description.c_str());
+        }
+    }
+    return true;
 }
 
 // add_footstep will create a list of locations to draw monster
@@ -5314,9 +5322,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                                 targ->name().c_str(), force_remaining);
                     }
                     add_msg(_("%s took %d damage!"), targ->name().c_str(), dam_mult*force_remaining);
-                    targ->hp -= dam_mult*force_remaining;
-                    if (targ->hp <= 0)
-                        targ->die(this);
+                    targ->hurt(dam_mult*force_remaining);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
@@ -10881,13 +10887,24 @@ void game::vertical_move(int movez, bool force)
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
  bool rope_ladder = false;
+
+    const int omtilesz=SEEX * 2;
+    real_coords rc( m.getabs(u.posx, u.posy) );
+
+    point omtile_align_start(
+        m.getlocal(
+            (rc.abs_om.x * omtilesz * OMAPX) + ( rc.om_pos.x * omtilesz ),
+            (rc.abs_om.y * omtilesz * OMAPY) + ( rc.om_pos.y * omtilesz )
+        )
+    );
+
  if (force) {
   stairx = u.posx;
   stairy = u.posy;
  } else { // We need to find the stairs.
   int best = 999;
-   for (int i = u.posx - SEEX * 2; i <= u.posx + SEEX * 2; i++) {
-    for (int j = u.posy - SEEY * 2; j <= u.posy + SEEY * 2; j++) {
+   for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
+    for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
     if (rl_dist(u.posx, u.posy, i, j) <= best &&
         ((movez == -1 && tmpmap.has_flag("GOES_UP", i, j)) ||
          (movez == 1 && (tmpmap.has_flag("GOES_DOWN", i, j) ||

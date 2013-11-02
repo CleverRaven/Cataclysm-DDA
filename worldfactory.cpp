@@ -241,7 +241,8 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     DIR *dir = opendir(world->world_path.c_str());
 
     if (!dir) {
-        closedir(dir);
+        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
+        //closedir(dir);
 #if(defined _WIN32 || defined __WIN32__)
         mkdir(world->world_path.c_str());
 #else
@@ -250,11 +251,13 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         dir = opendir(world->world_path.c_str());
     }
     if (!dir) {
-        closedir(dir);
+        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
+        //closedir(dir);
         DebugLog() << "Unable to create or open world[" << world->world_name << "] directory for saving\n";
         return false;
     }
-    closedir(dir); // don't need to keep the directory open
+    if (dir)
+        closedir(dir); // don't need to keep the directory open
 
     if (!is_conversion){
         fout.open(woption.str().c_str());
@@ -479,7 +482,7 @@ WORLDPTR worldfactory::pick_world()
             nc_color tabcolor = (selpage == i) ? hilite(c_white):c_white;
             if (world_pages[i].size() > 0) { //skip empty pages
                 wprintz(w_worlds_header, c_white, "[");
-                wprintz(w_worlds_header, tabcolor, "Page %d", i + 1);
+                wprintz(w_worlds_header, tabcolor, _("Page %d"), i + 1);
                 wprintz(w_worlds_header, c_white, "]");
                 wputch(w_worlds_header, c_white, LINE_OXOX);
             }
@@ -487,7 +490,7 @@ WORLDPTR worldfactory::pick_world()
 
         wrefresh(w_worlds_header);
 
-        fold_and_print(w_worlds_tooltip, 0, 0, 78, c_white, "Pick a world to enter game");
+        fold_and_print(w_worlds_tooltip, 0, 0, 78, c_white, _("Pick a world to enter game"));
         wrefresh(w_worlds_tooltip);
 
         wrefresh(w_worlds);
@@ -530,9 +533,8 @@ WORLDPTR worldfactory::pick_world()
                     break;
                 case '\n':
                     // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
-                    std::stringstream querystring;
-                    querystring << "Do you want to start the game in world [" << world_pages[selpage][sel] << "]?";
-                    if (query_yn(querystring.str().c_str())) {
+                    std::string querystring = string_format(_("Do you want to start the game in world [%s]?"), world_pages[selpage][sel].c_str());
+                    if (query_yn(querystring.c_str())) {
                         werase(w_worlds);
                         werase(w_worlds_border);
                         werase(w_worlds_header);
@@ -644,7 +646,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, curoption, 62, (sel == curoption) ? hilite(cLineColor) : cLineColor, "%s", (it->second.getValue()).c_str());
+            mvwprintz(w_options, curoption, 62, (sel == curoption) ? hilite(cLineColor) : cLineColor, "%s", (it->second.getValueName()).c_str());
             ++curoption;
         }
 
@@ -844,17 +846,17 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, int current, std::vector<std::s
 
 bool worldfactory::valid_worldname(std::string name, bool automated)
 {
-    std::stringstream msg;
+    std::string msg;
 
     if (name == "save"){
-        msg << name << " is not a valid world name, it is a reserved name";
+        msg = string_format(_("%s is not a valid world name, it is a reserved name"), name.c_str());
     }else if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
         return true;
     }else{
-        msg << name << " is not a valid world name, already exists!";
+        msg = string_format(_("%s is not a valid world name, already exists!"), name.c_str());
     }
     if (!automated){
-        popup_getkey(msg.str().c_str());
+        popup_getkey(msg.c_str());
     }
     return false;
 }

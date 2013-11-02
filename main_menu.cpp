@@ -354,7 +354,7 @@ bool game::opening_screen()
                         start = true;
                     } else if (sel2 == 1) {
                         layer = 3;
-                        sel1 = 0;
+                        sel3 = 0;
                     }
                 }
             } else if (sel1 == 2) { // Load Character
@@ -645,33 +645,33 @@ bool game::opening_screen()
                 }else {
                     for (int i = 0; i < templates.size(); i++) {
                         int line = iMenuOffsetY - 4 - i;
-                        mvwprintz(w_open, line, 20 + iMenuOffsetX, (sel1 == i ? h_white : c_white), templates[i].c_str());
+                        mvwprintz(w_open, line, 20 + iMenuOffsetX, (sel3 == i ? h_white : c_white), templates[i].c_str());
                     }
                 }
                 wrefresh(w_open);
                 refresh();
                 input = get_input();
                 if (input == DirectionS) {
-                    if (sel1 > 0)
-                        sel1--;
+                    if (sel3 > 0)
+                        sel3--;
                     else
-                        sel1 = templates.size() - 1;
+                        sel3 = templates.size() - 1;
                 } else if (templates.size() == 0 && (input == DirectionN || input == Confirm)) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (input == DirectionN) {
-                    if (sel1 < templates.size() - 1)
-                        sel1++;
+                    if (sel3 < templates.size() - 1)
+                        sel3++;
                     else
-                        sel1 = 0;
+                        sel3 = 0;
                 } else if (input == DirectionW  || input == Cancel || templates.size() == 0) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (input == DirectionE || input == Confirm) {
                     setup();
-                    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel1])) {
+                    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel3])) {
                         u = player();
                         delwin(w_open);
                         return (opening_screen());

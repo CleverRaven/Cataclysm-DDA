@@ -20,7 +20,6 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
 #include "crafting.h"
@@ -8684,6 +8683,11 @@ std::string player::weapname(bool charges)
     dump << "+" << weapon.contents[i].charges;
    dump << ")";
   }
+  return dump.str();
+ } else if (weapon.is_container()) {
+  std::stringstream dump;
+  dump << weapon.tname().c_str();
+  dump << " (" << weapon.contents.size() << ")";
   return dump.str();
  } else if (weapon.is_null()) {
   return _("fists");

@@ -785,6 +785,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "spear_steel",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "melee", 1 ],
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      ["hacksaw", -1]
+      ],
+      [
+      [ "welder", 20 ],
+      [ "welder_crude", 20 ],
+      [ "toolset", 2 ]
+      ]
+      ],
+  "components":
+     [
+     [
+      [ "pipe", 1 ]
+     ],
+     [
+     [ "steel_chunk", 1 ],
+     [ "scrap", 3 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "longbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -3967,6 +4004,7 @@
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
@@ -4324,6 +4362,7 @@
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
@@ -4449,6 +4488,7 @@
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
@@ -6525,6 +6565,7 @@
     [
       [ "meat_tainted", 3 ],
       [ "veggy_tainted", 5 ],
+      [ "slime_scrap", 5 ],
       [ "fetus", 1 ],
       [ "arm", 2 ],
       [ "leg", 2 ]
@@ -6665,7 +6706,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "sewage", 3 ]
+      [ "sewage", 3 ],
+      [ "slime_scrap", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -6938,6 +6980,29 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "canister_goo",
+  "category": "CC_CHEM",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "canister_empty", 1 ]
+    ],
+    [
+      [ "slime_scrap", 10 ]
     ]
   ]
 },{
@@ -12107,7 +12172,8 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
-      [ "ant_egg", 1 ]
+      [ "ant_egg", 1 ],
+      [ "slime_scrap", 1 ]
     ]
   ]
 },{
@@ -15233,6 +15299,43 @@
      [ "steel_chunk", 2 ],
      [ "scrap", 6 ]
      ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "throwing_axe",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["forge", 150], ["char_forge", 30]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 3 ],
+     [ "scrap", 9 ]
+     ],
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+    ]
     ]
 },{
         "type" : "recipe",

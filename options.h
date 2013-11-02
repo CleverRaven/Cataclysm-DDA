@@ -35,7 +35,7 @@ class cOpt
         std::string getType();
 
         std::string getValue();
-        std::string getName();
+        std::string getValueName();
         std::string getDefaultText();
 
         int getItemPos(const std::string sSearch);

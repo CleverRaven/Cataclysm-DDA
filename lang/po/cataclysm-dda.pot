@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-29 16:07+1300\n"
+"POT-Creation-Date: 2013-10-31 07:37+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3182,6 +3182,11 @@ msgstr ""
 
 #: crafting.cpp
 msgid "This item cannot be disassembled!"
+msgstr ""
+
+#: crafting.cpp
+#, c-format
+msgid "You cannot disassemble the %s into its components, too few items."
 msgstr ""
 
 #: crafting.cpp
@@ -7782,24 +7787,10 @@ msgid "Smash where?"
 msgstr ""
 
 #: game.cpp
-msgid "You swing at the corpse."
-msgid_plural "You swing at the corpses."
+msgid "The corpse is thoroughly pulped."
+msgid_plural "The corpses are thoroughly pulped."
 msgstr[0] ""
 msgstr[1] ""
-
-#: game.cpp
-#, c-format
-msgid "You greatly damage the %s!"
-msgstr ""
-
-#: game.cpp
-#, c-format
-msgid "You damage the %s!"
-msgstr ""
-
-#: game.cpp
-msgid "The corpse is now thoroughly pulped."
-msgstr ""
 
 #: game.cpp melee.cpp
 #, c-format
@@ -8713,6 +8704,11 @@ msgstr ""
 #: game.cpp
 #, c-format
 msgid "Really step into that %s?"
+msgstr ""
+
+#: game.cpp
+#, c-format
+msgid "Really step onto that %s?"
 msgstr ""
 
 #: game.cpp
@@ -10856,7 +10852,7 @@ msgstr ""
 
 #: item.cpp
 #, c-format
-msgid "Has %s quality of level %d."
+msgid "Has %s of level %d."
 msgstr ""
 
 #: item.cpp
@@ -12692,6 +12688,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "You unroll the mat and lay it on the ground."
+msgstr ""
+
+#: iuse.cpp
+msgid "You unroll the fur mat and lay it on the ground."
 msgstr ""
 
 #: iuse.cpp
@@ -30593,8 +30593,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A domesticated mongrel of the canine persuasion.  In the absence of human "
-"society, it has turned feral."
+"With mangy fur and hungry eyes, it's clear that this once domesticated dog "
+"has gone feral."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30620,9 +30620,7 @@ msgstr ""
 #: lang/json/json_monsters.py
 msgid ""
 "Also known as the woodchuck, this ground squirrel has no actual talent for "
-"chucking wood.  It can move over two tons of earth while digging its burrow, "
-"and while it's suited to living beneath the soil, it is quite capable of "
-"using its digging claws to escape up a tree if the need arises."
+"chucking wood."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30641,8 +30639,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A hooved grazing mammal with a mane of hair and a sweeping tail.  It is a "
-"swift runner and spooks easily, allowing it to escape its enemies easily."
+"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful "
+"looking muscles"
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30666,18 +30664,6 @@ msgid ""
 "The American mink, a partially-aquatic weasel, once factory-farmed for its "
 "fur.  It is a capable fisher, but the presence of otters in these parts "
 "makes it rely more on food from the land."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid "mole"
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
-"The Eastern mole, a burrowing insectivore that is perfectly adapted to its "
-"subterranean life, with an acute sense of hearing and scooped paws able to "
-"easily dig through the earth.  In its northward migration, it has displaced "
-"other species of mole."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30728,9 +30714,7 @@ msgid "rabbit"
 msgstr ""
 
 #: lang/json/json_monsters.py
-msgid ""
-"The cottontail rabbit, a small herbivore possessed of a stubby tail, long "
-"ears, and a propensity to proliferate."
+msgid "A cute wiggling nose, cotton tail, made of delicious flesh."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30750,9 +30734,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The brown rat, a squat, worm-tailed rodent with prominent whiskers and black "
-"beady eyes.  It scampers quickly across the ground, which it is constantly "
-"sniffing for traces of food."
+"A worm-tailed rodent with long whiskers and beady eyes. The way it squeeks "
+"makes it sound... hungry."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30822,9 +30805,9 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The Gray Wolf, a cunning canine pack predator.  The wolf was once extirpated "
-"from New England, but successful conservation efforts have brought it back "
-"to the countryside."
+"A cunning pack predator, once extinct in the New England area, was "
+"successfully reintroduced and their numbers reached record highs in the "
+"decade before the cataclysm. Lucky you."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30833,8 +30816,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A pulsating mass of glistening white flesh, the size of a large cat.  On one "
-"end is a set of squirming mouth parts."
+"A pulsating sausage of glistening white flesh, the size of a large cat.  On "
+"one end is a set of squirming mouth parts."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30873,9 +30856,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A giant, ragged-looking ant, a pale, sickly gray in color.  Its cracked "
-"exoskeleton is held together by the coils of fungus erupting from every "
-"joint in its body."
+"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely "
+"held together by coils of fungus erupting from every joint in its body."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30894,9 +30876,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A mutant strain of honey bee, the size of a small dog.  It is relatively "
-"benign, but beware its hooked jaws, and the benighted, dagger-sized stinger "
-"hanging beneath its behind."
+"With a stinger the size of a kitchen knife, this dog-sized insect's black "
+"and yellow markings warn you to leave it indisturbed."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30916,7 +30897,7 @@ msgstr ""
 #: lang/json/json_monsters.py
 msgid ""
 "A monstrous beast with a tripartite mouth that opens to reveal hundreds of "
-"writhing tongues and crystalline teeth.  It keeps most of its enormous body "
+"writhing tongues with razor sharp edges.  It keeps most of its enormous body "
 "hidden underground."
 msgstr ""
 
@@ -30926,8 +30907,10 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"An enormous, mutated nightcrawler with jagged jaws, slithering across the "
-"ground.  Its pink skin is coated in a slurry of soil and worm slime."
+"An enormous, mutated creature that might once have been a nightcrawler, it's "
+"large fanged mouth and and long slender body that comes up to your "
+"shoulders, with even more surely hiding underground, it's now something far "
+"worse."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30945,7 +30928,8 @@ msgstr ""
 #: lang/json/json_monsters.py
 msgid ""
 "A sluglike creature, eight feet long and the width of a refrigerator.  Its "
-"black body glistens as it oozes its way along the ground."
+"black body glistens as it oozes its way along the ground. Eye stalks "
+"occassionally push their way out of the oily mass and look around."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30954,8 +30938,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A human body, once living.  It treads forward on uncertain legs, possessed "
-"with an unstoppable rage."
+"A human body, swaying as it moves, an unstoppable rage is visible beneath "
+"it's oily black eyes."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30964,8 +30948,7 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A human body, once living.  It's encapsulated by a weather-beaten set of "
-"riot gear."
+"A human body covered by a weather-beaten and badly damaged set of riot gear."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30974,8 +30957,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Its lower jaw has come off, leaving "
-"behind a gory hole from neck to nose."
+"An elongated human body with a swollen chest and a gaping hole where it's "
+"jaw used to be"
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30984,8 +30967,9 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Its mouth has deformed into a gaping, "
-"smoking abscess, its swollen belly ruptured and spilling with bile."
+"A hunched human body with it's eyes pushed up into it's forehead and "
+"drooping cheeks, most of it's face is occupied by a puckered mouth. It's "
+"stomache is swollen and nearly translucent, with a sickly yellow tint."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -30993,9 +30977,7 @@ msgid "shocker zombie"
 msgstr ""
 
 #: lang/json/json_monsters.py
-msgid ""
-"A deformed human body, once living.  Its flesh is a pale blue, crackling "
-"with electrical energy."
+msgid "A human body with pale blue flesh, crackling with electrical energy."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31004,8 +30986,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Pieces of its flesh hang off the bones "
-"like bloody rags, and it emits a constant haze of thick black smoke."
+"A blackened and twisted naked human body, strips of flesh hang from it's "
+"body, and it emits a constant haze of thick black smoke."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31014,8 +30996,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Its hands and feet are webbed, and it "
-"is clad in swimwear."
+"A slick and glistening human body. It's hands and feet are webbed, and it is "
+"clad in swimwear."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31034,8 +31016,7 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Its entire body bulges with distended "
-"muscles and swollen, festering wounds."
+"Its entire body bulges with distended muscles and swollen, festering wounds."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31044,8 +31025,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  It has swollen to the size of six men, "
-"with arms as wide as a trash can."
+"A human body now swollen to the size of six men, with arms as wide as a "
+"trash can."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31054,8 +31035,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Fungal tendrils sprout from its "
-"orifices, holding together the shambling, mold-covered flesh."
+"Once human, fungal tendrils now sprout from its mouth, eyes, and other "
+"orifices, holding together a shambling mass of mold-covered flesh."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31064,8 +31045,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Bloated beyond belief, it emits a "
-"horrible odor, and a putrid pink sludge dribbles from its mouth."
+"A rotund human body, bloated beyond belief and layered in rolls of fat. It "
+"emits a horrible odor, and a putrid pink sludge dribbles from its mouth."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31074,9 +31055,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Its pasty, fungus-ridden flesh is "
-"swollen to a horrific extent, and its mouth drips with a frothing gray "
-"sludge."
+"A rotund and bloated human body with pasty, fungus-ridden flesh. Its mouth "
+"drips with a frothing gray sludge."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31085,8 +31065,10 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A human skeleton missing all but a few rotten scraps of flesh, somehow still "
-"moving."
+"It's skin so tight the cracked bones are visible beneath it, covered in scar "
+"tissue and coils of scabbed black liquid and with eyes so deeply sunken into "
+"it's skill they are barely visible, it's a wonder this once-human creature "
+"can move at all."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31095,8 +31077,10 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  It has jet black skin, glowing red "
-"eyes, and a dreadful, gibbering voice to announce its presence."
+"A twisted mockery of the human form, emaciated, with jet black skin "
+"andglowing red eyes. It is somehow painful to look at, awakening fears deep "
+"within your psyche, and even the air around it seems more sinister, somehow "
+"darker and more dangerous."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31105,8 +31089,9 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Clad in a tattered lab coat, it looks "
-"to have some measure of self-awareness."
+"Apart from the jet black eyes it would be easy to believe this scientist was "
+"still alive. Clad in a tattered lab coat, it looks to have some measure of "
+"situational awareness and resourcefulness."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31115,8 +31100,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  It is dressed head to toe in combat "
-"gear and carries itself rather steadily for a zombie."
+"Once a soldier, it is dressed head to toe in combat gear and carries itself "
+"rather steadily for a zombie."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31135,9 +31120,11 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  The scaly crust of its skin is covered "
-"in patches of bloody soot, and it seems to have a better grasp of movement "
-"than other zombies."
+"Once human, it's features have tightened, it's lips pulled back into an "
+"unnatural grin, revealing rows of blackened teeth beneath it's large, "
+"piercing eyes. It stands tall, it's movements are fluid and tightly "
+"controlled. A feeling of danger permeates the air around it, and the light "
+"that falls on it somehow harsher and more glaring."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31146,18 +31133,18 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  Its skin has been transformed into one "
-"thick, calloused envelope of scar tissue."
+"A deformed human body, its skin has been transformed into one thick, "
+"calloused envelope of scar tissue."
 msgstr ""
 
 #: lang/json/json_monsters.py
-msgid "zombie hunter"
+msgid "feral hunter"
 msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A deformed human body, once living.  It runs on all fours, leaping around on "
-"bulging legs, and its nails have lengthened into menacing claws."
+"This once-human body is barely recognizable, scrambling about on all fours, "
+"it's nails and teeth both sharpened into dangerous looking spikes."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31165,7 +31152,10 @@ msgid "zombie child"
 msgstr ""
 
 #: lang/json/json_monsters.py
-msgid "A deformed human body, once living.  It was only a child."
+msgid ""
+"It was only a child, and little is different about it now aside from the "
+"hungry look in it's eyes. You'd be hard pressed to not feel like you were "
+"killing an actual child by putting it down."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -45543,6 +45533,10 @@ msgstr ""
 msgid "checkered switch"
 msgstr ""
 
+#: lang/json/json_tool_qualities.py
+msgid "cutting quality"
+msgstr ""
+
 #: lang/json/json_tutorial.py
 msgid ""
 "Welcome to the Cataclysm tutorial!  As you play, pop-ups like this one will "
@@ -46227,7 +46221,7 @@ msgstr ""
 
 #: main_menu.cpp
 msgctxt "Main Menu"
-msgid "<R>eset"
+msgid "<W>orld"
 msgstr ""
 
 #: main_menu.cpp
@@ -46276,7 +46270,26 @@ msgid "Play <N>ow!"
 msgstr ""
 
 #: main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<C>reate World"
+msgstr ""
+
+#: main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<D>elete World"
+msgstr ""
+
+#: main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<R>eset World"
+msgstr ""
+
+#: main_menu.cpp
 msgid "No message today."
+msgstr ""
+
+#: main_menu.cpp
+msgid "No Worlds found!"
 msgstr ""
 
 #: main_menu.cpp
@@ -46285,6 +46298,10 @@ msgstr ""
 
 #: main_menu.cpp
 msgid "Delete the world and all saves?"
+msgstr ""
+
+#: main_menu.cpp
+msgid "Remove all saves and regenerate world?"
 msgstr ""
 
 #: main_menu.cpp
@@ -49279,7 +49296,7 @@ msgstr ""
 msgid "Remaining points will be discarded, are you sure you want to proceed?"
 msgstr ""
 
-#: newcharacter.cpp
+#: newcharacter.cpp worldfactory.cpp
 msgid "______NO NAME ENTERED!!!!_____"
 msgstr ""
 
@@ -49287,7 +49304,7 @@ msgstr ""
 msgid "Are you SURE you're finished? Your name will be randomly generated."
 msgstr ""
 
-#: newcharacter.cpp
+#: newcharacter.cpp worldfactory.cpp
 msgid "Are you SURE you're finished?"
 msgstr ""
 
@@ -51937,6 +51954,10 @@ msgid "Debug"
 msgstr ""
 
 #: options.cpp
+msgid "World Defaults"
+msgstr ""
+
+#: options.cpp
 msgid "Fahrenheit"
 msgstr ""
 
@@ -54113,10 +54134,6 @@ msgid "You need a %s to consume that!"
 msgstr ""
 
 #: player.cpp
-msgid "You can't finish it all!"
-msgstr ""
-
-#: player.cpp
 msgid "Your internal power storage is fully powered."
 msgstr ""
 
@@ -54196,6 +54213,10 @@ msgstr ""
 
 #: player.cpp
 msgid "Almost instantly you feel a familiar pain in your stomach"
+msgstr ""
+
+#: player.cpp
+msgid "You can't finish it all!"
 msgstr ""
 
 #: player.cpp
@@ -55995,4 +56016,71 @@ msgstr ""
 
 #: wish.cpp
 msgid "Item granted, choose another or 'q' to quit."
+msgstr ""
+
+#: worldfactory.cpp
+msgid "World Gen Options"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "CONFIRMATION"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "Do you want to abort World Generation?"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "There are no valid worlds to pick from, would you like to make one?"
+msgstr ""
+
+#: worldfactory.cpp
+msgid " WORLD SELECTION "
+msgstr ""
+
+#: worldfactory.cpp
+#, c-format
+msgid "Page %d"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "Pick a world to enter game"
+msgstr ""
+
+#: worldfactory.cpp
+#, c-format
+msgid "Do you want to start the game in world [%s]?"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "World Name:"
+msgstr ""
+
+#: worldfactory.cpp
+msgid ""
+"When you are satisfied with the world as it is and are ready to continue, "
+"press >"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "To go back and review your world, press <"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "To pick a random name for your world, press ?."
+msgstr ""
+
+#: worldfactory.cpp
+msgid ""
+"Are you SURE you're finished? Your world's name will be randomly generated."
+msgstr ""
+
+#: worldfactory.cpp
+#, c-format
+msgid "%s is not a valid world name, it is a reserved name"
+msgstr ""
+
+#: worldfactory.cpp
+#, c-format
+msgid "%s is not a valid world name, already exists!"
 msgstr ""
