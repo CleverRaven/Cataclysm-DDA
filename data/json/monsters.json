@@ -1017,7 +1017,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"The Northern short-tailed shrew, an insectovorous mammal that resembles a cross between a mouse and a mole. Notably for a mammal, it has a venomous bite, which can prove painful for humans.",
+    "description":"The Northern short-tailed shrew, an insectivorous mammal that resembles a cross between a mouse and a mole. Notably for a mammal, it has a venomous bite, which can prove painful for humans.",
     "flags":["HEARS", "VENOM", "ANIMAL", "WARM", "FUR", "BONES", "VERMIN"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -1498,7 +1498,7 @@
     "special_freq":0,
     "death_function":"MELT",
     "special_attack":"NONE",
-    "description":"A sluglike creature, eight feet long and the width of a refrigerator. Its black body glistens as it oozes its way along the ground. Eye stalks occassionally push their way out of the oily mass and look around.",
+    "description":"A sluglike creature, eight feet long and the width of a refrigerator. Its black body glistens as it oozes its way along the ground. Eye stalks occasionally push their way out of the oily mass and look around.",
     "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "VIS30", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE"]
   },
   {
@@ -3725,7 +3725,7 @@
     "special_freq":0,
     "death_function":"MELT",
     "special_attack":"NONE",
-    "description":"A man-sized wormish creature that swoops around on bat-like wings. Its form dramatically shifts and changes from moment to moment, although its gigantic eyes and teeth are always prominent.",
+    "description":"A man-sized worm-like creature that swoops around on bat-like wings. Its form dramatically shifts and changes from moment to moment, although its gigantic eyes and teeth are always prominent.",
     "flags":["SEES", "SMELLS", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "SUNDEATH", "NO_BREATHE", "HIT_AND_RUN"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED"]
   },
@@ -4753,7 +4753,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A mutant, landfaring variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
+    "description":"A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
     "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
