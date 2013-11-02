@@ -194,6 +194,7 @@
       ["jacket_chef", 2],
       ["kernels", 35],
       ["pot", 25],
+      ["teapot", 15],
       ["pan", 25],
       ["knife_butter", 90],
       ["knife_steak", 85],
@@ -389,6 +390,7 @@
     "id":"oven",
     "items":[
       ["pan", 80],
+      ["teapot", 25],
       ["pot", 80]
     ]
   },{
@@ -1279,6 +1281,7 @@
       ["rope_30", 35],
       ["hatchet", 10],
       ["pot", 25],
+      ["teapot", 5],
       ["pan", 25],
       ["binoculars", 20],
       ["firecracker_pack", 5],
@@ -1413,6 +1416,7 @@
       ["rope_30", 35],
       ["hatchet", 10],
       ["pot", 25],
+      ["teapot", 15],
       ["pan", 25],
       ["binoculars", 20],
       ["hotplate", 10],

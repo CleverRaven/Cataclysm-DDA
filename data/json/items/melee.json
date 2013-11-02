@@ -565,6 +565,22 @@
 
   {
     "type":"GENERIC",
+    "id": "teapot",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "teapot",
+    "description": "A small metal teapot. Teatime wouldn't be complete without one.",
+    "price": 30,
+    "material": "iron",
+    "weight": 229,
+    "volume": 2,
+    "bashing": 3,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
+    "type":"GENERIC",
     "id": "knife_butter",
     "symbol": ";",
     "color": "light_gray",
