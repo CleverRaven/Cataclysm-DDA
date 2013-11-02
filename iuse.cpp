@@ -1062,6 +1062,28 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
     }
 }
 
+int iuse::battery(game *g, player *p, item *it, bool t)
+{
+    char ch = g->inv(_("Swap batteries with what?"));
+    item *charge = &(p->i_at(ch));
+
+    if (charge == NULL || charge->is_null()) {
+        g->add_msg_if_player(p,_("You do not have that item!"));
+        return 0;
+    }
+    if (charge->ammo_type() !="battery") {
+        g->add_msg_if_player(p,_("That doesn't take batteries!"));
+        return 0;
+    }
+    int tmp = charge->charges;
+    charge->charges = it->charges;
+    it->charges = tmp;
+
+    g->add_msg_if_player(p,_("You swap batteries."));
+
+    return 0;
+}
+
 int iuse::lighter(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
@@ -2385,7 +2407,7 @@ int iuse::siphon(game *g, player *p, item *it, bool t)
     for (int x = p->posx-1; x < p->posx+2; x++) {
       for (int y = p->posy-1; y < p->posy+2; y++) {
         fillv = g->m.veh_at(x, y);
-        if ( fillv != NULL && 
+        if ( fillv != NULL &&
           fillv != veh &&
           foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
           fillv->fuel_capacity("gasoline") > 0 ) {
@@ -2410,7 +2432,7 @@ int iuse::siphon(game *g, player *p, item *it, bool t)
                 }
             } else {
                 fillv = foundv.begin()->second;
-                
+
             }
         } else if ( fmenu.ret != 1 ) {
             return 0;
@@ -2421,7 +2443,7 @@ int iuse::siphon(game *g, player *p, item *it, bool t)
         int got = veh->drain("gasoline", want);
         int amt=fillv->refill("gasoline",got);
         g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-           "gasoline", veh->name.c_str(), fillv->name.c_str(), 
+           "gasoline", veh->name.c_str(), fillv->name.c_str(),
            (amt > 0 ? "." : ", draining the tank completely.") );
         p->moves -= 200;
     } else {

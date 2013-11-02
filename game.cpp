@@ -9613,6 +9613,10 @@ void game::reload(char chInput)
 
 void game::reload()
 {
+ if (u.weapon.ammo_type() == "battery") {
+  add_msg(_("You have to swap batteries with your %s."), u.weapon.tname().c_str());
+  return;
+ }
  if (u.weapon.is_gun()) {
   if (u.weapon.has_flag("RELOAD_AND_SHOOT")) {
    add_msg(_("Your %s does not need to be reloaded; it reloads and fires in a \

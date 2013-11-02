@@ -49,6 +49,7 @@ class iuse
   int dogfood          (game *g, player *p, item *it, bool t);
 
 // TOOLS
+  int battery          (game *g, player *p, item *it, bool t);
   int lighter          (game *g, player *p, item *it, bool t);
   int primitive_fire   (game *g, player *p, item *it, bool t);
   int sew              (game *g, player *p, item *it, bool t);
