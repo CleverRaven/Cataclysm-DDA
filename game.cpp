@@ -10879,8 +10879,8 @@ void game::vertical_move(int movez, bool force)
 
     point omtile_align_start(
         m.getlocal(
-            (cur_om->pos().x * omtilesz * OMAPX) + ( rc.om_pos.x * 2 * 12 ),
-            (cur_om->pos().y * omtilesz * OMAPY) + ( rc.om_pos.y * 2 * 12 )
+            (rc.abs_om.x * omtilesz * OMAPX) + ( rc.om_pos.x * omtilesz ),
+            (rc.abs_om.y * omtilesz * OMAPY) + ( rc.om_pos.y * omtilesz )
         )
     );
 
