@@ -1324,7 +1324,8 @@ int vehicle::refill (ammotype ftype, int amount)
     {
         if (part_flag(p, "FUEL_TANK") &&
             part_info(p).fuel_type == ftype &&
-            parts[p].amount < part_info(p).size)
+            parts[p].amount < part_info(p).size &&
+            parts[p].hp > 0)
         {
             int need = part_info(p).size - parts[p].amount;
             if (amount < need)
