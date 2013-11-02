@@ -11974,7 +11974,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 // Only place on valid terrain
   } while (((terlist[ter(px, py)].movecost == 0 &&
              !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
-            (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
+            (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
            tries < 20);
   if (tries < 20) {
    spawn_item(px, py, selected_item, turn);
