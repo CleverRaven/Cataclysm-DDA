@@ -17388,21 +17388,21 @@
   "skill_used": "survival",
   "difficulty": 2,
   "time": 30000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "bottle_glass", 2 ],
+      [ "jug_plastic", 1 ],
       [ "bottle_plastic", 5 ]
     ],
     [
-      [ "hose", 1 ]
-    ],
-    [
-      [ "scrap", 8 ]
-    ],
-    [
       [ "rag", 4 ]
+    ],
+    [
+      [ "charcoal", 10 ]
     ]
   ]
 },{
