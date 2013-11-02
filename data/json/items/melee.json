@@ -1659,6 +1659,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "spear_steel",
+        "name" : "steel spear",
+        "description" : "A stout metal pole with a sharp point.",
+        "weight" : 1398,
+        "to_hit" : 1,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["steel", "null"],
+        "techniques" : ["WBLOCK_1", "RAPID"],
+        "volume" : 5,
+        "bashing" : 6,
+        "cutting" : 18,
+        "flags" : ["SPEAR"],
+        "price" : 80
+    },
+    {
+        "type":"GENERIC",
         "id" : "baton",
         "name" : "expandable baton",
         "description" : "A telescoping baton that collapses for easy storage. Makes an excellent melee weapon.",
