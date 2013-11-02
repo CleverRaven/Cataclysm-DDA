@@ -371,7 +371,7 @@ class map
  };
  point getabs(const int x=0, const int y=0 );
  point getlocal(const int x, const int y );
-
+ point getlocal( const point p ) { return getlocal(p.x, p.y); } 
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 

@@ -2,9 +2,9 @@
 #include <fstream>
 #include <vector>
 #include "setvector.h"
-#include "catajson.h"
 #include "options.h"
 #include "monstergenerator.h"
+#include "json.h"
 
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480

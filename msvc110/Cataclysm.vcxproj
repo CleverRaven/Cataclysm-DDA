@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug Localized|Win32">
@@ -853,7 +853,7 @@
     <ClCompile Include="..\catacharset.cpp" />
     <ClCompile Include="..\catajson.cpp" />
     <ClCompile Include="..\cata_tiles.cpp" />
-    <ClCompile Include="..\char_validity_check.cpp" />    
+    <ClCompile Include="..\char_validity_check.cpp" />
     <ClCompile Include="..\color.cpp" />
     <ClCompile Include="..\computer.cpp" />
     <ClCompile Include="..\construction.cpp" />
@@ -972,7 +972,7 @@
     <ClInclude Include="..\catacurse.h" />
     <ClInclude Include="..\catajson.h" />
     <ClInclude Include="..\cata_tiles.h" />
-    <ClInclude Include="..\char_validity_check.h" />    
+    <ClInclude Include="..\char_validity_check.h" />
     <ClInclude Include="..\color.h" />
     <ClInclude Include="..\computer.h" />
     <ClInclude Include="..\construction.h" />
@@ -1062,7 +1062,7 @@
     <ClInclude Include="..\version.h" />
     <ClInclude Include="..\wdirent.h" />
     <ClInclude Include="..\weather.h" />
-    <ClInclude Include="..\worldfactory.h" />    
+    <ClInclude Include="..\worldfactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource.rc" />

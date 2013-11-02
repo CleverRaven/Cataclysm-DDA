@@ -5,10 +5,10 @@
 #include "rng.h"
 #include "line.h"
 #include "monstergenerator.h"
+#include <math.h>  // rounding
 #include <sstream>
 
 void mdeath::normal(game *g, monster *z) {
-    const int CORPSE_DAM_MAX = 4;
     if (g->u_see(z)) {
         g->add_msg(_("The %s dies!"), z->name().c_str());
     }
@@ -16,43 +16,40 @@ void mdeath::normal(game *g, monster *z) {
         g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
     }
 
-    bool warmBlooded = z->has_flag(MF_WARM);
-    if (z->made_of("flesh") && warmBlooded) {
+    m_size monSize = (z->type->size);
+    bool isFleshy = (z->made_of("flesh") || z->made_of("hflesh"));
+    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+
+    // leave some blood if we have to
+    if (isFleshy && z->has_flag(MF_WARM)) {
         g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
     }
 
-    bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
-    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
-    if (leaveCorpse) {
-        int maxHP = z->type->hp;
-        if (!maxHP) {
-            return;
-        }
-        float overflowDamage = -(z->hp);
+    int maxHP = z->type->hp;
+    if (!maxHP) {
+        maxHP = 1;
+    }
 
-        // determine how much of a mess is left, for flesh and veggy creatures
-        float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
-        int gibAmount = corpseDamage - 1;
-        bool pulverized = (corpseDamage > 5 && overflowDamage > 50);
+    float overflowDamage = -(z->hp);
+    float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
+
+    if (leaveCorpse) {
+        int gibAmount = int(floor(corpseDamage)) - 1;
+        // allow one extra gib per 5 HP
+        int gibLimit = 1 + (maxHP / 5.0);
+        if (gibAmount > gibLimit) {
+            gibAmount = gibLimit;
+        }
+        bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
         if (!pulverized) {
-            // the corpse still exists, let's place it
-            item corpse;
-            corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
-            corpse.damage = corpseDamage > CORPSE_DAM_MAX ? CORPSE_DAM_MAX : int(corpseDamage);
-            g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
-        } else {
+            make_mon_corpse(g, z, int(floor(corpseDamage)));
+        } else if (monSize >= MS_MEDIUM) {
             gibAmount += rng(1,6);
         }
-        // no gibs for non-fleshy creatures until implemented
-        if (gibAmount > 0 && isFleshy) {
-            const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
-            for (int i = 0; i < gibAmount; i++) {
-                // leave gibs, if there are any
-                const int gibX = z->posx() + rng(1,6) - 3;
-                const int gibY = z->posy() + rng(1,6) - 3;
-                const int gibDensity = rng(1, i+1);
-                g->m.add_field(g, gibX, gibY, gibType, gibDensity);
-            }
+        // Limit chunking to flesh and veggy creatures until other kinds are supported.
+        bool leaveGibs = (isFleshy || z->made_of("veggy"));
+        if (leaveGibs) {
+            make_gibs(g, z, gibAmount);
         }
     }
 }
@@ -503,4 +500,31 @@ void mdeath::kill_breathers(game *g, monster *z) {
             g->zombie(i).dead = true;
         }
     }
+}
+
+void make_gibs(game* g, monster* z, int amount) {
+    if (amount <= 0) {
+        return;
+    }
+    const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
+    for (int i = 0; i < amount; i++) {
+        // leave gibs, if there are any
+        const int gibX = z->posx() + rng(1,6) - 3;
+        const int gibY = z->posy() + rng(1,6) - 3;
+        const int gibDensity = rng(1, i+1);
+        g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+        if (z->has_flag(MF_WARM)) {
+            const int bloodX = z->posx() + (rng(1,3) - 2);
+            const int bloodY = z->posy() + (rng(1,3) - 2);
+            g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
+        }
+    }
+}
+
+void make_mon_corpse(game* g, monster* z, int damageLvl) {
+    const int MAX_DAM = 4;
+    item corpse;
+    corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
+    corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
+    g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

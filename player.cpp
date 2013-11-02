@@ -20,7 +20,6 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
 #include "crafting.h"
@@ -6268,6 +6267,7 @@ bool player::consume(game *g, signed char ch)
                 charge /= 2;
             }
             charge_power(charge);
+            to_eat->charges = 0;
             g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
                                      to_eat->tname(g).c_str());
         }

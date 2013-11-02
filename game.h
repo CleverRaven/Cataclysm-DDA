@@ -336,8 +336,9 @@ class game
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
-void load_artifacts(std::string worldname); // Load artifact data
+    void load_artifacts(std::string worldname); // Load artifact data
                         // Needs to be called by main() before MAPBUFFER.load
+    void load_artifacts_from_file(std::ifstream *f); // Load artifact data
 
  // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
