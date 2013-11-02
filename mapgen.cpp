@@ -8526,11 +8526,11 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             switch(rng(1, 10)) {
                 case 1:
                     // natural refuse
-                    place_items("monparts", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    place_items("monparts", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                     break;
                 case 2:
                     // trash
-                    place_items("trash", 10, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    place_items("trash", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                     break;
                 case 3:
                     // bat corpses
@@ -8541,7 +8541,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     break;
                 case 4:
                     // ant food, chance of 80
-                    place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    place_items("ant_food", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                     break;
                 case 5:
                     {
@@ -8557,12 +8557,12 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
                     add_item(hermx, hermy, body);
                     // This seems verbose.  Maybe a function to spawn from a list of item groups?
-                    place_items("stash_food", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("survival_tools", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("survival_armor", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("weapons", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("magazines", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("rare", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("stash_food", 50, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_tools", 50, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_armor", 50, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("weapons", 40, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("magazines", 40, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("rare", 30, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
                     break;
                     }
                 default:
