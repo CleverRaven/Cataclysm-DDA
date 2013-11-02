@@ -87,10 +87,10 @@ game::game() :
  om_hori(NULL),
  om_vert(NULL),
  om_diag(NULL),
+ dangerous_proximity(5),
  run_mode(1),
  mostseen(0),
- gamemode(NULL),
- dangerous_proximity(5)
+ gamemode(NULL)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
