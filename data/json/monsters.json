@@ -122,7 +122,6 @@
     "special_attack":"NONE",
     "description":"A spotted wild cat living across much of North America.  It is not a serious threat to humans, but it can be aggressive if not left alone.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "VIS40", "BONES"],
-    "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -901,7 +900,7 @@
     "size":"TINY",
     "material":"flesh",
     "diff":3,
-    "aggression":0,
+    "aggression":20,
     "morale":40,
     "speed":100,
     "melee_skill":10,
@@ -920,7 +919,6 @@
     "description":"A worm-tailed rodent with long whiskers and beady eyes. The way it squeeks makes it sound... hungry.",
     "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "VIS40", "BONES"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED"],
-    "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
