@@ -9483,6 +9483,8 @@ void game::complete_butcher(int index)
     } else {
      meat = "meat";
     }
+   } else if(corpse->mat == "bone") {
+     meat = "bone";
    } else {
     meat = "veggy";
    }
