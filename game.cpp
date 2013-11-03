@@ -9485,8 +9485,11 @@ void game::complete_butcher(int index)
     }
    } else if(corpse->mat == "bone") {
      meat = "bone";
+   } else if(corpse->mat == "veggy") {
+     meat = "veggy";
    } else {
-    meat = "veggy";
+     //Don't generate anything
+     return;
    }
   }
   item tmpitem=item_controller->create(meat, age);
