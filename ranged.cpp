@@ -322,24 +322,19 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   }
 
   if (missed_by >= 1.) {
-// We missed D:
-// Shoot a random nearby space?
-   int mtarx = tarx + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-   int mtary = tary + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-   if (m.sees(p.posx, p.posy, x, y, -1, tart))
-    trajectory = line_to(p.posx, p.posy, mtarx, mtary, tart);
-   else
-    trajectory = line_to(p.posx, p.posy, mtarx, mtary, 0);
-   missed = true;
-   if (!burst) {
-       add_msg_player_or_npc( &p, _("You miss!"), _("<npcname> misses!") );
-   }
+      // We missed D:
+      // Shoot a random nearby space?
+      int mtarx = tarx + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+      int mtary = tary + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+      if (m.sees(p.posx, p.posy, x, y, -1, tart)) {
+          trajectory = line_to(p.posx, p.posy, mtarx, mtary, tart);
+      } else {
+          trajectory = line_to(p.posx, p.posy, mtarx, mtary, 0);
+      }
+      missed = true;
   } else if (missed_by >= .8 / monster_speed_penalty) {
-// Hit the space, but not necessarily the monster there
-   missed = true;
-   if (!burst) {
-       add_msg_player_or_npc( &p, _("You barely miss!"), _("<npcname> barely misses!") );
-   }
+      // Hit the space, but not necessarily the monster there
+      missed = true;
   }
 
   int dam = weapon->gun_damage();
