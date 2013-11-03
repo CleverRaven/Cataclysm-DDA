@@ -1503,7 +1503,7 @@ void game::process_missions()
 void game::handle_key_blocking_activity() {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (is_hostile_nearby(dangerous_proximity) && 
+    if (is_hostile_very_close() && 
         u.activity.type != ACT_NULL &&
         u.activity.moves_left > 0 &&
         !u.activity.warned_of_proximity)
@@ -4516,12 +4516,18 @@ bool vector_has(std::vector<int> vec, int test)
  return false;
 }
 
-bool game::is_hostile_nearby(int iProxyDist)
+bool game::is_hostile_nearby()
 {
-    if (iProxyDist == -1) {
-        iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
-    }
+    int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    return is_hostile_within(distance);
+}
 
+bool game::is_hostile_very_close()
+{
+    return is_hostile_within(dangerous_proximity);
+}
+
+bool game::is_hostile_within(int distance){
     for (int i = 0; i < num_zombies(); i++) {
         monster &z = _active_monsters[i];
         if (!u_see(&z))
@@ -4532,7 +4538,7 @@ bool game::is_hostile_nearby(int iProxyDist)
             continue;
 
         int mondist = rl_dist(u.posx, u.posy, z.posx(), z.posy());
-        if (mondist <= iProxyDist)
+        if (mondist <= distance)
             return true;
     }
 
@@ -4545,7 +4551,7 @@ bool game::is_hostile_nearby(int iProxyDist)
         if (active_npc[i]->attitude != NPCATT_KILL)
             continue;
 
-        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist)
+        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance)
                 return true;
     }
 
@@ -9299,7 +9305,7 @@ void game::butcher()
   return;
  }
 
- if (is_hostile_nearby(-1) &&
+ if (is_hostile_nearby() &&
      !query_yn(_("Hostiles are nearby! Start Butchering anyway?")))
  {
      return;
