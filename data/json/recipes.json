@@ -786,7 +786,7 @@
 },{
         "type" : "recipe",
   "result": "spear_steel",
-  "category": "CC_MISC",
+  "category": "CC_WEAPON",
   "skill_used": "fabrication",
   "requires_skills": [ "melee", 1 ],
   "difficulty": 1,
@@ -974,15 +974,45 @@
       ["swage", -1]
       ],
       [
-      ["forge", 100], ["char_forge", 20]
+      ["forge", 50], ["char_forge", 10]
       ]
       ],
   "components":
     [
      [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 4 ],
-     [ "scrap", 12 ]
+     [ "steel_chunk", 1 ],
+     [ "scrap", 3 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "caltrops",
+  "id_suffix": "from wire",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "traps", 2 ],
+  "difficulty": 3,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "wire_barbed", 3 ],
+     [ "wire", 9 ]
      ]
     ]
 },{
@@ -12461,6 +12491,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sword_bayonet",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "makeshift_machete", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pistol_bayonet",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -17388,18 +17435,34 @@
   "skill_used": "survival",
   "difficulty": 2,
   "time": 30000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "bottle_glass", 2 ],
-      [ "bottle_plastic", 5 ]
+      [ "jug_plastic", 1 ]
     ],
     [
-      [ "hose", 1 ]
+      [ "rag", 4 ]
     ],
     [
-      [ "scrap", 8 ]
+      [ "charcoal", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "char_purifier",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "jug_plastic", 1 ]
     ],
     [
       [ "rag", 4 ]
