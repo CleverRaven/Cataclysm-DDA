@@ -2386,3 +2386,27 @@ int item::getlight_emit(bool calculate_dimming) const {
     }
     return lumint / 10;
 }
+
+int item::get_remaining_liquid_capacity() const
+{
+    if (!is_container()) {
+        return 0;
+    }
+
+    it_container *container = dynamic_cast<it_container *>(type);
+    if (contents.empty()) {
+        return container->contains;
+    }
+    
+    if (type->is_food()) {
+        it_comest *tmp_comest = dynamic_cast<it_comest *>(type);
+        return container->contains * tmp_comest->charges;
+    } else if (type->is_ammo()) {
+        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
+        return container->contains * tmp_ammo->count;
+    } else {
+        return container->contains;
+    }
+
+    return 0;
+}

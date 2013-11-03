@@ -8508,31 +8508,16 @@ bool game::can_container_hold(item *cont, item &liquid, int &holding_container_c
         }
     }
 
-    // ok, liquids are compatible.  Now check what the type of liquid is
+    // OK, liquids are compatible. Now check what the type of liquid is
     // this will determine how much the holding container can hold
-
-    it_container *container = dynamic_cast<it_container *>(cont->type);
-
-    if (liquid.type->is_food()) {
-        it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
-        holding_container_charges = container->contains * tmp_comest->charges;
-    } else if (liquid.type->is_ammo()) {
-        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
-        holding_container_charges = container->contains * tmp_ammo->count;
-    } else {
-        holding_container_charges = container->contains;
+    holding_container_charges = cont->get_remaining_liquid_capacity();
+    if (holding_container_charges == 0) {
+        add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+            liquid.tname(this).c_str());
+        return false;
     }
 
-    // if the holding container is NOT empty
-    if (!cont->contents.empty()) {
-        if (cont->contents[0].charges == holding_container_charges) {
-            add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
-                liquid.tname(this).c_str());
-            return false;
-        }
-
-        return true;
-    } else { // pouring into an empty container
+    if (cont->contents.empty()) {
         if (!cont->has_flag("WATERTIGHT")) { // invalid container types
             add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
             return false;

@@ -185,6 +185,8 @@ public:
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
+ int get_remaining_liquid_capacity() const;
+
  bool operator<(const item& other) const;
 
  itype_id typeId() const;
