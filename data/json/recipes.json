@@ -17388,18 +17388,34 @@
   "skill_used": "survival",
   "difficulty": 2,
   "time": 30000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "bottle_glass", 2 ],
-      [ "bottle_plastic", 5 ]
+      [ "jug_plastic", 1 ]
     ],
     [
-      [ "hose", 1 ]
+      [ "rag", 4 ]
     ],
     [
-      [ "scrap", 8 ]
+      [ "charcoal", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "char_purifier",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "jug_plastic", 1 ]
     ],
     [
       [ "rag", 4 ]
