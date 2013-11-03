@@ -834,6 +834,13 @@ void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int exam
 }
 
 void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
+
+    if (m->i_at(examx, examy).size() == 0)
+    {
+        g->add_msg(_("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
+        return;
+    }
+
     int ch = menu(true, _("Recycle metal into?:"), _("Lumps"), _("Sheets"),
                   _("Chunks"), _("Scraps"), _("Cancel"), NULL);
 
@@ -847,13 +854,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
     int num_chunks = 0;
     int num_scraps = 0;
 
-    if (m->i_at(examx, examy).size() == 0)
-    {
-        g->add_msg(_("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
-        return;
-    }
-
-    if (ch == 5)
+    if (ch >= 5 || ch <= 0)
     {
         g->add_msg(_("Never mind."));
         return;
