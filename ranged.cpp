@@ -277,19 +277,19 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   }
 
   // Drain UPS power
-  if (p.has_charges("adv_UPS_off", adv_ups_drain))
-    p.use_charges("adv_UPS_off", adv_ups_drain);
-  else if (p.has_charges("adv_UPS_on", adv_ups_drain))
-    p.use_charges("adv_UPS_on", adv_ups_drain);
-  else if (p.has_charges("UPS_off", ups_drain))
-    p.use_charges("UPS_off", ups_drain);
-  else if (p.has_charges("UPS_on", ups_drain))
-    p.use_charges("UPS_on", ups_drain);
+  if (p.has_charges("adv_UPS_off", adv_ups_drain)) {
+      p.use_charges("adv_UPS_off", adv_ups_drain);
+  } else if (p.has_charges("adv_UPS_on", adv_ups_drain)) {
+      p.use_charges("adv_UPS_on", adv_ups_drain);
+  } else if (p.has_charges("UPS_off", ups_drain)) {
+      p.use_charges("UPS_off", ups_drain);
+  } else if (p.has_charges("UPS_on", ups_drain)) {
+      p.use_charges("UPS_on", ups_drain);
+  }
 
 
   if (firing->skill_used != Skill::skill("archery") &&
-      firing->skill_used != Skill::skill("throw"))
-  {
+      firing->skill_used != Skill::skill("throw")) {
       // Current guns have a durability between 5 and 9.
       // Misfire chance is between 1/64 and 1/1024.
       if (one_in(2 << firing->durability)) {
@@ -306,17 +306,20 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   double monster_speed_penalty = 1.;
   int target_index = mon_at(tarx, tary);
   if (target_index != -1) {
-   monster_speed_penalty = double(zombie(target_index).speed) / 80.;
-   if (monster_speed_penalty < 1.)
-    monster_speed_penalty = 1.;
+      monster_speed_penalty = double(zombie(target_index).speed) / 80.;
+      if (monster_speed_penalty < 1.) {
+          monster_speed_penalty = 1.;
+      }
   }
 
   if (curshot > 0) {
-   if (recoil_add(p) % 2 == 1)
-    p.recoil++;
-   p.recoil += recoil_add(p) / 2;
-  } else
-   p.recoil += recoil_add(p);
+      if (recoil_add(p) % 2 == 1) {
+          p.recoil++;
+      }
+      p.recoil += recoil_add(p) / 2;
+  } else {
+      p.recoil += recoil_add(p);
+  }
 
   if (missed_by >= 1.) {
 // We missed D:
@@ -344,94 +347,97 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   int ty = trajectory[0].y;
   int px = trajectory[0].x;
   int py = trajectory[0].y;
-  for (int i = 0; i < trajectory.size() &&
-         (dam > 0 || (effects.count("FLAME"))); i++) {
+  for (int i = 0; i < trajectory.size() && (dam > 0 || (effects.count("FLAME"))); i++) {
       px = tx;
       py = ty;
       tx = trajectory[i].x;
       ty = trajectory[i].y;
-// Drawing the bullet uses player u, and not player p, because it's drawn
-// relative to YOUR position, which may not be the gunman's position.
-   draw_bullet(p, tx, ty, i, trajectory, effects.count("FLAME")? '#':'*', ts);
+      // Drawing the bullet uses player u, and not player p, because it's drawn
+      // relative to YOUR position, which may not be the gunman's position.
+      draw_bullet(p, tx, ty, i, trajectory, effects.count("FLAME")? '#':'*', ts);
 
-   if (dam <= 0 && !(effects.count("FLAME"))) { // Ran out of momentum.
-    ammo_effects(this, tx, ty, effects);
-    if (is_bolt && !(effects.count("IGNITE")) &&
-        !(effects.count("EXPLOSIVE")) &&
-        ((curammo->m1 == "wood" && !one_in(4)) ||
-         (curammo->m1 != "wood" && !one_in(15))))
-     m.add_item_or_charges(tx, ty, ammotmp);
-    if (weapon->num_charges() == 0)
-     weapon->curammo = NULL;
-    return;
-   }
+      if (dam <= 0 && !(effects.count("FLAME"))) { // Ran out of momentum.
+          ammo_effects(this, tx, ty, effects);
+          if (is_bolt && !(effects.count("IGNITE")) &&
+              !(effects.count("EXPLOSIVE")) &&
+              ((curammo->m1 == "wood" && !one_in(4)) ||
+               (curammo->m1 != "wood" && !one_in(15)))) {
+              m.add_item_or_charges(tx, ty, ammotmp);
+          }
+          if (weapon->num_charges() == 0) {
+              weapon->curammo = NULL;
+          }
+          return;
+      }
 
-// If there's a monster in the path of our bullet, and either our aim was true,
-//  OR it's not the monster we were aiming at and we were lucky enough to hit it
-   int mondex = mon_at(tx, ty);
-// If we shot us a monster...
-   if (mondex != -1 && ((!zombie(mondex).digging()) ||
-       rl_dist(p.posx, p.posy, zombie(mondex).posx(), zombie(mondex).posy()) <= 1) &&
-       ((!missed && i == trajectory.size() - 1) ||
-        one_in((5 - int(zombie(mondex).type->size)))) ) {
-    monster &z = zombie(mondex);
+      // If there's a monster in the path of our bullet, and either our aim was true,
+      //  OR it's not the monster we were aiming at and we were lucky enough to hit it
+      int mondex = mon_at(tx, ty);
+      // If we shot us a monster...
+      if (mondex != -1 && ((!zombie(mondex).digging()) ||
+                           rl_dist(p.posx, p.posy, zombie(mondex).posx(),
+                                   zombie(mondex).posy()) <= 1) &&
+          ((!missed && i == trajectory.size() - 1) ||
+           one_in((5 - int(zombie(mondex).type->size)))) ) {
+          monster &z = zombie(mondex);
 
-    double goodhit = missed_by;
-    if (i < trajectory.size() - 1) // Unintentional hit
-     goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
+          double goodhit = missed_by;
+          if (i < trajectory.size() - 1) { // Unintentional hit
+              goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
+          }
 
-// Penalize for the monster's speed
-    if (z.speed > 80)
-     goodhit *= double( double(z.speed) / 80.);
+          // Penalize for the monster's speed
+          if (z.speed > 80) {
+              goodhit *= double( double(z.speed) / 80.0);
+          }
 
-    std::vector<point> blood_traj = trajectory;
-    blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
-    splatter(this, blood_traj, dam, &z);
-    shoot_monster(this, p, z, dam, goodhit, weapon, effects);
+          std::vector<point> blood_traj = trajectory;
+          blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
+          splatter(this, blood_traj, dam, &z);
+          shoot_monster(this, p, z, dam, goodhit, weapon, effects);
 
-   } else if ((!missed || one_in(3)) &&
-              (npc_at(tx, ty) != -1 || (u.posx == tx && u.posy == ty)))  {
-    double goodhit = missed_by;
-    if (i < trajectory.size() - 1) // Unintentional hit
-     goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
-    player *h;
-    if (u.posx == tx && u.posy == ty)
-     h = &u;
-    else
-     h = active_npc[npc_at(tx, ty)];
-    if (h->power_level >= 10 && h->uncanny_dodge()) {
-     h->power_level -= 7; // dodging bullets costs extra
-    }
-    else {
-     std::vector<point> blood_traj = trajectory;
-     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
-     splatter(this, blood_traj, dam);
-     shoot_player(this, p, h, dam, goodhit);
-    }
-   } else
-    m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, effects);
+      } else if ((!missed || one_in(3)) &&
+                 (npc_at(tx, ty) != -1 || (u.posx == tx && u.posy == ty)))  {
+          double goodhit = missed_by;
+          if (i < trajectory.size() - 1) { // Unintentional hit
+              goodhit = double(rand() / (RAND_MAX + 1.0)) / 2;
+          }
+          player *h;
+          if (u.posx == tx && u.posy == ty) {
+              h = &u;
+          } else {
+              h = active_npc[npc_at(tx, ty)];
+          }
+          if (h->power_level >= 10 && h->uncanny_dodge()) {
+              h->power_level -= 7; // dodging bullets costs extra
+          } else {
+              std::vector<point> blood_traj = trajectory;
+              blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
+              splatter(this, blood_traj, dam);
+              shoot_player(this, p, h, dam, goodhit);
+          }
+      } else {
+          m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, effects);
+      }
   } // Done with the trajectory!
 
   ammo_effects(this, tx, ty, effects);
-  if (effects.count("BOUNCE"))
-  {
-    for (unsigned long int i = 0; i < num_zombies(); i++)
-    {
-        monster &z = zombie(i);
-        // search for monsters in radius 4 around impact site
-        if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4)
-        {
-            // don't hit targets that have already been hit
-            if (!z.has_effect(ME_BOUNCED) && !z.dead)
-            {
-                add_msg(_("The attack bounced to %s!"), z.name().c_str());
-                trajectory = line_to(tx, ty, z.posx(), z.posy(), 0);
-                if (weapon->charges > 0)
-                    fire(p, z.posx(), z.posy(), trajectory, false);
-                break;
-            }
-        }
-    }
+  if (effects.count("BOUNCE")) {
+      for (unsigned long int i = 0; i < num_zombies(); i++) {
+          monster &z = zombie(i);
+          // search for monsters in radius 4 around impact site
+          if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
+              // don't hit targets that have already been hit
+              if (!z.has_effect(ME_BOUNCED) && !z.dead) {
+                  add_msg(_("The attack bounced to %s!"), z.name().c_str());
+                  trajectory = line_to(tx, ty, z.posx(), z.posy(), 0);
+                  if (weapon->charges > 0) {
+                      fire(p, z.posx(), z.posy(), trajectory, false);
+                  }
+                  break;
+              }
+          }
+      }
   }
 
   if (m.move_cost(tx, ty) == 0) {
@@ -441,12 +447,14 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   if (is_bolt && !(effects.count("IGNITE")) &&
       !(effects.count("EXPLOSIVE")) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
-       (curammo->m1 != "wood" && !one_in(15))  ))
-    m.add_item_or_charges(tx, ty, ammotmp);
+       (curammo->m1 != "wood" && !one_in(15))  )) {
+      m.add_item_or_charges(tx, ty, ammotmp);
+  }
  }
 
- if (weapon->num_charges() == 0)
-  weapon->curammo = NULL;
+ if (weapon->num_charges() == 0) {
+     weapon->curammo = NULL;
+ }
 }
 
 
