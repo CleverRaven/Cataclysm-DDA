@@ -614,7 +614,6 @@ bool monster::hurt(int dam, int real_dam)
      hp = std::max( hp, -real_dam );
  }
  if (hp < 1) {
-     die(g);
      return true;
  }
  if (dam > 0) {
@@ -678,10 +677,8 @@ int monster::fall_damage()
 
 void monster::die(game *g)
 {
- if (dead) {
-  return;
- }
- dead = true;
+ if (!dead)
+  dead = true;
  if (!no_extra_death_drops) {
   drop_items_on_death(g);
  }

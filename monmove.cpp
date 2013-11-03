@@ -621,7 +621,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("%s's offensive defense system shocks it!"),
                                    p.name.c_str());
                     }
-                    hurt(rng(10, 40));
+                    if (hurt(rng(10, 40))) {
+                        die(g);
+                    }
                 }
                 if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
@@ -635,7 +637,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("Your %s puncture it!"),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     }
-                    hurt(spine);
+                    if (hurt(spine))
+                        die(g);
                 }
 
                 if (dam + cut <= 0)

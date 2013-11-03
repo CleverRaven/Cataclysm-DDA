@@ -1427,6 +1427,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     }
     if (dam > 0) {
         z->hurt(dam);
+        if(z->hp < 1) {
+          z->die(g);
+        }
     }
 }
 
