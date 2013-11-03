@@ -89,6 +89,21 @@ static SDL_Joystick *joystick; // Only one joystick for now.
 
 static bool fontblending = false;
 
+#ifdef SDLTILES
+//***********************************
+//Tile-version specific functions   *
+//***********************************
+void init_tiles()
+{
+
+    DebugLog() << "Initializing SDL Tiles context\n";
+    IMG_Init(IMG_INIT_PNG);
+    tilecontext = new cata_tiles;
+    if (OPTIONS["USE_TILES"]){
+        tilecontext->init(screen, "gfx");
+    }
+}
+#endif
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
@@ -712,7 +727,7 @@ void CheckMessages()
                     // FIXME This should really find current key from 'keymap', in case it's remapped, but
                     // that's in action.h. When that's available at a different abstraction level,
                     // this can be improved.
-                    lastchar = '<'; 
+                    lastchar = '<';
                 } else if (ev.button.button == SDL_BUTTON_WHEELDOWN) {
                     lastchar = '>';
                 }
@@ -971,16 +986,8 @@ WINDOW *curses_init(void)
     // I can only guess by check a certain tall character...
     cache_glyphs();
 
-#ifdef SDLTILES
-    // Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.  // Most definitely should not be doing this multiple times...
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
-    DebugLog() << "Initializing SDL Tiles context\n";
-    IMG_Init(IMG_INIT_PNG);
-    tilecontext = new cata_tiles;
-    tilecontext->init(screen, "gfx");
-#else
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
-#endif
+
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -1002,7 +1009,7 @@ input_event getch_kyb_mouse(WINDOW* capture_win /* = NULL */)
 {
     input_event evt = inp_mngr.get_input_event(mainwin);
 
-    if (evt.sequence.size() == 0 || 
+    if (evt.sequence.size() == 0 ||
         (evt.type != CATA_INPUT_MOUSE && evt.type != CATA_INPUT_KEYBOARD))
     {
         evt.type = CATA_INPUT_ERROR;
