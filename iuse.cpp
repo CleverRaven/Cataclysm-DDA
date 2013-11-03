@@ -5255,7 +5255,7 @@ int iuse::rag(game *g, player *p, item *it, bool t)
             p->use_charges("rag", 1);
             it->make(g->itypes["rag_bloody"]);
         }
-        return it->type->charges_to_use();
+        return 0;
     } else {
         g->add_msg_if_player(p,_("You're not bleeding enough to need your %s."),
                              it->type->name.c_str());
