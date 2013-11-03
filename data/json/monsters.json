@@ -1901,7 +1901,7 @@
     "death_function":"ZOMBIE",
     "special_attack":"BITE",
     "description":"It's skin so tight the cracked bones are visible beneath it, covered in scar tissue and coils of scabbed black liquid and with eyes so deeply sunken into it's skill they are barely visible, it's a wonder this once-human creature can move at all.",
-    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "NO_BREATHE", "VIS30"]
+    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "VIS30"]
   },
   {
     "type":"MONSTER",

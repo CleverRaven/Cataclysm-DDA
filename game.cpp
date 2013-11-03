@@ -9493,23 +9493,32 @@ void game::complete_butcher(int index)
    }
  }
 
- if (pieces <= 0)
+ if (pieces <= 0) {
   add_msg(_("Your clumsy butchering destroys the meat!"));
- else {
+ } else {
+  add_msg(_("You butcher the corpse."));
   itype_id meat;
   if (corpse->has_flag(MF_POISON)) {
-    if (corpse->mat == "flesh")
+    if (corpse->mat == "flesh") {
      meat = "meat_tainted";
-    else
+    } else {
      meat = "veggy_tainted";
+    }
   } else {
-   if (corpse->mat == "flesh" || corpse->mat == "hflesh")
-    if(corpse->has_flag(MF_HUMAN))
+   if (corpse->mat == "flesh" || corpse->mat == "hflesh") {
+    if(corpse->has_flag(MF_HUMAN)) {
      meat = "human_flesh";
-    else
+    } else {
      meat = "meat";
-   else
-    meat = "veggy";
+    }
+   } else if(corpse->mat == "bone") {
+     meat = "bone";
+   } else if(corpse->mat == "veggy") {
+     meat = "veggy";
+   } else {
+     //Don't generate anything
+     return;
+   }
   }
   item tmpitem=item_controller->create(meat, age);
   tmpitem.corpse=dynamic_cast<mtype*>(corpse);
@@ -9517,7 +9526,6 @@ void game::complete_butcher(int index)
     pieces--;
     m.add_item_or_charges(u.posx, u.posy, tmpitem);
   }
-  add_msg(_("You butcher the corpse."));
  }
 }
 
