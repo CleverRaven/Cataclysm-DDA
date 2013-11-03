@@ -12461,6 +12461,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sword_bayonet",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "makeshift_machete", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pistol_bayonet",
   "category": "CC_MISC",
   "skill_used": "fabrication",

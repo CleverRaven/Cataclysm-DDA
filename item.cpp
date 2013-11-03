@@ -1046,7 +1046,7 @@ int item::damage_cut() const
 {
     if (is_gun()) {
         for (int i = 0; i < contents.size(); i++) {
-            if (contents[i].typeId() == "bayonet")
+            if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
                 return contents[i].type->melee_cut;
         }
     }
