@@ -189,7 +189,7 @@ class game
   void throw_item(player &p, int tarx, int tary, item &thrown,
                   std::vector<point> &trajectory);
   void cancel_activity();
-  void cancel_activity_query(const char* message, ...);
+  bool cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
   // Get input from the player to choose an adjacent tile (for examine() etc)
@@ -236,6 +236,7 @@ class game
   bool u_see (player *p);
   bool pl_sees(player *p, monster *mon, int &t);
   bool is_hostile_nearby();
+  bool is_hostile_very_close();
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
   void update_overmap_seen(); // Update which overmap tiles we can see
@@ -377,6 +378,9 @@ class game
                        bool bite = true, bool infect = true);
 
   bool opening_screen();// Warn about screen size, then present the main menu
+
+  const int dangerous_proximity;
+
  private:
 // Game-start procedures
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
@@ -584,6 +588,8 @@ class game
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
+
+  bool is_hostile_within(int distance);
 };
 
 #endif

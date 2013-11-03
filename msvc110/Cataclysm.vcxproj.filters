@@ -59,7 +59,7 @@
     </ClCompile>
     <ClCompile Include="..\char_validity_check.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>    
+    </ClCompile>
     <ClCompile Include="..\color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -335,7 +335,7 @@
     </ClCompile>
     <ClCompile Include="..\worldfactory.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>    
+    </ClCompile>
     <ClCompile Include="..\wcwidth.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -415,7 +415,7 @@
     </ClInclude>
     <ClInclude Include="..\char_validity_check.h">
       <Filter>Header Files</Filter>
-    </ClInclude>    
+    </ClInclude>
     <ClInclude Include="..\color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -658,7 +658,7 @@
     </ClInclude>
     <ClInclude Include="..\worldfactory.h">
       <Filter>Header Files</Filter>
-    </ClInclude>    
+    </ClInclude>
     <ClInclude Include="..\coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
