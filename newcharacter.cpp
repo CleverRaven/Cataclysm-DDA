@@ -188,7 +188,7 @@ bool player::create(game *g, character_type type, std::string tempname)
         hp_max[i] = calc_HP(str_max, has_trait("TOUGH"));
         hp_cur[i] = hp_max[i];
     }
-    if (has_trait("HARDCORE")) {
+    if (has_trait("FRAIL")) {
         for (int i = 0; i < num_hp_parts; i++) {
             hp_max[i] = int(hp_max[i] * .25);
             hp_cur[i] = hp_max[i];
@@ -391,26 +391,24 @@ void draw_tabs(WINDOW* w, std::string sTab)
 int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
 {
     unsigned char sel = 1;
+    const int iSecondColumn = 27;
     char ch;
 
     draw_tabs(w, "STATS");
 
-    mvwprintz(w, 11, 2, c_ltgray, _("j/k, 8/2, or arrows"));
-    mvwprintz(w, 12, 2, c_ltgray, _(" select a statistic."));
-    mvwprintz(w, 13, 2, c_ltgray, _("l, 6, or right arrow"));
-    mvwprintz(w, 14, 2, c_ltgray, _(" increase the statistic."));
-    mvwprintz(w, 15, 2, c_ltgray, _("h, 4, or left arrow"));
-    mvwprintz(w, 16, 2, c_ltgray, _(" decrease the statistic."));
-    mvwprintz(w, 18, 2, c_ltgray, _("> Takes you to the next tab."));
-    mvwprintz(w, 19, 2, c_ltgray, _("< Returns you to the main menu."));
+    mvwprintz(w, 16, 2, c_ltgray, _("j/k, 8/2, or arrows to select a statistic."));
+    mvwprintz(w, 17, 2, c_ltgray, _("l, 6, or right arrow to increase the statistic."));
+    mvwprintz(w, 18, 2, c_ltgray, _("h, 4, or left arrow to decrease the statistic."));
+    mvwprintz(w, 22, 2, c_green, _("> Takes you to the next tab."));
+    mvwprintz(w, 23, 2, c_green, _("< Returns you to the main menu."));
 
-    const char clear[] = "                                              ";
+    const char clear[] = "                                                ";
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
-        mvwprintz(w, 3, 33, c_black, clear);
-        for (int i = 6; i < 15; i++) {
-            mvwprintz(w, i, 33, c_black, clear);
+        mvwprintz(w, 3, iSecondColumn, c_black, clear);
+        for (int i = 6; i < 13; i++) {
+            mvwprintz(w, i, iSecondColumn, c_black, clear);
         }
         mvwprintz(w, 6,  2, c_ltgray, _("Strength:"));
         mvwprintz(w, 6,  16, c_ltgray, "%2d", u->str_max);
@@ -423,69 +421,73 @@ int set_stats(WINDOW* w, game* g, player *u, character_type type, int &points)
 
         switch (sel) {
         case 1:
-            mvwprintz(w, 6,  2, COL_STAT_ACT, _("Strength:"));
-            mvwprintz(w, 6,  16, COL_STAT_ACT, "%2d", u->str_max);
+            mvwprintz(w, 6, 2, COL_STAT_ACT, _("Strength:"));
+            mvwprintz(w, 6, 16, COL_STAT_ACT, "%2d", u->str_max);
             if (u->str_max >= HIGH_STAT) {
-                mvwprintz(w, 3, 33, c_ltred, _("Increasing Str further costs 2 points."));
+                mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
             }
-            mvwprintz(w, 6, 33, COL_STAT_ACT, _("Base HP: %d"),
+            mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Base HP: %d"),
                       calc_HP(u->str_max, u->has_trait("TOUGH")));
-            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Carry weight: %.1f %s"),
+            mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Carry weight: %.1f %s"),
                       u->convert_weight(u->weight_capacity(false)),
                       OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
-            mvwprintz(w, 8, 33, COL_STAT_ACT, _("Melee damage: %d"),
+            mvwprintz(w, 8, iSecondColumn, COL_STAT_ACT, _("Melee damage: %d"),
                       u->base_damage(false));
-            fold_and_print(w, 10, 33, 45, COL_STAT_ACT, _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
+            fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH-iSecondColumn-2, COL_STAT_ACT,
+				           _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
             break;
 
         case 2:
             mvwprintz(w, 7,  2, COL_STAT_ACT, _("Dexterity:"));
             mvwprintz(w, 7,  16, COL_STAT_ACT, "%2d", u->dex_max);
             if (u->dex_max >= HIGH_STAT) {
-                mvwprintz(w, 3, 33, c_ltred, _("Increasing Dex further costs 2 points."));
+                mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Dex further costs 2 points."));
             }
-            mvwprintz(w, 6, 33, COL_STAT_ACT, _("Melee to-hit bonus: +%d"),
+            mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Melee to-hit bonus: +%d"),
                       u->base_to_hit(false));
             if (u->throw_dex_mod(false) <= 0) {
-                mvwprintz(w, 7, 33, COL_STAT_ACT, _("Throwing bonus: +%d"),
+                mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Throwing bonus: +%d"),
                           abs(u->throw_dex_mod(false)));
             } else {
-                mvwprintz(w, 7, 33, COL_STAT_ACT, _("Throwing penalty: -%d"),
+                mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Throwing penalty: -%d"),
                           abs(u->throw_dex_mod(false)));
             }
             if (u->ranged_dex_mod(false) != 0) {
-                mvwprintz(w, 8, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
+                mvwprintz(w, 8, iSecondColumn, COL_STAT_ACT, _("Ranged penalty: -%d"),
                     abs(u->ranged_dex_mod(false)));
             }
-            fold_and_print(w, 10, 33, 45, COL_STAT_ACT, _("Dexterity also enhances many actions which require finesse."));
+            fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH-iSecondColumn-2, COL_STAT_ACT,
+				           _("Dexterity also enhances many actions which require finesse."));
             break;
 
         case 3:
             mvwprintz(w, 8,  2, COL_STAT_ACT, _("Intelligence:"));
             mvwprintz(w, 8,  16, COL_STAT_ACT, "%2d", u->int_max);
             if (u->int_max >= HIGH_STAT) {
-                mvwprintz(w, 3, 33, c_ltred, _("Increasing Int further costs 2 points."));
+                mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Int further costs 2 points."));
             }
-            mvwprintz(w, 6, 33, COL_STAT_ACT, _("Read times: %d%%%%"),
+            mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Read times: %d%%%%"),
                       u->read_speed(false));
-            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Skill rust: %d%%%%"),
+            mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Skill rust: %d%%%%"),
                       u->rust_rate(false));
-            fold_and_print(w, 9, 33, 45, COL_STAT_ACT, _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
+            fold_and_print(w, 9, iSecondColumn, FULL_SCREEN_WIDTH-iSecondColumn-2, COL_STAT_ACT,
+				           _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
             break;
 
         case 4:
             mvwprintz(w, 9,  2, COL_STAT_ACT, _("Perception:"));
             mvwprintz(w, 9,  16, COL_STAT_ACT, "%2d", u->per_max);
             if (u->per_max >= HIGH_STAT) {
-                mvwprintz(w, 3, 33, c_ltred, _("Increasing Per further costs 2 points."));
+                mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Per further costs 2 points."));
             }
             if (u->ranged_per_mod(false) != 0) {
-                mvwprintz(w, 6, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
+                mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Ranged penalty: -%d"),
                     abs(u->ranged_per_mod(false)));
             }
 
 
-            fold_and_print(w, 8, 33, 45, COL_STAT_ACT, _("Perception is also used for detecting traps and other things of interest."));
+            fold_and_print(w, 8, iSecondColumn, FULL_SCREEN_WIDTH-iSecondColumn-2, COL_STAT_ACT,
+				           _("Perception is also used for detecting traps and other things of interest."));
             break;
         }
 
@@ -1141,7 +1143,7 @@ int set_description(WINDOW* w, game* g, player *u, character_type type, int &poi
            u->name.erase(u->name.size()-1);
        }
        u->name.erase(u->name.size()-1);
-       mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
+       mvwprintz(w, 6, namebar_pos, c_ltgray, "_______________________________");
        mvwprintz(w, 6, namebar_pos, c_ltgray, "%s", u->name.c_str());
        wprintz(w, h_ltgray, "_");
       }

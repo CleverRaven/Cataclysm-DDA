@@ -31,11 +31,11 @@ struct quality_requirement
   int level;
 
   quality_requirement() { id = "UNKNOWN"; count = 0; available = false; level = 0;}
-  quality_requirement(std::string new_id, int new_count, int new_level){ 
-    id = new_id; 
+  quality_requirement(std::string new_id, int new_count, int new_level){
+    id = new_id;
     count = new_count;
     level = new_level;
-    available = false; 
+    available = false;
   }
 };
 
@@ -112,6 +112,7 @@ typedef std::map<craft_cat, recipe_list> recipe_map;
 void load_recipe_category(JsonObject &jsobj);
 void load_recipe(JsonObject &jsobj);
 recipe* recipe_by_name(std::string name);
+void finalize_recipes();
 
 extern recipe_map recipes; // The list of valid recipes
 

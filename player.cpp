@@ -20,7 +20,6 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
 #include "crafting.h"
@@ -1255,6 +1254,15 @@ int player::swim_speed()
  if (ret < 30)
   ret = 30;
  return ret;
+}
+
+bool player::is_on_ground()
+{
+    bool on_ground = false;
+    if(has_disease("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
+        on_ground = true;
+    }
+    return  on_ground;
 }
 
 bool player::is_underwater() const
@@ -4087,7 +4095,7 @@ void player::recalc_hp()
         {
             new_max_hp[i] *= 1.2;
         }
-        if (has_trait("HARDCORE"))
+        if (has_trait("FRAIL"))
         {
             new_max_hp[i] *= 0.25;
         }
@@ -6267,6 +6275,7 @@ bool player::consume(game *g, signed char ch)
                 charge /= 2;
             }
             charge_power(charge);
+            to_eat->charges = 0;
             g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
                                      to_eat->tname(g).c_str());
         }
@@ -7719,12 +7728,14 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                 return;
             } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
                         mod->id == "masterkey" || mod->id == "u_shotgun" ||
-                        mod->id == "bayonet" || mod->id == "gun_crossbow") &&
+                        mod->id == "bayonet" || mod->id == "gun_crossbow" ||
+                        mod->id == "sword_bayonet") &&
                        (gun->contents[i].type->id == "pipe_launcher40mm" ||
                         gun->contents[i].type->id == "m203" ||
                         gun->contents[i].type->id == "masterkey" ||
                         gun->contents[i].type->id == "u_shotgun" ||
                         gun->contents[i].type->id == "bayonet" ||
+                        gun->contents[i].type->id == "sword_bayonet" ||
                         gun->contents[i].type->id == "gun_crossbow")) {
                 g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
                            gun->tname(g).c_str());
@@ -8645,12 +8656,14 @@ void player::learn_recipe(recipe *rec)
 
 void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
 {
- if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
-     backlog.name == name && query_yn(_("Resume task?"))) {
-  activity = backlog;
-  backlog = player_activity();
- } else
-  activity = player_activity(type, moves, index, invlet, name);
+    if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
+        backlog.name == name && query_yn(_("Resume task?"))) {
+            activity = backlog;
+            backlog = player_activity();
+    } else {
+        activity = player_activity(type, moves, index, invlet, name);
+    }
+    activity.warned_of_proximity = false;
 }
 
 void player::cancel_activity()

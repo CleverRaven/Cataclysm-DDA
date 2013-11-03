@@ -7,6 +7,194 @@
 #include <map>
 #include <set>
 
+/* Cataclysm-DDA homegrown JSON tools
+ * copyright CC-BY-SA-3.0 2013 CleverRaven
+ * 
+ * Consists of four main JSON manipulation tools:
+ * JsonIn - for low-level parsing of an input JSON stream
+ * JsonObject - convenience-wrapper for reading JSON objects from a JsonIn
+ * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
+ * JsonOut - for outputting JSON
+ * 
+ * Generally usage in code will be based around a JsonObject or JsonArray.
+ * 
+ * 
+ * JsonObject and JsonArray
+ * ========================
+ * 
+ * Typical usage for a JsonObject will be something like the following:
+ * 
+ *     JsonObject jo(&jsin);
+ *     std::string id = jo.get_string("id");
+ *     std::string name = _(jo.get_string("name").c_str());
+ *     std::string description = _(jo.get_string("description").c_str());
+ *     int points = jo.get_int("points", 0);
+ *     std::set<std::string> tags = jo.get_tags("flags");
+ *     my_object_type myobject(id, name, description, points, tags);
+ * 
+ * Here the "id", "name" and "description" members are required.
+ * JsonObject will throw a std::string if they are not found,
+ * identifying the problem and the current position in the input stream.
+ * 
+ * Note that "name" and "description" are passed to gettext for translating.
+ * Any members with string information that is displayed directly to the user
+ * will need similar treatment, and may also need to be explicitly handled
+ * in lang/extract_json_strings.py to be translatable.
+ * 
+ * The "points" member here is not required.
+ * If it is not found in the incoming JSON object,
+ * it will be initialized with the default value given as the second parameter,
+ * in this case, 0.
+ * 
+ * get_tags() always returns an empty set if the member is not found,
+ * and so does not require a default value to be specified.
+ * 
+ * 
+ * Arrays can be iterated over, or accessed directly by position.
+ * Typical iterative usage is as follows:
+ * 
+ *     JsonArray ja = jo.get_array("some_array_member");
+ *     std::vector<int> myarray;
+ *     while (ja.has_more()) {
+ *         myarray.push_back(ja.next_int());
+ *     }
+ * 
+ * If the array member is not found, get_array() returns an empty array,
+ * and has_more() is always false, so myarray will remain empty.
+ * 
+ * next_int() and the other next_* methods advance the array iterator,
+ * so after the final element has been read,
+ * has_more() will return false and the loop will terminate.
+ * 
+ * If the next element is not an integer,
+ * JsonArray will throw a std::string indicating the problem,
+ * and the position in the input stream.
+ * 
+ * To handle arrays with elements of indeterminate type,
+ * the test_* methods can be used, calling next_* according to the result.
+ * 
+ * 
+ * Positional array access uses get_* methods as follows:
+ * 
+ *     JsonArray ja = jo.get_array("xydata");
+ *     point xydata(ja.get_int(0), ja.get_int(1));
+ * 
+ * Arrays also provide has_int(index) etc., for positional type testing.
+ * 
+ * 
+ * JsonObject can also test for member type with has_int(name) etc.,
+ * and for member existence with has_member(name).
+ * 
+ * 
+ * These two classes, JsonObject and JsonArray,
+ * provide the most convenient access method for incoming JSON.
+ * 
+ * Usage of the lower-level JsonIn requires more care,
+ * and so should be avoided unless performance is a proven concern.
+ * 
+ * 
+ * JsonIn
+ * ======
+ * 
+ * The JsonIn class is intended to provide a wrapper around a std::istream,
+ * with methods for reading JSON directly from the stream.
+ * 
+ * The JsonObject and JsonArray classes are wrappers around a JsonIn.
+ * JsonArray stores only the byte offset of each element,
+ * and iterates or accesses according to these offsets.
+ * JsonObject maps member names to the byte offset of the paired value.
+ * 
+ * Both of them provide data by seeking the stream to the relevant position,
+ * and calling the correct JsonIn method to read the value from the stream.
+ * 
+ * As such, when processing items using a JsonIn,
+ * care must be taken to move the stream offset to the end of the item
+ * after usage has finished.
+ * This can be done by calling the .finish() method,
+ * after the item has been dealt with, and before the stream continues.
+ * 
+ * Typical usage might be something like the following:
+ * 
+ *     JsonIn jsin(&myistream);
+ *     // expecting an array of objects
+ *     jsin.start_array(); // throws std::string if array not found
+ *     while (!jsin.end_array()) { // end_array returns false if not the end
+ *         JsonObject jo = jsin.get_object();
+ *         ... // load object as above
+ *         jo.finish();
+ *     }
+ * 
+ * The array could have been loaded into a JsonArray for convenience.
+ * Not doing so saves one full pass of the data,
+ * as the element positions don't have to be read,
+ * but requires any JsonObject and JsonArrays that might have been accessed
+ * to be .finish()ed before the next iteration,
+ * so as to move the stream cursor to the correct position.
+ * 
+ * If a JsonObject is used inside a JsonIn and not .finish()ed,
+ * it /will/ cause bugs.
+ * 
+ * 
+ * A JsonIn can also be used for single-pass loading,
+ * by passing off members as they arrive according to their names.
+ * 
+ * Typical usage might be:
+ * 
+ *     JsonIn jsin(&myistream);
+ *     // expecting an array of objects, to be mapped by id
+ *     std::map<std::string,my_data_type> myobjects;
+ *     jsin.start_array();
+ *     while (!jsin.end_array()) {
+ *         my_data_type myobject;
+ *         jsin.start_object();
+ *         while (!jsin.end_object()) {
+ *             std::string name = jsin.get_member_name();
+ *             if (name == "id") {
+ *                 myobject.id = jsin.get_string();
+ *             } else if (name == "name") {
+ *                 myobject.name = _(jsin.get_string().c_str());
+ *             } else if (name == "description") {
+ *                 myobject.description = _(jsin.get_string().c_str());
+ *             } else if (name == "points") {
+ *                 myobject.points = jsin.get_int();
+ *             } else if (name == "flags") {
+ *                 if (jsin.test_string()) { // load single string tag
+ *                     myobject.tags.insert(jsin.get_string());
+ *                 } else { // load tag array
+ *                     jsin.start_array();
+ *                     while (!jsin.end_array()) {
+ *                         myobject.tags.insert(jsin.get_string());
+ *                     }
+ *                 }
+ *             } else {
+ *                 jsin.skip_value();
+ *             }
+ *         }
+ *         myobjects[myobject.id] = myobject;
+ *     }
+ * 
+ * The get_* methods automatically verify and skip separators and whitespace.
+ * 
+ * If the JSON structure is not as expected,
+ * verbose error messages are provided, indicating the problem,
+ * and the exact line number and byte offset within the istream.
+ * 
+ * Using this method, unrecognized members are silently ignored,
+ * allowing for things like "comment" members.
+ * 
+ * As every item must be handled somehow,
+ * unrecognized member values must always be explicitly skipped.
+ * 
+ * If an if;else if;... is missing the "else", it /will/ cause bugs.
+ * 
+ * 
+ * JsonOut
+ * =======
+ * 
+ * Design in progress.
+ * 
+ */
+
 class JsonIn;
 class JsonObject;
 class JsonArray;

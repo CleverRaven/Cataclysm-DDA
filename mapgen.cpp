@@ -14315,36 +14315,117 @@ void add_corpse(game *g, map *m, int x, int y)
 void map::add_road_vehicles(bool city, int facing)
 {
     if (city) {
-        // spawn city car wrecks
-        int maxwrecks = rng(0, 3);
-        for (int nv = 0; nv < maxwrecks; nv++) {
-            int vx = rng(0, 19);
-            int vy = rng(0, 19);
-            int car_type = rng(1, 100);
-            if (car_type <= 25) {
-                add_vehicle(g, "car", vx, vy, facing, -1, 1);
-            } else if (car_type <= 30) {
-                add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
-            } else if (car_type <= 40) {
-                add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
-            } else if (car_type <= 45) {
-                add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
-            } else if (car_type <= 50) {
-                add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
-            } else if (car_type <= 55) {
-                add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
-            } else if (car_type <= 65) {
-                add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
-            } else if (car_type <= 70) {
-                add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
-            } else if (car_type <= 80) {
-                add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
-            } else if (car_type <= 90) {
-                add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
-            } else if (car_type <= 95) {
-                add_vehicle(g, "rv", vx, vy, facing, -1, 1);
+        int spawn_type = rng(0, 100);
+        if(spawn_type <= 33) {
+            //Randomly-distributed wrecks
+            int maxwrecks = rng(1, 3);
+            for (int nv = 0; nv < maxwrecks; nv++) {
+                int vx = rng(0, 19);
+                int vy = rng(0, 19);
+                int car_type = rng(1, 100);
+                if (car_type <= 25) {
+                    add_vehicle(g, "car", vx, vy, facing, -1, 1);
+                } else if (car_type <= 30) {
+                    add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
+                } else if (car_type <= 40) {
+                    add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
+                } else if (car_type <= 45) {
+                    add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 50) {
+                    add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
+                } else if (car_type <= 55) {
+                    add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
+                } else if (car_type <= 65) {
+                    add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
+                } else if (car_type <= 70) {
+                    add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
+                } else if (car_type <= 80) {
+                    add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
+                } else if (car_type <= 90) {
+                    add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
+                } else if (car_type <= 95) {
+                    add_vehicle(g, "rv", vx, vy, facing, -1, 1);
+                } else {
+                    add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
+                }
+            }
+        } else if(spawn_type <= 66) {
+            //Parked vehicles
+            int veh_x, veh_y;
+            if(facing == 0) {
+                veh_x = rng(4, 16); veh_y = 17;
+            } else if(facing == 90) {
+                veh_x = 6; veh_y = rng(4, 16);
+            } else if(facing == 180) {
+                veh_x = rng(4, 16); veh_y = 6;
+            } else if(facing == 270) {
+                veh_x = 17; veh_y = rng(4, 16);
+            }
+            int veh_type = rng(0, 100);
+            if(veh_type <= 70) {
+                add_vehicle(g, "car", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 95) {
+                add_vehicle(g, "electric_car", veh_x, veh_y, facing, -1, 1);
             } else {
-                add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
+                add_vehicle(g, "policecar", veh_x, veh_y, facing, -1, 1);
+            }
+        } else if(spawn_type <= 99) {
+            //Totally clear section of road
+            return;
+        } else {
+            //Road-blocking obstacle of some kind.
+            int block_type = rng(0, 100);
+            if(block_type <= 75) {
+                //Jack-knifed semi
+                int semi_x, semi_y, trailer_x, trailer_y;
+                if(facing == 0) {
+                    semi_x = rng(0, 16); semi_y = rng(14, 16);
+                    trailer_x = semi_x + 4; trailer_y = semi_y - 10;
+                } else if(facing == 90) {
+                    semi_x = rng(0, 8); semi_y = rng(4, 15);
+                    trailer_x = semi_x + 12; trailer_y = semi_y + 1;
+                } else if(facing == 180) {
+                    semi_x = rng(4, 16); semi_y = rng(4, 6);
+                    trailer_x = semi_x - 4; trailer_y = semi_y + 10;
+                } else {
+                    semi_x = rng(12, 20); semi_y = rng(5, 16);
+                    trailer_x = semi_x - 12; trailer_y = semi_y - 1;
+                }
+                add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
+                add_vehicle(g, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
+            } else {
+                //Huge pileup of random vehicles
+                std::string next_vehicle;
+                int num_cars = rng(18, 22);
+                bool policecars = block_type >= 95; //Policecar pileup, Blues Brothers style
+                vehicle *last_added_car = NULL;
+                for(int i = 0; i < num_cars; i++) {
+                    if(policecars) {
+                        next_vehicle = "policecar";
+                    } else {
+                        //Random car
+                        int car_type = rng(0, 100);
+                        if(car_type <= 70) {
+                            next_vehicle = "car";
+                        } else if(car_type <= 90) {
+                            next_vehicle = "flatbed_truck";
+                        } else if(car_type <= 95) {
+                            next_vehicle = "cube_van";
+                        } else {
+                            next_vehicle = "hippie_van";
+                        }
+                    }
+                    last_added_car = add_vehicle(g, next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
+                }
+
+                //Hopefully by the last one we've got a giant pileup, so name it
+                if (last_added_car != NULL) {
+                    if(policecars) {
+                        last_added_car->name = _("policecar pile-up");
+                    } else {
+                        last_added_car->name = _("pile-up");
+                    }
+                }
             }
         }
     } else {
