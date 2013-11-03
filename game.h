@@ -237,7 +237,6 @@ class game
   bool pl_sees(player *p, monster *mon, int &t);
   bool is_hostile_nearby();
   bool is_hostile_very_close();
-  bool is_hostile_within(int distance);
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
   void update_overmap_seen(); // Update which overmap tiles we can see
@@ -589,6 +588,8 @@ class game
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
+
+  bool is_hostile_within(int distance);
 };
 
 #endif
