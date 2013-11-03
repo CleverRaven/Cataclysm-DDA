@@ -1379,7 +1379,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
                   numitems = 1;
               }
               for(int a = 0; a < numitems; a++ ) {
-                  add_item(x, y, new_item, 1024);
+                  add_item_or_charges(x, y, new_item);
               }
            }
         }
@@ -2197,7 +2197,7 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
 void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 {
     item newart(type, bday);
-    add_item(x, y, newart);
+    add_item_or_charges(x, y, newart);
 }
 
 //New spawn_item method, using item factory
