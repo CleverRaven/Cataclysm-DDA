@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-31 07:37+1300\n"
+"POT-Creation-Date: 2013-11-03 07:10+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3172,6 +3172,11 @@ msgstr ""
 
 #: crafting.cpp
 #, c-format
+msgid "You cannot disassemble the %s into its components, too few items."
+msgstr ""
+
+#: crafting.cpp
+#, c-format
 msgid "Really disassemble your %s?"
 msgstr ""
 
@@ -3182,11 +3187,6 @@ msgstr ""
 
 #: crafting.cpp
 msgid "This item cannot be disassembled!"
-msgstr ""
-
-#: crafting.cpp
-#, c-format
-msgid "You cannot disassemble the %s into its components, too few items."
 msgstr ""
 
 #: crafting.cpp
@@ -3864,7 +3864,7 @@ msgid "beep-beep-beep!"
 msgstr ""
 
 #: disease.cpp
-msgid "You wake up to the ringing of an alarm-clock."
+msgid "You turn off your alarm-clock."
 msgstr ""
 
 #: disease.cpp
@@ -8046,6 +8046,14 @@ msgstr ""
 
 #: game.cpp
 msgid "Monsters"
+msgstr ""
+
+#: game.cpp
+msgid "to look around"
+msgstr ""
+
+#: game.cpp
+msgid "to shoot"
 msgstr ""
 
 #: game.cpp
@@ -12339,6 +12347,19 @@ msgstr ""
 
 #: iuse.cpp
 msgid "That vehicle has no fuel to siphon."
+msgstr ""
+
+#: iuse.cpp
+msgid "Fill what?"
+msgstr ""
+
+#: iuse.cpp
+msgid "Fill which vehicle?"
+msgstr ""
+
+#: iuse.cpp
+#, c-format
+msgid "Siphoned %d units of %s from the %s into the %s%s"
 msgstr ""
 
 #: iuse.cpp
@@ -18908,6 +18929,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "RM614 LMG"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine "
+"gun was designed for durability and extreme volume of sustained fire under "
+"the worst possible circumstances."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "RM2000 submachine gun"
 msgstr ""
 
@@ -19978,6 +20010,14 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A stout pole with an improvised grip and a fire-hardened point."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "steel spear"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A stout metal pole with a sharp point."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -23165,6 +23205,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "throwing axe"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A lightweight hatchet made for throwing. Its ineffective cutting edge and "
+"light weight makes it unsuitable for use as a tool."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "plastic arrow"
 msgstr ""
 
@@ -23717,6 +23767,16 @@ msgstr ""
 #: lang/json/json_items.py
 msgid ""
 "Meat that's obviously unhealthy. You could eat it, but it will poison you."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "blob glob"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A little hunk of glop that fell off a blob monster.  It doesn't seem "
+"hostile, but it does wiggle occasionally."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -43771,7 +43831,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You've traveled for a living, sightseeing here and there, and living off "
+"You've travelled for a living, sightseeing here and there, and living off "
 "your parents' trust fund. But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
@@ -43906,7 +43966,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You were about to marry your bride before the cataclysm, now you spend you "
+"You were about to marry your bride before the cataclysm, now you spend your "
 "days searching for her."
 msgstr ""
 
@@ -43936,7 +43996,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Before the Apocalypse, you turned to Heroin to soothe your many problems. "
+"Before the apocalypse, you turned to Heroin to soothe your many problems. "
 "Now, your habit is your only comfort and your only drive."
 msgstr ""
 
@@ -43958,7 +44018,7 @@ msgstr ""
 #: lang/json/json_professions.py
 msgid ""
 "You were on your way to collect your check, when your pimp tried to kill "
-"you. You wish that it wasn't a common occurence. You start with the last of "
+"you. You wish that it wasn't a common occurrence. You start with the last of "
 "your stash and a strong crack addiction."
 msgstr ""
 
@@ -44110,9 +44170,9 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Your body has bionics worth millions payed by public taxes. The government "
-"employed you as a spy: you have night vision, an alarm and a hacking module "
-"powered by your own metabolism."
+"Your body has several bionics worth millions of dollars, paid for by public "
+"taxes. The government employed you as a spy: you have night vision, an alarm "
+"and a hacking module powered by your own metabolism."
 msgstr ""
 
 #: lang/json/json_professions.py
@@ -46721,6 +46781,14 @@ msgstr ""
 
 #: mapgen.cpp
 msgid "Divert power to elevator"
+msgstr ""
+
+#: mapgen.cpp
+msgid "policecar pile-up"
+msgstr ""
+
+#: mapgen.cpp
+msgid "pile-up"
 msgstr ""
 
 #: material.cpp
@@ -52470,13 +52538,21 @@ msgid ""
 msgstr ""
 
 #: options.cpp
+msgid "Centered"
+msgstr ""
+
+#: options.cpp
+msgid "To edge"
+msgstr ""
+
+#: options.cpp
 msgid "Shift list item view"
 msgstr ""
 
 #: options.cpp
 msgid ""
-"If true, shift the view toward the selected item if it is outside of your "
-"current viewport."
+"Centered or to edge, shift the view toward the selected item if it is "
+"outside of your current viewport."
 msgstr ""
 
 #: options.cpp
@@ -56028,10 +56104,6 @@ msgstr ""
 
 #: worldfactory.cpp
 msgid "Do you want to abort World Generation?"
-msgstr ""
-
-#: worldfactory.cpp
-msgid "There are no valid worlds to pick from, would you like to make one?"
 msgstr ""
 
 #: worldfactory.cpp
