@@ -6251,8 +6251,12 @@ bool player::consume(game *g, signed char ch)
                 g->add_msg_if_player(this,_("Your internal power storage is fully powered."));
             }
             charge_power(to_eat->charges / factor);
-            to_eat->charges -= max_change * factor; //negative charges seem to be okay
-            to_eat->charges++; //there's a flat subtraction later
+            to_eat->charges -= max_change * factor;
+            // Fix for tools stacking properly on consuming charges
+            if (to_eat->charges < 0)
+                to_eat->charges = 1;
+            else
+                to_eat->charges++;
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->type->is_book()) {
                 it_book* book = dynamic_cast<it_book*>(to_eat->type);
@@ -6272,6 +6276,8 @@ bool player::consume(game *g, signed char ch)
                                      to_eat->tname(g).c_str());
         }
         moves -= 250;
+
+        // Don't
         if (eat_charge) {
             to_eat->charges--;
             return true;
