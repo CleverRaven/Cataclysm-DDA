@@ -1259,7 +1259,7 @@ int player::swim_speed()
 bool player::is_on_ground()
 {
     bool on_ground = false;
-    if(has_disease("downed") || hp_cur[6] == 0 || hp_cur[5] == 0 ){
+    if(has_disease("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
         on_ground = true;
     }
     return  on_ground;
