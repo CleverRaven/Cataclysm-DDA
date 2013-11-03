@@ -98,6 +98,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a strange dream.",
+            "You feel...OK."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a disturbing dream of bathing in the sun on a rock.",
             "While dreaming, you see a distinctively lizard-like reflection of yourself."
             ],
@@ -194,6 +202,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You dream of having that success you knew you deserved, back before all this.",
+            "Your dream-self looks competent and in control."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
             "You are terrified by a dream of becoming a lizard hybrid.",
             "You have a disturbingly lifelike dream of living as a lizard."
             ],
@@ -286,6 +302,14 @@
             "Your lifelike dreams have you scavenging food with a pack of rats."
             ],
         "category" : "MUTCAT_RAT",
+        "strength" : 3
+    },{
+	        "type" : "dream",
+        "messages" : [
+            "You see yourself, five years from now, as the leader of a successful city.",
+            "Your success in restoring civilization was only a dream.  For now."
+            ],
+        "category" : "MUTCAT_ALPHA",
         "strength" : 3
     }
 ]

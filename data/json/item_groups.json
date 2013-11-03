@@ -3040,6 +3040,7 @@
       ["lighter", 60],
       ["boots_rubber", 20],
       ["canister_goo", 8]
+	  ["recipe_alpha", 2]
     ]
   },{
     "type":"item_group",
@@ -4346,6 +4347,7 @@
       ["pocket_firearms", 2],
       ["SICP", 3],
       ["textbook_robots", 1],
+	  ["recipe_alpha", 2],
       ["soldering_iron", 70],
       ["geiger_off", 8],
       ["teleporter", 10],
