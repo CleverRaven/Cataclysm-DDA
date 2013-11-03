@@ -531,7 +531,25 @@
         "points": 5,
         "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
         "prereqs": ["NIGHTVISION3"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+        "category": ["MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+    },{
+	    "type" : "mutation",
+        "id" : "LIZ_EYE",
+        "name": "Reptilian Eyes",
+        "points": 0,
+		"visibility": 2,
+        "ugliness": 1,
+        "description": "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
+		"leads_to": ["LIZ_IR"]
+        "category": ["MUTCAT_LIZARD"]
+	},{
+        "type" : "mutation",
+        "id" : "LIZ_IR",
+        "name": "Reptilian IR",
+        "points": 5,
+        "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
+        "prereqs": ["LIZ_EYE"],
+        "category": ["MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "FASTHEALER2",
@@ -1187,7 +1205,7 @@
         "visibility": 1,
         "ugliness": 2,
         "description": "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
-        "changes_to": ["TAIL_LONG", "TAIL_FIN"]
+        "changes_to": ["TAIL_LONG", "TAIL_LIZARD", "TAIL_FIN"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FIN",
@@ -1197,7 +1215,7 @@
         "ugliness": 2,
         "description": "You have a fin-like tail. It allows you to swim more quickly. Slightly increases wet benefits.",
         "prereqs": ["TAIL_STUB"],
-        "cancels": ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
+        "cancels": ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_LIZARD", "TAIL_STING", "TAIL_CLUB"],
         "category": ["MUTCAT_FISH"],
         "wet_protection":[
          {
@@ -1219,13 +1237,25 @@
         "category": ["MUTCAT_CATTLE", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
+        "id" : "TAIL_THICK",
+        "name": "Thick Tail",
+        "points": 3,
+        "visibility": 8,
+        "ugliness": 2,
+        "description": "You have a long, thick, lizardlike tail. It helps you balance a bit but also makes a serviceable whip.",
+        "prereqs": ["TAIL_STUB"],
+        "cancels": ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING"],
+        "changes_to": ["TAIL_CLUB"],
+        "category": ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
         "id" : "TAIL_FLUFFY",
         "name": "Fluffy Tail",
         "points": 2,
         "visibility": 7,
         "description": "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.",
         "prereqs": ["TAIL_LONG"],
-        "cancels": ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN"],
+        "cancels": ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
         "category": ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
@@ -1236,7 +1266,7 @@
         "ugliness": 3,
         "description": "You have a long tail that ends in a vicious stinger, like that of a scorpion. It does not improve your balance at all, but allows for a powerful piercing attack.",
         "prereqs": ["TAIL_LONG"],
-        "cancels": ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN"],
+        "cancels": ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
         "category": ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
@@ -1246,7 +1276,7 @@
         "visibility": 7,
         "ugliness": 2,
         "description": "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
-        "prereqs": ["TAIL_LONG"],
+        "prereqs": ["TAIL_LIZARD"],
         "cancels": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"]
     },{
         "type" : "mutation",
