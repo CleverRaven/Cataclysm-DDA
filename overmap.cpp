@@ -2489,26 +2489,31 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         return;
     }
 
- std::priority_queue<node> nodes[2];
- bool closed[OMAPX][OMAPY] = {{false}};
- int open[OMAPX][OMAPY] = {{0}};
- int dirs[OMAPX][OMAPY] = {{0}};
- int dx[4]={1, 0, -1, 0};
- int dy[4]={0, 1, 0, -1};
- int i = 0;
- int disp = (base == "road") ? 5 : 2;
+    std::priority_queue<node> nodes[2];
+    bool closed[OMAPX][OMAPY] = {{false}};
+    int open[OMAPX][OMAPY] = {{0}};
+    int dirs[OMAPX][OMAPY] = {{0}};
+    int dx[4]={1, 0, -1, 0};
+    int dy[4]={0, 1, 0, -1};
+    int i = 0;
+    int disp = (base == "road") ? 5 : 2;
 
- nodes[i].push(node(x1, y1, 5, 1000));
- open[x1][y1] = 1000;
+    nodes[i].push(node(x1, y1, 5, 1000));
+    open[x1][y1] = 1000;
 
- while (!nodes[i].empty()) { //A*
-  node mn = nodes[i].top();
-  nodes[i].pop();
-  if (mn.x > OMAPX || mn.x < 0 || mn.y > OMAPY || mn.y < 0) {
-      continue;
-  }
-  closed[mn.x][mn.y] = true;
+    // use A* to find the shortest path from (x1,y1) to (x2,y2)
+    while (!nodes[i].empty()) {
+        // get the best-looking node
+        node mn = nodes[i].top();
+        nodes[i].pop();
+        // make sure it's in bounds
+        if (mn.x >= OMAPX || mn.x < 0 || mn.y >= OMAPY || mn.y < 0) {
+            continue;
+        }
+        // mark it visited
+        closed[mn.x][mn.y] = true;
 
+        // if we've reached the end, draw the path and return
         if (mn.x == x2 && mn.y == y2) {
             int x = mn.x;
             int y = mn.y;
@@ -2531,46 +2536,62 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
             return;
         }
 
-  for(int d = 0; d < 4; d++) {
-   int x = mn.x + dx[d];
-   int y = mn.y + dy[d];
-   if (!(x < 1 || x > OMAPX - 2 || y < 1 || y > OMAPY - 2 ||
-         closed[x][y] || !road_allowed(ter(x, y, z)) || // Dont collide buildings
-        (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
-        (is_river(ter(x,    y,    z)) && mn.d != d) )) { // Dont turn on river
-    node cn = node(x, y, d, 0);
-    cn.p += ((abs(x2 - x) + abs(y2 - y)) / disp); // Distanse to target.
-    cn.p += check_ot_type(base, x, y, z) ? 0 : 3; // Prefer exist roads.
-    cn.p += !is_river(ter(x, y, z)) ? 0 : 2; // ...And briges.
-    //cn.p += (mn.d == d) ? 0 : 1; // Try to keep direction;
+        // otherwise, expand to 
+        for(int d = 0; d < 4; d++) {
+            int x = mn.x + dx[d];
+            int y = mn.y + dy[d];
+            // don't allow:
+            // * out of bounds
+            // * already traversed tiles
+            // * tiles that don't allow roads to cross them (e.g. buildings)
+            // * corners on rivers
+            if (x < 1 || x > OMAPX - 2 || y < 1 || y > OMAPY - 2 ||
+                closed[x][y] || !road_allowed(ter(x, y, z)) ||
+                (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
+                (is_river(ter(x,    y,    z)) && mn.d != d) ) {
+                continue;
+            }
 
-    if (open[x][y] == 0) {
-     dirs[x][y] = (d + 2) % 4;
-     open[x][y] = cn.p;
-     nodes[i].push(cn);
+            node cn = node(x, y, d, 0);
+            // distance to target
+            cn.p += ((abs(x2 - x) + abs(y2 - y)) / disp);
+            // prefer existing roads.
+            cn.p += check_ot_type(base, x, y, z) ? 0 : 3;
+            // and flat land over bridges
+            cn.p += !is_river(ter(x, y, z)) ? 0 : 2;
+            // try not to turn too much
+            //cn.p += (mn.d == d) ? 0 : 1;
+
+            // record direction to shortest path
+            if (open[x][y] == 0) {
+                dirs[x][y] = (d + 2) % 4;
+                open[x][y] = cn.p;
+                nodes[i].push(cn);
+            } else if (open[x][y] > cn.p) {
+                dirs[x][y] = (d + 2) % 4;
+                open[x][y] = cn.p;
+
+                // wizardry
+                while (nodes[i].top().x != x || nodes[i].top().y != y) {
+                    nodes[1 - i].push(nodes[i].top());
+                    nodes[i].pop();
+                }
+                nodes[i].pop();
+
+                if (nodes[i].size() > nodes[1-i].size()) {
+                    i = 1 - i;
+                }
+                while (!nodes[i].empty()) {
+                    nodes[1 - i].push(nodes[i].top());
+                    nodes[i].pop();
+                }
+                i = 1 - i;
+                nodes[i].push(cn);
+            } else {
+                // a shorter path has already been found
+            }
+        }
     }
-    else if (open[x][y] > cn.p) {
-     dirs[x][y] = (d + 2) % 4;
-     open[x][y] = cn.p;
-
-     while (nodes[i].top().x != x || nodes[i].top().y != y){
-      nodes[1 - i].push(nodes[i].top());
-      nodes[i].pop();
-     }
-     nodes[i].pop();
-
-     if (nodes[i].size() > nodes[1-i].size())
-      i = 1 - i;
-     while (!nodes[i].empty()) {
-      nodes[1 - i].push(nodes[i].top());
-      nodes[i].pop();
-     }
-     i = 1 - i;
-     nodes[i].push(cn);
-    }
-   }
-  }
- }
 }
 
 void overmap::building_on_hiway(int x, int y, int dir)
