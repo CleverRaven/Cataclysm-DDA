@@ -354,8 +354,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
  {
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
-  dump->push_back(iteminfo("BASE", _("Bash: "), "", type->melee_dam, true, "", false));
-  dump->push_back(iteminfo("BASE", (has_flag("SPEAR") ? _(" Pierce: ") : _(" Cut: ")), "", type->melee_cut, true, "", false));
+  dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
+  dump->push_back(iteminfo("BASE", (has_flag("SPEAR") ? _(" Pierce: ") : _(" Cut: ")), "", damage_cut(), true, "", false));
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
   if ( debug == true ) {
@@ -1046,7 +1046,7 @@ int item::damage_cut() const
 {
     if (is_gun()) {
         for (int i = 0; i < contents.size(); i++) {
-            if (contents[i].typeId() == "bayonet")
+            if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
                 return contents[i].type->melee_cut;
         }
     }

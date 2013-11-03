@@ -87,6 +87,7 @@ game::game() :
  om_hori(NULL),
  om_vert(NULL),
  om_diag(NULL),
+ dangerous_proximity(5),
  run_mode(1),
  mostseen(0),
  gamemode(NULL)
@@ -125,6 +126,7 @@ void game::init_data()
 
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
+     finalize_recipes();
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -636,8 +638,8 @@ bool game::do_turn()
             u.try_to_sleep(this);
         } else if (u.fatigue >= 800 && turn % 10 == 0){
             add_msg(_("Anywhere would be a good place to sleep..."));
-        } else if (turn % 10 == 0) {
-            add_msg(_("You haven't slept in 2 days!"));
+        } else if (turn % 50 == 0) {
+            add_msg(_("You feel like you haven't slept in days."));
         }
     }
 
@@ -648,14 +650,17 @@ bool game::do_turn()
   if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
       (!u.has_trait("PLANTSKIN") || !one_in(5)))
    u.thirst++;
-  u.fatigue++;
-  if (u.fatigue == 192 && !u.has_disease("lying_down") &&
-      !u.has_disease("sleep")) {
-   if (u.activity.type == ACT_NULL)
-     add_msg(_("You're feeling tired.  %s to lie down for sleep."),
+  // Fatigue caps at slightly after the point where characters will fall asleep without player input
+  if(u.fatigue < 1050){
+      u.fatigue++;
+  }
+  if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
+      if (u.activity.type == ACT_NULL){
+          add_msg(_("You're feeling tired.  %s to lie down for sleep."),
              press_x(ACTION_SLEEP).c_str());
-   else
-    cancel_activity_query(_("You're feeling tired."));
+      } else {
+          cancel_activity_query(_("You're feeling tired."));
+      }
   }
   if (u.stim < 0)
    u.stim++;
@@ -1111,7 +1116,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   return false;
 }
 
-void game::cancel_activity_query(const char* message, ...)
+bool game::cancel_activity_query(const char* message, ...)
 {
  char buff[1024];
  va_list ap;
@@ -1142,6 +1147,8 @@ void game::cancel_activity_query(const char* message, ...)
 
  if (doit)
   u.cancel_activity();
+
+ return doit;
 }
 
 void game::update_weather()
@@ -1498,6 +1505,19 @@ void game::process_missions()
 }
 
 void game::handle_key_blocking_activity() {
+    // If player is performing a task and a monster is dangerously close, warn them
+    // regardless of previous safemode warnings
+    if (is_hostile_very_close() && 
+        u.activity.type != ACT_NULL &&
+        u.activity.moves_left > 0 &&
+        !u.activity.warned_of_proximity)
+    {
+        u.activity.warned_of_proximity = true;
+        if (cancel_activity_query(_("Monster dangerously close!"))) {
+            return;
+        }
+    }
+
     if (u.activity.moves_left > 0 && u.activity.continuous == true &&
         (  // bool activity_is_abortable() ?
             u.activity.type == ACT_READ ||
@@ -2567,7 +2587,7 @@ void game::load_artifacts(std::string worldname)
 {
     std::stringstream artifactfile;
     artifactfile << world_generator->all_worlds[worldname]->world_path << "/artifacts.gsav";
-    std::ifstream file_test(artifactfile.str().c_str());
+    std::ifstream file_test(artifactfile.str().c_str(), std::ifstream::in | std::ifstream::binary);
     if (!file_test.good()) {
         file_test.close();
         return;
@@ -4502,7 +4522,16 @@ bool vector_has(std::vector<int> vec, int test)
 
 bool game::is_hostile_nearby()
 {
-    const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
+    return is_hostile_within(distance);
+}
+
+bool game::is_hostile_very_close()
+{
+    return is_hostile_within(dangerous_proximity);
+}
+
+bool game::is_hostile_within(int distance){
     for (int i = 0; i < num_zombies(); i++) {
         monster &z = _active_monsters[i];
         if (!u_see(&z))
@@ -4513,7 +4542,7 @@ bool game::is_hostile_nearby()
             continue;
 
         int mondist = rl_dist(u.posx, u.posy, z.posx(), z.posy());
-        if (mondist <= iProxyDist)
+        if (mondist <= distance)
             return true;
     }
 
@@ -4526,7 +4555,7 @@ bool game::is_hostile_nearby()
         if (active_npc[i]->attitude != NPCATT_KILL)
             continue;
 
-        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist)
+        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance)
                 return true;
     }
 
@@ -4631,8 +4660,6 @@ int game::mon_info(WINDOW *w)
     }
 
     if (newseen > mostseen) {
-        if (u.activity.type == ACT_REFILL_VEHICLE)
-            cancel_activity_query(_("Monster Spotted!"));
         cancel_activity_query(_("Monster spotted!"));
         turnssincelastmon = 0;
         if (run_mode == 1) {
@@ -6779,7 +6806,7 @@ point game::look_around()
    if (dex != -1 && u_see(&zombie(dex)))
    {
        zombie(dex).draw(w_terrain, lx, ly, true);
-       zombie(dex).print_info(this, w_look);
+       zombie(dex).print_info(this, w_look,5,6);
        if (!m.has_flag("CONTAINER", lx, ly))
        {
            if (m.i_at(lx, ly).size() > 1)
@@ -7656,7 +7683,7 @@ int game::list_monsters()
             werase(w_monster_info);
 
             //print monster info
-            zombie(iMonDex).print_info(this, w_monster_info);
+            zombie(iMonDex).print_info(this, w_monster_info,1,11);
 
             for (int j=0; j < iInfoHeight-1; j++) {
                 mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
@@ -9466,23 +9493,32 @@ void game::complete_butcher(int index)
    }
  }
 
- if (pieces <= 0)
+ if (pieces <= 0) {
   add_msg(_("Your clumsy butchering destroys the meat!"));
- else {
+ } else {
+  add_msg(_("You butcher the corpse."));
   itype_id meat;
   if (corpse->has_flag(MF_POISON)) {
-    if (corpse->mat == "flesh")
+    if (corpse->mat == "flesh") {
      meat = "meat_tainted";
-    else
+    } else {
      meat = "veggy_tainted";
+    }
   } else {
-   if (corpse->mat == "flesh" || corpse->mat == "hflesh")
-    if(corpse->has_flag(MF_HUMAN))
+   if (corpse->mat == "flesh" || corpse->mat == "hflesh") {
+    if(corpse->has_flag(MF_HUMAN)) {
      meat = "human_flesh";
-    else
+    } else {
      meat = "meat";
-   else
-    meat = "veggy";
+    }
+   } else if(corpse->mat == "bone") {
+     meat = "bone";
+   } else if(corpse->mat == "veggy") {
+     meat = "veggy";
+   } else {
+     //Don't generate anything
+     return;
+   }
   }
   item tmpitem=item_controller->create(meat, age);
   tmpitem.corpse=dynamic_cast<mtype*>(corpse);
@@ -9490,7 +9526,6 @@ void game::complete_butcher(int index)
     pieces--;
     m.add_item_or_charges(u.posx, u.posy, tmpitem);
   }
-  add_msg(_("You butcher the corpse."));
  }
 }
 
@@ -10878,10 +10913,7 @@ void game::vertical_move(int movez, bool force)
     real_coords rc( m.getabs(u.posx, u.posy) );
 
     point omtile_align_start(
-        m.getlocal(
-            (rc.abs_om.x * omtilesz * OMAPX) + ( rc.om_pos.x * omtilesz ),
-            (rc.abs_om.y * omtilesz * OMAPY) + ( rc.om_pos.y * omtilesz )
-        )
+        m.getlocal( rc.begin_om_pos() )
     );
 
  if (force) {

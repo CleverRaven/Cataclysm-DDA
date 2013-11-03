@@ -21,7 +21,7 @@ void mdeath::normal(game *g, monster *z) {
     bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
 
     // leave some blood if we have to
-    if (isFleshy && z->has_flag(MF_WARM)) {
+    if (isFleshy && z->has_flag(MF_WARM) && !z->has_flag(MF_VERMIN)) {
         g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
     }
 

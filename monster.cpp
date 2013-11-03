@@ -174,7 +174,7 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w, int vStart)
+void monster::print_info(game *g, WINDOW* w, int vStart, int vLines)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -183,7 +183,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
 // vStart added because 'help' text in targeting win makes helpful info hard to find
 // at a glance.
 
- const int vEnd = vStart + 5; // TODO: parameterize this
+ const int vEnd = vStart + vLines;
 
  mvwprintz(w, vStart, 1, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
@@ -520,50 +520,60 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
 }
 
 int monster::hit(game *g, player &p, body_part &bp_hit) {
- int ret = 0;
- int highest_hit = 0;
- switch (type->size) {
- case MS_TINY:
-  highest_hit = 3;
- break;
- case MS_SMALL:
-  highest_hit = 12;
- break;
- case MS_MEDIUM:
-  highest_hit = 20;
- break;
- case MS_LARGE:
-  highest_hit = 28;
- break;
- case MS_HUGE:
-  highest_hit = 35;
- break;
- }
+    int ret = 0;
+    int highest_hit = 0;
 
- if (digging())
-  highest_hit -= 8;
- if (has_flag(MF_FLIES))
-  highest_hit += 20;
- if (highest_hit <= 1)
-  highest_hit = 2;
- if (highest_hit > 20)
-  highest_hit = 20;
+    //If the player is knocked down or the monster can fly, any body part is a valid target
+    if(p.is_on_ground() || has_flag(MF_FLIES)){
+        highest_hit = 20;
+    } 
+    else {
+         switch (type->size) {
+             case MS_TINY:
+                 highest_hit = 3;
+                 break;
+             case MS_SMALL:
+                 highest_hit = 12;
+                 break;
+             case MS_MEDIUM:
+                 highest_hit = 20;
+                 break;
+             case MS_LARGE:
+                 highest_hit = 28;
+                 break;
+             case MS_HUGE:
+                 highest_hit = 35;
+                 break;
+         }
+         if (digging()){
+             highest_hit -= 8;
+         }
+        if (highest_hit <= 1){
+            highest_hit = 2;
+        }
+    }
 
- int bp_rand = rng(0, highest_hit - 1);
-      if (bp_rand <=  2)
-  bp_hit = bp_legs;
- else if (bp_rand <= 10)
-  bp_hit = bp_torso;
- else if (bp_rand <= 14)
-  bp_hit = bp_arms;
- else if (bp_rand <= 16)
-  bp_hit = bp_mouth;
- else if (bp_rand == 17)
-  bp_hit = bp_eyes;
- else
-  bp_hit = bp_head;
- ret += dice(type->melee_dice, type->melee_sides);
- return ret;
+    if (highest_hit > 20){
+        highest_hit = 20;
+    }
+ 
+
+    int bp_rand = rng(0, highest_hit - 1);
+    if (bp_rand <=  2){
+        bp_hit = bp_legs;
+    } else if (bp_rand <= 10){
+        bp_hit = bp_torso;
+    } else if (bp_rand <= 14){
+        bp_hit = bp_arms;
+    } else if (bp_rand <= 16){
+        bp_hit = bp_mouth;
+    } else if (bp_rand == 17){
+        bp_hit = bp_eyes;
+    } else{
+        bp_hit = bp_head;
+    }
+    ret += dice(type->melee_dice, type->melee_sides);
+    return ret;
 }
 
 void monster::hit_monster(game *g, int i)
