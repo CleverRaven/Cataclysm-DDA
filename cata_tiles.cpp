@@ -269,7 +269,7 @@ DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->
 
 void cata_tiles::load_tilejson(std::string path)
 {
-    std::ifstream config_file(path.c_str());
+    std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
         //throw (std::string)"ERROR: " + path + (std::string)" could not be read.";
