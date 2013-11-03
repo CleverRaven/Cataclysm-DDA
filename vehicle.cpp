@@ -341,7 +341,7 @@ void vehicle::use_controls()
     //Honk the horn!
     if (has_horn) {
         options_choice.push_back(activate_horn);
-        options_message.push_back(uimenu_entry("Honk horn", 'o'));
+        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
         curent++;
     }
 
