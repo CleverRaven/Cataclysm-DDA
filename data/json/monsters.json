@@ -3222,7 +3222,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggresively to catch and consume prey.",
-    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "GRABS", "CHITIN"],
+    "flags":["SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
   },
   {
