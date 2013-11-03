@@ -14391,7 +14391,7 @@ void map::add_road_vehicles(bool city, int facing)
                 std::string next_vehicle;
                 int num_cars = rng(18, 22);
                 bool policecars = block_type >= 95; //Policecar pileup, Blues Brothers style
-                vehicle *last_added_car;
+                vehicle *last_added_car = NULL;
                 for(int i = 0; i < num_cars; i++) {
                     if(policecars) {
                         next_vehicle = "policecar";
@@ -14412,10 +14412,12 @@ void map::add_road_vehicles(bool city, int facing)
                 }
 
                 //Hopefully by the last one we've got a giant pileup, so name it
-                if(policecars) {
-                    last_added_car->name = _("policecar pile-up");
-                } else {
-                    last_added_car->name = _("pile-up");
+                if (last_added_car != NULL) {
+                    if(policecars) {
+                        last_added_car->name = _("policecar pile-up");
+                    } else {
+                        last_added_car->name = _("pile-up");
+                    }
                 }
             }
         }
