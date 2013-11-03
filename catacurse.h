@@ -193,7 +193,5 @@ void curses_timeout(int t);
 int curses_getch(WINDOW* win);
 input_event getch_kyb_mouse(WINDOW* capture_win = NULL);
 int curses_start_color();
-#ifdef SDLTILES
 void init_tiles();
-#endif
 #endif

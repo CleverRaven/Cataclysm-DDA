@@ -66,9 +66,7 @@ int main(int argc, char *argv[])
  initOptions();
  load_options(); // For getting size options
  initscr(); // Initialize ncurses
- #ifdef SDLTILES
  init_tiles();
- #endif // SDLTILES
  noecho();  // Don't echo keypresses
  cbreak();  // C-style breaks (e.g. ^C to SIGINT)
  keypad(stdscr, true); // Numpad is numbers
