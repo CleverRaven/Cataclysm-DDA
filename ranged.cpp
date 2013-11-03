@@ -1290,6 +1290,9 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
 
 void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 {
+ if(mon->has_flag(MF_VERMIN)) {
+     return;
+ }
  field_id blood = fd_blood;
  if (mon != NULL) {
   if (!mon->made_of("flesh"))
