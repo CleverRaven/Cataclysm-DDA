@@ -637,8 +637,8 @@ bool game::do_turn()
             u.try_to_sleep(this);
         } else if (u.fatigue >= 800 && turn % 10 == 0){
             add_msg(_("Anywhere would be a good place to sleep..."));
-        } else if (turn % 10 == 0) {
-            add_msg(_("You haven't slept in 2 days!"));
+        } else if (turn % 50 == 0) {
+            add_msg(_("You feel like you haven't slept in days."));
         }
     }
 
@@ -649,14 +649,17 @@ bool game::do_turn()
   if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
       (!u.has_trait("PLANTSKIN") || !one_in(5)))
    u.thirst++;
-  u.fatigue++;
-  if (u.fatigue == 192 && !u.has_disease("lying_down") &&
-      !u.has_disease("sleep")) {
-   if (u.activity.type == ACT_NULL)
-     add_msg(_("You're feeling tired.  %s to lie down for sleep."),
+  // Fatigue caps at slightly after the point where characters will fall asleep without player input
+  if(u.fatigue < 1050){
+      u.fatigue++;
+  }
+  if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
+      if (u.activity.type == ACT_NULL){
+          add_msg(_("You're feeling tired.  %s to lie down for sleep."),
              press_x(ACTION_SLEEP).c_str());
-   else
-    cancel_activity_query(_("You're feeling tired."));
+      } else {
+          cancel_activity_query(_("You're feeling tired."));
+      }
   }
   if (u.stim < 0)
    u.stim++;
