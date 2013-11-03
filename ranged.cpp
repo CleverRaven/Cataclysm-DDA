@@ -386,11 +386,11 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
               goodhit *= double( double(z.speed) / 80.0);
           }
 
+          shoot_monster(this, p, z, dam, goodhit, weapon, effects);
           std::vector<point> blood_traj = trajectory;
           blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
           splatter(this, blood_traj, dam, &z);
-          shoot_monster(this, p, z, dam, goodhit, weapon, effects);
-
+          dam = 0;
       } else if ((!missed || one_in(3)) &&
                  (npc_at(tx, ty) != -1 || (u.posx == tx && u.posy == ty)))  {
           double goodhit = missed_by;
@@ -1220,7 +1220,6 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
         } else if (!effects.empty()) {
             g->hit_monster_with_flags(mon, effects);
         }
-        adjusted_damage = 0;
     }
  }
  dam = adjusted_damage;
