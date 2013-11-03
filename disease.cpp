@@ -2264,7 +2264,7 @@ void manage_sleep(player& p, disease& dis) {
         } else if (p.has_trait("REGEN")) {
             p.healall(2);
         } else {
-            p.healall(one_in(2));
+            p.healall(one_in(4));
         }
 
         if (p.fatigue <= 0 && p.fatigue > -20) {
