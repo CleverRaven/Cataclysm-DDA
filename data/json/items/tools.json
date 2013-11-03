@@ -5033,7 +5033,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "charcoal water purifier",
-    "description": "Using this item on a container full of water will purify the water using layered charcoal. Once the charcoal has purified enough water, it will become unusable and can be discarded. Water taken from uncertain sources like a river may be dirty.",
+    "description": "Using this item on a container full of water will purify the water using layered charcoal. Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled. Water taken from uncertain sources like a river may be dirty.",
     "price": 400,
     "material": ["wood", "plastic"],
     "weight": 1820,
