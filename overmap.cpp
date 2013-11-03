@@ -208,7 +208,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     }
 }
 
-bool road_allowed(oter_id ter)
+bool road_allowed(const oter_id &ter)
 {
     return otermap[ter].allow_road;
 }
@@ -2535,7 +2535,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
    int x = mn.x + dx[d];
    int y = mn.y + dy[d];
    if (!(x < 1 || x > OMAPX - 2 || y < 1 || y > OMAPY - 2 ||
-         closed[x][y] || road_allowed(ter(x, y, z)) || // Dont collade buildings
+         closed[x][y] || !road_allowed(ter(x, y, z)) || // Dont collide buildings
         (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
         (is_river(ter(x,    y,    z)) && mn.d != d) )) { // Dont turn on river
     node cn = node(x, y, d, 0);

@@ -13,7 +13,7 @@
         "known_up" : false,
         "mondensity" : 0,
         "sidewalk" : false,
-        "road_allowed" : false
+        "allow_road" : false
     },{
         "type" : "overmap_terrain",
         "id" : "crater",
@@ -22,7 +22,7 @@
         "color" : "red",
         "see_cost" : 2,
         "extras" : "field",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "field",
@@ -31,7 +31,7 @@
         "color" : "brown",
         "see_cost" : 2,
         "extras" : "field",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "forest",
@@ -40,7 +40,7 @@
         "color" : "green",
         "see_cost" : 3,
         "extras" : "field",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "forest_thick",
@@ -49,7 +49,7 @@
         "color" : "green",
         "see_cost" : 4,
         "extras" : "field",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "forest_water",
@@ -58,7 +58,7 @@
         "color" : "cyan",
         "see_cost" : 4,
         "extras" : "field",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ns",
@@ -67,7 +67,7 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ew",
@@ -76,7 +76,7 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "road_null",
@@ -84,7 +84,7 @@
         "sym" : 37,
         "color" : "magenta",
         "see_cost" : 0,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "road",
@@ -93,7 +93,7 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "road_nesw_manhole",
@@ -103,7 +103,7 @@
         "see_cost" : 2,
         "extras" : "road",
         "known_down" : true,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "bridge_ns",
@@ -111,7 +111,7 @@
         "sym" : 124,
         "color" : "dark_gray",
         "see_cost" : 2,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "bridge_ew",
@@ -119,7 +119,7 @@
         "sym" : 45,
         "color" : "dark_gray",
         "see_cost" : 2,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_center",
@@ -127,7 +127,7 @@
         "sym" : 82,
         "color" : "blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river",
@@ -136,7 +136,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_ne",
@@ -144,7 +144,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_nw",
@@ -152,7 +152,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_se",
@@ -160,7 +160,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_sw",
@@ -168,7 +168,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_ne",
@@ -176,7 +176,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_se",
@@ -184,7 +184,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_sw",
@@ -192,7 +192,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "river_nw",
@@ -200,7 +200,7 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "house",
@@ -1453,7 +1453,7 @@
         "sym" : 48,
         "color" : "light_gray",
         "see_cost" : 5,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "rock",
@@ -1461,7 +1461,7 @@
         "sym" : 37,
         "color" : "dark_gray",
         "see_cost" : 5,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "rift",
@@ -1469,7 +1469,7 @@
         "sym" : 94,
         "color" : "red",
         "see_cost" : 2,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "hellmouth",
@@ -1478,7 +1478,7 @@
         "color" : "light_red",
         "see_cost" : 2,
         "known_down" : true,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "subway_station",
@@ -1488,7 +1488,7 @@
         "see_cost" : 5,
         "extras" : "subway",
         "known_up" : true,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "subway",
@@ -1497,7 +1497,7 @@
         "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "subway",
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "sewer",
@@ -1505,7 +1505,7 @@
         "line_drawing" : true,
         "color" : "green",
         "see_cost" : 5,
-        "road_allowed" : true
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "ants",
