@@ -169,6 +169,7 @@ public:
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
  bool is_throw_immune(); // martial arts throw immunity
  bool is_quiet(); // martial arts quiet melee
+ bool is_on_ground(); // all body parts are available to ground level damage sources
 
  bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint

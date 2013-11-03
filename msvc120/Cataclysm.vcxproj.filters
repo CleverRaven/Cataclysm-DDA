@@ -57,9 +57,6 @@
     <ClCompile Include="..\catacharset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\catajson.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\char_validity_check.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -384,9 +381,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\catacurse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\catajson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\char_validity_check.h">

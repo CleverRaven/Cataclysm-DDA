@@ -1,7 +1,6 @@
 #include "item_factory.h"
 #include "rng.h"
 #include "enums.h"
-#include "catajson.h"
 #include "json.h"
 #include "addiction.h"
 #include "translations.h"

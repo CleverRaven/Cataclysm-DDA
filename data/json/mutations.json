@@ -92,7 +92,7 @@
         "description": "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
         "starting_trait": true,
         "valid": false,
-        "cancels": ["HARDCORE", "GLASSJAW"]
+        "cancels": ["FRAIL", "GLASSJAW"]
     },{
         "type" : "mutation",
         "id" : "THICKSKIN",
@@ -489,8 +489,8 @@
         "changes_to": ["DEFORMED"]
     },{
         "type" : "mutation",
-        "id" : "HARDCORE",
-        "name": "Hardcore",
+        "id" : "FRAIL",
+        "name": "Frail",
         "points": -6,
         "description": "Your whole body can't take much abuse. Its maximum HP is 75% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
         "starting_trait": true,

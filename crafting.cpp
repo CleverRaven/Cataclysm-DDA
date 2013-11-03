@@ -11,11 +11,13 @@
 #include "inventory.h"
 #include "item_factory.h"
 #include "catacharset.h"
+#include <queue>
 
 std::vector<craft_cat> craft_cat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string,quality> qualities;
+std::map<std::string, std::queue<std::pair<recipe*, int> > > recipe_booksets;
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
@@ -115,15 +117,29 @@ void load_recipe(JsonObject &jsobj)
         JsonArray ja = jsarr.next_array();
         std::string book_name = ja.get_string(0);
         int book_level = ja.get_int(1);
-        if (item_controller->find_template(book_name)->is_book()) {
-            it_book* book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
-            book_def->recipes[rec] = book_level;
-        } else {
-            debugmsg("recipe '%s': no such book '%s'",rec_name.c_str(),book_name.c_str());
+        std::pair<recipe*, int> temp_pair(rec, book_level);
+        if (recipe_booksets.find(book_name) == recipe_booksets.end()){
+            recipe_booksets[book_name] = std::queue<std::pair<recipe*, int> >();
         }
+        recipe_booksets[book_name].push(temp_pair);
     }
 
     recipes[category].push_back(rec);
+}
+
+void finalize_recipes()
+{
+    for (std::map<std::string, std::queue<std::pair<recipe*, int> > >::iterator book_ref_it = recipe_booksets.begin();
+         book_ref_it != recipe_booksets.end(); ++book_ref_it){
+        if (!book_ref_it->second.empty() && item_controller->find_template(book_ref_it->first)->is_book()){
+            it_book *book_def = dynamic_cast<it_book*>(item_controller->find_template(book_ref_it->first));
+            while (!book_ref_it->second.empty()){
+                std::pair<recipe*, int> rec_pair = book_ref_it->second.front();
+                book_ref_it->second.pop();
+                book_def->recipes[rec_pair.first] = rec_pair.second;
+            }
+        }
+    }
 }
 
 void load_quality(JsonObject &jo)

@@ -1,7 +1,7 @@
 #include "vehicle.h"
 #include "game.h"
 #include "item_factory.h"
-#include "catajson.h"
+#include "json.h"
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:

@@ -107,7 +107,6 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/tool_qualities.json");
     ret.push_back("data/json/recipes.json");
 
-    ret.push_back("data/json/halloween_special.json");
     return ret;
 }
 

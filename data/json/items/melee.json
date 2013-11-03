@@ -1628,7 +1628,7 @@
         "type":"GENERIC",
         "id" : "bat_metal",
         "name" : "aluminium bat",
-        "description" : "An aluminium baseball bat, smaller and lighter than a wooden bat and a little less damaging as a result.",
+        "description" : "An aluminium baseball bat, lighter than a wooden bat and a little easier to swing as a result.",
         "weight" : 765,
         "to_hit" : 3,
         "color" : "light_gray",
@@ -1656,6 +1656,23 @@
         "cutting" : 12,
         "flags" : ["SPEAR"],
         "price" : 40
+    },
+    {
+        "type":"GENERIC",
+        "id" : "spear_steel",
+        "name" : "steel spear",
+        "description" : "A stout metal pole with a sharp point.",
+        "weight" : 1398,
+        "to_hit" : 1,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["steel", "null"],
+        "techniques" : ["WBLOCK_1", "RAPID"],
+        "volume" : 5,
+        "bashing" : 6,
+        "cutting" : 18,
+        "flags" : ["SPEAR"],
+        "price" : 80
     },
     {
         "type":"GENERIC",

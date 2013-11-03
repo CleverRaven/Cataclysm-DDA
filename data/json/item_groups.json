@@ -568,6 +568,7 @@
       ["suppressor", 15],
       ["bayonet", 5],
       ["pistol_bayonet", 2],
+      ["sword_bayonet", 1],
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
@@ -1768,6 +1769,7 @@
       ["mag_guns", 20],
       ["bayonet", 10],
       ["pistol_bayonet", 4],
+      ["sword_bayonet", 1],
       ["mag_survival", 20],
       ["textbook_survival", 2],
       ["mag_melee", 10],
@@ -2604,6 +2606,7 @@
       ["textbook_armeast", 5],
       ["q_staff", 10],
       ["i_staff", 5],
+      ["sword_bayonet", 10],
       ["apron_leather", 1]
     ]
   },{

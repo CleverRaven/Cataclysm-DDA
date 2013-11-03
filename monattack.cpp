@@ -5,7 +5,7 @@
 #include "line.h"
 #include "bodypart.h"
 #include "material.h"
-#include "catajson.h"
+#include "json.h"
 #include "monstergenerator.h"
 #include <algorithm>
 
