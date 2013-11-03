@@ -1256,6 +1256,15 @@ int player::swim_speed()
  return ret;
 }
 
+bool player::is_on_ground()
+{
+    bool on_ground = false;
+    if(has_disease("downed") || hp_cur[6] == 0 || hp_cur[5] == 0 ){
+        on_ground = true;
+    }
+    return  on_ground;
+}
+
 bool player::is_underwater() const
 {
     return underwater;
