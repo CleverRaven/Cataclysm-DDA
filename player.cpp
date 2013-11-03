@@ -4087,7 +4087,7 @@ void player::recalc_hp()
         {
             new_max_hp[i] *= 1.2;
         }
-        if (has_trait("HARDCORE"))
+        if (has_trait("FRAIL"))
         {
             new_max_hp[i] *= 0.25;
         }
