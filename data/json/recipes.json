@@ -980,8 +980,8 @@
   "components":
     [
      [
-     [ "steel_chunk", 3 ],
-     [ "scrap", 9 ]
+     [ "steel_chunk", 1 ],
+     [ "scrap", 3 ]
      ]
     ]
 },{
@@ -1006,6 +1006,7 @@
       [
       [ "boltcutters", -1 ],
       [ "toolset", -1 ]
+      ]
       ],
   "components":
     [
