@@ -1256,6 +1256,15 @@ int player::swim_speed()
  return ret;
 }
 
+bool player::is_on_ground()
+{
+    bool on_ground = false;
+    if(has_disease("downed") || hp_cur[6] == 0 || hp_cur[5] == 0 ){
+        on_ground = true;
+    }
+    return  on_ground;
+}
+
 bool player::is_underwater() const
 {
     return underwater;
@@ -4087,7 +4096,7 @@ void player::recalc_hp()
         {
             new_max_hp[i] *= 1.2;
         }
-        if (has_trait("HARDCORE"))
+        if (has_trait("FRAIL"))
         {
             new_max_hp[i] *= 0.25;
         }

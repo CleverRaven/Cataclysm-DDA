@@ -188,7 +188,7 @@ bool player::create(game *g, character_type type, std::string tempname)
         hp_max[i] = calc_HP(str_max, has_trait("TOUGH"));
         hp_cur[i] = hp_max[i];
     }
-    if (has_trait("HARDCORE")) {
+    if (has_trait("FRAIL")) {
         for (int i = 0; i < num_hp_parts; i++) {
             hp_max[i] = int(hp_max[i] * .25);
             hp_cur[i] = hp_max[i];
