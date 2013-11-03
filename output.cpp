@@ -297,8 +297,10 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  fout.open("debug.log", std::ios_base::app | std::ios_base::out);
  fout << filename << "[" << line << "]: " << buff << "\n";
  fout.close();
- while(getch() != ' ') ;
-;
+ while (getch() != ' ') {
+    // wait for spacebar
+ }
+ werase(stdscr);
 }
 
 bool query_yn(const char *mes, ...)

@@ -37,7 +37,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 11;
+const int savegame_version = 12;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -352,19 +352,19 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
         if (datatype == 'L') { // Load layer data, and switch to layer
             fin >> z;
 
-            int tmp_ter;
+            std::string tmp_ter;
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 int count = 0;
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
                             fin >> tmp_ter >> count;
-                            if (tmp_ter < 0 || tmp_ter > num_ter_types) {
-                                debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
+                            if (otermap.find(tmp_ter) == otermap.end()) {
+                                debugmsg("Loaded bad ter!  %s; ter %s", terfilename.c_str(), tmp_ter.c_str());
                             }
                         }
                         count--;
-                        layer[z].terrain[i][j] = oter_id(tmp_ter);
+                        layer[z].terrain[i][j] = tmp_ter;
                         layer[z].visible[i][j] = false;
                     }
                 }
@@ -532,10 +532,10 @@ void overmap::save()
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
         int count = 0;
-        int last_tertype = -1;
+        std::string last_tertype = "this will never match anything";
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
-                int t = int(layer[z].terrain[i][j]);
+                std::string t = layer[z].terrain[i][j];
                 if (t != last_tertype) {
                     if (count) {
                         fout << count << " ";

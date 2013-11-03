@@ -108,7 +108,6 @@ void game::init_data()
     init_npctalk();
     init_artifacts();
     init_weather();
-    init_overmap();
     init_fields();
     init_faction_data();
     init_morale();
@@ -3199,7 +3198,7 @@ Current turn: %d; Next spawn %d.\n\
 %d currently active NPC's.\n\
 %d events planned."),
              u.posx, u.posy, levx, levy,
-             oterlist[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
+             otermap[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
              int(turn), int(nextspawn), (!ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] ? _("NPCs are going to spawn.") :
                                          _("NPCs are NOT going to spawn.")),
              num_zombies(), active_npc.size(), events.size());
@@ -3276,7 +3275,7 @@ Current turn: %d; Next spawn %d.\n\
             npc_attitude_name(p->attitude) << std::endl;
     if (p->has_destination()) {
      data << _("Destination: ") << p->goalx << ":" << p->goaly << "(" <<
-             oterlist[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")" << std::endl;
+             otermap[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")" << std::endl;
     } else {
      data << _("No destination.") << std::endl;
     }
@@ -3798,7 +3797,7 @@ void game::draw()
 
     point cur_loc = om_location();
     oter_id cur_ter = cur_om->ter(cur_loc.x, cur_loc.y, levz);
-    if (cur_ter == ot_null)
+    if (cur_ter == "")
     {
         if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY)
             cur_ter = om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, levz);
@@ -3808,9 +3807,9 @@ void game::draw()
             cur_ter = om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, levz);
     }
 
-    std::string tername = oterlist[cur_ter].name;
+    std::string tername = otermap[cur_ter].name;
     werase(w_location);
-    mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
+    mvwprintz(w_location, 0,  0, otermap[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
 
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
@@ -4128,7 +4127,7 @@ void game::draw_minimap()
    int omx = cursx + i;
    int omy = cursy + j;
    bool seen = false;
-   oter_id cur_ter = ot_null;
+   oter_id cur_ter = "";
    long note_sym = 0;
    bool note = false;
    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
@@ -4180,8 +4179,8 @@ void game::draw_minimap()
                  << omx << " omy: " << omy;
     debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
    }
-   nc_color ter_color = oterlist[cur_ter].color;
-   long ter_sym = oterlist[cur_ter].sym;
+   nc_color ter_color = otermap[cur_ter].color;
+   long ter_sym = otermap[cur_ter].sym;
    if (note)
    {
        ter_sym = note_sym ? note_sym : 'N';
@@ -5916,8 +5915,8 @@ bool game::is_in_ice_lab(point location)
     oter_id cur_ter = cur_om->ter(location.x, location.y, levz);
     bool is_in_ice_lab = false;
 
-    if (cur_ter == ot_ice_lab      || cur_ter == ot_ice_lab_stairs ||
-        cur_ter == ot_ice_lab_core || cur_ter == ot_ice_lab_finale) {
+    if (cur_ter == "ice_lab"      || cur_ter == "ice_lab_stairs" ||
+        cur_ter == "ice_lab_core" || cur_ter == "ice_lab_finale") {
         is_in_ice_lab = true;
     }
 
@@ -10970,8 +10969,8 @@ void game::vertical_move(int movez, bool force)
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++) {
    if (cur_om->seen(x, y, levz) &&
-       ((movez ==  1 && oterlist[ cur_om->ter(x, y, levz) ].known_up) ||
-        (movez == -1 && oterlist[ cur_om->ter(x, y, levz) ].known_down) ))
+       ((movez ==  1 && otermap[ cur_om->ter(x, y, levz) ].known_up) ||
+        (movez == -1 && otermap[ cur_om->ter(x, y, levz) ].known_down) ))
     discover.push_back( point(x, y) );
   }
  }
@@ -10981,10 +10980,10 @@ void game::vertical_move(int movez, bool force)
  for (int i = 0; i < discover.size(); i++) {
   int x = discover[i].x, y = discover[i].y;
   cur_om->seen(x, y, z_coord) = true;
-  if (movez ==  1 && !oterlist[ cur_om->ter(x, y, z_coord) ].known_down &&
+  if (movez ==  1 && !otermap[ cur_om->ter(x, y, z_coord) ].known_down &&
       !cur_om->has_note(x, y, z_coord))
    cur_om->add_note(x, y, z_coord, _("AUTO: goes down"));
-  if (movez == -1 && !oterlist[ cur_om->ter(x, y, z_coord) ].known_up &&
+  if (movez == -1 && !otermap[ cur_om->ter(x, y, z_coord) ].known_up &&
       !cur_om->has_note(x, y, z_coord))
    cur_om->add_note(x, y, z_coord, _("AUTO: goes up"));
  }
@@ -11165,21 +11164,21 @@ void game::update_overmap_seen()
    for (int i = 0; i < line.size() && sight_points >= 0; i++) {
     int lx = line[i].x, ly = line[i].y;
     if (lx >= 0 && lx < OMAPX && ly >= 0 && ly < OMAPY)
-     cost = oterlist[cur_om->ter(lx, ly, levz)].see_cost;
+     cost = otermap[cur_om->ter(lx, ly, levz)].see_cost;
     else if ((lx < 0 || lx >= OMAPX) && (ly < 0 || ly >= OMAPY)) {
      if (lx < 0) lx += OMAPX;
      else        lx -= OMAPX;
      if (ly < 0) ly += OMAPY;
      else        ly -= OMAPY;
-     cost = oterlist[om_diag->ter(lx, ly, levz)].see_cost;
+     cost = otermap[om_diag->ter(lx, ly, levz)].see_cost;
     } else if (lx < 0 || lx >= OMAPX) {
      if (lx < 0) lx += OMAPX;
      else        lx -= OMAPX;
-     cost = oterlist[om_hori->ter(lx, ly, levz)].see_cost;
+     cost = otermap[om_hori->ter(lx, ly, levz)].see_cost;
     } else if (ly < 0 || ly >= OMAPY) {
      if (ly < 0) ly += OMAPY;
      else        ly -= OMAPY;
-     cost = oterlist[om_vert->ter(lx, ly, levz)].see_cost;
+     cost = otermap[om_vert->ter(lx, ly, levz)].see_cost;
     }
     sight_points -= cost;
    }
@@ -11699,7 +11698,7 @@ void game::nuke(int x, int y)
         }
     }
     tmpmap.save(cur_om, turn, mapx, mapy, 0);
-    cur_om->ter(x, y, 0) = ot_crater;
+    cur_om->ter(x, y, 0) = "crater";
     //Kill any npcs on that omap location.
     for(int i = 0; i < cur_om->npcs.size();i++)
         if(cur_om->npcs[i]->mapx/2== x && cur_om->npcs[i]->mapy/2 == y && cur_om->npcs[i]->omz == 0)

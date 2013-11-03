@@ -37,6 +37,8 @@
 
 #include "picofunc.h"
 
+std::vector<std::pair<oter_id,std::string> > entrylist;
+
 std::vector<std::string> fld_string ( std::string str, int width ) {
     std::vector<std::string> lines;
     if ( width < 1 ) {
@@ -1548,7 +1550,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
     update_view(true);
 
-    oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (oter_id)gmenu.ret;
+    oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = entrylist[gmenu.ret].first;
     tinymap tmpmap(&g->traps);
     tmpmap.load(g, tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
     // this should -not- be saved, map::save appends a dupe to mapbuffer.
@@ -1577,14 +1579,14 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.show();
     uphelp("[pgup/pgdn]: prev/next oter type",
            "[up/dn] select, [enter] accept, [q] abort",
-           string_format("Mapgen: %s", oterlist[(oter_id)gmenu.ret].name.substr(0, 40).c_str() )
+           string_format("Mapgen: %s", entrylist[gmenu.ret].second.substr(0, 40).c_str() )
           );
     int lastsel = gmenu.selected;
     bool showpreview = true;
     do {
         if ( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (oter_id)gmenu.selected;
+            oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = entrylist[gmenu.selected].first;
             cleartmpmap( tmpmap );
             tmpmap.generate(g, oms[1][1], tc.abs_sub.x, tc.abs_sub.y, zlevel, int(g->turn));;
             showpreview = true;
@@ -1774,20 +1776,27 @@ int editmap::edit_mapgen(point coords)
     gmenu.return_invalid = true;
 
     std::map<oter_id,bool> broken_oter_blacklist;
-    broken_oter_blacklist[ot_null]=true;
-    broken_oter_blacklist[ot_road_null]=true;
-    broken_oter_blacklist[ot_nuke_plant_entrance]=true;
-    broken_oter_blacklist[ot_nuke_plant]=true;
-    broken_oter_blacklist[ot_temple_core]=true;
+    broken_oter_blacklist[""] = true;
+    broken_oter_blacklist["road_null"] = true;
+    broken_oter_blacklist["nuke_plant_entrance"] = true;
+    broken_oter_blacklist["nuke_plant"] = true;
+    broken_oter_blacklist["temple_core"] = true;
 
-    for(int i = 0; i < num_ter_types; i++) {
-        gmenu.addentry(-1, true, 0, "%s", oterlist[i].name.c_str() );
-        if ( broken_oter_blacklist.find( (oter_id)i ) != broken_oter_blacklist.end() ) {
+    entrylist.clear();
+    for (std::map<oter_id,oter_t>::iterator it = otermap.begin();
+         it != otermap.end(); ++it) {
+        entrylist.push_back(std::pair<oter_id,std::string>(it->first, it->second.name));
+    }
+
+    for (int i = 0; i < entrylist.size(); i++) {
+        oter_id id = entrylist[i].first;
+        gmenu.addentry(-1, true, 0, "%s", entrylist[i].second.c_str() );
+        if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {
             gmenu.entries[i].enabled = false;
         }
         std::string special = "";
-        if ( oter_special.find((oter_id)i) != oter_special.end() ) {
-            unsigned long flags =  overmap_specials[ oter_special[(oter_id)i] ].flags;
+        if ( oter_special.find(id) != oter_special.end() ) {
+            unsigned long flags =  overmap_specials[ oter_special[id] ].flags;
             if (flags & mfb(OMS_FLAG_2X2)) {
                 special += " 2x2";
             }
@@ -1808,8 +1817,8 @@ int editmap::edit_mapgen(point coords)
             gmenu.entries[i].txt += " (" + special + " )";
         }
         gmenu.entries[i].extratxt.left = 1;
-        gmenu.entries[i].extratxt.color = oterlist[i].color;
-        gmenu.entries[i].extratxt.txt = string_format("%c", oterlist[i].sym);
+        gmenu.entries[i].extratxt.color = otermap[id].color;
+        gmenu.entries[i].extratxt.txt = string_format("%c", otermap[id].sym);
     }
     real_coords tc;
     do {

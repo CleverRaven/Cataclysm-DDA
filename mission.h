@@ -57,7 +57,7 @@ enum mission_origin {
 enum mission_goal {
     MGOAL_NULL = 0,
     MGOAL_GO_TO,             // Reach a certain overmap tile
-    MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_id map tile like ot_hospital_entrance
+    MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_id map tile like "hospital_entrance"
     MGOAL_FIND_ITEM,         // Find an item of a given type
     MGOAL_FIND_ANY_ITEM,     // Find an item tagged with this mission
     MGOAL_FIND_MONSTER,      // Find and retrieve a friendly monster
@@ -153,7 +153,7 @@ struct mission_type {
    deadline_low = 0;
    deadline_high = 0;
    item_id = "null";
-   target_id = ot_null;
+   target_id = "";
    recruit_class = NC_NONE;
    recruit_npc_id = -1;
    monster_type = mon_null;
@@ -201,7 +201,7 @@ struct mission {
   uid = -1;
   target = point(-1, -1);
   item_id = "null";
-  target_id = ot_null;
+  target_id = "";
   recruit_class = NC_NONE;
   recruit_npc_id = -1;
   monster_type = mon_null;

@@ -541,10 +541,8 @@ void computer::activate_function(game *g, computer_action action)
         for (int i = minx; i <= maxx; i++)
         {
             for (int j = miny; j <= maxy; j++)
-                if ((g->cur_om->ter(i, j, g->levz) >= ot_sewer_ns &&
-                        g->cur_om->ter(i, j, g->levz) <= ot_sewer_nesw) ||
-                        (g->cur_om->ter(i, j, g->levz) >= ot_sewage_treatment &&
-                         g->cur_om->ter(i, j, g->levz) <= ot_sewage_treatment_under))
+                if (is_ot_type("sewer", g->cur_om->ter(i, j, g->levz)) ||
+                    is_ot_type("sewage", g->cur_om->ter(i, j, g->levz)))
                 {
                     g->cur_om->seen(i, j, g->levz) = true;
                 }
@@ -606,7 +604,7 @@ void computer::activate_function(game *g, computer_action action)
         }
 
         g->u.add_memorial_log(_("Launched a nuke at a %s."),
-                oterlist[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
+                otermap[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
         for(int x = target.x - 2; x <= target.x + 2; x++)
         {
             for(int y = target.y -  2; y <= target.y + 2; y++)

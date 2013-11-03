@@ -76,7 +76,7 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
 void mission_start::place_jabberwock(game *g, mission *miss)
 {
  int dist = 0;
- point site = g->cur_om->find_closest(g->om_location(), ot_forest_thick, 1, dist, false);
+ point site = g->cur_om->find_closest(g->om_location(), "forest_thick", dist, false);
  miss->target = site;
 // Make it seen on our map
  for (int x = site.x - 6; x <= site.x + 6; x++) {
@@ -104,13 +104,13 @@ void mission_start::kill_horde_master(game *g, mission *miss)
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;//npc joins you
  int dist = 0;//pick one of the below locations for the horde to haunt
- point site = g->cur_om->find_closest(g->om_location(), ot_office_tower_1, 1, dist, false);
+ point site = g->cur_om->find_closest(g->om_location(), "office_tower_1", dist, false);
  if (site.x == -1 && site.y == -1 )
-    site = g->cur_om->find_closest(g->om_location(), ot_hotel_tower_1_8, 1, dist, false);
+    site = g->cur_om->find_closest(g->om_location(), "hotel_tower_1_8", dist, false);
  if (site.x == -1 && site.y == -1)
-    site = g->cur_om->find_closest(g->om_location(), ot_school_5, 1, dist, false);
+    site = g->cur_om->find_closest(g->om_location(), "school_5", dist, false);
  if (site.x == -1 && site.y == -1)
-    site = g->cur_om->find_closest(g->om_location(), ot_forest_thick, 1, dist, false);
+    site = g->cur_om->find_closest(g->om_location(), "forest_thick", dist, false);
  miss->target = site;
 // Make it seen on our map
  for (int x = site.x - 6; x <= site.x + 6; x++) {
@@ -144,7 +144,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
  g->u.i_add( item(g->itypes["usb_drive"], 0) );
  g->add_msg(_("%s gave you a USB drive."), dev->name.c_str());
 
- oter_id ter = ot_house_north;
+ std::string type = "house";
 
  switch (dev->myclass) {
  case NC_HACKER:
@@ -152,7 +152,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
   break;
  case NC_DOCTOR:
   miss->item_id = "software_medical";
-  ter = ot_s_pharm_north;
+  type = "s_pharm";
   miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
   break;
  case NC_SCIENTIST:
@@ -162,14 +162,16 @@ void mission_start::place_npc_software(game *g, mission *miss)
   miss->item_id = "software_useless";
  }
 
- int dist = 0;
- point place;
- if (ter == ot_house_north) {
-  int city_id = g->cur_om->closest_city( g->om_location() );
-  place = g->cur_om->random_house_in_city(city_id);
- } else
-  place = g->cur_om->find_closest(g->om_location(), ter, 4, dist, false);
- miss->target = place;
+    int dist = 0;
+    point place;
+    if (type == "house") {
+        int city_id = g->cur_om->closest_city( g->om_location() );
+        place = g->cur_om->random_house_in_city(city_id);
+    } else {
+        place = g->cur_om->find_closest(g->om_location(), type, dist, false);
+    }
+    miss->target = place;
+
 // Make it seen on our map
  for (int x = place.x - 6; x <= place.x + 6; x++) {
   for (int y = place.y - 6; y <= place.y + 6; y++)
@@ -179,77 +181,71 @@ void mission_start::place_npc_software(game *g, mission *miss)
  compmap.load(g, place.x * 2, place.y * 2, 0, false);
  point comppoint;
 
- switch (g->cur_om->ter(place.x, place.y, 0)) {
- case ot_house_north:
- case ot_house_east:
- case ot_house_west:
- case ot_house_south: {
-  std::vector<point> valid;
-  for (int x = 0; x < SEEX * 2; x++) {
-   for (int y = 0; y < SEEY * 2; y++) {
-    if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
-     bool okay = false;
-     for (int x2 = x - 1; x2 <= x + 1 && !okay; x2++) {
-      for (int y2 = y - 1; y2 <= y + 1 && !okay; y2++) {
-       if (compmap.furn(x2, y2) == f_bed || compmap.furn(x2, y2) == f_dresser) {
-        okay = true;
-        valid.push_back( point(x, y) );
-       }
-      }
-     }
+    oter_id oter = g->cur_om->ter(place.x, place.y, 0);
+    if (oter == "house_north" || oter == "house_east"
+            || oter == "house_south" || oter == "house_west") {
+        std::vector<point> valid;
+        for (int x = 0; x < SEEX * 2; x++) {
+            for (int y = 0; y < SEEY * 2; y++) {
+                if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
+                    bool okay = false;
+                    for (int x2 = x - 1; x2 <= x + 1 && !okay; x2++) {
+                        for (int y2 = y - 1; y2 <= y + 1 && !okay; y2++) {
+                            if (compmap.furn(x2, y2) == f_bed || compmap.furn(x2, y2) == f_dresser) {
+                                okay = true;
+                                valid.push_back( point(x, y) );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (valid.empty()) {
+            comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
+        } else {
+            comppoint = valid[rng(0, valid.size() - 1)];
+        }
+    } else if (oter == "s_pharm_north") {
+        bool found = false;
+        for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
+            for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
+                if (compmap.ter(x, y) == t_floor) {
+                    found = true;
+                    comppoint = point(x, y);
+                }
+            }
+        }
+    } else if (oter == "s_pharm_east") {
+        bool found = false;
+        for (int x = 0; x < SEEX * 2 && !found; x++) {
+            for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
+                if (compmap.ter(x, y) == t_floor) {
+                    found = true;
+                    comppoint = point(x, y);
+                }
+            }
+        }
+    } else if (oter == "s_pharm_south") {
+        bool found = false;
+        for (int x = 0; x < SEEX * 2 && !found; x++) {
+            for (int y = 0; y < SEEY * 2 && !found; y++) {
+                if (compmap.ter(x, y) == t_floor) {
+                    found = true;
+                    comppoint = point(x, y);
+                }
+            }
+        }
+    } else if (oter == "s_pharm_west") {
+        bool found = false;
+        for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
+            for (int y = 0; y < SEEY * 2 && !found; y++) {
+                if (compmap.ter(x, y) == t_floor) {
+                    found = true;
+                    comppoint = point(x, y);
+                }
+            }
+        }
     }
-   }
-  }
-  if (valid.empty())
-   comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
-  else
-   comppoint = valid[rng(0, valid.size() - 1)];
- } break;
- case ot_s_pharm_north: {
-  bool found = false;
-  for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
-   for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
-    if (compmap.ter(x, y) == t_floor) {
-     found = true;
-     comppoint = point(x, y);
-    }
-   }
-  }
- } break;
- case ot_s_pharm_east: {
-  bool found = false;
-  for (int x = 0; x < SEEX * 2 && !found; x++) {
-   for (int y = SEEY * 2 - 1; y > 0 && !found; y--) {
-    if (compmap.ter(x, y) == t_floor) {
-     found = true;
-     comppoint = point(x, y);
-    }
-   }
-  }
- } break;
- case ot_s_pharm_south: {
-  bool found = false;
-  for (int x = 0; x < SEEX * 2 && !found; x++) {
-   for (int y = 0; y < SEEY * 2 && !found; y++) {
-    if (compmap.ter(x, y) == t_floor) {
-     found = true;
-     comppoint = point(x, y);
-    }
-   }
-  }
- } break;
- case ot_s_pharm_west: {
-  bool found = false;
-  for (int x = SEEX * 2 - 1; x > 0 && !found; x--) {
-   for (int y = 0; y < SEEY * 2 && !found; y++) {
-    if (compmap.ter(x, y) == t_floor) {
-     found = true;
-     comppoint = point(x, y);
-    }
-   }
-  }
- } break;
- }
 
  compmap.ter_set(comppoint.x, comppoint.y, t_console);
  computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y, string_format(_("%s's Terminal"), dev->name.c_str()), 0);
@@ -291,19 +287,15 @@ void mission_start::place_priest_diary(game *g, mission *miss)
 
 void mission_start::place_deposit_box(game *g, mission *miss)
 {
- npc *p = g->find_npc(miss->npc_id);
- p->attitude = NPCATT_FOLLOW;//npc joins you
- int dist = 0;
- point site = g->cur_om->find_closest(g->om_location(), ot_bank_north, 1, dist, false);
- if (site.x == -1 && site.y == -1 )
-    site = g->cur_om->find_closest(g->om_location(), ot_bank_south, 1, dist, false);
- if (site.x == -1 && site.y == -1)
-    site = g->cur_om->find_closest(g->om_location(), ot_bank_east, 1, dist, false);
- if (site.x == -1 && site.y == -1)
-    site = g->cur_om->find_closest(g->om_location(), ot_bank_west, 1, dist, false);
- if (site.x == -1 && site.y == -1)
-    site = g->cur_om->find_closest(g->om_location(), ot_office_tower_1, 1, dist, false);
- miss->target = site;
+    npc *p = g->find_npc(miss->npc_id);
+    p->attitude = NPCATT_FOLLOW;//npc joins you
+    int dist = 0;
+    point site = g->cur_om->find_closest(g->om_location(), "bank", dist, false);
+    if (site.x == -1 && site.y == -1) {
+        site = g->cur_om->find_closest(g->om_location(), "office_tower_1", dist, false);
+    }
+    miss->target = site;
+
  for (int x = site.x - 2; x <= site.x + 2; x++) {
   for (int y = site.y - 2; y <= site.y + 2; y++)
    g->cur_om->seen(x, y, 0) = true;
@@ -343,7 +335,7 @@ void mission_start::reveal_lab_black_box(game *g, mission *miss)
   g->add_msg(_("%s gave you back the black box."), dev->name.c_str());
  }
  int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), ot_lab, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), "lab", dist,
                                       false);
  for (int x = place.x - 3; x <= place.x + 3; x++) {
   for (int y = place.y - 3; y <= place.y + 3; y++)
@@ -361,7 +353,7 @@ void mission_start::open_sarcophagus(game *g, mission *miss)
   g->add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
  }
  int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), ot_haz_sar_entrance, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), "haz_sar", dist,
                                       false);
  for (int x = place.x - 3; x <= place.x + 3; x++) {
   for (int y = place.y - 3; y <= place.y + 3; y++)
@@ -378,7 +370,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
   g->add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
  }
  int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), ot_hospital, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), "hospital", dist,
                                       false);
  for (int x = place.x - 3; x <= place.x + 3; x++) {
   for (int y = place.y - 3; y <= place.y + 3; y++)
@@ -422,7 +414,7 @@ void mission_start::find_safety(game *g, mission *miss)
 void mission_start::point_prison(game *g, mission *miss)
 {
  int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), ot_prison_5, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), "prison_5", dist,
                                       false);
  for (int x = place.x - 3; x <= place.x + 3; x++) {
   for (int y = place.y - 3; y <= place.y + 3; y++)
@@ -434,7 +426,7 @@ void mission_start::point_prison(game *g, mission *miss)
 void mission_start::point_cabin_strange(game *g, mission *miss)
 {
  int dist = 0;
- point place = g->cur_om->find_closest(g->om_location(), ot_cabin_strange, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), "cabin_strange", dist,
                                       false);
  for (int x = place.x - 3; x <= place.x + 3; x++) {
   for (int y = place.y - 3; y <= place.y + 3; y++)
@@ -449,7 +441,7 @@ void mission_start::recruit_tracker(game *g, mission *miss)
  p->attitude = NPCATT_FOLLOW;//npc joins you
 
  int dist = 0;
- point site = g->cur_om->find_closest(g->om_location(), ot_cabin, 1, dist, false);
+ point site = g->cur_om->find_closest(g->om_location(), "cabin", dist, false);
  miss->target = site;
  miss->recruit_class = NC_COWBOY;
 

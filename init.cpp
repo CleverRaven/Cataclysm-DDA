@@ -17,6 +17,7 @@
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
+#include "overmap.h"
 
 #include <string>
 #include <vector>
@@ -105,6 +106,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/martialarts.json");
     ret.push_back("data/json/tutorial.json");
     ret.push_back("data/json/tool_qualities.json");
+    ret.push_back("data/json/overmap_terrain.json");
     ret.push_back("data/json/recipes.json");
 
     ret.push_back("data/json/halloween_special.json");
@@ -173,6 +175,8 @@ void init_data_structures()
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
+    type_function_map["overmap_terrain"] =
+        new StaticFunctionAccessor(&load_overmap_terrain);
 
     mutations_category[""].clear();
     init_mutation_parts();

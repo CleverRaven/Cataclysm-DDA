@@ -400,7 +400,6 @@ void load_artifacts(std::string worldname); // Load artifact data
   void init_npctalk();
   void init_fields();
   void init_weather();
-  void init_overmap();
   void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types

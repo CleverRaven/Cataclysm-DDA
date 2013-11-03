@@ -1342,8 +1342,7 @@ void player::memorial( std::ofstream &memorial_file )
     //Figure out the location
     point cur_loc = g->om_location();
     oter_id cur_ter = g->cur_om->ter(cur_loc.x, cur_loc.y, g->levz);
-    if (cur_ter == ot_null)
-    {
+    if (cur_ter == "") {
         if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY) {
             cur_ter = g->om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, g->levz);
         } else if (cur_loc.x >= OMAPX) {
@@ -1352,7 +1351,7 @@ void player::memorial( std::ofstream &memorial_file )
             cur_ter = g->om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, g->levz);
         }
     }
-    std::string tername = oterlist[cur_ter].name;
+    std::string tername = otermap[cur_ter].name;
 
     //Header
     std::string version = string_format("%s", getVersionString());
@@ -1587,7 +1586,7 @@ void player::add_memorial_log(const char* message, ...)
             << (g->turn.days() + 1) << ", " << g->turn.print_time();
 
   oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
-  std::string location = oterlist[cur_ter].name;
+  std::string location = otermap[cur_ter].name;
 
   std::stringstream log_message;
   log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;

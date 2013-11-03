@@ -287,7 +287,7 @@ void defense_game::init_map(game *g)
 {
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++) {
-   g->cur_om->ter(x, y, 0) = ot_field;
+   g->cur_om->ter(x, y, 0) = "field";
    g->cur_om->seen(x, y, 0) = true;
   }
  }
@@ -299,36 +299,40 @@ void defense_game::init_map(game *g)
  g->u.posx = SEEX;
  g->u.posy = SEEY;
 
- switch (location) {
+    switch (location) {
 
- case DEFLOC_HOSPITAL:
-  for (int x = 49; x <= 51; x++) {
-   for (int y = 49; y <= 51; y++)
-    g->cur_om->ter(x, y, 0) = ot_hospital;
-  }
-  g->cur_om->ter(50, 49, 0) = ot_hospital_entrance;
-  break;
+    case DEFLOC_HOSPITAL:
+        for (int x = 49; x <= 51; x++) {
+            for (int y = 49; y <= 51; y++) {
+                g->cur_om->ter(x, y, 0) = "hospital";
+            }
+        }
+        g->cur_om->ter(50, 49, 0) = "hospital_entrance";
+        break;
 
- case DEFLOC_MALL:
-  for (int x = 49; x <= 51; x++) {
-   for (int y = 49; y <= 51; y++)
-    g->cur_om->ter(x, y, 0) = ot_megastore;
-  }
-  g->cur_om->ter(50, 49, 0) = ot_megastore_entrance;
-  break;
+    case DEFLOC_MALL:
+        for (int x = 49; x <= 51; x++) {
+            for (int y = 49; y <= 51; y++) {
+                g->cur_om->ter(x, y, 0) = "megastore";
+            }
+        }
+        g->cur_om->ter(50, 49, 0) = "megastore_entrance";
+        break;
 
- case DEFLOC_BAR:
-  g->cur_om->ter(50, 50, 0) = ot_bar_north;
-  break;
+    case DEFLOC_BAR:
+        g->cur_om->ter(50, 50, 0) = "bar_north";
+        break;
 
- case DEFLOC_MANSION:
-  for (int x = 49; x <= 51; x++) {
-   for (int y = 49; y <= 51; y++)
-    g->cur_om->ter(x, y, 0) = ot_mansion;
-  }
-  g->cur_om->ter(50, 49, 0) = ot_mansion_entrance;
-  break;
- }
+    case DEFLOC_MANSION:
+        for (int x = 49; x <= 51; x++) {
+            for (int y = 49; y <= 51; y++) {
+                g->cur_om->ter(x, y, 0) = "mansion";
+            }
+        }
+        g->cur_om->ter(50, 49, 0) = "mansion_entrance";
+        break;
+    }
+
 // Init the map
  int old_percent = 0;
  for (int i = 0; i <= MAPSIZE * 2; i += 2) {

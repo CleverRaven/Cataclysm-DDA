@@ -549,8 +549,476 @@ void game::load_legacy_future_weather(std::istream &fin)
  * Parse an open, obsolete overmap. These can linger unless the player moves around to all explored areas.
  */
 
+const size_t num_ter_types = 304;
+const char* oter_legacy[num_ter_types] = {
+    "",
+    "crater",
+    "field",
+    "forest",
+    "forest_thick",
+    "forest_water",
+    "hiway_ns",
+    "hiway_ew",
+    "road_null",
+    "road_ns",
+    "road_ew",
+    "road_ne",
+    "road_es",
+    "road_sw",
+    "road_wn",
+    "road_nes",
+    "road_new",
+    "road_nsw",
+    "road_esw",
+    "road_nesw",
+    "road_nesw_manhole",
+    "bridge_ns",
+    "bridge_ew",
+    "river_center",
+    "river_c_not_ne",
+    "river_c_not_nw",
+    "river_c_not_se",
+    "river_c_not_sw",
+    "river_north",
+    "river_east",
+    "river_south",
+    "river_west",
+    "river_ne",
+    "river_se",
+    "river_sw",
+    "river_nw",
+    "house_north",
+    "house_east",
+    "house_south",
+    "house_west",
+    "house_base_north",
+    "house_base_east",
+    "house_base_south",
+    "house_base_west",
+    "s_lot",
+    "park",
+    "pool",
+    "s_gas_north",
+    "s_gas_east",
+    "s_gas_south",
+    "s_gas_west",
+    "s_pharm_north",
+    "s_pharm_east",
+    "s_pharm_south",
+    "s_pharm_west",
+    "office_doctor_north",
+    "office_doctor_east",
+    "office_doctor_south",
+    "office_doctor_west",
+    "office_cubical_north",
+    "office_cubical_east",
+    "office_cubical_south",
+    "office_cubical_west",
+    "apartments_con_tower_1_entrance","apartments_con_tower_1",
+    "apartments_mod_tower_1_entrance","apartments_mod_tower_1",
+    "office_tower_1_entrance",
+    "office_tower_1",
+    "office_tower_b_entrance",
+    "office_tower_b",
+    "church_north",
+    "church_east",
+    "church_south",
+    "church_west",
+    "cathedral_1_entrance",
+    "cathedral_1",
+    "cathedral_b_entrance",
+    "cathedral_b",
+    "s_grocery_north",
+    "s_grocery_east",
+    "s_grocery_south",
+    "s_grocery_west",
+    "s_hardware_north",
+    "s_hardware_east",
+    "s_hardware_south",
+    "s_hardware_west",
+    "s_electronics_north",
+    "s_electronics_east",
+    "s_electronics_south",
+    "s_electronics_west",
+    "s_sports_north",
+    "s_sports_east",
+    "s_sports_south",
+    "s_sports_west",
+    "s_liquor_north",
+    "s_liquor_east",
+    "s_liquor_south",
+    "s_liquor_west",
+    "s_gun_north",
+    "s_gun_east",
+    "s_gun_south",
+    "s_gun_west",
+    "s_clothes_north",
+    "s_clothes_east",
+    "s_clothes_south",
+    "s_clothes_west",
+    "s_library_north",
+    "s_library_east",
+    "s_library_south",
+    "s_library_west",
+    "s_restaurant_north",
+    "s_restaurant_east",
+    "s_restaurant_south",
+    "s_restaurant_west",
+    "s_restaurant_fast_north",
+    "s_restaurant_fast_east",
+    "s_restaurant_fast_south",
+    "s_restaurant_fast_west",
+    "s_restaurant_coffee_north",
+    "s_restaurant_coffee_east",
+    "s_restaurant_coffee_south",
+    "s_restaurant_coffee_west",
+    "sub_station_north",
+    "sub_station_east",
+    "sub_station_south",
+    "sub_station_west",
+    "s_garage_north",
+    "s_garage_east",
+    "s_garage_south",
+    "s_garage_west",
+    "cabin_strange",
+    "cabin_strange_b",
+    "cabin",
+    "dirtlot",
+    "farm",
+    "farm_field",
+    "police_north",
+    "police_east",
+    "police_south",
+    "police_west",
+    "bank_north",
+    "bank_east",
+    "bank_south",
+    "bank_west",
+    "bar_north",
+    "bar_east",
+    "bar_south",
+    "bar_west",
+    "pawn_north",
+    "pawn_east",
+    "pawn_south",
+    "pawn_west",
+    "mil_surplus_north",
+    "mil_surplus_east",
+    "mil_surplus_south",
+    "mil_surplus_west",
+    "furniture_north",
+    "furniture_east",
+    "furniture_south",
+    "furniture_west",
+    "abstorefront_north",
+    "abstorefront_east",
+    "abstorefront_south",
+    "abstorefront_west",
+    "megastore_entrance",
+    "megastore",
+    "hospital_entrance",
+    "hospital",
+    "public_works_entrance",
+    "public_works",
+    "school_1",
+    "school_2",
+    "school_3",
+    "school_4",
+    "school_5",
+    "school_6",
+    "school_7",
+    "school_8",
+    "school_9",
+    "prison_1",
+    "prison_2",
+    "prison_3",
+    "prison_4",
+    "prison_5",
+    "prison_6",
+    "prison_7",
+    "prison_8",
+    "prison_9",
+    "prison_b",
+    "prison_b_entrance",
+    "hotel_tower_1_1",
+    "hotel_tower_1_2",
+    "hotel_tower_1_3",
+    "hotel_tower_1_4",
+    "hotel_tower_1_5",
+    "hotel_tower_1_6",
+    "hotel_tower_1_7",
+    "hotel_tower_1_8",
+    "hotel_tower_1_9","hotel_tower_b_1",
+    "hotel_tower_b_2",
+    "hotel_tower_b_3",
+    "mansion_entrance",
+    "mansion",
+    "fema_entrance",
+    "fema",
+    "station_radio_north",
+    "station_radio_east",
+    "station_radio_south",
+    "station_radio_west",
+    "shelter",
+    "shelter_under",
+    "lmoe",
+    "lmoe_under",
+    "lab",
+    "lab_stairs",
+    "lab_core",
+    "lab_finale",
+    "ice_lab",
+    "ice_lab_stairs",
+    "ice_lab_core",
+    "ice_lab_finale",
+    "nuke_plant_entrance",
+    "nuke_plant",
+    "bunker",
+    "outpost",
+    "silo",
+    "silo_finale",
+    "temple",
+    "temple_stairs",
+    "temple_core",
+    "temple_finale",
+    "sewage_treatment",
+    "sewage_treatment_hub",
+    "sewage_treatment_under",
+    "mine_entrance",
+    "mine_shaft",
+    "mine",
+    "mine_down",
+    "mine_finale",
+    "spiral_hub",
+    "spiral",
+    "radio_tower",
+    "toxic_dump",
+    "haz_sar_entrance",
+    "haz_sar",
+    "haz_sar_entrance_b1",
+    "haz_sar_b1",
+    "cave",
+    "cave_rat",
+    "hive",
+    "fungal_bloom",
+    "spider_pit",
+    "spider_pit_under",
+    "anthill",
+    "slimepit",
+    "slimepit_down",
+    "triffid_grove",
+    "triffid_roots",
+    "triffid_finale",
+    "basement",
+    "cavern",
+    "rock",
+    "rift",
+    "hellmouth",
+    "subway_station",
+    "subway_ns",
+    "subway_ew",
+    "subway_ne",
+    "subway_es",
+    "subway_sw",
+    "subway_wn",
+    "subway_nes",
+    "subway_new",
+    "subway_nsw",
+    "subway_esw",
+    "subway_nesw",
+    "sewer_ns",
+    "sewer_ew",
+    "sewer_ne",
+    "sewer_es",
+    "sewer_sw",
+    "sewer_wn",
+    "sewer_nes",
+    "sewer_new",
+    "sewer_nsw",
+    "sewer_esw",
+    "sewer_nesw",
+    "ants_ns",
+    "ants_ew",
+    "ants_ne",
+    "ants_es",
+    "ants_sw",
+    "ants_wn",
+    "ants_nes",
+    "ants_new",
+    "ants_nsw",
+    "ants_esw",
+    "ants_nesw",
+    "ants_food",
+    "ants_larvae",
+    "ants_queen",
+    "tutorial"
+};
+
 bool overmap::unserialize_legacy(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
-   return false; // stub
+    switch (savegame_loading_version) {
+    case 11:
+    case 10:
+    case 9:
+    case 8:
+    case 7:
+    case 6:
+    case 5:
+    case 4:
+    case 3:
+    case 2:
+    case 1:
+    case 0:
+        // DEBUG VARS
+        int nummg = 0;
+        char datatype;
+        int cx, cy, cz, cs, cp, cd, cdying;
+        std::string cstr;
+        city tmp;
+        std::list<item> npc_inventory;
+
+        int z = 0; // assumption
+        while (fin >> datatype) {
+            if (datatype == 'L') { // Load layer data, and switch to layer
+                fin >> z;
+
+                int tmp_ter;
+                if (z >= 0 && z < OVERMAP_LAYERS) {
+                    int count = 0;
+                    for (int j = 0; j < OMAPY; j++) {
+                        for (int i = 0; i < OMAPX; i++) {
+                            if (count == 0) {
+                                fin >> tmp_ter >> count;
+                                if (tmp_ter < 0 || tmp_ter >= num_ter_types) {
+                                    debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
+                                }
+                            }
+                            count--;
+                            layer[z].terrain[i][j] = oter_legacy[tmp_ter];
+                            layer[z].visible[i][j] = false;
+                        }
+                    }
+                } else {
+                    debugmsg("Loaded z level out of range (z: %d)", z);
+                }
+            } else if (datatype == 'Z') { // Monster group
+                fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
+                zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
+                zg.back().diffuse = cd;
+                zg.back().dying = cdying;
+                nummg++;
+            } else if (datatype == 't') { // City
+                fin >> cx >> cy >> cs;
+                tmp.x = cx; tmp.y = cy; tmp.s = cs;
+                cities.push_back(tmp);
+            } else if (datatype == 'R') { // Road leading out
+                fin >> cx >> cy;
+                tmp.x = cx; tmp.y = cy; tmp.s = 0;
+                roads_out.push_back(tmp);
+            } else if (datatype == 'T') { // Radio tower
+                radio_tower tmp;
+                int tmp_type;
+                fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
+                tmp.type = (radio_type)tmp_type;
+                getline(fin, tmp.message); // Chomp endl
+                getline(fin, tmp.message);
+                radios.push_back(tmp);
+            } else if (datatype == 'n') { // NPC
+                // When we start loading a new NPC, check to see if we've
+                // accumulated items for assignment to an NPC.
+                if (!npc_inventory.empty() && !npcs.empty()) {
+                    npcs.back()->inv.add_stack(npc_inventory);
+                    npc_inventory.clear();
+                }
+                std::string npcdata;
+                getline(fin, npcdata);
+                npc * tmp = new npc();
+                tmp->load_info(g, npcdata);
+                npcs.push_back(tmp);
+            } else if (datatype == 'P') {
+                // Chomp the invlet_cache, since the npc doesn't use it.
+                std::string itemdata;
+                getline(fin, itemdata);
+            } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
+                       datatype == 'w' || datatype == 'c') {
+                std::string itemdata;
+                getline(fin, itemdata);
+                if (npcs.empty()) {
+                    debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!",
+                             loc.x, loc.y);
+                    debugmsg(itemdata.c_str());
+                } else {
+                    item tmp(itemdata, g);
+                    npc* last = npcs.back();
+                    switch (datatype) {
+                    case 'I':
+                        npc_inventory.push_back(tmp);
+                        break;
+                    case 'C':
+                        npc_inventory.back().contents.push_back(tmp);
+                        break;
+                    case 'W':
+                        last->worn.push_back(tmp);
+                        break;
+                    case 'w':
+                        last->weapon = tmp;
+                        break;
+                    case 'c':
+                        last->weapon.contents.push_back(tmp);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // If we accrued an npc_inventory, assign it now
+        if (!npc_inventory.empty() && !npcs.empty()) {
+            npcs.back()->inv.add_stack(npc_inventory);
+        }
+
+        std::ifstream sfin;
+        // Private/per-character data
+        sfin.open(plrfilename.c_str());
+        if ( fin.peek() == '#' ) { // not handling muilti-version seen cache
+            std::string vline;
+            getline(fin, vline);
+        }
+        if (sfin.is_open()) { // Load private seen data
+            int z = 0; // assumption
+            while (sfin >> datatype) {
+                if (datatype == 'L') {  // Load layer data, and switch to layer
+                    sfin >> z;
+
+                    std::string dataline;
+                    getline(sfin, dataline); // Chomp endl
+
+                    int count = 0;
+                    int vis;
+                    if (z >= 0 && z < OVERMAP_LAYERS) {
+                        for (int j = 0; j < OMAPY; j++) {
+                            for (int i = 0; i < OMAPX; i++) {
+                                if (count == 0) {
+                                    sfin >> vis >> count;
+                                }
+                                count--;
+                                layer[z].visible[i][j] = (vis == 1);
+                            }
+                        }
+                    }
+                } else if (datatype == 'N') { // Load notes
+                    om_note tmp;
+                    sfin >> tmp.x >> tmp.y >> tmp.num;
+                    getline(sfin, tmp.text); // Chomp endl
+                    getline(sfin, tmp.text);
+                    if (z >= 0 && z < OVERMAP_LAYERS) {
+                        layer[z].notes.push_back(tmp);
+                    }
+                }
+            }
+            sfin.close();
+        }
+        return true;
+    }
+    return false;
 }
 
 

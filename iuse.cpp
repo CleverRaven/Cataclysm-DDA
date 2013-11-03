@@ -2082,14 +2082,14 @@ int iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
-static void roadmap_targets(game *g, player *p, item *it, bool t, int target,
-                           int target_range, int distance, int reveal_distance)
+static void roadmap_targets(game *g, player *p, item *it, bool t,
+                            const std::string &target, int distance,
+                            int reveal_distance)
 {
-    oter_t oter_target = oterlist[target];
     point place;
     point origin = g->om_location();
     std::vector<point> places = g->cur_om->find_all(tripoint(origin.x, origin.y, g->levz),
-                                                    (oter_id)target, target_range, distance, false);
+                                                    target, distance, false);
 
     for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
         place = *iter;
@@ -2114,20 +2114,20 @@ int iuse::roadmap(game *g, player *p, item *it, bool t)
   return 0;
  }
   // Show roads
- roadmap_targets(g, p, it, t, (int)ot_hiway_ns, 2, 0, 0);
- roadmap_targets(g, p, it, t, (int)ot_road_ns, 12, 0, 0);
- roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
+ roadmap_targets(g, p, it, t, "hiway", 0, 0);
+ roadmap_targets(g, p, it, t, "road", 0, 0);
+ roadmap_targets(g, p, it, t, "bridge", 0, 0);
 
   // Show evac shelters
- roadmap_targets(g, p, it, t, (int)ot_shelter, 1, 0, 0);
+ roadmap_targets(g, p, it, t, "shelter", 0, 0);
   // Show hospital(s)
- roadmap_targets(g, p, it, t, (int)ot_hospital_entrance, 2, 0, 0);
+ roadmap_targets(g, p, it, t, "hospital", 0, 0);
   // Show megastores
- roadmap_targets(g, p, it, t, (int)ot_megastore_entrance, 2, 0, 0);
+ roadmap_targets(g, p, it, t, "megastore", 0, 0);
   // Show police stations
- roadmap_targets(g, p, it, t, (int)ot_police_north, 4, 0, 0);
+ roadmap_targets(g, p, it, t, "police", 0, 0);
   // Show pharmacies
- roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 4, 0, 0);
+ roadmap_targets(g, p, it, t, "s_pharm", 0, 0);
 
  g->add_msg_if_player(p, _("You add roads and points of interest to your map."));
 
