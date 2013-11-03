@@ -9466,9 +9466,10 @@ void game::complete_butcher(int index)
    }
  }
 
- if (pieces <= 0)
+ if (pieces <= 0) {
   add_msg(_("Your clumsy butchering destroys the meat!"));
- else {
+ } else {
+  add_msg(_("You butcher the corpse."));
   itype_id meat;
   if (corpse->has_flag(MF_POISON)) {
     if (corpse->mat == "flesh") {
@@ -9498,7 +9499,6 @@ void game::complete_butcher(int index)
     pieces--;
     m.add_item_or_charges(u.posx, u.posy, tmpitem);
   }
-  add_msg(_("You butcher the corpse."));
  }
 }
 
