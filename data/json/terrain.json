@@ -794,7 +794,7 @@
         "color": "brown",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "BASHABLE", "FLAMMABLE_ASH", "FLAT"],
+            "TRANSPARENT", "SUPPORTS_ROOF", "FLAMMABLE_ASH", "FLAT"],
         "close": "t_fencegate_c"
     },
     {
