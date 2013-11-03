@@ -157,7 +157,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SCISSORS"
+    "use_action": "SCISSORS",
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -2611,7 +2612,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE"
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -2739,7 +2741,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE"
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -2814,7 +2817,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE"
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -2839,7 +2843,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE"
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
   },
 
   {
@@ -3041,7 +3046,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE"
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
   },
 
   {

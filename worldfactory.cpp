@@ -242,7 +242,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 
     if (!dir) {
         // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
-        //closedir(dir);
+
 #if(defined _WIN32 || defined __WIN32__)
         mkdir(world->world_path.c_str());
 #else
@@ -252,7 +252,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     }
     if (!dir) {
         // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
-        //closedir(dir);
+
         DebugLog() << "Unable to create or open world[" << world->world_name << "] directory for saving\n";
         return false;
     }
@@ -605,13 +605,12 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
             mvwputch(win, FULL_SCREEN_HEIGHT-1, mLine->first+1, c_ltgray, LINE_XXOX); // _|_
         }
     }
-
+    mvwputch(win, 2, 61, c_ltgray, LINE_OXXX); //TODO: replace 61 by dynamic mapLines stuff, like it done above
     wrefresh(win);
     refresh();
 
     InputEvent ch;
 
-    //char ch = ' ';
     int sel = 0;
 
     int curoption = 0;
@@ -653,7 +652,6 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         wrefresh(w_options);
         refresh();
 
-        //ch = input();
         ch = get_input();
         if (world->world_options.size() > 0 || ch == Tab) {
             switch(ch) {
@@ -779,13 +777,13 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
                 case 1:
                     if (ch == KEY_BACKSPACE || ch == 127) {
                         if (worldname.size() > 0) {
-                            //erease utf8 character TODO: make a function
+                            //erase utf8 character TODO: make a function
                             while(worldname.size() > 0 && ((unsigned char)worldname[worldname.size() - 1]) >= 128 &&
                                     ((unsigned char)worldname[(int)worldname.size() - 1]) <= 191) {
                                 worldname.erase(worldname.size() - 1);
                             }
                             worldname.erase(worldname.size() - 1);
-                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________");
+                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "_______________________________");
                             mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "%s", worldname.c_str());
                             wprintz(w_confirmation, h_ltgray, "_");
                         }
