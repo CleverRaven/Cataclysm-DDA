@@ -89,20 +89,21 @@ static SDL_Joystick *joystick; // Only one joystick for now.
 
 static bool fontblending = false;
 
+#ifdef SDLTILES
 //***********************************
 //Tile-version specific functions   *
 //***********************************
 void init_tiles()
 {
-#ifdef SDLTILES
+
     DebugLog() << "Initializing SDL Tiles context\n";
     IMG_Init(IMG_INIT_PNG);
     tilecontext = new cata_tiles;
     if (OPTIONS["USE_TILES"]){
         tilecontext->init(screen, "gfx");
     }
-#endif
 }
+#endif
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
