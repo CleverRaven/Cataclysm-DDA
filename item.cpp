@@ -1467,8 +1467,9 @@ bool item::is_food(player const*u) const
     if (type->is_food())
         return true;
 
-    if (u->has_bionic("bio_batteries") && is_ammo() &&
-            (dynamic_cast<it_ammo*>(type))->type == "battery")
+    // Capable of "eating" battery charge
+    if (u->has_bionic("bio_batteries") && ammo_type() == "battery" &&
+        charges > 0)
         return true;
     if (u->has_bionic("bio_furnace") && flammable() && typeId() != "corpse")
         return true;

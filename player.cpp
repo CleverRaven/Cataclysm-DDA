@@ -6243,7 +6243,8 @@ bool player::consume(game *g, signed char ch)
     } else {
  // Consume other type of items.
         // For when bionics let you eat fuel
-        if (to_eat->is_ammo()) {
+        bool eat_charge = has_bionic("bio_batteries") && to_eat->ammo_type() == "battery" && to_eat->charges > 0;
+        if (to_eat->is_ammo() || eat_charge) {
             const int factor = 20;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
@@ -6271,6 +6272,10 @@ bool player::consume(game *g, signed char ch)
                                      to_eat->tname(g).c_str());
         }
         moves -= 250;
+        if (eat_charge) {
+            to_eat->charges--;
+            return true;
+        }
         was_consumed = true;
     }
 

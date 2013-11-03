@@ -3954,11 +3954,12 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
-  ],
-  "components": [
+    ],
     [
-      [ "battery", 125 ]
+      [ "battery_small", 100 ],
+      [ "battery_medium", 100 ],
+      [ "battery_large", 100 ],
+      [ "battery_huge", 100 ]
     ]
   ]
 },{
@@ -7990,6 +7991,137 @@
       [ "can_drink", 1 ],
       [ "can_food", 1 ],
       [ "canister_empty", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "battery_small",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "lemon", 2 ],
+      [ "acid", 1 ],
+      [ "vinegar", 2 ]
+    ],
+    [
+      [ "steel_chunk", 1 ],
+      [ "scrap", 3 ],
+      [ "knife_butter", 1 ],
+      [ "knife_steak", 1 ],
+      [ "bolt_steel", 1 ],
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "can_drink", 1 ],
+      [ "can_food", 1 ],
+      [ "canister_empty", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "battery_medium",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "electronics", 2 ],
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 2 ]
+    ]
+
+  ],
+  "components": [
+    [
+      [ "battery_small", 2 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "cable", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "battery_large",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "electronics", 3 ],
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ]
+    ]
+
+  ],
+  "components": [
+    [
+      [ "battery_medium", 2 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "cable", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "battery_huge",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "fabrication",
+  "requires_skills": [ "electronics", 4 ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "battery_large", 2 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "cable", 10 ]
     ]
   ]
 },{

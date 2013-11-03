@@ -1064,19 +1064,51 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 
 int iuse::battery(game *g, player *p, item *it, bool t)
 {
-    char ch = g->inv(_("Swap batteries with what?"));
-    item *charge = &(p->i_at(ch));
-
-    if (charge == NULL || charge->is_null()) {
+    char ch = g->inv_type(_("Swap batteries with what?"), IC_TOOL);
+    item *item2 = &(p->i_at(ch));
+    if (it == NULL || item2 == NULL || it->is_null() || item2->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
     }
-    if (charge->ammo_type() !="battery") {
+    if (!it->is_tool() || !item2->is_tool()) {
+        g->add_msg_if_player(p,_("That is not a tool!"));
+        return 0;
+    }
+    if (item2->ammo_type() != "battery") {
         g->add_msg_if_player(p,_("That doesn't take batteries!"));
         return 0;
     }
-    int tmp = charge->charges;
-    charge->charges = it->charges;
+
+    it_tool* bat = dynamic_cast<it_tool*>(it->type);
+    it_tool* tool = dynamic_cast<it_tool*>(item2->type);
+    int maxcharge = tool->max_charges;
+
+    // Check for battery extender
+    if (item2->has_flag("DOUBLE_AMMO"))
+        maxcharge *= 2;
+
+    // Current method is to swap only same-size batteries with tools that use them by max charges
+    if (bat->max_charges != maxcharge) {
+        g->add_msg_if_player(p,_("That tool takes a different kind of batteries!"));
+        return 0;
+    }
+
+    // Swap the rechargable tags
+    bool recharge_tool = item2->has_flag("RECHARGABLE_BATTERY");
+    if (recharge_tool != it->has_flag("RECHARGABLE_BATTERY")) {
+        if (recharge_tool) {
+            item2->item_tags.erase("RECHARGABLE_BATTERY");
+            it->item_tags.insert("RECHARGABLE_BATTERY");
+        } else {
+            it->item_tags.erase("RECHARGABLE_BATTERY");
+            item2->item_tags.insert("RECHARGABLE_BATTERY");
+        }
+
+    }
+
+    // Swap charges
+    int tmp = item2->charges;
+    item2->charges = it->charges;
     it->charges = tmp;
 
     g->add_msg_if_player(p,_("You swap batteries."));
@@ -1291,6 +1323,8 @@ int iuse::extra_battery(game *g, player *p, item *it, bool t)
     }
 
     modded->item_tags.insert("DOUBLE_AMMO");
+    // Make sure rechargable battery isn't doubled in size
+    modded->item_tags.erase("RECHARGABLE_BATTERY");
     g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
     return 1;
 }
