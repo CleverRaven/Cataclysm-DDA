@@ -8335,109 +8335,113 @@ void game::pickup(int posx, int posy, int min)
  bool offered_swap = false;
  std::map<std::string, int> mapPickup;
  for (int i = 0; i < here.size(); i++) {
-  iter = 0;
-  // This while loop guarantees the inventory letter won't be a repeat. If it
-  // tries all 52 letters, it fails and we don't pick it up.
-  if (getitem[i] && here[i].made_of(LIQUID))
-   got_water = true;
-  else if (getitem[i]) {
-   iter = 0;
-   while (iter < inv_chars.size() && (here[i].invlet == 0 ||
-                        (u.has_item(here[i].invlet) &&
-                         !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
-    here[i].invlet = nextinv;
-    iter++;
-    advance_nextinv();
-   }
+     iter = 0;
+     // This while loop guarantees the inventory letter won't be a repeat. If it
+     // tries all 52 letters, it fails and we don't pick it up.
+     if (getitem[i] && here[i].made_of(LIQUID)) {
+         got_water = true;
+     } else if (getitem[i]) {
+         iter = 0;
+         while (iter < inv_chars.size() &&
+                (here[i].invlet == 0 || (u.has_item(here[i].invlet) &&
+                                         !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
+             here[i].invlet = nextinv;
+             iter++;
+             advance_nextinv();
+         }
 
-   if(pickup_count[i] != 0)
-   {
-       int leftover_charges = here[i].charges - pickup_count[i];
-       if(leftover_charges > 0)
-       {
-           item temp = here[i].clone();
-           temp.charges = leftover_charges;
-           here[i].charges = pickup_count[i];
-           m.add_item_or_charges(posx, posy, temp);
-       }
-   }
+         if(pickup_count[i] != 0) {
+             int leftover_charges = here[i].charges - pickup_count[i];
+             if(leftover_charges > 0) {
+                 item temp = here[i].clone();
+                 temp.charges = leftover_charges;
+                 here[i].charges = pickup_count[i];
+                 m.add_item_or_charges(posx, posy, temp);
+             }
+         }
 
-   if (iter == inv_chars.size()) {
-    add_msg(_("You're carrying too many items!"));
-    werase(w_pickup);
-    wrefresh(w_pickup);
-    delwin(w_pickup);
-    return;
-   } else if (!u.can_pickWeight(here[i].weight(), false)) {
-    add_msg(_("The %s is too heavy!"), here[i].tname(this).c_str());
-    decrease_nextinv();
-   } else if (!u.can_pickVolume(here[i].volume())) {
-    if (u.is_armed()) {
-     if (!u.weapon.has_flag("NO_UNWIELD")) {
-      if (here[i].is_armor() && // Armor can be instantly worn
-          query_yn(_("Put on the %s?"), here[i].tname(this).c_str())) {
-       if(u.wear_item(this, &(here[i])))
-       {
-        if (from_veh)
-         veh->remove_item (veh_part, curmit);
-        else
-         m.i_rem(posx, posy, curmit);
-        curmit--;
-       }
-      } else if (!offered_swap) {
-       if (query_yn(_("Drop your %s and pick up %s?"),
-                u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
-        if (from_veh)
-         veh->remove_item (veh_part, curmit);
-        else
-         m.i_rem(posx, posy, curmit);
-        m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
-        u.wield(this, u.i_add(here[i], this).invlet);
-        mapPickup[here[i].tname(this)]++;
-        curmit--;
-        u.moves -= 100;
-        add_msg(_("Wielding %c - %s"), u.weapon.invlet, u.weapon.tname(this).c_str());
-       }
-       offered_swap = true;
-      } else
-       decrease_nextinv();
-     } else {
-      add_msg(_("There's no room in your inventory for the %s, and you can't\
-  unwield your %s."), here[i].tname(this).c_str(), u.weapon.tname(this).c_str());
-      decrease_nextinv();
+         if (iter == inv_chars.size()) {
+             add_msg(_("You're carrying too many items!"));
+             werase(w_pickup);
+             wrefresh(w_pickup);
+             delwin(w_pickup);
+             return;
+         } else if (!u.can_pickWeight(here[i].weight(), false)) {
+             add_msg(_("The %s is too heavy!"), here[i].tname(this).c_str());
+             decrease_nextinv();
+         } else if (!u.can_pickVolume(here[i].volume())) {
+             if (u.is_armed()) {
+                 if (!u.weapon.has_flag("NO_UNWIELD")) {
+                     if (here[i].is_armor() && // Armor can be instantly worn
+                         query_yn(_("Put on the %s?"), here[i].tname(this).c_str())) {
+                         if(u.wear_item(this, &(here[i]))) {
+                             if (from_veh) {
+                                 veh->remove_item (veh_part, curmit);
+                             } else {
+                                 m.i_rem(posx, posy, curmit);
+                             }
+                             curmit--;
+                         }
+                     } else if (!offered_swap) {
+                         if (query_yn(_("Drop your %s and pick up %s?"),
+                                      u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
+                             if (from_veh) {
+                                 veh->remove_item (veh_part, curmit);
+                             } else {
+                                 m.i_rem(posx, posy, curmit);
+                             }
+                             m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                             u.wield(this, u.i_add(here[i], this).invlet);
+                             mapPickup[here[i].tname(this)]++;
+                             curmit--;
+                             u.moves -= 100;
+                             add_msg(_("Wielding %c - %s"), u.weapon.invlet,
+                                     u.weapon.tname(this).c_str());
+                         }
+                         offered_swap = true;
+                     } else {
+                         decrease_nextinv();
+                     }
+                 } else {
+                     add_msg(_("There's no room in your inventory for the %s, and you can't\
+ unwield your %s."), here[i].tname(this).c_str(), u.weapon.tname(this).c_str());
+                     decrease_nextinv();
+                 }
+             } else {
+                 u.wield(this, u.i_add(here[i], this).invlet);
+                 mapPickup[here[i].tname(this)]++;
+                 if (from_veh) {
+                     veh->remove_item (veh_part, curmit);
+                 } else {
+                     m.i_rem(posx, posy, curmit);
+                 }
+                 curmit--;
+                 u.moves -= 100;
+             }
+         } else if (!u.is_armed() &&
+                    (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
+                     here[i].is_weap() || here[i].is_gun())) {
+             u.weapon = here[i];
+             if (from_veh) {
+                 veh->remove_item (veh_part, curmit);
+             } else {
+                 m.i_rem(posx, posy, curmit);
+             }
+             u.moves -= 100;
+             curmit--;
+         } else {
+             u.i_add(here[i], this);
+             mapPickup[here[i].tname(this)]++;
+             if (from_veh) {
+                 veh->remove_item (veh_part, curmit);
+             } else {
+                 m.i_rem(posx, posy, curmit);
+             }
+             u.moves -= 100;
+             curmit--;
+         }
      }
-    } else {
-     u.wield(this, u.i_add(here[i], this).invlet);
-     mapPickup[here[i].tname(this)]++;
-     if (from_veh)
-      veh->remove_item (veh_part, curmit);
-     else
-      m.i_rem(posx, posy, curmit);
-     curmit--;
-     u.moves -= 100;
-    }
-   } else if (!u.is_armed() &&
-            (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
-              here[i].is_weap() || here[i].is_gun())) {
-    u.weapon = here[i];
-    if (from_veh)
-     veh->remove_item (veh_part, curmit);
-    else
-     m.i_rem(posx, posy, curmit);
-    u.moves -= 100;
-    curmit--;
-   } else {
-    u.i_add(here[i], this);
-    mapPickup[here[i].tname(this)]++;
-    if (from_veh)
-     veh->remove_item (veh_part, curmit);
-    else
-     m.i_rem(posx, posy, curmit);
-    u.moves -= 100;
-    curmit--;
-   }
-  }
-  curmit++;
+     curmit++;
  }
 
  if (min == -1) { //Auto pickup item message
