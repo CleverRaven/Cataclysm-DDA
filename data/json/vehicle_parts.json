@@ -10,7 +10,8 @@
         "durability": 100,
         "item": "NULL",
         "difficulty": 0,
-        "flags": ["NOINSTALL"]
+        "flags": ["NOINSTALL"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "seat",
@@ -27,6 +28,10 @@
         "location": "center",
         "flags": [
             "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
+        ],
+        "breaks_into": [
+            {"item": "leather", "min": 1, "max": 3},
+            {"item": "scrap", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -43,6 +48,10 @@
         "location": "center",
         "flags": [
             "SEAT", "BOARDABLE"
+        ],
+        "breaks_into": [
+            {"item": "leather", "min": 0, "max": 1},
+            {"item": "scrap", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -60,6 +69,10 @@
         "location": "center",
         "flags": [
             "BED", "BOARDABLE", "CARGO"
+        ],
+        "breaks_into": [
+            {"item": "leather", "min": 1, "max": 2},
+            {"item": "scrap", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -73,7 +86,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_vertical",
@@ -86,7 +102,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_cross",
@@ -99,7 +118,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_nw",
@@ -112,7 +134,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_ne",
@@ -125,7 +150,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_se",
@@ -138,7 +166,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_sw",
@@ -151,7 +182,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_horizontal_2",
@@ -164,7 +198,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_vertical_2",
@@ -177,7 +214,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_cover",
@@ -190,7 +230,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "frame_handle",
@@ -203,7 +246,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "structure",
-        "flags": []
+        "flags": [],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "board_horizontal",
@@ -216,7 +262,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "flags": ["OPAQUE", "OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "sheet_metal", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "board_vertical",
@@ -229,7 +279,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "flags": ["OPAQUE", "OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "sheet_metal", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "board_nw",
@@ -242,7 +296,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "flags": ["OPAQUE", "OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "sheet_metal", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "board_ne",
@@ -255,7 +313,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "flags": ["OPAQUE", "OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "sheet_metal", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "board_se",
@@ -268,7 +330,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "flags": ["OPAQUE", "OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "sheet_metal", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "board_sw",
@@ -281,7 +347,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE"]
+        "flags": ["OPAQUE", "OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "sheet_metal", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_horizontal",
@@ -294,7 +364,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_vertical",
@@ -307,7 +381,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_nw",
@@ -320,7 +398,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_ne",
@@ -333,7 +415,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_se",
@@ -346,7 +432,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_sw",
@@ -359,7 +449,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_horizontal_2",
@@ -372,7 +466,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_vertical_2",
@@ -385,7 +483,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_cover",
@@ -398,7 +500,11 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
@@ -411,7 +517,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "center",
-        "flags": ["AISLE", "BOARDABLE"]
+        "flags": ["AISLE", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "aisle_vertical",
@@ -424,7 +533,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "center",
-        "flags": ["AISLE", "BOARDABLE"]
+        "flags": ["AISLE", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "trunk_floor",
@@ -438,7 +550,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "center",
-        "flags": ["AISLE", "BOARDABLE", "CARGO"]
+        "flags": ["AISLE", "BOARDABLE", "CARGO"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "roof",
@@ -451,7 +566,10 @@
         "item": "steel_plate",
         "difficulty": 1,
         "location": "roof",
-        "flags": ["ROOF"]
+        "flags": ["ROOF"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "door",
@@ -465,7 +583,10 @@
         "item": "frame",
         "difficulty": 2,
         "location": "center",
-        "flags": ["OBSTACLE", "OPENABLE", "BOARDABLE"]
+        "flags": ["OBSTACLE", "OPENABLE", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "door_opaque",
@@ -479,7 +600,10 @@
         "item": "frame",
         "difficulty": 2,
         "location": "center",
-        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"]
+        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "door_internal",
@@ -493,7 +617,10 @@
         "item": "frame",
         "difficulty": 2,
         "location": "center",
-        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"]
+        "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "windshield",
@@ -507,7 +634,8 @@
         "item": "glass_sheet",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OVER", "OBSTACLE"]
+        "flags": ["OVER", "OBSTACLE"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "blade_horizontal",
@@ -521,7 +649,8 @@
         "item": "blade",
         "difficulty": 2,
         "location": "structure",
-        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
+        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "blade_vertical",
@@ -535,7 +664,8 @@
         "item": "blade",
         "difficulty": 2,
         "location": "structure",
-        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
+        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "spike",
@@ -549,7 +679,8 @@
         "item": "spike",
         "difficulty": 2,
         "location": "structure",
-        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"]
+        "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "wheel",
@@ -564,7 +695,10 @@
         "item": "wheel",
         "difficulty": 4,
         "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_wide",
@@ -579,22 +713,10 @@
         "item": "wheel_wide",
         "difficulty": 5,
         "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
-    },{
-        "type" : "vehicle_part",
-        "id" : "wheel_underbody",
-        "name": "wide wheel (underbody)",
-        "symbol": "H",
-        "color": "dark_gray",
-        "broken_symbol": "x",
-        "broken_color": "light_gray",
-        "damage_modifier": 50,
-        "durability": 400,
-        "wheel_width": 14,
-        "item": "wheel_wide",
-        "difficulty": 6,
-        "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_unicycle",
@@ -609,7 +731,10 @@
         "item": "wheel_bicycle",
         "difficulty": 2,
         "location": "under",
-        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_bicycle",
@@ -624,7 +749,10 @@
         "item": "wheel_bicycle",
         "difficulty": 1,
         "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_motorbike",
@@ -639,7 +767,10 @@
         "item": "wheel_motorbike",
         "difficulty": 2,
         "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_small",
@@ -654,7 +785,8 @@
         "item": "wheel_small",
         "difficulty": 2,
         "location": "under",
-        "flags": ["WHEEL", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "wheel_caster",
@@ -669,7 +801,8 @@
         "item": "wheel_caster",
         "difficulty": 1,
         "location": "under",
-        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"]
+        "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "engine_1cyl",
@@ -685,7 +818,11 @@
         "item": "1cyl_combustion",
         "difficulty": 2,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4},
+            {"item": "steel_chunk", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "engine_vtwin",
@@ -701,7 +838,11 @@
         "item": "v2_combustion",
         "difficulty": 2,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4},
+            {"item": "steel_chunk", "min": 1, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "engine_inline4",
@@ -716,7 +857,11 @@
         "item": "i4_combustion",
         "difficulty": 3,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "breaks_into": [
+            {"item": "scrap", "min": 2, "max": 5},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "engine_v6",
@@ -732,7 +877,11 @@
         "item": "v6_combustion",
         "difficulty": 4,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "breaks_into": [
+            {"item": "scrap", "min": 2, "max": 6},
+            {"item": "steel_chunk", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "engine_v8",
@@ -748,7 +897,11 @@
         "item": "v8_combustion",
         "difficulty": 4,
         "location": "engine_block",
-        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"]
+        "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
+        "breaks_into": [
+            {"item": "scrap", "min": 3, "max": 7},
+            {"item": "steel_chunk", "min": 2, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "engine_electric",
@@ -764,7 +917,11 @@
         "item": "motor",
         "difficulty": 3,
         "location": "engine_block",
-        "flags": ["ENGINE"]
+        "flags": ["ENGINE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4},
+            {"item": "steel_chunk", "min": 1, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "engine_electric_large",
@@ -780,7 +937,11 @@
         "item": "motor_large",
         "difficulty": 4,
         "location": "engine_block",
-        "flags": ["ENGINE"]
+        "flags": ["ENGINE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 2, "max": 5},
+            {"item": "steel_chunk", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "engine_plasma",
@@ -796,7 +957,11 @@
         "item": "plasma_engine",
         "difficulty": 6,
         "location": "engine_block",
-        "flags": ["ENGINE", "ALTERNATOR"]
+        "flags": ["ENGINE", "ALTERNATOR"],
+        "breaks_into": [
+            {"item": "scrap", "min": 3, "max": 6},
+            {"item": "steel_chunk", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "foot_pedals",
@@ -812,7 +977,10 @@
         "item": "foot_crank",
         "difficulty": 1,
         "location": "engine_block",
-        "flags": ["ENGINE"]
+        "flags": ["ENGINE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "gas_tank",
@@ -828,7 +996,10 @@
         "item": "metal_tank",
         "difficulty": 1,
         "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "small_storage_battery",
@@ -844,7 +1015,10 @@
         "item": "small_storage_battery",
         "difficulty": 1,
         "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "storage_battery",
@@ -860,7 +1034,10 @@
         "item": "storage_battery",
         "difficulty": 2,
         "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "minireactor",
@@ -876,7 +1053,11 @@
         "item": "minireactor",
         "difficulty": 7,
         "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 2, "max": 5},
+            {"item": "steel_chunk", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "hydrogen_tank",
@@ -892,7 +1073,10 @@
         "item": "metal_tank",
         "difficulty": 1,
         "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "water_tank",
@@ -908,7 +1092,10 @@
         "item": "metal_tank",
         "difficulty": 1,
         "location": "fuel_source",
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "minifridge",
@@ -923,7 +1110,12 @@
         "item": "minifridge",
         "difficulty": 3,
         "location": "center",
-        "flags": ["CARGO", "OBSTACLE"]
+        "flags": ["CARGO", "OBSTACLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 2, "max": 6},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "hose", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "trunk",
@@ -938,7 +1130,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "center",
-        "flags": ["CARGO"]
+        "flags": ["CARGO"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "box",
@@ -953,7 +1148,10 @@
         "item": "frame",
         "difficulty": 1,
         "location": "center",
-        "flags": ["CARGO", "BOARDABLE"]
+        "flags": ["CARGO", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "controls",
@@ -966,7 +1164,10 @@
         "durability": 250,
         "item": "vehicle_controls",
         "difficulty": 3,
-        "flags": ["CONTROLS"]
+        "flags": ["CONTROLS"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "muffler",
@@ -980,7 +1181,10 @@
         "bonus": 40,
         "item": "muffler",
         "difficulty": 2,
-        "flags": ["MUFFLER"]
+        "flags": ["MUFFLER"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "seatbelt",
@@ -995,7 +1199,10 @@
         "item": "rope_6",
         "difficulty": 1,
         "location": "on_seat",
-        "flags": ["SEATBELT"]
+        "flags": ["SEATBELT"],
+        "breaks_into": [
+            {"item": "string_36", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "solar_panel",
@@ -1010,7 +1217,10 @@
         "item": "solar_panel",
         "difficulty": 6,
         "location": "on_roof",
-        "flags": ["SOLAR_PANEL"]
+        "flags": ["SOLAR_PANEL"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "reinforced_solar_panel",
@@ -1025,7 +1235,10 @@
         "item": "reinforced_solar_panel",
         "difficulty": 6,
         "location": "on_roof",
-        "flags": ["SOLAR_PANEL"]
+        "flags": ["SOLAR_PANEL"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "kitchen_unit",
@@ -1040,7 +1253,13 @@
         "item": "kitchen_unit",
         "difficulty": 4,
         "location": "center",
-        "flags": ["CARGO", "OBSTACLE", "KITCHEN"]
+        "flags": ["CARGO", "OBSTACLE", "KITCHEN"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4},
+            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "pan", "min": 0, "max": 1},
+            {"item": "pot", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "welding_rig",
@@ -1055,7 +1274,12 @@
         "item": "weldrig",
         "difficulty": 4,
         "location": "center",
-        "flags": ["CARGO", "OBSTACLE", "WELDRIG"]
+        "flags": ["CARGO", "OBSTACLE", "WELDRIG"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4},
+            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "welder", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "craft_rig",
@@ -1070,7 +1294,17 @@
         "item": "craftrig",
         "difficulty": 4,
         "location": "center",
-        "flags": ["CARGO", "OBSTACLE", "CRAFTRIG"]
+        "flags": ["CARGO", "OBSTACLE", "CRAFTRIG"],
+        "breaks_into": [
+            {"item": "scrap", "min": 2, "max": 5},
+            {"item": "steel_chunk", "min": 0, "max": 3},
+            {"item": "pan", "min": 0, "max": 1},
+            {"item": "pot", "min": 0, "max": 1},
+            {"item": "water_purifier", "min": 0, "max": 1},
+            {"item": "vac_sealer", "min": 0, "max": 1},
+            {"item": "dehydrator", "min": 0, "max": 1},
+            {"item": "press", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "veh_forge",
@@ -1084,7 +1318,11 @@
         "item": "forge",
         "difficulty": 3,
         "location": "center",
-        "flags": ["OBSTACLE", "FORGE"]
+        "flags": ["OBSTACLE", "FORGE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 4},
+            {"item": "steel_chunk", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "m249",
@@ -1100,7 +1338,10 @@
         "size" : 40,
         "difficulty": 6,
         "location": "on_roof",
-        "flags": ["TURRET", "CARGO"]
+        "flags": ["TURRET", "CARGO"],
+        "breaks_into": [
+            {"item": "m249", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "flamethrower",
@@ -1115,7 +1356,10 @@
         "item": "flamethrower",
         "difficulty": 7,
         "location": "on_roof",
-        "flags": ["TURRET"]
+        "flags": ["TURRET"],
+        "breaks_into": [
+            {"item": "flamethrower", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "plasma_gun",
@@ -1130,7 +1374,10 @@
         "item": "plasma_rifle",
         "difficulty": 7,
         "location": "on_roof",
-        "flags": ["TURRET"]
+        "flags": ["TURRET"],
+        "breaks_into": [
+            {"item": "plasma_rifle", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "fusion_gun",
@@ -1146,7 +1393,10 @@
         "difficulty": 7,
         "size": 10,
         "location": "on_roof",
-        "flags": ["TURRET", "CARGO"]
+        "flags": ["TURRET", "CARGO"],
+        "breaks_into": [
+            {"item": "ftk93", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "plating_steel",
@@ -1159,7 +1409,11 @@
         "item": "steel_plate",
         "difficulty": 3,
         "location": "armor",
-        "flags": ["ARMOR"]
+        "flags": ["ARMOR"],
+        "breaks_into": [
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "sheet_metal", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "plating_superalloy",
@@ -1172,7 +1426,10 @@
         "item": "alloy_plate",
         "difficulty": 4,
         "location": "armor",
-        "flags": ["ARMOR"]
+        "flags": ["ARMOR"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "plating_spiked",
@@ -1186,7 +1443,11 @@
         "item": "spiked_plate",
         "difficulty": 3,
         "location": "armor",
-        "flags": ["ARMOR", "SHARP"]
+        "flags": ["ARMOR", "SHARP"],
+        "breaks_into": [
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "spike", "min": 0, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "plating_hard",
@@ -1199,7 +1460,11 @@
         "item": "hard_plate",
         "difficulty": 4,
         "location": "armor",
-        "flags": ["ARMOR"]
+        "flags": ["ARMOR"],
+        "breaks_into": [
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "sheet_metal", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "headlight",
@@ -1214,7 +1479,10 @@
         "bonus": 480,
         "item": "flashlight",
         "difficulty": 1,
-        "flags": ["CONE_LIGHT"]
+        "flags": ["CONE_LIGHT"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "reinforced_windshield",
@@ -1228,7 +1496,8 @@
         "item": "reinforced_glass_sheet",
         "difficulty": 6,
         "location": "center",
-        "flags": ["OBSTACLE"]
+        "flags": ["OBSTACLE"],
+        "breaks_into": []
     },{
         "type" : "vehicle_part",
         "id" : "horn_bicycle",
@@ -1242,7 +1511,10 @@
         "bonus": 15,
         "item": "horn_bicycle",
         "difficulty": 1,
-        "flags": ["HORN"]
+        "flags": ["HORN"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "horn_car",
@@ -1256,7 +1528,10 @@
         "bonus": 30,
         "item": "horn_car",
         "difficulty": 3,
-        "flags": ["HORN"]
+        "flags": ["HORN"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "horn_big",
@@ -1270,7 +1545,10 @@
         "bonus": 45,
         "item": "horn_big",
         "difficulty": 3,
-        "flags": ["HORN"]
+        "flags": ["HORN"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "battery_motorbike",
@@ -1285,7 +1563,10 @@
         "fuel_type": "battery",
         "item": "battery_motorbike",
         "difficulty": 2,
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "battery_car",
@@ -1300,7 +1581,10 @@
         "fuel_type": "battery",
         "item": "battery_car",
         "difficulty": 2,
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "battery_truck",
@@ -1315,7 +1599,10 @@
         "fuel_type": "battery",
         "item": "battery_truck",
         "difficulty": 2,
-        "flags": ["FUEL_TANK"]
+        "flags": ["FUEL_TANK"],
+        "breaks_into": [
+            {"item": "scrap", "min": 2, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "door_trunk",
@@ -1329,7 +1616,10 @@
         "item": "frame",
         "difficulty": 2,
         "location": "center",
-        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
+        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "door_shutter",
@@ -1343,7 +1633,10 @@
         "item": "steel_plate",
         "difficulty": 3,
         "location": "center",
-        "flags": ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
+        "flags": ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "door_sliding",
@@ -1357,7 +1650,10 @@
         "item": "frame",
         "difficulty": 2,
         "location": "center",
-        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"]
+        "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "breaks_into": [
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "light_red",
@@ -1373,7 +1669,10 @@
         "item": "light_emergency_red",
         "difficulty": 1,
         "location": "on_roof",
-        "flags": ["CIRCLE_LIGHT", "ODDTURN"]
+        "flags": ["CIRCLE_LIGHT", "ODDTURN"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "light_blue",
@@ -1389,6 +1688,9 @@
         "item": "light_emergency_blue",
         "difficulty": 1,
         "location": "on_roof",
-        "flags": ["CIRCLE_LIGHT", "EVENTURN"]
+        "flags": ["CIRCLE_LIGHT", "EVENTURN"],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 1}
+        ]
     }
 ]
