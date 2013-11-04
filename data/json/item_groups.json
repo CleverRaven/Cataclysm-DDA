@@ -3039,7 +3039,8 @@
       ["helmet_riot", 25],
       ["lighter", 60],
       ["boots_rubber", 20],
-      ["canister_goo", 8]
+      ["canister_goo", 8],
+	  ["recipe_chimera", 2]
     ]
   },{
     "type":"item_group",
@@ -4345,6 +4346,7 @@
       ["pocket_survival", 2],
       ["pocket_firearms", 2],
       ["SICP", 3],
+	  ["recipe_chimera", 8],
       ["textbook_robots", 1],
       ["soldering_iron", 70],
       ["geiger_off", 8],
