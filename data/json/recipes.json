@@ -16767,6 +16767,7 @@
      ],
      [
       [ "tac_helmet", 1 ],
+      [ "tac_fullhelmet", 1 ],
       [ "helmet_army", 1 ],
       [ "kevlar_plate", 6 ]
      ],

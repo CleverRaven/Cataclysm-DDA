@@ -2165,6 +2165,7 @@
       ["tazer", 3],
       ["shot_beanbag", 15],
       ["tac_helmet", 15],
+      ["tac_fullhelmet", 7],
       ["tonfa", 30],
       ["shocktonfa_off", 15],
       ["swat_armor", 10]
@@ -2768,6 +2769,7 @@
       ["pocketwatch", 20],
       ["umbrella", 5],
       ["tac_helmet", 5],
+      ["tac_fullhelmet", 2],
       ["textbook_tailor", 12],
       ["nodachi", 1],
       ["swage", 2],
@@ -3571,6 +3573,7 @@
       ["fishing_waders", 2],
       ["cloak", 5],
       ["tac_helmet", 5],
+      ["tac_fullhelmet", 2],
       ["apron_leather", 2],
       ["tool_belt", 5]
     ]
@@ -3934,6 +3937,7 @@
       ["spray_can", 50],
       ["bio_blaster", 10],
       ["tac_helmet", 5],
+      ["tac_fullhelmet", 2],
       ["lsd", 4],
       ["pocketwatch", 5],
       ["child_book", 20],
@@ -4162,7 +4166,7 @@
       ["m202_flash", 2],
       ["m235tpa", 3],
       ["tac_helmet", 5],
-      ["tac_helmet", 5],
+      ["tac_fullhelmet", 2],
       ["mask_bal", 1],
       ["sm_extinguisher", 10],
       ["glasses_bal", 10]
@@ -4294,6 +4298,7 @@
       ["laser_sight", 15],
       ["8mm_inc", 2],
       ["tac_helmet", 10],
+      ["tac_fullhelmet", 5],
       ["gum", 90],
       ["nic_gum", 1],
       ["improve_sights", 10],
