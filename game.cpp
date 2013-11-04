@@ -8342,6 +8342,7 @@ void game::pickup(int posx, int posy, int min)
          got_water = true;
      } else if (getitem[i]) {
          bool picked_up = false;
+         item temp = here[i].clone();
          iter = 0;
          while (iter < inv_chars.size() &&
                 (here[i].invlet == 0 || (u.has_item(here[i].invlet) &&
@@ -8352,12 +8353,11 @@ void game::pickup(int posx, int posy, int min)
          }
 
          if(pickup_count[i] != 0) {
+             // Reinserting leftovers happens after item removal to avoid stacking issues.
              int leftover_charges = here[i].charges - pickup_count[i];
              if(leftover_charges > 0) {
-                 item temp = here[i].clone();
                  temp.charges = leftover_charges;
                  here[i].charges = pickup_count[i];
-                 m.add_item_or_charges(posx, posy, temp);
              }
          }
 
@@ -8420,6 +8420,16 @@ void game::pickup(int posx, int posy, int min)
              }
              curmit--;
              u.moves -= 100;
+             if( pickup_count[i] != 0 ) {
+                 bool to_map = !from_veh;
+
+                 if( from_veh ) {
+                     to_map = !veh->add_item( veh_part, temp );
+                 }
+                 if( to_map ) {
+                     m.add_item_or_charges( posx, posy, temp );
+                 }
+             }
          }
      }
      curmit++;
