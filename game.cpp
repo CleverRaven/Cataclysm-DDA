@@ -8341,6 +8341,7 @@ void game::pickup(int posx, int posy, int min)
      if (getitem[i] && here[i].made_of(LIQUID)) {
          got_water = true;
      } else if (getitem[i]) {
+         bool picked_up = false;
          iter = 0;
          while (iter < inv_chars.size() &&
                 (here[i].invlet == 0 || (u.has_item(here[i].invlet) &&
@@ -8375,26 +8376,15 @@ void game::pickup(int posx, int posy, int min)
                      if (here[i].is_armor() && // Armor can be instantly worn
                          query_yn(_("Put on the %s?"), here[i].tname(this).c_str())) {
                          if(u.wear_item(this, &(here[i]))) {
-                             if (from_veh) {
-                                 veh->remove_item (veh_part, curmit);
-                             } else {
-                                 m.i_rem(posx, posy, curmit);
-                             }
-                             curmit--;
+                             picked_up = true;
                          }
                      } else if (!offered_swap) {
                          if (query_yn(_("Drop your %s and pick up %s?"),
                                       u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
-                             if (from_veh) {
-                                 veh->remove_item (veh_part, curmit);
-                             } else {
-                                 m.i_rem(posx, posy, curmit);
-                             }
+                             picked_up = true;
                              m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                              u.wield(this, u.i_add(here[i], this).invlet);
                              mapPickup[here[i].tname(this)]++;
-                             curmit--;
-                             u.moves -= 100;
                              add_msg(_("Wielding %c - %s"), u.weapon.invlet,
                                      u.weapon.tname(this).c_str());
                          }
@@ -8410,35 +8400,26 @@ void game::pickup(int posx, int posy, int min)
              } else {
                  u.wield(this, u.i_add(here[i], this).invlet);
                  mapPickup[here[i].tname(this)]++;
-                 if (from_veh) {
-                     veh->remove_item (veh_part, curmit);
-                 } else {
-                     m.i_rem(posx, posy, curmit);
-                 }
-                 curmit--;
-                 u.moves -= 100;
+                 picked_up = true;
              }
          } else if (!u.is_armed() &&
                     (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
                      here[i].is_weap() || here[i].is_gun())) {
              u.weapon = here[i];
-             if (from_veh) {
-                 veh->remove_item (veh_part, curmit);
-             } else {
-                 m.i_rem(posx, posy, curmit);
-             }
-             u.moves -= 100;
-             curmit--;
+             picked_up = true;
          } else {
              u.i_add(here[i], this);
              mapPickup[here[i].tname(this)]++;
+             picked_up = true;
+         }
+         if( picked_up ) {
              if (from_veh) {
                  veh->remove_item (veh_part, curmit);
              } else {
                  m.i_rem(posx, posy, curmit);
              }
-             u.moves -= 100;
              curmit--;
+             u.moves -= 100;
          }
      }
      curmit++;
