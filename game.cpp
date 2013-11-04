@@ -8491,42 +8491,56 @@ void game::grab()
     }
 }
 
-// True is liquid can be put into cont
-bool game::can_container_hold(item *cont, item &liquid, int &holding_container_charges)
+// How much more of this liquid can be put in this container
+int game::get_remaining_capacity_for_liquid(item *cont, item &liquid, std::string &error)
 {
     if (!cont->is_container()) {
-        add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(), liquid.tname(this).c_str());
-        return false;
+        error = _("That %s won't hold %s."), cont->tname(this).c_str(), liquid.tname(this).c_str();
+        return 0;
     }
 
     // Filling up normal containers
     // First, check if liquid types are compatible
     if (!cont->contents.empty()) {
         if (cont->contents[0].type->id != liquid.type->id) {
-            add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
-            return false;
+            error = _("You can't mix loads in your %s."), cont->tname(this).c_str();
+            return 0;
         }
+    }
+
+    it_container *container = dynamic_cast<it_container *>(cont->type);
+    int capacity = container->contains;
+    if (cont->contents.empty()) {
+        if (!cont->has_flag("WATERTIGHT")) { // invalid container types
+            error = _("That %s isn't water-tight."), cont->tname(this).c_str();
+            return 0;
+        } else if (!cont->has_flag("SEALS")) {
+            error = _("You can't seal that %s!"), cont->tname(this).c_str();
+            return 0;
+        }
+
+        return capacity;
     }
 
     // OK, liquids are compatible. Now check what the type of liquid is
     // this will determine how much the holding container can hold
-    holding_container_charges = cont->get_remaining_liquid_capacity();
-    if (holding_container_charges == 0) {
-        add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
-            liquid.tname(this).c_str());
-        return false;
+    if (liquid.is_food()) {
+        it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
+        capacity = container->contains * tmp_comest->charges;
+    } else if (liquid.is_ammo()) {
+        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
+        capacity = container->contains * tmp_ammo->count;
     }
 
-    if (cont->contents.empty()) {
-        if (!cont->has_flag("WATERTIGHT")) { // invalid container types
-            add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
-            return false;
-        } else if (!(cont->has_flag("SEALS"))) {
-            add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
-            return false;
-        }
-        return true;
+    int remaining_capacity = capacity - cont->contents[0].charges;
+
+    if (remaining_capacity <= 0) {
+        error = _("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+            liquid.tname(this).c_str();
+        return 0;
     }
+
+    return remaining_capacity;
 }
 
 // Handle_liquid returns false if we didn't handle all the liquid.
@@ -8673,26 +8687,31 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
 
     } else {      // filling up normal containers
-        int holding_container_charges;
-        if (!can_container_hold(cont, liquid, holding_container_charges)) {
+        std::string error;
+        int remaining_capacity = get_remaining_capacity_for_liquid(cont, liquid, error);
+        if (remaining_capacity <= 0) {
+            if (!error.empty()) {
+                add_msg(error.c_str());
+            }
             return false;
         }
 
         if (!cont->contents.empty()) {
             // Container is partly full
             if (infinite) {
-                cont->contents[0].charges = holding_container_charges;
+                cont->contents[0].charges += remaining_capacity;
                 add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
                         cont->tname(this).c_str());
                 return true;
             } else { // Container is finite, not empty and not full, add liquid to it
                 add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
                         cont->tname(this).c_str());
-                cont->contents[0].charges += liquid.charges;
-                if (cont->contents[0].charges > holding_container_charges) {
-                    int extra = cont->contents[0].charges - holding_container_charges;
-                    cont->contents[0].charges = holding_container_charges;
-                    liquid.charges = extra;
+                if (remaining_capacity > liquid.charges) {
+                    remaining_capacity = liquid.charges;
+                }
+                cont->contents[0].charges += remaining_capacity;
+                liquid.charges -= remaining_capacity;
+                if (liquid.charges > 0) {
                     add_msg(_("There's some left over!"));
                     // Why not try to find another container here?
                     return false;
