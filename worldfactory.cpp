@@ -668,10 +668,10 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                     }
                     break;
                 case DirectionW: //set to prev value
-                    world->world_options[keys[sel]].setNext();
+                    world->world_options[keys[sel]].setPrev();
                     break;
                 case DirectionE: //set to next value
-                    world->world_options[keys[sel]].setPrev();
+                    world->world_options[keys[sel]].setNext();
                     break;
 
                 case DirectionUp: // '<'
