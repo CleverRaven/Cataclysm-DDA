@@ -81,6 +81,8 @@ class monster {
  std::string save_info();    // String of all data, for save files
  void debug(player &u);      // Gives debug info
 
+ point move_target(); // Returns point at the end of the monster's current plans
+
 // Movement
  void receive_moves();       // Gives us movement points
  void shift(int sx, int sy); // Shifts the monster to the appropriate submap
