@@ -891,6 +891,29 @@ int item::price() const
     return ret;
 }
 
+int item::battery_type() const
+{
+    int bat_type = 0;
+
+    if (is_null())
+        return 0;
+
+    if (has_flag("BATTERY_SMALL"))
+        bat_type = 1;
+    if (has_flag("BATTERY_MEDIUM"))
+        bat_type = 2;
+    if (has_flag("BATTERY_LARGE"))
+        bat_type = 3;
+    if (has_flag("BATTERY_HUGE"))
+        bat_type = 4;
+
+    // Check for battery extender
+    if (bat_type > 0 && bat_type < 4 && has_flag("DOUBLE_AMMO"))
+        bat_type++;
+
+    return bat_type;
+}
+
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {

@@ -6277,7 +6277,7 @@ bool player::consume(game *g, signed char ch)
         }
         moves -= 250;
 
-        // Don't
+        // Don't consume tool
         if (eat_charge) {
             to_eat->charges--;
             return true;
