@@ -5260,6 +5260,32 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
+
+  {
+    "id": "scythe",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "scythe",
+    "description": "This is an old-fashioned farming tool used to cut tall grass. While it may be a giant blade on the end of a stick, it is incredibly awkward to use for anything but its intended purpose.",
+    "price": 980,
+    "material": ["steel", "plastic"],
+    "flags": "SLICE",
+    "techniques": ["WIDE", "BRUTAL"],
+    "weight": 3013,
+    "volume": 13,
+    "bashing": 6,
+    "cutting": 28,
+    "to_hit": -13,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "null",
+    "qualities": [["CUT", 1]]
+  },
   
   {
     "id": "shock_staff",
