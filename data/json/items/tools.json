@@ -5260,6 +5260,29 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
+
+  {
+    "id": "airhorn",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "compressed air horn",
+    "description": "This is a small can of compressed air attached to a plastic horn. Pressing the button on top causes it to emit a loud honking sound.",
+    "price": 500,
+    "material": ["plastic", "steel"],
+    "weight": 467,
+    "volume": 1,
+    "bashing": 3,
+    "cutting": 0,
+    "to_hit": -4,
+    "max_charges": 50,
+    "initial_charges": 50,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "AIRHORN"
+  },
   
   {
     "id": "shock_staff",

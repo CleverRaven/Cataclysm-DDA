@@ -2057,6 +2057,21 @@ int iuse::noise_emitter_off(game *g, player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::airhorn(game *g, player *p, item *it, bool t)
+{
+    if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,_("You depress the button but no sound comes out."));
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("You honk your airhorn."));
+        point pos = g->find_item(it);
+        g->sound(pos.x, pos.y, 50, _("HOOOOONK!"));
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::horn_bicycle(game *g, player *p, item *it, bool t)
 {
     point pos = g->find_item(it);
