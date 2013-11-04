@@ -899,6 +899,9 @@ int iuse::mutagen(game *g, player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
         g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
         p->mutate_category(g, "MUTCAT_TROGLO");
+    } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
+        g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
+        p->mutate_category(g, "MUTCAT_CHIMERA");
     } else {
         if (!one_in(3)) {
             p->mutate(g);
