@@ -760,12 +760,9 @@ void mattack::fungus_sprout(game *g, monster *z)
 void mattack::leap(game *g, monster *z)
 {
     int linet;
-    if (!g->sees_u(z->posx(), z->posy(), linet))
-        return; // Only leap if we can see you!
-
     std::vector<point> options;
-    int best = 0;
-    bool fleeing = z->is_fleeing(g->u);
+    point target = z->move_target();
+    int best = rl_dist(z->posx(), z->posy(), target.x, target.y);
 
     for (int x = z->posx() - 3; x <= z->posx() + 3; x++)
     {
@@ -786,10 +783,8 @@ void mattack::leap(game *g, monster *z)
             * player.
             */
             if (!blocked_path && g->is_empty(x, y) &&
-             g->m.sees(z->posx(), z->posy(), x, y, g->light_level(), linet) &&
-             (( fleeing && rl_dist(g->u.posx, g->u.posy, x, y) >= best) ||
-             (!fleeing && rl_dist(g->u.posx, g->u.posy, x, y) <= best) ))
-            {
+                  g->m.sees(z->posx(), z->posy(), x, y, g->light_level(), linet) &&
+                  rl_dist(target.x, target.y, x, y) <= best) {
                 options.push_back( point(x, y) );
                 best = rl_dist(g->u.posx, g->u.posy, x, y);
             }
@@ -801,10 +796,10 @@ void mattack::leap(game *g, monster *z)
     for (int i = 0; i < options.size() && options.size() > 1; i++)
     {
         point p = options[i];
-        if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best)
+        if (rl_dist(target.x, target.y, options[i].x, options[i].y) != best)
         {
             options.erase(options.begin() + i);
-        i--;
+            i--;
         }
     }
 
@@ -817,8 +812,9 @@ void mattack::leap(game *g, monster *z)
     bool seen = g->u_see(z); // We can see them jump...
     z->setpos(chosen);
     seen |= g->u_see(z); // ... or we can see them land
-    if (seen)
+    if (seen) {
         g->add_msg(_("The %s leaps!"), z->name().c_str());
+    }
 }
 
 void mattack::dermatik(game *g, monster *z)
