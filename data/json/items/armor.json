@@ -5551,16 +5551,16 @@
         "description" : "An all-encompassing black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
         "price" : 800,
         "material" : ["kevlar", "plastic"],
-        "volume" : 10,
+        "volume" : 8,
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
-        "enviromental_protection" : 1,
+        "enviromental_protection" : 2,
         "encumbrance" : 3,
         "bashing" : 10,
         "flags" : ["VARSIZE"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
