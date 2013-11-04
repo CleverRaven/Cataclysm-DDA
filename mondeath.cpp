@@ -507,16 +507,26 @@ void make_gibs(game* g, monster* z, int amount) {
         return;
     }
     const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
+    const int zposx = z->posx();
+    const int zposy = z->posy();
+    const bool warm = z->has_flag(MF_WARM);
     for (int i = 0; i < amount; i++) {
         // leave gibs, if there are any
-        const int gibX = z->posx() + rng(1,6) - 3;
-        const int gibY = z->posy() + rng(1,6) - 3;
+        const int gibX = zposx + rng(0,6) - 3;
+        const int gibY = zposy + rng(0,6) - 3;
         const int gibDensity = rng(1, i+1);
-        g->m.add_field(g, gibX, gibY, gibType, gibDensity);
-        if (z->has_flag(MF_WARM)) {
-            const int bloodX = z->posx() + (rng(1,3) - 2);
-            const int bloodY = z->posy() + (rng(1,3) - 2);
-            g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
+        int junk;
+        if( g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
+            // Only place gib if there's a clear path for it to get there.
+            g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+        }
+        if( warm ) {
+            const int bloodX = zposx + (rng(0,2) - 1);
+            const int bloodY = zposy + (rng(0,2) - 1);
+            if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
+                // Only place blood if there's a clear path for it to get there.
+                g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
+            }
         }
     }
 }

@@ -370,6 +370,11 @@ void monster::shift(int sx, int sy)
  }
 }
 
+point monster::move_target()
+{
+    return point(plans.back().x, plans.back().y);
+}
+
 bool monster::is_fleeing(player &u)
 {
  if (has_effect(ME_RUN))

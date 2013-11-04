@@ -1091,39 +1091,43 @@ int map::combined_movecost(const int x1, const int y1,
 
 bool map::trans(const int x, const int y)
 {
- // Control statement is a problem. Normally returning false on an out-of-bounds
- // is how we stop rays from going on forever.  Instead we'll have to include
- // this check in the ray loop.
- int vpart = -1;
- vehicle *veh = veh_at(x, y, vpart);
- bool tertr;
- if (veh) {
-  tertr = !veh->part_with_feature(vpart, "OPAQUE") || veh->parts[vpart].hp <= 0;
-  if (!tertr) {
-   const int dpart = veh->part_with_feature(vpart, "OPENABLE");
-   if (dpart >= 0 && veh->parts[dpart].open)
-    tertr = true; // open opaque door
-  }
- } else
-  tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
- if( tertr ){
-  // Fields may obscure the view, too
-  field &curfield = field_at(x,y);
-  if(curfield.fieldCount() > 0){
-  field_entry *cur = NULL;
-   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
-       field_list_it != curfield.getFieldEnd(); ++field_list_it){
-    cur = field_list_it->second;
-    if(cur == NULL) continue;
-    //If ANY field blocks vision, the tile does.
-    if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
-     return false;
+    // Control statement is a problem. Normally returning false on an out-of-bounds
+    // is how we stop rays from going on forever.  Instead we'll have to include
+    // this check in the ray loop.
+    int vpart = -1;
+    vehicle *veh = veh_at(x, y, vpart);
+    bool tertr;
+    if (veh) {
+        tertr = veh->part_with_feature(vpart, "OPAQUE") < 0;
+        if (!tertr) {
+            const int dpart = veh->part_with_feature(vpart, "OPENABLE");
+            if (veh->parts[dpart].open) {
+                tertr = true; // open opaque door
+            }
+        }
+    } else {
+        tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
     }
-   }
-  }
-  return true; //no blockers found, this is transparent
- }
- return false; //failsafe block vision
+    if( tertr ) {
+        // Fields may obscure the view, too
+        field &curfield = field_at( x,y );
+        if( curfield.fieldCount() > 0 ) {
+            field_entry *cur = NULL;
+            for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+                 field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
+                cur = field_list_it->second;
+                if( cur == NULL ) {
+                    continue;
+                }
+                //If ANY field blocks vision, the tile does.
+                if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+                    return false;
+                }
+            }
+        }
+        return true; //no blockers found, this is transparent
+    }
+    return false; //failsafe block vision
 }
 
 bool map::has_flag(std::string flag, const int x, const int y)
@@ -1375,7 +1379,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
                   numitems = 1;
               }
               for(int a = 0; a < numitems; a++ ) {
-                  add_item(x, y, new_item, 1024);
+                  add_item_or_charges(x, y, new_item);
               }
            }
         }
@@ -2193,7 +2197,7 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
 void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 {
     item newart(type, bday);
-    add_item(x, y, newart);
+    add_item_or_charges(x, y, newart);
 }
 
 //New spawn_item method, using item factory

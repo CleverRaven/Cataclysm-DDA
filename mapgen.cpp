@@ -8526,11 +8526,11 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             switch(rng(1, 10)) {
                 case 1:
                     // natural refuse
-                    place_items("monparts", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    place_items("monparts", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                     break;
                 case 2:
                     // trash
-                    place_items("trash", 10, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    place_items("trash", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                     break;
                 case 3:
                     // bat corpses
@@ -8541,7 +8541,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     break;
                 case 4:
                     // ant food, chance of 80
-                    place_items("ant_food", 80, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+                    place_items("ant_food", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
                     break;
                 case 5:
                     {
@@ -8557,19 +8557,19 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
                     add_item(hermx, hermy, body);
                     // This seems verbose.  Maybe a function to spawn from a list of item groups?
-                    place_items("stash_food", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("survival_tools", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("survival_armor", 20, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("weapons", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("magazines", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
-                    place_items("rare", 10, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("stash_food", 50, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_tools", 50, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("survival_armor", 50, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("weapons", 40, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("magazines", 40, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
+                    place_items("rare", 30, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
                     break;
                     }
                 default:
                     // nothing, half the time
                     break;
             }
-            place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, density);
+            place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, 1.0);
         } else { // We're above ground!
             // First, draw a forest
             draw_map(ot_forest, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
@@ -11974,7 +11974,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 // Only place on valid terrain
   } while (((terlist[ter(px, py)].movecost == 0 &&
              !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
-            (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
+            (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
            tries < 20);
   if (tries < 20) {
    spawn_item(px, py, selected_item, turn);
@@ -14286,7 +14286,7 @@ void add_corpse(game *g, map *m, int x, int y)
 {
  item body;
  body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
- m->add_item(x, y, body);
+ m->add_item_or_charges(x, y, body);
  m->put_items_from("shoes",  1, x, y, 0, 0, 0);
  m->put_items_from("pants",  1, x, y, 0, 0, 0);
  m->put_items_from("shirts", 1, x, y, 0, 0, 0);

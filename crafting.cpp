@@ -1631,7 +1631,7 @@ void game::complete_disassemble()
           } else
           {
             if (dis->difficulty == 0 || comp_success)
-              m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+              m.add_item_or_charges(u.posx, u.posy, newit);
             else
               add_msg(_("You fail to recover a component."));
             compcount--;

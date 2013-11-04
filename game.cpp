@@ -6745,6 +6745,8 @@ point game::look_around()
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my;
  mapped_input input;
+ bool fast_scroll = false;
+ int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
 
  const int lookHeight = 13;
  const int lookWidth = getmaxx(w_messages);
@@ -6908,8 +6910,21 @@ point game::look_around()
   if (input.evt.type != CATA_INPUT_MOUSE) {
       get_direction(mx, my, input.command);
       if (mx != -2 && my != -2) { // Directional key pressed
-       lx += mx;
-       ly += my;
+       // if fastmove is set, use the option value for MOVE_VIEW_OFFSET
+       lx += mx * ( fast_scroll ? soffset : 1);
+       ly += my * ( fast_scroll ? soffset : 1);
+      } else if (input.command == Filter){
+          fast_scroll = !fast_scroll;
+          // If we are now fast scrolling, print it out. Otherwise redraw the border.
+          // This is only done on toggle, so it shouldn't be used heavily.
+          if (fast_scroll) {
+            // print a light green mark below the top right corner of the w_look window
+            mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
+          } else {
+            // redraw the border to clear out the marker.
+            wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+          }
       }
   } else if (input.evt.get_first_input() == MOUSE_BUTTON_LEFT) {
       // Left click on map
@@ -8343,7 +8358,7 @@ void game::pickup(int posx, int posy, int min)
            item temp = here[i].clone();
            temp.charges = leftover_charges;
            here[i].charges = pickup_count[i];
-           m.add_item(posx, posy, temp);
+           m.add_item_or_charges(posx, posy, temp);
        }
    }
 
@@ -11796,7 +11811,7 @@ bool game::spread_fungus(int x, int y)
                     m.i_rem(x, y, k);
                 }
                 item seeds(g->itypes["fungal_seeds"], int(g->turn));
-                m.add_item(x, y, seeds);
+                m.add_item_or_charges(x, y, seeds);
             }
         }
         return true;
@@ -11880,7 +11895,7 @@ bool game::spread_fungus(int x, int y)
                                 m.i_rem(i, j, k);
                             }
                             item seeds(g->itypes["fungal_seeds"], int(g->turn));
-                            m.add_item(x, y, seeds);
+                            m.add_item_or_charges(x, y, seeds);
                         }
                     }
                 }
