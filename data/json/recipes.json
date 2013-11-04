@@ -594,6 +594,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "makeshift_knife",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "scrap", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "spike", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pointy_stick",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -611,6 +634,26 @@
       [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
+    ]
+  ]
+},{
+       "type" : "recipe",
+  "result": "spear_rebar",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "scrap", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rebar", 1 ]
     ]
   ]
 },{
@@ -948,6 +991,29 @@
     ],
     [
       [ "nail", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "homewrecker",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_36", 8 ]
+    ],
+    [
+      [ "steel_chunk", 4 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ],
+      [ "mop", 1 ],
+      [ "broom", 1 ]
     ]
   ]
 },{
@@ -14425,6 +14491,66 @@
   "components": [ [ ["paper", 300] ],
     [ ["duct_tape", 150] ] ]
 },{
+       "type" : "recipe",
+  "result": "2byarm_guard",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "string_36", 4 ]
+    ],
+    [
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "rag", 8 ]
+    ]
+  ]
+},{
+       "type" : "recipe",
+  "result": "2byshin_guard",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "string_36", 2 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_wraps",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "knuckle_steel",
   "category": "CC_WEAPON",
@@ -14454,6 +14580,39 @@
     [ ["screwdriver", -1], ["toolset", -1] ] ],
   "components": [ [ ["2x4", 4], [ "stick", 8 ] ],
     [ ["rebar", 5] ] ]
+},{
+        "type" : "recipe",
+  "result": "knuckle_nail",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+"qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "tools": [ 
+    [ 
+      ["rock", -1], 
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1] 
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 4 ]
+    ],
+    [
+      [ "nail", 16 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "cestus",
@@ -15474,6 +15633,27 @@
      [ "scrap", 12 ]
      ]
     ]
+},{
+        "type" : "recipe",
+  "result": "cudgel",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "q_staff",
