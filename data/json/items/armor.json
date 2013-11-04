@@ -3917,7 +3917,7 @@
         "encumbrance" : 2,
         "bashing" : 8,
         "flags" : ["WATER_FRIENDLY"],
-        "coverage" : 100,
+        "coverage" : 95,
         "material_thickness" : 4
     },
     {
