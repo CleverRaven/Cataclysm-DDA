@@ -5312,6 +5312,31 @@
     "use_action": "null",
     "qualities": [["CUT", 1]]
   },
+
+  {
+    "id": "sickle",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "sickle",
+    "description": "This is an old-fashioned farming tool used to cut tall grass. While it may be a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
+    "price": 380,
+    "material": ["steel", "plastic"],
+    "flags": "SLICE",
+    "weight": 1432,
+    "volume": 5,
+    "bashing": 2,
+    "cutting": 16,
+    "to_hit": -6,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "null",
+    "qualities": [["CUT", 1]]
+  },
   
   {
     "id": "shock_staff",
