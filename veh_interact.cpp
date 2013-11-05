@@ -1205,7 +1205,27 @@ void complete_vehicle (game *g)
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
             used_item = veh->item_from_part( vehicle_part );
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
+            // Transfer fuel back to tank
+            if (used_item.typeId() == "metal_tank")
+            {
+              item *cont = &(g->u.i_add(used_item));
+              it_container *container = dynamic_cast<it_container *>(cont->type);
+              int container_capacity = container->contains;
+
+              ammotype desired_liquid = veh->part_info(vehicle_part).fuel_type;
+              item liquid( g->itypes[default_ammo(desired_liquid)], g->turn );
+              if (liquid.is_ammo())
+              {
+                it_ammo* ammo = dynamic_cast<it_ammo *>(liquid.type);
+                container_capacity *= ammo->count;
+              }
+              int liquid_amount = veh->drain( desired_liquid, container_capacity);
+              liquid.charges = liquid_amount;
+
+              cont->put_in(liquid);
+            } else {
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
+            }
             if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
             {
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
