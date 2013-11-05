@@ -294,8 +294,8 @@
       ["sm_extinguisher", 10],
       ["atomic_light", 1],
       ["atomic_coffeepot", 2],
-      ["charcoal", 5]
-      ["water_mineral", 10],
+      ["charcoal", 5],
+      ["water_mineral", 10]
     ]
   },{
     "type":"item_group",
