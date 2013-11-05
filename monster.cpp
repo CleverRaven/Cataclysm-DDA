@@ -859,7 +859,7 @@ void monster::process_effects(game *g)
  }
 }
 
-bool monster::make_fungus(game *g)
+bool monster::make_fungus()
 {
     char polypick = 0;
     std::string tid = type->id;

@@ -651,7 +651,7 @@ void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
                     }
-                    if (!g->zombie(mondex).make_fungus(g)) {
+                    if (!g->zombie(mondex).make_fungus()) {
                         g->kill_mon(mondex, false);
                     }
                 } else if (g->u.posx == i && g->u.posy == j) {

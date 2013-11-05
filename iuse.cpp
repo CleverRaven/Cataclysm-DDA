@@ -631,7 +631,7 @@ int iuse::fungicide(game *g, player *p, item *it, bool t) {
                                 g->add_msg(_("The %s is covered in tiny spores!"),
                                            g->zombie(zid).name().c_str());
                             }
-                            if (!g->zombie(zid).make_fungus(g)) {
+                            if (!g->zombie(zid).make_fungus()) {
                                 g->kill_mon(zid);
                             }
                         } else {

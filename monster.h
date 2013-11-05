@@ -183,7 +183,7 @@ class monster {
     bool has_effect(monster_effect_type effect); // True if we have the effect
     void rem_effect(monster_effect_type effect); // Remove a given effect
     void process_effects(game *g); // Process long-term effects
-    bool make_fungus(game *g);  // Makes this monster into a fungus version
+    bool make_fungus();  // Makes this monster into a fungus version
                                 // Returns false if no such monster exists
     void make_friendly();
     void add_item(item it);     // Add an item to inventory

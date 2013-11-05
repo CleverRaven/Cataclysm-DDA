@@ -2222,7 +2222,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                             g->add_msg(_("The %s is covered in tiny spores!"),
                                        g->zombie(zid).name().c_str());
                         }
-                        if (!g->zombie(zid).make_fungus(g)) {
+                        if (!g->zombie(zid).make_fungus()) {
                             g->kill_mon(zid);
                         }
                     } else if (one_in(4) && g->num_zombies() <= 1000){

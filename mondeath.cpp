@@ -174,7 +174,7 @@ void mdeath::fungus(game *g, monster *z) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                    g->zombie(mondex).name().c_str());
                     }
-                    if (!g->zombie(mondex).make_fungus(g)) {
+                    if (!g->zombie(mondex).make_fungus()) {
                         g->kill_mon(mondex, (z->friendly != 0));
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
