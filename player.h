@@ -172,10 +172,12 @@ public:
 
  bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
- bool can_leg_block(); // technique-based miss recovery, like tec_feint
- bool can_arm_block(); // technique-based miss recovery, like tec_feint
+ bool can_leg_block(); // technique-based defensive ability
+ bool can_arm_block(); // technique-based defensive ability, like tec_leg_block
 
 // melee.cpp
+ bool can_weapon_block(); //gear-based defensive ability
+ 
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
