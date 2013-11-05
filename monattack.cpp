@@ -768,6 +768,9 @@ void mattack::leap(game *g, monster *z)
     {
         for (int y = z->posy() - 3; y <= z->posy() + 3; y++)
         {
+            if (x == z->posx() && y == z->posy()) {
+                continue;
+            }
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
             if (g->m.sees(z->posx(), z->posy(), x, y, z->vision_range(x, y), linet)) {
