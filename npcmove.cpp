@@ -990,7 +990,7 @@ void npc::move_to(game *g, int x, int y)
  } else {
   if (in_vehicle) {
       // TODO: handle this nicely - npcs should not jump from moving vehicles
-      g->m.unboard_vehicle(g, posx, posy);
+      g->m.unboard_vehicle(posx, posy);
   }
   else
   {

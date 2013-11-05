@@ -2422,7 +2422,7 @@ bool game::is_game_over()
 {
     if (uquit == QUIT_SUICIDE){
         if (u.in_vehicle)
-            g->m.unboard_vehicle(this, u.posx, u.posy);
+            g->m.unboard_vehicle(u.posx, u.posy);
         std::stringstream playerfile;
         playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
         DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
@@ -2436,7 +2436,7 @@ bool game::is_game_over()
     for (int i = 0; i <= hp_torso; i++){
         if (u.hp_cur[i] < 1) {
             if (u.in_vehicle)
-                g->m.unboard_vehicle(this, u.posx, u.posy);
+                g->m.unboard_vehicle(u.posx, u.posy);
             place_corpse();
             std::stringstream playerfile;
             playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
@@ -6611,7 +6611,7 @@ void game::moving_vehicle_dismount(int tox, int toy)
     }
     int d = (45 * (direction_from(u.posx, u.posy, tox, toy)) - 90) % 360;
     add_msg(_("You dive from the %s."), veh->name.c_str());
-    m.unboard_vehicle(this, u.posx, u.posy);
+    m.unboard_vehicle(u.posx, u.posy);
     u.moves -= 200;
     // Dive three tiles in the direction of tox and toy
     fling_player_or_monster(&u, 0, d, 30, true);
@@ -10510,7 +10510,7 @@ void game::plmove(int dx, int dy)
 
 // If the player is in a vehicle, unboard them from the current part
   if (u.in_vehicle)
-   m.unboard_vehicle(this, u.posx, u.posy);
+   m.unboard_vehicle(u.posx, u.posy);
 
 // Move the player
   u.posx = x;
@@ -10634,7 +10634,7 @@ void game::plmove(int dx, int dy)
   if(tunneldist) //you tunneled
   {
     if (u.in_vehicle)
-        m.unboard_vehicle(this, u.posx, u.posy);
+        m.unboard_vehicle(u.posx, u.posy);
     u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
     u.moves -= 100; //tunneling costs 100 moves
     u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
@@ -11661,7 +11661,7 @@ void game::teleport(player *p)
     } while (tries < 15 && !is_empty(newx, newy));
     bool can_see = (is_u || u_see(newx, newy));
     if (p->in_vehicle) {
-        m.unboard_vehicle (this, p->posx, p->posy);
+        m.unboard_vehicle(p->posx, p->posy);
     }
     p->posx = newx;
     p->posy = newy;

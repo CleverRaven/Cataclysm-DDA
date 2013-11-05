@@ -2622,8 +2622,8 @@ void vehicle::unboard_all ()
 {
     std::vector<int> bp = boarded_parts ();
     for (int i = 0; i < bp.size(); i++) {
-        g->m.unboard_vehicle (g, global_x() + parts[bp[i]].precalc_dx[0], global_y() +
-                              parts[bp[i]].precalc_dy[0]);
+        g->m.unboard_vehicle (global_x() + parts[bp[i]].precalc_dx[0],
+                              global_y() + parts[bp[i]].precalc_dy[0]);
     }
 }
 
