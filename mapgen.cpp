@@ -8572,7 +8572,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             place_spawns(g, "GROUP_CAVE", 2, 6, 6, 18,18, density);
         } else { // We're above ground!
             // First, draw a forest
-            draw_map("forest", t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+            draw_map(oter_id("forest"), t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
                       t_above, turn, g, density, zlevel);
             // Clear the center with some rocks
             square(this, t_rock, SEEX-6, SEEY-6, SEEX+5, SEEY+5);

@@ -4118,7 +4118,7 @@ void game::draw_minimap()
    int omx = cursx + i;
    int omy = cursy + j;
    bool seen = false;
-   oter_id cur_ter = "";
+   oter_id cur_ter;// = "";
    long note_sym = 0;
    bool note = false;
    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {

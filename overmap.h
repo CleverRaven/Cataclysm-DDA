@@ -214,7 +214,8 @@ class overmap
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
 
-extern std::map<oter_id,oter_t> otermap;
+extern std::map<std::string,oter_t> otermap;
+extern std::vector<oter_t> oterlist;
 void load_overmap_terrain(JsonObject &jo);
 
 bool is_river(const oter_id &ter);

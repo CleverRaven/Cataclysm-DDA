@@ -38,6 +38,9 @@
  * load a legacy format loader.
  */
 const int savegame_version = 12;
+const int savegame_minver_game = 11;
+//const int savegame_minver_map = 11;
+const int savegame_minver_overmap = 12;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -180,7 +183,7 @@ void game::unserialize(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
-   if (savegame_loading_version != savegame_version) {
+   if (savegame_loading_version != savegame_version && savegame_loading_version < savegame_minver_game ) {
        if ( unserialize_legacy(fin) == true ) {
             return;
        } else {
@@ -353,6 +356,7 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             fin >> z;
 
             std::string tmp_ter;
+            oter_id tmp_otid(0);
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 int count = 0;
                 for (int j = 0; j < OMAPY; j++) {
@@ -361,10 +365,13 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
                             fin >> tmp_ter >> count;
                             if (otermap.find(tmp_ter) == otermap.end()) {
                                 debugmsg("Loaded bad ter!  %s; ter %s", terfilename.c_str(), tmp_ter.c_str());
+                                tmp_otid = 0;
+                            } else {
+                                tmp_otid = tmp_ter;
                             }
                         }
                         count--;
-                        layer[z].terrain[i][j] = tmp_ter;
+                        layer[z].terrain[i][j] = tmp_otid; //otermap[tmp_ter].loadid;
                         layer[z].visible[i][j] = false;
                     }
                 }
@@ -532,16 +539,18 @@ void overmap::save()
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
         int count = 0;
-        std::string last_tertype = "this will never match anything";
+//        std::string last_tertype = "this will never match anything";
+        oter_id last_tertype(-1);       
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
-                std::string t = layer[z].terrain[i][j];
+                oter_id t = layer[z].terrain[i][j];
+//terlist[layer[z].terrain[i][j]].id;
                 if (t != last_tertype) {
                     if (count) {
                         fout << count << " ";
                     }
                     last_tertype = t;
-                    fout << t << " ";
+                    fout << std::string(t) << " ";
                     count = 1;
                 } else {
                     count++;
@@ -580,7 +589,7 @@ void overmap::save()
 void game::unserialize_master(std::ifstream &fin) {
    savegame_loading_version = 0;
    chkversion(fin);
-   if (savegame_loading_version != savegame_version) {
+   if (savegame_loading_version != savegame_version && savegame_loading_version < 11) {
        if ( unserialize_master_legacy(fin) == true ) {
             return;
        } else {

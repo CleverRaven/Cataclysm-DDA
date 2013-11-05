@@ -21,6 +21,7 @@
 #include "input.h"
 #include "json.h"
 #include <queue>
+#define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
@@ -55,6 +56,7 @@ map_extras build_extras(
     90,  0,  5, 12,  0, 10,  0,  5,  5, 60,  8,  1,  3);
 
 std::map<std::string,oter_t> otermap;
+std::vector<oter_t> oterlist;
 
 overmap_special overmap_specials[NUM_OMSPECS] = {
 
@@ -194,8 +196,10 @@ double dist(int x1, int y1, int x2, int y2)
 
 bool is_river(const oter_id &ter)
 {
-    // if the id starts with "river" or "bridge", count as a river
-    return (ter.compare(0,5,"river",5) == 0 || ter.compare(0,6,"bridge",6) == 0);
+    // if the id starts with "river" or "bridge", count as a river, but this
+    // is done in data init.
+    // return (ter.compare(0,5,"river",5) == 0 || ter.compare(0,6,"bridge",6) == 0);
+    return oter_t(ter).is_river;
 }
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
@@ -204,8 +208,9 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     if (compare_size > oter.size()) {
         return false;
     } else {
-        return oter.compare(0, compare_size, otype) == 0;
+        return std::string(oter).compare(0, compare_size, otype ) == 0;
     }
+
 }
 
 bool road_allowed(const oter_id &ter)
@@ -229,7 +234,8 @@ struct oter_weight_list {
         total_weight += weight;
     }
 
-    oter_id pick() {
+    // oter_id will effectively be "" if initialized as something that doesn't exist in otermap
+    std::string pick() {
         int picked = rng(0, total_weight);
         int accumulated_weight = 0;
 
@@ -282,7 +288,8 @@ oter_id shop(int dir)
     weightlist.add_item("police", 1);
     weightlist.add_item("s_lot", 4);
 
-    oter_id ret = weightlist.pick();
+    std::string ret = weightlist.pick();
+
     if (ret == "s_lot") { // don't need to rotate
         return ret;
     }
@@ -328,6 +335,24 @@ map_extras& get_extras(const std::string &name)
     }
 }
 
+// oter_t specific affirmatives to is_road, set at startup (todo; jsonize)
+bool isroad(std::string bstr) {
+    if (bstr=="road" || bstr=="bridge" ||
+        bstr=="subway" || bstr=="sewer" ||
+        bstr=="sewage_treatment_hub" ||
+        bstr=="sewage_treatment_under" ||
+        bstr == "rift" || bstr == "hellmouth") {
+        return true;
+    }
+    return false;
+}
+
+void load_oter(oter_t & oter) {
+    oter.loadid = oterlist.size();
+    otermap[oter.id] = oter;
+    oterlist.push_back(oter);
+}
+
 void load_overmap_terrain(JsonObject &jo)
 {
     oter_t oter;
@@ -337,7 +362,6 @@ void load_overmap_terrain(JsonObject &jo)
 
     oter.id = jo.get_string("id");
     oter.name = _(jo.get_string("name").c_str());
-
     rotate = jo.get_bool("rotate", false);
     line_drawing = jo.get_bool("line_drawing", false);
     if (line_drawing) {
@@ -367,59 +391,80 @@ void load_overmap_terrain(JsonObject &jo)
     oter.sidewalk = jo.get_bool("sidewalk", false);
     oter.allow_road = jo.get_bool("allow_road", false);
 
+    std::string id_base = oter.id;
+
+    oter.is_road = isroad(id_base);
+    oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
+
     if (line_drawing) {
         // add variants for line drawing
-        std::string id_base = oter.id;
+        oter.id_base = id_base;
         oter.id = id_base + "_ns";
         oter.sym = LINE_XOXO;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_ew";
         oter.sym = LINE_OXOX;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_ne";
         oter.sym = LINE_XXOO;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_es";
         oter.sym = LINE_OXXO;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_sw";
         oter.sym = LINE_OOXX;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_wn";
         oter.sym = LINE_XOOX;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_nes";
         oter.sym = LINE_XXXO;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_new";
         oter.sym = LINE_XXOX;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_nsw";
         oter.sym = LINE_XOXX;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_esw";
         oter.sym = LINE_OXXX;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_nesw";
         oter.sym = LINE_XXXX;
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
     } else if (rotate) {
         // add north/east/south/west variants
-        std::string id_base = oter.id;
+        oter.id_base = id_base;
         oter.id = id_base + "_north";
         oter.sym = syms[0];
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_east";
         oter.sym = syms[1];
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_south";
         oter.sym = syms[2];
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
         oter.id = id_base + "_west";
         oter.sym = syms[3];
-        otermap[oter.id] = oter;
+        load_oter(oter);
+
     } else {
-        otermap[oter.id] = oter;
+        oter.id_base = id_base;
+        load_oter(oter);
     }
 }
 
@@ -524,6 +569,7 @@ void overmap::init_layers()
     layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
         oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? "field" : "";
+        // oter_iid default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null; // todo: regional default_type
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = default_type;
@@ -536,8 +582,7 @@ void overmap::init_layers()
 oter_id& overmap::ter(const int x, const int y, const int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-        nullret = "";
-        return nullret;
+        return ot_null;
     }
 
     return layer[z + OVERMAP_DEPTH].terrain[x][y];
@@ -682,7 +727,7 @@ point overmap::display_notes(game* g, int const z) const
 
  const int maxitems = 20; // Number of items to show at one time.
  char ch = '.';
- int start = 0, cur_it;
+ int start = 0, cur_it(0);
  mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
  do{
   if (ch == '<' && start > 0) {
@@ -811,6 +856,7 @@ void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const
 void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {
+ dbg(D_INFO) << "overmap::generate start...";
  erase();
  clear();
  move(0, 0);
@@ -819,13 +865,15 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  std::vector<point> river_end; // East/South endpoints of rivers
 
 // Determine points where rivers & roads should connect w/ adjacent maps
+ const oter_id river_center("river_center"); // optimized comparison. 
+
  if (north != NULL) {
   for (int i = 2; i < OMAPX - 2; i++) {
    if (is_river(north->ter(i,OMAPY-1, 0)))
-    ter(i, 0, 0) = "river_center";
-   if (north->ter(i,     OMAPY - 1, 0) == "river_center" &&
-       north->ter(i - 1, OMAPY - 1, 0) == "river_center" &&
-       north->ter(i + 1, OMAPY - 1, 0) == "river_center") {
+    ter(i, 0, 0) = river_center;
+   if (north->ter(i,     OMAPY - 1, 0) == river_center &&
+       north->ter(i - 1, OMAPY - 1, 0) == river_center &&
+       north->ter(i + 1, OMAPY - 1, 0) == river_center) {
     if (river_start.size() == 0 ||
         river_start[river_start.size() - 1].x < i - 6)
      river_start.push_back(point(i, 0));
@@ -840,10 +888,10 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  if (west != NULL) {
   for (int i = 2; i < OMAPY - 2; i++) {
    if (is_river(west->ter(OMAPX - 1, i, 0)))
-    ter(0, i, 0) = "river_center";
-   if (west->ter(OMAPX - 1, i, 0)     == "river_center" &&
-       west->ter(OMAPX - 1, i - 1, 0) == "river_center" &&
-       west->ter(OMAPX - 1, i + 1, 0) == "river_center") {
+    ter(0, i, 0) = river_center;
+   if (west->ter(OMAPX - 1, i, 0)     == river_center &&
+       west->ter(OMAPX - 1, i - 1, 0) == river_center &&
+       west->ter(OMAPX - 1, i + 1, 0) == river_center) {
     if (river_start.size() == rivers_from_north ||
         river_start[river_start.size() - 1].y < i - 6)
      river_start.push_back(point(0, i));
@@ -857,10 +905,10 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  if (south != NULL) {
   for (int i = 2; i < OMAPX - 2; i++) {
    if (is_river(south->ter(i, 0, 0)))
-    ter(i, OMAPY - 1, 0) = "river_center";
-   if (south->ter(i,     0, 0) == "river_center" &&
-       south->ter(i - 1, 0, 0) == "river_center" &&
-       south->ter(i + 1, 0, 0) == "river_center") {
+    ter(i, OMAPY - 1, 0) = river_center;
+   if (south->ter(i,     0, 0) == river_center &&
+       south->ter(i - 1, 0, 0) == river_center &&
+       south->ter(i + 1, 0, 0) == river_center) {
     if (river_end.size() == 0 ||
         river_end[river_end.size() - 1].x < i - 6)
      river_end.push_back(point(i, OMAPY - 1));
@@ -877,10 +925,10 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  if (east != NULL) {
   for (int i = 2; i < OMAPY - 2; i++) {
    if (is_river(east->ter(0, i, 0)))
-    ter(OMAPX - 1, i, 0) = "river_center";
-   if (east->ter(0, i, 0)     == "river_center" &&
-       east->ter(0, i - 1, 0) == "river_center" &&
-       east->ter(0, i + 1, 0) == "river_center") {
+    ter(OMAPX - 1, i, 0) = river_center;
+   if (east->ter(0, i, 0)     == river_center &&
+       east->ter(0, i - 1, 0) == river_center &&
+       east->ter(0, i + 1, 0) == river_center) {
     if (river_end.size() == rivers_to_south ||
         river_end[river_end.size() - 1].y < i - 6)
      river_end.push_back(point(OMAPX - 1, i));
@@ -1023,8 +1071,13 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 // Place the monsters, now that the terrain is laid out
  place_mongroups();
  place_radios();
+ dbg(D_INFO) << "overmap::generate done";
 }
 
+
+/*
+ * fixme; 
+ */
 bool overmap::generate_sub(int const z)
 {
     bool requires_sub = false;
@@ -1054,16 +1107,39 @@ bool overmap::generate_sub(int const z)
     std::vector<point> hotel_tower_2_points;
     std::vector<point> hotel_tower_3_points;
 
+    const oter_id skip_above[5] = { // These are so common that it's worth checking first as int.
+        oter_id("rock"), oter_id("forest"), oter_id("field"), oter_id("forest_thick"), oter_id("forest_water")
+    };
+
     for (int i = 0; i < OMAPX; i++) {
         for (int j = 0; j < OMAPY; j++) {
-            oter_id oter = ter(i, j, z);
-            oter_id oter_above = ter(i, j, z + 1);
-            if (is_ot_type("house_base", oter_above)) {
-                ter(i, j, z) = "basement";
-            } else if (is_ot_type("sub_station", oter_above)) {
-                ter(i, j, z) = "subway_nesw";
-                subway_points.push_back(city(i, j, 0));
-            } else if (oter_above == "road_nesw_manhole") {
+          oter_id oter = ter(i, j, z);
+          oter_id oter_up = ter(i, j, z + 1);
+
+          // implicitly skip skip_above oter_ids
+          bool skipme = false;
+          for(int si=0; si < 5; si++) {
+             if(oter_up == skip_above[si]) {
+                skipme = true;
+             }
+          }
+          if ( skipme ) {
+             continue;
+          }
+
+          if (is_ot_type("house_base", oter_up)) {
+              ter(i, j, z) = "basement";
+          } else if (is_ot_type("sub_station", oter_up)) {
+              ter(i, j, z) = "subway_nesw";
+              subway_points.push_back(city(i, j, 0));
+          } else if (is_ot_type("prison", oter_up) &&
+                     oter_up != "prison_2") {
+              prison_points.push_back( point(i, j) );
+          } else {
+
+            std::string oter_above = ter(i, j, z + 1);
+
+            if (oter_above == "road_nesw_manhole") {
                 ter(i, j, z) = "sewer_nesw";
                 sewer_points.push_back(city(i, j, 0));
             } else if (oter_above == "sewage_treatment") {
@@ -1145,9 +1221,6 @@ bool overmap::generate_sub(int const z)
                 office_entrance_points.push_back( point(i, j) );
             } else if (oter_above == "office_tower_1") {
                 office_points.push_back( point(i, j) );
-            } else if (is_ot_type("prison", oter_above) &&
-                       oter_above != "prison_2") {
-                prison_points.push_back( point(i, j) );
             } else if (oter_above == "prison_2") {
                 prison_entrance_points.push_back( point(i, j) );
             } else if (oter_above == "haz_sar_entrance") {
@@ -1165,6 +1238,7 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "hotel_tower_1_9") {
                 hotel_tower_3_points.push_back( point(i, j) );
             }
+          }
         }
     }
 
@@ -2735,10 +2809,6 @@ bool overmap::check_ot_type(const std::string &otype, int x, int y, int z)
 
 bool overmap::is_road(int x, int y, int z)
 {
-    const oter_id oter = ter(x, y, z);
-    if (oter == "rift" || oter == "hellmouth") {
-        return true;
-    }
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
         for (int i = 0; i < roads_out.size(); i++) {
             if (abs(roads_out[i].x - x) + abs(roads_out[i].y - y) <= 1) {
@@ -2746,13 +2816,7 @@ bool overmap::is_road(int x, int y, int z)
             }
         }
     }
-    if (is_ot_type("road", oter) || is_ot_type("bridge", oter) ||
-        is_ot_type("subway", oter) || is_ot_type("sewer", oter) ||
-        is_ot_type("sewage_treatment_hub", oter) ||
-        is_ot_type("sewage_treatment_under", oter)) {
-        return true;
-    }
-    return false;
+    return oter_t(ter(x, y, z)).is_road;
 }
 
 bool overmap::is_road_or_highway(int x, int y, int z)
@@ -2972,8 +3036,13 @@ void overmap::place_specials()
 // find the id for a specified rotation of a rotatable oter_t
 oter_id overmap::rotate(const oter_id &oter, int dir)
 {
+// fixme; validity check
+    std::string base = oter_t(oter).id_base;
+/*
     std::string base;
+    std::string oter=oterid;
     const int oter_size = oter.size();
+//fixme
     if (oter.find("_north") == oter_size - 6) {
         base = oter.substr(0, oter_size - 6);
     } else if (oter.find("_east") == oter_size - 5) {
@@ -2985,7 +3054,7 @@ oter_id overmap::rotate(const oter_id &oter, int dir)
     } else {
         base = oter;
     }
-
+*/
     if (dir < 0) { dir += 4; }
     switch (dir) {
     case 0: return base + "_north";
@@ -3051,15 +3120,15 @@ void overmap::place_special(overmap_special special, tripoint p)
     }
 
     if (special.flags & mfb(OMS_FLAG_3X3_SECOND)) {
-        size_t e_pos = special.ter.find("_entrance",0,9);
+        size_t e_pos = std::string(special.ter).find("_entrance",0,9);
         std::string ter_base;
         if (e_pos != std::string::npos) {
             // strip "_entrance" to get the base oter_id
-            ter_base = special.ter.substr(0, e_pos);
+            ter_base = std::string(special.ter).substr(0, e_pos);
         } else if (special.ter == "farm") {
-            ter_base = special.ter + "_field";
+            ter_base = std::string(special.ter) + "_field";
         } else {
-            ter_base = special.ter;
+            ter_base = std::string(special.ter);
         }
         for (int x = p.x; x < p.x + 3; x++) {
             for (int y = p.y; y < p.y + 3; y++) {
@@ -3125,11 +3194,12 @@ void overmap::place_special(overmap_special special, tripoint p)
         } else {
             dir = rng(0, 3); // Random direction;
         }
+//fixme
 
         // usually will be called with the _2 entrance variant,
         // for example "school_2"
-        size_t suffix_pos = special.ter.rfind("_2", std::string::npos, 2);
-        std::string ter_base = special.ter.substr(0, suffix_pos);
+        size_t suffix_pos = std::string(special.ter).rfind("_2", std::string::npos, 2);
+        std::string ter_base = std::string(special.ter).substr(0, suffix_pos);
         const char* suffix[] = {
             "_1", "_2", "_3", "_4", "_5", "_6","_7", "_8", "_9"
         };
@@ -3190,14 +3260,15 @@ void overmap::place_special(overmap_special special, tripoint p)
 
     // Buildings should be designed with the entrance at the southwest corner
     // and open to the street on the south.
+
     if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
-        size_t e_pos = special.ter.find("_entrance",0,9);
+        size_t e_pos = std::string(special.ter).find("_entrance",0,9);
         std::string ter_base;
         if (e_pos != std::string::npos) {
             // strip "_entrance" to get the base oter_id
-            ter_base = special.ter.substr(0, e_pos);
+            ter_base = std::string(special.ter).substr(0, e_pos);
         } else {
-            ter_base = special.ter;
+            ter_base = std::string(special.ter);
         }
         for (int x = p.x; x < p.x + 2; x++) {
             for (int y = p.y; y < p.y + 2; y++) {
@@ -3571,3 +3642,148 @@ bool omspec_place::by_highway(overmap *om, unsigned long f, tripoint p)
   return false;
  return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include "omdata.h"
+
+////////////////
+oter_iid ot_null,
+     ot_crater,
+     ot_field,
+     ot_forest,
+     ot_forest_thick,
+     ot_forest_water,
+     ot_river_center;
+
+
+oter_iid oterfind(const std::string id) {
+    if( otermap.find(id) == otermap.end() ) {
+         debugmsg("Can't find %s",id.c_str());
+         return 0;
+    }
+    return otermap[id].loadid;
+};
+
+void set_oter_ids() {
+    ot_null = oterfind("");
+// NOT required.
+    ot_crater = oterfind("crater");
+    ot_field = oterfind("field");
+    ot_forest = oterfind("forest");
+    ot_forest_thick = oterfind("forest_thick");
+    ot_forest_water = oterfind("forest_water");
+    ot_river_center = oterfind("river_center");
+};
+
+
+//////////////////////////
+//// sneaky 
+
+   // ter(...) = 0;
+   const int& oter_id::operator=(const int& i) {
+      _val = i;                        
+      return _val;
+   }
+   // ter(...) = "rock"
+   oter_id::operator std::string() const {
+      if ( _val < 0 || _val > oterlist.size() ) {
+          debugmsg("oterlist[%d] > %d",_val,oterlist.size()); // remove me after testing (?)
+          return 0;
+      }
+      return std::string(oterlist[_val].id);
+   }
+
+   // int index = ter(...);
+   oter_id::operator int() const {
+      return _val;       
+   }
+
+   // ter(...) != "foobar"
+   bool oter_id::operator!=(const char * v) const {
+      return oterlist[_val].id.compare(v) != 0;
+/*    hellaciously slow string allocation frenzy -v
+      std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
+      return ( it == otermap.end() || it->second.loadid != _val);
+*/
+   }
+
+   // ter(...) == "foobar"
+   bool oter_id::operator==(const char * v) const {
+      return oterlist[_val].id.compare(v) == 0;
+   }
+   bool oter_id::operator<=(const char * v) const {
+      std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
+      return ( it == otermap.end() || it->second.loadid <= _val);         
+   }
+   bool oter_id::operator>=(const char * v) const {
+      std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
+      return ( it != otermap.end() && it->second.loadid >= _val);         
+   }
+
+   // o_id1 != o_id2
+   bool oter_id::operator!=(const oter_id & v) const {
+       return ( _val != v._val );
+   }
+   bool oter_id::operator==(const oter_id & v) const {
+       return ( _val == v._val );
+   }
+
+   // oter_t( ter(...) ).name
+   oter_id::operator oter_t() const {
+       return oterlist[_val];
+   }
+
+   // ter(...).size()
+   int oter_id::size() const {
+       return oterlist[_val].id.size();
+   }
+
+   // ter(...).find("foo");
+   int oter_id::find(const std::string &v, const int start, const int end) const {
+       return oterlist[_val].id.find(v);//, start, end);
+   }
+   // ter(...).compare(0, 3, "foo");
+   int oter_id::compare(size_t pos, size_t len, const char* s, size_t n) const {
+       if ( n != 0 ) {
+           return oterlist[_val].id.compare(pos, len, s, n);
+       } else {
+           return oterlist[_val].id.compare(pos, len, s);
+       }
+   }
+
+   // std::string("river_ne");  oter_id van_location(down_by);
+   oter_id::oter_id(const std::string& v) {
+      std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
+      if ( it == otermap.end() ) {
+          debugmsg("not found: %s",v.c_str());
+      } else {
+          _val = it->second.loadid;
+      }
+   }
+
+   // oter_id b("house_north");
+   oter_id::oter_id(const char * v) {
+      std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
+      if ( it == otermap.end() ) {
+         debugmsg("not found: %s",v);
+      } else {
+         _val = it->second.loadid;
+      }
+   }
+
+  // wprint("%s",ter(...).c_str() );
+  const char * oter_id::c_str() const {
+      return std::string(oterlist[_val].id).c_str();
+  }

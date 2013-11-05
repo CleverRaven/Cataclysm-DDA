@@ -153,7 +153,7 @@ struct mission_type {
    deadline_low = 0;
    deadline_high = 0;
    item_id = "null";
-   target_id = "";
+   target_id = 0;///(0);// = "";
    recruit_class = NC_NONE;
    recruit_npc_id = -1;
    monster_type = mon_null;
@@ -201,7 +201,7 @@ struct mission {
   uid = -1;
   target = point(-1, -1);
   item_id = "null";
-  target_id = "";
+  target_id = 0;
   recruit_class = NC_NONE;
   recruit_npc_id = -1;
   monster_type = mon_null;

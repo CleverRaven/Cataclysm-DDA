@@ -37,7 +37,7 @@ std::map<int,int> reverse_legacy_furn_id;
 void init_data_mappings() {
     set_ter_ids();
     set_furn_ids();
-
+    set_oter_ids();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
