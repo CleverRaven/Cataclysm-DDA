@@ -251,7 +251,7 @@ class game
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
   void peek();
-  point look_debug(point pnt=point(-256,-256));
+  point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(); //List all items around the player
   int list_monsters(); //List all monsters around the player

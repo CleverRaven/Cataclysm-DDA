@@ -6731,9 +6731,9 @@ void game::peek()
     u.posy = prevy;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
-point game::look_debug(point coords) {
+point game::look_debug() {
   editmap * edit=new editmap(this);
-  point ret=edit->edit(coords);
+  point ret=edit->edit();
   delete edit;
   edit=0;
   return ret;
