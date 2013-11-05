@@ -332,7 +332,7 @@ class map
 
 // Graffiti
  graffiti graffiti_at(int x, int y);
- bool add_graffiti(game *g, int x, int y, std::string contents);
+ bool add_graffiti(int x, int y, std::string contents);
 
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int z, const int turn);

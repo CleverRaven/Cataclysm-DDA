@@ -5698,7 +5698,7 @@ int iuse::spray_can(game *g, player *p, item *it, bool t)
     }
     else
     {
-        if(g->m.add_graffiti(g, p->posx, p->posy, message))
+        if(g->m.add_graffiti(p->posx, p->posy, message))
         {
             g->add_msg(
                 ismarker?
