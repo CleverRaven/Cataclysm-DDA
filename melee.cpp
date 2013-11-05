@@ -14,7 +14,7 @@ void player_hit_message(game* g, player* attacker, std::string message,
                         std::string target_name, int dam, bool crit);
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing);
-int  attack_speed(player &u, bool missed);
+int  attack_speed(player &u);
 int  stumble(player &u);
 std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
 
@@ -142,7 +142,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  bool missed = (hit_roll() < mondodge ||
                 one_in(4 + dex_cur + weapon.type->m_to_hit));
 
- int move_cost = attack_speed(*this, missed);
+ int move_cost = attack_speed(*this);
 
  if (missed) {
   int stumble_pen = stumble(*this);
@@ -242,7 +242,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int hit_value = hit_roll() - target_dodge;
  bool missed = (hit_roll() <= 0);
 
- int move_cost = attack_speed(*this, missed);
+ int move_cost = attack_speed(*this);
 
  if (missed) {
   int stumble_pen = stumble(*this);
@@ -685,7 +685,7 @@ int player::roll_stab_damage(monster *z, bool crit)
 int player::roll_stuck_penalty(bool stabbing)
 {
     // The cost of the weapon getting stuck, in units of move points.
-    const int weapon_speed = attack_speed( *this, false );
+    const int weapon_speed = attack_speed(*this);
     int stuck_cost = weapon_speed;
     const int attack_skill = stabbing ? skillLevel("stabbing") : skillLevel("cutting");
     const float cut_damage = weapon.damage_cut();
@@ -846,7 +846,7 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
   int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
   if (technique.quick) {
-    moves += int( attack_speed(*this, false) / 2);
+    moves += int(attack_speed(*this) / 2);
     return;
   }
 // The rest affect our target, and thus depend on z vs. p
@@ -1605,7 +1605,7 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
     if (!third.empty())  u.practice(turn, third, rng(min, max));
 }
 
-int attack_speed(player &u, bool missed)
+int attack_speed(player &u)
 {
  int move_cost = u.weapon.attack_time() + 20 * u.encumb(bp_torso);
  if (u.has_trait("LIGHT_BONES"))
