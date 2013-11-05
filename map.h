@@ -282,7 +282,9 @@ class map
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
  void spawn_artifact(const int x, const int y, itype* type, int bday);
- void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
+    void spawn_item(const int x, const int y, const std::string &itype_id,
+                    const unsigned quantity=1, const int charges=0,
+                    const unsigned birthday=0, const int damlevel=0);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);

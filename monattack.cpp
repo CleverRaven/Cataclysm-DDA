@@ -58,7 +58,7 @@ void mattack::antqueen(game *g, monster *z)
  } else if (egg_points.size() == 0) { // There's no eggs nearby--lay one.
   if (g->u_see(z->posx(), z->posy()))
    g->add_msg(_("The %s lays an egg!"), z->name().c_str());
-  g->m.spawn_item(z->posx(), z->posy(), "ant_egg", g->turn);
+  g->m.spawn_item(z->posx(), z->posy(), "ant_egg", 1, 0, g->turn);
  } else { // There are eggs nearby.  Let's hatch some.
   z->moves -= 20 * egg_points.size(); // It takes a while
   if (g->u_see(z->posx(), z->posy()))

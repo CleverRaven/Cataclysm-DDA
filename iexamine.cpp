@@ -632,8 +632,8 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   }
 
   m->furn_set(examx, examy, f_null);
-  m->spawn_item(examx, examy, "poppy_flower", 0);
-  m->spawn_item(examx, examy, "poppy_bud", 0);
+  m->spawn_item(examx, examy, "poppy_flower");
+  m->spawn_item(examx, examy, "poppy_bud");
 }
 
 void iexamine::fungus(game *g, player *p, map *m, int examx, int examy) {
@@ -752,7 +752,7 @@ void iexamine::dirtmound(game *g, player *p, map *m, int examx, int examy) {
             g->u.remove_weapon();
         }
     }
-    m->spawn_item(examx, examy, seed_types[seed_index], g->turn, 1, 1);
+    m->spawn_item(examx, examy, seed_types[seed_index], 1, 1, g->turn);
     m->set(examx, examy, t_dirt, f_plant_seed);
     p->moves -= 500;
     g->add_msg(_("Planted %s"), seed_names[seed_index].c_str());
@@ -776,8 +776,8 @@ void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
                 plantCount = 12;
             }
 
-            m->spawn_item(examx, examy, seedType.substr(5), g->turn, plantCount);
-            m->spawn_item(examx, examy, seedType, 0, 1, rng(plantCount / 4, plantCount / 2));
+            m->spawn_item(examx, examy, seedType.substr(5), plantCount, 0, g->turn);
+            m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
 
             p->moves -= 500;
         }
@@ -791,7 +791,7 @@ void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
             m->i_at(examx, examy)[0].bday = 0;
         }
         p->use_charges("fertilizer_liquid", 1);
-        m->spawn_item(examx, examy, "fertilizer", 0, 1, 1);
+        m->spawn_item(examx, examy, "fertilizer", 1, 1);
     }
 }
 
@@ -811,10 +811,10 @@ void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std:
   if (plantCount > 12)
     plantCount = 12;
 
-  m->spawn_item(examx, examy, itemType, g->turn, plantCount);
+  m->spawn_item(examx, examy, itemType, plantCount, 0, g->turn);
 
   if (seeds) {
-    m->spawn_item(examx, examy, "seed_" + itemType, g->turn, 1, rng(plantCount / 4, plantCount / 2));
+    m->spawn_item(examx, examy, "seed_" + itemType, 1, rng(plantCount / 4, plantCount / 2), g->turn);
   }
 
   m->ter_set(examx, examy, (ter_id)new_ter);
@@ -945,22 +945,22 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
 
     for (int i = 0; i < num_lumps; i++)
     {
-        m->spawn_item(p->posx, p->posy, "steel_lump", 0);
+        m->spawn_item(p->posx, p->posy, "steel_lump");
     }
 
     for (int i = 0; i < num_sheets; i++)
     {
-        m->spawn_item(p->posx, p->posy, "sheet_metal", 0);
+        m->spawn_item(p->posx, p->posy, "sheet_metal");
     }
 
     for (int i = 0; i < num_chunks; i++)
     {
-        m->spawn_item(p->posx, p->posy, "steel_chunk", 0);
+        m->spawn_item(p->posx, p->posy, "steel_chunk");
     }
 
     for (int i = 0; i < num_scraps; i++)
     {
-        m->spawn_item(p->posx, p->posy, "scrap", 0);
+        m->spawn_item(p->posx, p->posy, "scrap");
     }
 }
 

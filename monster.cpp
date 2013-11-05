@@ -785,7 +785,7 @@ void monster::drop_items_on_death(game *g)
         // We have selected a string representing an item group, now
         // get a random item tag from it and spawn it.
         Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
-        g->m.spawn_item(_posx, _posy, selected_item, 0);
+        g->m.spawn_item(_posx, _posy, selected_item);
 
         if (type->item_chance < 0)
         {

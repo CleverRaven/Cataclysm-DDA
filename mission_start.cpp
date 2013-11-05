@@ -285,7 +285,7 @@ void mission_start::place_priest_diary(game *g, mission *miss)
    comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
   else
    comppoint = valid[rng(0, valid.size() - 1)];
- compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary", 0);
+ compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary");
  compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
@@ -331,7 +331,7 @@ void mission_start::place_deposit_box(game *g, mission *miss)
    comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
   else
    comppoint = valid[rng(0, valid.size() - 1)];
-compmap.spawn_item(comppoint.x, comppoint.y, "safe_box", 0);
+compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
 compmap.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 

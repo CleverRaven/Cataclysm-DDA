@@ -6025,7 +6025,7 @@ void game::explode_mon(int index)
       }
      }
     }
-    m.spawn_item(tarx, tary, meat, turn);
+    m.spawn_item(tarx, tary, meat, 1, 0, turn);
    }
   }
  }
@@ -9421,20 +9421,20 @@ void game::complete_butcher(int index)
 
  if (bones > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, "bone", age, bones);
+    m.spawn_item(u.posx, u.posy, "bone", bones, 0, age);
    add_msg(_("You harvest some usable bones!"));
   } else if (corpse->mat == "veggy") {
-    m.spawn_item(u.posx, u.posy, "plant_sac", age, bones);
+    m.spawn_item(u.posx, u.posy, "plant_sac", bones, 0, age);
    add_msg(_("You harvest some fluid bladders!"));
   }
  }
 
  if (sinews > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, "sinew", age, sinews);
+    m.spawn_item(u.posx, u.posy, "sinew", sinews, 0, age);
    add_msg(_("You harvest some usable sinews!"));
   } else if (corpse->mat == "veggy") {
-    m.spawn_item(u.posx, u.posy, "plant_fibre", age, sinews);
+    m.spawn_item(u.posx, u.posy, "plant_fibre", sinews, 0, age);
    add_msg(_("You harvest some plant fibres!"));
   }
  }
@@ -9464,14 +9464,14 @@ void game::complete_butcher(int index)
             }
         }
 
-        if(chitin) m.spawn_item(u.posx, u.posy, "chitin_piece", age, chitin);
-        if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
-        if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
+        if(chitin) m.spawn_item(u.posx, u.posy, "chitin_piece", chitin, 0, age);
+        if(fur) m.spawn_item(u.posx, u.posy, "fur", fur, 0, age);
+        if(leather) m.spawn_item(u.posx, u.posy, "leather", leather, 0, age);
     }
 
  if (feathers > 0) {
   if (corpse->has_flag(MF_FEATHER)) {
-    m.spawn_item(u.posx, u.posy, "feather", age, feathers);
+    m.spawn_item(u.posx, u.posy, "feather", feathers, 0, age);
    add_msg(_("You harvest some feathers!"));
   }
  }
@@ -9483,18 +9483,18 @@ void game::complete_butcher(int index)
    add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
    //To see if it spawns a battery
    if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, "bio_power_storage", age);
+    m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
    }
   }
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
     Item_tag bionic_item = item_controller->id_from("bionics");
-    m.spawn_item(u.posx, u.posy, bionic_item, age);
+    m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
    }
   }
  }
@@ -9505,7 +9505,7 @@ void game::complete_butcher(int index)
      add_msg(_("You discover a %s in the %s!"), contents[i].tname().c_str(), corpse->name.c_str());
      m.add_item_or_charges(u.posx, u.posy, contents[i]);
    } else if (contents[i].is_bionic()){
-     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
    }
  }
 
@@ -9553,7 +9553,7 @@ void game::forage()
   {
     add_msg(_("You found some wild veggies!"));
     u.practice(turn, "survival", 10);
-    m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", turn, 0);
+    m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", 1, 0, turn);
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
   else
@@ -10492,7 +10492,7 @@ void game::plmove(int dx, int dy)
      if (query_yn(_("Deactivate the turret?"))) {
       remove_zombie(mondex);
       u.moves -= 100;
-      m.spawn_item(x, y, "bot_turret", turn);
+      m.spawn_item(x, y, "bot_turret", 1, 0, turn);
      }
      return;
     } else {
@@ -11019,7 +11019,7 @@ void game::vertical_move(int movez, bool force)
  if (rope_ladder)
   m.ter_set(u.posx, u.posy, t_rope_up);
  if (m.ter(stairx, stairy) == t_manhole_cover) {
-  m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1), "manhole_cover", 0);
+  m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1), "manhole_cover");
   m.ter_set(stairx, stairy, t_manhole);
  }
 
