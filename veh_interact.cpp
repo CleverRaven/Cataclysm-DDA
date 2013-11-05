@@ -1170,6 +1170,7 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0)
         {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
             used_item = consume_vpart_item (g, veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(component("wrench", -1));
