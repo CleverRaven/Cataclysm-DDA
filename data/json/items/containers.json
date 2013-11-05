@@ -203,6 +203,23 @@
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
+        "id" : "metal_tank",
+        "type": "CONTAINER",
+        "symbol" : "}",
+        "color" : "light_cyan",
+        "name" : "metal tank",
+        "description" : "A metal tank for holding liquids. Useful for crafting.",
+        "price" : 40,
+        "weight" : 2834,
+        "volume" : 15,
+        "bashing" : 3,
+        "cutting" : 0,
+        "to_hit" : -2,
+        "contains" : 15,
+        "material" : ["steel", "null"],
+        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
         "id": "keg",
         "type": "CONTAINER",
         "symbol": ")",
