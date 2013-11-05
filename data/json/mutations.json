@@ -1968,7 +1968,7 @@
         "description": "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
         "prereqs": ["COLDBLOOD"],
         "changes_to": ["COLDBLOOD3"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_FISH"]
+        "category": ["MUTCAT_FISH"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD3",
@@ -1976,7 +1976,7 @@
         "points": -5,
         "description": "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
         "prereqs": ["COLDBLOOD2"],
-        "category": ["MUTCAT_INSECT"]
+        "category": ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "GROWL",
