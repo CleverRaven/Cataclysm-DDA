@@ -276,7 +276,6 @@ struct it_var_veh_part: public itype
         char psym, nc_color pcolor, std::string pm1, std::string pm2,
         unsigned short pvolume, unsigned int pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned effects,
 
         unsigned int big_min,
         unsigned int big_max,
