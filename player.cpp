@@ -3446,6 +3446,9 @@ int player::throw_range(signed char ch)
   return -1;
  else
   tmp = inv.item_by_letter(ch);
+ 
+ if (tmp.count_by_charges() && tmp.charges > 1)
+  tmp.charges = 1;
 
  if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
