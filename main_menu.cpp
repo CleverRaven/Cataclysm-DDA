@@ -218,13 +218,13 @@ bool game::opening_screen()
 
             if (sel1 == 0) { // Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 8, c_ltred, motd[i].c_str());
+                    mvwprintz(w_open, i + 6, 8, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 8, c_ltred, credits[i].c_str());
+                    mvwprintz(w_open, i + 6, 8, c_ltred, credits[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
