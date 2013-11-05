@@ -295,6 +295,7 @@
       ["atomic_light", 1],
       ["atomic_coffeepot", 2],
       ["charcoal", 5]
+      ["water_mineral", 10],
     ]
   },{
     "type":"item_group",
@@ -318,6 +319,7 @@
       ["oj", 50],
       ["cranberry_juice", 50],
       ["sports_drink", 30],
+      ["water_mineral", 50],
       ["lemonade", 50],
       ["cola", 70],
       ["choc_drink", 30],
@@ -725,6 +727,7 @@
     "id":"fridgesnacks",
     "items":[
       ["water_clean", 90],
+      ["water_mineral", 50],
       ["oj", 50],
       ["juice", 50],
       ["cranberry_juice", 50],
@@ -2858,6 +2861,7 @@
     "id":"shelter",
     "items":[
       ["water_clean", 90],
+      ["water_mineral", 10],
       ["soup_veggy", 15],
       ["soup_meat", 15],
       ["chocolate", 50],
