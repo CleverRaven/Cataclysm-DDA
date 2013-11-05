@@ -177,7 +177,6 @@ public:
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- 
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
