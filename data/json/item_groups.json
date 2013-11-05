@@ -633,6 +633,7 @@
       ["shorts_cargo", 50],
       ["skirt", 75],
       ["dress", 70],
+      ["sundress", 50],
       ["dress_wedding", 1],
       ["tshirt", 80],
       ["longshirt", 70],
@@ -1870,6 +1871,7 @@
       ["skirt", 75],
       ["tights", 20],
       ["dress", 70],
+      ["sundress", 50],
       ["dress_wedding", 1]
     ]
   },{
@@ -2691,6 +2693,7 @@
       ["skirt", 75],
       ["jumpsuit", 20],
       ["dress", 70],
+      ["sundress", 50],
       ["dress_shirt", 60],
       ["sweater", 75],
       ["blazer", 35],
