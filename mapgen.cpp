@@ -12233,7 +12233,8 @@ void map::rotate(int turns) {
     //Rotate terrain first
     for (int old_x = 0; old_x < SEEX * 2; old_x++) {
         for (int old_y = 0; old_y < SEEY * 2; old_y++) {
-            int new_x, new_y;
+            int new_x = old_x;
+            int new_y = old_y;
             switch(turns) {
                 case 1:
                     new_x = old_y;
@@ -12260,7 +12261,7 @@ void map::rotate(int turns) {
     for (int sx = 0; sx < 2; sx++) {
         for (int sy = 0; sy < 2; sy++) {
             int gridfrom = sx + sy * my_MAPSIZE;
-            int gridto;
+            int gridto = gridfrom;;
             switch(turns) {
                 case 1:
                     gridto = sx * my_MAPSIZE + 1 - sy;
@@ -12274,7 +12275,8 @@ void map::rotate(int turns) {
             }
             for (int spawn = 0; spawn < grid[gridfrom]->spawns.size(); spawn++) {
                 spawn_point tmp = grid[gridfrom]->spawns[spawn];
-                int new_x, new_y;
+                int new_x = tmp.posx;
+                int new_y = tmp.posy;
                 switch(turns) {
                     case 1:
                         new_x = SEEY - 1 - tmp.posy;
@@ -12327,7 +12329,8 @@ void map::rotate(int turns) {
     for(std::set<vehicle*>::iterator next_vehicle = vehicle_list.begin();
             next_vehicle != vehicle_list.end(); next_vehicle++) {
 
-        int new_x, new_y;
+        int new_x = (*next_vehicle)->smx;
+        int new_y = (*next_vehicle)->smy;
         switch(turns) {
             case 1:
                 new_x = SEEY - 1 - (*next_vehicle)->smy;
@@ -14344,7 +14347,8 @@ void map::add_road_vehicles(bool city, int facing)
             }
         } else if(spawn_type <= 66) {
             //Parked vehicles
-            int veh_x, veh_y;
+            int veh_x = 0;
+            int veh_y = 0;
             if(facing == 0) {
                 veh_x = rng(4, 16); veh_y = 17;
             } else if(facing == 90) {
@@ -14370,7 +14374,10 @@ void map::add_road_vehicles(bool city, int facing)
             int block_type = rng(0, 100);
             if(block_type <= 75) {
                 //Jack-knifed semi
-                int semi_x, semi_y, trailer_x, trailer_y;
+                int semi_x = 0;
+                int semi_y = 0;
+                int trailer_x = 0;
+                int trailer_y = 0;
                 if(facing == 0) {
                     semi_x = rng(0, 16); semi_y = rng(14, 16);
                     trailer_x = semi_x + 4; trailer_y = semi_y - 10;

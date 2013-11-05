@@ -1655,7 +1655,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      g->u.active_mission < g->u.active_missions.size())
   target = g->find_mission(g->u.active_missions[g->u.active_mission])->target;
   bool see;
-  oter_id cur_ter;
+  oter_id cur_ter = ot_null;
   nc_color ter_color;
   long ter_sym;
   /* First, determine if we're close enough to the edge to need an
