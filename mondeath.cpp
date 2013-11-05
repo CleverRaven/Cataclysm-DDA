@@ -493,7 +493,9 @@ void mdeath::gameover(game *g, monster *z) {
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers(game *g, monster *z) {
+void mdeath::kill_breathers(game *g, monster *z)
+{
+    (void)z; //unused
     for (int i = 0; i < g->num_zombies(); i++) {
         const std::string monID = g->zombie(i).type->id;
         if (monID == "mon_breather_hub " || monID == "mon_breather") {

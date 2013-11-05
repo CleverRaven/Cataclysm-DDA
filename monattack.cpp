@@ -900,7 +900,8 @@ void mattack::plant(game *g, monster *z)
 
 void mattack::disappear(game *g, monster *z)
 {
- z->hp = 0;
+    (void)g; //unused
+    z->hp = 0;
 }
 
 void mattack::formblob(game *g, monster *z)
