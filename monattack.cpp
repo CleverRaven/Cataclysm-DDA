@@ -759,7 +759,7 @@ void mattack::fungus_sprout(game *g, monster *z)
 
 void mattack::leap(game *g, monster *z)
 {
-    int linet;
+    int linet = 0;
     std::vector<point> options;
     point target = z->move_target();
     int best = rl_dist(z->posx(), z->posy(), target.x, target.y);
@@ -768,20 +768,21 @@ void mattack::leap(game *g, monster *z)
     {
         for (int y = z->posy() - 3; y <= z->posy() + 3; y++)
         {
+            if (x == z->posx() && y == z->posy()) {
+                continue;
+            }
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
-            std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
-            for (int i = 0; i < line.size(); i++)
-            {
-                if (g->m.move_cost(line[i].x, line[i].y) == 0)
+            if (g->m.sees(z->posx(), z->posy(), x, y, z->vision_range(x, y), linet)) {
+                std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
+                for (int i = 0; i < line.size(); i++)
                 {
-                    blocked_path = true;
+                    if (g->m.move_cost(line[i].x, line[i].y) == 0)
+                    {
+                        blocked_path = true;
+                    }
                 }
             }
-            /* If we're fleeing, we want to pick those tiles with the greatest distance
-            * from the player; otherwise, those tiles with the least distance from the
-            * player.
-            */
             if (!blocked_path && g->is_empty(x, y) &&
                   g->m.sees(z->posx(), z->posy(), x, y, g->light_level(), linet) &&
                   rl_dist(target.x, target.y, x, y) <= best) {

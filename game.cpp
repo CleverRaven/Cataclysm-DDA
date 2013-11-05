@@ -4366,33 +4366,15 @@ faction* game::random_evil_faction()
 
 bool game::sees_u(int x, int y, int &t)
 {
- // TODO: [lightmap] Apply default monster vison levels here
- //                  the light map should deal lighting from player or fires
- int range = light_level();
+    int range = 0;
+    int mondex = mon_at(x, y);
+    if (mondex != -1) {
+        monster &z = _active_monsters[mondex];
+        range = z.vision_range(u.posx, u.posy);
+    }
 
- // Set to max possible value if the player is lit brightly
- if (m.light_at(u.posx, u.posy) >= LL_LOW)
-  range = DAYLIGHT_LEVEL;
-
- int mondex = mon_at(x,y);
- if (mondex != -1) {
-  monster &z = _active_monsters[mondex];
-  if(z.has_flag(MF_VIS10))
-   range -= 50;
-  else if(z.has_flag(MF_VIS20))
-   range -= 40;
-  else if(z.has_flag(MF_VIS30))
-   range -= 30;
-  else if(z.has_flag(MF_VIS40))
-   range -= 20;
-  else if(z.has_flag(MF_VIS50))
-   range -= 10;
- }
- if( range <= 0)
-  range = 1;
-
- return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
-           u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
+    return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
+              u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y)
