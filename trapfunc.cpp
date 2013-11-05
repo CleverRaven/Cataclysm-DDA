@@ -696,6 +696,24 @@ void trapfuncm::lava(game *g, monster *z, int x, int y)
  z->hurt(dam);
 }
 
+// STUB
+void trapfunc::portal(game *g, int x, int y)
+{
+    // TODO: make this do something?
+    (void)g;
+    (void)x;
+    (void)y;
+}
+
+// STUB
+void trapfuncm::portal(game *g, monster *z, int x, int y)
+{
+    // TODO: make this do something?
+    (void)g;
+    (void)z;
+    (void)x;
+    (void)y;
+}
 
 void trapfunc::sinkhole(game *g, int x, int y)
 {
@@ -754,6 +772,16 @@ void trapfunc::sinkhole(game *g, int x, int y)
   g->add_msg(_("You sink into the sinkhole!"));
   g->vertical_move(-1, true);
  }
+}
+
+// STUB
+void trapfuncm::sinkhole(game *g, monster *z, int x, int y)
+{
+    // TODO: make something exciting happen here
+    (void)g;
+    (void)z;
+    (void)x;
+    (void)y;
 }
 
 void trapfunc::ledge(game *g, int x, int y)
