@@ -220,7 +220,72 @@
 		"type" : "martial_art",
 		"id" : "style_crane",
 		"name" : "Crane Kung Fu",
-		"description": "One of the five Shaolin animal styles.  Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
+		"description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
+		"static_buffs" : [
+		    {
+			    "id" : "crane_static",
+				"name" : "Crane Precision",
+                "unarmed_allowed" : true,
+				"bash_str" : -0.2,
+				"bash_dex" : 0.8
+			}
+		]
+				
+		"onmove_buffs" : [
+            {
+                "id" : "crane_move_buff",
+                "name" : "Crane Flight",
+                "description" : "+2 Dodge",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 1,
+                "dodge" : 2
+            }
+		],
+		"techniques" : [
+		    "tec_crane_feint",
+			"tec_crane_block"
+			"tec_crane_break"
+			"tec_crane_precise"
+		]
+	},{
+		"type" : "martial_art",
+		"id" : "style_dragon",
+		"name" : "Dragon Kung Fu",
+		"description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes. Intelligence improves your accuracy and damage dealt, as does moving.",
+		"static_buffs" : [
+		    {
+			    "id" : "dragon_static",
+				"name" : "Dragon Intelligence",
+                "unarmed_allowed" : true,
+				"bash_str" : -0.2,
+				"bash_dex" : 0.8
+			}
+		]
+				
+		"onmove_buffs" : [
+            {
+                "id" : "crane_move_buff",
+                "name" : "Crane Flight",
+                "description" : "+2 Dodge",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 1,
+                "dodge" : 2
+            }
+		],
+		"techniques" : [
+		    "tec_dragon_block",
+			"tec_dragon_grab",
+			"tec_dragon_counter",
+			"tec_dragon_sweep",
+			"tec_dragon_brutal"
+		]
+	},{
+		"type" : "martial_art",
+		"id" : "style_leopard",
+		"name" : "Loepard Kung Fu",
+		"description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Inteligence both boost accuracy, and moving further boosts your accuracy.",
 		"static_buffs" : [
 		    {
 			    "id" : "crane_static",
