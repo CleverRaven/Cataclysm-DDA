@@ -345,8 +345,8 @@ class map
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
- void spawn_item(const int x, const int y, item new_item, const int birthday,
-                 const int quantity, const int charges, const int damlevel);
+    void spawn_item(const int x, const int y, item new_item,
+                    const int charges, const int damlevel);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");

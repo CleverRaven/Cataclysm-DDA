@@ -2160,8 +2160,8 @@ point map::find_item(const item *it)
  return ret;
 }
 
-void map::spawn_item(const int x, const int y, item new_item, const int birthday,
-                     const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, item new_item,
+                     const int charges, const int damlevel)
 {
     if (charges && new_item.charges > 0)
     {
@@ -2202,15 +2202,16 @@ void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 
 //New spawn_item method, using item factory
 // added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday,
-                     const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, std::string type_id,
+                     const int birthday, const int quantity,
+                     const int charges, const int damlevel)
 {
     item new_item = item_controller->create(type_id, birthday);
     for(int i = 1; i < quantity; i++)
     {
-        spawn_item(x, y, type_id, birthday, 0, charges);
+        spawn_item(x, y, type_id, birthday, 0, charges, damlevel);
     }
-    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
+    spawn_item(x, y, new_item, charges, damlevel);
 }
 
 // stub for now, could vary by ter type
