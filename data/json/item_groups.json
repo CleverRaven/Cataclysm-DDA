@@ -461,6 +461,7 @@
       ["bandana", 35],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["towel", 40],
@@ -2210,6 +2211,7 @@
     "id":"swimmer_head",
     "items":[
       ["goggles_swim", 90],
+      ["fancy_sunglasses", 1],
       ["sunglasses", 10]
     ]
   },{
@@ -2357,6 +2359,7 @@
       ["cigar", 5],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["purse", 40],
@@ -2408,6 +2411,7 @@
       ["cigar", 5],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["fan", 10],
@@ -2540,6 +2544,7 @@
     "items":[
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 10],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["child_book", 60],
@@ -2629,6 +2634,7 @@
       ["necklace", 14],
       ["nodachi", 1],
       ["manual_dodge", 1],
+      ["fancy_sunglasses", 2],
       ["pocketwatch", 5]
     ]
   },{
@@ -2649,6 +2655,7 @@
       ["goggles_welding", 70],
       ["goggles_nv", 1],
       ["glasses_monocle", 2],
+      ["fancy_sunglasses", 15],
       ["cell_phone", 20],
       ["tophat", 10],
       ["bowhat", 10],
@@ -4340,6 +4347,7 @@
       ["mask_filter", 30],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_safety", 40],
       ["textbook_computer", 8],
       ["computer_science", 6],
