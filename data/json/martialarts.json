@@ -29,7 +29,7 @@
         "type" : "martial_art",
         "id" : "style_aikido",
         "name" : "Aikido",
-        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defense throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
+        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defensive throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
         "static_buffs" : [
             {
                 "id" : "aikido_half_damage",
@@ -198,5 +198,55 @@
             "tec_taekwondo_push",
             "tec_taekwondo_sweep"
         ]
-    }
+    },{
+		"type" : "martial_art",
+		"id" : "style_zuiquan",
+		"name" : "Zui Quan",
+		"description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  The turn after you successfully attack, you may dodge any number of attacks with no penalty.",
+		"onhit_buffs" : [
+			{
+                "id" : "zuiquan_hit_buff",
+                "name" : "Drunk Dodging",
+                "description" : "Unlimited dodges after successful hit",
+                "unarmed_allowed" : true,
+                "dodges_bonus" : 50,
+            }
+		],
+		"techniques" : [
+		    "tec_zuiquan_feint",
+			"tec_zuiquan_counter"
+		]
+	    },{
+		"type" : "martial_art",
+		"id" : "style_crane",
+		"name" : "Crane Kung Fu",
+		"description": "One of the five Shaolin animal styles.  Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
+		"static_buffs" : [
+		    {
+			    "id" : "crane_static",
+				"name" : "Crane Precision",
+                "unarmed_allowed" : true,
+				"bash_str" : -0.2,
+				"bash_dex" : 0.8
+			}
+		]
+				
+		"onmove_buffs" : [
+            {
+                "id" : "crane_move_buff",
+                "name" : "Crane Flight",
+                "description" : "+2 Dodge",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 1,
+                "dodge" : 2
+            }
+		],
+		"techniques" : [
+		    "tec_crane_feint",
+			"tec_crane_block"
+			"tec_crane_break"
+			"tec_crane_precise"
+		]
+	},
 ]
