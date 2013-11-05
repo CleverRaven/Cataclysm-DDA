@@ -1210,6 +1210,8 @@ void complete_vehicle (game *g)
             {
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
             }
+        } else {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
         }
         if (veh->parts.size() < 2)
         {

@@ -227,6 +227,8 @@ public:
 
     void remove_part (int p);
 
+    void break_part_into_pieces (int p, int x, int y, bool scatter = false);
+
 // Generate the corresponding item from a vehicle part.
 // Still needs to be removed.
     item item_from_part( int part );

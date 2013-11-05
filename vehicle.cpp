@@ -845,6 +845,26 @@ void vehicle::remove_part (int p)
     insides_dirty = true;
 }
 
+/**
+ * Breaks the specified part into the pieces defined by its breaks_into entry.
+ * @param p The index of the part to break.
+ * @param x The map x-coordinate to place pieces at (give or take).
+ * @param y The map y-coordinate to place pieces at (give or take).
+ * @param scatter If true, pieces are scattered near the target square.
+ */
+void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
+    std::vector<break_entry> break_info = part_info(p).breaks_into;
+    for(int index = 0; index < break_info.size(); index++) {
+        int quantity = rng(break_info[index].min, break_info[index].max);
+        for(int num = 0; num < quantity; num++) {
+            const int actual_x = scatter ? x + (rng(0, 2) - 1) : x;
+            const int actual_y = scatter ? y + (rng(0, 2) - 1) : y;
+            item piece(g->itypes[break_info[index].item_id], g->turn);
+            g->m.add_item_or_charges(actual_x, actual_y, piece);
+        }
+    }
+}
+
 item vehicle::item_from_part( int part )
 {
     itype_id itm = part_info(part).item;
