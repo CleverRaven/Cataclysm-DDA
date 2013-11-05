@@ -11632,7 +11632,8 @@
       ["soldering_iron", 1]
     ],
     [
-      [ "welder", 1 ]
+      [ "welder", 1 ],
+      [ "welder_crude", 2 ]
     ],
     [
       ["cable", 5]
