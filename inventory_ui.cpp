@@ -117,7 +117,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    mvwprintz(w_inv, 3, 45, c_white, "%c + %s", g->u.weapon.invlet,
              g->u.weapname().c_str());
   else
-   mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
+   mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(), "%c - %s",
              g->u.weapon.invlet, g->u.weapname().c_str());
  } else
   mvwprintz(w_inv, 3, 45, c_ltgray, g->u.weapname().c_str());
@@ -199,7 +199,7 @@ char game::inv(inventory& inv, std::string title)
     item& it = slice[cur_it]->front();
     if(cur_it==selected) selected_char=(int)it.invlet;
     mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
-    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory(&u) ), " %s",
+    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory() ), " %s",
               it.tname(this).c_str());
     if (slice[cur_it]->size() > 1)
      wprintw(w_inv, " x %d", slice[cur_it]->size());

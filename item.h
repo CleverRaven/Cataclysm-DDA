@@ -74,7 +74,7 @@ public:
  item in_its_container(std::map<std::string, itype*> *itypes);
 
  nc_color color(player *u) const;
- nc_color color_in_inventory(player *u);
+ nc_color color_in_inventory();
  std::string tname(game *g = NULL); // g needed for rotten-test
  void use(player &u);
  bool burn(int amount = 1); // Returns true if destroyed

@@ -744,14 +744,13 @@ nc_color item::color(player *u) const
     return ret;
 }
 
-nc_color item::color_in_inventory(player *u)
+nc_color item::color_in_inventory()
 {
     // Items in our inventory get colorized specially
-    nc_color ret = c_white;
-    if (active && !is_food() && !is_food_container())
-        ret = c_yellow;
-
-    return ret;
+    if (active && !is_food() && !is_food_container()) {
+        return c_yellow;
+    }
+    return c_white;
 }
 
 std::string item::tname(game *g)
