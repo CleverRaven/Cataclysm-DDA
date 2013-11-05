@@ -1099,7 +1099,7 @@ bool item::has_quality(std::string quality_id, int quality_value) const {
     return ret;
 }
 
-bool item::has_technique(matec_id tech, player *p)
+bool item::has_technique(matec_id tech)
 {
     return type->techniques.count(tech);
 }

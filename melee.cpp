@@ -816,7 +816,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
 }
 
 bool player::has_technique(matec_id id) {
-  return weapon.has_technique(id, this) ||
+  return weapon.has_technique(id) ||
     martialarts[style_selected].has_technique(*this, id);
 }
 
@@ -943,11 +943,11 @@ bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &s
     // if weapon, then extra reduction
     if (!unarmed_attack() && can_arm_block()) {
         float mult = 1.0f;
-        if (weapon.has_technique("WBLOCK_1",this)) {
+        if (weapon.has_technique("WBLOCK_1")) {
             mult = 0.4;
-        } else if (weapon.has_technique("WBLOCK_2",this)) {
+        } else if (weapon.has_technique("WBLOCK_2")) {
             mult = 0.15;
-        } else if (weapon.has_technique("WBLOCK_3",this)) {
+        } else if (weapon.has_technique("WBLOCK_3")) {
             mult = 0.05;
         } else {
             mult = 0.5; // always at least as good as unarmed

@@ -122,7 +122,7 @@ public:
  bool has_flag(std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
- bool has_technique(std::string t, player *p = NULL);
+ bool has_technique(std::string t);
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
