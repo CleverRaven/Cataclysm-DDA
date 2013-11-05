@@ -520,6 +520,7 @@ void input_context::display_help() {
 #ifndef TILES
     // If we're using curses, we need to provide get_input_event() here.
     input_event input_manager::get_input_event(WINDOW* win) {
+        (void)win; //unused
         int key = getch();
         input_event rval;
 

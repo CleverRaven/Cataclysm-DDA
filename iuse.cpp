@@ -27,6 +27,7 @@
  // Return false if we weren't able to use the item.
 static bool use_fire(game *g, player *p, item *it)
 {
+    (void)it; //unused
     if (!p->use_charges_if_avail("fire", 1))
     {
         g->add_msg_if_player(p, _("You need a source of flame!"));
@@ -38,6 +39,7 @@ static bool use_fire(game *g, player *p, item *it)
 static bool item_inscription( game *g, player *p, item *cut, std::string verb, std::string gerund,
                               bool carveable)
 {
+    (void)p; //unused
     if (!cut->made_of(SOLID)) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);

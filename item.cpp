@@ -1091,6 +1091,7 @@ bool item::has_quality(std::string quality_id) const {
 
 bool item::has_quality(std::string quality_id, int quality_value) const {
     // TODO: actually implement this >:(
+    (void)quality_id; (void)quality_value; //unused grrr
     bool ret = false;
 
     if(type->qualities.size() > 0){
