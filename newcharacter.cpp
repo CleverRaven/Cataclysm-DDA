@@ -18,7 +18,10 @@
 #include <vector>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
-#define COL_STAT_ACT        c_ltred   // Selected stat
+#define COL_STAT_ACT        c_white   // Selected stat
+#define COL_STAT_BONUS      c_ltgreen // Bonus
+#define COL_STAT_NEUTRAL    c_white   // Neutral Property
+#define COL_STAT_PENALTY    c_ltred   // Penalty
 #define COL_TR_GOOD         c_green   // Good trait descriptive text
 #define COL_TR_GOOD_OFF_ACT c_ltgray  // A toggled-off good trait
 #define COL_TR_GOOD_ON_ACT  c_ltgreen // A toggled-on good trait
@@ -30,6 +33,8 @@
 #define COL_TR_BAD_OFF_PAS  c_dkgray  // A toggled-off bad trait
 #define COL_TR_BAD_ON_PAS   c_red     // A toggled-on bad trait
 #define COL_SKILL_USED      c_green   // A skill with at least one point
+#define COL_NOTE_MAJOR      c_green   // Important note
+#define COL_NOTE_MINOR      c_ltgray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
 
@@ -420,17 +425,19 @@ void draw_tabs(WINDOW *w, std::string sTab)
         }
     }
 
-    int x = 2;
-    // TODO: align prettily, find how much space will be free and distribute
-    draw_tab(w, x, _("STATS"), (sTab == "STATS") ? true : false);
-    x += utf8_width(_("STATS")) + 5;
-    draw_tab(w, x, _("TRAITS"), (sTab == "TRAITS") ? true : false);
-    x += utf8_width(_("TRAITS")) + 5;
-    draw_tab(w, x, _("PROFESSION"), (sTab == "PROFESSION") ? true : false);
-    x += utf8_width(_("PROFESSION")) + 5;
-    draw_tab(w, x, _("SKILLS"), (sTab == "SKILLS") ? true : false);
-    x += utf8_width(_("SKILLS")) + 5;
-    draw_tab(w, x, _("DESCRIPTION"), (sTab == "DESCRIPTION") ? true : false);
+    int tab_pos[6];
+    tab_pos[0] = 2;
+    tab_pos[1] = tab_pos[0] + utf8_width(_("STATS"));
+    tab_pos[2] = tab_pos[1] + utf8_width(_("TRAITS"));
+    tab_pos[3] = tab_pos[2] + utf8_width(_("PROFESSION"));
+    tab_pos[4] = tab_pos[3] + utf8_width(_("SKILLS"));
+    tab_pos[5] = tab_pos[4] + utf8_width(_("DESCRIPTION"));
+    int space = (FULL_SCREEN_WIDTH - tab_pos[5]) / 4 - 3;
+    draw_tab(w, tab_pos[0], _("STATS"), (sTab == "STATS"));
+    draw_tab(w, tab_pos[1] + space, _("TRAITS"), (sTab == "TRAITS"));
+    draw_tab(w, tab_pos[2] + space * 2, _("PROFESSION"), (sTab == "PROFESSION"));
+    draw_tab(w, tab_pos[3] + space * 3, _("SKILLS"), (sTab == "SKILLS"));
+    draw_tab(w, tab_pos[4] + space * 4, _("DESCRIPTION"), (sTab == "DESCRIPTION"));
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
     mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_OOXX); // ^|
@@ -447,14 +454,15 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
     unsigned char sel = 1;
     const int iSecondColumn = 27;
     char ch;
+    int read_spd;
 
     draw_tabs(w, "STATS");
 
-    mvwprintz(w, 16, 2, c_ltgray, _("j/k, 8/2, or arrows to select a statistic."));
-    mvwprintz(w, 17, 2, c_ltgray, _("l, 6, or right arrow to increase the statistic."));
-    mvwprintz(w, 18, 2, c_ltgray, _("h, 4, or left arrow to decrease the statistic."));
-    mvwprintz(w, 22, 2, c_green, _("> Takes you to the next tab."));
-    mvwprintz(w, 23, 2, c_green, _("< Returns you to the main menu."));
+    mvwprintz(w, 16, 2, COL_NOTE_MINOR, _("j/k, 8/2, or up/down arrows to select a statistic."));
+    mvwprintz(w, 17, 2, COL_NOTE_MINOR, _("l, 6, or right arrow to increase the statistic."));
+    mvwprintz(w, 18, 2, COL_NOTE_MINOR, _("h, 4, or left arrow to decrease the statistic."));
+    mvwprintz(w, FULL_SCREEN_HEIGHT - 3, 2, COL_NOTE_MAJOR, _("> Takes you to the next tab."));
+    mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("< Returns you to the main menu."));
 
     const char clear[] = "                                                ";
 
@@ -480,14 +488,14 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
                 if (u->str_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
                 }
-                mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Base HP: %d"),
+                mvwprintz(w, 6, iSecondColumn, COL_STAT_NEUTRAL, _("Base HP: %d"),
                           calc_HP(u->str_max, u->has_trait("TOUGH")));
-                mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Carry weight: %.1f %s"),
+                mvwprintz(w, 7, iSecondColumn, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
                           u->convert_weight(u->weight_capacity(false)),
                           OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
-                mvwprintz(w, 8, iSecondColumn, COL_STAT_ACT, _("Melee damage: %d"),
+                mvwprintz(w, 8, iSecondColumn, COL_STAT_NEUTRAL, _("Melee damage: %d"),
                           u->base_damage(false));
-                fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_ACT,
+                fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
                                _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
                 break;
 
@@ -497,20 +505,20 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
                 if (u->dex_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Dex further costs 2 points."));
                 }
-                mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Melee to-hit bonus: +%d"),
+                mvwprintz(w, 6, iSecondColumn, COL_STAT_BONUS, _("Melee to-hit bonus: +%d"),
                           u->base_to_hit(false));
                 if (u->throw_dex_mod(false) <= 0) {
-                    mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Throwing bonus: +%d"),
+                    mvwprintz(w, 7, iSecondColumn, COL_STAT_BONUS, _("Throwing bonus: +%d"),
                               abs(u->throw_dex_mod(false)));
                 } else {
-                    mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Throwing penalty: -%d"),
+                    mvwprintz(w, 7, iSecondColumn, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
                               abs(u->throw_dex_mod(false)));
                 }
                 if (u->ranged_dex_mod(false) != 0) {
-                    mvwprintz(w, 8, iSecondColumn, COL_STAT_ACT, _("Ranged penalty: -%d"),
+                    mvwprintz(w, 8, iSecondColumn, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
                               abs(u->ranged_dex_mod(false)));
                 }
-                fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_ACT,
+                fold_and_print(w, 10, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
                                _("Dexterity also enhances many actions which require finesse."));
                 break;
 
@@ -520,11 +528,13 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
                 if (u->int_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Int further costs 2 points."));
                 }
-                mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Read times: %d%%%%"),
-                          u->read_speed(false));
-                mvwprintz(w, 7, iSecondColumn, COL_STAT_ACT, _("Skill rust: %d%%%%"),
+                read_spd = u->read_speed(false);
+                mvwprintz(w, 6, iSecondColumn, (read_spd == 100 ? COL_STAT_NEUTRAL :
+                                                (read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY)),
+                          _("Read times: %d%%%%"), read_spd);
+                mvwprintz(w, 7, iSecondColumn, COL_STAT_PENALTY, _("Skill rust: %d%%%%"),
                           u->rust_rate(false));
-                fold_and_print(w, 9, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_ACT,
+                fold_and_print(w, 9, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
                                _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
                 break;
 
@@ -535,12 +545,10 @@ int set_stats(WINDOW *w, game *g, player *u, character_type type, int &points)
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Per further costs 2 points."));
                 }
                 if (u->ranged_per_mod(false) != 0) {
-                    mvwprintz(w, 6, iSecondColumn, COL_STAT_ACT, _("Ranged penalty: -%d"),
+                    mvwprintz(w, 6, iSecondColumn, COL_STAT_PENALTY, _("Ranged penalty: -%d"),
                               abs(u->ranged_per_mod(false)));
                 }
-
-
-                fold_and_print(w, 8, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_ACT,
+                fold_and_print(w, 8, iSecondColumn, FULL_SCREEN_WIDTH - iSecondColumn - 2, COL_STAT_NEUTRAL,
                                _("Perception is also used for detecting traps and other things of interest."));
                 break;
         }
@@ -861,7 +869,6 @@ inline bool profession_display_sort(const profession *a, const profession *b)
     return a->name() < b->name();
 }
 
-
 int set_profession(WINDOW *w, game *g, player *u, character_type type, int &points)
 {
     draw_tabs(w, "PROFESSION");
@@ -930,13 +937,12 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
         for (int i = 0; i < iContentHeight; i++) {
             // clean
             mvwprintz(w_items, 1 + i, 2, c_ltgray, "                                        ");
-            if (i < pipo.size())
+            if (i < pipo.size()) {
                 // dirty
-            {
                 mvwprintz(w_items, 1 + i , 2, c_ltgray, g->itypes[pipo[i]]->name.c_str());
             }
         }
-        //TODO :: starting_skills, addictions, w/e
+        //TODO: starting_skills, addictions, w/e
 
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
@@ -1120,58 +1126,45 @@ int set_description(WINDOW *w, game *g, player *u, character_type type, int &poi
     }
 
     draw_tabs(w, "DESCRIPTION");
+    mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
 
-    mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
-
-    unsigned namebar_pos, male_pos, female_pos;
-    mvwprintz(w, 6, 2, c_ltgray, _("Name:"));
-    namebar_pos = 3 + utf8_width(_("Name:"));
-    mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
-    mvwprintz(w, 6, namebar_pos + 31, c_ltgray, _("(Press TAB to move off this line)"));
-    mvwprintz(w, 8, 2, c_ltgray, _("Gender:"));
-    male_pos = 3 + utf8_width(_("Gender:"));
-    mvwprintz(w, 8, male_pos, c_ltgray, _("Male"));
-    female_pos = 1 + male_pos + utf8_width(_("Male"));
-    mvwprintz(w, 8, female_pos, c_ltgray, _("Female"));
-    mvwprintz(w, 8, namebar_pos + 31, c_ltgray, _("(Press spacebar to toggle)"));
-    fold_and_print(w, 10, 2, FULL_SCREEN_WIDTH - 4, c_ltgray,
+    const unsigned name_line = 6;
+    const unsigned gender_line = 9;
+    const unsigned namebar_pos = 3 + utf8_width(_("Name:"));
+    mvwprintz(w, name_line, 2, c_ltgray, _("Name:"));
+    mvwprintz(w, name_line, namebar_pos, c_ltgray, "_______________________________");
+    mvwprintz(w, name_line, namebar_pos + 32, COL_NOTE_MINOR, _("(Press TAB to move off this line)"));
+    fold_and_print(w, name_line + 1, 2, FULL_SCREEN_WIDTH - 4, COL_NOTE_MINOR,
+                   _("To pick a random name for your character, press ?"));
+    fold_and_print(w, FULL_SCREEN_HEIGHT / 2 + 3 , 2, FULL_SCREEN_WIDTH - 4, COL_NOTE_MAJOR,
                    _("When your character is finished and you're ready to start playing, press >"));
-    fold_and_print(w, 12, 2, FULL_SCREEN_WIDTH - 4, c_ltgray,
+    fold_and_print(w, FULL_SCREEN_HEIGHT / 2 + 4, 2, FULL_SCREEN_WIDTH - 4, COL_NOTE_MAJOR,
                    _("To go back and review your character, press <"));
-    fold_and_print(w, 14, 2, FULL_SCREEN_WIDTH - 4, c_green,
-                   _("To pick a random name for your character, press ?."));
-    fold_and_print(w, 16, 2, FULL_SCREEN_WIDTH - 4, c_green,
-                   _("To save this character as a template, press !."));
+    fold_and_print(w, FULL_SCREEN_HEIGHT - 2, 2, FULL_SCREEN_WIDTH - 4, COL_NOTE_MINOR,
+                   _("To save this character as a template, press !"));
 
     int line = 1;
     bool noname = false;
     long ch;
+    unsigned male_pos = 3 + utf8_width(_("Gender:"));
+    unsigned female_pos = 1 + male_pos + utf8_width(_("Male"));
 
     do {
-        if (u->male) {
-            mvwprintz(w, 8, male_pos, c_ltred, _("Male"));
-            mvwprintz(w, 8, female_pos, c_ltgray, _("Female"));
-        } else {
-            mvwprintz(w, 8, male_pos, c_ltgray, _("Male"));
-            mvwprintz(w, 8, female_pos, c_ltred, _("Female"));
-        }
-
         if (!noname) {
-            mvwprintz(w, 6, 8, c_ltgray, "%s", u->name.c_str());
+            mvwprintz(w, name_line, namebar_pos, c_ltgray, "%s", u->name.c_str());
             if (line == 1) {
                 wprintz(w, h_ltgray, "_");
             }
         }
-        if (line == 2) {
-            mvwprintz(w, 8, 2, h_ltgray, _("Gender:"));
-        } else {
-            mvwprintz(w, 8, 2, c_ltgray, _("Gender:"));
-        }
+
+        mvwprintz(w, gender_line, 2, (line == 2 ? h_ltgray : c_ltgray), _("Gender:"));
+        mvwprintz(w, gender_line, male_pos, (u->male ? c_ltred : c_ltgray), _("Male"));
+        mvwprintz(w, gender_line, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
 
         wrefresh(w);
         ch = input();
         if (noname) {
-            mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
+            mvwprintz(w, name_line, namebar_pos, c_ltgray, "______________________________");
             noname = false;
         }
 
@@ -1183,7 +1176,7 @@ int set_description(WINDOW *w, game *g, player *u, character_type type, int &poi
                        !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
                 continue;
             } else if (u->name.size() == 0) {
-                mvwprintz(w, 6, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
+                mvwprintz(w, name_line, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!______"));
                 noname = true;
                 wrefresh(w);
                 if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {
@@ -1205,30 +1198,30 @@ int set_description(WINDOW *w, game *g, player *u, character_type type, int &poi
             } else {
                 save_template(u);
             }
-            mvwprintz(w, 12, 2, c_ltgray, _("To go back and review your character, press <"));
+
             wrefresh(w);
         } else if (ch == '?') {
-            mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
+            mvwprintz(w, name_line, namebar_pos, c_ltgray, "______________________________");
             u->pick_name();
         } else {
             switch (line) {
-                case 1:
+                case 1: // name line
                     if (ch == KEY_BACKSPACE || ch == 127) {
                         if (u->name.size() > 0) {
-                            //erease utf8 character TODO: make a function
+                            //erase utf8 character TODO: make a function
                             while(u->name.size() > 0 && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
                                   ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
                                 u->name.erase(u->name.size() - 1);
                             }
                             u->name.erase(u->name.size() - 1);
-                            mvwprintz(w, 6, namebar_pos, c_ltgray, "_______________________________");
-                            mvwprintz(w, 6, namebar_pos, c_ltgray, "%s", u->name.c_str());
+                            mvwprintz(w, name_line, namebar_pos, c_ltgray, "_______________________________");
+                            mvwprintz(w, name_line, namebar_pos, c_ltgray, "%s", u->name.c_str());
                             wprintz(w, h_ltgray, "_");
                         }
                     } else if (ch == '\t') {
                         line = 2;
-                        mvwprintz(w, 6, namebar_pos +  utf8_width(u->name.c_str()), c_ltgray, "_");
-                    } else if (is_char_allowed(ch) &&  utf8_width(u->name.c_str()) < 30) {
+                        mvwprintz(w, name_line, namebar_pos + utf8_width(u->name.c_str()), c_ltgray, "_");
+                    } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
                         u->name.push_back(ch);
                     } else if(ch == KEY_F(2)) {
                         std::string tmp = get_input_string_from_file();
@@ -1246,10 +1239,10 @@ int set_description(WINDOW *w, game *g, player *u, character_type type, int &poi
                         }
                     }
                     break;
-                case 2:
-                    if (ch == ' ') {
+                case 2: // gender line
+                    if (ch == ' ' || ch == 'l' || ch == 'h') {
                         u->male = !u->male;
-                    } else if (ch == 'k' || ch == '\t') {
+                    } else if (ch == 'j' || ch == 'k' || ch == '\t') {
                         line = 1;
                     }
                     break;
@@ -1291,7 +1284,7 @@ int random_skill()
 
 int calc_HP(int strength, bool tough)
 {
-    return (60 + 3 * strength) * (tough ? 1.2 : 1);
+    return int((60 + 3 * strength) * (tough ? 1.2 : 1));
 }
 
 void save_template(player *u)
