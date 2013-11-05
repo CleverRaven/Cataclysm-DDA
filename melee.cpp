@@ -682,7 +682,7 @@ int player::roll_stab_damage(monster *z, bool crit)
 // Weapons can have a "low_stick" flag indicating they
 // Have a feature to prevent sticking, such as a spear with a crossbar,
 // Or a stabbing blade designed to resist sticking.
-int player::roll_stuck_penalty(monster *z, bool stabbing)
+int player::roll_stuck_penalty(bool stabbing)
 {
     // The cost of the weapon getting stuck, in units of move points.
     const int weapon_speed = attack_speed( *this, false );
@@ -1192,7 +1192,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
 // Getting your weapon stuck
- int cutting_penalty = roll_stuck_penalty(z, stab_dam > cut_dam);
+ int cutting_penalty = roll_stuck_penalty(stab_dam > cut_dam);
  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
