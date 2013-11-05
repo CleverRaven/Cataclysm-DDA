@@ -2699,11 +2699,58 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
 
 int vehicle::damage_direct (int p, int dmg, int type)
 {
-    if (parts[p].hp <= 0)
+    if (parts[p].hp <= 0) {
+        /* Already-destroyed part - chance it could be torn off into pieces.
+         * Chance increases with damage, and decreases with part max durability
+         * (so lights, etc are easily removed; frames and plating not so much) */
+        if(rng(0, part_info(p).durability / 10) < dmg) {
+            int x_pos = global_x() + parts[p].precalc_dx[0];
+            int y_pos = global_y() + parts[p].precalc_dy[0];
+            if(part_info(p).location == "structure") {
+                //For structural parts, remove other parts first
+                std::vector<int> parts_in_square = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+                for(int index = parts_in_square.size() - 1; index >= 0; index--) {
+                    //Ignore the frame being destroyed
+                    if(parts_in_square[index] != p) {
+                        if(g->u_see(x_pos, y_pos)) {
+                            g->add_msg(_("The %s's %s is torn off!"), name.c_str(),
+                                    part_info(parts_in_square[index]).name.c_str());
+                        }
+                        item part_as_item = item_from_part(parts_in_square[index]);
+                        g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
+                        remove_part(parts_in_square[index]);
+                    }
+                    /* After clearing the frame, remove it if normally legal to
+                     * do so (it's not (0, 0) and not holding the vehicle
+                     * together). At a later date, some more complicated system
+                     * (such as actually making two vehicles from the split
+                     * parts) would be ideal. */
+                    if(can_unmount(p)) {
+                        if(g->u_see(x_pos, y_pos)) {
+                            g->add_msg(_("The %s's %s is destroyed!"),
+                                    name.c_str(), part_info(p).name.c_str());
+                        }
+                        break_part_into_pieces(p, x_pos, y_pos, true);
+                        remove_part(p);
+                    }
+                }
+            } else {
+                //Just break it off
+                if(g->u_see(x_pos, y_pos)) {
+                    g->add_msg(_("The %s's %s is destroyed!"),
+                                    name.c_str(), part_info(p).name.c_str());
+                }
+                break_part_into_pieces(p, x_pos, y_pos, true);
+                remove_part(p);
+            }
+        }
         return dmg;
+    }
+    
     int tsh = part_info(p).durability / 10;
-    if (tsh > 20)
+    if (tsh > 20) {
         tsh = 20;
+    }
     int dres = dmg;
     if (dmg >= tsh || type != 1)
     {
