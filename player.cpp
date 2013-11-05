@@ -7631,7 +7631,7 @@ void player::use(game *g, char let)
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
-            g->add_msg(_("You need to be at least level 1 in the firearms skill before you\
+            g->add_msg(_("You need to be at least level 1 in the marksmanship skill before you\
  can modify guns."));
             return;
         }
