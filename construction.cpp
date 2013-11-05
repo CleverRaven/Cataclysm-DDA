@@ -1009,11 +1009,14 @@ bool construct::able_deconstruct(game *g, point p)
 
 void construct::done_window_pane(game *g, point p)
 {
- g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet", 0);
+    (void)p; //unused
+    g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet", 0);
 }
 
+// STUB
 void construct::done_move(game *g, point p)
 {
+    (void)g; (void)p; // TODO: something?
     return; // stub
 }
 
@@ -1039,6 +1042,7 @@ void construct::done_trunk_log(game *g, point p)
 
 void construct::done_trunk_plank(game *g, point p)
 {
+    (void)p; //unused
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
         item tmplog(g->itypes["log"], int(g->turn), g->nextinv);

@@ -19,8 +19,10 @@
 #include <sstream>
 #include <algorithm>
 
-void iexamine::none(game *g, player *p, map *m, int examx, int examy) {
- g->add_msg(_("That is a %s."), m->name(examx, examy).c_str());
+void iexamine::none(game *g, player *p, map *m, int examx, int examy)
+{
+    (void)p; //unused
+    g->add_msg(_("That is a %s."), m->name(examx, examy).c_str());
 };
 
 void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
@@ -105,10 +107,14 @@ void iexamine::toilet(game *g, player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
- if (!query_yn(_("Use the %s?"),m->tername(examx, examy).c_str())) return;
- int movez = (g->levz < 0 ? 2 : -2);
- g->vertical_move( movez, false );
+void iexamine::elevator(game *g, player *p, map *m, int examx, int examy)
+{
+    (void)p; //unused
+    if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
+        return;
+    }
+    int movez = (g->levz < 0 ? 2 : -2);
+    g->vertical_move( movez, false );
 }
 
 void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
@@ -430,28 +436,30 @@ void iexamine::remove_fence_barbed(game *g, player *p, map *m, int examx, int ex
  p->moves -= 200;
 }
 
-void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy) {
- if (p->cash < 10)
-  g->add_msg(_("You need $10 to play."));
- else if (query_yn(_("Insert $10?"))) {
-  do {
-   if (one_in(5))
-    popup(_("Three cherries... you get your money back!"));
-   else if (one_in(20)) {
-    popup(_("Three bells... you win $50!"));
-    p->cash += 40; // Minus the $10 we wagered
-   } else if (one_in(50)) {
-    popup(_("Three stars... you win $200!"));
-    p->cash += 190;
-   } else if (one_in(1000)) {
-    popup(_("JACKPOT!  You win $5000!"));
-    p->cash += 4990;
-   } else {
-    popup(_("No win."));
-    p->cash -= 10;
-   }
-  } while (p->cash >= 10 && query_yn(_("Play again?")));
- }
+void iexamine::slot_machine(game *g, player *p, map *m, int examx, int examy)
+{
+    (void)m; (void)examx; (void)examy; //unused
+    if (p->cash < 10) {
+        g->add_msg(_("You need $10 to play."));
+    } else if (query_yn(_("Insert $10?"))) {
+        do {
+            if (one_in(5)) {
+                popup(_("Three cherries... you get your money back!"));
+            } else if (one_in(20)) {
+                popup(_("Three bells... you win $50!"));
+                p->cash += 40; // Minus the $10 we wagered
+            } else if (one_in(50)) {
+                popup(_("Three stars... you win $200!"));
+                p->cash += 190;
+            } else if (one_in(1000)) {
+                popup(_("JACKPOT!  You win $5000!"));
+                p->cash += 4990;
+            } else {
+                popup(_("No win."));
+                p->cash -= 10;
+            }
+        } while (p->cash >= 10 && query_yn(_("Play again?")));
+    }
 }
 
 void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
@@ -473,33 +481,36 @@ void iexamine::safe(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) {
- basecamp *camp = m->camp_at(examx, examy);
- if (camp && camp->board_x() == examx && camp->board_y() == examy) {
-  std::vector<std::string> options;
-  options.push_back(_("Cancel"));
-  // Causes a warning due to being unused, but don't want to delete since
-  // it's clearly what's intened for future functionality.
-  //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
- }
- else {
-  bool create_camp = m->allow_camp(examx, examy);
-  std::vector<std::string> options;
-  if (create_camp)
-   options.push_back(_("Create camp"));
-  options.push_back(_("Cancel"));
-  // TODO: Other Bulletin Boards
-  int choice = menu_vec(true, _("Bulletin Board"), options) - 1;
-  if (choice >= 0 && choice < options.size()) {
-   if (options[choice] == _("Create camp")) {
-    // TODO: Allow text entry for name
-    m->add_camp(_("Home"), examx, examy);
-   }
-  }
- }
+    (void)g; (void)p; //unused
+    basecamp *camp = m->camp_at(examx, examy);
+    if (camp && camp->board_x() == examx && camp->board_y() == examy) {
+        std::vector<std::string> options;
+        options.push_back(_("Cancel"));
+        // Causes a warning due to being unused, but don't want to delete
+        // since it's clearly what's intened for future functionality.
+        //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
+    } else {
+        bool create_camp = m->allow_camp(examx, examy);
+        std::vector<std::string> options;
+        if (create_camp) {
+            options.push_back(_("Create camp"));
+        }
+        options.push_back(_("Cancel"));
+        // TODO: Other Bulletin Boards
+        int choice = menu_vec(true, _("Bulletin Board"), options) - 1;
+        if (choice >= 0 && choice < options.size()) {
+            if (options[choice] == _("Create camp")) {
+                // TODO: Allow text entry for name
+                m->add_camp(_("Home"), examx, examy);
+            }
+        }
+    }
 }
 
-void iexamine::fault(game *g, player *p, map *m, int examx, int examy) {
- popup(_("\
+void iexamine::fault(game *g, player *p, map *m, int examx, int examy)
+{
+    (void)g; (void)p; (void)m; (void)examx; (void)examy; //unused
+    popup(_("\
 This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
 as far back into the solid rock as you can see.  The holes are humanoid in\n\
 shape, but with long, twisted, distended limbs."));

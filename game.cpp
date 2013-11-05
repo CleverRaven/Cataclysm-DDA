@@ -5303,6 +5303,10 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
 
 void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult)
 {
+    (void)force; //FIXME: unused but header says it should do something
+    // TODO: make the force parameter actually do something.
+    // the header file says higher force causes more damage.
+    // perhaps that is what it should do?
     int tx = traj.front().x;
     int ty = traj.front().y;
     const int zid = mon_at(tx, ty);
