@@ -2862,17 +2862,17 @@ bool map::allow_camp(const int x, const int y, const int radius)
     return camp_at(x, y, radius) == NULL;
 }
 
+// locate the nearest camp in some radius (default CAMPSIZE)
 basecamp* map::camp_at(const int x, const int y, const int radius)
 {
-    // locate the nearest camp in a CAMPSIZE radius
     if (!INBOUNDS(x, y)) {
         return NULL;
     }
 
-    const int sx = std::max(0, x / SEEX - CAMPSIZE);
-    const int sy = std::max(0, y / SEEY - CAMPSIZE);
-    const int ex = std::min(MAPSIZE - 1, x / SEEX + CAMPSIZE);
-    const int ey = std::min(MAPSIZE - 1, y / SEEY + CAMPSIZE);
+    const int sx = std::max(0, x / SEEX - radius);
+    const int sy = std::max(0, y / SEEY - radius);
+    const int ex = std::min(MAPSIZE - 1, x / SEEX + radius);
+    const int ey = std::min(MAPSIZE - 1, y / SEEY + radius);
 
     for (int ly = sy; ly < ey; ++ly) {
         for (int lx = sx; lx < ex; ++lx) {
