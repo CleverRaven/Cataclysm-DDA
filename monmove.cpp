@@ -97,7 +97,8 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
     int sightrange = g->light_level();
     int closest = -1;
     int dist = 1000;
-    int tc, stc;
+    int tc = 0;
+    int stc = 0;
     bool fleeing = false;
     if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
