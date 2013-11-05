@@ -2263,10 +2263,11 @@ bool item::reload(player &u, char ammo_invlet)
   return false;
 }
 
-void item::use(player &u)
+void item::use()
 {
-    if (charges > 0)
+    if (charges > 0) {
         charges--;
+    }
 }
 
 bool item::burn(int amount)
