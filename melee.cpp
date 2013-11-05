@@ -741,6 +741,8 @@ int player::roll_stuck_penalty(bool stabbing)
 matec_id player::pick_technique(game *g, monster *z, player *p,
                                     bool crit, bool allowgrab)
 {
+    (void)allowgrab; //FIXME: is this supposed to be being used for something?
+
  if (z == NULL && p == NULL)
   return "tec_none";
 
@@ -824,6 +826,9 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
                                player *p, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
+    (void)cut_dam; //FIXME: this should probably be being used for something
+    (void)stab_dam; //FIXME: this should probably be being used for something
+
     const bool mon = (z != NULL);
     const bool npc = (p != NULL && p->is_npc());
     const bool you = (p == &(g->u));
@@ -937,6 +942,8 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
     int &bash_dam, int &cut_dam, int &stab_dam)
 {
+    (void)z; //FIXME: this should probably be being used for something
+    (void)p; //FIXME: this should probably be being used for something
 
     if (blocks_left <= 0) return false;
 
