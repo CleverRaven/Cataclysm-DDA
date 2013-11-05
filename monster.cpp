@@ -318,7 +318,7 @@ bool monster::made_of(phase_id p)
  return false;
 }
 
-void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
+void monster::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -329,11 +329,11 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
         if ( ! jsonerr.empty() ) {
             debugmsg("Bad monster json\n%s", jsonerr.c_str() );
         } else {
-            json_load(pdata, mtypes);
+            json_load(pdata);
         }
         return;
     } else {
-        load_legacy(mtypes, dump);
+        load_legacy(dump);
     }
 }
 

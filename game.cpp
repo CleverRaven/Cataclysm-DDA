@@ -144,8 +144,6 @@ game::~game()
 {
  delete gamemode;
  itypes.clear();
- for (int i = 0; i < mtypes.size(); i++)
-  delete mtypes[i];
  delwin(w_terrain);
  delwin(w_minimap);
  delwin(w_HP);
@@ -5675,7 +5673,7 @@ void game::resonance_cascade(int x, int y)
    case 13:
    case 14:
    case 15:
-    spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER", &mtypes);
+    spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
     invader = monster(GetMType(spawn_details.name), i, j);
     add_zombie(invader);
     break;
@@ -11410,7 +11408,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type, &mtypes,
+     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type, 
                                                              &group, (int)turn );
      zom = monster(GetMType(spawn_details.name));
      for (int kk = 0; kk < spawn_details.pack_size; kk++){

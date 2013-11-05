@@ -285,7 +285,6 @@ class game
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
   std::map<std::string, itype*> itypes;
-  std::vector <mtype*> mtypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions

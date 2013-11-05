@@ -11928,7 +11928,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
    } while( move_cost(x, y) == 0 && tries );
 
    // Pick a monster type
-   MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &g->mtypes, &num );
+   MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
    add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
   }
