@@ -2128,6 +2128,7 @@ item map::water_from(const int x, const int y)
 
 item map::acid_from(const int x, const int y)
 {
+    (void)x; (void)y; //all acid is acid, i guess?
     item ret(item_controller->find_template("water_acid"), 0);
     return ret;
 }
@@ -2215,8 +2216,10 @@ void map::spawn_item(const int x, const int y, std::string type_id,
 }
 
 // stub for now, could vary by ter type
-int map::max_volume(const int x, const int y) {
-   return MAX_VOLUME_IN_SQUARE;
+int map::max_volume(const int x, const int y)
+{
+    (void)x; (void)y; //stub
+    return MAX_VOLUME_IN_SQUARE;
 }
 
 // total volume of all the things
