@@ -61,7 +61,6 @@ struct trapfunc {
     void beartrap       (game *g, int x, int y);
     void snare_light    (game *g, int x, int y);
     void snare_heavy    (game *g, int x, int y);
-    void snare          (game *g, int x, int y) { };
     void board          (game *g, int x, int y);
     void caltrops       (game *g, int x, int y);
     void tripwire       (game *g, int x, int y);
@@ -101,7 +100,6 @@ struct trapfuncm {
     void blade          (game *g, monster *z, int x, int y);
     void snare_light    (game *g, monster *z, int x, int y);
     void snare_heavy    (game *g, monster *z, int x, int y);
-    void snare          (game *g, monster *z, int x, int y) { };
     void landmine       (game *g, monster *z, int x, int y);
     void telepad        (game *g, monster *z, int x, int y);
     void goo            (game *g, monster *z, int x, int y);
