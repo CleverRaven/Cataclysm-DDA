@@ -1019,7 +1019,7 @@ void mapgen_river_curved(map *m, oter_id terrain_type)
     }
 }
 
-void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn)
+void mapgen_parking_lot(map *m, mapgendata dat, int turn)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1208,7 +1208,7 @@ void mapgen_park(map *m)
     m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
 }
 
-void mapgen_gas_station(map *m, oter_id terrain_type, int turn, float density)
+void mapgen_gas_station(map *m, oter_id terrain_type, float density)
 {
     int top_w = rng(5, 14);
     int bottom_w = SEEY * 2 - rng(1, 2);

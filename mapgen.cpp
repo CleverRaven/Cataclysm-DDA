@@ -898,7 +898,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   break;
 
     case ot_s_lot:
-        mapgen_parking_lot(this, terrain_type, facing_data, turn);
+        mapgen_parking_lot(this, facing_data, turn);
         break;
 
     case ot_pool:
@@ -913,7 +913,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     case ot_s_gas_east:
     case ot_s_gas_south:
     case ot_s_gas_west:
-        mapgen_gas_station(this, terrain_type, turn, density);
+        mapgen_gas_station(this, terrain_type, density);
         break;
 
  case ot_s_pharm_north:
