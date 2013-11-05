@@ -244,8 +244,8 @@
 		],
 		"techniques" : [
 		    "tec_crane_feint",
-			"tec_crane_block"
-			"tec_crane_break"
+			"tec_crane_block",
+			"tec_crane_break",
 			"tec_crane_precise"
 		]
 	},{
@@ -258,20 +258,20 @@
 			    "id" : "dragon_static",
 				"name" : "Dragon Intelligence",
                 "unarmed_allowed" : true,
-				"bash_str" : -0.2,
-				"bash_dex" : 0.8
+				"bash_int" : 0.8
 			}
 		]
 				
 		"onmove_buffs" : [
             {
-                "id" : "crane_move_buff",
-                "name" : "Crane Flight",
-                "description" : "+2 Dodge",
+                "id" : "dragon_move_buff",
+                "name" : "Dragon Flight",
+                "description" : "+2 Acc/Dam",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
                 "buff_duration" : 1,
-                "dodge" : 2
+                "hit" : 2,
+				"bash" : 2
             }
 		],
 		"techniques" : [
@@ -284,34 +284,84 @@
 	},{
 		"type" : "martial_art",
 		"id" : "style_leopard",
-		"name" : "Loepard Kung Fu",
+		"name" : "Leopard Kung Fu",
 		"description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Inteligence both boost accuracy, and moving further boosts your accuracy.",
 		"static_buffs" : [
 		    {
-			    "id" : "crane_static",
-				"name" : "Crane Precision",
+			    "id" : "leopard_static",
+				"name" : "Leopard Strategy",
                 "unarmed_allowed" : true,
-				"bash_str" : -0.2,
-				"bash_dex" : 0.8
+				"hit_per" : 0.2,
+				"hit_int" : 0.2
 			}
 		]
 				
 		"onmove_buffs" : [
             {
-                "id" : "crane_move_buff",
-                "name" : "Crane Flight",
-                "description" : "+2 Dodge",
+                "id" : "leopard_move_buff",
+                "name" : "Leopard Stalk",
+                "description" : "+2 Accuracy",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
                 "buff_duration" : 1,
-                "dodge" : 2
+                "hit" : 2
             }
 		],
 		"techniques" : [
-		    "tec_crane_feint",
-			"tec_crane_block"
-			"tec_crane_break"
-			"tec_crane_precise"
+		    "tec_leopard_rapid",
+			"tec_leopard_counter",
+			"tec_leopard_precise"
+		]
+	},{
+		"type" : "martial_art",
+		"id" : "style_tiger",
+		"name" : "Tiger Kung Fu",
+		"description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
+		"static_buffs" : [
+		    {
+			    "id" : "tiger_static",
+				"name" : "Tiger Strength",
+                "unarmed_allowed" : true,
+				"hit_str" : 0.8,
+			}
+		]
+				
+		"onhit_buffs" : [
+            {
+                "id" : "tiger_hit_buff",
+                "name" : "Tiger Fury",
+                "description" : "+3 Bash/atk",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 3,
+				"max_stacks" : 8,
+                "bash" : 3
+            }
+		],
+		"techniques" : [
+		    "tec_tiger_grab"
+		]
+	},{
+		"type" : "martial_art",
+		"id" : "style_snake",
+		"name" : "Snake Kung Fu",
+		"description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception iproves yur accuracy and your damage.",
+		"static_buffs" : [
+		    {
+			    "id" : "snake_static",
+				"name" : "Snake Sight",
+                "unarmed_allowed" : true,
+				"hit_per" : 0.8,
+			}
+		]
+
+		"techniques" : [
+		    "tec_snake_rapid",
+			"tec_snake_feint",
+			"tec_snake_break",
+			"tec_snake_precise"
 		]
 	},
 ]
+
+
