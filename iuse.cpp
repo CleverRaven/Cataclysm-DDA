@@ -1383,7 +1383,10 @@ int iuse::extinguisher(game *g, player *p, item *it, bool t)
 
  p->moves -= 140;
 
+ // Reduce the strength of fire (if any) in the target tile.
  g->m.adjust_field_strength(g, point(x,y), fd_fire, 0 - rng(2, 3) );
+
+ // Also spray monsters in that tile.
  int mondex = g->mon_at(x, y);
  if (mondex != -1) {
   g->zombie(mondex).moves -= 150;
@@ -1398,11 +1401,15 @@ int iuse::extinguisher(game *g, player *p, item *it, bool t)
     g->zombie(mondex).speed /= 2;
   }
  }
+
+ // Slightly reduce the strength of fire immediately behind the target tile.
  if (g->m.move_cost(x, y) != 0) {
   x += (x - p->posx);
   y += (y - p->posy);
-  g->m.adjust_field_strength(g, point(x,y), fd_fire, 0 - rng(0, 1) + rng(0, 1));
+
+  g->m.adjust_field_strength(g, point(x,y), fd_fire, std::min(0 - rng(0, 1) + rng(0, 1), 0L));
  }
+
  return it->type->charges_to_use();
 }
 
