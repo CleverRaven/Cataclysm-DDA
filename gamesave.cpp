@@ -539,12 +539,10 @@ void overmap::save()
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
         int count = 0;
-//        std::string last_tertype = "this will never match anything";
-        oter_id last_tertype(-1);       
+        oter_id last_tertype(-1);
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
                 oter_id t = layer[z].terrain[i][j];
-//terlist[layer[z].terrain[i][j]].id;
                 if (t != last_tertype) {
                     if (count) {
                         fout << count << " ";
