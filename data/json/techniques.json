@@ -356,5 +356,98 @@
             "<npcname> sweep-kicks %s"
         ],
         "down_dur": 2
+    },{
+        "type" : "technique",
+        "id" : "tec_zuiquan_feint",
+        "name" : "Drunk feint",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "defensive": true,
+        "miss_recovery": true
+        "messages" : [
+            "You stumble and leer at %s",
+            "<npcname> stumbles and leers at %s"
+        ],
+    },{
+        "type" : "technique",
+        "id" : "tec_venom_snake_feint",
+        "name" : "Viper Hiss",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "defensive": true,
+        "miss_recovery": true
+		"messages" : [
+			"You hiss threateningly at %s",
+			"<npcname> hisses threateningly at %s"
+		],
+    },{
+        "type" : "technique",
+        "id" : "tec_venom_snake_rapid",
+        "name" : "Viper Bite",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "quick": true,
+        "messages" : [
+            "You Snakebite %s",
+            "<npcname> Snakebites %s"
+        ]
+		"bash_mult" : 2
+    },{
+        "type" : "technique",
+        "id" : "tec_venom_snake_break",
+        "name" : "Viper Writhe",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "defensive": true,
+        "grab_break": true
+    },{
+        "type" : "technique",
+        "id" : "tec_scorpion_brutal",
+        "name" : "Stinger Strike",
+        "unarmed_allowed": true,
+        "crit_tec": true,
+        "stun_dur": 3,
+        "knockback_dist": 3,
+        "messages" : [
+            "Your Stinger Kick sends %s flying!",
+            "<npcname>'s Stinger Kick sends %s flying!"
+        ]
+		"bash_mult": 2
+    },{
+        "type" : "technique",
+        "id" : "tec_scorpion_precise",
+        "name" : "Pincer Strike",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "messages" : [
+            "You punch %s with your Pincer Fist!",
+            "<npcname> jabs %s with a Pincer Fist!"
+        ],
+        "stun_dur": 2,
+		"bash_mult": 1.25
+    },{
+        "type" : "technique",
+        "id" : "tec_toad_grab",
+        "name" : "Toad's Tongue",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+		"quick": true,
+        "down_dur": 3,
+        "messages" : [
+            "You snatch and clobber %s",
+            "<npcname> snatches and clobbers %s"
+        ]
+		"bash_mult": 1.5
+    },{
+        "type" : "technique",
+        "id" : "tec_centipede_rapid",
+        "name" : "Rapid Strike",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "quick": true,
+        "messages" : [
+            "You swiftly hit %s",
+            "<npcname> swiftly hits %s"
+        ]
     }
 ]
