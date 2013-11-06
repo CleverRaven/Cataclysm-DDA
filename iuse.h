@@ -43,6 +43,7 @@ class iuse
   int flusleep         (game *g, player *p, item *it, bool t);
   int inhaler          (game *g, player *p, item *it, bool t);
   int blech            (game *g, player *p, item *it, bool t);
+  int chew            (game *g, player *p, item *it, bool t);
   int mutagen          (game *g, player *p, item *it, bool t);
   int purifier         (game *g, player *p, item *it, bool t);
   int marloss          (game *g, player *p, item *it, bool t);
