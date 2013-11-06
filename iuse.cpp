@@ -1031,6 +1031,28 @@ int iuse::dogfood(game *g, player *p, item *it, bool t)
     return 1;
 }
 
+int iuse::catfood(game *g, player *p, item *it, bool t)
+{
+    int dirx, diry;
+    if(!g->choose_adjacent(_("Put the cat food where?"),dirx,diry)) {
+        return 0;
+    }
+    p->moves -= 15;
+    int mon_dex = g->mon_at(dirx,diry);
+    if (mon_dex != -1) {
+        if (g->zombie(mon_dex).type->id == "mon_cat") {
+            g->add_msg_if_player(p, _("The cat seems to like you! Or maybe it just tolerates your presence better. It's hard to tell with cats."));
+            g->zombie(mon_dex).friendly = -1;
+        } else {
+            g->add_msg_if_player(p, _("The %s seems quite unimpressed!"),
+                                 g->zombie(mon_dex).type->name.c_str());
+        }
+    } else {
+        g->add_msg_if_player(p,_("You spill the cat food all over the ground."));
+    }
+    return 1;
+}
+
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
     if (!g->choose_adjacent(_("Light where?"),posx,posy)) {

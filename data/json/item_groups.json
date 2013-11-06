@@ -967,7 +967,7 @@
       ["can_salmon", 25],
       ["can_chowder", 35],
       ["can_herring", 30],
-      ["can_catfood", 20],
+      ["catfood", 20],
       ["broth", 15],
       ["crackers", 10],
       ["syrup", 15],

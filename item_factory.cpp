@@ -68,6 +68,7 @@ void Item_factory::init(){
     iuse_function_list["PURIFIER"] = &iuse::purifier;
     iuse_function_list["MARLOSS"] = &iuse::marloss;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
+    iuse_function_list["CATFOOD"] = &iuse::catfood;
 
   // TOOLS
     iuse_function_list["LIGHTER"] = &iuse::lighter;

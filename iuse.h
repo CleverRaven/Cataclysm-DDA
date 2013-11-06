@@ -47,6 +47,7 @@ class iuse
   int purifier         (game *g, player *p, item *it, bool t);
   int marloss          (game *g, player *p, item *it, bool t);
   int dogfood          (game *g, player *p, item *it, bool t);
+  int catfood          (game *g, player *p, item *it, bool t);
 
 // TOOLS
   int lighter          (game *g, player *p, item *it, bool t);
