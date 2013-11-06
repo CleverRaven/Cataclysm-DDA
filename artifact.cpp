@@ -266,7 +266,7 @@ void game::init_artifacts()
         {_("Heavy"),     0,1400,  10, 20,    0,  0,   -2,  0,  ""},
         {_("Knobbed"),   1,250,   14, 30,    0,  0,   -1,  1,  ""},
         {_("Spiked"),    1,100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
-        {_("Edged"),     2,450,    0,  0,   20, 50,   -1,  2,  ""},
+        {_("Edged"),     2,450,    0,  0,   20, 50,   -1,  2,  "CHOP"},
         {_("Bladed"),    1,2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
     };
     for(int i=0;i<NUM_ARTWEAPS;i++) {artifact_weapon_data[i]=tmp_artifact_weapon_data[i];}
