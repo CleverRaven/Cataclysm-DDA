@@ -5129,6 +5129,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "drink_rumcola",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rum", 1 ]
+    ],
+    [
+      [ "cola", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "jerky",
   "category": "CC_FOOD",
   "skill_used": "cooking",
