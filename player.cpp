@@ -2074,7 +2074,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  line = 3;
  if (weight_carried() > weight_capacity()) {
   pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
-  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2085,10 +2085,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   else if (pen < -10)
    pen = -10;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%"),
              (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%"),
              (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
@@ -2096,41 +2096,41 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  if (pen > 60)
   pen = 60;
  if (pen >= 1) {
-  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (pkill >= 10) {
   pen = int(pkill * .1);
-  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (stim != 0) {
   pen = stim;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%"),
             (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
  if (thirst > 40) {
   pen = int((thirst - 40) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (hunger > 100) {
   pen = int((hunger - 100) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy)) {
   pen = (g->light_level() >= 12 ? 5 : 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2142,7 +2142,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
    pen = int( (65 - g->get_temperature()) / 3);
   else
    pen = int( (65 - g->get_temperature()) / 2);
-  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2173,7 +2173,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
  if (has_trait("QUICK")) {
   pen = int(newmoves * .1);
-  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
  }
  int runcost = run_cost(100);
@@ -2237,9 +2237,9 @@ gun for ranged combat, and enhances many actions that require finesse."));
    } else if (line == 2) {
     mvwprintz(w_stats, 4, 2, h_ltgray, _("Intelligence:"));
  // display player current INT effects
-   mvwprintz(w_stats, 6, 2, c_magenta, _("Read times: %d%%%%           "),
+   mvwprintz(w_stats, 6, 2, c_magenta, _("Read times: %d%%           "),
              read_speed(false));
-   mvwprintz(w_stats, 7, 2, c_magenta, _("Skill rust: %d%%%%           "),
+   mvwprintz(w_stats, 7, 2, c_magenta, _("Skill rust: %d%%           "),
              rust_rate(false));
    mvwprintz(w_stats, 8, 2, c_magenta, _("Crafting Bonus: %d          "),
              int_cur);
