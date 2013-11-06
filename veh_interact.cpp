@@ -1208,18 +1208,15 @@ void complete_vehicle (game *g)
             // Transfer fuel back to tank
             if (used_item.typeId() == "metal_tank")
             {
-              item *cont = &(g->u.i_add(used_item));
-
               ammotype desired_liquid = veh->part_info(vehicle_part).fuel_type;
               item liquid( g->itypes[default_ammo(desired_liquid)], g->turn );
 
               liquid.charges = veh->parts[vehicle_part].amount;
               veh->parts[vehicle_part].amount = 0;
 
-              cont->put_in(liquid);
-            } else {
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
+              used_item.put_in(liquid);
             }
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
             {
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
