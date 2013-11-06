@@ -178,6 +178,7 @@
       ["laptop", 10],
       ["pda", 3],
       ["gum", 30],
+      ["caff_gum", 3],
       ["flask_hip", 5],
       ["sm_extinguisher", 10],
       ["atomic_light", 1],
@@ -530,6 +531,7 @@
       ["pocketwatch", 5],
       ["lsd", 1],
       ["gum", 30],
+      ["caff_gum", 4],
       ["nic_gum", 2],
       ["clown_suit", 1],
       ["clownshoes", 1],
@@ -847,6 +849,7 @@
       ["roadmap", 40],
       ["money_bundle", 55],
       ["gum", 30],
+      ["caff_gum", 10],
       ["sm_extinguisher", 10],
       ["nic_gum", 2]
     ]
@@ -934,6 +937,7 @@
       ["disinfectant", 35],
       ["vaccine_shot", 10],
       ["protein_powder", 15],
+      ["caff_gum", 10],
       ["nic_gum", 25]
     ]
   },{
@@ -2377,6 +2381,7 @@
       ["software_useless", 10],
       ["umbrella", 5],
       ["gum", 10],
+      ["caff_gum", 6],
       ["nic_gum", 4],
       ["fan", 10],
       ["sm_extinguisher", 10],
@@ -2451,6 +2456,7 @@
       ["umbrella", 5],
       ["mag_tailor", 5],
       ["gum", 20],
+      ["caff_gum", 7],
       ["nic_gum", 5],
       ["sm_extinguisher", 10],
       ["pocketwatch", 2]
@@ -3772,6 +3778,7 @@
       ["usb_drive", 5],
       ["lsd", 1],
       ["gum", 20],
+      ["caff_gum", 8],
       ["nic_gum", 5]
     ]
   },{
@@ -4302,6 +4309,7 @@
       ["8mm_inc", 2],
       ["tac_helmet", 10],
       ["gum", 90],
+      ["caff_gum", 10],
       ["nic_gum", 1],
       ["improve_sights", 10],
       ["pur_tablets", 10],
@@ -4588,6 +4596,7 @@
       ["laser_sight", 15],
       ["lsd", 10],
       ["gum", 60],
+      ["caff_gum", 7],
       ["nic_gum", 1],
       ["improve_sights", 10],
       ["u_shotgun", 4],
