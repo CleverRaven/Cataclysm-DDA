@@ -449,5 +449,155 @@
             "You swiftly hit %s",
             "<npcname> swiftly hits %s"
         ]
+    },{
+        "type" : "technique",
+        "id" : "tec_snake_rapid",
+        "name" : "Snake Snap",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "quick": true,
+        "messages" : [
+            "You swiftly jab %s",
+            "<npcname> swiftly jabs %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_snake_feint",
+        "name" : "Snake Slide",
+		"min_unarmed": 3,
+        "unarmed_allowed": true,
+        "defensive": true,
+        "miss_recovery": true
+		"messages" : [
+			"You make serpentine hand motions at %s",
+			"<npcname> makes serpentine hand motions at %s"
+		]
+    },{
+        "type" : "technique",
+        "id" : "tec_snake_break",
+        "name" : "Snake Slither",
+		"min_unarmed": 4
+        "unarmed_allowed": true,
+        "defensive": true,
+        "grab_break": true
+		"messages" : [
+			"You slither free!"
+			"<npcname slithers free!"
+		]
+    },{
+        "type" : "technique",
+        "id" : "tec_snake_precise",
+        "name" : "Snake Strike",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "crit_tec": true,
+        "messages" : [
+            "You strike out at %s",
+            "<npcname> strikes out at %s"
+        ],
+        "stun_dur": 2
+    },{
+        "type" : "technique",
+        "id" : "tec_tiger_grab",
+        "name" : "Tiger Takedown",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "down_dur": 1,
+        "messages" : [
+            "You grab and ground %s!",
+            "<npcname> grabs and grounds %s!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_leopard_precise",
+        "name" : "Leopard Fist",
+        "min_unarmed": 5,
+        "unarmed_allowed": true,
+        "crit_tec": true,
+        "messages" : [
+            "You strike out at %s with your Leopard Fist!",
+            "<npcname> strikes out at %s with a Leopard Fist!"
+        ],
+        "stun_dur": 2
+    },{
+        "type" : "technique",
+        "id" : "tec_leopard_rapid",
+        "name" : "Leopard Swipe",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "quick": true,
+        "messages" : [
+            "You quickly swipe at %s",
+            "<npcname> quickly swipes at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_dragon_grab",
+        "name" : "Dragon Snatch",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "messages" : [
+            "You grab and knee %s!",
+            "<npcname> grabs and knees %s!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_dragon_sweep",
+        "name" : "Dragon Sweeper",
+        "min_unarmed": 5,
+        "unarmed_allowed": true,
+        "down_dur": 2,
+        "messages" : [
+            "You low-roundhouse %s 's legs!",
+            "<npcname> low-roundhouses %s 's legs!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_dragon_brutal",
+        "name" : "Dragon Strike",
+		"min_unarmed": 6,
+        "unarmed_allowed": true,
+        "crit_tec": true,
+        "stun_dur": 1,
+        "knockback_dist": 1,
+        "messages" : [
+            "You send %s reeling with a Dragon Strike!",
+            "<npcname> sends %s reeling with a Dragon Strike!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_crane_feint",
+        "name" : "Crane Wing",
+		"min_unarmed": 2,
+        "unarmed_allowed": true,
+        "defensive": true,
+        "miss_recovery": true
+		"messages": [
+			"You raise your arms intimidatingly!",
+			"<npcname> performs the Crane Wing!"
+		]
+    },{
+        "type" : "technique",
+        "id" : "tec_crane_break",
+        "name" : "Crane Flap",
+		"min_unarmed": 3
+        "unarmed_allowed": true,
+        "defensive": true,
+        "grab_break": true
+		"messages": [
+			"You swing your arms and break free!",
+			"<npcname> flaps free!"
+    },{
+        "type" : "technique",
+        "id" : "tec_crane_precise",
+        "name" : "Crane Strike",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "crit_tec": true,
+        "messages" : [
+            "You hand-peck %s",
+            "<npcname> hand-pecks %s"
+        ],
+        "stun_dur": 2
     }
 ]

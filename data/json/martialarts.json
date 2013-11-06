@@ -245,7 +245,6 @@
 		],
 		"techniques" : [
 		    "tec_crane_feint",
-			"tec_crane_block",
 			"tec_crane_break",
 			"tec_crane_precise"
 		]
