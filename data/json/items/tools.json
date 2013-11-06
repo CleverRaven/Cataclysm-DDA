@@ -5172,7 +5172,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "trench knife",
-    "description": "This is a stout combat knife features a steel guard to protect the user's knuckles, which can be used for striking or blocking. It can also be used to butcher corpses.",
+    "description": "This stout combat knife features a steel guard to protect the user's knuckles. The guard can also be used for striking or blocking, and the knife can also be used to butcher corpses.",
     "price": 110,
     "material": ["steel", "wood"],
     "techniques": ["STAB", "WBLOCK_1"],
