@@ -29,7 +29,7 @@
         "type" : "martial_art",
         "id" : "style_aikido",
         "name" : "Aikido",
-        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defense throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
+        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defensive throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
         "static_buffs" : [
             {
                 "id" : "aikido_half_damage",
@@ -198,5 +198,249 @@
             "tec_taekwondo_push",
             "tec_taekwondo_sweep"
         ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_zui_quan",
+        "name" : "Zui Quan",
+        "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  The turn after you successfully attack, you may dodge any number of attacks with no penalty.",
+        "onhit_buffs" : [
+            {
+                "id" : "zuiquan_hit_buff",
+                "name" : "Drunk Dodging",
+                "description" : "Unlimited dodges after successful hit",
+                "unarmed_allowed" : true,
+                "dodges_bonus" : 50
+            }
+        ],
+        "techniques" : [
+            "tec_zuiquan_feint",
+            "tec_zuiquan_counter"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_crane",
+        "name" : "Crane Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
+        "arm_block" : 3,
+        "static_buffs" : [
+            {
+                "id" : "crane_static",
+                "name" : "Crane Precision",
+		"description" : "Damage bonus from dexterity at the cost of damage from strength.",
+                "unarmed_allowed" : true,
+                "bash_str" : -0.2,
+                "bash_dex" : 0.8
+            }
+        ],
+        "onmove_buffs" : [
+                  {
+                      "id" : "crane_move_buff",
+                      "name" : "Crane Flight",
+                      "description" : "+2 Dodge",
+                      "unarmed_allowed" : true,
+                      "min_unarmed" : 2,
+                      "buff_duration" : 1,
+                      "dodge" : 2
+                  }
+        ],
+        "techniques" : [
+            "tec_crane_feint",
+            "tec_crane_block",
+            "tec_crane_break",
+            "tec_crane_precise"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_dragon",
+        "name" : "Dragon Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes. Intelligence improves your accuracy and damage dealt, as does moving.",
+        "arm_block" : 2,
+        "static_buffs" : [
+            {
+                "id" : "dragon_static",
+                "name" : "Dragon Intelligence",
+		"description" : "Bonus damage from intelligence.",
+                "unarmed_allowed" : true,
+                "bash_int" : 0.8
+            }
+        ],
+        "onmove_buffs" : [
+            {
+                "id" : "dragon_move_buff",
+                "name" : "Dragon Flight",
+                "description" : "+2 Acc/Dam",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 1,
+                "hit" : 2,
+                "bash" : 2
+                  }
+        ],
+        "techniques" : [
+            "tec_dragon_grab",
+            "tec_dragon_counter",
+            "tec_dragon_sweep",
+            "tec_dragon_brutal"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_leopard",
+        "name" : "Leopard Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Inteligence both boost accuracy, and moving further boosts your accuracy.",
+        "static_buffs" : [
+            {
+                "id" : "leopard_static",
+                "name" : "Leopard Strategy",
+		"description" : "Perception and intelligence provide a bonus to hit.",
+                "unarmed_allowed" : true,
+                "hit_per" : 0.2,
+                "hit_int" : 0.2
+            }
+        ],
+        "onmove_buffs" : [
+            {
+                "id" : "leopard_move_buff",
+                "name" : "Leopard Stalk",
+                "description" : "+2 Accuracy",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 1,
+                "hit" : 2
+            }
+        ],
+        "techniques" : [
+            "tec_leopard_rapid",
+            "tec_leopard_counter",
+            "tec_leopard_precise"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_tiger",
+        "name" : "Tiger Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
+        "static_buffs" : [
+            {
+                "id" : "tiger_static",
+                "name" : "Tiger Strength",
+		"description" : "Strength provides additional damage bonus.",
+                "unarmed_allowed" : true,
+                "hit_str" : 0.8
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "tiger_hit_buff",
+                "name" : "Tiger Fury",
+                "description" : "+3 Bash/atk",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 3,
+                "max_stacks" : 8,
+                "bash" : 3
+            }
+        ],
+        "techniques" : [
+            "tec_tiger_grab"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_snake",
+        "name" : "Snake Kung Fu",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception iproves yur accuracy and your damage.",
+        "static_buffs" : [
+            {
+                "id" : "snake_static",
+                "name" : "Snake Sight",
+		"description" : "Perception provides a bonus to hit.",
+                "unarmed_allowed" : true,
+                "hit_per" : 0.8
+            }
+        ],
+        "techniques" : [
+            "tec_snake_rapid",
+            "tec_snake_feint",
+            "tec_snake_break",
+            "tec_snake_precise"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_centipede",
+        "name" : "Centipede Kung Fu",
+        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land reduces the cost of attacking by 4.",
+        "arm_block" : 3,
+        "onhit_buffs" : [
+            {
+                "id" : "centipede_hit_buff",
+                "name" : "Hundred-Hitter",
+                "description" : "+4 Atk Speed",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 1,
+                "buff_duration" : 3,
+                "max_stacks" : 8,
+                "rapid" : 4
+            }
+        ],
+        "techniques" : [
+            "tec_centipede_rapid"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_scorpion",
+        "name" : "Scorpion Kung Fu",
+        "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits should do massive damage and knock your target back, and we'll fix that as soon as we can.",
+        "arm_block" : 3,
+        "static_buffs" : [
+            {
+                "id" : "scorpion_static",
+                "name" : "Scorpion Venom",
+		"description" : "Flat bonus to damage.",
+                "unarmed_allowed" : true,
+                "bash" : 2
+            }
+        ],
+        "techniques" : [
+            "tec_scorpion_precise",
+            "tec_scorpion_brutal"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_toad",
+        "name" : "Toad Kung Fu",
+        "description": "One of the Five Deadly Venoms.  Toad Style will be immensely powerful through its immunity to nearly any weapon, once we get the connection rebuilt.  Until then, best not meditate by pausing, though it used to give you armor proportional to your Intelligence and Perception.",
+        "arm_block" : 3,
+        "static_buffs" : [
+            {
+                "id" : "toad_static",
+                "name" : "Toad Armor",
+		"description" : "Perception and intelligence provide a bonus to block.",
+                "unarmed_allowed" : true,
+                "block_per" : 0.8,
+                "block_int" : 0.8
+            }
+        ],
+        "techniques" : [
+            "tec_toad_grab"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_lizard",
+        "name" : "Lizard Kung Fu",
+        "description": "One of the Five Deadly Venoms, and likely to be removed at the next save-compatibility breaker. Lizard Style docuses on using walls to your advantage.",
+        "arm_block" : 2,
+        "techniques" : [
+            "tec_lizard_counter"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_venom_snake",
+        "name" : "Viper Kung Fu",
+        "description": "One of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, ehich is supposed to initiate on a critical strike, then chain into piercing damage and a two-handed Viper Strike.",
+        "techniques" : [
+            "tec_venom_snake_rapid",
+            "tec_venom_snake_feint",
+            "tec_venom_snake_break"
+        ]
     }
 ]
+
+

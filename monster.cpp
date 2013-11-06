@@ -174,7 +174,7 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w, int vStart)
+void monster::print_info(game *g, WINDOW* w, int vStart, int vLines)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -183,7 +183,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart)
 // vStart added because 'help' text in targeting win makes helpful info hard to find
 // at a glance.
 
- const int vEnd = vStart + 5; // TODO: parameterize this
+ const int vEnd = vStart + vLines;
 
  mvwprintz(w, vStart, 1, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
@@ -304,6 +304,29 @@ bool monster::digging()
     return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
 }
 
+int monster::vision_range(int x, int y)
+{
+    int range = g->light_level();
+    // Set to max possible value if the target is lit brightly
+    if (g->m.light_at(x, y) >= LL_LOW)
+        range = DAYLIGHT_LEVEL;
+
+    if(has_flag(MF_VIS10)) {
+        range -= 50;
+    } else if(has_flag(MF_VIS20)) {
+        range -= 40;
+    } else if(has_flag(MF_VIS30)) {
+        range -= 30;
+    } else if(has_flag(MF_VIS40)) {
+        range -= 20;
+    } else if(has_flag(MF_VIS50)) {
+        range -= 10;
+    }
+    range = std::max(range, 1);
+
+    return range;
+}
+
 bool monster::made_of(std::string m)
 {
  if (type->mat == m)
@@ -368,6 +391,15 @@ void monster::shift(int sx, int sy)
   plans[i].x -= sx * SEEX;
   plans[i].y -= sy * SEEY;
  }
+}
+
+point monster::move_target()
+{
+    if (plans.empty()) {
+        // if we have no plans, pretend it's intentional
+        return point(_posx, _posy);
+    }
+    return point(plans.back().x, plans.back().y);
 }
 
 bool monster::is_fleeing(player &u)
@@ -614,7 +646,6 @@ bool monster::hurt(int dam, int real_dam)
      hp = std::max( hp, -real_dam );
  }
  if (hp < 1) {
-     die(g);
      return true;
  }
  if (dam > 0) {
@@ -678,10 +709,8 @@ int monster::fall_damage()
 
 void monster::die(game *g)
 {
- if (dead) {
-  return;
- }
- dead = true;
+ if (!dead)
+  dead = true;
  if (!no_extra_death_drops) {
   drop_items_on_death(g);
  }

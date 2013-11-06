@@ -10,7 +10,8 @@ import os
 
 # some .json files have no translatable strings. ignore them.
 ignore = ["item_groups.json", "monstergroups.json", "recipes.json",
-          "sokoban.txt", "colors.json", "species.json"]
+          "sokoban.txt", "colors.json", "species.json",
+          "halloween_special.json"]
 
 # keep a list of the files that have been extracted
 extracted = []

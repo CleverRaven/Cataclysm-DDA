@@ -3243,7 +3243,7 @@ int iuse::pipebomb_act(game *g, player *p, item *it, bool t)
    g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
   }
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::grenade(game *g, player *p, item *it, bool t)
@@ -3266,7 +3266,7 @@ int iuse::grenade_act(game *g, player *p, item *it, bool t)
     } else { // When that timer runs down...
         g->explosion(pos.x, pos.y, 12, 28, false);
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::granade(game *g, player *p, item *it, bool t)
@@ -3443,7 +3443,7 @@ int iuse::c4armed(game *g, player *p, item *it, bool t)
  } else { // When that timer runs down...
   g->explosion(pos.x, pos.y, 40, 3, false);
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::EMPbomb(game *g, player *p, item *it, bool t)
@@ -3470,7 +3470,7 @@ int iuse::EMPbomb_act(game *g, player *p, item *it, bool t)
     g->emp_blast(x, y);
   }
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::scrambler(game *g, player *p, item *it, bool t)
@@ -3497,7 +3497,7 @@ int iuse::scrambler_act(game *g, player *p, item *it, bool t)
     g->scrambler_blast(x, y);
   }
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::gasbomb(game *g, player *p, item *it, bool t)
@@ -3531,7 +3531,7 @@ int iuse::gasbomb_act(game *g, player *p, item *it, bool t)
  } else {
   it->make(g->itypes["canister_empty"]);
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::smokebomb(game *g, player *p, item *it, bool t)
@@ -3565,7 +3565,7 @@ int iuse::smokebomb_act(game *g, player *p, item *it, bool t)
  } else {
   it->make(g->itypes["canister_empty"]);
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::acidbomb(game *g, player *p, item *it, bool t)
@@ -3591,7 +3591,7 @@ int iuse::acidbomb_act(game *g, player *p, item *it, bool t)
     g->m.add_field(g, x, y, fd_acid, 3);
   }
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::arrow_flamable(game *g, player *p, item *it, bool t)
@@ -3638,7 +3638,7 @@ int iuse::molotov_lit(game *g, player *p, item *it, bool t)
             g->explosion(pos.x, pos.y, 8, 0, true);
         }
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::dynamite(game *g, player *p, item *it, bool t)
@@ -3665,7 +3665,7 @@ int iuse::dynamite_act(game *g, player *p, item *it, bool t)
     } else {
         g->explosion(pos.x, pos.y, 60, 0, false);
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::matchbomb(game *g, player *p, item *it, bool t) {
@@ -3688,7 +3688,7 @@ int iuse::matchbomb_act(game *g, player *p, item *it, bool t) {
     if (t) { g->sound(pos.x, pos.y, 0, _("ssss..."));
      // When that timer runs down...
     } else { g->explosion(pos.x, pos.y, 24, 0, false); }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::firecracker_pack(game *g, player *p, item *it, bool t)
@@ -3783,7 +3783,7 @@ int iuse::firecracker_pack_act(game *g, player *p, item *it, bool t)
   }
   it->charges -= ex;
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::firecracker(game *g, player *p, item *it, bool t)
@@ -3811,7 +3811,7 @@ int iuse::firecracker_act(game *g, player *p, item *it, bool t)
  } else {  // When that timer runs down...
   g->sound(pos.x, pos.y, 20, _("Bang!"));
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::mininuke(game *g, player *p, item *it, bool t)
@@ -3845,7 +3845,7 @@ int iuse::mininuke_act(game *g, player *p, item *it, bool t)
    }
   }
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::pheromone(game *g, player *p, item *it, bool t)
@@ -5255,7 +5255,7 @@ int iuse::rag(game *g, player *p, item *it, bool t)
             p->use_charges("rag", 1);
             it->make(g->itypes["rag_bloody"]);
         }
-        return it->type->charges_to_use();
+        return 0;
     } else {
         g->add_msg_if_player(p,_("You're not bleeding enough to need your %s."),
                              it->type->name.c_str());

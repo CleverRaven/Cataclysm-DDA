@@ -26,7 +26,7 @@
         "id" : "photo_album",
         "name" : "photo album",
         "max_level" : 0,
-        "description" : "An leather album full of photos of somebody's family. You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
+        "description" : "A leather album full of photos of somebody's family. You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
         "weight" : 180,
         "to_hit" : 1,
         "color" : "brown",
@@ -2087,7 +2087,7 @@
         "cutting" : 0,
         "time" : 20,
         "fun" : 0,
-        "skill" : "survial",
+        "skill" : "survival",
         "price" : 400,
         "required_level" : 0
     },

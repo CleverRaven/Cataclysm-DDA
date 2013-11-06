@@ -577,6 +577,7 @@
         "material" : ["steel", "null"],
         "volume" : 3,
         "cutting" : 18,
+        "flags" : ["CHOP"],
         "recoil_modifier" : 7,
         "damage_modifier" : 0,
         "mod_targets" : ["shotgun", "rifle"],

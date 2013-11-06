@@ -36,7 +36,7 @@ struct vpart_info
 
     int z_order;        // z-ordering, inferred from location, cached here
 
-    bool has_flag(const std::string flag) {
+    bool has_flag(const std::string flag) const {
         return flags.count(flag) != 0;
     }
 };

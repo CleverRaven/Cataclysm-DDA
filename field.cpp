@@ -812,7 +812,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 }
                                 if (!valid.empty()) {
                                     point newp = valid[rng(0, valid.size() - 1)];
-                                    add_item(newp.x, newp.y, tmp);
+                                    add_item_or_charges(newp.x, newp.y, tmp);
                                     if (g->u.posx == newp.x && g->u.posy == newp.y) {
                                         g->add_msg(_("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
@@ -1427,6 +1427,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     }
     if (dam > 0) {
         z->hurt(dam);
+        if(z->hp < 1) {
+          z->die(g);
+        }
     }
 }
 

@@ -534,6 +534,8 @@
       ["bondage_suit", 5],
       ["bondage_mask", 5],
       ["flask_hip", 5],
+      ["tux", 1],
+      ["dress_wedding", 1],
       ["corset", 15]
     ]
   },{
@@ -672,6 +674,8 @@
       ["socks_wool", 30],
       ["pocketwatch", 5],
       ["flask_hip", 2],
+      ["tux", 1],
+      ["dress_wedding", 1],
       ["wristwatch", 15]
     ]
   },{
@@ -2005,6 +2009,8 @@
       ["pants_army", 10],
       ["jacket_army", 10],
       ["army_top", 20],
+      ["tux", 1],
+      ["dress_wedding", 1],
       ["jersey", 40]
     ]
   },{

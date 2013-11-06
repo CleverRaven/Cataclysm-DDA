@@ -2265,7 +2265,18 @@
         ],
         "items": [
             {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
-            {"x": -1, "y": 0, "chance": 10, "items": ["flashlight", "1st_aid"]}
+            {"x": -1, "y": 0, "chance": 8, "items": "1st_aid"},
+            {"x": -1, "y": 0, "chance": 12, "items": "extinguisher"},
+            {"x": -1, "y": 0, "chance": 1, "items": "GUITAR"},
+            {"x": -4, "y": 1, "chance": 4, "items": ["hose", "flashlight"]},
+            {"x": -4, "y": -1, "chance": 8, "items": "flashlight"},
+            {"x": -4, "y": -1, "chance": 4, "items": "hammer_sledge"},
+            {"x": -5, "y": 1, "chance": 2, "items": "chainsaw_off"},
+            {"x": -5, "y": 1, "chance": 8, "items": "ax"},
+            {"x": -5, "y": -1, "chance": 5, "items": "shovel"},
+            {"x": -5, "y": -1, "chance": 5, "items": "crowbar"},
+            {"x": -6, "y": 1, "chance": 5, "items": ["hazmat_suit", "mask_gas"]},
+            {"x": -6, "y": -1, "chance": 5, "items": ["hazmat_suit", "mask_gas"]}
         ]
     }
 ]

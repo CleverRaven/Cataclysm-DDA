@@ -772,7 +772,7 @@ void show_options()
         }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
-    used_tiles_changed = (OPTIONS_OLD["TILES"] != OPTIONS["TILES"]) || (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
+    used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) || (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
 
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {

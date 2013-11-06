@@ -1668,7 +1668,7 @@ void npc::heal_player(game *g, player &patient)
   move_to_next(g);
  } else { // Close enough to heal!
   int lowest_HP = 400;
-  hp_part worst;
+  hp_part worst = hp_head;
 // Chose the worst-hurting body part
   for (int i = 0; i < num_hp_parts; i++) {
    int hp = patient.hp_cur[i];
@@ -1733,7 +1733,7 @@ void npc::heal_player(game *g, player &patient)
 void npc::heal_self(game *g)
 {
  int lowest_HP = 400;
- hp_part worst;
+ hp_part worst = hp_head;
 // Chose the worst-hurting body part
  for (int i = 0; i < num_hp_parts; i++) {
   int hp = hp_cur[i];

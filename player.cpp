@@ -3446,6 +3446,9 @@ int player::throw_range(signed char ch)
   return -1;
  else
   tmp = inv.item_by_letter(ch);
+ 
+ if (tmp.count_by_charges() && tmp.charges > 1)
+  tmp.charges = 1;
 
  if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
@@ -4453,7 +4456,7 @@ void player::suffer(game *g)
         {
             // Starts at 1 in 25, goes down by 5 for every 50% more carried
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
-                g->add_msg_if_player(this,"Your body strains under the weight!");
+                g->add_msg_if_player(this, _("Your body strains under the weight!"));
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
                 if ( (weight_carried() - weight_capacity()) / 800 > pain && pain < 100) {
                     pain += 1;
@@ -7631,7 +7634,7 @@ void player::use(game *g, char let)
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
-            g->add_msg(_("You need to be at least level 1 in the firearms skill before you\
+            g->add_msg(_("You need to be at least level 1 in the marksmanship skill before you\
  can modify guns."));
             return;
         }
