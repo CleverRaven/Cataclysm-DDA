@@ -5910,5 +5910,27 @@
         "warmth" : 0,
         "enviromental_protection" : 0,
         "phase" : "solid"
+    {
+        "type" : "ARMOR",
+        "id" : "gobag",
+        "name" : "go bag",
+        "weight" : 18043,
+        "color" : "green",
+        "covers" : ["TORSO", "ARMS"],
+        "to_hit" : -5,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.",
+        "price" : 1000,
+        "material" : ["cotton", "plastic"],
+        "volume" : 143,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 4,
+        "bashing" : -1,
+        "coverage" : 50,
+        "material_thickness" : 3
     }
 ]
