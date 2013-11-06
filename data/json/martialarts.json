@@ -221,6 +221,7 @@
 		"id" : "style_crane",
 		"name" : "Crane Kung Fu",
 		"description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
+		"arm_block" : 3,
 		"static_buffs" : [
 		    {
 			    "id" : "crane_static",
@@ -253,6 +254,7 @@
 		"id" : "style_dragon",
 		"name" : "Dragon Kung Fu",
 		"description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes. Intelligence improves your accuracy and damage dealt, as does moving.",
+		"arm_block" : 2,
 		"static_buffs" : [
 		    {
 			    "id" : "dragon_static",
@@ -275,7 +277,6 @@
             }
 		],
 		"techniques" : [
-		    "tec_dragon_block",
 			"tec_dragon_grab",
 			"tec_dragon_counter",
 			"tec_dragon_sweep",
@@ -360,6 +361,28 @@
 			"tec_snake_feint",
 			"tec_snake_break",
 			"tec_snake_precise"
+		]
+	},{
+		"type" : "martial_art",
+		"id" : "style_centipede",
+		"name" : "Centipede Kung Fu",
+		"description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land reduces the cost of attacking by 4.",
+		"arm_block" : 3,
+				
+		"onhit_buffs" : [
+            {
+                "id" : "centipede_hit_buff",
+                "name" : "Hundred-Hitter",
+                "description" : "+4 Atk Speed",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 1,
+                "buff_duration" : 3,
+				"max_stacks" : 8,
+                "rapid" : 4
+            }
+		],
+		"techniques" : [
+		    "tec_centipede_rapid"
 		]
 	},
 ]
