@@ -851,6 +851,12 @@ int iuse::blech(game *g, player *p, item *it, bool t) {
     return it->type->charges_to_use();
 }
 
+int iuse::chew(game *g, player *p, item *it, bool t) {
+    // TODO: Add more effects?
+    g->add_msg_if_player(p,_("You chew your %s."), it->tname().c_str());
+    return it->type->charges_to_use();
+}
+
 int iuse::mutagen(game *g, player *p, item *it, bool t) {
     if(!p->is_npc()) {
       p->add_memorial_log(_("Consumed mutagen."));
