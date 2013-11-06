@@ -27,7 +27,6 @@
 #include <math.h>
 #include <vector>
 #include "debug.h"
-#include "artifactdata.h"
 #include "weather.h"
 
 #include "savegame.h"

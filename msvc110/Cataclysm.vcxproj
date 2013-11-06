@@ -960,7 +960,6 @@
     <ClInclude Include="..\addiction.h" />
     <ClInclude Include="..\advanced_inv.h" />
     <ClInclude Include="..\artifact.h" />
-    <ClInclude Include="..\artifactdata.h" />
     <ClInclude Include="..\auto_pickup.h" />
     <ClInclude Include="..\basecamp.h" />
     <ClInclude Include="..\bionics.h" />

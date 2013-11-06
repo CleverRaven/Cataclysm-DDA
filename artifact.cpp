@@ -2,7 +2,6 @@
 #include <vector>
 #include "game.h"
 #include "artifact.h"
-#include "artifactdata.h"
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
