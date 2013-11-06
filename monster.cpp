@@ -304,6 +304,29 @@ bool monster::digging()
     return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
 }
 
+int monster::vision_range(int x, int y)
+{
+    int range = g->light_level();
+    // Set to max possible value if the target is lit brightly
+    if (g->m.light_at(x, y) >= LL_LOW)
+        range = DAYLIGHT_LEVEL;
+
+    if(has_flag(MF_VIS10)) {
+        range -= 50;
+    } else if(has_flag(MF_VIS20)) {
+        range -= 40;
+    } else if(has_flag(MF_VIS30)) {
+        range -= 30;
+    } else if(has_flag(MF_VIS40)) {
+        range -= 20;
+    } else if(has_flag(MF_VIS50)) {
+        range -= 10;
+    }
+    range = std::max(range, 1);
+
+    return range;
+}
+
 bool monster::made_of(std::string m)
 {
  if (type->mat == m)

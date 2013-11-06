@@ -1957,7 +1957,7 @@ bool map::hit_with_fire(game *g, const int x, const int y)
 
 bool map::marlossify(const int x, const int y)
 {
-    if (one_in(5) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))) {
+    if (one_in(25) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))) {
         ter_set(x, y, t_marloss);
         return true;
     }
