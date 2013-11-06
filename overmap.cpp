@@ -1075,9 +1075,6 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
 }
 
 
-/*
- * fixme; 
- */
 bool overmap::generate_sub(int const z)
 {
     bool requires_sub = false;
@@ -1107,39 +1104,39 @@ bool overmap::generate_sub(int const z)
     std::vector<point> hotel_tower_2_points;
     std::vector<point> hotel_tower_3_points;
 
-    const oter_id skip_above[5] = { // These are so common that it's worth checking first as int.
-        oter_id("rock"), oter_id("forest"), oter_id("field"), oter_id("forest_thick"), oter_id("forest_water")
+    // These are so common that it's worth checking first as int.
+    const oter_id skip_above[5] = {
+        oter_id("rock"), oter_id("forest"), oter_id("field"),
+        oter_id("forest_thick"), oter_id("forest_water")
     };
 
     for (int i = 0; i < OMAPX; i++) {
         for (int j = 0; j < OMAPY; j++) {
-          oter_id oter = ter(i, j, z);
-          oter_id oter_up = ter(i, j, z + 1);
+            oter_id oter_above = ter(i, j, z + 1);
 
-          // implicitly skip skip_above oter_ids
-          bool skipme = false;
-          for(int si=0; si < 5; si++) {
-             if(oter_up == skip_above[si]) {
-                skipme = true;
-             }
-          }
-          if ( skipme ) {
-             continue;
-          }
+            // implicitly skip skip_above oter_ids
+            bool skipme = false;
+            for (int si=0; si < 5; si++) {
+                if (oter_above == skip_above[si]) {
+                    skipme = true;
+                }
+            }
+            if (skipme) {
+                continue;
+            }
 
-          if (is_ot_type("house_base", oter_up)) {
-              ter(i, j, z) = "basement";
-          } else if (is_ot_type("sub_station", oter_up)) {
-              ter(i, j, z) = "subway_nesw";
-              subway_points.push_back(city(i, j, 0));
-          } else if (is_ot_type("prison", oter_up) &&
-                     oter_up != "prison_2") {
-              prison_points.push_back( point(i, j) );
-          } else {
+            if (is_ot_type("house_base", oter_above)) {
+                ter(i, j, z) = "basement";
+            } else if (is_ot_type("sub_station", oter_above)) {
+                ter(i, j, z) = "subway_nesw";
+                subway_points.push_back(city(i, j, 0));
+            } else if (is_ot_type("prison", oter_above) &&
+                       oter_above != "prison_2") {
+                prison_points.push_back( point(i, j) );
 
-            std::string oter_above = ter(i, j, z + 1);
-
-            if (oter_above == "road_nesw_manhole") {
+            } else if (oter_above == "prison_2") {
+                prison_entrance_points.push_back( point(i, j) );
+            } else if (oter_above == "road_nesw_manhole") {
                 ter(i, j, z) = "sewer_nesw";
                 sewer_points.push_back(city(i, j, 0));
             } else if (oter_above == "sewage_treatment") {
@@ -1221,8 +1218,6 @@ bool overmap::generate_sub(int const z)
                 office_entrance_points.push_back( point(i, j) );
             } else if (oter_above == "office_tower_1") {
                 office_points.push_back( point(i, j) );
-            } else if (oter_above == "prison_2") {
-                prison_entrance_points.push_back( point(i, j) );
             } else if (oter_above == "haz_sar_entrance") {
                 haz_sar_entrance_points.push_back( point(i, j) );
             } else if (oter_above == "haz_sar") {
@@ -1238,7 +1233,6 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "hotel_tower_1_9") {
                 hotel_tower_3_points.push_back( point(i, j) );
             }
-          }
         }
     }
 
