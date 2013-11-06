@@ -1209,18 +1209,12 @@ void complete_vehicle (game *g)
             if (used_item.typeId() == "metal_tank")
             {
               item *cont = &(g->u.i_add(used_item));
-              it_container *container = dynamic_cast<it_container *>(cont->type);
-              int container_capacity = container->contains;
 
               ammotype desired_liquid = veh->part_info(vehicle_part).fuel_type;
               item liquid( g->itypes[default_ammo(desired_liquid)], g->turn );
-              if (liquid.is_ammo())
-              {
-                it_ammo* ammo = dynamic_cast<it_ammo *>(liquid.type);
-                container_capacity *= ammo->count;
-              }
-              int liquid_amount = veh->drain( desired_liquid, container_capacity);
-              liquid.charges = liquid_amount;
+
+              liquid.charges = veh->parts[vehicle_part].amount;
+              veh->parts[vehicle_part].amount = 0;
 
               cont->put_in(liquid);
             } else {
