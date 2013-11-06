@@ -1929,7 +1929,7 @@
     "special_freq":4,
     "death_function":"ZOMBIE",
     "special_attack":"RESURRECT",
-    "description":"A twisted mockery of the human form, emaciated, with jet black skin andg lowing red eyes. It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
+    "description":"A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes. It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
@@ -2047,7 +2047,7 @@
     "special_freq":3,
     "death_function":"ZOMBIE",
     "special_attack":"UPGRADE",
-    "description":"Once human, it's features have tightened, it's lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath it's large, piercing eyes. It stands tall, it's movements are fluid and tightly controlled. A feeling of danger permeates the air around it, and the light that falls on it somehow harsher and more glaring.",
+    "description":"Once human, its features have tightened, its lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath its large, piercing eyes. It stands tall, its movements are fluid and tightly controlled. A feeling of danger permeates the air around it, and the light that falls on it somehow harsher and more glaring.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
