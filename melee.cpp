@@ -937,8 +937,8 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 bool player::can_weapon_block()
 {
 	return (weapon.has_technique("WBLOCK_1", this) ||
-			weapon.has_technique("WBLOCK_2", this) ||
-			weapon.has_technique("WBLOCK_3", this))
+         weapon.has_technique("WBLOCK_2", this) ||
+         weapon.has_technique("WBLOCK_3", this));
 }
 
 bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
@@ -948,7 +948,7 @@ bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &s
     if (blocks_left <= 0) return false;
 
     // if weapon, then extra reduction
-    if (!unarmed_attack() && can_weapon_block()) {
+    if (!unarmed_attack() && (can_arm_block() || can_weapon_block())) {
         float mult = 1.0f;
         if (weapon.has_technique("WBLOCK_1",this)) {
             mult = 0.4;
