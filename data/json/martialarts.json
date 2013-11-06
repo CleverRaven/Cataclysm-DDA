@@ -214,7 +214,7 @@
 		],
 		"techniques" : [
 		    "tec_zuiquan_feint",
-			"tec_zuiquan_counter"
+			"tec_counter"
 		]
 	    },{
 		"type" : "martial_art",
@@ -278,7 +278,7 @@
 		],
 		"techniques" : [
 			"tec_dragon_grab",
-			"tec_dragon_counter",
+			"tec_counter",
 			"tec_dragon_sweep",
 			"tec_dragon_brutal"
 		]
@@ -310,7 +310,7 @@
 		],
 		"techniques" : [
 		    "tec_leopard_rapid",
-			"tec_leopard_counter",
+			"tec_counter",
 			"tec_leopard_precise"
 		]
 	},{
@@ -430,7 +430,7 @@
 		"arm_block" : 2,
 
 		"techniques" : [
-			"tec_lizard_counter"
+			"tec_counter"
 		]
 	},{
 		"type" : "martial_art",
