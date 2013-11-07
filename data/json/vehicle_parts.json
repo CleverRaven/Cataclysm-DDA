@@ -30,8 +30,10 @@
             "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
         ],
         "breaks_into": [
-            {"item": "leather", "min": 1, "max": 3},
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "leather", "min": 1, "max": 5},
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
         ]
     },{
         "type" : "vehicle_part",
@@ -51,7 +53,7 @@
         ],
         "breaks_into": [
             {"item": "leather", "min": 0, "max": 1},
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -71,8 +73,10 @@
             "BED", "BOARDABLE", "CARGO"
         ],
         "breaks_into": [
-            {"item": "leather", "min": 1, "max": 2},
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "leather", "min": 1, "max": 5},
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
         ]
     },{
         "type" : "vehicle_part",
@@ -88,7 +92,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -104,7 +110,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -120,7 +128,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -136,7 +146,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -168,7 +180,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -184,7 +198,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -200,7 +216,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -216,7 +234,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -232,7 +252,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -248,7 +270,9 @@
         "location": "structure",
         "flags": [],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -264,8 +288,9 @@
         "location": "center",
         "flags": ["OPAQUE", "OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "sheet_metal", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -281,8 +306,9 @@
         "location": "center",
         "flags": ["OPAQUE", "OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "sheet_metal", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -298,8 +324,9 @@
         "location": "center",
         "flags": ["OPAQUE", "OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "sheet_metal", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -315,8 +342,9 @@
         "location": "center",
         "flags": ["OPAQUE", "OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "sheet_metal", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -332,8 +360,9 @@
         "location": "center",
         "flags": ["OPAQUE", "OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "sheet_metal", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -349,8 +378,9 @@
         "location": "center",
         "flags": ["OPAQUE", "OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "sheet_metal", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -366,8 +396,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -383,8 +414,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -400,8 +432,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -417,8 +450,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -434,8 +468,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -451,8 +486,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -468,8 +504,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -485,8 +522,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -502,8 +540,9 @@
         "location": "center",
         "flags": ["OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -519,7 +558,9 @@
         "location": "center",
         "flags": ["AISLE", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -535,7 +576,9 @@
         "location": "center",
         "flags": ["AISLE", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -552,7 +595,9 @@
         "location": "center",
         "flags": ["AISLE", "BOARDABLE", "CARGO"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -568,7 +613,9 @@
         "location": "roof",
         "flags": ["ROOF"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -585,7 +632,9 @@
         "location": "center",
         "flags": ["OBSTACLE", "OPENABLE", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -602,7 +651,9 @@
         "location": "center",
         "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -619,7 +670,9 @@
         "location": "center",
         "flags": ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -697,7 +750,9 @@
         "location": "under",
         "flags": ["WHEEL", "VARIABLE_SIZE"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -715,7 +770,9 @@
         "location": "under",
         "flags": ["WHEEL", "VARIABLE_SIZE"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 2, "max": 3},
+            {"item": "steel_chunk", "min": 2, "max": 3},
+            {"item": "scrap", "min": 2, "max": 3}
         ]
     },{
         "type" : "vehicle_part",
@@ -733,7 +790,9 @@
         "location": "under",
         "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 0, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -751,7 +810,9 @@
         "location": "under",
         "flags": ["WHEEL", "VARIABLE_SIZE"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 0, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -769,7 +830,9 @@
         "location": "under",
         "flags": ["WHEEL", "VARIABLE_SIZE"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 1, "max": 3},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "scrap", "min": 1, "max": 3}
         ]
     },{
         "type" : "vehicle_part",
@@ -786,7 +849,11 @@
         "difficulty": 2,
         "location": "under",
         "flags": ["WHEEL", "VARIABLE_SIZE"],
-        "breaks_into": []
+        "breaks_into": [
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "scrap", "min": 1, "max": 3}
+        ]
     },{
         "type" : "vehicle_part",
         "id" : "wheel_caster",
@@ -802,7 +869,10 @@
         "difficulty": 1,
         "location": "under",
         "flags": ["WHEEL", "STABLE", "VARIABLE_SIZE"],
-        "breaks_into": []
+        "breaks_into": [
+            {"item": "steel_lump", "min": 0, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}]
     },{
         "type" : "vehicle_part",
         "id" : "engine_1cyl",
@@ -820,8 +890,9 @@
         "location": "engine_block",
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "steel_chunk", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 5, "max": 10},
+            {"item": "steel_chunk", "min": 5, "max": 10},
+            {"item": "scrap", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -840,8 +911,9 @@
         "location": "engine_block",
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "steel_chunk", "min": 1, "max": 1}
+            {"item": "steel_lump", "min": 10, "max": 20},
+            {"item": "steel_chunk", "min": 10, "max": 20},
+            {"item": "scrap", "min": 10, "max": 20}
         ]
     },{
         "type" : "vehicle_part",
@@ -859,8 +931,9 @@
         "location": "engine_block",
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
         "breaks_into": [
-            {"item": "scrap", "min": 2, "max": 5},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 20, "max": 30},
+            {"item": "steel_chunk", "min": 20, "max": 30},
+            {"item": "scrap", "min": 20, "max": 30}
         ]
     },{
         "type" : "vehicle_part",
@@ -879,8 +952,9 @@
         "location": "engine_block",
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
         "breaks_into": [
-            {"item": "scrap", "min": 2, "max": 6},
-            {"item": "steel_chunk", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
         ]
     },{
         "type" : "vehicle_part",
@@ -899,8 +973,9 @@
         "location": "engine_block",
         "flags": ["ENGINE", "VARIABLE_SIZE", "ALTERNATOR"],
         "breaks_into": [
-            {"item": "scrap", "min": 3, "max": 7},
-            {"item": "steel_chunk", "min": 2, "max": 4}
+            {"item": "steel_lump", "min": 40, "max": 50},
+            {"item": "steel_chunk", "min": 40, "max": 50},
+            {"item": "scrap", "min": 40, "max": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -919,8 +994,9 @@
         "location": "engine_block",
         "flags": ["ENGINE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "steel_chunk", "min": 1, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
         ]
     },{
         "type" : "vehicle_part",
@@ -939,8 +1015,9 @@
         "location": "engine_block",
         "flags": ["ENGINE"],
         "breaks_into": [
-            {"item": "scrap", "min": 2, "max": 5},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
         ]
     },{
         "type" : "vehicle_part",
@@ -959,8 +1036,9 @@
         "location": "engine_block",
         "flags": ["ENGINE", "ALTERNATOR"],
         "breaks_into": [
-            {"item": "scrap", "min": 3, "max": 6},
-            {"item": "steel_chunk", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 10, "max": 15},
+            {"item": "steel_chunk", "min": 10, "max": 15},
+            {"item": "scrap", "min": 10, "max": 15}
         ]
     },{
         "type" : "vehicle_part",
@@ -979,7 +1057,8 @@
         "location": "engine_block",
         "flags": ["ENGINE"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 0, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -998,7 +1077,9 @@
         "location": "fuel_source",
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -1017,7 +1098,7 @@
         "location": "fuel_source",
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -1036,7 +1117,9 @@
         "location": "fuel_source",
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 5, "max": 10},
+            {"item": "steel_chunk", "min": 5, "max": 10},
+            {"item": "scrap", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -1055,8 +1138,9 @@
         "location": "fuel_source",
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 2, "max": 5},
-            {"item": "steel_chunk", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 6, "max": 11},
+            {"item": "steel_chunk", "min": 6, "max": 11},
+            {"item": "scrap", "min": 6, "max": 11}
         ]
     },{
         "type" : "vehicle_part",
@@ -1075,7 +1159,9 @@
         "location": "fuel_source",
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -1094,7 +1180,9 @@
         "location": "fuel_source",
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -1112,8 +1200,9 @@
         "location": "center",
         "flags": ["CARGO", "OBSTACLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 2, "max": 6},
-            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "steel_lump", "min": 8, "max": 13},
+            {"item": "steel_chunk", "min": 8, "max": 13},
+            {"item": "scrap", "min": 8, "max": 13},
             {"item": "hose", "min": 0, "max": 1}
         ]
     },{
@@ -1132,7 +1221,9 @@
         "location": "center",
         "flags": ["CARGO"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1150,7 +1241,9 @@
         "location": "center",
         "flags": ["CARGO", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1166,7 +1259,9 @@
         "difficulty": 3,
         "flags": ["CONTROLS"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 3},
+            {"item": "scrap", "min": 1, "max": 3}
         ]
     },{
         "type" : "vehicle_part",
@@ -1183,7 +1278,9 @@
         "difficulty": 2,
         "flags": ["MUFFLER"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
         ]
     },{
         "type" : "vehicle_part",
@@ -1201,7 +1298,7 @@
         "location": "on_seat",
         "flags": ["SEATBELT"],
         "breaks_into": [
-            {"item": "string_36", "min": 0, "max": 2}
+            {"item": "string_36", "min": 0, "max": 3}
         ]
     },{
         "type" : "vehicle_part",
@@ -1219,7 +1316,9 @@
         "location": "on_roof",
         "flags": ["SOLAR_PANEL"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 2, "max": 4},
+            {"item": "steel_chunk", "min": 2, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
         ]
     },{
         "type" : "vehicle_part",
@@ -1237,7 +1336,9 @@
         "location": "on_roof",
         "flags": ["SOLAR_PANEL"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4}
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7}
         ]
     },{
         "type" : "vehicle_part",
@@ -1255,8 +1356,9 @@
         "location": "center",
         "flags": ["CARGO", "OBSTACLE", "KITCHEN"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40},
             {"item": "pan", "min": 0, "max": 1},
             {"item": "pot", "min": 0, "max": 1}
         ]
@@ -1276,8 +1378,9 @@
         "location": "center",
         "flags": ["CARGO", "OBSTACLE", "WELDRIG"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "steel_lump", "min": 3, "max": 6},
+            {"item": "steel_chunk", "min": 3, "max": 6},
+            {"item": "scrap", "min": 3, "max": 6},
             {"item": "welder", "min": 0, "max": 1}
         ]
     },{
@@ -1296,8 +1399,9 @@
         "location": "center",
         "flags": ["CARGO", "OBSTACLE", "CRAFTRIG"],
         "breaks_into": [
-            {"item": "scrap", "min": 2, "max": 5},
-            {"item": "steel_chunk", "min": 0, "max": 3},
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7},
             {"item": "pan", "min": 0, "max": 1},
             {"item": "pot", "min": 0, "max": 1},
             {"item": "water_purifier", "min": 0, "max": 1},
@@ -1320,8 +1424,9 @@
         "location": "center",
         "flags": ["OBSTACLE", "FORGE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "steel_chunk", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 4, "max": 5},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1411,8 +1516,9 @@
         "location": "armor",
         "flags": ["ARMOR"],
         "breaks_into": [
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "sheet_metal", "min": 0, "max": 2}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1428,7 +1534,9 @@
         "location": "armor",
         "flags": ["ARMOR"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1445,7 +1553,9 @@
         "location": "armor",
         "flags": ["ARMOR", "SHARP"],
         "breaks_into": [
-            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6},
             {"item": "spike", "min": 0, "max": 2}
         ]
     },{
@@ -1462,8 +1572,9 @@
         "location": "armor",
         "flags": ["ARMOR"],
         "breaks_into": [
-            {"item": "steel_chunk", "min": 1, "max": 3},
-            {"item": "sheet_metal", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1481,7 +1592,7 @@
         "difficulty": 1,
         "flags": ["CONE_LIGHT"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "scrap", "min": 0, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -1530,7 +1641,7 @@
         "difficulty": 3,
         "flags": ["HORN"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "scrap", "min": 0, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -1547,7 +1658,7 @@
         "difficulty": 3,
         "flags": ["HORN"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_chunk", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -1565,7 +1676,9 @@
         "difficulty": 2,
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7}
         ]
     },{
         "type" : "vehicle_part",
@@ -1583,7 +1696,9 @@
         "difficulty": 2,
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "steel_lump", "min": 6, "max": 9},
+            {"item": "steel_chunk", "min": 6, "max": 9},
+            {"item": "scrap", "min": 6, "max": 9}
         ]
     },{
         "type" : "vehicle_part",
@@ -1601,7 +1716,9 @@
         "difficulty": 2,
         "flags": ["FUEL_TANK"],
         "breaks_into": [
-            {"item": "scrap", "min": 2, "max": 3}
+            {"item": "steel_lump", "min": 8, "max": 12},
+            {"item": "steel_chunk", "min": 8, "max": 12},
+            {"item": "scrap", "min": 8, "max": 12}
         ]
     },{
         "type" : "vehicle_part",
@@ -1618,7 +1735,9 @@
         "location": "center",
         "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1635,7 +1754,9 @@
         "location": "center",
         "flags": ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1652,7 +1773,9 @@
         "location": "center",
         "flags": ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
         "breaks_into": [
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -1671,7 +1794,8 @@
         "location": "on_roof",
         "flags": ["CIRCLE_LIGHT", "ODDTURN"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_chunk", "min": 0, "max": 1},
+            {"item": "scrap", "min": 1, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -1690,7 +1814,8 @@
         "location": "on_roof",
         "flags": ["CIRCLE_LIGHT", "EVENTURN"],
         "breaks_into": [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "steel_chunk", "min": 0, "max": 1},
+            {"item": "scrap", "min": 1, "max": 1}
         ]
     }
 ]
