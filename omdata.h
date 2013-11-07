@@ -74,6 +74,8 @@ struct oter_id {
    // in order to map
    operator oter_t() const;
 
+const oter_t & t() const;
+
    // set and compare by string
    const int& operator=(const int& i);
    bool operator!=(const char * v) const;

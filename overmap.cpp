@@ -202,7 +202,8 @@ bool is_river(const oter_id &ter)
     // if the id starts with "river" or "bridge", count as a river, but this
     // is done in data init.
     // return (ter.compare(0,5,"river",5) == 0 || ter.compare(0,6,"bridge",6) == 0);
-    return oter_t(ter).is_river;
+    return ter.t().is_river;
+//oter_t(ter).is_river;
 }
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
@@ -218,7 +219,9 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-    return otermap[ter].allow_road;
+return ter.t().allow_road;
+//    return oter_t(ter).allow_road;
+//otermap[ter].allow_road;
 }
 
 // Likelihood to pick a specific overmap terrain.
@@ -2813,7 +2816,8 @@ bool overmap::is_road(int x, int y, int z)
             }
         }
     }
-    return oter_t(ter(x, y, z)).is_road;
+    return ter(x, y, z).t().is_road;
+//oter_t(ter(x, y, z)).is_road;
 }
 
 bool overmap::is_road_or_highway(int x, int y, int z)
@@ -3191,7 +3195,7 @@ void overmap::place_special(overmap_special special, tripoint p)
                     ter(x, y, p.z) = ter_base + suffix[i];
                 }
             }
-            if (ter_base == "school") {
+            if (ter_base == "school") { // wat. fixme.
                 make_hiway(p.x, p.y - 1, p.x + 1, p.y - 1, p.z, "road");
             }
         } else if (dir == 1) {
@@ -3722,11 +3726,14 @@ void set_oter_ids() {
        return ( _val == v._val );
    }
 
-   // oter_t( ter(...) ).name
+   // oter_t( ter(...) ).name // WARNING
    oter_id::operator oter_t() const {
        return oterlist[_val];
    }
 
+const oter_t & oter_id::t() const {
+       return oterlist[_val];
+   }
    // ter(...).size()
    int oter_id::size() const {
        return oterlist[_val].id.size();
