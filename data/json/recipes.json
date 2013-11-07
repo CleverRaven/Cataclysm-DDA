@@ -10797,6 +10797,26 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "cowboy_hat",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 16 ],
+      [ "sewing_kit", 16 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "sundress",
   "category": "CC_ARMOR",
