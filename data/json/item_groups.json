@@ -3048,6 +3048,7 @@
       ["helmet_riot", 25],
       ["lighter", 60],
       ["boots_rubber", 20],
+      ["recipe_medicalmut", 2],
       ["canister_goo", 8]
     ]
   },{
@@ -4379,6 +4380,7 @@
       ["chemistry_set", 4],
       ["oxy_powder", 8],
       ["fungicide", 10],
+      ["recipe_medicalmut", 8],
       ["pur_tablets", 10]
     ]
   },{
@@ -4427,6 +4429,7 @@
       ["RPG", 1],
       ["RPG-7_ammo", 1],
       ["hazmat_suit", 5],
+      ["recipe_medicalmut", 10],
       ["pur_tablets", 20]
     ]
   },{

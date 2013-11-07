@@ -41,7 +41,8 @@
         "description": "You heal a little faster than most; sleeping will heal more lost HP.",
         "starting_trait": true,
         "cancels": ["ROT1", "ROT2", "ROT3"],
-        "changes_to": ["FASTHEALER2"]
+        "changes_to": ["FASTHEALER2"],
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
@@ -57,7 +58,8 @@
         "points": 2,
         "description": "You have a high tolerance for pain.",
         "starting_trait": true,
-        "valid": false
+        "valid": false,
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION",
@@ -74,7 +76,7 @@
         "points": 1,
         "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
         "starting_trait": true,
-        "category": ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER"]
+        "category": ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "FASTREADER",
@@ -182,7 +184,7 @@
         "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
         "starting_trait": true,
         "changes_to": ["DISIMMUNE"],
-        "category": ["MUTCAT_CATTLE", "MUTCAT_RAT"]
+        "category": ["MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "ADRENALINE",
@@ -198,7 +200,8 @@
         "points": 1,
         "description": "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
         "starting_trait": true,
-        "valid": false
+        "valid": false,
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "INCONSPICUOUS",
@@ -238,7 +241,7 @@
         "points": 2,
         "description": "You have a very strong genetic base. If you mutate, the odds that the mutation will be beneficial are greatly increased.",
         "starting_trait": true,
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "CANNIBAL",
@@ -305,7 +308,7 @@
         "points": -1,
         "description": "You're quite the heavy sleeper. Noises are unlikely to wake you up.",
         "starting_trait": true,
-        "category": ["MUTCAT_INSECT", "MUTCAT_PLANT"]
+        "category": ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "ASTHMA",
@@ -346,7 +349,8 @@
         "points": -2,
         "description": "You have a hard time falling asleep, even under the best circumstances!",
         "starting_trait": true,
-        "valid": false
+        "valid": false,
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "VEGETARIAN",
@@ -372,7 +376,7 @@
         "points": -3,
         "description": "You have a hard time remembering things. Your skills will erode slightly faster than usual.",
         "starting_trait": true,
-        "category": ["MUTCAT_BEAST", ""]
+        "category": ["MUTCAT_BEAST", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "LIGHTWEIGHT",
@@ -380,6 +384,7 @@
         "points": -1,
         "description": "Alcohol and drugs go straight to your head. You suffer the negative effects of these for longer.",
         "starting_trait": true,
+        "category": ["MUTCAT_MEDICAL"],
         "cancels": ["DRUNKEN"]
     },{
         "type" : "mutation",
@@ -388,7 +393,8 @@
         "points": -3,
         "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
         "starting_trait": true,
-        "valid": false
+        "valid": false,
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "TRIGGERHAPPY",
@@ -412,7 +418,7 @@
         "points": -2,
         "description": "You suffer from a minor chemical imbalance, whether mental or physical. Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
         "starting_trait": true,
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
@@ -420,7 +426,8 @@
         "points": -5,
         "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations. Some of these effects may be controlled through the use of Thorazine.",
         "starting_trait": true,
-        "valid": false
+        "valid": false,
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "JITTERY",
@@ -428,7 +435,8 @@
         "points": -3,
         "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your dexterity.",
         "starting_trait": true,
-        "valid": false
+        "valid": false,
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "HOARDER",
@@ -452,7 +460,8 @@
         "points": -1,
         "description": "Your morale will shift up and down at random, often dramatically.",
         "starting_trait": true,
-        "valid": false
+        "valid": false,
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "WEAKSTOMACH",
@@ -1000,7 +1009,7 @@
         "name": "Radiogenic",
         "points": 3,
         "description": "Your system has adapted to radiation. While irradiated, you will actually heal slowly, converting the radiation into hit points.",
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "MARLOSS",
@@ -1269,7 +1278,8 @@
         "name": "Very Quick Pain Recovery",
         "points": 8,
         "description": "You recover from pain much faster than normal.",
-        "prereqs": ["PAINREC2"]
+        "prereqs": ["PAINREC2"],
+        "category": ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "WINGS_BIRD",
@@ -1682,14 +1692,14 @@
         "points": -8,
         "description": "You have a major digestive disorder, which causes you to vomit frequently.",
         "prereqs": ["NAUSEA"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_RAT"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "HUNGER",
         "name": "Fast Metabolism",
         "points": -2,
         "description": "You require more food than most people.",
-        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "THIRST",
@@ -1805,7 +1815,7 @@
         "name": "Genetically Unstable",
         "points": -4,
         "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE1",

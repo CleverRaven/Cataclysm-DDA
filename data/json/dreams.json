@@ -10,6 +10,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a strange dream about being a patient in a frightening hospital.",
+            "Your dreams give you an oddly medicated feeling."
+            ],
+        "category" : "MUTCAT_MEDICAL",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a strange dream about birds.",
             "Your dreams give you a strange feathered feeling."
             ],
@@ -106,6 +114,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You have a disturbing dream of undergoing strange medical procedures.",
+            "While dreaming, you see yourself dressed in a hospital gown, receiving treatment."
+            ],
+        "category" : "MUTCAT_MEDICAL",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have strange dreams of soaring through the sky.",
             "In a dream, you see a curiously birdlike reflection of yourself."
             ],
@@ -198,6 +214,14 @@
             "You have a disturbingly lifelike dream of living as a lizard."
             ],
         "category" : "MUTCAT_LIZARD",
+        "strength" : 3
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a dream of doctors and nurses doing unnatural things to your body, which brings you perverse pleasure.",
+            "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
+            ],
+        "category" : "MUTCAT_MEDICAL",
         "strength" : 3
     },{
         "type" : "dream",
