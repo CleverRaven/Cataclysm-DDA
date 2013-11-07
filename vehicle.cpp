@@ -2743,6 +2743,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 break_part_into_pieces(p, x_pos, y_pos, true);
                 remove_part(p);
             }
+            insides_dirty = true;
         }
         return dmg;
     }
