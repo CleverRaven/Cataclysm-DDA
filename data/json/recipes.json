@@ -18301,6 +18301,25 @@
       [ "plut_cell", 1 ]
     ]
   ]
+},
+
+    {
+        "type" : "recipe",
+  "result": "rag",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "thread", 100 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "juice",
