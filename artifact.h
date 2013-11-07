@@ -309,27 +309,7 @@ public:
         revert_to = "null";
         use = &iuse::artifact;
     };
-
-    it_artifact_tool(std::string pid, unsigned int pprice, std::string pname,
-                     std::string pdes, char psym, nc_color pcolor,
-                     std::string pm1, std::string pm2,
-                     unsigned short pvolume, unsigned int pweight,
-                     signed char pmelee_dam, signed char pmelee_cut,
-                     signed char pm_to_hit, std::set<std::string> pitem_tags,
-                     unsigned int pmax_charges, unsigned int pdef_charges,
-                     unsigned char pcharges_per_use,
-                     unsigned char pturns_per_charge,
-                     ammotype pammo, itype_id prevert_to)
-        : it_tool(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-                  pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
-                  pmax_charges, pdef_charges, pcharges_per_use,
-                  pturns_per_charge, pammo, prevert_to, &iuse::artifact)
-    {
-        charge_type = ARTC_NULL;
-        item_tags = pitem_tags;
-    };
 };
-
 
 class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDeserializer
 {
@@ -341,26 +321,7 @@ public:
     void deserialize(JsonObject &jo);
 
     it_artifact_armor(JsonObject &jo) : it_armor() { deserialize(jo); };
-
     it_artifact_armor() : it_armor() { price = 0; };
-
-    it_artifact_armor(std::string pid, unsigned int pprice, std::string pname,
-                      std::string pdes, char psym, nc_color pcolor,
-                      std::string pm1, std::string pm2,
-                      unsigned short pvolume, unsigned int pweight,
-                      signed char pmelee_dam, signed char pmelee_cut,
-                      signed char pm_to_hit, std::set<std::string> pitem_tags,
-                      unsigned char pcovers, signed char pencumber,
-                      unsigned char pcoverage, unsigned char pthickness,
-                      unsigned char penv_resist, signed char pwarmth,
-                      unsigned char pstorage)
-        : it_armor(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-                   pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
-                   pcovers, pencumber, pcoverage, pthickness, penv_resist,
-                   pwarmth, pstorage)
-    {
-        item_tags = pitem_tags;
-    };
 };
 
 
