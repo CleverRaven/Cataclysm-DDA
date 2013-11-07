@@ -6446,7 +6446,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 100);
       } else {
-          g->add_msg_if_player(this, _("You feel horrible for eating a person.."));
+          g->add_msg_if_player(this, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       }
     }
