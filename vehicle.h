@@ -17,6 +17,9 @@ class game;
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
 
+//How far to scatter parts from a vehicle when the part is destroyed (+/-)
+#define SCATTER_DISTANCE 3
+
 #define num_fuel_types 5
 extern const ammotype fuel_types[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage

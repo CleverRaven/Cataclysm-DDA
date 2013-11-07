@@ -857,8 +857,8 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     for(int index = 0; index < break_info.size(); index++) {
         int quantity = rng(break_info[index].min, break_info[index].max);
         for(int num = 0; num < quantity; num++) {
-            const int actual_x = scatter ? x + (rng(0, 2) - 1) : x;
-            const int actual_y = scatter ? y + (rng(0, 2) - 1) : y;
+            const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
+            const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
             item piece(g->itypes[break_info[index].item_id], g->turn);
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
