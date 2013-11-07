@@ -201,6 +201,8 @@ class JsonIn;
 class JsonObject;
 class JsonArray;
 class JsonOut;
+class JsonSerializer;
+class JsonDeserializer;
 
 bool is_whitespace(char ch); // TODO: move this elsewhere
 
@@ -408,6 +410,7 @@ public:
     void write(const double &f);
     void write(const std::string &s);
     void write(const char *cstr) { write(std::string(cstr)); }
+    void write(const JsonSerializer &thing);
     // vector ~> array
     template <typename T> void write(const std::vector<T> &v)
     {

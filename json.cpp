@@ -1458,6 +1458,15 @@ void JsonOut::write(const std::string &s)
     need_separator = true;
 }
 
+void JsonOut::write(const JsonSerializer &thing)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    thing.serialize(*this);
+    need_separator = true;
+}
+
 void JsonOut::member(const std::string &name)
 {
     write(name);
