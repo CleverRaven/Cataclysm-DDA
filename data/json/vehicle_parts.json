@@ -1087,18 +1087,18 @@
         "flags": ["OBSTACLE", "FORGE"]
     },{
         "type" : "vehicle_part",
-        "id" : "veh_media_center",
-        "name": "onboard entertainment center",
-        "symbol": "&",
+        "id" : "veh_stereo",
+        "name": "stereo system",
+        "symbol": "#",
         "color": "light_blue",
         "broken_symbol": "x",
         "broken_color": "light_gray",
         "damage_modifier": 10,
         "durability": 20,
-        "item": "media_center",
+        "item": "stereo",
         "difficulty": 4,
         "location": "center",
-        "flags": ["OBSTACLE", "MEDIA"]
+        "flags": ["OBSTACLE", "STEREO"]
     },{
         "type" : "vehicle_part",
         "id" : "m249",

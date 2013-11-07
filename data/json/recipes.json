@@ -11832,12 +11832,12 @@
   ]
 },{
         "type" : "recipe",
-  "result": "media_center",
+  "result": "stereo",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "skills_required": ["electronics",6],
-  "difficulty": 5,
-  "time": 60000,
+  "skills_required": ["electronics",4],
+  "difficulty": 4,
+  "time": 30000,
   "reversible": true,
   "autolearn": true,
   "tools": [
@@ -11853,15 +11853,8 @@
       [ "toolset", -1 ]
     ],
     [
-      [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "soldering_iron", 20 ]
-    ],
-    [
-      [ "welder", 100 ],
-      [ "welder_crude", 150 ],
-      [ "toolset", 5 ]
+      [ "soldering_iron", 20 ],
+      [ "toolset", 1 ]
     ],
     [
       [ "hacksaw", -1 ],
@@ -11870,22 +11863,13 @@
   ],
   "components": [
     [
-      [ "frame", 1 ]
-    ],
-    [
-      ["portable_game", 1]
-    ],
-    [
       [ "mp3", 1 ]
     ],
     [
-      [ "two_way_radio", 1 ]
+      [ "amplifier", 5 ]
     ],
     [
-      [ "directional_antenna", 1 ]
-    ],
-    [
-      ["cable", 10]
+      ["cable", 5]
     ]
   ]
 },{
