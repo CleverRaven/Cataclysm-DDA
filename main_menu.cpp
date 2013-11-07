@@ -74,11 +74,11 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     std::vector<std::string> vMenuItems;
     vMenuItems.push_back(pgettext("Main Menu", "<M>OTD"));
     vMenuItems.push_back(pgettext("Main Menu", "<N>ew Game"));
-    vMenuItems.push_back(pgettext("Main Menu", "<L>oad"));
+    vMenuItems.push_back(pgettext("Main Menu", "Lo<a>d"));
     vMenuItems.push_back(pgettext("Main Menu", "<W>orld"));
     vMenuItems.push_back(pgettext("Main Menu", "<S>pecial"));
     vMenuItems.push_back(pgettext("Main Menu", "<O>ptions"));
-    vMenuItems.push_back(pgettext("Main Menu", "<H>elp"));
+    vMenuItems.push_back(pgettext("Main Menu", "H<e>lp"));
     vMenuItems.push_back(pgettext("Main Menu", "<C>redits"));
     vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
@@ -218,13 +218,13 @@ bool game::opening_screen()
 
             if (sel1 == 0) { // Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 8, c_ltred, motd[i].c_str());
+                    mvwprintz(w_open, i + 6, 8, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 8, c_ltred, credits[i].c_str());
+                    mvwprintz(w_open, i + 6, 8, c_ltred, credits[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
@@ -240,7 +240,7 @@ bool game::opening_screen()
                 // New Game
                 sel1 = 1;
                 chInput = '\n';
-            } else if (chInput == 'L') {
+            } else if (chInput == 'a' || chInput == 'A') {
                 // Load Game
                 sel1 = 2;
                 chInput = '\n';
@@ -256,7 +256,7 @@ bool game::opening_screen()
                 // Options
                 sel1 = 5;
                 chInput = '\n';
-            } else if (chInput == 'H' || chInput == '?') {
+            } else if (chInput == 'e' || chInput == 'E' || chInput == '?') {
                 // Help
                 sel1 = 6;
                 chInput = '\n';

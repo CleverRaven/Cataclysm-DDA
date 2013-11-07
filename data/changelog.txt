@@ -66,7 +66,7 @@ Better in-city detection for roads.
 Funnel filling.
 Step on visible trap warning.
 Vomiting lethality nerfed.
-Better isnore monster for now feature.
+Better ignore monster for now feature.
 Massive audit of item values by Rivet.
 Prevent input overbuffering when it's raining.
 Eating related bugs.
@@ -76,7 +76,7 @@ Crafting conuming containers with contents.
 Prevents many actions from passing through walls.
 Weird handling of cancelled item use.
 Gunmods with firing modes.
-Stabalized monster coordinates.
+Stabilized monster coordinates.
 Many fixes in defense mode.
 Charge rifle charging.
 
