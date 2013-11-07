@@ -285,7 +285,7 @@ extern std::string artifact_noun[NUM_ART_NOUNS];
 
 /* CLASSES */
 
-class it_artifact_tool : public it_tool, public JsonSerializer
+class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeserializer
 {
 public:
     art_charge charge_type;
@@ -295,6 +295,9 @@ public:
 
     bool is_artifact() const { return true; }
     void serialize(JsonOut &json) const;
+    void deserialize(JsonObject &jo);
+
+    it_artifact_tool(JsonObject &jo) : it_tool() { deserialize(jo); };
 
     it_artifact_tool() : it_tool() {
         ammo = "NULL";
@@ -329,13 +332,16 @@ public:
 };
 
 
-class it_artifact_armor : public it_armor, public JsonSerializer
+class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDeserializer
 {
 public:
     std::vector<art_effect_passive> effects_worn;
 
     bool is_artifact() const { return true; }
     void serialize(JsonOut &json) const;
+    void deserialize(JsonObject &jo);
+
+    it_artifact_armor(JsonObject &jo) : it_armor() { deserialize(jo); };
 
     it_artifact_armor() : it_armor() { price = 0; };
 
@@ -367,5 +373,9 @@ typedef std::map<std::string,itype*> itypemap;
 void init_artifacts();
 itype* new_artifact(itypemap &itypes);
 itype* new_natural_artifact(itypemap &itypes, artifact_natural_property prop = ARTPROP_NULL);
+
+// note: needs to be called by main() before MAPBUFFER.load
+void load_artifacts(const std::string &filename, itypemap &itypes);
+void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes);
 
 #endif

@@ -4,8 +4,10 @@
 #include "output.h" // string_format
 #include "json.h"
 
-#include <sstream>
+#include <string>
 #include <vector>
+#include <sstream>
+#include <fstream>
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
@@ -775,6 +777,121 @@ std::string artifact_name(std::string type)
 
 
 /* Json Loading and saving */
+
+void load_artifacts(const std::string &artfilename, itypemap &itypes)
+{
+    std::ifstream file_test(artfilename.c_str(),
+                            std::ifstream::in | std::ifstream::binary);
+    if (!file_test.good()) {
+        file_test.close();
+        return;
+    }
+
+    try {
+        load_artifacts_from_ifstream(&file_test, itypes);
+    } catch (std::string e) {
+        debugmsg("%s: %s", artfilename.c_str(), e.c_str());
+    }
+
+    file_test.close();
+}
+
+void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
+{
+    // read and create artifacts from json array in artifacts.gsav
+    JsonIn artifact_json(f);
+    artifact_json.start_array();
+    while (!artifact_json.end_array()) {
+        JsonObject jo = artifact_json.get_object();
+        std::string type = jo.get_string("type");
+        std::string id = jo.get_string("id");
+        if (type == "artifact_tool") {
+            it_artifact_tool *art = new it_artifact_tool(jo);
+            itypes[id] = art;
+        } else if (type == "artifact_armor") {
+            it_artifact_armor *art = new it_artifact_armor(jo);
+            itypes[id] = art;
+        } else {
+            throw jo.line_number() + ": unrecognized artifact type.";
+        }
+        jo.finish();
+    }
+}
+
+
+void it_artifact_tool::deserialize(JsonObject &jo)
+{
+    id = jo.get_string("id");
+    name = jo.get_string("name");
+    description = jo.get_string("description");
+    sym = jo.get_int("sym");
+    color = int_to_color(jo.get_int("color"));
+    price = jo.get_int("price");
+    m1 = jo.get_string("m1");
+    m2 = jo.get_string("m2");
+    volume = jo.get_int("volume");
+    weight = jo.get_int("weight");
+    melee_dam = jo.get_int("melee_dam");
+    melee_cut = jo.get_int("melee_cut");
+    m_to_hit = jo.get_int("m_to_hit");
+    item_tags = jo.get_tags("item_flags");
+
+    max_charges = jo.get_int("max_charges");
+    def_charges = jo.get_int("def_charges");
+    charges_per_use = jo.get_int("charges_per_use");
+    turns_per_charge = jo.get_int("turns_per_charge");
+    ammo = jo.get_string("ammo");
+    revert_to = jo.get_string("revert_to");
+
+    charge_type = (art_charge)jo.get_int("charge_type");
+
+    JsonArray ja = jo.get_array("effects_wielded");
+    while (ja.has_more()) {
+        effects_wielded.push_back((art_effect_passive)ja.next_int());
+    }
+
+    ja = jo.get_array("effects_activated");
+    while (ja.has_more()) {
+        effects_activated.push_back((art_effect_active)ja.next_int());
+    }
+
+    ja = jo.get_array("effects_carried");
+    while (ja.has_more()) {
+        effects_carried.push_back((art_effect_passive)ja.next_int());
+    }
+}
+
+void it_artifact_armor::deserialize(JsonObject &jo)
+{
+    id = jo.get_string("id");
+    name = jo.get_string("name");
+    description = jo.get_string("description");
+    sym = jo.get_int("sym");
+    color = int_to_color(jo.get_int("color"));
+    price = jo.get_int("price");
+    m1 = jo.get_string("m1");
+    m2 = jo.get_string("m2");
+    volume = jo.get_int("volume");
+    weight = jo.get_int("weight");
+    melee_dam = jo.get_int("melee_dam");
+    melee_cut = jo.get_int("melee_cut");
+    m_to_hit = jo.get_int("m_to_hit");
+    item_tags = jo.get_tags("item_flags");
+
+    covers = jo.get_int("covers");
+    encumber = jo.get_int("encumber");
+    coverage = jo.get_int("coverage");
+    thickness = jo.get_int("material_thickness");
+    env_resist = jo.get_int("env_resist");
+    warmth = jo.get_int("warmth");
+    storage = jo.get_int("storage");
+    power_armor = jo.get_bool("power_armor");
+
+    JsonArray ja = jo.get_array("effects_worn");
+    while (ja.has_more()) {
+        effects_worn.push_back((art_effect_passive)ja.next_int());
+    }
+}
 
 void it_artifact_tool::serialize(JsonOut &json) const
 {

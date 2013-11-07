@@ -458,7 +458,7 @@ public:
 
 class JsonDeserializer {
 public:
-    virtual void deserialize(JsonObject &jsobj);
+    virtual void deserialize(JsonObject &jsobj) {};
     virtual void deserialize(const std::string &json_object_string) {
         // note: object string must include starting and ending braces {}
         std::stringstream s(json_object_string);
