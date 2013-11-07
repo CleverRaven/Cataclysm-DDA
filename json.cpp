@@ -1419,7 +1419,7 @@ void JsonOut::write(const std::string &s)
     if (need_separator) {
         write_separator();
     }
-    char ch;
+    unsigned char ch;
     stream->put('"');
     for (int i = 0; i < s.size(); ++i) {
         ch = s[i];
