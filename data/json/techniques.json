@@ -363,7 +363,7 @@
         "min_unarmed": 3,
         "unarmed_allowed": true,
         "defensive": true,
-        "miss_recovery": true
+        "miss_recovery": true,
         "messages" : [
             "You stumble and leer at %s",
             "<npcname> stumbles and leers at %s"
