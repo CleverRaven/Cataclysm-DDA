@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-31 07:37+1300\n"
-"PO-Revision-Date: 2013-10-23 05:44+0000\n"
+"POT-Creation-Date: 2013-11-07 14:48+1300\n"
+"PO-Revision-Date: 2013-11-01 07:43+0000\n"
 "Last-Translator: Kevin Granade <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-30 06:10+0000\n"
+"X-Launchpad-Export-Date: 2013-11-07 00:28+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #: action.cpp
@@ -3414,9 +3414,9 @@ msgid "You can't do that!"
 msgstr "Вы не можете сделать это!"
 
 #: crafting.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You cannot disassemble the %s into its components, too few items."
-msgstr "Вы разобрали %s на части."
+msgstr ""
 
 #: crafting.cpp
 #, c-format
@@ -5014,6 +5014,10 @@ msgid "You try to sleep, but can't..."
 msgstr "Вы пытаетесь поспать, но не можете..."
 
 #: disease.cpp
+msgid "You turn off your alarm-clock."
+msgstr ""
+
+#: disease.cpp
 #, c-format
 msgid "You use your %s to keep warm."
 msgstr "Вы сохраняете тепло при помощи %s."
@@ -5033,10 +5037,6 @@ msgstr "Вас стошнило тысячами живых спор!"
 #: disease.cpp
 msgid "You wake up coughing."
 msgstr "Вы просыпаетесь кашляя."
-
-#: disease.cpp
-msgid "You wake up to the ringing of an alarm-clock."
-msgstr "Вы проснулись от звонка будильника."
 
 #: disease.cpp
 msgid "You wake up."
@@ -7652,6 +7652,11 @@ msgstr "Пример: back,flash,aid, ,band"
 msgid "Exit"
 msgstr "Выйти"
 
+#. ~ Fast-scroll indicator
+#: game.cpp
+msgid "F"
+msgstr ""
+
 #: game.cpp
 msgid "FACTIONS:"
 msgstr "ФРАКЦИИ:"
@@ -7821,8 +7826,9 @@ msgid "Maybe you should find something new to read..."
 msgstr ""
 
 #: game.cpp
-msgid "Monster Spotted!"
-msgstr "Замечен монстр!"
+#, fuzzy
+msgid "Monster dangerously close!"
+msgstr "Вашему лицу угрожающе холодно."
 
 #: game.cpp
 msgid "Monster spotted!"
@@ -8319,12 +8325,10 @@ msgid "The card reader is rendered non-functional."
 msgstr "Считыватель карт сломан."
 
 #: game.cpp
-#, fuzzy
 msgid "The corpse is thoroughly pulped."
 msgid_plural "The corpses are thoroughly pulped."
-msgstr[0] "Труп окончательно превратился в кровавую массу."
-msgstr[1] "Труп окончательно превратился в кровавую массу."
-msgstr[2] "Труп окончательно превратился в кровавую массу."
+msgstr[0] ""
+msgstr[1] ""
 
 #: game.cpp
 msgid "The door is locked!"
@@ -8434,13 +8438,6 @@ msgstr "%s на пути!"
 #: game.cpp
 msgid "There's no corpse to butcher!"
 msgstr "Нет трупа для разделки."
-
-#: game.cpp
-#, c-format
-msgid ""
-"There's no room in your inventory for the %s, and you can't  unwield your %s."
-msgstr ""
-"В вашем инвентаре нет места для %s, и вы не можете выпустить из рук %s."
 
 #: game.cpp
 #, c-format
@@ -8917,6 +8914,11 @@ msgid "You fall on the ground for %d damage."
 msgstr "Вы ударились об землю, получив %d очков повреждений."
 
 #: game.cpp
+#, fuzzy
+msgid "You feel like you haven't slept in days."
+msgstr "Вы не спали 2 дня!"
+
+#: game.cpp
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr "В %s вы наливаете %s."
@@ -8990,10 +8992,6 @@ msgstr "У вас нет проваленных заданий!"
 #: game.cpp
 msgid "You haven't killed any monsters yet!"
 msgstr "Вы не убили ни одного монстра!"
-
-#: game.cpp
-msgid "You haven't slept in 2 days!"
-msgstr "Вы не спали 2 дня!"
 
 #: game.cpp vehicle.cpp
 #, c-format
@@ -9470,6 +9468,14 @@ msgstr "какие-то предметы"
 #: game.cpp
 msgid "to a nearby square."
 msgstr "на соседнюю клетку."
+
+#: game.cpp
+msgid "to look around"
+msgstr ""
+
+#: game.cpp
+msgid "to shoot"
+msgstr ""
 
 #: game.cpp
 msgid "was killed."
@@ -11560,7 +11566,7 @@ msgstr "<num> за патрон"
 
 #: item.cpp
 msgid "<num> percent"
-msgstr "<num>%%"
+msgstr "<num>%"
 
 #: item.cpp
 #, c-format
@@ -11673,9 +11679,9 @@ msgid "Grab break"
 msgstr "Разбиение захвата"
 
 #: item.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "Has %s of level %d."
-msgstr "Вы улучшили %s до уровня %d."
+msgstr ""
 
 #: item.cpp
 msgid "Hit all adjacent monsters"
@@ -12657,6 +12663,14 @@ msgid "Eternal Night"
 msgstr "Глубокая ночь"
 
 #: iuse.cpp
+msgid "Fill what?"
+msgstr ""
+
+#: iuse.cpp
+msgid "Fill which vehicle?"
+msgstr ""
+
+#: iuse.cpp
 msgid "Fire rains down around you!"
 msgstr ""
 
@@ -12961,6 +12975,11 @@ msgstr ""
 
 #: iuse.cpp
 msgid "Siphon from where?"
+msgstr ""
+
+#: iuse.cpp
+#, c-format
+msgid "Siphoned %d units of %s from the %s into the %s%s"
 msgstr ""
 
 #: iuse.cpp
@@ -14334,9 +14353,8 @@ msgid "You unfold the cot and place it on the ground."
 msgstr "Вы разбираете и устанавливаете раскладушку."
 
 #: iuse.cpp
-#, fuzzy
 msgid "You unroll the fur mat and lay it on the ground."
-msgstr "Вы расстилаете коврик и кладете его на землю."
+msgstr ""
 
 #: iuse.cpp
 msgid "You unroll the mat and lay it on the ground."
@@ -18635,6 +18653,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A leather album full of photos of somebody's family. You don't know any of "
+"the people in them, but seeing these pictures still makes you think of "
+"happier times."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A leather bound portfolio that once belonged to a clothing designer. Filled "
 "with sketches and notes, a skilled tailor could learn a lot from this volume."
 msgstr ""
@@ -18700,6 +18725,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A lightweight hatchet made for throwing. Its ineffective cutting edge and "
+"light weight makes it unsuitable for use as a tool."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A lightweight home built combination armor made from a cut down bulletproof "
 "vest and a reinforced jumpsuit made out of fabric. Protects from the "
 "elements as well as from harm."
@@ -18712,6 +18743,12 @@ msgid ""
 "A little book for little readers. The colorful cartoon characters and sweet "
 "stories contained herein belong to a different time, before the dead walked "
 "and the world moved on."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A little hunk of glop that fell off a blob monster.  It doesn't seem "
+"hostile, but it does wiggle occasionally."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -20346,6 +20383,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "A stout metal pole with a sharp point."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A stout pole with an improvised grip and a fire-hardened point."
 msgstr ""
 
@@ -20427,6 +20468,17 @@ msgstr "Толстовка с капюшоном и большим карман�
 #: lang/json/json_items.py
 msgid "A sweet red berry."
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A sword bayonet is a large slashing weapon that can be attached to the front "
+"of a shotgun or rifle, allowing a melee attack to deal piercing damage. The "
+"added length increases recoil substantially."
+msgstr ""
+"Штык — это колющее оружие, которое можно установить на дробовики, пистолеты-"
+"пулеметы или винтовки. Способен наносить режущий урон в рукопашном бою, "
+"нарушает баланс оружия и незначительно увеличивает отдачу."
 
 #: lang/json/json_items.py
 msgid ""
@@ -21083,9 +21135,10 @@ msgstr ""
 "Обратной стороной медали является снижение емкости магазина."
 
 #: lang/json/json_items.py
+#, fuzzy
 msgid ""
-"An aluminium baseball bat, smaller and lighter than a wooden bat and a "
-"little less damaging as a result."
+"An aluminium baseball bat, lighter than a wooden bat and a little easier to "
+"swing as a result."
 msgstr ""
 "Алюминиевая бейсбольная бита, меньше и легче чем деревянная, но так же "
 "наносит меньше повреждений"
@@ -21406,13 +21459,6 @@ msgstr ""
 msgid ""
 "An interesting quarterly report about rocket launchers and recoilless "
 "rifles. There are lots of large, exciting photos of explosions and weaponry."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"An leather album full of photos of somebody's family. You don't know any of "
-"the people in them, but seeing these pictures still makes you think of "
-"happier times."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -23303,6 +23349,10 @@ msgstr "RM216 SPIW"
 #: lang/json/json_items.py
 msgid "RM51 assault rifle"
 msgstr "штурмовая винтовка RM51"
+
+#: lang/json/json_items.py
+msgid "RM614 LMG"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "RM88 battle rifle"
@@ -26225,11 +26275,16 @@ msgstr ""
 "снижает точность и наносимый урон."
 
 #: lang/json/json_items.py
+#, fuzzy
 msgid ""
 "Using this item on a container full of water will purify the water using "
-"layered charcoal. Water taken from uncertain sources like a river may be "
-"dirty."
+"layered charcoal. Once the charcoal has purified enough water, it will "
+"become unusable and can be disassembled and recycled. Water taken from "
+"uncertain sources like a river may be dirty."
 msgstr ""
+"Водоочиститель. Его использование на контейнер с водой позволяет очищать "
+"находящуюся там воду. Довольно полезная вещь, так как вода из рек или других "
+"сомнительных источников может быть грязной."
 
 #: lang/json/json_items.py
 msgid ""
@@ -26240,6 +26295,13 @@ msgstr ""
 "Сочетая в себе мощность и необычный калибр, Rivtech RM2000 был разработан "
 "как надежный и лёгкий в переноске пистолет-пулемет для операций в совсем "
 "неидеальных условиях."
+
+#: lang/json/json_items.py
+msgid ""
+"Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine "
+"gun was designed for durability and extreme volume of sustained fire under "
+"the worst possible circumstances."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Uzi 9mm"
@@ -26752,6 +26814,10 @@ msgstr "пиджак"
 #: lang/json/json_items.py
 msgid "bleach"
 msgstr "отбеливатель"
+
+#: lang/json/json_items.py
+msgid "blob glob"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "blood"
@@ -30021,6 +30087,10 @@ msgid "steel plating"
 msgstr "стальная пластина"
 
 #: lang/json/json_items.py
+msgid "steel spear"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "steel tongs"
 msgstr "стальные щипцы"
 
@@ -30169,6 +30239,11 @@ msgid "switchblade"
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "sword bayonet"
+msgstr "штык"
+
+#: lang/json/json_items.py
 msgid "syringe"
 msgstr "шприц"
 
@@ -30254,6 +30329,10 @@ msgstr "текила"
 
 #: lang/json/json_items.py
 msgid "thriller novel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "throwing axe"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -31115,6 +31194,15 @@ msgid "+1 dodge and +1 blocks per stack"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "+3 Bash/atk"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "+4 Atk Speed"
+msgstr "Бонус к скорости атаки"
+
+#: lang/json/json_martialarts.py
 msgid ""
 "A dance-like style with its roots in Brazilian slavery, capoeira is focused "
 "on fluid movement and sweeping kicks. Moving a tile will boost attack and "
@@ -31122,16 +31210,35 @@ msgid ""
 "each."
 msgstr ""
 
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse "
+"the enemy.  The turn after you successfully attack, you may dodge any number "
+"of attacks with no penalty."
+msgstr ""
+"Так же известный как \"пьяный мастер\", Зуй-Цуань имитирует движения "
+"пьяного,\n"
+"чтобы сбить противника с толку. В течение хода, следующего за вашей атакой,\n"
+"вы можете увернуться от любого количества ударов противника без штрафов."
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Aikido"
 msgstr "Айкидо"
 
 #: lang/json/json_martialarts.py
+#, fuzzy
 msgid ""
 "Aikido is a Japanese martial art focused on self-defense, while minimizing "
-"injury to the attacker. It uses defense throws and disarms. Damage done "
+"injury to the attacker. It uses defensive throws and disarms. Damage done "
 "while using this technique is halved, but pain inflicted is doubled."
 msgstr ""
+"Айкидо — японское искусство рукопашного боя, сфокусированное на самообороне "
+"и\n"
+"уменьшении травм атакующего. В нем используются броски и приёмы "
+"разоружения.\n"
+"При использовании этой техники наносится половина повреждений, но боль "
+"удваивается."
 
 #: lang/json/json_martialarts.py
 msgid ""
@@ -31145,6 +31252,11 @@ msgstr ""
 msgid "Attacks scale better with strength"
 msgstr ""
 
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Bonus damage from intelligence."
+msgstr "Вы стали умнее.  Интеллект + 2"
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Capoeira"
 msgstr "Капоэйра"
@@ -31154,7 +31266,49 @@ msgid "Capoeira Tempo"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Centipede Kung Fu"
+msgstr "Сороконожка"
+
+#: lang/json/json_martialarts.py
+msgid "Crane Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Crane Precision"
+msgstr "Кранстон"
+
+#: lang/json/json_martialarts.py
+msgid "Damage bonus from dexterity at the cost of damage from strength."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Dragon Intelligence"
+msgstr "Интеллект"
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Dragon Kung Fu"
+msgstr "Дракон"
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Drunk Dodging"
+msgstr "уклонение"
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Flat bonus to damage."
+msgstr " но не наносит урона."
+
+#: lang/json/json_martialarts.py
 msgid "Half damage to enemies"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Hundred-Hitter"
 msgstr ""
 
 #: lang/json/json_martialarts.py
@@ -31195,6 +31349,21 @@ msgstr ""
 msgid "Krav Maga"
 msgstr "Крав-мага"
 
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Leopard Kung Fu"
+msgstr "Леопард"
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Leopard Strategy"
+msgstr "стиль леопарда"
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Lizard Kung Fu"
+msgstr "Ящерица"
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Muay Thai"
 msgstr "Тайский бокс"
@@ -31220,14 +31389,145 @@ msgstr ""
 
 #: lang/json/json_martialarts.py
 msgid ""
+"One of the Five Deadly Venoms, and likely to be removed at the next save-"
+"compatibility breaker. Lizard Style docuses on using walls to your advantage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid "
+"strikes.  Each attack you land reduces the cost of attacking by 4."
+msgstr ""
+"Один из Пяти Смертельных Ядов. С этим стилем, вы будете наносить множество\n"
+"быстрых ударов. Каждый удар уменьшает кол-во очков действия для нанесения\n"
+"следующего на 4. Бонус накапливается, но весь пропадает после получения "
+"урона."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which "
+"uses pincer-like hands and a stinger kick.  Critical hits should do massive "
+"damage and knock your target back, and we'll fix that as soon as we can."
+msgstr ""
+"Один из Пяти Смертельных Ядов. Стиль скорпиона фокусируется на нанесении\n"
+"щиплющих ударов руками и жалящих ударов ногами. Критические удары\n"
+"наносят огромный урон, отбрасывая цель далеко назад."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the Five Deadly Venoms.  Toad Style will be immensely powerful "
+"through its immunity to nearly any weapon, once we get the connection "
+"rebuilt.  Until then, best not meditate by pausing, though it used to give "
+"you armor proportional to your Intelligence and Perception."
+msgstr ""
+"Один из Пяти Смертельных Ядов. Невероятно мощный и защищающий от\n"
+"почти любого оружия. Вы можете медитировать один ход; это даст вам\n"
+"временный бонус к защите, пропорциональный вашему интеллекту и восприятию."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, "
+"ehich is supposed to initiate on a critical strike, then chain into piercing "
+"damage and a two-handed Viper Strike."
+msgstr ""
+"Один из Пяти Смертельных Ядов. Стиль гадюки имеет уникальную комбинацию\n"
+"из трёх ударов. Первый удар должен быть критическим. Второй наносит "
+"проникающий\n"
+"урон рукой, сложенной в конус. Мощнейший третий удар наносится двумя руками."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the five Shaolin animal styles.  The Crane uses intricate hand "
+"techniques and jumping dodges.  Dexterity determines the majority of your "
+"damage, rather than Strength; you also receive a dodge bonus the turn after "
+"moving a tile."
+msgstr ""
+"Один из пяти животных стилей Шаолиня. Стиль журавля использует\n"
+"сложные движения кисти и увороты в прыжке. Ловкость, а не сила определяет\n"
+"урон. Так же вы получаете бонус к увороту после перемещения на 1 тайл."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the five Shaolin animal styles.  The Dragon uses fluid movements and "
+"hard strikes. Intelligence improves your accuracy and damage dealt, as does "
+"moving."
+msgstr ""
+"Один из животных стилей Шаолиня. Стиль дракона использует плавные движения\n"
+"и тяжёлые удары. Интеллект увеличивает как шанс нанести удар, так и урон.\n"
+"Перемещение на 1 клетку дает бонус к урону на 1 ход."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the five Shaolin animal styles.  The Leopard focuses on rapid, "
+"strategically planned strikes.  Perception and Inteligence both boost "
+"accuracy, and moving further boosts your accuracy."
+msgstr ""
+"Один из пяти животных стилей Шаолиня. Стиль леопарда фокусируется на\n"
+"быстрых, стратегически наносимых ударах. Ваши восприятие и интеллект\n"
+"увеличивают точность, а перемещение на 1 клетку даёт ускорение на 1 ход."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the five Shaolin animal styles.  The Snake focuses on sinuous "
+"movement and precision strikes. Your Perception iproves yur accuracy and "
+"your damage."
+msgstr ""
+"Один из животных стилей Шаолиня. Стиль змеи использует извилистые движения\n"
+"и точные удары. Восприятие увеличивает как шанс на успешное попадание, так \n"
+"и наносимый урон."
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid ""
+"One of the five Shaolin animal styles.  The Tiger focuses on relentless "
+"attacks above all else.  Your Strength determines your accuracy, and your "
+"attacks do increasing damage as you continue attacking."
+msgstr ""
+"Один из пяти животных стилей Шаолиня. Стиль тигра нацелен на нанесение\n"
+"непрекращающихся ударов. Не ловкость, а сила определяет успешность удара.\n"
+"Так же вы получаете накапливающийся бонус за несколько ходов успешных атак "
+"подряд."
+
+#: lang/json/json_martialarts.py
+msgid ""
 "Originating in Israel, Krav Maga is based on taking down an enemy quickly "
 "and effectively. It focuses on applicable attacks rather than showy or "
 "complex moves. Popular among police and armed forces everywhere."
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to block."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Perception decreases damage when blocking"
 msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception provides a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Scorpion Kung Fu"
+msgstr "Скорпион"
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Scorpion Venom"
+msgstr "Скорпион"
 
 #: lang/json/json_martialarts.py
 msgid "Silent melee attacks"
@@ -31238,7 +31538,20 @@ msgid "Slightly increased unarmed damage"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Snake Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Snake Sight"
+msgstr "целеуказатель"
+
+#: lang/json/json_martialarts.py
 msgid "Strength decreases damage when blocking"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Strength provides additional damage bonus."
 msgstr ""
 
 #: lang/json/json_martialarts.py newcharacter.cpp
@@ -31263,6 +31576,41 @@ msgid ""
 "the force of an attack makes your Perception decrease damage further on a "
 "block."
 msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Tiger Fury"
+msgstr "Тигр"
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Tiger Strength"
+msgstr "Сила"
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Toad Armor"
+msgstr "броня SWAT"
+
+#: lang/json/json_martialarts.py
+msgid "Toad Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Unlimited dodges after successful hit"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Viper Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Zui Quan"
+msgstr "Пьяный кулак"
 
 #: lang/json/json_materials.py
 msgid "Bone"
@@ -32443,11 +32791,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid "A cute wiggling nose, cotton tail, made of delicious flesh."
 msgstr ""
-"Мило двигает носом, бьёт хвостом\n"
-"и обладает очень вкусным мясом."
 
 #: lang/json/json_monsters.py
 msgid ""
@@ -32610,13 +32955,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid ""
 "A human body now swollen to the size of six men, with arms as wide as a "
 "trash can."
 msgstr ""
-"Зомби непонятно как выросший до размеров шести человек,\n"
-"с руками и ногами объемом с мусорный бак."
 
 #: lang/json/json_monsters.py
 msgid "A human body with pale blue flesh, crackling with electrical energy."
@@ -32711,16 +33053,11 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid ""
 "A monstrous beast with a tripartite mouth that opens to reveal hundreds of "
 "writhing tongues with razor sharp edges.  It keeps most of its enormous body "
 "hidden underground."
 msgstr ""
-"Омерзительная, склийзкая тварь, с\n"
-"\"разтроенным\" ртом, открывающимся,\n"
-"чтобы выпустить сотни сплетающихся языков.\n"
-"Половиной тела сидит в земле, на дороги не выползает."
 
 #: lang/json/json_monsters.py
 msgid ""
@@ -32797,34 +33134,23 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid ""
 "A rotund human body, bloated beyond belief and layered in rolls of fat. It "
 "emits a horrible odor, and a putrid pink sludge dribbles from its mouth."
 msgstr ""
-"Раздувшийся от жира зомби. Источает тошнотворный запах,\n"
-"а из его рта лезет отвратительный темно-розовый\n"
-"творогообразный гной."
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid ""
 "A slick and glistening human body. It's hands and feet are webbed, and it is "
 "clad in swimwear."
 msgstr ""
-"Этот зомби одет в купальный костюм, а\n"
-"его руки и ноги покрыты перепонками."
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid ""
 "A sluglike creature, eight feet long and the width of a refrigerator.  Its "
 "black body glistens as it oozes its way along the ground. Eye stalks "
 "occassionally push their way out of the oily mass and look around."
 msgstr ""
-"Гигантский слизень три метра в длину и шириной с холодильник.  Его черное "
-"тело блестит и выделяет слизь. Время от времени из жижи высовываются глаза-"
-"стебельки, чтобы осмотреться."
 
 #: lang/json/json_monsters.py
 msgid ""
@@ -32959,8 +33285,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A twisted mockery of the human form, emaciated, with jet black skin "
-"andglowing red eyes. It is somehow painful to look at, awakening fears deep "
+"A twisted mockery of the human form, emaciated, with jet black skin and "
+"glowing red eyes. It is somehow painful to look at, awakening fears deep "
 "within your psyche, and even the air around it seems more sinister, somehow "
 "darker and more dangerous."
 msgstr ""
@@ -33140,9 +33466,9 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"Once human, it's features have tightened, it's lips pulled back into an "
-"unnatural grin, revealing rows of blackened teeth beneath it's large, "
-"piercing eyes. It stands tall, it's movements are fluid and tightly "
+"Once human, its features have tightened, its lips pulled back into an "
+"unnatural grin, revealing rows of blackened teeth beneath its large, "
+"piercing eyes. It stands tall, its movements are fluid and tightly "
 "controlled. A feeling of danger permeates the air around it, and the light "
 "that falls on it somehow harsher and more glaring."
 msgstr ""
@@ -33163,14 +33489,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid ""
 "Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely "
 "held together by coils of fungus erupting from every joint in its body."
 msgstr ""
-"Это насекомое бледно-серого цвета,\n"
-"его хитин ослаблен спорами фунгалоида,\n"
-"исходящими из каждого сочинения."
 
 #: lang/json/json_monsters.py
 msgid "Shia LaBeouf"
@@ -33276,13 +33598,6 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The Northern short-tailed shrew, an insectvorous mammal that resembles a "
-"cross between a mouse and a mole.  Notably for a mammal, it has a venomous "
-"bite, which can prove painful for humans."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
 "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a "
 "pair of reverse-jointed legs.  Armed with a 40 mm Bofors gun, it is an "
 "effective automated sentry, though production was limited due to a legal "
@@ -33354,6 +33669,12 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
+"The masked shrew, a mouse-like creature with a pointed, whiskery snout.  It "
+"digs tunnels into the ground in search of bugs to eat."
+msgstr ""
+
+#: lang/json/json_monsters.py
+msgid ""
 "The northern woodland white-tailed deer, a quick and strong grazing animal.  "
 "Favored prey of coyotes, wolves, and giant spider mutants."
 msgstr ""
@@ -33362,12 +33683,6 @@ msgstr ""
 msgid ""
 "The red fox, an omnivorous canine and largest of the true foxes, it is a "
 "wily hunter with a combative, suspicious temperament."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
-"The shuffling corpse of a once-proud bear, its eyes ooze with black fluid, "
-"and its flesh is torn and scarred."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -33384,9 +33699,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The white footed mouse, a relatively long-lived disease vector with a white "
-"underbelly and a long fuzzy tail.  A common sight in fields, forests, and "
-"research centers."
+"The white-footed mouse, a prolific rodent with a white underbelly and a long "
+"fuzzy tail.  A common sight in fields, forests, and research centers."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -33584,9 +33898,8 @@ msgid "eyebot"
 msgstr "робоглаз"
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid "feral hunter"
-msgstr "Очень голоден"
+msgstr ""
 
 #: lang/json/json_monsters.py
 msgid "flaming eye"
@@ -34347,6 +34660,10 @@ msgid "Forked Tongue"
 msgstr "Раздвоенный язык"
 
 #: lang/json/json_mutations.py
+msgid "Frail"
+msgstr ""
+
+#: lang/json/json_mutations.py
 msgid "Full Night Vision"
 msgstr "Абсолютное ночное зрение"
 
@@ -34377,10 +34694,6 @@ msgstr "Гурман"
 #: lang/json/json_mutations.py
 msgid "Growling Voice"
 msgstr "Грубый голос"
-
-#: lang/json/json_mutations.py
-msgid "Hardcore"
-msgstr "Хардкор"
 
 #: lang/json/json_mutations.py
 msgid "Head Bumps"
@@ -45947,7 +46260,7 @@ msgstr "Бейболист"
 
 #: lang/json/json_professions.py
 msgid ""
-"Before the Apocalypse, you turned to Heroin to soothe your many problems. "
+"Before the apocalypse, you turned to Heroin to soothe your many problems. "
 "Now, your habit is your only comfort and your only drive."
 msgstr ""
 
@@ -46360,10 +46673,9 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You were about to marry your bride before the cataclysm, now you spend you "
+"You were about to marry your bride before the cataclysm, now you spend your "
 "days searching for her."
 msgstr ""
-"Вы собирались жениться до катаклизма, и теперь Вы тратите время на ее поиски."
 
 #: lang/json/json_professions.py
 msgid ""
@@ -46383,12 +46695,9 @@ msgstr ""
 #: lang/json/json_professions.py
 msgid ""
 "You were on your way to collect your check, when your pimp tried to kill "
-"you. You wish that it wasn't a common occurence. You start with the last of "
+"you. You wish that it wasn't a common occurrence. You start with the last of "
 "your stash and a strong crack addiction."
 msgstr ""
-"Вы были на панели, когда сутенер попытался убить вас. Вы надеетесь, что это "
-"просто случайность. Начинаете в своём наряде и сильной зависимостью от "
-"наркотиков."
 
 #: lang/json/json_professions.py
 msgid ""
@@ -46438,7 +46747,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You've traveled for a living, sightseeing here and there, and living off "
+"You've travelled for a living, sightseeing here and there, and living off "
 "your parents' trust fund. But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
@@ -46466,9 +46775,9 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Your body has bionics worth millions payed by public taxes. The government "
-"employed you as a spy: you have night vision, an alarm and a hacking module "
-"powered by your own metabolism."
+"Your body has several bionics worth millions of dollars, paid for by public "
+"taxes. The government employed you as a spy: you have night vision, an alarm "
+"and a hacking module powered by your own metabolism."
 msgstr ""
 
 #: lang/json/json_professions.py
@@ -48039,9 +48348,8 @@ msgid "young tree"
 msgstr "молодое дерево"
 
 #: lang/json/json_tool_qualities.py
-#, fuzzy
 msgid "cutting quality"
-msgstr "режущее оружие"
+msgstr ""
 
 #: lang/json/json_tutorial.py
 msgid ""
@@ -48692,10 +49000,9 @@ msgid "Really Quit? All unsaved changes will be lost."
 msgstr "Действительно выйти? Все несохраненные изменения будут потеряны."
 
 #: main_menu.cpp
-#, fuzzy
 msgctxt "Main Menu|World"
 msgid "<C>reate World"
-msgstr "Удалять мир"
+msgstr ""
 
 #: main_menu.cpp
 msgctxt "Main Menu"
@@ -48708,20 +49015,9 @@ msgid "<C>ustom Character"
 msgstr "Новый персонаж"
 
 #: main_menu.cpp
-#, fuzzy
 msgctxt "Main Menu|World"
 msgid "<D>elete World"
-msgstr "Удалять мир"
-
-#: main_menu.cpp
-msgctxt "Main Menu"
-msgid "<H>elp"
-msgstr "Помощь"
-
-#: main_menu.cpp
-msgctxt "Main Menu"
-msgid "<L>oad"
-msgstr "Загрузка"
+msgstr ""
 
 #: main_menu.cpp
 msgctxt "Main Menu"
@@ -48754,10 +49050,9 @@ msgid "<R>andom Character"
 msgstr "Случайный персонаж"
 
 #: main_menu.cpp
-#, fuzzy
 msgctxt "Main Menu|World"
 msgid "<R>eset World"
-msgstr "Удалять мир"
+msgstr ""
 
 #: main_menu.cpp
 msgctxt "Main Menu"
@@ -48774,9 +49069,18 @@ msgid "Delete the world and all saves?"
 msgstr "Удалить мир, и все сохранения?"
 
 #: main_menu.cpp
-#, fuzzy
+msgctxt "Main Menu"
+msgid "H<e>lp"
+msgstr ""
+
+#: main_menu.cpp
+msgctxt "Main Menu"
+msgid "Lo<a>d"
+msgstr ""
+
+#: main_menu.cpp
 msgid "No Worlds found!"
-msgstr "Шаблоны не найдены!"
+msgstr ""
 
 #: main_menu.cpp
 msgid "No message today."
@@ -49221,6 +49525,14 @@ msgstr ""
 
 #: mapgen.cpp
 msgid "Wreckage"
+msgstr ""
+
+#: mapgen.cpp
+msgid "pile-up"
+msgstr ""
+
+#: mapgen.cpp
+msgid "policecar pile-up"
 msgstr ""
 
 #: material.cpp
@@ -51573,18 +51885,6 @@ msgid "Tom"
 msgstr "Том"
 
 #: newcharacter.cpp
-msgid " decrease the statistic."
-msgstr " уменьшить характеристику"
-
-#: newcharacter.cpp
-msgid " increase the statistic."
-msgstr " увеличить характеристику"
-
-#: newcharacter.cpp
-msgid " select a statistic."
-msgstr " выбрать характеристику"
-
-#: newcharacter.cpp
 #, c-format
 msgid "%s earns %d points"
 msgstr "%s добавляет %d очков"
@@ -51592,10 +51892,6 @@ msgstr "%s добавляет %d очков"
 #: newcharacter.cpp
 msgid "(Press TAB to move off this line)"
 msgstr "(нажмите TAB для переключения)"
-
-#: newcharacter.cpp
-msgid "(Press spacebar to toggle)"
-msgstr "(Нажмите пробел для выбора)"
 
 #: newcharacter.cpp
 msgid "< Returns you to the main menu."
@@ -51705,6 +52001,11 @@ msgid "Points left:%3d"
 msgstr "Очков осталось:%3d"
 
 #: newcharacter.cpp
+#, fuzzy, c-format
+msgid "Points left:%3d "
+msgstr "Очков осталось:%3d"
+
+#: newcharacter.cpp
 #, c-format
 msgid "Profession %1$s costs %2$d points (net: %3$d)"
 msgstr "Профессия %1$s стоит %2$d (итог %3$d)"
@@ -51719,8 +52020,8 @@ msgid "Ranged penalty: -%d"
 msgstr "Штраф дальнего боя: -%d"
 
 #: newcharacter.cpp
-#, c-format
-msgid "Read times: %d%%%%"
+#, fuzzy, c-format
+msgid "Read times: %d%%"
 msgstr "Время на чтение: %d%%%%"
 
 #: newcharacter.cpp
@@ -51740,8 +52041,8 @@ msgid "STATS"
 msgstr "ХАРАКТЕРИСТИКИ"
 
 #: newcharacter.cpp
-#, c-format
-msgid "Skill rust: %d%%%%"
+#, fuzzy, c-format
+msgid "Skill rust: %d%%"
 msgstr "Атрофия навыков: %d%%%%"
 
 #: newcharacter.cpp
@@ -51785,12 +52086,14 @@ msgid "To go back and review your character, press <"
 msgstr "Чтобы вернуться и переделать персонажа, нажмите <"
 
 #: newcharacter.cpp
-msgid "To pick a random name for your character, press ?."
+#, fuzzy
+msgid "To pick a random name for your character, press ?"
 msgstr ""
 "Чтобы выбрать случайное имя для вашего персонажа, нажмите кнопку \"?\"."
 
 #: newcharacter.cpp
-msgid "To save this character as a template, press !."
+#, fuzzy
+msgid "To save this character as a template, press !"
 msgstr "Чтобы сохранить этого персонажа в качестве шаблона, нажмите \"!\"."
 
 #: newcharacter.cpp
@@ -51829,25 +52132,28 @@ msgstr "Ваша профессия %s не позволяет избавить�
 msgid "Your profession of %s prevents you from taking this trait."
 msgstr "Ваша профессия %s препятствует взятию этой характеристики."
 
-#: newcharacter.cpp worldfactory.cpp
-msgid "______NO NAME ENTERED!!!!_____"
+#: newcharacter.cpp
+#, fuzzy
+msgid "______NO NAME ENTERED!!!______"
 msgstr "______ИМЯ НЕ ВВЕДЕНО!!!!_____"
 
 #: newcharacter.cpp
-msgid "h, 4, or left arrow"
-msgstr "h, 4 или стрелка влево"
+#, fuzzy
+msgid "h, 4, or left arrow to decrease the statistic."
+msgstr " уменьшить характеристику"
 
 #: newcharacter.cpp
-msgid "j/k, 8/2, or arrows"
-msgstr "j/k, 8/2 или стрелочки"
+msgid "j/k, 8/2, or up/down arrows to select a statistic."
+msgstr ""
 
 #: newcharacter.cpp options.cpp player.cpp
 msgid "kg"
 msgstr "кг"
 
 #: newcharacter.cpp
-msgid "l, 6, or right arrow"
-msgstr "l, 6 или стрелка вправо"
+#, fuzzy
+msgid "l, 6, or right arrow to increase the statistic."
+msgstr " увеличить характеристику"
 
 #: newcharacter.cpp options.cpp player.cpp
 msgid "lbs"
@@ -54543,7 +54849,17 @@ msgid "Celsius"
 msgstr "Цельсий"
 
 #: options.cpp
+msgid "Centered"
+msgstr ""
+
+#: options.cpp
 msgid "Centered menu scrolling"
+msgstr ""
+
+#: options.cpp
+msgid ""
+"Centered or to edge, shift the view toward the selected item if it is "
+"outside of your current viewport."
 msgstr ""
 
 #: options.cpp
@@ -54728,12 +55044,6 @@ msgstr ""
 msgid "If true, safemode will be on after starting a new game or loading."
 msgstr ""
 "Если да, то безопасный режим включается при начале новой игры или загрузке."
-
-#: options.cpp
-msgid ""
-"If true, shift the view toward the selected item if it is outside of your "
-"current viewport."
-msgstr ""
 
 #: options.cpp
 msgid "If true, spawn zombies at shelters."
@@ -55046,6 +55356,10 @@ msgstr "Шкала температуры"
 
 #: options.cpp
 msgid "Time format"
+msgstr ""
+
+#: options.cpp
+msgid "To edge"
 msgstr ""
 
 #: options.cpp
@@ -55865,9 +56179,9 @@ msgid "Cocaine Craving"
 msgstr "Кокаиновая ломка"
 
 #: player.cpp
-#, c-format
-msgid "Cold-Blooded        -%s%d%%%%"
-msgstr ""
+#, fuzzy, c-format
+msgid "Cold-Blooded        -%s%d%%"
+msgstr "Хорошее настроение +%s%d%%%%"
 
 #: player.cpp
 #, c-format
@@ -55912,17 +56226,17 @@ msgid "Depressants"
 msgstr "Успокоительное"
 
 #: player.cpp
-#, c-format
-msgid "Depressants         -%s%d%%%%"
-msgstr ""
+#, fuzzy, c-format
+msgid "Depressants         -%s%d%%"
+msgstr "Подавленный -%s%d%%%%"
 
 #: player.cpp
 msgid "Depressed"
 msgstr "Подавленный"
 
 #: player.cpp
-#, c-format
-msgid "Depressed           -%s%d%%%%"
+#, fuzzy, c-format
+msgid "Depressed           -%s%d%%"
 msgstr "Подавленный -%s%d%%%%"
 
 #: player.cpp
@@ -56068,8 +56382,8 @@ msgid "Good Feeling"
 msgstr "Хорошее самочувствие"
 
 #: player.cpp
-#, c-format
-msgid "Good mood           +%s%d%%%%"
+#, fuzzy, c-format
+msgid "Good mood           +%s%d%%"
 msgstr "Хорошее настроение +%s%d%%%%"
 
 #: player.cpp
@@ -56103,8 +56417,8 @@ msgid "Heard Disturbing Scream"
 msgstr ""
 
 #: player.cpp
-#, c-format
-msgid "Hunger              -%s%d%%%%"
+#, fuzzy, c-format
+msgid "Hunger              -%s%d%%"
 msgstr "Голод -%s%d%%%%"
 
 #: player.cpp
@@ -56340,12 +56654,12 @@ msgstr "Опиумная ломка"
 
 #: player.cpp
 #, c-format
-msgid "Out of Sunlight     -%s%d%%%%"
+msgid "Out of Sunlight     -%s%d%%"
 msgstr ""
 
 #: player.cpp
-#, c-format
-msgid "Overburdened        -%s%d%%%%"
+#, fuzzy, c-format
+msgid "Overburdened        -%s%d%%"
 msgstr "Перегружен -%s%d%%%%"
 
 #: player.cpp
@@ -56358,8 +56672,8 @@ msgid "Pain"
 msgstr "Боль"
 
 #: player.cpp
-#, c-format
-msgid "Pain                -%s%d%%%%"
+#, fuzzy, c-format
+msgid "Pain                -%s%d%%"
 msgstr "Боль -%s%d%%%%"
 
 #: player.cpp
@@ -56368,8 +56682,8 @@ msgid "Pain %d"
 msgstr "Боль %d"
 
 #: player.cpp
-#, c-format
-msgid "Painkillers         -%s%d%%%%"
+#, fuzzy, c-format
+msgid "Painkillers         -%s%d%%"
 msgstr "Обезболивающие  -%s%d%%%%"
 
 #: player.cpp
@@ -56424,8 +56738,8 @@ msgid "Putting on a %s would be tricky."
 msgstr "Надеть на себя %s было бы неплохим цирковым номером."
 
 #: player.cpp
-#, c-format
-msgid "Quick               +%s%d%%%%"
+#, fuzzy, c-format
+msgid "Quick               +%s%d%%"
 msgstr "Быстрый +%s%d%%%%"
 
 #: player.cpp
@@ -56442,8 +56756,8 @@ msgid "Read %i"
 msgstr "Чтение %i"
 
 #: player.cpp
-#, c-format
-msgid "Read times: %d%%%%           "
+#, fuzzy, c-format
+msgid "Read times: %d%%           "
 msgstr "Время на чтение: %d%%%%           "
 
 #: player.cpp
@@ -56513,8 +56827,8 @@ msgid "Siphoned %d units of %s from the %s."
 msgstr "Откачано %d единиц %s из %s."
 
 #: player.cpp
-#, c-format
-msgid "Skill rust: %d%%%%           "
+#, fuzzy, c-format
+msgid "Skill rust: %d%%           "
 msgstr "Атрофия навыков: %d%%%%           "
 
 #: player.cpp
@@ -56564,8 +56878,8 @@ msgid "Stimulant Overdose"
 msgstr "Передозировка стимулянтов"
 
 #: player.cpp
-#, c-format
-msgid "Stimulants          +%s%d%%%%"
+#, fuzzy, c-format
+msgid "Stimulants          +%s%d%%"
 msgstr "Стимулянты +%s%d%%%%"
 
 #: player.cpp
@@ -56661,8 +56975,8 @@ msgid "The thought of eating that makes you feel sick. Really do it?"
 msgstr "Вас тошнит от одной мысли о подобной еде. Точно хотите?"
 
 #: player.cpp
-#, c-format
-msgid "Thirst              -%s%d%%%%"
+#, fuzzy, c-format
+msgid "Thirst              -%s%d%%"
 msgstr "Жажда -%s%d%%%%"
 
 #: player.cpp
@@ -57043,9 +57357,10 @@ msgid "You need a %s to consume that!"
 msgstr "Вам нужен %s, чтобы это съесть!"
 
 #: player.cpp
+#, fuzzy
 msgid ""
-"You need to be at least level 1 in the firearms skill before you can modify "
-"guns."
+"You need to be at least level 1 in the marksmanship skill before you can "
+"modify guns."
 msgstr ""
 "Вам нужно иметь, как минимум, 1 уровень в навыке обращения с огнестрельным "
 "оружием для его модификации."
@@ -57268,6 +57583,11 @@ msgid "Your batteries discharge slightly."
 msgstr ""
 
 #: player.cpp
+#, fuzzy
+msgid "Your body strains under the weight!"
+msgstr "Вы неумело разделали тушу и всё мясо пропало!"
+
+#: player.cpp
 msgid "Your eyes won't focus without reading glasses."
 msgstr "У вас в глазах всё расплывается без очков для чтения."
 
@@ -57353,14 +57673,6 @@ msgstr "\"0\" на себя; \"*\" на выбранную цель"
 #: ranged.cpp
 msgid "'<' '>' Cycle targets; 'f' or '.' to fire"
 msgstr "'<' '>' Смена целей; 'f' или '.' стрелять"
-
-#: ranged.cpp
-msgid "<npcname> barely misses!"
-msgstr "<npcname>  немного промахнулся!"
-
-#: ranged.cpp
-msgid "<npcname> misses!"
-msgstr "<npcname>  промахнулся!"
 
 #: ranged.cpp
 msgid "<npcname>'s weapon misfires!"
@@ -58322,6 +58634,10 @@ msgstr "Фары выключены"
 msgid "Headlights turned on"
 msgstr "Фары включены"
 
+#: vehicle.cpp
+msgid "Honk horn"
+msgstr ""
+
 #. ~ indicates that a vehicle part is inside
 #: vehicle.cpp
 msgid "In"
@@ -58625,9 +58941,9 @@ msgid " WORLD SELECTION "
 msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "%s is not a valid world name, already exists!"
-msgstr "%c не годится в качестве символа для инвентаря."
+msgstr ""
 
 #: worldfactory.cpp
 #, c-format
@@ -58635,64 +58951,57 @@ msgid "%s is not a valid world name, it is a reserved name"
 msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy
 msgid ""
 "Are you SURE you're finished? Your world's name will be randomly generated."
-msgstr "Вы ДЕЙСТВИТЕЛЬНО хотите закончить? Ваше имя будет выбрано случайно."
+msgstr ""
 
 #: worldfactory.cpp
 msgid "CONFIRMATION"
 msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy
 msgid "Do you want to abort World Generation?"
-msgstr "Хотите порвать %s на страницы?"
+msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to start the game in world [%s]?"
-msgstr "Хотите порвать %s на страницы?"
+msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "Page %d"
-msgstr "Волна %d: "
+msgstr ""
 
 #: worldfactory.cpp
 msgid "Pick a world to enter game"
 msgstr ""
 
 #: worldfactory.cpp
-msgid "There are no valid worlds to pick from, would you like to make one?"
+msgid "To go back and review your world, press <"
 msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy
-msgid "To go back and review your world, press <"
-msgstr "Чтобы вернуться и переделать персонажа, нажмите <"
-
-#: worldfactory.cpp
-#, fuzzy
 msgid "To pick a random name for your world, press ?."
 msgstr ""
-"Чтобы выбрать случайное имя для вашего персонажа, нажмите кнопку \"?\"."
 
 #: worldfactory.cpp
-#, fuzzy
 msgid ""
 "When you are satisfied with the world as it is and are ready to continue, "
 "press >"
-msgstr "Когда ваш персонаж готов, и вы готовы начать игру, нажмите >"
+msgstr ""
 
 #: worldfactory.cpp
 msgid "World Gen Options"
 msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy
 msgid "World Name:"
-msgstr "Имя:"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "______NO NAME ENTERED!!!!_____"
+msgstr "______ИМЯ НЕ ВВЕДЕНО!!!!_____"
 
 #~ msgid "You have a nicotine craving."
 #~ msgstr "У вас никотиновая зависимость."
@@ -58828,6 +59137,15 @@ msgstr "Имя:"
 
 #~ msgid "Smash"
 #~ msgstr "Ударить"
+
+#~ msgid "You greatly damage the %s!"
+#~ msgstr "Вы сильно повредили %s!"
+
+#~ msgid "You damage the %s!"
+#~ msgstr "Вы повредили %s!"
+
+#~ msgid "The corpse is now thoroughly pulped."
+#~ msgstr "Труп окончательно превратился в кровавую массу."
 
 #~ msgid "Control vehicle"
 #~ msgstr "Управление машиной"
@@ -58996,127 +59314,26 @@ msgstr "Имя:"
 #~ msgid "karate"
 #~ msgstr "карате"
 
-#~ msgid ""
-#~ "One of the five Shaolin animal styles. Tiger style focuses on relentless\n"
-#~ "attacks above all else. Strength, not Dexterity, is used to determine "
-#~ "hits;\n"
-#~ "you also receive an accumulating bonus for several turns of sustained "
-#~ "attack."
-#~ msgstr ""
-#~ "Один из пяти животных стилей Шаолиня. Стиль тигра нацелен на нанесение\n"
-#~ "непрекращающихся ударов. Не ловкость, а сила определяет успешность "
-#~ "удара.\n"
-#~ "Так же вы получаете накапливающийся бонус за несколько ходов успешных "
-#~ "атак подряд."
-
 #~ msgid "tiger style"
 #~ msgstr "стиль тигра"
-
-#~ msgid ""
-#~ "One of the five Shaolin animal styles. Crane style uses intricate hand\n"
-#~ "techniques and jumping dodges. Dexterity, not Strength, is used to "
-#~ "determine\n"
-#~ "damage; you also receive a dodge bonus the turn after moving a tile."
-#~ msgstr ""
-#~ "Один из пяти животных стилей Шаолиня. Стиль журавля использует\n"
-#~ "сложные движения кисти и увороты в прыжке. Ловкость, а не сила "
-#~ "определяет\n"
-#~ "урон. Так же вы получаете бонус к увороту после перемещения на 1 тайл."
 
 #~ msgid "crane style"
 #~ msgstr "стиль журавля"
 
-#~ msgid ""
-#~ "One of the five Shaolin animal styles. Leopard style focuses on rapid,\n"
-#~ "strategic strikes. Your Perception and Intelligence boost your accuracy, "
-#~ "and\n"
-#~ "moving a single tile provides an increased boost for one turn."
-#~ msgstr ""
-#~ "Один из пяти животных стилей Шаолиня. Стиль леопарда фокусируется на\n"
-#~ "быстрых, стратегически наносимых ударах. Ваши восприятие и интеллект\n"
-#~ "увеличивают точность, а перемещение на 1 клетку даёт ускорение на 1 ход."
-
-#~ msgid "leopard style"
-#~ msgstr "стиль леопарда"
-
 #~ msgid "%1$s swiftly jab %4$s"
 #~ msgstr "%1$s тыкает %4$s"
-
-#~ msgid ""
-#~ "One of the five Shaolin animal styles. Snake style uses sinuous movement "
-#~ "and\n"
-#~ "precision strikes. Perception increases your chance to hit as well as "
-#~ "the\n"
-#~ "damage you deal."
-#~ msgstr ""
-#~ "Один из животных стилей Шаолиня. Стиль змеи использует извилистые "
-#~ "движения\n"
-#~ "и точные удары. Восприятие увеличивает как шанс на успешное попадание, "
-#~ "так \n"
-#~ "и наносимый урон."
 
 #~ msgid "snake style"
 #~ msgstr "стиль змеи"
 
-#~ msgid ""
-#~ "One of the five Shaolin animal styles. Dragon style uses fluid movements "
-#~ "and\n"
-#~ "hard strikes. Intelligence increases your chance to hit as well as the\n"
-#~ "damage you deal. Moving a tile will boost damage further for one turn."
-#~ msgstr ""
-#~ "Один из животных стилей Шаолиня. Стиль дракона использует плавные "
-#~ "движения\n"
-#~ "и тяжёлые удары. Интеллект увеличивает как шанс нанести удар, так и "
-#~ "урон.\n"
-#~ "Перемещение на 1 клетку дает бонус к урону на 1 ход."
-
 #~ msgid "dragon style"
 #~ msgstr "стиль дракона"
-
-#~ msgid ""
-#~ "One of the Five Deadly Venoms. Centipede style uses an onslaught of "
-#~ "rapid\n"
-#~ "strikes. Every strike you make reduces the movement cost of attacking by "
-#~ "4;\n"
-#~ "this is cumulative, but is reset entirely if you are hit even once."
-#~ msgstr ""
-#~ "Один из Пяти Смертельных Ядов. С этим стилем, вы будете наносить "
-#~ "множество\n"
-#~ "быстрых ударов. Каждый удар уменьшает кол-во очков действия для "
-#~ "нанесения\n"
-#~ "следующего на 4. Бонус накапливается, но весь пропадает после получения "
-#~ "урона."
 
 #~ msgid "centipede style"
 #~ msgstr "стиль многоножки"
 
-#~ msgid ""
-#~ "One of the Five Deadly Venoms. Viper Style has a unique three-hit combo; "
-#~ "if\n"
-#~ "you score a critical hit, it is initiated. The second hit uses a coned "
-#~ "hand\n"
-#~ "to deal piercing damage, and the 3rd uses both hands in a devastating "
-#~ "strike."
-#~ msgstr ""
-#~ "Один из Пяти Смертельных Ядов. Стиль гадюки имеет уникальную комбинацию\n"
-#~ "из трёх ударов. Первый удар должен быть критическим. Второй наносит "
-#~ "проникающий\n"
-#~ "урон рукой, сложенной в конус. Мощнейший третий удар наносится двумя "
-#~ "руками."
-
 #~ msgid "viper style"
 #~ msgstr "стиль гадюки"
-
-#~ msgid ""
-#~ "One of the Five Deadly Venoms. Scorpion Style is a mysterious art that "
-#~ "focuses\n"
-#~ "on utilizing pincer-like fists and a stinger-like kick. Critical hits "
-#~ "will do\n"
-#~ "massive damage, knocking your target far back."
-#~ msgstr ""
-#~ "Один из Пяти Смертельных Ядов. Стиль скорпиона фокусируется на нанесении\n"
-#~ "щиплющих ударов руками и жалящих ударов ногами. Критические удары\n"
-#~ "наносят огромный урон, отбрасывая цель далеко назад."
 
 #~ msgid "scorpion style"
 #~ msgstr "стиль скорпиона"
@@ -59137,17 +59354,6 @@ msgstr "Имя:"
 
 #~ msgid "lizard style"
 #~ msgstr "стиль ящерицы"
-
-#~ msgid ""
-#~ "One of the Five Deadly Venoms. Immensely powerful, and immune to nearly "
-#~ "any\n"
-#~ "weapon. You may meditate by pausing for a turn; this will give you "
-#~ "temporary\n"
-#~ "armor, proportional to your Intelligence and Perception."
-#~ msgstr ""
-#~ "Один из Пяти Смертельных Ядов. Невероятно мощный и защищающий от\n"
-#~ "почти любого оружия. Вы можете медитировать один ход; это даст вам\n"
-#~ "временный бонус к защите, пропорциональный вашему интеллекту и восприятию."
 
 #~ msgid "toad style"
 #~ msgstr "стиль жабы"
@@ -59524,14 +59730,6 @@ msgstr "Имя:"
 #~ "Паяльник, при включении очень горяч и помогает крафтить различную "
 #~ "электронику. Вы можете использовать его для прижигании ран, если они у "
 #~ "вас есть."
-
-#~ msgid ""
-#~ "Using this item on a container full of water will purify the water. Water "
-#~ "taken from uncertain sources like a river may be dirty."
-#~ msgstr ""
-#~ "Водоочиститель. Его использование на контейнер с водой позволяет очищать "
-#~ "находящуюся там воду. Довольно полезная вещь, так как вода из рек или "
-#~ "других сомнительных источников может быть грязной."
 
 #~ msgid ""
 #~ "Using this allows you to send out a signal; either a general SOS, or if "
@@ -64740,6 +64938,15 @@ msgstr "Имя:"
 #~ msgstr "насекомое-фунгалоид"
 
 #~ msgid ""
+#~ "This insect is pale gray in color, its\n"
+#~ "chitin weakened by the fungus sprouting\n"
+#~ "from every joint on its body."
+#~ msgstr ""
+#~ "Это насекомое бледно-серого цвета,\n"
+#~ "его хитин ослаблен спорами фунгалоида,\n"
+#~ "исходящими из каждого сочинения."
+
+#~ msgid ""
 #~ "A large housefly the size of a small dog.\n"
 #~ "It buzzes around incessantly."
 #~ msgstr ""
@@ -64838,6 +65045,13 @@ msgstr "Имя:"
 #~ msgstr ""
 #~ "Ужасная тварь, руки и ноги которого \n"
 #~ "представляют собой горы мускулов."
+
+#~ msgid ""
+#~ "A zombie that has somehow grown to the size of\n"
+#~ "6 men, with arms as wide as a trash can."
+#~ msgstr ""
+#~ "Зомби непонятно как выросший до размеров шести человек,\n"
+#~ "с руками и ногами объемом с мусорный бак."
 
 #~ msgid ""
 #~ "A diseased zombie. Fungus sprouts from its\n"
@@ -65076,32 +65290,11 @@ msgstr "Имя:"
 #~ "красных песочных часов на спине. \n"
 #~ "Он известен своим сильнодействующим ядом."
 
-#~ msgid "Zui Quan"
-#~ msgstr "Пьяный кулак"
-
 #~ msgid "Crane"
 #~ msgstr "Журавль"
 
-#~ msgid "Leopard"
-#~ msgstr "Леопард"
-
 #~ msgid "Snake"
 #~ msgstr "Змея"
-
-#~ msgid "Tiger"
-#~ msgstr "Тигр"
-
-#~ msgid "Dragon"
-#~ msgstr "Дракон"
-
-#~ msgid "Centipede"
-#~ msgstr "Сороконожка"
-
-#~ msgid "Lizard"
-#~ msgstr "Ящерица"
-
-#~ msgid "Scorpion"
-#~ msgstr "Скорпион"
 
 #~ msgid "Viper"
 #~ msgstr "Гадюка"
@@ -65114,6 +65307,9 @@ msgstr "Имя:"
 
 #~ msgid "Skill Rust"
 #~ msgstr "Атрофия навыков"
+
+#~ msgid "Delete World"
+#~ msgstr "Удалять мир"
 
 #~ msgid "Hide Mouse Cursor"
 #~ msgstr "Скрыть курсор мыши"
@@ -65217,6 +65413,9 @@ msgstr "Имя:"
 #~ msgid "Sterilized the infection... this time."
 #~ msgstr "Избавился от инфекции... в этот раз."
 
+#~ msgid "You wake up to the ringing of an alarm-clock."
+#~ msgstr "Вы проснулись от звонка будильника."
+
 #~ msgid "%s starts scratching himself all over!"
 #~ msgstr "%s начал весь чесаться!"
 
@@ -65264,6 +65463,12 @@ msgstr "Имя:"
 #~ msgid "%s Stop %s?"
 #~ msgstr "%s  Прекратить %s?"
 
+#~ msgid "You swing at the corpse."
+#~ msgid_plural "You swing at the corpses."
+#~ msgstr[0] "Вы бьете труп."
+#~ msgstr[1] "Вы бьете трупы."
+#~ msgstr[2] "Вы бьете трупы."
+
 #~ msgid "Peek"
 #~ msgstr "Заглянуть"
 
@@ -65289,19 +65494,6 @@ msgstr "Имя:"
 #~ "извиняюсь, если ваш эмулятор графического окна идёт с крайне маленьким\n"
 #~ "%dx%d размером по умолчанию, но это же просто не заработает. А теперь\n"
 #~ "растяните окно, пока оно не примет нужный размер (или больше).\n"
-
-#~ msgid ""
-#~ "Aikido is a Japanese martial art focused on self-defense, while "
-#~ "minimizing\n"
-#~ "injury to the attacker. It uses defense throws and disarms. Damage done\n"
-#~ "while using this technique is halved, but pain inflicted is doubled."
-#~ msgstr ""
-#~ "Айкидо — японское искусство рукопашного боя, сфокусированное на "
-#~ "самообороне и\n"
-#~ "уменьшении травм атакующего. В нем используются броски и приёмы "
-#~ "разоружения.\n"
-#~ "При использовании этой техники наносится половина повреждений, но боль "
-#~ "удваивается."
 
 #~ msgid "aikido"
 #~ msgstr "айкидо"
@@ -65777,14 +65969,48 @@ msgstr "Имя:"
 #~ msgstr "Маленькое лесное животное."
 
 #~ msgid ""
+#~ "A cute wiggling nose, cotton tail, and\n"
+#~ "delicious flesh."
+#~ msgstr ""
+#~ "Мило двигает носом, бьёт хвостом\n"
+#~ "и обладает очень вкусным мясом."
+
+#~ msgid ""
 #~ "An evil-looking, slender-bodied wasp with\n"
 #~ "a vicious sting on its abdomen."
 #~ msgstr ""
 #~ "Злобная на вид, тощая оса\n"
 #~ "со злым жалом на злом брюшке."
 
+#~ msgid ""
+#~ "A hideous slithering beast with a tri-\n"
+#~ "sectional mouth that opens to reveal\n"
+#~ "hundreds of writhing tongues. Most of its\n"
+#~ "enormous body is hidden underground."
+#~ msgstr ""
+#~ "Омерзительная, склийзкая тварь, с\n"
+#~ "\"разтроенным\" ртом, открывающимся,\n"
+#~ "чтобы выпустить сотни сплетающихся языков.\n"
+#~ "Половиной тела сидит в земле, на дороги не выползает."
+
 #~ msgid "A portion of a giant worm that is still alive."
 #~ msgstr "Часть гигантского червя всё ещё жива."
+
+#~ msgid ""
+#~ "This zombie's hands and feet are\n"
+#~ "webbed, and it is clad in swimwear."
+#~ msgstr ""
+#~ "Этот зомби одет в купальный костюм, а\n"
+#~ "его руки и ноги покрыты перепонками."
+
+#~ msgid ""
+#~ "A bloated zombie sagging with fat. It emits a\n"
+#~ "horrible odor, and putrid, pink sludge drips\n"
+#~ "from its mouth."
+#~ msgstr ""
+#~ "Раздувшийся от жира зомби. Источает тошнотворный запах,\n"
+#~ "а из его рта лезет отвратительный темно-розовый\n"
+#~ "творогообразный гной."
 
 #~ msgid ""
 #~ "A bloated zombie that is coated with slimy\n"
@@ -66211,6 +66437,13 @@ msgstr "Имя:"
 #~ msgstr ""
 #~ "Вы были одним из тех, кто смотрел слишком много передач про выживание. Вы "
 #~ "начинаете с рюкзаком, пиджаком и навыком выживания."
+
+#~ msgid ""
+#~ "You were about to marry your bride before the cataclysm, now you spend "
+#~ "you days searching for her."
+#~ msgstr ""
+#~ "Вы собирались жениться до катаклизма, и теперь Вы тратите время на ее "
+#~ "поиски."
 
 #~ msgid "trap door spider"
 #~ msgstr "паук-гнездовик"
@@ -67036,19 +67269,6 @@ msgstr "Имя:"
 #~ msgid "%1$s strikes %4$s with spincer fist"
 #~ msgstr "%1$s бьет %4$s закрученным кулаком"
 
-#~ msgid ""
-#~ "Also known as \"drunken boxing,\" Zui Quan imitates the movement of a "
-#~ "drunk\n"
-#~ "to confuse the enemy. The turn after you attack, you may dodge any number "
-#~ "of\n"
-#~ "attacks with no penalty."
-#~ msgstr ""
-#~ "Так же известный как \"пьяный мастер\", Зуй-Цуань имитирует движения "
-#~ "пьяного,\n"
-#~ "чтобы сбить противника с толку. В течение хода, следующего за вашей "
-#~ "атакой,\n"
-#~ "вы можете увернуться от любого количества ударов противника без штрафов."
-
 #~ msgid "%1$s swiftly hits %4$s"
 #~ msgstr "%1$s наносит быстрый удар %4$s"
 
@@ -67167,9 +67387,6 @@ msgstr "Имя:"
 #~ msgstr "<ваш>%s's"
 
 #~ msgid " but do no damage."
-#~ msgstr " но не наносит урона."
-
-#~ msgid " but does no damage."
 #~ msgstr " но не наносит урона."
 
 #~ msgid " for %d damage."
@@ -67480,14 +67697,52 @@ msgstr "Имя:"
 #~ "Лист поролона, который легко можно свернуть для хранения. Согревает от "
 #~ "холодного пола, от чего становится легче спать."
 
-#~ msgid "You swing at the corpse."
-#~ msgid_plural "You swing at the corpses."
-#~ msgstr[0] "Вы бьете труп."
-#~ msgstr[1] "Вы бьете трупы."
-#~ msgstr[2] "Вы бьете трупы."
+#~ msgid "<npcname> misses!"
+#~ msgstr "<npcname>  промахнулся!"
 
-#~ msgid "You greatly damage the %s!"
-#~ msgstr "Вы сильно повредили %s!"
+#~ msgid "<npcname> barely misses!"
+#~ msgstr "<npcname>  немного промахнулся!"
 
-#~ msgid "You damage the %s!"
-#~ msgstr "Вы повредили %s!"
+#~ msgid "l, 6, or right arrow"
+#~ msgstr "l, 6 или стрелка вправо"
+
+#~ msgid "j/k, 8/2, or arrows"
+#~ msgstr "j/k, 8/2 или стрелочки"
+
+#~ msgid "h, 4, or left arrow"
+#~ msgstr "h, 4 или стрелка влево"
+
+#~ msgid "(Press spacebar to toggle)"
+#~ msgstr "(Нажмите пробел для выбора)"
+
+#~ msgid " select a statistic."
+#~ msgstr " выбрать характеристику"
+
+#~ msgctxt "Main Menu"
+#~ msgid "<L>oad"
+#~ msgstr "Загрузка"
+
+#~ msgctxt "Main Menu"
+#~ msgid "<H>elp"
+#~ msgstr "Помощь"
+
+#~ msgid ""
+#~ "You were on your way to collect your check, when your pimp tried to kill "
+#~ "you. You wish that it wasn't a common occurence. You start with the last "
+#~ "of your stash and a strong crack addiction."
+#~ msgstr ""
+#~ "Вы были на панели, когда сутенер попытался убить вас. Вы надеетесь, что "
+#~ "это просто случайность. Начинаете в своём наряде и сильной зависимостью "
+#~ "от наркотиков."
+
+#~ msgid "Hardcore"
+#~ msgstr "Хардкор"
+
+#~ msgid ""
+#~ "There's no room in your inventory for the %s, and you can't  unwield your "
+#~ "%s."
+#~ msgstr ""
+#~ "В вашем инвентаре нет места для %s, и вы не можете выпустить из рук %s."
+
+#~ msgid "Monster Spotted!"
+#~ msgstr "Замечен монстр!"

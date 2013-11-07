@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-31 07:37+1300\n"
+"POT-Creation-Date: 2013-11-07 14:48+1300\n"
 "PO-Revision-Date: 2013-10-09 10:37+0000\n"
 "Last-Translator: Michał Walczak <Unknown>\n"
 "Language-Team: Polish Translation Team\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-30 06:05+0000\n"
+"X-Launchpad-Export-Date: 2013-11-07 00:27+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #: action.cpp
@@ -4701,6 +4701,10 @@ msgid "You try to sleep, but can't..."
 msgstr ""
 
 #: disease.cpp
+msgid "You turn off your alarm-clock."
+msgstr ""
+
+#: disease.cpp
 #, c-format
 msgid "You use your %s to keep warm."
 msgstr ""
@@ -4719,10 +4723,6 @@ msgstr ""
 
 #: disease.cpp
 msgid "You wake up coughing."
-msgstr ""
-
-#: disease.cpp
-msgid "You wake up to the ringing of an alarm-clock."
 msgstr ""
 
 #: disease.cpp
@@ -7301,6 +7301,11 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+#. ~ Fast-scroll indicator
+#: game.cpp
+msgid "F"
+msgstr ""
+
 #: game.cpp
 msgid "FACTIONS:"
 msgstr ""
@@ -7464,7 +7469,7 @@ msgid "Maybe you should find something new to read..."
 msgstr ""
 
 #: game.cpp
-msgid "Monster Spotted!"
+msgid "Monster dangerously close!"
 msgstr ""
 
 #: game.cpp
@@ -7960,7 +7965,6 @@ msgid "The corpse is thoroughly pulped."
 msgid_plural "The corpses are thoroughly pulped."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: game.cpp
 msgid "The door is locked!"
@@ -8068,12 +8072,6 @@ msgstr ""
 
 #: game.cpp
 msgid "There's no corpse to butcher!"
-msgstr ""
-
-#: game.cpp
-#, c-format
-msgid ""
-"There's no room in your inventory for the %s, and you can't  unwield your %s."
 msgstr ""
 
 #: game.cpp
@@ -8543,6 +8541,11 @@ msgid "You fall on the ground for %d damage."
 msgstr ""
 
 #: game.cpp
+#, fuzzy
+msgid "You feel like you haven't slept in days."
+msgstr "Czujesz że przydałaby się ścieżka."
+
+#: game.cpp
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr ""
@@ -8615,10 +8618,6 @@ msgstr ""
 
 #: game.cpp
 msgid "You haven't killed any monsters yet!"
-msgstr ""
-
-#: game.cpp
-msgid "You haven't slept in 2 days!"
 msgstr ""
 
 #: game.cpp vehicle.cpp
@@ -9080,6 +9079,14 @@ msgstr ""
 
 #: game.cpp
 msgid "to a nearby square."
+msgstr ""
+
+#: game.cpp
+msgid "to look around"
+msgstr ""
+
+#: game.cpp
+msgid "to shoot"
 msgstr ""
 
 #: game.cpp
@@ -11786,6 +11793,14 @@ msgid "Eternal Night"
 msgstr ""
 
 #: iuse.cpp
+msgid "Fill what?"
+msgstr ""
+
+#: iuse.cpp
+msgid "Fill which vehicle?"
+msgstr ""
+
+#: iuse.cpp
 msgid "Fire rains down around you!"
 msgstr ""
 
@@ -12090,6 +12105,11 @@ msgstr ""
 
 #: iuse.cpp
 msgid "Siphon from where?"
+msgstr ""
+
+#: iuse.cpp
+#, c-format
+msgid "Siphoned %d units of %s from the %s into the %s%s"
 msgstr ""
 
 #: iuse.cpp
@@ -17435,6 +17455,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A leather album full of photos of somebody's family. You don't know any of "
+"the people in them, but seeing these pictures still makes you think of "
+"happier times."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A leather bound portfolio that once belonged to a clothing designer. Filled "
 "with sketches and notes, a skilled tailor could learn a lot from this volume."
 msgstr ""
@@ -17489,6 +17516,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A lightweight hatchet made for throwing. Its ineffective cutting edge and "
+"light weight makes it unsuitable for use as a tool."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A lightweight home built combination armor made from a cut down bulletproof "
 "vest and a reinforced jumpsuit made out of fabric. Protects from the "
 "elements as well as from harm."
@@ -17499,6 +17532,12 @@ msgid ""
 "A little book for little readers. The colorful cartoon characters and sweet "
 "stories contained herein belong to a different time, before the dead walked "
 "and the world moved on."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A little hunk of glop that fell off a blob monster.  It doesn't seem "
+"hostile, but it does wiggle occasionally."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -18884,6 +18923,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "A stout metal pole with a sharp point."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A stout pole with an improvised grip and a fire-hardened point."
 msgstr ""
 
@@ -18953,6 +18996,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A sweet red berry."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A sword bayonet is a large slashing weapon that can be attached to the front "
+"of a shotgun or rifle, allowing a melee attack to deal piercing damage. The "
+"added length increases recoil substantially."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -19539,8 +19589,8 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"An aluminium baseball bat, smaller and lighter than a wooden bat and a "
-"little less damaging as a result."
+"An aluminium baseball bat, lighter than a wooden bat and a little easier to "
+"swing as a result."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -19839,13 +19889,6 @@ msgstr ""
 msgid ""
 "An interesting quarterly report about rocket launchers and recoilless "
 "rifles. There are lots of large, exciting photos of explosions and weaponry."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"An leather album full of photos of somebody's family. You don't know any of "
-"the people in them, but seeing these pictures still makes you think of "
-"happier times."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21542,6 +21585,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "RM51 assault rifle"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "RM614 LMG"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24240,8 +24287,9 @@ msgstr ""
 #: lang/json/json_items.py
 msgid ""
 "Using this item on a container full of water will purify the water using "
-"layered charcoal. Water taken from uncertain sources like a river may be "
-"dirty."
+"layered charcoal. Once the charcoal has purified enough water, it will "
+"become unusable and can be disassembled and recycled. Water taken from "
+"uncertain sources like a river may be dirty."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24249,6 +24297,13 @@ msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun "
 "was designed for durability and ease of carrying under less than ideal "
 "circumstances."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine "
+"gun was designed for durability and extreme volume of sustained fire under "
+"the worst possible circumstances."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24747,6 +24802,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "bleach"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "blob glob"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28014,6 +28073,10 @@ msgid "steel plating"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "steel spear"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "steel tongs"
 msgstr ""
 
@@ -28162,6 +28225,10 @@ msgid "switchblade"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "sword bayonet"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "syringe"
 msgstr ""
 
@@ -28247,6 +28314,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "thriller novel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "throwing axe"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -29108,11 +29179,26 @@ msgid "+1 dodge and +1 blocks per stack"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "+3 Bash/atk"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "+4 Atk Speed"
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid ""
 "A dance-like style with its roots in Brazilian slavery, capoeira is focused "
 "on fluid movement and sweeping kicks. Moving a tile will boost attack and "
 "damage and attacking boosts dodge. These bonuses stack up to three times "
 "each."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse "
+"the enemy.  The turn after you successfully attack, you may dodge any number "
+"of attacks with no penalty."
 msgstr ""
 
 #: lang/json/json_martialarts.py newcharacter.cpp
@@ -29122,7 +29208,7 @@ msgstr ""
 #: lang/json/json_martialarts.py
 msgid ""
 "Aikido is a Japanese martial art focused on self-defense, while minimizing "
-"injury to the attacker. It uses defense throws and disarms. Damage done "
+"injury to the attacker. It uses defensive throws and disarms. Damage done "
 "while using this technique is halved, but pain inflicted is doubled."
 msgstr ""
 
@@ -29138,6 +29224,10 @@ msgstr ""
 msgid "Attacks scale better with strength"
 msgstr ""
 
+#: lang/json/json_martialarts.py
+msgid "Bonus damage from intelligence."
+msgstr ""
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Capoeira"
 msgstr ""
@@ -29147,7 +29237,43 @@ msgid "Capoeira Tempo"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Centipede Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Crane Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Crane Precision"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Damage bonus from dexterity at the cost of damage from strength."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Dragon Intelligence"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Dragon Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Drunk Dodging"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Flat bonus to damage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Half damage to enemies"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Hundred-Hitter"
 msgstr ""
 
 #: lang/json/json_martialarts.py
@@ -29184,6 +29310,18 @@ msgstr ""
 msgid "Krav Maga"
 msgstr ""
 
+#: lang/json/json_martialarts.py
+msgid "Leopard Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Leopard Strategy"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Lizard Kung Fu"
+msgstr ""
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Muay Thai"
 msgstr ""
@@ -29209,13 +29347,103 @@ msgstr ""
 
 #: lang/json/json_martialarts.py
 msgid ""
+"One of the Five Deadly Venoms, and likely to be removed at the next save-"
+"compatibility breaker. Lizard Style docuses on using walls to your advantage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid "
+"strikes.  Each attack you land reduces the cost of attacking by 4."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which "
+"uses pincer-like hands and a stinger kick.  Critical hits should do massive "
+"damage and knock your target back, and we'll fix that as soon as we can."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Toad Style will be immensely powerful "
+"through its immunity to nearly any weapon, once we get the connection "
+"rebuilt.  Until then, best not meditate by pausing, though it used to give "
+"you armor proportional to your Intelligence and Perception."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, "
+"ehich is supposed to initiate on a critical strike, then chain into piercing "
+"damage and a two-handed Viper Strike."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Crane uses intricate hand "
+"techniques and jumping dodges.  Dexterity determines the majority of your "
+"damage, rather than Strength; you also receive a dodge bonus the turn after "
+"moving a tile."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Dragon uses fluid movements and "
+"hard strikes. Intelligence improves your accuracy and damage dealt, as does "
+"moving."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Leopard focuses on rapid, "
+"strategically planned strikes.  Perception and Inteligence both boost "
+"accuracy, and moving further boosts your accuracy."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Snake focuses on sinuous "
+"movement and precision strikes. Your Perception iproves yur accuracy and "
+"your damage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Tiger focuses on relentless "
+"attacks above all else.  Your Strength determines your accuracy, and your "
+"attacks do increasing damage as you continue attacking."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
 "Originating in Israel, Krav Maga is based on taking down an enemy quickly "
 "and effectively. It focuses on applicable attacks rather than showy or "
 "complex moves. Popular among police and armed forces everywhere."
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to block."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Perception decreases damage when blocking"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception provides a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Scorpion Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Scorpion Venom"
 msgstr ""
 
 #: lang/json/json_martialarts.py
@@ -29227,7 +29455,19 @@ msgid "Slightly increased unarmed damage"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Snake Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Snake Sight"
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Strength decreases damage when blocking"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Strength provides additional damage bonus."
 msgstr ""
 
 #: lang/json/json_martialarts.py newcharacter.cpp
@@ -29251,6 +29491,38 @@ msgid ""
 "is a legitimate martial art, focused on self-defense. Its ability to absorb "
 "the force of an attack makes your Perception decrease damage further on a "
 "block."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Fury"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Strength"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Toad Armor"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Toad Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Unlimited dodges after successful hit"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Viper Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Zui Quan"
 msgstr ""
 
 #: lang/json/json_materials.py
@@ -30914,8 +31186,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A twisted mockery of the human form, emaciated, with jet black skin "
-"andglowing red eyes. It is somehow painful to look at, awakening fears deep "
+"A twisted mockery of the human form, emaciated, with jet black skin and "
+"glowing red eyes. It is somehow painful to look at, awakening fears deep "
 "within your psyche, and even the air around it seems more sinister, somehow "
 "darker and more dangerous."
 msgstr ""
@@ -31095,9 +31367,9 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"Once human, it's features have tightened, it's lips pulled back into an "
-"unnatural grin, revealing rows of blackened teeth beneath it's large, "
-"piercing eyes. It stands tall, it's movements are fluid and tightly "
+"Once human, its features have tightened, its lips pulled back into an "
+"unnatural grin, revealing rows of blackened teeth beneath its large, "
+"piercing eyes. It stands tall, its movements are fluid and tightly "
 "controlled. A feeling of danger permeates the air around it, and the light "
 "that falls on it somehow harsher and more glaring."
 msgstr ""
@@ -31227,13 +31499,6 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The Northern short-tailed shrew, an insectvorous mammal that resembles a "
-"cross between a mouse and a mole.  Notably for a mammal, it has a venomous "
-"bite, which can prove painful for humans."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
 "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a "
 "pair of reverse-jointed legs.  Armed with a 40 mm Bofors gun, it is an "
 "effective automated sentry, though production was limited due to a legal "
@@ -31305,6 +31570,12 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
+"The masked shrew, a mouse-like creature with a pointed, whiskery snout.  It "
+"digs tunnels into the ground in search of bugs to eat."
+msgstr ""
+
+#: lang/json/json_monsters.py
+msgid ""
 "The northern woodland white-tailed deer, a quick and strong grazing animal.  "
 "Favored prey of coyotes, wolves, and giant spider mutants."
 msgstr ""
@@ -31313,12 +31584,6 @@ msgstr ""
 msgid ""
 "The red fox, an omnivorous canine and largest of the true foxes, it is a "
 "wily hunter with a combative, suspicious temperament."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
-"The shuffling corpse of a once-proud bear, its eyes ooze with black fluid, "
-"and its flesh is torn and scarred."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31335,9 +31600,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The white footed mouse, a relatively long-lived disease vector with a white "
-"underbelly and a long fuzzy tail.  A common sight in fields, forests, and "
-"research centers."
+"The white-footed mouse, a prolific rodent with a white underbelly and a long "
+"fuzzy tail.  A common sight in fields, forests, and research centers."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -32270,6 +32534,10 @@ msgid "Forked Tongue"
 msgstr ""
 
 #: lang/json/json_mutations.py
+msgid "Frail"
+msgstr ""
+
+#: lang/json/json_mutations.py
 msgid "Full Night Vision"
 msgstr ""
 
@@ -32299,10 +32567,6 @@ msgstr ""
 
 #: lang/json/json_mutations.py
 msgid "Growling Voice"
-msgstr ""
-
-#: lang/json/json_mutations.py
-msgid "Hardcore"
 msgstr ""
 
 #: lang/json/json_mutations.py
@@ -43558,7 +43822,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Before the Apocalypse, you turned to Heroin to soothe your many problems. "
+"Before the apocalypse, you turned to Heroin to soothe your many problems. "
 "Now, your habit is your only comfort and your only drive."
 msgstr ""
 
@@ -43939,7 +44203,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You were about to marry your bride before the cataclysm, now you spend you "
+"You were about to marry your bride before the cataclysm, now you spend your "
 "days searching for her."
 msgstr ""
 
@@ -43959,7 +44223,7 @@ msgstr ""
 #: lang/json/json_professions.py
 msgid ""
 "You were on your way to collect your check, when your pimp tried to kill "
-"you. You wish that it wasn't a common occurence. You start with the last of "
+"you. You wish that it wasn't a common occurrence. You start with the last of "
 "your stash and a strong crack addiction."
 msgstr ""
 
@@ -44004,7 +44268,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You've traveled for a living, sightseeing here and there, and living off "
+"You've travelled for a living, sightseeing here and there, and living off "
 "your parents' trust fund. But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
@@ -44031,9 +44295,9 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Your body has bionics worth millions payed by public taxes. The government "
-"employed you as a spy: you have night vision, an alarm and a hacking module "
-"powered by your own metabolism."
+"Your body has several bionics worth millions of dollars, paid for by public "
+"taxes. The government employed you as a spy: you have night vision, an alarm "
+"and a hacking module powered by your own metabolism."
 msgstr ""
 
 #: lang/json/json_professions.py
@@ -46119,16 +46383,6 @@ msgstr ""
 
 #: main_menu.cpp
 msgctxt "Main Menu"
-msgid "<H>elp"
-msgstr ""
-
-#: main_menu.cpp
-msgctxt "Main Menu"
-msgid "<L>oad"
-msgstr ""
-
-#: main_menu.cpp
-msgctxt "Main Menu"
 msgid "<M>OTD"
 msgstr ""
 
@@ -46174,6 +46428,16 @@ msgstr ""
 
 #: main_menu.cpp
 msgid "Delete the world and all saves?"
+msgstr ""
+
+#: main_menu.cpp
+msgctxt "Main Menu"
+msgid "H<e>lp"
+msgstr ""
+
+#: main_menu.cpp
+msgctxt "Main Menu"
+msgid "Lo<a>d"
 msgstr ""
 
 #: main_menu.cpp
@@ -46623,6 +46887,14 @@ msgstr ""
 
 #: mapgen.cpp
 msgid "Wreckage"
+msgstr ""
+
+#: mapgen.cpp
+msgid "pile-up"
+msgstr ""
+
+#: mapgen.cpp
+msgid "policecar pile-up"
 msgstr ""
 
 #: material.cpp
@@ -48934,28 +49206,12 @@ msgid "Tom"
 msgstr ""
 
 #: newcharacter.cpp
-msgid " decrease the statistic."
-msgstr ""
-
-#: newcharacter.cpp
-msgid " increase the statistic."
-msgstr ""
-
-#: newcharacter.cpp
-msgid " select a statistic."
-msgstr ""
-
-#: newcharacter.cpp
 #, c-format
 msgid "%s earns %d points"
 msgstr ""
 
 #: newcharacter.cpp
 msgid "(Press TAB to move off this line)"
-msgstr ""
-
-#: newcharacter.cpp
-msgid "(Press spacebar to toggle)"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49064,6 +49320,11 @@ msgstr ""
 
 #: newcharacter.cpp
 #, c-format
+msgid "Points left:%3d "
+msgstr ""
+
+#: newcharacter.cpp
+#, c-format
 msgid "Profession %1$s costs %2$d points (net: %3$d)"
 msgstr ""
 
@@ -49078,7 +49339,7 @@ msgstr ""
 
 #: newcharacter.cpp
 #, c-format
-msgid "Read times: %d%%%%"
+msgid "Read times: %d%%"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49099,7 +49360,7 @@ msgstr ""
 
 #: newcharacter.cpp
 #, c-format
-msgid "Skill rust: %d%%%%"
+msgid "Skill rust: %d%%"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49141,11 +49402,11 @@ msgid "To go back and review your character, press <"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "To pick a random name for your character, press ?."
+msgid "To pick a random name for your character, press ?"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "To save this character as a template, press !."
+msgid "To save this character as a template, press !"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49184,16 +49445,16 @@ msgstr ""
 msgid "Your profession of %s prevents you from taking this trait."
 msgstr ""
 
-#: newcharacter.cpp worldfactory.cpp
-msgid "______NO NAME ENTERED!!!!_____"
+#: newcharacter.cpp
+msgid "______NO NAME ENTERED!!!______"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "h, 4, or left arrow"
+msgid "h, 4, or left arrow to decrease the statistic."
 msgstr ""
 
 #: newcharacter.cpp
-msgid "j/k, 8/2, or arrows"
+msgid "j/k, 8/2, or up/down arrows to select a statistic."
 msgstr ""
 
 #: newcharacter.cpp options.cpp player.cpp
@@ -49201,7 +49462,7 @@ msgid "kg"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "l, 6, or right arrow"
+msgid "l, 6, or right arrow to increase the statistic."
 msgstr ""
 
 #: newcharacter.cpp options.cpp player.cpp
@@ -51884,7 +52145,17 @@ msgid "Celsius"
 msgstr ""
 
 #: options.cpp
+msgid "Centered"
+msgstr ""
+
+#: options.cpp
 msgid "Centered menu scrolling"
+msgstr ""
+
+#: options.cpp
+msgid ""
+"Centered or to edge, shift the view toward the selected item if it is "
+"outside of your current viewport."
 msgstr ""
 
 #: options.cpp
@@ -52057,12 +52328,6 @@ msgstr ""
 
 #: options.cpp
 msgid "If true, safemode will be on after starting a new game or loading."
-msgstr ""
-
-#: options.cpp
-msgid ""
-"If true, shift the view toward the selected item if it is outside of your "
-"current viewport."
 msgstr ""
 
 #: options.cpp
@@ -52353,6 +52618,10 @@ msgstr ""
 
 #: options.cpp
 msgid "Time format"
+msgstr ""
+
+#: options.cpp
+msgid "To edge"
 msgstr ""
 
 #: options.cpp
@@ -53169,7 +53438,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Cold-Blooded        -%s%d%%%%"
+msgid "Cold-Blooded        -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53216,7 +53485,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Depressants         -%s%d%%%%"
+msgid "Depressants         -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53225,7 +53494,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Depressed           -%s%d%%%%"
+msgid "Depressed           -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53369,7 +53638,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Good mood           +%s%d%%%%"
+msgid "Good mood           +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53404,7 +53673,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Hunger              -%s%d%%%%"
+msgid "Hunger              -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53634,12 +53903,12 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Out of Sunlight     -%s%d%%%%"
+msgid "Out of Sunlight     -%s%d%%"
 msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Overburdened        -%s%d%%%%"
+msgid "Overburdened        -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53653,7 +53922,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Pain                -%s%d%%%%"
+msgid "Pain                -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53663,7 +53932,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Painkillers         -%s%d%%%%"
+msgid "Painkillers         -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53715,7 +53984,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Quick               +%s%d%%%%"
+msgid "Quick               +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53733,7 +54002,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Read times: %d%%%%           "
+msgid "Read times: %d%%           "
 msgstr ""
 
 #: player.cpp
@@ -53800,7 +54069,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Skill rust: %d%%%%           "
+msgid "Skill rust: %d%%           "
 msgstr ""
 
 #: player.cpp
@@ -53851,7 +54120,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Stimulants          +%s%d%%%%"
+msgid "Stimulants          +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53939,7 +54208,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Thirst              -%s%d%%%%"
+msgid "Thirst              -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54320,8 +54589,8 @@ msgstr ""
 
 #: player.cpp
 msgid ""
-"You need to be at least level 1 in the firearms skill before you can modify "
-"guns."
+"You need to be at least level 1 in the marksmanship skill before you can "
+"modify guns."
 msgstr ""
 
 #: player.cpp
@@ -54542,6 +54811,10 @@ msgid "Your batteries discharge slightly."
 msgstr ""
 
 #: player.cpp
+msgid "Your body strains under the weight!"
+msgstr ""
+
+#: player.cpp
 msgid "Your eyes won't focus without reading glasses."
 msgstr ""
 
@@ -54626,14 +54899,6 @@ msgstr ""
 
 #: ranged.cpp
 msgid "'<' '>' Cycle targets; 'f' or '.' to fire"
-msgstr ""
-
-#: ranged.cpp
-msgid "<npcname> barely misses!"
-msgstr ""
-
-#: ranged.cpp
-msgid "<npcname> misses!"
 msgstr ""
 
 #: ranged.cpp
@@ -55592,6 +55857,10 @@ msgstr ""
 msgid "Headlights turned on"
 msgstr ""
 
+#: vehicle.cpp
+msgid "Honk horn"
+msgstr ""
+
 #. ~ indicates that a vehicle part is inside
 #: vehicle.cpp
 msgid "In"
@@ -55930,10 +56199,6 @@ msgid "Pick a world to enter game"
 msgstr ""
 
 #: worldfactory.cpp
-msgid "There are no valid worlds to pick from, would you like to make one?"
-msgstr ""
-
-#: worldfactory.cpp
 msgid "To go back and review your world, press <"
 msgstr ""
 
@@ -55953,6 +56218,10 @@ msgstr ""
 
 #: worldfactory.cpp
 msgid "World Name:"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "______NO NAME ENTERED!!!!_____"
 msgstr ""
 
 #~ msgid "Too many itens"
