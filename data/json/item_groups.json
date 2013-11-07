@@ -127,6 +127,7 @@
       ["boots_winter", 60],
       ["boots_hiking", 10],
       ["flip_flops", 35],
+      ["lowtops", 45],
       ["dress_shoes", 50],
       ["heels", 50],
       ["coat_rain", 50],
@@ -460,6 +461,7 @@
       ["bandana", 35],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["towel", 40],
@@ -635,6 +637,7 @@
       ["shorts_cargo", 50],
       ["skirt", 75],
       ["dress", 70],
+      ["sundress", 50],
       ["dress_wedding", 1],
       ["tshirt", 80],
       ["longshirt", 70],
@@ -1855,6 +1858,7 @@
       ["socks", 70],
       ["boots", 70],
       ["flip_flops", 35],
+      ["lowtops", 45],
       ["dress_shoes", 50],
       ["heels", 50],
       ["boots_combat", 10],
@@ -1874,6 +1878,7 @@
       ["skirt", 75],
       ["tights", 20],
       ["dress", 70],
+      ["sundress", 50],
       ["dress_wedding", 1]
     ]
   },{
@@ -2212,6 +2217,7 @@
     "id":"swimmer_head",
     "items":[
       ["goggles_swim", 90],
+      ["fancy_sunglasses", 1],
       ["sunglasses", 10]
     ]
   },{
@@ -2359,6 +2365,7 @@
       ["cigar", 5],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["purse", 40],
@@ -2410,6 +2417,7 @@
       ["cigar", 5],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["fan", 10],
@@ -2542,6 +2550,7 @@
     "items":[
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 10],
       ["glasses_reading", 90],
       ["glasses_bifocal", 90],
       ["child_book", 60],
@@ -2631,6 +2640,7 @@
       ["necklace", 14],
       ["nodachi", 1],
       ["manual_dodge", 1],
+      ["fancy_sunglasses", 2],
       ["pocketwatch", 5]
     ]
   },{
@@ -2651,6 +2661,7 @@
       ["goggles_welding", 70],
       ["goggles_nv", 1],
       ["glasses_monocle", 2],
+      ["fancy_sunglasses", 15],
       ["cell_phone", 20],
       ["tophat", 10],
       ["bowhat", 10],
@@ -2697,6 +2708,7 @@
       ["skirt", 75],
       ["jumpsuit", 20],
       ["dress", 70],
+      ["sundress", 50],
       ["dress_shirt", 60],
       ["sweater", 75],
       ["blazer", 35],
@@ -4341,6 +4353,7 @@
       ["mask_filter", 30],
       ["glasses_eye", 90],
       ["sunglasses", 90],
+      ["fancy_sunglasses", 5],
       ["glasses_safety", 40],
       ["textbook_computer", 8],
       ["computer_science", 6],

@@ -10683,6 +10683,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sundress",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "helmet_chitin",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
