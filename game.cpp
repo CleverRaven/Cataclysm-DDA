@@ -8493,17 +8493,6 @@ int game::get_remaining_capacity_for_liquid(item *cont, item &liquid, std::strin
         return 0;
     }
 
-    // Filling up normal containers
-    // First, check if liquid types are compatible
-    if (!cont->contents.empty()) {
-        if (cont->contents[0].type->id != liquid.type->id) {
-            error = _("You can't mix loads in your %s."), cont->tname(this).c_str();
-            return 0;
-        }
-    }
-
-    it_container *container = dynamic_cast<it_container *>(cont->type);
-    int capacity = container->contains;
     if (cont->contents.empty()) {
         if (!cont->has_flag("WATERTIGHT")) { // invalid container types
             error = _("That %s isn't water-tight."), cont->tname(this).c_str();
@@ -8512,21 +8501,28 @@ int game::get_remaining_capacity_for_liquid(item *cont, item &liquid, std::strin
             error = _("You can't seal that %s!"), cont->tname(this).c_str();
             return 0;
         }
-
-        return capacity;
+    } else { // Not empty
+        if (cont->contents[0].type->id != liquid.type->id) {
+            error = _("You can't mix loads in your %s."), cont->tname(this).c_str();
+            return 0;
+        }
     }
 
-    // OK, liquids are compatible. Now check what the type of liquid is
-    // this will determine how much the holding container can hold
+    it_container *container = dynamic_cast<it_container *>(cont->type);
+    int total_capacity = container->contains;
+
     if (liquid.is_food()) {
         it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
-        capacity = container->contains * tmp_comest->charges;
+        total_capacity = container->contains * tmp_comest->charges;
     } else if (liquid.is_ammo()) {
         it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
-        capacity = container->contains * tmp_ammo->count;
+        total_capacity = container->contains * tmp_ammo->count;
     }
 
-    int remaining_capacity = capacity - cont->contents[0].charges;
+    int remaining_capacity = total_capacity;
+    if (!cont->contents.empty()) {
+        remaining_capacity -= cont->contents[0].charges;
+    }
 
     if (remaining_capacity <= 0) {
         error = _("Your %s can't hold any more %s."), cont->tname(this).c_str(),
@@ -8714,31 +8710,22 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             }
         } else {
             // pouring into a valid empty container
-            int default_charges = 1;
-
-            if (liquid.is_food()) {
-                it_comest *comest = dynamic_cast<it_comest *>(liquid.type);
-                default_charges = comest->charges;
-            } else if (liquid.is_ammo()) {
-                it_ammo *ammo = dynamic_cast<it_ammo *>(liquid.type);
-                default_charges = ammo->count;
-            }
-
-            it_container *container = dynamic_cast<it_container *>(cont->type);
+            item liquid_copy = liquid;
+            bool all_poured = true;
             if (infinite) { // if filling from infinite source, top it to max
-                liquid.charges = container->contains * default_charges;
-            } else if (liquid.charges > container->contains * default_charges) {
+                liquid_copy.charges = remaining_capacity;
+                add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                    cont->tname(this).c_str());
+            } else if (liquid.charges > remaining_capacity) {
                 add_msg(_("You fill your %s with some of the %s."), cont->tname(this).c_str(),
                         liquid.tname(this).c_str());
                 u.inv.unsort();
-                int oldcharges = liquid.charges - container->contains * default_charges;
-                liquid.charges = container->contains * default_charges;
-                cont->put_in(liquid);
-                liquid.charges = oldcharges;
-                return false;
+                liquid.charges -= remaining_capacity;
+                liquid_copy.charges = remaining_capacity;
+                all_poured = false;
             }
-            cont->put_in(liquid);
-            return true;
+            cont->put_in(liquid_copy);
+            return all_poured;
         }
     }
     return false;
