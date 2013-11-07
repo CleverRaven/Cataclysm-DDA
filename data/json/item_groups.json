@@ -180,6 +180,9 @@
       ["flask_hip", 5],
       ["sm_extinguisher", 10],
       ["atomic_light", 1],
+      ["dog_whistle", 5],
+      ["dogfood", 10],
+      ["catfood", 10],
       ["nic_gum", 2]
     ]
   },{
@@ -294,6 +297,9 @@
       ["sm_extinguisher", 10],
       ["atomic_light", 1],
       ["atomic_coffeepot", 2],
+      ["dog_whistle", 5],
+      ["dogfood", 20],
+      ["catfood", 20],
       ["charcoal", 5]
     ]
   },{
@@ -993,6 +999,8 @@
       ["jar_veggy_pickled", 8],
       ["sports_drink", 10],
       ["protein_shake", 10],
+      ["dogfood", 5],
+      ["catfood", 5],
       ["jar_meat_pickled", 6]
     ]
   },{
