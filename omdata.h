@@ -19,7 +19,6 @@ struct oter_t {
     std::string id;      // definitive identifier
     int loadid;          // position in termap / terlist 
     std::string name;
-    std::string id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
     long sym; // This is a long, so we can support curses linedrawing
     nc_color color;
     unsigned char see_cost; // Affects how far the player can see in the overmap
@@ -31,6 +30,14 @@ struct oter_t {
     bool allow_road;
     bool is_river;
     bool is_road;
+    // std::vector<mapgen_function_pointer> mapgen;
+    // bool disable_default_mapgen;
+    // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
+    std::string id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
+    int loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
+    std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
+    bool rotates; // lazy for; directional_peers.size() == 4
+    bool line_drawing; // lazy for; directional_peers.size() == 8
     oter_t& operator=(const oter_t right){
         id = right.id;
         loadid = right.loadid;
@@ -45,6 +52,14 @@ struct oter_t {
         mondensity = right.mondensity;
         sidewalk = right.sidewalk;
         allow_road = right.allow_road;
+        is_river = right.is_river;
+        is_road = right.is_road;
+        //mapgen = right.mapgen;
+        //disable_default_mapgen = right.disable_default_mapgen;
+        loadid_base = right.loadid_base;
+        directional_peers = right.directional_peers;
+        rotates = right.rotates;
+        line_drawing = right.line_drawing;
         return *this;
     }
 };

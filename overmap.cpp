@@ -42,6 +42,9 @@
 #define HIVECHANCE 180 //Chance that any given forest will be a hive
 #define SWAMPINESS 4 //Affects the size of a swamp
 #define SWAMPCHANCE 8500 // Chance that a swamp will spawn instead of forest
+enum oter_dir {
+    oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
+};
 
 map_extras no_extras(0);
 map_extras road_extras(
@@ -392,13 +395,22 @@ void load_overmap_terrain(JsonObject &jo)
     oter.allow_road = jo.get_bool("allow_road", false);
 
     std::string id_base = oter.id;
+    int start_iid = oterlist.size();
+    oter.id_base = id_base;
+    oter.loadid_base = start_iid;
+    oter.directional_peers.clear();
 
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
 
+
     if (line_drawing) {
         // add variants for line drawing
-        oter.id_base = id_base;
+        oter.line_drawing = true;
+        for( int i = start_iid; i < start_iid+12; i++ ) {
+            oter.directional_peers.push_back(i);
+        }
+
         oter.id = id_base + "_ns";
         oter.sym = LINE_XOXO;
         load_oter(oter);
@@ -418,6 +430,8 @@ void load_overmap_terrain(JsonObject &jo)
         oter.id = id_base + "_sw";
         oter.sym = LINE_OOXX;
         load_oter(oter);
+
+
 
         oter.id = id_base + "_wn";
         oter.sym = LINE_XOOX;
@@ -439,13 +453,20 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_OXXX;
         load_oter(oter);
 
+
+
         oter.id = id_base + "_nesw";
         oter.sym = LINE_XXXX;
         load_oter(oter);
 
     } else if (rotate) {
         // add north/east/south/west variants
-        oter.id_base = id_base;
+        oter.rotates = true;
+
+        for( int i = start_iid; i < start_iid+5; i++ ) {
+            oter.directional_peers.push_back(i);
+        }
+
         oter.id = id_base + "_north";
         oter.sym = syms[0];
         load_oter(oter);
@@ -463,7 +484,7 @@ void load_overmap_terrain(JsonObject &jo)
         load_oter(oter);
 
     } else {
-        oter.id_base = id_base;
+        oter.directional_peers.push_back(start_iid);
         load_oter(oter);
     }
 }
@@ -3036,33 +3057,18 @@ void overmap::place_specials()
 // find the id for a specified rotation of a rotatable oter_t
 oter_id overmap::rotate(const oter_id &oter, int dir)
 {
-// fixme; validity check
-    std::string base = oter_t(oter).id_base;
-/*
-    std::string base;
-    std::string oter=oterid;
-    const int oter_size = oter.size();
-//fixme
-    if (oter.find("_north") == oter_size - 6) {
-        base = oter.substr(0, oter_size - 6);
-    } else if (oter.find("_east") == oter_size - 5) {
-        base = oter.substr(0, oter_size - 5);
-    } else if (oter.find("_south") == oter_size - 6) {
-        base = oter.substr(0, oter_size - 6);
-    } else if (oter.find("_west") == oter_size - 5) {
-        base = oter.substr(0, oter_size - 5);
-    } else {
-        base = oter;
+    const oter_t & otert = oter;
+    if (! otert.rotates ) {
+        debugmsg("%s does not rotate.", oter.c_str());
+        return oter;
     }
-*/
-    if (dir < 0) { dir += 4; }
-    switch (dir) {
-    case 0: return base + "_north";
-    case 1: return base + "_east";
-    case 2: return base + "_south";
-    case 3: return base + "_west";
-    default: debugmsg("Bad rotation for %s: %d.", oter.c_str(), dir); return oter;
+    if (dir < 0) {
+        dir += 4;
+    } else if (dir > 3) {
+        debugmsg("Bad rotation for %s: %d.", oter.c_str(), dir);
+        return oter;
     }
+    return otert.directional_peers[dir];
 }
 
 void overmap::place_special(overmap_special special, tripoint p)
