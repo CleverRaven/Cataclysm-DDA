@@ -3917,7 +3917,7 @@
         "encumbrance" : 2,
         "bashing" : 8,
         "flags" : ["WATER_FRIENDLY"],
-        "coverage" : 100,
+        "coverage" : 95,
         "material_thickness" : 4
     },
     {
@@ -5536,6 +5536,31 @@
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 95,
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "tac_fullhelmet",
+        "name" : "tactical full helmet",
+        "weight" : 1324,
+        "color" : "dark_gray",
+        "covers" : ["HEAD", "EYES", "MOUTH"],
+        "techniques" : ["WBLOCK_1"],
+        "to_hit" : -1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "An all-encompassing black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
+        "price" : 800,
+        "material" : ["kevlar", "plastic"],
+        "volume" : 8,
+        "cutting" : 0,
+        "warmth" : 15,
+        "phase" : "solid",
+        "enviromental_protection" : 2,
+        "encumbrance" : 3,
+        "bashing" : 10,
+        "flags" : ["VARSIZE"],
+        "coverage" : 100,
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
