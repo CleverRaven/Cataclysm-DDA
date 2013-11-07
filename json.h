@@ -407,6 +407,7 @@ public:
     void write(const unsigned &u);
     void write(const double &f);
     void write(const std::string &s);
+    void write(const char *cstr) { write(std::string(cstr)); }
     // vector ~> array
     template <typename T> void write(const std::vector<T> &v)
     {
