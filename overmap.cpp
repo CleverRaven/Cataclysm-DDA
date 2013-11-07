@@ -1961,8 +1961,19 @@ void overmap::process_mongroups()
  }
 }
 
+void grow_forest_oter_id(oter_id & oid, bool swampy) {
+    if (swampy && ( oid == ot_field || oid == ot_forest ) ) {
+        oid = ot_forest_water;
+    } else if ( oid == ot_forest ) {
+        oid = ot_forest_thick;
+    } else if ( oid == ot_field ) {
+        oid = ot_forest;
+    }
+}
+
 void overmap::place_forest()
 {
+
  for (int i = 0; i < NUM_FOREST; i++) {
   // forx and fory determine the epicenter of the forest
   int forx = rng(0, OMAPX - 1);
@@ -2017,48 +2028,13 @@ void overmap::place_forest()
             } else if (swamp_chance == 0) {
                 swamps = SWAMPINESS;
             }
-            if (ter(x, y, 0) == "field") {
-                ter(x, y, 0) = "forest";
-            } else if (ter(x, y, 0) == "forest") {
-                ter(x, y, 0) = "forest_thick";
-            }
 
-            if (swampy && (ter(x, y-1, 0) == "field" ||
-                           ter(x, y-1, 0) == "forest")) {
-                ter(x, y-1, 0) = "forest_water";
-            } else if (ter(x, y-1, 0) == "forest") {
-                ter(x, y-1, 0) = "forest_thick";
-            } else if (ter(x, y-1, 0) == "field") {
-                ter(x, y-1, 0) = "forest";
+            // Place or embiggen forest
+            for ( int mx = -1; mx < 2; mx++ ) {
+                for ( int my = -1; my < 2; my++ ) {
+                    grow_forest_oter_id( ter(x+mx, y+my, 0), ( mx == 0 && my == 0 ? false : swampy ) );
+                }
             }
-
-            if (swampy && (ter(x, y+1, 0) == "field" ||
-                           ter(x, y+1, 0) == "forest")) {
-                ter(x, y+1, 0) = "forest_water";
-            } else if (ter(x, y+1, 0) == "forest") {
-                ter(x, y+1, 0) = "forest_thick";
-            } else if (ter(x, y+1, 0) == "field") {
-                ter(x, y+1, 0) = "forest";
-            }
-
-            if (swampy && (ter(x-1, y, 0) == "field" ||
-                           ter(x-1, y, 0) == "forest")) {
-                ter(x-1, y, 0) = "forest_water";
-            } else if (ter(x-1, y, 0) == "forest") {
-                ter(x-1, y, 0) = "forest_thick";
-            } else if (ter(x-1, y, 0) == "field") {
-                ter(x-1, y, 0) = "forest";
-            }
-
-            if (swampy && (ter(x+1, y, 0) == "field" ||
-                           ter(x+1, y, 0) == "forest")) {
-                ter(x+1, y, 0) = "forest_water";
-            } else if (ter(x+1, y, 0) == "forest") {
-                ter(x+1, y, 0) = "forest_thick";
-            } else if (ter(x+1, y, 0) == "field") {
-                ter(x+1, y, 0) = "forest";
-            }
-
             // Random walk our forest
             x += rng(-2, 2);
             if (x < 0    ) { x = 0; }
