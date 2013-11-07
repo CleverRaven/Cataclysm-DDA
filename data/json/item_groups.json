@@ -1275,6 +1275,7 @@
       ["knee_pads", 40],
       ["manual_throw", 12],
       ["protein_powder", 15],
+      ["airhorn", 40],
       ["boots_hiking", 10]
     ]
   },{
@@ -1366,6 +1367,7 @@
       ["pur_tablets", 10],
       ["e_tool", 10],
       ["knife_trench", 7],
+      ["airhorn", 20],
       ["charcoal", 20]
     ]
   },{
@@ -1498,6 +1500,7 @@
       ["protein_shake", 15],
       ["knife_trench", 7],
       ["sm_extinguisher", 10],
+      ["airhorn", 30],
       ["quikclot", 10]
     ]
   },{
