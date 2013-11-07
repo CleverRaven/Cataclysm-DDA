@@ -367,6 +367,7 @@ std::string ammo_name(ammotype t)
     if( t == "8x40mm" )     return _("8x40mm caseless");
     if( t == "5x50" )       return _("5x50mm flechette");
     if( t == "charcoal" )   return _("charcoal");
+    if( t == "metal_rail" ) return _("ferrous rail projectile");
     if( t == "UPS" )        return _("UPS");
     if( t == "components" ) return _("components");
     return "XXX";
@@ -410,6 +411,7 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "charcoal"  )    return "charcoal";
     if( guntype == "8x40mm"  )      return "8mm_caseless";
     if( guntype == "5x50"  )        return  "5x50dart";
+    if( guntype == "metal_rail"  )  return  "rebar_rail";
     if( guntype == "UPS"  )         return _("UPS");
     if( guntype == "components"  )  return _("components");
     if( guntype == "50"  )          return "50bmg";

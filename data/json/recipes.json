@@ -14183,6 +14183,114 @@
   ]
 },{
         "type" : "recipe",
+  "result": "rebar_rifle",
+  "category": "CC_WEAPON",
+  "skill_used": "electronics",
+  "skill_sec": ["mechanics",6],
+  "difficulty": 9,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["hacksaw", -1], ["toolset", -1]
+    ],
+    [
+      ["screwdriver", -1], ["toolset", -1]
+    ],
+    [
+      ["wrench", -1], ["toolset", -1]
+    ],
+    [
+      ["welder", 300], ["welder_crude", 450], ["toolset", 12]
+    ]
+  ],
+  "components": [
+    [
+      ["cable", 80]
+    ],
+    [
+      ["2x4", 1],
+      [ "stick", 1 ]
+    ],
+    [
+      ["power_supply", 2]
+    ],
+    [
+      ["steel_chunk", 3],
+      [ "scrap", 18]
+    ],
+    [
+      ["rebar", 1]
+    ],
+    [
+      ["e_scrap", 20]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rebar_rail",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ],
+    [
+      ["hacksaw", -1], ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["rebar", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "steel_rail",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "fried_spam",
   "category": "CC_FOOD",
   "skill_used": "cooking",
