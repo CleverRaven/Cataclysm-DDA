@@ -808,9 +808,11 @@ void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
         if (type == "artifact_tool") {
             it_artifact_tool *art = new it_artifact_tool(jo);
             itypes[id] = art;
+            artifact_itype_ids.push_back(id);
         } else if (type == "artifact_armor") {
             it_artifact_armor *art = new it_artifact_armor(jo);
             itypes[id] = art;
+            artifact_itype_ids.push_back(id);
         } else {
             throw jo.line_number() + ": unrecognized artifact type.";
         }
@@ -910,7 +912,6 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("m2", m2);
     json.member("volume", volume);
     json.member("weight", weight);
-    json.member("id", id);
     json.member("melee_dam", melee_dam);
     json.member("melee_cut", melee_cut);
     json.member("m_to_hit", m_to_hit);

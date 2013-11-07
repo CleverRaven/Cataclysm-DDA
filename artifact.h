@@ -327,7 +327,6 @@ public:
     {
         charge_type = ARTC_NULL;
         item_tags = pitem_tags;
-        artifact_itype_ids.push_back(pid);
     };
 };
 
@@ -361,7 +360,6 @@ public:
                    pwarmth, pstorage)
     {
         item_tags = pitem_tags;
-        artifact_itype_ids.push_back(pid);
     };
 };
 
