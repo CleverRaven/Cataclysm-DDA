@@ -2778,14 +2778,15 @@ void game::save_artifacts()
     std::ofstream fout;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
     fout.open(artfilename.c_str());
-    fout << '[';
+    JsonOut json(&fout);
+    json.start_array();
     for ( std::vector<std::string>::iterator it =
           artifact_itype_ids.begin();
           it != artifact_itype_ids.end(); ++it)
     {
-        fout << dynamic_cast<JsonSerializer*>(itypes[*it])->serialize();
+        json.write(*(dynamic_cast<JsonSerializer*>(itypes[*it])));
     }
-    fout << ']';
+    json.end_array();
     fout.close();
 }
 
