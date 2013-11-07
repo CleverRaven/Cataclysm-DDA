@@ -15,6 +15,7 @@ public:
     int assign( const std::string category ) const;
     std::string get( const int index ) const;
 
+    void clear_snippets();
 private:
     // Snippets holds a map from the strings hash to the string.
     // This is so the reference to the string remains stable across

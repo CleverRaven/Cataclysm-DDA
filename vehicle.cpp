@@ -774,7 +774,8 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
-    item tmp(g->itypes[vehicle_part_types[id].item], 0);
+    //DebugLog() << "vehicle part type with id ["<<id<<"] exists? ["<<(vehicle_part_types.find(id) != vehicle_part_types.end() ? "TRUE":"FALSE")<<"]\n";
+    item tmp = item(g->itypes[vehicle_part_types[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 

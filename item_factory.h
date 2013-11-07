@@ -28,6 +28,7 @@ public:
     //Setup
     Item_factory();
     void init();
+    void reinit();
     void init(game* main_game) throw (std::string);
 
     void load_item_group(JsonObject &jsobj);
@@ -58,6 +59,7 @@ public:
     void load_gunmod    (JsonObject &jo);
     void load_generic   (JsonObject &jo);
 
+    void clear_items_and_groups();
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;

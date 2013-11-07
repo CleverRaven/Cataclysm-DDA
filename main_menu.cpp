@@ -332,11 +332,7 @@ bool game::opening_screen()
                 if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         setup();
-                        if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
-                            u = player();
-                            delwin(w_open);
-                            return (opening_screen());
-                        }
+                        // flip world picking and character generation
                         WORLDPTR world = pick_world_to_play();
                         if (!world){
                             u = player();
@@ -344,12 +340,16 @@ bool game::opening_screen()
                             return opening_screen();
                         }else{
                             world_generator->set_active_world(world);
+                            load_world_modfiles(world->world_name);
+                        }
+                        if (!u.create(this, (sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2)?PLTYPE_RANDOM : PLTYPE_NOW))) {
+                            u = player();
+                            delwin(w_open);
+                            return (opening_screen());
                         }
                         werase(w_background);
                         wrefresh(w_background);
 
-                        load_artifacts(world->world_name);
-                        MAPBUFFER.load(world->world_name);
                         start_game(world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
@@ -502,6 +502,7 @@ bool game::opening_screen()
                         {
                             world_generator->set_active_world(world);
                             setup();
+                            load_world_modfiles(world->world_name);
                         }
 
                         if (world == NULL || !gamemode->init(this)) {
@@ -511,8 +512,8 @@ bool game::opening_screen()
                             delwin(w_open);
                             return (opening_screen());
                         }
-                        load_artifacts(world->world_name);
-                        MAPBUFFER.load(world->world_name);
+                        //load_artifacts(world->world_name);
+                        //MAPBUFFER.load(world->world_name);
 
                         start = true;
                     }
@@ -555,9 +556,10 @@ bool game::opening_screen()
                         wrefresh(w_background);
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(world);
+                        load_world_modfiles(world->world_name);
 
-                        load_artifacts(world->world_name);
-                        MAPBUFFER.load(world->world_name);
+                        //load_artifacts(world->world_name);
+                        //MAPBUFFER.load(world->world_name);
                         setup();
 
                         load(world->world_name, savegames[sel3]);
@@ -671,11 +673,6 @@ bool game::opening_screen()
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (input == DirectionE || input == Confirm) {
                     setup();
-                    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel3])) {
-                        u = player();
-                        delwin(w_open);
-                        return (opening_screen());
-                    }
                     // check world
                     WORLDPTR world = pick_world_to_play();
                     if (!world){
@@ -684,12 +681,18 @@ bool game::opening_screen()
                         return (opening_screen());
                     }else{
                         world_generator->set_active_world(world);
+                        load_world_modfiles(world->world_name);
+                    }
+                    if (!u.create(this, PLTYPE_TEMPLATE, templates[sel3])) {
+                        u = player();
+                        delwin(w_open);
+                        return (opening_screen());
                     }
                     werase(w_background);
                     wrefresh(w_background);
 
-                    load_artifacts(world_generator->active_world->world_name);
-                    MAPBUFFER.load(world_generator->active_world->world_name);
+                    //load_artifacts(world_generator->active_world->world_name);
+                    //MAPBUFFER.load(world_generator->active_world->world_name);
 
                     start_game(world_generator->active_world->world_name);
                     start = true;

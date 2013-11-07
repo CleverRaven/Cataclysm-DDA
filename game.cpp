@@ -31,6 +31,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "worldfactory.h"
+#include "file_finder.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -104,29 +105,30 @@ void game::init_data()
  if(!picojson::get_last_error().empty())
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
-    init_data_structures(); // initialize cata data structures
-    load_json_dir("data/json"); // load it, load it all!
-    init_npctalk();
-    init_artifacts();
-    init_weather();
-    init_overmap();
-    init_fields();
-    init_faction_data();
-    init_morale();
-    init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    item_controller->init(this); //Item manager
-    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
-    init_traps();                // Set up the trap types            (SEE trapdef.cpp)
-    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_construction();         // Set up constructables            (SEE construction.cpp)
-    init_autosave();             // Set up autosave
-    init_diseases();             // Set up disease lookup table
-    init_savedata_translation_tables();
-    inp_mngr.init();            // Load input config JSON
-
+    init_data_structures(); // initialize cata data structures // safe
+//    load_json_dir("data/json"); // load it, load it all!
+    init_npctalk(); // safe
+    init_artifacts(); // safe
+    init_weather(); // safe
+    init_overmap(); // safe
+    init_fields(); // safe
+    init_faction_data(); // safe
+    init_morale(); // safe
+//    init_itypes();               // Set up item types                (SEE itypedef.cpp) // not safe?
+//    item_controller->init(this); //Item manager                                         // presumably safe?
+    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp) // safe
+    init_traps();                // Set up the trap types            (SEE trapdef.cpp) // safe
+    init_missions();             // Set up mission templates         (SEE missiondef.cpp) // presumably safe?
+//    init_construction();         // Set up constructables            (SEE construction.cpp) // presumably safe?
+    init_autosave();             // Set up autosave                                         // safe
+    init_diseases();             // Set up disease lookup table                             // safe
+    init_savedata_translation_tables(); // safe
+    inp_mngr.init();            // Load input config JSON // safe
+/*
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
      finalize_recipes();
+*/
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -364,6 +366,9 @@ void game::setup()
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
+    load_artifacts(worldname);
+    MAPBUFFER.load(worldname);
+
  turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
  if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
  else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer")
@@ -578,8 +583,10 @@ void game::cleanup_at_end(){
 bool game::do_turn()
 {
  if (is_game_over()) {
-  cleanup_at_end();
-  return true;
+    if (uquit != QUIT_MENU){
+        cleanup_at_end();
+    }
+    return true;
  }
 // Actual stuff
  gamemode->per_turn(this);
@@ -720,7 +727,9 @@ bool game::do_turn()
           }
 
           if (is_game_over()) {
-              cleanup_at_end();
+              if (uquit != QUIT_MENU){
+                  cleanup_at_end();
+              }
               return true;
           }
      }
@@ -1507,7 +1516,7 @@ void game::process_missions()
 void game::handle_key_blocking_activity() {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (is_hostile_very_close() && 
+    if (is_hostile_very_close() &&
         u.activity.type != ACT_NULL &&
         u.activity.moves_left > 0 &&
         !u.activity.warned_of_proximity)
@@ -2709,6 +2718,9 @@ void game::load_artifacts_from_file(std::ifstream *f)
 
 void game::load(std::string worldname, std::string name)
 {
+    load_artifacts(worldname);
+    MAPBUFFER.load(worldname);
+
  std::ifstream fin;
  std::string worldpath = world_generator->all_worlds[worldname]->world_path;
  worldpath += "/";
@@ -2760,6 +2772,33 @@ void game::load(std::string worldname, std::string name)
  set_adjacent_overmaps(true);
  MAPBUFFER.set_dirty();
  draw();
+}
+
+void game::load_world_modfiles(std::string worldname)
+{
+    std::string worldpath = world_generator->all_worlds[worldname]->world_path;
+    worldpath += "/mods";
+    std::vector<std::string> worldmodfiles = file_finder::get_files_from_path(".json", worldpath, true);
+
+    if (worldmodfiles.empty()){
+        // load the base files
+        worldmodfiles = file_finder::get_files_from_path(".json", "data/json", true);
+    }
+
+    for (int i = 0; i < worldmodfiles.size(); ++i){
+        DebugLog() << "JSON FILE:  "<<worldmodfiles[i]<<"\n";
+    }
+
+
+    load_json_files(worldmodfiles);
+    init_itypes();
+    item_controller->init(this);
+    init_construction();
+
+    MonsterGenerator::generator().finalize_mtypes();
+    finalize_vehicles();
+    finalize_recipes();
+
 }
 
 //Saves all factions and missions and npcs.
@@ -2836,6 +2875,23 @@ void game::delete_world(std::string worldname, bool delete_folder)
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::string filetmp = "";
     std::string world_opfile = "worldoptions.txt";
+    std::vector<std::string> modfiles;
+    std::set<std::string> mod_dirpathparts;
+
+    if (delete_folder){
+        modfiles = file_finder::get_files_from_path(".json", worldpath, true, true);
+        for (int i = 0; i < modfiles.size(); ++i){
+            // strip to path and remove worldpath from it
+            std::string part = modfiles[i].substr(worldpath.size(), modfiles[i].find_last_of("/\\") - worldpath.size());
+            int last_separator = part.find_last_of("/\\");
+            while (last_separator != std::string::npos && part.size() > 1){
+                mod_dirpathparts.insert(part);
+                part = part.substr(0, last_separator);
+                last_separator = part.find_last_of("/\\");
+            }
+        }
+    }
+
 #if (defined _WIN32 || defined __WIN32__)
       WIN32_FIND_DATA FindFileData;
       HANDLE hFind;
@@ -2853,8 +2909,15 @@ void game::delete_world(std::string worldname, bool delete_folder)
        } while(FindNextFile(hFind, &FindFileData) != 0);
        FindClose(hFind);
       }
+
       SetCurrentDirectory(Buffer);
       if (delete_folder){
+        for (int i = 0; i < modfiles.size(); ++i){
+            DeleteFile(modfiles[i].c_str());
+        }
+        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
+            RemoveDirectory(std::string(worldpath + *it).c_str());
+        }
         RemoveDirectory(worldpath.c_str());
       }
 #else
@@ -2871,6 +2934,14 @@ void game::delete_world(std::string worldname, bool delete_folder)
       (void)closedir(save_dir);
      }
      if (delete_folder){
+        // delete mod files
+        for (int i = 0; i < modfiles.size(); ++i){
+            (void)unlink(modfiles[i].c_str());
+        }
+        // delete mod directories -- directories are ordered deepest to shallowest
+        for (std::set<std::string>::reverse_iterator it = mod_dirpathparts.rbegin(); it != mod_dirpathparts.rend(); ++it){
+            remove(std::string(worldpath + *it).c_str());
+        }
         remove(worldpath.c_str());
      }
 #endif

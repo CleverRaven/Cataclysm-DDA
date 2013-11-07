@@ -29,6 +29,11 @@ Item_factory::Item_factory(){
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 
+void Item_factory::reinit()
+{
+    m_templates["MISSING_ITEM"]=m_missing_item;
+}
+
 void Item_factory::init(){
     //Populate the iuse functions
     iuse_function_list["NONE"] = &iuse::none;
@@ -502,7 +507,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     List of current flags
     FIT - Reduces encumbrance by one
     VARSIZE - Can be made to fit via tailoring
-    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
+    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
     HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
     RAINPROOF - Works like a raincoat to protect from rain effects
@@ -606,6 +611,19 @@ bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string
     return is_included;
 }
 
+void Item_factory::clear_items_and_groups()
+{
+    // clear groups
+    for (std::map<Item_tag, Item_group*>::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig){
+        delete ig->second;
+    }
+    m_template_groups.clear();
+    for (std::map<Item_tag, itype*>::iterator it = m_templates.begin(); it != m_templates.end(); ++it){
+        g->itypes.erase(it->first);
+        it->second = NULL;
+    }
+    m_templates.clear();
+}
 
 // Load an item group from JSON
 void Item_factory::load_item_group(JsonObject &jsobj)

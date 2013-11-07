@@ -29,7 +29,6 @@ struct MOD_INFORMATION
             default: return "UNKNOWN TYPE"; break;
         }
     }
-    ~MOD_INFORMATION();
 };
 
 class mod_manager
@@ -50,6 +49,8 @@ class mod_manager
 
         dependency_tree *get_tree(){ return tree;}
         void clear();
+
+        bool copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path);
     protected:
     private:
         bool load_mods_from(std::string path);
@@ -65,9 +66,18 @@ public:
     virtual ~mod_ui();
 
     int show_layering_ui();
-private:
+    std::vector<std::string> usable_mods;
+    std::string get_information(MOD_INFORMATION *mod);
     mod_manager *active_manager;
     dependency_tree *mm_tree;
+
+    void try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &active_list);
+    void try_rem(int selection, std::vector<std::string> &active_list);
+    void try_shift(char direction, int &selection, std::vector<std::string> &active_list);
+
+    bool can_shift_up(int selection, std::vector<std::string> active_list);
+    bool can_shift_down(int selection, std::vector<std::string> active_list);
+private:
 
     void show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note);
     void draw_layering_ui_lines(WINDOW *win);
@@ -76,12 +86,8 @@ private:
     void draw_shift_information(WINDOW *win, int sy, int sx, const std::vector<std::string> active_mods_list, const int selection);
     int gather_input(int &active_header, int &selection, std::vector<std::string> mod_list, std::vector<std::string> &active_mods_list);
 
-    void try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &active_list);
-    void try_rem(int selection, std::vector<std::string> &active_list);
-    void try_shift(char direction, int &selection, std::vector<std::string> &active_list);
 
-    bool can_shift_up(int selection, std::vector<std::string> active_list);
-    bool can_shift_down(int selection, std::vector<std::string> active_list);
+    void set_usable_mods();
 };
 
 #endif // MOD_MANAGER_H

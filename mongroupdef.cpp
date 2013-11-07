@@ -213,7 +213,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int ends = 0;
             if(mon.has_member("starts")){
                 starts = mon.get_int("starts");
-            } 
+            }
             if(mon.has_member("ends")){
                 ends = mon.get_int("ends");
             }
@@ -229,6 +229,11 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     }
 
     monsterGroupMap[g.name] = g;
+}
+
+void MonsterGroupManager::ClearMonsterGroups()
+{
+    monsterGroupMap.clear();
 }
 
 void init_translation() {

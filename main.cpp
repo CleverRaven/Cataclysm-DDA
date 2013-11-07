@@ -11,6 +11,7 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "init.h"
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
@@ -103,6 +104,7 @@ int main(int argc, char *argv[])
      quit_game = true;
   }
   while (!g->do_turn()) ;
+  unload_active_json_data();
   if (g->game_quit() || g->game_error())
    quit_game = true;
  } while (!quit_game);
