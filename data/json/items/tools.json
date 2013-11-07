@@ -3946,6 +3946,31 @@
   },
 
   {
+    "id" : "makeshift_knife",
+    "type":"TOOL",
+    "symbol":";",
+    "color": "dark_gray",
+    "name" : "makeshift knife",
+    "description" : "A knife consisting of a long somewhat sharpened spike and a thightly wrapped a rag as a handle. It makes a good melee weapon.",
+    "price": 10,
+    "material": ["steel", "null"],
+    "flags": "STAB",
+    "weight": 550,
+    "volume": 2,
+    "bashing": 2,
+    "cutting": 10,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
+   },
+
+   {
     "id": "needle_bone",
     "type": "TOOL",
     "symbol": ";",
