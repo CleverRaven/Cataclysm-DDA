@@ -2,6 +2,8 @@
 #define _INVENTORY_H_
 
 #include "item.h"
+#include "artifact.h"
+
 #include <string>
 #include <vector>
 #include <list>

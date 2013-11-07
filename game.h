@@ -245,8 +245,6 @@ class game
   faction* random_good_faction();
   faction* random_evil_faction();
 
-  itype* new_artifact();
-  itype* new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
@@ -406,7 +404,6 @@ class game
   void init_fields();
   void init_weather();
   void init_overmap();
-  void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);

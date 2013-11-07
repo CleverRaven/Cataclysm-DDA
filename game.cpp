@@ -3295,7 +3295,7 @@ Current turn: %d; Next spawn %d.\n\
       artifact_natural_property prop =
           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
       m.create_anomaly(center.x, center.y, prop);
-      m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
+      m.spawn_artifact(center.x, center.y, new_natural_artifact(itypes, prop), 0);
   }
   break;
 
@@ -12004,3 +12004,295 @@ make the terminal just a smidgen taller?"),
  erase();
 }
 
+void game::process_artifact(item *it, player *p, bool wielded)
+{
+    std::vector<art_effect_passive> effects;
+    if (it->is_armor()) {
+        it_artifact_armor* armor = dynamic_cast<it_artifact_armor*>(it->type);
+        effects = armor->effects_worn;
+    } else if (it->is_tool()) {
+        it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(it->type);
+        effects = tool->effects_carried;
+        if (wielded) {
+            for (int i = 0; i < tool->effects_wielded.size(); i++) {
+                effects.push_back(tool->effects_wielded[i]);
+            }
+        }
+        // Recharge it if necessary
+        if (it->charges < tool->max_charges) {
+            switch (tool->charge_type) {
+            case ARTC_TIME:
+                // Once per hour
+                if (turn.seconds() == 0 && turn.minutes() == 0) {
+                    it->charges++;
+                }
+                break;
+            case ARTC_SOLAR:
+                if (turn.seconds() == 0 && turn.minutes() % 10 == 0 &&
+                    is_in_sunlight(p->posx, p->posy)) {
+                    it->charges++;
+                }
+                break;
+            case ARTC_PAIN:
+                if (turn.seconds() == 0) {
+                    add_msg(_("You suddenly feel sharp pain for no reason."));
+                    p->pain += 3 * rng(1, 3);
+                    it->charges++;
+                }
+                break;
+            case ARTC_HP:
+                if (turn.seconds() == 0) {
+                    add_msg(_("You feel your body decaying."));
+                    p->hurtall(1);
+                    it->charges++;
+                }
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < effects.size(); i++) {
+        switch (effects[i]) {
+        case AEP_STR_UP:
+            p->str_cur += 4;
+            break;
+        case AEP_DEX_UP:
+            p->dex_cur += 4;
+            break;
+        case AEP_PER_UP:
+            p->per_cur += 4;
+            break;
+        case AEP_INT_UP:
+            p->int_cur += 4;
+            break;
+        case AEP_ALL_UP:
+            p->str_cur += 2;
+            p->dex_cur += 2;
+            p->per_cur += 2;
+            p->int_cur += 2;
+            break;
+        case AEP_SPEED_UP: // Handled in player::current_speed()
+            break;
+
+        case AEP_IODINE:
+            if (p->radiation > 0) {
+                p->radiation--;
+            }
+            break;
+
+        case AEP_SMOKE:
+            if (one_in(10)) {
+                int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
+                if (m.add_field(this, x, y, fd_smoke, rng(1, 3))) {
+                    add_msg(_("The %s emits some smoke."),
+                            it->tname().c_str());
+                }
+            }
+            break;
+
+        case AEP_SNAKES:
+            break; // Handled in player::hit()
+
+        case AEP_EXTINGUISH:
+            for (int x = p->posx - 1; x <= p->posx + 1; x++) {
+                for (int y = p->posy - 1; y <= p->posy + 1; y++) {
+                    m.adjust_field_age(point(x,y), fd_fire, -1);
+                }
+            }
+
+        case AEP_HUNGER:
+            if (one_in(100)) {
+                p->hunger++;
+            }
+            break;
+
+        case AEP_THIRST:
+            if (one_in(120)) {
+                p->thirst++;
+            }
+            break;
+
+        case AEP_EVIL:
+            if (one_in(150)) { // Once every 15 minutes, on average
+                p->add_disease("evil", 300);
+                if (it->is_armor()) {
+                    add_msg(_("You have an urge to wear the %s."),
+                            it->tname().c_str());
+                } else if (!wielded) {
+                    add_msg(_("You have an urge to wield the %s."),
+                            it->tname().c_str());
+                }
+            }
+            break;
+
+        case AEP_SCHIZO:
+            break; // Handled in player::suffer()
+
+        case AEP_RADIOACTIVE:
+            if (one_in(4)) {
+                p->radiation++;
+            }
+            break;
+
+        case AEP_STR_DOWN:
+            p->str_cur -= 3;
+            break;
+
+        case AEP_DEX_DOWN:
+            p->dex_cur -= 3;
+            break;
+
+        case AEP_PER_DOWN:
+            p->per_cur -= 3;
+            break;
+
+        case AEP_INT_DOWN:
+            p->int_cur -= 3;
+            break;
+
+        case AEP_ALL_DOWN:
+            p->str_cur -= 2;
+            p->dex_cur -= 2;
+            p->per_cur -= 2;
+            p->int_cur -= 2;
+            break;
+
+        case AEP_SPEED_DOWN:
+            break; // Handled in player::current_speed()
+        }
+    }
+}
+
+void game::add_artifact_messages(std::vector<art_effect_passive> effects)
+{
+    int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
+
+    for (int i = 0; i < effects.size(); i++) {
+        switch (effects[i]) {
+        case AEP_STR_UP:   net_str += 4; break;
+        case AEP_DEX_UP:   net_dex += 4; break;
+        case AEP_PER_UP:   net_per += 4; break;
+        case AEP_INT_UP:   net_int += 4; break;
+        case AEP_ALL_UP:   net_str += 2;
+                           net_dex += 2;
+                           net_per += 2;
+                           net_int += 2; break;
+        case AEP_STR_DOWN: net_str -= 3; break;
+        case AEP_DEX_DOWN: net_dex -= 3; break;
+        case AEP_PER_DOWN: net_per -= 3; break;
+        case AEP_INT_DOWN: net_int -= 3; break;
+        case AEP_ALL_DOWN: net_str -= 2;
+                           net_dex -= 2;
+                           net_per -= 2;
+                           net_int -= 2; break;
+
+        case AEP_SPEED_UP:   net_speed += 20; break;
+        case AEP_SPEED_DOWN: net_speed -= 20; break;
+
+        case AEP_IODINE:
+            break; // No message
+
+        case AEP_SNAKES:
+            add_msg(_("Your skin feels slithery."));
+            break;
+
+        case AEP_INVISIBLE:
+            add_msg(_("You fade into invisibility!"));
+            break;
+
+        case AEP_CLAIRVOYANCE:
+            add_msg(_("You can see through walls!"));
+            break;
+
+        case AEP_SUPER_CLAIRVOYANCE:
+            add_msg(_("You can see through everything!"));
+            break;
+
+        case AEP_STEALTH:
+            add_msg(_("Your steps stop making noise."));
+            break;
+
+        case AEP_GLOW:
+            add_msg(_("A glow of light forms around you."));
+            break;
+
+        case AEP_PSYSHIELD:
+            add_msg(_("Your mental state feels protected."));
+            break;
+
+        case AEP_RESIST_ELECTRICITY:
+            add_msg(_("You feel insulated."));
+            break;
+
+        case AEP_CARRY_MORE:
+            add_msg(_("Your back feels strengthened."));
+            break;
+
+        case AEP_HUNGER:
+            add_msg(_("You feel hungry."));
+            break;
+
+        case AEP_THIRST:
+            add_msg(_("You feel thirsty."));
+            break;
+
+        case AEP_EVIL:
+            add_msg(_("You feel an evil presence..."));
+            break;
+
+        case AEP_SCHIZO:
+            add_msg(_("You feel a tickle of insanity."));
+            break;
+
+        case AEP_RADIOACTIVE:
+            add_msg(_("Your skin prickles with radiation."));
+            break;
+
+        case AEP_MUTAGENIC:
+            add_msg(_("You feel your genetic makeup degrading."));
+            break;
+
+        case AEP_ATTENTION:
+            add_msg(_("You feel an otherworldly attention upon you..."));
+            break;
+
+        case AEP_FORCE_TELEPORT:
+            add_msg(_("You feel a force pulling you inwards."));
+            break;
+
+        case AEP_MOVEMENT_NOISE:
+            add_msg(_("You hear a rattling noise coming from inside yourself."));
+            break;
+
+        case AEP_BAD_WEATHER:
+            add_msg(_("You feel storms coming."));
+            break;
+        }
+    }
+
+    std::string stat_info = "";
+    if (net_str != 0) {
+        stat_info += string_format(_("Str %s%d! "),
+                                   (net_str > 0 ? "+" : ""), net_str);
+    }
+    if (net_dex != 0) {
+        stat_info += string_format(_("Dex %s%d! "),
+                                   (net_dex > 0 ? "+" : ""), net_dex);
+    }
+    if (net_int != 0) {
+        stat_info += string_format(_("Int %s%d! "),
+                                   (net_int > 0 ? "+" : ""), net_int);
+    }
+    if (net_per != 0) {
+        stat_info += string_format(_("Per %s%d! "),
+                                   (net_per > 0 ? "+" : ""), net_per);
+    }
+
+    if (stat_info.length() > 0) {
+        add_msg(stat_info.c_str());
+    }
+
+    if (net_speed != 0) {
+        add_msg(_("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
+    }
+}

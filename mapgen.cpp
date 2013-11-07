@@ -4945,8 +4945,8 @@ ff.......|....|WWWWWWWW|\n\
   square(this, t_rock_floor, SEEX - 1, 1, SEEX + 2, 4);
   square(this, t_rock_floor, SEEX, 5, SEEX + 1, SEEY * 2 - 1);
   line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
-  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
-  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), g->new_artifact(), 0);
+  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), new_artifact(g->itypes), 0);
+  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), new_artifact(g->itypes), 0);
   return;
 
  case ot_sewage_treatment:
@@ -5571,7 +5571,7 @@ ff.......|....|WWWWWWWW|\n\
      place_items("mine_equipment", 60, x, y, x, y, false, 0);
     }
     add_spawn("mon_dog_thing", 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
-    spawn_artifact(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), g->new_artifact(), 0);
+    spawn_artifact(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), new_artifact(g->itypes), 0);
    } break;
 
    case 3: { // Spiral down
@@ -14105,7 +14105,7 @@ void map::add_extra(map_extra type, game *g)
   artifact_natural_property prop =
    artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
   create_anomaly(center.x, center.y, prop);
-  spawn_artifact(center.x, center.y, g->new_natural_artifact(prop), 0);
+  spawn_artifact(center.x, center.y, new_natural_artifact(g->itypes, prop), 0);
  } break;
 
  default: break;
