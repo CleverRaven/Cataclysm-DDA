@@ -18,6 +18,7 @@ enum vehicle_controls {
  toggle_lights,
  toggle_overhead_lights,
  toggle_turrets,
+ toggle_stereo,
  activate_horn,
  release_control,
  control_cancel,
@@ -38,6 +39,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    stereo_on = false;
     overhead_lights_on = false;
     insides_dirty = true;
 
@@ -305,6 +307,7 @@ void vehicle::use_controls()
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
+    bool has_stereo = false;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -320,6 +323,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "HORN")) {
             has_horn = true;
+        }
+        else if (part_flag(p, "STEREO")) {
+            has_stereo = true;
         }
     }
 
@@ -342,6 +348,14 @@ void vehicle::use_controls()
     if (has_horn) {
         options_choice.push_back(activate_horn);
         options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
+        curent++;
+    }
+
+    //Toggle stereo
+    if (has_stereo) {
+        options_choice.push_back(toggle_stereo);
+        options_message.push_back(uimenu_entry((stereo_on) ? _("Turn off stereo") :
+                                               _("Turn on stereo"), 's'));
         curent++;
     }
 
@@ -407,6 +421,14 @@ void vehicle::use_controls()
     case activate_horn:
         g->add_msg(_("You honk the horn!"));
         honk_horn();
+        break;
+    case toggle_stereo:
+        if(stereo_on || fuel_left("battery") ) {
+            stereo_on = !stereo_on;
+            g->add_msg((stereo_on) ? _("Stereo turned on") : _("Stereo turned off"));
+        } else {
+            g->add_msg(_("The stereo won't come on!"));
+        }
         break;
     case toggle_turrets:
         if (++turret_mode > 1) {
