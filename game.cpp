@@ -6901,6 +6901,7 @@ point game::look_around()
           // This is only done on toggle, so it shouldn't be used heavily.
           if (fast_scroll) {
             // print a light green mark below the top right corner of the w_look window
+            //~ Fast-scroll indicator
             mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
           } else {
             // redraw the border to clear out the marker.
