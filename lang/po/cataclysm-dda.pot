@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-07 14:48+1300\n"
+"POT-Creation-Date: 2013-11-07 14:53+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11395,6 +11395,10 @@ msgid "5x50mm flechette"
 msgstr ""
 
 #: itypedef.cpp lang/json/json_items.py
+msgid "signal flare"
+msgstr ""
+
+#: itypedef.cpp lang/json/json_items.py
 msgid "charcoal"
 msgstr ""
 
@@ -11657,6 +11661,11 @@ msgid "Blech, that burns your throat!"
 msgstr ""
 
 #: iuse.cpp
+#, c-format
+msgid "You chew your %s."
+msgstr ""
+
+#: iuse.cpp
 msgid "Consumed mutagen."
 msgstr ""
 
@@ -11758,6 +11767,20 @@ msgstr ""
 
 #: iuse.cpp
 msgid "You spill the dogfood all over the ground."
+msgstr ""
+
+#: iuse.cpp
+msgid "Put the cat food where?"
+msgstr ""
+
+#: iuse.cpp
+msgid ""
+"The cat seems to like you! Or maybe it just tolerates your presence better. "
+"It's hard to tell with cats."
+msgstr ""
+
+#: iuse.cpp
+msgid "You spill the cat food all over the ground."
 msgstr ""
 
 #: iuse.cpp
@@ -12018,6 +12041,18 @@ msgstr ""
 
 #: iuse.cpp
 msgid "The glowstick fades out."
+msgstr ""
+
+#: iuse.cpp
+msgid "You strike your flare and light it."
+msgstr ""
+
+#: iuse.cpp
+msgid "You can't turn off a flare."
+msgstr ""
+
+#: iuse.cpp
+msgid "The flare sputters out."
 msgstr ""
 
 #: iuse.cpp
@@ -16095,6 +16130,24 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "sundress"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A light and breezy cotton dress. Though cool and comfortable to wear, it "
+"lacks any storage space."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "lowtop tennis shoes"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Lightweight shoes made of cloth and rubber."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "wedding dress"
 msgstr ""
 
@@ -16955,6 +17008,16 @@ msgid "A pair of sunglasses, good for keeping the glare out of your eyes."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "stylish sunglasses"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A pair of stylish sunglasses, look good while keeping the glare out of your "
+"eyes."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "baseball cap"
 msgstr ""
 
@@ -17722,6 +17785,16 @@ msgstr ""
 msgid ""
 "A lightweight black helmet that provides excellent protection from all sorts "
 "of damage."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "tactical full helmet"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"An all-encompassing black helmet that covers your entire face and neck, "
+"providing excellent protection from all sorts of damage."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -18998,6 +19071,14 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "flaregun"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A plastic single shot pistol made to fire signal flares."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A7 laser rifle"
 msgstr ""
 
@@ -19398,6 +19479,14 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A cast-iron pan. Makes a decent melee weapon, and is used for cooking."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "teapot"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A small metal teapot. Teatime wouldn't be complete without one."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -20291,6 +20380,17 @@ msgid ""
 "A hard plastic truncheon commonly employed by police. Originally an Okinawan "
 "weapon, it consists of a stick with a perpendicular handle attached a third "
 "of the way down its length."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "wooden tonfa"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A stout wooden truncheon of the sort commonly employed by police. Originally "
+"an Okinawan weapon, it consists of a stick with a perpendicular handle "
+"attached a third of the way down its length."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21401,6 +21501,12 @@ msgid ""
 "A variant of the powerful .50 BMG sniper round, incendiary rounds are "
 "designed to burn hotly upon impact, piercing armor and igniting flammable "
 "substances."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A heavy plastic cartridge made for use in flare guns. It appears to be a "
+"modified 12 gauge shotgun shell."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -23526,6 +23632,14 @@ msgid "Like apple cider, only with vodka."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "rum & cola"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Suitable for tropical retreats and Canadian artists alike."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "beer"
 msgstr ""
 
@@ -24276,16 +24390,6 @@ msgstr ""
 msgid ""
 "Delicious, lumpy, white soup made of clams and potatoes. A taste of the lost "
 "glory of New England."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid "cat food"
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"The mere thought of eating this stuff is enough to make your hair stand on "
-"end. Save it for when you're about to die of starvation."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25294,6 +25398,27 @@ msgid "Mint flavored nicotine chewing gum. For smokers who desire to quit."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "chewing tobacco"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Mint flavored chewing tobacco. While still absolutely terrible for your "
+"health, it was once a favorite amongst baseball players, cowboys, and other "
+"macho types."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "caffeinated chewing gum"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Chewing gum with added caffeine. Sugary and bad for your teeth, but it's a "
+"nice pick-me-up."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "vinegar"
 msgstr ""
 
@@ -25895,6 +26020,34 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "This is a spent glowstick. It is essentially trash."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "flare"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This is a slow-burning magnesium flare. Use it to strike the striker and "
+"light it. It will produce a bright light for about a half hour."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "active flare"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This burning magnesium flare is producing light. It will last for about a "
+"half hour before burning out."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "dead flare"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "This is a spent magnesium flare. It is essentially trash."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -26788,6 +26941,14 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "This is food for dogs. It smells strange, but dogs seem to love it."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "cat food"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "This is food for cats. It smells strange, but cats seem to love it."
 msgstr ""
 
 #: lang/json/json_items.py trapdef.cpp
@@ -27976,9 +28137,9 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"This is a stout combat knife features a steel guard to protect the user's "
-"knuckles, which can be used for striking or blocking. It can also be used to "
-"butcher corpses."
+"This stout combat knife features a steel guard to protect the user's "
+"knuckles. The guard can also be used for striking or blocking, and the knife "
+"can also be used to butcher corpses."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28007,6 +28168,39 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "This is a common hydraulic jack, used when changing tires."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "scythe"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a giant blade on the end of a stick, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "war scythe"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This farming tool has been modified into a weapon by reinforcing and "
+"rotating its blade 90 degrees, transforming it into a deadly giant blade on "
+"the end of a stick."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "sickle"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a massive curved blade on a handle, it is incredibly awkward to use for "
+"anything but its intended purpose."
 msgstr ""
 
 #: lang/json/json_items.py

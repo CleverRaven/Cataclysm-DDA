@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-07 14:48+1300\n"
+"POT-Creation-Date: 2013-11-07 14:53+1300\n"
 "PO-Revision-Date: 2013-11-04 17:36+0000\n"
 "Last-Translator: TEATIME <teatime@r7.dion.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -11710,6 +11710,11 @@ msgstr "原子力電池"
 msgid "shot"
 msgstr "弾薬 (散弾/バックショット)"
 
+#: itypedef.cpp lang/json/json_items.py
+#, fuzzy
+msgid "signal flare"
+msgstr "信号受信器"
+
 #: itypedef.cpp lang/json/json_vehicle_parts.py
 msgid "small wheel"
 msgstr "小型ホイール"
@@ -12345,6 +12350,11 @@ msgid "Put a knife in the boot"
 msgstr "ブーツにナイフを仕舞う"
 
 #: iuse.cpp
+#, fuzzy
+msgid "Put the cat food where?"
+msgstr "どこにドックフードを置きますか？"
+
+#: iuse.cpp
 msgid "Put the dog food where?"
 msgstr "どこにドックフードを置きますか？"
 
@@ -12619,6 +12629,12 @@ msgid "The candle winks out"
 msgstr ""
 
 #: iuse.cpp
+msgid ""
+"The cat seems to like you! Or maybe it just tolerates your presence better. "
+"It's hard to tell with cats."
+msgstr ""
+
+#: iuse.cpp
 msgid "The dog seems to like you!"
 msgstr "犬はあなたに懐いているようだ！"
 
@@ -12629,6 +12645,11 @@ msgstr "地面が揺れています！"
 #: iuse.cpp
 msgid "The fabric of space seems to decay."
 msgstr ""
+
+#: iuse.cpp
+#, fuzzy
+msgid "The flare sputters out."
+msgstr "松明は燃え尽きた。"
 
 #: iuse.cpp
 msgid "The flashlight flicks off."
@@ -13105,6 +13126,11 @@ msgid "You can't see to sew!"
 msgstr "暗くて裁縫できない！"
 
 #: iuse.cpp
+#, fuzzy
+msgid "You can't turn off a flare."
+msgstr "サイリウムを消す事は出来ない。"
+
+#: iuse.cpp
 msgid "You can't turn off a glowstick."
 msgstr "サイリウムを消す事は出来ない。"
 
@@ -13130,6 +13156,11 @@ msgstr[1] ""
 #: iuse.cpp
 msgid "You cauterize yourself. It hurts like hell!"
 msgstr "自身を焼灼しました。それは地獄の様な痛みだ！"
+
+#: iuse.cpp
+#, fuzzy, c-format
+msgid "You chew your %s."
+msgstr "%sを食べた。"
 
 #: iuse.cpp
 msgid "You churn up the earth here."
@@ -13683,6 +13714,11 @@ msgid "You snort some crystal meth."
 msgstr ""
 
 #: iuse.cpp
+#, fuzzy
+msgid "You spill the cat food all over the ground."
+msgstr "地面に全てのドッグフードをばら撒いた。"
+
+#: iuse.cpp
 msgid "You spill the dogfood all over the ground."
 msgstr "地面に全てのドッグフードをばら撒いた。"
 
@@ -13697,6 +13733,11 @@ msgstr ""
 #: iuse.cpp
 msgid "You stop the bleeding."
 msgstr "止血しました。"
+
+#: iuse.cpp
+#, fuzzy
+msgid "You strike your flare and light it."
+msgstr "ライターなど火をつけるものが必要だ。"
 
 #: iuse.cpp
 msgid "You string up the tripwire."
@@ -17585,6 +17626,12 @@ msgstr ""
 "鍛冶や消防士などが手を熱から守るために使用します。"
 
 #: lang/json/json_items.py
+msgid ""
+"A heavy plastic cartridge made for use in flare guns. It appears to be a "
+"modified 12 gauge shotgun shell."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A heavy plastic helmet normally worn by football players."
 msgstr ""
 
@@ -18003,6 +18050,13 @@ msgid ""
 msgstr ""
 "細長く比較的硬い鋼のワイヤーです。\n"
 "あなたは同様の物をフェンスから見つけられます。"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A light and breezy cotton dress. Though cool and comfortable to wear, it "
+"lacks any storage space."
+msgstr "綿製のロングドレス。動き難く、ポケットなどもない。"
 
 #: lang/json/json_items.py
 msgid "A light vest covered in pockets and straps for storage."
@@ -18604,6 +18658,13 @@ msgid "A pair of soft neoprene arm sleeves, often used in contact sports."
 msgstr "ネオプレン製のスリーブ。スポーツで使われる。"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A pair of stylish sunglasses, look good while keeping the glare out of your "
+"eyes."
+msgstr "サングラス。まぶしい光から目を守る。"
+
+#: lang/json/json_items.py
 msgid "A pair of sunglasses, good for keeping the glare out of your eyes."
 msgstr "サングラス。まぶしい光から目を守る。"
 
@@ -18720,6 +18781,10 @@ msgid ""
 msgstr ""
 "雨からあなたを保護するプラスチックコートです。\n"
 "二つの非常に大きなポケットが付いています。"
+
+#: lang/json/json_items.py
+msgid "A plastic single shot pistol made to fire signal flares."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -19367,6 +19432,10 @@ msgstr ""
 "あなたの頭部を切り傷や衝撃から保護します。"
 
 #: lang/json/json_items.py
+msgid "A small metal teapot. Teatime wouldn't be complete without one."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid ""
 "A small pair of goggles. Distorts vision above water, but allows you to see "
 "much further under water."
@@ -19586,6 +19655,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A stout pole with an improvised grip and a fire-hardened point."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A stout wooden truncheon of the sort commonly employed by police. Originally "
+"an Okinawan weapon, it consists of a stick with a perpendicular handle "
+"attached a third of the way down its length."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -20258,6 +20334,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"An all-encompassing black helmet that covers your entire face and neck, "
+"providing excellent protection from all sorts of damage."
+msgstr "軽量の黒いヘルメット。あらゆるダメージから身を守る。"
+
+#: lang/json/json_items.py
 msgid ""
 "An aluminium baseball bat, lighter than a wooden bat and a little easier to "
 "swing as a result."
@@ -20871,6 +20954,12 @@ msgid ""
 "Charcoal is a flammable carbon based material obtained by removing water and "
 "other volatile constituents from animal and vegetation substances. It is "
 "produced by slowly heating wood or other substances in the absence of oxygen."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Chewing gum with added caffeine. Sugary and bad for your teeth, but it's a "
+"nice pick-me-up."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21785,6 +21874,10 @@ msgid "Light and easy to wear, but doesn't offer much storage."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "Lightweight shoes made of cloth and rubber."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Like apple cider, only with vodka."
 msgstr "唯一のアップルサイダーの様なウォッカ。"
 
@@ -21958,6 +22051,13 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "Milkor MGL"
 msgstr "グレネードランチャー (アームスコーMGL)"
+
+#: lang/json/json_items.py
+msgid ""
+"Mint flavored chewing tobacco. While still absolutely terrible for your "
+"health, it was once a favorite amongst baseball players, cowboys, and other "
+"macho types."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Mint flavored nicotine chewing gum. For smokers who desire to quit."
@@ -22683,6 +22783,10 @@ msgid "Submachine Gun Enthusiast"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "Suitable for tropical retreats and Canadian artists alike."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Survival Under Atomic Attack"
 msgstr ""
 
@@ -23135,12 +23239,6 @@ msgstr "赤ワインの王様（賛否あるが）。赤身肉とパスタとの
 
 #: lang/json/json_items.py
 msgid ""
-"The mere thought of eating this stuff is enough to make your hair stand on "
-"end. Save it for when you're about to die of starvation."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
 "The nail sword, or nord for short. This wooden sword has a dozen nails "
 "sticking at jagged angles from edge of the blade, making it much better at "
 "chopping than slashing."
@@ -23352,6 +23450,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This burning magnesium flare is producing light. It will last for about a "
+"half hour before burning out."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This canister of teargas has had its pin removed, indicating that it is (or "
 "will shortly be) expelling highly toxic gas. You should consider getting rid "
 "of it soon."
@@ -23424,6 +23528,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "This enriched white flour is useful for baking."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This farming tool has been modified into a weapon by reinforcing and "
+"rotating its blade 90 degrees, transforming it into a deadly giant blade on "
+"the end of a stick."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24309,6 +24420,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is a slow-burning magnesium flare. Use it to strike the striker and "
+"light it. It will produce a bright light for about a half hour."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is a small blue light glowstick. Use it to bend the plastic and break "
 "the glass cylinder inside to start the reaction. It will produce a very "
 "small amount of light."
@@ -24411,6 +24528,11 @@ msgid "This is a spent glowstick. It is essentially trash."
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "This is a spent magnesium flare. It is essentially trash."
+msgstr "使用済のサイリウム、もうゴミでしかない。"
+
+#: lang/json/json_items.py
 msgid ""
 "This is a spray can, filled with paint. Use this tool to make graffiti on "
 "the floor."
@@ -24453,13 +24575,6 @@ msgstr ""
 msgid ""
 "This is a stout collapsible spade. It's commonly used by military forces and "
 "favored by hikers for digging."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"This is a stout combat knife features a steel guard to protect the user's "
-"knuckles, which can be used for striking or blocking. It can also be used to "
-"butcher corpses."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24666,6 +24781,20 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a giant blade on the end of a stick, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a massive curved blade on a handle, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is an unwieldy mop. Good for cleaning up spills. Use to mop up any "
 "'mess' you may have made."
 msgstr ""
@@ -24675,6 +24804,11 @@ msgid ""
 "This is decent sized piece of cotton, sterilized and sealed. It's designed "
 "for medical purposes."
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "This is food for cats. It smells strange, but cats seem to love it."
+msgstr "犬用の餌。変な匂いがするが犬はこれが大好きだ。"
 
 #: lang/json/json_items.py
 msgid "This is food for dogs. It smells strange, but dogs seem to love it."
@@ -24921,6 +25055,13 @@ msgstr ""
 msgid ""
 "This smoke bomb has had its pin removed, indicating that it is (or will "
 "shortly be) expelling thick smoke."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This stout combat knife features a steel guard to protect the user's "
+"knuckles. The guard can also be used for striking or blocking, and the knife "
+"can also be used to butcher corpses."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25213,6 +25354,11 @@ msgstr "EMP手榴弾 (点火)"
 #: lang/json/json_items.py
 msgid "active Granade"
 msgstr "朱榴弾 (点火)"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "active flare"
+msgstr "閃光手榴弾 (点火)"
 
 #: lang/json/json_items.py
 msgid "active flashbang"
@@ -25759,6 +25905,11 @@ msgid "cabernet sauvignon"
 msgstr "ワイン(カベルネ・ソービニヨン)"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "caffeinated chewing gum"
+msgstr "チューインガム"
+
+#: lang/json/json_items.py
 msgid "caffeine pills"
 msgstr "カフェイン剤"
 
@@ -25956,6 +26107,11 @@ msgstr "チェストリグ"
 
 #: lang/json/json_items.py
 msgid "chewing gum"
+msgstr "チューインガム"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "chewing tobacco"
 msgstr "チューインガム"
 
 #: lang/json/json_items.py
@@ -26263,6 +26419,11 @@ msgid "darts"
 msgstr "ダーツ"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "dead flare"
+msgstr "赤い床"
+
+#: lang/json/json_items.py
 msgid "dead glowstick"
 msgstr "サイリウム (使用済)"
 
@@ -26565,6 +26726,16 @@ msgstr "フラメンスクァート (オフ)"
 #: lang/json/json_items.py
 msgid "flannel jacket"
 msgstr "フランネルジャケット"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flare"
+msgstr "眩しい"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flaregun"
+msgstr "眩しい"
 
 #: lang/json/json_items.py
 msgid "flashbang"
@@ -27421,6 +27592,11 @@ msgstr "ロングボウ"
 #: lang/json/json_items.py
 msgid "loose caltrops"
 msgstr "鉄菱"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "lowtop tennis shoes"
+msgstr "道化師の靴"
 
 #: lang/json/json_items.py
 msgid "lump of steel"
@@ -28350,6 +28526,10 @@ msgstr "ゴムホース"
 msgid "rum"
 msgstr "ラム酒"
 
+#: lang/json/json_items.py
+msgid "rum & cola"
+msgstr ""
+
 #: lang/json/json_items.py lang/json/json_vehicle_parts.py
 msgid "saddle"
 msgstr "サドル"
@@ -28457,6 +28637,10 @@ msgstr "スクラップスーツ"
 #: lang/json/json_items.py
 msgid "screwdriver"
 msgstr "ドライバー"
+
+#: lang/json/json_items.py
+msgid "scythe"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "sealed 3-litre jar of kompot"
@@ -28585,6 +28769,11 @@ msgstr "ショットガンの罠"
 #: lang/json/json_items.py
 msgid "shovel"
 msgstr "シャベル"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "sickle"
+msgstr "ピクルス"
 
 #: lang/json/json_items.py
 msgid "signal receiver"
@@ -28891,12 +29080,22 @@ msgid "string - 6 in"
 msgstr "紐(6インチ)"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "stylish sunglasses"
+msgstr "サングラス"
+
+#: lang/json/json_items.py
 msgid "sugar"
 msgstr "砂糖"
 
 #: lang/json/json_items.py
 msgid "suit"
 msgstr "スーツ"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "sundress"
+msgstr "ドレス"
 
 #: lang/json/json_items.py
 msgid "sunglasses"
@@ -29000,6 +29199,11 @@ msgid "tactical dump pouch"
 msgstr "タクティカルダンプポーチ"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "tactical full helmet"
+msgstr "タクティカルヘルメット"
+
+#: lang/json/json_items.py
 msgid "tactical gloves"
 msgstr "タクティカルグローブ"
 
@@ -29046,6 +29250,11 @@ msgstr "紅茶"
 #: lang/json/json_items.py
 msgid "tea leaves"
 msgstr "紅茶の葉"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "teapot"
+msgstr "武器"
 
 #: lang/json/json_items.py
 msgid "teargas canister"
@@ -29268,6 +29477,10 @@ msgid "war novel"
 msgstr "本 (小説/戦争)"
 
 #: lang/json/json_items.py
+msgid "war scythe"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "wasp sting"
 msgstr "狩蜂の針"
 
@@ -29394,6 +29607,11 @@ msgstr "ウッドスピア"
 #: lang/json/json_items.py
 msgid "wooden javelin"
 msgstr "ウッドジャベリン"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "wooden tonfa"
+msgstr "木の壁"
 
 #: lang/json/json_items.py
 msgid "woods soup"
@@ -57192,93 +57410,1248 @@ msgstr "世界名:"
 msgid "______NO NAME ENTERED!!!!_____"
 msgstr "______名前が入力されていない！_____"
 
-#~ msgid "Too many itens"
-#~ msgstr "アイテムを持ち過ぎている"
+#~ msgid "Monster Spotted!"
+#~ msgstr "敵だ！"
 
-#~ msgid "Start a fire"
-#~ msgstr "点火開始"
+#~ msgid "Hardcore"
+#~ msgstr "ハードコア"
 
-#~ msgid "Contruct"
-#~ msgstr "建設"
+#~ msgctxt "Main Menu"
+#~ msgid "<H>elp"
+#~ msgstr "<H>ヘルプ"
 
-#~ msgid "Press a direction for the furniture to move (. to cancel):"
-#~ msgstr "方向キーで家具を移動（.で中止）:"
+#~ msgctxt "Main Menu"
+#~ msgid "<L>oad"
+#~ msgstr "<L>ロード"
 
-#~ msgid "Can't move furniture there! Choose a direction with open floor."
-#~ msgstr "そこには動かせない！空いた場所を選んで下さい。"
+#~ msgid " select a statistic."
+#~ msgstr " ステータスを選択"
 
-#~ msgid "There's bugs crawling under your skin!"
-#~ msgstr "虫が皮膚の下を這い回っている！"
+#~ msgid "(Press spacebar to toggle)"
+#~ msgstr "（スペースで切り替え）"
 
-#~ msgid "You wake up to the ringing of an alarm-clock."
-#~ msgstr "目覚まし時計の音で目が覚めた。"
+#~ msgid "h, 4, or left arrow"
+#~ msgstr "h, 4, 左"
 
-#~ msgid "You start scratching yourself all over!"
-#~ msgstr "全身を引っ掻き始めた！"
+#~ msgid "j/k, 8/2, or arrows"
+#~ msgstr "j/k, 8/2, 上/下"
 
-#~ msgid "Spores"
-#~ msgstr "胞子"
+#~ msgid "l, 6, or right arrow"
+#~ msgstr "l, 6, 右"
 
-#~ msgid "Bugs Under Skin"
-#~ msgstr "皮膚内に蠢く虫"
+#~ msgid "<npcname> barely misses!"
+#~ msgstr "<npcname>の攻撃がぎりぎりで外れました！"
+
+#~ msgid "<npcname> misses!"
+#~ msgstr "<npcname>の攻撃が外れた！"
+
+#~ msgid "A bacon, lettuce and tomato sandwich on toasted bread."
+#~ msgstr "焼いたパンでベーコンとレタス、トマトを挟んだサンドイッチ。"
+
+#, fuzzy
+#~ msgid ""
+#~ "A bedroll made of pelts which can be rolled up for transport. Insulates "
+#~ "you from the floor, making it easier to sleep"
+#~ msgstr ""
+#~ "ウレタンフォームのシーツ。丸めて収納できる。断熱効果があり寝心地がいい。"
 
 #~ msgid ""
-#~ "Speed -40%\n"
-#~ "You can feel the tiny spores sinking directly into your flesh."
+#~ "A brass-jacketed variant of the .44 Magnum round.  This increases "
+#~ "penetration slightly at the cost of reduced expansion."
 #~ msgstr ""
-#~ "速度 -40%;\n"
-#~ "小さな菌類の胞子が直接体内に入り込んでいくのを感じます。"
+#~ "弾頭を完全に真鍮で覆った.44弾の一種。弾頭変形を防ぎ貫通力を高めてある。"
 
-#~ msgid "You haven't eaten in over a week!"
-#~ msgstr "ここ1週間、何も食べていない！"
+#~ msgid "clams"
+#~ msgstr "ハマグリ"
 
-#~ msgid "4 days... no water.."
-#~ msgstr "もう4日も水を飲んでいない..."
+#~ msgid "mole"
+#~ msgstr "モグラ"
 
-#~ msgid "You haven't had anything to drink in 2 days!"
-#~ msgstr "2日間、何も飲んでいない！"
+#~ msgid "Start cart construction"
+#~ msgstr "カートを作製する"
 
-#~ msgid "Study %s?"
-#~ msgstr "%sを学びますか？"
+#~ msgid "Enter new cart name:"
+#~ msgstr "車両の新しい名前を入力して下さい:"
 
-#~ msgid "Open"
-#~ msgstr "開ける"
+#~ msgid "Cart"
+#~ msgstr "カート"
 
-#~ msgid "Close"
-#~ msgstr "閉める"
+#~ msgid "Dry processed noodles, simply add hot water. can be eaten raw"
+#~ msgstr ""
+#~ "乾燥処理されたラーメン。お湯を使って戻します。生でそのまま食べる事も可能で"
+#~ "す。"
 
-#~ msgid "The corpse is now thoroughly pulped."
-#~ msgstr "死体は完全に潰れました。"
+#~ msgid ""
+#~ "You were about to marry your bride before the cataclysm, now you spend "
+#~ "you days searching for her."
+#~ msgstr ""
+#~ "大変動前に彼女と結婚しようとしていました。今は彼女を見つける為に日々を生き"
+#~ "延びています。"
 
-#~ msgid " where? (Direction button)"
-#~ msgstr " どの方向？"
+#~ msgid ""
+#~ "You've traveled for a living, sightseeing here and there, and living off "
+#~ "your parents' trust fund. But now they're gone, and the only thing "
+#~ "between you and death is the open road and your backpack."
+#~ msgstr ""
+#~ "生活の為に旅を続けてきました。両親の信託基金を切り崩して、色々な所に観光に"
+#~ "行きました。しかし、それは突然消え去ってしまいました。所持品は目の前に広が"
+#~ "る道路と背中のバックパックだけです。"
 
-#~ msgid "Control vehicle"
-#~ msgstr "操縦席につく"
+#~ msgid "Your %s is destroyed!  GAME OVER!"
+#~ msgstr "%sが破壊されました！ゲームオーバー！"
 
-#~ msgid "Examine"
-#~ msgstr "調べる"
+#~ msgid "You damage the %s!"
+#~ msgstr "%sにダメージを与えました！"
 
-#~ msgid "Peek"
-#~ msgstr "のぞき見る"
+#~ msgid "It disintegrates!"
+#~ msgstr "崩壊しました！"
 
-#~ msgid "You dont see any items around you!"
-#~ msgstr "周囲にアイテムは何も無い！"
+#~ msgid ""
+#~ "A sheet of foam which can be rolled tightly for storage. Insulates you "
+#~ "from the floor, making it easier to sleep"
+#~ msgstr ""
+#~ "ウレタンフォームのシーツ。丸めて収納できる。断熱効果があり寝心地がいい。"
 
-#~ msgid "Have a drink?"
-#~ msgstr "飲んでみますか？"
+#~ msgid "hazmatbot"
+#~ msgstr "災害作業ロボット"
 
-#~ msgid "There's no vehicle to grab there!"
-#~ msgstr "引っ張る車両がない！"
+#~ msgid "Your raincoat protects you from the acid rain."
+#~ msgstr "レインコートが雨(酸性)を防いでいます。"
 
-#~ msgid "Refill vehicle"
-#~ msgstr "車両に補充する"
+#~ msgid "Your raincoat protects you from the acidic drizzle."
+#~ msgstr "レインコートが小雨(酸性)を防いでいます。"
 
-#~ msgid "Drop"
-#~ msgstr "置く"
+#~ msgid ""
+#~ "If true, shift the view toward the selected item if it is outside of your "
+#~ "current viewport."
+#~ msgstr "trueにするとアイテムを見渡した時に視点を移動する。"
 
-#~ msgid "Butcher the %s corpse?"
-#~ msgstr "%sの死体を捌きますか？"
+#~ msgid ""
+#~ "If true, Y/N prompts are case- sensitive and y and n are not accepted."
+#~ msgstr ""
+#~ "確認画面でのキー操作の設定。Trueにすると Y/N （大文字）\n"
+#~ "Falseにすると y/n (小文字)"
+
+#~ msgid "a smoker explodes!"
+#~ msgstr "煙幕ゾンビが爆発した！"
+
+#~ msgid "a boomer explodes!"
+#~ msgstr "ブーマーが爆発した！"
+
+#~ msgid "The %s's corpse melts into a pool of acid."
+#~ msgstr "%sの死体は溶け落ちて、酸の水溜りとなった。"
+
+#~ msgid "Critical! "
+#~ msgstr "クリティカル！ "
+
+#~ msgid " for %d damage."
+#~ msgstr " %dのダメージを与えた。"
+
+#~ msgid " but do no damage."
+#~ msgstr " しかし、ダメージを与えられない。"
+
+#~ msgid "%1$s whacks %4$s"
+#~ msgstr "%1$sの殴打は%4$sに"
+
+#~ msgid "%1$s whack %4$s"
+#~ msgstr "%1$sの殴打は%4$sに"
+
+#~ msgid "%1$s batters %4$s"
+#~ msgstr "%1$sの乱打は%4$sに"
+
+#~ msgid "%1$s batter %4$s"
+#~ msgstr "%1$sの乱打は%4$sに"
+
+#~ msgid "%1$s clobbers %4$s"
+#~ msgstr "%1$sの強打は%4$sに"
+
+#~ msgid "%1$s clobber %4$s"
+#~ msgstr "%1$sの強打は%4$sに"
+
+#~ msgid "%1$s nicks %4$s"
+#~ msgstr "%1$sの薄斬攻撃は%4$sに"
+
+#~ msgid "%1$s nick %4$s"
+#~ msgstr "%1$sの薄斬攻撃は%4$sに"
+
+#~ msgid "%1$s cuts %4$s"
+#~ msgstr "%1$sの斬撃は%4$sに"
+
+#~ msgid "%1$s cut %4$s"
+#~ msgstr "%1$sの斬撃は%4$sに"
+
+#~ msgid "%1$s slices %4$s"
+#~ msgstr "%1$sの横斬攻撃は%4$sに"
+
+#~ msgid "%1$s slice %4$s"
+#~ msgstr "%1$sの横斬攻撃は%4$sに"
+
+#~ msgid "%1$s hacks %4$s"
+#~ msgstr "%1$sの縦斬攻撃は%4$sに"
+
+#~ msgid "%1$s hack %4$s"
+#~ msgstr "%1$sの縦斬攻撃は%4$sに"
+
+#~ msgid "%1$s pokes %4$s"
+#~ msgstr "%1$sの突刺攻撃は%4$sに"
+
+#~ msgid "%1$s poke %4$s"
+#~ msgstr "%1$sの突刺攻撃は%4$sに"
+
+#~ msgid "%1$s stabs %4$s"
+#~ msgstr "%1$sの刺突攻撃は%4$sに"
+
+#~ msgid "%1$s stab %4$s"
+#~ msgstr "%1$sの刺突攻撃は%4$sに"
+
+#~ msgid "%1$s pierces %4$s"
+#~ msgstr "%1$sの貫通攻撃は%4$sに"
+
+#~ msgid "%1$s pierce %4$s"
+#~ msgstr "%1$sの貫通攻撃は%4$sに"
+
+#~ msgid "%1$s impales %4$s"
+#~ msgstr "%1$sの串刺攻撃は%4$sに"
+
+#~ msgid "%1$s impale %4$s"
+#~ msgstr "%1$sの串刺攻撃は%4$sに"
+
+#~ msgid "<target's>%s's"
+#~ msgstr "<target's>%s"
+
+#~ msgid "<target's>the %s's"
+#~ msgstr "<target's>%s"
+
+#~ msgid "<target>you"
+#~ msgstr "<target>あなた"
+
+#~ msgid "<target>%s"
+#~ msgstr "<target>%s"
+
+#~ msgid "<target>the %s"
+#~ msgstr "<target>%s"
+
+#~ msgid "%1$s hits %4$s"
+#~ msgstr "%1$sの攻撃は%4$sに"
+
+#~ msgid "%1$s hit %4$s"
+#~ msgstr "%1$sの攻撃は%4$sに"
+
+#~ msgid "<your>your"
+#~ msgstr "<your>あなた"
+
+#~ msgid "<your>his"
+#~ msgstr "<your>彼"
+
+#~ msgid "<your>her"
+#~ msgstr "<your>彼女"
+
+#~ msgid "<You>You"
+#~ msgstr "<You>あなた"
+
+#~ msgid "<You>%s"
+#~ msgstr "<You>%s"
+
+#~ msgid "brush."
+#~ msgstr "ブラシで擦る様な音が聞こえた。"
+
+#~ msgid "crunch."
+#~ msgstr "バリバリとかみ砕くような音が聞こえた。"
+
+#~ msgid "whack!"
+#~ msgstr "ボカンという強打音が聞こえた！"
+
+#~ msgid "whump!"
+#~ msgstr "ドーンという大きな音が聞こえた！"
+
+#~ msgid "wham!"
+#~ msgstr "ドカンという強い衝撃音が聞こえた！"
+
+#~ msgid "whump."
+#~ msgstr "ドーンという音が聞こえた。"
+
+#~ msgid "porcelain breaking!"
+#~ msgstr "陶磁器が割れる音が聞こえた！"
+
+#~ msgid "clang!"
+#~ msgstr "甲高い音が聞こえた！"
+
+#~ msgid "metal screeching!"
+#~ msgstr "金属音が鳴り響いた！"
+
+#~ msgid "%1$s jabs %4$s"
+#~ msgstr "%1$sのジャブは%4$sに"
+
+#~ msgid "%1$s jab %4$s"
+#~ msgstr "%1$sのジャブは%4$sに"
+
+#~ msgid "%1$s strikes %4$s"
+#~ msgstr "%1$sの掌底打ちは%4$sに"
+
+#~ msgid "%1$s strike %4$s"
+#~ msgstr "%1$sの掌底打ちは%4$sに"
+
+#~ msgid "%1$s grabs %4$s"
+#~ msgstr "%1$sの掴み投げは%4$sに"
+
+#~ msgid "%1$s grab %4$s"
+#~ msgstr "%1$sの掴み投げは%4$sに"
+
+#~ msgid "%1$s throws %4$s"
+#~ msgstr "%1$sの天地投げは%4$sに"
+
+#~ msgid "%1$s throw %4$s"
+#~ msgstr "%1$sの天地投げは%4$sに"
+
+#~ msgid "%1$s karate chops %4$s"
+#~ msgstr "%1$sの手刀は%4$sに"
+
+#~ msgid "%1$s karate chop %4$s"
+#~ msgstr "%1$sの手刀は%4$sに"
+
+#~ msgid "%1$s quickly punches %4$s"
+#~ msgstr "%1$sの正拳突きは%4$sに"
+
+#~ msgid "%1$s quickly punch %4$s"
+#~ msgstr "%1$sの正拳突きは%4$sに"
+
+#~ msgid ""
+#~ "Your overall skill in using firearms. With higher levels, this general "
+#~ "experience increases accuracy with any gun, but is secondary to practice "
+#~ "with the type of gun in question."
+#~ msgstr "銃火器を扱う技能。命中率を上昇させる。"
+
+#~ msgid "firearms"
+#~ msgstr "射撃武器"
+
+#~ msgid "tankbot"
+#~ msgstr "戦車ロボット"
+
+#~ msgid "tripod robot"
+#~ msgstr "三脚式ロボット"
+
+#~ msgid "molebot"
+#~ msgstr "採掘ロボット"
+
+#~ msgid "copbot"
+#~ msgstr "警官ロボット"
+
+#~ msgid "secubot"
+#~ msgstr "警備ロボット"
+
+#~ msgid "A large snake, translucent black."
+#~ msgstr "半透明の黒い大きな蛇。"
+
+#~ msgid "Gozu"
+#~ msgstr "牛頭"
+
+#~ msgid "gelatinous blob"
+#~ msgstr "ゲル状ブロブ"
+
+#~ msgid "Mi-go"
+#~ msgstr "ミ＝ゴ"
+
+#~ msgid "A large snail, with an oddly human face."
+#~ msgstr "人間の顔を持つ気味の悪い大きな蝸牛。"
+
+#~ msgid "Thing"
+#~ msgstr "シング"
+
+#~ msgid "Amigara horror"
+#~ msgstr "阿彌殻の怪"
+
+#~ msgid "black widow"
+#~ msgstr "黒後家蜘蛛"
+
+#~ msgid "trap door spider"
+#~ msgstr "戸立て蜘蛛"
+
+#~ msgid "web spider"
+#~ msgstr "巣作り蜘蛛"
+
+#~ msgid "sewer fish"
+#~ msgstr "下水道の魚"
+
+#~ msgid "crawler mutant"
+#~ msgstr "クロウラーの変異体"
+
+#~ msgid "one-eyed mutant"
+#~ msgstr "隻眼の変異体"
+
+#~ msgid "C.H.U.D."
+#~ msgstr "チャド"
+
+#~ msgid "spore"
+#~ msgstr "胞子"
+
+#~ msgid "young fungaloid"
+#~ msgstr "若い真菌人"
+
+#~ msgid "vinebeast"
+#~ msgstr "蔦の野獣"
+
+#~ msgid "creeping vine"
+#~ msgstr "這い回る蔦"
+
+#~ msgid "queen triffid"
+#~ msgstr "女王トリフィド"
+
+#~ msgid "young triffid"
+#~ msgstr "若いトリフィド"
+
+#~ msgid "child zombie"
+#~ msgstr "子供ゾンビ"
+
+#~ msgid "master zombie"
+#~ msgstr "マスターゾンビ"
+
+#~ msgid "A portion of a giant worm that is still alive."
+#~ msgstr "まだ生きている巨大ワームの一部。"
+
+#~ msgid "fungal insect"
+#~ msgstr "真菌昆虫"
+
+#~ msgid "A small domesticated cat, gone feral."
+#~ msgstr "野生化した小さな飼い猫。"
+
+#~ msgid "A medium-sized domesticated dog, gone feral."
+#~ msgstr "野生化した中型の飼い犬。"
+
+#~ msgid "A vicious and fast hunter."
+#~ msgstr "素早く、獰猛な狩人。"
+
+#~ msgid "A grey wolf. A vicious and fast pack hunter."
+#~ msgstr "灰色狼。素早く、獰猛な狩人。"
+
+#~ msgid "A buck of the largest deer species."
+#~ msgstr "鹿類で最も大きな鹿。"
+
+#~ msgid "A large buck, fast-moving and strong."
+#~ msgstr "素早くて力強い、大きな鹿。"
+
+#~ msgid ""
+#~ "A cute wiggling nose, cotton tail, and\n"
+#~ "delicious flesh."
+#~ msgstr "可愛く揺れる鼻、フワフワの尻尾、そして...美味しい肉。"
+
+#~ msgid "A small woodland animal."
+#~ msgstr "森に生息する小動物。"
+
+#~ msgid ".223 caliber retool"
+#~ msgstr "223口径化キット"
+
+#~ msgid ".308 caliber retool"
+#~ msgstr "308口径化キット"
+
+#~ msgid "4.6mm caliber retool"
+#~ msgstr "4.6mm口径化キット"
+
+#~ msgid "5.7mm caliber retool"
+#~ msgstr "5.7mm口径化キット"
+
+#~ msgid ".22 caliber retool"
+#~ msgstr "22口径化キット"
+
+#~ msgid "9mm caliber retool"
+#~ msgstr "9mm口径化キット"
+
+#~ msgid ".45 caliber retool"
+#~ msgstr "45口径化キット"
+
+#~ msgid "A common hydraulic jack, used when changing tires."
+#~ msgstr "タイヤを交換する際に使用される一般的な油圧ジャッキ。"
+
+#~ msgid ""
+#~ "A badge that detects radiation dosage sealed in a radiation-blocking "
+#~ "bag.  Activate to remove from the bag."
+#~ msgstr ""
+#~ "被爆量を検知するバッジ。\n"
+#~ "放射線を遮断する袋に入っている。"
+
+#~ msgid ""
+#~ "A lighter must be carried to use various drugs, like cigarettes, or to "
+#~ "light things like molotov cocktails.  You can also use a lighter to light "
+#~ "nearby items on fire. This one features a flip top cover and can be "
+#~ "refueled when empty."
+#~ msgstr ""
+#~ "煙草や薬品、火炎瓶などのアイテムを使うため\n"
+#~ "ライターを携帯しなくてはなりません。\n"
+#~ "隣接するアイテムに火をつけることも可能です。\n"
+#~ "開閉できるカバーがついており、燃料を補充することが可能。"
+
+#~ msgid ""
+#~ "A bottle filled with match heads and equipped with a fuse. Use this item "
+#~ "to light the fuse; you will, of course, need a lighter in your inventory "
+#~ "to do this. After lighting it, throw it to cause fires."
+#~ msgstr ""
+#~ "ボトルにマッチの先を詰めたもの。導火線に火を点けてから投げる。ライターが必"
+#~ "要。"
+
+#~ msgid ""
+#~ "A set of swages and dies for metalsmithing. Used in some metalworking "
+#~ "fabrication recipes."
+#~ msgstr "金属加工セット。一部の金属加工レシピで使える。"
+
+#~ msgid ""
+#~ "A short, stout metalworking chisel. Used in some metalworking fabrication "
+#~ "recipes."
+#~ msgstr "短く頑丈な金属製の鑿(のみ)。"
+
+#~ msgid ""
+#~ "Long, steel tongs. Makes an okay melee weapon, and is commonly used for "
+#~ "cooking or in metalworking fabrication recipes."
+#~ msgstr "鋼のトング。料理や鍛冶で使用する。"
+
+#~ msgid ""
+#~ "A fine glass tube with a bulb on the end, used in partaking of certain "
+#~ "illicit substances."
+#~ msgstr "バルブが付いているガラスのパイプ。薬物の摂取に使う。"
+
+#~ msgid "A bicycle folded into a relatively portable package."
+#~ msgstr "折りたたんで運べるようにした自転車。"
+
+#~ msgid "A fluffy towel, can be used to dry yourself."
+#~ msgstr "フワフワのタオル。濡れた体を拭くのに使う。"
+
+#~ msgid "A talking doll for children, luckily it still works."
+#~ msgstr "子供用の喋る人形は幸運にもまだ動きます。"
+
+#~ msgid "A decent sized piece of cotton designed for medical purposes."
+#~ msgstr "切りそろえられたコットン。医療用。"
+
+#~ msgid "vacuum-packed apple slices"
+#~ msgstr "真空パック(薄切り林檎)"
+
+#~ msgid ""
+#~ "A portable heat sealer unit with an air pump, for vacuum packing of food."
+#~ msgstr "ポータブル真空包装機。空気を吸引し食品を密封する。"
+
+#~ msgid ""
+#~ "A cordless drill with a selection of drill bits. The charger base "
+#~ "contains a battery draining attachment so the drill can be charged in "
+#~ "lieu of mains power."
+#~ msgstr "充電式のドリル。充電器が付属しているので電源が無くても使える。"
+
+#~ msgid ""
+#~ "A sealed glass jar containing a sliced apple.  Activate to open and enjoy."
+#~ msgstr "ビン詰め。りんごの砂糖漬け。"
+
+#~ msgid "sealed jar of canned apple"
+#~ msgstr "密封瓶 (缶詰林檎)"
+
+#~ msgid "A sealed glass jar containing veggy.  Activate to open and enjoy."
+#~ msgstr "ビン詰め。野菜。"
+
+#~ msgid ""
+#~ "A sealed glass jar containing human meat.  Activate to open and enjoy."
+#~ msgstr "ビン詰め。人肉。"
+
+#~ msgid ""
+#~ "A sealed glass jar containing some meat.  Activate to open and enjoy."
+#~ msgstr "ビン詰め。動物の肉。"
+
+#~ msgid ""
+#~ "A heatpack, used to treat sports injuries and heat food.  This one has "
+#~ "been used already and is now useless."
+#~ msgstr "発熱剤。怪我の手当や加熱調理に使う。使用済み。"
+
+#~ msgid ""
+#~ "A heatpack, used to treat sports injuries and heat food.  Usable only "
+#~ "once."
+#~ msgstr "発熱剤。怪我の手当や加熱調理に使う。使い捨て。"
+
+#~ msgid ""
+#~ "A small shelter, made of sticks and skins. (a)ctivate it to place. This "
+#~ "shelter has been damaged, and needs repairs."
+#~ msgstr ""
+#~ "小型のシェルター。木や皮革からつくられている。(a)ctivateして設置する。損傷"
+#~ "しており修理が必要。"
+
+#~ msgid "A small shelter, made of sticks and skins. (a)ctivate it to place."
+#~ msgstr ""
+#~ "小型のシェルター。木や皮革からつくられている。(a)ctivateして設置する。"
+
+#~ msgid ""
+#~ "A large stick, with the end carved into a blade for digging. Can be used "
+#~ "to dig shallow pits, but not deep ones."
+#~ msgstr ""
+#~ "末端に掘削用の刃が取り付けられた大きい棒です。\n"
+#~ "浅い穴を掘るために使われます。\n"
+#~ "しかし深い穴を掘る事は出来ません。"
+
+#~ msgid ""
+#~ "A flattened stone affixed to a stick, works passably well as a shovel but "
+#~ "really can't compare to a real shovel."
+#~ msgstr "平べったい石を木に添えたもの。シャベルの代用品。"
+
+#~ msgid ""
+#~ "A sharpened stone affixed to a stick, works passably well as an axe but "
+#~ "really can't compare to a proper axe."
+#~ msgstr "木に鋭利な石が添えてある。斧として使える。"
+
+#~ msgid ""
+#~ "A rock affixed to a stick, functions adequately as a hammer, but really "
+#~ "can't compare to a proper hammer."
+#~ msgstr "木に石を添えたもの。ハンマーとして機能する。"
+
+#~ msgid ""
+#~ "A sharp needle made from a bone. It would be useful for making rough "
+#~ "clothing and items"
+#~ msgstr "鋭い針。骨からできている。裁縫に使える。"
+
+#~ msgid "A small pocket knife, not great for combat, but better than nothing."
+#~ msgstr ""
+#~ "小型のポケットナイフ。戦闘には向いていないが何も持たないよりはまし。"
+
+#~ msgid ""
+#~ "A small multipurpose electronic device. This PDA has its flashlight app "
+#~ "on, and is providing light."
+#~ msgstr ""
+#~ "様々な情報を携帯して扱うための小型機器。懐中電灯のアプリがインストールされ"
+#~ "ている。"
+
+#~ msgid ""
+#~ "A small multipurpose electronic device. Can be loaded with a variety of "
+#~ "apps, providing all kinds of functionality."
+#~ msgstr ""
+#~ "小型の電子機器。豊富なアプリがあり、インストールすればそれらの機能を利用で"
+#~ "きる。"
+
+#~ msgid "A piece of kevlar. Can be used to repair kevlar items"
+#~ msgstr "ケブラーの欠片。修理に使える。"
+
+#~ msgid "A piece of plastic. Not much use except to repair plastic items"
+#~ msgstr "プラスチックのかけら。プラスチック製品の修理以外使い道はない。"
+
+#~ msgid "Rag, useful in crafting and possibly stopping bleeding"
+#~ msgstr "布の切れ端、止血するのに利用でき、作製にも有用な材料。"
+
+#~ msgid ""
+#~ "A King Size(tm) industrial strength permanent marker, about halfway "
+#~ "between a typical marker and a can of spray paint in size."
+#~ msgstr "大容量の業務用ペンキ。"
+
+#~ msgid ""
+#~ "A spray can, filled with paint. Use this tool to make graffiti on the "
+#~ "floor."
+#~ msgstr "ペンキのスプレー缶。地面に落書きできる。"
+
+#~ msgid "A large steel pickaxe, strike the earth!"
+#~ msgstr "大きな鋼のつるはし。これで地球を脅かすぜ！"
+
+#~ msgid ""
+#~ "A combination lock box, breaking inside would destroy anything of value."
+#~ msgstr "金庫。無理に開けようとすると中身まで壊してしまうかもしれない。"
+
+#~ msgid ""
+#~ "A Locksmith's set of sturdy steel picklocks, essential for silently and "
+#~ "quickly opening locks."
+#~ msgstr ""
+#~ "確かな作りの鍵屋のロックピック。音も無く素早く、鍵を開けるのに欠かせない。"
+
+#~ msgid "An unwieldy mop. Good for cleaning up spills."
+#~ msgstr "扱いにくいモップです。液体の掃除に使えます。"
+
+#~ msgid ""
+#~ "A large pair of bolt cutters, you could use them to cut padlocks or heavy "
+#~ "gauge wire."
+#~ msgstr "ボルトカッター。南京錠やワイヤーを切断するのに使う。"
+
+#~ msgid "A stick that has been cut into a trigger mechanism for a snare trap."
+#~ msgstr "スネアトラップとして機能するように木を削ったもの。"
+
+#~ msgid ""
+#~ "An adjustable wrench. Makes a decent melee weapon, and is used in many "
+#~ "mechanics crafting recipes."
+#~ msgstr ""
+#~ "この鋼のパイプは、良好な近接武器になります。\n"
+#~ "少数のアイテム製作に使えます。"
+
+#~ msgid ""
+#~ "A Philips-head screwdriver, important for almost all electronics crafting "
+#~ "and most mechanics crafting."
+#~ msgstr "プラスドライバー。エレクトロニクス、メカニクスの作業に必要。"
+
+#~ msgid ""
+#~ "A small hand press for hand loading firearm ammunition. Comes with "
+#~ "everything you need to start hand loading."
+#~ msgstr "小型のプレス台。実弾を制作できる。"
+
+#~ msgid "A tool used for disassembling firearm ammunition."
+#~ msgstr "弾薬を分解するための工具。"
+
+#~ msgid ""
+#~ "A small, makeshift funnel used to collect rainwater. (a)ctivate it "
+#~ "outside and place a container beneath it to collect water when it rains."
+#~ msgstr ""
+#~ "手づくりのじょうご。\n"
+#~ "雨水を集める。雨の降っているところへ(a)ctivateして設置する。\n"
+#~ "容器を置いておくと徐々に水がたまる。"
+
+#~ msgid ""
+#~ "A funnel used to collect rainwater. (a)ctivate it outside and place a "
+#~ "container beneath it to collect water when it rains."
+#~ msgstr ""
+#~ "じょうご。\n"
+#~ "雨水を集める。雨の降っているところへ(a)ctivateして設置する。\n"
+#~ "容器を置いておくと徐々に水がたまる。"
+
+#~ msgid ""
+#~ "A large stand with slots in the side. (a)ctivate it and place it "
+#~ "somewhere then set fires in it with no risk of spreading."
+#~ msgstr "脇に穴が開いている台。(a)ctivateして設置。火が燃え広がらずに済む。"
+
+#~ msgid ""
+#~ "A large stick, wrapped in gasoline soaked rags. This is burning, "
+#~ "producing plenty of light"
+#~ msgstr ""
+#~ "ガソリンを染み込ませた布を巻きつけた棒。燃え盛る炎があたりを照らす。"
+
+#~ msgid ""
+#~ "A large stick, wrapped in gasoline soaked rags. When lit, produces a fair "
+#~ "amount of light"
+#~ msgstr ""
+#~ "ガソリンを染み込ませた布を巻きつけた棒。火を点けることで光源になる。"
+
+#~ msgid "A small tent, just big enough to fit a person comfortably."
+#~ msgstr "小さなテント。一人で使う分にはじゅうぶんな広さだ。"
+
+#~ msgid ""
+#~ "A large two-handed axe. Makes a good melee weapon, but is a bit slow."
+#~ msgstr "両手で扱う斧。強力な武器となるが攻撃速度は遅い。"
+
+#~ msgid "A flimsy saw, useful for cutting through wood objects."
+#~ msgstr "薄いノコギリ。木材を切るのに使う。"
+
+#~ msgid ""
+#~ "A sharp, heavy knife. Makes a good melee weapon, and is the best item for "
+#~ "butchering corpses."
+#~ msgstr "切れ味の鋭い重いナイフ。死体を解体するのに最も適している。"
+
+#~ msgid ""
+#~ "A sharp knife. Makes a poor melee weapon, but is decent at butchering "
+#~ "corpses."
+#~ msgstr "鋭いナイフ。戦闘には向かないが死体を解体するのには使えるだろう。"
+
+#~ msgid ""
+#~ "A large blade attached to a long stick. Could do a considerable amount of "
+#~ "damage."
+#~ msgstr "長い棒に刃が取り付けてある。"
+
+#~ msgid ""
+#~ "A large blade that has had a portion of the handle wrapped in duct tape, "
+#~ "making it easier to wield as a rough machete."
+#~ msgstr ""
+#~ "刃に手でつかむ部分をダクトテープで取り付けてある。マチェットとして使える。"
+
+#~ msgid ""
+#~ "A combination of two Dark-Age conflict-resolution classics, the "
+#~ "broadsword and the torch.  The blade is glowing with heat.  Excalibur can "
+#~ "eat it's heart out."
+#~ msgstr ""
+#~ "ブロードソードと松明を持ち替えなくても良い様に暗黒時代に考えられた合体武"
+#~ "器。\n"
+#~ "刀身が熱で光っています。この聖剣は貴方の心を掴んで離さない。"
+
+#~ msgid ""
+#~ "A combination of two Dark-Age conflict-resolution classics, the "
+#~ "broadsword and the torch.  Light it up and show those heathen zombies "
+#~ "who's Lord around here."
+#~ msgstr ""
+#~ "ブロードソードと松明を持ち替えなくても良い様に暗黒時代に考えられた合体武"
+#~ "器。\n"
+#~ "火を点ける事で辺りを照らし、野蛮なゾンビを見つけ出します。"
+
+#~ msgid ""
+#~ "A medieval weapon consisting of a wood shaft, tipped with an iron spike. "
+#~ "Though large and heavy compared to other spears, its accuracy and damage "
+#~ "are unparalled."
+#~ msgstr ""
+#~ "中世の武器。長い柄の先端に鋭い刃がついている。他の槍とは精度、威力において"
+#~ "圧倒的。"
+
+#~ msgid "A simple wood pole made deadlier by the blade tied to it."
+#~ msgstr ""
+#~ "シンプルな木の棒は刃と結び付けることで\n"
+#~ "より致命的になりました。"
+
+#~ msgid ""
+#~ "A rare sword from Japan. Deadly against unarmored targets, and still very "
+#~ "effective against armor."
+#~ msgstr "希少価値の高い日本刀。装甲の厚い相手にも効果的。"
+
+#~ msgid ""
+#~ "A small, very sharp knife, used in surgery. Its small tip allows for a "
+#~ "precision strike in the hands of the skilled."
+#~ msgstr "極めて鋭利な刃物。手術に用いられる。"
+
+#~ msgid ""
+#~ "A small, very sharp knife.  Causes decent damage but is difficult to hit "
+#~ "with. Its small tip allows for a precision strike in the hands of the "
+#~ "skilled. It is too small to butcher corpses with."
+#~ msgstr "鋭利な刃物。小さすぎるため動物の解体はできない。"
+
+#~ msgid ""
+#~ "A military style fold up cot, not quite as comfortable as a bed but much "
+#~ "better than slumming it on the ground."
+#~ msgstr ""
+#~ "軍用の簡易ベッド。ベッドほどではないが、地べたに直で寝るよりは快適。"
+
+#~ msgid ""
+#~ "A small whistle. When used, it produces a high tone that causes nearby "
+#~ "friendly dogs to either follow you closely and stop attacking, or start "
+#~ "attacking enemies if they are currently docile."
+#~ msgstr ""
+#~ "小さなホイッスル。周波数の高い音を発し、友好的な犬を近くに呼び寄せたりでき"
+#~ "る。"
+
+#~ msgid "A crude explosive device triggered by a piece of string."
+#~ msgstr "紐をつないだだけの爆発物。"
+
+#~ msgid "A human skull with strange etchings covering it."
+#~ msgstr "人間の頭蓋骨。奇妙な装飾が彫り込まれている。"
+
+#~ msgid ""
+#~ "A stone with spirals all over it, and holes around its perimeter. Though "
+#~ "it is fairly large, it weighs next to nothing. Air seems to gather around "
+#~ "it."
+#~ msgstr ""
+#~ "渦巻きと小さな穴に全体が覆われた石です。\n"
+#~ "大きさはかなりありますが、全く重くありません。\n"
+#~ "空気が石の周りに凝縮されているように見えます。"
+
+#~ msgid ""
+#~ "A high-powered stun gun. Use this item to attempt to electrocute an "
+#~ "adjacent enemy, damaging and temporarily paralyzing them. Because the "
+#~ "shock can actually jump through the air, it is difficult to miss."
+#~ msgstr ""
+#~ "高電圧のスタンガン。隣接する相手を感電させダメージとマヒを与えることができ"
+#~ "る。"
+
+#~ msgid ""
+#~ "A firecracker that has been lit, the fuse is hissing. Throw it quickly "
+#~ "before it explodes."
+#~ msgstr ""
+#~ "火が点いた爆竹。導火線がシューシューいってる。爆発する前に投げよう。"
+
+#~ msgid ""
+#~ "A firecracker with a short fuse. Use this item to light the fuse; you "
+#~ "will need a lighter of course. Shortly after you light the fuse it will "
+#~ "explode, so throw it quickly!"
+#~ msgstr ""
+#~ "短い導火線がある爆竹。導火線に火を点けてから使う。ライターが必要。火を点け"
+#~ "たら爆発するからさっさと投げよう。"
+
+#~ msgid ""
+#~ "A pack of 25 firecrackers that has been lit, the fuse is hissing. Throw "
+#~ "them quickly before the start to explode."
+#~ msgstr ""
+#~ "25個連なった爆竹。火が点いていてシューシューいってる。爆発する前にさっさと"
+#~ "投げよう。"
+
+#~ msgid ""
+#~ "A pack of 25 firecrackers with a starter fuse. Use this item to light the "
+#~ "fuse; you will need a lighter of course. Shortly after you light the fuse "
+#~ "they will begin to explode, so throw them quickly!"
+#~ msgstr ""
+#~ "25個連なった爆竹。点火するにはライターが必要。火を点けたら爆発する前にさっ"
+#~ "さと投げよう。"
+
+#~ msgid ""
+#~ "A glass vial, with two chemicals mixing inside. If this mixture is "
+#~ "exposed to air (as happens if you throw the vial), they will spill out as "
+#~ "a pool of potent acid."
+#~ msgstr ""
+#~ "小ビン。中の化学物質が混ざっている。外気に触れると強力な酸のたまりができ"
+#~ "る。"
+
+#~ msgid ""
+#~ "A glass vial, split into two chambers. The divider is removable, which "
+#~ "will cause the chemicals to mix. If this mixture is exposed to air (as "
+#~ "happens if you throw the vial) they will spill out as a pool of potent "
+#~ "acid."
+#~ msgstr ""
+#~ "化学物質が入った小ビン。中の仕切りが外れると混ざる。外気に触れると強力な酸"
+#~ "のたまりができる。"
+
+#~ msgid ""
+#~ "A bottle of flammable liquid with a rag inserted. Use this item to light "
+#~ "the rag; you will, of course, need a lighter in your inventory to do "
+#~ "this. After lighting it, throw it to cause fires."
+#~ msgstr "ボトルに可燃性の液体を入れ布で栓をしたもの。ライターが必要。"
+
+#~ msgid "active teargas"
+#~ msgstr "催涙弾 (点火)"
+
+#~ msgid ""
+#~ "A section of a pipe filled with explosive materials. Use this item to "
+#~ "light the fuse, which gives you 3 turns before it detonates. You will "
+#~ "need a lighter. It is somewhat unreliable, and may fail to detonate."
+#~ msgstr ""
+#~ "爆発物が詰め込まれたパイプ。爆発するまで3ターン。火を点けるにはライターが"
+#~ "必要。爆発しないこともある。"
+
+#~ msgid ""
+#~ "A kit for a simple trap consisting of a rope noose and a snare trigger. "
+#~ "Requires a tree nearby. Effective at trapping monsters."
+#~ msgstr ""
+#~ "ロープの輪縄とスネアトリガーで構成されている\r\n"
+#~ "シンプルなスネアトラップの道具一式です。\r\n"
+#~ "一部のモンスターを捕獲して殺すのに有効ですが、\r\n"
+#~ "設置場所の近くに木を必要とします。"
+
+#~ msgid ""
+#~ "A kit for a simple trap consisting of a string noose and a snare trigger. "
+#~ "Requires a young tree nearby. Effective at trapping and killing some "
+#~ "small animals."
+#~ msgstr ""
+#~ "ひもの輪縄とスネアトリガーで構成されている\r\n"
+#~ "シンプルなスネアトラップの道具一式です。\r\n"
+#~ "一部の小動物を捕獲して殺すのに有効ですが、\r\n"
+#~ "設置場所の近くに若木を必要とします。"
+
+#~ msgid ""
+#~ "A machete is attached laterally to a motor, with a tripwire controlling "
+#~ "its throttle. When the tripwire is pulled, the blade is swung around with "
+#~ "great force. The trap forms a 3x3 area of effect."
+#~ msgstr ""
+#~ "モーターにマチェットが取り付けてある。ワイヤーが引っ張られると作動する。効"
+#~ "果範囲は3x3タイル。"
+
+#~ msgid ""
+#~ "A simple tripwire is attached to the trigger of a loaded sawn-off "
+#~ "shotgun. When pulled, the shotgun fires. Two rounds are used; the first "
+#~ "time the trigger is pulled, one or two may be used."
+#~ msgstr ""
+#~ "ソーンオフショットガンのトリガーにワイヤーをくくりつけたもの。弾が2発装填"
+#~ "されている。"
+
+#~ msgid ""
+#~ "A simple tripwire is attached to the trigger of a loaded crossbow. When "
+#~ "pulled, the crossbow fires. Only a single round can be used, after which "
+#~ "the trap is disabled."
+#~ msgstr ""
+#~ "クロスボウのトリガーにワイヤーをくくりつけたもの。ボルトが1本装填されてい"
+#~ "る。"
+
+#~ msgid ""
+#~ "A spring-loaded pair of steel jaws. Use it to set it on the ground, "
+#~ "creating a trap that will ensnare and damage anything that steps on it. "
+#~ "If you are carrying a shovel, you will have the option of burying it."
+#~ msgstr ""
+#~ "ばね仕掛けのトラバサミ。地面に設置する。上に乗ったものの脚を強く挟み込む。"
+#~ "シャベルを持っていれば設置する時に埋めることができる。"
+
+#~ msgid ""
+#~ "A sheet of plastic covered with air-filled bubbles. Use it to set it on "
+#~ "the ground, creating a trap that will warn you with noise when something "
+#~ "steps on it."
+#~ msgstr ""
+#~ "緩衝材などに使われる気泡シート。地面に設置しておけば何かが通った時に音が鳴"
+#~ "るだろう。"
+
+#~ msgid ""
+#~ "A flexible rubber hose. Can be used for crafting, or siphoning fuel from "
+#~ "a vehicle."
+#~ msgstr ""
+#~ "柔軟なゴムホース。何かの部品として使える。車両から燃料を抜き取る事もでき"
+#~ "る。"
+
+#~ msgid "A digging tool. Use it to dig pits adjacent to your location."
+#~ msgstr "掘削するための工具。隣接する地形に使う。"
+
+#~ msgid ""
+#~ "A farming implement. Use it to turn tillable land into a slow-to-cross "
+#~ "pile of dirt."
+#~ msgstr ""
+#~ "くわ。農作業で使う用具。作物を育成させるために土を盛り上げるのに使う。"
+
+#~ msgid ""
+#~ "A prying tool. Use it to open locked doors without destroying them, or to "
+#~ "lift manhole covers."
+#~ msgstr ""
+#~ "ドアなどを壊すことなく開けることができる工具。マンホールの蓋も持ち上げるこ"
+#~ "とができる。"
+
+#~ msgid ""
+#~ "A road map. Use it to read points of interest, including, but not limited "
+#~ "to, location(s) of hospital(s) nearby."
+#~ msgstr "道路地図。読むと地図に病院などが追記される。"
+
+#~ msgid ""
+#~ "A string of numbers to access the elevator in the hazardous waste "
+#~ "sarcophagus."
+#~ msgstr "有害ゴミの石棺にあるエレベーターを動かす為の数字配列。"
+
+#~ msgid ""
+#~ "Using this item on a container full of water will purify the water. Water "
+#~ "taken from uncertain sources like a river may be dirty."
+#~ msgstr ""
+#~ "川などで汲んだ水は汚れている可能性があります。\n"
+#~ "水の入った容器をこのアイテムに使用すれば、\n"
+#~ "水を綺麗な水に浄化することができます。"
+
+#~ msgid ""
+#~ "A piece of metal that can get very hot. Necessary for electronics "
+#~ "crafting. You could also use it to cauterize wounds, if you had to."
+#~ msgstr ""
+#~ "はんだごて。\n"
+#~ "先端が加熱する工具。電子機器の作製に必須。傷を焼灼することもできる。"
+
+#~ msgid ""
+#~ "A small heating element. Indispensable for cooking and chemistry. Try not "
+#~ "to burn yourself."
+#~ msgstr "料理や化学に欠かせない。やけどに注意。"
+
+#~ msgid ""
+#~ "A small blue light glowstick, bend it to break the glass cylinder inside "
+#~ "and start the reaction to produce a very small amount of light."
+#~ msgstr ""
+#~ "青く光る短いスティック。折り曲げると中の容器が割れて中身が化学反応を起こし"
+#~ "淡く発光する。"
+
+#~ msgid ""
+#~ "A light-emitting circuit wired directly to some batteries. Provides a "
+#~ "weak light, lasting 25 hours per 3 (battery) charges. When the batteries "
+#~ "die, you'll need to scrap it to recover the components that are reusable."
+#~ msgstr ""
+#~ "発光する回路。ワイヤーで直接バッテリーにつなげてある。微弱な光源になる。15"
+#~ "分で1バッテリーを消費する。"
+
+#~ msgid ""
+#~ "A light-emitting circuit wired directly to some batteries. Once "
+#~ "activated, provides 25 hours of light per 3 (battery) charges. When the "
+#~ "batteries die, you'll need to scrap it to recover the components that are "
+#~ "reusable."
+#~ msgstr ""
+#~ "発光する回路。ワイヤーで直接バッテリーにつなげてある。15分で1バッテリーを"
+#~ "消費する。"
+
+#~ msgid ""
+#~ "A burnt-out lightstrip. You could disassemble this to recover the "
+#~ "amplifier circuit."
+#~ msgstr "使用済のストリップライト。解体すれば増幅回路が手に入る。"
+
+#~ msgid ""
+#~ "A small gasoline powered lantern. It does not provide much light, but it "
+#~ "lasts a long time. It is turned on. Use it to turn it off."
+#~ msgstr ""
+#~ "ガソリンが燃料のランタン。明るさはそこそこだが長持ちする。火がともされてい"
+#~ "る。"
+
+#~ msgid ""
+#~ "A small gasoline powered lantern. It does not provide much light, but it "
+#~ "lasts a long time. Use it to turn it on."
+#~ msgstr "ガソリンが燃料のランタン。明るさはそこそこだが長持ちする。"
+
+#~ msgid "A simple hand-powered stone quern."
+#~ msgstr "手で動くシンプルな石の挽臼。"
+
+#~ msgid ""
+#~ "A fire drill is a simple item for firestarting, made from two pieces of "
+#~ "wood and some string. Although it is constructed out of simple materials, "
+#~ "it's slow and rather difficult to get a fire started with this tool."
+#~ msgstr ""
+#~ "原始的な発火道具。2本の木と糸からできている。つくるのは簡単だが火種ができ"
+#~ "るまでが大変。"
+
+#~ msgid ""
+#~ "Matches must be carried to use various drugs, like cigarettes, or to "
+#~ "light things like molotov cocktails.  You can also use matches to light "
+#~ "nearby items on fire."
+#~ msgstr ""
+#~ "煙草や薬品、火炎瓶などのアイテムを使うため\n"
+#~ "マッチを携帯しなくてはなりません。\n"
+#~ "隣接するアイテムに火をつけることも可能です。"
+
+#~ msgid ""
+#~ "A lighter must be carried to use various drugs, like cigarettes, or to "
+#~ "light things like molotov cocktails.  You can also use a lighter to light "
+#~ "nearby items on fire."
+#~ msgstr ""
+#~ "煙草や薬品、火炎瓶などのアイテムを使うため\n"
+#~ "ライターを携帯しなくてはなりません。\n"
+#~ "隣接するアイテムに火をつけることも可能です。"
+
+#~ msgid "apple slices"
+#~ msgstr "アップルサイダー"
+
+#~ msgid "canned apple slices"
+#~ msgstr "缶詰 (薄切り林檎)"
+
+#~ msgid "MRE - beef"
+#~ msgstr "携行食（牛肉）"
+
+#~ msgid "This white flour is useful for baking."
+#~ msgstr "パンを焼く時に役立ちます。"
+
+#~ msgid ""
+#~ "A large ant egg, the size of a softball. Extremely nutritious, but gross."
+#~ msgstr "蟻の卵。ソフトボール大。栄養価は高いが口にするにはちょっと…。"
+
+#~ msgid ""
+#~ "A malformed human leg, this would be gross to eat, and cause mutations."
+#~ msgstr ""
+#~ "奇形の人間の脚部。口にすると吐き気をもよおし、突然変異を引き起こす。"
+
+#~ msgid ""
+#~ "A misshapen human arm, eating this would be pretty disgusting and cause "
+#~ "your DNA to mutate."
+#~ msgstr ""
+#~ "奇形の人間の腕部。口にすると吐き気をもよおし、突然変異を引き起こす。"
+
+#~ msgid ""
+#~ "A deformed human fetus, eating this would be very nasty, and cause your "
+#~ "DNA to mutate."
+#~ msgstr "奇形の胎児。摂食することでDNAに突然変異を引き起こす。"
+
+#~ msgid ""
+#~ "A large chunk of wax, filled with dense, dark honey.  Useful for curing "
+#~ "all sorts of afflictions."
+#~ msgstr "蜂蜜と異なり白いクリーム状。病を癒す効果がある。"
+
+#~ msgid ""
+#~ "A large chunk of beeswax. Not very tasty or nourishing, but ok in an "
+#~ "emergency."
+#~ msgstr ""
+#~ "大きな蜜蝋の塊。\n"
+#~ "不味いが栄養があり、緊急時なら食べても構わない。"
+
+#~ msgid "tuna fish"
+#~ msgstr "ツナ"
+
+#~ msgid "sardines"
+#~ msgstr "鰯"
+
+#~ msgid "Yuck, not very tasty, but it is quite filling."
+#~ msgstr "おえっ、いや、非常に美味しいが...中身が少なすぎる。"
+
+#~ msgid "carrot"
+#~ msgstr "人参"
+
+#~ msgid "Bread and turkey, that's it."
+#~ msgstr "パンで七面鳥を挟んだだけのサンドイッチです。"
+
+#~ msgid "beef jerky"
+#~ msgstr "ビーフジャーキー"
+
+#~ msgid "Don't drink it. Mixing it with bleach produces toxic gas."
+#~ msgstr ""
+#~ "飲まないで下さい。\n"
+#~ "漂白剤と混ぜると毒ガスが発生します。"
+
+#~ msgid "Don't drink it. Mixing it with ammonia produces toxic gas."
+#~ msgstr ""
+#~ "飲まないで下さい。\n"
+#~ "アンモニアと混ぜると毒ガスが発生します。"
+
+#~ msgid "Basic Sword & Sorcery."
+#~ msgstr "ポピュラーな剣と魔法の世界を描いた小説。"
+
+#~ msgid ""
+#~ "A 60mm High Explosive Anti Tank round. They can blow through up to two "
+#~ "feet of concrete."
+#~ msgstr "60mm対戦車ロケット弾。60cmの厚みのあるコンクリートを貫通する。"
+
+#~ msgid ""
+#~ "A 40mm grenade with a small explosion and a high number of damaging "
+#~ "fragments."
+#~ msgstr "グレネード弾 (40mm/フラグ)"
+
+#~ msgid "A 40mm grenade with a concussive explosion."
+#~ msgstr "グレネード弾 (40mm/コンカッション)"
+
+#~ msgid ""
+#~ "9 millimeter parabellum is generally regarded as the most popular handgun "
+#~ "cartridge, used by the majority of US police forces. It is also a very "
+#~ "popular round in sub-machine guns."
+#~ msgstr ""
+#~ "9ミリパラベラムは最も広く使用されている弾薬。サブマシンガン用弾薬の主流で"
+#~ "もある。"
+
+#~ msgid ""
+#~ "A brass-jacketed .22 calibre round with superior penetration capacity."
+#~ msgstr "弾頭を完全に真鍮で覆った.22弾。貫通力に優れる。"
+
+#~ msgid ""
+#~ "A leather sling, it is easy to use and accurate, but pebbles do little "
+#~ "damage. Pebbles are used as ammunition."
+#~ msgstr ""
+#~ "革のスリング。扱いやすく命中させやすいが小石ではほどんどダメージを与えられ"
+#~ "ない。"
+
+#~ msgid "An ornamental suit of armor."
+#~ msgstr "観賞用の鎧。"
+
+#~ msgid "light plate mail"
+#~ msgstr "軽量板金鎧"
+
+#~ msgid "plate armor gauntlets"
+#~ msgstr "全身板金鎧の籠手"
+
+#~ msgid "plate armor boots"
+#~ msgstr "全身板金鎧の靴"
+
+#~ msgid "A bit cumbersome to wear, but provides some storage"
+#~ msgstr "すこしかさばるが、そのぶんアイテムを持ち運べるようになる。"
+
+#~ msgid "A thin pair of leather gloves. Good for doing manual labor."
+#~ msgstr ""
+#~ "革で作られた薄手の手袋です。\n"
+#~ "肉体労働をする場合にちょうど良いでしょう。"
+
+#~ msgid "A heavy cotton coat. Cumbersome, but warm and with deep pockets."
+#~ msgstr "厚手の綿の上着。動きづらいが大きなポケットがある。"
+
+#~ msgid "A padded coat with deep pockets. Very warm."
+#~ msgstr "防寒対策が施されたコート。ポケット付き。とても暖かい。"
+
+#~ msgid "A thin cotton jacket. Good for brisk weather."
+#~ msgstr ""
+#~ "綿で作られた薄手のジャケットです。\n"
+#~ "天候が良い日に適しています。"
+
+#~ msgid "plate mail"
+#~ msgstr "プレートメイル"
+
+#~ msgid ""
+#~ "A hazardous materials suit. Though quite bulky and cumbersome, wearing it "
+#~ "will provide excellent protection against ambient radiation."
+#~ msgstr ""
+#~ "有害物質を扱う為の服です。\n"
+#~ "非常に動きづらく厄介ですが、これを着ている限り\n"
+#~ "放射線からの優れた防御を得られます。"
+
+#~ msgid "Put up the shelter"
+#~ msgstr "シェルターを設置する"
+
+#~ msgid "Pitch the tent"
+#~ msgstr "テントを張る"
+
+#~ msgid "Cut up metal"
+#~ msgstr "金属を切る"
+
+#~ msgid "You %4$s the %1$s into %2$i %3$s."
+#~ msgid_plural "You %4$s the %1$s into %2$i %3$ss."
+#~ msgstr[0] "%1$sを%2$i %3$sに%4$s。"
+
+#~ msgid "Place the turret"
+#~ msgstr "タレットを設置"
+
+#~ msgid "Drill"
+#~ msgstr "ドリル"
+
+#~ msgid "You can't find a hospital near your location."
+#~ msgstr "この近くに病院は無さそうだ。"
+
+#~ msgid "You add a %s location to your map."
+#~ msgstr "%sの場所を地図に追加した。"
+
+#~ msgid "Put the dog food"
+#~ msgstr "ドッグフードを置く"
+
+#~ msgid "Error: Item Missing."
+#~ msgstr "エラー: アイテムが見つからない。"
 
 #~ msgid ""
 #~ "Many important items can be very hard to find, or will cost a great deal "
@@ -57348,1255 +58721,90 @@ msgstr "______名前が入力されていない！_____"
 #~ "急医\n"
 #~ "療スキルもいくらかのアイテム制作には必要となります。"
 
-#~ msgid "Error: Item Missing."
-#~ msgstr "エラー: アイテムが見つからない。"
+#~ msgid "Butcher the %s corpse?"
+#~ msgstr "%sの死体を捌きますか？"
 
-#~ msgid "Put the dog food"
-#~ msgstr "ドッグフードを置く"
+#~ msgid "Drop"
+#~ msgstr "置く"
 
-#~ msgid "You add a %s location to your map."
-#~ msgstr "%sの場所を地図に追加した。"
+#~ msgid "Refill vehicle"
+#~ msgstr "車両に補充する"
 
-#~ msgid "You can't find a hospital near your location."
-#~ msgstr "この近くに病院は無さそうだ。"
+#~ msgid "There's no vehicle to grab there!"
+#~ msgstr "引っ張る車両がない！"
 
-#~ msgid "Drill"
-#~ msgstr "ドリル"
+#~ msgid "Have a drink?"
+#~ msgstr "飲んでみますか？"
 
-#~ msgid "Place the turret"
-#~ msgstr "タレットを設置"
+#~ msgid "You dont see any items around you!"
+#~ msgstr "周囲にアイテムは何も無い！"
 
-#~ msgid "You %4$s the %1$s into %2$i %3$s."
-#~ msgid_plural "You %4$s the %1$s into %2$i %3$ss."
-#~ msgstr[0] "%1$sを%2$i %3$sに%4$s。"
+#~ msgid "Peek"
+#~ msgstr "のぞき見る"
 
-#~ msgid "Cut up metal"
-#~ msgstr "金属を切る"
+#~ msgid "Examine"
+#~ msgstr "調べる"
 
-#~ msgid "Pitch the tent"
-#~ msgstr "テントを張る"
+#~ msgid "Control vehicle"
+#~ msgstr "操縦席につく"
 
-#~ msgid "Put up the shelter"
-#~ msgstr "シェルターを設置する"
+#~ msgid " where? (Direction button)"
+#~ msgstr " どの方向？"
+
+#~ msgid "The corpse is now thoroughly pulped."
+#~ msgstr "死体は完全に潰れました。"
+
+#~ msgid "Close"
+#~ msgstr "閉める"
+
+#~ msgid "Open"
+#~ msgstr "開ける"
+
+#~ msgid "Study %s?"
+#~ msgstr "%sを学びますか？"
+
+#~ msgid "You haven't had anything to drink in 2 days!"
+#~ msgstr "2日間、何も飲んでいない！"
+
+#~ msgid "4 days... no water.."
+#~ msgstr "もう4日も水を飲んでいない..."
+
+#~ msgid "You haven't eaten in over a week!"
+#~ msgstr "ここ1週間、何も食べていない！"
 
 #~ msgid ""
-#~ "A long cotton dress. Difficult to move in and lacks any storage space."
-#~ msgstr "綿製のロングドレス。動き難く、ポケットなどもない。"
-
-#~ msgid ""
-#~ "A hazardous materials suit. Though quite bulky and cumbersome, wearing it "
-#~ "will provide excellent protection against ambient radiation."
+#~ "Speed -40%\n"
+#~ "You can feel the tiny spores sinking directly into your flesh."
 #~ msgstr ""
-#~ "有害物質を扱う為の服です。\n"
-#~ "非常に動きづらく厄介ですが、これを着ている限り\n"
-#~ "放射線からの優れた防御を得られます。"
+#~ "速度 -40%;\n"
+#~ "小さな菌類の胞子が直接体内に入り込んでいくのを感じます。"
 
-#~ msgid "plate mail"
-#~ msgstr "プレートメイル"
+#~ msgid "Bugs Under Skin"
+#~ msgstr "皮膚内に蠢く虫"
 
-#~ msgid "A thin cotton jacket. Good for brisk weather."
-#~ msgstr ""
-#~ "綿で作られた薄手のジャケットです。\n"
-#~ "天候が良い日に適しています。"
-
-#~ msgid "A padded coat with deep pockets. Very warm."
-#~ msgstr "防寒対策が施されたコート。ポケット付き。とても暖かい。"
-
-#~ msgid "A heavy cotton coat. Cumbersome, but warm and with deep pockets."
-#~ msgstr "厚手の綿の上着。動きづらいが大きなポケットがある。"
-
-#~ msgid "A thin pair of leather gloves. Good for doing manual labor."
-#~ msgstr ""
-#~ "革で作られた薄手の手袋です。\n"
-#~ "肉体労働をする場合にちょうど良いでしょう。"
-
-#~ msgid "A bit cumbersome to wear, but provides some storage"
-#~ msgstr "すこしかさばるが、そのぶんアイテムを持ち運べるようになる。"
-
-#~ msgid "plate armor boots"
-#~ msgstr "全身板金鎧の靴"
-
-#~ msgid "plate armor gauntlets"
-#~ msgstr "全身板金鎧の籠手"
-
-#~ msgid "light plate mail"
-#~ msgstr "軽量板金鎧"
-
-#~ msgid "An ornamental suit of armor."
-#~ msgstr "観賞用の鎧。"
-
-#~ msgid ""
-#~ "A leather sling, it is easy to use and accurate, but pebbles do little "
-#~ "damage. Pebbles are used as ammunition."
-#~ msgstr ""
-#~ "革のスリング。扱いやすく命中させやすいが小石ではほどんどダメージを与えられ"
-#~ "ない。"
-
-#~ msgid ""
-#~ "A brass-jacketed .22 calibre round with superior penetration capacity."
-#~ msgstr "弾頭を完全に真鍮で覆った.22弾。貫通力に優れる。"
-
-#~ msgid ""
-#~ "9 millimeter parabellum is generally regarded as the most popular handgun "
-#~ "cartridge, used by the majority of US police forces. It is also a very "
-#~ "popular round in sub-machine guns."
-#~ msgstr ""
-#~ "9ミリパラベラムは最も広く使用されている弾薬。サブマシンガン用弾薬の主流で"
-#~ "もある。"
-
-#~ msgid "A 40mm grenade with a concussive explosion."
-#~ msgstr "グレネード弾 (40mm/コンカッション)"
-
-#~ msgid ""
-#~ "A 40mm grenade with a small explosion and a high number of damaging "
-#~ "fragments."
-#~ msgstr "グレネード弾 (40mm/フラグ)"
-
-#~ msgid ""
-#~ "A 60mm High Explosive Anti Tank round. They can blow through up to two "
-#~ "feet of concrete."
-#~ msgstr "60mm対戦車ロケット弾。60cmの厚みのあるコンクリートを貫通する。"
-
-#~ msgid "Basic Sword & Sorcery."
-#~ msgstr "ポピュラーな剣と魔法の世界を描いた小説。"
-
-#~ msgid "Don't drink it. Mixing it with ammonia produces toxic gas."
-#~ msgstr ""
-#~ "飲まないで下さい。\n"
-#~ "アンモニアと混ぜると毒ガスが発生します。"
-
-#~ msgid "Don't drink it. Mixing it with bleach produces toxic gas."
-#~ msgstr ""
-#~ "飲まないで下さい。\n"
-#~ "漂白剤と混ぜると毒ガスが発生します。"
-
-#~ msgid "beef jerky"
-#~ msgstr "ビーフジャーキー"
-
-#~ msgid "Bread and turkey, that's it."
-#~ msgstr "パンで七面鳥を挟んだだけのサンドイッチです。"
-
-#~ msgid "carrot"
-#~ msgstr "人参"
-
-#~ msgid "Yuck, not very tasty, but it is quite filling."
-#~ msgstr "おえっ、いや、非常に美味しいが...中身が少なすぎる。"
-
-#~ msgid "sardines"
-#~ msgstr "鰯"
-
-#~ msgid "tuna fish"
-#~ msgstr "ツナ"
-
-#~ msgid ""
-#~ "A large chunk of beeswax. Not very tasty or nourishing, but ok in an "
-#~ "emergency."
-#~ msgstr ""
-#~ "大きな蜜蝋の塊。\n"
-#~ "不味いが栄養があり、緊急時なら食べても構わない。"
-
-#~ msgid ""
-#~ "A large chunk of wax, filled with dense, dark honey.  Useful for curing "
-#~ "all sorts of afflictions."
-#~ msgstr "蜂蜜と異なり白いクリーム状。病を癒す効果がある。"
-
-#~ msgid ""
-#~ "A deformed human fetus, eating this would be very nasty, and cause your "
-#~ "DNA to mutate."
-#~ msgstr "奇形の胎児。摂食することでDNAに突然変異を引き起こす。"
-
-#~ msgid ""
-#~ "A misshapen human arm, eating this would be pretty disgusting and cause "
-#~ "your DNA to mutate."
-#~ msgstr ""
-#~ "奇形の人間の腕部。口にすると吐き気をもよおし、突然変異を引き起こす。"
-
-#~ msgid ""
-#~ "A malformed human leg, this would be gross to eat, and cause mutations."
-#~ msgstr ""
-#~ "奇形の人間の脚部。口にすると吐き気をもよおし、突然変異を引き起こす。"
-
-#~ msgid ""
-#~ "A large ant egg, the size of a softball. Extremely nutritious, but gross."
-#~ msgstr "蟻の卵。ソフトボール大。栄養価は高いが口にするにはちょっと…。"
-
-#~ msgid "This white flour is useful for baking."
-#~ msgstr "パンを焼く時に役立ちます。"
-
-#~ msgid "MRE - beef"
-#~ msgstr "携行食（牛肉）"
-
-#~ msgid "canned apple slices"
-#~ msgstr "缶詰 (薄切り林檎)"
-
-#~ msgid "apple slices"
-#~ msgstr "アップルサイダー"
-
-#~ msgid ""
-#~ "A lighter must be carried to use various drugs, like cigarettes, or to "
-#~ "light things like molotov cocktails.  You can also use a lighter to light "
-#~ "nearby items on fire."
-#~ msgstr ""
-#~ "煙草や薬品、火炎瓶などのアイテムを使うため\n"
-#~ "ライターを携帯しなくてはなりません。\n"
-#~ "隣接するアイテムに火をつけることも可能です。"
-
-#~ msgid ""
-#~ "Matches must be carried to use various drugs, like cigarettes, or to "
-#~ "light things like molotov cocktails.  You can also use matches to light "
-#~ "nearby items on fire."
-#~ msgstr ""
-#~ "煙草や薬品、火炎瓶などのアイテムを使うため\n"
-#~ "マッチを携帯しなくてはなりません。\n"
-#~ "隣接するアイテムに火をつけることも可能です。"
-
-#~ msgid ""
-#~ "A fire drill is a simple item for firestarting, made from two pieces of "
-#~ "wood and some string. Although it is constructed out of simple materials, "
-#~ "it's slow and rather difficult to get a fire started with this tool."
-#~ msgstr ""
-#~ "原始的な発火道具。2本の木と糸からできている。つくるのは簡単だが火種ができ"
-#~ "るまでが大変。"
-
-#~ msgid "A simple hand-powered stone quern."
-#~ msgstr "手で動くシンプルな石の挽臼。"
-
-#~ msgid ""
-#~ "A small gasoline powered lantern. It does not provide much light, but it "
-#~ "lasts a long time. Use it to turn it on."
-#~ msgstr "ガソリンが燃料のランタン。明るさはそこそこだが長持ちする。"
-
-#~ msgid ""
-#~ "A small gasoline powered lantern. It does not provide much light, but it "
-#~ "lasts a long time. It is turned on. Use it to turn it off."
-#~ msgstr ""
-#~ "ガソリンが燃料のランタン。明るさはそこそこだが長持ちする。火がともされてい"
-#~ "る。"
-
-#~ msgid ""
-#~ "A burnt-out lightstrip. You could disassemble this to recover the "
-#~ "amplifier circuit."
-#~ msgstr "使用済のストリップライト。解体すれば増幅回路が手に入る。"
-
-#~ msgid ""
-#~ "A light-emitting circuit wired directly to some batteries. Once "
-#~ "activated, provides 25 hours of light per 3 (battery) charges. When the "
-#~ "batteries die, you'll need to scrap it to recover the components that are "
-#~ "reusable."
-#~ msgstr ""
-#~ "発光する回路。ワイヤーで直接バッテリーにつなげてある。15分で1バッテリーを"
-#~ "消費する。"
-
-#~ msgid ""
-#~ "A light-emitting circuit wired directly to some batteries. Provides a "
-#~ "weak light, lasting 25 hours per 3 (battery) charges. When the batteries "
-#~ "die, you'll need to scrap it to recover the components that are reusable."
-#~ msgstr ""
-#~ "発光する回路。ワイヤーで直接バッテリーにつなげてある。微弱な光源になる。15"
-#~ "分で1バッテリーを消費する。"
-
-#~ msgid ""
-#~ "A small blue light glowstick, bend it to break the glass cylinder inside "
-#~ "and start the reaction to produce a very small amount of light."
-#~ msgstr ""
-#~ "青く光る短いスティック。折り曲げると中の容器が割れて中身が化学反応を起こし"
-#~ "淡く発光する。"
-
-#~ msgid "A spent glowstick, essentially trash."
-#~ msgstr "使用済のサイリウム、もうゴミでしかない。"
-
-#~ msgid ""
-#~ "A small heating element. Indispensable for cooking and chemistry. Try not "
-#~ "to burn yourself."
-#~ msgstr "料理や化学に欠かせない。やけどに注意。"
-
-#~ msgid ""
-#~ "A piece of metal that can get very hot. Necessary for electronics "
-#~ "crafting. You could also use it to cauterize wounds, if you had to."
-#~ msgstr ""
-#~ "はんだごて。\n"
-#~ "先端が加熱する工具。電子機器の作製に必須。傷を焼灼することもできる。"
-
-#~ msgid ""
-#~ "Using this item on a container full of water will purify the water. Water "
-#~ "taken from uncertain sources like a river may be dirty."
-#~ msgstr ""
-#~ "川などで汲んだ水は汚れている可能性があります。\n"
-#~ "水の入った容器をこのアイテムに使用すれば、\n"
-#~ "水を綺麗な水に浄化することができます。"
-
-#~ msgid ""
-#~ "A string of numbers to access the elevator in the hazardous waste "
-#~ "sarcophagus."
-#~ msgstr "有害ゴミの石棺にあるエレベーターを動かす為の数字配列。"
-
-#~ msgid ""
-#~ "A road map. Use it to read points of interest, including, but not limited "
-#~ "to, location(s) of hospital(s) nearby."
-#~ msgstr "道路地図。読むと地図に病院などが追記される。"
-
-#~ msgid ""
-#~ "A prying tool. Use it to open locked doors without destroying them, or to "
-#~ "lift manhole covers."
-#~ msgstr ""
-#~ "ドアなどを壊すことなく開けることができる工具。マンホールの蓋も持ち上げるこ"
-#~ "とができる。"
-
-#~ msgid ""
-#~ "A farming implement. Use it to turn tillable land into a slow-to-cross "
-#~ "pile of dirt."
-#~ msgstr ""
-#~ "くわ。農作業で使う用具。作物を育成させるために土を盛り上げるのに使う。"
-
-#~ msgid "A digging tool. Use it to dig pits adjacent to your location."
-#~ msgstr "掘削するための工具。隣接する地形に使う。"
-
-#~ msgid ""
-#~ "A flexible rubber hose. Can be used for crafting, or siphoning fuel from "
-#~ "a vehicle."
-#~ msgstr ""
-#~ "柔軟なゴムホース。何かの部品として使える。車両から燃料を抜き取る事もでき"
-#~ "る。"
-
-#~ msgid ""
-#~ "A sheet of plastic covered with air-filled bubbles. Use it to set it on "
-#~ "the ground, creating a trap that will warn you with noise when something "
-#~ "steps on it."
-#~ msgstr ""
-#~ "緩衝材などに使われる気泡シート。地面に設置しておけば何かが通った時に音が鳴"
-#~ "るだろう。"
-
-#~ msgid ""
-#~ "A spring-loaded pair of steel jaws. Use it to set it on the ground, "
-#~ "creating a trap that will ensnare and damage anything that steps on it. "
-#~ "If you are carrying a shovel, you will have the option of burying it."
-#~ msgstr ""
-#~ "ばね仕掛けのトラバサミ。地面に設置する。上に乗ったものの脚を強く挟み込む。"
-#~ "シャベルを持っていれば設置する時に埋めることができる。"
-
-#~ msgid ""
-#~ "A simple tripwire is attached to the trigger of a loaded crossbow. When "
-#~ "pulled, the crossbow fires. Only a single round can be used, after which "
-#~ "the trap is disabled."
-#~ msgstr ""
-#~ "クロスボウのトリガーにワイヤーをくくりつけたもの。ボルトが1本装填されてい"
-#~ "る。"
-
-#~ msgid ""
-#~ "A simple tripwire is attached to the trigger of a loaded sawn-off "
-#~ "shotgun. When pulled, the shotgun fires. Two rounds are used; the first "
-#~ "time the trigger is pulled, one or two may be used."
-#~ msgstr ""
-#~ "ソーンオフショットガンのトリガーにワイヤーをくくりつけたもの。弾が2発装填"
-#~ "されている。"
-
-#~ msgid ""
-#~ "A machete is attached laterally to a motor, with a tripwire controlling "
-#~ "its throttle. When the tripwire is pulled, the blade is swung around with "
-#~ "great force. The trap forms a 3x3 area of effect."
-#~ msgstr ""
-#~ "モーターにマチェットが取り付けてある。ワイヤーが引っ張られると作動する。効"
-#~ "果範囲は3x3タイル。"
-
-#~ msgid ""
-#~ "A kit for a simple trap consisting of a string noose and a snare trigger. "
-#~ "Requires a young tree nearby. Effective at trapping and killing some "
-#~ "small animals."
-#~ msgstr ""
-#~ "ひもの輪縄とスネアトリガーで構成されている\r\n"
-#~ "シンプルなスネアトラップの道具一式です。\r\n"
-#~ "一部の小動物を捕獲して殺すのに有効ですが、\r\n"
-#~ "設置場所の近くに若木を必要とします。"
-
-#~ msgid ""
-#~ "A kit for a simple trap consisting of a rope noose and a snare trigger. "
-#~ "Requires a tree nearby. Effective at trapping monsters."
-#~ msgstr ""
-#~ "ロープの輪縄とスネアトリガーで構成されている\r\n"
-#~ "シンプルなスネアトラップの道具一式です。\r\n"
-#~ "一部のモンスターを捕獲して殺すのに有効ですが、\r\n"
-#~ "設置場所の近くに木を必要とします。"
-
-#~ msgid ""
-#~ "A section of a pipe filled with explosive materials. Use this item to "
-#~ "light the fuse, which gives you 3 turns before it detonates. You will "
-#~ "need a lighter. It is somewhat unreliable, and may fail to detonate."
-#~ msgstr ""
-#~ "爆発物が詰め込まれたパイプ。爆発するまで3ターン。火を点けるにはライターが"
-#~ "必要。爆発しないこともある。"
-
-#~ msgid "active teargas"
-#~ msgstr "催涙弾 (点火)"
-
-#~ msgid ""
-#~ "A bottle of flammable liquid with a rag inserted. Use this item to light "
-#~ "the rag; you will, of course, need a lighter in your inventory to do "
-#~ "this. After lighting it, throw it to cause fires."
-#~ msgstr "ボトルに可燃性の液体を入れ布で栓をしたもの。ライターが必要。"
-
-#~ msgid ""
-#~ "A glass vial, split into two chambers. The divider is removable, which "
-#~ "will cause the chemicals to mix. If this mixture is exposed to air (as "
-#~ "happens if you throw the vial) they will spill out as a pool of potent "
-#~ "acid."
-#~ msgstr ""
-#~ "化学物質が入った小ビン。中の仕切りが外れると混ざる。外気に触れると強力な酸"
-#~ "のたまりができる。"
-
-#~ msgid ""
-#~ "A glass vial, with two chemicals mixing inside. If this mixture is "
-#~ "exposed to air (as happens if you throw the vial), they will spill out as "
-#~ "a pool of potent acid."
-#~ msgstr ""
-#~ "小ビン。中の化学物質が混ざっている。外気に触れると強力な酸のたまりができ"
-#~ "る。"
-
-#~ msgid ""
-#~ "A pack of 25 firecrackers with a starter fuse. Use this item to light the "
-#~ "fuse; you will need a lighter of course. Shortly after you light the fuse "
-#~ "they will begin to explode, so throw them quickly!"
-#~ msgstr ""
-#~ "25個連なった爆竹。点火するにはライターが必要。火を点けたら爆発する前にさっ"
-#~ "さと投げよう。"
-
-#~ msgid ""
-#~ "A pack of 25 firecrackers that has been lit, the fuse is hissing. Throw "
-#~ "them quickly before the start to explode."
-#~ msgstr ""
-#~ "25個連なった爆竹。火が点いていてシューシューいってる。爆発する前にさっさと"
-#~ "投げよう。"
-
-#~ msgid ""
-#~ "A firecracker with a short fuse. Use this item to light the fuse; you "
-#~ "will need a lighter of course. Shortly after you light the fuse it will "
-#~ "explode, so throw it quickly!"
-#~ msgstr ""
-#~ "短い導火線がある爆竹。導火線に火を点けてから使う。ライターが必要。火を点け"
-#~ "たら爆発するからさっさと投げよう。"
-
-#~ msgid ""
-#~ "A firecracker that has been lit, the fuse is hissing. Throw it quickly "
-#~ "before it explodes."
-#~ msgstr ""
-#~ "火が点いた爆竹。導火線がシューシューいってる。爆発する前に投げよう。"
-
-#~ msgid ""
-#~ "A high-powered stun gun. Use this item to attempt to electrocute an "
-#~ "adjacent enemy, damaging and temporarily paralyzing them. Because the "
-#~ "shock can actually jump through the air, it is difficult to miss."
-#~ msgstr ""
-#~ "高電圧のスタンガン。隣接する相手を感電させダメージとマヒを与えることができ"
-#~ "る。"
-
-#~ msgid ""
-#~ "A stone with spirals all over it, and holes around its perimeter. Though "
-#~ "it is fairly large, it weighs next to nothing. Air seems to gather around "
-#~ "it."
-#~ msgstr ""
-#~ "渦巻きと小さな穴に全体が覆われた石です。\n"
-#~ "大きさはかなりありますが、全く重くありません。\n"
-#~ "空気が石の周りに凝縮されているように見えます。"
-
-#~ msgid "A human skull with strange etchings covering it."
-#~ msgstr "人間の頭蓋骨。奇妙な装飾が彫り込まれている。"
-
-#~ msgid "Food for dogs. It smells strange, but dogs love it."
-#~ msgstr "犬用の餌。変な匂いがするが犬はこれが大好きだ。"
-
-#~ msgid "A crude explosive device triggered by a piece of string."
-#~ msgstr "紐をつないだだけの爆発物。"
-
-#~ msgid ""
-#~ "A small whistle. When used, it produces a high tone that causes nearby "
-#~ "friendly dogs to either follow you closely and stop attacking, or start "
-#~ "attacking enemies if they are currently docile."
-#~ msgstr ""
-#~ "小さなホイッスル。周波数の高い音を発し、友好的な犬を近くに呼び寄せたりでき"
-#~ "る。"
-
-#~ msgid ""
-#~ "A military style fold up cot, not quite as comfortable as a bed but much "
-#~ "better than slumming it on the ground."
-#~ msgstr ""
-#~ "軍用の簡易ベッド。ベッドほどではないが、地べたに直で寝るよりは快適。"
-
-#~ msgid ""
-#~ "A small, very sharp knife.  Causes decent damage but is difficult to hit "
-#~ "with. Its small tip allows for a precision strike in the hands of the "
-#~ "skilled. It is too small to butcher corpses with."
-#~ msgstr "鋭利な刃物。小さすぎるため動物の解体はできない。"
-
-#~ msgid ""
-#~ "A small, very sharp knife, used in surgery. Its small tip allows for a "
-#~ "precision strike in the hands of the skilled."
-#~ msgstr "極めて鋭利な刃物。手術に用いられる。"
-
-#~ msgid ""
-#~ "A rare sword from Japan. Deadly against unarmored targets, and still very "
-#~ "effective against armor."
-#~ msgstr "希少価値の高い日本刀。装甲の厚い相手にも効果的。"
-
-#~ msgid "A simple wood pole made deadlier by the blade tied to it."
-#~ msgstr ""
-#~ "シンプルな木の棒は刃と結び付けることで\n"
-#~ "より致命的になりました。"
-
-#~ msgid ""
-#~ "A medieval weapon consisting of a wood shaft, tipped with an iron spike. "
-#~ "Though large and heavy compared to other spears, its accuracy and damage "
-#~ "are unparalled."
-#~ msgstr ""
-#~ "中世の武器。長い柄の先端に鋭い刃がついている。他の槍とは精度、威力において"
-#~ "圧倒的。"
-
-#~ msgid ""
-#~ "A combination of two Dark-Age conflict-resolution classics, the "
-#~ "broadsword and the torch.  Light it up and show those heathen zombies "
-#~ "who's Lord around here."
-#~ msgstr ""
-#~ "ブロードソードと松明を持ち替えなくても良い様に暗黒時代に考えられた合体武"
-#~ "器。\n"
-#~ "火を点ける事で辺りを照らし、野蛮なゾンビを見つけ出します。"
-
-#~ msgid ""
-#~ "A combination of two Dark-Age conflict-resolution classics, the "
-#~ "broadsword and the torch.  The blade is glowing with heat.  Excalibur can "
-#~ "eat it's heart out."
-#~ msgstr ""
-#~ "ブロードソードと松明を持ち替えなくても良い様に暗黒時代に考えられた合体武"
-#~ "器。\n"
-#~ "刀身が熱で光っています。この聖剣は貴方の心を掴んで離さない。"
-
-#~ msgid ""
-#~ "A large blade that has had a portion of the handle wrapped in duct tape, "
-#~ "making it easier to wield as a rough machete."
-#~ msgstr ""
-#~ "刃に手でつかむ部分をダクトテープで取り付けてある。マチェットとして使える。"
-
-#~ msgid ""
-#~ "A large blade attached to a long stick. Could do a considerable amount of "
-#~ "damage."
-#~ msgstr "長い棒に刃が取り付けてある。"
-
-#~ msgid ""
-#~ "A sharp knife. Makes a poor melee weapon, but is decent at butchering "
-#~ "corpses."
-#~ msgstr "鋭いナイフ。戦闘には向かないが死体を解体するのには使えるだろう。"
-
-#~ msgid ""
-#~ "A sharp, heavy knife. Makes a good melee weapon, and is the best item for "
-#~ "butchering corpses."
-#~ msgstr "切れ味の鋭い重いナイフ。死体を解体するのに最も適している。"
-
-#~ msgid "A flimsy saw, useful for cutting through wood objects."
-#~ msgstr "薄いノコギリ。木材を切るのに使う。"
-
-#~ msgid ""
-#~ "A large two-handed axe. Makes a good melee weapon, but is a bit slow."
-#~ msgstr "両手で扱う斧。強力な武器となるが攻撃速度は遅い。"
-
-#~ msgid "A small tent, just big enough to fit a person comfortably."
-#~ msgstr "小さなテント。一人で使う分にはじゅうぶんな広さだ。"
-
-#~ msgid ""
-#~ "A large stick, wrapped in gasoline soaked rags. When lit, produces a fair "
-#~ "amount of light"
-#~ msgstr ""
-#~ "ガソリンを染み込ませた布を巻きつけた棒。火を点けることで光源になる。"
-
-#~ msgid ""
-#~ "A large stick, wrapped in gasoline soaked rags. This is burning, "
-#~ "producing plenty of light"
-#~ msgstr ""
-#~ "ガソリンを染み込ませた布を巻きつけた棒。燃え盛る炎があたりを照らす。"
-
-#~ msgid ""
-#~ "A large stand with slots in the side. (a)ctivate it and place it "
-#~ "somewhere then set fires in it with no risk of spreading."
-#~ msgstr "脇に穴が開いている台。(a)ctivateして設置。火が燃え広がらずに済む。"
-
-#~ msgid ""
-#~ "A funnel used to collect rainwater. (a)ctivate it outside and place a "
-#~ "container beneath it to collect water when it rains."
-#~ msgstr ""
-#~ "じょうご。\n"
-#~ "雨水を集める。雨の降っているところへ(a)ctivateして設置する。\n"
-#~ "容器を置いておくと徐々に水がたまる。"
-
-#~ msgid ""
-#~ "A small, makeshift funnel used to collect rainwater. (a)ctivate it "
-#~ "outside and place a container beneath it to collect water when it rains."
-#~ msgstr ""
-#~ "手づくりのじょうご。\n"
-#~ "雨水を集める。雨の降っているところへ(a)ctivateして設置する。\n"
-#~ "容器を置いておくと徐々に水がたまる。"
-
-#~ msgid "A tool used for disassembling firearm ammunition."
-#~ msgstr "弾薬を分解するための工具。"
-
-#~ msgid ""
-#~ "A small hand press for hand loading firearm ammunition. Comes with "
-#~ "everything you need to start hand loading."
-#~ msgstr "小型のプレス台。実弾を制作できる。"
-
-#~ msgid ""
-#~ "A Philips-head screwdriver, important for almost all electronics crafting "
-#~ "and most mechanics crafting."
-#~ msgstr "プラスドライバー。エレクトロニクス、メカニクスの作業に必要。"
-
-#~ msgid ""
-#~ "An adjustable wrench. Makes a decent melee weapon, and is used in many "
-#~ "mechanics crafting recipes."
-#~ msgstr ""
-#~ "この鋼のパイプは、良好な近接武器になります。\n"
-#~ "少数のアイテム製作に使えます。"
-
-#~ msgid "A stick that has been cut into a trigger mechanism for a snare trap."
-#~ msgstr "スネアトラップとして機能するように木を削ったもの。"
-
-#~ msgid ""
-#~ "A large pair of bolt cutters, you could use them to cut padlocks or heavy "
-#~ "gauge wire."
-#~ msgstr "ボルトカッター。南京錠やワイヤーを切断するのに使う。"
-
-#~ msgid "An unwieldy mop. Good for cleaning up spills."
-#~ msgstr "扱いにくいモップです。液体の掃除に使えます。"
-
-#~ msgid ""
-#~ "A Locksmith's set of sturdy steel picklocks, essential for silently and "
-#~ "quickly opening locks."
-#~ msgstr ""
-#~ "確かな作りの鍵屋のロックピック。音も無く素早く、鍵を開けるのに欠かせない。"
-
-#~ msgid ""
-#~ "A combination lock box, breaking inside would destroy anything of value."
-#~ msgstr "金庫。無理に開けようとすると中身まで壊してしまうかもしれない。"
-
-#~ msgid "A large steel pickaxe, strike the earth!"
-#~ msgstr "大きな鋼のつるはし。これで地球を脅かすぜ！"
-
-#~ msgid ""
-#~ "A spray can, filled with paint. Use this tool to make graffiti on the "
-#~ "floor."
-#~ msgstr "ペンキのスプレー缶。地面に落書きできる。"
-
-#~ msgid ""
-#~ "A King Size(tm) industrial strength permanent marker, about halfway "
-#~ "between a typical marker and a can of spray paint in size."
-#~ msgstr "大容量の業務用ペンキ。"
-
-#~ msgid "Rag, useful in crafting and possibly stopping bleeding"
-#~ msgstr "布の切れ端、止血するのに利用でき、作製にも有用な材料。"
-
-#~ msgid "A piece of plastic. Not much use except to repair plastic items"
-#~ msgstr "プラスチックのかけら。プラスチック製品の修理以外使い道はない。"
-
-#~ msgid "A piece of kevlar. Can be used to repair kevlar items"
-#~ msgstr "ケブラーの欠片。修理に使える。"
-
-#~ msgid ""
-#~ "A small multipurpose electronic device. Can be loaded with a variety of "
-#~ "apps, providing all kinds of functionality."
-#~ msgstr ""
-#~ "小型の電子機器。豊富なアプリがあり、インストールすればそれらの機能を利用で"
-#~ "きる。"
-
-#~ msgid ""
-#~ "A small multipurpose electronic device. This PDA has its flashlight app "
-#~ "on, and is providing light."
-#~ msgstr ""
-#~ "様々な情報を携帯して扱うための小型機器。懐中電灯のアプリがインストールされ"
-#~ "ている。"
-
-#~ msgid "A small pocket knife, not great for combat, but better than nothing."
-#~ msgstr ""
-#~ "小型のポケットナイフ。戦闘には向いていないが何も持たないよりはまし。"
-
-#~ msgid ""
-#~ "A sharp needle made from a bone. It would be useful for making rough "
-#~ "clothing and items"
-#~ msgstr "鋭い針。骨からできている。裁縫に使える。"
-
-#~ msgid ""
-#~ "A rock affixed to a stick, functions adequately as a hammer, but really "
-#~ "can't compare to a proper hammer."
-#~ msgstr "木に石を添えたもの。ハンマーとして機能する。"
-
-#~ msgid ""
-#~ "A sharpened stone affixed to a stick, works passably well as an axe but "
-#~ "really can't compare to a proper axe."
-#~ msgstr "木に鋭利な石が添えてある。斧として使える。"
-
-#~ msgid ""
-#~ "A flattened stone affixed to a stick, works passably well as a shovel but "
-#~ "really can't compare to a real shovel."
-#~ msgstr "平べったい石を木に添えたもの。シャベルの代用品。"
-
-#~ msgid ""
-#~ "A large stick, with the end carved into a blade for digging. Can be used "
-#~ "to dig shallow pits, but not deep ones."
-#~ msgstr ""
-#~ "末端に掘削用の刃が取り付けられた大きい棒です。\n"
-#~ "浅い穴を掘るために使われます。\n"
-#~ "しかし深い穴を掘る事は出来ません。"
-
-#~ msgid "A small shelter, made of sticks and skins. (a)ctivate it to place."
-#~ msgstr ""
-#~ "小型のシェルター。木や皮革からつくられている。(a)ctivateして設置する。"
-
-#~ msgid ""
-#~ "A small shelter, made of sticks and skins. (a)ctivate it to place. This "
-#~ "shelter has been damaged, and needs repairs."
-#~ msgstr ""
-#~ "小型のシェルター。木や皮革からつくられている。(a)ctivateして設置する。損傷"
-#~ "しており修理が必要。"
-
-#~ msgid ""
-#~ "A heatpack, used to treat sports injuries and heat food.  Usable only "
-#~ "once."
-#~ msgstr "発熱剤。怪我の手当や加熱調理に使う。使い捨て。"
-
-#~ msgid ""
-#~ "A heatpack, used to treat sports injuries and heat food.  This one has "
-#~ "been used already and is now useless."
-#~ msgstr "発熱剤。怪我の手当や加熱調理に使う。使用済み。"
-
-#~ msgid ""
-#~ "A sealed glass jar containing some meat.  Activate to open and enjoy."
-#~ msgstr "ビン詰め。動物の肉。"
-
-#~ msgid ""
-#~ "A sealed glass jar containing human meat.  Activate to open and enjoy."
-#~ msgstr "ビン詰め。人肉。"
-
-#~ msgid "A sealed glass jar containing veggy.  Activate to open and enjoy."
-#~ msgstr "ビン詰め。野菜。"
-
-#~ msgid "sealed jar of canned apple"
-#~ msgstr "密封瓶 (缶詰林檎)"
-
-#~ msgid ""
-#~ "A sealed glass jar containing a sliced apple.  Activate to open and enjoy."
-#~ msgstr "ビン詰め。りんごの砂糖漬け。"
-
-#~ msgid ""
-#~ "A cordless drill with a selection of drill bits. The charger base "
-#~ "contains a battery draining attachment so the drill can be charged in "
-#~ "lieu of mains power."
-#~ msgstr "充電式のドリル。充電器が付属しているので電源が無くても使える。"
-
-#~ msgid ""
-#~ "A portable heat sealer unit with an air pump, for vacuum packing of food."
-#~ msgstr "ポータブル真空包装機。空気を吸引し食品を密封する。"
-
-#~ msgid "vacuum-packed apple slices"
-#~ msgstr "真空パック(薄切り林檎)"
-
-#~ msgid "A decent sized piece of cotton designed for medical purposes."
-#~ msgstr "切りそろえられたコットン。医療用。"
-
-#~ msgid "A talking doll for children, luckily it still works."
-#~ msgstr "子供用の喋る人形は幸運にもまだ動きます。"
-
-#~ msgid "A fluffy towel, can be used to dry yourself."
-#~ msgstr "フワフワのタオル。濡れた体を拭くのに使う。"
-
-#~ msgid "A bicycle folded into a relatively portable package."
-#~ msgstr "折りたたんで運べるようにした自転車。"
-
-#~ msgid ""
-#~ "A fine glass tube with a bulb on the end, used in partaking of certain "
-#~ "illicit substances."
-#~ msgstr "バルブが付いているガラスのパイプ。薬物の摂取に使う。"
-
-#~ msgid ""
-#~ "Long, steel tongs. Makes an okay melee weapon, and is commonly used for "
-#~ "cooking or in metalworking fabrication recipes."
-#~ msgstr "鋼のトング。料理や鍛冶で使用する。"
-
-#~ msgid ""
-#~ "A short, stout metalworking chisel. Used in some metalworking fabrication "
-#~ "recipes."
-#~ msgstr "短く頑丈な金属製の鑿(のみ)。"
-
-#~ msgid ""
-#~ "A set of swages and dies for metalsmithing. Used in some metalworking "
-#~ "fabrication recipes."
-#~ msgstr "金属加工セット。一部の金属加工レシピで使える。"
-
-#~ msgid ""
-#~ "A bottle filled with match heads and equipped with a fuse. Use this item "
-#~ "to light the fuse; you will, of course, need a lighter in your inventory "
-#~ "to do this. After lighting it, throw it to cause fires."
-#~ msgstr ""
-#~ "ボトルにマッチの先を詰めたもの。導火線に火を点けてから投げる。ライターが必"
-#~ "要。"
-
-#~ msgid ""
-#~ "A lighter must be carried to use various drugs, like cigarettes, or to "
-#~ "light things like molotov cocktails.  You can also use a lighter to light "
-#~ "nearby items on fire. This one features a flip top cover and can be "
-#~ "refueled when empty."
-#~ msgstr ""
-#~ "煙草や薬品、火炎瓶などのアイテムを使うため\n"
-#~ "ライターを携帯しなくてはなりません。\n"
-#~ "隣接するアイテムに火をつけることも可能です。\n"
-#~ "開閉できるカバーがついており、燃料を補充することが可能。"
-
-#~ msgid ""
-#~ "A badge that detects radiation dosage sealed in a radiation-blocking "
-#~ "bag.  Activate to remove from the bag."
-#~ msgstr ""
-#~ "被爆量を検知するバッジ。\n"
-#~ "放射線を遮断する袋に入っている。"
-
-#~ msgid "A common hydraulic jack, used when changing tires."
-#~ msgstr "タイヤを交換する際に使用される一般的な油圧ジャッキ。"
-
-#~ msgid ".45 caliber retool"
-#~ msgstr "45口径化キット"
-
-#~ msgid "9mm caliber retool"
-#~ msgstr "9mm口径化キット"
-
-#~ msgid ".22 caliber retool"
-#~ msgstr "22口径化キット"
-
-#~ msgid "5.7mm caliber retool"
-#~ msgstr "5.7mm口径化キット"
-
-#~ msgid "4.6mm caliber retool"
-#~ msgstr "4.6mm口径化キット"
-
-#~ msgid ".308 caliber retool"
-#~ msgstr "308口径化キット"
-
-#~ msgid ".223 caliber retool"
-#~ msgstr "223口径化キット"
-
-#~ msgid "A small woodland animal."
-#~ msgstr "森に生息する小動物。"
-
-#~ msgid ""
-#~ "A cute wiggling nose, cotton tail, and\n"
-#~ "delicious flesh."
-#~ msgstr "可愛く揺れる鼻、フワフワの尻尾、そして...美味しい肉。"
-
-#~ msgid "A large buck, fast-moving and strong."
-#~ msgstr "素早くて力強い、大きな鹿。"
-
-#~ msgid "A buck of the largest deer species."
-#~ msgstr "鹿類で最も大きな鹿。"
-
-#~ msgid "A grey wolf. A vicious and fast pack hunter."
-#~ msgstr "灰色狼。素早く、獰猛な狩人。"
-
-#~ msgid "A vicious and fast hunter."
-#~ msgstr "素早く、獰猛な狩人。"
-
-#~ msgid "A medium-sized domesticated dog, gone feral."
-#~ msgstr "野生化した中型の飼い犬。"
-
-#~ msgid "A small domesticated cat, gone feral."
-#~ msgstr "野生化した小さな飼い猫。"
-
-#~ msgid "fungal insect"
-#~ msgstr "真菌昆虫"
-
-#~ msgid "A portion of a giant worm that is still alive."
-#~ msgstr "まだ生きている巨大ワームの一部。"
-
-#~ msgid "master zombie"
-#~ msgstr "マスターゾンビ"
-
-#~ msgid "child zombie"
-#~ msgstr "子供ゾンビ"
-
-#~ msgid "young triffid"
-#~ msgstr "若いトリフィド"
-
-#~ msgid "queen triffid"
-#~ msgstr "女王トリフィド"
-
-#~ msgid "creeping vine"
-#~ msgstr "這い回る蔦"
-
-#~ msgid "vinebeast"
-#~ msgstr "蔦の野獣"
-
-#~ msgid "young fungaloid"
-#~ msgstr "若い真菌人"
-
-#~ msgid "spore"
+#~ msgid "Spores"
 #~ msgstr "胞子"
 
-#~ msgid "C.H.U.D."
-#~ msgstr "チャド"
+#~ msgid "You start scratching yourself all over!"
+#~ msgstr "全身を引っ掻き始めた！"
 
-#~ msgid "one-eyed mutant"
-#~ msgstr "隻眼の変異体"
+#~ msgid "You wake up to the ringing of an alarm-clock."
+#~ msgstr "目覚まし時計の音で目が覚めた。"
 
-#~ msgid "crawler mutant"
-#~ msgstr "クロウラーの変異体"
+#~ msgid "There's bugs crawling under your skin!"
+#~ msgstr "虫が皮膚の下を這い回っている！"
 
-#~ msgid "sewer fish"
-#~ msgstr "下水道の魚"
+#~ msgid "Can't move furniture there! Choose a direction with open floor."
+#~ msgstr "そこには動かせない！空いた場所を選んで下さい。"
 
-#~ msgid "web spider"
-#~ msgstr "巣作り蜘蛛"
+#~ msgid "Press a direction for the furniture to move (. to cancel):"
+#~ msgstr "方向キーで家具を移動（.で中止）:"
 
-#~ msgid "trap door spider"
-#~ msgstr "戸立て蜘蛛"
+#~ msgid "Contruct"
+#~ msgstr "建設"
 
-#~ msgid "black widow"
-#~ msgstr "黒後家蜘蛛"
+#~ msgid "Start a fire"
+#~ msgstr "点火開始"
 
-#~ msgid "Amigara horror"
-#~ msgstr "阿彌殻の怪"
-
-#~ msgid "Thing"
-#~ msgstr "シング"
-
-#~ msgid "A large snail, with an oddly human face."
-#~ msgstr "人間の顔を持つ気味の悪い大きな蝸牛。"
-
-#~ msgid "Mi-go"
-#~ msgstr "ミ＝ゴ"
-
-#~ msgid "gelatinous blob"
-#~ msgstr "ゲル状ブロブ"
-
-#~ msgid "Gozu"
-#~ msgstr "牛頭"
-
-#~ msgid "A large snake, translucent black."
-#~ msgstr "半透明の黒い大きな蛇。"
-
-#~ msgid "secubot"
-#~ msgstr "警備ロボット"
-
-#~ msgid "copbot"
-#~ msgstr "警官ロボット"
-
-#~ msgid "molebot"
-#~ msgstr "採掘ロボット"
-
-#~ msgid "tripod robot"
-#~ msgstr "三脚式ロボット"
-
-#~ msgid "tankbot"
-#~ msgstr "戦車ロボット"
-
-#~ msgid "firearms"
-#~ msgstr "射撃武器"
-
-#~ msgid ""
-#~ "Your overall skill in using firearms. With higher levels, this general "
-#~ "experience increases accuracy with any gun, but is secondary to practice "
-#~ "with the type of gun in question."
-#~ msgstr "銃火器を扱う技能。命中率を上昇させる。"
-
-#~ msgid "%1$s quickly punch %4$s"
-#~ msgstr "%1$sの正拳突きは%4$sに"
-
-#~ msgid "%1$s quickly punches %4$s"
-#~ msgstr "%1$sの正拳突きは%4$sに"
-
-#~ msgid "%1$s karate chop %4$s"
-#~ msgstr "%1$sの手刀は%4$sに"
-
-#~ msgid "%1$s karate chops %4$s"
-#~ msgstr "%1$sの手刀は%4$sに"
-
-#~ msgid "%1$s throw %4$s"
-#~ msgstr "%1$sの天地投げは%4$sに"
-
-#~ msgid "%1$s throws %4$s"
-#~ msgstr "%1$sの天地投げは%4$sに"
-
-#~ msgid "%1$s grab %4$s"
-#~ msgstr "%1$sの掴み投げは%4$sに"
-
-#~ msgid "%1$s grabs %4$s"
-#~ msgstr "%1$sの掴み投げは%4$sに"
-
-#~ msgid "%1$s strike %4$s"
-#~ msgstr "%1$sの掌底打ちは%4$sに"
-
-#~ msgid "%1$s strikes %4$s"
-#~ msgstr "%1$sの掌底打ちは%4$sに"
-
-#~ msgid "%1$s jab %4$s"
-#~ msgstr "%1$sのジャブは%4$sに"
-
-#~ msgid "%1$s jabs %4$s"
-#~ msgstr "%1$sのジャブは%4$sに"
-
-#~ msgid "metal screeching!"
-#~ msgstr "金属音が鳴り響いた！"
-
-#~ msgid "clang!"
-#~ msgstr "甲高い音が聞こえた！"
-
-#~ msgid "porcelain breaking!"
-#~ msgstr "陶磁器が割れる音が聞こえた！"
-
-#~ msgid "whump."
-#~ msgstr "ドーンという音が聞こえた。"
-
-#~ msgid "wham!"
-#~ msgstr "ドカンという強い衝撃音が聞こえた！"
-
-#~ msgid "whump!"
-#~ msgstr "ドーンという大きな音が聞こえた！"
-
-#~ msgid "whack!"
-#~ msgstr "ボカンという強打音が聞こえた！"
-
-#~ msgid "crunch."
-#~ msgstr "バリバリとかみ砕くような音が聞こえた。"
-
-#~ msgid "brush."
-#~ msgstr "ブラシで擦る様な音が聞こえた。"
-
-#~ msgid "<You>%s"
-#~ msgstr "<You>%s"
-
-#~ msgid "<You>You"
-#~ msgstr "<You>あなた"
-
-#~ msgid "<your>her"
-#~ msgstr "<your>彼女"
-
-#~ msgid "<your>his"
-#~ msgstr "<your>彼"
-
-#~ msgid "<your>your"
-#~ msgstr "<your>あなた"
-
-#~ msgid "%1$s hit %4$s"
-#~ msgstr "%1$sの攻撃は%4$sに"
-
-#~ msgid "%1$s hits %4$s"
-#~ msgstr "%1$sの攻撃は%4$sに"
-
-#~ msgid "<target>the %s"
-#~ msgstr "<target>%s"
-
-#~ msgid "<target>%s"
-#~ msgstr "<target>%s"
-
-#~ msgid "<target>you"
-#~ msgstr "<target>あなた"
-
-#~ msgid "<target's>the %s's"
-#~ msgstr "<target's>%s"
-
-#~ msgid "<target's>%s's"
-#~ msgstr "<target's>%s"
-
-#~ msgid "%1$s impale %4$s"
-#~ msgstr "%1$sの串刺攻撃は%4$sに"
-
-#~ msgid "%1$s impales %4$s"
-#~ msgstr "%1$sの串刺攻撃は%4$sに"
-
-#~ msgid "%1$s pierce %4$s"
-#~ msgstr "%1$sの貫通攻撃は%4$sに"
-
-#~ msgid "%1$s pierces %4$s"
-#~ msgstr "%1$sの貫通攻撃は%4$sに"
-
-#~ msgid "%1$s stab %4$s"
-#~ msgstr "%1$sの刺突攻撃は%4$sに"
-
-#~ msgid "%1$s stabs %4$s"
-#~ msgstr "%1$sの刺突攻撃は%4$sに"
-
-#~ msgid "%1$s poke %4$s"
-#~ msgstr "%1$sの突刺攻撃は%4$sに"
-
-#~ msgid "%1$s pokes %4$s"
-#~ msgstr "%1$sの突刺攻撃は%4$sに"
-
-#~ msgid "%1$s hack %4$s"
-#~ msgstr "%1$sの縦斬攻撃は%4$sに"
-
-#~ msgid "%1$s hacks %4$s"
-#~ msgstr "%1$sの縦斬攻撃は%4$sに"
-
-#~ msgid "%1$s slice %4$s"
-#~ msgstr "%1$sの横斬攻撃は%4$sに"
-
-#~ msgid "%1$s slices %4$s"
-#~ msgstr "%1$sの横斬攻撃は%4$sに"
-
-#~ msgid "%1$s cut %4$s"
-#~ msgstr "%1$sの斬撃は%4$sに"
-
-#~ msgid "%1$s cuts %4$s"
-#~ msgstr "%1$sの斬撃は%4$sに"
-
-#~ msgid "%1$s nick %4$s"
-#~ msgstr "%1$sの薄斬攻撃は%4$sに"
-
-#~ msgid "%1$s nicks %4$s"
-#~ msgstr "%1$sの薄斬攻撃は%4$sに"
-
-#~ msgid "%1$s clobber %4$s"
-#~ msgstr "%1$sの強打は%4$sに"
-
-#~ msgid "%1$s clobbers %4$s"
-#~ msgstr "%1$sの強打は%4$sに"
-
-#~ msgid "%1$s batter %4$s"
-#~ msgstr "%1$sの乱打は%4$sに"
-
-#~ msgid "%1$s batters %4$s"
-#~ msgstr "%1$sの乱打は%4$sに"
-
-#~ msgid "%1$s whack %4$s"
-#~ msgstr "%1$sの殴打は%4$sに"
-
-#~ msgid "%1$s whacks %4$s"
-#~ msgstr "%1$sの殴打は%4$sに"
-
-#~ msgid " but do no damage."
-#~ msgstr " しかし、ダメージを与えられない。"
-
-#~ msgid " for %d damage."
-#~ msgstr " %dのダメージを与えた。"
-
-#~ msgid "Critical! "
-#~ msgstr "クリティカル！ "
-
-#~ msgid "The %s's corpse melts into a pool of acid."
-#~ msgstr "%sの死体は溶け落ちて、酸の水溜りとなった。"
-
-#~ msgid "a boomer explodes!"
-#~ msgstr "ブーマーが爆発した！"
-
-#~ msgid "a smoker explodes!"
-#~ msgstr "煙幕ゾンビが爆発した！"
-
-#~ msgid ""
-#~ "If true, Y/N prompts are case- sensitive and y and n are not accepted."
-#~ msgstr ""
-#~ "確認画面でのキー操作の設定。Trueにすると Y/N （大文字）\n"
-#~ "Falseにすると y/n (小文字)"
-
-#~ msgid ""
-#~ "If true, shift the view toward the selected item if it is outside of your "
-#~ "current viewport."
-#~ msgstr "trueにするとアイテムを見渡した時に視点を移動する。"
-
-#~ msgid "Your raincoat protects you from the acidic drizzle."
-#~ msgstr "レインコートが小雨(酸性)を防いでいます。"
-
-#~ msgid "Your raincoat protects you from the acid rain."
-#~ msgstr "レインコートが雨(酸性)を防いでいます。"
-
-#~ msgid "hazmatbot"
-#~ msgstr "災害作業ロボット"
-
-#~ msgid ""
-#~ "A sheet of foam which can be rolled tightly for storage. Insulates you "
-#~ "from the floor, making it easier to sleep"
-#~ msgstr ""
-#~ "ウレタンフォームのシーツ。丸めて収納できる。断熱効果があり寝心地がいい。"
-
-#~ msgid "It disintegrates!"
-#~ msgstr "崩壊しました！"
-
-#~ msgid "You damage the %s!"
-#~ msgstr "%sにダメージを与えました！"
-
-#~ msgid "Your %s is destroyed!  GAME OVER!"
-#~ msgstr "%sが破壊されました！ゲームオーバー！"
-
-#~ msgid ""
-#~ "You've traveled for a living, sightseeing here and there, and living off "
-#~ "your parents' trust fund. But now they're gone, and the only thing "
-#~ "between you and death is the open road and your backpack."
-#~ msgstr ""
-#~ "生活の為に旅を続けてきました。両親の信託基金を切り崩して、色々な所に観光に"
-#~ "行きました。しかし、それは突然消え去ってしまいました。所持品は目の前に広が"
-#~ "る道路と背中のバックパックだけです。"
-
-#~ msgid ""
-#~ "You were about to marry your bride before the cataclysm, now you spend "
-#~ "you days searching for her."
-#~ msgstr ""
-#~ "大変動前に彼女と結婚しようとしていました。今は彼女を見つける為に日々を生き"
-#~ "延びています。"
-
-#~ msgid "Dry processed noodles, simply add hot water. can be eaten raw"
-#~ msgstr ""
-#~ "乾燥処理されたラーメン。お湯を使って戻します。生でそのまま食べる事も可能で"
-#~ "す。"
-
-#~ msgid "Cart"
-#~ msgstr "カート"
-
-#~ msgid "Enter new cart name:"
-#~ msgstr "車両の新しい名前を入力して下さい:"
-
-#~ msgid "Start cart construction"
-#~ msgstr "カートを作製する"
-
-#~ msgid "mole"
-#~ msgstr "モグラ"
-
-#~ msgid "clams"
-#~ msgstr "ハマグリ"
-
-#~ msgid ""
-#~ "A brass-jacketed variant of the .44 Magnum round.  This increases "
-#~ "penetration slightly at the cost of reduced expansion."
-#~ msgstr ""
-#~ "弾頭を完全に真鍮で覆った.44弾の一種。弾頭変形を防ぎ貫通力を高めてある。"
-
-#, fuzzy
-#~ msgid ""
-#~ "A bedroll made of pelts which can be rolled up for transport. Insulates "
-#~ "you from the floor, making it easier to sleep"
-#~ msgstr ""
-#~ "ウレタンフォームのシーツ。丸めて収納できる。断熱効果があり寝心地がいい。"
-
-#~ msgid "A bacon, lettuce and tomato sandwich on toasted bread."
-#~ msgstr "焼いたパンでベーコンとレタス、トマトを挟んだサンドイッチ。"
-
-#~ msgid "<npcname> misses!"
-#~ msgstr "<npcname>の攻撃が外れた！"
-
-#~ msgid "<npcname> barely misses!"
-#~ msgstr "<npcname>の攻撃がぎりぎりで外れました！"
-
-#~ msgid "l, 6, or right arrow"
-#~ msgstr "l, 6, 右"
-
-#~ msgid "j/k, 8/2, or arrows"
-#~ msgstr "j/k, 8/2, 上/下"
-
-#~ msgid "h, 4, or left arrow"
-#~ msgstr "h, 4, 左"
-
-#~ msgid "(Press spacebar to toggle)"
-#~ msgstr "（スペースで切り替え）"
-
-#~ msgid " select a statistic."
-#~ msgstr " ステータスを選択"
-
-#~ msgctxt "Main Menu"
-#~ msgid "<L>oad"
-#~ msgstr "<L>ロード"
-
-#~ msgctxt "Main Menu"
-#~ msgid "<H>elp"
-#~ msgstr "<H>ヘルプ"
-
-#~ msgid "Hardcore"
-#~ msgstr "ハードコア"
-
-#~ msgid "Monster Spotted!"
-#~ msgstr "敵だ！"
+#~ msgid "Too many itens"
+#~ msgstr "アイテムを持ち過ぎている"

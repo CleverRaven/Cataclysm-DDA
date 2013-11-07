@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda vietnamese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-07 14:48+1300\n"
+"POT-Creation-Date: 2013-11-07 14:53+1300\n"
 "PO-Revision-Date: 2013-11-06 20:42+0000\n"
 "Last-Translator: Huỳnh Yên Lộc <ryoutranquility@gmail.com>\n"
 "Language-Team: Vietnamese Translator(s) <ryoutranquility@gmail.com>\n"
@@ -11534,6 +11534,10 @@ msgstr ""
 msgid "shot"
 msgstr ""
 
+#: itypedef.cpp lang/json/json_items.py
+msgid "signal flare"
+msgstr ""
+
 #: itypedef.cpp lang/json/json_vehicle_parts.py
 msgid "small wheel"
 msgstr ""
@@ -12165,6 +12169,10 @@ msgid "Put a knife in the boot"
 msgstr ""
 
 #: iuse.cpp
+msgid "Put the cat food where?"
+msgstr ""
+
+#: iuse.cpp
 msgid "Put the dog food where?"
 msgstr ""
 
@@ -12439,6 +12447,12 @@ msgid "The candle winks out"
 msgstr ""
 
 #: iuse.cpp
+msgid ""
+"The cat seems to like you! Or maybe it just tolerates your presence better. "
+"It's hard to tell with cats."
+msgstr ""
+
+#: iuse.cpp
 msgid "The dog seems to like you!"
 msgstr ""
 
@@ -12448,6 +12462,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "The fabric of space seems to decay."
+msgstr ""
+
+#: iuse.cpp
+msgid "The flare sputters out."
 msgstr ""
 
 #: iuse.cpp
@@ -12925,6 +12943,11 @@ msgid "You can't see to sew!"
 msgstr ""
 
 #: iuse.cpp
+#, fuzzy
+msgid "You can't turn off a flare."
+msgstr "Bạn không thể mở khóa %s."
+
+#: iuse.cpp
 msgid "You can't turn off a glowstick."
 msgstr ""
 
@@ -12950,6 +12973,11 @@ msgstr[1] ""
 #: iuse.cpp
 msgid "You cauterize yourself. It hurts like hell!"
 msgstr ""
+
+#: iuse.cpp
+#, fuzzy, c-format
+msgid "You chew your %s."
+msgstr "Bạn không thể khởi động %s"
 
 #: iuse.cpp
 msgid "You churn up the earth here."
@@ -13503,6 +13531,10 @@ msgid "You snort some crystal meth."
 msgstr ""
 
 #: iuse.cpp
+msgid "You spill the cat food all over the ground."
+msgstr ""
+
+#: iuse.cpp
 msgid "You spill the dogfood all over the ground."
 msgstr ""
 
@@ -13516,6 +13548,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "You stop the bleeding."
+msgstr ""
+
+#: iuse.cpp
+msgid "You strike your flare and light it."
 msgstr ""
 
 #: iuse.cpp
@@ -17260,6 +17296,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"A heavy plastic cartridge made for use in flare guns. It appears to be a "
+"modified 12 gauge shotgun shell."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A heavy plastic helmet normally worn by football players."
 msgstr ""
 
@@ -17645,6 +17687,12 @@ msgstr ""
 msgid ""
 "A length of thin, relatively stiff, steel wire. Like the sort you find in "
 "wire fences."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A light and breezy cotton dress. Though cool and comfortable to wear, it "
+"lacks any storage space."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -18189,6 +18237,12 @@ msgid "A pair of soft neoprene arm sleeves, often used in contact sports."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"A pair of stylish sunglasses, look good while keeping the glare out of your "
+"eyes."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A pair of sunglasses, good for keeping the glare out of your eyes."
 msgstr ""
 
@@ -18289,6 +18343,10 @@ msgstr ""
 msgid ""
 "A plastic coat with two very large pockets. Provides protection from rain "
 "and some protection from acid rain."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A plastic single shot pistol made to fire signal flares."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -18870,6 +18928,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "A small metal teapot. Teatime wouldn't be complete without one."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid ""
 "A small pair of goggles. Distorts vision above water, but allows you to see "
 "much further under water."
@@ -19077,6 +19139,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A stout pole with an improvised grip and a fire-hardened point."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A stout wooden truncheon of the sort commonly employed by police. Originally "
+"an Okinawan weapon, it consists of a stick with a perpendicular handle "
+"attached a third of the way down its length."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -19738,6 +19807,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"An all-encompassing black helmet that covers your entire face and neck, "
+"providing excellent protection from all sorts of damage."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "An aluminium baseball bat, lighter than a wooden bat and a little easier to "
 "swing as a result."
 msgstr ""
@@ -20335,6 +20410,12 @@ msgid ""
 "Charcoal is a flammable carbon based material obtained by removing water and "
 "other volatile constituents from animal and vegetation substances. It is "
 "produced by slowly heating wood or other substances in the absence of oxygen."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Chewing gum with added caffeine. Sugary and bad for your teeth, but it's a "
+"nice pick-me-up."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21217,6 +21298,10 @@ msgid "Light and easy to wear, but doesn't offer much storage."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "Lightweight shoes made of cloth and rubber."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Like apple cider, only with vodka."
 msgstr ""
 
@@ -21383,6 +21468,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "Milkor MGL"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Mint flavored chewing tobacco. While still absolutely terrible for your "
+"health, it was once a favorite amongst baseball players, cowboys, and other "
+"macho types."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -22096,6 +22188,10 @@ msgid "Submachine Gun Enthusiast"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "Suitable for tropical retreats and Canadian artists alike."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Survival Under Atomic Attack"
 msgstr ""
 
@@ -22548,12 +22644,6 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"The mere thought of eating this stuff is enough to make your hair stand on "
-"end. Save it for when you're about to die of starvation."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
 "The nail sword, or nord for short. This wooden sword has a dozen nails "
 "sticking at jagged angles from edge of the blade, making it much better at "
 "chopping than slashing."
@@ -22763,6 +22853,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This burning magnesium flare is producing light. It will last for about a "
+"half hour before burning out."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This canister of teargas has had its pin removed, indicating that it is (or "
 "will shortly be) expelling highly toxic gas. You should consider getting rid "
 "of it soon."
@@ -22833,6 +22929,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "This enriched white flour is useful for baking."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This farming tool has been modified into a weapon by reinforcing and "
+"rotating its blade 90 degrees, transforming it into a deadly giant blade on "
+"the end of a stick."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -23718,6 +23821,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is a slow-burning magnesium flare. Use it to strike the striker and "
+"light it. It will produce a bright light for about a half hour."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is a small blue light glowstick. Use it to bend the plastic and break "
 "the glass cylinder inside to start the reaction. It will produce a very "
 "small amount of light."
@@ -23820,6 +23929,10 @@ msgid "This is a spent glowstick. It is essentially trash."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "This is a spent magnesium flare. It is essentially trash."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid ""
 "This is a spray can, filled with paint. Use this tool to make graffiti on "
 "the floor."
@@ -23862,13 +23975,6 @@ msgstr ""
 msgid ""
 "This is a stout collapsible spade. It's commonly used by military forces and "
 "favored by hikers for digging."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"This is a stout combat knife features a steel guard to protect the user's "
-"knuckles, which can be used for striking or blocking. It can also be used to "
-"butcher corpses."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24075,6 +24181,20 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a giant blade on the end of a stick, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a massive curved blade on a handle, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is an unwieldy mop. Good for cleaning up spills. Use to mop up any "
 "'mess' you may have made."
 msgstr ""
@@ -24083,6 +24203,10 @@ msgstr ""
 msgid ""
 "This is decent sized piece of cotton, sterilized and sealed. It's designed "
 "for medical purposes."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "This is food for cats. It smells strange, but cats seem to love it."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24330,6 +24454,13 @@ msgstr ""
 msgid ""
 "This smoke bomb has had its pin removed, indicating that it is (or will "
 "shortly be) expelling thick smoke."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This stout combat knife features a steel guard to protect the user's "
+"knuckles. The guard can also be used for striking or blocking, and the knife "
+"can also be used to butcher corpses."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24607,6 +24738,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "active Granade"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "active flare"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25154,6 +25289,10 @@ msgid "cabernet sauvignon"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "caffeinated chewing gum"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "caffeine pills"
 msgstr ""
 
@@ -25351,6 +25490,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "chewing gum"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "chewing tobacco"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25658,6 +25801,10 @@ msgid "darts"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "dead flare"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "dead glowstick"
 msgstr ""
 
@@ -25960,6 +26107,16 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "flannel jacket"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flare"
+msgstr "Chói"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flaregun"
+msgstr "Chói"
 
 #: lang/json/json_items.py
 msgid "flashbang"
@@ -26815,6 +26972,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "loose caltrops"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "lowtop tennis shoes"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -27745,6 +27906,10 @@ msgstr ""
 msgid "rum"
 msgstr ""
 
+#: lang/json/json_items.py
+msgid "rum & cola"
+msgstr ""
+
 #: lang/json/json_items.py lang/json/json_vehicle_parts.py
 msgid "saddle"
 msgstr ""
@@ -27851,6 +28016,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "screwdriver"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "scythe"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -27979,6 +28148,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "shovel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "sickle"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28286,11 +28459,19 @@ msgid "string - 6 in"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "stylish sunglasses"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "sugar"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid "suit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "sundress"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28394,6 +28575,10 @@ msgid "tactical dump pouch"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "tactical full helmet"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "tactical gloves"
 msgstr ""
 
@@ -28440,6 +28625,11 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "tea leaves"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "teapot"
+msgstr "vũ khí"
 
 #: lang/json/json_items.py
 msgid "teargas canister"
@@ -28662,6 +28852,10 @@ msgid "war novel"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "war scythe"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "wasp sting"
 msgstr ""
 
@@ -28787,6 +28981,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "wooden javelin"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "wooden tonfa"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -56376,35 +56574,35 @@ msgstr ""
 msgid "______NO NAME ENTERED!!!!_____"
 msgstr ""
 
-#~ msgid "Too many itens"
-#~ msgstr "Quá nhiều đồ vật"
-
-#~ msgid "Start a fire"
-#~ msgstr "Đốt một đám lửa"
-
-#~ msgid "Activate your bio lockpick"
-#~ msgstr "Kích hoạt bộ cạy khóa sinh học"
-
-#~ msgid "Contruct"
-#~ msgstr "Xây dựng"
-
-#~ msgid "There's bugs crawling under your skin!"
-#~ msgstr "Có bọ đang bò dưới da bạn!"
-
-#~ msgid "You wake up to the ringing of an alarm-clock."
-#~ msgstr "Tiếng chuông báo thức kêu bạn dậy."
-
-#~ msgid "You start scratching yourself all over!"
-#~ msgstr "Bạn bắt đầu gãi khắp mình mẩy!"
-
-#~ msgid "%s starts scratching himself all over!"
-#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
-
-#~ msgid "%s starts scratching herself all over!"
-#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
+#~ msgid "Bugs Under Skin"
+#~ msgstr "Bọ dưới da"
 
 #~ msgid "Spores"
 #~ msgstr "Bào tử"
 
-#~ msgid "Bugs Under Skin"
-#~ msgstr "Bọ dưới da"
+#~ msgid "%s starts scratching herself all over!"
+#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
+
+#~ msgid "%s starts scratching himself all over!"
+#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
+
+#~ msgid "You start scratching yourself all over!"
+#~ msgstr "Bạn bắt đầu gãi khắp mình mẩy!"
+
+#~ msgid "You wake up to the ringing of an alarm-clock."
+#~ msgstr "Tiếng chuông báo thức kêu bạn dậy."
+
+#~ msgid "There's bugs crawling under your skin!"
+#~ msgstr "Có bọ đang bò dưới da bạn!"
+
+#~ msgid "Contruct"
+#~ msgstr "Xây dựng"
+
+#~ msgid "Activate your bio lockpick"
+#~ msgstr "Kích hoạt bộ cạy khóa sinh học"
+
+#~ msgid "Start a fire"
+#~ msgstr "Đốt một đám lửa"
+
+#~ msgid "Too many itens"
+#~ msgstr "Quá nhiều đồ vật"
