@@ -1087,6 +1087,20 @@
         "flags": ["OBSTACLE", "FORGE"]
     },{
         "type" : "vehicle_part",
+        "id" : "veh_media_center",
+        "name": "onboard entertainment center",
+        "symbol": "&",
+        "color": "light_blue",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "damage_modifier": 10,
+        "durability": 20,
+        "item": "media_center",
+        "difficulty": 4,
+        "location": "center",
+        "flags": ["OBSTACLE", "MEDIA"]
+    },{
+        "type" : "vehicle_part",
         "id" : "m249",
         "name": "mounted M249",
         "symbol": "t",

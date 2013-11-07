@@ -11832,6 +11832,64 @@
   ]
 },{
         "type" : "recipe",
+  "result": "media_center",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",6],
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "soldering_iron", 20 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "frame", 1 ]
+    ],
+    [
+      ["portable_game", 1]
+    ],
+    [
+      [ "mp3", 1 ]
+    ],
+    [
+      [ "two_way_radio", 1 ]
+    ],
+    [
+      [ "directional_antenna", 1 ]
+    ],
+    [
+      ["cable", 10]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "foot_crank",
   "category": "CC_MISC",
   "skill_used": "mechanics",
