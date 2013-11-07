@@ -851,6 +851,12 @@ int iuse::blech(game *g, player *p, item *it, bool t) {
     return it->type->charges_to_use();
 }
 
+int iuse::chew(game *g, player *p, item *it, bool t) {
+    // TODO: Add more effects?
+    g->add_msg_if_player(p,_("You chew your %s."), it->tname().c_str());
+    return it->type->charges_to_use();
+}
+
 int iuse::mutagen(game *g, player *p, item *it, bool t) {
     if(!p->is_npc()) {
       p->add_memorial_log(_("Consumed mutagen."));
@@ -1027,6 +1033,28 @@ int iuse::dogfood(game *g, player *p, item *it, bool t)
         }
     } else {
         g->add_msg_if_player(p,_("You spill the dogfood all over the ground."));
+    }
+    return 1;
+}
+
+int iuse::catfood(game *g, player *p, item *it, bool t)
+{
+    int dirx, diry;
+    if(!g->choose_adjacent(_("Put the cat food where?"),dirx,diry)) {
+        return 0;
+    }
+    p->moves -= 15;
+    int mon_dex = g->mon_at(dirx,diry);
+    if (mon_dex != -1) {
+        if (g->zombie(mon_dex).type->id == "mon_cat") {
+            g->add_msg_if_player(p, _("The cat seems to like you! Or maybe it just tolerates your presence better. It's hard to tell with cats."));
+            g->zombie(mon_dex).friendly = -1;
+        } else {
+            g->add_msg_if_player(p, _("The %s seems quite unimpressed!"),
+                                 g->zombie(mon_dex).type->name.c_str());
+        }
+    } else {
+        g->add_msg_if_player(p,_("You spill the cat food all over the ground."));
     }
     return 1;
 }
@@ -1564,6 +1592,30 @@ int iuse::glowstick_active(game *g, player *p, item *it, bool t)
             return 0;
         } else {
             g->add_msg_if_player(p,_("The glowstick fades out."));
+            it->active = false;
+        }
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::handflare(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,_("You strike your flare and light it."));
+    it->make(g->itypes["handflare_lit"]);
+    it->active = true;
+    return it->type->charges_to_use();
+}
+
+int iuse::handflare_lit(game *g, player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+        // Do nothing... player::active_light and the lightmap::generate deal with this
+    } else {
+        if (it->charges > 0) {
+            g->add_msg_if_player(p,_("You can't turn off a flare."));
+            return 0;
+        } else {
+            g->add_msg_if_player(p,_("The flare sputters out."));
             it->active = false;
         }
     }
