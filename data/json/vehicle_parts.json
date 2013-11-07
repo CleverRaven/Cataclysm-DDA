@@ -1097,7 +1097,6 @@
         "durability": 20,
         "item": "stereo",
         "difficulty": 4,
-        "location": "center",
         "flags": ["OBSTACLE", "STEREO"]
     },{
         "type" : "vehicle_part",
