@@ -2776,18 +2776,16 @@ void game::save_factions_missions_npcs ()
 void game::save_artifacts()
 {
     std::ofstream fout;
-    std::vector<picojson::value> artifacts;
-    std::stringstream artifactfile;
-    artifactfile << world_generator->active_world->world_path << "/artifacts.gsav";
-    fout.open(artifactfile.str().c_str());
+    std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    fout.open(artfilename.c_str());
+    fout << '[';
     for ( std::vector<std::string>::iterator it =
           artifact_itype_ids.begin();
           it != artifact_itype_ids.end(); ++it)
     {
-        artifacts.push_back(itypes[*it]->save_data());
+        fout << dynamic_cast<JsonSerializer*>(itypes[*it])->serialize();
     }
-    picojson::value out = picojson::value(artifacts);
-    fout << out.serialize();
+    fout << ']';
     fout.close();
 }
 

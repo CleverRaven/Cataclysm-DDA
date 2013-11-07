@@ -2,6 +2,7 @@
 #define _ARTIFACT_H_
 
 #include "itype.h"
+#include "json.h"
 
 #include <string>
 #include <vector>
@@ -284,15 +285,16 @@ extern std::string artifact_noun[NUM_ART_NOUNS];
 
 /* CLASSES */
 
-struct it_artifact_tool : public it_tool
+class it_artifact_tool : public it_tool, public JsonSerializer
 {
+public:
     art_charge charge_type;
     std::vector<art_effect_passive> effects_wielded;
     std::vector<art_effect_active>  effects_activated;
     std::vector<art_effect_passive> effects_carried;
 
-    virtual bool is_artifact()  { return true; }
-    virtual picojson::value save_data();
+    bool is_artifact() const { return true; }
+    void serialize(JsonOut &json) const;
 
     it_artifact_tool() : it_tool() {
         ammo = "NULL";
@@ -327,12 +329,13 @@ struct it_artifact_tool : public it_tool
 };
 
 
-struct it_artifact_armor : public it_armor
+class it_artifact_armor : public it_armor, public JsonSerializer
 {
+public:
     std::vector<art_effect_passive> effects_worn;
 
-    virtual bool is_artifact()  { return true; }
-    virtual picojson::value save_data();
+    bool is_artifact() const { return true; }
+    void serialize(JsonOut &json) const;
 
     it_artifact_armor() : it_armor() { price = 0; };
 

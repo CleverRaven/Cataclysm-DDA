@@ -444,7 +444,7 @@ public:
 
 class JsonSerializer {
 public:
-    virtual void serialize(JsonOut &jsout) const;
+    virtual void serialize(JsonOut &jsout) const {};
     virtual std::string serialize() const {
         std::stringstream s;
         JsonOut jout(&s);

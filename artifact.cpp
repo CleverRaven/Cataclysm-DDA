@@ -2,6 +2,7 @@
 
 #include "itype.h"
 #include "output.h" // string_format
+#include "json.h"
 
 #include <sstream>
 #include <vector>
@@ -775,140 +776,87 @@ std::string artifact_name(std::string type)
 
 /* Json Loading and saving */
 
-picojson::value it_artifact_tool::save_data()
+void it_artifact_tool::serialize(JsonOut &json) const
 {
-    std::map<std::string, picojson::value> data;
+    json.start_object();
 
-    data[std::string("type")] = picojson::value("artifact_tool");
+    json.member("type", "artifact_tool");
 
     // generic data
-    data[std::string("id")] = picojson::value(id);
-    data[std::string("price")] = picojson::value(price);
-    data[std::string("name")] = picojson::value(name);
-    data[std::string("description")] = picojson::value(description);
-    data[std::string("sym")] = picojson::value(sym);
-    data[std::string("color")] = picojson::value(color_to_int(color));
-    data[std::string("m1")] = picojson::value(m1);
-    data[std::string("m2")] = picojson::value(m2);
-    data[std::string("volume")] = picojson::value(volume);
-    data[std::string("weight")] = picojson::value(weight);
-    data[std::string("id")] = picojson::value(id);
-    data[std::string("melee_dam")] = picojson::value(melee_dam);
-    data[std::string("melee_cut")] = picojson::value(melee_cut);
-    data[std::string("m_to_hit")] = picojson::value(m_to_hit);
+    json.member("id", id);
+    json.member("name", name);
+    json.member("description", description);
+    json.member("sym", sym);
+    json.member("color", color_to_int(color));
+    json.member("price", price);
+    json.member("m1", m1);
+    json.member("m2", m2);
+    json.member("volume", volume);
+    json.member("weight", weight);
+    json.member("id", id);
+    json.member("melee_dam", melee_dam);
+    json.member("melee_cut", melee_cut);
+    json.member("m_to_hit", m_to_hit);
 
-    std::vector<picojson::value> tags_json;
-    for(std::set<std::string>::iterator it = item_tags.begin();
-        it != item_tags.end(); ++it)
-    {
-        tags_json.push_back(picojson::value(*it));
-    }
-    data[std::string("item_flags")] = picojson::value(tags_json);
-
-    std::vector<picojson::value> techniques_json;
-    for(std::set<std::string>::iterator it = techniques.begin();
-        it != techniques.end(); ++it)
-    {
-        techniques_json.push_back(picojson::value(*it));
-    }
-    data[std::string("techniques")] = picojson::value(techniques_json);
+    json.member("item_flags", item_tags);
+    json.member("techniques", techniques);
 
     // tool data
-    data[std::string("ammo")] = picojson::value(ammo);
-    data[std::string("max_charges")] = picojson::value(max_charges);
-    data[std::string("def_charges")] = picojson::value(def_charges);
-    data[std::string("charges_per_use")] = picojson::value(charges_per_use);
-    data[std::string("turns_per_charge")] = picojson::value(turns_per_charge);
-    data[std::string("revert_to")] = picojson::value(revert_to);
+    json.member("ammo", ammo);
+    json.member("max_charges", max_charges);
+    json.member("def_charges", def_charges);
+    json.member("charges_per_use", charges_per_use);
+    json.member("turns_per_charge", turns_per_charge);
+    json.member("revert_to", revert_to);
 
     // artifact data
-    data[std::string("charge_type")] = picojson::value(charge_type);
+    json.member("charge_type", charge_type);
+    json.member("effects_wielded", effects_wielded);
+    json.member("effects_activated", effects_activated);
+    json.member("effects_carried", effects_carried);
 
-    std::vector<picojson::value> effects_wielded_json;
-    for(std::vector<art_effect_passive>::iterator it = effects_wielded.begin();
-        it != effects_wielded.end(); ++it)
-    {
-        effects_wielded_json.push_back(picojson::value(*it));
-    }
-    data[std::string("effects_wielded")] = picojson::value(effects_wielded_json);
-
-    std::vector<picojson::value> effects_activated_json;
-    for(std::vector<art_effect_active>::iterator it =
-        effects_activated.begin();
-        it != effects_activated.end(); ++it)
-    {
-        effects_activated_json.push_back(picojson::value(*it));
-    }
-    data[std::string("effects_activated")] = picojson::value(effects_activated_json);
-
-    std::vector<picojson::value> effects_carried_json;
-    for(std::vector<art_effect_passive>::iterator it = effects_carried.begin();
-        it != effects_carried.end(); ++it)
-    {
-        effects_carried_json.push_back(picojson::value(*it));
-    }
-    data[std::string("effects_carried")] = picojson::value(effects_carried_json);
-
-    return picojson::value(data);
+    json.end_object();
 }
 
-picojson::value it_artifact_armor::save_data()
+void it_artifact_armor::serialize(JsonOut &json) const
 {
-    std::map<std::string, picojson::value> data;
+    json.start_object();
 
-    data[std::string("type")] = picojson::value("artifact_armor");
+    json.member("type", "artifact_armor");
 
     // generic data
-    data[std::string("id")] = picojson::value(id);
-    data[std::string("price")] = picojson::value(price);
-    data[std::string("name")] = picojson::value(name);
-    data[std::string("description")] = picojson::value(description);
-    data[std::string("sym")] = picojson::value(sym);
-    data[std::string("color")] = picojson::value(color_to_int(color));
-    data[std::string("m1")] = picojson::value(m1);
-    data[std::string("m2")] = picojson::value(m2);
-    data[std::string("volume")] = picojson::value(volume);
-    data[std::string("weight")] = picojson::value(weight);
-    data[std::string("id")] = picojson::value(id);
-    data[std::string("melee_dam")] = picojson::value(melee_dam);
-    data[std::string("melee_cut")] = picojson::value(melee_cut);
-    data[std::string("m_to_hit")] = picojson::value(m_to_hit);
+    json.member("id", id);
+    json.member("name", name);
+    json.member("description", description);
+    json.member("sym", sym);
+    json.member("color", color_to_int(color));
+    json.member("price", price);
+    json.member("m1", m1);
+    json.member("m2", m2);
+    json.member("volume", volume);
+    json.member("weight", weight);
+    json.member("id", id);
+    json.member("melee_dam", melee_dam);
+    json.member("melee_cut", melee_cut);
+    json.member("m_to_hit", m_to_hit);
 
-    std::vector<picojson::value> tags_json;
-    for(std::set<std::string>::iterator it = item_tags.begin();
-        it != item_tags.end(); ++it)
-    {
-        tags_json.push_back(picojson::value(*it));
-    }
-    data[std::string("item_flags")] = picojson::value(tags_json);
+    json.member("item_flags", item_tags);
 
-    std::vector<picojson::value> techniques_json;
-    for(std::set<std::string>::iterator it = techniques.begin();
-        it != techniques.end(); ++it)
-    {
-        techniques_json.push_back(picojson::value(*it));
-    }
-    data[std::string("techniques")] = picojson::value(techniques_json);
+    json.member("techniques", techniques);
 
     // armor data
-    data[std::string("covers")] = picojson::value(covers);
-    data[std::string("encumber")] = picojson::value(encumber);
-    data[std::string("coverage")] = picojson::value(coverage);
-    data[std::string("material_thickness")] = picojson::value(thickness);
-    data[std::string("env_resist")] = picojson::value(env_resist);
-    data[std::string("warmth")] = picojson::value(warmth);
-    data[std::string("storage")] = picojson::value(storage);
-    data[std::string("power_armor")] = picojson::value(power_armor);
+    json.member("covers", covers);
+    json.member("encumber", encumber);
+    json.member("coverage", coverage);
+    json.member("material_thickness", thickness);
+    json.member("env_resist", env_resist);
+    json.member("warmth", warmth);
+    json.member("storage", storage);
+    json.member("power_armor", power_armor);
 
     // artifact data
-    std::vector<picojson::value> effects_worn_json;
-    for(std::vector<art_effect_passive>::iterator it = effects_worn.begin();
-        it != effects_worn.end(); ++it)
-    {
-        effects_worn_json.push_back(picojson::value(*it));
-    }
-    data[std::string("effects_worn")] = picojson::value(effects_worn_json);
+    json.member("effects_worn", effects_worn);
 
-    return picojson::value(data);
+    json.end_object();
 }
 
