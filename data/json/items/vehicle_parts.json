@@ -440,8 +440,8 @@
     {
         "type":"GENERIC",
         "id" : "stereo",
-        "name" : "8³-track system",
-        "description" : "An 8³-track system and speakers for use in a vehicle.  It has a hard drive loaded with music, and hookups to connect it to a vehicle's existing controls.",
+        "name" : "8Â³-track system",
+        "description" : "An 8Â³-track system and speakers for use in a vehicle.  It has a hard drive loaded with music, and hookups to connect it to a vehicle's existing controls.",
         "weight" : 720,
         "to_hit" : -2,
         "color" : "light_blue",
