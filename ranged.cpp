@@ -1376,6 +1376,9 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("FLAME"))
     g->explosion(x, y, 4, 0, true);
+    
+  if (effects.count("FLARE"))
+    g->m.add_field(g, x, y, fd_fire, 1);
 
   if (effects.count("LIGHTNING")) {
     for (int i = x - 1; i <= x + 1; i++) {
