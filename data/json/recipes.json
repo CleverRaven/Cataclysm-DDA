@@ -18309,7 +18309,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "difficulty": 0,
-  "time": 500,
+  "time": 60000,
   "reversible": true,
   "autolearn": false,
   "qualities":[
