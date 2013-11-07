@@ -327,7 +327,7 @@ class game
   WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
-  int get_remaining_capacity_for_liquid(item *cont, item &liquid, std::string &error);
+  int get_remaining_capacity_for_liquid(item *cont, item &liquid, bool interactive);
   bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,

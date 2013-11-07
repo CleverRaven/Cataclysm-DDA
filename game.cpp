@@ -8486,24 +8486,32 @@ void game::grab()
 }
 
 // How much more of this liquid can be put in this container
-int game::get_remaining_capacity_for_liquid(item *cont, item &liquid, std::string &error)
+int game::get_remaining_capacity_for_liquid(item *cont, item &liquid, bool interactive)
 {
     if (!cont->is_container()) {
-        error = _("That %s won't hold %s."), cont->tname(this).c_str(), liquid.tname(this).c_str();
+        if (interactive) {
+            add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(), liquid.tname(this).c_str());
+        }
         return 0;
     }
 
     if (cont->contents.empty()) {
         if (!cont->has_flag("WATERTIGHT")) { // invalid container types
-            error = _("That %s isn't water-tight."), cont->tname(this).c_str();
+            if (interactive) {
+                add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
+            }
             return 0;
         } else if (!cont->has_flag("SEALS")) {
-            error = _("You can't seal that %s!"), cont->tname(this).c_str();
+            if (interactive) {
+                add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
+            }
             return 0;
         }
     } else { // Not empty
         if (cont->contents[0].type->id != liquid.type->id) {
-            error = _("You can't mix loads in your %s."), cont->tname(this).c_str();
+            if (interactive) {
+                add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
+            }
             return 0;
         }
     }
@@ -8525,8 +8533,10 @@ int game::get_remaining_capacity_for_liquid(item *cont, item &liquid, std::strin
     }
 
     if (remaining_capacity <= 0) {
-        error = _("Your %s can't hold any more %s."), cont->tname(this).c_str(),
-            liquid.tname(this).c_str();
+        if (interactive) {
+            add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+                liquid.tname(this).c_str());
+        }
         return 0;
     }
 
@@ -8678,11 +8688,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     } else {      // filling up normal containers
         std::string error;
-        int remaining_capacity = get_remaining_capacity_for_liquid(cont, liquid, error);
+        int remaining_capacity = get_remaining_capacity_for_liquid(cont, liquid, true);
         if (remaining_capacity <= 0) {
-            if (!error.empty()) {
-                add_msg(error.c_str());
-            }
             return false;
         }
 
