@@ -480,6 +480,40 @@
   },
 
   {
+        "type":"GENERIC",
+        "id": "spear_rebar",
+        "symbol": "/",
+        "color": "dark_gray",
+        "name": "sharpened rebar",
+        "description": "A somewhat sharpened piece of rebar, it is still better at bashing than stabbing but the added flexibility is nice",
+        "price": 75,
+        "material": "iron",
+        "weight": 908,
+        "volume": 6,
+        "bashing": 12,
+        "flags" : ["SPEAR"],
+        "cutting": 6,
+        "to_hit": 0
+  },
+
+  {
+    "type":"GENERIC",
+    "id" : "cudgel",
+    "name" : "cudgel",
+    "description" : "A slender long rod of wood, while traditionally intended as a training tool for many dueling moves, it still makes a good melee weapon in a pinch.",
+    "weight" : 875,
+    "to_hit" : 2,
+    "color" : "brown",
+    "symbol" : "/",
+    "material" : ["wood", "null"],
+    "techniques" : ["WBLOCK_1", "RAPID", "PRECISE"],
+    "volume" : 8,
+    "bashing" : 8,
+    "cutting" : 0,
+    "price" : 195
+  },
+
+  {
     "type":"GENERIC",
     "id": "q_staff",
     "symbol": "/",
@@ -1591,6 +1625,39 @@
         "cutting" : 6,
         "flags" : ["STAB"],
         "price" : 160
+    },
+    { 
+    "type":"GENERIC",
+    "id": "knuckle_nail",
+    "symbol" : "]",
+    "color": "brown",
+    "name": "nail knuckles",
+    "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them. Usefull in nasty street fights .",
+    "material": "wood",
+    "price": 0,
+    "volume": 1,
+    "weight": 430,
+    "bashing": 2,
+    "cutting": 8,
+    "flags" : ["UNARMED_WEAPON"],
+    "to_hit": 0
+    },
+    {
+        "type":"GENERIC",
+        "id" : "homewrecker",
+        "name" : "homewrecker",
+        "description" : "A long peice of wood with several chunks of steel firmly tied to it. The resulting weapon is unwieldy and slow but very heavy hitting.",
+        "weight" : 3024,
+        "to_hit" : -3,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 5,
+        "bashing" : 22,
+        "cutting" : 4,
+        "flags" : ["STAB"],
+        "price" : 80
     },
     {
         "type":"GENERIC",
