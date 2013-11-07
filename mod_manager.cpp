@@ -2,13 +2,21 @@
 #include "file_finder.h"
 #include "debug.h"
 
-#define MOD_SEARCH_PATH "."
-#define MOD_SEARCH_FILE "modinfo.json"
+#include <math.h>
+#include <queue>
+#include <iostream>
+#include <fstream>
+// FILE I/O
+#include <sys/stat.h>
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
 
-MOD_INFORMATION::~MOD_INFORMATION()
-{
-    DebugLog() << "~MOD_INFORMATION\n";
-}
+#define MOD_SEARCH_PATH "./data"
+#define MOD_SEARCH_FILE "modinfo.json"
 
 mod_manager::mod_manager()
 {
@@ -88,7 +96,6 @@ bool mod_manager::load_mods_from(std::string path)
 MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
 {
     if (!jo.has_member("ident")) {
-        DebugLog() << "mod_manager:: loading modfile failed, no ident found\n";
         return NULL;
     }
 
@@ -131,6 +138,111 @@ MOD_INFORMATION *mod_manager::load_modfile(JsonObject &jo)
     return modfile;
 }
 
+bool mod_manager::copy_mod_contents(std::vector<std::string> mods_to_copy, std::string output_base_path)
+{
+    if (mods_to_copy.size() == 0){
+        // nothing to copy, so technically we succeeded already!
+        return true;
+    }
+    std::vector<std::string> search_extensions;
+    search_extensions.push_back(".json");
+    const std::string mod_dir = "/mods";
+
+    DebugLog() << "Copying mod contents into directory: "<<output_base_path<<"\n";
+    // try to make the mods directory inside of the output base path
+    std::string new_mod_dir = output_base_path + mod_dir;
+
+    DIR *dir = opendir(new_mod_dir.c_str());
+
+    if (!dir) {
+        // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
+
+#if(defined _WIN32 || defined __WIN32__)
+        mkdir(new_mod_dir.c_str());
+#else
+        mkdir(new_mod_dir.c_str(), 0777);
+#endif
+        dir = opendir(new_mod_dir.c_str());
+    }
+    if (!dir){
+        DebugLog() << "Unable to create or open mod directory at [" << new_mod_dir << "] for saving\n";
+        return false;
+    }
+
+    closedir(dir);
+
+    unsigned modlog = unsigned(log(mods_to_copy.size()));
+    unsigned ilog;
+    for (int i = 0; i < mods_to_copy.size(); ++i){
+        ilog = unsigned(log(i + 1));
+        MOD_INFORMATION *mod = mods[mod_map[mods_to_copy[i]]];
+
+        // now to get all of the json files inside of the mod and get them ready to copy
+        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path + "/data", true, true);
+        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions, mod->path + "/data", true);
+
+        if (input_files.size() == 0){
+            continue;
+        }
+
+        // create needed directories
+        std::stringstream cur_mod_dir;
+        cur_mod_dir << new_mod_dir << "/mod_"<<std::string(modlog - ilog, '0') << i + 1;
+
+        std::queue<std::string> dir_to_make;
+        dir_to_make.push(cur_mod_dir.str());
+        dir_to_make.push(cur_mod_dir.str() + "/data");
+        size_t start_index = (mod->path + "/data").size();
+        for (int j = 0; j < input_dirs.size(); ++j){
+            dir_to_make.push(cur_mod_dir.str() + "/data" + input_dirs[j].substr(start_index));
+        }
+
+        while (!dir_to_make.empty()){
+            dir = opendir(dir_to_make.front().c_str());
+
+            if (!dir) {
+                // if opendir doesn't work, the *dir pointer is empty.  If we try to close it, it creates a segfault.
+
+#if(defined _WIN32 || defined __WIN32__)
+                mkdir(dir_to_make.front().c_str());
+#else
+                mkdir(dir_to_make.front().c_str(), 0777);
+#endif
+                dir = opendir(dir_to_make.front().c_str());
+            }
+            if (!dir){
+                DebugLog() << "Unable to create or open mod directory at [" << dir_to_make.front() << "] for saving\n";
+            }else{
+                closedir(dir);
+            }
+
+            dir_to_make.pop();
+        }
+
+        std::ofstream fout;
+        // trim file paths from full length down to just /data forward
+        for (int j = 0; j < input_files.size(); ++j){
+            std::string output_path = input_files[j];
+            output_path = cur_mod_dir.str() + "/data" + output_path.substr(start_index);
+
+            std::ifstream infile(input_files[j].c_str(), std::ifstream::in | std::ifstream::binary);
+            // and stuff it into ram
+            std::istringstream iss(
+                std::string(
+                    (std::istreambuf_iterator<char>(infile)),
+                    std::istreambuf_iterator<char>()
+                )
+            );
+            infile.close();
+
+            fout.open(output_path.c_str());
+            fout << iss.str();
+            fout.close();
+        }
+    }
+    return true;
+}
+
 bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path)
 {
     // info_file_path is the fully qualified path to the information file for this mod
@@ -162,5 +274,6 @@ bool mod_manager::load_mod_info(MOD_INFORMATION *mod, std::string info_file_path
     } catch(std::string e) {
         return false;
     }
+    mod->path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
     return true;
 }

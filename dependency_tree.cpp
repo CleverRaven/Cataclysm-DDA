@@ -1,7 +1,10 @@
 #include "dependency_tree.h"
 
 #include <set>
+#include <algorithm>
 #include "debug.h"
+
+std::string error_keyvals[] = {"Missing Dependency(ies): ", "", ""};
 
 // dependency_node
 dependency_node::dependency_node():index(-1), lowlink(-1), on_stack(false)
@@ -43,30 +46,29 @@ bool dependency_node::is_available()
     return all_errors.size() == 0;
 }
 
-std::vector<std::string > dependency_node::errors()
+std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
 {
     return all_errors;
 }
 std::string dependency_node::s_errors()
 {
-    std::string ret = "";
-    for (int i = 0; i < all_errors.size(); ++i)
-    {
-        ret += all_errors[i];
-        if (i < all_errors.size() - 1)
-        {
-            ret += ", ";
+    std::stringstream ret;
+    for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = all_errors.begin(); it != all_errors.end(); ++it){
+        ret << error_keyvals[(unsigned)(it->first)];
+        for (int i = 0; i < it->second.size(); ++i){
+            ret << it->second[i];
+            if (i < it->second.size()-1){
+                ret << ", ";
+            }
         }
     }
-    return ret;
+    return ret.str();
 }
 
 void dependency_node::check_cyclicity()
 {
     std::stack<dependency_node*> nodes_to_check;
     std::set<std::string> nodes_visited;
-
-    DebugLog() << "check_cyclicity: Checking for dependency circularity on ["<<key<<"]\n";
 
     for (int i = 0; i < parents.size(); ++i)
     {
@@ -79,14 +81,10 @@ void dependency_node::check_cyclicity()
         dependency_node *check = nodes_to_check.top();
         nodes_to_check.pop();
 
-        DebugLog() << "\tchecking ["<<check->key<<"]\n";
-
         if (nodes_visited.find(check->key) != nodes_visited.end())
         {
-            DebugLog() << key<<"::inherit_errors: "<<"Circular Dependency Circuit Found!\n";
-            if (std::find(all_errors.begin(), all_errors.end(), "Error: Circular Dependency Circuit Found!") == all_errors.end())
-            {
-                all_errors.push_back("Error: Circular Dependency Circuit Found!");
+            if (all_errors[CYCLIC].size() == 0){
+                all_errors[CYCLIC].push_back("Error: Circular Dependency Circuit Found!");
             }
             continue;
         }
@@ -101,6 +99,18 @@ void dependency_node::check_cyclicity()
         }
         nodes_visited.insert(check->key);
     }
+}
+
+bool dependency_node::has_errors()
+{
+    bool ret = false;
+    for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = all_errors.begin(); it != all_errors.end(); ++it){
+        if (it->second.size() > 0){
+            ret = true;
+            break;
+        }
+    }
+    return ret;
 }
 
 void dependency_node::inherit_errors()
@@ -122,12 +132,15 @@ void dependency_node::inherit_errors()
         // add check errors
         if (check->errors().size() > 0)
         {
-            const std::vector<std::string > cerrors = check->errors();
-            for (int i = 0; i < cerrors.size(); ++i)
-            {
-                if (std::find(all_errors.begin(), all_errors.end(), cerrors[i]) == all_errors.end())
-                {
-                    all_errors.push_back(cerrors[i]);
+            std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
+            for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = cerrors.begin(); it != cerrors.end(); ++it){
+                std::vector<std::string> node_errors = it->second;
+                NODE_ERROR_TYPE error_type = it->first;
+                std::vector<std::string> cur_errors = all_errors[error_type];
+                for (int i = 0; i < node_errors.size(); ++i){
+                    if (std::find(cur_errors.begin(), cur_errors.end(), node_errors[i]) == cur_errors.end()){
+                        all_errors[it->first].push_back(node_errors[i]);
+                    }
                 }
             }
         }
@@ -288,10 +301,8 @@ dependency_tree::~dependency_tree()
 
 void dependency_tree::init(std::map<std::string, std::vector<std::string> > key_dependency_map)
 {
-DebugLog() << "dependency_tree:: initializing tree\n";
     build_node_map(key_dependency_map);
     build_connections(key_dependency_map);
-DebugLog() << "dependency_tree:: tree initialized\n";
 }
 
 void dependency_tree::build_node_map(std::map<std::string, std::vector<std::string > > key_dependency_map)
@@ -331,7 +342,7 @@ void dependency_tree::build_connections(std::map<std::string, std::vector<std::s
                 else
                 {
                     // missing dependency!
-                    knode->all_errors.push_back("Missing Dependency: <" + *vit + ">");
+                    knode->all_errors[DEPENDENCY].push_back("<" + *vit + ">");
                 }
             }
         }
@@ -342,7 +353,6 @@ void dependency_tree::build_connections(std::map<std::string, std::vector<std::s
 
     for (std::map<std::string, dependency_node*>::iterator kvp = master_node_map.begin(); kvp != master_node_map.end(); ++kvp)
     {
-        DebugLog() << "build_connections: Getting inherited errors from ["<<kvp->first<<"]\n";
         kvp->second->inherit_errors();
     }
 }
@@ -426,20 +436,16 @@ void dependency_tree::check_for_strongly_connected_components()
         //nodes_on_stack = std::vector<dependency_node*>(); // clear it for the next stack to run
         if (g->second->index < 0)
         {
-            DebugLog() << "Starting strong connection for: "<<g->second->key<<"\n";
             strong_connect(g->second);
         }
     }
 
     // now go through and make a set of these
     std::set<dependency_node*> in_circular_connection;
-    DebugLog() << strongly_connected_components.size() << " strongly connected groups\n";
     for (int i = 0; i < strongly_connected_components.size(); ++i)
     {
-        DebugLog() << ":["<<i<<"] ";
         if (strongly_connected_components[i].size() > 1)
         {
-            DebugLog() << "Circular Connection [" << strongly_connected_components[i].size() << "] members\n";
             for (int j = 0; j < strongly_connected_components[i].size(); ++j)
             {
                 DebugLog() << "--"<<strongly_connected_components[i][j]->key << "\n";
@@ -447,34 +453,19 @@ void dependency_tree::check_for_strongly_connected_components()
             }
 
         }
-        else
-        {
-            DebugLog() << "SKIPPED for monomember condition\n";
-        }
     }
     // now go back through this and give them all the circular error code!
     for (std::set<dependency_node*>::iterator it = in_circular_connection.begin(); it != in_circular_connection.end(); ++it)
     {
-        (*it)->all_errors.push_back("ERROR: In Circular Dependency Cycle");
+        (*it)->all_errors[CYCLIC].push_back("In Circular Dependency Cycle");
     }
 }
 
 void dependency_tree::strong_connect(dependency_node *dnode)
 {
-    static int times_called = 0;
-    static int depth = 0;
-    static char depth_char = '-';
-
-    ++depth;
-    ++times_called;
-
-    std::string depth_string = std::string(depth, depth_char);
-DebugLog() << depth_string << dnode->key<<": Set index/lowlink to ("<<open_index<<")\n";
     dnode->index = open_index;
     dnode->lowlink = open_index;
-DebugLog() << depth_string << ": increment index counter\n";
     ++open_index;
-DebugLog() << depth_string << ": push to stack\n";
     connection_stack.push(dnode);
     dnode->on_stack = true;
 
@@ -507,6 +498,4 @@ DebugLog() << depth_string << ": push to stack\n";
         strongly_connected_components.push_back(scc);
         dnode->on_stack = false;
     }
-
-    --depth;
 }

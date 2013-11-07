@@ -8,11 +8,18 @@
 #include <sstream>
 #include <algorithm>
 
+enum NODE_ERROR_TYPE
+{
+    DEPENDENCY,
+    CYCLIC,
+    OTHER
+};
+
 class dependency_node
 {
 public:
     std::vector<dependency_node*> parents, children;
-    std::vector<std::string> all_errors;
+    std::map<NODE_ERROR_TYPE, std::vector<std::string> > all_errors;
     std::string key;
     bool availability;
 
@@ -27,7 +34,8 @@ public:
     void add_parent(dependency_node *parent);
     void add_child (dependency_node *child);
     bool is_available();
-    std::vector<std::string > errors();
+    bool has_errors();
+    std::map<NODE_ERROR_TYPE, std::vector<std::string > > errors();
     std::string s_errors();
 
     // Tree traversal

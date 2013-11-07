@@ -8,6 +8,7 @@ mod_ui::mod_ui(mod_manager *mman)
     if (mman) {
         active_manager = mman;
         mm_tree = active_manager->get_tree();
+        set_usable_mods();
         DebugLog() << "mod_ui initialized\n";
     } else {
         DebugLog() << "mod_ui initialized with NULL mod_manager pointer\n";
@@ -18,9 +19,32 @@ mod_ui::~mod_ui()
 {
     active_manager = NULL;
     mm_tree = NULL;
-    DebugLog() << "mod_ui destroyed\n";
 }
 
+void mod_ui::set_usable_mods()
+{
+    std::vector<std::string> available_cores, available_supplementals;
+    std::vector<std::string> ordered_mods;
+
+    for (int i = 0; i < active_manager->mods.size(); ++i) {
+        MOD_INFORMATION *mod = active_manager->mods[i];
+
+        switch(mod->_type) {
+            case MT_CORE:
+                available_cores.push_back(mod->ident);
+                break;
+            case MT_SUPPLEMENTAL:
+                available_supplementals.push_back(mod->ident);
+                break;
+        }
+    }
+    std::vector<std::string>::iterator it = ordered_mods.begin();
+    ordered_mods.insert(it, available_supplementals.begin(), available_supplementals.end());
+    it = ordered_mods.begin();
+    ordered_mods.insert(it, available_cores.begin(), available_cores.end());
+
+    usable_mods = ordered_mods;
+}
 int mod_ui::show_layering_ui()
 {
     DebugLog() << "mod_ui:: now showing layering ui\n";
@@ -164,6 +188,51 @@ void mod_ui::draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::st
     }
 }
 
+std::string mod_ui::get_information(MOD_INFORMATION *mod)
+{
+    if (mod == NULL){
+        return "";
+    }
+    std::string modident = mod->ident;
+    std::string note = (!mm_tree->is_available(modident)) ? mm_tree->get_node(modident)->s_errors() : "";
+
+    std::stringstream info;
+
+    // color the note red!
+    if (note.size() > 0) {
+        std::stringstream newnote;
+        newnote << "<color_red>" << note << "</color>";
+        note = newnote.str();
+    }
+    std::vector<std::string> dependencies = mod->dependencies;
+    std::string dependency_string = "";
+    if (dependencies.size() == 0) {
+        dependency_string = "[NONE]";
+    } else {
+        DebugLog() << mod->name << " Dependencies --";
+        for (int i = 0; i < dependencies.size(); ++i) {
+            if (i > 0) {
+                dependency_string += ", ";
+            }
+            DebugLog() << "\t"<<dependencies[i];
+            if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()){
+                dependency_string += "[" + active_manager->mods[active_manager->mod_map[dependencies[i]]]->name + "]";
+            }else{
+                dependency_string += "[<color_red>" + dependencies[i] + "</color>]";
+            }
+        }
+        DebugLog() << "\n";
+    }
+    info << "Name: \"" << mod->name << "\"  Author(s): " << mod->author << "\n";
+    info << "Description: \"" << mod->description << "\"\n";
+    info << "Dependencies: " << dependency_string << "\n";
+    if (mod->_type == MT_SUPPLEMENTAL && note.size() > 0) {
+        info << note;
+    }
+
+    return info.str();
+}
+
 void mod_ui::show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note)
 {
     const int infopanel_start_y = FULL_SCREEN_HEIGHT - 6;
@@ -299,31 +368,25 @@ int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::st
 
 void mod_ui::try_add(int selection, std::vector<std::string> modlist, std::vector<std::string> &active_list)
 {
-    std::string prefix = "try_add --- ";
-
-    DebugLog() << prefix << "Getting Mod Information from Map\n";
     MOD_INFORMATION &mod = *active_manager->mods[active_manager->mod_map[modlist[selection]]];
-    DebugLog() << prefix << "Checking for errors...\n";
-    std::vector<std::string> errs;
+    bool errs;
     try {
         dependency_node *checknode = mm_tree->get_node(mod.ident);
         if (!checknode) {
-            DebugLog() << prefix << "ERROR: [Checked node <" << mod.ident << "> is NULL]\n";
             return;
         }
-        errs = checknode->errors();
+        errs = checknode->has_errors();
     } catch (std::exception &e) {
-        DebugLog() << prefix << "ERROR: [" << e.what() << "]\n";
+        errs = true;
     }
 
-    if (errs.size() > 0) {
+    if (errs) {
         // cannot add, something wrong!
         return;
     }
     // get dependencies of selection in the order that they would appear from the top of the active list
     std::vector<std::string> dependencies = mm_tree->get_dependencies_of_X_as_strings(mod.ident);
 
-    DebugLog() << prefix << "Checking mod type\n";
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if (mod._type == MT_CORE) {
         //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
@@ -366,7 +429,6 @@ void mod_ui::try_add(int selection, std::vector<std::string> modlist, std::vecto
         // and finally add the one we are trying to add!
         active_list.push_back(mod.ident);
     }
-    DebugLog() << prefix << "Exiting...\n";
 }
 void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 {
