@@ -2660,7 +2660,12 @@ void game::save_artifacts()
           artifact_itype_ids.begin();
           it != artifact_itype_ids.end(); ++it)
     {
-        json.write(*(dynamic_cast<JsonSerializer*>(itypes[*it])));
+        it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(itypes[*it]);
+        if (art) {
+            json.write(*art);
+        } else {
+            json.write(*(dynamic_cast<it_artifact_armor*>(itypes[*it])));
+        }
     }
     json.end_array();
     fout.close();

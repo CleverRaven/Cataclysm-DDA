@@ -447,24 +447,24 @@ public:
 
 class JsonSerializer {
 public:
-    virtual void serialize(JsonOut &jsout) const {};
-    virtual std::string serialize() const {
+    virtual void serialize(JsonOut &jsout) const = 0;
+    std::string serialize() const {
         std::stringstream s;
         JsonOut jout(&s);
-        this->serialize(jout);
+        serialize(jout);
         return s.str();
     };
 };
 
 class JsonDeserializer {
 public:
-    virtual void deserialize(JsonObject &jsobj) {};
-    virtual void deserialize(const std::string &json_object_string) {
+    virtual void deserialize(JsonObject &jsobj) = 0;
+    void deserialize(const std::string &json_object_string) {
         // note: object string must include starting and ending braces {}
         std::stringstream s(json_object_string);
         JsonIn jin(&s);
         JsonObject jo = jin.get_object();
-        this->deserialize(jo);
+        deserialize(jo);
     };
 };
 
