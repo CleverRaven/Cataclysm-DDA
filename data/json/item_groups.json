@@ -4787,6 +4787,14 @@
       ["knife_steak", 3],
       ["ax", 1]
     ]
+  },{
+    "type":"item_group",
+    "id":"loincloth",
+    "items":[
+      ["loincloth", 2],
+      ["loincloth_fur", 1],
+	  ["loincloth_leather", 1]
+    ]
   }
 
 ]

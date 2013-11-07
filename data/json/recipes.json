@@ -10210,6 +10210,60 @@
   ]
 },{
         "type" : "recipe",
+  "result": "loincloth",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_fur",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_leather",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "trenchcoat",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
