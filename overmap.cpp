@@ -893,7 +893,7 @@ point overmap::display_notes(game* g, int const z) const
 
  const int maxitems = 20; // Number of items to show at one time.
  char ch = '.';
- int start = 0, cur_it;
+ int start = 0, cur_it = 0;
  mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
  do{
   if (ch == '<' && start > 0) {

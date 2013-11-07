@@ -725,9 +725,6 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 {
-    const int iTooltipHeight = 1;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;
-
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
