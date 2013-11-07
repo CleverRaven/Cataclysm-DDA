@@ -504,8 +504,8 @@
         "unarmed_allowed": true,
         "down_dur": 1,
         "messages" : [
-            "You grab and ground %s!",
-            "<npcname> grabs and grounds %s!"
+            "You grab and ground %s !",
+            "<npcname> grabs and grounds %s !"
         ]
     },{
         "type" : "technique",
@@ -537,8 +537,8 @@
         "min_unarmed": 4,
         "unarmed_allowed": true,
         "messages" : [
-            "You grab and knee %s!",
-            "<npcname> grabs and knees %s!"
+            "You grab and knee %s !",
+            "<npcname> grabs and knees %s !"
         ]
     },{
         "type" : "technique",
@@ -587,6 +587,7 @@
 		"messages": [
 			"You swing your arms and break free!",
 			"<npcname> flaps free!"
+			],
     },{
         "type" : "technique",
         "id" : "tec_crane_precise",
