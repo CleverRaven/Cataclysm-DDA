@@ -95,6 +95,9 @@ void retroactively_fill_from_funnel( game * g, item *it, const trap_id t, const 
 // Add charge(s) of rain to given container, possibly contaminating it
 void item::add_rain_to_container(bool acid, int charges)
 {
+    if( charges <= 0) {
+        return;
+    }
     const char *typeId = acid ? "water_acid" : "water";
     int max = dynamic_cast<it_container*>(type)->contains;
     int orig = 0;
