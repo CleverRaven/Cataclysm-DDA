@@ -453,11 +453,14 @@ class JsonSerializer {
 public:
     virtual void serialize(JsonOut &jsout) const = 0;
     std::string serialize() const {
-        std::stringstream s;
-        JsonOut jout(&s);
-        serialize(jout);
+        std::ostringstream s;
+        serialize(s);
         return s.str();
-    };
+    }
+    void serialize(std::ostream &o) const {
+        JsonOut jout(&o);
+        serialize(jout);
+    }
 };
 
 class JsonDeserializer {
@@ -465,11 +468,14 @@ public:
     virtual void deserialize(JsonObject &jsobj) = 0;
     void deserialize(const std::string &json_object_string) {
         // note: object string must include starting and ending braces {}
-        std::stringstream s(json_object_string);
-        JsonIn jin(&s);
+        std::istringstream s(json_object_string);
+        deserialize(s);
+    }
+    void deserialize(std::istream &i) {
+        JsonIn jin(&i);
         JsonObject jo = jin.get_object();
         deserialize(jo);
-    };
+    }
 };
 
 #endif // _JSON_H_
