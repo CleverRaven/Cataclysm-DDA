@@ -387,7 +387,7 @@ void load_overmap_terrain(JsonObject &jo)
     oter.extras = jo.get_string("extras", "none");
     oter.known_down = jo.get_bool("known_down", false);
     oter.known_up = jo.get_bool("known_up", false);
-    oter.mondensity = jo.get_int("monster_density", 0);
+    oter.mondensity = jo.get_int("mondensity", 0);
     oter.sidewalk = jo.get_bool("sidewalk", false);
     oter.allow_road = jo.get_bool("allow_road", false);
 
