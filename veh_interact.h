@@ -58,6 +58,7 @@ private:
     vehicle *veh;
     bool has_wrench;
     bool has_welder;
+    bool has_duct_tape;
     bool has_hacksaw;
     bool has_jack;
     bool has_siphon;
