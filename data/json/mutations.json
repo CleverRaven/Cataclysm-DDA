@@ -24,7 +24,7 @@
         "points": 3,
         "description": "You're just generally quick! You get a 10% bonus to action points.",
         "starting_trait": true,
-        "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
+        "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "OPTIMISTIC",
@@ -100,7 +100,7 @@
         "points": 2,
         "description": "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
         "starting_trait": true,
-        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE"],
+        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE" "MUTCAT_CHIMERA"],
         "wet_protection":[
          {
             "part": "LEGS",
@@ -173,7 +173,7 @@
         "points": 2,
         "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
         "starting_trait": true,
-        "category": ["MUTCAT_BEAST", "MUTCAT_INSECT"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "DISRESISTANT",
@@ -190,7 +190,7 @@
         "points": 3,
         "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
         "starting_trait": true,
-        "category": ["MUTCAT_BEAST"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "SELFAWARE",
@@ -372,7 +372,7 @@
         "points": -3,
         "description": "You have a hard time remembering things. Your skills will erode slightly faster than usual.",
         "starting_trait": true,
-        "category": ["MUTCAT_BEAST", ""]
+        "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "LIGHTWEIGHT",
@@ -412,7 +412,7 @@
         "points": -2,
         "description": "You suffer from a minor chemical imbalance, whether mental or physical. Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
         "starting_trait": true,
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
@@ -514,7 +514,7 @@
         "description": "You can see incredibly well in the dark!",
         "prereqs": ["NIGHTVISION"],
         "changes_to": ["NIGHTVISION3"],
-        "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT"]
+        "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
@@ -560,7 +560,7 @@
         "ugliness": 2,
         "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
         "cancels": ["BEAK"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_BEAST"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "MEMBRANE",
@@ -600,7 +600,8 @@
         "visibility": 10,
         "ugliness": 3,
         "description": "A set of flexible green scales has grown to cover your body, acting as natural armor. Somewhat reduces wet effects.",
-        "prereqs": ["SKIN_ROUGH"],
+        "category": ["MUTCAT_CHIMERA"]
+		"prereqs": ["SKIN_ROUGH"],
         "changes_to": ["THICK_SCALES", "SLEEK_SCALES"],
         "wet_protection":[
          {
@@ -727,7 +728,8 @@
         "visibility": 6,
         "ugliness": 2,
         "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
-        "prereqs": ["SKIN_ROUGH"],
+        "category": ["MUTCAT_CHIMERA"]
+		"prereqs": ["SKIN_ROUGH"],
         "cancels": ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
         "changes_to": ["FUR"]
     },{
@@ -993,7 +995,7 @@
         "description": "Your index fingers have grown into huge talons. After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack. They also prevent you from wearing gloves.",
         "prereqs": ["NAILS"],
         "cancels": ["CLAWS"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_BIRD"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_BIRD", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RADIOGENIC",
@@ -1092,7 +1094,7 @@
         "ugliness": 2,
         "description": "Your feet have fused into hooves. This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you can not wear shoes of any kind. Somewhat reduces wet effects.",
         "cancels": ["PADDED_FEET", "LEG_TENTACLES"],
-        "category": ["MUTCAT_CATTLE"],
+        "category": ["MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "wet_protection":[
          {
             "part": "FEET",
@@ -1107,7 +1109,7 @@
         "description": "Your digestive system is specialized to allow you to consume decaying material. You can eat rotten food, albeit for less nutrition than usual.",
         "prereqs": ["CARNIVORE"],
         "cancels": ["HERBIVORE", "RUMINANT"],
-        "category": ["MUTCAT_TROGLO"]
+        "category": ["MUTCAT_TROGLO", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RUMINANT",
@@ -1139,6 +1141,7 @@
         "description": "You have a pair of large curled horns, like those of a ram. They allow you to make a strong bashing headbutt attack, but prevent you from wearing any headwear.",
         "prereqs": ["HORNS"],
         "cancels": ["ANTENNAE", "HORNS_POINTED", "ANTLERS"]
+		"category": ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "HORNS_POINTED",
@@ -1248,6 +1251,7 @@
         "description": "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
         "prereqs": ["TAIL_LONG"],
         "cancels": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"]
+		"category": ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "PAINREC1",
@@ -1334,7 +1338,7 @@
         "visibility": 4,
         "ugliness": 1,
         "description": "Your ears have extended into long, pointed ones, like those of a canine. They enhance your hearing, allowing you to hear at greater distances.",
-        "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "WEB_WALKER",
@@ -1386,6 +1390,7 @@
         "description": "Your muscles are much stronger. Strength + 4",
         "prereqs": ["STR_UP_2"],
         "changes_to": ["STR_UP_4"]
+		"category": ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "STR_UP_4",
@@ -1412,7 +1417,7 @@
         "description": "You are nimbler. Dexterity + 2",
         "prereqs": ["DEX_UP"],
         "changes_to": ["DEX_UP_3"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_SPIDER", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_3",
@@ -1481,6 +1486,7 @@
         "description": "Your senses are keener. Perception + 2",
         "prereqs": ["PER_UP"],
         "changes_to": ["PER_UP_3"]
+		"category": ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "PER_UP_3",
@@ -1542,6 +1548,7 @@
         "visibility": 7,
         "ugliness": 6,
         "description": "Skin tabs and odd flaps of skin surround your mouth. They don't affect your eating, but are unpleasant to look at.",
+		"category": ["MUTCAT_CHIMERA"]
         "leads_to": ["MOUTH_TENTACLES", "MANDIBLES"]
     },{
         "type" : "mutation",
@@ -1591,7 +1598,7 @@
         "description": "You smell awful. Monsters that track scent will find you very easily, and humans will react poorly.",
         "prereqs": ["SMELLY"],
         "leads_to": ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"],
-        "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME"]
+        "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED",
@@ -1626,7 +1633,7 @@
         "description": "Your visage is disgusting and liable to induce vomiting. People will not want to interact with you unless they have a very good reason to.",
         "cancels": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
         "prereqs": ["DEFORMED2"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_RAT"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "BEAUTIFUL",
@@ -1689,14 +1696,14 @@
         "name": "Fast Metabolism",
         "points": -2,
         "description": "You require more food than most people.",
-        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "THIRST",
         "name": "High Thirst",
         "points": -3,
         "description": "Your body dries out easily; you need to drink a lot more water.",
-        "category": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD"]
+        "category": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "ROT1",
@@ -1714,6 +1721,7 @@
         "cancels": ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs": ["ROT1"],
         "changes_to": ["ROT3"]
+		"category": ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "ROT3",
@@ -1805,7 +1813,7 @@
         "name": "Genetically Unstable",
         "points": -4,
         "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE1",
@@ -1887,7 +1895,7 @@
         "description": "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
         "cancels": ["HERBIVORE", "RUMINANT"],
         "leads_to": ["SAPROVORE"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
@@ -1962,7 +1970,7 @@
         "points": -2,
         "description": "You have a threatening snarl in your voice. Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs": ["GROWL"],
-        "category": ["MUTCAT_BEAST"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "SHOUT1",
@@ -1985,7 +1993,7 @@
         "points": -5,
         "description": "You frequently let out a piercing howl.",
         "prereqs": ["SHOUT2"],
-        "category": ["MUTCAT_BEAST"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES",
