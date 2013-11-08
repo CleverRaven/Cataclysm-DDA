@@ -2749,14 +2749,15 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     }
 
     // Print currently used style
-    const char *style = NULL;
-    if (style_selected == "style_none")
-      style = _("No Style");
-    else
-      style = martialarts[style_selected].name.c_str();
-    if (style) {
+    std::string style = "";
+    if (style_selected == "style_none") {
+        style = _("No Style");
+    } else {
+        style = martialarts[style_selected].name;
+    }
+    if (style != "") {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_blue, style);
+        mvwprintz(weapwin, 1, x, c_blue, style.c_str());
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
