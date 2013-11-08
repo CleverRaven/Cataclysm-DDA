@@ -593,7 +593,56 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "scythe_war",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ]
+      ],
+  "components": [
+    [
+      [ "duct_tape", 50 ]
+    ],
+    [
+      [ "scythe", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_knife",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "scrap", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "spike", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pointy_stick",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -611,6 +660,26 @@
       [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
+    ]
+  ]
+},{
+       "type" : "recipe",
+  "result": "spear_rebar",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "scrap", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rebar", 1 ]
     ]
   ]
 },{
@@ -683,7 +752,7 @@
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 2000,
   "reversible": false,
@@ -722,7 +791,7 @@
   "result": "javelin",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1, "throw", 2 ],
+  "skills_required": [ "survival", 1, "throw", 2 ],
   "difficulty": 3,
   "time": 5000,
   "reversible": false,
@@ -757,7 +826,7 @@
   "result": "spear_knife",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 600,
   "reversible": true,
@@ -788,7 +857,7 @@
   "result": "spear_steel",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "melee", 1 ],
+  "skills_required": [ "melee", 1 ],
   "difficulty": 1,
   "time": 60000,
   "reversible": false,
@@ -825,7 +894,7 @@
   "result": "longbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -850,7 +919,7 @@
   "result": "selfbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 12000,
   "reversible": true,
@@ -875,7 +944,7 @@
   "result": "shortbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
@@ -900,7 +969,7 @@
   "result": "reflexrecurvebow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [[ "archery", 7 ]],
+  "skills_required": [[ "archery", 7 ]],
   "difficulty": 5,
   "time": 25000,
   "reversible": true,
@@ -952,10 +1021,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "homewrecker",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_36", 8 ]
+    ],
+    [
+      [ "steel_chunk", 4 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ],
+      [ "mop", 1 ],
+      [ "broom", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "caltrops",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "traps", 1 ],
+  "skills_required": [ "traps", 1 ],
   "difficulty": 2,
   "time": 100000,
   "reversible": false,
@@ -990,7 +1082,7 @@
   "id_suffix": "from wire",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "traps", 2 ],
+  "skills_required": [ "traps", 2 ],
   "difficulty": 3,
   "time": 300000,
   "reversible": false,
@@ -1126,7 +1218,7 @@
   "result": "revolver_shotgun",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [[ "gun", 3 ]],
+  "skills_required": [[ "gun", 3 ]],
   "difficulty": 3,
   "time": 6000,
   "reversible": false,
@@ -1175,7 +1267,7 @@
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
@@ -1223,7 +1315,7 @@
   "result": "crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -1252,7 +1344,7 @@
   "result": "huge_crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 6,
   "time": 60000,
   "reversible": true,
@@ -1311,7 +1403,7 @@
   "result": "rep_crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 45000,
   "reversible": true,
@@ -1352,7 +1444,7 @@
   "result": "rifle_22",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12000,
   "reversible": true,
@@ -1380,7 +1472,7 @@
   "result": "pipe_shotgun",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12000,
   "reversible": true,
@@ -1428,7 +1520,7 @@
   "result": "rifle_9mm",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 14000,
   "reversible": true,
@@ -1456,7 +1548,7 @@
   "result": "smg_9mm",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 18000,
   "reversible": true,
@@ -1494,7 +1586,7 @@
   "result": "smg_45",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
   "reversible": true,
@@ -1532,7 +1624,7 @@
   "result": "flamethrower_simple",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 6,
   "time": 12000,
   "reversible": true,
@@ -1567,7 +1659,7 @@
   "result": "launcher_simple",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "launcher", 3 ],
+  "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
   "time": 6000,
   "reversible": true,
@@ -1595,7 +1687,7 @@
   "result": "pipe_launcher40mm",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "launcher", 3 ],
+  "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -1622,7 +1714,7 @@
   "result": "u_shotgun",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "shotgun", 3 ],
+  "skills_required": [ "shotgun", 3 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -1649,7 +1741,7 @@
   "result": "shot_he",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 2000,
   "reversible": false,
@@ -1723,7 +1815,7 @@
   "result": "grenade",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -1809,7 +1901,7 @@
   "result": "smokebomb",
   "category": "CC_WEAPON",
   "skill_used": "cooking",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 7500,
   "reversible": false,
@@ -1849,7 +1941,7 @@
   "result": "gasbomb",
   "category": "CC_WEAPON",
   "skill_used": "cooking",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
@@ -1884,7 +1976,7 @@
   "result": "nx17",
   "category": "CC_WEAPON",
   "skill_used": "electronics",
-  "requires_skills": [ "mechanics", 5 ],
+  "skills_required": [ "mechanics", 5 ],
   "difficulty": 8,
   "time": 40000,
   "reversible": true,
@@ -1915,7 +2007,7 @@
   "result": "mininuke",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "electronics", 5 ],
+  "skills_required": [ "electronics", 5 ],
   "difficulty": 10,
   "time": 40000,
   "reversible": true,
@@ -2000,7 +2092,7 @@
     "result": "bearing",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 2,
     "time": 45000,
     "reversible": false,
@@ -2049,7 +2141,7 @@
   "result" : "shaft_wood_heavy",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -2071,7 +2163,7 @@
   "result" : "shaft_metal",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -2100,7 +2192,7 @@
   "result" : "arrowhead",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -2125,7 +2217,7 @@
   "result" : "fletching",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -2148,7 +2240,7 @@
   "result" : "arrow_fire_hardened",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 0,
   "time" : 5000,
   "reversible" : false,
@@ -2171,7 +2263,7 @@
   "result" : "arrow_field_point",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 1,
   "time" : 2000,
   "reversible" : false,
@@ -2204,7 +2296,7 @@
   "result" : "arrow_small_game",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 2,
   "time" : 2000,
   "reversible" : false,
@@ -2228,7 +2320,7 @@
   "result" : "arrow_fire_hardened_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
@@ -2249,7 +2341,7 @@
   "result" : "arrow_field_point_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
@@ -2270,7 +2362,7 @@
   "result" : "flamable_arrow",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -2306,7 +2398,7 @@
   "result" : "arrow_wood",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
@@ -2330,7 +2422,7 @@
   "result" : "arrow_metal_sharpened",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
@@ -2358,7 +2450,7 @@
   "result" : "arrow_heavy_fire_hardened_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
@@ -2384,7 +2476,7 @@
   "result" : "arrow_heavy_field_point_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
@@ -2411,7 +2503,7 @@
   "result" : "arrow_wood_heavy",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 5 ],
+  "skills_required": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
@@ -2435,7 +2527,7 @@
   "result" : "arrow_metal",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 5 ],
+  "skills_required": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
@@ -2472,7 +2564,7 @@
   "result" : "arrow_exploding",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 5 ], [ "mechanics", 3 ]],
+  "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 7000,
   "reversible" : false,
@@ -2506,7 +2598,7 @@
   "result" : "exploding_arrow_warhead",
   "category" : "CC_MISC",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 5 ], [ "mechanics", 3 ]],
+  "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 5000,
   "reversible" : false,
@@ -2554,7 +2646,7 @@
   "result": "quiver",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty": 2,
   "time": 10000,
   "reversible": true,
@@ -2575,7 +2667,7 @@
   "result": "quiver_large",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "archery", 2 ],
+  "skills_required": [ "archery", 2 ],
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
@@ -2607,7 +2699,7 @@
   "result": "bolt_wood",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty": 1,
   "time": 5000,
   "reversible": false,
@@ -2629,7 +2721,7 @@
   "result": "bolt_metal",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": ["archery", 3],
+  "skills_required": ["archery", 3],
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
@@ -2658,7 +2750,7 @@
   "result": "bolt_explosive",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": ["archery", 3],
+  "skills_required": ["archery", 3],
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
@@ -2693,7 +2785,7 @@
   "result": "9mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
@@ -2728,7 +2820,7 @@
   "result": "9mmP",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
@@ -2763,7 +2855,7 @@
   "result": "9mmP2",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -2798,7 +2890,7 @@
   "result": "38_special",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
@@ -2833,7 +2925,7 @@
   "result": "38_super",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
@@ -2868,7 +2960,7 @@
   "result": "40sw",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
@@ -2903,7 +2995,7 @@
   "result": "10mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
@@ -2938,7 +3030,7 @@
   "result": "44magnum",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 25000,
   "reversible": false,
@@ -2973,7 +3065,7 @@
   "result": "45_acp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
@@ -3008,7 +3100,7 @@
   "result": "45_super",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -3043,7 +3135,7 @@
   "result": "45_jhp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
@@ -3081,7 +3173,7 @@
   "result": "454_Casull",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 7,
   "time": 10000,
   "reversible": false,
@@ -3119,7 +3211,7 @@
   "result": "500_Magnum",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -3157,7 +3249,7 @@
   "result": "57mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
@@ -3192,7 +3284,7 @@
   "result": "46mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
@@ -3227,7 +3319,7 @@
   "result": "762_m43",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 40000,
   "reversible": false,
@@ -3265,7 +3357,7 @@
   "result": "762_m87",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 40000,
   "reversible": false,
@@ -3303,7 +3395,7 @@
   "result": "223",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
@@ -3342,7 +3434,7 @@
   "result": "556",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
   "reversible": false,
@@ -3381,7 +3473,7 @@
   "result": "556_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 15000,
   "reversible": false,
@@ -3419,7 +3511,7 @@
   "result": "270",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
@@ -3457,7 +3549,7 @@
   "result": "3006",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -3495,7 +3587,7 @@
   "result": "50_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 8,
   "time": 9000,
   "reversible": false,
@@ -3515,7 +3607,7 @@
       [ "50_casing", 10 ]
     ],
     [
-	  [ "incendiary", 300 ]
+      [ "incendiary", 300 ]
     ],
    [
       [ "lgrifle_primer", 20 ]
@@ -3535,7 +3627,7 @@
   "result": "50ss",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 8,
   "time": 5000,
   "reversible": false,
@@ -3572,7 +3664,7 @@
   "result": "50bmg",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 8,
   "time": 5000,
   "reversible": false,
@@ -3610,7 +3702,7 @@
   "result": "3006_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 7,
   "time": 2500,
   "reversible": false,
@@ -3647,7 +3739,7 @@
   "result": "308",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
@@ -3685,7 +3777,7 @@
   "result": "762_51",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 10000,
   "reversible": false,
@@ -3723,7 +3815,7 @@
   "result": "762_51_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 5000,
   "reversible": false,
@@ -3757,10 +3849,47 @@
   ]
 },{
         "type" : "recipe",
-  "result": "shot_bird",
+  "result": "signal_flare",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 4 ]
+    ],
+    [
+      [ "shotgun_primer", 4 ]
+    ],
+    [
+      [ "gunpowder", 80 ]
+    ],
+    [
+      [ "incendiary", 80 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "shot_bird",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12500,
   "reversible": false,
@@ -3795,7 +3924,7 @@
   "result": "shot_00",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
@@ -3830,7 +3959,7 @@
   "result": "shot_slug",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
@@ -3865,7 +3994,7 @@
   "result": "shot_flechette",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 2 ],
+  "skills_required": [ "gun", 2 ],
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
@@ -3975,7 +4104,7 @@
   "id_suffix": "from batteries",
   "category": "CC_CHEM",
   "skill_used": "electronics",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -3997,7 +4126,7 @@
   "id_suffix": "from electrolysis",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "electronics", 1 ],
+  "skills_required": [ "electronics", 1 ],
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
@@ -4499,6 +4628,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "catfood",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "veggy_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4773,6 +4935,7 @@
       [ "fire", -1 ]
     ],
     [
+      [ "teapot", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "atomic_coffeepot", -1 ]
@@ -4973,6 +5136,7 @@
       [ "fire", -1 ]
     ],
     [
+      [ "teapot", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "atomic_coffeepot", -1 ]
@@ -5195,6 +5359,23 @@
     ],
     [
       [ "vodka", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "drink_rumcola",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rum", 1 ]
+    ],
+    [
+      [ "cola", 1 ]
     ]
   ]
 },{
@@ -5764,7 +5945,8 @@
       [ "cranberries", 1 ],
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
-      [ "pomegranate", 1 ]
+      [ "pomegranate", 1 ],
+      [ "dry_fruit", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -6423,7 +6605,7 @@
   "result": "poppy_sleep",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -6454,7 +6636,7 @@
   "result": "poppy_pain",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -6485,7 +6667,7 @@
   "result": "fungicide",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -6575,7 +6757,7 @@
   "result": "mutagen",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 8,
   "time": 10000,
   "reversible": false,
@@ -6614,7 +6796,7 @@
   "result": "mutagen_plant",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6647,7 +6829,7 @@
   "result": "mutagen_insect",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6682,7 +6864,7 @@
   "result": "mutagen_spider",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6715,7 +6897,7 @@
   "result": "mutagen_slime",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6749,7 +6931,7 @@
   "result": "mutagen_fish",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6785,7 +6967,7 @@
   "result": "mutagen_rat",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6818,7 +7000,7 @@
   "result": "mutagen_beast",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6851,7 +7033,7 @@
   "result": "mutagen_cattle",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6884,7 +7066,7 @@
   "result": "mutagen_cephalopod",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6918,7 +7100,7 @@
   "result": "mutagen_bird",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6951,7 +7133,7 @@
   "result": "mutagen_lizard",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6984,7 +7166,7 @@
   "result": "mutagen_troglobite",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -7010,6 +7192,42 @@
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mutagen_medical",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 9,
+  "time": 10000,
+  "reversible": false,
+  "book_learn": [[ "recipe_medicalmut", 9 ]],
+  "autolearn": false,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen", 1 ]
+    ],
+    [
+      [ "blood", 1 ]
+    ],
+    [
+      [ "vitamins", 10 ]
+    ],
+    [
+      [ "iodine", 10 ]
     ]
   ]
 },{
@@ -7040,7 +7258,7 @@
   "result": "purifier",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -7071,11 +7289,83 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "mutagen_alpha",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_alpha", 9 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+	  [ "mutagen_slime", 1 ]
+	],
+    [
+      [ "mutagen_plant", 1 ]
+    ],
+    [
+	  [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "purifier", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mutagen_chimera",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_chimera", 9]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_lizard", 1 ]
+    ],
+    [
+      [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "mutagen_beast", 1 ]
+    ],
+    [
+      [ "mutagen_cattle", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "disinfectant",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 2 ],
+  "skills_required": [ "firstaid", 2 ],
   "difficulty": 4,
   "time": 24000,
   "reversible": false,
@@ -7113,7 +7403,7 @@
   "result": "iodine",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 6,
   "time": 24000,
   "reversible": false,
@@ -7385,7 +7675,7 @@
   "result": "gunpowder",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 1 ],
+  "skills_required": [ "cooking", 1 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
@@ -7417,7 +7707,7 @@
   "result": "incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 1 ],
+  "skills_required": [ "cooking", 1 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -7448,7 +7738,7 @@
   "result": "8mm_bootleg",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 2 ],
+  "skills_required": [ "cooking", 2 ],
   "difficulty": 7,
   "time": 45000,
   "reversible": false,
@@ -7490,7 +7780,7 @@
   "result": "8mm_bootleg_jsp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 2 ],
+  "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
@@ -7536,7 +7826,7 @@
     "result": "smpistol_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -7573,7 +7863,7 @@
     "result": "lgpistol_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -7610,7 +7900,7 @@
     "result": "smrifle_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -7647,7 +7937,7 @@
     "result": "lgrifle_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -7684,7 +7974,7 @@
     "result": "shotgun_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
@@ -7721,7 +8011,7 @@
     "result": "lead",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 1 ],
+    "skills_required": [ "gun", 1 ],
     "difficulty": 2,
     "time": 30000,
     "reversible": false,
@@ -7991,7 +8281,7 @@
   "result": "battery",
   "category": "CC_ELECTRONIC",
   "skill_used": "fabrication",
-  "requires_skills": [ "electronics", 1 ],
+  "skills_required": [ "electronics", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -8027,7 +8317,7 @@
   "result": "battery_compartment",
   "category": "CC_ELECTRONIC",
   "skill_used": "fabrication",
-  "requires_skills": [ "electronics", 3 ],
+  "skills_required": [ "electronics", 3 ],
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -8057,7 +8347,7 @@
   "result": "coilgun",
   "category": "CC_WEAPON",
   "skill_used": "electronics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
@@ -8189,7 +8479,7 @@
   "result": "water_purifier",
   "category": "CC_ELECTRONIC",
   "skill_used": "mechanics",
-  "requires_skills": [ "electronics", 1 ],
+  "skills_required": [ "electronics", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
@@ -8327,7 +8617,7 @@
   "result": "electrohack",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "computer", 1 ],
+  "skills_required": [ "computer", 1 ],
   "difficulty": 4,
   "time": 35000,
   "reversible": true,
@@ -8399,7 +8689,7 @@
   "result": "mp3",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "computer", 1 ],
+  "skills_required": [ "computer", 1 ],
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
@@ -8433,7 +8723,7 @@
   "result": "portable_game",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": ["computer",  5],
+  "skills_required": ["computer",  5],
   "difficulty": 8,
   "time": 60000,
   "reversible": true,
@@ -8543,7 +8833,7 @@
   "result" : "adv_UPS_off",
   "category" : "CC_ELECTRONIC",
   "skill_used" : "electronics",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty" : 9,
   "time" : 85000,
   "reversible" : true,
@@ -8581,7 +8871,7 @@
   "result": "bio_power_storage",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8617,7 +8907,7 @@
   "result": "bio_power_storage_mkII",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 12,
   "time": 70000,
   "reversible": true,
@@ -8654,7 +8944,7 @@
   "result": "bio_solar",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8689,7 +8979,7 @@
   "result": "bio_batteries",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8721,7 +9011,7 @@
   "result": "bio_power_armor_interface",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8753,7 +9043,7 @@
   "result": "bio_power_armor_interface_mkII",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 9,
   "time": 50000,
   "reversible": true,
@@ -8788,7 +9078,7 @@
   "result": "bio_evap",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8821,7 +9111,7 @@
   "result": "bio_laser",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 9,
   "time": 50000,
   "reversible": true,
@@ -8857,7 +9147,7 @@
   "result": "bio_flashlight",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8893,7 +9183,7 @@
   "result": "bio_water_extractor",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8929,7 +9219,7 @@
   "result": "bio_armor_head",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8968,7 +9258,7 @@
   "result": "bio_armor_arms",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -9007,7 +9297,7 @@
   "result": "bio_armor_torso",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -9046,7 +9336,7 @@
   "result": "bio_armor_legs",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -9086,7 +9376,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9112,7 +9402,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9138,7 +9428,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9164,7 +9454,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9190,7 +9480,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9216,7 +9506,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9242,7 +9532,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9463,7 +9753,7 @@
   "result": "boots_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
   "reversible": false,
@@ -9808,7 +10098,7 @@
   "result": "pants_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 40000,
   "reversible": false,
@@ -10029,6 +10319,60 @@
   ]
 },{
         "type" : "recipe",
+  "result": "loincloth",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_fur",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_leather",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "trenchcoat",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -10094,7 +10438,7 @@
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 200000,
   "reversible": false,
@@ -10135,7 +10479,7 @@
   "result": "coat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 100000,
   "reversible": false,
@@ -10250,7 +10594,7 @@
   "result": "gloves_fingerless_mod",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "fabrication", 1 ],
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 1,
   "time": 24000,
   "reversible": false,
@@ -10301,7 +10645,7 @@
   "result": "gloves_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 16000,
   "reversible": false,
@@ -10488,7 +10832,7 @@
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
@@ -10613,7 +10957,7 @@
   "result": "goggles_nv",
   "category": "CC_ARMOR",
   "skill_used": "electronics",
-  "requires_skills": [ "tailor", 1 ],
+  "skills_required": [ "tailor", 1 ],
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
@@ -10645,7 +10989,7 @@
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
   "reversible": false,
@@ -10679,6 +11023,46 @@
   "components": [
     [
       [ "rag", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cowboy_hat",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 16 ],
+      [ "sewing_kit", 16 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sundress",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 6 ]
     ]
   ]
 },{
@@ -10814,7 +11198,7 @@
   "category": "CC_ARMOR",
   "skill_used": "cooking",
   "difficulty": 3,
-  "requires_skills": [ "tailor", 3 ],
+  "skills_required": [ "tailor", 3 ],
   "time": 60000,
   "reversible": false,
   "autolearn": true,
@@ -10851,7 +11235,7 @@
   "category": "CC_ARMOR",
   "skill_used": "fabrication",
   "difficulty": 2,
-  "requires_skills": [ "tailor", 3 ],
+  "skills_required": [ "tailor", 3 ],
   "time": 28000,
   "reversible": false,
   "autolearn": true,
@@ -10962,7 +11346,7 @@
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 50000,
   "reversible": true,
@@ -11026,7 +11410,7 @@
   "result": "cloak_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 25000,
   "reversible": true,
@@ -11067,7 +11451,7 @@
   "result": "sleeping_bag",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 75000,
   "reversible": true,
@@ -11088,7 +11472,7 @@
   "result": "sleeping_bag_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 5,
   "time": 75000,
   "reversible": true,
@@ -11207,7 +11591,7 @@
   "result": "leather_pouch",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
@@ -11235,7 +11619,7 @@
   "result": "rock_pot",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "cooking", 1 ],
+  "skills_required": [ "cooking", 1 ],
   "difficulty": 2,
   "time": 20000,
   "reversible": false,
@@ -11265,7 +11649,7 @@
   "result": "primitive_shovel",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "carpentry", 1 ],
+  "skills_required": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 60000,
   "reversible": false,
@@ -11299,7 +11683,7 @@
   "result": "primitive_axe",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "carpentry", 1 ],
+  "skills_required": [ "carpentry", 1 ],
   "difficulty": 3,
   "time": 60000,
   "reversible": false,
@@ -11350,7 +11734,7 @@
   "result": "waterskin",
   "category": "CC_MISC",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -11396,7 +11780,7 @@
   "result": "shelter_kit",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "carpentry", 1 ],
+  "skills_required": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 50000,
   "reversible": false,
@@ -11428,7 +11812,7 @@
   "id_suffix": "repair",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "tailor", 1 ],
+  "skills_required": [ "tailor", 1 ],
   "difficulty": 0,
   "time": 20000,
   "reversible": false,
@@ -11462,7 +11846,7 @@
   "result": "fur_rollmat",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "tailor", 1 ],
+  "skills_required": [ "tailor", 1 ],
   "difficulty": 1,
   "time": 20000,
   "reversible": true,
@@ -11487,7 +11871,7 @@
   "result": "snare_trigger",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
@@ -11506,7 +11890,7 @@
   "result": "light_snare_kit",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
@@ -11524,7 +11908,7 @@
   "result": "heavy_snare_kit",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 8000,
   "reversible": true,
@@ -11632,7 +12016,8 @@
       ["soldering_iron", 1]
     ],
     [
-      [ "welder", 1 ]
+      [ "welder", 1 ],
+      [ "welder_crude", 2 ]
     ],
     [
       ["cable", 5]
@@ -11991,10 +12376,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wire",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "scrap", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "wire_barbed",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 8000,
   "reversible": false,
@@ -12571,7 +12987,7 @@
   "result": "beartrap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 3 ],
+  "skills_required": [ "mechanics", 3 ],
   "difficulty": 2,
   "time": 3000,
   "reversible": true,
@@ -12595,7 +13011,7 @@
   "result": "crossbow_trap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 4500,
   "reversible": true,
@@ -12618,7 +13034,7 @@
   "result": "shotgun_trap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 5000,
   "reversible": true,
@@ -12640,7 +13056,7 @@
   "result": "blade_trap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 3 ],
+  "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": true,
@@ -12687,7 +13103,7 @@
   "result": "landmine",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 3 ],
+  "skills_required": [ "mechanics", 3 ],
   "difficulty": 5,
   "time": 10000,
   "reversible": false,
@@ -12809,7 +13225,7 @@
   "result": "arm_splint",
   "category": "CC_MISC",
   "skill_used": "firstaid",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 1000,
   "reversible": false,
@@ -12838,7 +13254,7 @@
   "result": "leg_splint",
   "category": "CC_MISC",
   "skill_used": "firstaid",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 1000,
   "reversible": false,
@@ -12867,7 +13283,7 @@
   "result": "suppressor",
   "category": "CC_MISC",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 1,
   "time": 650,
   "reversible": false,
@@ -12892,7 +13308,7 @@
   "result": "brass_catcher",
   "category": "CC_MISC",
   "skill_used": "tailor",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 65000,
   "reversible": true,
@@ -12913,7 +13329,7 @@
   "result": "pheromone",
   "category": "CC_MISC",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 1200,
   "reversible": false,
@@ -12939,7 +13355,7 @@
   "result": "laser_pack",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "electronics", 5 ],
+  "skills_required": [ "electronics", 5 ],
   "difficulty": 3,
   "time": 10000,
   "reversible": true,
@@ -12963,7 +13379,7 @@
   "result": "bot_manhack",
   "category": "CC_MISC",
   "skill_used": "mechanics",
-  "requires_skills": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
   "time": 8000,
   "reversible": true,
@@ -12998,7 +13414,7 @@
   "result": "bot_turret",
   "category": "CC_MISC",
   "skill_used": "mechanics",
-  "requires_skills": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
   "difficulty": 7,
   "time": 9000,
   "reversible": true,
@@ -13479,7 +13895,7 @@
    "result": "sword_wood",
    "category": "CC_WEAPON",
    "skill_used": "fabrication",
-   "requires_skills": [ "melee", 1 ],
+   "skills_required": [ "melee", 1 ],
    "difficulty": 0,
    "time": 25000,
    "reversible": false,
@@ -13498,7 +13914,7 @@
   "result": "sword_nail",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": ["survival", 1],
+  "skills_required": ["survival", 1],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -13528,7 +13944,7 @@
   "result": "sword_crude",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": ["survival", 2],
+  "skills_required": ["survival", 2],
   "difficulty": 2,
   "time": 20000,
   "reversible": false,
@@ -14182,6 +14598,114 @@
   ]
 },{
         "type" : "recipe",
+  "result": "rebar_rifle",
+  "category": "CC_WEAPON",
+  "skill_used": "electronics",
+  "skill_sec": ["mechanics",6],
+  "difficulty": 9,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["hacksaw", -1], ["toolset", -1]
+    ],
+    [
+      ["screwdriver", -1], ["toolset", -1]
+    ],
+    [
+      ["wrench", -1], ["toolset", -1]
+    ],
+    [
+      ["welder", 300], ["welder_crude", 450], ["toolset", 12]
+    ]
+  ],
+  "components": [
+    [
+      ["cable", 80]
+    ],
+    [
+      ["2x4", 1],
+      [ "stick", 1 ]
+    ],
+    [
+      ["power_supply", 2]
+    ],
+    [
+      ["steel_chunk", 3],
+      [ "scrap", 18]
+    ],
+    [
+      ["rebar", 1]
+    ],
+    [
+      ["e_scrap", 20]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rebar_rail",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ],
+    [
+      ["hacksaw", -1], ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["rebar", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "steel_rail",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "fried_spam",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -14303,7 +14827,7 @@
   "result": "rock_quern",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ ["survival", 1], ["mechanics", 2], ["cooking", 2] ],
+  "skills_required": [ ["survival", 1], ["mechanics", 2], ["cooking", 2] ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -14425,6 +14949,66 @@
   "components": [ [ ["paper", 300] ],
     [ ["duct_tape", 150] ] ]
 },{
+       "type" : "recipe",
+  "result": "2byarm_guard",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "string_36", 4 ]
+    ],
+    [
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "rag", 8 ]
+    ]
+  ]
+},{
+       "type" : "recipe",
+  "result": "2byshin_guard",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "string_36", 2 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_wraps",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "knuckle_steel",
   "category": "CC_WEAPON",
@@ -14454,6 +15038,39 @@
     [ ["screwdriver", -1], ["toolset", -1] ] ],
   "components": [ [ ["2x4", 4], [ "stick", 8 ] ],
     [ ["rebar", 5] ] ]
+},{
+        "type" : "recipe",
+  "result": "knuckle_nail",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+"qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "tools": [ 
+    [ 
+      ["rock", -1], 
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1] 
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 4 ]
+    ],
+    [
+      [ "nail", 16 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "cestus",
@@ -15442,6 +16059,29 @@
     ]
 },{
         "type" : "recipe",
+  "result": "teapot",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [ ["tongs", -1] ],
+      [ ["chisel", -1]],
+      [ ["anvil", -1] ],
+      [ ["forge", 100], ["char_forge", 20] ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "punch_dagger",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -15475,11 +16115,51 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "tonfa_wood",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "requires_skills": [ "bashing", 3 ],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cudgel",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "q_staff",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "bashing", 2 ],
+  "skills_required": [ "bashing", 2 ],
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
@@ -15925,6 +16605,43 @@
     ]
 },{
         "type" : "recipe",
+  "result": "scythe",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 460000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 6 ],
+     [ "steel_chunk", 18 ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "chain",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -15965,7 +16682,7 @@
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 6,
-  "time": 180000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
@@ -16767,6 +17484,7 @@
      ],
      [
       [ "tac_helmet", 1 ],
+      [ "tac_fullhelmet", 1 ],
       [ "helmet_army", 1 ],
       [ "kevlar_plate", 6 ]
      ],
@@ -17239,7 +17957,7 @@
   "result": "quikclot",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 4,
   "time": 1200,
   "reversible": false,
@@ -17318,7 +18036,7 @@
   "result": "char_smoker",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 2 ],
+  "skills_required": [ "cooking", 2 ],
   "difficulty": 2,
   "time": 70000,
   "reversible": true,
@@ -17703,7 +18421,7 @@
   "result": "unbio_blaster_gun",
   "category": "CC_WEAPON",
   "skill_used": "electronics",
-  "requires_skills": [ "fabrication", 4, "gun", 2 ],
+  "skills_required": [ "fabrication", 4, "gun", 2 ],
   "difficulty": 6,
   "time": 30000,
   "reversible": false,
@@ -17742,7 +18460,7 @@
     "result": "9mmfmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
@@ -17782,7 +18500,7 @@
     "result": "38_fmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
@@ -17822,7 +18540,7 @@
     "result": "40fmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 35000,
     "reversible": false,
@@ -17860,7 +18578,7 @@
   "result": "5x50dart",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -17899,7 +18617,7 @@
   "result": "power_armor_helmet_basic",
   "category": "CC_NONCRAFT",
   "skill_used": "fabrication",
-  "requires_skills": ["electronics",  4],
+  "skills_required": ["electronics",  4],
   "difficulty": 8,
   "time": 80000,
   "reversible": true,
@@ -17947,7 +18665,7 @@
   "result": "power_armor_basic",
   "category": "CC_NONCRAFT",
   "skill_used": "fabrication",
-  "requires_skills": ["electronics",  5],
+  "skills_required": ["electronics",  5],
   "difficulty": 7,
   "time": 80000,
   "reversible": true,
@@ -18034,7 +18752,7 @@
     "result": "44fmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 5,
     "time": 25000,
     "reversible": false,
@@ -18300,6 +19018,25 @@
       [ "plut_cell", 1 ]
     ]
   ]
+},
+
+    {
+        "type" : "recipe",
+  "result": "rag",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "thread", 100 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "juice",
@@ -18341,6 +19078,95 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gobag",
+  "category": "CC_ARMOR",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "duffelbag", 1 ]
+    ],
+    [
+      [ "backpack", 1 ]
+    ],
+    [
+      [ "helmet_army", 1 ]
+    ],
+    [
+      [ "jacket_army", 1 ]
+    ],
+    [
+      [ "pants_army", 1 ]
+    ],
+    [
+      [ "tshirt", 7 ]
+    ],
+    [
+      [ "under_armor", 1 ]
+    ],
+    [
+      [ "kevlar", 1 ]
+    ],
+    [
+      [ "chestrig", 1 ]
+    ],
+    [
+      [ "coat_rain", 1 ]
+    ],
+    [
+      [ "hood_rain", 1 ]
+    ],
+    [
+      [ "long_underpants", 1 ]
+    ],
+    [
+      [ "towel", 1 ]
+    ],
+    [
+      [ "rollmat", 1 ]
+    ],
+    [
+      [ "boots_combat", 1 ]
+    ],
+    [
+      [ "sneakers", 1 ]
+    ],
+    [
+      [ "socks", 7 ]
+    ],
+    [
+      [ "gloves_tactical", 1 ]
+    ],
+    [
+      [ "gloves_rubber", 1 ]
+    ],
+    [
+      [ "fire_gauntlets", 1 ]
+    ],
+    [
+      [ "battery", 100 ]
+    ],
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "lighter", 1 ]
+    ],
+    [
+      [ "pockknife", 1 ]
+    ],
+    [
+      [ "rollmat", 1 ]
+    ],
+    [
+      [ "sleeping_bag", 1 ]
     ]
   ]
 }

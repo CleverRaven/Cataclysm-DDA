@@ -1254,7 +1254,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 // THEN print it--if item_selected is valid
  if (item_selected < items->size()) {
   item tmp(g->itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
-  mvwprintz(w, 12, 1, c_white, tmp.info().c_str());
+  fold_and_print(w, 12, 1, 38, c_white, tmp.info().c_str());
  }
 // Next, clear the item list on the right
  for (int i = 1; i <= FULL_SCREEN_HEIGHT-2; i++)

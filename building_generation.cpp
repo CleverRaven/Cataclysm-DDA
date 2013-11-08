@@ -582,7 +582,7 @@ void mapgen_fungal_bloom(map *m)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (one_in(rl_dist(i, j, 12, 12) * 2)) {
+            if (one_in(rl_dist(i, j, 12, 12) * 4)) {
                 m->ter_set(i, j, t_marloss);
             } else if (one_in(10)) {
                 if (one_in(3)) {
@@ -600,7 +600,7 @@ void mapgen_fungal_bloom(map *m)
             }
         }
     }
-    square(m, t_fungus, SEEX - 3, SEEY - 3, SEEX + 3, SEEY + 3);
+    square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
     m->add_spawn("mon_fungaloid_queen", 1, 12, 12);
 }
 

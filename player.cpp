@@ -2073,7 +2073,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  line = 3;
  if (weight_carried() > weight_capacity()) {
   pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
-  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2084,10 +2084,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   else if (pen < -10)
    pen = -10;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%"),
              (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%"),
              (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
@@ -2095,41 +2095,41 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  if (pen > 60)
   pen = 60;
  if (pen >= 1) {
-  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (pkill >= 10) {
   pen = int(pkill * .1);
-  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (stim != 0) {
   pen = stim;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%"),
             (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
  if (thirst > 40) {
   pen = int((thirst - 40) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (hunger > 100) {
   pen = int((hunger - 100) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy)) {
   pen = (g->light_level() >= 12 ? 5 : 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2141,7 +2141,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
    pen = int( (65 - g->get_temperature()) / 3);
   else
    pen = int( (65 - g->get_temperature()) / 2);
-  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2172,7 +2172,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
  if (has_trait("QUICK")) {
   pen = int(newmoves * .1);
-  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
  }
  int runcost = run_cost(100);
@@ -2236,9 +2236,9 @@ gun for ranged combat, and enhances many actions that require finesse."));
    } else if (line == 2) {
     mvwprintz(w_stats, 4, 2, h_ltgray, _("Intelligence:"));
  // display player current INT effects
-   mvwprintz(w_stats, 6, 2, c_magenta, _("Read times: %d%%%%           "),
+   mvwprintz(w_stats, 6, 2, c_magenta, _("Read times: %d%%           "),
              read_speed(false));
-   mvwprintz(w_stats, 7, 2, c_magenta, _("Skill rust: %d%%%%           "),
+   mvwprintz(w_stats, 7, 2, c_magenta, _("Skill rust: %d%%           "),
              rust_rate(false));
    mvwprintz(w_stats, 8, 2, c_magenta, _("Crafting Bonus: %d          "),
              int_cur);
@@ -2714,8 +2714,23 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
     bool sideStyle = use_narrow_sidebar();
 
+    // get the current weapon mode or mods
+    std::string mode = "";
+    if (weapon.mode == "MODE_BURST") {
+        mode = _("Burst");
+    } else {
+        item* gunmod = weapon.active_gunmod();
+        if (gunmod != NULL) {
+            mode = gunmod->type->name;
+        }
+    }
+
     WINDOW *weapwin = sideStyle ? w2 : w;
-    mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    if (mode == "") {
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    } else {
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s (%s)"), weapname().c_str(), mode.c_str());
+    }
     if (weapon.is_gun()) {
         int adj_recoil = recoil + driving_recoil;
         if (adj_recoil > 0) {
@@ -2733,30 +2748,15 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     }
 
     // Print currently used style
-    const char *style = NULL;
-    if (style_selected == "style_none")
-      style = _("No Style");
-    else
-      style = martialarts[style_selected].name.c_str();
-    if (style) {
-        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_blue, style);
+    std::string style = "";
+    if (style_selected == "style_none") {
+        style = _("No Style");
+    } else {
+        style = martialarts[style_selected].name;
     }
-
-    // Print the current weapon mode
-    const char *mode = NULL;
-    if (weapon.mode == "NULL")
-        mode = _("Normal");
-    else if (weapon.mode == "MODE_BURST")
-        mode = _("Burst");
-    else {
-        item* gunmod = weapon.active_gunmod();
-        if (gunmod != NULL)
-            mode = gunmod->type->name.c_str();
-    }
-    if (mode) {
+    if (style != "") {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 3, x, c_red, mode);
+        mvwprintz(weapwin, 1, x, c_blue, style.c_str());
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
@@ -3445,6 +3445,9 @@ int player::throw_range(signed char ch)
   return -1;
  else
   tmp = inv.item_by_letter(ch);
+ 
+ if (tmp.count_by_charges() && tmp.charges > 1)
+  tmp.charges = 1;
 
  if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
@@ -4452,7 +4455,7 @@ void player::suffer(game *g)
         {
             // Starts at 1 in 25, goes down by 5 for every 50% more carried
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
-                g->add_msg_if_player(this,"Your body strains under the weight!");
+                g->add_msg_if_player(this, _("Your body strains under the weight!"));
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
                 if ( (weight_carried() - weight_capacity()) / 800 > pain && pain < 100) {
                     pain += 1;
@@ -5664,6 +5667,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
+    } else if (has_charges("handflare_lit", 1)) {
+        return true;
     } else if (has_charges("candle_lit", 1)) {
         return true;
     } else if (has_bionic("bio_tools")) {
@@ -5713,6 +5718,8 @@ void player::use_fire(const int quantity)
     if (has_charges("torch_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
+        return;
+    } else if (has_charges("handflare_lit", 1)) {
         return;
     } else if (has_charges("candle_lit", 1)) {
         return;
@@ -6438,12 +6445,12 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 100);
       } else {
-          g->add_msg_if_player(this, _("You feel horrible for eating a person.."));
+          g->add_msg_if_player(this, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       }
     }
     if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh"))) {
-        g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach"));
+        g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach."));
         add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
@@ -7630,7 +7637,7 @@ void player::use(game *g, char let)
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
-            g->add_msg(_("You need to be at least level 1 in the firearms skill before you\
+            g->add_msg(_("You need to be at least level 1 in the marksmanship skill before you\
  can modify guns."));
             return;
         }

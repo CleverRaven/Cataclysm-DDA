@@ -3887,7 +3887,8 @@ void game::draw_ter(int posx, int posy)
                    && mx >= 0 && my >= 0
                    && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
                    && (u.has_active_bionic("bio_infrared")
-                       || u.has_trait("INFRARED"))
+                       || u.has_trait("INFRARED")
+                       || u.has_trait("LIZ_IR"))
                    && m.pl_sees(u.posx,u.posy,z.posx(),z.posy(),
                                 u.sight_range(DAYLIGHT_LEVEL))) {
             mvwputch(w_terrain, my, mx, c_red, '?');
@@ -4365,33 +4366,15 @@ faction* game::random_evil_faction()
 
 bool game::sees_u(int x, int y, int &t)
 {
- // TODO: [lightmap] Apply default monster vison levels here
- //                  the light map should deal lighting from player or fires
- int range = light_level();
+    int range = 0;
+    int mondex = mon_at(x, y);
+    if (mondex != -1) {
+        monster &z = _active_monsters[mondex];
+        range = z.vision_range(u.posx, u.posy);
+    }
 
- // Set to max possible value if the player is lit brightly
- if (m.light_at(u.posx, u.posy) >= LL_LOW)
-  range = DAYLIGHT_LEVEL;
-
- int mondex = mon_at(x,y);
- if (mondex != -1) {
-  monster &z = _active_monsters[mondex];
-  if(z.has_flag(MF_VIS10))
-   range -= 50;
-  else if(z.has_flag(MF_VIS20))
-   range -= 40;
-  else if(z.has_flag(MF_VIS30))
-   range -= 30;
-  else if(z.has_flag(MF_VIS40))
-   range -= 20;
-  else if(z.has_flag(MF_VIS50))
-   range -= 10;
- }
- if( range <= 0)
-  range = 1;
-
- return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
-           u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
+    return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
+              u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y)
@@ -5348,7 +5331,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                                 targ->name().c_str(), force_remaining);
                     }
                     add_msg(_("%s took %d damage!"), targ->name().c_str(), dam_mult*force_remaining);
-                    targ->hurt(dam_mult*force_remaining);
+                    targ->hp -= dam_mult*force_remaining;
+                    if (targ->hp <= 0)
+                        targ->die(this);
                 }
                 m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
                 sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
@@ -6742,6 +6727,8 @@ point game::look_around()
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my;
  mapped_input input;
+ bool fast_scroll = false;
+ int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
 
  const int lookHeight = 13;
  const int lookWidth = getmaxx(w_messages);
@@ -6805,7 +6792,7 @@ point game::look_around()
    if (dex != -1 && u_see(&zombie(dex)))
    {
        zombie(dex).draw(w_terrain, lx, ly, true);
-       zombie(dex).print_info(this, w_look);
+       zombie(dex).print_info(this, w_look,5,6);
        if (!m.has_flag("CONTAINER", lx, ly))
        {
            if (m.i_at(lx, ly).size() > 1)
@@ -6905,8 +6892,22 @@ point game::look_around()
   if (input.evt.type != CATA_INPUT_MOUSE) {
       get_direction(mx, my, input.command);
       if (mx != -2 && my != -2) { // Directional key pressed
-       lx += mx;
-       ly += my;
+       // if fastmove is set, use the option value for MOVE_VIEW_OFFSET
+       lx += mx * ( fast_scroll ? soffset : 1);
+       ly += my * ( fast_scroll ? soffset : 1);
+      } else if (input.command == Filter){
+          fast_scroll = !fast_scroll;
+          // If we are now fast scrolling, print it out. Otherwise redraw the border.
+          // This is only done on toggle, so it shouldn't be used heavily.
+          if (fast_scroll) {
+            // print a light green mark below the top right corner of the w_look window
+            //~ Fast-scroll indicator
+            mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
+          } else {
+            // redraw the border to clear out the marker.
+            wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+          }
       }
   } else if (input.evt.get_first_input() == MOUSE_BUTTON_LEFT) {
       // Left click on map
@@ -7682,7 +7683,7 @@ int game::list_monsters()
             werase(w_monster_info);
 
             //print monster info
-            zombie(iMonDex).print_info(this, w_monster_info);
+            zombie(iMonDex).print_info(this, w_monster_info,1,11);
 
             for (int j=0; j < iInfoHeight-1; j++) {
                 mvwputch(w_monster_info_border, j, 0, c_ltgray, LINE_XOXO);
@@ -8317,109 +8318,104 @@ void game::pickup(int posx, int posy, int min)
  bool offered_swap = false;
  std::map<std::string, int> mapPickup;
  for (int i = 0; i < here.size(); i++) {
-  iter = 0;
-  // This while loop guarantees the inventory letter won't be a repeat. If it
-  // tries all 52 letters, it fails and we don't pick it up.
-  if (getitem[i] && here[i].made_of(LIQUID))
-   got_water = true;
-  else if (getitem[i]) {
-   iter = 0;
-   while (iter < inv_chars.size() && (here[i].invlet == 0 ||
-                        (u.has_item(here[i].invlet) &&
-                         !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
-    here[i].invlet = nextinv;
-    iter++;
-    advance_nextinv();
-   }
+     iter = 0;
+     // This while loop guarantees the inventory letter won't be a repeat. If it
+     // tries all 52 letters, it fails and we don't pick it up.
+     if (getitem[i] && here[i].made_of(LIQUID)) {
+         got_water = true;
+     } else if (getitem[i]) {
+         bool picked_up = false;
+         item temp = here[i].clone();
+         iter = 0;
+         while (iter < inv_chars.size() &&
+                (here[i].invlet == 0 || (u.has_item(here[i].invlet) &&
+                                         !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
+             here[i].invlet = nextinv;
+             iter++;
+             advance_nextinv();
+         }
 
-   if(pickup_count[i] != 0)
-   {
-       int leftover_charges = here[i].charges - pickup_count[i];
-       if(leftover_charges > 0)
-       {
-           item temp = here[i].clone();
-           temp.charges = leftover_charges;
-           here[i].charges = pickup_count[i];
-           m.add_item(posx, posy, temp);
-       }
-   }
+         if(pickup_count[i] != 0) {
+             // Reinserting leftovers happens after item removal to avoid stacking issues.
+             int leftover_charges = here[i].charges - pickup_count[i];
+             if(leftover_charges > 0) {
+                 temp.charges = leftover_charges;
+                 here[i].charges = pickup_count[i];
+             }
+         }
 
-   if (iter == inv_chars.size()) {
-    add_msg(_("You're carrying too many items!"));
-    werase(w_pickup);
-    wrefresh(w_pickup);
-    delwin(w_pickup);
-    return;
-   } else if (!u.can_pickWeight(here[i].weight(), false)) {
-    add_msg(_("The %s is too heavy!"), here[i].tname(this).c_str());
-    decrease_nextinv();
-   } else if (!u.can_pickVolume(here[i].volume())) {
-    if (u.is_armed()) {
-     if (!u.weapon.has_flag("NO_UNWIELD")) {
-      if (here[i].is_armor() && // Armor can be instantly worn
-          query_yn(_("Put on the %s?"), here[i].tname(this).c_str())) {
-       if(u.wear_item(this, &(here[i])))
-       {
-        if (from_veh)
-         veh->remove_item (veh_part, curmit);
-        else
-         m.i_rem(posx, posy, curmit);
-        curmit--;
-       }
-      } else if (!offered_swap) {
-       if (query_yn(_("Drop your %s and pick up %s?"),
-                u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
-        if (from_veh)
-         veh->remove_item (veh_part, curmit);
-        else
-         m.i_rem(posx, posy, curmit);
-        m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
-        u.wield(this, u.i_add(here[i], this).invlet);
-        mapPickup[here[i].tname(this)]++;
-        curmit--;
-        u.moves -= 100;
-        add_msg(_("Wielding %c - %s"), u.weapon.invlet, u.weapon.tname(this).c_str());
-       }
-       offered_swap = true;
-      } else
-       decrease_nextinv();
-     } else {
-      add_msg(_("There's no room in your inventory for the %s, and you can't\
-  unwield your %s."), here[i].tname(this).c_str(), u.weapon.tname(this).c_str());
-      decrease_nextinv();
+         if (iter == inv_chars.size()) {
+             add_msg(_("You're carrying too many items!"));
+             werase(w_pickup);
+             wrefresh(w_pickup);
+             delwin(w_pickup);
+             return;
+         } else if (!u.can_pickWeight(here[i].weight(), false)) {
+             add_msg(_("The %s is too heavy!"), here[i].tname(this).c_str());
+             decrease_nextinv();
+         } else if (!u.can_pickVolume(here[i].volume())) {
+             if (u.is_armed()) {
+                 if (!u.weapon.has_flag("NO_UNWIELD")) {
+                     if (here[i].is_armor() && // Armor can be instantly worn
+                         query_yn(_("Put on the %s?"), here[i].tname(this).c_str())) {
+                         if(u.wear_item(this, &(here[i]))) {
+                             picked_up = true;
+                         }
+                     } else if (!offered_swap) {
+                         if (query_yn(_("Drop your %s and pick up %s?"),
+                                      u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
+                             picked_up = true;
+                             m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                             u.wield(this, u.i_add(here[i], this).invlet);
+                             mapPickup[here[i].tname(this)]++;
+                             add_msg(_("Wielding %c - %s"), u.weapon.invlet,
+                                     u.weapon.tname(this).c_str());
+                         }
+                         offered_swap = true;
+                     } else {
+                         decrease_nextinv();
+                     }
+                 } else {
+                     add_msg(_("There's no room in your inventory for the %s, and you can't\
+ unwield your %s."), here[i].tname(this).c_str(), u.weapon.tname(this).c_str());
+                     decrease_nextinv();
+                 }
+             } else {
+                 u.wield(this, u.i_add(here[i], this).invlet);
+                 mapPickup[here[i].tname(this)]++;
+                 picked_up = true;
+             }
+         } else if (!u.is_armed() &&
+                    (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
+                     here[i].is_weap() || here[i].is_gun())) {
+             u.weapon = here[i];
+             picked_up = true;
+         } else {
+             u.i_add(here[i], this);
+             mapPickup[here[i].tname(this)]++;
+             picked_up = true;
+         }
+         if( picked_up ) {
+             if (from_veh) {
+                 veh->remove_item (veh_part, curmit);
+             } else {
+                 m.i_rem(posx, posy, curmit);
+             }
+             curmit--;
+             u.moves -= 100;
+             if( pickup_count[i] != 0 ) {
+                 bool to_map = !from_veh;
+
+                 if( from_veh ) {
+                     to_map = !veh->add_item( veh_part, temp );
+                 }
+                 if( to_map ) {
+                     m.add_item_or_charges( posx, posy, temp );
+                 }
+             }
+         }
      }
-    } else {
-     u.wield(this, u.i_add(here[i], this).invlet);
-     mapPickup[here[i].tname(this)]++;
-     if (from_veh)
-      veh->remove_item (veh_part, curmit);
-     else
-      m.i_rem(posx, posy, curmit);
-     curmit--;
-     u.moves -= 100;
-    }
-   } else if (!u.is_armed() &&
-            (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
-              here[i].is_weap() || here[i].is_gun())) {
-    u.weapon = here[i];
-    if (from_veh)
-     veh->remove_item (veh_part, curmit);
-    else
-     m.i_rem(posx, posy, curmit);
-    u.moves -= 100;
-    curmit--;
-   } else {
-    u.i_add(here[i], this);
-    mapPickup[here[i].tname(this)]++;
-    if (from_veh)
-     veh->remove_item (veh_part, curmit);
-    else
-     m.i_rem(posx, posy, curmit);
-    u.moves -= 100;
-    curmit--;
-   }
-  }
-  curmit++;
+     curmit++;
  }
 
  if (min == -1) { //Auto pickup item message
@@ -11793,7 +11789,7 @@ bool game::spread_fungus(int x, int y)
                     m.i_rem(x, y, k);
                 }
                 item seeds(g->itypes["fungal_seeds"], int(g->turn));
-                m.add_item(x, y, seeds);
+                m.add_item_or_charges(x, y, seeds);
             }
         }
         return true;
@@ -11877,7 +11873,7 @@ bool game::spread_fungus(int x, int y)
                                 m.i_rem(i, j, k);
                             }
                             item seeds(g->itypes["fungal_seeds"], int(g->turn));
-                            m.add_item(x, y, seeds);
+                            m.add_item_or_charges(x, y, seeds);
                         }
                     }
                 }

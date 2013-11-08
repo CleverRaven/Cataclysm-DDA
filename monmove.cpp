@@ -97,7 +97,8 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
     int sightrange = g->light_level();
     int closest = -1;
     int dist = 1000;
-    int tc, stc;
+    int tc = 0;
+    int stc = 0;
     bool fleeing = false;
     if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
@@ -137,9 +138,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
         if (is_fleeing(g->u)) {
             // Wander away.
             fleeing = true;
-            wandx = posx() * 2 - g->u.posx;
-            wandy = posy() * 2 - g->u.posy;
-            wandf = 40;
+            set_dest(posx() * 2 - g->u.posx, posy() * 2 - g->u.posy, tc);
         } else {
             // Chase the player.
             closest = -2;
@@ -155,9 +154,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
                 g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc))) {
             if (is_fleeing(*me)) {
                 fleeing = true;
-                wandx = posx() * 2 - me->posx;
-                wandy = posy() * 2 - me->posy;
-                wandf = 40;
+                set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, tc);\
             } else {
                 closest = i;
                 stc = tc;
@@ -205,140 +202,146 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
 // 4) Sound-based tracking
 void monster::move(game *g)
 {
-// We decrement wandf no matter what.  We'll save our wander_to plans until
-// after we finish out set_dest plans, UNLESS they time out first.
- if (wandf > 0)
-  wandf--;
-
- //Hallucinations have a chance of disappearing each turn
- if (is_hallucination() && one_in(25)) {
-   die(g);
-   return;
- }
-
-// First, use the special attack, if we can!
- if (sp_timeout > 0) {
-   sp_timeout--;
- }
- //If this monster has the ability to heal in combat, do it now.
- if (has_flag(MF_REGENERATES_50)) {
-    hp += 50;
-    if(hp > type->hp){
-      hp = type->hp;
+    // We decrement wandf no matter what.  We'll save our wander_to plans until
+    // after we finish out set_dest plans, UNLESS they time out first.
+    if (wandf > 0) {
+        wandf--;
     }
- }
- if (has_flag(MF_REGENERATES_10)) {
-    hp += 10;
-    if(hp > type->hp){
-      hp = type->hp;
+
+    //Hallucinations have a chance of disappearing each turn
+    if (is_hallucination() && one_in(25)) {
+        die(g);
+        return;
     }
- }
 
- if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
-   mattack ma;
-   if(!is_hallucination()) {
-     (ma.*type->sp_attack)(g, this);
-   }
- }
- if (moves < 0)
-  return;
- if (has_flag(MF_IMMOBILE)) {
-  moves = 0;
-  return;
- }
- if (has_effect(ME_STUNNED)) {
-  stumble(g, false);
-  moves = 0;
-  return;
- }
- if (has_effect(ME_DOWNED)) {
-  moves = 0;
-  return;
- }
- if (has_effect(ME_BOULDERING)){
-  moves -= 20;
-  if (moves < 0) {
-   return;
-  }
- }
- if (friendly != 0) {
-  if (friendly > 0)
-   friendly--;
-  friendly_move(g);
-  return;
- }
+    // First, use the special attack, if we can!
+    if (sp_timeout > 0) {
+        sp_timeout--;
+    }
+    //If this monster has the ability to heal in combat, do it now.
+    if (has_flag(MF_REGENERATES_50)) {
+        hp += 50;
+        if(hp > type->hp) {
+            hp = type->hp;
+        }
+    }
+    if (has_flag(MF_REGENERATES_10)) {
+        hp += 10;
+        if(hp > type->hp) {
+            hp = type->hp;
+        }
+    }
 
- bool moved = false;
- point next;
- int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
+    if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
+        mattack ma;
+        if(!is_hallucination()) {
+            (ma.*type->sp_attack)(g, this);
+        }
+    }
+    if (moves < 0) {
+        return;
+    }
+    if (has_flag(MF_IMMOBILE)) {
+        moves = 0;
+        return;
+    }
+    if (has_effect(ME_STUNNED)) {
+        stumble(g, false);
+        moves = 0;
+        return;
+    }
+    if (has_effect(ME_DOWNED)) {
+        moves = 0;
+        return;
+    }
+    if (has_effect(ME_BOULDERING)) {
+        moves -= 20;
+        if (moves < 0) {
+            return;
+        }
+    }
+    if (friendly != 0) {
+        if (friendly > 0) {
+            friendly--;
+        }
+        friendly_move(g);
+        return;
+    }
 
- monster_attitude current_attitude = attitude();
- if (friendly == 0)
-  current_attitude = attitude(&(g->u));
-// If our plans end in a player, set our attitude to consider that player
- if (plans.size() > 0) {
-  if (plans.back().x == g->u.posx && plans.back().y == g->u.posy)
-   current_attitude = attitude(&(g->u));
-  else {
-   for (int i = 0; i < g->active_npc.size(); i++) {
-    if (plans.back().x == g->active_npc[i]->posx &&
-        plans.back().y == g->active_npc[i]->posy)
-     current_attitude = attitude((g->active_npc[i]));
-   }
-  }
- }
+    bool moved = false;
+    point next;
+    int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
 
- if (current_attitude == MATT_IGNORE ||
-     (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST)) {
-  moves -= 100;
-  stumble(g, false);
-  return;
- }
+    monster_attitude current_attitude = attitude();
+    if (friendly == 0) {
+        current_attitude = attitude(&(g->u));
+    }
+    // If our plans end in a player, set our attitude to consider that player
+    if (plans.size() > 0) {
+        if (plans.back().x == g->u.posx && plans.back().y == g->u.posy) {
+            current_attitude = attitude(&(g->u));
+        } else {
+            for (int i = 0; i < g->active_npc.size(); i++) {
+                if (plans.back().x == g->active_npc[i]->posx &&
+                      plans.back().y == g->active_npc[i]->posy) {
+                    current_attitude = attitude((g->active_npc[i]));
+                }
+            }
+        }
+    }
 
- if (plans.size() > 0 && !is_fleeing(g->u) &&
-     (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-     (can_move_to(g, plans[0].x, plans[0].y) ||
-      (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-     (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
-  // CONCRETE PLANS - Most likely based on sight
-  next = plans[0];
-  moved = true;
- } else if (has_flag(MF_SMELLS)) {
-// No sight... or our plans are invalid (e.g. moving through a transparent, but
-//  solid, square of terrain).  Fall back to smell if we have it.
-  plans.clear();
-  point tmp = scent_move(g);
-  if (tmp.x != -1) {
-   next = tmp;
-   moved = true;
-  }
- }
- if (wandf > 0 && !moved) { // No LOS, no scent, so as a fall-back follow sound
-  plans.clear();
-  point tmp = wander_next(g);
-  if (tmp.x != posx() || tmp.y != posy()) {
-   next = tmp;
-   moved = true;
-  }
- }
+    if (current_attitude == MATT_IGNORE ||
+          (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST)) {
+        moves -= 100;
+        stumble(g, false);
+        return;
+    }
 
-// Finished logic section.  By this point, we should have chosen a square to
-//  move to (moved = true).
- if (moved) { // Actual effects of moving to the square we've chosen
-  // Note: The below works because C++ in A() || B() won't call B() if A() is true
-  int& x = next.x; int& y = next.y; // Define alias for x and y
-  bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
-  if(!did_something) {
-   moves -= 100; // If we don't do this, we'll get infinite loops.
-  }
- } else {
-  moves -= 100;
- }
+    if (plans.size() > 0 &&
+         (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
+         (can_move_to(g, plans[0].x, plans[0].y) ||
+         (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
+         (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
+        // CONCRETE PLANS - Most likely based on sight
+        next = plans[0];
+        moved = true;
+    } else if (has_flag(MF_SMELLS)) {
+        // No sight... or our plans are invalid (e.g. moving through a transparent, but
+        //  solid, square of terrain).  Fall back to smell if we have it.
+        plans.clear();
+        point tmp = scent_move(g);
+        if (tmp.x != -1) {
+            next = tmp;
+            moved = true;
+        }
+    }
+    if (wandf > 0 && !moved) { // No LOS, no scent, so as a fall-back follow sound
+        plans.clear();
+        point tmp = wander_next(g);
+        if (tmp.x != posx() || tmp.y != posy()) {
+            next = tmp;
+            moved = true;
+        }
+    }
 
-// If we're close to our target, we get focused and don't stumble
- if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
-     !moved)
-  stumble(g, moved);
+    // Finished logic section.  By this point, we should have chosen a square to
+    //  move to (moved = true).
+    if (moved) { // Actual effects of moving to the square we've chosen
+        // Note: The below works because C++ in A() || B() won't call B() if A() is true
+        int& x = next.x; int& y = next.y; // Define alias for x and y
+        bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
+        if(!did_something) {
+            moves -= 100; // If we don't do this, we'll get infinite loops.
+        }
+    } else {
+        moves -= 100;
+    }
+
+    // If we're close to our target, we get focused and don't stumble
+    if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
+          !moved) {
+        stumble(g, moved);
+    }
 }
 
 // footsteps will determine how loud a monster's normal movement is
@@ -621,7 +624,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("%s's offensive defense system shocks it!"),
                                    p.name.c_str());
                     }
-                    hurt(rng(10, 40));
+                    if (hurt(rng(10, 40))) {
+                        die(g);
+                    }
                 }
                 if (p.encumb(bphit) == 0 &&(p.has_trait("SPINES") || p.has_trait("QUILLS")))
                 {
@@ -635,7 +640,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                         g->add_msg(_("Your %s puncture it!"),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     }
-                    hurt(spine);
+                    if (hurt(spine))
+                        die(g);
                 }
 
                 if (dam + cut <= 0)
