@@ -2715,8 +2715,23 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
     bool sideStyle = use_narrow_sidebar();
 
+    // get the current weapon mode or mods
+    std::string mode = "";
+    if (weapon.mode == "MODE_BURST") {
+        mode = _("Burst");
+    } else {
+        item* gunmod = weapon.active_gunmod();
+        if (gunmod != NULL) {
+            mode = gunmod->type->name;
+        }
+    }
+
     WINDOW *weapwin = sideStyle ? w2 : w;
-    mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    if (mode == "") {
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    } else {
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s (%s)"), weapname().c_str(), mode.c_str());
+    }
     if (weapon.is_gun()) {
         int adj_recoil = recoil + driving_recoil;
         if (adj_recoil > 0) {
@@ -2742,22 +2757,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     if (style) {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
         mvwprintz(weapwin, 1, x, c_blue, style);
-    }
-
-    // Print the current weapon mode
-    const char *mode = NULL;
-    if (weapon.mode == "NULL")
-        mode = _("Normal");
-    else if (weapon.mode == "MODE_BURST")
-        mode = _("Burst");
-    else {
-        item* gunmod = weapon.active_gunmod();
-        if (gunmod != NULL)
-            mode = gunmod->type->name.c_str();
-    }
-    if (mode) {
-        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 3, x, c_red, mode);
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
