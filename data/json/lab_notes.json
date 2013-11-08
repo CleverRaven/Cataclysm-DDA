@@ -8,9 +8,12 @@
     },{
         "type" : "lab_note",
         "text" : "Both PE012 and PE018 show great stability.  A subject was exposed to both substances, alternating between the mutagen and the purifier.  Ultimately, the subject returned to baseline state with no apparent side effects."
-	},{
-		"type" : "lab_note",
-		"text" : "The chemical department has come through with a stable mutagen cocktail.  PE050 shows promise as an all-around genetic enhancement, with the worst side effect being digestive upset.  The lack of macro-scale physical changes makes it ideal for both military and civilian applications."
+    },{
+        "type" : "lab_note",
+        "text" : "The chemical department has come through with a stable mutagen cocktail.  PE050 shows promise as an all-around genetic enhancement, with the worst side effect being digestive upset.  The lack of macro-scale physical changes makes it ideal for both military and civilian applications."
+    },{
+        "type" : "lab_note",
+        "text" : "Dr. Dionne's team has come up with an ambitious mutagenic cocktail, dubbed PE065.  Though its effects are wildly polymorphic and unstable, to say the least, he suggests that several such mutants could effectively check the spread of reanimated XE037 infectees.  We are looking into implementation methodology."
     },{
         "type" : "lab_note",
         "text" : "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes."

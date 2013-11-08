@@ -7324,7 +7324,43 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "mutagen_chimera",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_chimera", 9]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_lizard", 1 ]
+    ],
+    [
+      [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "mutagen_beast", 1 ]
+    ],
+    [
+      [ "mutagen_cattle", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "disinfectant",
   "category": "CC_CHEM",
   "skill_used": "cooking",

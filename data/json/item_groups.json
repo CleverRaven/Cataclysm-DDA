@@ -3116,7 +3116,9 @@
       ["boots_rubber", 20],
       ["recipe_medicalmut", 2],
       ["canister_goo", 8],
-      ["recipe_alpha", 2]
+      ["recipe_alpha", 2],
+      ["canister_goo", 8],
+      ["recipe_chimera", 2]
     ]
   },{
     "type":"item_group",
@@ -4443,6 +4445,7 @@
       ["pocket_survival", 2],
       ["pocket_firearms", 2],
       ["SICP", 3],
+	  ["recipe_chimera", 8],
       ["textbook_robots", 1],
       ["recipe_alpha", 2],
       ["soldering_iron", 70],

@@ -114,6 +114,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You dream about the zoo, for some reason.",
+            "Your dreams...are complex and multifaceted."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a disturbing dream of bathing in the sun on a rock.",
             "While dreaming, you see a distinctively lizard-like reflection of yourself."
             ],
@@ -226,6 +234,14 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You can't quite work out what the dream is about...it just keeps changing.",
+            "Your dream is filled with creatures, and yet all seem like you."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 2
+    },{
+        "type" : "dream",
+        "messages" : [
             "You are terrified by a dream of becoming a lizard hybrid.",
             "You have a disturbingly lifelike dream of living as a lizard."
             ],
@@ -328,12 +344,20 @@
         "category" : "MUTCAT_RAT",
         "strength" : 3
     },{
-	        "type" : "dream",
+        "type" : "dream",
         "messages" : [
             "You see yourself, five years from now, as the leader of a successful city.",
             "Your success in restoring civilization was only a dream.  For now."
             ],
         "category" : "MUTCAT_ALPHA",
         "strength" : 3
-    }
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You are many animals, and yet one.",
+            "Hoof. Talon. Tooth. Fight. Feed. Forward."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 3
+   }
 ]
