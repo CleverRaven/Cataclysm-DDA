@@ -250,6 +250,7 @@
             {
                 "id": "crane_static",
                 "name": "Crane Precision",
+				"description": "Dexterity provides bonus to damage",
                 "unarmed_allowed": true,
                 "bash_str": -0.2,
                 "bash_dex": 0.8
@@ -282,6 +283,7 @@
             {
                 "id": "dragon_static",
                 "name": "Dragon Intelligence",
+				"description": "Intelligence provides bonus to damage",
                 "unarmed_allowed": true,
                 "bash_int": 0.8
             }
@@ -314,6 +316,7 @@
             {
                 "id": "leopard_static",
                 "name": "Leopard Strategy",
+				"description": "INT and PER provide bonus to accuracy",
                 "unarmed_allowed": true,
                 "hit_per": 0.2,
                 "hit_int": 0.2
@@ -345,6 +348,7 @@
             {
                 "id": "tiger_static",
                 "name": "Tiger Strength",
+				"description": "Strength provides bonus to accuracy",
                 "unarmed_allowed": true,
                 "hit_str": 0.8
             }
@@ -374,6 +378,7 @@
             {
                 "id": "snake_static",
                 "name": "Snake Sight",
+				"description": "Perception provides bonus to accuracy",
                 "unarmed_allowed": true,
                 "hit_per": 0.8
             }
@@ -417,6 +422,7 @@
             {
                 "id": "scorpion_static",
                 "name": "Scorpion Venom",
+				"description": "+2 bonus to damage",
                 "unarmed_allowed": true,
                 "bash": 2
             }
@@ -436,6 +442,7 @@
             {
                 "id": "toad_static",
                 "name": "Toad Armor",
+				"description": "INT and PER provide bonus to blocking",
                 "unarmed_allowed": true,
                 "block_per": 0.8,
                 "block_int": 0.8
