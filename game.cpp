@@ -2562,24 +2562,19 @@ void game::load_uistate(std::string worldname) {
     savefile << world_generator->all_worlds[worldname]->world_path << "/uistate.json";
 
     std::ifstream fin;
-    fin.open(savefile.str().c_str());
+    fin.open(savefile.str().c_str(), std::ifstream::in | std::ifstream::binary);
     if(!fin.good()) {
         fin.close();
         return;
     }
-    picojson::value wrapped_data;
-    fin >> wrapped_data;
+    try {
+        JsonIn jsin(&fin);
+        JsonObject jo = jsin.get_object();
+        uistate.deserialize(jo);
+    } catch (std::string e) {
+        dbg(D_ERROR) << "load_uistate: " << e;
+    }
     fin.close();
-    std::string jsonerr=picojson::get_last_error();
-    if ( ! jsonerr.empty() ) {
-       dbg(D_ERROR) << "load_uistate: " << jsonerr.c_str();
-       return;
-    }
-    bool success=uistate.load(wrapped_data);
-    if ( ! success ) {
-       dbg(D_ERROR) << "load_uistate: " << uistate.errdump;
-    }
-    uistate.errdump="";
 }
 
 void game::load(std::string worldname, std::string name)
@@ -2683,9 +2678,8 @@ void game::save_uistate() {
     savefile << world_generator->active_world->world_path << "/uistate.json";
     std::ofstream fout;
     fout.open(savefile.str().c_str());
-    fout << uistate.save();
+    fout << uistate.serialize();
     fout.close();
-    uistate.errdump="";
 }
 
 void game::save()
