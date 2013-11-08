@@ -816,7 +816,6 @@ void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
         } else {
             throw jo.line_number() + ": unrecognized artifact type.";
         }
-        jo.finish();
     }
 }
 

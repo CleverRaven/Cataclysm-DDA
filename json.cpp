@@ -406,6 +406,13 @@ JsonArray::JsonArray(const JsonArray &ja)
     strict = ja.strict;
 }
 
+void JsonArray::finish()
+{
+    if (jsin && jsin->good()) {
+        jsin->seek(end);
+    }
+}
+
 bool JsonArray::has_more()
 {
     return (index >= 0 && index < positions.size());

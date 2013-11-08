@@ -110,7 +110,7 @@
  * and calling the correct JsonIn method to read the value from the stream.
  * 
  * As such, when processing items using a JsonIn,
- * care must be taken to move the stream offset to the end of the item
+ * care should be taken to move the stream offset to the end of the item
  * after usage has finished.
  * This can be done by calling the .finish() method,
  * after the item has been dealt with, and before the stream continues.
@@ -218,6 +218,7 @@ private:
 public:
     JsonObject(JsonIn *jsin);
     JsonObject(const JsonObject &jsobj);
+    ~JsonObject() { finish(); }
 
     void finish(); // moves the stream to the end of the object
 
@@ -276,6 +277,9 @@ public:
     JsonArray(JsonIn *jsin);
     JsonArray(const JsonArray &jsarr);
     JsonArray() : positions(), start(0), index(0), jsin(NULL) {};
+    ~JsonArray() { finish(); }
+
+    void finish(); // move the stream position to the end of the array
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();
@@ -325,7 +329,6 @@ public:
 
 class JsonIn {
 private:
-
     std::istream *stream;
 
 public:
