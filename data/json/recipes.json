@@ -16645,7 +16645,7 @@
   "result": "chain",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 9,
+  "difficulty": 6,
   "time": 520000,
   "reversible": false,
   "autolearn": true,
