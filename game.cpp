@@ -4409,7 +4409,7 @@ bool game::u_see(monster *mon)
   return false; // Can't see digging monsters until we're right next to them
  }
  if (m.is_divable(mon->posx(), mon->posy()) && mon->can_submerge()
-         && !m.is_divable(u.posx, u.posy)) {
+         && !u.is_underwater()) {
    //Monster is in the water and submerged, and we're out of/above the water
    return false;
  }
