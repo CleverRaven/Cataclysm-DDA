@@ -238,7 +238,7 @@
         "points": 2,
         "description": "You have a very strong genetic base. If you mutate, the odds that the mutation will be beneficial are greatly increased.",
         "starting_trait": true,
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "CANNIBAL",
@@ -280,6 +280,7 @@
         "ugliness": -2,
         "description": "You are a sight to behold. NPCs who care about such thing will react more kindly to you.",
         "starting_trait": true,
+		"category": ["MUTCAT_ALPHA"]
         "cancels": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
         "changes_to": ["BEAUTIFUL"]
     },{
@@ -1376,7 +1377,7 @@
         "description": "Your muscles are stronger. Strength + 2",
         "prereqs": ["STR_UP"],
         "changes_to": ["STR_UP_3"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "STR_UP_3",
@@ -1403,7 +1404,7 @@
         "points": 1,
         "description": "You are a little nimbler. Dexterity + 1",
         "changes_to": ["DEX_UP_2"],
-        "category": ["MUTCAT_INSECT", "MUTCAT_SLIME"]
+        "category": ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_2",
@@ -1437,7 +1438,7 @@
         "points": 1,
         "description": "You are a little smarter. Intelligence + 1",
         "changes_to": ["INT_UP_2"],
-        "category": ["MUTCAT_SLIME"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "INT_UP_2",
@@ -1481,6 +1482,7 @@
         "description": "Your senses are keener. Perception + 2",
         "prereqs": ["PER_UP"],
         "changes_to": ["PER_UP_3"]
+		"category": ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "PER_UP_3",
@@ -1675,6 +1677,7 @@
         "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
         "prereqs": ["WEAKSTOMACH"],
         "changes_to": ["VOMITOUS"]
+		"category": ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
@@ -1689,7 +1692,7 @@
         "name": "Fast Metabolism",
         "points": -2,
         "description": "You require more food than most people.",
-        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "THIRST",
@@ -1705,6 +1708,7 @@
         "description": "You feel as though you are slowly weakening, but it's so slight a feeling that it does not affect you at all.",
         "cancels": ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "changes_to": ["ROT2"]
+		"category": ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "ROT2",
