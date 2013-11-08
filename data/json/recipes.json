@@ -7195,6 +7195,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "mutagen_medical",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 9,
+  "time": 10000,
+  "reversible": false,
+  "book_learn": [[ "recipe_medicalmut", 9 ]],
+  "autolearn": false,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen", 1 ]
+    ],
+    [
+      [ "blood", 1 ]
+    ],
+    [
+      [ "vitamins", 10 ]
+    ],
+    [
+      [ "iodine", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "canister_goo",
   "category": "CC_CHEM",
   "skill_used": "fabrication",
@@ -7249,6 +7285,42 @@
     [
       [ "ammonia", 2 ],
       [ "lye_powder", 200 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mutagen_alpha",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_alpha", 9 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+	  [ "mutagen_slime", 1 ]
+	],
+    [
+      [ "mutagen_plant", 1 ]
+    ],
+    [
+	  [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "purifier", 3 ]
     ]
   ]
 },{

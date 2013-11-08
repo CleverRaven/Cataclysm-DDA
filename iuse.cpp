@@ -905,6 +905,12 @@ int iuse::mutagen(game *g, player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
         g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
         p->mutate_category(g, "MUTCAT_TROGLO");
+    } else if( it->has_flag("MUTAGEN_ALPHA") ) {
+        g->add_msg_if_player(p, _("You feel...better. Somehow."));
+        p->mutate_category(g, "MUTCAT_ALPHA");
+    } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
+        g->add_msg_if_player(p, _("You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."));
+        p->mutate_category(g, "MUTCAT_MEDICAL");
     } else {
         if (!one_in(3)) {
             p->mutate(g);

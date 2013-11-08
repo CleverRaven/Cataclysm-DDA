@@ -8,9 +8,15 @@
     },{
         "type" : "lab_note",
         "text" : "Both PE012 and PE018 show great stability.  A subject was exposed to both substances, alternating between the mutagen and the purifier.  Ultimately, the subject returned to baseline state with no apparent side effects."
+	},{
+		"type" : "lab_note",
+		"text" : "The chemical department has come through with a stable mutagen cocktail.  PE050 shows promise as an all-around genetic enhancement, with the worst side effect being digestive upset.  The lack of macro-scale physical changes makes it ideal for both military and civilian applications."
     },{
         "type" : "lab_note",
         "text" : "We have made a fascinating discovery; by creating a miniature portal with low stability and high power, one can transpose into the 4th dimension and return immediately, but shifted by several meters.  Our subjects oscillated so quickly that none were even aware that they had visited lower planes."
+    },{
+        "type" : "lab_note",
+        "text" : "The research team headed by Dr. Isha has produced a concentrated form of mutagen that shows promising results for the treatment of many forms of disease. Testing reveals that it inhibits the body's pain responses while bolstering the immune system and natural regenerative capabilities, though a few troubling behavioral side effects have been reported."
     },{
         "type" : "lab_note",
         "text" : "Our research on teleportation has ground to a halt.  For some reason, the creation of a long-range transportation device eludes us, and one can transfer no further than 30 meters."
