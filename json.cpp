@@ -141,6 +141,16 @@ bool JsonObject::has_member(const std::string &name)
     return (bool)verify_position(name, false);
 }
 
+std::set<std::string> JsonObject::get_member_names()
+{
+    std::set<std::string> ret;
+    for (std::map<std::string,int>::iterator it = positions.begin();
+         it != positions.end(); ++it) {
+        ret.insert(it->first);
+    }
+    return ret;
+}
+
 std::string JsonObject::line_number()
 {
     jsin->seek(start);

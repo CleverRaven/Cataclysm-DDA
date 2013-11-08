@@ -222,6 +222,7 @@ public:
     void finish(); // moves the stream to the end of the object
 
     bool has_member(const std::string &name); // true iff named member exists
+    std::set<std::string> get_member_names();
 
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
