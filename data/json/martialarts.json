@@ -214,7 +214,7 @@
         ],
         "techniques" : [
             "tec_zuiquan_feint",
-            "tec_zuiquan_counter"
+            "tec_counter"
         ]
     },{
         "type" : "martial_art",
@@ -226,7 +226,7 @@
             {
                 "id" : "crane_static",
                 "name" : "Crane Precision",
-		"description" : "Damage bonus from dexterity at the cost of damage from strength.",
+                "description" : "Damage bonus from dexterity at the cost of damage from strength.",
                 "unarmed_allowed" : true,
                 "bash_str" : -0.2,
                 "bash_dex" : 0.8
@@ -245,7 +245,6 @@
         ],
         "techniques" : [
             "tec_crane_feint",
-            "tec_crane_block",
             "tec_crane_break",
             "tec_crane_precise"
         ]
@@ -259,7 +258,7 @@
             {
                 "id" : "dragon_static",
                 "name" : "Dragon Intelligence",
-		"description" : "Bonus damage from intelligence.",
+                "description" : "Bonus damage from intelligence.",
                 "unarmed_allowed" : true,
                 "bash_int" : 0.8
             }
@@ -274,11 +273,11 @@
                 "buff_duration" : 1,
                 "hit" : 2,
                 "bash" : 2
-                  }
+            }
         ],
         "techniques" : [
             "tec_dragon_grab",
-            "tec_dragon_counter",
+            "tec_counter",
             "tec_dragon_sweep",
             "tec_dragon_brutal"
         ]
@@ -291,7 +290,7 @@
             {
                 "id" : "leopard_static",
                 "name" : "Leopard Strategy",
-		"description" : "Perception and intelligence provide a bonus to hit.",
+                "description" : "Perception and intelligence provide a bonus to hit.",
                 "unarmed_allowed" : true,
                 "hit_per" : 0.2,
                 "hit_int" : 0.2
@@ -310,7 +309,7 @@
         ],
         "techniques" : [
             "tec_leopard_rapid",
-            "tec_leopard_counter",
+            "tec_counter",
             "tec_leopard_precise"
         ]
     },{
@@ -322,7 +321,7 @@
             {
                 "id" : "tiger_static",
                 "name" : "Tiger Strength",
-		"description" : "Strength provides additional damage bonus.",
+                "description" : "Strength provides additional damage bonus.",
                 "unarmed_allowed" : true,
                 "hit_str" : 0.8
             }
@@ -351,7 +350,7 @@
             {
                 "id" : "snake_static",
                 "name" : "Snake Sight",
-		"description" : "Perception provides a bonus to hit.",
+                "description" : "Perception provides a bonus to hit.",
                 "unarmed_allowed" : true,
                 "hit_per" : 0.8
             }
@@ -393,7 +392,7 @@
             {
                 "id" : "scorpion_static",
                 "name" : "Scorpion Venom",
-		"description" : "Flat bonus to damage.",
+                "description" : "Flat bonus to damage.",
                 "unarmed_allowed" : true,
                 "bash" : 2
             }
@@ -412,7 +411,7 @@
             {
                 "id" : "toad_static",
                 "name" : "Toad Armor",
-		"description" : "Perception and intelligence provide a bonus to block.",
+                "description" : "Perception and intelligence provide a bonus to block.",
                 "unarmed_allowed" : true,
                 "block_per" : 0.8,
                 "block_int" : 0.8
@@ -425,10 +424,10 @@
         "type" : "martial_art",
         "id" : "style_lizard",
         "name" : "Lizard Kung Fu",
-        "description": "One of the Five Deadly Venoms, and likely to be removed at the next save-compatibility breaker. Lizard Style docuses on using walls to your advantage.",
+        "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker. Lizard Style docuses on using walls to your advantage.",
         "arm_block" : 2,
         "techniques" : [
-            "tec_lizard_counter"
+            "tec_counter"
         ]
     },{
         "type" : "martial_art",
