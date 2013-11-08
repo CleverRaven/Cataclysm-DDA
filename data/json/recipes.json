@@ -5945,7 +5945,8 @@
       [ "cranberries", 1 ],
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
-      [ "pomegranate", 1 ]
+      [ "pomegranate", 1 ],
+      [ "dry_fruit", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -10318,6 +10319,60 @@
   ]
 },{
         "type" : "recipe",
+  "result": "loincloth",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_fur",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_leather",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "trenchcoat",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -12321,10 +12376,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wire",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "scrap", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "wire_barbed",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "skills_required": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 8000,
   "reversible": false,
@@ -18930,6 +19016,25 @@
     ],
     [
       [ "plut_cell", 1 ]
+    ]
+  ]
+},
+
+    {
+        "type" : "recipe",
+  "result": "rag",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "thread", 100 ]
     ]
   ]
 },{

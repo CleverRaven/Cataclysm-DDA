@@ -6446,12 +6446,12 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 100);
       } else {
-          g->add_msg_if_player(this, _("You feel horrible for eating a person.."));
+          g->add_msg_if_player(this, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       }
     }
     if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh"))) {
-        g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach"));
+        g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach."));
         add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
