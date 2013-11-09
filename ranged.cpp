@@ -809,7 +809,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                     }
                 }
                 if (mode != "") {
-                    mvwprintw(w_target, 2, 1, _("Firing mode: %s"),
+                    mvwprintw(w_target, 1, 14, _("Firing mode: %s"),
                               mode.c_str());
                 }
             } else {
