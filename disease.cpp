@@ -2745,7 +2745,10 @@ static void handle_insect_parasites(player& p, disease& dis) {
         }
         p.add_memorial_log(_("Dermatik eggs hatched."));
         p.rem_disease("formication", dis.bp, dis.side);
-        p.rem_disease("dermatik", dis.bp, dis.side)
+        if (!one_in(3))
+            p.rem_disease("dermatik", dis.bp, dis.side);
+        else
+            dis.duration = rng(12000, 14400);
         p.moves -= 600;
     }
 }
