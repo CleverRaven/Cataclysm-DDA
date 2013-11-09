@@ -132,7 +132,7 @@ struct mission_type {
  itype_id item_id;
  npc_class recruit_class;  // The type of NPC you are to recruit
  int recruit_npc_id;
- mon_id monster_type;
+ std::string monster_type;
  int monster_kill_goal;
  oter_id target_id;
  mission_id follow_up;
@@ -157,7 +157,7 @@ struct mission_type {
    target_id = ot_null;
    recruit_class = NC_NONE;
    recruit_npc_id = -1;
-   monster_type = mon_null;
+   monster_type = "mon_null";
    monster_kill_goal = -1;
    follow_up = MISSION_NULL;
   };
@@ -208,7 +208,7 @@ public:
   target_id = ot_null;
   recruit_class = NC_NONE;
   recruit_npc_id = -1;
-  monster_type = mon_null;
+  monster_type = "mon_null";
   monster_kill_goal = -1;
   count = 0;
   deadline = 0;
