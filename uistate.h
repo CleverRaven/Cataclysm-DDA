@@ -119,13 +119,13 @@ public:
     void deserialize(JsonObject &jo)
     {
 /**** here ****/
-        adv_inv_leftsort = jo.get_int("adv_inv_leftsort", 1);
-        adv_inv_rightsort = jo.get_int("adv_inv_rightsort", 1);
-        adv_inv_leftarea = jo.get_int("adv_inv_leftarea", 5);
-        adv_inv_rightarea = jo.get_int("adv_inv_rightarea", 0);
-        adv_inv_last_popup_dest = jo.get_int("adv_inv_last_popup_dest", 0);
-        editmap_nsa_viewmode = jo.get_bool("editmap_nsa_viewmode", false);
-        list_item_mon = jo.get_int("list_item_mon", 1);
+        adv_inv_leftsort = jo.get_int("adv_inv_leftsort", adv_inv_leftsort);
+        adv_inv_rightsort = jo.get_int("adv_inv_rightsort", adv_inv_rightsort);
+        adv_inv_leftarea = jo.get_int("adv_inv_leftarea", adv_inv_leftarea);
+        adv_inv_rightarea = jo.get_int("adv_inv_rightarea", adv_inv_rightarea);
+        adv_inv_last_popup_dest = jo.get_int("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
+        editmap_nsa_viewmode = jo.get_bool("editmap_nsa_viewmode", editmap_nsa_viewmode);
+        list_item_mon = jo.get_int("list_item_mon", list_item_mon);
 
         JsonObject inhist = jo.get_object("input_history");
         std::set<std::string> inhist_members = inhist.get_member_names();
