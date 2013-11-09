@@ -73,8 +73,8 @@ enum mission_goal {
 };
 
 struct mission_place { // Return true if [posx,posy] is valid in overmap
-    bool never     (game *g, int posx, int posy) { return false; }
-    bool always    (game *g, int posx, int posy) { return true;  }
+    bool never     (game *, int, int) { return false; }
+    bool always    (game *, int, int) { return true;  }
     bool near_town (game *g, int posx, int posy);
 };
 

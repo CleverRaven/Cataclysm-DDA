@@ -1011,11 +1011,14 @@ bool construct::able_deconstruct(game *g, point p)
 
 void construct::done_window_pane(game *g, point p)
 {
- g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet", 0);
+    (void)p; //unused
+    g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet");
 }
 
+// STUB
 void construct::done_move(game *g, point p)
 {
+    (void)g; (void)p; // TODO: something?
     return; // stub
 }
 
@@ -1036,11 +1039,12 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_trunk_log(game *g, point p)
 {
-    g->m.spawn_item(p.x, p.y, "log", int(g->turn), rng(5, 15));
+    g->m.spawn_item(p.x, p.y, "log", 1, 0, g->turn, rng(5, 15));
 }
 
 void construct::done_trunk_plank(game *g, point p)
 {
+    (void)p; //unused
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
         item tmplog(g->itypes["log"], int(g->turn), g->nextinv);
@@ -1095,9 +1099,9 @@ void construct::done_deconstruct(game *g, point p)
       case old_f_makeshift_bed:
       case old_f_bed:
       case old_f_armchair:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 10);
-        g->m.spawn_item(p.x, p.y, "rag", 0, rng(10,15));
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,8));
+        g->m.spawn_item(p.x, p.y, "2x4", 10);
+        g->m.spawn_item(p.x, p.y, "rag", rng(10,15));
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,8));
         g->m.furn_set(p.x, p.y, f_null);
       case old_f_bench:
       case old_f_crate_o:
@@ -1106,57 +1110,57 @@ void construct::done_deconstruct(game *g, point p)
       case old_f_cupboard:
       case old_f_desk:
       case old_f_bulletin:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
+        g->m.spawn_item(p.x, p.y, "2x4", 4);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case old_f_locker:
-        g->m.spawn_item(p.x, p.y, "sheet_metal", 0, rng(1,2));
-        g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
+        g->m.spawn_item(p.x, p.y, "sheet_metal", rng(1,2));
+        g->m.spawn_item(p.x, p.y, "pipe", rng(4,8));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case old_f_rack:
-        g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
+        g->m.spawn_item(p.x, p.y, "pipe", rng(6,12));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case old_f_oven:
-        g->m.spawn_item(p.x, p.y, "scrap",       0, rng(2,6));
-        g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
-        g->m.spawn_item(p.x, p.y, "element",     0, rng(1,4));
-        g->m.spawn_item(p.x, p.y, "pilot_light", 0, 1);
+        g->m.spawn_item(p.x, p.y, "scrap",       rng(2,6));
+        g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2,3));
+        g->m.spawn_item(p.x, p.y, "element",     rng(1,4));
+        g->m.spawn_item(p.x, p.y, "pilot_light", 1);
         g->m.furn_set(p.x, p.y, f_null);
       case old_f_fridge:
-        g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
-        g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
-        g->m.spawn_item(p.x, p.y, "hose", 0, 1);
-        g->m.spawn_item(p.x, p.y, "cu_pipe", 0, rng(3, 6));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(2,6));
+        g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2,3));
+        g->m.spawn_item(p.x, p.y, "hose", 1);
+        g->m.spawn_item(p.x, p.y, "cu_pipe", rng(3, 6));
 
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case old_f_glass_fridge:
-        g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
-        g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
-        g->m.spawn_item(p.x, p.y, "hose", 0, 1);
-        g->m.spawn_item(p.x, p.y, "glass_sheet", 0, 1);
-        g->m.spawn_item(p.x, p.y, "cu_pipe", 0, rng(3, 6));
+        g->m.spawn_item(p.x, p.y, "scrap", rng(2,6));
+        g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2,3));
+        g->m.spawn_item(p.x, p.y, "hose", 1);
+        g->m.spawn_item(p.x, p.y, "glass_sheet", 1);
+        g->m.spawn_item(p.x, p.y, "cu_pipe", rng(3, 6));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case old_f_counter:
       case old_f_dresser:
       case old_f_table:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 6);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,8));
+        g->m.spawn_item(p.x, p.y, "2x4", 6);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,8));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case old_f_pool_table:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
-        g->m.spawn_item(p.x, p.y, "rag", 0, 4);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
+        g->m.spawn_item(p.x, p.y, "2x4", 4);
+        g->m.spawn_item(p.x, p.y, "rag", 4);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case old_f_bookcase:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 12);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(12,16));
+        g->m.spawn_item(p.x, p.y, "2x4", 12);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(12,16));
         g->m.furn_set(p.x, p.y, f_null);
       break;
       default:
@@ -1169,40 +1173,40 @@ void construct::done_deconstruct(game *g, point p)
     {
       case old_t_door_c:
       case old_t_door_o:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,12));
+        g->m.spawn_item(p.x, p.y, "2x4", 4);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,12));
         g->m.ter_set(p.x, p.y, t_door_frame);
       break;
       case old_t_curtains:
       case old_t_window_domestic:
-        g->m.spawn_item(g->u.posx, g->u.posy, "stick", 0);
-        g->m.spawn_item(g->u.posx, g->u.posy, "sheet", 0, 2);
-        g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet", 0);
-        g->m.spawn_item(g->u.posx, g->u.posy, "nail", 0, 0, rng(3,4));
-        g->m.spawn_item(g->u.posx, g->u.posy, "string_36", 0, 0, 1);
+        g->m.spawn_item(g->u.posx, g->u.posy, "stick");
+        g->m.spawn_item(g->u.posx, g->u.posy, "sheet", 2);
+        g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet");
+        g->m.spawn_item(g->u.posx, g->u.posy, "nail", 0, rng(3,4));
+        g->m.spawn_item(g->u.posx, g->u.posy, "string_36", 0, 1);
         g->m.ter_set(p.x, p.y, t_window_empty);
       break;
       case old_t_window:
-        g->m.spawn_item(p.x, p.y, "glass_sheet", 0);
+        g->m.spawn_item(p.x, p.y, "glass_sheet");
         g->m.ter_set(p.x, p.y, t_window_empty);
       break;
       case old_t_backboard:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
+        g->m.spawn_item(p.x, p.y, "2x4", 4);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
         g->m.ter_set(p.x, p.y, t_pavement);
       break;
       case old_t_sandbox:
-        g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
-        g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
+        g->m.spawn_item(p.x, p.y, "2x4", 4);
+        g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,10));
         g->m.ter_set(p.x, p.y, t_floor);
       break;
       case old_t_slide:
-        g->m.spawn_item(p.x, p.y, "sheet_metal", 0);
-        g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
+        g->m.spawn_item(p.x, p.y, "sheet_metal");
+        g->m.spawn_item(p.x, p.y, "pipe", rng(4,8));
         g->m.ter_set(p.x, p.y, t_grass);
       break;
       case old_t_monkey_bars:
-        g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
+        g->m.spawn_item(p.x, p.y, "pipe", rng(6,12));
         g->m.ter_set(p.x, p.y, t_grass);
       break;
     }

@@ -744,14 +744,13 @@ nc_color item::color(player *u) const
     return ret;
 }
 
-nc_color item::color_in_inventory(player *u)
+nc_color item::color_in_inventory()
 {
     // Items in our inventory get colorized specially
-    nc_color ret = c_white;
-    if (active && !is_food() && !is_food_container())
-        ret = c_yellow;
-
-    return ret;
+    if (active && !is_food() && !is_food_container()) {
+        return c_yellow;
+    }
+    return c_white;
 }
 
 std::string item::tname(game *g)
@@ -1092,6 +1091,7 @@ bool item::has_quality(std::string quality_id) const {
 
 bool item::has_quality(std::string quality_id, int quality_value) const {
     // TODO: actually implement this >:(
+    (void)quality_id; (void)quality_value; //unused grrr
     bool ret = false;
 
     if(type->qualities.size() > 0){
@@ -1100,7 +1100,7 @@ bool item::has_quality(std::string quality_id, int quality_value) const {
     return ret;
 }
 
-bool item::has_technique(matec_id tech, player *p)
+bool item::has_technique(matec_id tech)
 {
     return type->techniques.count(tech);
 }
@@ -2264,10 +2264,11 @@ bool item::reload(player &u, char ammo_invlet)
   return false;
 }
 
-void item::use(player &u)
+void item::use()
 {
-    if (charges > 0)
+    if (charges > 0) {
         charges--;
+    }
 }
 
 bool item::burn(int amount)

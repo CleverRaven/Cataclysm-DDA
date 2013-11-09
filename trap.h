@@ -56,12 +56,11 @@ enum trap_id {
 struct trap;
 
 struct trapfunc {
-    void none           (game *g, int x, int y) { };
+    void none           (game *,  int ,  int) {};
     void bubble         (game *g, int x, int y);
     void beartrap       (game *g, int x, int y);
     void snare_light    (game *g, int x, int y);
     void snare_heavy    (game *g, int x, int y);
-    void snare          (game *g, int x, int y) { };
     void board          (game *g, int x, int y);
     void caltrops       (game *g, int x, int y);
     void tripwire       (game *g, int x, int y);
@@ -76,7 +75,7 @@ struct trapfunc {
     void pit            (game *g, int x, int y);
     void pit_spikes     (game *g, int x, int y);
     void lava           (game *g, int x, int y);
-    void portal         (game *g, int x, int y) { };
+    void portal         (game *g, int x, int y);
     void ledge          (game *g, int x, int y);
     void boobytrap      (game *g, int x, int y);
     void temple_flood   (game *g, int x, int y);
@@ -89,7 +88,7 @@ struct trapfunc {
 };
 
 struct trapfuncm {
-    void none           (game *g, monster *z, int x, int y) { };
+    void none           (game *,  monster *,  int ,  int ) {};
     void bubble         (game *g, monster *z, int x, int y);
     void cot            (game *g, monster *z, int x, int y);
     void beartrap       (game *g, monster *z, int x, int y);
@@ -101,16 +100,15 @@ struct trapfuncm {
     void blade          (game *g, monster *z, int x, int y);
     void snare_light    (game *g, monster *z, int x, int y);
     void snare_heavy    (game *g, monster *z, int x, int y);
-    void snare          (game *g, monster *z, int x, int y) { };
     void landmine       (game *g, monster *z, int x, int y);
     void telepad        (game *g, monster *z, int x, int y);
     void goo            (game *g, monster *z, int x, int y);
     void dissector      (game *g, monster *z, int x, int y);
-    void sinkhole       (game *g, monster *z, int x, int y) { };
+    void sinkhole       (game *g, monster *z, int x, int y);
     void pit            (game *g, monster *z, int x, int y);
     void pit_spikes     (game *g, monster *z, int x, int y);
     void lava           (game *g, monster *z, int x, int y);
-    void portal         (game *g, monster *z, int x, int y) { };
+    void portal         (game *g, monster *z, int x, int y);
     void ledge          (game *g, monster *z, int x, int y);
     void boobytrap      (game *g, monster *z, int x, int y);
     void glow           (game *g, monster *z, int x, int y);
@@ -146,29 +144,29 @@ struct trap {
  std::string id;
  */
 
- trap(int pid, std::string string_id, std::string pname, nc_color pcolor, char psym,
-      int pvisibility, int pavoidance, int pdifficulty,
-      void (trapfunc::*pact)(game *, int x, int y),
-      void (trapfuncm::*pactm)(game *, monster *, int x, int y),
-      std::vector<std::string> keys) {
-  //string_id is ignored at the moment, will later replace the id 
-  id = pid;
-  sym = psym;
-  color = pcolor;
-  name = pname;
-  visibility = pvisibility;
-  avoidance = pavoidance;
-  difficulty = pdifficulty;
-  act = pact;
-  actm = pactm;
+    trap(int pid, std::string /*string_id*/, std::string pname, nc_color pcolor,
+            char psym, int pvisibility, int pavoidance, int pdifficulty,
+            void (trapfunc::*pact)(game *, int x, int y),
+            void (trapfuncm::*pactm)(game *, monster *, int x, int y),
+            std::vector<std::string> keys) {
+        //string_id is ignored at the moment, will later replace the id 
+        id = pid;
+        sym = psym;
+        color = pcolor;
+        name = pname;
+        visibility = pvisibility;
+        avoidance = pavoidance;
+        difficulty = pdifficulty;
+        act = pact;
+        actm = pactm;
 
-  components.insert(components.end(), keys.begin(), keys.end());
+        components.insert(components.end(), keys.begin(), keys.end());
 
-  // It's a traaaap! So default;
-  benign = false;
-  // Traps are not typically funnels
-  funnel_radius_mm = 0;
- };
+        // It's a traaaap! So default;
+        benign = false;
+        // Traps are not typically funnels
+        funnel_radius_mm = 0;
+    };
 };
 
 trap_id trap_id_from_string(std::string trap_name);

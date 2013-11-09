@@ -38,25 +38,25 @@ class editmap
         point pos2screen( const int x, const int y );
         point screen2pos( const int i, const int j );
         bool eget_direction ( int &x, int &y, InputEvent &input, int ch );
-        point edit(point coords);
+        point edit();
         void uber_draw_ter( WINDOW * w, map * m );
         void update_view(bool update_info = false);
-        int edit_ter(point coords);
+        int edit_ter();
 
-        int edit_fld(point coords);
-        int edit_trp(point coords);
-        int edit_itm(point coords);
-        int edit_mon(point coords);
-        int edit_npc(point coords);
-        int edit_veh(point coords);
-        int edit_mapgen(point coords);
+        int edit_fld();
+        int edit_trp();
+        int edit_itm();
+        int edit_mon();
+        int edit_npc();
+        int edit_veh();
+        int edit_mapgen();
         void cleartmpmap( tinymap & tmpmap );
         int mapgen_preview(real_coords &tc, uimenu &gmenu);
-        int mapgen_retarget(WINDOW * preview = NULL, map * mptr = NULL);
+        int mapgen_retarget();
         int select_shape(shapetype shape, int mode = -1 );
 
         void update_fmenu_entry(uimenu *fmenu, field *field, int idx);
-        void setup_fmenu(uimenu *fmenu, field *field);
+        void setup_fmenu(uimenu *fmenu);
         bool change_fld(std::vector<point> coords, field_id fid, int density);
         WINDOW *w_info;
         WINDOW *w_help;

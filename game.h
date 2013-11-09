@@ -249,7 +249,7 @@ class game
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
   void peek();
-  point look_debug(point pnt=point(-256,-256));
+  point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(); //List all items around the player
   int list_monsters(); //List all monsters around the player
@@ -283,7 +283,6 @@ class game
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
   std::map<std::string, itype*> itypes;
-  std::vector <mtype*> mtypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions
