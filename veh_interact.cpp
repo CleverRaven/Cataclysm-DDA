@@ -221,7 +221,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'r': // repair mode
         valid_target = need_repair.size() > 0 && cpart >= 0;
-        has_tools = has_welder;
+        has_tools = has_welder || has_duct_tape;
         break;
     case 'f': // refill mode
         valid_target = (ptank != NULL && ptank->hp > 0);
@@ -392,8 +392,9 @@ void veh_interact::do_repair(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("You need a <color_%s>powered welder</color> to repair."),
-                       has_welder ? "ltgreen" : "red");
+                       _("You need a <color_%1$s>powered welder</color> or <color_%2$s>100 units of duct tape</color> to repair."),
+                       has_welder ? "ltgreen" : "red",
+                       has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
     }
@@ -1184,6 +1185,7 @@ void complete_vehicle (game *g)
         }
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
+        tools.push_back(component("duct_tape", 100));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
