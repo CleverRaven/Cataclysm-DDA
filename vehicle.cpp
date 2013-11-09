@@ -18,6 +18,7 @@ enum vehicle_controls {
  toggle_lights,
  toggle_overhead_lights,
  toggle_turrets,
+ toggle_gps,
  activate_horn,
  release_control,
  control_cancel,
@@ -38,6 +39,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    gps_on = false;
     overhead_lights_on = false;
     insides_dirty = true;
 
@@ -299,6 +301,14 @@ void vehicle::use_controls()
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
+
+    curent++;
+
+    // In the future we might use a gps tracking device in the vehicle
+    options_choice.push_back(toggle_gps);
+    options_message.push_back(uimenu_entry((gps_on) ? _("Disable GPS tracking") :
+                                            _("Enable GPS tracking"), 'g'));
+
     curent++;
 
     bool has_lights = false;
@@ -447,6 +457,18 @@ void vehicle::use_controls()
         g->u.moves -= 500;
         break;
     }
+    case toggle_gps:
+        if (gps_on)
+        {
+            g->cur_om->remove_vehicle(this);
+            gps_on = false;
+        } else 
+        {
+            g->cur_om->vehicles.push_back(this);
+            gps_on = true;
+        }
+        g->add_msg((gps_on) ? _("GPS tracking enabled") : _("GPS tracking disabled"));
+        break;
     case control_cancel:
         break;
     }

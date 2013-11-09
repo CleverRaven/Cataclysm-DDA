@@ -671,6 +671,7 @@ overmap::overmap(overmap const& o)
     : zg(o.zg)
     , radios(o.radios)
     , npcs(o.npcs)
+    , vehicles(o.vehicles)
     , cities(o.cities)
     , roads_out(o.roads_out)
     , towns(o.towns)
@@ -704,6 +705,7 @@ overmap& overmap::operator=(overmap const& o)
     zg = o.zg;
     radios = o.radios;
     npcs = o.npcs;
+    vehicles = o.vehicles;
     cities = o.cities;
     roads_out = o.roads_out;
     towns = o.towns;
@@ -876,6 +878,19 @@ void overmap::remove_npc(int npc_id)
     }
 }
 
+void overmap::remove_vehicle(vehicle *veh)
+{
+    for(int i = 0; i < vehicles.size(); i++)
+    {
+        if(vehicles[i] == veh)
+        {
+            //Remove this vehicle from the list of overmap vehicles.
+            vehicles.erase(vehicles.begin() + i);
+            return;
+        }
+    }
+}
+
 point overmap::display_notes(game* g, int const z) const
 {
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
@@ -962,6 +977,22 @@ bool overmap::has_npc(game *g, int const x, int const y, int const z) const
     return false;
 }
 
+// should be merged with has_npc
+bool overmap::has_vehicle(game *g, int const x, int const y, int const z) const
+{
+    // vehicles only spawn at z level 0 (for now)
+    if (!z == 0)
+        return false;
+    //Check if the target overmap square has an vehicle in it.
+    for (int n = 0; n < vehicles.size(); n++) {
+        int vx = (g->levx + (vehicles[n]->global_x() / SEEX)) / 2;
+        int vy = (g->levy + (vehicles[n]->global_y() / SEEY)) / 2;
+        if (vx == x && vy == y)
+            return true;
+    }
+    return false;
+}
+
 // int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
 //     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
 
@@ -1010,6 +1041,43 @@ void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const
                     mvwputch(w, i, j, c_black, LINE_XXXX);
                 i++;
             }
+        }
+    }
+    for (int j = 0; j < i; j++)
+        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
+    for (int j = 0; j < maxnamelength; j++)
+        mvwputch(w, i, j, c_white, LINE_OXOX);
+    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
+}
+
+// again should be merged with print_npcs
+void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int const z)
+{
+    if (!z==0) // vehicles only exist on zlevel 0
+        return;
+    int i = 0, maxnamelength = 0;
+    //Check the max namelength of the vehicles in the target
+    for (int n = 0; n < vehicles.size(); n++)
+    {
+        int vx = (g->levx + (vehicles[n]->global_x() / SEEX)) / 2;
+        int vy = (g->levy + (vehicles[n]->global_y() / SEEY)) / 2;
+        if (vx == x && vy == y)
+        {
+            if (vehicles[n]->name.length() > maxnamelength)
+                maxnamelength = vehicles[n]->name.length();
+        }
+    }
+    //Check if the target has a vehicle in it.
+    for (int n = 0; n < vehicles.size(); n++)
+    {
+        int vx = (g->levx + (vehicles[n]->global_x() / SEEX)) / 2;
+        int vy = (g->levy + (vehicles[n]->global_y() / SEEY)) / 2;
+        if (vx == x && vy == y)
+        {
+            mvwprintz(w, i, 0, c_yellow, vehicles[n]->name.c_str());
+            for (int j = vehicles[n]->name.length(); j < maxnamelength; j++)
+                mvwputch(w, i, j, c_black, LINE_XXXX);
+            i++;
         }
     }
     for (int j = 0; j < i; j++)
@@ -1644,7 +1712,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
                    int &origx, int &origy, signed char &ch, bool blink,
                    overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
 {
- bool note_here = false, npc_here = false;
+ bool note_here = false, npc_here = false, veh_here = false;
  std::string note_text;
  int om_map_width = TERMX-28;
  int om_map_height = TERMY;
@@ -1703,6 +1771,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
     omy = cursy + j;
     see = false;
     npc_here = false;
+    veh_here = false;
     if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
      cur_ter = ter(omx, omy, z);
      see = seen(omx, omy, z);
@@ -1711,6 +1780,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       note_text = note(omx, omy, z);
         //Check if there is an npc.
         npc_here = has_npc(g,omx,omy,z);
+        // and a vehicle
+        veh_here = has_vehicle(g,omx,omy,z);
 // <Out of bounds placement>
     } else if (omx < 0) {
      omx += OMAPX;
@@ -1774,6 +1845,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      } else if (npc_here && blink) {
       ter_color = c_pink;
       ter_sym = '@';
+     } else if (veh_here && blink) {
+         ter_color = c_cyan;
+         ter_sym = 'c';
      } else if (omx == target.x && omy == target.y && blink) {
       ter_color = c_red;
       ter_sym = '*';
@@ -1829,6 +1903,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   } else if (has_npc(g, cursx, cursy, z))
     {
         print_npcs(g, w, cursx, cursy, z);
+    } else if (has_vehicle(g, cursx, cursy, z))
+    {
+        print_vehicles(g, w, cursx, cursy, z);
     }
 
 

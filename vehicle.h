@@ -486,6 +486,7 @@ public:
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
     bool lights_on;     // lights on/off
+    bool gps_on;        // vehicle tracking on/off
     bool overhead_lights_on; //emergency vehicle flasher lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode

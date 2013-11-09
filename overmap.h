@@ -133,11 +133,13 @@ class overmap
 
   point find_note(int const x, int const y, int const z, std::string const& text) const;
   void remove_npc(int npc_id);
+  void remove_vehicle(vehicle *veh);
 
   // TODO: make private
   std::vector<mongroup> zg;
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
+  std::vector<vehicle *> vehicles;
   std::vector<city> cities;
   std::vector<city> roads_out;
   std::vector<settlement> towns;
@@ -209,6 +211,8 @@ class overmap
   // Map helper function.
   bool has_npc(game *g, int const x, int const y, int const z) const;
   void print_npcs(game *g, WINDOW *w, int const x, int const y, int const z);
+  bool has_vehicle(game *g, int const x, int const y, int const z) const;
+  void print_vehicles(game *g, WINDOW *w, int const x, int const y, int const z);
 };
 
 // TODO: readd the stream operators
