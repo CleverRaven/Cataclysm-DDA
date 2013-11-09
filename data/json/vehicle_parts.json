@@ -1087,6 +1087,19 @@
         "flags": ["OBSTACLE", "FORGE"]
     },{
         "type" : "vehicle_part",
+        "id" : "veh_stereo",
+        "name": "stereo system",
+        "symbol": "#",
+        "color": "light_blue",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "damage_modifier": 10,
+        "durability": 20,
+        "item": "stereo",
+        "difficulty": 4,
+        "flags": ["OBSTACLE", "STEREO"]
+    },{
+        "type" : "vehicle_part",
         "id" : "m249",
         "name": "mounted M249",
         "symbol": "t",

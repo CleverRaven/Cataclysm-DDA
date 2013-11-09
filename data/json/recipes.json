@@ -12083,6 +12083,48 @@
   ]
 },{
         "type" : "recipe",
+  "result": "stereo",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",4],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mp3", 1 ]
+    ],
+    [
+      [ "amplifier", 5 ]
+    ],
+    [
+      ["cable", 5]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "foot_crank",
   "category": "CC_MISC",
   "skill_used": "mechanics",
