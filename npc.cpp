@@ -1778,17 +1778,17 @@ void npc::draw(WINDOW* w, int ux, int uy, bool inv)
   mvwputch    (w, y, x, col, '@');
 }
 
-void npc::print_info(WINDOW* w)
+int npc::print_info(WINDOW* w, int column /*= 1*/, int line /*= 6*/)
 {
 // First line of w is the border; the next 4 are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
 // because it's a border as well; so we have lines 6 through 11.
 // w is also 48 characters wide - 2 characters for border = 46 characters for us
- mvwprintz(w, 6, 1, c_white, _("NPC: %s"), name.c_str());
+ mvwprintz(w, line++, column, c_white, _("NPC: %s"), name.c_str());
  if (weapon.type->id == "null") {
-  mvwprintz(w, 7, 1, c_red, _("Wielding %s"), weapon.tname().c_str());
+  mvwprintz(w, line++, column, c_red, _("Wielding %s"), weapon.tname().c_str());
  } else {
-  mvwprintz(w, 7, 1, c_red, _("Wielding a %s"), weapon.tname().c_str());
+  mvwprintz(w, line++, column, c_red, _("Wielding a %s"), weapon.tname().c_str());
  }
  std::string wearing;
  std::stringstream wstr;
@@ -1799,18 +1799,20 @@ void npc::print_info(WINDOW* w)
   wstr << worn[i].tname();
  }
  wearing = wstr.str();
- int line = 8;
  size_t split;
+ int last_line = line + 3;
  do {
   split = (wearing.length() <= 46) ? std::string::npos :
                                      wearing.find_last_of(' ', 46);
   if (split == std::string::npos)
-   mvwprintz(w, line, 1, c_blue, wearing.c_str());
+   mvwprintz(w, line, column, c_blue, wearing.c_str());
   else
-   mvwprintz(w, line, 1, c_blue, wearing.substr(0, split).c_str());
+   mvwprintz(w, line, column, c_blue, wearing.substr(0, split).c_str());
   wearing = wearing.substr(split + 1);
   line++;
- } while (split != std::string::npos && line <= 11);
+ } while (split != std::string::npos && line <= last_line);
+
+ return line;
 }
 
 std::string npc::short_description()

@@ -360,6 +360,9 @@
     <ClCompile Include="..\savegame_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\live_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\translations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -680,7 +683,7 @@
     <ClInclude Include="..\savegame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\input_defs.h">
+    <ClInclude Include="..\live_view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\char_validity_check.h">
