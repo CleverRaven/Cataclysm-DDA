@@ -9,7 +9,7 @@
 #include "npc.h"
 #include "json.h"
 
-struct mission;
+class mission;
 class game;
 enum talk_topic;
 
