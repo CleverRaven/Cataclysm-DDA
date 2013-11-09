@@ -17,6 +17,9 @@ class game;
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
 
+//How far to scatter parts from a vehicle when the part is destroyed (+/-)
+#define SCATTER_DISTANCE 3
+
 #define num_fuel_types 5
 extern const ammotype fuel_types[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
@@ -181,6 +184,10 @@ private:
     bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
     void add_missing_frames();
 
+    // direct damage to part (armor protection and internals are not counted)
+    // returns damage bypassed
+    int damage_direct (int p, int dmg, int type = 1);
+
 public:
     vehicle (game *ag=0, std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
@@ -226,6 +233,8 @@ public:
     int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
 
     void remove_part (int p);
+
+    void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
 // Generate the corresponding item from a vehicle part.
 // Still needs to be removed.
@@ -429,10 +438,6 @@ public:
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
     void damage_all (int dmg1, int dmg2, int type, const point &impact);
-
-    // direct damage to part (armor protection and internals are not counted)
-    // returns damage bypassed
-    int damage_direct (int p, int dmg, int type = 1);
 
     void leak_fuel (int p);
 
