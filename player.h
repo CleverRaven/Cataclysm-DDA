@@ -21,7 +21,7 @@
 class monster;
 class game;
 struct trap;
-struct mission;
+class mission;
 class profession;
 
 struct special_attack
