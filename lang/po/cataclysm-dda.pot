@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-08 21:23-0500\n"
+"POT-Creation-Date: 2013-11-08 22:24-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16518,7 +16518,7 @@ msgstr ""
 #: lang/json/json_items.py
 msgid ""
 "A sword bayonet is a large slashing weapon that can be attached to the front "
-"of a shotgun or rifle, allowing a melee attack to deal piercing damage. The "
+"of a shotgun or rifle, allowing a melee attack to deal cutting damage. The "
 "added length increases recoil substantially."
 msgstr ""
 
@@ -49951,6 +49951,11 @@ msgid "The %1$s hits your %2$s."
 msgstr ""
 
 #: monmove.cpp
+#, c-format
+msgid "Something hits your %s."
+msgstr ""
+
+#: monmove.cpp
 msgid "You stop reloading."
 msgstr ""
 
@@ -54887,7 +54892,7 @@ msgstr ""
 msgid "%6.2f per minute"
 msgstr ""
 
-#: player.cpp
+#: player.cpp ranged.cpp
 msgid "Burst"
 msgstr ""
 
@@ -55969,6 +55974,11 @@ msgstr ""
 #: ranged.cpp
 #, c-format
 msgid "Range: %d"
+msgstr ""
+
+#: ranged.cpp
+#, c-format
+msgid "Firing mode: %s"
 msgstr ""
 
 #: ranged.cpp
