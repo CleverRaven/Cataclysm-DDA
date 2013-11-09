@@ -2343,74 +2343,91 @@ void map::process_active_items(game *g)
 
 void map::process_active_items_in_submap(game *g, const int nonant)
 {
-    it_tool* tmp;
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
             std::vector<item> *items = &(grid[nonant]->itm[i][j]);
-            for (int n = 0; n < items->size(); n++) {
-                if ((*items)[n].active ||
-                    ((*items)[n].is_container() && (*items)[n].contents.size() > 0 &&
-                     (*items)[n].contents[0].active))
-                {
-                    if ((*items)[n].is_food()) { // food items
-                        if ((*items)[n].has_flag("HOT")) {
-                            (*items)[n].item_counter--;
-                            if ((*items)[n].item_counter == 0) {
-                                (*items)[n].item_tags.erase("HOT");
-                                (*items)[n].active = false;
-                                grid[nonant]->active_item_count--;
-                            }
-                        }
-                    } else if ((*items)[n].is_food_container()) { // food in containers
-                        if ((*items)[n].contents[0].has_flag("HOT")) {
-                            (*items)[n].contents[0].item_counter--;
-                            if ((*items)[n].contents[0].item_counter == 0) {
-                                (*items)[n].contents[0].item_tags.erase("HOT");
-                                (*items)[n].contents[0].active = false;
-                                grid[nonant]->active_item_count--;
-                            }
-                        }
-                    } else if ((*items)[n].type->id == "corpse") { // some corpses rez over time
-                        if ((*items)[n].ready_to_revive(g)) {
-                            if (rng(0,(*items)[n].volume()) > (*items)[n].burnt) {
-                                int mapx = (nonant % my_MAPSIZE) * SEEX + i;
-                                int mapy = (nonant / my_MAPSIZE) * SEEY + j;
-                                if (g->u_see(mapx, mapy)) {
-                                    g->add_msg(_("A nearby corpse rises and moves towards you!"));
-                                }
-                                g->revive_corpse(mapx, mapy, n);
-                            } else {
-                                (*items)[n].active = false;
-                            }
-                        }
-                    } else if (!(*items)[n].is_tool()) { // It's probably a charger gun
-                        (*items)[n].active = false;
-                        (*items)[n].charges = 0;
-                    } else {
-                        tmp = dynamic_cast<it_tool*>((*items)[n].type);
-                        if (tmp->use != &iuse::none) {
-                            tmp->use.call(g, &(g->u), &((*items)[n]), true);
-                        }
-                        if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0) {
-                            (*items)[n].charges--;
-                        }
-                        if ((*items)[n].charges <= 0) {
-                            if (tmp->use != &iuse::none) {
-                                tmp->use.call(g, &(g->u), &((*items)[n]), false);
-                            }
-                            if (tmp->revert_to == "null" || (*items)[n].charges == -1) {
-                                items->erase(items->begin() + n);
-                                grid[nonant]->active_item_count--;
-                                n--;
-                            } else {
-                                (*items)[n].type = g->itypes[tmp->revert_to];
-                            }
-                        }
-                    }
+            //Do a count-down loop, as some items may be removed
+            for (int n = items->size() - 1; n >= 0; n--) {
+                if(process_active_item(g, (*items)[n], nonant, i, j)) {
+                    items->erase(items->begin() + n);
+                    grid[nonant]->active_item_count--;
                 }
             }
         }
     }
+}
+
+/**
+ * Processes a single active item.
+ * @param g A reference to the current game.
+ * @param it The item we're processing.
+ * @param nonant The current submap nonant.
+ * @param i The x-coordinate inside the submap.
+ * @param j The y-coordinate inside the submap.
+ * @return true If the item needs to be removed.
+ */
+bool map::process_active_item(game* g, item& it, const int nonant, const int i, const int j) {
+    if (it.active ||
+        (it.is_container() && it.contents.size() > 0 &&
+         it.contents[0].active))
+    {
+        if (it.is_food()) { // food items
+            if (it.has_flag("HOT")) {
+                it.item_counter--;
+                if (it.item_counter == 0) {
+                    it.item_tags.erase("HOT");
+                    it.active = false;
+                    grid[nonant]->active_item_count--;
+                }
+            }
+        } else if (it.is_food_container()) { // food in containers
+            if (it.contents[0].has_flag("HOT")) {
+                it.contents[0].item_counter--;
+                if (it.contents[0].item_counter == 0) {
+                    it.contents[0].item_tags.erase("HOT");
+                    it.contents[0].active = false;
+                    grid[nonant]->active_item_count--;
+                }
+            }
+        } else if (it.type->id == "corpse") { // some corpses rez over time
+            if (it.ready_to_revive(g)) {
+                if (rng(0,it.volume()) > it.burnt) {
+                    int mapx = (nonant % my_MAPSIZE) * SEEX + i;
+                    int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+                    if (g->u_see(mapx, mapy)) {
+                        g->add_msg(_("A nearby corpse rises and moves towards you!"));
+                    }
+                    g->revive_corpse(mapx, mapy, &it);
+                    return true;
+                } else {
+                    it.active = false;
+                }
+            }
+        } else if (!it.is_tool()) { // It's probably a charger gun
+            it.active = false;
+            it.charges = 0;
+        } else {
+            it_tool* tmp = dynamic_cast<it_tool*>(it.type);
+            if (tmp->use != &iuse::none) {
+                tmp->use.call(g, &(g->u), &(it), true);
+            }
+            if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0) {
+                it.charges--;
+            }
+            if (it.charges <= 0) {
+                if (tmp->use != &iuse::none) {
+                    tmp->use.call(g, &(g->u), &(it), false);
+                }
+                if (tmp->revert_to == "null" || it.charges == -1) {
+                    return true;
+                } else {
+                    it.type = g->itypes[tmp->revert_to];
+                }
+            }
+        }
+    }
+    //Default: Don't remove the item after processing
+    return false;
 }
 
 std::list<item> map::use_amount(const point origin, const int range, const itype_id type,
