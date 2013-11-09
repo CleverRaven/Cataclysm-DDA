@@ -289,7 +289,6 @@ class map
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void process_active_items(game *g);
- void process_active_items_in_submap(game *g, const int nonant);
  void process_vehicles(game *g);
 
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
@@ -435,6 +434,8 @@ submap * getsubmap( const int grididx );
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
+ 
+ void process_active_items_in_submap(game *g, const int nonant);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
