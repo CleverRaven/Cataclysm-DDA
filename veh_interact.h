@@ -5,6 +5,8 @@
 #include "output.h"
 #include "inventory.h"
 
+#define DUCT_TAPE_USED 100
+
 enum sel_types {
   SEL_NULL, SEL_JACK
 };

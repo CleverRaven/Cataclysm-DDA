@@ -130,7 +130,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                 (crafting_inv.has_amount("toolset", 1) &&
                  crafting_inv.has_charges("toolset", charges/20));
-    has_duct_tape = (crafting_inv.has_charges("duct_tape", 100));
+    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
     has_jack = crafting_inv.has_amount("jack", 1);
     has_siphon = crafting_inv.has_amount("hose", 1);
 
@@ -287,10 +287,11 @@ void veh_interact::do_install(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder</color> or <color_%3$s>100 units of duct tape</color> to install parts."),
+                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder</color> or <color_%3$s>%4$d units of duct tape</color> to install parts."),
                        has_wrench ? "ltgreen" : "red",
                        has_welder ? "ltgreen" : "red",
-                       has_duct_tape ? "ltgreen" : "red");
+                       has_duct_tape ? "ltgreen" : "red",
+                       DUCT_TAPE_USED);
         wrefresh (w_msg);
         return;
     }
@@ -326,12 +327,13 @@ void veh_interact::do_install(task_reason reason)
         }
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>100 units of duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>%6$d units of duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s"),
                        has_comps ? "ltgreen" : "red",
                        g->itypes[itm]->name.c_str(),
                        has_wrench ? "ltgreen" : "red",
                        has_welder ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red",
+                       DUCT_TAPE_USED,
                        has_skill ? "ltgreen" : "red",
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
@@ -392,9 +394,10 @@ void veh_interact::do_repair(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("You need a <color_%1$s>powered welder</color> or <color_%2$s>100 units of duct tape</color> to repair."),
+                       _("You need a <color_%1$s>powered welder</color> or <color_%2$s>%3$d units of duct tape</color> to repair."),
                        has_welder ? "ltgreen" : "red",
-                       has_duct_tape ? "ltgreen" : "red");
+                       has_duct_tape ? "ltgreen" : "red",
+                       DUCT_TAPE_USED);
         wrefresh (w_msg);
         return;
     }
@@ -1131,7 +1134,7 @@ void complete_vehicle (game *g)
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
-        tools.push_back(component("duct_tape", 100));
+        tools.push_back(component("duct_tape", DUCT_TAPE_USED));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
 
@@ -1185,7 +1188,7 @@ void complete_vehicle (game *g)
         }
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
-        tools.push_back(component("duct_tape", 100));
+        tools.push_back(component("duct_tape", DUCT_TAPE_USED));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
