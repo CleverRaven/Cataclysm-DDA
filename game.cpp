@@ -6878,9 +6878,8 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
     {
         if (!mouse_hover) {
             zombie(dex).draw(w_terrain, lx, ly, true);
-            zombie(dex).print_info(this, w_look,5,6);
         }
-        line = zombie(dex).print_info(this, w_look, line, column);
+        line = zombie(dex).print_info(this, w_look, line, 6, column);
         handle_multi_item_info(lx, ly, w_look, column, line, mouse_hover);
     }
     else if (npc_at(lx, ly) != -1)
