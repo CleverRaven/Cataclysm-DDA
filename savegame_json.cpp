@@ -1103,7 +1103,7 @@ void inventory::json_load_items(picojson::value & parsed, game * g) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// monster.h
 
-bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
+bool monster::json_load(picojson::value parsed)
 {
 
     const picojson::object &data = parsed.get<picojson::object>();
@@ -1167,9 +1167,9 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
     return true;
 }
 
-void monster::json_load(picojson::value parsed, game * g) {
-    std::vector <mtype *> *mt=&(g->mtypes);
-    json_load(parsed, mt);
+void monster::json_load(picojson::value parsed, game * g)
+{
+    json_load(parsed);
 }
 
 /*

@@ -78,13 +78,6 @@ traps.push_back(new trap(id, "BEARTRAP_BURIED", _("buried bear trap"), c_blue, '
 
 keys.clear();
 id++;
-keys.push_back("stick");
-keys.push_back("string_36");
-traps.push_back(new trap(id, "SNARE", _("rabbit snare"), c_brown, '\\', 5, 10,
-    2, &trapfunc::snare, &trapfuncm::snare, keys));;
-
-keys.clear();
-id++;
 keys.push_back("board_trap");
 traps.push_back(new trap(id, "NAILBOARD", _("spiked board"), c_ltgray, '_',  1, 6,
     0, &trapfunc::board, &trapfuncm::board, keys));;

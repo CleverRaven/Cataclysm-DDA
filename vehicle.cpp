@@ -2254,7 +2254,7 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = _("SNAP!");
             wreckit = true;
             g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "beartrap", 0);
+            g->m.spawn_item(x, y, "beartrap");
             break;
         case tr_nailboard:
             wreckit = true;
@@ -2270,10 +2270,10 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = _("Clank!");
             wreckit = true;
             g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "crossbow", 0);
-            g->m.spawn_item(x, y, "string_6", 0);
+            g->m.spawn_item(x, y, "crossbow");
+            g->m.spawn_item(x, y, "string_6");
             if (!one_in(10))
-                g->m.spawn_item(x, y, "bolt_steel", 0);
+                g->m.spawn_item(x, y, "bolt_steel");
             break;
         case tr_shotgun_2:
         case tr_shotgun_1:
@@ -2286,8 +2286,8 @@ void vehicle::handle_trap (int x, int y, int part)
             else
             {
                 g->m.remove_trap(x, y);
-                g->m.spawn_item(x, y, "shotgun_sawn", 0);
-                g->m.spawn_item(x, y, "string_6", 0);
+                g->m.spawn_item(x, y, "shotgun_sawn");
+                g->m.spawn_item(x, y, "string_6");
             }
             break;
         case tr_landmine_buried:
@@ -2642,8 +2642,8 @@ void vehicle::unboard_all ()
 {
     std::vector<int> bp = boarded_parts ();
     for (int i = 0; i < bp.size(); i++) {
-        g->m.unboard_vehicle (g, global_x() + parts[bp[i]].precalc_dx[0], global_y() +
-                              parts[bp[i]].precalc_dy[0]);
+        g->m.unboard_vehicle (global_x() + parts[bp[i]].precalc_dx[0],
+                              global_y() + parts[bp[i]].precalc_dy[0]);
     }
 }
 
@@ -2786,7 +2786,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
         {
             g->m.spawn_item(global_x() + parts[p].precalc_dx[0],
                            global_y() + parts[p].precalc_dy[0],
-                           part_info(p).item, g->turn);
+                           part_info(p).item, 1, 0, g->turn);
             remove_part (p);
         }
     }
@@ -2813,8 +2813,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, "gasoline", 0);
-                    g->m.spawn_item(i, j, "gasoline", 0);
+                    g->m.spawn_item(i, j, "gasoline");
+                    g->m.spawn_item(i, j, "gasoline");
                     parts[p].amount -= 100;
                 }
     }

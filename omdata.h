@@ -187,8 +187,8 @@ NUM_OMS_FLAGS
 struct omspec_place
 {
 // Able functions - true if p is valid
- bool never      (overmap *om, unsigned long f, tripoint p) { return false; }
- bool always     (overmap *om, unsigned long f, tripoint p) { return true;  }
+ bool never      (overmap *, unsigned long, tripoint) { return false; }
+ bool always     (overmap *, unsigned long, tripoint) { return true;  }
  bool water      (overmap *om, unsigned long f, tripoint p); // Only on rivers
  bool land       (overmap *om, unsigned long f, tripoint p); // Only on land (no rivers)
  bool forest     (overmap *om, unsigned long f, tripoint p); // Forest

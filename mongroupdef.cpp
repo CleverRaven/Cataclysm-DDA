@@ -30,8 +30,8 @@
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 //Quantity is adjusted directly as a side effect of this function
-MonsterGroupResult MonsterGroupManager::GetResultFromGroup( std::string group_name, std::vector <mtype*> *mtypes,
-                                                      int *quantity, int turn )
+MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
+        std::string group_name, int *quantity, int turn )
 {
     int spawn_chance = rng(1, 1000);
     MonsterGroup group = monsterGroupMap[group_name];

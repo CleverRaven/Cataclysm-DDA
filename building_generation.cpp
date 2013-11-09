@@ -265,7 +265,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 if (one_in(250)) {
                     m->ter_set(i, j, t_tree_apple);
-                    m->spawn_item(i, j, "apple", turn);
+                    m->spawn_item(i, j, "apple", 1, 0, turn);
                 } else {
                     m->ter_set(i, j, t_tree);
                 }
@@ -1019,7 +1019,7 @@ void mapgen_river_curved(map *m, oter_id terrain_type)
     }
 }
 
-void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn)
+void mapgen_parking_lot(map *m, mapgendata dat, int turn)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1208,7 +1208,7 @@ void mapgen_park(map *m)
     m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
 }
 
-void mapgen_gas_station(map *m, oter_id terrain_type, int turn, float density)
+void mapgen_gas_station(map *m, oter_id terrain_type, float density)
 {
     int top_w = rng(5, 14);
     int bottom_w = SEEY * 2 - rng(1, 2);

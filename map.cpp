@@ -232,7 +232,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   g->update_map(x, y);
 }
 
-void map::unboard_vehicle(game *g, const int x, const int y)
+void map::unboard_vehicle(const int x, const int y)
 {
  int part = 0;
  vehicle *veh = veh_at(x, y, part);
@@ -739,7 +739,7 @@ bool map::vehproceed(game* g){
                     g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
                                psg->name.c_str(), veh->name.c_str());
                 }
-                g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
+                g->m.unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
                                      y + veh->parts[ppl[ps]].precalc_dy[0]);
                 g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
@@ -1417,9 +1417,9 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++) {
      if (furn(tentx + i, tenty + j) == f_groundsheet)
-      spawn_item(tentx + i, tenty + j, "broketent", 0);
+      spawn_item(tentx + i, tenty + j, "broketent");
      if (furn(tentx + i, tenty + j) == f_skin_groundsheet)
-      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit", 0);
+      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
      furn_set(tentx + i, tenty + j, f_null);
     }
 
@@ -1454,8 +1454,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(3)) spawn_item(i, j, "gasoline", 0);
-       if (one_in(6)) spawn_item(i, j, "steel_chunk", 0, 0, 3);
+       if (one_in(3)) spawn_item(i, j, "gasoline");
+       if (one_in(6)) spawn_item(i, j, "steel_chunk", 0, 3);
     }
    }
   }
@@ -1470,8 +1470,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(6)) spawn_item(i, j, "2x4", 0);
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
+       if (one_in(6)) spawn_item(i, j, "2x4");
+       if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
    }
   }
   break;
@@ -1482,7 +1482,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, "rock", 0);
+     spawn_item(i, j, "rock");
     ter_set(x, y, t_rubble);
    }
   }
@@ -1493,9 +1493,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) { spawn_item(i, j, "splinter", 0); }
-       if (one_in(6)) { spawn_item(i, j, "nail", 0, 0, 3); }
-       if (one_in(100)) { spawn_item(x, y, "cu_pipe", 0); }
+       if (one_in(5)) { spawn_item(i, j, "splinter"); }
+       if (one_in(6)) { spawn_item(i, j, "nail", 0, 3); }
+       if (one_in(100)) { spawn_item(x, y, "cu_pipe"); }
    }
   }
   ter_set(x, y, t_rubble);
@@ -1539,10 +1539,10 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) spawn_item(i, j, "rock", 0);
-       if (one_in(4)) spawn_item(i, j, "splinter", 0);
-       if (one_in(3)) spawn_item(i, j, "rebar", 0);
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
+       if (one_in(5)) spawn_item(i, j, "rock");
+       if (one_in(4)) spawn_item(i, j, "splinter");
+       if (one_in(3)) spawn_item(i, j, "rebar");
+       if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
@@ -1590,11 +1590,11 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
           for (int j = y - 1; j <= y + 1; j++)
           {
               if(move_cost(i, j) == 0) continue;
-              if (one_in(3)) spawn_item(i, j, "rope_6", 0);
-              if (one_in(2)) spawn_item(i, j, "splinter", 0);
-              if (one_in(3)) spawn_item(i, j, "stick", 0);
-              if (one_in(6)) spawn_item(i, j, "2x4", 0);
-              if (one_in(9)) spawn_item(i, j, "log", 0);
+              if (one_in(3)) spawn_item(i, j, "rope_6");
+              if (one_in(2)) spawn_item(i, j, "splinter");
+              if (one_in(3)) spawn_item(i, j, "stick");
+              if (one_in(6)) spawn_item(i, j, "2x4");
+              if (one_in(9)) spawn_item(i, j, "log");
           }
       }
       ter_set(x, y, t_dirt);
@@ -1689,9 +1689,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 {
                     g->sound(x, y, 16, _("glass breaking!"));
                     ter_set(x, y, t_window_frame);
-                    spawn_item(x, y, "sheet", 0, 1);
-                    spawn_item(x, y, "stick", 0);
-                    spawn_item(x, y, "string_36", 0);
+                    spawn_item(x, y, "sheet", 1);
+                    spawn_item(x, y, "stick");
+                    spawn_item(x, y, "string_36");
                 }
             }
         break;
@@ -1792,7 +1792,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                             for (int j = y - 2; j <= y + 2; j++)
                             {
                                 if (move_cost(i, j) > 0 && one_in(3))
-                                    spawn_item(i, j, "gasoline", 0);
+                                    spawn_item(i, j, "gasoline");
                             }
                         }
                         g->sound(x, y, 10, _("smash!"));
@@ -2128,6 +2128,7 @@ item map::water_from(const int x, const int y)
 
 item map::acid_from(const int x, const int y)
 {
+    (void)x; (void)y; //all acid is acid, i guess?
     item ret(item_controller->find_template("water_acid"), 0);
     return ret;
 }
@@ -2160,8 +2161,8 @@ point map::find_item(const item *it)
  return ret;
 }
 
-void map::spawn_item(const int x, const int y, item new_item, const int birthday,
-                     const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, item new_item,
+                     const int charges, const int damlevel)
 {
     if (charges && new_item.charges > 0)
     {
@@ -2202,20 +2203,25 @@ void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 
 //New spawn_item method, using item factory
 // added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday,
-                     const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, const std::string &type_id,
+                     const unsigned quantity, const int charges,
+                     const unsigned birthday, const int damlevel)
 {
-    item new_item = item_controller->create(type_id, birthday);
+    // recurse to spawn (quantity - 1) items
     for(int i = 1; i < quantity; i++)
     {
-        spawn_item(x, y, type_id, birthday, 0, charges);
+        spawn_item(x, y, type_id, 1, charges, birthday, damlevel);
     }
-    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
+    // spawn the item
+    item new_item = item_controller->create(type_id, birthday);
+    spawn_item(x, y, new_item, charges, damlevel);
 }
 
 // stub for now, could vary by ter type
-int map::max_volume(const int x, const int y) {
-   return MAX_VOLUME_IN_SQUARE;
+int map::max_volume(const int x, const int y)
+{
+    (void)x; (void)y; //stub
+    return MAX_VOLUME_IN_SQUARE;
 }
 
 // total volume of all the things
@@ -2649,7 +2655,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   std::vector<itype_id> comp = g->traps[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
-    spawn_item(x, y, comp[i], 0, 0, 1);
+    spawn_item(x, y, comp[i], 1, 1);
   }
   if (tr_at(x, y) == tr_engine) {
       for (int i = -1; i <= 1; i++) {
@@ -2856,17 +2862,17 @@ bool map::allow_camp(const int x, const int y, const int radius)
     return camp_at(x, y, radius) == NULL;
 }
 
+// locate the nearest camp in some radius (default CAMPSIZE)
 basecamp* map::camp_at(const int x, const int y, const int radius)
 {
-    // locate the nearest camp in a CAMPSIZE radius
     if (!INBOUNDS(x, y)) {
         return NULL;
     }
 
-    const int sx = std::max(0, x / SEEX - CAMPSIZE);
-    const int sy = std::max(0, y / SEEY - CAMPSIZE);
-    const int ex = std::min(MAPSIZE - 1, x / SEEX + CAMPSIZE);
-    const int ey = std::min(MAPSIZE - 1, y / SEEY + CAMPSIZE);
+    const int sx = std::max(0, x / SEEX - radius);
+    const int sy = std::max(0, y / SEEY - radius);
+    const int ex = std::min(MAPSIZE - 1, x / SEEX + radius);
+    const int ey = std::min(MAPSIZE - 1, y / SEEY + radius);
 
     for (int ly = sy; ly < ey; ++ly) {
         for (int lx = sx; lx < ex; ++lx) {
@@ -3799,7 +3805,7 @@ bool map::inbounds(const int x, const int y)
  return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
 }
 
-bool map::add_graffiti(game *g, int x, int y, std::string contents)
+bool map::add_graffiti(int x, int y, std::string contents)
 {
   int nx = x;
   int ny = y;

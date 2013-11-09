@@ -321,8 +321,10 @@ int ma_buff::block_bonus(player& u) {
          u.int_cur*block_int +
          u.per_cur*block_per;
 }
-int ma_buff::speed_bonus(player& u) {
-  return speed;
+int ma_buff::speed_bonus(player& u)
+{
+    (void)u; //unused
+    return speed;
 }
 float ma_buff::bash_mult() {
   return bash_stat_mult;
