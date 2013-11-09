@@ -3761,7 +3761,8 @@ void game::draw_ter(int posx, int posy)
                    && mx >= 0 && my >= 0
                    && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
                    && (u.has_active_bionic("bio_infrared")
-                       || u.has_trait("INFRARED"))
+                       || u.has_trait("INFRARED")
+                       || u.has_trait("LIZ_IR"))
                    && m.pl_sees(u.posx,u.posy,z.posx(),z.posy(),
                                 u.sight_range(DAYLIGHT_LEVEL))) {
             mvwputch(w_terrain, my, mx, c_red, '?');
@@ -4282,7 +4283,7 @@ bool game::u_see(monster *mon)
   return false; // Can't see digging monsters until we're right next to them
  }
  if (m.is_divable(mon->posx(), mon->posy()) && mon->can_submerge()
-         && !m.is_divable(u.posx, u.posy)) {
+         && !u.is_underwater()) {
    //Monster is in the water and submerged, and we're out of/above the water
    return false;
  }
@@ -6774,6 +6775,7 @@ point game::look_around()
           // This is only done on toggle, so it shouldn't be used heavily.
           if (fast_scroll) {
             // print a light green mark below the top right corner of the w_look window
+            //~ Fast-scroll indicator
             mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
           } else {
             // redraw the border to clear out the marker.

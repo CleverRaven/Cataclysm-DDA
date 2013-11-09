@@ -476,6 +476,7 @@ int player::dodge(game *g)
 
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
+	if (has_trait("TAIL_LIZARD")) {ret+= 2;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
     if (has_trait("WINGS_BAT")) {ret -= 3;}
@@ -1432,6 +1433,22 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         ret.push_back(tmp);
     }
 
+	    if (has_trait("TAIL_LIZARD") && one_in(3) && one_in(10 - dex_cur)) {
+        special_attack tmp;
+        tmp.bash = 8;
+        if (is_u) {
+            tmp.text = string_format(_("You whap %s with your tail!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s whaps %s with his tail!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s whaps %s with her tail!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+	
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
             has_trait("ARM_TENTACLES_8")) {
         int num_attacks = 1;

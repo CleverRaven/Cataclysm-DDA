@@ -43,10 +43,12 @@ class iuse
   int flusleep         (game *g, player *p, item *it, bool t);
   int inhaler          (game *g, player *p, item *it, bool t);
   int blech            (game *g, player *p, item *it, bool t);
+  int chew            (game *g, player *p, item *it, bool t);
   int mutagen          (game *g, player *p, item *it, bool t);
   int purifier         (game *g, player *p, item *it, bool t);
   int marloss          (game *g, player *p, item *it, bool t);
   int dogfood          (game *g, player *p, item *it, bool t);
+  int catfood          (game *g, player *p, item *it, bool t);
 
 // TOOLS
   int lighter          (game *g, player *p, item *it, bool t);
@@ -158,8 +160,10 @@ class iuse
   int shelter          (game *g, player *p, item *it, bool t);
   int torch            (game *g, player *p, item *it, bool t);
   int torch_lit        (game *g, player *p, item *it, bool t);
-  int battletorch            (game *g, player *p, item *it, bool t);
-  int battletorch_lit        (game *g, player *p, item *it, bool t);
+  int handflare        (game *g, player *p, item *it, bool t);
+  int handflare_lit    (game *g, player *p, item *it, bool t);
+  int battletorch      (game *g, player *p, item *it, bool t);
+  int battletorch_lit  (game *g, player *p, item *it, bool t);
   int candle           (game *g, player *p, item *it, bool t);
   int candle_lit       (game *g, player *p, item *it, bool t);
   int bullet_puller    (game *g, player *p, item *it, bool t);
@@ -177,6 +181,7 @@ class iuse
   int boots            (game *g, player *p, item *it, bool t);
   int towel            (game *g, player *p, item *it, bool t);
   int unfold_bicycle   (game *g, player *p, item *it, bool t);
+  int airhorn          (game *g, player *p, item *it, bool t);
   int adrenaline_injector (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   int mcg_note         (game *g, player *p, item *it, bool t);

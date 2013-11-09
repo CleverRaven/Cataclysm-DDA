@@ -786,13 +786,37 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
    }
 //*/
-    /* Print to target window, could maybe be moved up and out of the w_terrain drawing section? */
-   if (!relevent) { // currently targetting vehicle to refill with fuel
-    vehicle *veh = m.veh_at(x, y);
-    if (veh)
-     mvwprintw(w_target, 1, 1, _("There is a %s"), veh->name.c_str());
-   } else
-    mvwprintw(w_target, 1, 1, _("Range: %d"), rl_dist(u.posx, u.posy, x, y));
+            // Print to target window
+            if (!relevent) {
+                // currently targetting vehicle to refill with fuel
+                vehicle *veh = m.veh_at(x, y);
+                if (veh) {
+                    mvwprintw(w_target, 1, 1, _("There is a %s"),
+                              veh->name.c_str());
+                }
+            } else if (relevent == &u.weapon && relevent->is_gun()) {
+                // firing a gun
+                mvwprintw(w_target, 1, 1, _("Range: %d"),
+                          rl_dist(u.posx, u.posy, x, y));
+                // get the current weapon mode or mods
+                std::string mode = "";
+                if (u.weapon.mode == "MODE_BURST") {
+                    mode = _("Burst");
+                } else {
+                    item* gunmod = u.weapon.active_gunmod();
+                    if (gunmod != NULL) {
+                        mode = gunmod->type->name;
+                    }
+                }
+                if (mode != "") {
+                    mvwprintw(w_target, 1, 14, _("Firing mode: %s"),
+                              mode.c_str());
+                }
+            } else {
+                // throwing something
+                mvwprintw(w_target, 1, 1, _("Range: %d"),
+                          rl_dist(u.posx, u.posy, x, y));
+            }
 
    const int zid = mon_at(x, y);
    if (zid == -1) {
@@ -1376,6 +1400,9 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("FLAME"))
     g->explosion(x, y, 4, 0, true);
+    
+  if (effects.count("FLARE"))
+    g->m.add_field(g, x, y, fd_fire, 1);
 
   if (effects.count("LIGHTNING")) {
     for (int i = x - 1; i <= x + 1; i++) {

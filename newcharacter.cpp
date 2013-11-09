@@ -273,18 +273,17 @@ bool player::create(game *g, character_type type, std::string tempname)
                               _("Tai Chi"), _("Taekwondo"), NULL);
             if (choice == 1) {
                 ma_type = "style_karate";
-            }
-            if (choice == 2) {
+            } else if (choice == 2) {
                 ma_type = "style_judo";
-            }
-            if (choice == 3) {
+            } else if (choice == 3) {
                 ma_type = "style_aikido";
-            }
-            if (choice == 4) {
+            } else if (choice == 4) {
                 ma_type = "style_tai_chi";
-            }
-            if (choice == 5) {
+            } else { // choice == 5
                 ma_type = "style_taekwondo";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description.c_str());
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -298,15 +297,15 @@ bool player::create(game *g, character_type type, std::string tempname)
                               _("Capoeira"), NULL);
             if (choice == 1) {
                 ma_type = "style_krav_maga";
-            }
-            if (choice == 2) {
+            } else if (choice == 2) {
                 ma_type = "style_muay_thai";
-            }
-            if (choice == 3) {
+            } else if (choice == 3) {
                 ma_type = "style_ninjutsu";
-            }
-            if (choice == 4) {
+            } else { // choice == 4
                 ma_type = "style_capoeira";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description.c_str());
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
