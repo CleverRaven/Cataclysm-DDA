@@ -245,8 +245,6 @@ class game
   faction* random_good_faction();
   faction* random_evil_faction();
 
-  itype* new_artifact();
-  itype* new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
@@ -337,10 +335,6 @@ class game
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
-    void load_artifacts(std::string worldname); // Load artifact data
-                        // Needs to be called by main() before MAPBUFFER.load
-    void load_artifacts_from_file(std::ifstream *f); // Load artifact data
-
  // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
  // force determines how far target is knocked, if trajectory is calculated
@@ -406,7 +400,6 @@ class game
   void init_fields();
   void init_weather();
   void init_overmap();
-  void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
