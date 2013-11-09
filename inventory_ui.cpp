@@ -278,10 +278,14 @@ char game::inv_activatable(std::string title)
 
 char game::inv_type(std::string title, item_cat inv_item_type)
 {
- u.inv.restack(&u);
- u.inv.sort();
- inventory reduced_inv = u.inv.filter_by_category(inv_item_type, u);
- return inv(reduced_inv,title);
+    return inv(get_inv_reduced_by_category(inv_item_type), title);
+}
+
+inventory game::get_inv_reduced_by_category(item_cat inv_item_type)
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    return u.inv.filter_by_category(inv_item_type, u);
 }
 
 std::vector<item> game::multidrop()

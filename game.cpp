@@ -8602,6 +8602,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (cont == NULL) {
         std::stringstream text;
         text << _("Container for ") << liquid.tname(this);
+
+        inventory reduced_inv = get_inv_reduced_by_category(IC_CONTAINER);
+
         char ch = inv_type(text.str().c_str(), IC_CONTAINER);
         if (!u.has_item(ch)) {
             // No container selected (escaped, ...), ask to pour

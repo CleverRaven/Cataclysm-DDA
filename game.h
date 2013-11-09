@@ -271,6 +271,7 @@ class game
   char inv(inventory&,std::string);
   char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
+  char get_inv_reduced_by_category(item_cat inv_item_type);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
