@@ -358,6 +358,7 @@ void game::init_construction()
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
    TOOL("wrench");
+   TOOLCONT("toolset");
    COMP("sheet_metal", 2);
    COMP("pipe", 8);
 
@@ -368,6 +369,7 @@ void game::init_construction()
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
    TOOL("wrench");
+   TOOLCONT("toolset");
    COMP("pipe", 12);
 
  CONSTRUCT(_("Build Counter"), 0, &construct::able_empty,
