@@ -66,6 +66,9 @@ int main(int argc, char *argv[])
  initOptions();
  load_options(); // For getting size options
  initscr(); // Initialize ncurses
+ #ifdef SDLTILES
+ init_tiles();
+ #endif // SDLTILES
  noecho();  // Don't echo keypresses
  cbreak();  // C-style breaks (e.g. ^C to SIGINT)
  keypad(stdscr, true); // Numpad is numbers
@@ -82,10 +85,8 @@ int main(int argc, char *argv[])
   exit_handler(-999);
  g->init_ui();
  MAPBUFFER.set_game(g);
- g->load_artifacts(); //artifacts have to be loaded before any items are created
  if(g->game_error())
   exit_handler(-999);
- MAPBUFFER.load();
 
  curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
@@ -98,13 +99,14 @@ int main(int argc, char *argv[])
  #endif
 
  do {
-  g->setup();
+  if(!g->opening_screen()) {
+     quit_game = true;
+  }
   while (!g->do_turn()) ;
   if (g->game_quit() || g->game_error())
    quit_game = true;
  } while (!quit_game);
 
- MAPBUFFER.save_if_dirty();
 
  exit_handler(-999);
 

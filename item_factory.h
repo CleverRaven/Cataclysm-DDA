@@ -6,7 +6,6 @@
 #include "item.h"
 #include "color.h"
 #include "picojson.h"
-#include "catajson.h"
 #include "json.h"
 #include "item_group.h"
 #include "iuse.h"

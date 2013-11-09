@@ -11,10 +11,13 @@
 #include "inventory.h"
 #include "item_factory.h"
 #include "catacharset.h"
+#include <queue>
 
 std::vector<craft_cat> craft_cat_list;
 std::vector<std::string> recipe_names;
 recipe_map recipes;
+std::map<std::string,quality> qualities;
+std::map<std::string, std::queue<std::pair<recipe*, int> > > recipe_booksets;
 
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
@@ -89,18 +92,11 @@ void load_recipe(JsonObject &jsobj)
 
     jsarr = jsobj.get_array("qualities");
     while(jsarr.has_more()){
-        std::vector<quality_requirement> tool_choices;
         JsonObject quality_data = jsarr.next_object();
-        std::string name = quality_data.get_string("name");
-        int level=1;
-        int amount=1;
-        if(quality_data.has_member("level")){
-          level = quality_data.get_int("level");
-        }
-        if(quality_data.has_member("amount")){
-          amount = quality_data.get_int("amount");
-        }
-        rec->qualities.push_back(quality_requirement(name, level, amount));
+        std::string ident = quality_data.get_string("id");
+        int level = quality_data.get_int("level", 1);
+        int amount = quality_data.get_int("amount", 1);
+        rec->qualities.push_back(quality_requirement(ident, level, amount));
     }
 
     jsarr = jsobj.get_array("tools");
@@ -121,15 +117,37 @@ void load_recipe(JsonObject &jsobj)
         JsonArray ja = jsarr.next_array();
         std::string book_name = ja.get_string(0);
         int book_level = ja.get_int(1);
-        if (item_controller->find_template(book_name)->is_book()) {
-            it_book* book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
-            book_def->recipes[rec] = book_level;
-        } else {
-            debugmsg("recipe '%s': no such book '%s'",rec_name.c_str(),book_name.c_str());
+        std::pair<recipe*, int> temp_pair(rec, book_level);
+        if (recipe_booksets.find(book_name) == recipe_booksets.end()){
+            recipe_booksets[book_name] = std::queue<std::pair<recipe*, int> >();
         }
+        recipe_booksets[book_name].push(temp_pair);
     }
 
     recipes[category].push_back(rec);
+}
+
+void finalize_recipes()
+{
+    for (std::map<std::string, std::queue<std::pair<recipe*, int> > >::iterator book_ref_it = recipe_booksets.begin();
+         book_ref_it != recipe_booksets.end(); ++book_ref_it){
+        if (!book_ref_it->second.empty() && item_controller->find_template(book_ref_it->first)->is_book()){
+            it_book *book_def = dynamic_cast<it_book*>(item_controller->find_template(book_ref_it->first));
+            while (!book_ref_it->second.empty()){
+                std::pair<recipe*, int> rec_pair = book_ref_it->second.front();
+                book_ref_it->second.pop();
+                book_def->recipes[rec_pair.first] = rec_pair.second;
+            }
+        }
+    }
+}
+
+void load_quality(JsonObject &jo)
+{
+    quality qual;
+    qual.id = jo.get_string("id");
+    qual.name = _(jo.get_string("name").c_str());
+    qualities[qual.id] = qual;
 }
 
 bool game::crafting_allowed()
@@ -202,10 +220,10 @@ bool game::can_make(recipe *r)
     std::vector<quality_requirement> &qualities = r->qualities;
     std::vector<quality_requirement>::iterator quality_iter = qualities.begin();
     while(quality_iter != qualities.end()){
-        std::string name = quality_iter->name;
+        std::string id = quality_iter->id;
         int amount = quality_iter->count;
         int level = quality_iter->level;
-        if(crafting_inv.has_items_with_quality(name, level, amount)){
+        if(crafting_inv.has_items_with_quality(id, level, amount)){
             quality_iter->available = true;
         } else {
             quality_iter->available = false;
@@ -671,22 +689,22 @@ recipe* game::select_crafting_recipe()
             }
             else
             {
-                ypos = 5;
+                ypos = 6;
                 // Loop to print the required tool qualities
-                for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin(); 
+                for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin();
                         iter != current[line]->qualities.end(); ++iter){
-                    ypos++;
                     xpos = 32;
                     mvwputch(w_data, ypos, 30, col, '>');
                     nc_color toolcol = c_red;
                     if(iter->available){
                         toolcol = c_green;
                     }
-                    
+
                     std::stringstream qualinfo;
-                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, iter->name.c_str(), iter->level);
-                    mvwprintz(w_data, ypos, xpos, toolcol, qualinfo.str().c_str());
+                    qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
+                    ypos += fold_and_print(w_data, ypos, xpos, getmaxx(w_data)-xpos-1, toolcol, qualinfo.str().c_str());
                 }
+                ypos--;
                 // Loop to print the required tools
                 for (int i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++)
                 {
@@ -1479,7 +1497,18 @@ void game::disassemble(char ch)
                 // all tools present, so assign the activity
                 if (have_all_tools)
                 {
+                  // check to see if it's even possible to disassemble if it happens to be a count_by_charge item
+                  // (num_charges / charges_required) > 0
+                  // done before query because it doesn't make sense to query and then say "woops, can't do that!"
+                  if (dis_item->count_by_charges()){
+                    // required number of item in inventory for disassembly to succeed
+                    int num_disassemblies_available = dis_item->charges / dis_item->type->stack_size;;
 
+                    if (num_disassemblies_available == 0){
+                      add_msg(_("You cannot disassemble the %s into its components, too few items."), dis_item->name.c_str());
+                      return;
+                    }
+                  }
                   if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
                   {
                    return;
@@ -1545,7 +1574,15 @@ void game::complete_disassemble()
       else
         m.add_item_or_charges(u.posx, u.posy, ammodrop);
     }
-    u.i_rem(u.activity.values[0]);  // remove the item
+
+    if (dis_item->count_by_charges()){
+        dis_item->charges -= dis_item->type->stack_size;
+        if (dis_item->charges == 0){
+            u.i_rem(u.activity.values[0]);
+        }
+    }else{
+        u.i_rem(u.activity.values[0]);  // remove the item
+    }
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)
@@ -1594,7 +1631,7 @@ void game::complete_disassemble()
           } else
           {
             if (dis->difficulty == 0 || comp_success)
-              m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+              m.add_item_or_charges(u.posx, u.posy, newit);
             else
               add_msg(_("You fail to recover a component."));
             compcount--;

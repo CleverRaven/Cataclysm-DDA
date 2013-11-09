@@ -23,6 +23,7 @@
 #include "mutation.h"
 #include "gamemode.h"
 #include "live_view.h"
+#include "worldfactory.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -115,7 +116,7 @@ class game
   bool unserialize_master_legacy(std::ifstream & fin); // for old load
 
   void save();
-  void delete_save();
+  void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
   void write_memorial_file();
   void cleanup_at_end();
@@ -189,7 +190,7 @@ class game
   void throw_item(player &p, int tarx, int tary, item &thrown,
                   std::vector<point> &trajectory);
   void cancel_activity();
-  void cancel_activity_query(const char* message, ...);
+  bool cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
   // Get input from the player to choose an adjacent tile (for examine() etc)
@@ -236,6 +237,7 @@ class game
   bool u_see (player *p);
   bool pl_sees(player *p, monster *mon, int &t);
   bool is_hostile_nearby();
+  bool is_hostile_very_close();
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
   void update_overmap_seen(); // Update which overmap tiles we can see
@@ -340,8 +342,9 @@ class game
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
-void load_artifacts(); // Load artifact data
+    void load_artifacts(std::string worldname); // Load artifact data
                         // Needs to be called by main() before MAPBUFFER.load
+    void load_artifacts_from_file(std::ifstream *f); // Load artifact data
 
  // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
@@ -379,15 +382,18 @@ void load_artifacts(); // Load artifact data
   nc_color limb_color(player *p, body_part bp, int side, bool bleed = true,
                        bool bite = true, bool infect = true);
 
+  bool opening_screen();// Warn about screen size, then present the main menu
+
+  const int dangerous_proximity;
+
  private:
 // Game-start procedures
-  bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
-  bool load_master(); // Load the master data file, with factions &c
+  bool load_master(std::string worldname); // Load the master data file, with factions &c
   void load_weather(std::ifstream &fin);
-  void load(std::string name); // Load a player-specific save file
-  void start_game(); // Starts a new game
+  void load(std::string worldname, std::string name); // Load a player-specific save file
+  void start_game(std::string worldname); // Starts a new game in a world
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
   //private save functions.
@@ -399,7 +405,7 @@ void load_artifacts(); // Load artifact data
   void load_legacy_future_weather(std::string data);
   void load_legacy_future_weather(std::istream &fin);
   void save_uistate();
-  void load_uistate();
+  void load_uistate(std::string worldname);
 // Data Initialization
   void init_npctalk();
   void init_fields();
@@ -562,6 +568,8 @@ void load_artifacts(); // Load artifact data
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
 
+  WORLDPTR pick_world_to_play();
+
 
 // ########################## DATA ################################
 
@@ -598,6 +606,8 @@ void load_artifacts(); // Load artifact data
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
   const int lookHeight; // Look Around window height
+
+  bool is_hostile_within(int distance);
 };
 
 #endif

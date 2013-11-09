@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "cata_tiles.h"
 #include "debug.h"
+#include "json.h"
+#include <fstream>
 
 // SDL headers end up in different places depending on the OS, sadly
 #if (defined SDLTILES)
@@ -50,6 +52,8 @@ cata_tiles::cata_tiles()
     boomered = false;
     sight_impaired = false;
     bionight_bionic_active = false;
+
+    last_pos_x = 0; last_pos_y = 0;
 }
 
 cata_tiles::~cata_tiles()
@@ -265,7 +269,28 @@ DebugLog() << "Buffer Surface-- Width: " << buffer->w << " Height: " << buffer->
 
 void cata_tiles::load_tilejson(std::string path)
 {
-    catajson config(path);
+    std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
+
+    if (!config_file.good()) {
+        //throw (std::string)"ERROR: " + path + (std::string)" could not be read.";
+        DebugLog() << (std::string)"ERROR: " + path + (std::string)" could not be read.\n";
+        return;
+    }
+
+    try {
+        load_tilejson_from_file(&config_file);
+    } catch (std::string e) {
+        debugmsg("%s: %s", path.c_str(), e.c_str());
+    }
+
+    config_file.close();
+}
+
+void cata_tiles::load_tilejson_from_file(std::ifstream *f)
+{
+    JsonIn config_json(f);
+    // it's all one json object
+    JsonObject config = config_json.get_object();
 
     if (tile_ids){
         for (tile_id_iterator it = tile_ids->begin(); it != tile_ids->end(); ++it){
@@ -274,104 +299,58 @@ void cata_tiles::load_tilejson(std::string path)
         tile_ids->clear();
     }
 
-    if (!json_good())
-    {
-        //throw (std::string)"ERROR: " + path + (std::string)" could not be read.";
-        DebugLog() << (std::string)"ERROR: " + path + (std::string)" could not be read.\n";
-        return;
-    }
-
     /** 1) Make sure that the loaded file has the "tile_info" section */
-    if (!config.has("tile_info"))
+    if (!config.has_member("tile_info"))
     {
-        DebugLog() << (std::string)"ERROR: "+path+ (std::string)" --\"tile_info\" missing\n";
-        return;
+        throw (std::string)"ERROR: \"tile_info\" missing\n";
     }
-    catajson info = config.get("tile_info");
 
-    for (info.set_begin(); info.has_curr(); info.next())
-    {
-        catajson curr_info = info.curr();
-
-        if (!curr_info.has("height") || !curr_info.has("width") || !curr_info.get("height").is_number() || !curr_info.get("width").is_number())
-        {
-            continue;
-        }
-        tile_height = curr_info.get("height").as_int();
-        tile_width = curr_info.get("width").as_int();
+    JsonArray info = config.get_array("tile_info");
+    while (info.has_more()) {
+        JsonObject curr_info = info.next_object();
+        tile_height = curr_info.get_int("height");
+        tile_width = curr_info.get_int("width");
     }
 
     /** 2) Load tile information if available */
-    if (!config.has("tiles"))
+    if (!config.has_member("tiles"))
     {
-        return;
+        throw (std::string)"ERROR: \"tiles\" section missing\n";
     }
-    catajson tiles = config.get("tiles");
 
-    for (tiles.set_begin(); tiles.has_curr(); tiles.next())
-    {
-        catajson entry = tiles.curr();
-        if (!entry.has("id") || !entry.get("id").is_string())
-        {
-            continue;
-        }
+    JsonArray tiles = config.get_array("tiles");
+    while (tiles.has_more()) {
+        JsonObject entry = tiles.next_object();
 
         tile_type *curr_tile = new tile_type();
-        std::string t_id = entry.get("id").as_string();
-        int t_fg, t_bg;
-        t_fg = t_bg = -1;
-        bool t_multi, t_rota;
-        t_multi = t_rota = false;
-
-        if (entry.has("fg")) t_fg = entry.get("fg").as_int();
-        if (entry.has("bg")) t_bg = entry.get("bg").as_int();
-        if (entry.has("multitile") && entry.get("multitile").is_bool())
-        {
-            t_multi = entry.get("multitile").as_bool();
-        }
+        std::string t_id = entry.get_string("id");
+        int t_fg = entry.get_int("fg", -1);
+        int t_bg = entry.get_int("bg", -1);
+        bool t_multi = entry.get_bool("multitile", false);
+        bool t_rota = entry.get_bool("rotates", t_multi);
         if (t_multi)
         {
-            t_rota = true;
-
             // fetch additional tiles
-            if (entry.has("additional_tiles"))
-            {
-                catajson subentries = entry.get("additional_tiles");
+            JsonArray subentries = entry.get_array("additional_tiles");
+            while (subentries.has_more()) {
+                JsonObject subentry = subentries.next_object();
 
-                for (subentries.set_begin(); subentries.has_curr(); subentries.next())
-                {
-                    catajson subentry = subentries.curr();
+                tile_type *curr_subtile = new tile_type();
+                std::string s_id = subentry.get_string("id");
+                int s_fg = subentry.get_int("fg", 0);
+                int s_bg = subentry.get_int("bg", 0);
 
-                    if (!subentry.has("id") || !subentry.get("id").is_string())
-                    {
-                        continue;
-                    }
+                curr_subtile->fg = s_fg;
+                curr_subtile->bg = s_bg;
+                curr_subtile->rotates = true;
+                std::string m_id = t_id + "_" + s_id;
 
-                    tile_type *curr_subtile = new tile_type();
-                    std::string s_id = subentry.get("id").as_string();
-                    int s_fg, s_bg;
-                    s_fg = t_fg;
-                    s_bg = t_bg;
-                    if (subentry.has("fg")) s_fg = subentry.get("fg").as_int();
-                    if (subentry.has("bg")) s_bg = subentry.get("bg").as_int();
-
-                    curr_subtile->fg = s_fg;
-                    curr_subtile->bg = s_bg;
-                    curr_subtile->rotates = true;
-                    std::string m_id = t_id + "_" + s_id;
-
-                    if (!tile_ids)
-                    {
-                        tile_ids = new tile_id_map;
-                    }
-                    (*tile_ids)[m_id] = curr_subtile;
-                    curr_tile->available_subtiles.push_back(s_id);
+                if (!tile_ids) {
+                    tile_ids = new tile_id_map;
                 }
+                (*tile_ids)[m_id] = curr_subtile;
+                curr_tile->available_subtiles.push_back(s_id);
             }
-        }
-        else if (entry.has("rotates") && entry.get("rotates").is_bool())
-        {
-            t_rota = entry.get("rotates").as_bool();
         }
 
         // write the information of the base tile to curr_tile
@@ -380,8 +359,7 @@ void cata_tiles::load_tilejson(std::string path)
         curr_tile->multitile = t_multi;
         curr_tile->rotates = t_rota;
 
-        if (!tile_ids)
-        {
+        if (!tile_ids) {
             tile_ids = new tile_id_map;
         }
         (*tile_ids)[t_id] = curr_tile;
@@ -434,8 +412,6 @@ void cata_tiles::draw()
     {
         return;
     }
-    // Clear buffer
-    SDL_FillRect(buffer, NULL, 0);
 
     // get player position
 
@@ -446,7 +422,7 @@ void cata_tiles::draw()
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
 {
     if (!g) return;
-    SDL_FillRect(buffer, NULL, 0);
+    tiles_to_draw_this_frame.clear();
 
     int posx = centerx;
     int posy = centery;
@@ -522,6 +498,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         draw_from_id_string("cursor", g->ter_view_x, g->ter_view_y, 0, 0);
      }
 
+    apply_changes();
+
     SDL_Rect srcrect = {0, 0, (Uint16)width, (Uint16)height};
     SDL_Rect desrect = {(Sint16)destx, (Sint16)desty, (Uint16)width, (Uint16)height};
 
@@ -591,8 +569,33 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
         screen_x = x * tile_width;
         screen_y = y * tile_width;
     }
-    // call to draw_tile
-    return draw_tile_at(display_tile, screen_x, screen_y, rota);
+
+    // Schedule the draw call to be invoked later
+    tile_drawing_cache& cache_item = tiles_to_draw_this_frame[point(screen_x, screen_y)];
+    cache_item.rotations.push_back(rota); cache_item.sprites.push_back(display_tile);
+
+    return true;
+}
+
+void cata_tiles::apply_changes() {
+    // Scroll to avoid too much redrawing
+    scroll(g->u.posx - last_pos_x, g->u.posy - last_pos_y);
+    last_pos_x = g->u.posx; last_pos_y = g->u.posy;
+
+    for(std::map<point,tile_drawing_cache>::iterator i = tiles_to_draw_this_frame.begin(); i != tiles_to_draw_this_frame.end(); i++) {
+        const point& location = i->first;
+        const tile_drawing_cache& compare_to = cache[location];
+        tile_drawing_cache& to_draw = i->second;
+
+        if(to_draw != compare_to) {
+            // TODO: fill with black
+            for(int i=0; i < to_draw.sprites.size(); i++) {
+                draw_tile_at(to_draw.sprites[i], location.x, location.y, to_draw.rotations[i]);
+            }
+        }
+    }
+
+    cache = tiles_to_draw_this_frame;
 }
 
 bool cata_tiles::draw_tile_at(tile_type* tile, int x, int y, int rota)
@@ -1399,4 +1402,49 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
     }
     get_rotation_and_subtile(val, num_connects, rotation, subtile);
 }
+
+void cata_tiles::scroll(int x, int y) {
+    if(abs(x) > 1 || abs(y) > 1) {
+        cache.clear();
+        return;
+    }
+
+    {
+        // Annoying but necessary:If our drawing pane gets
+        // "clipped"(half-tiles get drawn at border), we need
+        // to manually invalidate the "borders"
+        int rightMostTile = (WindowWidth / tile_width) * tile_width;
+        int bottomMostTile = (WindowHeight / tile_height) * tile_height;
+        if(rightMostTile != WindowWidth && x == 1) {
+            for(int y=0; y < WindowHeight; y+=tile_height) {
+                cache[point(rightMostTile, y)] = tile_drawing_cache();
+            }
+        }
+        if(bottomMostTile != WindowHeight && y == 1) {
+            for(int x=0; x < WindowWidth; x+=tile_width) {
+                cache[point(x, bottomMostTile)] = tile_drawing_cache();
+            }
+        }
+    }
+
+    // Convert from tile shift to screen shift
+    x *= tile_width;
+    y *= tile_height;
+
+    SDL_Rect srcrect;
+    srcrect.x = x;
+    srcrect.y = y;
+    srcrect.w = WindowWidth - x;
+    srcrect.h = WindowHeight - y;
+
+    SDL_BlitSurface(buffer, &srcrect, buffer, NULL);
+
+    std::map<point, tile_drawing_cache> new_cache;
+    for(std::map<point,tile_drawing_cache>::iterator i=cache.begin(); i!=cache.end(); i++) {
+        const point& old_point = i->first;
+        new_cache[point(old_point.x - x, old_point.y - y)] = i->second;
+    }
+    cache = new_cache;
+}
+
 #endif // SDL_TILES

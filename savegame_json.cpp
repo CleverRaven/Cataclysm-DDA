@@ -21,7 +21,6 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "catajson.h"
 #include "disease.h"
 #include "crafting.h"
 #include "get_version.h"
@@ -255,6 +254,9 @@ void player::json_load_common_variables( std::map<std::string, picojson::value> 
                     picoint(pdata,"side", tmpill.side);
                     picobool(pdata,"permanent", tmpill.permanent);
                     picoint(pdata,"decay", tmpill.decay);
+                    if (tmpill.type == "ma_buff") {
+                        picostring(pdata, "ma_buff_id", tmpill.buff_id);
+                    }
                     illness.push_back(tmpill);
                 }
             }
@@ -383,6 +385,7 @@ void player::json_save_common_variables( std::map<std::string, picojson::value> 
         ptmpmap[ "side" ] = pv ( illness[i].side );
         ptmpmap[ "permanent" ] = pv ( illness[i].permanent );
         ptmpmap[ "decay" ] = pv ( illness[i].decay );
+        ptmpmap[ "ma_buff_id" ] = pv ( illness[i].buff_id );
         ptmpvect.push_back ( pv ( ptmpmap ) );
         ptmpmap.clear();
     }

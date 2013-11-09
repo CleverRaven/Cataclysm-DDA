@@ -297,10 +297,19 @@ void game::load_weather(std::ifstream & fin) {
            debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
         }
      }
-    weather_segment cur = weather_log.upper_bound( (int)turn )->second;
-    weather = cur.weather;
-    temperature = cur.temperature;
-    nextweather = cur.deadline;
+    std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(turn));
+    if ( w_it != weather_log.end() ) {
+        weather_segment cur = w_it->second;
+        if ( w_it->first > int(turn) ) {
+            --w_it;
+            if ( w_it != weather_log.end() ) {
+                cur = w_it->second;
+            }
+        }
+        weather = cur.weather;
+        temperature = cur.temperature;
+        nextweather = cur.deadline;
+    }
 }
 
 void game::save_weather(std::ofstream & fout) {

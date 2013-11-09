@@ -255,6 +255,7 @@ void MonsterGenerator::init_flags() {
     flag_map["HUMAN"] = MF_HUMAN;
     flag_map["NO_BREATHE"] = MF_NO_BREATHE;
     flag_map["REGENERATES_50"] = MF_REGENERATES_50;
+    flag_map["REGENERATES_10"] = MF_REGENERATES_10;
     flag_map["FLAMMABLE"] = MF_FLAMMABLE;
     flag_map["REVIVES"] = MF_REVIVES;
     flag_map["CHITIN"] = MF_CHITIN;
@@ -395,7 +396,7 @@ mtype *MonsterGenerator::get_valid_hallucination()
         }
     }
 
-    return potentials[rng(0, potentials.size())];
+    return potentials[rng(0, potentials.size() - 1)];
 }
 
 MonDeathFunction MonsterGenerator::get_death_function(JsonObject& jo, std::string member)

@@ -5,12 +5,10 @@
 #include "rng.h"
 #include "line.h"
 #include "monstergenerator.h"
+#include <math.h>  // rounding
 #include <sstream>
 
 void mdeath::normal(game *g, monster *z) {
-    const int CORPSE_DAM_MAX = 4;
-    int monSize = z->type->size;
-
     if (g->u_see(z)) {
         g->add_msg(_("The %s dies!"), z->name().c_str());
     }
@@ -18,45 +16,40 @@ void mdeath::normal(game *g, monster *z) {
         g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
     }
 
-    bool warmBlooded = z->has_flag(MF_WARM);
-    if (z->made_of("flesh") && warmBlooded) {
+    m_size monSize = (z->type->size);
+    bool isFleshy = (z->made_of("flesh") || z->made_of("hflesh"));
+    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+
+    // leave some blood if we have to
+    if (isFleshy && z->has_flag(MF_WARM) && !z->has_flag(MF_VERMIN)) {
         g->m.add_field(g, z->posx(), z->posy(), fd_blood, 1);
     }
 
-    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+    int maxHP = z->type->hp;
+    if (!maxHP) {
+        maxHP = 1;
+    }
+
+    float overflowDamage = -(z->hp);
+    float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
+
     if (leaveCorpse) {
-        int maxHP = z->type->hp;
-        signed int overflowDamage = -(z->hp);
-
-        // determine how much of a mess is left, for flesh and veggy creatures
-
-        int gibAmount = -2;
-        int corpseDamage = 0;
-        bool isFleshy = (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"));
-
-        for (int i = 5; i >= 1; i--) {
-            if (overflowDamage > maxHP / i) {
-                corpseDamage += 1;
-                if (i > 5 && isFleshy) {
-                    gibAmount += rng(1,3);
-                }
-            }
+        int gibAmount = int(floor(corpseDamage)) - 1;
+        // allow one extra gib per 5 HP
+        int gibLimit = 1 + (maxHP / 5.0);
+        if (gibAmount > gibLimit) {
+            gibAmount = gibLimit;
         }
-        if (isFleshy && ((overflowDamage < maxHP * 2) || (monSize >= (int)MS_MEDIUM))) {
-            // the corpse still exists, let's place it
-            item corpse;
-            corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
-            corpse.damage = corpseDamage > CORPSE_DAM_MAX ? CORPSE_DAM_MAX : corpseDamage;
-            g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
+        bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
+        if (!pulverized) {
+            make_mon_corpse(g, z, int(floor(corpseDamage)));
+        } else if (monSize >= MS_MEDIUM) {
+            gibAmount += rng(1,6);
         }
-
-        // leave gibs, if there are any
-        const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
-        for (int i = 0; i < gibAmount; i++) {
-            const int gibX = z->posx() + rng(1,6) - 3;
-            const int gibY = z->posy() + rng(1,6) - 3;
-            const int gibDensity = rng(1, 3);
-            g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+        // Limit chunking to flesh and veggy creatures until other kinds are supported.
+        bool leaveGibs = (isFleshy || z->made_of("veggy"));
+        if (leaveGibs) {
+            make_gibs(g, z, gibAmount);
         }
     }
 }
@@ -163,9 +156,9 @@ void mdeath::triffid_heart(game *g, monster *z) {
 void mdeath::fungus(game *g, monster *z) {
     mdeath::normal(g, z);
     monster spore(GetMType("mon_spore"));
-    bool fungal;
+    bool fungal = false;
+    int mondex = -1;
     int sporex, sporey;
-    int mondex;
     //~ the sound of a fungus dying
     g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
     for (int i = -1; i <= 1; i++) {
@@ -173,10 +166,10 @@ void mdeath::fungus(game *g, monster *z) {
             sporex = z->posx() + i;
             sporey = z->posy() + j;
             mondex = g->mon_at(sporex, sporey);
-            fungal = g->zombie(mondex).type->in_species("FUNGUS");
             if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) {
                     // Spores hit a monster
+                    fungal = g->zombie(mondex).type->in_species("FUNGUS");
                     if (g->u_see(sporex, sporey) && !fungal) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                    g->zombie(mondex).name().c_str());
@@ -277,7 +270,7 @@ void mdeath::guilt(game *g, monster *z) {
 
     g->add_msg(_("Killing %s fills you with guilt."), z->name().c_str());
 
-    int moraleMalus = 50;
+    int moraleMalus = -50;
     int maxMalus = -250;
     int duration = 300;
     int decayDelay = 30;
@@ -289,6 +282,7 @@ void mdeath::guilt(game *g, monster *z) {
 }
 void mdeath::blobsplit(game *g, monster *z) {
     int speed = z->speed - rng(30, 50);
+    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", g->turn, 0, 0, rng(5,10));
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
@@ -506,4 +500,41 @@ void mdeath::kill_breathers(game *g, monster *z) {
             g->zombie(i).dead = true;
         }
     }
+}
+
+void make_gibs(game* g, monster* z, int amount) {
+    if (amount <= 0) {
+        return;
+    }
+    const field_id gibType = (z->made_of("veggy") ? fd_gibs_veggy : fd_gibs_flesh);
+    const int zposx = z->posx();
+    const int zposy = z->posy();
+    const bool warm = z->has_flag(MF_WARM);
+    for (int i = 0; i < amount; i++) {
+        // leave gibs, if there are any
+        const int gibX = zposx + rng(0,6) - 3;
+        const int gibY = zposy + rng(0,6) - 3;
+        const int gibDensity = rng(1, i+1);
+        int junk;
+        if( g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
+            // Only place gib if there's a clear path for it to get there.
+            g->m.add_field(g, gibX, gibY, gibType, gibDensity);
+        }
+        if( warm ) {
+            const int bloodX = zposx + (rng(0,2) - 1);
+            const int bloodY = zposy + (rng(0,2) - 1);
+            if( g->m.clear_path( zposx, zposy, bloodX, bloodY, 2, 1, 100, junk ) ) {
+                // Only place blood if there's a clear path for it to get there.
+                g->m.add_field(g, bloodX, bloodY, fd_blood, 1);
+            }
+        }
+    }
+}
+
+void make_mon_corpse(game* g, monster* z, int damageLvl) {
+    const int MAX_DAM = 4;
+    item corpse;
+    corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
+    corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
+    g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

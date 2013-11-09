@@ -174,7 +174,7 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-int monster::print_info(game *g, WINDOW* w, int vStart /*= 6*/, int column /*= 1*/)
+int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -183,7 +183,7 @@ int monster::print_info(game *g, WINDOW* w, int vStart /*= 6*/, int column /*= 1
 // vStart added because 'help' text in targeting win makes helpful info hard to find
 // at a glance.
 
- const int vEnd = vStart + 5; // TODO: parameterize this
+ const int vEnd = vStart + vLines;
 
  mvwprintz(w, vStart++, column, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
@@ -300,6 +300,34 @@ bool monster::can_drown()
          && !has_flag(MF_NO_BREATHE) && !has_flag(MF_FLIES);
 }
 
+bool monster::digging()
+{
+    return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
+}
+
+int monster::vision_range(int x, int y)
+{
+    int range = g->light_level();
+    // Set to max possible value if the target is lit brightly
+    if (g->m.light_at(x, y) >= LL_LOW)
+        range = DAYLIGHT_LEVEL;
+
+    if(has_flag(MF_VIS10)) {
+        range -= 50;
+    } else if(has_flag(MF_VIS20)) {
+        range -= 40;
+    } else if(has_flag(MF_VIS30)) {
+        range -= 30;
+    } else if(has_flag(MF_VIS40)) {
+        range -= 20;
+    } else if(has_flag(MF_VIS50)) {
+        range -= 10;
+    }
+    range = std::max(range, 1);
+
+    return range;
+}
+
 bool monster::made_of(std::string m)
 {
  if (type->mat == m)
@@ -364,6 +392,15 @@ void monster::shift(int sx, int sy)
   plans[i].x -= sx * SEEX;
   plans[i].y -= sy * SEEY;
  }
+}
+
+point monster::move_target()
+{
+    if (plans.empty()) {
+        // if we have no plans, pretend it's intentional
+        return point(_posx, _posy);
+    }
+    return point(plans.back().x, plans.back().y);
 }
 
 bool monster::is_fleeing(player &u)
@@ -518,6 +555,12 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
 int monster::hit(game *g, player &p, body_part &bp_hit) {
  int ret = 0;
  int highest_hit = 0;
+
+    //If the player is knocked down or the monster can fly, any body part is a valid target
+    if(p.is_on_ground() || has_flag(MF_FLIES)){
+        highest_hit = 20;
+    } 
+    else {
  switch (type->size) {
  case MS_TINY:
   highest_hit = 3;
@@ -535,30 +578,33 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
   highest_hit = 35;
  break;
  }
-
- if (has_flag(MF_DIGS) ||
-    (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", _posx, _posy)))
+         if (digging()){
   highest_hit -= 8;
- if (has_flag(MF_FLIES))
-  highest_hit += 20;
- if (highest_hit <= 1)
+         }
+        if (highest_hit <= 1){
   highest_hit = 2;
- if (highest_hit > 20)
+        }
+    }
+
+    if (highest_hit > 20){
   highest_hit = 20;
+    }
+
 
  int bp_rand = rng(0, highest_hit - 1);
-      if (bp_rand <=  2)
+    if (bp_rand <=  2){
   bp_hit = bp_legs;
- else if (bp_rand <= 10)
+    } else if (bp_rand <= 10){
   bp_hit = bp_torso;
- else if (bp_rand <= 14)
+    } else if (bp_rand <= 14){
   bp_hit = bp_arms;
- else if (bp_rand <= 16)
+    } else if (bp_rand <= 16){
   bp_hit = bp_mouth;
- else if (bp_rand == 17)
+    } else if (bp_rand == 17){
   bp_hit = bp_eyes;
- else
+    } else{
   bp_hit = bp_head;
+    }
  ret += dice(type->melee_dice, type->melee_sides);
  return ret;
 }

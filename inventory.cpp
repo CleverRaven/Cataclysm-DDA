@@ -562,6 +562,23 @@ void inventory::form_from_map(game *g, point origin, int range)
     water.charges = 50;
     add_item(water);
    }
+   // kludge that can probably be done better to check specifically for toilet water to use in
+   // crafting
+   if (furnlist[g->m.furn(x,y)].examine == &iexamine::toilet){
+    // get water charges at location
+     std::vector<item> toiletitems = g->m.i_at(x,y);
+     int waterindex = -1;
+     for (int i = 0; i < toiletitems.size(); ++i){
+        if (toiletitems[i].typeId() == "water"){
+            waterindex = i;
+            break;
+        }
+     }
+     if (waterindex >= 0 && toiletitems[waterindex].charges > 0){
+        add_item(toiletitems[waterindex]);
+     }
+
+   }
 
    int vpart = -1;
    vehicle *veh = g->m.veh_at(x, y, vpart);
@@ -1156,13 +1173,13 @@ bool inventory::has_item(item *it) const
     return false;
 }
 
-bool inventory::has_items_with_quality(std::string name, int level, int amount) const
+bool inventory::has_items_with_quality(std::string id, int level, int amount) const
 {
     int found = 0;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter){
         for(std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter){
             std::map<std::string,int> qualities = stack_iter->type->qualities;
-            std::map<std::string,int>::const_iterator quality_iter = qualities.find(name);
+            std::map<std::string,int>::const_iterator quality_iter = qualities.find(id);
             if(quality_iter!=qualities.end() && level >= quality_iter->second){
               found++;
             }
@@ -1237,7 +1254,7 @@ int inventory::butcher_factor() const
              ++stack_iter)
         {
             const item& cur_item = *stack_iter;
-            if (cur_item.damage_cut() >= 10 && !cur_item.has_flag("SPEAR"))
+            if (cur_item.has_quality("CUT") && !cur_item.has_flag("SPEAR"))
             {
                 int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
                              cur_item.damage_cut();

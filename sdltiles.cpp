@@ -89,6 +89,21 @@ static SDL_Joystick *joystick; // Only one joystick for now.
 
 static bool fontblending = false;
 
+#ifdef SDLTILES
+//***********************************
+//Tile-version specific functions   *
+//***********************************
+void init_tiles()
+{
+
+    DebugLog() << "Initializing SDL Tiles context\n";
+    IMG_Init(IMG_INIT_PNG);
+    tilecontext = new cata_tiles;
+    if (OPTIONS["USE_TILES"]){
+        tilecontext->init(screen, "gfx");
+    }
+}
+#endif
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
@@ -121,7 +136,7 @@ bool WinCreate()
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
     SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(500, 60);
+    SDL_EnableKeyRepeat(500, OPTIONS["INPUT_DELAY"]);
 
     atexit(SDL_Quit);
 
@@ -971,16 +986,8 @@ WINDOW *curses_init(void)
     // I can only guess by check a certain tall character...
     cache_glyphs();
 
-#ifdef SDLTILES
-    // Should NOT be doing this for every damned window I think... keeping too much in memory is wasteful of the tiles.  // Most definitely should not be doing this multiple times...
-    mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_X"] * 2 + 1)),0,0);
-    DebugLog() << "Initializing SDL Tiles context\n";
-    IMG_Init(IMG_INIT_PNG);
-    tilecontext = new cata_tiles;
-    tilecontext->init(screen, "gfx");
-#else
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
-#endif
+
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 

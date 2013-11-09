@@ -57,7 +57,7 @@
     <ClCompile Include="..\catacharset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\catajson.cpp">
+    <ClCompile Include="..\char_validity_check.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\color.cpp">
@@ -333,6 +333,9 @@
     <ClCompile Include="..\wish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\wcwidth.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -361,6 +364,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\translations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\char_validity_check.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\worldfactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -407,7 +416,7 @@
     <ClInclude Include="..\catacurse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\catajson.h">
+    <ClInclude Include="..\char_validity_check.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\color.h">
@@ -650,6 +659,9 @@
     <ClInclude Include="..\weather.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\worldfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -675,6 +687,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\live_view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\char_validity_check.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\worldfactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

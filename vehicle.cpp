@@ -341,7 +341,7 @@ void vehicle::use_controls()
     //Honk the horn!
     if (has_horn) {
         options_choice.push_back(activate_horn);
-        options_message.push_back(uimenu_entry("Honk horn", 'o'));
+        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
         curent++;
     }
 
@@ -388,7 +388,7 @@ void vehicle::use_controls()
         g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
-        if(!lights_on || fuel_left("battery") ) {
+        if(lights_on || fuel_left("battery") ) {
             lights_on = !lights_on;
             g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
@@ -529,12 +529,12 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     //It also has to be a real part, not the null part
-    vpart_info part = vehicle_part_types[id];
+    const vpart_info part = vehicle_part_types[id];
     if(part.has_flag("NOINSTALL")) {
         return false;
     }
 
-    std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+    const std::vector<int> parts_in_square = parts_at_relative(dx, dy);
 
     //First part in an empty square MUST be a structural part
     if(parts_in_square.empty() && part.location != "structure") {
@@ -542,13 +542,18 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     //No part type can stack with itself, or any other part in the same slot
-    for(int index = 0; index < parts_in_square.size(); index++) {
-
-        vpart_info other_part = vehicle_part_types[parts[parts_in_square[index]].id];
+    for( std::vector<int>::const_iterator part_it = parts_in_square.begin();
+         part_it != parts_in_square.end(); ++part_it ) {
+        const vpart_info other_part = vehicle_part_types[parts[*part_it].id];
 
         //Parts with no location can stack with each other (but not themselves)
         if(part.id == other_part.id ||
                 (!part.location.empty() && part.location == other_part.location)) {
+            return false;
+        }
+        // Until we have an interface for handling multiple components with CARGO space,
+        // exclude them from being mounted in the same tile.
+        if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
             return false;
         }
 
@@ -568,9 +573,8 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     //Seatbelts must be installed on a seat
     if(vehicle_part_types[id].has_flag("SEATBELT")) {
         bool anchor_found = false;
-        std::vector<int> parts_here = parts_at_relative(dx, dy);
-        for( std::vector<int>::iterator it = parts_here.begin();
-             it != parts_here.end(); ++it ) {
+        for( std::vector<int>::const_iterator it = parts_in_square.begin();
+             it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("BELTABLE")) {
                 anchor_found = true;
             }
@@ -867,13 +871,11 @@ std::vector<int> vehicle::parts_at_relative (int dx, int dy)
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
 {
-    if (part_flag(part, flag)) {
-        return part;
-    }
     std::vector<int> parts_here = parts_at_relative(parts[part].mount_dx, parts[part].mount_dy);
-    for (int i = 0; i < parts_here.size(); i++) {
-        if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
-            return parts_here[i];
+    for( std::vector<int>::iterator part_it = parts_here.begin();
+         part_it != parts_here.end(); ++part_it ) {
+        if (part_flag(*part_it, flag) && (!unbroken || parts[*part_it].hp > 0)) {
+            return *part_it;
         }
     }
     return -1;
@@ -1326,7 +1328,8 @@ int vehicle::refill (ammotype ftype, int amount)
     {
         if (part_flag(p, "FUEL_TANK") &&
             part_info(p).fuel_type == ftype &&
-            parts[p].amount < part_info(p).size)
+            parts[p].amount < part_info(p).size &&
+            parts[p].hp > 0)
         {
             int need = part_info(p).size - parts[p].amount;
             if (amount < need)
@@ -1928,6 +1931,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
        return ret;
     }
 
+    //Damage armor before damaging any other parts
     int parm = part_with_feature (part, "ARMOR");
     if (parm < 0) {
         parm = part;
@@ -2153,7 +2157,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (snd.length() > 0) {
             g->add_msg (_("You hear a %s"), snd.c_str());
         }
-        g->sound (x, y, smashed? 80 : 50, "");
+        g->sound(x, y, smashed? 80 : 50, "");
     } else {
         std::string dname;
         if (z) {
@@ -2170,7 +2174,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (part_flag(part, "SHARP")) {
             g->m.adjust_field_strength(g, point(x, y), fd_blood, 1 );
         } else {
-            g->sound (x, y, 20, "");
+            g->sound(x, y, 20, "");
         }
     }
 
@@ -2300,7 +2304,7 @@ void vehicle::handle_trap (int x, int y, int part)
     if (msg.size() > 0 && g->u_see(x, y))
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
     if (noise > 0)
-        g->sound (x, y, noise, snd);
+        g->sound(x, y, noise, snd);
     if (wreckit && chance >= rng (1, 100))
         damage (part, 500);
     if (expl > 0)
@@ -2925,7 +2929,7 @@ void vehicle::open_or_close(int part_index, bool opening)
       //Look for parts 1 square off in any cardinal direction
       int xdiff = parts[next_index].mount_dx - parts[part_index].mount_dx;
       int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
-      if(((xdiff * xdiff == 1) != (ydiff * ydiff == 1)) && // != used as XOR
+      if((xdiff * xdiff + ydiff * ydiff == 1) && // (x^2 + y^2) == 1
               (part_info(next_index).id == part_info(part_index).id) &&
               (parts[next_index].open == opening ? 0 : 1)) {
         open_or_close(next_index, opening);

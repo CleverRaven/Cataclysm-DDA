@@ -20,7 +20,6 @@
 #include "name.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "catajson.h"
 #include "disease.h"
 #include "get_version.h"
 #include "crafting.h"
@@ -1257,6 +1256,15 @@ int player::swim_speed()
  return ret;
 }
 
+bool player::is_on_ground()
+{
+    bool on_ground = false;
+    if(has_disease("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
+        on_ground = true;
+    }
+    return  on_ground;
+}
+
 bool player::is_underwater() const
 {
     return underwater;
@@ -2066,7 +2074,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  line = 3;
  if (weight_carried() > weight_capacity()) {
   pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
-  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2077,10 +2085,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
   else if (pen < -10)
    pen = -10;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%"),
              (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%"),
              (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
@@ -2088,41 +2096,41 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  if (pen > 60)
   pen = 60;
  if (pen >= 1) {
-  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (pkill >= 10) {
   pen = int(pkill * .1);
-  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (stim != 0) {
   pen = stim;
   if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%%%"),
+   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%"),
             (abs(pen) < 10 ? " " : ""), abs(pen));
   line++;
  }
  if (thirst > 40) {
   pen = int((thirst - 40) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (hunger > 100) {
   pen = int((hunger - 100) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
  if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy)) {
   pen = (g->light_level() >= 12 ? 5 : 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2134,7 +2142,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
    pen = int( (65 - g->get_temperature()) / 3);
   else
    pen = int( (65 - g->get_temperature()) / 2);
-  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%"),
             (pen < 10 ? " " : ""), pen);
   line++;
  }
@@ -2165,7 +2173,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
 
  if (has_trait("QUICK")) {
   pen = int(newmoves * .1);
-  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%%%"),
+  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
             (pen < 10 ? " " : ""), pen);
  }
  int runcost = run_cost(100);
@@ -2229,9 +2237,9 @@ gun for ranged combat, and enhances many actions that require finesse."));
    } else if (line == 2) {
     mvwprintz(w_stats, 4, 2, h_ltgray, _("Intelligence:"));
  // display player current INT effects
-   mvwprintz(w_stats, 6, 2, c_magenta, _("Read times: %d%%%%           "),
+   mvwprintz(w_stats, 6, 2, c_magenta, _("Read times: %d%%           "),
              read_speed(false));
-   mvwprintz(w_stats, 7, 2, c_magenta, _("Skill rust: %d%%%%           "),
+   mvwprintz(w_stats, 7, 2, c_magenta, _("Skill rust: %d%%           "),
              rust_rate(false));
    mvwprintz(w_stats, 8, 2, c_magenta, _("Crafting Bonus: %d          "),
              int_cur);
@@ -2707,8 +2715,23 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
     bool sideStyle = use_narrow_sidebar();
 
+    // get the current weapon mode or mods
+    std::string mode = "";
+    if (weapon.mode == "MODE_BURST") {
+        mode = _("Burst");
+    } else {
+        item* gunmod = weapon.active_gunmod();
+        if (gunmod != NULL) {
+            mode = gunmod->type->name;
+        }
+    }
+
     WINDOW *weapwin = sideStyle ? w2 : w;
-    mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    if (mode == "") {
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
+    } else {
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s (%s)"), weapname().c_str(), mode.c_str());
+    }
     if (weapon.is_gun()) {
         int adj_recoil = recoil + driving_recoil;
         if (adj_recoil > 0) {
@@ -2726,30 +2749,15 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     }
 
     // Print currently used style
-    const char *style = NULL;
-    if (style_selected == "style_none")
-      style = _("No Style");
-    else
-      style = martialarts[style_selected].name.c_str();
-    if (style) {
-        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_blue, style);
+    std::string style = "";
+    if (style_selected == "style_none") {
+        style = _("No Style");
+    } else {
+        style = martialarts[style_selected].name;
     }
-
-    // Print the current weapon mode
-    const char *mode = NULL;
-    if (weapon.mode == "NULL")
-        mode = _("Normal");
-    else if (weapon.mode == "MODE_BURST")
-        mode = _("Burst");
-    else {
-        item* gunmod = weapon.active_gunmod();
-        if (gunmod != NULL)
-            mode = gunmod->type->name.c_str();
-    }
-    if (mode) {
+    if (style != "") {
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 3, x, c_red, mode);
+        mvwprintz(weapwin, 1, x, c_blue, style.c_str());
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
@@ -3420,7 +3428,7 @@ void player::pause(game *g)
     vehicle* veh = NULL;
     for (int v = 0; v < vehs.size(); ++v) {
         veh = vehs[v].v;
-        if (veh && veh->velocity > 0 && veh->player_in_control(this)) {
+        if (veh && veh->velocity != 0 && veh->player_in_control(this)) {
             if (one_in(10)) {
                 practice(g->turn, "driving", 1);
             }
@@ -3438,6 +3446,9 @@ int player::throw_range(signed char ch)
   return -1;
  else
   tmp = inv.item_by_letter(ch);
+ 
+ if (tmp.count_by_charges() && tmp.charges > 1)
+  tmp.charges = 1;
 
  if ((tmp.weight() / 113) > int(str_cur * 15))
   return 0;
@@ -4088,7 +4099,7 @@ void player::recalc_hp()
         {
             new_max_hp[i] *= 1.2;
         }
-        if (has_trait("HARDCORE"))
+        if (has_trait("FRAIL"))
         {
             new_max_hp[i] *= 0.25;
         }
@@ -4445,7 +4456,7 @@ void player::suffer(game *g)
         {
             // Starts at 1 in 25, goes down by 5 for every 50% more carried
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))){
-                g->add_msg_if_player(this,"Your body strains under the weight!");
+                g->add_msg_if_player(this, _("Your body strains under the weight!"));
                 // 1 more pain for every 800 grams more (5 per extra STR needed)
                 if ( (weight_carried() - weight_capacity()) / 800 > pain && pain < 100) {
                     pain += 1;
@@ -5657,6 +5668,8 @@ bool player::has_fire(const int quantity)
         return true;
     } else if (has_charges("battletorch_lit", quantity)) {
         return true;
+    } else if (has_charges("handflare_lit", 1)) {
+        return true;
     } else if (has_charges("candle_lit", 1)) {
         return true;
     } else if (has_bionic("bio_tools")) {
@@ -5706,6 +5719,8 @@ void player::use_fire(const int quantity)
     if (has_charges("torch_lit", 1)) {
         return;
     } else if (has_charges("battletorch_lit", 1)) {
+        return;
+    } else if (has_charges("handflare_lit", 1)) {
         return;
     } else if (has_charges("candle_lit", 1)) {
         return;
@@ -5841,7 +5856,7 @@ int player::butcher_factor()
  if (inv_factor < lowest_factor) {
   lowest_factor = inv_factor;
  }
- if (weapon.damage_cut() >= 10 && !weapon.has_flag("SPEAR")) {
+ if (weapon.has_quality("CUT") && !weapon.has_flag("SPEAR")) {
   int factor = weapon.volume() * 5 - weapon.weight() / 75 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)
@@ -6235,28 +6250,8 @@ bool player::consume(game *g, signed char ch)
                     return false;
                 }
             }
-            hunger -= comest->nutr;
-            thirst -= comest->quench;
-            health += comest->healthy;
+            consume_effects(to_eat, comest);
             moves -= 250;
-            add_addiction(comest->add, comest->addict);
-            if (addiction_craving(comest->add) != MORALE_NULL) {
-                rem_morale(addiction_craving(comest->add));
-            }
-            if (comest->fun < 0) {
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
-            } else if (comest->fun > 0) {
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
-            }
-            if (hunger < -20 || thirst < -20) {
-                g->add_msg_if_player(this,_("You can't finish it all!"));
-            }
-            if (hunger < -20) {
-                hunger = -20;
-            }
-            if (thirst < -20) {
-                thirst = -20;
-            }
             was_consumed = true;
         } else {
             debugmsg("Unknown comestible type of item: %s\n", to_eat->tname(g).c_str());
@@ -6284,10 +6279,11 @@ bool player::consume(game *g, signed char ch)
             if (to_eat->type->m1 == "leather" || to_eat->type->m2 == "leather") {
                 charge /= 4;
             }
-            if (to_eat->type->m1 == "wood"    || to_eat->type->m2 == "wood") {
+            if (to_eat->type->m1 == "wood" || to_eat->type->m2 == "wood") {
                 charge /= 2;
             }
             charge_power(charge);
+            to_eat->charges = 0;
             g->add_msg_player_or_npc(this, _("You eat your %s."), _("<npcname> eats a %s."),
                                      to_eat->tname(g).c_str());
         }
@@ -6403,23 +6399,14 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         if (!has_trait("SAPROVORE") && (!has_bionic("bio_digestion") || one_in(3))) {
             add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
-        hunger -= rng(0, comest->nutr);
-        thirst -= comest->quench;
-        if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            health -= 3;
-        }
+        consume_effects(eaten, comest, spoiled);
     } else {
-        hunger -= comest->nutr;
-        thirst -= comest->quench;
-
-        if (has_bionic("bio_digestion")) {
-            hunger -= rng(0, comest->nutr);
-        } else if (!has_trait("GOURMAND")) {
+        consume_effects(eaten, comest);
+        if (!has_trait("GOURMAND")) {
             if ((overeating && rng(-200, 0) > hunger)) {
                 vomit(g);
             }
         }
-        health += comest->healthy;
     }
     // At this point, we've definitely eaten the item, so use up some turns.
     if (has_trait("GOURMAND")) {
@@ -6446,21 +6433,6 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     if (g->itypes[comest->tool]->is_tool()) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
-    if (comest->stim > 0) {
-        if (comest->stim < 10 && stim < comest->stim) {
-            stim += comest->stim;
-            if (stim > comest->stim) {
-                stim = comest->stim;
-            }
-        } else if (comest->stim >= 10 && stim < comest->stim * 3) {
-            stim += comest->stim;
-        }
-    }
-
-    add_addiction(comest->add, comest->addict);
-    if (addiction_craving(comest->add) != MORALE_NULL) {
-        rem_morale(addiction_craving(comest->add));
-    }
 
     if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol) {
         charge_power(rng(2, 8));
@@ -6474,12 +6446,12 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
           g->add_msg_if_player(this, _("You feast upon the human flesh."));
           add_morale(MORALE_CANNIBAL, 15, 100);
       } else {
-          g->add_msg_if_player(this, _("You feel horrible for eating a person.."));
+          g->add_msg_if_player(this, _("You feel horrible for eating a person."));
           add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
       }
     }
     if (has_trait("VEGETARIAN") && (eaten->made_of("flesh") || eaten->made_of("hflesh"))) {
-        g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach"));
+        g->add_msg_if_player(this,_("Almost instantly you feel a familiar pain in your stomach."));
         add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
@@ -6494,6 +6466,40 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
             hunger += int(comest->nutr * .75);
         }
     }
+    return true;
+}
+
+void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
+{
+    if (rotten) {
+        hunger -= rng(0, comest->nutr);
+        thirst -= comest->quench;
+        if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
+            health -= 3;
+        }
+    } else {
+        hunger -= comest->nutr;
+        thirst -= comest->quench;
+        health += comest->healthy;
+    }
+
+    if (has_bionic("bio_digestion")) {
+        hunger -= rng(0, comest->nutr);
+    }
+
+    if (comest->stim != 0) {
+        if (abs(stim) < (abs(comest->stim) * 3)) {
+            if (comest->stim < 0) {
+                stim = std::max(comest->stim * 3, stim + comest->stim);
+            } else {
+                stim = std::min(comest->stim * 3, stim + comest->stim);
+            }
+        }
+    }
+    add_addiction(comest->add, comest->addict);
+    if (addiction_craving(comest->add) != MORALE_NULL) {
+        rem_morale(addiction_craving(comest->add));
+    }
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
     }
@@ -6503,7 +6509,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }
-        if (hunger < -60 || thirst < -60) {
+        if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
         if (hunger < -60) {
@@ -6518,7 +6524,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
         }
-        if (hunger < -20 || thirst < -20) {
+        if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
         if (hunger < -20) {
@@ -6528,7 +6534,6 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
             thirst = -20;
         }
     }
-    return true;
 }
 
 bool player::wield(game *g, signed char ch, bool autodrop)
@@ -7633,7 +7638,7 @@ void player::use(game *g, char let)
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
-            g->add_msg(_("You need to be at least level 1 in the firearms skill before you\
+            g->add_msg(_("You need to be at least level 1 in the marksmanship skill before you\
  can modify guns."));
             return;
         }
@@ -7731,12 +7736,14 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                 return;
             } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
                         mod->id == "masterkey" || mod->id == "u_shotgun" ||
-                        mod->id == "bayonet" || mod->id == "gun_crossbow") &&
+                        mod->id == "bayonet" || mod->id == "gun_crossbow" ||
+                        mod->id == "sword_bayonet") &&
                        (gun->contents[i].type->id == "pipe_launcher40mm" ||
                         gun->contents[i].type->id == "m203" ||
                         gun->contents[i].type->id == "masterkey" ||
                         gun->contents[i].type->id == "u_shotgun" ||
                         gun->contents[i].type->id == "bayonet" ||
+                        gun->contents[i].type->id == "sword_bayonet" ||
                         gun->contents[i].type->id == "gun_crossbow")) {
                 g->add_msg(_("Your %s already has an under-barrel accessory weapon."),
                            gun->tname(g).c_str());
@@ -8008,7 +8015,7 @@ void player::try_to_sleep(game *g)
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
-     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair || 
+     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
      furn_at_pos == f_sofa ||(veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
@@ -8154,7 +8161,7 @@ int player::warmth(body_part bp)
     {
         ret += 10;
     }
-    
+
     // If the players head is not encumbered, check if hood can be put up
     if(bp == bp_head && encumb(bp_head) < 1 && worn_with_flag("HOOD"))
     {
@@ -8657,12 +8664,14 @@ void player::learn_recipe(recipe *rec)
 
 void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
 {
- if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
-     backlog.name == name && query_yn(_("Resume task?"))) {
-  activity = backlog;
-  backlog = player_activity();
- } else
-  activity = player_activity(type, moves, index, invlet, name);
+    if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
+        backlog.name == name && query_yn(_("Resume task?"))) {
+            activity = backlog;
+            backlog = player_activity();
+    } else {
+        activity = player_activity(type, moves, index, invlet, name);
+    }
+    activity.warned_of_proximity = false;
 }
 
 void player::cancel_activity()
@@ -8695,6 +8704,11 @@ std::string player::weapname(bool charges)
     dump << "+" << weapon.contents[i].charges;
    dump << ")";
   }
+  return dump.str();
+ } else if (weapon.is_container()) {
+  std::stringstream dump;
+  dump << weapon.tname().c_str();
+  dump << " (" << weapon.contents.size() << ")";
   return dump.str();
  } else if (weapon.is_null()) {
   return _("fists");

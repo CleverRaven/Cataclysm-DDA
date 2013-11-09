@@ -191,4 +191,7 @@ void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
 int curses_start_color();
+#ifdef SDLTILES
+void init_tiles();
+#endif
 #endif

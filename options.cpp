@@ -22,6 +22,7 @@ extern cata_tiles *tilecontext;
 #endif // SDLTILES
 
 std::map<std::string, cOpt> OPTIONS;
+std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
@@ -150,7 +151,7 @@ std::string cOpt::getValue() {
     return "";
 }
 
-std::string cOpt::getName() {
+std::string cOpt::getValueName() {
     if (sType == "string") {
         return optionNames[sSet];
 
@@ -297,11 +298,7 @@ cOpt::operator float() const {
 
 // if (class == "string")
 bool cOpt::operator==(const std::string sCompare) const {
-    if ( sType == "string" && sSet == sCompare ) {
-        return true;
-    }
-
-    return false;
+    return (sType == "string" && sSet == sCompare);
 }
 
 // if (class != "string")
@@ -317,6 +314,7 @@ void initOptions() {
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
+    vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
 
@@ -446,7 +444,7 @@ void initOptions() {
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
-    OPTIONS["DELETE_WORLD"] =           cOpt("general", _("Delete world"),
+    OPTIONS["DELETE_WORLD"] =           cOpt("world_default", _("Delete world"),
                                              _("Delete the world when the last active character dies."),
                                              "no,yes,query", "no"
                                             );
@@ -461,17 +459,17 @@ void initOptions() {
                                              0, 25, 12
                                             );
 
-    OPTIONS["SPAWN_DENSITY"] =          cOpt("general", _("Spawn rate scaling factor"),
+    OPTIONS["SPAWN_DENSITY"] =          cOpt("world_default", _("Spawn rate scaling factor"),
                                              _("A scaling factor that determines density of monster spawns."),
                                              0.0, 50.0, 1.0, 0.1
                                             );
 
-    OPTIONS["CITY_SIZE"] =              cOpt("general", _("Size of cities"),
+    OPTIONS["CITY_SIZE"] =              cOpt("world_default", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
                                              1, 16, 4
                                             );
 
-    OPTIONS["INITIAL_TIME"] =           cOpt("debug", _("Initial time"),
+    OPTIONS["INITIAL_TIME"] =           cOpt("world_default", _("Initial time"),
                                              _("Initial starting time of day on character generation."),
                                              0, 23, 8
                                             );
@@ -480,7 +478,7 @@ void initOptions() {
     optionNames["summer"] = _("Summer");
     optionNames["autumn"] = _("Autumn");
     optionNames["winter"] = _("Winter");
-    OPTIONS["INITIAL_SEASON"] =         cOpt("debug", _("Initial season"),
+    OPTIONS["INITIAL_SEASON"] =         cOpt("world_default", _("Initial season"),
                                              _("Initial starting season of day on character generation."),
                                              "spring,summer,autumn,winter", "spring");
 
@@ -492,6 +490,11 @@ void initOptions() {
     OPTIONS["VIEWPORT_Y"] =             cOpt("graphics", _("Viewport height"),
                                              _("SDL ONLY: Set the expansion of the viewport along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
                                              12, 93, 12
+                                            );
+
+    OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
+                                             _("SDL ONLY: Determines how many times per second an action will be performed by holding down a key. The delay is in milliseconds. Requires restart."),
+                                             1, 500, 60
                                             );
 
     optionNames["standard"] = _("Standard");
@@ -507,37 +510,37 @@ void initOptions() {
                                              1, 50, 1
                                             );
 
-    OPTIONS["STATIC_SPAWN"] =           cOpt("debug", _("Static spawn"),
+    OPTIONS["STATIC_SPAWN"] =           cOpt("world_default", _("Static spawn"),
                                              _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                              true
                                             );
 
-    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("debug", _("Classic zombies"),
+    OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
                                              false
                                             );
 
-    OPTIONS["BLACK_ROAD"] =             cOpt("debug", _("Black Road"),
+    OPTIONS["BLACK_ROAD"] =             cOpt("world_default", _("Black Road"),
                                              _("If true, spawn zombies at shelters."),
                                              false
                                             );
 
-    OPTIONS["SEASON_LENGTH"] =          cOpt("debug", _("Season length"),
+    OPTIONS["SEASON_LENGTH"] =          cOpt("world_default", _("Season length"),
                                              _("Season length, in days."),
                                              14, 127, 14
                                             );
 
-    OPTIONS["STATIC_NPC"] =             cOpt("debug", _("Static npcs"),
+    OPTIONS["STATIC_NPC"] =             cOpt("world_default", _("Static npcs"),
                                              _("If true, the game will spawn static NPC at the start of the game, requires world reset."),
                                              false
                                             );
 
-    OPTIONS["RANDOM_NPC"] =             cOpt("debug", _("Random npcs"),
+    OPTIONS["RANDOM_NPC"] =             cOpt("world_default", _("Random npcs"),
                                              _("If true, the game will randomly spawn NPC during gameplay."),
                                              false
                                             );
 
-    OPTIONS["RAD_MUTATION"] =           cOpt("general", _("Mutations by radiation"),
+    OPTIONS["RAD_MUTATION"] =           cOpt("world_default", _("Mutations by radiation"),
                                              _("If true, radiation causes the player to mutate."),
                                              true
                                             );
@@ -583,18 +586,21 @@ void initOptions() {
                                              false
                                             );
 
+    optionNames["false"] = _("False");
+    optionNames["centered"] = _("Centered");
+    optionNames["edge"] = _("To edge");
     OPTIONS["SHIFT_LIST_ITEM_VIEW"] =   cOpt("interface", _("Shift list item view"),
-                                             _("If true, shift the view toward the selected item if it is outside of your current viewport."),
-                                             true
+                                             _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
+                                             "false,centered,edge",  "centered"
                                             );
 
     OPTIONS["USE_TILES"] =              cOpt("graphics", _("Use tiles"),
-                                             _("If true, replaces some TTF rendered text with Tiles. Only applicable on SDL builds. Requires restart."),
+                                             _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
                                              true
                                              );
 
     OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
-                                             _("Choose the tileset you want to use. Only applicable on SDL builds. Requires restart."),
+                                             _("Choose the tileset you want to use. Only applicable on SDL builds."),
                                              tileset_names, "hoder");   // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
@@ -628,11 +634,11 @@ void show_options()
     WINDOW* w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    mvwputch(w_options_border, iTooltipHeight + 1,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_options_border, iTooltipHeight + 1, 79, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_options_border, iTooltipHeight + 1,  0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_options_border, iTooltipHeight + 1, 79, c_dkgray, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
+        mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_dkgray, LINE_XXOX); // _|_
     }
 
     mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
@@ -640,9 +646,9 @@ void show_options()
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
-            mvwputch(w_options_header, 0, i, c_ltgray, LINE_OXXX);
+            mvwputch(w_options_header, 0, i, c_dkgray, LINE_OXXX);
         } else {
-            mvwputch(w_options_header, 0, i, c_ltgray, LINE_OXOX); // Draw header line
+            mvwputch(w_options_header, 0, i, c_dkgray, LINE_OXOX); // Draw header line
         }
     }
 
@@ -663,7 +669,7 @@ void show_options()
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if (mapLines[j]) {
-                    mvwputch(w_options, i, j, c_ltgray, LINE_XOXO);
+                    mvwputch(w_options, i, j, c_dkgray, LINE_XOXO);
                 } else {
                     mvwputch(w_options, i, j, c_black, ' ');
                 }
@@ -697,11 +703,11 @@ void show_options()
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getName()).c_str());
+            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2);
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2, 0, c_dkgray);
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
@@ -710,7 +716,7 @@ void show_options()
                 wprintz(w_options_header, c_white, "[");
                 wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
                 wprintz(w_options_header, c_white, "]");
-                wputch(w_options_header, c_ltgray, LINE_OXOX);
+                wputch(w_options_header, c_dkgray, LINE_OXOX);
             }
         }
 
@@ -766,7 +772,7 @@ void show_options()
         }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
-    used_tiles_changed = (OPTIONS_OLD["TILES"] != OPTIONS["TILES"]) || (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
+    used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) || (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
 
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {

@@ -10,7 +10,8 @@ import os
 
 # some .json files have no translatable strings. ignore them.
 ignore = ["item_groups.json", "monstergroups.json", "recipes.json",
-          "sokoban.txt", "colors.json", "species.json"]
+          "sokoban.txt", "colors.json", "species.json",
+          "halloween_special.json"]
 
 # keep a list of the files that have been extracted
 extracted = []
@@ -118,6 +119,7 @@ autoextract("vehicle_parts")
 autoextract("vehicles")
 autoextract("techniques", format_strings=True)
 autoextract("tutorial")
+autoextract("tool_qualities")
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:

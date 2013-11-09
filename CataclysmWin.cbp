@@ -27,21 +27,10 @@
 					<Add option="-O2" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
-					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\include" />
 				</Compiler>
 				<Linker>
 					<Add library="intl" />
 					<Add library="iconv" />
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
-					<Add directory="WinDepend\SDL-1.2.15\lib" />
-					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
-					<Add directory="WinDepend\libiconv\lib" />
-					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86" />
 				</Linker>
 			</Target>
 			<Target title="Release -SDL">
@@ -139,7 +128,8 @@
 					<Add option="-O2" />
 					<Add option="-pg" />
 					<Add option="-DSDLTILES" />
-					<Add directory="3rdparty\include\SDL" />
+					<Add option="-DTILES" />
+					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -162,7 +152,8 @@
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DSDLTILES" />
-					<Add directory="3rdparty\include\SDL" />
+					<Add option="-DTILES" />
+					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -215,8 +206,8 @@
 		<Unit filename="catacharset.cpp" />
 		<Unit filename="catacharset.h" />
 		<Unit filename="catacurse.h" />
-		<Unit filename="catajson.cpp" />
-		<Unit filename="catajson.h" />
+		<Unit filename="char_validity_check.cpp" />
+		<Unit filename="char_validity_check.h" />
 		<Unit filename="color.cpp" />
 		<Unit filename="color.h" />
 		<Unit filename="computer.cpp" />
@@ -407,6 +398,8 @@
 		<Unit filename="weather_data.cpp" />
 		<Unit filename="wincurse.cpp" />
 		<Unit filename="wish.cpp" />
+		<Unit filename="worldfactory.cpp" />
+		<Unit filename="worldfactory.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

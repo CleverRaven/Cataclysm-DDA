@@ -374,7 +374,7 @@ void mutation_effect(game *g, player &p, std::string mut)
     bool destroy = false;
     std::vector<body_part> bps;
 
-    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "HARDCORE") {
+    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
         p.recalc_hp();
 
     } else if (mut == "WEBBED" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
@@ -478,7 +478,7 @@ void mutation_effect(game *g, player &p, std::string mut)
                     }
 
                     char tmp_invlet = p.worn[i].invlet;
-                    g->m.add_item(p.posx, p.posy, p.worn[i]);
+                    g->m.add_item_or_charges(p.posx, p.posy, p.worn[i]);
                     p.takeoff( g, p.worn[i].invlet, true );
                     p.i_rem( tmp_invlet );
                 }
@@ -491,7 +491,7 @@ void mutation_effect(game *g, player &p, std::string mut)
 
 void mutation_loss_effect(game *g, player &p, std::string mut)
 {
-    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "HARDCORE") {
+    if (mut == "TOUGH" || mut == "GLASSJAW" || mut == "FRAIL") {
         p.recalc_hp();
 
     } else if (mut == "STR_UP") {

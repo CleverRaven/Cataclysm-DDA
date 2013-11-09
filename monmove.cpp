@@ -97,7 +97,8 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
     int sightrange = g->light_level();
     int closest = -1;
     int dist = 1000;
-    int tc, stc;
+    int tc = 0;
+    int stc = 0;
     bool fleeing = false;
     if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
@@ -137,9 +138,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
         if (is_fleeing(g->u)) {
             // Wander away.
             fleeing = true;
-            wandx = posx() * 2 - g->u.posx;
-            wandy = posy() * 2 - g->u.posy;
-            wandf = 40;
+            set_dest(posx() * 2 - g->u.posx, posy() * 2 - g->u.posy, tc);
         } else {
             // Chase the player.
             closest = -2;
@@ -155,9 +154,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
                 g->m.sees(posx(), posy(), me->posx, me->posy, sightrange, tc))) {
             if (is_fleeing(*me)) {
                 fleeing = true;
-                wandx = posx() * 2 - me->posx;
-                wandy = posy() * 2 - me->posy;
-                wandf = 40;
+                set_dest(posx() * 2 - me->posx, posy() * 2 - me->posy, tc);\
             } else {
                 closest = i;
                 stc = tc;
@@ -205,133 +202,146 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
 // 4) Sound-based tracking
 void monster::move(game *g)
 {
-// We decrement wandf no matter what.  We'll save our wander_to plans until
-// after we finish out set_dest plans, UNLESS they time out first.
- if (wandf > 0)
-  wandf--;
-
- //Hallucinations have a chance of disappearing each turn
- if (is_hallucination() && one_in(25)) {
-   die(g);
-   return;
- }
-
-// First, use the special attack, if we can!
- if (sp_timeout > 0) {
-   sp_timeout--;
- }
- //If this monster has the ability to heal in combat, do it now.
- if (has_flag(MF_REGENERATES_50)) {
-    hp += 50;
-    if(hp > type->hp){
-      hp = type->hp;
+    // We decrement wandf no matter what.  We'll save our wander_to plans until
+    // after we finish out set_dest plans, UNLESS they time out first.
+    if (wandf > 0) {
+        wandf--;
     }
- }
- if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
-   mattack ma;
-   if(!is_hallucination()) {
-     (ma.*type->sp_attack)(g, this);
-   }
- }
- if (moves < 0)
-  return;
- if (has_flag(MF_IMMOBILE)) {
-  moves = 0;
-  return;
- }
- if (has_effect(ME_STUNNED)) {
-  stumble(g, false);
-  moves = 0;
-  return;
- }
- if (has_effect(ME_DOWNED)) {
-  moves = 0;
-  return;
- }
- if (has_effect(ME_BOULDERING)){
-  moves -= 20;
-  if (moves < 0) {
-   return;
-  }
- }
- if (friendly != 0) {
-  if (friendly > 0)
-   friendly--;
-  friendly_move(g);
-  return;
- }
 
- bool moved = false;
- point next;
- int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
+    //Hallucinations have a chance of disappearing each turn
+    if (is_hallucination() && one_in(25)) {
+        die(g);
+        return;
+    }
 
- monster_attitude current_attitude = attitude();
- if (friendly == 0)
-  current_attitude = attitude(&(g->u));
-// If our plans end in a player, set our attitude to consider that player
- if (plans.size() > 0) {
-  if (plans.back().x == g->u.posx && plans.back().y == g->u.posy)
-   current_attitude = attitude(&(g->u));
-  else {
-   for (int i = 0; i < g->active_npc.size(); i++) {
-    if (plans.back().x == g->active_npc[i]->posx &&
-        plans.back().y == g->active_npc[i]->posy)
-     current_attitude = attitude((g->active_npc[i]));
-   }
-  }
- }
+    // First, use the special attack, if we can!
+    if (sp_timeout > 0) {
+        sp_timeout--;
+    }
+    //If this monster has the ability to heal in combat, do it now.
+    if (has_flag(MF_REGENERATES_50)) {
+        hp += 50;
+        if(hp > type->hp) {
+            hp = type->hp;
+        }
+    }
+    if (has_flag(MF_REGENERATES_10)) {
+        hp += 10;
+        if(hp > type->hp) {
+            hp = type->hp;
+        }
+    }
 
- if (current_attitude == MATT_IGNORE ||
-     (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST)) {
-  moves -= 100;
-  stumble(g, false);
-  return;
- }
+    if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
+        mattack ma;
+        if(!is_hallucination()) {
+            (ma.*type->sp_attack)(g, this);
+        }
+    }
+    if (moves < 0) {
+        return;
+    }
+    if (has_flag(MF_IMMOBILE)) {
+        moves = 0;
+        return;
+    }
+    if (has_effect(ME_STUNNED)) {
+        stumble(g, false);
+        moves = 0;
+        return;
+    }
+    if (has_effect(ME_DOWNED)) {
+        moves = 0;
+        return;
+    }
+    if (has_effect(ME_BOULDERING)) {
+        moves -= 20;
+        if (moves < 0) {
+            return;
+        }
+    }
+    if (friendly != 0) {
+        if (friendly > 0) {
+            friendly--;
+        }
+        friendly_move(g);
+        return;
+    }
 
- if (plans.size() > 0 && !is_fleeing(g->u) &&
-     (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-     (can_move_to(g, plans[0].x, plans[0].y) ||
-      (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-     (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
-  // CONCRETE PLANS - Most likely based on sight
-  next = plans[0];
-  moved = true;
- } else if (has_flag(MF_SMELLS)) {
-// No sight... or our plans are invalid (e.g. moving through a transparent, but
-//  solid, square of terrain).  Fall back to smell if we have it.
-  plans.clear();
-  point tmp = scent_move(g);
-  if (tmp.x != -1) {
-   next = tmp;
-   moved = true;
-  }
- }
- if (wandf > 0 && !moved) { // No LOS, no scent, so as a fall-back follow sound
-  plans.clear();
-  point tmp = wander_next(g);
-  if (tmp.x != posx() || tmp.y != posy()) {
-   next = tmp;
-   moved = true;
-  }
- }
+    bool moved = false;
+    point next;
+    int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
 
-// Finished logic section.  By this point, we should have chosen a square to
-//  move to (moved = true).
- if (moved) { // Actual effects of moving to the square we've chosen
-  // Note: The below works because C++ in A() || B() won't call B() if A() is true
-  int& x = next.x; int& y = next.y; // Define alias for x and y
-  bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
-  if(!did_something) {
-   moves -= 100; // If we don't do this, we'll get infinite loops.
-  }
- } else {
-  moves -= 100;
- }
+    monster_attitude current_attitude = attitude();
+    if (friendly == 0) {
+        current_attitude = attitude(&(g->u));
+    }
+    // If our plans end in a player, set our attitude to consider that player
+    if (plans.size() > 0) {
+        if (plans.back().x == g->u.posx && plans.back().y == g->u.posy) {
+            current_attitude = attitude(&(g->u));
+        } else {
+            for (int i = 0; i < g->active_npc.size(); i++) {
+                if (plans.back().x == g->active_npc[i]->posx &&
+                      plans.back().y == g->active_npc[i]->posy) {
+                    current_attitude = attitude((g->active_npc[i]));
+                }
+            }
+        }
+    }
 
-// If we're close to our target, we get focused and don't stumble
- if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
-     !moved)
-  stumble(g, moved);
+    if (current_attitude == MATT_IGNORE ||
+          (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST)) {
+        moves -= 100;
+        stumble(g, false);
+        return;
+    }
+
+    if (plans.size() > 0 &&
+         (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
+         (can_move_to(g, plans[0].x, plans[0].y) ||
+         (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
+         (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
+        // CONCRETE PLANS - Most likely based on sight
+        next = plans[0];
+        moved = true;
+    } else if (has_flag(MF_SMELLS)) {
+        // No sight... or our plans are invalid (e.g. moving through a transparent, but
+        //  solid, square of terrain).  Fall back to smell if we have it.
+        plans.clear();
+        point tmp = scent_move(g);
+        if (tmp.x != -1) {
+            next = tmp;
+            moved = true;
+        }
+    }
+    if (wandf > 0 && !moved) { // No LOS, no scent, so as a fall-back follow sound
+        plans.clear();
+        point tmp = wander_next(g);
+        if (tmp.x != posx() || tmp.y != posy()) {
+            next = tmp;
+            moved = true;
+        }
+    }
+
+    // Finished logic section.  By this point, we should have chosen a square to
+    //  move to (moved = true).
+    if (moved) { // Actual effects of moving to the square we've chosen
+        // Note: The below works because C++ in A() || B() won't call B() if A() is true
+        int& x = next.x; int& y = next.y; // Define alias for x and y
+        bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
+        if(!did_something) {
+            moves -= 100; // If we don't do this, we'll get infinite loops.
+        }
+    } else {
+        moves -= 100;
+    }
+
+    // If we're close to our target, we get focused and don't stumble
+    if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
+          !moved) {
+        stumble(g, moved);
+    }
 }
 
 // footsteps will determine how loud a monster's normal movement is
@@ -344,7 +354,7 @@ void monster::footsteps(game *g, int x, int y)
   return; // Flying monsters don't have footsteps!
  made_footstep = true;
  int volume = 6; // same as player's footsteps
- if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y)))
+ if (digging())
   volume = 10;
  switch (type->size) {
   case MS_TINY:
@@ -582,8 +592,13 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                                        p.name.c_str(), body_part_name(bphit, side).c_str());
                         }
                     } else {
-                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                        if ( g->u_see(this) ) {
+                            g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
                                    body_part_name(bphit, side).c_str());
+                        } else {
+                            g->add_msg(_("Something hits your %s."),
+                                    body_part_name(bphit, side).c_str());
+                        }
                     }
                 }
 
@@ -734,9 +749,7 @@ int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
     float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
 
     // Digging and flying monsters ignore terrain cost
-    if (has_flag(MF_DIGS) || has_flag(MF_FLIES) ||
-        (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x1, y1) &&
-         g->m.has_flag("DIGGABLE", x2, y2))) {
+    if (has_flag(MF_FLIES) || (digging() && g->m.has_flag("DIGGABLE", x2, y2))) {
         movecost = 100 * diag_mult;
     // Swimming monsters move super fast in water
     } else if (has_flag(MF_SWIMS)) {
@@ -910,76 +923,101 @@ int monster::attack_at(int x, int y) {
 
 int monster::move_to(game *g, int x, int y, bool force)
 {
-  // Make sure that we can move there, unless force is true.
-  if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
-      return 0;
-  }
-
-  if (has_effect(ME_BEARTRAP)) {
-   moves = 0;
-   return 0;
-  }
-
-  if (plans.size() > 0)
-   plans.erase(plans.begin());
-
-  moves -= calc_movecost(g, posx(), posy(), x, y);
-
-  if (has_flag(MF_SLUDGETRAIL) && !is_hallucination()) {
-    for (int dx = -1; dx <= 1; dx++) {
-      for (int dy = -1; dy <= 1; dy++) {
-        const int fstr = 3 - (abs(dx) + abs(dy));
-        if (fstr >= 2) {
-          g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
-        }
-      }
+    // Make sure that we can move there, unless force is true.
+    if(!force) if(!g->is_empty(x, y) || !can_move_to(g, x, y)) {
+        return 0;
     }
-  }
 
-  //Check for moving into/out of water
-  bool was_water = g->m.is_divable(posx(), posy());
-  bool will_be_water = g->m.is_divable(x, y);
+    if (has_effect(ME_BEARTRAP)) {
+        moves = 0;
+        return 0;
+    }
 
-  if(was_water && !will_be_water && g->u_see(x, y)) {
-    //Use more dramatic messages for swimming monsters
-    g->add_msg(_("A %s %s from the %s!"), name().c_str(),
-            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
-            g->m.tername(posx(), posy()).c_str());
-  } else if(!was_water && will_be_water && g->u_see(x, y)) {
-    g->add_msg(_("A %s %s into the %s!"), name().c_str(),
-            has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
-            g->m.tername(x, y).c_str());
-  }
+    if (plans.size() > 0) {
+        plans.erase(plans.begin());
+    }
 
-  setpos(x, y);
-  footsteps(g, x, y);
-  if(is_hallucination()) {
-    //Hallucinations don't do any of the stuff after this point
+    moves -= calc_movecost(g, posx(), posy(), x, y);
+
+    //Check for moving into/out of water
+    bool was_water = g->m.is_divable(posx(), posy());
+    bool will_be_water = g->m.is_divable(x, y);
+
+    if(was_water && !will_be_water && g->u_see(x, y)) {
+        //Use more dramatic messages for swimming monsters
+        g->add_msg(_("A %s %s from the %s!"), name().c_str(),
+                   has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
+                   g->m.tername(posx(), posy()).c_str());
+    } else if(!was_water && will_be_water && g->u_see(x, y)) {
+        g->add_msg(_("A %s %s into the %s!"), name().c_str(),
+                   has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
+                   g->m.tername(x, y).c_str());
+    }
+
+    setpos(x, y);
+    footsteps(g, x, y);
+    if(is_hallucination()) {
+        //Hallucinations don't do any of the stuff after this point
+        return 1;
+    }
+    if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4)) {
+        hurt(rng(2, 3));
+    }
+    if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6)) {
+        hurt(rng(1, 2));
+    }
+    if (!digging() && !has_flag(MF_FLIES) &&
+          g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
+        trap* tr = g->traps[g->m.tr_at(posx(), posy())];
+        if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
+            trapfuncm f;
+            (f.*(tr->actm))(g, this, posx(), posy());
+        }
+    }
+    // Diggers turn the dirt into dirtmound
+    if (digging()){
+        int factor = 0;
+        switch (type->size) {
+        case MS_TINY:
+            factor = 100;
+            break;
+        case MS_SMALL:
+            factor = 30;
+            break;
+        case MS_MEDIUM:
+            factor = 6;
+            break;
+        case MS_LARGE:
+            factor = 3;
+            break;
+        case MS_HUGE:
+            factor = 1;
+            break;
+        }
+        if (has_flag(MF_VERMIN)) {
+            factor *= 100;
+        }
+        if (one_in(factor)) {
+            g->m.ter_set(posx(), posy(), t_dirtmound);
+        }
+    }
+    // Acid trail monsters leave... a trail of acid
+    if (has_flag(MF_ACIDTRAIL)){
+        g->m.add_field(g, posx(), posy(), fd_acid, 3);
+    }
+
+    if (has_flag(MF_SLUDGETRAIL)) {
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                const int fstr = 3 - (abs(dx) + abs(dy));
+                if (fstr >= 2) {
+                    g->m.add_field(g, posx() + dx, posy() + dy, fd_sludge, fstr);
+                }
+            }
+        }
+    }
+
     return 1;
-  }
-  if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4))
-     hurt(rng(2, 3));
-  if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6))
-     hurt(rng(1, 2));
-  if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
-      (!has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
-      g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
-   trap* tr = g->traps[g->m.tr_at(posx(), posy())];
-   if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
-    trapfuncm f;
-    (f.*(tr->actm))(g, this, posx(), posy());
-   }
-  }
-// Diggers turn the dirt into dirtmound
-  if (has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))){
-   g->m.ter_set(posx(), posy(), t_dirtmound);
-  }
-// Acid trail monsters leave... a trail of acid
-  if (has_flag(MF_ACIDTRAIL) && !is_hallucination()){
-   g->m.add_field(g, posx(), posy(), fd_acid, 3);
-  }
-
-  return 1;
 }
 
 /* Random walking even when we've moved

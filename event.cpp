@@ -205,7 +205,7 @@ void event::actualize(game *g)
     case 1: montype = "mon_sewer_snake";  break;
     case 2: montype = "mon_centipede";    break;
     case 3: montype = "mon_dermatik";     break;
-    case 4: montype = "mon_spider_widow"; break;
+    case 4: montype = "mon_spider_widow_giant"; break;
    }
    monster spawned( GetMType(montype) );
    int tries = 0, x, y;
@@ -231,7 +231,7 @@ void event::per_turn(game *g)
  switch (type) {
   case EVENT_WANTED: {
    // About once every 10 minutes. Suppress in classic zombie mode.
-   if (g->levz >= 0 && one_in(100) && !OPTIONS["CLASSIC_ZOMBIES"]) {
+   if (g->levz >= 0 && one_in(100) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
     monster eyebot(GetMType("mon_eyebot"));
     eyebot.faction_id = faction_id;
     point place = g->m.random_outdoor_tile();

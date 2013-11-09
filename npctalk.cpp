@@ -1715,10 +1715,10 @@ void talk_function::give_equipment(game *g, npc *p)
  }
  if (chosen == -1)
   chosen = 0;
- item* it = giving[chosen];
- popup(string_format(_("%s gives you a %s"), p->name.c_str(), it->tname().c_str()).c_str());
+ item it = p->i_remn(giving[chosen]->invlet);
+ popup(string_format(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str()).c_str());
 
- g->u.i_add( p->i_remn(it->invlet) );
+ g->u.i_add( it );
  p->op_of_u.owed -= prices[chosen];
  p->add_disease("asked_for_item", 1800);
 }

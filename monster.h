@@ -59,7 +59,7 @@ class monster {
 // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
- int print_info(game *g, WINDOW* w, int vStart = 6, int column = 1); // Prints information to w.
+ int print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
  char symbol(); // Just our type's symbol; no context
  void draw(WINDOW* w, int plx, int ply, bool inv);
  nc_color color_with_effects(); // Color with fire, beartrapped, etc.
@@ -69,6 +69,8 @@ class monster {
  bool can_hear();     // MF_HEARS and no ME_DEAF
  bool can_submerge(); // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
  bool can_drown();    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
+ bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
+ int vision_range(int x, int y); // Returns monster vision range, x and y are the target spot
  bool made_of(std::string m); // Returns true if it's made of m
  bool made_of(phase_id p); // Returns true if its phase is p
  bool json_load(picojson::value parsed, std::vector<mtype*> *mtypes);
@@ -79,6 +81,8 @@ class monster {
  virtual picojson::value json_save(bool save_contents = false);
  std::string save_info();    // String of all data, for save files
  void debug(player &u);      // Gives debug info
+
+ point move_target(); // Returns point at the end of the monster's current plans
 
 // Movement
  void receive_moves();       // Gives us movement points

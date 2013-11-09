@@ -5,7 +5,7 @@
 #include "line.h"
 #include "bodypart.h"
 #include "material.h"
-#include "catajson.h"
+#include "json.h"
 #include "monstergenerator.h"
 #include <algorithm>
 
@@ -759,37 +759,33 @@ void mattack::fungus_sprout(game *g, monster *z)
 
 void mattack::leap(game *g, monster *z)
 {
-    int linet;
-    if (!g->sees_u(z->posx(), z->posy(), linet))
-        return; // Only leap if we can see you!
-
+    int linet = 0;
     std::vector<point> options;
-    int best = 0;
-    bool fleeing = z->is_fleeing(g->u);
+    point target = z->move_target();
+    int best = rl_dist(z->posx(), z->posy(), target.x, target.y);
 
     for (int x = z->posx() - 3; x <= z->posx() + 3; x++)
     {
         for (int y = z->posy() - 3; y <= z->posy() + 3; y++)
         {
+            if (x == z->posx() && y == z->posy()) {
+                continue;
+            }
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
-            std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
-            for (int i = 0; i < line.size(); i++)
-            {
-                if (g->m.move_cost(line[i].x, line[i].y) == 0)
+            if (g->m.sees(z->posx(), z->posy(), x, y, z->vision_range(x, y), linet)) {
+                std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
+                for (int i = 0; i < line.size(); i++)
                 {
-                    blocked_path = true;
+                    if (g->m.move_cost(line[i].x, line[i].y) == 0)
+                    {
+                        blocked_path = true;
+                    }
                 }
             }
-            /* If we're fleeing, we want to pick those tiles with the greatest distance
-            * from the player; otherwise, those tiles with the least distance from the
-            * player.
-            */
             if (!blocked_path && g->is_empty(x, y) &&
-             g->m.sees(z->posx(), z->posy(), x, y, g->light_level(), linet) &&
-             (( fleeing && rl_dist(g->u.posx, g->u.posy, x, y) >= best) ||
-             (!fleeing && rl_dist(g->u.posx, g->u.posy, x, y) <= best) ))
-            {
+                  g->m.sees(z->posx(), z->posy(), x, y, g->light_level(), linet) &&
+                  rl_dist(target.x, target.y, x, y) <= best) {
                 options.push_back( point(x, y) );
                 best = rl_dist(g->u.posx, g->u.posy, x, y);
             }
@@ -801,10 +797,10 @@ void mattack::leap(game *g, monster *z)
     for (int i = 0; i < options.size() && options.size() > 1; i++)
     {
         point p = options[i];
-        if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best)
+        if (rl_dist(target.x, target.y, options[i].x, options[i].y) != best)
         {
             options.erase(options.begin() + i);
-        i--;
+            i--;
         }
     }
 
@@ -817,8 +813,9 @@ void mattack::leap(game *g, monster *z)
     bool seen = g->u_see(z); // We can see them jump...
     z->setpos(chosen);
     seen |= g->u_see(z); // ... or we can see them land
-    if (seen)
+    if (seen) {
         g->add_msg(_("The %s leaps!"), z->name().c_str());
+    }
 }
 
 void mattack::dermatik(game *g, monster *z)
@@ -1109,8 +1106,7 @@ void mattack::vortex(game *g, monster *z)
      bool hit_wall = false;
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
-          (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                    g->zombie(monhit).name().c_str());
@@ -1145,8 +1141,7 @@ void mattack::vortex(game *g, monster *z)
      int damage = rng(5, 10);
      for (int i = 0; i < traj.size() && !hit_wall; i++) {
       int monhit = g->mon_at(traj[i].x, traj[i].y);
-      if (i > 0 && monhit != -1 && !g->zombie(monhit).has_flag(MF_DIGS) &&
-           (!g->zombie(monhit).has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y))) {
+      if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
        if (g->u_see(traj[i].x, traj[i].y))
         g->add_msg(_("You hit a %s!"), g->zombie(monhit).name().c_str());
        if (g->zombie(monhit).hurt(damage))
@@ -1528,7 +1523,7 @@ void mattack::upgrade(game *g, monster *z)
            break;
   case  6:
   case  7:
-  case  8: newtype = "mon_zombie_fast";
+  case  8: newtype = "mon_zombie_hunter";
            break;
   case  9: newtype = "mon_zombie_brute";
            break;

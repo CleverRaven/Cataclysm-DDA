@@ -323,7 +323,7 @@ Some recipes require a set of tools. These are not used up when crafting,\n\
 so you can keep your tool set. All recipes require one or more ingredients.\n\
 These ARE used up in crafting.\n\
 \n\
-%sThere are five categories; Weapons, Food, \n\
+%sThere are five categories: Weapons, Food, \n\
 Electronics, Armor, and Miscellaneous. While a few items require\n\
 no skill to create, the majority require you to have some knowledge:\n\
 \n\
@@ -335,7 +335,7 @@ chemical weapons and beneficial elixirs.\n\
 ->Tailoring skill is used to create basic clothing, and later tough armor.\n\
 \n\
 In addition to the primary crafting skills, other skills may be necessary\n\
-to create certain items. Traps skill, Firearms skill, and First Aid skill\n\
+to create certain items. Traps skill, Marksmanship skill, and First Aid skill\n\
 are all required for certain items."),
             press_x(ACTION_CRAFT, _("To craft items, press "), ". ", "").c_str()/*,
             press_x(ACTION_RECRAFT).c_str(),

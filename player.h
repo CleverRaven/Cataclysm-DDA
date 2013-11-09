@@ -169,13 +169,15 @@ public:
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
  bool is_throw_immune(); // martial arts throw immunity
  bool is_quiet(); // martial arts quiet melee
+ bool is_on_ground(); // all body parts are available to ground level damage sources
 
  bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
- bool can_leg_block(); // technique-based miss recovery, like tec_feint
- bool can_arm_block(); // technique-based miss recovery, like tec_feint
+ bool can_leg_block(); // technique-based defensive ability
+ bool can_arm_block(); // technique-based defensive ability, like tec_leg_block
 
 // melee.cpp
+ bool can_weapon_block(); //gear-based defensive ability
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
@@ -291,6 +293,7 @@ public:
  char lookup_item(char let);
  bool consume(game *g, signed char invlet);
  bool eat(game *g, item *eat, it_comest *comest);
+ void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
  bool wear(game *g, char let, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.

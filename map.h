@@ -289,7 +289,6 @@ class map
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
- void add_item(const int x, const int y, item new_item, int maxitems = 64); // Do we want mapgen and explosions piling up to MAX_ITEM_IN_SQUARE (1024)? NYET!
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
  void process_vehicles(game *g);
@@ -372,7 +371,7 @@ class map
  };
  point getabs(const int x=0, const int y=0 );
  point getlocal(const int x, const int y );
-
+ point getlocal( const point p ) { return getlocal(p.x, p.y); } 
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 
@@ -390,8 +389,10 @@ protected:
             const  bool update_vehicles = true, overmap *om = NULL);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-               const oter_id t_south, const oter_id t_west, const oter_id t_above, const int turn,
-               game *g, const float density, const int zlevel);
+                const oter_id t_south, const oter_id t_west, const oter_id t_neast,
+                const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                const oter_id t_above, const int turn, game *g, const float density,
+                const int zlevel);
  void add_extra(map_extra type, game *g);
  void build_transparency_cache();
  void build_outside_cache(const game *g);
@@ -434,6 +435,7 @@ submap * getsubmap( const int grididx );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
+ void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
