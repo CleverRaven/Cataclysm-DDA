@@ -440,8 +440,36 @@
         "location": "center",
         "flags": ["AISLE", "BOARDABLE", "CARGO"]
     },{
-        "type" : "vehicle_part",
-        "id" : "roof",
+        "type": "vehicle_part",
+        "id": "stowboard_horizontal",
+        "name": "stow board",
+        "symbol": "h",
+        "color": "white",
+        "broken_symbol": "#",
+        "broken_color": "light_gray",
+        "durability": 700,
+        "size": 200,
+        "item": "steel_plate",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["OBSTACLE", "OPAQUE", "CARGO"]
+    },{
+        "type":"vehicle_part",
+        "id": "stowboard_vertical",
+        "name": "stow board",
+        "symbol": "j",
+        "color": "white",
+        "broken_symbol": "#",
+        "broken_color": "light_gray",
+        "durability": 700,
+        "size": 200,
+        "item": "steel_plate",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["OBSTACLE", "OPAQUE", "CARGO"]
+    },{
+        "type": "vehicle_part",
+        "id": "roof",
         "name": "roof",
         "symbol": "#",
         "color": "light_gray",
