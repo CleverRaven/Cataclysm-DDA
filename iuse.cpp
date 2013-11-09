@@ -5588,7 +5588,7 @@ int iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_BUGS: {
    int roll = rng(1, 10);
-   mon_id bug = mon_null;
+   std::string bug = "mon_null";
    int num = 0;
    std::vector<point> empty;
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
@@ -5601,19 +5601,19 @@ int iuse::artifact(game *g, player *p, item *it, bool t)
     g->add_msg_if_player(p,_("Flies buzz around you."));
    else if (roll <= 7) {
     g->add_msg_if_player(p,_("Giant flies appear!"));
-    bug = mon_fly;
+    bug = "mon_fly";
     num = rng(2, 4);
    } else if (roll <= 9) {
     g->add_msg_if_player(p,_("Giant bees appear!"));
-    bug = mon_bee;
+    bug = "mon_bee";
     num = rng(1, 3);
    } else {
     g->add_msg_if_player(p,_("Giant wasps appear!"));
-    bug = mon_wasp;
+    bug = "mon_wasp";
     num = rng(1, 2);
    }
    if (bug != mon_null) {
-    monster spawned(GetMType("bug"));
+    monster spawned(GetMType(bug));
     spawned.friendly = -1;
     for (int j = 0; j < num && !empty.empty(); j++) {
      int index_inner = rng(0, empty.size() - 1);
