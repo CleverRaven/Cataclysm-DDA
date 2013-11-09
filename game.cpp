@@ -2776,6 +2776,20 @@ void game::load(std::string worldname, std::string name)
 
 void game::load_world_modfiles(std::string worldname)
 {
+    static std::string last_loaded = "";
+
+    // if our prospective worldname to get loaded is also the last_loaded worldname loaded then
+    // we don't need to load or unload anything at all.
+    if (worldname == last_loaded){
+        // This probably needs work in case of a world being deleted, then recreated with a different mod set,
+        // then loaded up under that circumstance this will fail to work as intended
+        // May be able to get around this by keeping a full manifest of files to load, and then unload/reload
+        // if any entries in the list are out of order? This would allow not needing to unload/reload if
+        // two worlds use the exact same mod set. Might/might not work...
+        return;
+    }
+    unload_active_json_data();
+
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     worldpath += "/mods";
     std::vector<std::string> worldmodfiles = file_finder::get_files_from_path(".json", worldpath, true);
@@ -2784,11 +2798,6 @@ void game::load_world_modfiles(std::string worldname)
         // load the base files
         worldmodfiles = file_finder::get_files_from_path(".json", "data/json", true);
     }
-
-    for (int i = 0; i < worldmodfiles.size(); ++i){
-        DebugLog() << "JSON FILE:  "<<worldmodfiles[i]<<"\n";
-    }
-
 
     load_json_files(worldmodfiles);
     init_itypes();
@@ -2799,6 +2808,7 @@ void game::load_world_modfiles(std::string worldname)
     finalize_vehicles();
     finalize_recipes();
 
+    last_loaded = worldname;
 }
 
 //Saves all factions and missions and npcs.
