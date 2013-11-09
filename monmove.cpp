@@ -592,8 +592,13 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                                        p.name.c_str(), body_part_name(bphit, side).c_str());
                         }
                     } else {
-                        g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                        if ( g->u_see(this) ) {
+                            g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
                                    body_part_name(bphit, side).c_str());
+                        } else {
+                            g->add_msg(_("Something hits your %s."),
+                                    body_part_name(bphit, side).c_str());
+                        }
                     }
                 }
 
