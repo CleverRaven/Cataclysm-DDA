@@ -2721,28 +2721,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     std::string mode = "";
     std::stringstream attachment;
     if (gunmod != NULL)
-    {    WINDOW *weapwin = sideStyle ? w2 : w;
-
-    // Print current weapon, or attachment if active.
-    item* gunmod = weapon.active_gunmod();
-    std::string mode = "";
-    std::stringstream attachment;
-    if (gunmod != NULL)
     {
-        attachment << gunmod->type->name.c_str();
-        for (int i = 0; i < weapon.contents.size(); i++)
-                if (weapon.contents[i].is_gunmod() &&
-                        weapon.contents[i].has_flag("MODE_AUX"))
-                    attachment << " (" << weapon.contents[i].charges << ")";
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Mod)"), attachment.str().c_str());
-    }
-    else
-    {
-        if (weapon.mode == "MODE_BURST")
-                mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Burst)"), weapname().c_str());
-        else
-            mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s"), weapname().c_str());
-    }
         attachment << gunmod->type->name.c_str();
         for (int i = 0; i < weapon.contents.size(); i++)
                 if (weapon.contents[i].is_gunmod() &&
