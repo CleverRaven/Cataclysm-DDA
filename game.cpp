@@ -6915,6 +6915,8 @@ point game::look_around()
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  std::string action;
+ bool fast_scroll = false;
+ int soffset = (int) OPTIONS["MOVE_VIEW_OFFSET"];
 
  int lookWidth, lookY, lookX;
  get_lookaround_dimensions(lookWidth, lookY, lookX);
@@ -6954,37 +6956,51 @@ point game::look_around()
    mvwputch(w_terrain, POSY, POSX, c_white, 'x');
    mvwprintw(w_look, 1, 1, _("Unseen."));
   }
+
+  if (fast_scroll) {
+      // print a light green mark below the top right corner of the w_look window
+      mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
+  }
+
   if (m.graffiti_at(lx, ly).contents)
    mvwprintw(w_look, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
   //mvwprintw(w_look, 5, 1, _("Maploc: <%d,%d>"), lx, ly);
   wrefresh(w_look);
   wrefresh(w_terrain);
 
-  DebugLog() << __FUNCTION__ << ": calling get_input() \n";
+  DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
 
-  input_context ctxt("LOOK");
-  ctxt.register_directions();
-  ctxt.register_action("COORDINATE");
-  ctxt.register_action("SELECT");
-  ctxt.register_action("CONFIRM");
-  ctxt.register_action("QUIT");
-  action = ctxt.handle_input();
-  
-  if (!u_see(lx, ly))
-   mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
-   
-  // Our coordinates will either be determined by coordinate input(mouse),
-  // by a direction key, or by the previous value.
-  if(!ctxt.get_coordinates(g->w_terrain, lx, ly)) {
-    int dx, dy;
-    ctxt.get_direction(dx, dy, action);
-    if(dx == -2) {
-        dx = 0;
-        dy = 0;
+    input_context ctxt("LOOK");
+    ctxt.register_directions();
+    ctxt.register_action("COORDINATE");
+    ctxt.register_action("SELECT");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("TOGGLE_FAST_SCROLL");
+    action = ctxt.handle_input();
+
+    if (!u_see(lx, ly))
+        mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
+
+    // Our coordinates will either be determined by coordinate input(mouse),
+    // by a direction key, or by the previous value.
+    if (action == "TOGGLE_FAST_SCROLL") {
+        fast_scroll = !fast_scroll;
+    } else if (!ctxt.get_coordinates(g->w_terrain, lx, ly)) {
+        int dx, dy;
+        ctxt.get_direction(dx, dy, action);
+        if (dx == -2) {
+            dx = 0;
+            dy = 0;
+        } else {
+            if (fast_scroll) {
+                dx *= soffset;
+                dy *= soffset;
+            }
+        }
+        lx += dx;
+        ly += dy;
     }
-    lx += dx;
-    ly += dy;
-  }
  } while (action != "QUIT" && action != "CONFIRM");
 
  werase(w_look);

@@ -382,5 +382,15 @@
                 "key":"MOUSE_MOVE"
             }
         ]
+    },
+    {
+        "id":"TOGGLE_FAST_SCROLL",
+        "name":"Toggle Fast Scroll",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            }
+        ]
     }
 ]
