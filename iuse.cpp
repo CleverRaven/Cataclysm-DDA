@@ -140,6 +140,10 @@ int iuse::royal_jelly(game *g, player *p, item *it, bool t)
   message = _("You feel cleansed inside!");
   p->rem_disease("fungus");
  }
+ if (p->has_disease("dermatik")) {
+  message = _("You feel cleansed inside!");
+  p->rem_disease("dermatik");
+ }
  if (p->has_disease("blind")) {
   message = _("Your sight returns!");
   p->rem_disease("blind");
