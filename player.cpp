@@ -2714,24 +2714,50 @@ void player::disp_morale(game *g)
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
     bool sideStyle = use_narrow_sidebar();
-
-    // get the current weapon mode or mods
-    std::string mode = "";
-    if (weapon.mode == "MODE_BURST") {
-        mode = _("Burst");
-    } else {
-        item* gunmod = weapon.active_gunmod();
-        if (gunmod != NULL) {
-            mode = gunmod->type->name;
-        }
-    }
-
     WINDOW *weapwin = sideStyle ? w2 : w;
-    if (mode == "") {
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
-    } else {
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s (%s)"), weapname().c_str(), mode.c_str());
+
+    // Print current weapon, or attachment if active.
+    item* gunmod = weapon.active_gunmod();
+    std::string mode = "";
+    std::stringstream attachment;
+    if (gunmod != NULL)
+    {    WINDOW *weapwin = sideStyle ? w2 : w;
+
+    // Print current weapon, or attachment if active.
+    item* gunmod = weapon.active_gunmod();
+    std::string mode = "";
+    std::stringstream attachment;
+    if (gunmod != NULL)
+    {
+        attachment << gunmod->type->name.c_str();
+        for (int i = 0; i < weapon.contents.size(); i++)
+                if (weapon.contents[i].is_gunmod() &&
+                        weapon.contents[i].has_flag("MODE_AUX"))
+                    attachment << " (" << weapon.contents[i].charges << ")";
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Mod)"), attachment.str().c_str());
     }
+    else
+    {
+        if (weapon.mode == "MODE_BURST")
+                mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Burst)"), weapname().c_str());
+        else
+            mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s"), weapname().c_str());
+    }
+        attachment << gunmod->type->name.c_str();
+        for (int i = 0; i < weapon.contents.size(); i++)
+                if (weapon.contents[i].is_gunmod() &&
+                        weapon.contents[i].has_flag("MODE_AUX"))
+                    attachment << " (" << weapon.contents[i].charges << ")";
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Mod)"), attachment.str().c_str());
+    }
+    else
+    {
+        if (weapon.mode == "MODE_BURST")
+                mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Burst)"), weapname().c_str());
+        else
+            mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s"), weapname().c_str());
+    }
+
     if (weapon.is_gun()) {
         int adj_recoil = recoil + driving_recoil;
         if (adj_recoil > 0) {
@@ -2748,16 +2774,33 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         }
     }
 
-    // Print currently used style
+    // Print currently used style or weapon mode.
     std::string style = "";
-    if (style_selected == "style_none") {
-        style = _("No Style");
-    } else {
-        style = martialarts[style_selected].name;
-    }
-    if (style != "") {
+    if (is_armed())
+    {
+        if (style_selected == "style_none")
+            style = _("Normal");
+        else if (can_melee())
+            style = martialarts[style_selected].name;
+
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_blue, style.c_str());
+        mvwprintz(weapwin, 1, x, c_red, style.c_str());
+    }
+    else
+    {
+        if (style_selected == "style_none")
+        {
+            style = _("No Style");
+        }
+        else
+        {
+            style = martialarts[style_selected].name;
+        }
+        if (style != "")
+        {
+            int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
+            mvwprintz(weapwin, 1, x, c_blue, style.c_str());
+        }
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
@@ -3446,7 +3489,7 @@ int player::throw_range(signed char ch)
   return -1;
  else
   tmp = inv.item_by_letter(ch);
- 
+
  if (tmp.count_by_charges() && tmp.charges > 1)
   tmp.charges = 1;
 
