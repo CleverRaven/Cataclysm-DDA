@@ -238,6 +238,8 @@ public:
 
     // note: returns empty array if not found
     JsonArray get_array(const std::string &name);
+    std::vector<int> get_int_array(const std::string &name);
+    std::vector<std::string> get_string_array(const std::string &name);
     // note: throws exception if not found (can change behaviour if desirable)
     JsonObject get_object(const std::string &name);
     // note: returns empty set if not found

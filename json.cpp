@@ -235,6 +235,26 @@ JsonArray JsonObject::get_array(const std::string &name)
     return JsonArray(jsin);
 }
 
+std::vector<int> JsonObject::get_int_array(const std::string &name)
+{
+    JsonArray ja = get_array(name);
+    std::vector<int> ret;
+    while (ja.has_more()) {
+        ret.push_back(ja.next_int());
+    }
+    return ret;
+}
+
+std::vector<std::string> JsonObject::get_string_array(const std::string &name)
+{
+    JsonArray ja = get_array(name);
+    std::vector<std::string> ret;
+    while (ja.has_more()) {
+        ret.push_back(ja.next_string());
+    }
+    return ret;
+}
+
 JsonObject JsonObject::get_object(const std::string &name)
 {
     int pos = verify_position(name);
