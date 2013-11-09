@@ -342,7 +342,7 @@ bool monster::made_of(phase_id p)
  return false;
 }
 
-void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
+void monster::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -353,11 +353,11 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
         if ( ! jsonerr.empty() ) {
             debugmsg("Bad monster json\n%s", jsonerr.c_str() );
         } else {
-            json_load(pdata, mtypes);
+            json_load(pdata);
         }
         return;
     } else {
-        load_legacy(mtypes, dump);
+        load_legacy(dump);
     }
 }
 
@@ -809,7 +809,7 @@ void monster::drop_items_on_death(game *g)
         // We have selected a string representing an item group, now
         // get a random item tag from it and spawn it.
         Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
-        g->m.spawn_item(_posx, _posy, selected_item, 0);
+        g->m.spawn_item(_posx, _posy, selected_item);
 
         if (type->item_chance < 0)
         {
@@ -883,7 +883,7 @@ void monster::process_effects(game *g)
  }
 }
 
-bool monster::make_fungus(game *g)
+bool monster::make_fungus()
 {
     char polypick = 0;
     std::string tid = type->id;

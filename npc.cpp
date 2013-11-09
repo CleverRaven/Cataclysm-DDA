@@ -1923,7 +1923,7 @@ void npc::die(game *g, bool your_fault)
     dead = true;
 
     if (in_vehicle) {
-        g->m.unboard_vehicle(g, posx, posy);
+        g->m.unboard_vehicle(posx, posy);
     }
 
     if (g->u_see(posx, posy)) {

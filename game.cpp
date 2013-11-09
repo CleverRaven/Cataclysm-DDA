@@ -49,7 +49,6 @@
 #endif
 #include <sys/stat.h>
 #include "debug.h"
-#include "artifactdata.h"
 
 #if (defined _WIN32 || defined __WIN32__)
 #ifndef NOMINMAX
@@ -145,8 +144,6 @@ game::~game()
 {
  delete gamemode;
  itypes.clear();
- for (int i = 0; i < mtypes.size(); i++)
-  delete mtypes[i];
  delwin(w_terrain);
  delwin(w_minimap);
  delwin(w_HP);
@@ -2505,7 +2502,7 @@ bool game::is_game_over()
 {
     if (uquit == QUIT_SUICIDE){
         if (u.in_vehicle)
-            g->m.unboard_vehicle(this, u.posx, u.posy);
+            g->m.unboard_vehicle(u.posx, u.posy);
         std::stringstream playerfile;
         playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
         DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
@@ -2519,7 +2516,7 @@ bool game::is_game_over()
     for (int i = 0; i <= hp_torso; i++){
         if (u.hp_cur[i] < 1) {
             if (u.in_vehicle)
-                g->m.unboard_vehicle(this, u.posx, u.posy);
+                g->m.unboard_vehicle(u.posx, u.posy);
             place_corpse();
             std::stringstream playerfile;
             playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
@@ -2646,148 +2643,19 @@ void game::load_uistate(std::string worldname) {
     savefile << world_generator->all_worlds[worldname]->world_path << "/uistate.json";
 
     std::ifstream fin;
-    fin.open(savefile.str().c_str());
+    fin.open(savefile.str().c_str(), std::ifstream::in | std::ifstream::binary);
     if(!fin.good()) {
         fin.close();
         return;
     }
-    picojson::value wrapped_data;
-    fin >> wrapped_data;
-    fin.close();
-    std::string jsonerr=picojson::get_last_error();
-    if ( ! jsonerr.empty() ) {
-       dbg(D_ERROR) << "load_uistate: " << jsonerr.c_str();
-       return;
-    }
-    bool success=uistate.load(wrapped_data);
-    if ( ! success ) {
-       dbg(D_ERROR) << "load_uistate: " << uistate.errdump;
-    }
-    uistate.errdump="";
-}
-
-void game::load_artifacts(std::string worldname)
-{
-    std::stringstream artifactfile;
-    artifactfile << world_generator->all_worlds[worldname]->world_path << "/artifacts.gsav";
-    std::ifstream file_test(artifactfile.str().c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!file_test.good()) {
-        file_test.close();
-        return;
-    }
-
     try {
-        load_artifacts_from_file(&file_test);
+        JsonIn jsin(&fin);
+        JsonObject jo = jsin.get_object();
+        uistate.deserialize(jo);
     } catch (std::string e) {
-        debugmsg("%s: %s", artifactfile.str().c_str(), e.c_str());
+        dbg(D_ERROR) << "load_uistate: " << e;
     }
-
-    file_test.close();
-    }
-
-void game::load_artifacts_from_file(std::ifstream *f)
-    {
-    // read artifacts from json array in artifacts.gsav
-    JsonIn artifact_json(f);
-    artifact_json.start_array();
-    while (!artifact_json.end_array()) {
-        JsonObject jo = artifact_json.get_object();
-
-        std::string id = jo.get_string("id");
-        unsigned int price = jo.get_int("price");
-        std::string name = jo.get_string("name");
-        std::string description = jo.get_string("description");
-        char sym = jo.get_int("sym");
-        nc_color color = int_to_color(jo.get_int("color"));
-        std::string m1 = jo.get_string("m1");
-        std::string m2 = jo.get_string("m2");
-        unsigned int volume = jo.get_int("volume");
-        unsigned int weight = jo.get_int("weight");
-        signed char melee_dam = jo.get_int("melee_dam");
-        signed char melee_cut = jo.get_int("melee_cut");
-        signed char m_to_hit = jo.get_int("m_to_hit");
-        std::set<std::string> item_tags = jo.get_tags("item_flags");
-
-        std::string type = jo.get_string("type");
-        if (type == "artifact_tool") {
-            unsigned int max_charges = jo.get_int("max_charges");
-            unsigned int def_charges = jo.get_int("def_charges");
-            unsigned char charges_per_use = jo.get_int("charges_per_use");
-            unsigned char turns_per_charge = jo.get_int("turns_per_charge");
-            ammotype ammo = jo.get_string("ammo");
-            std::string revert_to = jo.get_string("revert_to");
-
-            it_artifact_tool* art_type = new it_artifact_tool(
-                    id, price, name, description, sym, color, m1, m2, volume,
-                    weight, melee_dam, melee_cut, m_to_hit, item_tags,
-                    max_charges, def_charges, charges_per_use, turns_per_charge,
-                    ammo, revert_to);
-
-            art_charge charge_type = (art_charge)jo.get_int("charge_type");
-
-            JsonArray effects_wielded_json = jo.get_array("effects_wielded");
-            std::vector<art_effect_passive> effects_wielded;
-            while (effects_wielded_json.has_more()) {
-                art_effect_passive effect =
-                    (art_effect_passive)effects_wielded_json.next_int();
-                effects_wielded.push_back(effect);
-            }
-
-            JsonArray effects_activated_json = jo.get_array("effects_activated");
-            std::vector<art_effect_active> effects_activated;
-            while (effects_activated_json.has_more()) {
-                art_effect_active effect =
-                    (art_effect_active)effects_activated_json.next_int();
-                effects_activated.push_back(effect);
-            }
-
-            JsonArray effects_carried_json = jo.get_array("effects_carried");
-            std::vector<art_effect_passive> effects_carried;
-            while (effects_carried_json.has_more()) {
-                art_effect_passive effect =
-                    (art_effect_passive)effects_carried_json.next_int();
-                effects_carried.push_back(effect);
-            }
-
-            art_type->charge_type = charge_type;
-            art_type->effects_wielded = effects_wielded;
-            art_type->effects_activated = effects_activated;
-            art_type->effects_carried = effects_carried;
-
-            itypes[id] = art_type;
-        }
-        else if (type == "artifact_armor")
-        {
-            unsigned char covers = jo.get_int("covers");
-            signed char encumber = jo.get_int("encumber");
-            unsigned char coverage = jo.get_int("coverage");
-            unsigned char thickness = jo.get_int("material_thickness");
-            unsigned char env_resist = jo.get_int("env_resist");
-            signed char warmth = jo.get_int("warmth");
-            unsigned char storage = jo.get_int("storage");
-            bool power_armor = jo.get_bool("power_armor");
-
-            it_artifact_armor* art_type = new it_artifact_armor(
-                    id, price, name, description, sym, color, m1, m2, volume,
-                    weight, melee_dam, melee_cut, m_to_hit, item_tags,
-                    covers, encumber, coverage, thickness, env_resist, warmth,
-                    storage);
-            art_type->power_armor = power_armor;
-
-            JsonArray effects_worn_json = jo.get_array("effects_worn");
-            std::vector<art_effect_passive> effects_worn;
-            while (effects_worn_json.has_more()) {
-                art_effect_passive effect =
-                    (art_effect_passive)effects_worn_json.next_int();
-                effects_worn.push_back(effect);
-            }
-            art_type->effects_worn = effects_worn;
-
-            itypes[id] = art_type;
-        }
-
-        jo.finish();
-    }
+    fin.close();
     }
 
 void game::load(std::string worldname, std::string name)
@@ -2860,18 +2728,22 @@ void game::save_factions_missions_npcs ()
 void game::save_artifacts()
 {
     std::ofstream fout;
-    std::vector<picojson::value> artifacts;
-    std::stringstream artifactfile;
-    artifactfile << world_generator->active_world->world_path << "/artifacts.gsav";
-    fout.open(artifactfile.str().c_str());
+    std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    fout.open(artfilename.c_str());
+    JsonOut json(&fout);
+    json.start_array();
     for ( std::vector<std::string>::iterator it =
           artifact_itype_ids.begin();
           it != artifact_itype_ids.end(); ++it)
     {
-        artifacts.push_back(itypes[*it]->save_data());
+        it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(itypes[*it]);
+        if (art) {
+            json.write(*art);
+        } else {
+            json.write(*(dynamic_cast<it_artifact_armor*>(itypes[*it])));
     }
-    picojson::value out = picojson::value(artifacts);
-    fout << out.serialize();
+    }
+    json.end_array();
     fout.close();
 }
 
@@ -2887,9 +2759,8 @@ void game::save_uistate() {
     savefile << world_generator->active_world->world_path << "/uistate.json";
     std::ofstream fout;
     fout.open(savefile.str().c_str());
-    fout << uistate.save();
+    fout << uistate.serialize();
     fout.close();
-    uistate.errdump="";
 }
 
 void game::save()
@@ -3379,7 +3250,7 @@ Current turn: %d; Next spawn %d.\n\
       artifact_natural_property prop =
           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
       m.create_anomaly(center.x, center.y, prop);
-      m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
+      m.spawn_artifact(center.x, center.y, new_natural_artifact(itypes, prop), 0);
   }
   break;
 
@@ -5372,6 +5243,10 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
 
 void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult)
 {
+    (void)force; //FIXME: unused but header says it should do something
+    // TODO: make the force parameter actually do something.
+    // the header file says higher force causes more damage.
+    // perhaps that is what it should do?
     int tx = traj.front().x;
     int ty = traj.front().y;
     const int zid = mon_at(tx, ty);
@@ -5740,7 +5615,7 @@ void game::resonance_cascade(int x, int y)
    case 13:
    case 14:
    case 15:
-    spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER", &mtypes);
+    spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
     invader = monster(GetMType(spawn_details.name), i, j);
     add_zombie(invader);
     break;
@@ -6090,7 +5965,7 @@ void game::explode_mon(int index)
       }
      }
     }
-    m.spawn_item(tarx, tary, meat, turn);
+    m.spawn_item(tarx, tary, meat, 1, 0, turn);
    }
   }
  }
@@ -6676,7 +6551,7 @@ void game::moving_vehicle_dismount(int tox, int toy)
     }
     int d = (45 * (direction_from(u.posx, u.posy, tox, toy)) - 90) % 360;
     add_msg(_("You dive from the %s."), veh->name.c_str());
-    m.unboard_vehicle(this, u.posx, u.posy);
+    m.unboard_vehicle(u.posx, u.posy);
     u.moves -= 200;
     // Dive three tiles in the direction of tox and toy
     fling_player_or_monster(&u, 0, d, 30, true);
@@ -6800,9 +6675,9 @@ void game::peek()
     u.posy = prevy;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
-point game::look_debug(point coords) {
+point game::look_debug() {
   editmap * edit=new editmap(this);
-  point ret=edit->edit(coords);
+  point ret=edit->edit();
   delete edit;
   edit=0;
   return ret;
@@ -9552,20 +9427,20 @@ void game::complete_butcher(int index)
 
  if (bones > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, "bone", age, bones);
+    m.spawn_item(u.posx, u.posy, "bone", bones, 0, age);
    add_msg(_("You harvest some usable bones!"));
   } else if (corpse->mat == "veggy") {
-    m.spawn_item(u.posx, u.posy, "plant_sac", age, bones);
+    m.spawn_item(u.posx, u.posy, "plant_sac", bones, 0, age);
    add_msg(_("You harvest some fluid bladders!"));
   }
  }
 
  if (sinews > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, "sinew", age, sinews);
+    m.spawn_item(u.posx, u.posy, "sinew", sinews, 0, age);
    add_msg(_("You harvest some usable sinews!"));
   } else if (corpse->mat == "veggy") {
-    m.spawn_item(u.posx, u.posy, "plant_fibre", age, sinews);
+    m.spawn_item(u.posx, u.posy, "plant_fibre", sinews, 0, age);
    add_msg(_("You harvest some plant fibres!"));
   }
  }
@@ -9595,14 +9470,14 @@ void game::complete_butcher(int index)
             }
         }
 
-        if(chitin) m.spawn_item(u.posx, u.posy, "chitin_piece", age, chitin);
-        if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
-        if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
+        if(chitin) m.spawn_item(u.posx, u.posy, "chitin_piece", chitin, 0, age);
+        if(fur) m.spawn_item(u.posx, u.posy, "fur", fur, 0, age);
+        if(leather) m.spawn_item(u.posx, u.posy, "leather", leather, 0, age);
     }
 
  if (feathers > 0) {
   if (corpse->has_flag(MF_FEATHER)) {
-    m.spawn_item(u.posx, u.posy, "feather", age, feathers);
+    m.spawn_item(u.posx, u.posy, "feather", feathers, 0, age);
    add_msg(_("You harvest some feathers!"));
   }
  }
@@ -9614,18 +9489,18 @@ void game::complete_butcher(int index)
    add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
    //To see if it spawns a battery
    if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, "bio_power_storage", age);
+    m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
    }
   }
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
     Item_tag bionic_item = item_controller->id_from("bionics");
-    m.spawn_item(u.posx, u.posy, bionic_item, age);
+    m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
    }
   }
  }
@@ -9636,7 +9511,7 @@ void game::complete_butcher(int index)
      add_msg(_("You discover a %s in the %s!"), contents[i].tname().c_str(), corpse->name.c_str());
      m.add_item_or_charges(u.posx, u.posy, contents[i]);
    } else if (contents[i].is_bionic()){
-     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
    }
  }
 
@@ -9684,7 +9559,7 @@ void game::forage()
   {
     add_msg(_("You found some wild veggies!"));
     u.practice(turn, "survival", 10);
-    m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", turn, 0);
+    m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", 1, 0, turn);
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
   else
@@ -10623,7 +10498,7 @@ void game::plmove(int dx, int dy)
      if (query_yn(_("Deactivate the turret?"))) {
       remove_zombie(mondex);
       u.moves -= 100;
-      m.spawn_item(x, y, "bot_turret", turn);
+      m.spawn_item(x, y, "bot_turret", 1, 0, turn);
      }
      return;
     } else {
@@ -10641,7 +10516,7 @@ void game::plmove(int dx, int dy)
 
 // If the player is in a vehicle, unboard them from the current part
   if (u.in_vehicle)
-   m.unboard_vehicle(this, u.posx, u.posy);
+   m.unboard_vehicle(u.posx, u.posy);
 
 // Move the player
   u.posx = x;
@@ -10765,7 +10640,7 @@ void game::plmove(int dx, int dy)
   if(tunneldist) //you tunneled
   {
     if (u.in_vehicle)
-        m.unboard_vehicle(this, u.posx, u.posy);
+        m.unboard_vehicle(u.posx, u.posy);
     u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
     u.moves -= 100; //tunneling costs 100 moves
     u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
@@ -11150,7 +11025,7 @@ void game::vertical_move(int movez, bool force)
  if (rope_ladder)
   m.ter_set(u.posx, u.posy, t_rope_up);
  if (m.ter(stairx, stairy) == t_manhole_cover) {
-  m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1), "manhole_cover", 0);
+  m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1), "manhole_cover");
   m.ter_set(stairx, stairy, t_manhole);
  }
 
@@ -11541,7 +11416,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type, &mtypes,
+     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type, 
                                                              &group, (int)turn );
      zom = monster(GetMType(spawn_details.name));
      for (int kk = 0; kk < spawn_details.pack_size; kk++){
@@ -11792,7 +11667,7 @@ void game::teleport(player *p)
     } while (tries < 15 && !is_empty(newx, newy));
     bool can_see = (is_u || u_see(newx, newy));
     if (p->in_vehicle) {
-        m.unboard_vehicle (this, p->posx, p->posy);
+        m.unboard_vehicle(p->posx, p->posy);
     }
     p->posx = newx;
     p->posy = newy;
@@ -12158,3 +12033,295 @@ make the terminal just a smidgen taller?"),
  erase();
 }
 
+void game::process_artifact(item *it, player *p, bool wielded)
+{
+    std::vector<art_effect_passive> effects;
+    if (it->is_armor()) {
+        it_artifact_armor* armor = dynamic_cast<it_artifact_armor*>(it->type);
+        effects = armor->effects_worn;
+    } else if (it->is_tool()) {
+        it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(it->type);
+        effects = tool->effects_carried;
+        if (wielded) {
+            for (int i = 0; i < tool->effects_wielded.size(); i++) {
+                effects.push_back(tool->effects_wielded[i]);
+            }
+        }
+        // Recharge it if necessary
+        if (it->charges < tool->max_charges) {
+            switch (tool->charge_type) {
+            case ARTC_TIME:
+                // Once per hour
+                if (turn.seconds() == 0 && turn.minutes() == 0) {
+                    it->charges++;
+                }
+                break;
+            case ARTC_SOLAR:
+                if (turn.seconds() == 0 && turn.minutes() % 10 == 0 &&
+                    is_in_sunlight(p->posx, p->posy)) {
+                    it->charges++;
+                }
+                break;
+            case ARTC_PAIN:
+                if (turn.seconds() == 0) {
+                    add_msg(_("You suddenly feel sharp pain for no reason."));
+                    p->pain += 3 * rng(1, 3);
+                    it->charges++;
+                }
+                break;
+            case ARTC_HP:
+                if (turn.seconds() == 0) {
+                    add_msg(_("You feel your body decaying."));
+                    p->hurtall(1);
+                    it->charges++;
+                }
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < effects.size(); i++) {
+        switch (effects[i]) {
+        case AEP_STR_UP:
+            p->str_cur += 4;
+            break;
+        case AEP_DEX_UP:
+            p->dex_cur += 4;
+            break;
+        case AEP_PER_UP:
+            p->per_cur += 4;
+            break;
+        case AEP_INT_UP:
+            p->int_cur += 4;
+            break;
+        case AEP_ALL_UP:
+            p->str_cur += 2;
+            p->dex_cur += 2;
+            p->per_cur += 2;
+            p->int_cur += 2;
+            break;
+        case AEP_SPEED_UP: // Handled in player::current_speed()
+            break;
+
+        case AEP_IODINE:
+            if (p->radiation > 0) {
+                p->radiation--;
+            }
+            break;
+
+        case AEP_SMOKE:
+            if (one_in(10)) {
+                int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
+                if (m.add_field(this, x, y, fd_smoke, rng(1, 3))) {
+                    add_msg(_("The %s emits some smoke."),
+                            it->tname().c_str());
+                }
+            }
+            break;
+
+        case AEP_SNAKES:
+            break; // Handled in player::hit()
+
+        case AEP_EXTINGUISH:
+            for (int x = p->posx - 1; x <= p->posx + 1; x++) {
+                for (int y = p->posy - 1; y <= p->posy + 1; y++) {
+                    m.adjust_field_age(point(x,y), fd_fire, -1);
+                }
+            }
+
+        case AEP_HUNGER:
+            if (one_in(100)) {
+                p->hunger++;
+            }
+            break;
+
+        case AEP_THIRST:
+            if (one_in(120)) {
+                p->thirst++;
+            }
+            break;
+
+        case AEP_EVIL:
+            if (one_in(150)) { // Once every 15 minutes, on average
+                p->add_disease("evil", 300);
+                if (it->is_armor()) {
+                    add_msg(_("You have an urge to wear the %s."),
+                            it->tname().c_str());
+                } else if (!wielded) {
+                    add_msg(_("You have an urge to wield the %s."),
+                            it->tname().c_str());
+                }
+            }
+            break;
+
+        case AEP_SCHIZO:
+            break; // Handled in player::suffer()
+
+        case AEP_RADIOACTIVE:
+            if (one_in(4)) {
+                p->radiation++;
+            }
+            break;
+
+        case AEP_STR_DOWN:
+            p->str_cur -= 3;
+            break;
+
+        case AEP_DEX_DOWN:
+            p->dex_cur -= 3;
+            break;
+
+        case AEP_PER_DOWN:
+            p->per_cur -= 3;
+            break;
+
+        case AEP_INT_DOWN:
+            p->int_cur -= 3;
+            break;
+
+        case AEP_ALL_DOWN:
+            p->str_cur -= 2;
+            p->dex_cur -= 2;
+            p->per_cur -= 2;
+            p->int_cur -= 2;
+            break;
+
+        case AEP_SPEED_DOWN:
+            break; // Handled in player::current_speed()
+        }
+    }
+}
+
+void game::add_artifact_messages(std::vector<art_effect_passive> effects)
+{
+    int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
+
+    for (int i = 0; i < effects.size(); i++) {
+        switch (effects[i]) {
+        case AEP_STR_UP:   net_str += 4; break;
+        case AEP_DEX_UP:   net_dex += 4; break;
+        case AEP_PER_UP:   net_per += 4; break;
+        case AEP_INT_UP:   net_int += 4; break;
+        case AEP_ALL_UP:   net_str += 2;
+                           net_dex += 2;
+                           net_per += 2;
+                           net_int += 2; break;
+        case AEP_STR_DOWN: net_str -= 3; break;
+        case AEP_DEX_DOWN: net_dex -= 3; break;
+        case AEP_PER_DOWN: net_per -= 3; break;
+        case AEP_INT_DOWN: net_int -= 3; break;
+        case AEP_ALL_DOWN: net_str -= 2;
+                           net_dex -= 2;
+                           net_per -= 2;
+                           net_int -= 2; break;
+
+        case AEP_SPEED_UP:   net_speed += 20; break;
+        case AEP_SPEED_DOWN: net_speed -= 20; break;
+
+        case AEP_IODINE:
+            break; // No message
+
+        case AEP_SNAKES:
+            add_msg(_("Your skin feels slithery."));
+            break;
+
+        case AEP_INVISIBLE:
+            add_msg(_("You fade into invisibility!"));
+            break;
+
+        case AEP_CLAIRVOYANCE:
+            add_msg(_("You can see through walls!"));
+            break;
+
+        case AEP_SUPER_CLAIRVOYANCE:
+            add_msg(_("You can see through everything!"));
+            break;
+
+        case AEP_STEALTH:
+            add_msg(_("Your steps stop making noise."));
+            break;
+
+        case AEP_GLOW:
+            add_msg(_("A glow of light forms around you."));
+            break;
+
+        case AEP_PSYSHIELD:
+            add_msg(_("Your mental state feels protected."));
+            break;
+
+        case AEP_RESIST_ELECTRICITY:
+            add_msg(_("You feel insulated."));
+            break;
+
+        case AEP_CARRY_MORE:
+            add_msg(_("Your back feels strengthened."));
+            break;
+
+        case AEP_HUNGER:
+            add_msg(_("You feel hungry."));
+            break;
+
+        case AEP_THIRST:
+            add_msg(_("You feel thirsty."));
+            break;
+
+        case AEP_EVIL:
+            add_msg(_("You feel an evil presence..."));
+            break;
+
+        case AEP_SCHIZO:
+            add_msg(_("You feel a tickle of insanity."));
+            break;
+
+        case AEP_RADIOACTIVE:
+            add_msg(_("Your skin prickles with radiation."));
+            break;
+
+        case AEP_MUTAGENIC:
+            add_msg(_("You feel your genetic makeup degrading."));
+            break;
+
+        case AEP_ATTENTION:
+            add_msg(_("You feel an otherworldly attention upon you..."));
+            break;
+
+        case AEP_FORCE_TELEPORT:
+            add_msg(_("You feel a force pulling you inwards."));
+            break;
+
+        case AEP_MOVEMENT_NOISE:
+            add_msg(_("You hear a rattling noise coming from inside yourself."));
+            break;
+
+        case AEP_BAD_WEATHER:
+            add_msg(_("You feel storms coming."));
+            break;
+        }
+    }
+
+    std::string stat_info = "";
+    if (net_str != 0) {
+        stat_info += string_format(_("Str %s%d! "),
+                                   (net_str > 0 ? "+" : ""), net_str);
+    }
+    if (net_dex != 0) {
+        stat_info += string_format(_("Dex %s%d! "),
+                                   (net_dex > 0 ? "+" : ""), net_dex);
+    }
+    if (net_int != 0) {
+        stat_info += string_format(_("Int %s%d! "),
+                                   (net_int > 0 ? "+" : ""), net_int);
+    }
+    if (net_per != 0) {
+        stat_info += string_format(_("Per %s%d! "),
+                                   (net_per > 0 ? "+" : ""), net_per);
+    }
+
+    if (stat_info.length() > 0) {
+        add_msg(stat_info.c_str());
+    }
+
+    if (net_speed != 0) {
+        add_msg(_("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
+    }
+}

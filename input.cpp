@@ -1,6 +1,6 @@
 #include "cursesdef.h"
 #include "input.h"
-#include "picojson.h"
+#include "json.h"
 #include "output.h"
 #include "keypress.h"
 #include <fstream>
@@ -154,49 +154,32 @@ void input_manager::init() {
     init_keycode_mapping();
 
     std::ifstream data_file;
-    picojson::value input_value;
 
     std::string file_name = "data/raw/keybindings.json";
-    data_file.open(file_name.c_str());
+    data_file.open(file_name.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if(!data_file.good()) {
         throw "Could not read " + file_name;
     }
 
-    data_file >> input_value;
-    data_file.close();
-
-    if(!input_value.is<picojson::array>()) {
-        throw file_name + "is not an array";
-    }
+    JsonIn jsin(&data_file);
 
     //Crawl through once and create an entry for every definition
-    const picojson::array& root = input_value.get<picojson::array>();
-
-    for (picojson::array::const_iterator entry = root.begin();
-         entry != root.end(); ++entry) {
-        if( !(entry->is<picojson::object>()) ){
-            debugmsg("Invalid keybinding setting, entry not a JSON object");
-            continue;
-        }
-
+    jsin.start_array();
+    while (!jsin.end_array()) {
         // JSON object representing the action
-        const picojson::value& action_object = *entry;
+        JsonObject action = jsin.get_object();
 
-        const std::string& action_id = action_object.get("id").get<std::string>();
-
-        std::string context = "default";
-        if(action_object.contains("category")) {
-            context = action_object.get("category").get<std::string>();
-        }
+        const std::string action_id = action.get_string("id");
+        actionID_to_name[action_id] = action.get_string("name", action_id);
+        const std::string context = action.get_string("category", "default");
 
         // Iterate over the bindings JSON array
-        const picojson::array& keybindings = action_object.get("bindings").get<picojson::array>();
-        for (picojson::array::const_iterator subentry = keybindings.begin();
-             subentry != keybindings.end(); ++subentry) {
-
-            const picojson::value& keybinding = *subentry;
-            const std::string& input_method = keybinding.get("input_method").get<std::string>();
+        JsonArray bindings = action.get_array("bindings");
+        const bool defaultcontext = (context == "default");
+        while (bindings.has_more()) {
+            JsonObject keybinding = bindings.next_object();
+            std::string input_method = keybinding.get_string("input_method");
             input_event new_event;
             if(input_method == "keyboard") {
                 new_event.type = CATA_INPUT_KEYBOARD;
@@ -206,33 +189,29 @@ void input_manager::init() {
                 new_event.type = CATA_INPUT_MOUSE;
             }
 
-            if(keybinding.get("key").is<std::string>()) {
-                const std::string& key = keybinding.get("key").get<std::string>();
-
-                new_event.sequence.push_back(inp_mngr.get_keycode(key));
-            } else if(keybinding.get("key").is<picojson::array>()) {
-                picojson::array keys = keybinding.get("key").get<picojson::array>();
-                for(int i=0; i<keys.size(); i++) {
-                    const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
-
-                    new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
+            if (keybinding.has_array("key")) {
+                JsonArray keys = keybinding.get_array("key");
+                while (keys.has_more()) {
+                    new_event.sequence.push_back(
+                        get_keycode(keys.next_string())
+                    );
                 }
+            } else { // assume string if not array, and throw if not string
+                new_event.sequence.push_back(
+                    get_keycode(keybinding.get_string("key"))
+                );
             }
 
-            if(context == "default") {
+            if (defaultcontext) {
                 action_to_input[action_id].push_back(new_event);
             } else {
                 action_contexts[context][action_id].push_back(new_event);
             }
         }
-
-        if(!action_object.contains("name")) {
-            actionID_to_name[action_id] = action_id;
-        } else {
-            actionID_to_name[action_id] = action_object.get("name").get<std::string>();
-        }
     }
-}
+
+    data_file.close();
+        }
 
 void input_manager::add_keycode_pair(long ch, const std::string& name) {
     keycode_to_keyname[ch] = name;

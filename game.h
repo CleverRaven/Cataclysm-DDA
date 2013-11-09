@@ -246,13 +246,11 @@ class game
   faction* random_good_faction();
   faction* random_evil_faction();
 
-  itype* new_artifact();
-  itype* new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
   void peek();
-  point look_debug(point pnt=point(-256,-256));
+  point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(); //List all items around the player
   int list_monsters(); //List all monsters around the player
@@ -289,7 +287,6 @@ class game
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
   std::map<std::string, itype*> itypes;
-  std::vector <mtype*> mtypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions
@@ -341,10 +338,6 @@ class game
  void open_gate( game *g, const int examx, const int examy, const ter_id handle_type );
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
-
-    void load_artifacts(std::string worldname); // Load artifact data
-                        // Needs to be called by main() before MAPBUFFER.load
-    void load_artifacts_from_file(std::ifstream *f); // Load artifact data
 
  // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
@@ -411,7 +404,6 @@ class game
   void init_fields();
   void init_weather();
   void init_overmap();
-  void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);

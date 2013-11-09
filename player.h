@@ -21,7 +21,7 @@
 class monster;
 class game;
 struct trap;
-struct mission;
+class mission;
 class profession;
 
 struct special_attack
@@ -193,7 +193,7 @@ public:
  int roll_bash_damage(monster *z, bool crit);
  int roll_cut_damage(monster *z, bool crit);
  int roll_stab_damage(monster *z, bool crit);
- int roll_stuck_penalty(monster *z, bool stabbing);
+ int roll_stuck_penalty(bool stabbing);
 
  std::vector<matec_id> get_all_techniques();
 

@@ -11,6 +11,8 @@
 #include <string>
 #include <sstream>
 #include <set>
+#include <locale> // ensure user's locale doesn't interfere with output
+
 #define STRICT_JSON true
 
 /* JSON parsing and serialization tools for Cataclysm-DDA
@@ -139,6 +141,16 @@ bool JsonObject::has_member(const std::string &name)
     return (bool)verify_position(name, false);
 }
 
+std::set<std::string> JsonObject::get_member_names()
+{
+    std::set<std::string> ret;
+    for (std::map<std::string,int>::iterator it = positions.begin();
+         it != positions.end(); ++it) {
+        ret.insert(it->first);
+    }
+    return ret;
+}
+
 std::string JsonObject::line_number()
 {
     jsin->seek(start);
@@ -221,6 +233,26 @@ JsonArray JsonObject::get_array(const std::string &name)
     }
     jsin->seek(pos);
     return JsonArray(jsin);
+}
+
+std::vector<int> JsonObject::get_int_array(const std::string &name)
+{
+    JsonArray ja = get_array(name);
+    std::vector<int> ret;
+    while (ja.has_more()) {
+        ret.push_back(ja.next_int());
+    }
+    return ret;
+}
+
+std::vector<std::string> JsonObject::get_string_array(const std::string &name)
+{
+    JsonArray ja = get_array(name);
+    std::vector<std::string> ret;
+    while (ja.has_more()) {
+        ret.push_back(ja.next_string());
+    }
+    return ret;
 }
 
 JsonObject JsonObject::get_object(const std::string &name)
@@ -392,6 +424,13 @@ JsonArray::JsonArray(const JsonArray &ja)
     positions = ja.positions;
     end = ja.end;
     strict = ja.strict;
+}
+
+void JsonArray::finish()
+{
+    if (jsin && jsin->good()) {
+        jsin->seek(end);
+    }
 }
 
 bool JsonArray::has_more()
@@ -1298,3 +1337,182 @@ std::string JsonIn::line_number(int offset_modifier)
     ret << "line " << line << ":" << (offset + offset_modifier);
     return ret.str();
 }
+
+
+/* class JsonOut
+ * represents an ostream of JSON data,
+ * allowing easy serialization of c++ datatypes.
+ */
+JsonOut::JsonOut(std::ostream *s)
+{
+    stream = s;
+    need_separator = false;
+    // ensure user's locale doesn't interfere with number format
+    stream->imbue(std::locale::classic());
+    // scientific format for floating-point numbers
+    stream->setf(std::ostream::scientific, std::ostream::floatfield);
+    // it's already decimal, but set it anyway
+    stream->setf(std::ostream::dec, std::ostream::basefield);
+    // could also set showbase and showpoint,
+    // but it currently doesn't matter.
+}
+
+void JsonOut::write_separator()
+{
+    stream->put(',');
+    need_separator = false;
+}
+
+void JsonOut::write_member_separator()
+{
+    stream->put(':');
+    need_separator = false;
+}
+
+void JsonOut::start_object()
+{
+    if (need_separator) {
+        write_separator();
+    }
+    stream->put('{');
+    need_separator = false;
+}
+
+void JsonOut::end_object()
+{
+    stream->put('}');
+    need_separator = true;
+}
+
+void JsonOut::start_array()
+{
+    if (need_separator) {
+        write_separator();
+    }
+    stream->put('[');
+    need_separator = false;
+}
+
+void JsonOut::end_array()
+{
+    stream->put(']');
+    need_separator = true;
+}
+
+void JsonOut::write_null()
+{
+    if (need_separator) {
+        write_separator();
+    }
+    stream->write("null", 4);
+    need_separator = true;
+}
+
+void JsonOut::write(const bool &b)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    if (b) {
+        stream->write("true", 4);
+    } else {
+        stream->write("false", 5);
+    }
+    need_separator = true;
+}
+
+void JsonOut::write(const int &i)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << i;
+    need_separator = true;
+}
+
+void JsonOut::write(const unsigned &u)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << u;
+    need_separator = true;
+}
+
+void JsonOut::write(const double &f)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << f;
+    need_separator = true;
+}
+
+void JsonOut::write(const std::string &s)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    unsigned char ch;
+    stream->put('"');
+    for (int i = 0; i < s.size(); ++i) {
+        ch = s[i];
+        if (ch == '"') {
+            stream->write("\\\"", 2);
+        } else if (ch == '\\') {
+            stream->write("\\\\", 2);
+        } else if (ch == '/') {
+            // don't technically need to escape this
+            stream->put('/');
+        } else if (ch == '\b') {
+            stream->write("\\b", 2);
+        } else if (ch == '\f') {
+            stream->write("\\f", 2);
+        } else if (ch == '\n') {
+            stream->write("\\n", 2);
+        } else if (ch == '\r') {
+            stream->write("\\r", 2);
+        } else if (ch == '\t') {
+            stream->write("\\t", 2);
+        } else if (ch < 0x20) {
+            // convert to "\uxxxx" unicode escape
+            stream->write("\\u00", 4);
+            stream->put((ch < 0x10) ? '0' : '1');
+            char remainder = ch & 0x0F;
+            if (remainder < 0x0A) {
+                stream->put('0' + remainder);
+            } else {
+                stream->put('A' + (remainder - 0x0A));
+            }
+        } else {
+            stream->put(ch);
+        }
+    }
+    stream->put('"');
+    need_separator = true;
+}
+
+void JsonOut::write(const JsonSerializer &thing)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    thing.serialize(*this);
+    need_separator = true;
+}
+
+void JsonOut::member(const std::string &name)
+{
+    write(name);
+    write_member_separator();
+}
+
+void JsonOut::null_member(const std::string &name)
+{
+    member(name);
+    write_null();
+}
+
