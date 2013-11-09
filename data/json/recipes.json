@@ -14648,7 +14648,7 @@
 },{
         "type" : "recipe",
   "result": "rebar_rail",
-  "category": "CC_WEAPON",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 36000,
@@ -14674,7 +14674,7 @@
 },{
         "type" : "recipe",
   "result": "steel_rail",
-  "category": "CC_MISC",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 30000,
