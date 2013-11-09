@@ -13,8 +13,6 @@
 #include <set>
 #include <locale> // ensure user's locale doesn't interfere with output
 
-#define STRICT_JSON true
-
 /* JSON parsing and serialization tools for Cataclysm-DDA
  * ~
  * These tools are intended to support the following use cases:
@@ -81,7 +79,7 @@ bool is_whitespace(char ch)
  */
 JsonObject::JsonObject(JsonIn *j) : positions()
 {
-    strict = STRICT_JSON;
+    strict = j->strict;
     jsin = j;
     start = jsin->tell();
     // cache the position of the value for each member
@@ -391,7 +389,7 @@ std::string JsonObject::dump_input() {
  */
 JsonArray::JsonArray(JsonIn *j) : positions()
 {
-    strict = STRICT_JSON;
+    strict = j->strict;
     jsin = j;
     start = jsin->tell();
     index = 0;
@@ -676,10 +674,8 @@ std::string JsonArray::dump_input() {
  * represents an istream of JSON data,
  * allowing easy extraction into c++ datatypes.
  */
-JsonIn::JsonIn(std::istream *s)
+JsonIn::JsonIn(std::istream *s, bool strict) : stream(s), strict(strict)
 {
-    stream = s;
-    strict = STRICT_JSON;
 }
 
 int JsonIn::tell() { return stream->tellg(); }

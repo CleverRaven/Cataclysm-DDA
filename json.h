@@ -216,6 +216,8 @@ private:
                         const bool throw_exception=true);
 
 public:
+    bool strict;
+
     JsonObject(JsonIn *jsin);
     JsonObject(const JsonObject &jsobj);
     ~JsonObject() { finish(); }
@@ -259,9 +261,6 @@ public:
     // useful debug info
     std::string line_number(); // for occasional use only
 
-    // sets and gets validation mode // todo constructor arg
-    bool strict;
-
     // dump substring of input, for error messages and copying
     std::string dump_input();
 };
@@ -276,6 +275,8 @@ private:
     void verify_index(int i);
 
 public:
+    bool strict;
+
     JsonArray(JsonIn *jsin);
     JsonArray(const JsonArray &jsarr);
     JsonArray() : positions(), start(0), index(0), jsin(NULL) {};
@@ -322,9 +323,6 @@ public:
     bool has_array(int index);
     bool has_object(int index);
 
-    // sets and gets validation mode // todo constructor arg
-    bool strict;
-
     // dump substring of input, for error messages and copying
     std::string dump_input();
 };
@@ -334,7 +332,9 @@ private:
     std::istream *stream;
 
 public:
-    JsonIn(std::istream *stream);
+    bool strict; // throw errors on non-RFC-4627-compliant input
+
+    JsonIn(std::istream *stream, bool strict = true);
 
     int tell(); // get current stream position
     void seek(int pos); // seek to specified stream position
@@ -384,9 +384,6 @@ public:
 
     // useful debug info
     std::string line_number(int offset_modifier=0); // for occasional use only
-
-    // sets and gets validation mode // todo constructor arg
-    bool strict;
 
     // raw read of string, for dump_input
     void read(char * str, int len);
