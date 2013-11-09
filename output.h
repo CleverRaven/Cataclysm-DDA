@@ -90,6 +90,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
 char rand_char();
 long special_symbol (long sym);
 
+// TODO: move these elsewhere
 // string manipulations.
 std::string from_sentence_case (const std::string &kingston);
 std::string string_format(std::string pattern, ...);

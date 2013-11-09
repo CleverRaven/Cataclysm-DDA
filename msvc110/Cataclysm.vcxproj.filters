@@ -383,9 +383,6 @@
     <ClInclude Include="..\artifact.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\artifactdata.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\auto_pickup.h">
       <Filter>Header Files</Filter>
     </ClInclude>

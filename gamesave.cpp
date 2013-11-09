@@ -27,7 +27,6 @@
 #include <math.h>
 #include <vector>
 #include "debug.h"
-#include "artifactdata.h"
 #include "weather.h"
 
 #include "savegame.h"
@@ -590,55 +589,70 @@ void game::unserialize_master(std::ifstream &fin) {
            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
-    picojson::value pval;
-    fin >> pval;
-    std::string jsonerr = picojson::get_last_error();
-    if ( ! jsonerr.empty() ) {
-        debugmsg("Bad save json\n%s", jsonerr.c_str() );
-    }
-    picojson::object &data = pval.get<picojson::object>();
-    picoint(data, "next_mission_id", next_mission_id);
-    picoint(data, "next_faction_id", next_faction_id);
-    picoint(data, "next_npc_id", next_npc_id);
-
-    picojson::array * vdata = pgetarray(data,"active_missions");
-    if(vdata != NULL) {
-        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
-            mission tmp;
-            tmp.json_load( *pit, this );
-            active_missions.push_back(tmp);
+    try {
+        JsonIn jsin(&fin);
+        jsin.start_object();
+        while (!jsin.end_object()) {
+            std::string name = jsin.get_member_name();
+            if (name == "next_mission_id") {
+                next_mission_id = jsin.get_int();
+            } else if (name == "next_faction_id") {
+                next_faction_id = jsin.get_int();
+            } else if (name == "next_npc_id") {
+                next_npc_id = jsin.get_int();
+            } else if (name == "active_missions") {
+                jsin.start_array();
+                while (!jsin.end_array()) {
+                    mission mis;
+                    JsonObject mis_json = jsin.get_object();
+                    mis.deserialize(mis_json);
+                    active_missions.push_back(mis);
+                }
+            } else if (name == "factions") {
+                jsin.start_array();
+                while (!jsin.end_array()) {
+                    faction fac;
+                    JsonObject fac_json = jsin.get_object();
+                    fac.deserialize(fac_json);
+                    factions.push_back(fac);
+                }
+            } else {
+                // silently ignore anything else
+                jsin.skip_value();
+            }
         }
+    } catch (std::string e) {
+        debugmsg("error loading master.gsav: %s", e.c_str());
     }
-
-    vdata = pgetarray(data,"factions");
-    if(vdata != NULL) {
-        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
-            faction tmp;
-            tmp.json_load( *pit, this );
-            factions.push_back(tmp);
-        }
-    }
-    
 }
 
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
-    std::map<std::string, picojson::value> data;
-    data["next_mission_id"] = pv ( next_mission_id );
-    data["next_faction_id"] = pv ( next_faction_id );
-    data["next_npc_id"] = pv ( next_npc_id );
+    try {
+        JsonOut json(&fout);
+        json.start_object();
 
-    std::vector<picojson::value> vdata;
-    for (int i = 0; i < active_missions.size(); i++) {
-        vdata.push_back( pv( active_missions[i].json_save() ) );
-    }
-    data["active_missions"] = pv( vdata );
-    vdata.clear();
+        json.member("next_mission_id", next_mission_id);
+        json.member("next_faction_id", next_faction_id);
+        json.member("next_npc_id", next_npc_id);
 
-    for (int i = 0; i < factions.size(); i++) {
-        vdata.push_back( pv( factions[i].json_save() ) );
+        json.member("active_missions");
+        json.start_array();
+        for (int i = 0; i < active_missions.size(); ++i) {
+            active_missions[i].serialize(json);
+        }
+        json.end_array();
+
+        json.member("factions");
+        json.start_array();
+        for (int i = 0; i < factions.size(); ++i) {
+            factions[i].serialize(json);
+        }
+        json.end_array();
+
+        json.end_object();
+    } catch (std::string e) {
+        debugmsg("error saving to master.gsav: %s", e.c_str());
     }
-    data["factions"] = pv( vdata );
-    vdata.clear();
-    fout << pv( data ).serialize() << std::endl;
 }
+
