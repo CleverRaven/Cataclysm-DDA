@@ -742,7 +742,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
                 mvwprintz(w_confirmation, 2, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
                 noname = true;
                 wrefresh(w_confirmation);
-                if (!query_yn(_("Are you SURE you're finished? Your world's name will be randomly generated."))) {
+                if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
                     continue;
                     continue;
                 } else {
@@ -783,7 +783,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
                                 worldname.erase(worldname.size() - 1);
                             }
                             worldname.erase(worldname.size() - 1);
-                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "_______________________________");
+                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________ ");
                             mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "%s", worldname.c_str());
                             wprintz(w_confirmation, h_ltgray, "_");
                         }
