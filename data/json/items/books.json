@@ -3098,7 +3098,7 @@
         "bashing" : 2,
         "cutting" : 0,
         "to_hit" : 0
-    }
+    },
     {
         "type" : "BOOK",
         "id" : "recipe_alpha",
