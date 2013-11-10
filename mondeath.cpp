@@ -174,7 +174,7 @@ void mdeath::fungus(game *g, monster *z) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                    g->zombie(mondex).name().c_str());
                     }
-                    if (!g->zombie(mondex).make_fungus(g)) {
+                    if (!g->zombie(mondex).make_fungus()) {
                         g->kill_mon(mondex, (z->friendly != 0));
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
@@ -282,7 +282,7 @@ void mdeath::guilt(game *g, monster *z) {
 }
 void mdeath::blobsplit(game *g, monster *z) {
     int speed = z->speed - rng(30, 50);
-    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", g->turn, 0, 0, rng(5,10));
+    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(5,10));
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
@@ -339,7 +339,7 @@ void mdeath::amigara(game *g, monster *z) {
     if (count <= 1) { // We're the last!
         g->u.rem_disease("amigara");
         g->add_msg(_("Your obsession with the fault fades away..."));
-        item art(g->new_artifact(), g->turn);
+        item art(new_artifact(g->itypes), g->turn);
         g->m.add_item_or_charges(z->posx(), z->posy(), art);
     }
     normal(g, z);
@@ -471,7 +471,7 @@ void mdeath::zombie(game *g, monster *z) {
         break;
 
         case 4: // mon_zombie_hulk
-            g->m.spawn_item(z->posx(), z->posy(), "rag", g->turn, 0, 0, rng(5,10));
+            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(5,10));
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             break;
 
@@ -493,7 +493,9 @@ void mdeath::gameover(game *g, monster *z) {
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers(game *g, monster *z) {
+void mdeath::kill_breathers(game *g, monster *z)
+{
+    (void)z; //unused
     for (int i = 0; i < g->num_zombies(); i++) {
         const std::string monID = g->zombie(i).type->id;
         if (monID == "mon_breather_hub " || monID == "mon_breather") {

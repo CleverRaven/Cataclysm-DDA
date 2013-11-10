@@ -45,7 +45,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else // 5, 12, 21, 32
    tmpammo->dispersion = charges * (charges - 4);
   tmpammo->recoil = tmpammo->dispersion * .8;
-  tmpammo->ammo_effects.clear(); // Reset effects. 
+  tmpammo->ammo_effects.clear(); // Reset effects.
   if (charges == 8) { tmpammo->ammo_effects.insert("EXPLOSIVE_BIG"); }
   else if (charges >= 6) { tmpammo->ammo_effects.insert("EXPLOSIVE"); }
 
@@ -711,11 +711,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
  if (is_mouse_enabled()) {
      mvwprintz(w_target, text_y++, 1, c_white,
-         _("Mouse - LMB: Target, Wheel: Cycle, RMB: Fire"));
+         _("Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"));
  }
 
  wrefresh(w_target);
- char ch;
  bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
  do {
   if (m.sees(u.posx, u.posy, x, y, -1, tart))
@@ -786,13 +785,37 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
    }
 //*/
-    /* Print to target window, could maybe be moved up and out of the w_terrain drawing section? */
-   if (!relevent) { // currently targetting vehicle to refill with fuel
-    vehicle *veh = m.veh_at(x, y);
-    if (veh)
-     mvwprintw(w_target, 1, 1, _("There is a %s"), veh->name.c_str());
-   } else
-    mvwprintw(w_target, 1, 1, _("Range: %d"), rl_dist(u.posx, u.posy, x, y));
+            // Print to target window
+            if (!relevent) {
+                // currently targetting vehicle to refill with fuel
+                vehicle *veh = m.veh_at(x, y);
+                if (veh) {
+                    mvwprintw(w_target, 1, 1, _("There is a %s"),
+                              veh->name.c_str());
+                }
+            } else if (relevent == &u.weapon && relevent->is_gun()) {
+                // firing a gun
+                mvwprintw(w_target, 1, 1, _("Range: %d"),
+                          rl_dist(u.posx, u.posy, x, y));
+                // get the current weapon mode or mods
+                std::string mode = "";
+                if (u.weapon.mode == "MODE_BURST") {
+                    mode = _("Burst");
+                } else {
+                    item* gunmod = u.weapon.active_gunmod();
+                    if (gunmod != NULL) {
+                        mode = gunmod->type->name;
+                    }
+                }
+                if (mode != "") {
+                    mvwprintw(w_target, 1, 14, _("Firing mode: %s"),
+                              mode.c_str());
+                }
+            } else {
+                // throwing something
+                mvwprintw(w_target, 1, 1, _("Range: %d"),
+                          rl_dist(u.posx, u.posy, x, y));
+            }
 
    const int zid = mon_at(x, y);
    if (zid == -1) {
@@ -811,29 +834,38 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   wrefresh(w_status);
   refresh();
 
-  mapped_input minput = get_input_from_kyb_mouse();
-  bool target_with_mouse = false;
-  if (minput.evt.type == CATA_INPUT_MOUSE) {
-      if (minput.evt.get_first_input() == MOUSE_BUTTON_LEFT) {
-          // Move target to tile clicked
-          target_with_mouse = true;
-          tarx = minput.evt.mouse_x - x;
-          tary = minput.evt.mouse_y - y;
-      } else if (minput.evt.get_first_input() == MOUSE_BUTTON_RIGHT) {
-          ch = '.'; // Fire
-      } else {
-          ch = 0; // Unsupported
-      }
-  } else {
-      ch = convert_to_dialog_key(minput.evt.get_first_input());
-  }
+  input_context ctxt("TARGET");
+  ctxt.register_directions();
+  ctxt.register_action("COORDINATE");
+  ctxt.register_action("SELECT");
+  ctxt.register_action("FIRE");
+  ctxt.register_action("NEXT_TARGET");
+  ctxt.register_action("PREV_TARGET");
+  ctxt.register_action("WAIT");
+  ctxt.register_action("CENTER");
+  ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
+  ctxt.register_action("HELP_KEYBINDINGS");
+  ctxt.register_action("QUIT");
 
-  if (!target_with_mouse) {
-      get_direction(tarx, tary, ch);
+  const std::string& action = ctxt.handle_input();
+
+
+  tarx = 0; tary = 0;
+  // Our coordinates will either be determined by coordinate input(mouse),
+  // by a direction key, or by the previous value.
+  if (action == "SELECT" && ctxt.get_coordinates(g->w_terrain, tarx, tary)) {
+      tarx = tarx - x;
+      tary = tary - y;
+  } else {
+    ctxt.get_direction(tarx, tary, action);
+    if(tarx == -2) {
+        tarx = 0;
+        tary = 0;
+    }
   }
 
   /* More drawing to terrain */
-  if (target_with_mouse || (tarx != -2 && tary != -2 && ch != '.')) { // Direction character pressed
+  if (tarx != 0 || tary != 0) {
    int mondex = mon_at(x, y), npcdex = npc_at(x, y);
    if (mondex != -1 && u_see(&(zombie(mondex))))
     zombie(mondex).draw(w_terrain, center.x, center.y, false);
@@ -853,17 +885,17 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     y = lowy;
    else if (y > hiy)
     y = hiy;
-  } else if ((ch == '<') && (target != -1)) {
+  } else if ((action == "PREV_TARGET") && (target != -1)) {
    target--;
    if (target == -1) target = t.size() - 1;
    x = t[target].posx();
    y = t[target].posy();
-  } else if ((ch == '>') && (target != -1)) {
+  } else if ((action == "NEXT_TARGET") && (target != -1)) {
    target++;
    if (target == t.size()) target = 0;
    x = t[target].posx();
    y = t[target].posy();
-  } else if (ch == '.' || ch == 'f' || ch == 'F' || ch == '\n') {
+  } else if (action == "WAIT" || action == "FIRE") {
    for (int i = 0; i < t.size(); i++) {
     if (t[i].posx() == x && t[i].posy() == y)
      target = i;
@@ -871,13 +903,13 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (u.posx == x && u.posy == y)
        ret.clear();
    break;
-  } else if (ch == '0') {
+  } else if (action == "CENTER") {
    x = u.posx;
    y = u.posy;
    ret.clear();
-  } else if (ch == '*')
+  } else if (action == "TOGGLE_SNAP_TO_TARGET")
    snap_to_target = !snap_to_target;
-  else if (ch == KEY_ESCAPE || ch == 'q') { // return empty vector (cancel)
+  else if (action == "QUIT") { // return empty vector (cancel)
    ret.clear();
    break;
   }
@@ -1376,6 +1408,9 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("FLAME"))
     g->explosion(x, y, 4, 0, true);
+    
+  if (effects.count("FLARE"))
+    g->m.add_field(g, x, y, fd_fire, 1);
 
   if (effects.count("LIGHTNING")) {
     for (int i = x - 1; i <= x + 1; i++) {

@@ -41,6 +41,8 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
 void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet_char, timespec &ts)
 {
+    (void)i; //unused
+    (void)trajectory; //unused
     if (u_see(tx, ty)) {
         std::string bullet;// = "animation_bullet_normal";
         switch(bullet_char)
@@ -94,6 +96,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
 /* Player hit animation */
 void game::draw_hit_player(player *p, bool dead)
 {
+    (void)dead; //unused
     if (use_tiles)
     {
         // get base name of player id

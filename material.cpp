@@ -36,7 +36,7 @@ material_type::material_type(std::string ident, std::string name,
     _bash_resist = bash_resist;
     _cut_resist = cut_resist;
     _bash_dmg_verb = bash_dmg_verb;
-    _cut_dmg_verb = bash_dmg_verb;
+    _cut_dmg_verb = cut_dmg_verb;
     _dmg_adj[0] = dmg_adj[0];
     _dmg_adj[1] = dmg_adj[1];
     _dmg_adj[2] = dmg_adj[2];

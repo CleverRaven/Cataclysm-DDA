@@ -12,7 +12,7 @@ struct SpeechBubble {
 
 class mattack {
 public:
-    void none               (game *g, monster *z){};
+    void none               (game *,  monster *) {};
     void antqueen           (game *g, monster *z);
     void shriek             (game *g, monster *z);
     void rattle             (game *g, monster *z);

@@ -14,7 +14,7 @@ void player_hit_message(game* g, player* attacker, std::string message,
                         std::string target_name, int dam, bool crit);
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing);
-int  attack_speed(player &u, bool missed);
+int  attack_speed(player &u);
 int  stumble(player &u);
 std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
 
@@ -142,7 +142,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  bool missed = (hit_roll() < mondodge ||
                 one_in(4 + dex_cur + weapon.type->m_to_hit));
 
- int move_cost = attack_speed(*this, missed);
+ int move_cost = attack_speed(*this);
 
  if (missed) {
   int stumble_pen = stumble(*this);
@@ -242,7 +242,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int hit_value = hit_roll() - target_dodge;
  bool missed = (hit_roll() <= 0);
 
- int move_cost = attack_speed(*this, missed);
+ int move_cost = attack_speed(*this);
 
  if (missed) {
   int stumble_pen = stumble(*this);
@@ -476,6 +476,7 @@ int player::dodge(game *g)
 
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
+	if (has_trait("TAIL_LIZARD")) {ret+= 2;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
     if (has_trait("WINGS_BAT")) {ret -= 3;}
@@ -682,10 +683,10 @@ int player::roll_stab_damage(monster *z, bool crit)
 // Weapons can have a "low_stick" flag indicating they
 // Have a feature to prevent sticking, such as a spear with a crossbar,
 // Or a stabbing blade designed to resist sticking.
-int player::roll_stuck_penalty(monster *z, bool stabbing)
+int player::roll_stuck_penalty(bool stabbing)
 {
     // The cost of the weapon getting stuck, in units of move points.
-    const int weapon_speed = attack_speed( *this, false );
+    const int weapon_speed = attack_speed(*this);
     int stuck_cost = weapon_speed;
     const int attack_skill = stabbing ? skillLevel("stabbing") : skillLevel("cutting");
     const float cut_damage = weapon.damage_cut();
@@ -741,6 +742,8 @@ int player::roll_stuck_penalty(monster *z, bool stabbing)
 matec_id player::pick_technique(game *g, monster *z, player *p,
                                     bool crit, bool allowgrab)
 {
+    (void)allowgrab; //FIXME: is this supposed to be being used for something?
+
  if (z == NULL && p == NULL)
   return "tec_none";
 
@@ -816,7 +819,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
 }
 
 bool player::has_technique(matec_id id) {
-  return weapon.has_technique(id, this) ||
+  return weapon.has_technique(id) ||
     martialarts[style_selected].has_technique(*this, id);
 }
 
@@ -824,6 +827,9 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
                                player *p, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
+    (void)cut_dam; //FIXME: this should probably be being used for something
+    (void)stab_dam; //FIXME: this should probably be being used for something
+
     const bool mon = (z != NULL);
     const bool npc = (p != NULL && p->is_npc());
     const bool you = (p == &(g->u));
@@ -841,7 +847,7 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
   int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
   if (technique.quick) {
-    moves += int( attack_speed(*this, false) / 2);
+    moves += int(attack_speed(*this) / 2);
     return;
   }
 // The rest affect our target, and thus depend on z vs. p
@@ -936,25 +942,27 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 // this would be i2amroy's fix, but it's kinda handy
 bool player::can_weapon_block()
 {
-	return (weapon.has_technique("WBLOCK_1", this) ||
-         weapon.has_technique("WBLOCK_2", this) ||
-         weapon.has_technique("WBLOCK_3", this));
+    return (weapon.has_technique("WBLOCK_1") ||
+            weapon.has_technique("WBLOCK_2") ||
+            weapon.has_technique("WBLOCK_3"));
 }
 
 bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
     int &bash_dam, int &cut_dam, int &stab_dam)
 {
+    (void)z; //FIXME: this should probably be being used for something
+    (void)p; //FIXME: this should probably be being used for something
 
     if (blocks_left <= 0) return false;
 
     // if weapon, then extra reduction
     if (!unarmed_attack() && (can_arm_block() || can_weapon_block())) {
         float mult = 1.0f;
-        if (weapon.has_technique("WBLOCK_1",this)) {
+        if (weapon.has_technique("WBLOCK_1")) {
             mult = 0.4;
-        } else if (weapon.has_technique("WBLOCK_2",this)) {
+        } else if (weapon.has_technique("WBLOCK_2")) {
             mult = 0.15;
-        } else if (weapon.has_technique("WBLOCK_3",this)) {
+        } else if (weapon.has_technique("WBLOCK_3")) {
             mult = 0.05;
         } else {
             mult = 0.5; // always at least as good as unarmed
@@ -1199,7 +1207,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
 // Getting your weapon stuck
- int cutting_penalty = roll_stuck_penalty(z, stab_dam > cut_dam);
+ int cutting_penalty = roll_stuck_penalty(stab_dam > cut_dam);
  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
@@ -1432,6 +1440,22 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         ret.push_back(tmp);
     }
 
+	    if (has_trait("TAIL_LIZARD") && one_in(3) && one_in(10 - dex_cur)) {
+        special_attack tmp;
+        tmp.bash = 8;
+        if (is_u) {
+            tmp.text = string_format(_("You whap %s with your tail!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s whaps %s with his tail!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s whaps %s with her tail!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+	
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
             has_trait("ARM_TENTACLES_8")) {
         int num_attacks = 1;
@@ -1605,7 +1629,7 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
     if (!third.empty())  u.practice(turn, third, rng(min, max));
 }
 
-int attack_speed(player &u, bool missed)
+int attack_speed(player &u)
 {
  int move_cost = u.weapon.attack_time() + 20 * u.encumb(bp_torso);
  if (u.has_trait("LIGHT_BONES"))

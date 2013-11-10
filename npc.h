@@ -5,6 +5,8 @@
 #include "monster.h"
 #include "overmap.h"
 #include "faction.h"
+#include "json.h"
+
 #include <vector>
 #include <string>
 #include <sstream>
@@ -126,22 +128,28 @@ enum npc_favor_type {
  NUM_FAVOR_TYPES
 };
 
-struct npc_favor
+class npc_favor : public JsonSerializer, public JsonDeserializer
 {
- npc_favor_type type;
- int value;
- itype_id item_id;
- Skill *skill;
+public:
+    npc_favor_type type;
+    int value;
+    itype_id item_id;
+    Skill *skill;
 
- npc_favor() {
-  type = FAVOR_NULL;
-  value = 0;
-  item_id = "null";
-  skill = NULL;
- };
- picojson::value json_save();
- bool json_load(std::map<std::string, picojson::value> & data);
+    npc_favor() {
+        type = FAVOR_NULL;
+        value = 0;
+        item_id = "null";
+        skill = NULL;
+    };
 
+    bool json_load(std::map<std::string, picojson::value> & data);
+    picojson::value json_save();
+
+    using JsonSerializer::serialize;
+    using JsonDeserializer::deserialize;
+    void serialize(JsonOut &json) const;
+    void deserialize(JsonObject &jo);
 };
 
 struct npc_personality {
@@ -379,7 +387,7 @@ public:
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);
- void print_info(WINDOW* w);
+ int print_info(WINDOW* w, int column = 1, int line = 6);
  std::string short_description();
  std::string opinion_text();
 

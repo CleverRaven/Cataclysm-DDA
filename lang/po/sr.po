@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7-git\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-31 07:37+1300\n"
-"PO-Revision-Date: 2013-10-23 05:54+0000\n"
+"POT-Creation-Date: 2013-11-07 14:53+1300\n"
+"PO-Revision-Date: 2013-11-01 07:32+0000\n"
 "Last-Translator: Kevin Granade <Unknown>\n"
 "Language-Team: Serbian\n"
 "Language: sr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-30 06:07+0000\n"
+"X-Launchpad-Export-Date: 2013-11-07 00:29+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #: action.cpp
@@ -4682,6 +4682,10 @@ msgid "You try to sleep, but can't..."
 msgstr "Pokušavaš da zaspiš, ali uzalud..."
 
 #: disease.cpp
+msgid "You turn off your alarm-clock."
+msgstr ""
+
+#: disease.cpp
 #, c-format
 msgid "You use your %s to keep warm."
 msgstr ""
@@ -4700,10 +4704,6 @@ msgstr ""
 
 #: disease.cpp
 msgid "You wake up coughing."
-msgstr ""
-
-#: disease.cpp
-msgid "You wake up to the ringing of an alarm-clock."
 msgstr ""
 
 #: disease.cpp
@@ -7308,6 +7308,11 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+#. ~ Fast-scroll indicator
+#: game.cpp
+msgid "F"
+msgstr ""
+
 #: game.cpp
 msgid "FACTIONS:"
 msgstr ""
@@ -7471,8 +7476,9 @@ msgid "Maybe you should find something new to read..."
 msgstr ""
 
 #: game.cpp
-msgid "Monster Spotted!"
-msgstr ""
+#, fuzzy
+msgid "Monster dangerously close!"
+msgstr "Osećaš opasnu hladnoću po licu."
 
 #: game.cpp
 msgid "Monster spotted!"
@@ -7967,7 +7973,6 @@ msgid "The corpse is thoroughly pulped."
 msgid_plural "The corpses are thoroughly pulped."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: game.cpp
 msgid "The door is locked!"
@@ -8075,12 +8080,6 @@ msgstr ""
 
 #: game.cpp
 msgid "There's no corpse to butcher!"
-msgstr ""
-
-#: game.cpp
-#, c-format
-msgid ""
-"There's no room in your inventory for the %s, and you can't  unwield your %s."
 msgstr ""
 
 #: game.cpp
@@ -8550,6 +8549,10 @@ msgid "You fall on the ground for %d damage."
 msgstr ""
 
 #: game.cpp
+msgid "You feel like you haven't slept in days."
+msgstr ""
+
+#: game.cpp
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr ""
@@ -8622,10 +8625,6 @@ msgstr ""
 
 #: game.cpp
 msgid "You haven't killed any monsters yet!"
-msgstr ""
-
-#: game.cpp
-msgid "You haven't slept in 2 days!"
 msgstr ""
 
 #: game.cpp vehicle.cpp
@@ -9087,6 +9086,14 @@ msgstr ""
 
 #: game.cpp
 msgid "to a nearby square."
+msgstr ""
+
+#: game.cpp
+msgid "to look around"
+msgstr ""
+
+#: game.cpp
+msgid "to shoot"
 msgstr ""
 
 #: game.cpp
@@ -11385,6 +11392,11 @@ msgstr ""
 msgid "shot"
 msgstr ""
 
+#: itypedef.cpp lang/json/json_items.py
+#, fuzzy
+msgid "signal flare"
+msgstr "signalni prijemnik"
+
 #: itypedef.cpp lang/json/json_vehicle_parts.py
 msgid "small wheel"
 msgstr ""
@@ -11793,6 +11805,14 @@ msgid "Eternal Night"
 msgstr ""
 
 #: iuse.cpp
+msgid "Fill what?"
+msgstr ""
+
+#: iuse.cpp
+msgid "Fill which vehicle?"
+msgstr ""
+
+#: iuse.cpp
 msgid "Fire rains down around you!"
 msgstr ""
 
@@ -12008,6 +12028,10 @@ msgid "Put a knife in the boot"
 msgstr ""
 
 #: iuse.cpp
+msgid "Put the cat food where?"
+msgstr ""
+
+#: iuse.cpp
 msgid "Put the dog food where?"
 msgstr ""
 
@@ -12097,6 +12121,11 @@ msgstr ""
 
 #: iuse.cpp
 msgid "Siphon from where?"
+msgstr ""
+
+#: iuse.cpp
+#, c-format
+msgid "Siphoned %d units of %s from the %s into the %s%s"
 msgstr ""
 
 #: iuse.cpp
@@ -12277,6 +12306,12 @@ msgid "The candle winks out"
 msgstr ""
 
 #: iuse.cpp
+msgid ""
+"The cat seems to like you! Or maybe it just tolerates your presence better. "
+"It's hard to tell with cats."
+msgstr ""
+
+#: iuse.cpp
 msgid "The dog seems to like you!"
 msgstr ""
 
@@ -12286,6 +12321,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "The fabric of space seems to decay."
+msgstr ""
+
+#: iuse.cpp
+msgid "The flare sputters out."
 msgstr ""
 
 #: iuse.cpp
@@ -12763,6 +12802,10 @@ msgid "You can't see to sew!"
 msgstr ""
 
 #: iuse.cpp
+msgid "You can't turn off a flare."
+msgstr ""
+
+#: iuse.cpp
 msgid "You can't turn off a glowstick."
 msgstr ""
 
@@ -12788,6 +12831,11 @@ msgstr[1] ""
 #: iuse.cpp
 msgid "You cauterize yourself. It hurts like hell!"
 msgstr ""
+
+#: iuse.cpp
+#, fuzzy, c-format
+msgid "You chew your %s."
+msgstr "Ne možeš da ispustiš %s."
 
 #: iuse.cpp
 msgid "You churn up the earth here."
@@ -13341,6 +13389,10 @@ msgid "You snort some crystal meth."
 msgstr ""
 
 #: iuse.cpp
+msgid "You spill the cat food all over the ground."
+msgstr ""
+
+#: iuse.cpp
 msgid "You spill the dogfood all over the ground."
 msgstr ""
 
@@ -13354,6 +13406,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "You stop the bleeding."
+msgstr ""
+
+#: iuse.cpp
+msgid "You strike your flare and light it."
 msgstr ""
 
 #: iuse.cpp
@@ -17195,6 +17251,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"A heavy plastic cartridge made for use in flare guns. It appears to be a "
+"modified 12 gauge shotgun shell."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A heavy plastic helmet normally worn by football players."
 msgstr ""
 
@@ -17584,6 +17646,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A leather album full of photos of somebody's family. You don't know any of "
+"the people in them, but seeing these pictures still makes you think of "
+"happier times."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A leather bound portfolio that once belonged to a clothing designer. Filled "
 "with sketches and notes, a skilled tailor could learn a lot from this volume."
 msgstr ""
@@ -17625,6 +17694,15 @@ msgstr ""
 "kod žičanih ograda."
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A light and breezy cotton dress. Though cool and comfortable to wear, it "
+"lacks any storage space."
+msgstr ""
+"Dugačka haljina od pamučne tkanine. Karakteriše je umanjena pokretljivost i "
+"nedostatak bilo kakvih džepova."
+
+#: lang/json/json_items.py
 msgid "A light vest covered in pockets and straps for storage."
 msgstr "Lagani opasač krcat džepovima i trakama, za držanje predmeta."
 
@@ -17642,6 +17720,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A lightweight hatchet made for throwing. Its ineffective cutting edge and "
+"light weight makes it unsuitable for use as a tool."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A lightweight home built combination armor made from a cut down bulletproof "
 "vest and a reinforced jumpsuit made out of fabric. Protects from the "
 "elements as well as from harm."
@@ -17652,6 +17736,12 @@ msgid ""
 "A little book for little readers. The colorful cartoon characters and sweet "
 "stories contained herein belong to a different time, before the dead walked "
 "and the world moved on."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A little hunk of glop that fell off a blob monster.  It doesn't seem "
+"hostile, but it does wiggle occasionally."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -18216,6 +18306,13 @@ msgstr ""
 "Rukavi od penastih materijala, kakvi se koriste u kontaktnim sportovima."
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A pair of stylish sunglasses, look good while keeping the glare out of your "
+"eyes."
+msgstr "Naočari za sunce, štite od odsjaja jakog sunca."
+
+#: lang/json/json_items.py
 msgid "A pair of sunglasses, good for keeping the glare out of your eyes."
 msgstr "Naočari za sunce, štite od odsjaja jakog sunca."
 
@@ -18324,6 +18421,10 @@ msgid ""
 msgstr ""
 "Najlonski kaput sa dva duboka džepa. Služi kao zaštita od kiše, i delimično "
 "od kiselih kiša."
+
+#: lang/json/json_items.py
+msgid "A plastic single shot pistol made to fire signal flares."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -18988,6 +19089,10 @@ msgstr ""
 "i posekotina."
 
 #: lang/json/json_items.py
+msgid "A small metal teapot. Teatime wouldn't be complete without one."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid ""
 "A small pair of goggles. Distorts vision above water, but allows you to see "
 "much further under water."
@@ -19211,8 +19316,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "A stout metal pole with a sharp point."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A stout pole with an improvised grip and a fire-hardened point."
 msgstr "Motka sa improvizovanom drškom i vrhom ojačanim u plamenu."
+
+#: lang/json/json_items.py
+msgid ""
+"A stout wooden truncheon of the sort commonly employed by police. Originally "
+"an Okinawan weapon, it consists of a stick with a perpendicular handle "
+"attached a third of the way down its length."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
@@ -19288,6 +19404,17 @@ msgstr "Dukserica sa kapuljačom i \"kengurskim džepom\" napred."
 #: lang/json/json_items.py
 msgid "A sweet red berry."
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"A sword bayonet is a large slashing weapon that can be attached to the front "
+"of a shotgun or rifle, allowing a melee attack to deal piercing damage. The "
+"added length increases recoil substantially."
+msgstr ""
+"Bajonet je hladno oružje koje se pričvrsti na vrh cevi puške, sačmarice ili "
+"malokalibarskog automatskog oružja i služi za probadanje protivnika iz "
+"blizine. Ovaj produžetak pomalo otežava ciljanje."
 
 #: lang/json/json_items.py
 msgid ""
@@ -19923,9 +20050,17 @@ msgstr ""
 "preciznosti. Zahteva prostor u šaržeru čiji kapacitet smanjuje."
 
 #: lang/json/json_items.py
+#, fuzzy
 msgid ""
-"An aluminium baseball bat, smaller and lighter than a wooden bat and a "
-"little less damaging as a result."
+"An all-encompassing black helmet that covers your entire face and neck, "
+"providing excellent protection from all sorts of damage."
+msgstr "Otporna i čvrsta kaciga, štiti od najrazličitijih tipova udaraca."
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"An aluminium baseball bat, lighter than a wooden bat and a little easier to "
+"swing as a result."
 msgstr ""
 "Aluminijumska bejzbol palica, manja i lakša od obične što je čini manje "
 "efikasnom u borbi."
@@ -20232,13 +20367,6 @@ msgstr ""
 msgid ""
 "An interesting quarterly report about rocket launchers and recoilless "
 "rifles. There are lots of large, exciting photos of explosions and weaponry."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"An leather album full of photos of somebody's family. You don't know any of "
-"the people in them, but seeing these pictures still makes you think of "
-"happier times."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -20554,6 +20682,12 @@ msgid ""
 "Charcoal is a flammable carbon based material obtained by removing water and "
 "other volatile constituents from animal and vegetation substances. It is "
 "produced by slowly heating wood or other substances in the absence of oxygen."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Chewing gum with added caffeine. Sugary and bad for your teeth, but it's a "
+"nice pick-me-up."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21508,6 +21642,10 @@ msgid "Light and easy to wear, but doesn't offer much storage."
 msgstr "Od lakih materijala i zgodna za nošenje, ali ne nudi mnogo prostora."
 
 #: lang/json/json_items.py
+msgid "Lightweight shoes made of cloth and rubber."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Like apple cider, only with vodka."
 msgstr "Kao jabukovača, samo s dodatkom votke."
 
@@ -21687,6 +21825,13 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "Milkor MGL"
 msgstr "Milkor MGL"
+
+#: lang/json/json_items.py
+msgid ""
+"Mint flavored chewing tobacco. While still absolutely terrible for your "
+"health, it was once a favorite amongst baseball players, cowboys, and other "
+"macho types."
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "Mint flavored nicotine chewing gum. For smokers who desire to quit."
@@ -22065,6 +22210,10 @@ msgid "RM51 assault rifle"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "RM614 LMG"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "RM88 battle rifle"
 msgstr ""
 
@@ -22433,6 +22582,10 @@ msgstr "Moderan ogrtač."
 
 #: lang/json/json_items.py
 msgid "Submachine Gun Enthusiast"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Suitable for tropical retreats and Canadian artists alike."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -22972,12 +23125,6 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"The mere thought of eating this stuff is enough to make your hair stand on "
-"end. Save it for when you're about to die of starvation."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
 "The nail sword, or nord for short. This wooden sword has a dozen nails "
 "sticking at jagged angles from edge of the blade, making it much better at "
 "chopping than slashing."
@@ -23212,6 +23359,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid ""
+"This burning magnesium flare is producing light. It will last for about a "
+"half hour before burning out."
+msgstr ""
+"Prelomljeni fluorescentni štap koji sada isijava slabu svetlost. Proći će "
+"nekoliko sati pre nego što reakcija prestane."
+
+#: lang/json/json_items.py
 msgid ""
 "This canister of teargas has had its pin removed, indicating that it is (or "
 "will shortly be) expelling highly toxic gas. You should consider getting rid "
@@ -23295,6 +23451,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "This enriched white flour is useful for baking."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This farming tool has been modified into a weapon by reinforcing and "
+"rotating its blade 90 degrees, transforming it into a deadly giant blade on "
+"the end of a stick."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24186,6 +24349,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is a slow-burning magnesium flare. Use it to strike the striker and "
+"light it. It will produce a bright light for about a half hour."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is a small blue light glowstick. Use it to bend the plastic and break "
 "the glass cylinder inside to start the reaction. It will produce a very "
 "small amount of light."
@@ -24288,6 +24457,11 @@ msgid "This is a spent glowstick. It is essentially trash."
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "This is a spent magnesium flare. It is essentially trash."
+msgstr "Ugašeni fluorescentni štap, bezvredan je."
+
+#: lang/json/json_items.py
 msgid ""
 "This is a spray can, filled with paint. Use this tool to make graffiti on "
 "the floor."
@@ -24330,13 +24504,6 @@ msgstr ""
 msgid ""
 "This is a stout collapsible spade. It's commonly used by military forces and "
 "favored by hikers for digging."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"This is a stout combat knife features a steel guard to protect the user's "
-"knuckles, which can be used for striking or blocking. It can also be used to "
-"butcher corpses."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24543,6 +24710,20 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a giant blade on the end of a stick, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a massive curved blade on a handle, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is an unwieldy mop. Good for cleaning up spills. Use to mop up any "
 "'mess' you may have made."
 msgstr ""
@@ -24552,6 +24733,11 @@ msgid ""
 "This is decent sized piece of cotton, sterilized and sealed. It's designed "
 "for medical purposes."
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "This is food for cats. It smells strange, but cats seem to love it."
+msgstr "Hrana za pse. Čudnog mirisa, kuce je obožavaju."
 
 #: lang/json/json_items.py
 msgid "This is food for dogs. It smells strange, but dogs seem to love it."
@@ -24832,6 +25018,13 @@ msgstr ""
 "već i nije, budući da je osigurač izvučen."
 
 #: lang/json/json_items.py
+msgid ""
+"This stout combat knife features a steel guard to protect the user's "
+"knuckles. The guard can also be used for striking or blocking, and the knife "
+"can also be used to butcher corpses."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "This yellow cornmeal is useful for baking."
 msgstr ""
 
@@ -24936,17 +25129,29 @@ msgstr ""
 "Rezultat je smanjena brzina metka, samim tim i preciznost i nanesena šteta."
 
 #: lang/json/json_items.py
+#, fuzzy
 msgid ""
 "Using this item on a container full of water will purify the water using "
-"layered charcoal. Water taken from uncertain sources like a river may be "
-"dirty."
+"layered charcoal. Once the charcoal has purified enough water, it will "
+"become unusable and can be disassembled and recycled. Water taken from "
+"uncertain sources like a river may be dirty."
 msgstr ""
+"(A)ktiviranjem ove sprave i odabirom neke od posuda sa zatvaračem u kojima "
+"je voda prečistiće je tako da ona bude pogodna za piće. Voda iz reka kao i "
+"sa drugih izvora može biti zatrovana."
 
 #: lang/json/json_items.py
 msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun "
 "was designed for durability and ease of carrying under less than ideal "
 "circumstances."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine "
+"gun was designed for durability and extreme volume of sustained fire under "
+"the worst possible circumstances."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25110,6 +25315,11 @@ msgstr "aktivna EMP bomba"
 #: lang/json/json_items.py
 msgid "active Granade"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "active flare"
+msgstr "aktivna šok bomba"
 
 #: lang/json/json_items.py
 msgid "active flashbang"
@@ -25456,6 +25666,10 @@ msgid "bleach"
 msgstr "izbeljivač"
 
 #: lang/json/json_items.py
+msgid "blob glob"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "blood"
 msgstr "krv"
 
@@ -25649,6 +25863,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "cabernet sauvignon"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "caffeinated chewing gum"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25849,6 +26067,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "chewing gum"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "chewing tobacco"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -26156,6 +26378,11 @@ msgid "darts"
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "dead flare"
+msgstr "Premorenost"
+
+#: lang/json/json_items.py
 msgid "dead glowstick"
 msgstr "ugašeni fluorescentni štap"
 
@@ -26458,6 +26685,16 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "flannel jacket"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flare"
+msgstr "Odsjaj"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flaregun"
+msgstr "Odsjaj"
 
 #: lang/json/json_items.py
 msgid "flashbang"
@@ -27313,6 +27550,10 @@ msgstr "dugi luk"
 
 #: lang/json/json_items.py
 msgid "loose caltrops"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "lowtop tennis shoes"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28243,6 +28484,10 @@ msgstr "gumeno crevo"
 msgid "rum"
 msgstr "rum"
 
+#: lang/json/json_items.py
+msgid "rum & cola"
+msgstr ""
+
 #: lang/json/json_items.py lang/json/json_vehicle_parts.py
 msgid "saddle"
 msgstr "sedlo"
@@ -28350,6 +28595,10 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "screwdriver"
 msgstr "šrafciger"
+
+#: lang/json/json_items.py
+msgid "scythe"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "sealed 3-litre jar of kompot"
@@ -28478,6 +28727,10 @@ msgstr "zamka sa sačmaricom"
 #: lang/json/json_items.py
 msgid "shovel"
 msgstr "lopata"
+
+#: lang/json/json_items.py
+msgid "sickle"
+msgstr ""
 
 #: lang/json/json_items.py
 msgid "signal receiver"
@@ -28720,6 +28973,10 @@ msgid "steel plating"
 msgstr "limarija"
 
 #: lang/json/json_items.py
+msgid "steel spear"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "steel tongs"
 msgstr ""
 
@@ -28780,12 +29037,22 @@ msgid "string - 6 in"
 msgstr "konac - 6 in"
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "stylish sunglasses"
+msgstr "naočari za sunce"
+
+#: lang/json/json_items.py
 msgid "sugar"
 msgstr "šećer"
 
 #: lang/json/json_items.py
 msgid "suit"
 msgstr "odelo"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "sundress"
+msgstr "dugačka haljina"
 
 #: lang/json/json_items.py
 msgid "sunglasses"
@@ -28868,6 +29135,11 @@ msgid "switchblade"
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "sword bayonet"
+msgstr "bajonet"
+
+#: lang/json/json_items.py
 msgid "syringe"
 msgstr "špric i igla"
 
@@ -28882,6 +29154,11 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "tactical dump pouch"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "tactical full helmet"
+msgstr "bejzbol kaciga"
 
 #: lang/json/json_items.py
 msgid "tactical gloves"
@@ -28932,6 +29209,10 @@ msgid "tea leaves"
 msgstr "kesica čaja"
 
 #: lang/json/json_items.py
+msgid "teapot"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "teargas canister"
 msgstr "kanister sa suzavcem"
 
@@ -28953,6 +29234,10 @@ msgstr "tekila"
 
 #: lang/json/json_items.py
 msgid "thriller novel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "throwing axe"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -29148,6 +29433,10 @@ msgid "war novel"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "war scythe"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "wasp sting"
 msgstr "osinja žaoka"
 
@@ -29273,6 +29562,11 @@ msgstr "drveno koplje"
 
 #: lang/json/json_items.py
 msgid "wooden javelin"
+msgstr "koplje za bacanje"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "wooden tonfa"
 msgstr "koplje za bacanje"
 
 #: lang/json/json_items.py
@@ -29814,11 +30108,27 @@ msgid "+1 dodge and +1 blocks per stack"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "+3 Bash/atk"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "+4 Atk Speed"
+msgstr "Bonus na brzinu napada"
+
+#: lang/json/json_martialarts.py
 msgid ""
 "A dance-like style with its roots in Brazilian slavery, capoeira is focused "
 "on fluid movement and sweeping kicks. Moving a tile will boost attack and "
 "damage and attacking boosts dodge. These bonuses stack up to three times "
 "each."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse "
+"the enemy.  The turn after you successfully attack, you may dodge any number "
+"of attacks with no penalty."
 msgstr ""
 
 #: lang/json/json_martialarts.py newcharacter.cpp
@@ -29828,7 +30138,7 @@ msgstr ""
 #: lang/json/json_martialarts.py
 msgid ""
 "Aikido is a Japanese martial art focused on self-defense, while minimizing "
-"injury to the attacker. It uses defense throws and disarms. Damage done "
+"injury to the attacker. It uses defensive throws and disarms. Damage done "
 "while using this technique is halved, but pain inflicted is doubled."
 msgstr ""
 
@@ -29844,6 +30154,10 @@ msgstr ""
 msgid "Attacks scale better with strength"
 msgstr ""
 
+#: lang/json/json_martialarts.py
+msgid "Bonus damage from intelligence."
+msgstr ""
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Capoeira"
 msgstr ""
@@ -29853,7 +30167,44 @@ msgid "Capoeira Tempo"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Centipede Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Crane Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Crane Precision"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Damage bonus from dexterity at the cost of damage from strength."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Dragon Intelligence"
+msgstr "Inteligencija"
+
+#: lang/json/json_martialarts.py
+msgid "Dragon Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Drunk Dodging"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Flat bonus to damage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Half damage to enemies"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Hundred-Hitter"
 msgstr ""
 
 #: lang/json/json_martialarts.py
@@ -29890,6 +30241,18 @@ msgstr ""
 msgid "Krav Maga"
 msgstr ""
 
+#: lang/json/json_martialarts.py
+msgid "Leopard Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Leopard Strategy"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Lizard Kung Fu"
+msgstr ""
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Muay Thai"
 msgstr ""
@@ -29915,13 +30278,103 @@ msgstr ""
 
 #: lang/json/json_martialarts.py
 msgid ""
+"One of the Five Deadly Venoms, and likely to be removed at the next save-"
+"compatibility breaker. Lizard Style docuses on using walls to your advantage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid "
+"strikes.  Each attack you land reduces the cost of attacking by 4."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which "
+"uses pincer-like hands and a stinger kick.  Critical hits should do massive "
+"damage and knock your target back, and we'll fix that as soon as we can."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Toad Style will be immensely powerful "
+"through its immunity to nearly any weapon, once we get the connection "
+"rebuilt.  Until then, best not meditate by pausing, though it used to give "
+"you armor proportional to your Intelligence and Perception."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, "
+"ehich is supposed to initiate on a critical strike, then chain into piercing "
+"damage and a two-handed Viper Strike."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Crane uses intricate hand "
+"techniques and jumping dodges.  Dexterity determines the majority of your "
+"damage, rather than Strength; you also receive a dodge bonus the turn after "
+"moving a tile."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Dragon uses fluid movements and "
+"hard strikes. Intelligence improves your accuracy and damage dealt, as does "
+"moving."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Leopard focuses on rapid, "
+"strategically planned strikes.  Perception and Inteligence both boost "
+"accuracy, and moving further boosts your accuracy."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Snake focuses on sinuous "
+"movement and precision strikes. Your Perception iproves yur accuracy and "
+"your damage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Tiger focuses on relentless "
+"attacks above all else.  Your Strength determines your accuracy, and your "
+"attacks do increasing damage as you continue attacking."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
 "Originating in Israel, Krav Maga is based on taking down an enemy quickly "
 "and effectively. It focuses on applicable attacks rather than showy or "
 "complex moves. Popular among police and armed forces everywhere."
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to block."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Perception decreases damage when blocking"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception provides a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Scorpion Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Scorpion Venom"
 msgstr ""
 
 #: lang/json/json_martialarts.py
@@ -29933,7 +30386,19 @@ msgid "Slightly increased unarmed damage"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Snake Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Snake Sight"
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Strength decreases damage when blocking"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Strength provides additional damage bonus."
 msgstr ""
 
 #: lang/json/json_martialarts.py newcharacter.cpp
@@ -29957,6 +30422,39 @@ msgid ""
 "is a legitimate martial art, focused on self-defense. Its ability to absorb "
 "the force of an attack makes your Perception decrease damage further on a "
 "block."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Fury"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Tiger Strength"
+msgstr "Snaga"
+
+#: lang/json/json_martialarts.py
+msgid "Toad Armor"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Toad Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Unlimited dodges after successful hit"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Viper Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Zui Quan"
 msgstr ""
 
 #: lang/json/json_materials.py
@@ -31620,8 +32118,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A twisted mockery of the human form, emaciated, with jet black skin "
-"andglowing red eyes. It is somehow painful to look at, awakening fears deep "
+"A twisted mockery of the human form, emaciated, with jet black skin and "
+"glowing red eyes. It is somehow painful to look at, awakening fears deep "
 "within your psyche, and even the air around it seems more sinister, somehow "
 "darker and more dangerous."
 msgstr ""
@@ -31801,9 +32299,9 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"Once human, it's features have tightened, it's lips pulled back into an "
-"unnatural grin, revealing rows of blackened teeth beneath it's large, "
-"piercing eyes. It stands tall, it's movements are fluid and tightly "
+"Once human, its features have tightened, its lips pulled back into an "
+"unnatural grin, revealing rows of blackened teeth beneath its large, "
+"piercing eyes. It stands tall, its movements are fluid and tightly "
 "controlled. A feeling of danger permeates the air around it, and the light "
 "that falls on it somehow harsher and more glaring."
 msgstr ""
@@ -31933,13 +32431,6 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The Northern short-tailed shrew, an insectvorous mammal that resembles a "
-"cross between a mouse and a mole.  Notably for a mammal, it has a venomous "
-"bite, which can prove painful for humans."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
 "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a "
 "pair of reverse-jointed legs.  Armed with a 40 mm Bofors gun, it is an "
 "effective automated sentry, though production was limited due to a legal "
@@ -32011,6 +32502,12 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
+"The masked shrew, a mouse-like creature with a pointed, whiskery snout.  It "
+"digs tunnels into the ground in search of bugs to eat."
+msgstr ""
+
+#: lang/json/json_monsters.py
+msgid ""
 "The northern woodland white-tailed deer, a quick and strong grazing animal.  "
 "Favored prey of coyotes, wolves, and giant spider mutants."
 msgstr ""
@@ -32019,12 +32516,6 @@ msgstr ""
 msgid ""
 "The red fox, an omnivorous canine and largest of the true foxes, it is a "
 "wily hunter with a combative, suspicious temperament."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
-"The shuffling corpse of a once-proud bear, its eyes ooze with black fluid, "
-"and its flesh is torn and scarred."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -32041,9 +32532,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The white footed mouse, a relatively long-lived disease vector with a white "
-"underbelly and a long fuzzy tail.  A common sight in fields, forests, and "
-"research centers."
+"The white-footed mouse, a prolific rodent with a white underbelly and a long "
+"fuzzy tail.  A common sight in fields, forests, and research centers."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -32241,9 +32731,8 @@ msgid "eyebot"
 msgstr ""
 
 #: lang/json/json_monsters.py
-#, fuzzy
 msgid "feral hunter"
-msgstr "Jako gladan/na"
+msgstr ""
 
 #: lang/json/json_monsters.py
 msgid "flaming eye"
@@ -32977,6 +33466,10 @@ msgid "Forked Tongue"
 msgstr ""
 
 #: lang/json/json_mutations.py
+msgid "Frail"
+msgstr ""
+
+#: lang/json/json_mutations.py
 msgid "Full Night Vision"
 msgstr ""
 
@@ -33006,10 +33499,6 @@ msgstr ""
 
 #: lang/json/json_mutations.py
 msgid "Growling Voice"
-msgstr ""
-
-#: lang/json/json_mutations.py
-msgid "Hardcore"
 msgstr ""
 
 #: lang/json/json_mutations.py
@@ -44265,7 +44754,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Before the Apocalypse, you turned to Heroin to soothe your many problems. "
+"Before the apocalypse, you turned to Heroin to soothe your many problems. "
 "Now, your habit is your only comfort and your only drive."
 msgstr ""
 
@@ -44646,7 +45135,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You were about to marry your bride before the cataclysm, now you spend you "
+"You were about to marry your bride before the cataclysm, now you spend your "
 "days searching for her."
 msgstr ""
 
@@ -44666,7 +45155,7 @@ msgstr ""
 #: lang/json/json_professions.py
 msgid ""
 "You were on your way to collect your check, when your pimp tried to kill "
-"you. You wish that it wasn't a common occurence. You start with the last of "
+"you. You wish that it wasn't a common occurrence. You start with the last of "
 "your stash and a strong crack addiction."
 msgstr ""
 
@@ -44711,7 +45200,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You've traveled for a living, sightseeing here and there, and living off "
+"You've travelled for a living, sightseeing here and there, and living off "
 "your parents' trust fund. But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
@@ -44738,9 +45227,9 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Your body has bionics worth millions payed by public taxes. The government "
-"employed you as a spy: you have night vision, an alarm and a hacking module "
-"powered by your own metabolism."
+"Your body has several bionics worth millions of dollars, paid for by public "
+"taxes. The government employed you as a spy: you have night vision, an alarm "
+"and a hacking module powered by your own metabolism."
 msgstr ""
 
 #: lang/json/json_professions.py
@@ -46826,16 +47315,6 @@ msgstr ""
 
 #: main_menu.cpp
 msgctxt "Main Menu"
-msgid "<H>elp"
-msgstr ""
-
-#: main_menu.cpp
-msgctxt "Main Menu"
-msgid "<L>oad"
-msgstr ""
-
-#: main_menu.cpp
-msgctxt "Main Menu"
 msgid "<M>OTD"
 msgstr ""
 
@@ -46884,9 +47363,18 @@ msgid "Delete the world and all saves?"
 msgstr "Brisati generisanu mapu i sve fajlove?"
 
 #: main_menu.cpp
-#, fuzzy
+msgctxt "Main Menu"
+msgid "H<e>lp"
+msgstr ""
+
+#: main_menu.cpp
+msgctxt "Main Menu"
+msgid "Lo<a>d"
+msgstr ""
+
+#: main_menu.cpp
 msgid "No Worlds found!"
-msgstr "Šablon ne postoji!"
+msgstr ""
 
 #: main_menu.cpp
 msgid "No message today."
@@ -47331,6 +47819,14 @@ msgstr ""
 
 #: mapgen.cpp
 msgid "Wreckage"
+msgstr ""
+
+#: mapgen.cpp
+msgid "pile-up"
+msgstr ""
+
+#: mapgen.cpp
+msgid "policecar pile-up"
 msgstr ""
 
 #: material.cpp
@@ -49642,28 +50138,12 @@ msgid "Tom"
 msgstr ""
 
 #: newcharacter.cpp
-msgid " decrease the statistic."
-msgstr ""
-
-#: newcharacter.cpp
-msgid " increase the statistic."
-msgstr ""
-
-#: newcharacter.cpp
-msgid " select a statistic."
-msgstr ""
-
-#: newcharacter.cpp
 #, c-format
 msgid "%s earns %d points"
 msgstr ""
 
 #: newcharacter.cpp
 msgid "(Press TAB to move off this line)"
-msgstr ""
-
-#: newcharacter.cpp
-msgid "(Press spacebar to toggle)"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49772,6 +50252,11 @@ msgstr ""
 
 #: newcharacter.cpp
 #, c-format
+msgid "Points left:%3d "
+msgstr ""
+
+#: newcharacter.cpp
+#, c-format
 msgid "Profession %1$s costs %2$d points (net: %3$d)"
 msgstr ""
 
@@ -49785,9 +50270,9 @@ msgid "Ranged penalty: -%d"
 msgstr ""
 
 #: newcharacter.cpp
-#, c-format
-msgid "Read times: %d%%%%"
-msgstr ""
+#, fuzzy, c-format
+msgid "Read times: %d%%"
+msgstr "Premorenost"
 
 #: newcharacter.cpp
 msgid "Remaining points will be discarded, are you sure you want to proceed?"
@@ -49807,7 +50292,7 @@ msgstr ""
 
 #: newcharacter.cpp
 #, c-format
-msgid "Skill rust: %d%%%%"
+msgid "Skill rust: %d%%"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49849,11 +50334,11 @@ msgid "To go back and review your character, press <"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "To pick a random name for your character, press ?."
+msgid "To pick a random name for your character, press ?"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "To save this character as a template, press !."
+msgid "To save this character as a template, press !"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49892,16 +50377,16 @@ msgstr ""
 msgid "Your profession of %s prevents you from taking this trait."
 msgstr ""
 
-#: newcharacter.cpp worldfactory.cpp
-msgid "______NO NAME ENTERED!!!!_____"
+#: newcharacter.cpp
+msgid "______NO NAME ENTERED!!!______"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "h, 4, or left arrow"
+msgid "h, 4, or left arrow to decrease the statistic."
 msgstr ""
 
 #: newcharacter.cpp
-msgid "j/k, 8/2, or arrows"
+msgid "j/k, 8/2, or up/down arrows to select a statistic."
 msgstr ""
 
 #: newcharacter.cpp options.cpp player.cpp
@@ -49909,7 +50394,7 @@ msgid "kg"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "l, 6, or right arrow"
+msgid "l, 6, or right arrow to increase the statistic."
 msgstr ""
 
 #: newcharacter.cpp options.cpp player.cpp
@@ -52592,7 +53077,17 @@ msgid "Celsius"
 msgstr ""
 
 #: options.cpp
+msgid "Centered"
+msgstr ""
+
+#: options.cpp
 msgid "Centered menu scrolling"
+msgstr ""
+
+#: options.cpp
+msgid ""
+"Centered or to edge, shift the view toward the selected item if it is "
+"outside of your current viewport."
 msgstr ""
 
 #: options.cpp
@@ -52765,12 +53260,6 @@ msgstr ""
 
 #: options.cpp
 msgid "If true, safemode will be on after starting a new game or loading."
-msgstr ""
-
-#: options.cpp
-msgid ""
-"If true, shift the view toward the selected item if it is outside of your "
-"current viewport."
 msgstr ""
 
 #: options.cpp
@@ -53061,6 +53550,10 @@ msgstr ""
 
 #: options.cpp
 msgid "Time format"
+msgstr ""
+
+#: options.cpp
+msgid "To edge"
 msgstr ""
 
 #: options.cpp
@@ -53877,7 +54370,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Cold-Blooded        -%s%d%%%%"
+msgid "Cold-Blooded        -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53924,7 +54417,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Depressants         -%s%d%%%%"
+msgid "Depressants         -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53933,7 +54426,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Depressed           -%s%d%%%%"
+msgid "Depressed           -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54077,7 +54570,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Good mood           +%s%d%%%%"
+msgid "Good mood           +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54112,7 +54605,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Hunger              -%s%d%%%%"
+msgid "Hunger              -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54342,12 +54835,12 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Out of Sunlight     -%s%d%%%%"
+msgid "Out of Sunlight     -%s%d%%"
 msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Overburdened        -%s%d%%%%"
+msgid "Overburdened        -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54361,7 +54854,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Pain                -%s%d%%%%"
+msgid "Pain                -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54371,7 +54864,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Painkillers         -%s%d%%%%"
+msgid "Painkillers         -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54423,7 +54916,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Quick               +%s%d%%%%"
+msgid "Quick               +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54441,7 +54934,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Read times: %d%%%%           "
+msgid "Read times: %d%%           "
 msgstr ""
 
 #: player.cpp
@@ -54508,7 +55001,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Skill rust: %d%%%%           "
+msgid "Skill rust: %d%%           "
 msgstr ""
 
 #: player.cpp
@@ -54559,7 +55052,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Stimulants          +%s%d%%%%"
+msgid "Stimulants          +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54647,7 +55140,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Thirst              -%s%d%%%%"
+msgid "Thirst              -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -55028,8 +55521,8 @@ msgstr ""
 
 #: player.cpp
 msgid ""
-"You need to be at least level 1 in the firearms skill before you can modify "
-"guns."
+"You need to be at least level 1 in the marksmanship skill before you can "
+"modify guns."
 msgstr ""
 
 #: player.cpp
@@ -55250,6 +55743,10 @@ msgid "Your batteries discharge slightly."
 msgstr ""
 
 #: player.cpp
+msgid "Your body strains under the weight!"
+msgstr ""
+
+#: player.cpp
 msgid "Your eyes won't focus without reading glasses."
 msgstr ""
 
@@ -55334,14 +55831,6 @@ msgstr ""
 
 #: ranged.cpp
 msgid "'<' '>' Cycle targets; 'f' or '.' to fire"
-msgstr ""
-
-#: ranged.cpp
-msgid "<npcname> barely misses!"
-msgstr ""
-
-#: ranged.cpp
-msgid "<npcname> misses!"
 msgstr ""
 
 #: ranged.cpp
@@ -56300,6 +56789,10 @@ msgstr ""
 msgid "Headlights turned on"
 msgstr ""
 
+#: vehicle.cpp
+msgid "Honk horn"
+msgstr ""
+
 #. ~ indicates that a vehicle part is inside
 #: vehicle.cpp
 msgid "In"
@@ -56638,10 +57131,6 @@ msgid "Pick a world to enter game"
 msgstr ""
 
 #: worldfactory.cpp
-msgid "There are no valid worlds to pick from, would you like to make one?"
-msgstr ""
-
-#: worldfactory.cpp
 msgid "To go back and review your world, press <"
 msgstr ""
 
@@ -56663,767 +57152,836 @@ msgstr ""
 msgid "World Name:"
 msgstr ""
 
-#~ msgid "There's bugs crawling under your skin!"
-#~ msgstr "Nekakve bube počinju da puze pod tvojom kožom!"
+#: worldfactory.cpp
+msgid "______NO NAME ENTERED!!!!_____"
+msgstr ""
 
-#~ msgid "You start scratching yourself all over!"
-#~ msgstr "Počinješ da se češeš po celom telu!"
-
-#~ msgid "%s starts scratching himself all over!"
-#~ msgstr "%s počinje da se češe svuda po telu!"
-
-#~ msgid "%s starts scratching herself all over!"
-#~ msgstr "%s počinje da se češe svuda po telu!"
-
-#~ msgid "Your bite wound really hurts."
-#~ msgstr "Rana od ujeda stvarno počinje da boli."
-
-#~ msgid "Your bite wound feels swollen and painful."
-#~ msgstr "Ujed koji osećaš počinje da natiče i boli te."
-
-#~ msgid "You feel feverish and nauseous, your wound has begun to turn green."
-#~ msgstr "Padaš u groznicu, muka ti je, a rana poprima zelenu nijansu."
-
-#~ msgid "Spores"
-#~ msgstr "Spore"
-
-#~ msgid "Bleeding"
-#~ msgstr "Krvarenje"
-
-#~ msgid "Bugs Under Skin"
-#~ msgstr "Bube pod kožom"
-
-#~ msgid "Bite Wound"
-#~ msgstr "Ugriz"
-
-#~ msgid "Painful Bite Wound"
-#~ msgstr "Bolan Ujed"
-
-#~ msgid "Infected Wound"
-#~ msgstr "Inficirana Rana"
-
-#~ msgid "Painful Infected Wound"
-#~ msgstr "Inficiran i Bolan Ugriz"
-
-#~ msgid "Pus Filled Wound"
-#~ msgstr "Gnojna Rana"
-
-#~ msgid "MEDICINE/DRUGS"
-#~ msgstr "LEKOVI/OPIJATI"
-
-#~ msgid "MODS/BIONICS"
-#~ msgstr "MODIFIKACIJE/BIONIKA"
-
-#~ msgid "Error: Item Missing."
-#~ msgstr "Greška: Nedostaje Predmet."
-
+#, fuzzy
 #~ msgid ""
-#~ "There is only the space where an object should be, but isn't. No item "
-#~ "template of this type exists."
+#~ "A bedroll made of pelts which can be rolled up for transport. Insulates "
+#~ "you from the floor, making it easier to sleep"
 #~ msgstr ""
-#~ "Samo prazan prostor; predmet je nepostojeći; ima nepostojeće "
-#~ "karakteristike."
+#~ "Dušek od penastog materijala koji se urola i tako spakuje. Koristan kada "
+#~ "je potrebno izbeći spavanje na hladnoj i čvrstoj podlozi."
 
-#~ msgid "long underwear"
-#~ msgstr "dugačke gaće"
-
+#, fuzzy
 #~ msgid ""
-#~ "A long cotton dress. Difficult to move in and lacks any storage space."
-#~ msgstr ""
-#~ "Dugačka haljina od pamučne tkanine. Karakteriše je umanjena pokretljivost "
-#~ "i nedostatak bilo kakvih džepova."
-
-#~ msgid ""
-#~ "A hazardous materials suit. Though quite bulky and cumbersome, wearing it "
-#~ "will provide excellent protection against ambient radiation."
-#~ msgstr ""
-#~ "Zaštitno odelo. Iako je teško za nošenje i izgleda vrlo robusno, nošenje "
-#~ "ovakvog odela pruža odličnu zaštitu od radijacije u okolini."
-
-#~ msgid "plate mail"
-#~ msgstr "srednjevekovni metalni oklop"
-
-#~ msgid "A thin cotton jacket. Good for brisk weather."
-#~ msgstr "Tanka pamučna jakna. Super za prohladno vreme."
-
-#~ msgid "A padded coat with deep pockets. Very warm."
-#~ msgstr "Kaput sa postavom i dubokim džepovima. Vrlo topao."
-
-#~ msgid "A heavy cotton coat. Cumbersome, but warm and with deep pockets."
-#~ msgstr ""
-#~ "Kaput od debljeg pamuka. Iako je težak za kretnju, topao je i ima džepove."
-
-#~ msgid "A thin pair of leather gloves. Good for doing manual labor."
-#~ msgstr "Par tankih platnenih rukavica. Korisne za manuelne poslove."
-
-#~ msgid "A bit cumbersome to wear, but provides some storage"
-#~ msgstr "Pomalo nezgodno za nošenje, ali ima prostora za teret."
-
-#~ msgid ""
-#~ "A badge that detects radiation dosage sealed in a radiation-blocking "
-#~ "bag.  Activate to remove from the bag."
-#~ msgstr ""
-#~ "Mali indikator doze radijacije spakovan u materijal otporan na zračenje."
-#~ "(A)ktiviraj da otpakuješ."
-
-#~ msgid ""
-#~ "A tool used to drive nails into wood or other material. It could also be "
-#~ "used as a ad-hoc weapon, or to practice your handgun skill up to level 1."
-#~ msgstr ""
-#~ "Uređaj kojim se zabijaju ekseri u drvo i druge materijale. U nuždi može "
-#~ "poslužiti kao oružje, odnosno za vežbu dok se ne dostigne trening nivoa 1."
-#~ "Izgleda kao pištolj."
-
-#~ msgid ""
-#~ "Popular among children. It's fairly accurate, but BBs deal nearly no "
-#~ "damage. It could be used to practice your rifle skill up to level 1."
-#~ msgstr ""
-#~ "Deca je obožavaju. Relativno precizna, vazdušna puška koristi metkiće "
-#~ "koji skoro da i ne nanose štetu meti. Korisna da bi se veština rukovanja "
-#~ "puškama uvežbala do osnovnog nivoa (1)."
-
-#~ msgid ""
-#~ "A leather sling, it is easy to use and accurate, but pebbles do little "
-#~ "damage. Pebbles are used as ammunition."
-#~ msgstr ""
-#~ "Praćka od kožnog materijala, lako se zamahuje njom i precizna je. "
-#~ "Municija su uglavnom kamenčići koji prave malu štetu."
-
-#~ msgid "A tough sinew cut from a corpse, useable as thread."
-#~ msgstr ""
-#~ "Žilice sa lešine nekog čoveka ili životinje, služe kao zamena za konac."
-
-#~ msgid ""
-#~ "Conical Ball .22 is a variety of .22 ammunition with a very small "
-#~ "propellant charge, generally with no gunpowder, resulting in a subsonic "
-#~ "round. It is nearly silent, but is so weak as to be nearly useless."
-#~ msgstr ""
-#~ "Kuglični projektil, kalibra .22 za oružje koje se ne oslanja na barutno "
-#~ "punjenje metka je vrlo mali metak koji leti brzinama blizu zvučne. Gotovo "
-#~ "nečujan ali toliko slab da je praktično neupotrebljiv."
-
-#~ msgid ""
-#~ "9 millimeter parabellum is generally regarded as the most popular handgun "
-#~ "cartridge, used by the majority of US police forces. It is also a very "
-#~ "popular round in sub-machine guns."
-#~ msgstr ""
-#~ "9-milimetarski metak je jedan od najpopularnijih u upotrebi pri šaržerima "
-#~ "za pištolje, standardan za policiju u SAD. Veoma je često upotrebljavan "
-#~ "kao municija kod manjeg automatskog oružja (SMG)."
-
-#~ msgid ""
-#~ "This small caliber pistol round offers quite good armor penetration at "
-#~ "the cost of slightly less damage. It is rarely used outside of the "
-#~ "Chinese army."
-#~ msgstr ""
-#~ "Municija manjeg kalibra, sa dobrim karakteristikama pri probijanju oklopa "
-#~ "mete, ali umanjenim potencijalom za nanošenje štete. Retko se javlja van "
-#~ "sfere uticaja kineske vojske."
-
-#~ msgid ""
-#~ "Designed during World War II by the Soviet Union, the popularity of the "
-#~ "AK-47 and the SKS contributed to the widespread adaption of the 7.62x39mm "
-#~ "rifle round. However, due to its lack of yaw, this round deals less "
-#~ "damage than most."
-#~ msgstr ""
-#~ "Napravljena tokom Drugog svetskog rata u sovjetskoj Rusiji, popularnost "
-#~ "automatske puške AK-47 i SKS-a doprinele su masovnom korišćenju kalibra "
-#~ "7.62x39mm puščanog metka. Budući da se tane uopšte ne zarotira po izlasku "
-#~ "iz cevi, to čini da nanosi manju štetu od municije sličnog kalibra."
-
-#~ msgid "A 40mm grenade with a concussive explosion."
-#~ msgstr "40mm granata sa eksplozivnim punjenjem"
-
-#~ msgid ""
-#~ "A 40mm grenade with a small explosion and a high number of damaging "
-#~ "fragments."
-#~ msgstr ""
-#~ "40mm granata sa vrlo malom eksplozijom i velikim brojem eksplozivnih "
-#~ "delova."
-
-#~ msgid ""
-#~ "A 60mm High Explosive Anti Tank round. They can blow through up to two "
-#~ "feet of concrete."
-#~ msgstr ""
-#~ "60mm Anti-tenkovska granata sa snažnom eksplozijom. Može da probije "
-#~ "betonski zid deblji od pola metra."
-
-#~ msgid "Primer from a small caliber  round."
-#~ msgstr "Kapisla za metak pištolja manjeg kalibra."
-
-#~ msgid ""
-#~ "Will you be able to place the arrow right into bull's eye? It is not that "
-#~ "easy, but once you know how it's done, you will have a lot of fun with "
-#~ "archery."
-#~ msgstr ""
-#~ "Da li možeš da ispališ strelu u sam centar mete? To i nije tako lako kao "
-#~ "što izgleda, ali uz dovoljno vežbe, i TI možeš da se zabavljaš koristeći "
-#~ "luk i strelu."
-
-#~ msgid "Basic Sword & Sorcery."
-#~ msgstr "Osnove Mača i Magije."
-
-#~ msgid ""
-#~ "A sharpened bolt carved from wood. It's lighter than a steel bolt, but "
-#~ "does less damage and is less accurate. Stands a good chance of remaining "
-#~ "intact once fired."
-#~ msgstr ""
-#~ "Drvena municija za samostrel sa oštrim vrhom. Lakša je odnosu na čeličnu,"
-#~ "zbog čega nanosi manje štete i manje je precizna. Posle ispaljivanja ima "
-#~ "solidnu šansu da ostane čitava."
-
-#~ msgid "Don't drink it. Mixing it with ammonia produces toxic gas."
-#~ msgstr "Nije za piće. Mešanje sa amonijakom daje opasna isparenja."
-
-#~ msgid "Don't drink it. Mixing it with bleach produces toxic gas."
-#~ msgstr "Nije za piće. Mešanje sa izbeljivačem daje opasna isparenja."
-
-#~ msgid "Concentrated acid from an acid rainstorm. Don't drink it."
-#~ msgstr "Sakupljena kiselina preostala od kisele kiše. Nije za piće."
-
-#~ msgid "beef jerky"
-#~ msgstr "usoljeno suvo meso"
-
-#~ msgid "Bread and turkey, that's it."
-#~ msgstr "Hleb i meso ćurke, ukratko."
-
-#~ msgid "cooked spaghetti"
-#~ msgstr "kuvane špagete"
-
-#~ msgid "Canned beans. A staple for hobos."
-#~ msgstr "Konzerva pasulja. Praznik za beskućnike."
-
-#~ msgid "Yuck, not very tasty, but it is quite filling."
-#~ msgstr "Bljak, groznog je ukusa, ali te dosta zasiti."
-
-#~ msgid "sardines"
-#~ msgstr "sardine"
-
-#~ msgid "tuna fish"
-#~ msgstr "tunjevina"
-
-#~ msgid "Blech, so gross. Save it for when you're about to die of starvation."
-#~ msgstr ""
-#~ "Izbeljivač, odvratne arome. Ne pokušavaj konzumaciju ukoliko ne umireš od "
-#~ "gladi."
-
-#~ msgid ""
-#~ "A large chunk of beeswax. Not very tasty or nourishing, but ok in an "
-#~ "emergency."
-#~ msgstr ""
-#~ "Veliki komad pčelinjeg voska. Ne tako ukusan niti hranljiv, ali može da "
-#~ "koristi u nevolji."
-
-#~ msgid ""
-#~ "A large chunk of wax, filled with dense, dark honey.  Useful for curing "
-#~ "all sorts of afflictions."
-#~ msgstr ""
-#~ "Veliki komad pčelinjeg voska, ispunjen gustim, tamnim medom. Koristan kod "
-#~ "uklanjanja ogromnog broja štetnih simptoma."
-
-#~ msgid ""
-#~ "A deformed human fetus, eating this would be very nasty, and cause your "
-#~ "DNA to mutate."
-#~ msgstr ""
-#~ "Deformisan fetus ljudskog bića, konzumiranje bi bilo vrlo štetno, naravno "
-#~ "u smislu mutacije DNK koda čoveka."
-
-#~ msgid ""
-#~ "A misshapen human arm, eating this would be pretty disgusting and cause "
-#~ "your DNA to mutate."
-#~ msgstr ""
-#~ "Deformisana ljudska ruka, odvratna kao obrok, a izaziva i mutacije DNK "
-#~ "koda."
-
-#~ msgid ""
-#~ "A malformed human leg, this would be gross to eat, and cause mutations."
-#~ msgstr "Deformisana ljudska noga, odvratna kao obrok, a izaziva i mutacije."
-
-#~ msgid ""
-#~ "A large ant egg, the size of a softball. Extremely nutritious, but gross."
-#~ msgstr ""
-#~ "Jaje džinovskog mrava veličine bejzbol lopte. Izuzetno hranjivo ali "
-#~ "odvratno."
-
-#~ msgid "This white flour is useful for baking."
-#~ msgstr "Pšenično brašno, pomeša se sa tečnošću i peče u rerni ili na vatri."
-
-#~ msgid "MRE - beef"
-#~ msgstr "SDO - meso"
-
-#~ msgid "canned apple slices"
-#~ msgstr "konzervirani komadi jabuke"
-
-#~ msgid ""
-#~ "Sealed glass jar containing preserved apples.  Bland, mushy and losing "
-#~ "color."
-#~ msgstr ""
-#~ "Tegla konzerviranih jabuka u soku. Slabog ukusa i polako gube sastav i "
-#~ "boju."
-
-#~ msgid "apple slices"
-#~ msgstr "komadići jabuke"
-
-#~ msgid ""
-#~ "Apple slices soaked in a sugar syrup, to preserve freshness and appearance"
-#~ msgstr ""
-#~ "Komadići jabuke u šećernom sirupu, koji čuva svežinu, sastav i oblik."
-
-#~ msgid ""
-#~ "A lighter must be carried to use various drugs, like cigarettes, or to "
-#~ "light things like molotov cocktails.  You can also use a lighter to light "
-#~ "nearby items on fire."
-#~ msgstr ""
-#~ "Upaljač je neophodan za korišćenje različitih opijata, cigareta, ili kako "
-#~ "bi se zapalio molotovljev koktel. Takođe, upaljač je koristan kako bi se "
-#~ "mnoge stvari u okolini zapalile."
-
-#~ msgid ""
-#~ "Matches must be carried to use various drugs, like cigarettes, or to "
-#~ "light things like molotov cocktails.  You can also use matches to light "
-#~ "nearby items on fire."
-#~ msgstr ""
-#~ "Šibice su korisne da bi se inhalirala različita isparenja, dim cigarete "
-#~ "ili da bi se zapalio eksploziv kao što je Molotovljev koktel. Neophodne "
-#~ "su i ako želiš da potpališ vatru."
-
-#~ msgid ""
-#~ "A fire drill is a simple item for firestarting, made from two pieces of "
-#~ "wood and some string. Although it is constructed out of simple materials, "
-#~ "it's slow and rather difficult to get a fire started with this tool."
-#~ msgstr ""
-#~ "Drvce za potpaljivanje vatre čine dva manja, čvrsta i suva komada drveta "
-#~ "sa kratkom strunom kojom se materijal zagreva. Iako izgleda jednostavno,"
-#~ "potpaljivanje nije nimalo lako, a ni brzo."
-
-#~ msgid ""
-#~ "Use a sewing kit on an article of clothing to attempt to repair or "
-#~ "reinforce that clothing. This uses your tailoring skill."
-#~ msgstr ""
-#~ "(A)ktiviraj komplet za šivenje na odabranom odevnom predmetu radi "
-#~ "potrebnih popravki usled cepanja, ili radi ojačavanja istih. Zavisi od "
-#~ "veštine Šivenja."
-
-#~ msgid ""
-#~ "Use scissors to cut items made from cotton (mostly clothing) into rags."
-#~ msgstr ""
-#~ "Makazama možeš iseći pamučne odevne predmete pretvarajući ih u krpe."
-
-#~ msgid ""
-#~ "Use a hammer, with nails and two by fours in your inventory, to board up "
-#~ "adjacent doors and windows."
-#~ msgstr ""
-#~ "Čekić služi kako bi se vrata i prozori zabarikadirali, u slučaju da imaš "
-#~ "2x4 daske i dovoljno eksera pri sebi."
-
-#~ msgid "Use a fire extinguisher to put out adjacent fires."
-#~ msgstr ""
-#~ "(A)ktiviraj aparat za gašenje požara na okolini kako bi požar bio ugašen."
-
-#~ msgid ""
-#~ "With enough electronics skill, you could attach this to your devices to "
-#~ "increase their battery capacity."
-#~ msgstr ""
-#~ "Ako si dovoljno vešt(a) sa elektronikom možeš da uvećaš kapacitet nekog "
-#~ "od uređaja tako da drži više baterija odjednom koristeći ovu spravicu."
-
-#~ msgid ""
-#~ "A small gasoline powered lantern. It does not provide much light, but it "
-#~ "lasts a long time. Use it to turn it on."
-#~ msgstr ""
-#~ "Fenjer, odnosno svetiljka na tečno gorivo. Ne osvetljava baš mnogo, ali "
-#~ "rezervoar traje dugo. (A)ktiviraj da bi počela da svetli."
-
-#~ msgid ""
-#~ "A small gasoline powered lantern. It does not provide much light, but it "
-#~ "lasts a long time. It is turned on. Use it to turn it off."
-#~ msgstr ""
-#~ "Fenjer, odnosno svetiljka na tečno gorivo. Ne osvetljava baš mnogo, ali "
-#~ "rezervoar traje dugo. Upaljena je. (A)ktiviraj da bi se ugasila."
-
-#~ msgid ""
-#~ "Using this flashlight will turn it on, assuming it is charged with "
-#~ "batteries. A turned-on flashlight will provide light during the night or "
-#~ "while underground."
-#~ msgstr ""
-#~ "(A)ktiviranjem baterijske lampe osvetljavaš prostor oko sebe, ukoliko "
-#~ "imaš dovoljno baterija. Korisna je noću kao i pod zemljom."
-
-#~ msgid ""
-#~ "This flashlight is turned on, and continually draining its batteries. It "
-#~ "provides light during the night or while underground. Use it to turn it "
-#~ "off."
-#~ msgstr ""
-#~ "Uključena ručna lampa, ili baterlampa, obasjava svetlost i crpi punjenje."
-#~ "Nezamenljiva tokom noći ili ispod zemlje. (A)ktiviraj da je isključiš."
-
-#~ msgid ""
-#~ "A burnt-out lightstrip. You could disassemble this to recover the "
-#~ "amplifier circuit."
-#~ msgstr ""
-#~ "Pregorelo elektronsko kolo sa malim, ukrasnim svetlom. Rastavljanjem se "
-#~ "dobija kolo pojačivača signala."
-
-#~ msgid ""
-#~ "A light-emitting circuit wired directly to some batteries. Once "
-#~ "activated, provides 25 hours of light per 3 (battery) charges. When the "
-#~ "batteries die, you'll need to scrap it to recover the components that are "
-#~ "reusable."
-#~ msgstr ""
-#~ "Kolo koje emituje slabu svetlost i crpi snagu iz baterija. Od trenutka "
-#~ "kada se aktivira, svake 3 jedinice punjenja baterije pružaju 25 sati "
-#~ "osvetljenja.Istrošena baterija se ne menja, već je moguće rastaviti sklop."
-
-#~ msgid ""
-#~ "A light-emitting circuit wired directly to some batteries. Provides a "
-#~ "weak light, lasting 25 hours per 3 (battery) charges. When the batteries "
-#~ "die, you'll need to scrap it to recover the components that are reusable."
-#~ msgstr ""
-#~ "Kolo koje emituje slabu svetlost i crpi snagu iz baterija. Svake 3 "
-#~ "jedinice punjenja baterije pružaju 25 sati osvetljenja. Istrošena "
-#~ "baterija se ne menja, već je moguće rastaviti sklop."
-
-#~ msgid ""
-#~ "A small blue light glowstick, bend it to break the glass cylinder inside "
-#~ "and start the reaction to produce a very small amount of light."
-#~ msgstr ""
-#~ "Štap fluorescentno plave boje, ukoliko se savije staklena zaštita puca te "
-#~ "hemijska reakcija s vazduhom rezultuje ne baš jarkom svetlošću."
-
-#~ msgid ""
-#~ "This glowstick is active and producing light. It will last for a few "
-#~ "hours before burning out."
-#~ msgstr ""
-#~ "Prelomljeni fluorescentni štap koji sada isijava slabu svetlost. Proći će "
-#~ "nekoliko sati pre nego što reakcija prestane."
-
-#~ msgid "A spent glowstick, essentially trash."
-#~ msgstr "Ugašeni fluorescentni štap, bezvredan je."
-
-#~ msgid ""
-#~ "A small heating element. Indispensable for cooking and chemistry. Try not "
-#~ "to burn yourself."
-#~ msgstr ""
-#~ "Grejač na električnu energiju. Nezamenljiv za hemijske oglede, koristan "
-#~ "za kuvanje i zagrevanje. Pažljivo, možeš se opeći."
-
-#~ msgid ""
-#~ "A piece of metal that can get very hot. Necessary for electronics "
-#~ "crafting. You could also use it to cauterize wounds, if you had to."
-#~ msgstr ""
-#~ "Parče metala koje se zagreje do visokih temperatura. Neophodno u radu sa "
-#~ "elektronikom, još je korisno i kod zaustavljanja krvarenja."
-
-#~ msgid ""
-#~ "Using this item on a container full of water will purify the water. Water "
-#~ "taken from uncertain sources like a river may be dirty."
-#~ msgstr ""
-#~ "(A)ktiviranjem ove sprave i odabirom neke od posuda sa zatvaračem u "
-#~ "kojima je voda prečistiće je tako da ona bude pogodna za piće. Voda iz "
-#~ "reka kao i sa drugih izvora može biti zatrovana."
-
-#~ msgid ""
-#~ "Using this allows you to send out a signal; either a general SOS, or if "
-#~ "you are in contact with a faction, to send a direct call to them."
-#~ msgstr ""
-#~ "(A)ktiviraj kako bi poslao signal na odabranoj radio frekvenciji. To može "
-#~ "biti formalni SOS, ili poziv nekoj od organizacija u okolini."
-
-#~ msgid ""
-#~ "Using this radio turns it on. It will pick up any nearby signals being "
-#~ "broadcast and play them audibly."
-#~ msgstr ""
-#~ "(A)ktiviranjem uključuješ radio aparat. Možeš slušati šta se emituje na "
-#~ "nekoj od frekvencija koje se emituju u blizini putem zvučnika."
-
-#~ msgid ""
-#~ "This radio is turned on, and continually draining its batteries. It is "
-#~ "playing the broadcast being sent from any nearby radio towers."
-#~ msgstr ""
-#~ "Uključeni radio uređaj koji radi na baterije. Namešten je na neku od "
-#~ "okolnih stanica, čiji toranj se verovatno nalazi negde u blizini."
-
-#~ msgid ""
-#~ "An antenna designed to pick up signals better when pointed at the source."
-#~ msgstr "Antena koja se usmeri ka izvoru i tada bolje prihvata signal."
-
-#~ msgid ""
-#~ "If you can find a system to analyze this you may find something of "
-#~ "interest."
-#~ msgstr ""
-#~ "Ako pronađeš uređaj koji može da analizira ovo, moguće je da ćeš saznati "
-#~ "nešto korisno."
-
-#~ msgid ""
-#~ "A string of numbers to access the elevator in the hazardous waste "
-#~ "sarcophagus."
-#~ msgstr ""
-#~ "Niz brojeva potreban kako bi se pokrenuo lift u prostoriji za "
-#~ "skladištenje radioaktivnog otpada."
-
-#~ msgid ""
-#~ "This device was constructed by 'enhancing' a radio with some amplifier "
-#~ "circuits. It's completely lost its ability to pick up a station, but it's "
-#~ "nice and loud now. Could be useful to distract zombies."
-#~ msgstr ""
-#~ "Uzevši radio i igrajući se sa dodatnim pojačivačima signala nastao je "
-#~ "ovaj uređaj, vrlo koristan u pravljenju buke koja privlači zombije. U "
-#~ "slučaju da želiš da uhvatiš neku stanicu, nećeš uspeti."
-
-#~ msgid ""
-#~ "A road map. Use it to read points of interest, including, but not limited "
-#~ "to, location(s) of hospital(s) nearby."
-#~ msgstr ""
-#~ "Karta lokalnih puteva. Kada je pročitaš, pokazaće ti lokalne drumove i "
-#~ "bitne lokacije kao što su bolnice."
-
-#~ msgid ""
-#~ "A prying tool. Use it to open locked doors without destroying them, or to "
-#~ "lift manhole covers."
-#~ msgstr ""
-#~ "Alat za grubo otvaranje. Koristan kod otvaranja zaključanih vrata, takođe "
-#~ "neophodan pri podizanju poklopaca šahtova."
-
-#~ msgid ""
-#~ "A farming implement. Use it to turn tillable land into a slow-to-cross "
-#~ "pile of dirt."
-#~ msgstr ""
-#~ "Oruđe koje se koristi na farmi. Njime se rastresita, obradiva zemlja može "
-#~ "nabacati da služi kao nasip."
-
-#~ msgid "A digging tool. Use it to dig pits adjacent to your location."
-#~ msgstr "Oruđe za kopanje. Korisno za iskopavanje rupa u bližoj okolini."
-
-#~ msgid ""
-#~ "A flexible rubber hose. Can be used for crafting, or siphoning fuel from "
-#~ "a vehicle."
-#~ msgstr ""
-#~ "Savitljivo gumeno crevo. Korisno kao komponenta pri izradi korisnih "
-#~ "predmeta,odnosno za izvlačenje goriva iz rezervoara."
-
-#~ msgid ""
-#~ "Using this item will, if loaded with gas, cause it to turn on, making a "
-#~ "very powerful, but slow, unwieldy, and noisy, melee weapon."
-#~ msgstr ""
-#~ "(A)ktivacijom se dobija oružje koje radi na benzin, sporo i nezgodno, "
-#~ "bučno ali vrlo opasno u bliskoj borbi."
-
-#~ msgid ""
-#~ "This jackhammer runs on gasoline. Use it (if loaded) to blast a hole in "
-#~ "adjacent solid terrain."
-#~ msgstr ""
-#~ "Bušilica veće snage koja radi na benzin. (A)ktiviraj ukoliko ima goriva "
-#~ "kako bi probila rupu kroz čvrste materijale u okolini."
-
-#~ msgid "bubblewrap"
-#~ msgstr "plastični mehurići (folija)"
-
-#~ msgid ""
-#~ "A sheet of plastic covered with air-filled bubbles. Use it to set it on "
-#~ "the ground, creating a trap that will warn you with noise when something "
-#~ "steps on it."
-#~ msgstr ""
-#~ "Plastična folija prekrivena vazdušnim mehurićima. Ako se (A)ktivira na "
-#~ "podu postaje zamka koja će se oglasiti ukoliko neko pokuša da pređe preko "
-#~ "nje."
-
-#~ msgid ""
-#~ "A spring-loaded pair of steel jaws. Use it to set it on the ground, "
-#~ "creating a trap that will ensnare and damage anything that steps on it. "
-#~ "If you are carrying a shovel, you will have the option of burying it."
-#~ msgstr ""
-#~ "Čelična zamka koja se sastoji od para oštrih čeljusti i opruge. (A)"
-#~ "ktiviraj na zemlji, čime ćeš je postaviti kako bi zarobila sve što pokuša "
-#~ "da pređe preko tog kvadrata. Uz pomoć lopate možeš i da je zakopaš."
-
-#~ msgid ""
-#~ "Several pieces of wood, nailed together, with nails sticking straight up. "
-#~ "If an unsuspecting victim steps on it, they'll get nails through the foot."
+#~ "Small metal objects covered with many sharp points. If an unsuspecting "
+#~ "victim steps on it, they'll get a spine through the foot."
 #~ msgstr ""
 #~ "Daščice spojene manjim ekserima, sa nekolicinom većih eksera koji vire "
 #~ "iznad.Ukoliko se nagazi, probiće đon i (inače) povrediti stopalo."
 
-#~ msgid ""
-#~ "A tripwire trap must be placed across a doorway or other thin passage. "
-#~ "Its purpose is to trip up bypassers, causing them to stumble and possibly "
-#~ "hurt themselves minorly."
-#~ msgstr ""
-#~ "Žica kakva se postavlja u neki uski prolaz ili dovratak. Nema veću svrhu "
-#~ "od toga da se nepažljivi prolaznik saplete i eventualno padne, uz manje "
-#~ "povrede."
+#~ msgid " - 3 IF not resistant, -1 otherwise\n"
+#~ msgstr " - 3 AKO nema otpornost, -1 inače\n"
+
+#~ msgid "Fungus stalks burst through %s's hands!"
+#~ msgstr "%s, gljivični stalci ti izbijaju po šakama!"
+
+#~ msgid "Loss of health - Entire Body"
+#~ msgstr "Pogoršano Stanje Čitavog Tela"
+
+#~ msgid "Loss of health - Torso"
+#~ msgstr "Pogoršano Stanje Grudnog Koša"
+
+#~ msgid "Occasional pain and/or damage."
+#~ msgstr "Povremeni bol i/ili štetno dejstvo."
+
+#~ msgid "Occasional vomiting"
+#~ msgstr "Povremeno povraćanje"
+
+#~ msgid "POW:   "
+#~ msgstr "NAP:   "
+
+#~ msgid "Symptoms alleviated by medication (Dayquil or Nyquil)."
+#~ msgstr "Simptomi se umiruju dejstvom Dejkila ili Najkila (lek)."
+
+#~ msgid "You double over, spewing live spores from your mouth!"
+#~ msgstr "Savio/la si se, iskašljavajući pritom žive spore!"
+
+#~ msgid "Quit"
+#~ msgstr "Izlaz"
+
+#~ msgid "Help"
+#~ msgstr "Pomoć"
+
+#~ msgid "Load"
+#~ msgstr "Učitaj"
+
+#~ msgid "MOTD"
+#~ msgstr "Misao Dana"
+
+#, fuzzy
+#~ msgid "You are a little smarter.  Intelligence + 1"
+#~ msgstr "Osećaš se malo čudno."
+
+#, fuzzy
+#~ msgid "Your muscles are a little stronger.  Strength + 1"
+#~ msgstr "Osećaš se malo čudno."
 
 #~ msgid ""
-#~ "A simple tripwire is attached to the trigger of a loaded crossbow. When "
-#~ "pulled, the crossbow fires. Only a single round can be used, after which "
-#~ "the trap is disabled."
+#~ "A funnel used to collect rainwater. (a)ctivate it and place it outside "
+#~ "then collect water from it when it rains."
 #~ msgstr ""
-#~ "Zamka u vidu parčeta žice koje se povuče, u kom slučaju nategnuti "
-#~ "samostrel izbacuje strelu. Jedini nedostatak je to što posle ispaljivanja "
-#~ "te strele zamka više ne funkcioniše dok se ponovo ne postavi."
+#~ "Poveći levak za skupljanje kišnice. (A)ktivirati napolju kako bi "
+#~ "prikupljao vodu dok pada kiša."
+
+#~ msgid "Refined cocaine, incredibly addictive."
+#~ msgstr "Vrsta prerađenog kokaina koja izaziva neverovatnu zavisnost."
+
+#~ msgid "Painkillers made by refining mutated poppy seeds.."
+#~ msgstr "Sredstvo protiv bolova spravljeno od semenja mutirane biljke maka."
+
+#~ msgid "Sleeping pills made by refining mutated poppy seeds."
+#~ msgstr "Domaće pilule za spavanje od semenja mutirane biljke maka."
 
 #~ msgid ""
-#~ "A simple tripwire is attached to the trigger of a loaded sawn-off "
-#~ "shotgun. When pulled, the shotgun fires. Two rounds are used; the first "
-#~ "time the trigger is pulled, one or two may be used."
+#~ "A gentleman's vice. Cigars are what separates a gentleman from a savage."
 #~ msgstr ""
-#~ "Zamka u vidu parčeta žice koje se povuče i time povlači i oroz sačmarice."
-#~ "U tom slučaju oružje ispaljuje jednu ili dve patrone sačme od ukupno dve "
-#~ "koliko ima kada se postavi."
+#~ "Porok pravih džentlmena. Cigare čine tu razliku između čoveka i divljaka."
 
 #~ msgid ""
-#~ "A machete is attached laterally to a motor, with a tripwire controlling "
-#~ "its throttle. When the tripwire is pulled, the blade is swung around with "
-#~ "great force. The trap forms a 3x3 area of effect."
+#~ "A very strong illegal opiate. Unless you have an opiate tolerance, avoid "
+#~ "heroin, as it will be too strong for you."
 #~ msgstr ""
-#~ "Mačeta koja se postrance pričvrsti na motor, sa okidačem za zamku koji "
-#~ "kontroliše paljenje. U slučaju da se aktivira, sečivo će se zavrteti "
-#~ "velikom snagom. Radijus dejstva je reda veličine 3x3."
+#~ "Ilegalan i snažan narkotik. Ukoliko ne poseduješ izuzetnu otpornost na "
+#~ "opijate trebalo bi da izbegavaš heroin, zbog jačine dejstva."
 
 #~ msgid ""
-#~ "A kit for a simple trap consisting of a string noose and a snare trigger. "
-#~ "Requires a young tree nearby. Effective at trapping and killing some "
-#~ "small animals."
+#~ "A very strong illegal stimulant. Extremely addictive and bad for you, but "
+#~ "also extremely effective in boosting your alertness."
 #~ msgstr ""
-#~ "Komplet za izradu jednostavne zamke, sa omčom od konopca i običnim "
-#~ "okidačem. Pričvršćena na mlado drvo, zamka služi za hvatanje manjih "
-#~ "životinja."
+#~ "Ilegalan i izuzetno snažan narkotik. Vrlo brzo izaziva zavisnost i jako "
+#~ "je loš po zdravlje, a stimulativno dejstvo drži dugo na oprezu."
+
+#~ msgid "A strong, illegal stimulant. Highly addictive."
+#~ msgstr "Nelegalno sredstvo, stimulant koji brzo izaziva zavisnost."
 
 #~ msgid ""
-#~ "A kit for a simple trap consisting of a rope noose and a snare trigger. "
-#~ "Requires a tree nearby. Effective at trapping monsters."
-#~ msgstr ""
-#~ "Komplet za izradu jednostavne zamke, sa omčom od konopca i običnim "
-#~ "okidačem. Pričvršćena na drvo, zamka služi za hvatanje životinja."
+#~ "Really useful only for relaxing. Will reduce your attributes and reflexes."
+#~ msgstr "Koristi uglavnom kod opuštanja. Refleksi i osobine biće umanjeni."
 
-#~ msgid "An anti-personnel mine that is triggered when stepped upon."
-#~ msgstr "Protivpešadijska nagazna mina sa okidačem."
+#~ msgid "marijuana"
+#~ msgstr "marihuana"
 
 #~ msgid ""
-#~ "A tool for measuring radiation. Using it will prompt you to choose "
-#~ "whether to scan yourself or the terrain, or to turn it on, which will "
-#~ "provide continuous feedback on ambient radiation."
+#~ "These will boost your dexterity, intelligence, and perception for a short "
+#~ "time. They are quite addictive."
 #~ msgstr ""
-#~ "Uređaj za merenje radijacije. Treba ga (A)ktivirati kako bi znao da li da "
-#~ "skenira tebe odnosno okolni teren, u kom slučaju će ostati uključen tako "
-#~ "da zvukom obaveštava o prisustvu radijacije."
+#~ "Uvećavaju spretnost, inteligenciju i percepciju na kratak vremenski rok, "
+#~ "dok značajno uvećavaju šansu da se navučeš."
+
+#~ msgid "A strong anti-depressant. Useful if your morale level is very low."
+#~ msgstr "Snažan antidepresiv. Primenljiv kada je moral u padu."
 
 #~ msgid ""
-#~ "A tool for measuring radiation. It is in continuous scan mode, and will "
-#~ "produce quiet clicking sounds in the presence of ambient radiation. Using "
-#~ "it allows you to turn it off, or scan yourself or the ground."
+#~ "Anti-psychotic medication. Used to control the symptoms of schizophrenia "
+#~ "and similar ailments. Also popular as a way to come down from a bad trip."
 #~ msgstr ""
-#~ "Uređaj za merenje radijacije. Ukoliko se postavi tako da stalno radi,"
-#~ "neprekidnim kuckanjem će upozoravati ukoliko se radijacija pojavi. Treba "
-#~ "ga (A)ktivirati kako bi se isključio, ili možeš nastaviti da skeniraš."
+#~ "Vrlo snažno sredstvo za smirenje, na recept. Koristi se za otklanjanje "
+#~ "simptoma šizofrenije i sl. Zloupotrebljava se kao sredstvo za \"spuštanje."
+#~ "\""
 
 #~ msgid ""
-#~ "An arcane device, powered by plutonium fuel cells. Using it will cause "
-#~ "you to teleport a short distance away."
+#~ "A strong stimulant prescribed for ADD. It will greatly increase your "
+#~ "stimulant level, but is quite addictive."
 #~ msgstr ""
-#~ "Drevna, nepoznata naprava, koja radi na baterije sa plutonijumom. Ako se "
-#~ "aktivira teleportovaće te na kratku razdaljinu."
+#~ "Sredstvo na recept koje se prepisuje kod akutnih poremećaja pažnje (ADD)."
+#~ "Vrlo snažan kao stimulant, ali brzo izaziva zavisnost."
 
 #~ msgid ""
-#~ "\"Warning: contains highly toxic and corrosive materials. Contents may be "
-#~ "sentient. Open at your own risk.\""
+#~ "Anti-anxiety medication. It will reduce your stimulant level steadily, "
+#~ "and will temporarily cancel the effects of anxiety, like the Hoarder "
+#~ "trait."
 #~ msgstr ""
-#~ "\"Upozorenje: sadrži vrlo toksične i opasne materije. Sadržaj može biti "
-#~ "osetljiv. Koristiti na sopstvenu odgovornost.\""
+#~ "Sredstvo za smirenje. Redukuje nivo stimulativnih sredstava u organizmu "
+#~ "vrlo postepeno i na taj način negira nuspojave nervoze, na primer kod "
+#~ "osoba sa Poremećajem Gomilanja."
+
+#~ msgid "A strong opiate, prescribed for moderate to intense pain."
+#~ msgstr "Opijat jakog dejstva, za umerene i snažne bolove."
+
+#~ msgid "A weak opiate, prescribed for light to moderate pain."
+#~ msgstr ""
+#~ "Opijat slabijeg dejstva, za analgetsku primenu protiv bolova slabog i "
+#~ "umerenog intenziteta."
 
 #~ msgid ""
-#~ "A section of a pipe filled with explosive materials. Use this item to "
-#~ "light the fuse, which gives you 3 turns before it detonates. You will "
-#~ "need a lighter. It is somewhat unreliable, and may fail to detonate."
+#~ "Vital medicine for those with asthma. Those without asthma can use it for "
+#~ "a minor stimulant boost."
 #~ msgstr ""
-#~ "Parče limene cevi punjene eksplozivom. (A)ktivirati kako bi se fitilj "
-#~ "zapalio, posle čega ostaju 3 runde pre nego što eksplodira. Potreban ti "
-#~ "je upaljač. Naprava je nepouzdana i možda neće eksplodirati."
+#~ "Neophodna spravica onima sa astmom. Potpuno zdravima može poslužiti kao "
+#~ "blag stimulans."
 
 #~ msgid ""
-#~ "Use this item to pull the pin, turning it into an active grenade. You "
-#~ "will then have five turns before it explodes; throwing it would be a good "
-#~ "idea."
+#~ "Nighttime flu medication. Will halt all flu symptoms for a while, plus "
+#~ "make you sleepy."
 #~ msgstr ""
-#~ "(A)ktiviraj da izvučeš osigurač bombe, tada imaš 5 rundi do detonacije. "
-#~ "Ne bi bila loša ideja da je pre toga baciš."
+#~ "Lek protiv simptoma gripa za noćnu upotrebu. Efekat traje umereno dugo,uz "
+#~ "opuštajuće, uspavljujuće dejstvo."
+
+#~ msgid "Daytime flu medication. Will halt all flu symptoms for a while."
+#~ msgstr ""
+#~ "Lek protiv simptoma gripa za dnevnu upotrebu. Efekat traje umereno dugo."
 
 #~ msgid ""
-#~ "This grenade is active, and will explode any second now. Better throw it!"
+#~ "Iodine tablets are used for recovering from irradiation. They are not "
+#~ "spectacularly effective, but are better than nothing."
 #~ msgstr ""
-#~ "Ovoj bombi je izvučena sigurnosna igla - eksplodiraće! Otarasi je se što "
-#~ "pre!"
+#~ "Tablete joda se koriste nakon izlaganja zračenju. Oporavak nije preterano "
+#~ "brz ni efikasan, ali bolje išta nego ništa."
+
+#~ msgid "Prescription sleep aids. Will make you very tired."
+#~ msgstr "Pilule za spavanje na recept. Izazivaju jak osećaj umora."
+
+#~ msgid "No-doz pills. Useful for staying up all night."
+#~ msgstr "Pilule koje se uzimaju bez recepta i služe za održavanje budnosti."
+
+#~ msgid "Low-grade painkiller. Best taken in pairs."
+#~ msgstr "Sredstvo protiv lakih bolova, konzumira se u parovima."
+
+#~ msgid "Provides long lasting protection against sickness."
+#~ msgstr "Ima dugotrajno podsticajno dejstvo na imunitet od raznih bolesti."
+
+#~ msgid "Vaccine shot"
+#~ msgstr "Vakcina"
+
+#~ msgid "Take frequently to improve your immune system."
+#~ msgstr "Uzima se često kao dodatak ishrani jer koristi imunom sistemu."
+
+#~ msgid "Screwdriver"
+#~ msgstr "Šrafciger"
+
+#, fuzzy
+#~ msgid "12 Gauge Pistol"
+#~ msgstr "V29 laserski pištolj"
+
+#, fuzzy
+#~ msgid "RM99 Revolver"
+#~ msgstr "Revolver-Sačmarica"
 
 #~ msgid ""
-#~ "Use this item to pull the pin, turning it into an active flashbang. You "
-#~ "will then have five turns before it detonates with intense light and "
-#~ "sound, blinding, deafening and disorienting anyone nearby."
+#~ "A basic helmet, designed for use with the DOubleTech Power Armor, Mk. I. "
+#~ "Offers excellent protection from both attacks and environmental hazards."
 #~ msgstr ""
-#~ "(A)ktiviraj da izvučeš osigurač šok bombe, tada imaš 5 rundi do "
-#~ "detonacije kada će eksplodirati uz veoma jarku svetlost i vrlo snažan "
-#~ "zvuk koji zaslepljuju i oglušuju sa dezorijentišućim efektom."
+#~ "Osnovna varijanta kacige koja ide uz DoubleTech-ov Mk. I oklop sa "
+#~ "jedinicom za napajanje. Odlična zaštita od napada i štetnih faktora u "
+#~ "vazduhu i okolini."
+
+#~ msgid "house coat"
+#~ msgstr "bademantil"
+
+#~ msgid "belt rig"
+#~ msgstr "vojni opasač"
+
+#, fuzzy
+#~ msgid "floataion vest"
+#~ msgstr "kožni opasač"
+
+#, fuzzy
+#~ msgid "on"
+#~ msgstr "Ništa"
+
+#, fuzzy
+#~ msgid "in"
+#~ msgstr "džin"
+
+#, fuzzy
+#~ msgid "fuel tank"
+#~ msgstr "rezervoar"
+
+#, fuzzy
+#~ msgid "recharge"
+#~ msgstr "punjenje"
+
+#, fuzzy
+#~ msgid "greatly "
+#~ msgstr "srednjevekovna kaciga"
+
+#, fuzzy
+#~ msgid "her"
+#~ msgstr "grabulje"
+
+#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
+#~ msgstr "Šake su ti duže vreme izložene hladnoći. Počinju da se tresu."
 
 #~ msgid ""
-#~ "This flashbang is active, and will soon detonate with intense light and "
-#~ "sound, blinding, deafening and disorienting anyone nearby."
+#~ "Your head is dangerously cold. Getting undressed sounds like a good idea."
 #~ msgstr ""
-#~ "Aktivna, ručna šok bomba. Uskoro će eksplodirati uz veoma jarku svetlost "
-#~ "i vrlo snažan zvuk koji zaslepljuju i oglušuju sa dezorijentišućim "
-#~ "efektom."
+#~ "Osećaš strašnu hladnoću po glavi. Najbolje bi bilo da svučeš sve sa sebe."
+
+#~ msgid "Of course... it's all fractals!"
+#~ msgstr "Pa da... sve je u razlomcima!"
+
+#~ msgid "Oh god, what's happening?"
+#~ msgstr "Gospode Bože, šta se ovo dešava?"
+
+#~ msgid "Huh?  What was that?"
+#~ msgstr "Molim? Šta to bi?"
+
+#~ msgid "Fully rested."
+#~ msgstr "Potpuno odmoran/na."
+
+#~ msgid "Your feet feel numb."
+#~ msgstr "Gubiš osećaj u stopalima."
+
+#~ msgid "Your hands are shivering."
+#~ msgstr "Tresu ti se šake."
+
+#~ msgid "Your torso is burning up. You should remove some layers."
+#~ msgstr "Osećaš vatru po grudima. Trebalo bi da skineš nešto od odeće."
+
+#, fuzzy
+#~ msgid " AM"
+#~ msgstr "RAM Memorija"
+
+#, fuzzy
+#~ msgid "You screw up the installation"
+#~ msgstr "Infekcija uzima danak; razboleo/la si se."
+
+#, fuzzy
+#~ msgid "You flub the installation"
+#~ msgstr "Infekcija uzima danak; razboleo/la si se."
+
+#~ msgid ".223 caliber retool"
+#~ msgstr "alat za prepravku na .223 kalibar."
+
+#~ msgid ".308 caliber retool"
+#~ msgstr "alat za prepravku na .308 kalibar."
+
+#~ msgid "4.6mm caliber retool"
+#~ msgstr "alat za prepravku na 4.6mm kalibar."
+
+#~ msgid "5.7mm caliber retool"
+#~ msgstr "alat za prepravku na 5.7mm kalibar"
+
+#~ msgid ".22 caliber retool"
+#~ msgstr "alat za prepravku na .22 kalibar."
+
+#~ msgid "9mm caliber retool"
+#~ msgstr "alat za prepravku na 9mm kalibar."
+
+#~ msgid ".45 caliber retool"
+#~ msgstr "alat za prepravku na .45 kalibar."
+
+#~ msgid "A decent sized piece of cotton designed for medical purposes."
+#~ msgstr "Obično parče pamuka standardne veličine za upotrebu u medicini."
 
 #~ msgid ""
-#~ "Use this item to pull the pin, turning it into an active EMP grenade. You "
-#~ "will then have three turns before it detonates, creating an EMP field "
-#~ "that damages robots and drains bionic energy."
+#~ "Vacuum packed apple slices in plastic packaging..  Activate to open and "
+#~ "enjoy."
 #~ msgstr ""
-#~ "(A)ktiviranjem ćeš izvući osigurač i tako pokrenuti brojač EMP ručne "
-#~ "bombe.Imaš tri runde do detonacije, koja ima polje dejstva "
-#~ "elektromagnetnog impulsa čime oštećuje robote i crpi bioničku energiju "
-#~ "implanata."
+#~ "Isečeni komadi jabuke, vakuumirani u plastičnom pakovanju. (A)ktiviraj da "
+#~ "bi otvorio/la kesicu i prepustio/la se uživanju."
+
+#~ msgid "vacuum-packed apple slices"
+#~ msgstr "vakumizirani komadi jabuke"
 
 #~ msgid ""
-#~ "This EMP grenade is active, and will shortly detonate, creating a large "
-#~ "EMP field that damages robots and drains bionic energy."
+#~ "Vacuum packed veggy chunks in plastic packaging.  Activate to open and "
+#~ "enjoy."
 #~ msgstr ""
-#~ "Ova bomba sa EMP dejstvom je aktivna i ubrzo će eksplodirati, rezultujući "
-#~ "poljem dejstva elektromagnetnog impulsa koje oštećuje robote i crpi "
-#~ "bioničku energiju implanata."
-
-#~ msgid "active teargas"
-#~ msgstr "aktivni suzavac"
+#~ "Isečeni komadi povrća, vakuumirani u plastičnom pakovanju. (A)ktiviraj da "
+#~ "bi otvorio/la kesicu i prepustio/la se uživanju."
 
 #~ msgid ""
-#~ "This canister of teargas has had its pin removed, indicating that it is "
-#~ "(or will shortly be) expelling highly toxic gas."
+#~ "Vacuum packed meat slices in plastic packaging.  Activate to open and "
+#~ "enjoy."
 #~ msgstr ""
-#~ "Metalni kanister sa suzavcem, sada je aktivna bomba koja će uskoro, "
-#~ "ukoliko već i nije počela da izbacuje vrlo otrovan gas."
+#~ "Isečeni komadi mesa životinje, vakuumirani u plastičnom pakovanju. (A)"
+#~ "ktiviraj da bi otvorio/la kesicu i prepustio/la se uživanju."
 
 #~ msgid ""
-#~ "A bottle of flammable liquid with a rag inserted. Use this item to light "
-#~ "the rag; you will, of course, need a lighter in your inventory to do "
-#~ "this. After lighting it, throw it to cause fires."
+#~ "A portable heat sealer unit with an air pump, for vacuum packing of food."
 #~ msgstr ""
-#~ "Flaša sa zapaljivim alkoholnim sadržajem i krpom na vrhu. (A)ktiviraj "
-#~ "kako bi se zapalila krpa; potrebno je imati upaljač. Čim se krpa zapali, "
-#~ "baciti od sebe kako bi se izazvao požar."
+#~ "Prenosivi sistem za pakovanje hrane vakuumom, radi na principu toplog i "
+#~ "hladnog vazduha, odnosno izvlačenja istog."
 
 #~ msgid ""
-#~ "A glass vial, split into two chambers. The divider is removable, which "
-#~ "will cause the chemicals to mix. If this mixture is exposed to air (as "
-#~ "happens if you throw the vial) they will spill out as a pool of potent "
-#~ "acid."
+#~ "A cordless drill with a selection of drill bits. The charger base "
+#~ "contains a battery draining attachment so the drill can be charged in "
+#~ "lieu of mains power."
 #~ msgstr ""
-#~ "Staklena epruveta sa dve komore. Razdvajač se uklanja, čime se različite "
-#~ "hemikalije pomešaju. Čim sadržaj bude izložen vazduhu (kao pri razbijanju "
-#~ "staklene epruvete) pretvara se u vrlo poroznu kiselinu."
+#~ "Bežična bušilica i različiti umetci za nju. Punjač sadrži preklopnik uz "
+#~ "koji naprava koristi strujno napajanje umesto baterije."
 
 #~ msgid ""
-#~ "A glass vial, with two chemicals mixing inside. If this mixture is "
-#~ "exposed to air (as happens if you throw the vial), they will spill out as "
-#~ "a pool of potent acid."
+#~ "A sealed glass jar containing a sliced apple.  Activate to open and enjoy."
 #~ msgstr ""
-#~ "Staklena epruveta sa dve komore. Čim sadržaj bude izložen vazduhu (kao "
-#~ "pri razbijanju staklene epruvete) pretvara se u vrlo poroznu kiselinu."
+#~ "Hermetički zatvorena tegla sa komadima jabuke. (A)ktiviraj da otvoriš i "
+#~ "uživaš."
+
+#~ msgid "sealed jar of canned apple"
+#~ msgstr "zimnica - komadi jabuke"
+
+#~ msgid "A sealed glass jar containing veggy.  Activate to open and enjoy."
+#~ msgstr "Hermetički zatvorena tegla povrća. (A)ktiviraj da otvoriš i uživaš."
+
+#~ msgid ""
+#~ "A sealed glass jar containing human meat.  Activate to open and enjoy."
+#~ msgstr ""
+#~ "Hermetički zatvorena tegla ljudskog mesa. (A)ktiviraj da otvoriš i uživaš."
+
+#~ msgid ""
+#~ "A sealed glass jar containing some meat.  Activate to open and enjoy."
+#~ msgstr ""
+#~ "Hermetički zatvorena tegla sa komadima mesa. (A)ktiviraj da otvoriš i "
+#~ "uživaš."
+
+#~ msgid ""
+#~ "An M72 LAW, packed in its storage form. (a)ctivate it to pop it out and "
+#~ "make it ready to fire. Once activated, it cannot be repacked."
+#~ msgstr ""
+#~ "Raketni bacač M72 LAW, zapakovan za transport. (A)ktiviraj kako bi otpala "
+#~ "zaštita da bude spreman za paljbu, posle čega se ne može zapakovati."
+
+#~ msgid ""
+#~ "A heatpack, used to treat sports injuries and heat food.  This one has "
+#~ "been used already and is now useless."
+#~ msgstr ""
+#~ "Grejač za jednokratnu upotrebu, za korišćenje kod sportskih povreda ili "
+#~ "za grejanje hrane. Ovaj je već iskorišćen i zbog toga je neupotrebljiv."
+
+#~ msgid ""
+#~ "A heatpack, used to treat sports injuries and heat food.  Usable only "
+#~ "once."
+#~ msgstr ""
+#~ "Grejač za jednokratnu upotrebu, za korišćenje kod sportskih povreda ili "
+#~ "za grejanje hrane."
+
+#~ msgid ""
+#~ "A small shelter, made of sticks and skins. (a)ctivate it to place. This "
+#~ "shelter has been damaged, and needs repairs."
+#~ msgstr ""
+#~ "Zaklon, skrpljen od štapova i nešto kože. (A)ktivirati kako bi se "
+#~ "postavio.Ovom konkretnom su potrebne popravke usled cepanja i lomljenja."
+
+#~ msgid "A small shelter, made of sticks and skins. (a)ctivate it to place."
+#~ msgstr ""
+#~ "Zaklon, skrpljen od štapova i nešto kože. (A)ktivirati kako bi se "
+#~ "postavio."
+
+#~ msgid ""
+#~ "A large stick, with the end carved into a blade for digging. Can be used "
+#~ "to dig shallow pits, but not deep ones."
+#~ msgstr ""
+#~ "Poveći štap sa vrhom u obliku manje oštrice. Može se koristiti za kopanje "
+#~ "plitkih rovova, ali ne i dubljih."
+
+#~ msgid ""
+#~ "A flattened stone affixed to a stick, works passably well as a shovel but "
+#~ "really can't compare to a real shovel."
+#~ msgstr ""
+#~ "Zaravnato parče kamena privezano kanapom na drveni štap. Može da posluži "
+#~ "za kopanje, mada je pravo oruđe stvar koju tražiš."
+
+#~ msgid ""
+#~ "A rock affixed to a stick, functions adequately as a hammer, but really "
+#~ "can't compare to a proper hammer."
+#~ msgstr ""
+#~ "Parče kamena pričvršćeno na drveni štap koje može da posluži kao čekić,"
+#~ "iako se zaista ne može porediti sa pravim."
+
+#~ msgid ""
+#~ "A sharp needle made from a bone. It would be useful for making rough "
+#~ "clothing and items"
+#~ msgstr ""
+#~ "Zaoštrena kost u obliku igle. Može koristiti kod šivenja grubih komada "
+#~ "tkanine i odevnih predmeta"
+
+#~ msgid "A small pocket knife, not great for combat, but better than nothing."
+#~ msgstr ""
+#~ "Perorez, džepni nožić. Nema veliku primenu u borbi, ali bolje išta nego "
+#~ "ništa."
+
+#~ msgid ""
+#~ "A small multipurpose electronic device. This PDA has its flashlight app "
+#~ "on, and is providing light."
+#~ msgstr ""
+#~ "Višenamenski digitalni uređaj. Program ove spravice (PDA) oponaša džepnu "
+#~ "lampu putem svetlosti sa ekrana."
+
+#~ msgid ""
+#~ "A small multipurpose electronic device. Can be loaded with a variety of "
+#~ "apps, providing all kinds of functionality."
+#~ msgstr ""
+#~ "Višenameski digitalni uređaj. U njega se mogu pohraniti različiti "
+#~ "programi kako bi namena bila raznovrsnija."
+
+#~ msgid "A piece of kevlar. Can be used to repair kevlar items"
+#~ msgstr "Komad kevlar materijala. Za popravku antibalističkih prsluka."
+
+#~ msgid "A piece of plastic. Not much use except to repair plastic items"
+#~ msgstr "Parče plastike. Nema svrhu sem kod popravke stvari od plastike."
+
+#~ msgid "Rag, useful in crafting and possibly stopping bleeding"
+#~ msgstr ""
+#~ "Krpa, parče tkanine korisne u izradi svega i svačega, pa i kada treba "
+#~ "zaustaviti krvarenje."
+
+#~ msgid ""
+#~ "A King Size(tm) industrial strength permanent marker, about halfway "
+#~ "between a typical marker and a can of spray paint in size."
+#~ msgstr ""
+#~ "Džinovski (džambo) marker za industrijsku upotrebu, po snazi i veličini "
+#~ "negde između klasičnog markera i boje sa raspršivačem."
+
+#~ msgid ""
+#~ "A spray can, filled with paint. Use this tool to make graffiti on the "
+#~ "floor."
+#~ msgstr "Boja u spreju. S njom možeš da napišeš ili nacrtaš nešto na podu."
+
+#~ msgid "A large steel pickaxe, strike the earth!"
+#~ msgstr "Veliki čelični pijuk, udri po kamenu!"
+
+#~ msgid ""
+#~ "A combination lock box, breaking inside would destroy anything of value."
+#~ msgstr ""
+#~ "Kutija sa bravom koja se otključava kombinacijom. Grubo obijanje bi "
+#~ "uništilo sadržaj kutije"
+
+#~ msgid ""
+#~ "An improvised easy breaking picklock made from scrap metal, needs "
+#~ "MacGyver like skills to open locks, it's light material lessens chances "
+#~ "of alarms being set off."
+#~ msgstr ""
+#~ "Improvizovan komplet za obijanje brava, napravljen od delova pri ruci. "
+#~ "Vešte ruke neophodne za korišćenje. Lagani materijali garantuju da se "
+#~ "alarm neće oglasiti."
+
+#~ msgid ""
+#~ "A Locksmith's set of sturdy steel picklocks, essential for silently and "
+#~ "quickly opening locks."
+#~ msgstr ""
+#~ "Bravarski alat za obijanje brava, vrlo koristan za brzo i tiho otvaranje "
+#~ "mehanizama koji se otključavaju i zaključavaju."
+
+#~ msgid "An unwieldy mop. Good for cleaning up spills."
+#~ msgstr ""
+#~ "Krpa za brisanje sa dugačkom drškom. Nezgodna za rukovanje, služi za "
+#~ "čišćenje."
+
+#~ msgid ""
+#~ "A large pair of bolt cutters, you could use them to cut padlocks or heavy "
+#~ "gauge wire."
+#~ msgstr ""
+#~ "Par velikih makaza za metal, koje možeš upotrebiti da ukloniš katanac ili "
+#~ "deblju žicu."
+
+#~ msgid "A stick that has been cut into a trigger mechanism for a snare trap."
+#~ msgstr ""
+#~ "Štap pripremljen tako da predstavlja okidač mehanizma za klopke i zamke."
+
+#~ msgid ""
+#~ "An adjustable wrench. Makes a decent melee weapon, and is used in many "
+#~ "mechanics crafting recipes."
+#~ msgstr ""
+#~ "Podesivi francuski ključ. Koristan u borbi, a u mehanici koristan za "
+#~ "prepravku i izradu svega i svačega."
+
+#~ msgid ""
+#~ "A Philips-head screwdriver, important for almost all electronics crafting "
+#~ "and most mechanics crafting."
+#~ msgstr ""
+#~ "Klasični Filipsov šrafciger, neophodan za svaki rad sa elektronikom kao i "
+#~ "za mehaničke popravke."
+
+#~ msgid "A tool used for disassembling firearm ammunition."
+#~ msgstr "Alat koji se koristi u rastavljanju fabričke municije."
+
+#~ msgid ""
+#~ "A large stand with slots in the side. (a)ctivate it and place it "
+#~ "somewhere then set fires in it with no risk of spreading."
+#~ msgstr ""
+#~ "Uspravno postolje sa pregradama. (A)ktivirati ga i posle postaviti negde "
+#~ "kako bi vatra gorela bez opasnosti po okolinu."
+
+#~ msgid ""
+#~ "A thick candle, doesn't provide very much light, but it can burn for "
+#~ "quite a long time. This candle is lit."
+#~ msgstr ""
+#~ "Deblja sveća koja iako ne osvetljava mnogo, može da potraje duboko u noć."
+#~ "Upaljena je."
+
+#~ msgid ""
+#~ "A thick candle, doesn't provide very much light, but it can burn for "
+#~ "quite a long time."
+#~ msgstr ""
+#~ "Deblja sveća koja iako ne osvetljava mnogo, može da potraje duboko u noć."
+
+#~ msgid ""
+#~ "A large stick, wrapped in gasoline soaked rags. This is burning, "
+#~ "producing plenty of light"
+#~ msgstr ""
+#~ "Veći štap obavijen krpom natopljenom benzinom. Trenutno gori i tako "
+#~ "obasjava značajan prostor."
+
+#~ msgid ""
+#~ "A large stick, wrapped in gasoline soaked rags. When lit, produces a fair "
+#~ "amount of light"
+#~ msgstr ""
+#~ "Veći štap obavijen krpom natopljenom benzinom. Ako se zapali, obasjaće "
+#~ "okolinu."
+
+#~ msgid "A small tent, just big enough to fit a person comfortably."
+#~ msgstr "Šator za jednu osobu, malih dimenzija."
+
+#~ msgid "A sturdy saw, useful for cutting through metal objects."
+#~ msgstr "Čvrsta čelična testera, bonsek kojim se može seći kroz metal."
+
+#~ msgid ""
+#~ "A large two-handed axe. Makes a good melee weapon, but is a bit slow."
+#~ msgstr ""
+#~ "Velika dvoručna sekira. Dobra za blisku borbu, iako se njom sporije "
+#~ "zamahuje."
+
+#~ msgid "A flimsy saw, useful for cutting through wood objects."
+#~ msgstr "Elastična testera, služi za sečenje kroz drvene predmete."
+
+#~ msgid ""
+#~ "Designed for combat, and deadly in the right hands. Can be used to "
+#~ "butcher corpses."
+#~ msgstr ""
+#~ "Napravljen za borbu i apsolutno smrtonosan u pravim rukama. Može se "
+#~ "koristiti i za sređivanje mesa."
+
+#~ msgid ""
+#~ "A sharp, heavy knife. Makes a good melee weapon, and is the best item for "
+#~ "butchering corpses."
+#~ msgstr ""
+#~ "Oštar nož sa teškim sečivom. Pristojno je oružje, i najbolja stvar kada "
+#~ "je na redu sređivanje mesa."
+
+#~ msgid ""
+#~ "A sharp knife. Makes a poor melee weapon, but is decent at butchering "
+#~ "corpses."
+#~ msgstr ""
+#~ "Oštar nož. Ne mnogo koristan u borbi, ali može poslužiti pri sređivanju "
+#~ "mesa neke lešine."
+
+#~ msgid ""
+#~ "A large blade attached to a long stick. Could do a considerable amount of "
+#~ "damage."
+#~ msgstr ""
+#~ "Ogromno sečivo pričvršćeno na dužu motku. Moglo bi da nanese pristojnu "
+#~ "količinu štete."
+
+#~ msgid ""
+#~ "A large blade that has had a portion of the handle wrapped in duct tape, "
+#~ "making it easier to wield as a rough machete."
+#~ msgstr ""
+#~ "Veliko sečivo kod koga je drška delom obmotana širokom izolir trakom, "
+#~ "kako bi se koristila nalik grubo napravljenoj mačeti."
+
+#~ msgid ""
+#~ "An early modern sword seeing use in the 16th, 17th and 18th centuries. "
+#~ "Called 'broad' to contrast with the slimmer rapiers."
+#~ msgstr ""
+#~ "Mač modernog izgleda, upotrebljavan tokom 16-tog, 17-tog i 18-tog veka."
+#~ "Atribut široki dobija kako bi se razlikovao od rapijera i njemu sličnih."
+
+#~ msgid ""
+#~ "A medieval weapon consisting of a wood shaft, tipped with an iron spike. "
+#~ "Though large and heavy compared to other spears, its accuracy and damage "
+#~ "are unparalled."
+#~ msgstr ""
+#~ "Srednjevekovno oružje sa drvenim štapom kao drškom i dužim zaoštrenim "
+#~ "vrhom od gvožđa. Iako veće i teže u poređenju sa ostalim kopljima, "
+#~ "preciznost i količina štete koju nanosi su neprevaziđeni."
+
+#~ msgid ""
+#~ "Preferred weapon of gentlemen and swashbucklers. Light and quick, it "
+#~ "makes any battle a stylish battle."
+#~ msgstr ""
+#~ "Omiljeno oružje gospode, ali i gospode gusara. Brzo se i lagano zamahuje "
+#~ "njime, što u svaku borbu unosi dozu stila."
+
+#~ msgid "A simple wood pole made deadlier by the blade tied to it."
+#~ msgstr "Drvena motka sa učvršćenim sečivom na jednom kraju."
+
+#~ msgid ""
+#~ "A rare sword from Japan. Deadly against unarmored targets, and still very "
+#~ "effective against armor."
+#~ msgstr ""
+#~ "Japanski mač koji se teško pronalazi. Smrtonosan protiv neoklopljenih "
+#~ "protivnika i takođe vrlo efikasan ukoliko jesu oklopljeni."
+
+#~ msgid "This huge iron knife makes an excellent melee weapon."
+#~ msgstr "Teško metalno sečivo, praktično u bliskoj borbi."
+
+#~ msgid ""
+#~ "A small, very sharp knife, used in surgery. Its small tip allows for a "
+#~ "precision strike in the hands of the skilled."
+#~ msgstr ""
+#~ "Mali hirurški skalpel, vrlo oštar. Sićušni vrh je izuzetno opasan u "
+#~ "rukama veštih sa nožem, kada može naneti povredu na pravom mestu."
+
+#~ msgid ""
+#~ "A small, very sharp knife.  Causes decent damage but is difficult to hit "
+#~ "with. Its small tip allows for a precision strike in the hands of the "
+#~ "skilled. It is too small to butcher corpses with."
+#~ msgstr ""
+#~ "Vrlo oštar nožić. Može naneti nešto štete, ali nije lak za rukovanje."
+#~ "Manja oštrica je izuzetno opasna u rukama veštih sa nožem, kada može "
+#~ "naneti povredu na pravom mestu. Suviše mali za sređivanje mesa."
+
+#~ msgid ""
+#~ "A sheet of foam which can be rolled tightly for storage. Insulates you "
+#~ "from the floor, making it easier to sleep"
+#~ msgstr ""
+#~ "Dušek od penastog materijala koji se urola i tako spakuje. Koristan kada "
+#~ "je potrebno izbeći spavanje na hladnoj i čvrstoj podlozi."
+
+#~ msgid ""
+#~ "A military style fold up cot, not quite as comfortable as a bed but much "
+#~ "better than slumming it on the ground."
+#~ msgstr ""
+#~ "Standarna vojna prostirka za spavanje, na presavijanje. Možda nije "
+#~ "komforna kao krevet ali je daleko udobnija od toga da se samo sklupčaš na "
+#~ "zemlji."
+
+#~ msgid "A tool for welding metal pieces together. Useful for construction."
+#~ msgstr "Zavarivač kojim se spajaju metalni delovi. Zgodan za popravke."
+
+#~ msgid ""
+#~ "A tool for drawing blood, including a vacuum-sealed test tube for holding "
+#~ "the sample. Use this tool to draw blood, either from yourself or from a "
+#~ "corpse you are standing on."
+#~ msgstr ""
+#~ "Komplet za vađenje krvi, uz njega ide i epruveta u kojoj se čuva izvađeni "
+#~ "sadržaj. (A)ktiviraj kako bi sebi izvadio krv, ili ukoliko stojiš iznad "
+#~ "lešine kojoj to možeš da uradiš."
+
+#~ msgid ""
+#~ "A small whistle. When used, it produces a high tone that causes nearby "
+#~ "friendly dogs to either follow you closely and stop attacking, or start "
+#~ "attacking enemies if they are currently docile."
+#~ msgstr ""
+#~ "Pištaljka, kada se koristi proizvodi zvuk visoke frekvencije što tera pse "
+#~ "u blizini, ukoliko su prijateljski raspoloženi, da te prate i tako "
+#~ "prestanu sa napadom, ili da krenu na protivnike ukoliko su u pratnji."
+
+#~ msgid ""
+#~ "Highly explosive, use with caution. Comes with a small timer. It's armed "
+#~ "and ticking!"
+#~ msgstr ""
+#~ "Snažan eksploziv, pažljivo rukovati! Dolazi sa brojačem, koji sada "
+#~ "odbrojava sekunde ka eksploziji."
+
+#~ msgid "Highly explosive, use with caution! Armed with a small timer."
+#~ msgstr "Snažan eksploziv, pažljivo rukovati! Dolazi sa brojačem."
+
+#~ msgid "A crude explosive device triggered by a piece of string."
+#~ msgstr "Grubo spravljena eksplozivna naprava koja se aktivira parčem užeta."
+
+#~ msgid "A human skull with strange etchings covering it."
+#~ msgstr "Ljudska lobanja sa neobičnim rezbarijama."
+
+#~ msgid ""
+#~ "A stone with spirals all over it, and holes around its perimeter. Though "
+#~ "it is fairly large, it weighs next to nothing. Air seems to gather around "
+#~ "it."
+#~ msgstr ""
+#~ "Stena po kojoj se poznaju spirale, oko koje postoji nekoliko rupa. Iako "
+#~ "je većih dimenzija od kamena gotovo da i nema težinu. Izgleda kao da "
+#~ "prikuplja vazduh oko sebe."
+
+#~ msgid ""
+#~ "A high-powered stun gun. Use this item to attempt to electrocute an "
+#~ "adjacent enemy, damaging and temporarily paralyzing them. Because the "
+#~ "shock can actually jump through the air, it is difficult to miss."
+#~ msgstr ""
+#~ "Oružje koje radi na principu jakog strujnog šoka. Upotrebom se na "
+#~ "protivnika u neposrednoj blizini usmerava strujni udar koji nanosi štetu "
+#~ "i parališe ga. Kako udar ima svojstvo da upravlja kroz vazduh do mete, "
+#~ "teško je promašiti."
+
+#~ msgid ""
+#~ "A unified power supply, or UPS, is a device developed jointly by military "
+#~ "and scientific interests for use in combat and the field. The UPS is "
+#~ "designed to power armor and some guns, but drains batteries quickly."
+#~ msgstr ""
+#~ "Sistem za neprekidno napajanje (UPS) je plod saradnje vojnih snaga i "
+#~ "civilnih naučnika kako bi se obezbedila el. energija na terenu i u borbi."
+#~ "Napaja oružja i oklope, a baterije ne traju mnogo."
+
+#~ msgid ""
+#~ "An inactive turret. Using this item involves turning it on and placing it "
+#~ "on the ground, where it will attach itself. The turret will then identify "
+#~ "you as a friendly, and attack all enemies with an SMG."
+#~ msgstr ""
+#~ "Malo postolje sa neaktivnim automatskim oružjem. (A)ktivirati kako bi se "
+#~ "pričvrstilo na zemlju i uključilo. Postolje, odnosno kula pamti onoga ko "
+#~ "je postavi kao prijateljski entitet, a ostale napada SMG-om."
+
+#~ msgid ""
+#~ "An inactive manhack. Manhacks are fist-sized robots that fly through the "
+#~ "air. They are covered with whirring blades and attack by throwing "
+#~ "themselves against their target. Use this item to activate the manhack."
+#~ msgstr ""
+#~ "Isključeni Sekač. Sekači su leteći roboti veličine pesnice. Napadaju "
+#~ "oštrim lopaticama koje se vrte velikim brzinama oko njih tako što naleću "
+#~ "na protivnike. (A)ktiviraj kako bi uključio robota."
+
+#~ msgid "A rare and arcane device, covered in alien markings."
+#~ msgstr ""
+#~ "Neobičan i redak uređaj sa magičnim svojstvima, prekriven nepoznatim "
+#~ "znakovima."
+
+#~ msgid ""
+#~ "This miniature nuclear bomb has a light blinking on the side, showing "
+#~ "that it will soon explode. You should probably get far away from it."
+#~ msgstr ""
+#~ "Ova minijaturna atomska bomba ima diodu sa strane koja trepće čime "
+#~ "pokazuje da će uskoro eksplodirati. Trebalo bi da se skloniš daleko, što "
+#~ "pre."
+
+#~ msgid ""
+#~ "An extremely powerful weapon--essentially a hand-held nuclear bomb. Use "
+#~ "it to activate the timer. Ten turns later it will explode, leaving behind "
+#~ "a radioactive crater. The explosion is large enough to take out a house."
+#~ msgstr ""
+#~ "Zastrašujuće oružje - bez preterivanja ručna atomska bomba. (A)ktivirati "
+#~ "da bi brojač počeo sa odbrojavanjem. Deset rundi kasnije desiće se "
+#~ "eksplozija,ostavljajući krater i radioaktivno zračenje za sobom. Dovoljno "
+#~ "je jaka da zbriše zgradu."
+
+#~ msgid ""
+#~ "A firecracker that has been lit, the fuse is hissing. Throw it quickly "
+#~ "before it explodes."
+#~ msgstr ""
+#~ "Petarda sa zapaljenim fitiljem koji se i čuje. Baciti što pre, dok ne "
+#~ "eksplodira."
+
+#~ msgid ""
+#~ "A firecracker with a short fuse. Use this item to light the fuse; you "
+#~ "will need a lighter of course. Shortly after you light the fuse it will "
+#~ "explode, so throw it quickly!"
+#~ msgstr ""
+#~ "Petarda sa kratkim fitiljem. (A)ktivirati kako bi se fitilj zapalio; u tu "
+#~ "svrhu neophodno je imati upaljač. Ubrzo zatim će eksplodirati, pa se "
+#~ "preporučuje brzo bacanje!"
+
+#~ msgid ""
+#~ "A pack of 25 firecrackers that has been lit, the fuse is hissing. Throw "
+#~ "them quickly before the start to explode."
+#~ msgstr ""
+#~ "Pakovanje sa 25 petardi, sve su zapaljene i čuje se jako šuštanje. "
+#~ "Ukoliko ih ne baciš što pre, jedna po jedna će eksplodirati."
+
+#~ msgid ""
+#~ "A pack of 25 firecrackers with a starter fuse. Use this item to light the "
+#~ "fuse; you will need a lighter of course. Shortly after you light the fuse "
+#~ "they will begin to explode, so throw them quickly!"
+#~ msgstr ""
+#~ "Pakovanje sa 25 petardi kratkog fitilja. (A)ktiviraj kako bi se fitilj "
+#~ "zapalio; u tu svrhu neophodno je imati upaljač. Ubrzo zatim će jedna po "
+#~ "jedna eksplodirati, pa se preporučuje brzo bacanje!"
+
+#~ msgid ""
+#~ "The fuse on this dynamite is lit and hissing.  It'll explode any moment "
+#~ "now."
+#~ msgstr "Fitilj dinamita gori i čuje se šišteći zvuk. Ubrzo će eksplodirati."
 
 #~ msgid ""
 #~ "Several sticks of explosives with a fuse attached. Use this item to light "
@@ -57437,831 +57995,739 @@ msgstr ""
 #~ "eksplodira!"
 
 #~ msgid ""
-#~ "The fuse on this dynamite is lit and hissing.  It'll explode any moment "
-#~ "now."
-#~ msgstr "Fitilj dinamita gori i čuje se šišteći zvuk. Ubrzo će eksplodirati."
-
-#~ msgid ""
-#~ "A pack of 25 firecrackers with a starter fuse. Use this item to light the "
-#~ "fuse; you will need a lighter of course. Shortly after you light the fuse "
-#~ "they will begin to explode, so throw them quickly!"
-#~ msgstr ""
-#~ "Pakovanje sa 25 petardi kratkog fitilja. (A)ktiviraj kako bi se fitilj "
-#~ "zapalio; u tu svrhu neophodno je imati upaljač. Ubrzo zatim će jedna po "
-#~ "jedna eksplodirati, pa se preporučuje brzo bacanje!"
-
-#~ msgid ""
-#~ "A pack of 25 firecrackers that has been lit, the fuse is hissing. Throw "
-#~ "them quickly before the start to explode."
-#~ msgstr ""
-#~ "Pakovanje sa 25 petardi, sve su zapaljene i čuje se jako šuštanje. "
-#~ "Ukoliko ih ne baciš što pre, jedna po jedna će eksplodirati."
-
-#~ msgid ""
-#~ "A firecracker with a short fuse. Use this item to light the fuse; you "
-#~ "will need a lighter of course. Shortly after you light the fuse it will "
-#~ "explode, so throw it quickly!"
-#~ msgstr ""
-#~ "Petarda sa kratkim fitiljem. (A)ktivirati kako bi se fitilj zapalio; u tu "
-#~ "svrhu neophodno je imati upaljač. Ubrzo zatim će eksplodirati, pa se "
-#~ "preporučuje brzo bacanje!"
-
-#~ msgid ""
-#~ "A firecracker that has been lit, the fuse is hissing. Throw it quickly "
-#~ "before it explodes."
-#~ msgstr ""
-#~ "Petarda sa zapaljenim fitiljem koji se i čuje. Baciti što pre, dok ne "
-#~ "eksplodira."
-
-#~ msgid ""
-#~ "An extremely powerful weapon--essentially a hand-held nuclear bomb. Use "
-#~ "it to activate the timer. Ten turns later it will explode, leaving behind "
-#~ "a radioactive crater. The explosion is large enough to take out a house."
-#~ msgstr ""
-#~ "Zastrašujuće oružje - bez preterivanja ručna atomska bomba. (A)ktivirati "
-#~ "da bi brojač počeo sa odbrojavanjem. Deset rundi kasnije desiće se "
-#~ "eksplozija,ostavljajući krater i radioaktivno zračenje za sobom. Dovoljno "
-#~ "je jaka da zbriše zgradu."
-
-#~ msgid ""
-#~ "This miniature nuclear bomb has a light blinking on the side, showing "
-#~ "that it will soon explode. You should probably get far away from it."
-#~ msgstr ""
-#~ "Ova minijaturna atomska bomba ima diodu sa strane koja trepće čime "
-#~ "pokazuje da će uskoro eksplodirati. Trebalo bi da se skloniš daleko, što "
-#~ "pre."
-
-#~ msgid "A rare and arcane device, covered in alien markings."
-#~ msgstr ""
-#~ "Neobičan i redak uređaj sa magičnim svojstvima, prekriven nepoznatim "
-#~ "znakovima."
-
-#~ msgid ""
-#~ "An inactive manhack. Manhacks are fist-sized robots that fly through the "
-#~ "air. They are covered with whirring blades and attack by throwing "
-#~ "themselves against their target. Use this item to activate the manhack."
-#~ msgstr ""
-#~ "Isključeni Sekač. Sekači su leteći roboti veličine pesnice. Napadaju "
-#~ "oštrim lopaticama koje se vrte velikim brzinama oko njih tako što naleću "
-#~ "na protivnike. (A)ktiviraj kako bi uključio robota."
-
-#~ msgid ""
-#~ "An inactive turret. Using this item involves turning it on and placing it "
-#~ "on the ground, where it will attach itself. The turret will then identify "
-#~ "you as a friendly, and attack all enemies with an SMG."
-#~ msgstr ""
-#~ "Malo postolje sa neaktivnim automatskim oružjem. (A)ktivirati kako bi se "
-#~ "pričvrstilo na zemlju i uključilo. Postolje, odnosno kula pamti onoga ko "
-#~ "je postavi kao prijateljski entitet, a ostale napada SMG-om."
-
-#~ msgid ""
-#~ "A unified power supply, or UPS, is a device developed jointly by military "
-#~ "and scientific interests for use in combat and the field. The UPS is "
-#~ "designed to power armor and some guns, but drains batteries quickly."
-#~ msgstr ""
-#~ "Sistem za neprekidno napajanje (UPS) je plod saradnje vojnih snaga i "
-#~ "civilnih naučnika kako bi se obezbedila el. energija na terenu i u borbi."
-#~ "Napaja oružja i oklope, a baterije ne traju mnogo."
-
-#~ msgid ""
-#~ "A high-powered stun gun. Use this item to attempt to electrocute an "
-#~ "adjacent enemy, damaging and temporarily paralyzing them. Because the "
-#~ "shock can actually jump through the air, it is difficult to miss."
-#~ msgstr ""
-#~ "Oružje koje radi na principu jakog strujnog šoka. Upotrebom se na "
-#~ "protivnika u neposrednoj blizini usmerava strujni udar koji nanosi štetu "
-#~ "i parališe ga. Kako udar ima svojstvo da upravlja kroz vazduh do mete, "
-#~ "teško je promašiti."
-
-#~ msgid ""
-#~ "A stone with spirals all over it, and holes around its perimeter. Though "
-#~ "it is fairly large, it weighs next to nothing. Air seems to gather around "
-#~ "it."
-#~ msgstr ""
-#~ "Stena po kojoj se poznaju spirale, oko koje postoji nekoliko rupa. Iako "
-#~ "je većih dimenzija od kamena gotovo da i nema težinu. Izgleda kao da "
-#~ "prikuplja vazduh oko sebe."
-
-#~ msgid "A human skull with strange etchings covering it."
-#~ msgstr "Ljudska lobanja sa neobičnim rezbarijama."
-
-#~ msgid "Food for dogs. It smells strange, but dogs love it."
-#~ msgstr "Hrana za pse. Čudnog mirisa, kuce je obožavaju."
-
-#~ msgid "A crude explosive device triggered by a piece of string."
-#~ msgstr "Grubo spravljena eksplozivna naprava koja se aktivira parčem užeta."
-
-#~ msgid "Highly explosive, use with caution! Armed with a small timer."
-#~ msgstr "Snažan eksploziv, pažljivo rukovati! Dolazi sa brojačem."
-
-#~ msgid ""
-#~ "Highly explosive, use with caution. Comes with a small timer. It's armed "
-#~ "and ticking!"
-#~ msgstr ""
-#~ "Snažan eksploziv, pažljivo rukovati! Dolazi sa brojačem, koji sada "
-#~ "odbrojava sekunde ka eksploziji."
-
-#~ msgid ""
-#~ "A small whistle. When used, it produces a high tone that causes nearby "
-#~ "friendly dogs to either follow you closely and stop attacking, or start "
-#~ "attacking enemies if they are currently docile."
-#~ msgstr ""
-#~ "Pištaljka, kada se koristi proizvodi zvuk visoke frekvencije što tera pse "
-#~ "u blizini, ukoliko su prijateljski raspoloženi, da te prate i tako "
-#~ "prestanu sa napadom, ili da krenu na protivnike ukoliko su u pratnji."
-
-#~ msgid ""
-#~ "A tool for drawing blood, including a vacuum-sealed test tube for holding "
-#~ "the sample. Use this tool to draw blood, either from yourself or from a "
-#~ "corpse you are standing on."
-#~ msgstr ""
-#~ "Komplet za vađenje krvi, uz njega ide i epruveta u kojoj se čuva izvađeni "
-#~ "sadržaj. (A)ktiviraj kako bi sebi izvadio krv, ili ukoliko stojiš iznad "
-#~ "lešine kojoj to možeš da uradiš."
-
-#~ msgid "A tool for welding metal pieces together. Useful for construction."
-#~ msgstr "Zavarivač kojim se spajaju metalni delovi. Zgodan za popravke."
-
-#~ msgid ""
-#~ "A military style fold up cot, not quite as comfortable as a bed but much "
-#~ "better than slumming it on the ground."
-#~ msgstr ""
-#~ "Standarna vojna prostirka za spavanje, na presavijanje. Možda nije "
-#~ "komforna kao krevet ali je daleko udobnija od toga da se samo sklupčaš na "
-#~ "zemlji."
-
-#~ msgid ""
-#~ "A sheet of foam which can be rolled tightly for storage. Insulates you "
-#~ "from the floor, making it easier to sleep"
-#~ msgstr ""
-#~ "Dušek od penastog materijala koji se urola i tako spakuje. Koristan kada "
-#~ "je potrebno izbeći spavanje na hladnoj i čvrstoj podlozi."
-
-#~ msgid ""
-#~ "A small, very sharp knife.  Causes decent damage but is difficult to hit "
-#~ "with. Its small tip allows for a precision strike in the hands of the "
-#~ "skilled. It is too small to butcher corpses with."
-#~ msgstr ""
-#~ "Vrlo oštar nožić. Može naneti nešto štete, ali nije lak za rukovanje."
-#~ "Manja oštrica je izuzetno opasna u rukama veštih sa nožem, kada može "
-#~ "naneti povredu na pravom mestu. Suviše mali za sređivanje mesa."
-
-#~ msgid ""
-#~ "A small, very sharp knife, used in surgery. Its small tip allows for a "
-#~ "precision strike in the hands of the skilled."
-#~ msgstr ""
-#~ "Mali hirurški skalpel, vrlo oštar. Sićušni vrh je izuzetno opasan u "
-#~ "rukama veštih sa nožem, kada može naneti povredu na pravom mestu."
-
-#~ msgid "This huge iron knife makes an excellent melee weapon."
-#~ msgstr "Teško metalno sečivo, praktično u bliskoj borbi."
-
-#~ msgid ""
-#~ "A rare sword from Japan. Deadly against unarmored targets, and still very "
-#~ "effective against armor."
-#~ msgstr ""
-#~ "Japanski mač koji se teško pronalazi. Smrtonosan protiv neoklopljenih "
-#~ "protivnika i takođe vrlo efikasan ukoliko jesu oklopljeni."
-
-#~ msgid "A simple wood pole made deadlier by the blade tied to it."
-#~ msgstr "Drvena motka sa učvršćenim sečivom na jednom kraju."
-
-#~ msgid ""
-#~ "Preferred weapon of gentlemen and swashbucklers. Light and quick, it "
-#~ "makes any battle a stylish battle."
-#~ msgstr ""
-#~ "Omiljeno oružje gospode, ali i gospode gusara. Brzo se i lagano zamahuje "
-#~ "njime, što u svaku borbu unosi dozu stila."
-
-#~ msgid ""
-#~ "A medieval weapon consisting of a wood shaft, tipped with an iron spike. "
-#~ "Though large and heavy compared to other spears, its accuracy and damage "
-#~ "are unparalled."
-#~ msgstr ""
-#~ "Srednjevekovno oružje sa drvenim štapom kao drškom i dužim zaoštrenim "
-#~ "vrhom od gvožđa. Iako veće i teže u poređenju sa ostalim kopljima, "
-#~ "preciznost i količina štete koju nanosi su neprevaziđeni."
-
-#~ msgid ""
-#~ "An early modern sword seeing use in the 16th, 17th and 18th centuries. "
-#~ "Called 'broad' to contrast with the slimmer rapiers."
-#~ msgstr ""
-#~ "Mač modernog izgleda, upotrebljavan tokom 16-tog, 17-tog i 18-tog veka."
-#~ "Atribut široki dobija kako bi se razlikovao od rapijera i njemu sličnih."
-
-#~ msgid ""
-#~ "A large blade that has had a portion of the handle wrapped in duct tape, "
-#~ "making it easier to wield as a rough machete."
-#~ msgstr ""
-#~ "Veliko sečivo kod koga je drška delom obmotana širokom izolir trakom, "
-#~ "kako bi se koristila nalik grubo napravljenoj mačeti."
-
-#~ msgid ""
-#~ "A large blade attached to a long stick. Could do a considerable amount of "
-#~ "damage."
-#~ msgstr ""
-#~ "Ogromno sečivo pričvršćeno na dužu motku. Moglo bi da nanese pristojnu "
-#~ "količinu štete."
-
-#~ msgid ""
-#~ "A sharp knife. Makes a poor melee weapon, but is decent at butchering "
-#~ "corpses."
-#~ msgstr ""
-#~ "Oštar nož. Ne mnogo koristan u borbi, ali može poslužiti pri sređivanju "
-#~ "mesa neke lešine."
-
-#~ msgid ""
-#~ "A sharp, heavy knife. Makes a good melee weapon, and is the best item for "
-#~ "butchering corpses."
-#~ msgstr ""
-#~ "Oštar nož sa teškim sečivom. Pristojno je oružje, i najbolja stvar kada "
-#~ "je na redu sređivanje mesa."
-
-#~ msgid ""
-#~ "Designed for combat, and deadly in the right hands. Can be used to "
-#~ "butcher corpses."
-#~ msgstr ""
-#~ "Napravljen za borbu i apsolutno smrtonosan u pravim rukama. Može se "
-#~ "koristiti i za sređivanje mesa."
-
-#~ msgid "A flimsy saw, useful for cutting through wood objects."
-#~ msgstr "Elastična testera, služi za sečenje kroz drvene predmete."
-
-#~ msgid ""
-#~ "A large two-handed axe. Makes a good melee weapon, but is a bit slow."
-#~ msgstr ""
-#~ "Velika dvoručna sekira. Dobra za blisku borbu, iako se njom sporije "
-#~ "zamahuje."
-
-#~ msgid "A sturdy saw, useful for cutting through metal objects."
-#~ msgstr "Čvrsta čelična testera, bonsek kojim se može seći kroz metal."
-
-#~ msgid "A small tent, just big enough to fit a person comfortably."
-#~ msgstr "Šator za jednu osobu, malih dimenzija."
-
-#~ msgid ""
-#~ "A large stick, wrapped in gasoline soaked rags. When lit, produces a fair "
-#~ "amount of light"
-#~ msgstr ""
-#~ "Veći štap obavijen krpom natopljenom benzinom. Ako se zapali, obasjaće "
-#~ "okolinu."
-
-#~ msgid ""
-#~ "A large stick, wrapped in gasoline soaked rags. This is burning, "
-#~ "producing plenty of light"
-#~ msgstr ""
-#~ "Veći štap obavijen krpom natopljenom benzinom. Trenutno gori i tako "
-#~ "obasjava značajan prostor."
-
-#~ msgid ""
-#~ "A thick candle, doesn't provide very much light, but it can burn for "
-#~ "quite a long time."
-#~ msgstr ""
-#~ "Deblja sveća koja iako ne osvetljava mnogo, može da potraje duboko u noć."
-
-#~ msgid ""
-#~ "A thick candle, doesn't provide very much light, but it can burn for "
-#~ "quite a long time. This candle is lit."
-#~ msgstr ""
-#~ "Deblja sveća koja iako ne osvetljava mnogo, može da potraje duboko u noć."
-#~ "Upaljena je."
-
-#~ msgid ""
-#~ "A large stand with slots in the side. (a)ctivate it and place it "
-#~ "somewhere then set fires in it with no risk of spreading."
-#~ msgstr ""
-#~ "Uspravno postolje sa pregradama. (A)ktivirati ga i posle postaviti negde "
-#~ "kako bi vatra gorela bez opasnosti po okolinu."
-
-#~ msgid "A tool used for disassembling firearm ammunition."
-#~ msgstr "Alat koji se koristi u rastavljanju fabričke municije."
-
-#~ msgid ""
-#~ "A Philips-head screwdriver, important for almost all electronics crafting "
-#~ "and most mechanics crafting."
-#~ msgstr ""
-#~ "Klasični Filipsov šrafciger, neophodan za svaki rad sa elektronikom kao i "
-#~ "za mehaničke popravke."
-
-#~ msgid ""
-#~ "An adjustable wrench. Makes a decent melee weapon, and is used in many "
-#~ "mechanics crafting recipes."
-#~ msgstr ""
-#~ "Podesivi francuski ključ. Koristan u borbi, a u mehanici koristan za "
-#~ "prepravku i izradu svega i svačega."
-
-#~ msgid "A stick that has been cut into a trigger mechanism for a snare trap."
-#~ msgstr ""
-#~ "Štap pripremljen tako da predstavlja okidač mehanizma za klopke i zamke."
-
-#~ msgid ""
-#~ "A large pair of bolt cutters, you could use them to cut padlocks or heavy "
-#~ "gauge wire."
-#~ msgstr ""
-#~ "Par velikih makaza za metal, koje možeš upotrebiti da ukloniš katanac ili "
-#~ "deblju žicu."
-
-#~ msgid "An unwieldy mop. Good for cleaning up spills."
-#~ msgstr ""
-#~ "Krpa za brisanje sa dugačkom drškom. Nezgodna za rukovanje, služi za "
-#~ "čišćenje."
-
-#~ msgid ""
-#~ "A Locksmith's set of sturdy steel picklocks, essential for silently and "
-#~ "quickly opening locks."
-#~ msgstr ""
-#~ "Bravarski alat za obijanje brava, vrlo koristan za brzo i tiho otvaranje "
-#~ "mehanizama koji se otključavaju i zaključavaju."
-
-#~ msgid ""
-#~ "An improvised easy breaking picklock made from scrap metal, needs "
-#~ "MacGyver like skills to open locks, it's light material lessens chances "
-#~ "of alarms being set off."
-#~ msgstr ""
-#~ "Improvizovan komplet za obijanje brava, napravljen od delova pri ruci. "
-#~ "Vešte ruke neophodne za korišćenje. Lagani materijali garantuju da se "
-#~ "alarm neće oglasiti."
-
-#~ msgid ""
-#~ "A combination lock box, breaking inside would destroy anything of value."
-#~ msgstr ""
-#~ "Kutija sa bravom koja se otključava kombinacijom. Grubo obijanje bi "
-#~ "uništilo sadržaj kutije"
-
-#~ msgid "A large steel pickaxe, strike the earth!"
-#~ msgstr "Veliki čelični pijuk, udri po kamenu!"
-
-#~ msgid ""
-#~ "A spray can, filled with paint. Use this tool to make graffiti on the "
-#~ "floor."
-#~ msgstr "Boja u spreju. S njom možeš da napišeš ili nacrtaš nešto na podu."
-
-#~ msgid ""
-#~ "A King Size(tm) industrial strength permanent marker, about halfway "
-#~ "between a typical marker and a can of spray paint in size."
-#~ msgstr ""
-#~ "Džinovski (džambo) marker za industrijsku upotrebu, po snazi i veličini "
-#~ "negde između klasičnog markera i boje sa raspršivačem."
-
-#~ msgid "Rag, useful in crafting and possibly stopping bleeding"
-#~ msgstr ""
-#~ "Krpa, parče tkanine korisne u izradi svega i svačega, pa i kada treba "
-#~ "zaustaviti krvarenje."
-
-#~ msgid "A piece of plastic. Not much use except to repair plastic items"
-#~ msgstr "Parče plastike. Nema svrhu sem kod popravke stvari od plastike."
-
-#~ msgid "A piece of kevlar. Can be used to repair kevlar items"
-#~ msgstr "Komad kevlar materijala. Za popravku antibalističkih prsluka."
-
-#~ msgid ""
-#~ "A small multipurpose electronic device. Can be loaded with a variety of "
-#~ "apps, providing all kinds of functionality."
-#~ msgstr ""
-#~ "Višenameski digitalni uređaj. U njega se mogu pohraniti različiti "
-#~ "programi kako bi namena bila raznovrsnija."
-
-#~ msgid ""
-#~ "A small multipurpose electronic device. This PDA has its flashlight app "
-#~ "on, and is providing light."
-#~ msgstr ""
-#~ "Višenamenski digitalni uređaj. Program ove spravice (PDA) oponaša džepnu "
-#~ "lampu putem svetlosti sa ekrana."
-
-#~ msgid "A small pocket knife, not great for combat, but better than nothing."
-#~ msgstr ""
-#~ "Perorez, džepni nožić. Nema veliku primenu u borbi, ali bolje išta nego "
-#~ "ništa."
-
-#~ msgid ""
-#~ "A sharp needle made from a bone. It would be useful for making rough "
-#~ "clothing and items"
-#~ msgstr ""
-#~ "Zaoštrena kost u obliku igle. Može koristiti kod šivenja grubih komada "
-#~ "tkanine i odevnih predmeta"
-
-#~ msgid ""
-#~ "A rock affixed to a stick, functions adequately as a hammer, but really "
-#~ "can't compare to a proper hammer."
-#~ msgstr ""
-#~ "Parče kamena pričvršćeno na drveni štap koje može da posluži kao čekić,"
-#~ "iako se zaista ne može porediti sa pravim."
-
-#~ msgid ""
-#~ "A flattened stone affixed to a stick, works passably well as a shovel but "
-#~ "really can't compare to a real shovel."
-#~ msgstr ""
-#~ "Zaravnato parče kamena privezano kanapom na drveni štap. Može da posluži "
-#~ "za kopanje, mada je pravo oruđe stvar koju tražiš."
-
-#~ msgid ""
-#~ "A large stick, with the end carved into a blade for digging. Can be used "
-#~ "to dig shallow pits, but not deep ones."
-#~ msgstr ""
-#~ "Poveći štap sa vrhom u obliku manje oštrice. Može se koristiti za kopanje "
-#~ "plitkih rovova, ali ne i dubljih."
-
-#~ msgid "A small shelter, made of sticks and skins. (a)ctivate it to place."
-#~ msgstr ""
-#~ "Zaklon, skrpljen od štapova i nešto kože. (A)ktivirati kako bi se "
-#~ "postavio."
-
-#~ msgid ""
-#~ "A small shelter, made of sticks and skins. (a)ctivate it to place. This "
-#~ "shelter has been damaged, and needs repairs."
+#~ "A glass vial, with two chemicals mixing inside. If this mixture is "
+#~ "exposed to air (as happens if you throw the vial), they will spill out as "
+#~ "a pool of potent acid."
 #~ msgstr ""
-#~ "Zaklon, skrpljen od štapova i nešto kože. (A)ktivirati kako bi se "
-#~ "postavio.Ovom konkretnom su potrebne popravke usled cepanja i lomljenja."
+#~ "Staklena epruveta sa dve komore. Čim sadržaj bude izložen vazduhu (kao "
+#~ "pri razbijanju staklene epruvete) pretvara se u vrlo poroznu kiselinu."
 
 #~ msgid ""
-#~ "A heatpack, used to treat sports injuries and heat food.  Usable only "
-#~ "once."
+#~ "A glass vial, split into two chambers. The divider is removable, which "
+#~ "will cause the chemicals to mix. If this mixture is exposed to air (as "
+#~ "happens if you throw the vial) they will spill out as a pool of potent "
+#~ "acid."
 #~ msgstr ""
-#~ "Grejač za jednokratnu upotrebu, za korišćenje kod sportskih povreda ili "
-#~ "za grejanje hrane."
+#~ "Staklena epruveta sa dve komore. Razdvajač se uklanja, čime se različite "
+#~ "hemikalije pomešaju. Čim sadržaj bude izložen vazduhu (kao pri razbijanju "
+#~ "staklene epruvete) pretvara se u vrlo poroznu kiselinu."
 
 #~ msgid ""
-#~ "A heatpack, used to treat sports injuries and heat food.  This one has "
-#~ "been used already and is now useless."
+#~ "A bottle of flammable liquid with a rag inserted. Use this item to light "
+#~ "the rag; you will, of course, need a lighter in your inventory to do "
+#~ "this. After lighting it, throw it to cause fires."
 #~ msgstr ""
-#~ "Grejač za jednokratnu upotrebu, za korišćenje kod sportskih povreda ili "
-#~ "za grejanje hrane. Ovaj je već iskorišćen i zbog toga je neupotrebljiv."
+#~ "Flaša sa zapaljivim alkoholnim sadržajem i krpom na vrhu. (A)ktiviraj "
+#~ "kako bi se zapalila krpa; potrebno je imati upaljač. Čim se krpa zapali, "
+#~ "baciti od sebe kako bi se izazvao požar."
 
 #~ msgid ""
-#~ "An M72 LAW, packed in its storage form. (a)ctivate it to pop it out and "
-#~ "make it ready to fire. Once activated, it cannot be repacked."
+#~ "This canister of teargas has had its pin removed, indicating that it is "
+#~ "(or will shortly be) expelling highly toxic gas."
 #~ msgstr ""
-#~ "Raketni bacač M72 LAW, zapakovan za transport. (A)ktiviraj kako bi otpala "
-#~ "zaštita da bude spreman za paljbu, posle čega se ne može zapakovati."
+#~ "Metalni kanister sa suzavcem, sada je aktivna bomba koja će uskoro, "
+#~ "ukoliko već i nije počela da izbacuje vrlo otrovan gas."
 
-#~ msgid ""
-#~ "A sealed glass jar containing some meat.  Activate to open and enjoy."
-#~ msgstr ""
-#~ "Hermetički zatvorena tegla sa komadima mesa. (A)ktiviraj da otvoriš i "
-#~ "uživaš."
-
-#~ msgid ""
-#~ "A sealed glass jar containing human meat.  Activate to open and enjoy."
-#~ msgstr ""
-#~ "Hermetički zatvorena tegla ljudskog mesa. (A)ktiviraj da otvoriš i uživaš."
-
-#~ msgid "A sealed glass jar containing veggy.  Activate to open and enjoy."
-#~ msgstr "Hermetički zatvorena tegla povrća. (A)ktiviraj da otvoriš i uživaš."
-
-#~ msgid "sealed jar of canned apple"
-#~ msgstr "zimnica - komadi jabuke"
-
-#~ msgid ""
-#~ "A sealed glass jar containing a sliced apple.  Activate to open and enjoy."
-#~ msgstr ""
-#~ "Hermetički zatvorena tegla sa komadima jabuke. (A)ktiviraj da otvoriš i "
-#~ "uživaš."
+#~ msgid "active teargas"
+#~ msgstr "aktivni suzavac"
 
 #~ msgid ""
-#~ "A cordless drill with a selection of drill bits. The charger base "
-#~ "contains a battery draining attachment so the drill can be charged in "
-#~ "lieu of mains power."
+#~ "This EMP grenade is active, and will shortly detonate, creating a large "
+#~ "EMP field that damages robots and drains bionic energy."
 #~ msgstr ""
-#~ "Bežična bušilica i različiti umetci za nju. Punjač sadrži preklopnik uz "
-#~ "koji naprava koristi strujno napajanje umesto baterije."
+#~ "Ova bomba sa EMP dejstvom je aktivna i ubrzo će eksplodirati, rezultujući "
+#~ "poljem dejstva elektromagnetnog impulsa koje oštećuje robote i crpi "
+#~ "bioničku energiju implanata."
 
 #~ msgid ""
-#~ "A portable heat sealer unit with an air pump, for vacuum packing of food."
+#~ "Use this item to pull the pin, turning it into an active EMP grenade. You "
+#~ "will then have three turns before it detonates, creating an EMP field "
+#~ "that damages robots and drains bionic energy."
 #~ msgstr ""
-#~ "Prenosivi sistem za pakovanje hrane vakuumom, radi na principu toplog i "
-#~ "hladnog vazduha, odnosno izvlačenja istog."
+#~ "(A)ktiviranjem ćeš izvući osigurač i tako pokrenuti brojač EMP ručne "
+#~ "bombe.Imaš tri runde do detonacije, koja ima polje dejstva "
+#~ "elektromagnetnog impulsa čime oštećuje robote i crpi bioničku energiju "
+#~ "implanata."
 
 #~ msgid ""
-#~ "Vacuum packed meat slices in plastic packaging.  Activate to open and "
-#~ "enjoy."
+#~ "This flashbang is active, and will soon detonate with intense light and "
+#~ "sound, blinding, deafening and disorienting anyone nearby."
 #~ msgstr ""
-#~ "Isečeni komadi mesa životinje, vakuumirani u plastičnom pakovanju. (A)"
-#~ "ktiviraj da bi otvorio/la kesicu i prepustio/la se uživanju."
+#~ "Aktivna, ručna šok bomba. Uskoro će eksplodirati uz veoma jarku svetlost "
+#~ "i vrlo snažan zvuk koji zaslepljuju i oglušuju sa dezorijentišućim "
+#~ "efektom."
 
 #~ msgid ""
-#~ "Vacuum packed veggy chunks in plastic packaging.  Activate to open and "
-#~ "enjoy."
+#~ "Use this item to pull the pin, turning it into an active flashbang. You "
+#~ "will then have five turns before it detonates with intense light and "
+#~ "sound, blinding, deafening and disorienting anyone nearby."
 #~ msgstr ""
-#~ "Isečeni komadi povrća, vakuumirani u plastičnom pakovanju. (A)ktiviraj da "
-#~ "bi otvorio/la kesicu i prepustio/la se uživanju."
+#~ "(A)ktiviraj da izvučeš osigurač šok bombe, tada imaš 5 rundi do "
+#~ "detonacije kada će eksplodirati uz veoma jarku svetlost i vrlo snažan "
+#~ "zvuk koji zaslepljuju i oglušuju sa dezorijentišućim efektom."
 
-#~ msgid "vacuum-packed apple slices"
-#~ msgstr "vakumizirani komadi jabuke"
-
 #~ msgid ""
-#~ "Vacuum packed apple slices in plastic packaging..  Activate to open and "
-#~ "enjoy."
+#~ "This grenade is active, and will explode any second now. Better throw it!"
 #~ msgstr ""
-#~ "Isečeni komadi jabuke, vakuumirani u plastičnom pakovanju. (A)ktiviraj da "
-#~ "bi otvorio/la kesicu i prepustio/la se uživanju."
-
-#~ msgid "A decent sized piece of cotton designed for medical purposes."
-#~ msgstr "Obično parče pamuka standardne veličine za upotrebu u medicini."
-
-#~ msgid ".45 caliber retool"
-#~ msgstr "alat za prepravku na .45 kalibar."
-
-#~ msgid "9mm caliber retool"
-#~ msgstr "alat za prepravku na 9mm kalibar."
-
-#~ msgid ".22 caliber retool"
-#~ msgstr "alat za prepravku na .22 kalibar."
-
-#~ msgid "5.7mm caliber retool"
-#~ msgstr "alat za prepravku na 5.7mm kalibar"
+#~ "Ovoj bombi je izvučena sigurnosna igla - eksplodiraće! Otarasi je se što "
+#~ "pre!"
 
-#~ msgid "4.6mm caliber retool"
-#~ msgstr "alat za prepravku na 4.6mm kalibar."
-
-#~ msgid ".308 caliber retool"
-#~ msgstr "alat za prepravku na .308 kalibar."
-
-#~ msgid ".223 caliber retool"
-#~ msgstr "alat za prepravku na .223 kalibar."
-
-#, fuzzy
-#~ msgid "You flub the installation"
-#~ msgstr "Infekcija uzima danak; razboleo/la si se."
-
-#, fuzzy
-#~ msgid "You screw up the installation"
-#~ msgstr "Infekcija uzima danak; razboleo/la si se."
-
-#, fuzzy
-#~ msgid " AM"
-#~ msgstr "RAM Memorija"
-
-#~ msgid "Your torso is burning up. You should remove some layers."
-#~ msgstr "Osećaš vatru po grudima. Trebalo bi da skineš nešto od odeće."
-
-#~ msgid "Your hands are shivering."
-#~ msgstr "Tresu ti se šake."
-
-#~ msgid "Your feet feel numb."
-#~ msgstr "Gubiš osećaj u stopalima."
-
-#~ msgid "Fully rested."
-#~ msgstr "Potpuno odmoran/na."
-
-#~ msgid "Huh?  What was that?"
-#~ msgstr "Molim? Šta to bi?"
-
-#~ msgid "Oh god, what's happening?"
-#~ msgstr "Gospode Bože, šta se ovo dešava?"
-
-#~ msgid "Of course... it's all fractals!"
-#~ msgstr "Pa da... sve je u razlomcima!"
-
 #~ msgid ""
-#~ "Your head is dangerously cold. Getting undressed sounds like a good idea."
+#~ "Use this item to pull the pin, turning it into an active grenade. You "
+#~ "will then have five turns before it explodes; throwing it would be a good "
+#~ "idea."
 #~ msgstr ""
-#~ "Osećaš strašnu hladnoću po glavi. Najbolje bi bilo da svučeš sve sa sebe."
-
-#~ msgid "Your hands are very exposed to the cold. Your hands are shivering."
-#~ msgstr "Šake su ti duže vreme izložene hladnoći. Počinju da se tresu."
-
-#, fuzzy
-#~ msgid "her"
-#~ msgstr "grabulje"
+#~ "(A)ktiviraj da izvučeš osigurač bombe, tada imaš 5 rundi do detonacije. "
+#~ "Ne bi bila loša ideja da je pre toga baciš."
 
-#, fuzzy
-#~ msgid "greatly "
-#~ msgstr "srednjevekovna kaciga"
-
-#, fuzzy
-#~ msgid "recharge"
-#~ msgstr "punjenje"
-
-#, fuzzy
-#~ msgid "fuel tank"
-#~ msgstr "rezervoar"
-
-#, fuzzy
-#~ msgid "in"
-#~ msgstr "džin"
-
-#, fuzzy
-#~ msgid "on"
-#~ msgstr "Ništa"
-
-#, fuzzy
-#~ msgid "floataion vest"
-#~ msgstr "kožni opasač"
-
-#~ msgid "belt rig"
-#~ msgstr "vojni opasač"
-
-#~ msgid "house coat"
-#~ msgstr "bademantil"
-
 #~ msgid ""
-#~ "A basic helmet, designed for use with the DOubleTech Power Armor, Mk. I. "
-#~ "Offers excellent protection from both attacks and environmental hazards."
+#~ "A section of a pipe filled with explosive materials. Use this item to "
+#~ "light the fuse, which gives you 3 turns before it detonates. You will "
+#~ "need a lighter. It is somewhat unreliable, and may fail to detonate."
 #~ msgstr ""
-#~ "Osnovna varijanta kacige koja ide uz DoubleTech-ov Mk. I oklop sa "
-#~ "jedinicom za napajanje. Odlična zaštita od napada i štetnih faktora u "
-#~ "vazduhu i okolini."
-
-#, fuzzy
-#~ msgid "RM99 Revolver"
-#~ msgstr "Revolver-Sačmarica"
-
-#, fuzzy
-#~ msgid "12 Gauge Pistol"
-#~ msgstr "V29 laserski pištolj"
-
-#~ msgid "Screwdriver"
-#~ msgstr "Šrafciger"
-
-#~ msgid "Take frequently to improve your immune system."
-#~ msgstr "Uzima se često kao dodatak ishrani jer koristi imunom sistemu."
-
-#~ msgid "Vaccine shot"
-#~ msgstr "Vakcina"
-
-#~ msgid "Provides long lasting protection against sickness."
-#~ msgstr "Ima dugotrajno podsticajno dejstvo na imunitet od raznih bolesti."
-
-#~ msgid "Low-grade painkiller. Best taken in pairs."
-#~ msgstr "Sredstvo protiv lakih bolova, konzumira se u parovima."
-
-#~ msgid "No-doz pills. Useful for staying up all night."
-#~ msgstr "Pilule koje se uzimaju bez recepta i služe za održavanje budnosti."
+#~ "Parče limene cevi punjene eksplozivom. (A)ktivirati kako bi se fitilj "
+#~ "zapalio, posle čega ostaju 3 runde pre nego što eksplodira. Potreban ti "
+#~ "je upaljač. Naprava je nepouzdana i možda neće eksplodirati."
 
-#~ msgid "Prescription sleep aids. Will make you very tired."
-#~ msgstr "Pilule za spavanje na recept. Izazivaju jak osećaj umora."
-
 #~ msgid ""
-#~ "Iodine tablets are used for recovering from irradiation. They are not "
-#~ "spectacularly effective, but are better than nothing."
-#~ msgstr ""
-#~ "Tablete joda se koriste nakon izlaganja zračenju. Oporavak nije preterano "
-#~ "brz ni efikasan, ali bolje išta nego ništa."
-
-#~ msgid "Daytime flu medication. Will halt all flu symptoms for a while."
+#~ "\"Warning: contains highly toxic and corrosive materials. Contents may be "
+#~ "sentient. Open at your own risk.\""
 #~ msgstr ""
-#~ "Lek protiv simptoma gripa za dnevnu upotrebu. Efekat traje umereno dugo."
+#~ "\"Upozorenje: sadrži vrlo toksične i opasne materije. Sadržaj može biti "
+#~ "osetljiv. Koristiti na sopstvenu odgovornost.\""
 
 #~ msgid ""
-#~ "Nighttime flu medication. Will halt all flu symptoms for a while, plus "
-#~ "make you sleepy."
+#~ "An arcane device, powered by plutonium fuel cells. Using it will cause "
+#~ "you to teleport a short distance away."
 #~ msgstr ""
-#~ "Lek protiv simptoma gripa za noćnu upotrebu. Efekat traje umereno dugo,uz "
-#~ "opuštajuće, uspavljujuće dejstvo."
+#~ "Drevna, nepoznata naprava, koja radi na baterije sa plutonijumom. Ako se "
+#~ "aktivira teleportovaće te na kratku razdaljinu."
 
 #~ msgid ""
-#~ "Vital medicine for those with asthma. Those without asthma can use it for "
-#~ "a minor stimulant boost."
+#~ "A tool for measuring radiation. It is in continuous scan mode, and will "
+#~ "produce quiet clicking sounds in the presence of ambient radiation. Using "
+#~ "it allows you to turn it off, or scan yourself or the ground."
 #~ msgstr ""
-#~ "Neophodna spravica onima sa astmom. Potpuno zdravima može poslužiti kao "
-#~ "blag stimulans."
+#~ "Uređaj za merenje radijacije. Ukoliko se postavi tako da stalno radi,"
+#~ "neprekidnim kuckanjem će upozoravati ukoliko se radijacija pojavi. Treba "
+#~ "ga (A)ktivirati kako bi se isključio, ili možeš nastaviti da skeniraš."
 
-#~ msgid "A weak opiate, prescribed for light to moderate pain."
-#~ msgstr ""
-#~ "Opijat slabijeg dejstva, za analgetsku primenu protiv bolova slabog i "
-#~ "umerenog intenziteta."
-
-#~ msgid "A strong opiate, prescribed for moderate to intense pain."
-#~ msgstr "Opijat jakog dejstva, za umerene i snažne bolove."
-
 #~ msgid ""
-#~ "Anti-anxiety medication. It will reduce your stimulant level steadily, "
-#~ "and will temporarily cancel the effects of anxiety, like the Hoarder "
-#~ "trait."
+#~ "A tool for measuring radiation. Using it will prompt you to choose "
+#~ "whether to scan yourself or the terrain, or to turn it on, which will "
+#~ "provide continuous feedback on ambient radiation."
 #~ msgstr ""
-#~ "Sredstvo za smirenje. Redukuje nivo stimulativnih sredstava u organizmu "
-#~ "vrlo postepeno i na taj način negira nuspojave nervoze, na primer kod "
-#~ "osoba sa Poremećajem Gomilanja."
+#~ "Uređaj za merenje radijacije. Treba ga (A)ktivirati kako bi znao da li da "
+#~ "skenira tebe odnosno okolni teren, u kom slučaju će ostati uključen tako "
+#~ "da zvukom obaveštava o prisustvu radijacije."
 
-#~ msgid ""
-#~ "A strong stimulant prescribed for ADD. It will greatly increase your "
-#~ "stimulant level, but is quite addictive."
-#~ msgstr ""
-#~ "Sredstvo na recept koje se prepisuje kod akutnih poremećaja pažnje (ADD)."
-#~ "Vrlo snažan kao stimulant, ali brzo izaziva zavisnost."
+#~ msgid "An anti-personnel mine that is triggered when stepped upon."
+#~ msgstr "Protivpešadijska nagazna mina sa okidačem."
 
 #~ msgid ""
-#~ "Anti-psychotic medication. Used to control the symptoms of schizophrenia "
-#~ "and similar ailments. Also popular as a way to come down from a bad trip."
+#~ "A kit for a simple trap consisting of a rope noose and a snare trigger. "
+#~ "Requires a tree nearby. Effective at trapping monsters."
 #~ msgstr ""
-#~ "Vrlo snažno sredstvo za smirenje, na recept. Koristi se za otklanjanje "
-#~ "simptoma šizofrenije i sl. Zloupotrebljava se kao sredstvo za \"spuštanje."
-#~ "\""
-
-#~ msgid "A strong anti-depressant. Useful if your morale level is very low."
-#~ msgstr "Snažan antidepresiv. Primenljiv kada je moral u padu."
+#~ "Komplet za izradu jednostavne zamke, sa omčom od konopca i običnim "
+#~ "okidačem. Pričvršćena na drvo, zamka služi za hvatanje životinja."
 
 #~ msgid ""
-#~ "These will boost your dexterity, intelligence, and perception for a short "
-#~ "time. They are quite addictive."
+#~ "A kit for a simple trap consisting of a string noose and a snare trigger. "
+#~ "Requires a young tree nearby. Effective at trapping and killing some "
+#~ "small animals."
 #~ msgstr ""
-#~ "Uvećavaju spretnost, inteligenciju i percepciju na kratak vremenski rok, "
-#~ "dok značajno uvećavaju šansu da se navučeš."
-
-#~ msgid "marijuana"
-#~ msgstr "marihuana"
-
-#~ msgid ""
-#~ "Really useful only for relaxing. Will reduce your attributes and reflexes."
-#~ msgstr "Koristi uglavnom kod opuštanja. Refleksi i osobine biće umanjeni."
-
-#~ msgid "A strong, illegal stimulant. Highly addictive."
-#~ msgstr "Nelegalno sredstvo, stimulant koji brzo izaziva zavisnost."
+#~ "Komplet za izradu jednostavne zamke, sa omčom od konopca i običnim "
+#~ "okidačem. Pričvršćena na mlado drvo, zamka služi za hvatanje manjih "
+#~ "životinja."
 
 #~ msgid ""
-#~ "A very strong illegal stimulant. Extremely addictive and bad for you, but "
-#~ "also extremely effective in boosting your alertness."
+#~ "A machete is attached laterally to a motor, with a tripwire controlling "
+#~ "its throttle. When the tripwire is pulled, the blade is swung around with "
+#~ "great force. The trap forms a 3x3 area of effect."
 #~ msgstr ""
-#~ "Ilegalan i izuzetno snažan narkotik. Vrlo brzo izaziva zavisnost i jako "
-#~ "je loš po zdravlje, a stimulativno dejstvo drži dugo na oprezu."
+#~ "Mačeta koja se postrance pričvrsti na motor, sa okidačem za zamku koji "
+#~ "kontroliše paljenje. U slučaju da se aktivira, sečivo će se zavrteti "
+#~ "velikom snagom. Radijus dejstva je reda veličine 3x3."
 
 #~ msgid ""
-#~ "A very strong illegal opiate. Unless you have an opiate tolerance, avoid "
-#~ "heroin, as it will be too strong for you."
+#~ "A simple tripwire is attached to the trigger of a loaded sawn-off "
+#~ "shotgun. When pulled, the shotgun fires. Two rounds are used; the first "
+#~ "time the trigger is pulled, one or two may be used."
 #~ msgstr ""
-#~ "Ilegalan i snažan narkotik. Ukoliko ne poseduješ izuzetnu otpornost na "
-#~ "opijate trebalo bi da izbegavaš heroin, zbog jačine dejstva."
+#~ "Zamka u vidu parčeta žice koje se povuče i time povlači i oroz sačmarice."
+#~ "U tom slučaju oružje ispaljuje jednu ili dve patrone sačme od ukupno dve "
+#~ "koliko ima kada se postavi."
 
 #~ msgid ""
-#~ "A gentleman's vice. Cigars are what separates a gentleman from a savage."
+#~ "A simple tripwire is attached to the trigger of a loaded crossbow. When "
+#~ "pulled, the crossbow fires. Only a single round can be used, after which "
+#~ "the trap is disabled."
 #~ msgstr ""
-#~ "Porok pravih džentlmena. Cigare čine tu razliku između čoveka i divljaka."
-
-#~ msgid "Sleeping pills made by refining mutated poppy seeds."
-#~ msgstr "Domaće pilule za spavanje od semenja mutirane biljke maka."
-
-#~ msgid "Painkillers made by refining mutated poppy seeds.."
-#~ msgstr "Sredstvo protiv bolova spravljeno od semenja mutirane biljke maka."
+#~ "Zamka u vidu parčeta žice koje se povuče, u kom slučaju nategnuti "
+#~ "samostrel izbacuje strelu. Jedini nedostatak je to što posle ispaljivanja "
+#~ "te strele zamka više ne funkcioniše dok se ponovo ne postavi."
 
-#~ msgid "Refined cocaine, incredibly addictive."
-#~ msgstr "Vrsta prerađenog kokaina koja izaziva neverovatnu zavisnost."
-
 #~ msgid ""
-#~ "A funnel used to collect rainwater. (a)ctivate it and place it outside "
-#~ "then collect water from it when it rains."
+#~ "A tripwire trap must be placed across a doorway or other thin passage. "
+#~ "Its purpose is to trip up bypassers, causing them to stumble and possibly "
+#~ "hurt themselves minorly."
 #~ msgstr ""
-#~ "Poveći levak za skupljanje kišnice. (A)ktivirati napolju kako bi "
-#~ "prikupljao vodu dok pada kiša."
-
-#, fuzzy
-#~ msgid "Your muscles are a little stronger.  Strength + 1"
-#~ msgstr "Osećaš se malo čudno."
-
-#, fuzzy
-#~ msgid "You are a little smarter.  Intelligence + 1"
-#~ msgstr "Osećaš se malo čudno."
-
-#~ msgid "MOTD"
-#~ msgstr "Misao Dana"
-
-#~ msgid "Load"
-#~ msgstr "Učitaj"
-
-#~ msgid "Help"
-#~ msgstr "Pomoć"
-
-#~ msgid "Quit"
-#~ msgstr "Izlaz"
-
-#~ msgid "You double over, spewing live spores from your mouth!"
-#~ msgstr "Savio/la si se, iskašljavajući pritom žive spore!"
-
-#~ msgid "Symptoms alleviated by medication (Dayquil or Nyquil)."
-#~ msgstr "Simptomi se umiruju dejstvom Dejkila ili Najkila (lek)."
-
-#~ msgid "POW:   "
-#~ msgstr "NAP:   "
-
-#~ msgid "Occasional vomiting"
-#~ msgstr "Povremeno povraćanje"
-
-#~ msgid "Occasional pain and/or damage."
-#~ msgstr "Povremeni bol i/ili štetno dejstvo."
-
-#~ msgid "Loss of health - Torso"
-#~ msgstr "Pogoršano Stanje Grudnog Koša"
-
-#~ msgid "Loss of health - Entire Body"
-#~ msgstr "Pogoršano Stanje Čitavog Tela"
-
-#~ msgid "Fungus stalks burst through %s's hands!"
-#~ msgstr "%s, gljivični stalci ti izbijaju po šakama!"
-
-#~ msgid " - 3 IF not resistant, -1 otherwise\n"
-#~ msgstr " - 3 AKO nema otpornost, -1 inače\n"
+#~ "Žica kakva se postavlja u neki uski prolaz ili dovratak. Nema veću svrhu "
+#~ "od toga da se nepažljivi prolaznik saplete i eventualno padne, uz manje "
+#~ "povrede."
 
-#, fuzzy
 #~ msgid ""
-#~ "Small metal objects covered with many sharp points. If an unsuspecting "
-#~ "victim steps on it, they'll get a spine through the foot."
+#~ "Several pieces of wood, nailed together, with nails sticking straight up. "
+#~ "If an unsuspecting victim steps on it, they'll get nails through the foot."
 #~ msgstr ""
 #~ "Daščice spojene manjim ekserima, sa nekolicinom većih eksera koji vire "
 #~ "iznad.Ukoliko se nagazi, probiće đon i (inače) povrediti stopalo."
 
-#, fuzzy
 #~ msgid ""
-#~ "A bedroll made of pelts which can be rolled up for transport. Insulates "
-#~ "you from the floor, making it easier to sleep"
+#~ "A spring-loaded pair of steel jaws. Use it to set it on the ground, "
+#~ "creating a trap that will ensnare and damage anything that steps on it. "
+#~ "If you are carrying a shovel, you will have the option of burying it."
 #~ msgstr ""
-#~ "Dušek od penastog materijala koji se urola i tako spakuje. Koristan kada "
-#~ "je potrebno izbeći spavanje na hladnoj i čvrstoj podlozi."
+#~ "Čelična zamka koja se sastoji od para oštrih čeljusti i opruge. (A)"
+#~ "ktiviraj na zemlji, čime ćeš je postaviti kako bi zarobila sve što pokuša "
+#~ "da pređe preko tog kvadrata. Uz pomoć lopate možeš i da je zakopaš."
+
+#~ msgid ""
+#~ "A sheet of plastic covered with air-filled bubbles. Use it to set it on "
+#~ "the ground, creating a trap that will warn you with noise when something "
+#~ "steps on it."
+#~ msgstr ""
+#~ "Plastična folija prekrivena vazdušnim mehurićima. Ako se (A)ktivira na "
+#~ "podu postaje zamka koja će se oglasiti ukoliko neko pokuša da pređe preko "
+#~ "nje."
+
+#~ msgid "bubblewrap"
+#~ msgstr "plastični mehurići (folija)"
+
+#~ msgid ""
+#~ "This jackhammer runs on gasoline. Use it (if loaded) to blast a hole in "
+#~ "adjacent solid terrain."
+#~ msgstr ""
+#~ "Bušilica veće snage koja radi na benzin. (A)ktiviraj ukoliko ima goriva "
+#~ "kako bi probila rupu kroz čvrste materijale u okolini."
+
+#~ msgid ""
+#~ "Using this item will, if loaded with gas, cause it to turn on, making a "
+#~ "very powerful, but slow, unwieldy, and noisy, melee weapon."
+#~ msgstr ""
+#~ "(A)ktivacijom se dobija oružje koje radi na benzin, sporo i nezgodno, "
+#~ "bučno ali vrlo opasno u bliskoj borbi."
+
+#~ msgid ""
+#~ "A flexible rubber hose. Can be used for crafting, or siphoning fuel from "
+#~ "a vehicle."
+#~ msgstr ""
+#~ "Savitljivo gumeno crevo. Korisno kao komponenta pri izradi korisnih "
+#~ "predmeta,odnosno za izvlačenje goriva iz rezervoara."
+
+#~ msgid "A digging tool. Use it to dig pits adjacent to your location."
+#~ msgstr "Oruđe za kopanje. Korisno za iskopavanje rupa u bližoj okolini."
+
+#~ msgid ""
+#~ "A farming implement. Use it to turn tillable land into a slow-to-cross "
+#~ "pile of dirt."
+#~ msgstr ""
+#~ "Oruđe koje se koristi na farmi. Njime se rastresita, obradiva zemlja može "
+#~ "nabacati da služi kao nasip."
+
+#~ msgid ""
+#~ "A prying tool. Use it to open locked doors without destroying them, or to "
+#~ "lift manhole covers."
+#~ msgstr ""
+#~ "Alat za grubo otvaranje. Koristan kod otvaranja zaključanih vrata, takođe "
+#~ "neophodan pri podizanju poklopaca šahtova."
+
+#~ msgid ""
+#~ "A road map. Use it to read points of interest, including, but not limited "
+#~ "to, location(s) of hospital(s) nearby."
+#~ msgstr ""
+#~ "Karta lokalnih puteva. Kada je pročitaš, pokazaće ti lokalne drumove i "
+#~ "bitne lokacije kao što su bolnice."
+
+#~ msgid ""
+#~ "This device was constructed by 'enhancing' a radio with some amplifier "
+#~ "circuits. It's completely lost its ability to pick up a station, but it's "
+#~ "nice and loud now. Could be useful to distract zombies."
+#~ msgstr ""
+#~ "Uzevši radio i igrajući se sa dodatnim pojačivačima signala nastao je "
+#~ "ovaj uređaj, vrlo koristan u pravljenju buke koja privlači zombije. U "
+#~ "slučaju da želiš da uhvatiš neku stanicu, nećeš uspeti."
+
+#~ msgid ""
+#~ "A string of numbers to access the elevator in the hazardous waste "
+#~ "sarcophagus."
+#~ msgstr ""
+#~ "Niz brojeva potreban kako bi se pokrenuo lift u prostoriji za "
+#~ "skladištenje radioaktivnog otpada."
+
+#~ msgid ""
+#~ "If you can find a system to analyze this you may find something of "
+#~ "interest."
+#~ msgstr ""
+#~ "Ako pronađeš uređaj koji može da analizira ovo, moguće je da ćeš saznati "
+#~ "nešto korisno."
+
+#~ msgid ""
+#~ "An antenna designed to pick up signals better when pointed at the source."
+#~ msgstr "Antena koja se usmeri ka izvoru i tada bolje prihvata signal."
+
+#~ msgid ""
+#~ "This radio is turned on, and continually draining its batteries. It is "
+#~ "playing the broadcast being sent from any nearby radio towers."
+#~ msgstr ""
+#~ "Uključeni radio uređaj koji radi na baterije. Namešten je na neku od "
+#~ "okolnih stanica, čiji toranj se verovatno nalazi negde u blizini."
+
+#~ msgid ""
+#~ "Using this radio turns it on. It will pick up any nearby signals being "
+#~ "broadcast and play them audibly."
+#~ msgstr ""
+#~ "(A)ktiviranjem uključuješ radio aparat. Možeš slušati šta se emituje na "
+#~ "nekoj od frekvencija koje se emituju u blizini putem zvučnika."
+
+#~ msgid ""
+#~ "Using this allows you to send out a signal; either a general SOS, or if "
+#~ "you are in contact with a faction, to send a direct call to them."
+#~ msgstr ""
+#~ "(A)ktiviraj kako bi poslao signal na odabranoj radio frekvenciji. To može "
+#~ "biti formalni SOS, ili poziv nekoj od organizacija u okolini."
+
+#~ msgid ""
+#~ "A piece of metal that can get very hot. Necessary for electronics "
+#~ "crafting. You could also use it to cauterize wounds, if you had to."
+#~ msgstr ""
+#~ "Parče metala koje se zagreje do visokih temperatura. Neophodno u radu sa "
+#~ "elektronikom, još je korisno i kod zaustavljanja krvarenja."
+
+#~ msgid ""
+#~ "A small heating element. Indispensable for cooking and chemistry. Try not "
+#~ "to burn yourself."
+#~ msgstr ""
+#~ "Grejač na električnu energiju. Nezamenljiv za hemijske oglede, koristan "
+#~ "za kuvanje i zagrevanje. Pažljivo, možeš se opeći."
+
+#~ msgid ""
+#~ "A small blue light glowstick, bend it to break the glass cylinder inside "
+#~ "and start the reaction to produce a very small amount of light."
+#~ msgstr ""
+#~ "Štap fluorescentno plave boje, ukoliko se savije staklena zaštita puca te "
+#~ "hemijska reakcija s vazduhom rezultuje ne baš jarkom svetlošću."
+
+#~ msgid ""
+#~ "A light-emitting circuit wired directly to some batteries. Provides a "
+#~ "weak light, lasting 25 hours per 3 (battery) charges. When the batteries "
+#~ "die, you'll need to scrap it to recover the components that are reusable."
+#~ msgstr ""
+#~ "Kolo koje emituje slabu svetlost i crpi snagu iz baterija. Svake 3 "
+#~ "jedinice punjenja baterije pružaju 25 sati osvetljenja. Istrošena "
+#~ "baterija se ne menja, već je moguće rastaviti sklop."
+
+#~ msgid ""
+#~ "A light-emitting circuit wired directly to some batteries. Once "
+#~ "activated, provides 25 hours of light per 3 (battery) charges. When the "
+#~ "batteries die, you'll need to scrap it to recover the components that are "
+#~ "reusable."
+#~ msgstr ""
+#~ "Kolo koje emituje slabu svetlost i crpi snagu iz baterija. Od trenutka "
+#~ "kada se aktivira, svake 3 jedinice punjenja baterije pružaju 25 sati "
+#~ "osvetljenja.Istrošena baterija se ne menja, već je moguće rastaviti sklop."
+
+#~ msgid ""
+#~ "A burnt-out lightstrip. You could disassemble this to recover the "
+#~ "amplifier circuit."
+#~ msgstr ""
+#~ "Pregorelo elektronsko kolo sa malim, ukrasnim svetlom. Rastavljanjem se "
+#~ "dobija kolo pojačivača signala."
+
+#~ msgid ""
+#~ "This flashlight is turned on, and continually draining its batteries. It "
+#~ "provides light during the night or while underground. Use it to turn it "
+#~ "off."
+#~ msgstr ""
+#~ "Uključena ručna lampa, ili baterlampa, obasjava svetlost i crpi punjenje."
+#~ "Nezamenljiva tokom noći ili ispod zemlje. (A)ktiviraj da je isključiš."
+
+#~ msgid ""
+#~ "Using this flashlight will turn it on, assuming it is charged with "
+#~ "batteries. A turned-on flashlight will provide light during the night or "
+#~ "while underground."
+#~ msgstr ""
+#~ "(A)ktiviranjem baterijske lampe osvetljavaš prostor oko sebe, ukoliko "
+#~ "imaš dovoljno baterija. Korisna je noću kao i pod zemljom."
+
+#~ msgid ""
+#~ "A small gasoline powered lantern. It does not provide much light, but it "
+#~ "lasts a long time. It is turned on. Use it to turn it off."
+#~ msgstr ""
+#~ "Fenjer, odnosno svetiljka na tečno gorivo. Ne osvetljava baš mnogo, ali "
+#~ "rezervoar traje dugo. Upaljena je. (A)ktiviraj da bi se ugasila."
+
+#~ msgid ""
+#~ "A small gasoline powered lantern. It does not provide much light, but it "
+#~ "lasts a long time. Use it to turn it on."
+#~ msgstr ""
+#~ "Fenjer, odnosno svetiljka na tečno gorivo. Ne osvetljava baš mnogo, ali "
+#~ "rezervoar traje dugo. (A)ktiviraj da bi počela da svetli."
+
+#~ msgid ""
+#~ "With enough electronics skill, you could attach this to your devices to "
+#~ "increase their battery capacity."
+#~ msgstr ""
+#~ "Ako si dovoljno vešt(a) sa elektronikom možeš da uvećaš kapacitet nekog "
+#~ "od uređaja tako da drži više baterija odjednom koristeći ovu spravicu."
+
+#~ msgid "Use a fire extinguisher to put out adjacent fires."
+#~ msgstr ""
+#~ "(A)ktiviraj aparat za gašenje požara na okolini kako bi požar bio ugašen."
+
+#~ msgid ""
+#~ "Use a hammer, with nails and two by fours in your inventory, to board up "
+#~ "adjacent doors and windows."
+#~ msgstr ""
+#~ "Čekić služi kako bi se vrata i prozori zabarikadirali, u slučaju da imaš "
+#~ "2x4 daske i dovoljno eksera pri sebi."
+
+#~ msgid ""
+#~ "Use scissors to cut items made from cotton (mostly clothing) into rags."
+#~ msgstr ""
+#~ "Makazama možeš iseći pamučne odevne predmete pretvarajući ih u krpe."
+
+#~ msgid ""
+#~ "Use a sewing kit on an article of clothing to attempt to repair or "
+#~ "reinforce that clothing. This uses your tailoring skill."
+#~ msgstr ""
+#~ "(A)ktiviraj komplet za šivenje na odabranom odevnom predmetu radi "
+#~ "potrebnih popravki usled cepanja, ili radi ojačavanja istih. Zavisi od "
+#~ "veštine Šivenja."
+
+#~ msgid ""
+#~ "A fire drill is a simple item for firestarting, made from two pieces of "
+#~ "wood and some string. Although it is constructed out of simple materials, "
+#~ "it's slow and rather difficult to get a fire started with this tool."
+#~ msgstr ""
+#~ "Drvce za potpaljivanje vatre čine dva manja, čvrsta i suva komada drveta "
+#~ "sa kratkom strunom kojom se materijal zagreva. Iako izgleda jednostavno,"
+#~ "potpaljivanje nije nimalo lako, a ni brzo."
+
+#~ msgid ""
+#~ "Matches must be carried to use various drugs, like cigarettes, or to "
+#~ "light things like molotov cocktails.  You can also use matches to light "
+#~ "nearby items on fire."
+#~ msgstr ""
+#~ "Šibice su korisne da bi se inhalirala različita isparenja, dim cigarete "
+#~ "ili da bi se zapalio eksploziv kao što je Molotovljev koktel. Neophodne "
+#~ "su i ako želiš da potpališ vatru."
+
+#~ msgid ""
+#~ "A lighter must be carried to use various drugs, like cigarettes, or to "
+#~ "light things like molotov cocktails.  You can also use a lighter to light "
+#~ "nearby items on fire."
+#~ msgstr ""
+#~ "Upaljač je neophodan za korišćenje različitih opijata, cigareta, ili kako "
+#~ "bi se zapalio molotovljev koktel. Takođe, upaljač je koristan kako bi se "
+#~ "mnoge stvari u okolini zapalile."
+
+#~ msgid ""
+#~ "Apple slices soaked in a sugar syrup, to preserve freshness and appearance"
+#~ msgstr ""
+#~ "Komadići jabuke u šećernom sirupu, koji čuva svežinu, sastav i oblik."
+
+#~ msgid "apple slices"
+#~ msgstr "komadići jabuke"
+
+#~ msgid ""
+#~ "Sealed glass jar containing preserved apples.  Bland, mushy and losing "
+#~ "color."
+#~ msgstr ""
+#~ "Tegla konzerviranih jabuka u soku. Slabog ukusa i polako gube sastav i "
+#~ "boju."
+
+#~ msgid "canned apple slices"
+#~ msgstr "konzervirani komadi jabuke"
+
+#~ msgid "MRE - beef"
+#~ msgstr "SDO - meso"
+
+#~ msgid "This white flour is useful for baking."
+#~ msgstr "Pšenično brašno, pomeša se sa tečnošću i peče u rerni ili na vatri."
+
+#~ msgid ""
+#~ "A large ant egg, the size of a softball. Extremely nutritious, but gross."
+#~ msgstr ""
+#~ "Jaje džinovskog mrava veličine bejzbol lopte. Izuzetno hranjivo ali "
+#~ "odvratno."
+
+#~ msgid ""
+#~ "A malformed human leg, this would be gross to eat, and cause mutations."
+#~ msgstr "Deformisana ljudska noga, odvratna kao obrok, a izaziva i mutacije."
+
+#~ msgid ""
+#~ "A misshapen human arm, eating this would be pretty disgusting and cause "
+#~ "your DNA to mutate."
+#~ msgstr ""
+#~ "Deformisana ljudska ruka, odvratna kao obrok, a izaziva i mutacije DNK "
+#~ "koda."
+
+#~ msgid ""
+#~ "A deformed human fetus, eating this would be very nasty, and cause your "
+#~ "DNA to mutate."
+#~ msgstr ""
+#~ "Deformisan fetus ljudskog bića, konzumiranje bi bilo vrlo štetno, naravno "
+#~ "u smislu mutacije DNK koda čoveka."
+
+#~ msgid ""
+#~ "A large chunk of wax, filled with dense, dark honey.  Useful for curing "
+#~ "all sorts of afflictions."
+#~ msgstr ""
+#~ "Veliki komad pčelinjeg voska, ispunjen gustim, tamnim medom. Koristan kod "
+#~ "uklanjanja ogromnog broja štetnih simptoma."
+
+#~ msgid ""
+#~ "A large chunk of beeswax. Not very tasty or nourishing, but ok in an "
+#~ "emergency."
+#~ msgstr ""
+#~ "Veliki komad pčelinjeg voska. Ne tako ukusan niti hranljiv, ali može da "
+#~ "koristi u nevolji."
+
+#~ msgid "Blech, so gross. Save it for when you're about to die of starvation."
+#~ msgstr ""
+#~ "Izbeljivač, odvratne arome. Ne pokušavaj konzumaciju ukoliko ne umireš od "
+#~ "gladi."
+
+#~ msgid "tuna fish"
+#~ msgstr "tunjevina"
+
+#~ msgid "sardines"
+#~ msgstr "sardine"
+
+#~ msgid "Yuck, not very tasty, but it is quite filling."
+#~ msgstr "Bljak, groznog je ukusa, ali te dosta zasiti."
+
+#~ msgid "Canned beans. A staple for hobos."
+#~ msgstr "Konzerva pasulja. Praznik za beskućnike."
+
+#~ msgid "cooked spaghetti"
+#~ msgstr "kuvane špagete"
+
+#~ msgid "Bread and turkey, that's it."
+#~ msgstr "Hleb i meso ćurke, ukratko."
+
+#~ msgid "beef jerky"
+#~ msgstr "usoljeno suvo meso"
+
+#~ msgid "Concentrated acid from an acid rainstorm. Don't drink it."
+#~ msgstr "Sakupljena kiselina preostala od kisele kiše. Nije za piće."
+
+#~ msgid "Don't drink it. Mixing it with bleach produces toxic gas."
+#~ msgstr "Nije za piće. Mešanje sa izbeljivačem daje opasna isparenja."
+
+#~ msgid "Don't drink it. Mixing it with ammonia produces toxic gas."
+#~ msgstr "Nije za piće. Mešanje sa amonijakom daje opasna isparenja."
+
+#~ msgid ""
+#~ "A sharpened bolt carved from wood. It's lighter than a steel bolt, but "
+#~ "does less damage and is less accurate. Stands a good chance of remaining "
+#~ "intact once fired."
+#~ msgstr ""
+#~ "Drvena municija za samostrel sa oštrim vrhom. Lakša je odnosu na čeličnu,"
+#~ "zbog čega nanosi manje štete i manje je precizna. Posle ispaljivanja ima "
+#~ "solidnu šansu da ostane čitava."
+
+#~ msgid "Basic Sword & Sorcery."
+#~ msgstr "Osnove Mača i Magije."
+
+#~ msgid ""
+#~ "Will you be able to place the arrow right into bull's eye? It is not that "
+#~ "easy, but once you know how it's done, you will have a lot of fun with "
+#~ "archery."
+#~ msgstr ""
+#~ "Da li možeš da ispališ strelu u sam centar mete? To i nije tako lako kao "
+#~ "što izgleda, ali uz dovoljno vežbe, i TI možeš da se zabavljaš koristeći "
+#~ "luk i strelu."
+
+#~ msgid "Primer from a small caliber  round."
+#~ msgstr "Kapisla za metak pištolja manjeg kalibra."
+
+#~ msgid ""
+#~ "A 60mm High Explosive Anti Tank round. They can blow through up to two "
+#~ "feet of concrete."
+#~ msgstr ""
+#~ "60mm Anti-tenkovska granata sa snažnom eksplozijom. Može da probije "
+#~ "betonski zid deblji od pola metra."
+
+#~ msgid ""
+#~ "A 40mm grenade with a small explosion and a high number of damaging "
+#~ "fragments."
+#~ msgstr ""
+#~ "40mm granata sa vrlo malom eksplozijom i velikim brojem eksplozivnih "
+#~ "delova."
+
+#~ msgid "A 40mm grenade with a concussive explosion."
+#~ msgstr "40mm granata sa eksplozivnim punjenjem"
+
+#~ msgid ""
+#~ "Designed during World War II by the Soviet Union, the popularity of the "
+#~ "AK-47 and the SKS contributed to the widespread adaption of the 7.62x39mm "
+#~ "rifle round. However, due to its lack of yaw, this round deals less "
+#~ "damage than most."
+#~ msgstr ""
+#~ "Napravljena tokom Drugog svetskog rata u sovjetskoj Rusiji, popularnost "
+#~ "automatske puške AK-47 i SKS-a doprinele su masovnom korišćenju kalibra "
+#~ "7.62x39mm puščanog metka. Budući da se tane uopšte ne zarotira po izlasku "
+#~ "iz cevi, to čini da nanosi manju štetu od municije sličnog kalibra."
+
+#~ msgid ""
+#~ "This small caliber pistol round offers quite good armor penetration at "
+#~ "the cost of slightly less damage. It is rarely used outside of the "
+#~ "Chinese army."
+#~ msgstr ""
+#~ "Municija manjeg kalibra, sa dobrim karakteristikama pri probijanju oklopa "
+#~ "mete, ali umanjenim potencijalom za nanošenje štete. Retko se javlja van "
+#~ "sfere uticaja kineske vojske."
+
+#~ msgid ""
+#~ "9 millimeter parabellum is generally regarded as the most popular handgun "
+#~ "cartridge, used by the majority of US police forces. It is also a very "
+#~ "popular round in sub-machine guns."
+#~ msgstr ""
+#~ "9-milimetarski metak je jedan od najpopularnijih u upotrebi pri šaržerima "
+#~ "za pištolje, standardan za policiju u SAD. Veoma je često upotrebljavan "
+#~ "kao municija kod manjeg automatskog oružja (SMG)."
+
+#~ msgid ""
+#~ "Conical Ball .22 is a variety of .22 ammunition with a very small "
+#~ "propellant charge, generally with no gunpowder, resulting in a subsonic "
+#~ "round. It is nearly silent, but is so weak as to be nearly useless."
+#~ msgstr ""
+#~ "Kuglični projektil, kalibra .22 za oružje koje se ne oslanja na barutno "
+#~ "punjenje metka je vrlo mali metak koji leti brzinama blizu zvučne. Gotovo "
+#~ "nečujan ali toliko slab da je praktično neupotrebljiv."
+
+#~ msgid "A tough sinew cut from a corpse, useable as thread."
+#~ msgstr ""
+#~ "Žilice sa lešine nekog čoveka ili životinje, služe kao zamena za konac."
+
+#~ msgid ""
+#~ "A leather sling, it is easy to use and accurate, but pebbles do little "
+#~ "damage. Pebbles are used as ammunition."
+#~ msgstr ""
+#~ "Praćka od kožnog materijala, lako se zamahuje njom i precizna je. "
+#~ "Municija su uglavnom kamenčići koji prave malu štetu."
+
+#~ msgid ""
+#~ "Popular among children. It's fairly accurate, but BBs deal nearly no "
+#~ "damage. It could be used to practice your rifle skill up to level 1."
+#~ msgstr ""
+#~ "Deca je obožavaju. Relativno precizna, vazdušna puška koristi metkiće "
+#~ "koji skoro da i ne nanose štetu meti. Korisna da bi se veština rukovanja "
+#~ "puškama uvežbala do osnovnog nivoa (1)."
+
+#~ msgid ""
+#~ "A tool used to drive nails into wood or other material. It could also be "
+#~ "used as a ad-hoc weapon, or to practice your handgun skill up to level 1."
+#~ msgstr ""
+#~ "Uređaj kojim se zabijaju ekseri u drvo i druge materijale. U nuždi može "
+#~ "poslužiti kao oružje, odnosno za vežbu dok se ne dostigne trening nivoa 1."
+#~ "Izgleda kao pištolj."
+
+#~ msgid ""
+#~ "A badge that detects radiation dosage sealed in a radiation-blocking "
+#~ "bag.  Activate to remove from the bag."
+#~ msgstr ""
+#~ "Mali indikator doze radijacije spakovan u materijal otporan na zračenje."
+#~ "(A)ktiviraj da otpakuješ."
+
+#~ msgid "A bit cumbersome to wear, but provides some storage"
+#~ msgstr "Pomalo nezgodno za nošenje, ali ima prostora za teret."
+
+#~ msgid "A thin pair of leather gloves. Good for doing manual labor."
+#~ msgstr "Par tankih platnenih rukavica. Korisne za manuelne poslove."
+
+#~ msgid "A heavy cotton coat. Cumbersome, but warm and with deep pockets."
+#~ msgstr ""
+#~ "Kaput od debljeg pamuka. Iako je težak za kretnju, topao je i ima džepove."
+
+#~ msgid "A padded coat with deep pockets. Very warm."
+#~ msgstr "Kaput sa postavom i dubokim džepovima. Vrlo topao."
+
+#~ msgid "A thin cotton jacket. Good for brisk weather."
+#~ msgstr "Tanka pamučna jakna. Super za prohladno vreme."
+
+#~ msgid "plate mail"
+#~ msgstr "srednjevekovni metalni oklop"
+
+#~ msgid ""
+#~ "A hazardous materials suit. Though quite bulky and cumbersome, wearing it "
+#~ "will provide excellent protection against ambient radiation."
+#~ msgstr ""
+#~ "Zaštitno odelo. Iako je teško za nošenje i izgleda vrlo robusno, nošenje "
+#~ "ovakvog odela pruža odličnu zaštitu od radijacije u okolini."
+
+#~ msgid "long underwear"
+#~ msgstr "dugačke gaće"
+
+#~ msgid ""
+#~ "There is only the space where an object should be, but isn't. No item "
+#~ "template of this type exists."
+#~ msgstr ""
+#~ "Samo prazan prostor; predmet je nepostojeći; ima nepostojeće "
+#~ "karakteristike."
+
+#~ msgid "Error: Item Missing."
+#~ msgstr "Greška: Nedostaje Predmet."
+
+#~ msgid "MODS/BIONICS"
+#~ msgstr "MODIFIKACIJE/BIONIKA"
+
+#~ msgid "MEDICINE/DRUGS"
+#~ msgstr "LEKOVI/OPIJATI"
+
+#~ msgid "Pus Filled Wound"
+#~ msgstr "Gnojna Rana"
+
+#~ msgid "Painful Infected Wound"
+#~ msgstr "Inficiran i Bolan Ugriz"
+
+#~ msgid "Infected Wound"
+#~ msgstr "Inficirana Rana"
+
+#~ msgid "Painful Bite Wound"
+#~ msgstr "Bolan Ujed"
+
+#~ msgid "Bite Wound"
+#~ msgstr "Ugriz"
+
+#~ msgid "Bugs Under Skin"
+#~ msgstr "Bube pod kožom"
+
+#~ msgid "Bleeding"
+#~ msgstr "Krvarenje"
+
+#~ msgid "Spores"
+#~ msgstr "Spore"
+
+#~ msgid "You feel feverish and nauseous, your wound has begun to turn green."
+#~ msgstr "Padaš u groznicu, muka ti je, a rana poprima zelenu nijansu."
+
+#~ msgid "Your bite wound feels swollen and painful."
+#~ msgstr "Ujed koji osećaš počinje da natiče i boli te."
+
+#~ msgid "Your bite wound really hurts."
+#~ msgstr "Rana od ujeda stvarno počinje da boli."
+
+#~ msgid "%s starts scratching herself all over!"
+#~ msgstr "%s počinje da se češe svuda po telu!"
+
+#~ msgid "%s starts scratching himself all over!"
+#~ msgstr "%s počinje da se češe svuda po telu!"
+
+#~ msgid "You start scratching yourself all over!"
+#~ msgstr "Počinješ da se češeš po celom telu!"
+
+#~ msgid "There's bugs crawling under your skin!"
+#~ msgstr "Nekakve bube počinju da puze pod tvojom kožom!"

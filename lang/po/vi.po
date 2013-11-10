@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda vietnamese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-31 07:37+1300\n"
-"PO-Revision-Date: 2013-10-29 12:21+0000\n"
+"POT-Creation-Date: 2013-11-07 14:53+1300\n"
+"PO-Revision-Date: 2013-11-06 20:42+0000\n"
 "Last-Translator: Huỳnh Yên Lộc <ryoutranquility@gmail.com>\n"
 "Language-Team: Vietnamese Translator(s) <ryoutranquility@gmail.com>\n"
 "Language: Vietnamese\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-30 06:12+0000\n"
+"X-Launchpad-Export-Date: 2013-11-07 00:32+0000\n"
 "X-Generator: Launchpad (build 16820)\n"
 
 #: action.cpp
@@ -3231,9 +3231,9 @@ msgid "You can't do that!"
 msgstr "Bạn không thể làm vậy!"
 
 #: crafting.cpp
-#, fuzzy, c-format
+#, c-format
 msgid "You cannot disassemble the %s into its components, too few items."
-msgstr "Bạn tháo rời %s thành các thành phần riêng."
+msgstr ""
 
 #: crafting.cpp
 #, c-format
@@ -3707,15 +3707,15 @@ msgstr "<npcname> mất một ít máu."
 
 #: disease.cpp
 msgid "<npcname> vomits a thick, grey goop."
-msgstr ""
+msgstr "<npcname> nôn ra dịch đặc và xám."
 
 #: disease.cpp
 msgid "<npcname> vomits thousands of live spores!"
-msgstr ""
+msgstr "<npcname> nôn ra hàng ngàn bào tử sống!"
 
 #: disease.cpp
 msgid "<npcname>'s hands bulge. Fungus stalks burst through the bulge!"
-msgstr ""
+msgstr "Tay của <npcname> phình lên. Sợi nấm chui ra từ các chỗ phình!"
 
 #: disease.cpp
 msgid "A monster appears nearby!"
@@ -3989,11 +3989,11 @@ msgstr "Say xỉn"
 
 #: disease.cpp
 msgid "Everything around you is starting to breathe."
-msgstr ""
+msgstr "Mọi thứ xung quanh bạn bắt đầu thở."
 
 #: disease.cpp
 msgid "Everything looks SO boring now."
-msgstr ""
+msgstr "Bây giờ mọi thứ nhìn mới nhàm chán làm sao."
 
 #: disease.cpp
 msgid "Food Poisoning"
@@ -4001,7 +4001,7 @@ msgstr "Ngộ độc"
 
 #: disease.cpp
 msgid "Fractal patterns dance across your vision."
-msgstr ""
+msgstr "Các hình ảnh hư ảo nhảy múa quanh bạn."
 
 #: disease.cpp
 msgid "Freezing arms!!"
@@ -4165,7 +4165,7 @@ msgstr "Bệnh cúm"
 
 #: disease.cpp
 msgid "Insects begin to emerge from <npcname>'s skin!"
-msgstr ""
+msgstr "Trùng bọ bắt đầu chui ra da của <npcname>!"
 
 #: disease.cpp
 #, c-format
@@ -4361,7 +4361,7 @@ msgstr "Mở khóa Rắn tấn công!"
 
 #: disease.cpp
 msgid "Something feels very, very wrong."
-msgstr ""
+msgstr "Có cái gì đô rất không hay."
 
 #: disease.cpp
 msgid "Sounds will not be reported.  You cannot talk with NPCs."
@@ -4501,7 +4501,7 @@ msgstr "Gục xuống vì cơn hen."
 
 #: disease.cpp
 msgid "Succumbed to the infection."
-msgstr ""
+msgstr "Chết vì nhiễm trùng."
 
 #: disease.cpp
 msgid "Tear gas"
@@ -4510,7 +4510,7 @@ msgstr "Hơi cay"
 #: disease.cpp iexamine.cpp iuse.cpp monattack.cpp mondeath.cpp
 #, c-format
 msgid "The %s is covered in tiny spores!"
-msgstr ""
+msgstr "%s bị bao phủ trong bào tử!"
 
 #: disease.cpp
 msgid "The bite wound feels really deep..."
@@ -4522,7 +4522,7 @@ msgstr "Trần nhà đổ sập xuống đầu bạn!"
 
 #: disease.cpp
 msgid "The cold wakes you up."
-msgstr ""
+msgstr "Cái lạnh làm bạn thức giấc."
 
 #: disease.cpp
 msgid "The heat is making you see things."
@@ -4530,11 +4530,11 @@ msgstr "Sức nóng khiến bạn gặp ảo giác."
 
 #: disease.cpp
 msgid "The heat wakes you up."
-msgstr ""
+msgstr "Cái nóng làm bạn thức giấc."
 
 #: disease.cpp
 msgid "The light wakes you up."
-msgstr ""
+msgstr "Ánh nắng làm bạn thức giấc."
 
 #: disease.cpp
 msgid "The sunlight's glare makes it hard to see."
@@ -4542,11 +4542,11 @@ msgstr "Chói nắng khiến bạn khó nhìn thấy gì."
 
 #: disease.cpp
 msgid "The world takes on a dreamlike quality."
-msgstr ""
+msgstr "Thế giới xung quanh như đang là trong mơ."
 
 #: disease.cpp
 msgid "Things are returning to normal."
-msgstr ""
+msgstr "Mọi thứ trở về như bình thường."
 
 #: disease.cpp
 msgid "Tipsy"
@@ -4623,7 +4623,7 @@ msgstr "Bạn đang mất máu nhanh."
 
 #: disease.cpp
 msgid "You are recovering from an infection."
-msgstr ""
+msgstr "Bạn đang hồi phục sau khi bị nhiễm trùng."
 
 #: disease.cpp
 msgid "You are slowed by the rubble."
@@ -4647,7 +4647,7 @@ msgstr "Bạn tìm cách thoát khỏi bẫy."
 
 #: disease.cpp
 msgid "You can barely remain standing."
-msgstr ""
+msgstr "Bạn cố gắng lắm mới đứng vững được."
 
 #: disease.cpp
 msgid "You can't breathe... asthma attack!"
@@ -4663,7 +4663,7 @@ msgstr "Bạn không thể tin mọi thứ mắt nhìn thấy."
 
 #: disease.cpp
 msgid "You cough heavily."
-msgstr ""
+msgstr "Bạn ho nặng."
 
 #: disease.cpp
 msgid "You cough noisily."
@@ -4687,7 +4687,7 @@ msgstr "Bạn thấy cơn cúm đang đến..."
 
 #: disease.cpp
 msgid "You feel a little strange."
-msgstr ""
+msgstr "Bạn cảm thấy hơi kỳ lạ."
 
 #: disease.cpp
 msgid "You feel a surge of adrenaline!"
@@ -4705,10 +4705,11 @@ msgstr "Bạn cảm thấy hoàn toàn kiệt sức."
 #, c-format
 msgid "You feel feverish and nauseous, your %s wound has begun to turn green."
 msgstr ""
+"Bạn phát sốt và buồn nôn, vết thương %s của bạn bắt đầu chuyển sang xanh."
 
 #: disease.cpp
 msgid "You feel feverish and nauseous."
-msgstr ""
+msgstr "Bạn phát sốt và buồn nôn."
 
 #: disease.cpp
 msgid "You feel lightheaded."
@@ -4720,19 +4721,19 @@ msgstr "Bạn thấy buồn nôn!"
 
 #: disease.cpp
 msgid "You feel nauseous."
-msgstr ""
+msgstr "Bạn thấy buồn nôn."
 
 #: disease.cpp
 msgid "You feel sick to your stomach."
-msgstr ""
+msgstr "Bạn thấy dạ dày mình quặn lên."
 
 #: disease.cpp
 msgid "You feel terribly weak, standing up is nearly impossible."
-msgstr ""
+msgstr "Bạn cảm thấy rất yếu, hầu như không thể đứng lên được nửa."
 
 #: disease.cpp
 msgid "You feel well rested."
-msgstr ""
+msgstr "Bạn thấy khỏe khoắn."
 
 #: disease.cpp
 msgid "You gag and retch."
@@ -4744,11 +4745,11 @@ msgstr "Bạn bị một vết cắn nghiêm trọng."
 
 #: disease.cpp
 msgid "You have a sudden nostalgic feeling."
-msgstr ""
+msgstr "Bạn đột nhiên có cảm giác nhớ nhà."
 
 #: disease.cpp
 msgid "You have an infected wound."
-msgstr ""
+msgstr "Bạn có một vết thương nhiễm trùng."
 
 #: disease.cpp
 msgid "You inhale a lungful of tear gas."
@@ -4784,7 +4785,7 @@ msgstr "Bạn đột nhiên rùng mình."
 
 #: disease.cpp
 msgid "You smell and taste mushrooms."
-msgstr ""
+msgstr "Bạn ngửi và nếm vài cây nấm."
 
 #: disease.cpp
 #, c-format
@@ -4793,7 +4794,7 @@ msgstr "Bạn nhích gần vào %s để giữ ấm."
 
 #: disease.cpp
 msgid "You spasm suddenly!"
-msgstr ""
+msgstr "Đột nhiên bạn bị co thắt!"
 
 #: disease.cpp
 #, c-format
@@ -4810,19 +4811,23 @@ msgstr ""
 
 #: disease.cpp
 msgid "You succumb to the infection."
-msgstr ""
+msgstr "Bạn chết vì sự nhiễm trùng."
 
 #: disease.cpp
 msgid "You toss and turn in the heat."
-msgstr ""
+msgstr "Bạn trở mình qua lại trong cái nóng."
 
 #: disease.cpp
 msgid "You toss and turn trying to keep warm."
-msgstr ""
+msgstr "Bạn trở mình qua lại để giữ ấm."
 
 #: disease.cpp
 msgid "You try to sleep, but can't..."
 msgstr "Bạn cố ngủ, nhưng không được..."
+
+#: disease.cpp
+msgid "You turn off your alarm-clock."
+msgstr ""
 
 #: disease.cpp
 #, c-format
@@ -4835,23 +4840,19 @@ msgstr "Bạn dùng đống quần áo để làm ấm."
 
 #: disease.cpp
 msgid "You vomit a thick, gray goop."
-msgstr ""
+msgstr "Bạn nôn ra dịch đặc và xám."
 
 #: disease.cpp
 msgid "You vomit thousands of live spores!"
-msgstr ""
+msgstr "Bạn nôn ra hàng ngàn bào tử sống!"
 
 #: disease.cpp
 msgid "You wake up coughing."
-msgstr ""
-
-#: disease.cpp
-msgid "You wake up to the ringing of an alarm-clock."
-msgstr "Tiếng chuông báo thức kêu bạn dậy."
+msgstr "Bạn tỉnh giấc và ho."
 
 #: disease.cpp
 msgid "You wake up."
-msgstr ""
+msgstr "Bạn tỉnh giấc."
 
 #: disease.cpp
 msgid "You wheeze and gasp for air."
@@ -4921,22 +4922,22 @@ msgstr "Bạn đột nhiên gục xuống do cơn đau!"
 #: disease.cpp
 #, c-format
 msgid "Your %s wound begins to feel better."
-msgstr ""
+msgstr "Vết thương %s của bạn bắt đầu lành."
 
 #: disease.cpp
 #, c-format
 msgid "Your %s wound feels swollen and painful."
-msgstr ""
+msgstr "Vết thương %s của bạn đau và sưng lên."
 
 #: disease.cpp
 #, c-format
 msgid "Your %s wound is incredibly painful."
-msgstr ""
+msgstr "Vết thương %s của bạn cực kỳ đau."
 
 #: disease.cpp
 #, c-format
 msgid "Your %s wound really hurts."
-msgstr ""
+msgstr "Vết thương %s của bạn rất đau."
 
 #: disease.cpp
 msgid "Your adrenaline rush wears off.  You feel AWFUL!"
@@ -5109,7 +5110,7 @@ msgstr "Ngón tay bạn thấy ngứa."
 
 #: disease.cpp
 msgid "Your flesh crawls; insects tear through the flesh and begin to emerge!"
-msgstr ""
+msgstr "Da thịt bạn sởn lên; trùng bọ xé toạc da thịt bạn mà chui ra!"
 
 #: disease.cpp
 msgid ""
@@ -5146,7 +5147,7 @@ msgstr "Tay bạn run lên vượt ngoài tầm kiểm soát vì bị rét cóng
 
 #: disease.cpp
 msgid "Your hands bulge. Fungus stalks burst through the bulge!"
-msgstr ""
+msgstr "Tay bạn phình lên. Sợi nấm chui ra từ các chỗ phình!"
 
 #: disease.cpp
 msgid "Your hands feel disgustinly hot and are very uncoordinated."
@@ -5201,11 +5202,11 @@ msgstr "Đầu của bạn bị phơi lạnh nhiều. Bạn thấy khó tập tr
 
 #: disease.cpp
 msgid "Your healing wound feels swollen and painful."
-msgstr ""
+msgstr "Vết thương đang lành của bạn đau và sưng lên."
 
 #: disease.cpp
 msgid "Your healing wound is incredibly painful."
-msgstr ""
+msgstr "Vết thương đang lành của bạn cực kỳ đau đớn."
 
 #: disease.cpp
 msgid ""
@@ -5260,7 +5261,7 @@ msgstr "Chân bạn run rẩy trước cái lạnh không ngừng."
 
 #: disease.cpp
 msgid "Your movement is randomized."
-msgstr ""
+msgstr "Sự di chuyển của bạn trở nên ngẫu nhiên."
 
 #: disease.cpp
 msgid ""
@@ -5268,6 +5269,8 @@ msgid ""
 "This\n"
 "will deal piercing damage."
 msgstr ""
+"Đòn đánh tiếp theo sẽ là Xà vồ, tay thu lại thành hình nón. Đòn này\n"
+"sẽ gây sát thương đâm xuyên."
 
 #: disease.cpp
 msgid ""
@@ -5275,6 +5278,8 @@ msgid ""
 "good\n"
 "condition, and deals massive damage."
 msgstr ""
+"Đòn đánh tiếp theo sẽ là Xà kích. Cả hai tay phải còn trong tình trạng\n"
+"tốt, và sẽ gây sát thương cực lớn."
 
 #: disease.cpp
 msgid "Your skin feels extremely itchy!"
@@ -5338,7 +5343,7 @@ msgstr "Ánh sáng chói lấp đầy tầm nhìn của bạn..."
 
 #: disease.cpp
 msgid "a hacking cough."
-msgstr ""
+msgstr "một cơn ho khan."
 
 #: disease.cpp monattack.cpp
 msgid "beep-beep-beep!"
@@ -5350,133 +5355,133 @@ msgstr "ho lớn."
 
 #: editmap.cpp
 msgid " [indoors]"
-msgstr ""
+msgstr " [trong nhà]"
 
 #: editmap.cpp
 msgid " [roof]"
-msgstr ""
+msgstr " [mái nhà]"
 
 #: editmap.cpp
 msgid " [vehicle]"
-msgstr ""
+msgstr " [phương tiện]"
 
 #: editmap.cpp
 #, c-format
 msgid "%d: %s; movecost %d"
-msgstr ""
+msgstr "%d: %s; mức di chuyển %d"
 
 #: editmap.cpp
 #, c-format
 msgid "%d: %s; movecost %d movestr %d"
-msgstr ""
+msgstr "%d: %s; mức di chuyển %d sức di chuyển %d"
 
 #: editmap.cpp
 msgid "-clear-"
-msgstr ""
+msgstr "-trống-"
 
 #: editmap.cpp game.cpp
 #, c-format
 msgid "Graffiti: %s"
-msgstr ""
+msgstr "Grafiti: %s"
 
 #: editmap.cpp
 #, c-format
 msgid "There are %d other items there as well."
-msgstr ""
+msgstr "Có %d vật khác ở đây nữa."
 
 #: editmap.cpp game.cpp
 #, c-format
 msgid "There is a %s there."
-msgstr ""
+msgstr "Có một cái %s ở đây."
 
 #: editmap.cpp game.cpp
 #, c-format
 msgid "There is a %s there. Parts:"
-msgstr ""
+msgstr "Có một cái %s ở đây: Các phần:"
 
 #: editmap.cpp
 msgid "[indoors] "
-msgstr ""
+msgstr "[trong nhà] "
 
 #: editmap.cpp
 msgid "[roof] "
-msgstr ""
+msgstr "[mái nhà] "
 
 #: editmap.cpp
 #, c-format
 msgid "dist: %d u_see: %d light: %d v_in: %d"
-msgstr ""
+msgstr "phân bố: %d u_see: %d ánh sáng: %d v_in: %d"
 
 #: editmap.cpp
 #, c-format
 msgid "field: %s (%d) density %d age %d"
-msgstr ""
+msgstr "vùng: %s (%d) độ đặc %d tuổi %d"
 
 #: editmap.cpp
 #, c-format
 msgid "movecost %d"
-msgstr ""
+msgstr "mức di chuyển %d"
 
 #: editmap.cpp
 #, c-format
 msgid "trap: %s (%d)"
-msgstr ""
+msgstr "bẫy: %s (%d)"
 
 #: event.cpp
 msgid "An eyebot swoops down nearby!"
-msgstr ""
+msgstr "Một Eyebot phóng xuống gần đây!"
 
 #: event.cpp
 msgid "Angered a group of amigara horrors!"
-msgstr ""
+msgstr "Làm một nhóm quái vật Amigara tức giận!"
 
 #: event.cpp
 msgid "Awoke a group of dark wyrms!"
-msgstr ""
+msgstr "Làm một nhóm Wyrm tỉnh giấc!"
 
 #: event.cpp
 msgid "Became wanted by the police!"
-msgstr ""
+msgstr "Bị cảnh sát truy nã!"
 
 #: event.cpp
 msgid "Destroyed a triffid grove."
-msgstr ""
+msgstr "Phá hủy một khu rừng triffid nhỏ."
 
 #: event.cpp
 msgid "Opened a strange temple."
-msgstr ""
+msgstr "Mở cửa vào một ngôi đền lạ."
 
 #: event.cpp
 msgid "The earth rumbles."
-msgstr ""
+msgstr "Mặt đất rung chuyển."
 
 #: event.cpp
 msgid "The entire cavern shakes!"
-msgstr ""
+msgstr "Cả hang động rung chuyển!"
 
 #: event.cpp
 msgid "The nearby grates open to reveal a staircase!"
-msgstr ""
+msgstr "Chấn song sắt mở để lộ ra một cầu thang!"
 
 #: event.cpp
 msgid "Water fills nearly to the ceiling!"
-msgstr ""
+msgstr "Nước dâng lên gần đến trần!"
 
 #: event.cpp
 msgid "Water level reached knees."
-msgstr ""
+msgstr "Mực nước dâng lên đầu gối."
 
 #: event.cpp
 msgid "Water level reached the ceiling."
-msgstr ""
+msgstr "Mực nước dâng lên đến trần."
 
 #: event.cpp
 msgid "Water quickly floods up to your knees."
-msgstr ""
+msgstr "Nước nhanh chóng dâng lên đến đầu gối bạn."
 
 #: event.cpp
 msgid "You hear screeches from the rock above and around you!"
-msgstr ""
+msgstr "Bạn nghe tiếng rít phát ra từ đất đá xung quanh!"
 
 #: faction.cpp
 msgid " They are known for "
@@ -5877,11 +5882,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Agents"
-msgstr ""
+msgstr "Tay sai"
 
 #: faction.cpp
 msgid "Arachnids"
-msgstr ""
+msgstr "Nhện"
 
 #: faction.cpp
 msgid "Archenemy"
@@ -5889,15 +5894,15 @@ msgstr ""
 
 #: faction.cpp
 msgid "Army"
-msgstr ""
+msgstr "Đội quân"
 
 #: faction.cpp
 msgid "Assassins"
-msgstr ""
+msgstr "Sát thủ"
 
 #: faction.cpp
 msgid "Baleful"
-msgstr ""
+msgstr "Tai họa"
 
 #: faction.cpp
 msgid "Bandits"
@@ -5909,11 +5914,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Berserkers"
-msgstr ""
+msgstr "Kẻ điên cuồng"
 
 #: faction.cpp
 msgid "Bright"
-msgstr ""
+msgstr "Sáng chói"
 
 #: faction.cpp
 msgid "Brotherhood"
@@ -5937,7 +5942,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Colossal"
-msgstr ""
+msgstr "Khổng lồ"
 
 #: faction.cpp
 msgid "Company"
@@ -5961,7 +5966,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Crystal"
-msgstr ""
+msgstr "Tinh thể"
 
 #: faction.cpp
 msgid "Cutthroats"
@@ -5969,11 +5974,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Deadly"
-msgstr ""
+msgstr "Chết chóc"
 
 #: faction.cpp
 msgid "Dervishes"
-msgstr ""
+msgstr "Thầy tu"
 
 #: faction.cpp
 msgid "Despicable"
@@ -5981,15 +5986,15 @@ msgstr ""
 
 #: faction.cpp
 msgid "Destroyers"
-msgstr ""
+msgstr "Kẻ hủy diệt"
 
 #: faction.cpp
 msgid "Devastating"
-msgstr ""
+msgstr "Tàn phá"
 
 #: faction.cpp
 msgid "Devoted"
-msgstr ""
+msgstr "Tận tụy"
 
 #: faction.cpp
 msgid "Disliked"
@@ -5997,7 +6002,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Divine"
-msgstr ""
+msgstr "Thần thánh"
 
 #: faction.cpp
 msgid "Doctrine"
@@ -6005,7 +6010,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Dread"
-msgstr ""
+msgstr "Kinh hãi"
 
 #: faction.cpp
 msgid "Eels"
@@ -6017,7 +6022,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Electric"
-msgstr ""
+msgstr "Phát điện"
 
 #: faction.cpp
 msgid "Eliminators"
@@ -6037,15 +6042,15 @@ msgstr ""
 
 #: faction.cpp
 msgid "Famous"
-msgstr ""
+msgstr "Nổi tiếng"
 
 #: faction.cpp
 msgid "Firey"
-msgstr ""
+msgstr "Bốc lửa"
 
 #: faction.cpp
 msgid "Fists"
-msgstr ""
+msgstr "Nắm đấm"
 
 #: faction.cpp
 msgid "Folk"
@@ -6053,11 +6058,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Foul"
-msgstr ""
+msgstr "Hôi thối"
 
 #: faction.cpp
 msgid "Furies"
-msgstr ""
+msgstr "Cơn thịnh nộ"
 
 #: faction.cpp
 msgid "Gang"
@@ -6069,15 +6074,15 @@ msgstr ""
 
 #: faction.cpp
 msgid "Golden"
-msgstr ""
+msgstr "Vàng kim"
 
 #: faction.cpp
 msgid "Great"
-msgstr ""
+msgstr "Vĩ đại"
 
 #: faction.cpp
 msgid "Guerillas"
-msgstr ""
+msgstr "Lính du kích"
 
 #: faction.cpp
 msgid "Guild"
@@ -6089,7 +6094,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Heroic"
-msgstr ""
+msgstr "Anh hùng"
 
 #: faction.cpp
 msgid "Highly Valued"
@@ -6097,15 +6102,15 @@ msgstr ""
 
 #: faction.cpp
 msgid "Holy"
-msgstr ""
+msgstr "Linh thiêng"
 
 #: faction.cpp
 msgid "Horror"
-msgstr ""
+msgstr "Khủng khiếp"
 
 #: faction.cpp
 msgid "Huntsmen"
-msgstr ""
+msgstr "Thợ săn"
 
 #: faction.cpp
 msgid "Idol"
@@ -6113,7 +6118,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Immaculate"
-msgstr ""
+msgstr "Tinh khiết"
 
 #: faction.cpp
 msgid "Inquisitors"
@@ -6121,11 +6126,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Invincible"
-msgstr ""
+msgstr "Vô địch"
 
 #: faction.cpp
 msgid "Killers"
-msgstr ""
+msgstr "Kẻ giết người"
 
 #: faction.cpp
 msgid "Kingdom"
@@ -6133,7 +6138,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Knights"
-msgstr ""
+msgstr "Kỵ sĩ"
 
 #: faction.cpp
 msgid "Laughingstock"
@@ -6161,11 +6166,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Metal"
-msgstr ""
+msgstr "Kim loại"
 
 #: faction.cpp
 msgid "Mighty"
-msgstr ""
+msgstr "Hùng mạnh"
 
 #: faction.cpp
 msgid "Mob"
@@ -6185,7 +6190,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Nefarious"
-msgstr ""
+msgstr "Hung ác"
 
 #: faction.cpp
 msgid "Neutral"
@@ -6193,11 +6198,11 @@ msgstr ""
 
 #: faction.cpp npc.cpp
 msgid "Ninja"
-msgstr ""
+msgstr "Ninja"
 
 #: faction.cpp
 msgid "Noble"
-msgstr ""
+msgstr "Cao quý"
 
 #: faction.cpp
 msgid "Not Welcome"
@@ -6209,11 +6214,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Original"
-msgstr ""
+msgstr "Căn nguyên"
 
 #: faction.cpp
 msgid "Paladins"
-msgstr ""
+msgstr "Hiệp sĩ thánh"
 
 #: faction.cpp
 msgid "Parasite"
@@ -6237,19 +6242,19 @@ msgstr ""
 
 #: faction.cpp
 msgid "Pernicious"
-msgstr ""
+msgstr "Nguy hiểm"
 
 #: faction.cpp
 msgid "Pestilent"
-msgstr ""
+msgstr "Dịch hại"
 
 #: faction.cpp lang/json/json_mutations.py
 msgid "Poisonous"
-msgstr ""
+msgstr "Độc hại"
 
 #: faction.cpp
 msgid "Powerful"
-msgstr ""
+msgstr "Mạnh mẽ"
 
 #: faction.cpp
 msgid "Priests"
@@ -6265,11 +6270,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Radiant"
-msgstr ""
+msgstr "Rực rỡ"
 
 #: faction.cpp
 msgid "Rats"
-msgstr ""
+msgstr "Chuột"
 
 #: faction.cpp
 msgid "Republic"
@@ -6277,19 +6282,19 @@ msgstr ""
 
 #: faction.cpp
 msgid "Righteous"
-msgstr ""
+msgstr "Công lý"
 
 #: faction.cpp
 msgid "Ruinous"
-msgstr ""
+msgstr "Đổ nát"
 
 #: faction.cpp
 msgid "Sacred"
-msgstr ""
+msgstr "Thiêng liêng"
 
 #: faction.cpp
 msgid "Samurai"
-msgstr ""
+msgstr "Samurai"
 
 #: faction.cpp
 msgid "Sect"
@@ -6305,7 +6310,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Shadows"
-msgstr ""
+msgstr "Bóng đen"
 
 #: faction.cpp
 msgid "Sharks"
@@ -6313,19 +6318,19 @@ msgstr ""
 
 #: faction.cpp
 msgid "Shining"
-msgstr ""
+msgstr "Soi sáng"
 
 #: faction.cpp
 msgid "Sinister"
-msgstr ""
+msgstr "Nham hiểm"
 
 #: faction.cpp
 msgid "Slayers"
-msgstr ""
+msgstr "Kẻ sát nhân"
 
 #: faction.cpp
 msgid "Snakes"
-msgstr ""
+msgstr "Rắn"
 
 #: faction.cpp
 msgid "Snipers"
@@ -6337,11 +6342,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Solid"
-msgstr ""
+msgstr "Đặc"
 
 #: faction.cpp
 msgid "Splendid"
-msgstr ""
+msgstr "Tráng lệ"
 
 #: faction.cpp
 msgid "Spoken Of"
@@ -6357,11 +6362,11 @@ msgstr ""
 
 #: faction.cpp lang/json/json_materials.py
 msgid "Stone"
-msgstr ""
+msgstr "Đá"
 
 #: faction.cpp
 msgid "Supreme"
-msgstr ""
+msgstr "Tối cao"
 
 #: faction.cpp
 msgid "Tenet"
@@ -6387,7 +6392,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Tigers"
-msgstr ""
+msgstr "Hổ"
 
 #: faction.cpp
 msgid "Tribe"
@@ -6399,11 +6404,11 @@ msgstr ""
 
 #: faction.cpp
 msgid "Unlimited"
-msgstr ""
+msgstr "Vô hạn"
 
 #: faction.cpp
 msgid "Valkyries"
-msgstr ""
+msgstr "Valkyre"
 
 #: faction.cpp
 msgid "Valued"
@@ -6415,7 +6420,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Venerable"
-msgstr ""
+msgstr "Tôn kính"
 
 #: faction.cpp
 msgid "Vermin"
@@ -6423,15 +6428,15 @@ msgstr ""
 
 #: faction.cpp
 msgid "Vicious"
-msgstr ""
+msgstr "Đồi bại"
 
 #: faction.cpp
 msgid "Vile"
-msgstr ""
+msgstr "Hèn hạ"
 
 #: faction.cpp
 msgid "Virtuous"
-msgstr ""
+msgstr "Đạo đức"
 
 #: faction.cpp
 msgid "Wanted Criminal"
@@ -6443,7 +6448,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Warriors"
-msgstr ""
+msgstr "Chiến binh"
 
 #: faction.cpp
 msgid "Well-Known"
@@ -6455,7 +6460,7 @@ msgstr ""
 
 #: faction.cpp
 msgid "Wicked"
-msgstr ""
+msgstr "Độc ác"
 
 #: faction.cpp
 msgid "Worthless Scum"
@@ -7444,6 +7449,11 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+#. ~ Fast-scroll indicator
+#: game.cpp
+msgid "F"
+msgstr ""
+
 #: game.cpp
 msgid "FACTIONS:"
 msgstr ""
@@ -7607,8 +7617,9 @@ msgid "Maybe you should find something new to read..."
 msgstr ""
 
 #: game.cpp
-msgid "Monster Spotted!"
-msgstr ""
+#, fuzzy
+msgid "Monster dangerously close!"
+msgstr "Mặt bạn bị lạnh cóng."
 
 #: game.cpp
 msgid "Monster spotted!"
@@ -8102,6 +8113,7 @@ msgstr ""
 msgid "The corpse is thoroughly pulped."
 msgid_plural "The corpses are thoroughly pulped."
 msgstr[0] ""
+msgstr[1] ""
 
 #: game.cpp
 msgid "The door is locked!"
@@ -8209,12 +8221,6 @@ msgstr ""
 
 #: game.cpp
 msgid "There's no corpse to butcher!"
-msgstr ""
-
-#: game.cpp
-#, c-format
-msgid ""
-"There's no room in your inventory for the %s, and you can't  unwield your %s."
 msgstr ""
 
 #: game.cpp
@@ -8684,6 +8690,11 @@ msgid "You fall on the ground for %d damage."
 msgstr ""
 
 #: game.cpp
+#, fuzzy
+msgid "You feel like you haven't slept in days."
+msgstr "Bạn cảm thấy mình cần một ít kích thích."
+
+#: game.cpp
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr ""
@@ -8756,10 +8767,6 @@ msgstr ""
 
 #: game.cpp
 msgid "You haven't killed any monsters yet!"
-msgstr ""
-
-#: game.cpp
-msgid "You haven't slept in 2 days!"
 msgstr ""
 
 #: game.cpp vehicle.cpp
@@ -9221,6 +9228,14 @@ msgstr ""
 
 #: game.cpp
 msgid "to a nearby square."
+msgstr ""
+
+#: game.cpp
+msgid "to look around"
+msgstr ""
+
+#: game.cpp
+msgid "to shoot"
 msgstr ""
 
 #: game.cpp
@@ -11519,6 +11534,10 @@ msgstr ""
 msgid "shot"
 msgstr ""
 
+#: itypedef.cpp lang/json/json_items.py
+msgid "signal flare"
+msgstr ""
+
 #: itypedef.cpp lang/json/json_vehicle_parts.py
 msgid "small wheel"
 msgstr ""
@@ -11927,6 +11946,14 @@ msgid "Eternal Night"
 msgstr ""
 
 #: iuse.cpp
+msgid "Fill what?"
+msgstr ""
+
+#: iuse.cpp
+msgid "Fill which vehicle?"
+msgstr ""
+
+#: iuse.cpp
 msgid "Fire rains down around you!"
 msgstr ""
 
@@ -12142,6 +12169,10 @@ msgid "Put a knife in the boot"
 msgstr ""
 
 #: iuse.cpp
+msgid "Put the cat food where?"
+msgstr ""
+
+#: iuse.cpp
 msgid "Put the dog food where?"
 msgstr ""
 
@@ -12231,6 +12262,11 @@ msgstr ""
 
 #: iuse.cpp
 msgid "Siphon from where?"
+msgstr ""
+
+#: iuse.cpp
+#, c-format
+msgid "Siphoned %d units of %s from the %s into the %s%s"
 msgstr ""
 
 #: iuse.cpp
@@ -12411,6 +12447,12 @@ msgid "The candle winks out"
 msgstr ""
 
 #: iuse.cpp
+msgid ""
+"The cat seems to like you! Or maybe it just tolerates your presence better. "
+"It's hard to tell with cats."
+msgstr ""
+
+#: iuse.cpp
 msgid "The dog seems to like you!"
 msgstr ""
 
@@ -12420,6 +12462,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "The fabric of space seems to decay."
+msgstr ""
+
+#: iuse.cpp
+msgid "The flare sputters out."
 msgstr ""
 
 #: iuse.cpp
@@ -12897,6 +12943,11 @@ msgid "You can't see to sew!"
 msgstr ""
 
 #: iuse.cpp
+#, fuzzy
+msgid "You can't turn off a flare."
+msgstr "Bạn không thể mở khóa %s."
+
+#: iuse.cpp
 msgid "You can't turn off a glowstick."
 msgstr ""
 
@@ -12922,6 +12973,11 @@ msgstr[1] ""
 #: iuse.cpp
 msgid "You cauterize yourself. It hurts like hell!"
 msgstr ""
+
+#: iuse.cpp
+#, fuzzy, c-format
+msgid "You chew your %s."
+msgstr "Bạn không thể khởi động %s"
 
 #: iuse.cpp
 msgid "You churn up the earth here."
@@ -13475,6 +13531,10 @@ msgid "You snort some crystal meth."
 msgstr ""
 
 #: iuse.cpp
+msgid "You spill the cat food all over the ground."
+msgstr ""
+
+#: iuse.cpp
 msgid "You spill the dogfood all over the ground."
 msgstr ""
 
@@ -13488,6 +13548,10 @@ msgstr ""
 
 #: iuse.cpp
 msgid "You stop the bleeding."
+msgstr ""
+
+#: iuse.cpp
+msgid "You strike your flare and light it."
 msgstr ""
 
 #: iuse.cpp
@@ -17232,6 +17296,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"A heavy plastic cartridge made for use in flare guns. It appears to be a "
+"modified 12 gauge shotgun shell."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A heavy plastic helmet normally worn by football players."
 msgstr ""
 
@@ -17576,6 +17646,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A leather album full of photos of somebody's family. You don't know any of "
+"the people in them, but seeing these pictures still makes you think of "
+"happier times."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A leather bound portfolio that once belonged to a clothing designer. Filled "
 "with sketches and notes, a skilled tailor could learn a lot from this volume."
 msgstr ""
@@ -17613,6 +17690,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"A light and breezy cotton dress. Though cool and comfortable to wear, it "
+"lacks any storage space."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A light vest covered in pockets and straps for storage."
 msgstr ""
 
@@ -17630,6 +17713,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"A lightweight hatchet made for throwing. Its ineffective cutting edge and "
+"light weight makes it unsuitable for use as a tool."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "A lightweight home built combination armor made from a cut down bulletproof "
 "vest and a reinforced jumpsuit made out of fabric. Protects from the "
 "elements as well as from harm."
@@ -17640,6 +17729,12 @@ msgid ""
 "A little book for little readers. The colorful cartoon characters and sweet "
 "stories contained herein belong to a different time, before the dead walked "
 "and the world moved on."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A little hunk of glop that fell off a blob monster.  It doesn't seem "
+"hostile, but it does wiggle occasionally."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -18142,6 +18237,12 @@ msgid "A pair of soft neoprene arm sleeves, often used in contact sports."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"A pair of stylish sunglasses, look good while keeping the glare out of your "
+"eyes."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A pair of sunglasses, good for keeping the glare out of your eyes."
 msgstr ""
 
@@ -18242,6 +18343,10 @@ msgstr ""
 msgid ""
 "A plastic coat with two very large pockets. Provides protection from rain "
 "and some protection from acid rain."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "A plastic single shot pistol made to fire signal flares."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -18823,6 +18928,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "A small metal teapot. Teatime wouldn't be complete without one."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid ""
 "A small pair of goggles. Distorts vision above water, but allows you to see "
 "much further under water."
@@ -19025,7 +19134,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "A stout metal pole with a sharp point."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "A stout pole with an improvised grip and a fire-hardened point."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A stout wooden truncheon of the sort commonly employed by police. Originally "
+"an Okinawan weapon, it consists of a stick with a perpendicular handle "
+"attached a third of the way down its length."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -19094,6 +19214,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "A sweet red berry."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"A sword bayonet is a large slashing weapon that can be attached to the front "
+"of a shotgun or rifle, allowing a melee attack to deal piercing damage. The "
+"added length increases recoil substantially."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -19680,8 +19807,14 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"An aluminium baseball bat, smaller and lighter than a wooden bat and a "
-"little less damaging as a result."
+"An all-encompassing black helmet that covers your entire face and neck, "
+"providing excellent protection from all sorts of damage."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"An aluminium baseball bat, lighter than a wooden bat and a little easier to "
+"swing as a result."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -19984,13 +20117,6 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"An leather album full of photos of somebody's family. You don't know any of "
-"the people in them, but seeing these pictures still makes you think of "
-"happier times."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
 "An old fashioned pocket watch. This one tells you the time and looks good "
 "doing it. Can also be disassembled into some useful parts."
 msgstr ""
@@ -20284,6 +20410,12 @@ msgid ""
 "Charcoal is a flammable carbon based material obtained by removing water and "
 "other volatile constituents from animal and vegetation substances. It is "
 "produced by slowly heating wood or other substances in the absence of oxygen."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Chewing gum with added caffeine. Sugary and bad for your teeth, but it's a "
+"nice pick-me-up."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21166,6 +21298,10 @@ msgid "Light and easy to wear, but doesn't offer much storage."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "Lightweight shoes made of cloth and rubber."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "Like apple cider, only with vodka."
 msgstr ""
 
@@ -21332,6 +21468,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "Milkor MGL"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Mint flavored chewing tobacco. While still absolutely terrible for your "
+"health, it was once a favorite amongst baseball players, cowboys, and other "
+"macho types."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -21683,6 +21826,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "RM51 assault rifle"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "RM614 LMG"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -22038,6 +22185,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "Submachine Gun Enthusiast"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "Suitable for tropical retreats and Canadian artists alike."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -22493,12 +22644,6 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
-"The mere thought of eating this stuff is enough to make your hair stand on "
-"end. Save it for when you're about to die of starvation."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
 "The nail sword, or nord for short. This wooden sword has a dozen nails "
 "sticking at jagged angles from edge of the blade, making it much better at "
 "chopping than slashing."
@@ -22708,6 +22853,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This burning magnesium flare is producing light. It will last for about a "
+"half hour before burning out."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This canister of teargas has had its pin removed, indicating that it is (or "
 "will shortly be) expelling highly toxic gas. You should consider getting rid "
 "of it soon."
@@ -22778,6 +22929,13 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "This enriched white flour is useful for baking."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This farming tool has been modified into a weapon by reinforcing and "
+"rotating its blade 90 degrees, transforming it into a deadly giant blade on "
+"the end of a stick."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -23663,6 +23821,12 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is a slow-burning magnesium flare. Use it to strike the striker and "
+"light it. It will produce a bright light for about a half hour."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is a small blue light glowstick. Use it to bend the plastic and break "
 "the glass cylinder inside to start the reaction. It will produce a very "
 "small amount of light."
@@ -23765,6 +23929,10 @@ msgid "This is a spent glowstick. It is essentially trash."
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "This is a spent magnesium flare. It is essentially trash."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid ""
 "This is a spray can, filled with paint. Use this tool to make graffiti on "
 "the floor."
@@ -23807,13 +23975,6 @@ msgstr ""
 msgid ""
 "This is a stout collapsible spade. It's commonly used by military forces and "
 "favored by hikers for digging."
-msgstr ""
-
-#: lang/json/json_items.py
-msgid ""
-"This is a stout combat knife features a steel guard to protect the user's "
-"knuckles, which can be used for striking or blocking. It can also be used to "
-"butcher corpses."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24020,6 +24181,20 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a giant blade on the end of a stick, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"This is an old-fashioned farming tool used to cut tall grass. While it may "
+"be a massive curved blade on a handle, it is incredibly awkward to use for "
+"anything but its intended purpose."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
 "This is an unwieldy mop. Good for cleaning up spills. Use to mop up any "
 "'mess' you may have made."
 msgstr ""
@@ -24028,6 +24203,10 @@ msgstr ""
 msgid ""
 "This is decent sized piece of cotton, sterilized and sealed. It's designed "
 "for medical purposes."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "This is food for cats. It smells strange, but cats seem to love it."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24278,6 +24457,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/json_items.py
+msgid ""
+"This stout combat knife features a steel guard to protect the user's "
+"knuckles. The guard can also be used for striking or blocking, and the knife "
+"can also be used to butcher corpses."
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "This yellow cornmeal is useful for baking."
 msgstr ""
 
@@ -24381,8 +24567,9 @@ msgstr ""
 #: lang/json/json_items.py
 msgid ""
 "Using this item on a container full of water will purify the water using "
-"layered charcoal. Water taken from uncertain sources like a river may be "
-"dirty."
+"layered charcoal. Once the charcoal has purified enough water, it will "
+"become unusable and can be disassembled and recycled. Water taken from "
+"uncertain sources like a river may be dirty."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24390,6 +24577,13 @@ msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun "
 "was designed for durability and ease of carrying under less than ideal "
 "circumstances."
+msgstr ""
+
+#: lang/json/json_items.py
+msgid ""
+"Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine "
+"gun was designed for durability and extreme volume of sustained fire under "
+"the worst possible circumstances."
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24544,6 +24738,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "active Granade"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "active flare"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -24891,6 +25089,10 @@ msgid "bleach"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "blob glob"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "blood"
 msgstr ""
 
@@ -25084,6 +25286,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "cabernet sauvignon"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "caffeinated chewing gum"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25284,6 +25490,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "chewing gum"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "chewing tobacco"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -25591,6 +25801,10 @@ msgid "darts"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "dead flare"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "dead glowstick"
 msgstr ""
 
@@ -25893,6 +26107,16 @@ msgstr ""
 #: lang/json/json_items.py
 msgid "flannel jacket"
 msgstr ""
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flare"
+msgstr "Chói"
+
+#: lang/json/json_items.py
+#, fuzzy
+msgid "flaregun"
+msgstr "Chói"
 
 #: lang/json/json_items.py
 msgid "flashbang"
@@ -26748,6 +26972,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "loose caltrops"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "lowtop tennis shoes"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -27678,6 +27906,10 @@ msgstr ""
 msgid "rum"
 msgstr ""
 
+#: lang/json/json_items.py
+msgid "rum & cola"
+msgstr ""
+
 #: lang/json/json_items.py lang/json/json_vehicle_parts.py
 msgid "saddle"
 msgstr ""
@@ -27784,6 +28016,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "screwdriver"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "scythe"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -27912,6 +28148,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "shovel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "sickle"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28155,6 +28395,10 @@ msgid "steel plating"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "steel spear"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "steel tongs"
 msgstr ""
 
@@ -28215,11 +28459,19 @@ msgid "string - 6 in"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "stylish sunglasses"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "sugar"
 msgstr ""
 
 #: lang/json/json_items.py
 msgid "suit"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "sundress"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28303,6 +28555,10 @@ msgid "switchblade"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "sword bayonet"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "syringe"
 msgstr ""
 
@@ -28316,6 +28572,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "tactical dump pouch"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "tactical full helmet"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28367,6 +28627,11 @@ msgid "tea leaves"
 msgstr ""
 
 #: lang/json/json_items.py
+#, fuzzy
+msgid "teapot"
+msgstr "vũ khí"
+
+#: lang/json/json_items.py
 msgid "teargas canister"
 msgstr ""
 
@@ -28388,6 +28653,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "thriller novel"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "throwing axe"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -28583,6 +28852,10 @@ msgid "war novel"
 msgstr ""
 
 #: lang/json/json_items.py
+msgid "war scythe"
+msgstr ""
+
+#: lang/json/json_items.py
 msgid "wasp sting"
 msgstr ""
 
@@ -28708,6 +28981,10 @@ msgstr ""
 
 #: lang/json/json_items.py
 msgid "wooden javelin"
+msgstr ""
+
+#: lang/json/json_items.py
+msgid "wooden tonfa"
 msgstr ""
 
 #: lang/json/json_items.py
@@ -29249,11 +29526,27 @@ msgid "+1 dodge and +1 blocks per stack"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "+3 Bash/atk"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "+4 Atk Speed"
+msgstr "Tăng Tốc độ đánh"
+
+#: lang/json/json_martialarts.py
 msgid ""
 "A dance-like style with its roots in Brazilian slavery, capoeira is focused "
 "on fluid movement and sweeping kicks. Moving a tile will boost attack and "
 "damage and attacking boosts dodge. These bonuses stack up to three times "
 "each."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse "
+"the enemy.  The turn after you successfully attack, you may dodge any number "
+"of attacks with no penalty."
 msgstr ""
 
 #: lang/json/json_martialarts.py newcharacter.cpp
@@ -29263,7 +29556,7 @@ msgstr ""
 #: lang/json/json_martialarts.py
 msgid ""
 "Aikido is a Japanese martial art focused on self-defense, while minimizing "
-"injury to the attacker. It uses defense throws and disarms. Damage done "
+"injury to the attacker. It uses defensive throws and disarms. Damage done "
 "while using this technique is halved, but pain inflicted is doubled."
 msgstr ""
 
@@ -29279,6 +29572,10 @@ msgstr ""
 msgid "Attacks scale better with strength"
 msgstr ""
 
+#: lang/json/json_martialarts.py
+msgid "Bonus damage from intelligence."
+msgstr ""
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Capoeira"
 msgstr ""
@@ -29288,7 +29585,44 @@ msgid "Capoeira Tempo"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Centipede Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Crane Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Crane Precision"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Damage bonus from dexterity at the cost of damage from strength."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Dragon Intelligence"
+msgstr "Trí thông minh - %d;   "
+
+#: lang/json/json_martialarts.py
+msgid "Dragon Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Drunk Dodging"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Flat bonus to damage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Half damage to enemies"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Hundred-Hitter"
 msgstr ""
 
 #: lang/json/json_martialarts.py
@@ -29325,6 +29659,18 @@ msgstr ""
 msgid "Krav Maga"
 msgstr ""
 
+#: lang/json/json_martialarts.py
+msgid "Leopard Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Leopard Strategy"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Lizard Kung Fu"
+msgstr ""
+
 #: lang/json/json_martialarts.py newcharacter.cpp
 msgid "Muay Thai"
 msgstr ""
@@ -29350,13 +29696,103 @@ msgstr ""
 
 #: lang/json/json_martialarts.py
 msgid ""
+"One of the Five Deadly Venoms, and likely to be removed at the next save-"
+"compatibility breaker. Lizard Style docuses on using walls to your advantage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid "
+"strikes.  Each attack you land reduces the cost of attacking by 4."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which "
+"uses pincer-like hands and a stinger kick.  Critical hits should do massive "
+"damage and knock your target back, and we'll fix that as soon as we can."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Toad Style will be immensely powerful "
+"through its immunity to nearly any weapon, once we get the connection "
+"rebuilt.  Until then, best not meditate by pausing, though it used to give "
+"you armor proportional to your Intelligence and Perception."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, "
+"ehich is supposed to initiate on a critical strike, then chain into piercing "
+"damage and a two-handed Viper Strike."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Crane uses intricate hand "
+"techniques and jumping dodges.  Dexterity determines the majority of your "
+"damage, rather than Strength; you also receive a dodge bonus the turn after "
+"moving a tile."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Dragon uses fluid movements and "
+"hard strikes. Intelligence improves your accuracy and damage dealt, as does "
+"moving."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Leopard focuses on rapid, "
+"strategically planned strikes.  Perception and Inteligence both boost "
+"accuracy, and moving further boosts your accuracy."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Snake focuses on sinuous "
+"movement and precision strikes. Your Perception iproves yur accuracy and "
+"your damage."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
+"One of the five Shaolin animal styles.  The Tiger focuses on relentless "
+"attacks above all else.  Your Strength determines your accuracy, and your "
+"attacks do increasing damage as you continue attacking."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid ""
 "Originating in Israel, Krav Maga is based on taking down an enemy quickly "
 "and effectively. It focuses on applicable attacks rather than showy or "
 "complex moves. Popular among police and armed forces everywhere."
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to block."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception and intelligence provide a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Perception decreases damage when blocking"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Perception provides a bonus to hit."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Scorpion Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Scorpion Venom"
 msgstr ""
 
 #: lang/json/json_martialarts.py
@@ -29368,7 +29804,19 @@ msgid "Slightly increased unarmed damage"
 msgstr ""
 
 #: lang/json/json_martialarts.py
+msgid "Snake Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Snake Sight"
+msgstr ""
+
+#: lang/json/json_martialarts.py
 msgid "Strength decreases damage when blocking"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Strength provides additional damage bonus."
 msgstr ""
 
 #: lang/json/json_martialarts.py newcharacter.cpp
@@ -29392,6 +29840,39 @@ msgid ""
 "is a legitimate martial art, focused on self-defense. Its ability to absorb "
 "the force of an attack makes your Perception decrease damage further on a "
 "block."
+msgstr ""
+
+#: lang/json/json_martialarts.py
+#, fuzzy
+msgid "Tiger Fury"
+msgstr "Hổ"
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Tiger Strength"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Toad Armor"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Toad Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Unlimited dodges after successful hit"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Viper Kung Fu"
+msgstr ""
+
+#: lang/json/json_martialarts.py
+msgid "Zui Quan"
 msgstr ""
 
 #: lang/json/json_materials.py
@@ -31055,8 +31536,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"A twisted mockery of the human form, emaciated, with jet black skin "
-"andglowing red eyes. It is somehow painful to look at, awakening fears deep "
+"A twisted mockery of the human form, emaciated, with jet black skin and "
+"glowing red eyes. It is somehow painful to look at, awakening fears deep "
 "within your psyche, and even the air around it seems more sinister, somehow "
 "darker and more dangerous."
 msgstr ""
@@ -31236,9 +31717,9 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"Once human, it's features have tightened, it's lips pulled back into an "
-"unnatural grin, revealing rows of blackened teeth beneath it's large, "
-"piercing eyes. It stands tall, it's movements are fluid and tightly "
+"Once human, its features have tightened, its lips pulled back into an "
+"unnatural grin, revealing rows of blackened teeth beneath its large, "
+"piercing eyes. It stands tall, its movements are fluid and tightly "
 "controlled. A feeling of danger permeates the air around it, and the light "
 "that falls on it somehow harsher and more glaring."
 msgstr ""
@@ -31368,13 +31849,6 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The Northern short-tailed shrew, an insectvorous mammal that resembles a "
-"cross between a mouse and a mole.  Notably for a mammal, it has a venomous "
-"bite, which can prove painful for humans."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
 "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a "
 "pair of reverse-jointed legs.  Armed with a 40 mm Bofors gun, it is an "
 "effective automated sentry, though production was limited due to a legal "
@@ -31446,6 +31920,12 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
+"The masked shrew, a mouse-like creature with a pointed, whiskery snout.  It "
+"digs tunnels into the ground in search of bugs to eat."
+msgstr ""
+
+#: lang/json/json_monsters.py
+msgid ""
 "The northern woodland white-tailed deer, a quick and strong grazing animal.  "
 "Favored prey of coyotes, wolves, and giant spider mutants."
 msgstr ""
@@ -31454,12 +31934,6 @@ msgstr ""
 msgid ""
 "The red fox, an omnivorous canine and largest of the true foxes, it is a "
 "wily hunter with a combative, suspicious temperament."
-msgstr ""
-
-#: lang/json/json_monsters.py
-msgid ""
-"The shuffling corpse of a once-proud bear, its eyes ooze with black fluid, "
-"and its flesh is torn and scarred."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -31476,9 +31950,8 @@ msgstr ""
 
 #: lang/json/json_monsters.py
 msgid ""
-"The white footed mouse, a relatively long-lived disease vector with a white "
-"underbelly and a long fuzzy tail.  A common sight in fields, forests, and "
-"research centers."
+"The white-footed mouse, a prolific rodent with a white underbelly and a long "
+"fuzzy tail.  A common sight in fields, forests, and research centers."
 msgstr ""
 
 #: lang/json/json_monsters.py
@@ -32411,6 +32884,10 @@ msgid "Forked Tongue"
 msgstr ""
 
 #: lang/json/json_mutations.py
+msgid "Frail"
+msgstr ""
+
+#: lang/json/json_mutations.py
 msgid "Full Night Vision"
 msgstr ""
 
@@ -32440,10 +32917,6 @@ msgstr ""
 
 #: lang/json/json_mutations.py
 msgid "Growling Voice"
-msgstr ""
-
-#: lang/json/json_mutations.py
-msgid "Hardcore"
 msgstr ""
 
 #: lang/json/json_mutations.py
@@ -43699,7 +44172,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Before the Apocalypse, you turned to Heroin to soothe your many problems. "
+"Before the apocalypse, you turned to Heroin to soothe your many problems. "
 "Now, your habit is your only comfort and your only drive."
 msgstr ""
 
@@ -44080,7 +44553,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You were about to marry your bride before the cataclysm, now you spend you "
+"You were about to marry your bride before the cataclysm, now you spend your "
 "days searching for her."
 msgstr ""
 
@@ -44100,7 +44573,7 @@ msgstr ""
 #: lang/json/json_professions.py
 msgid ""
 "You were on your way to collect your check, when your pimp tried to kill "
-"you. You wish that it wasn't a common occurence. You start with the last of "
+"you. You wish that it wasn't a common occurrence. You start with the last of "
 "your stash and a strong crack addiction."
 msgstr ""
 
@@ -44145,7 +44618,7 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"You've traveled for a living, sightseeing here and there, and living off "
+"You've travelled for a living, sightseeing here and there, and living off "
 "your parents' trust fund. But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
@@ -44172,9 +44645,9 @@ msgstr ""
 
 #: lang/json/json_professions.py
 msgid ""
-"Your body has bionics worth millions payed by public taxes. The government "
-"employed you as a spy: you have night vision, an alarm and a hacking module "
-"powered by your own metabolism."
+"Your body has several bionics worth millions of dollars, paid for by public "
+"taxes. The government employed you as a spy: you have night vision, an alarm "
+"and a hacking module powered by your own metabolism."
 msgstr ""
 
 #: lang/json/json_professions.py
@@ -46260,16 +46733,6 @@ msgstr ""
 
 #: main_menu.cpp
 msgctxt "Main Menu"
-msgid "<H>elp"
-msgstr ""
-
-#: main_menu.cpp
-msgctxt "Main Menu"
-msgid "<L>oad"
-msgstr ""
-
-#: main_menu.cpp
-msgctxt "Main Menu"
 msgid "<M>OTD"
 msgstr ""
 
@@ -46318,9 +46781,18 @@ msgid "Delete the world and all saves?"
 msgstr ""
 
 #: main_menu.cpp
-#, fuzzy
+msgctxt "Main Menu"
+msgid "H<e>lp"
+msgstr ""
+
+#: main_menu.cpp
+msgctxt "Main Menu"
+msgid "Lo<a>d"
+msgstr ""
+
+#: main_menu.cpp
 msgid "No Worlds found!"
-msgstr "Không tìm thấy dữ liệu."
+msgstr ""
 
 #: main_menu.cpp
 msgid "No message today."
@@ -46765,6 +47237,14 @@ msgstr ""
 
 #: mapgen.cpp
 msgid "Wreckage"
+msgstr ""
+
+#: mapgen.cpp
+msgid "pile-up"
+msgstr ""
+
+#: mapgen.cpp
+msgid "policecar pile-up"
 msgstr ""
 
 #: material.cpp
@@ -49076,28 +49556,12 @@ msgid "Tom"
 msgstr ""
 
 #: newcharacter.cpp
-msgid " decrease the statistic."
-msgstr ""
-
-#: newcharacter.cpp
-msgid " increase the statistic."
-msgstr ""
-
-#: newcharacter.cpp
-msgid " select a statistic."
-msgstr ""
-
-#: newcharacter.cpp
 #, c-format
 msgid "%s earns %d points"
 msgstr ""
 
 #: newcharacter.cpp
 msgid "(Press TAB to move off this line)"
-msgstr ""
-
-#: newcharacter.cpp
-msgid "(Press spacebar to toggle)"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49206,6 +49670,11 @@ msgstr ""
 
 #: newcharacter.cpp
 #, c-format
+msgid "Points left:%3d "
+msgstr ""
+
+#: newcharacter.cpp
+#, c-format
 msgid "Profession %1$s costs %2$d points (net: %3$d)"
 msgstr ""
 
@@ -49220,7 +49689,7 @@ msgstr ""
 
 #: newcharacter.cpp
 #, c-format
-msgid "Read times: %d%%%%"
+msgid "Read times: %d%%"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49240,9 +49709,9 @@ msgid "STATS"
 msgstr ""
 
 #: newcharacter.cpp
-#, c-format
-msgid "Skill rust: %d%%%%"
-msgstr ""
+#, fuzzy, c-format
+msgid "Skill rust: %d%%"
+msgstr "Kỹ năng sử dụng: %s"
 
 #: newcharacter.cpp
 #, c-format
@@ -49283,11 +49752,11 @@ msgid "To go back and review your character, press <"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "To pick a random name for your character, press ?."
+msgid "To pick a random name for your character, press ?"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "To save this character as a template, press !."
+msgid "To save this character as a template, press !"
 msgstr ""
 
 #: newcharacter.cpp
@@ -49326,16 +49795,16 @@ msgstr ""
 msgid "Your profession of %s prevents you from taking this trait."
 msgstr ""
 
-#: newcharacter.cpp worldfactory.cpp
-msgid "______NO NAME ENTERED!!!!_____"
+#: newcharacter.cpp
+msgid "______NO NAME ENTERED!!!______"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "h, 4, or left arrow"
+msgid "h, 4, or left arrow to decrease the statistic."
 msgstr ""
 
 #: newcharacter.cpp
-msgid "j/k, 8/2, or arrows"
+msgid "j/k, 8/2, or up/down arrows to select a statistic."
 msgstr ""
 
 #: newcharacter.cpp options.cpp player.cpp
@@ -49343,7 +49812,7 @@ msgid "kg"
 msgstr ""
 
 #: newcharacter.cpp
-msgid "l, 6, or right arrow"
+msgid "l, 6, or right arrow to increase the statistic."
 msgstr ""
 
 #: newcharacter.cpp options.cpp player.cpp
@@ -52026,7 +52495,17 @@ msgid "Celsius"
 msgstr ""
 
 #: options.cpp
+msgid "Centered"
+msgstr ""
+
+#: options.cpp
 msgid "Centered menu scrolling"
+msgstr ""
+
+#: options.cpp
+msgid ""
+"Centered or to edge, shift the view toward the selected item if it is "
+"outside of your current viewport."
 msgstr ""
 
 #: options.cpp
@@ -52199,12 +52678,6 @@ msgstr ""
 
 #: options.cpp
 msgid "If true, safemode will be on after starting a new game or loading."
-msgstr ""
-
-#: options.cpp
-msgid ""
-"If true, shift the view toward the selected item if it is outside of your "
-"current viewport."
 msgstr ""
 
 #: options.cpp
@@ -52495,6 +52968,10 @@ msgstr ""
 
 #: options.cpp
 msgid "Time format"
+msgstr ""
+
+#: options.cpp
+msgid "To edge"
 msgstr ""
 
 #: options.cpp
@@ -53311,7 +53788,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Cold-Blooded        -%s%d%%%%"
+msgid "Cold-Blooded        -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53358,7 +53835,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Depressants         -%s%d%%%%"
+msgid "Depressants         -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53367,7 +53844,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Depressed           -%s%d%%%%"
+msgid "Depressed           -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53511,7 +53988,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Good mood           +%s%d%%%%"
+msgid "Good mood           +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53546,7 +54023,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Hunger              -%s%d%%%%"
+msgid "Hunger              -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53776,12 +54253,12 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Out of Sunlight     -%s%d%%%%"
+msgid "Out of Sunlight     -%s%d%%"
 msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Overburdened        -%s%d%%%%"
+msgid "Overburdened        -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53795,7 +54272,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Pain                -%s%d%%%%"
+msgid "Pain                -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53805,7 +54282,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Painkillers         -%s%d%%%%"
+msgid "Painkillers         -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53857,7 +54334,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Quick               +%s%d%%%%"
+msgid "Quick               +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -53875,7 +54352,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Read times: %d%%%%           "
+msgid "Read times: %d%%           "
 msgstr ""
 
 #: player.cpp
@@ -53942,7 +54419,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Skill rust: %d%%%%           "
+msgid "Skill rust: %d%%           "
 msgstr ""
 
 #: player.cpp
@@ -53993,7 +54470,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Stimulants          +%s%d%%%%"
+msgid "Stimulants          +%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54081,7 +54558,7 @@ msgstr ""
 
 #: player.cpp
 #, c-format
-msgid "Thirst              -%s%d%%%%"
+msgid "Thirst              -%s%d%%"
 msgstr ""
 
 #: player.cpp
@@ -54462,8 +54939,8 @@ msgstr ""
 
 #: player.cpp
 msgid ""
-"You need to be at least level 1 in the firearms skill before you can modify "
-"guns."
+"You need to be at least level 1 in the marksmanship skill before you can "
+"modify guns."
 msgstr ""
 
 #: player.cpp
@@ -54684,6 +55161,10 @@ msgid "Your batteries discharge slightly."
 msgstr ""
 
 #: player.cpp
+msgid "Your body strains under the weight!"
+msgstr ""
+
+#: player.cpp
 msgid "Your eyes won't focus without reading glasses."
 msgstr ""
 
@@ -54768,14 +55249,6 @@ msgstr ""
 
 #: ranged.cpp
 msgid "'<' '>' Cycle targets; 'f' or '.' to fire"
-msgstr ""
-
-#: ranged.cpp
-msgid "<npcname> barely misses!"
-msgstr ""
-
-#: ranged.cpp
-msgid "<npcname> misses!"
 msgstr ""
 
 #: ranged.cpp
@@ -55734,6 +56207,10 @@ msgstr ""
 msgid "Headlights turned on"
 msgstr ""
 
+#: vehicle.cpp
+msgid "Honk horn"
+msgstr ""
+
 #. ~ indicates that a vehicle part is inside
 #: vehicle.cpp
 msgid "In"
@@ -56054,26 +56531,21 @@ msgid "CONFIRMATION"
 msgstr ""
 
 #: worldfactory.cpp
-#, fuzzy
 msgid "Do you want to abort World Generation?"
-msgstr "Bạn có muốn xé %s thành từng trang?"
-
-#: worldfactory.cpp
-#, fuzzy, c-format
-msgid "Do you want to start the game in world [%s]?"
-msgstr "Bạn có muốn xé %s thành từng trang?"
-
-#: worldfactory.cpp
-#, fuzzy, c-format
-msgid "Page %d"
-msgstr "Đợt %d: "
-
-#: worldfactory.cpp
-msgid "Pick a world to enter game"
 msgstr ""
 
 #: worldfactory.cpp
-msgid "There are no valid worlds to pick from, would you like to make one?"
+#, c-format
+msgid "Do you want to start the game in world [%s]?"
+msgstr ""
+
+#: worldfactory.cpp
+#, c-format
+msgid "Page %d"
+msgstr ""
+
+#: worldfactory.cpp
+msgid "Pick a world to enter game"
 msgstr ""
 
 #: worldfactory.cpp
@@ -56098,32 +56570,39 @@ msgstr ""
 msgid "World Name:"
 msgstr ""
 
-#~ msgid "Too many itens"
-#~ msgstr "Quá nhiều đồ vật"
+#: worldfactory.cpp
+msgid "______NO NAME ENTERED!!!!_____"
+msgstr ""
 
-#~ msgid "Start a fire"
-#~ msgstr "Đốt một đám lửa"
-
-#~ msgid "Activate your bio lockpick"
-#~ msgstr "Kích hoạt bộ cạy khóa sinh học"
-
-#~ msgid "Contruct"
-#~ msgstr "Xây dựng"
-
-#~ msgid "There's bugs crawling under your skin!"
-#~ msgstr "Có bọ đang bò dưới da bạn!"
-
-#~ msgid "You start scratching yourself all over!"
-#~ msgstr "Bạn bắt đầu gãi khắp mình mẩy!"
-
-#~ msgid "%s starts scratching himself all over!"
-#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
-
-#~ msgid "%s starts scratching herself all over!"
-#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
+#~ msgid "Bugs Under Skin"
+#~ msgstr "Bọ dưới da"
 
 #~ msgid "Spores"
 #~ msgstr "Bào tử"
 
-#~ msgid "Bugs Under Skin"
-#~ msgstr "Bọ dưới da"
+#~ msgid "%s starts scratching herself all over!"
+#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
+
+#~ msgid "%s starts scratching himself all over!"
+#~ msgstr "%s bắt đầu gãi khắp mình mẩy!"
+
+#~ msgid "You start scratching yourself all over!"
+#~ msgstr "Bạn bắt đầu gãi khắp mình mẩy!"
+
+#~ msgid "You wake up to the ringing of an alarm-clock."
+#~ msgstr "Tiếng chuông báo thức kêu bạn dậy."
+
+#~ msgid "There's bugs crawling under your skin!"
+#~ msgstr "Có bọ đang bò dưới da bạn!"
+
+#~ msgid "Contruct"
+#~ msgstr "Xây dựng"
+
+#~ msgid "Activate your bio lockpick"
+#~ msgstr "Kích hoạt bộ cạy khóa sinh học"
+
+#~ msgid "Start a fire"
+#~ msgstr "Đốt một đám lửa"
+
+#~ msgid "Too many itens"
+#~ msgstr "Quá nhiều đồ vật"

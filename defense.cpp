@@ -158,10 +158,12 @@ void defense_game::pre_action(game *g, action_id &act)
 
 void defense_game::post_action(game *g, action_id act)
 {
+    (void)g; (void)act;
 }
 
 void defense_game::game_over(game *g)
 {
+    (void)g; //unused
     popup(_("You managed to survive through wave %d!"), current_wave);
     // Reset changed information
     reset_mtypes();
@@ -238,6 +240,7 @@ void defense_game::init_itypes(game *g)
 
 void defense_game::init_mtypes(game *g)
 {
+    (void)g; //unused
     m_flag flags[] = {MF_BASHES, MF_SMELLS, MF_HEARS, MF_SEES};
     monflags_to_add.insert(flags, flags + 4);
 
@@ -273,6 +276,7 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
+    (void)g; //unused
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
@@ -1250,7 +1254,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 // THEN print it--if item_selected is valid
  if (item_selected < items->size()) {
   item tmp(g->itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
-  mvwprintz(w, 12, 1, c_white, tmp.info().c_str());
+  fold_and_print(w, 12, 1, 38, c_white, tmp.info().c_str());
  }
 // Next, clear the item list on the right
  for (int i = 1; i <= FULL_SCREEN_HEIGHT-2; i++)
@@ -1318,6 +1322,7 @@ void defense_game::spawn_wave(game *g)
 
 std::vector<std::string> defense_game::pick_monster_wave(game *g)
 {
+    (void)g; //unused
  std::vector<std::string> valid;
  std::vector<std::string> ret;
 

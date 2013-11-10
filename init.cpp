@@ -17,6 +17,7 @@
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
+#include "artifact.h"
 
 #include <string>
 #include <vector>
@@ -69,6 +70,7 @@ void init_data_mappings() {
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
+    (void)dirname; //not used yet
     std::vector<std::string> ret;
 
     ret.push_back("data/json/materials.json");
@@ -124,7 +126,7 @@ void load_object(JsonObject &jo)
     }
 }
 
-void null_load_target(JsonObject &jo){}
+void null_load_target(JsonObject &) {}
 
 void init_data_structures()
 {
@@ -178,6 +180,7 @@ void init_data_structures()
     init_translation();
     init_martial_arts();
     init_inventory_categories();
+    init_artifacts();
 }
 
 void release_data_structures()

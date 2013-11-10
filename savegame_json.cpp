@@ -31,6 +31,7 @@
 #include <ctime>
 
 #include "picofunc.h"
+#include "json.h"
 
 #include "debug.h"
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -858,6 +859,31 @@ picojson::value npc_favor::json_save()  {
     return pv( data );
 }
 
+void npc_favor::deserialize(JsonObject &jo)
+{
+    type = npc_favor_type(jo.get_int("type"));
+    value = jo.get_int("value");
+    item_id = jo.get_string("itype_id");
+    skill = NULL;
+    if (jo.has_int("skill_id")) {
+        skill = Skill::skill(jo.get_int("skill_id"));
+    } else if (jo.has_string("skill_id")) {
+        skill = Skill::skill(jo.get_string("skill_id"));
+    }
+}
+
+void npc_favor::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member("type", (int)type);
+    json.member("value", value);
+    json.member("itype_id", (std::string)item_id);
+    if (skill != NULL) {
+        json.member("skill_id", skill->ident());
+    }
+    json.end_object();
+}
+
 /*
  * load npc
  */
@@ -1077,7 +1103,7 @@ void inventory::json_load_items(picojson::value & parsed, game * g) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// monster.h
 
-bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
+bool monster::json_load(picojson::value parsed)
 {
 
     const picojson::object &data = parsed.get<picojson::object>();
@@ -1141,9 +1167,9 @@ bool monster::json_load(picojson::value parsed, std::vector <mtype *> *mtypes)
     return true;
 }
 
-void monster::json_load(picojson::value parsed, game * g) {
-    std::vector <mtype *> *mt=&(g->mtypes);
-    json_load(parsed, mt);
+void monster::json_load(picojson::value parsed, game * g)
+{
+    json_load(parsed);
 }
 
 /*
@@ -1551,125 +1577,117 @@ picojson::value vehicle::json_save( bool save_contents ) {
 
 ////////////////// mission.h
 ////
-void mission::json_load(picojson::value parsed, game * g) {
-    if ( ! parsed.is<picojson::object>() ) {
-         debugmsg("mission::json_load: bad json:\n%s",parsed.serialize().c_str() );
+void mission::deserialize(JsonObject &jo)
+{
+    if (jo.has_member("type_id")) {
+        type = &(g->mission_types[jo.get_int("type_id")]);
     }
-    picojson::object &data = parsed.get<picojson::object>();
-    int type_id, tmpfollow;
-    std::string rew_item, itemid;
-    // todo; if( picostring(data, "type_id", ....
-    picoint(data, "type_id", type_id);
-    type = &(g->mission_types[type_id]);
-    picostring(data, "description", description);
-    picobool(data, "failed", failed);
-    picoint(data, "value", value);
-    picojson::object * pobj=pgetmap(data,"reward");
-    
-    if ( pobj != NULL ) {
-        reward.json_load( *pobj );
+    description = jo.get_string("description", description);
+    failed = jo.get_bool("failed", failed);
+    value = jo.get_int("value", value);
+    if (jo.has_object("reward")) {
+        JsonObject rew = jo.get_object("reward");
+        reward.deserialize(rew);
     }
-
-    picoint(data, "uid", uid );
-    picopoint(data, "target", target);
-    picoint(data, "follow_up", tmpfollow );
-    follow_up = mission_id(tmpfollow);
-    picostring(data, "item_id", itemid);
-    item_id = itype_id(itemid);
-    picoint(data, "deadline", deadline );
-    picoint(data, "step", step );
-    picoint(data, "count", count );
-    picoint(data, "npc_id", npc_id );
-    picoint(data, "good_fac_id", good_fac_id );
-    picoint(data, "bad_fac_id", bad_fac_id );
+    uid = jo.get_int("uid", uid );
+    JsonArray ja = jo.get_array("target");
+    if (ja.size() == 2) {
+        target.x = ja.get_int(0);
+        target.y = ja.get_int(1);
+    }
+    follow_up = mission_id(jo.get_int("follow_up", follow_up));
+    item_id = itype_id(jo.get_string("item_id", item_id));
+    deadline = jo.get_int("deadline", deadline );
+    step = jo.get_int("step", step );
+    count = jo.get_int("count", count );
+    npc_id = jo.get_int("npc_id", npc_id );
+    good_fac_id = jo.get_int("good_fac_id", good_fac_id );
+    bad_fac_id = jo.get_int("bad_fac_id", bad_fac_id );
 }
 
-picojson::value mission::json_save(bool save_contents) {
-    std::map<std::string, picojson::value> data;
-    data["type_id"] = pv(type == NULL ? -1 : (int)type->id);
-    data["description"] = pv ( description );
-    data["failed"] = pv( failed );
-    data["value"] = pv( value );
-    data["reward"] = pv( reward.json_save() );
-    data["uid"] = pv( uid );
-    std::vector<picojson::value> ptmp;
-    ptmp.push_back( pv( target.x ) );
-    ptmp.push_back( pv( target.y ) );
-    data["target"] = pv ( ptmp );
-    data["count"] = pv( count );
-    data["deadline"] = pv( deadline );
-    data["npc_id"] = pv( npc_id );
-    data["good_fac_id"] = pv( good_fac_id );
-    data["bad_fac_id"] = pv( bad_fac_id );
-    data["step"] = pv( step );
-    data["follow_up"] = pv( (int)follow_up );
-    return pv( data );
+void mission::serialize(JsonOut &json) const
+{
+    json.start_object();
+
+    json.member("type_id", type == NULL ? -1 : (int)type->id);
+    json.member("description", description);
+    json.member("failed", failed);
+    json.member("value", value);
+    json.member("reward", reward);
+    json.member("uid", uid);
+
+    json.member("target");
+    json.start_array();
+    json.write(target.x);
+    json.write(target.y);
+    json.end_array();
+
+    json.member("count", count);
+    json.member("deadline", deadline);
+    json.member("npc_id", npc_id);
+    json.member("good_fac_id", good_fac_id);
+    json.member("bad_fac_id", bad_fac_id);
+    json.member("step", step);
+    json.member("follow_up", (int)follow_up);
+
+    json.end_object();
 }
 
 ////////////////// faction.h
 ////
-void faction::json_load(picojson::value parsed, game * g) {
-    if ( ! parsed.is<picojson::object>() ) {
-         debugmsg("mission::json_load: bad json:\n%s",parsed.serialize().c_str() );
+void faction::deserialize(JsonObject &jo)
+{
+    id = jo.get_int("id", id);
+    name = jo.get_string("name", name);
+    goal = faction_goal(jo.get_int("goal", goal));
+    values = jo.get_int("values", values);
+    job1 = faction_job(jo.get_int("job1", job1));
+    job2 = faction_job(jo.get_int("job2", job2));
+    likes_u = jo.get_int("likes_u", likes_u);
+    respects_u = jo.get_int("respects_u", respects_u);
+    known_by_u = jo.get_int("known_by_u", known_by_u);
+    strength = jo.get_int("strength", strength);
+    sneak = jo.get_int("sneak", sneak);
+    crime = jo.get_int("crime", crime);
+    cult = jo.get_int("cult", cult);
+    good = jo.get_int("good", good);
+    omx = jo.get_int("omx", omx);
+    omy = jo.get_int("omy", omy);
+    mapx = jo.get_int("mapx", mapx);
+    mapy = jo.get_int("mapy", mapy);
+    size = jo.get_int("size", size);
+    power = jo.get_int("power", power);
+    if (jo.has_array("opinion_of")) {
+        opinion_of = jo.get_int_array("opinion_of");
     }
-    picojson::object &data = parsed.get<picojson::object>();
-    int valuetmp, goaltmp, jobtmp1, jobtmp2;
-    picoint(data, "id", id);
-    picoint(data, "goal", goaltmp );
-    picoint(data, "values", valuetmp );
-    picoint(data, "job1", jobtmp1 );
-    picoint(data, "job2", jobtmp2 );
-    values = valuetmp;
-    goal = faction_goal(goaltmp);
-    job1 = faction_job(jobtmp1);
-    job2 = faction_job(jobtmp2);
-    picoint(data, "likes_u", likes_u);
-    picoint(data, "respects_u", respects_u);
-    picobool(data, "known_by_u", known_by_u);
-
-    picoint(data, "strength", strength);
-    picoint(data, "sneak", sneak);
-    picoint(data, "crime", crime);
-    picoint(data, "cult", cult);
-    picoint(data, "good", good);
-    picoint(data, "omx", omx);
-    picoint(data, "omy", omy);
-    picoint(data, "mapx", mapx);
-    picoint(data, "mapy", mapy);
-    picoint(data, "size", size);
-    picoint(data, "power", power);
-    picojson::array * parray = pgetarray(data,"opinion_of");
-    for( picojson::array::iterator pt = parray->begin(); pt != parray->end(); ++pt) {
-        if ( (*pt).is<double>() ) {
-            opinion_of.push_back( (int)(*pt).get<double>() );
-        }
-    }
-    picostring(data,"name",name);
 }
 
-picojson::value faction::json_save(bool save_contents) {
-    std::map<std::string, picojson::value> data;
-    data["id"] = pv( id );
-    data["values"] = pv( (int)values );
-    data["goal"] = pv( goal );
-    data["job1"] = pv( job1 );
-    data["job2"] = pv( job2 );
-    data["likes_u"] = pv( likes_u );
-    data["respects_u"] = pv( respects_u );
-    data["known_by_u"] = pv( known_by_u );
-    data["strength"] = pv( strength );
-    data["sneak"] = pv( sneak );
-    data["crime"] = pv( crime );
-    data["cult"] = pv( cult );
-    data["good"] = pv( good );
-    data["omx"] = pv( omx );
-    data["omy"] = pv( omy );
-    data["mapx"] = pv( mapx );
-    data["mapy"] = pv( mapy );
-    data["size"] = pv( size );
-    data["power"] = pv( power );
-    data["opinion_of"] = json_wrapped_vector( opinion_of );
-    data["name"] = pv (name);
-    return pv( data );
+void faction::serialize(JsonOut &json) const
+{
+    json.start_object();
+
+    json.member("id", id);
+    json.member("name", name);
+    json.member("values", values);
+    json.member("goal", goal);
+    json.member("job1", job1);
+    json.member("job2", job2);
+    json.member("likes_u", likes_u);
+    json.member("respects_u", respects_u);
+    json.member("known_by_u", known_by_u);
+    json.member("strength", strength);
+    json.member("sneak", sneak);
+    json.member("crime", crime);
+    json.member("cult", cult);
+    json.member("good", good);
+    json.member("omx", omx);
+    json.member("omy", omy);
+    json.member("mapx", mapx);
+    json.member("mapy", mapy);
+    json.member("size", size);
+    json.member("power", power);
+    json.member("opinion_of", opinion_of);
+
+    json.end_object();
 }
 

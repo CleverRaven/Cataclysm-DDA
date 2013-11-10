@@ -11,7 +11,7 @@
 #include <string>
 #include <sstream>
 #include <set>
-#define STRICT_JSON true
+#include <locale> // ensure user's locale doesn't interfere with output
 
 /* JSON parsing and serialization tools for Cataclysm-DDA
  * ~
@@ -79,30 +79,17 @@ bool is_whitespace(char ch)
  */
 JsonObject::JsonObject(JsonIn *j) : positions()
 {
-    strict = STRICT_JSON;
     jsin = j;
     start = jsin->tell();
     // cache the position of the value for each member
     jsin->start_object();
-    bool gotsep = true;
-    bool lastsep = false;
     while (!jsin->end_object()) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
         positions[n] = p;
-        if ( strict && ! gotsep ) {
-            end = jsin->tell();
-            jsin->seek(start);
-            throw jsin->line_number() + ": missing comma: " + dump_input();
-        }
-        gotsep = jsin->skip_value();
-        lastsep = gotsep;
+        jsin->skip_value();
     }
     end = jsin->tell();
-    if ( strict && lastsep ) {
-        jsin->seek(start);
-        throw jsin->line_number() + ": trailing comma: " + dump_input();
-    }
 }
 
 JsonObject::JsonObject(const JsonObject &jo)
@@ -111,12 +98,12 @@ JsonObject::JsonObject(const JsonObject &jo)
     start = jo.start;
     positions = jo.positions;
     end = jo.end;
-    strict = jo.strict;
 }
 
 void JsonObject::finish()
 {
     jsin->seek(end);
+    jsin->skip_separator(); // so it can track whether it ate it or not
 }
 
 int JsonObject::verify_position(const std::string &name,
@@ -127,7 +114,7 @@ int JsonObject::verify_position(const std::string &name,
         return pos;
     } else if (throw_exception) {
         jsin->seek(start);
-        throw jsin->line_number() + ": member not found: " + name;
+        jsin->error("member not found: " + name);
     }
     // 0 is always the opening brace,
     // so it will never indicate a valid member position
@@ -137,6 +124,16 @@ int JsonObject::verify_position(const std::string &name,
 bool JsonObject::has_member(const std::string &name)
 {
     return (bool)verify_position(name, false);
+}
+
+std::set<std::string> JsonObject::get_member_names()
+{
+    std::set<std::string> ret;
+    for (std::map<std::string,int>::iterator it = positions.begin();
+         it != positions.end(); ++it) {
+        ret.insert(it->first);
+    }
+    return ret;
 }
 
 std::string JsonObject::line_number()
@@ -221,6 +218,26 @@ JsonArray JsonObject::get_array(const std::string &name)
     }
     jsin->seek(pos);
     return JsonArray(jsin);
+}
+
+std::vector<int> JsonObject::get_int_array(const std::string &name)
+{
+    JsonArray ja = get_array(name);
+    std::vector<int> ret;
+    while (ja.has_more()) {
+        ret.push_back(ja.next_int());
+    }
+    return ret;
+}
+
+std::vector<std::string> JsonObject::get_string_array(const std::string &name)
+{
+    JsonArray ja = get_array(name);
+    std::vector<std::string> ret;
+    while (ja.has_more()) {
+        ret.push_back(ja.next_string());
+    }
+    return ret;
 }
 
 JsonObject JsonObject::get_object(const std::string &name)
@@ -342,46 +359,23 @@ bool JsonObject::has_object(const std::string &name)
     return false;
 }
 
-std::string JsonObject::dump_input() {
-    int origpos = jsin->tell();
-    jsin->seek(start);
-    jsin->eat_whitespace();
-    int len = end - jsin->tell();
-    std::string ret;
-    ret.resize(len);
-    jsin->read(&ret[0],len);
-    jsin->seek(origpos);
-    return ret;
-}
+
 /* class JsonArray
  * represents a JSON array,
  * providing access to the underlying data.
  */
 JsonArray::JsonArray(JsonIn *j) : positions()
 {
-    strict = STRICT_JSON;
     jsin = j;
     start = jsin->tell();
     index = 0;
     // cache the position of each element
-    bool gotsep = true;
-    bool lastsep = false;
     jsin->start_array();
     while (!jsin->end_array()) {
         positions.push_back(jsin->tell());
-        if ( strict && ! gotsep ) {
-            end = jsin->tell();
-            jsin->seek(start);
-            throw jsin->line_number() + ": missing comma: " + dump_input();
-        }
-        gotsep = jsin->skip_value();
-        lastsep = gotsep;
+        jsin->skip_value();
     }
     end = jsin->tell();
-    if ( strict && lastsep ) {
-        jsin->seek(start);
-        throw jsin->line_number() + ": trailing comma: " + dump_input();
-    }
 }
 
 JsonArray::JsonArray(const JsonArray &ja)
@@ -391,7 +385,14 @@ JsonArray::JsonArray(const JsonArray &ja)
     index = 0;
     positions = ja.positions;
     end = ja.end;
-    strict = ja.strict;
+}
+
+void JsonArray::finish()
+{
+    if (jsin && jsin->good()) {
+        jsin->seek(end);
+        jsin->skip_separator(); // so it can track whether it ate it or not
+    }
 }
 
 bool JsonArray::has_more()
@@ -411,9 +412,8 @@ void JsonArray::verify_index(int i)
     } else if (i < 0 || i >= positions.size()) {
         jsin->seek(start);
         std::stringstream err;
-        err << jsin->line_number() << ": ";
         err << "bad index value: " << i;
-        throw err.str();
+        jsin->error(err.str());
     }
 }
 
@@ -621,33 +621,21 @@ bool JsonArray::has_object(int i)
     return jsin->test_object();
 }
 
-std::string JsonArray::dump_input() {
-    int origpos = jsin->tell();
-    jsin->seek(start);
-    jsin->eat_whitespace();
-    int len = end - jsin->tell();
-    std::string ret;
-    ret.resize(len);
-    jsin->read(&ret[0],len);
-    jsin->seek(origpos);
-    return ret;
-}
 
 /* class JsonIn
  * represents an istream of JSON data,
  * allowing easy extraction into c++ datatypes.
  */
-JsonIn::JsonIn(std::istream *s)
+JsonIn::JsonIn(std::istream *s, bool strict) :
+    stream(s), strict(strict), ate_separator(false)
 {
-    stream = s;
-    strict = STRICT_JSON;
 }
 
 int JsonIn::tell() { return stream->tellg(); }
-void JsonIn::seek(int pos) { stream->seekg(pos, std::istream::beg); }
+void JsonIn::seek(int pos) { stream->seekg(pos); ate_separator = false; }
 char JsonIn::peek() { return (char)stream->peek(); }
 bool JsonIn::good() { return stream->good(); }
-void JsonIn::read(char * str, int len) { stream->read(str, len); }
+
 void JsonIn::eat_whitespace()
 {
     while (is_whitespace(peek())) {
@@ -655,36 +643,77 @@ void JsonIn::eat_whitespace()
     }
 }
 
-bool JsonIn::skip_member()
+void JsonIn::uneat_whitespace()
+{
+    while (tell() > 0) {
+        stream->seekg(-1, std::istream::cur);
+        if (!is_whitespace(peek())) {
+            break;
+        }
+    }
+}
+
+void JsonIn::end_value()
+{
+    ate_separator = false;
+    skip_separator();
+}
+
+void JsonIn::skip_member()
 {
     skip_string();
     skip_pair_separator();
     skip_value();
-    return skip_separator();
 }
 
-bool JsonIn::skip_pair_separator()
+void JsonIn::skip_separator()
+{
+    char ch;
+    eat_whitespace();
+    ch = peek();
+    if (ch == ',') {
+        if (strict && ate_separator) {
+            error("duplicate separator");
+        }
+        stream->get();
+        ate_separator = true;
+    } else if (ch == ']' || ch == '}' || ch == ':') {
+        // okay
+        ate_separator = false;
+    } else if (ch == EOF) {
+        // that's okay too... probably
+        ate_separator = false;
+    } else if (strict) {
+        // not okay >:(
+        uneat_whitespace();
+        error("missing separator", 1);
+    }
+}
+
+void JsonIn::skip_pair_separator()
 {
     char ch;
     eat_whitespace();
     stream->get(ch);
     if (ch != ':') {
         std::stringstream err;
-        err << line_number(-1) << ": expected pair separator ':', not '" << ch << "'";
-        throw err.str();
+        err << "expected pair separator ':', not '" << ch << "'";
+        error(err.str(), -1);
+    } else if (strict && ate_separator) {
+        error("duplicate separator not strictly allowed", -1);
     }
-    return false;
+    ate_separator = true;
 }
 
-bool JsonIn::skip_string()
+void JsonIn::skip_string()
 {
     char ch;
     eat_whitespace();
     stream->get(ch);
     if (ch != '"') {
         std::stringstream err;
-        err << line_number(-1) << ": expecting string but found '" << ch << "'";
-        throw err.str();
+        err << "expecting string but found '" << ch << "'";
+        error(err.str(), -1);
     }
     while (stream->good()) {
         stream->get(ch);
@@ -693,214 +722,104 @@ bool JsonIn::skip_string()
             continue;
         } else if (ch == '"') {
             break;
+        } else if (strict && (ch == '\r' || ch == '\n')) {
+            error("string not closed before end of line", -1);
         }
     }
-    return skip_separator();
+    end_value();
 }
 
-bool JsonIn::skip_value()
+void JsonIn::skip_value()
 {
     char ch;
-    bool foundsep;
     eat_whitespace();
     ch = peek();
     // it's either a string '"'
     if (ch == '"') {
-        foundsep = skip_string();
+        skip_string();
     // or an object '{'
     } else if (ch == '{') {
-        foundsep = skip_object();
+        skip_object();
     // or an array '['
     } else if (ch == '[') {
-        foundsep = skip_array();
+        skip_array();
     // or a number (-0123456789)
     } else if (ch == '-' || (ch >= '0' && ch <= '9')) {
-        foundsep = skip_number();
+        skip_number();
     // or "true", "false" or "null"
     } else if (ch == 't') {
-        foundsep = skip_true();
+        skip_true();
     } else if (ch == 'f') {
-        foundsep = skip_false();
+        skip_false();
     } else if (ch == 'n') {
-        foundsep = skip_null();
+        skip_null();
     // or an error.
     } else {
         std::stringstream err;
-        err << line_number() << ": expected JSON value but got '" << ch << "'";
-        throw err.str();
+        err << "expected JSON value but got '" << ch << "'";
+        error(err.str());
     }
-    return foundsep;//b( foundsep || skip_separator() );
+    // skip_* end value automatically
 }
 
-bool JsonIn::skip_object()
+void JsonIn::skip_object()
 {
-    char ch;
-    bool lastsep = false;
-    int brackets = 1;
-    eat_whitespace();
-    int startpos = tell();
-    stream->get(ch);
-    if (ch != '{') {
-        std::stringstream err;
-        err << line_number(-1) << ": expected object but found '" << ch << "'";
-        throw err.str();
+    start_object();
+    while (!end_object()) {
+        skip_member();
     }
-    while (brackets && stream->good()) {
-        stream->get(ch);
-        // ignore everything inside strings
-        if (ch == '"') {
-            stream->unget();
-            lastsep = skip_string();
-        // otherwise count opening and closing brackets until they all match
-        } else if (ch == '{') {
-            brackets += 1;
-            lastsep = false;
-        } else if (ch == '}') {
-            brackets -= 1;
-            if ( strict && lastsep ) {
-                std::stringstream err;
-                std::string txt;
-                int errpos = tell();
-                err << line_number(-1) << ": trailing comma: ";
-                stream->seekg(startpos);
-                stream->read(&txt[0],errpos-startpos);
-                err << txt;
-                throw err.str();                 
-            }
-            lastsep = false;
-        } else if (!is_whitespace(ch)) {
-            lastsep = false;
-        }
-    }
-    if (brackets != 0) {
-        // something messed up!
-        std::stringstream err;
-        if (stream->fail()) {
-            throw (std::string)"stream failure while reading object.";
-        } else if (stream->eof()) {
-            stream->clear();
-            seek(startpos);
-            err << line_number() << ": ";
-            err << "couldn't find end of object, reached EOF with ";
-            err << brackets << " bracket(s) left.";
-            throw err.str();
-        } else { // this should be impossible
-            err << line_number() << " ";
-            seek(startpos);
-            err << "(" << line_number() << "): ";
-            err << "object brackets didn't match?";
-            err << " " << brackets << " bracket(s) left.";
-            throw err.str();
-        }
-    }
-    return skip_separator();
+    end_value();
 }
 
-bool JsonIn::skip_array()
+void JsonIn::skip_array()
 {
-    char ch;
-    bool lastsep = false;
-    int brackets = 1;
-    eat_whitespace();
-    int startpos = tell();
-    stream->get(ch);
-    if (ch != '[') {
-        std::stringstream err;
-        err << line_number(-1) << ": expected array but found '" << ch << "'";
-        throw err.str();
+    start_array();
+    while (!end_array()) {
+        skip_value();
     }
-    while (brackets && stream->good()) {
-        stream->get(ch);
-        // ignore everything inside strings
-        if (ch == '"') {
-            stream->unget();
-            lastsep = skip_string();
-        // otherwise count opening and closing brackets until they all match
-        } else if (ch == '[') {
-            brackets += 1;
-            lastsep = false;
-        } else if (ch == ']') {
-            brackets -= 1;
-            if ( strict && lastsep ) {
-                std::stringstream err;
-                std::string txt;
-                int errpos = tell();
-                err << line_number(-1) << ": trailing comma: ";
-                stream->seekg(startpos);
-                stream->read(&txt[0],errpos-startpos);
-                err << txt;
-                throw err.str();                 
-            }
-            lastsep = false;
-        } else if (!is_whitespace(ch)) {
-            lastsep = false;
-        }
-
-    }
-    if (brackets != 0) {
-        // something messed up!
-        std::stringstream err;
-        if (stream->fail()) {
-            throw (std::string)"stream failure while reading array.";
-        } else if (stream->eof()) {
-            stream->clear();
-            seek(startpos);
-            err << line_number() << ": ";
-            err << "couldn't find end of array, reached EOF with ";
-            err << brackets << " bracket(s) left.";
-            throw err.str();
-        } else { // this should be impossible
-            err << line_number() << " ";
-            seek(startpos);
-            err << "(" << line_number() << "): ";
-            err << "array brackets didn't match?";
-            err << " " << brackets << " bracket(s) left.";
-            throw err.str();
-        }
-    }
-    return skip_separator();
+    end_value();
 }
 
-bool JsonIn::skip_true()
+void JsonIn::skip_true()
 {
     char text[5];
     eat_whitespace();
     stream->get(text, 5);
     if (strcmp(text, "true") != 0) {
         std::stringstream err;
-        err << line_number(-4) << ": expected \"true\", but found \"" << text << "\"";
-        throw err.str();
+        err << "expected \"true\", but found \"" << text << "\"";
+        error(err.str(), -4);
     }
-    return skip_separator();
+    end_value();
 }
 
-bool JsonIn::skip_false()
+void JsonIn::skip_false()
 {
     char text[6];
     eat_whitespace();
     stream->get(text, 6);
     if (strcmp(text, "false") != 0) {
         std::stringstream err;
-        err << line_number(-5) << ": expected \"false\", but found \"" << text << "\"";
-        throw err.str();
+        err << "expected \"false\", but found \"" << text << "\"";
+        error(err.str(), -5);
     }
-    return skip_separator();
+    end_value();
 }
 
-bool JsonIn::skip_null()
+void JsonIn::skip_null()
 {
     char text[5];
     eat_whitespace();
     stream->get(text, 5);
     if (strcmp(text, "null") != 0) {
         std::stringstream err;
-        err << line_number(-4) << ": expected \"null\", but found \"" << text << "\"";
-        throw err.str();
+        err << "expected \"null\", but found \"" << text << "\"";
+        error(err.str(), -4);
     }
-    return skip_separator();
+    end_value();
 }
 
-bool JsonIn::skip_number()
+void JsonIn::skip_number()
 {
     char ch;
     eat_whitespace();
@@ -910,33 +829,16 @@ bool JsonIn::skip_number()
         if (ch != '+' && ch != '-' && (ch < '0' || ch > '9') &&
                 ch != 'e' && ch != 'E' && ch != '.') {
             stream->unget();
-            return (ch==',');
+            break;
         }
     }
-    return skip_separator();
-}
-
-bool JsonIn::skip_separator()
-{
-    char ch;
-    eat_whitespace();
-    ch = peek();
-    if (ch == ',') {
-        stream->get();
-        return true;
-    }
-    return false;
+    end_value();
 }
 
 std::string JsonIn::get_member_name()
 {
-    // get the name
     std::string s = get_string();
-    // eat any whitespace
-    eat_whitespace();
-    // skip the separator
     skip_pair_separator();
-    // done
     return s;
 }
 
@@ -952,8 +854,8 @@ std::string JsonIn::get_string()
     stream->get(ch);
     if (ch != '"') {
         std::stringstream err;
-        err << line_number(-1) << ": expecting string but got '" << ch << "'";
-        throw err.str();
+        err << "expecting string but got '" << ch << "'";
+        error(err.str(), -1);
     }
     // add chars to the string, one at a time, converting:
     // \", \\, \/, \b, \f, \n, \r, \t and \uxxxx according to JSON spec.
@@ -997,22 +899,23 @@ std::string JsonIn::get_string()
             }
         } else if (ch == '"') {
             // end of the string
-            skip_separator();
+            end_value();
             return s;
+        } else if (strict && (ch == '\r' || ch == '\n')) {
+            error("reached end of line without closing string", -1);
+        } else if (strict && (unsigned char)ch < 0x20) {
+            error("invalid character inside string", -1);
         } else {
             s += ch;
         }
     }
     // if we get to here, probably hit a premature EOF?
-    if (stream->fail()) {
-        throw (std::string)"stream failure while reading string.";
-    } else if (stream->eof()) {
+    if (stream->eof()) {
         stream->clear();
         seek(startpos);
-        std::stringstream err;
-        err << line_number() << ": ";
-        err << "couldn't find end of string, reached EOF.";
-        throw err.str();
+        error("couldn't find end of string, reached EOF.");
+    } else if (stream->fail()) {
+        throw (std::string)"stream failure while reading string.";
     }
     throw (std::string)"something went wrong D:";
 }
@@ -1073,7 +976,9 @@ double JsonIn::get_float()
             e *= -1;
         }
     }
-    skip_separator();
+    // unget the final non-number character (probably a separator)
+    stream->unget();
+    end_value();
     // now put it all together!
     return i * pow(10.0f, static_cast<float>(e + mod_e));
 }
@@ -1082,39 +987,33 @@ bool JsonIn::get_bool()
 {
     char ch;
     char text[5];
-    int pos = tell();
     std::stringstream err;
     eat_whitespace();
     stream->get(ch);
     if (ch == 't') {
         stream->get(text, 4);
         if (strcmp(text, "rue") == 0) {
-            skip_separator();
+            end_value();
             return true;
         } else {
-            err << line_number(-4) << ": ";
             err << "not a boolean. expected \"true\", but got \"";
             err << ch << text << "\"";
-            seek(pos);
-            throw err.str();
+            error(err.str(), -4);
         }
     } else if (ch == 'f') {
         stream->get(text, 5);
         if (strcmp(text, "alse") == 0) {
-            skip_separator();
+            end_value();
             return false;
         } else {
-            err << line_number(-5) << ": ";
             err << "not a boolean. expected \"false\", but got \"";
             err << ch << text << "\"";
-            seek(pos);
-            throw err.str();
+            error(err.str(), -5);
         }
     }
-    err << line_number(-1) << ": ";
     err << "not a boolean value! expected 't' or 'f' but got '" << ch << "'";
-    seek(pos);
-    throw err.str();
+    error(err.str(), -1);
+    throw (std::string)"warnings are silly";
 }
 
 void JsonIn::start_array()
@@ -1122,14 +1021,14 @@ void JsonIn::start_array()
     eat_whitespace();
     if (peek() == '[') {
         stream->get();
+        ate_separator = false;
         return;
     } else {
         // expecting an array, so this is an error
         std::stringstream err;
-        err << line_number() << ": ";
         err << "tried to start array, but found '";
         err << peek() << "', not '['";
-        throw err.str();
+        error(err.str());
     }
 }
 
@@ -1137,12 +1036,13 @@ bool JsonIn::end_array()
 {
     eat_whitespace();
     if (peek() == ']') {
+        if (strict && ate_separator) {
+            uneat_whitespace();
+            error("separator not strictly allowed at end of array");
+        }
         stream->get();
+        ate_separator = false;
         return true;
-    } else if (peek() == ',') {
-        // also eat separators, makes iterating easy
-        stream->get();
-        return false;
     } else {
         // not the end yet, so just return false?
         return false;
@@ -1154,14 +1054,14 @@ void JsonIn::start_object()
     eat_whitespace();
     if (peek() == '{') {
         stream->get();
+        ate_separator = false; // not that we want to
         return;
     } else {
         // expecting an object, so fail loudly
         std::stringstream err;
-        err << line_number() << ": ";
         err << "tried to start object, but found '";
         err << peek() << "', not '{'";
-        throw err.str();
+        error(err.str());
     }
 }
 
@@ -1169,12 +1069,13 @@ bool JsonIn::end_object()
 {
     eat_whitespace();
     if (peek() == '}') {
+        if (strict && ate_separator) {
+            uneat_whitespace();
+            error("separator not strictly allowed at end of object");
+        }
         stream->get();
+        ate_separator = false;
         return true;
-    } else if (peek() == ',') {
-        // also eat separators, makes iterating easy
-        stream->get();
-        return false;
     } else {
         // not the end yet, so just return false?
         return false;
@@ -1208,7 +1109,7 @@ bool JsonIn::test_int()
     // then add the number of digits after it,
     // then subtract this from the exponent,
     // and test if the exponent is greater than -1,
-    // but then we'd /still/ have to adjust for silly cases like 0.0003e4,
+    // but then we'd /still/ have to adjust for silly cases like 0.000300e4,
     // which, technically, is an integer.
     // feel free to implement.
     eat_whitespace();
@@ -1264,8 +1165,9 @@ bool JsonIn::test_object()
     return false;
 }
 
-// WARNING: intended for occasional use only
-// TODO: track character/line offset while parsing so this can be fast.
+/* error display */
+
+// WARNING: for occasional use only.
 std::string JsonIn::line_number(int offset_modifier)
 {
     if (stream->eof()) {
@@ -1298,3 +1200,282 @@ std::string JsonIn::line_number(int offset_modifier)
     ret << "line " << line << ":" << (offset + offset_modifier);
     return ret.str();
 }
+
+void JsonIn::error(std::string message, int offset)
+{
+    std::ostringstream err;
+    err << line_number(offset) << ": " << message;
+    // if we can't get more info from the stream don't try
+    if (!stream->good()) {
+        throw err.str();
+    }
+    // also print surrounding few lines of context, if not too large
+    err << "\n\n";
+    stream->seekg(offset, std::istream::cur);
+    size_t pos = tell();
+    rewind(3, 240);
+    size_t startpos = tell();
+    char buffer[241];
+    stream->read(&buffer[0], pos-startpos);
+    buffer[pos-startpos] = '\0';
+    err << buffer;
+    if (!is_whitespace(peek())) {
+        err << peek();
+    }
+    // display a pointer to the position
+    rewind(1, 240);
+    startpos = tell();
+    err << '\n';
+    for (int i=0; i < pos-startpos-1; ++i) {
+        err << ' ';
+    }
+    err << "^\n";
+    seek(pos);
+    // if that wasn't the end of the line, continue underneath pointer
+    char ch = stream->get();
+    if (ch == '\r') {
+        if (peek() == '\n') {
+            stream->get();
+        }
+    } else if (ch == '\n') {
+        // pass
+    } else if (peek() != '\r' && peek() != '\n') {
+        for (int i=0; i < pos-startpos; ++i) {
+            err << ' ';
+        }
+    }
+    // print the next couple lines as well
+    int line_count = 0;
+    for (int i=0; i < 240; ++i) {
+        stream->get(ch);
+        err << ch;
+        if (ch == '\r') {
+            ++line_count;
+            if (peek() == '\n') {
+                err << stream->get();
+            }
+        } else if (ch == '\n') {
+            ++line_count;
+        }
+        if (line_count > 2) {
+            break;
+        }
+    }
+    throw err.str();
+}
+
+void JsonIn::rewind(int max_lines, int max_chars)
+{
+    if (max_lines < 0 && max_chars < 0) {
+        // just rewind to the beginning i guess
+        seek(0);
+        return;
+    }
+    if (tell() == 0) {
+        return;
+    }
+    int lines_found = 0;
+    stream->seekg(-1, std::istream::cur);
+    for (int i=0; i < max_chars; ++i) {
+        size_t tellpos = tell();
+        if (peek() == '\n') {
+            ++lines_found;
+            if (tellpos > 0) {
+                stream->seekg(-1, std::istream::cur);
+                // note: does not update tellpos or count a character
+                if (peek() != '\r') {
+                    continue;
+                }
+            }
+        } else if (peek() == '\r') {
+            ++lines_found;
+        }
+        if (tellpos == 0) {
+            break;
+        } else if (lines_found == max_lines) {
+            // don't include the last \n or \r
+            stream->seekg(1, std::istream::cur);
+            break;
+        }
+        stream->seekg(-1, std::istream::cur);
+    }
+}
+
+
+/* class JsonOut
+ * represents an ostream of JSON data,
+ * allowing easy serialization of c++ datatypes.
+ */
+JsonOut::JsonOut(std::ostream *s)
+{
+    stream = s;
+    need_separator = false;
+    // ensure user's locale doesn't interfere with number format
+    stream->imbue(std::locale::classic());
+    // scientific format for floating-point numbers
+    stream->setf(std::ostream::scientific, std::ostream::floatfield);
+    // it's already decimal, but set it anyway
+    stream->setf(std::ostream::dec, std::ostream::basefield);
+    // could also set showbase and showpoint,
+    // but it currently doesn't matter.
+}
+
+void JsonOut::write_separator()
+{
+    stream->put(',');
+    need_separator = false;
+}
+
+void JsonOut::write_member_separator()
+{
+    stream->put(':');
+    need_separator = false;
+}
+
+void JsonOut::start_object()
+{
+    if (need_separator) {
+        write_separator();
+    }
+    stream->put('{');
+    need_separator = false;
+}
+
+void JsonOut::end_object()
+{
+    stream->put('}');
+    need_separator = true;
+}
+
+void JsonOut::start_array()
+{
+    if (need_separator) {
+        write_separator();
+    }
+    stream->put('[');
+    need_separator = false;
+}
+
+void JsonOut::end_array()
+{
+    stream->put(']');
+    need_separator = true;
+}
+
+void JsonOut::write_null()
+{
+    if (need_separator) {
+        write_separator();
+    }
+    stream->write("null", 4);
+    need_separator = true;
+}
+
+void JsonOut::write(const bool &b)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    if (b) {
+        stream->write("true", 4);
+    } else {
+        stream->write("false", 5);
+    }
+    need_separator = true;
+}
+
+void JsonOut::write(const int &i)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << i;
+    need_separator = true;
+}
+
+void JsonOut::write(const unsigned &u)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << u;
+    need_separator = true;
+}
+
+void JsonOut::write(const double &f)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    // format specified in constructor, let's hope it hasn't changed
+    *stream << f;
+    need_separator = true;
+}
+
+void JsonOut::write(const std::string &s)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    unsigned char ch;
+    stream->put('"');
+    for (int i = 0; i < s.size(); ++i) {
+        ch = s[i];
+        if (ch == '"') {
+            stream->write("\\\"", 2);
+        } else if (ch == '\\') {
+            stream->write("\\\\", 2);
+        } else if (ch == '/') {
+            // don't technically need to escape this
+            stream->put('/');
+        } else if (ch == '\b') {
+            stream->write("\\b", 2);
+        } else if (ch == '\f') {
+            stream->write("\\f", 2);
+        } else if (ch == '\n') {
+            stream->write("\\n", 2);
+        } else if (ch == '\r') {
+            stream->write("\\r", 2);
+        } else if (ch == '\t') {
+            stream->write("\\t", 2);
+        } else if (ch < 0x20) {
+            // convert to "\uxxxx" unicode escape
+            stream->write("\\u00", 4);
+            stream->put((ch < 0x10) ? '0' : '1');
+            char remainder = ch & 0x0F;
+            if (remainder < 0x0A) {
+                stream->put('0' + remainder);
+            } else {
+                stream->put('A' + (remainder - 0x0A));
+            }
+        } else {
+            stream->put(ch);
+        }
+    }
+    stream->put('"');
+    need_separator = true;
+}
+
+void JsonOut::write(const JsonSerializer &thing)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    thing.serialize(*this);
+    need_separator = true;
+}
+
+void JsonOut::member(const std::string &name)
+{
+    write(name);
+    write_member_separator();
+}
+
+void JsonOut::null_member(const std::string &name)
+{
+    member(name);
+    write_null();
+}
+

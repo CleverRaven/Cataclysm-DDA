@@ -59,72 +59,72 @@ void game::init_itypes ()
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 
-#define VAR_VEH_PART(id, name,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
-              flags, bigmin, bigmax, bigaspect, des)\
-itypes[id]=new it_var_veh_part(id,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect)
+#define VAR_VEH_PART(id, name, price, sym, color, mat1, mat2, volume, wgt,\
+                     dam, cut, to_hit, bigmin, bigmax, bigaspect, des)\
+itypes[id]=new it_var_veh_part(id, price, name, des, sym, color, mat1, mat2,\
+                     volume, wgt, dam, cut, to_hit, bigmin, bigmax, bigaspect)
 
 //"wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel", _("wheel"), 100, ']', c_dkgray,  "steel",   "plastic",
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
-    40, 8845, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  _("\
-A car wheel"));
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    40, 8845, 12,  0,  -1,        13,         20,  BIGNESS_WHEEL_DIAMETER,
+  _("A car wheel"));
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_wide", _("wide wheel"), 340, ']', c_dkgray,  "steel",   "plastic",
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
-    70,22600, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  _("\
-A wide wheel. \\o/ This wide."));
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    70,22600, 17,  0,  -1,        17,         36,  BIGNESS_WHEEL_DIAMETER,
+  _("A wide wheel. \\o/ This wide."));
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_bicycle", _("bicycle wheel"), 40,  ']', c_dkgray,  "steel",   "plastic",
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
-    28,1500,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  _("\
-A bicycle wheel"));
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    28,1500,  8,   0,  -1,        9,         18,  BIGNESS_WHEEL_DIAMETER,
+  _("A bicycle wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_motorbike", _("motorbike wheel"), 140,  ']', c_dkgray,  "steel",   "plastic",
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
-    33,5443,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  _("\
-A motorbike wheel"));
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    33,5443,  10,  0,  -1,        9,         14,  BIGNESS_WHEEL_DIAMETER,
+  _("A motorbike wheel"));
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("wheel_small", _("small wheel"),140,  ']', c_dkgray,  "steel",   "plastic",
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
-    9, 2722,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  _("\
-A pretty small wheel. Probably from one of those segway things.\
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    9, 2722,  10,  0,  -1,        6,         14,   BIGNESS_WHEEL_DIAMETER,
+  _("A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing."));
 VAR_VEH_PART("wheel_caster", _("casters"),140,  ']', c_dkgray,  "steel",   "plastic",
-//  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
-    5, 1500,  6,  0,  -1, 0,       4,         6,   BIGNESS_WHEEL_DIAMETER,  _("\
-A set of casters, like on a shopping cart."));
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    5, 1500,  6,   0,  -1,        4,         6,   BIGNESS_WHEEL_DIAMETER,
+  _("A set of casters, like on a shopping cart."));
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", _("1-cylinder engine"), 100, ':', c_ltcyan,  "iron",   "null",
-//  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
-    6, 20000,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    6, 20000,  4,  0,  -1,        28,         75,   BIGNESS_ENGINE_DISPLACEMENT, _("\
 A single-cylinder 4-stroke combustion engine."));
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v2_combustion", _("V-twin engine"), 100, ':', c_ltcyan,  "iron",   "null",
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    6, 45000,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    6, 45000,  4,  0,  -1,        65,        260, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A 2-cylinder 4-stroke combustion engine."));
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("i4_combustion", _("Inline-4 engine"), 150, ':', c_ltcyan,  "iron",   "null",
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    6, 70000,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    6, 70000,  8,  0,  -2,        220,       350, BIGNESS_ENGINE_DISPLACEMENT, _("\
 A small, yet powerful 4-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v6_combustion", _("V6 engine"), 180, ':', c_ltcyan,  "iron",   "null",
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    14,100000,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, _("\
-A powerful 6-cylinder combustion engine."));
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    14,100000, 12,  0, -3,      250,        520, BIGNESS_ENGINE_DISPLACEMENT,
+    _("A powerful 6-cylinder combustion engine."));
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("v8_combustion", _("V8 engine"), 250, ':', c_ltcyan,  "iron",   "null",
-//  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
-    25,144000,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, _("\
-A large and very powerful 8-cylinder combustion engine."));
+//  VOL WGT  DAM  CUT  HIT  BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
+    25,144000, 15,  0, -5,       380,     700, BIGNESS_ENGINE_DISPLACEMENT,
+    _("A large and very powerful 8-cylinder combustion engine."));
 
 // GUNS
 // ammo_type matches one of the ammo_types above.
@@ -366,7 +366,9 @@ std::string ammo_name(ammotype t)
     if( t == "water" )      return _("clean water");
     if( t == "8x40mm" )     return _("8x40mm caseless");
     if( t == "5x50" )       return _("5x50mm flechette");
+    if( t == "signal_flare")return _("signal flare");
     if( t == "charcoal" )   return _("charcoal");
+    if( t == "metal_rail" ) return _("ferrous rail projectile");
     if( t == "UPS" )        return _("UPS");
     if( t == "components" ) return _("components");
     return "XXX";
@@ -409,7 +411,9 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "water" )        return "water_clean";
     if( guntype == "charcoal"  )    return "charcoal";
     if( guntype == "8x40mm"  )      return "8mm_caseless";
-    if( guntype == "5x50"  )        return  "5x50dart";
+    if( guntype == "5x50"  )        return "5x50dart";
+    if( guntype == "signal_flare")  return "signal_flare";
+    if( guntype == "metal_rail"  )  return "rebar_rail";
     if( guntype == "UPS"  )         return _("UPS");
     if( guntype == "components"  )  return _("components");
     if( guntype == "50"  )          return "50bmg";
