@@ -92,6 +92,7 @@
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "VIS40"],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
+    "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
   },
   {
