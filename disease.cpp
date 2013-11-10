@@ -1000,7 +1000,7 @@ void dis_effect(player &p, disease &dis) {
                                               body_part_name(dis.bp, dis.side).c_str());
                      g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    g->add_msg(_("%s starts scratching their %s!"), p.name.c_str(), 
+                    g->add_msg(_("%s starts scratching their %s!"), p.name.c_str(),
                                        body_part_name(dis.bp, dis.side).c_str());
                 }
                 p.moves -= 150;
@@ -2745,6 +2745,10 @@ static void handle_insect_parasites(player& p, disease& dis) {
         }
         p.add_memorial_log(_("Dermatik eggs hatched."));
         p.rem_disease("formication", dis.bp, dis.side);
+        if (!one_in(3))
+            p.rem_disease("dermatik", dis.bp, dis.side);
+        else
+            dis.duration = rng(12000, 14400);
         p.moves -= 600;
     }
 }
