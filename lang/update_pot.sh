@@ -17,7 +17,13 @@ fi
 if python lang/extract_json_strings.py 
 then
     # update cataclysm-dda.pot
-    xgettext -d cataclysm-dda -F -c~ -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
+    xgettext --default-domain="cataclysm-dda" \
+             --sort-by-file \
+             --add-comments="~" \
+             --output="lang/po/cataclysm-dda.pot" \
+             --keyword="_" \
+             --keyword="pgettext:1c,2" \
+             *.cpp *.h lang/json/*.py
 else
     echo 'UPDATE ABORTED'
     cd $oldpwd
