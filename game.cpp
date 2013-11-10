@@ -9700,9 +9700,15 @@ void game::unload(item& it)
   // Then try the grenade launcher
   else if (has_m203 != -1 && weapon->contents[has_m203].charges > 0)
    weapon = &weapon->contents[has_m203];
+  // Then try the pipe 40mm launcher
+  else if (has_40mml != -1 && weapon->contents[has_40mml].charges > 0)
+   weapon = &weapon->contents[has_40mml];
   // Then try an underslung shotgun
   else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
    weapon = &weapon->contents[has_shotgun];
+  // Then try a masterkey shotgun
+  else if (has_shotgun2 != -1 && weapon->contents[has_shotgun2].charges > 0)
+   weapon = &weapon->contents[has_shotgun2];
  }
 
  item newam;
