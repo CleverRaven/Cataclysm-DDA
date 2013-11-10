@@ -609,6 +609,7 @@
       ["masterkey", 2],
       ["shot_flechette", 1],
       ["20x66_shot", 2],
+      ["20x66_flechette", 1],
       ["shot_hull", 10],
       ["9mm_casing", 10],
       ["38_casing", 10],
@@ -637,6 +638,7 @@
       ["improve_sights", 20],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
+      ["rm120c", 3],
       ["u_shotgun", 5]
     ]
   },{
@@ -1610,7 +1612,8 @@
       ["shot_bird", 8],
       ["shot_00", 8],
       ["shot_flechette", 3],
-      ["20x66_shot", 4],
+      ["20x66_shot", 5],
+      ["20x66_flechette", 3],
       ["shot_slug", 6],
       ["22_fmj", 3],
       ["22_lr", 9],
@@ -1682,6 +1685,7 @@
     "items":[
       ["shotgun_s", 1],
       ["shotgun_d", 2],
+      ["rm120c", 4],
       ["remington_870", 9],
       ["mossberg_500", 5],
       ["rm20", 2],
@@ -1762,6 +1766,7 @@
       ["shotgun_d", 2],
       ["remington_870", 9],
       ["mossberg_500", 5],
+      ["rm120c", 4],
       ["saiga_12", 3],
       ["rm20", 2],
       ["american_180", 2],
@@ -2865,6 +2870,7 @@
       ["atomic_coffeepot", 1],
       ["flaregun", 10],
       ["signal_flare", 15],
+      ["rm120c", 5],
       ["knee_pads", 10]
     ]
   },{
@@ -3384,6 +3390,9 @@
       ["laser_sight", 15],
       ["needlegun", 4],
       ["5x50dart", 8],
+      ["rm20", 3],
+      ["20x66_shot", 5],
+      ["20x66_flechette", 5],
       ["improve_sights", 5]
     ]
   },{
@@ -4331,6 +4340,7 @@
       ["40mm_shot", 12],
       ["40mm_flechette", 6],
       ["20x66_shot", 4],
+      ["20x66_flechette", 3],
       ["usp_9mm", 6],
       ["usp_45", 6],
       ["m4a1", 7],
@@ -4363,7 +4373,6 @@
       ["binoculars", 20],
       ["masterkey", 2],
       ["shot_flechette", 5],
-      ["20x66_shot", 4],
       ["chestrig", 10],
       ["legrig", 10],
       ["power_armor_basic", 5],
@@ -4559,6 +4568,7 @@
       ["shot_00", 8],
       ["shot_flechette", 2],
       ["20x66_shot", 4],
+      ["20x66_flechette", 3],
       ["shot_slug", 6],
       ["22_lr", 9],
       ["9mm", 8],

@@ -2659,14 +2659,13 @@
     "clip_size": 1,
     "reload": 200
   },
-
   {
     "id": "rm20",
     "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
-    "name": "RM20 shotgun",
-    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM20 caseless automatic shotgun was designed with durability and overwhelming power in mind.",
+    "name": "RM20 autoshotgun",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM20 caseless automatic combat shotgun was designed with durability and overwhelming power in mind.",
     "price": 3200,
     "material": ["steel", "kevlar"],
     "flags": "MODE_BURST",
@@ -2685,6 +2684,31 @@
     "burst": 4,
     "clip_size": 20,
     "reload": 550
+  },
+  {
+    "id": "rm120c",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "RM120c shotgun",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM120c caseless pump-action shotgun was designed for hunting big game, with durability and ease of use as priorities.",
+    "price": 2000,
+    "material": ["steel", "kevlar"],
+    "flags": "RELOAD_ONE",
+    "skill": "shotgun",
+    "ammo": "20x66mm",
+    "weight": 1680,
+    "volume": 9,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 0,
+    "recoil": 0,
+    "durability": 9,
+    "clip_size": 5,
+    "reload": 80
   },
    {
     "id": "m107a1",
