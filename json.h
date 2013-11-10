@@ -227,6 +227,7 @@ public:
     std::set<std::string> get_member_names();
     std::string str(); // copy object json as string
 
+    // values by name
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
     bool get_bool(const std::string &name);
@@ -238,13 +239,14 @@ public:
     std::string get_string(const std::string &name);
     std::string get_string(const std::string &name, const std::string &fallback);
 
-    // note: returns empty array if not found
+    // containers by name
+    // get_array returns empty array if the member is not found
     JsonArray get_array(const std::string &name);
     std::vector<int> get_int_array(const std::string &name);
     std::vector<std::string> get_string_array(const std::string &name);
-    // note: throws exception if not found (can change behaviour if desirable)
+    // get_object throws exception if not found (can change if desirable)
     JsonObject get_object(const std::string &name);
-    // note: returns empty set if not found
+    // get_tags returns empty set if none found
     std::set<std::string> get_tags(const std::string &name);
     // TODO: some sort of get_map(), maybe
 
