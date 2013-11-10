@@ -151,6 +151,8 @@ std::string JsonObject::str()
     }
 }
 
+/* returning values by name */
+
 bool JsonObject::get_bool(const std::string &name)
 {
     int pos = verify_position(name);
@@ -219,6 +221,8 @@ std::string JsonObject::get_string(const std::string &name, const std::string &f
     return jsin->get_string();
 }
 
+/* returning containers by name */
+
 JsonArray JsonObject::get_array(const std::string &name)
 {
     int pos = positions[name];
@@ -276,6 +280,8 @@ std::set<std::string> JsonObject::get_tags(const std::string &name)
     }
     return ret;
 }
+
+/* non-fatal member existence and type testing */
 
 bool JsonObject::has_null(const std::string &name)
 {
