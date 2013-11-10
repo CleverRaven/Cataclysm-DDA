@@ -14499,11 +14499,8 @@
         ["metal_tank", 1]
     ],
     [
-        ["steel_chunk", 1],
-        [ "scrap", 3 ]
-    ],
-    [
-        ["scrap", 6]
+        ["steel_chunk", 3],
+        [ "scrap", 9 ]
     ]
   ]
 },{
@@ -14549,11 +14546,8 @@
       ["metal_tank", 1]
     ],
     [
-      ["steel_chunk", 2],
-      [ "scrap", 6]
-    ],
-    [
-      ["scrap", 4]
+      ["steel_chunk", 3],
+      [ "scrap", 9]
     ]
   ]
 },{
