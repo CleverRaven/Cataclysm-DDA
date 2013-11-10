@@ -24,7 +24,7 @@
         "points": 3,
         "description": "You're just generally quick! You get a 10% bonus to action points.",
         "starting_trait": true,
-        "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_CHIMERA"]
+        "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "OPTIMISTIC",
@@ -102,7 +102,7 @@
         "points": 2,
         "description": "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
         "starting_trait": true,
-        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
+        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
         "wet_protection":[
          {
             "part": "LEGS",
@@ -142,7 +142,7 @@
         "points": 2,
         "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
         "starting_trait": true,
-        "category": ["MUTCAT_BIRD", "MUTCAT_BEAST"]
+        "category": ["MUTCAT_BIRD", "MUTCAT_BEAST", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "DRUNKEN",
@@ -233,7 +233,7 @@
         "points": 1,
         "description": "You make less noise while walking. You're also less likely to set off traps.",
         "starting_trait": true,
-        "category": ["MUTCAT_BIRD"]
+        "category": ["MUTCAT_BIRD", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ROBUST",
@@ -325,7 +325,7 @@
         "points": -3,
         "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
         "starting_trait": true,
-        "category": ["MUTCAT_BIRD"]
+        "category": ["MUTCAT_BIRD", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ILLITERATE",
@@ -368,7 +368,7 @@
         "points": -3,
         "description": "Your head can't take much abuse. Its maximum HP is 20% lower than usual.",
         "starting_trait": true,
-        "category": ["MUTCAT_BIRD"],
+        "category": ["MUTCAT_BIRD", "MUTCAT_RAPTOR"],
         "cancels": ["TOUGH"]
     },{
         "type" : "mutation",
@@ -419,7 +419,7 @@
         "points": -2,
         "description": "You suffer from a minor chemical imbalance, whether mental or physical. Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
         "starting_trait": true,
-        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
@@ -496,7 +496,8 @@
         "description": "You're not much to look at. NPCs who care about such things will react poorly to you.",
         "starting_trait": true,
         "cancels": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "changes_to": ["DEFORMED"]
+        "changes_to": ["DEFORMED"],
+		"categories": ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "FRAIL",
@@ -534,6 +535,32 @@
         "prereqs": ["NIGHTVISION2"],
         "leads_to": ["INFRARED"],
         "category": ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+	},{
+		"type": "mutation",
+		"id" : "ELFAEYES",
+		"name": "Fey Eyes",
+        "points": 1,
+        "description": "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
+        "leads_to": ["ELFA_NV"],
+		"valid": false,
+        "category": ["MUTCAT_ELFA"]
+	},{
+		"type": "mutation",
+		"id" : "ELFA_NV",
+		"name": "Fey Vision",
+        "points": 3,
+        "description": "The shadows don't seem as dark now.",
+		"prereqs": ["ELFAEYES"],
+        "changes_to": ["ELFA_FNV"],
+        "category": ["MUTCAT_ELFA"]
+	},{
+		"type": "mutation",
+		"id" : "ELFA_FNV",
+		"name": "Fey Nightsight",
+        "points": 5,
+        "description": "You can see clearly, even in the darkest caves and under moonless skies.",
+		"prereqs": ["ELFA_NV"],
+        "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "INFRARED",
@@ -551,7 +578,7 @@
         "ugliness": 1,
         "description": "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to": ["LIZ_IR"],
-        "category": ["MUTCAT_LIZARD"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "LIZ_IR",
@@ -559,7 +586,7 @@
         "points": 5,
         "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
         "prereqs": ["LIZ_EYE"],
-        "category": ["MUTCAT_LIZARD"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "FASTHEALER2",
@@ -628,7 +655,7 @@
         "visibility": 10,
         "ugliness": 3,
         "description": "A set of flexible green scales has grown to cover your body, acting as natural armor. Somewhat reduces wet effects.",
-        "category": ["MUTCAT_CHIMERA"],
+        "category": ["MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
         "prereqs": ["SKIN_ROUGH"],
         "changes_to": ["THICK_SCALES", "SLEEK_SCALES"],
         "wet_protection":[
@@ -906,6 +933,7 @@
         "cancels": ["FEATHERS", "LIGHTFUR", "FUR", "CHITIN", "CHITIN2", "CHITIN3", "SCALES"],
         "changes_to": ["BARK"],
         "leads_to": ["THORNS", "LEAVES"],
+		"categories": ["MUTCAT_ELFA"],
         "wet_protection":[
          {
             "part": "HEAD",
@@ -987,7 +1015,7 @@
         "ugliness": 3,
         "description": "All the hair on your body has turned to long, grass-like leaves. Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight. Slightly reduces wet effects.",
         "prereqs": ["BARK"],
-        "category": ["MUTCAT_PLANT"],
+        "category": ["MUTCAT_PLANT", "MUTCAT_ELFA"],
         "wet_protection":[
          {
             "part": "HEAD",
@@ -1012,7 +1040,7 @@
         "description": "You have claws on the ends of your fingers. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
         "prereqs": ["NAILS"],
         "cancels": ["TALONS"],
-        "category": ["MUTCAT_BEAST", "MUTCAT_RAT"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "TALONS",
@@ -1113,6 +1141,16 @@
             "neutral": 2
          }
       ]
+	},{
+        "type" : "mutation",
+        "id" : "RAP_TALONS",
+        "name": "Toe Talons",
+        "points": -2,
+        "visibility": 4,
+        "ugliness": 2,
+        "description": "You have grown large, curved, and wickedly sharp talons in place of your big toes. Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
+        "cancels": ["PADDED_FEET", "LEG_TENTACLES"],
+        "category": ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "HOOVES",
@@ -1260,6 +1298,17 @@
         "cancels": ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING"],
         "changes_to": ["TAIL_CLUB"],
         "category": ["MUTCAT_LIZARD"]
+	},{
+        "type" : "mutation",
+        "id" : "TAIL_RAPTOR",
+        "name": "Raptor Tail",
+        "points": 3,
+        "visibility": 8,
+        "ugliness": 2,
+        "description": "You have a long and semi-stiff lizardlike tail. You can't effectively lash it in combat, but do find it significantly improves your balance.",
+        "prereqs": ["TAIL_STUB"],
+        "cancels": ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
+        "category": ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FLUFFY",
@@ -1380,6 +1429,16 @@
         "ugliness": 1,
         "description": "Your ears have extended into long, pointed ones, like those of a canine. They enhance your hearing, allowing you to hear at greater distances.",
         "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
+	},{
+	    "type" : "mutation",
+        "id" : "ELFA_EARS",
+        "name": "Pointed Ears",
+        "points": 0,
+        "visibility": 4,
+        "ugliness": 1,
+        "description": "Your upper earlobes have grown noticably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
+        "valid": false,
+		"category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "WEB_WALKER",
@@ -1412,7 +1471,7 @@
         "points": 1,
         "description": "Your muscles are a little stronger. Strength + 1",
         "changes_to": ["STR_UP_2"],
-        "category": ["MUTCAT_INSECT"]
+        "category": ["MUTCAT_INSECT", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "STR_UP_2",
@@ -1458,7 +1517,7 @@
         "description": "You are nimbler. Dexterity + 2",
         "prereqs": ["DEX_UP"],
         "changes_to": ["DEX_UP_3"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_SPIDER", "MUTCAT_CHIMERA"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_3",
@@ -1467,7 +1526,7 @@
         "description": "You are nimble and quick. Dexterity + 4",
         "prereqs": ["DEX_UP_2"],
         "changes_to": ["DEX_UP_4"],
-        "category": ["MUTCAT_BIRD"]
+        "category": ["MUTCAT_BIRD", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_4",
@@ -1501,7 +1560,8 @@
         "ugliness": 1,
         "description": "You are much smarter, and your skull bulges slightly. Intelligence + 4",
         "prereqs": ["INT_UP_2"],
-        "changes_to": ["INT_UP_4"]
+        "changes_to": ["INT_UP_4"],
+		"category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "INT_UP_4",
@@ -1535,7 +1595,8 @@
         "points": 3,
         "description": "Your senses are much keener. Perception + 4",
         "prereqs": ["PER_UP_2"],
-        "changes_to": ["PER_UP_4"]
+        "changes_to": ["PER_UP_4"],
+		"category": ["MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "PER_UP_4",
@@ -1561,7 +1622,7 @@
         "visibility": 7,
         "ugliness": 4,
         "description": "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance. This makes breathing slightly difficult and increases mouth encumbrance by 1.",
-        "category": ["MUTCAT_LIZARD", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "FORKED_TONGUE",
@@ -1570,7 +1631,7 @@
         "visibility": 1,
         "ugliness": 3,
         "description": "Your tongue is forked, like that of a reptile. This has no effect.",
-        "category": ["MUTCAT_LIZARD"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "EYEBULGE",
@@ -1706,7 +1767,8 @@
         "ugliness": -10,
         "description": "You are incredibly beautiful. People cannot help themselves for your charms, and will do whatever they can to please you.",
         "cancels": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "prereqs": ["BEAUTIFUL2"]
+        "prereqs": ["BEAUTIFUL2"],
+		"category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "HOLLOW_BONES",
@@ -1714,7 +1776,7 @@
         "points": -6,
         "description": "You have Avian Bone Syndrome--your bones are nearly hollow. Your body is very light as a result, enabling you to run and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
         "prereqs": ["LIGHT_BONES"],
-        "category": ["MUTCAT_BIRD", "MUTCAT_SLIME"]
+        "category": ["MUTCAT_BIRD", "MUTCAT_SLIME", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "NAUSEA",
@@ -1731,21 +1793,21 @@
         "points": -8,
         "description": "You have a major digestive disorder, which causes you to vomit frequently.",
         "prereqs": ["NAUSEA"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
+        "category": ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "HUNGER",
         "name": "Fast Metabolism",
         "points": -2,
         "description": "You require more food than most people.",
-        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "THIRST",
         "name": "High Thirst",
         "points": -3,
         "description": "Your body dries out easily; you need to drink a lot more water.",
-        "category": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA"]
+        "category": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ROT1",
@@ -1772,7 +1834,8 @@
         "points": -10,
         "description": "Your body is slowly wasting away!",
         "cancels": ["FASTHEALER", "FASTHEALER2", "REGEN"],
-        "prereqs": ["ROT2"]
+        "prereqs": ["ROT2"],
+		"category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ALBINO",
@@ -1872,7 +1935,8 @@
         "points": -4,
         "description": "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs": ["RADIOACTIVE1"],
-        "changes_to": ["RADIOACTIVE3"]
+        "changes_to": ["RADIOACTIVE3"],
+		"category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE3",
@@ -1938,7 +2002,7 @@
         "description": "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
         "cancels": ["HERBIVORE", "RUMINANT"],
         "leads_to": ["SAPROVORE"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA"]
+        "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
@@ -1989,7 +2053,7 @@
         "description": "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
         "prereqs": ["COLDBLOOD"],
         "changes_to": ["COLDBLOOD3"],
-        "category": ["MUTCAT_FISH"]
+        "category": ["MUTCAT_FISH", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD3",
@@ -2014,13 +2078,21 @@
         "description": "You have a threatening snarl in your voice. Persuading NPCs will be near impossible, but threatening them will be much easier.",
         "prereqs": ["GROWL"],
         "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+	},{
+	    "type" : "mutation",
+        "id" : "HISS",
+        "name": "Hissing Voice",
+        "points": -1,
+        "description": "You hiss when speaking. Persuading NPCs will be more difficult, but threatening them will be easier.",
+        "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "SHOUT1",
         "name": "Shouter",
         "points": -2,
         "description": "You occasionally shout uncontrollably.",
-        "changes_to": ["SHOUT2"]
+        "changes_to": ["SHOUT2"],
+		"category": ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "SHOUT2",
