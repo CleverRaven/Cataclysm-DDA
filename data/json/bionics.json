@@ -214,6 +214,12 @@
 },
 {
     "type"       :    "bionic",
+    "id"         :    "bio_armor_eyes",
+    "name"       :    "Protective Lenses",
+    "description":    "Your eye sockets have been sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth. When you cry, you must spit out or swallow your tears."
+},
+{
+    "type"       :    "bionic",
     "id"         :    "bio_flashlight",
     "name"       :    "Cranial Flashlight",
     "active"     :    true,

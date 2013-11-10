@@ -229,6 +229,7 @@ BIO_SINGLE("bio_armor_head", 3500, c_cyan, 5);
 BIO_SINGLE("bio_armor_torso", 3500, c_cyan, 4);
 BIO_SINGLE("bio_armor_arms", 3500, c_cyan, 3);
 BIO_SINGLE("bio_armor_legs", 3500, c_cyan, 3);
+BIO_SINGLE("bio_armor_eyes", 5500, c_cyan, 5);
 // espionage
 BIO_SINGLE("bio_face_mask", 8500, c_magenta, 5);
 BIO_SINGLE("bio_scent_mask", 8500, c_magenta, 5);
