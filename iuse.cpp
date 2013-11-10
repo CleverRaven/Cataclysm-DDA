@@ -549,6 +549,15 @@ int iuse::caff(game *g, player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::atomic_caff(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,_("Wow! This %s has a kick."), it->tname().c_str());
+    it_comest *food = dynamic_cast<it_comest*> (it->type);
+    p->fatigue -= food->stim * 12;
+    p->radiation += 8;
+    return it->type->charges_to_use();
+}
+
 int iuse::alcohol(game *g, player *p, item *it, bool t)
 {
     int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks

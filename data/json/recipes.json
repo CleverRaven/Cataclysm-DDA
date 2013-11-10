@@ -5154,6 +5154,30 @@
   ]
 },{
         "type" : "recipe",
+  "result": "atomic_coffee",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "atomic_coffeepot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "coffee_raw", 1 ],
+      [ "coffee_syrup", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "milk",
   "id_suffix": "from powder",
   "category": "CC_DRINK",
