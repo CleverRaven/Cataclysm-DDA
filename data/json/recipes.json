@@ -7326,6 +7326,39 @@
   ]
 },{
   "type" : "recipe",
+  "result": "mutagen_elfa",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_elfa", 10 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 31 ],
+      [ "hotplate", 31 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+	  [ "mutagen_slime", 2 ]
+	],
+    [
+      [ "mutagen_plant", 1 ]
+    ],
+    [
+	  [ "mutagen_bird", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "mutagen_chimera",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -7358,6 +7391,39 @@
     ],
     [
       [ "mutagen_cattle", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mutagen_raptor",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_raptor", 9 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 31 ],
+      [ "hotplate", 31 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+	  [ "mutagen_lizard", 1 ]
+	],
+    [
+	  [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "purifier", 1 ]
     ]
   ]
 },{
