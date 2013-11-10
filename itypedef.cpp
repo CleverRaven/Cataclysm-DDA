@@ -365,6 +365,7 @@ std::string ammo_name(ammotype t)
     if( t == "plasma" )     return _("hydrogen");
     if( t == "water" )      return _("clean water");
     if( t == "8x40mm" )     return _("8x40mm caseless");
+    if( t == "20x66mm" )    return _("20x66mm caseless shotgun");
     if( t == "5x50" )       return _("5x50mm flechette");
     if( t == "signal_flare")return _("signal flare");
     if( t == "charcoal" )   return _("charcoal");
@@ -411,6 +412,7 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "water" )        return "water_clean";
     if( guntype == "charcoal"  )    return "charcoal";
     if( guntype == "8x40mm"  )      return "8mm_caseless";
+    if( guntype == "20x66mm"  )     return "20x66_shot";
     if( guntype == "5x50"  )        return "5x50dart";
     if( guntype == "signal_flare")  return "signal_flare";
     if( guntype == "metal_rail"  )  return "rebar_rail";

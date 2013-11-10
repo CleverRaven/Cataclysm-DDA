@@ -2659,6 +2659,33 @@
     "clip_size": 1,
     "reload": 200
   },
+
+  {
+    "id": "rm20",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "RM20 shotgun",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM20 caseless automatic shotgun was designed with durability and overwhelming power in mind.",
+    "price": 3200,
+    "material": ["steel", "kevlar"],
+    "flags": "MODE_BURST",
+    "skill": "shotgun",
+    "ammo": "20x66mm",
+    "weight": 2920,
+    "volume": 11,
+    "bashing": 11,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 5,
+    "recoil": 0,
+    "durability": 9,
+    "burst": 4,
+    "clip_size": 20,
+    "reload": 550
+  },
    {
     "id": "m107a1",
     "type": "GUN",
