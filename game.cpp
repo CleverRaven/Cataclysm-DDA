@@ -9617,17 +9617,26 @@ void game::unload(item& it)
     }
     int spare_mag = -1;
     int has_m203 = -1;
+    int has_40mml = -1;
     int has_shotgun = -1;
+    int has_shotgun2 = -1;
+    int has_shotgun3 = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod ("spare_mag");
         has_m203 = it.has_gunmod ("m203");
+        has_40mml = it.has_gunmod ("pipe_launcher40mm");
         has_shotgun = it.has_gunmod ("u_shotgun");
+        has_shotgun2 = it.has_gunmod ("masterkey");
+        has_shotgun3 = it.has_gunmod ("rm121aux");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
          (spare_mag == -1 || it.contents[spare_mag].charges <= 0) &&
          (has_m203 == -1 || it.contents[has_m203].charges <= 0) &&
-         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0)))
+         (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
+         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
+         (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
+         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0)))
     {
         if (it.contents.size() == 0)
         {

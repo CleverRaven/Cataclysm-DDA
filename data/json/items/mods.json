@@ -660,7 +660,7 @@
     {
         "type" : "GUNMOD",
         "id" : "rm121aux",
-        "name" : "RM121 shotgun",
+        "name" : "RM121 aux shotgun",
         "weight" : 1620,
         "color" : "dark_gray",
         "burst_modifier" : 0,
@@ -669,7 +669,7 @@
         "dispersion_modifier" : 1,
         "price" : 1200,
         "clip_size_modifier" : 5,
-        "description" : "The RM121 auxiliary weapon system is a small semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles. It allows a total of five caseless shotgun round to be loaded and fired.",
+        "description" : "The RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles. It allows a total of five caseless shotgun rounds to be loaded and fired.",
         "symbol" : ":",
         "material" : ["steel", "kevlar"],
         "volume" : 3,

@@ -7489,6 +7489,7 @@ hint_rating player::rate_action_unload(item *it) {
  int has_40mml = -1;
  int has_shotgun = -1;
  int has_shotgun2 = -1;
+ int has_shotgun3 = -1;
  if (it->is_gun()) {
   spare_mag = it->has_gunmod ("spare_mag");
   has_m203 = it->has_gunmod ("m203");
