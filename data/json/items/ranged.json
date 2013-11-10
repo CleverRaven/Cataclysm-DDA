@@ -2407,7 +2407,7 @@
     "flags": ["RELOAD_ONE", "STR_RELOAD"],
     "skill": "rifle",
     "ammo": "mininuke_mod",
-    "weight": 7260,
+    "weight": 11260,
     "volume": 11,
     "bashing": 12,
     "cutting": 0,
