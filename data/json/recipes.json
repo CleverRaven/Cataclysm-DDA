@@ -14634,11 +14634,11 @@
       ["duct_tape", 200]
     ],
     [
-      ["2x4", 1],
-      ["stick", 1 ]
+      ["2x4", 2],
+      ["stick", 2 ]
     ],
     [
-      ["spring", 1]
+      ["spring", 2]
     ],
     [
       ["steel_chunk", 3],
