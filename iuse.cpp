@@ -4300,11 +4300,8 @@ int iuse::shocktonfa_off(game *g, player *p, item *it, bool t)
                 return it->type->charges_to_use();
             }
         }
-
-        default
-                :
-            return 0;
     }
+    return 0;
 }
 
 int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
@@ -4318,7 +4315,7 @@ int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
             it->active = false;
         } else {
             int choice = menu(true, _("tactical tonfa"), _("Zap something"),
-                              _("turn off light"), _("cancel"), NULL);
+                              _("Turn off light"), _("cancel"), NULL);
 
             switch (choice) {
                 case 1: {
@@ -4333,8 +4330,7 @@ int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
                 }
             }
         }
-
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::mp3(game *g, player *p, item *it, bool t)
