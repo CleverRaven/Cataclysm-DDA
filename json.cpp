@@ -409,15 +409,9 @@ void JsonArray::finish()
     }
 }
 
-bool JsonArray::has_more()
-{
-    return (index >= 0 && index < positions.size());
-}
-
-int JsonArray::size()
-{
-    return positions.size();
-}
+bool JsonArray::has_more() { return (index >= 0 && index < positions.size()); }
+int JsonArray::size() { return positions.size(); }
+bool JsonArray::empty() { return positions.empty(); }
 
 std::string JsonArray::str()
 {
