@@ -85,7 +85,7 @@ void player::power_bionics(game *g)
  mvwputch(wBio, DESCRIPTION_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
  mvwputch(wBio, DESCRIPTION_LINE_Y, 79, c_ltgray, LINE_XOXX); // -|
 
- for (int i = 0; i < my_bionics.size(); i++) {
+ for (unsigned i = 0; i < my_bionics.size(); i++) {
   if (!bionics[my_bionics[i].id]->activated)
    passive.push_back(my_bionics[i]);
   else
@@ -94,7 +94,7 @@ void player::power_bionics(game *g)
  nc_color type;
  if (!passive.empty()) {
   mvwprintz(wBio, 3, 1, c_ltblue, _("Passive:"));
-  for (int i = 0; i < passive.size(); i++) {
+  for (unsigned i = 0; i < passive.size(); i++) {
    if (bionics[passive[i].id]->power_source)
     type = c_ltcyan;
    else
@@ -105,7 +105,7 @@ void player::power_bionics(game *g)
  }
  if (!active.empty()) {
   mvwprintz(wBio, 3, 33, c_ltblue, _("Active:"));
-  for (int i = 0; i < active.size(); i++) {
+  for (unsigned i = 0; i < active.size(); i++) {
    if (active[i].powered && !bionics[active[i].id]->power_source)
     type = c_red;
     else if (bionics[active[i].id]->power_source && !active[i].powered)
@@ -139,7 +139,7 @@ void player::power_bionics(game *g)
   } else if (ch == ' ')
    ch = KEY_ESCAPE;
   else if (ch != KEY_ESCAPE) {
-   for (int i = 0; i < my_bionics.size(); i++) {
+   for (unsigned i = 0; i < my_bionics.size(); i++) {
     if (ch == my_bionics[i].invlet) {
      tmp = &my_bionics[i];
      b = i;
@@ -304,7 +304,7 @@ void player::activate_bionic(int b, game *g)
   if (good.empty() && bad.empty())
    mvwprintz(w, 1, 1, c_white, _("No effects."));
   else {
-   for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
+   for (unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
     if (line <= bad.size())
      mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
     else
@@ -401,7 +401,7 @@ void player::activate_bionic(int b, game *g)
   g->add_msg(_("Your muscles hiss as hydraulic strength fills them!"));
  } else if (bio.id == "bio_water_extractor"){
   bool extracted = false;
-  for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
+  for (unsigned i = 0; i < g->m.i_at(posx, posy).size(); i++) {
       item & tmp = g->m.i_at(posx, posy)[i];
       if (tmp.type->id == "corpse" ) {
           int avail=0;
@@ -440,7 +440,7 @@ void player::activate_bionic(int b, game *g)
       traj = line_to(i, j, posx, posy, 0);
     }
     traj.insert(traj.begin(), point(i, j));
-    for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
+    for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
      if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")){
       int l = 0;
       tmp_item = g->m.i_at(i, j)[k];

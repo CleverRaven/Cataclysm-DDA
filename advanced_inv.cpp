@@ -469,7 +469,7 @@ void advanced_inventory::recalc_pane(int i)
 
     if(panes[i].area == isinventory) {
        const invslice & stacks = u.inv.slice(0, u.inv.size());
-        for( int x = 0; x < stacks.size(); ++x ) {
+        for (unsigned x = 0; x < stacks.size(); ++x ) {
             item &item = stacks[x]->front();
             advanced_inv_listitem it;
             it.name = item.tname(g);
@@ -525,7 +525,7 @@ void advanced_inventory::recalc_pane(int i)
                 std::vector<item>& items = squares[s].vstor >= 0 ?
                                            squares[s].veh->parts[squares[s].vstor].items :
                                            m.i_at(squares[s].x , squares[s].y );
-                for(int x = 0; x < items.size() ; x++) {
+                for (unsigned x = 0; x < items.size(); x++) {
                     advanced_inv_listitem it;
                     it.idx = x;
                     it.name = items[x].tname(g);

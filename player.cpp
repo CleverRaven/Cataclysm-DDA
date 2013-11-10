@@ -1175,11 +1175,11 @@ int player::run_cost(int base_cost, bool diag)
 {
     float movecost = float(base_cost);
     if (diag)
-        movecost *= 0.7071; // because everything here assumes 100 is base
+        movecost *= 0.7071f; // because everything here assumes 100 is base
     bool flatground = movecost < 105;
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
-        movecost *= .5;
+        movecost *= .5f;
         if (movecost < 100)
             movecost = 100;
     }
@@ -1194,25 +1194,25 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 25;
 
     if (has_trait("FLEET") && flatground)
-        movecost *= .85;
+        movecost *= .85f;
     if (has_trait("FLEET2") && flatground)
-        movecost *= .7;
+        movecost *= .7f;
     if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet))
-        movecost *= .9;
+        movecost *= .9f;
     if (has_trait("LIGHT_BONES"))
-        movecost *= .9;
+        movecost *= .9f;
     if (has_trait("HOLLOW_BONES"))
-        movecost *= .8;
+        movecost *= .8f;
     if (has_trait("WINGS_INSECT"))
         movecost -= 15;
     if (has_trait("LEG_TENTACLES"))
         movecost += 20;
     if (has_trait("PONDEROUS1"))
-        movecost *= 1.1;
+        movecost *= 1.1f;
     if (has_trait("PONDEROUS2"))
-        movecost *= 1.2;
+        movecost *= 1.2f;
     if (has_trait("PONDEROUS3"))
-        movecost *= 1.3;
+        movecost *= 1.3f;
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
@@ -3360,7 +3360,7 @@ bool player::has_two_arms() const
 
 bool player::avoid_trap(trap* tr)
 {
-  int myroll = dice(3, dex_cur + skillLevel("dodge") * 1.5);
+  int myroll = dice(3, int(dex_cur + skillLevel("dodge") * 1.5));
  int traproll;
  if (per_cur - encumb(bp_eyes) >= tr->visibility)
   traproll = dice(3, tr->avoidance);

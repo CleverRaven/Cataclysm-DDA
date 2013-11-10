@@ -640,7 +640,7 @@ recipe* game::select_crafting_recipe()
                 }
             }
         } else {
-            for (int i = 0; i < current.size() && i < dataHeight+1; ++i) {
+            for (unsigned i = 0; i < current.size() && i < dataHeight+1; ++i) {
                 if (i == line) {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
                     item_controller->find_template(current[i]->result)->name.c_str());
@@ -711,7 +711,7 @@ recipe* game::select_crafting_recipe()
                     ypos++;
                     xpos = 32;
                     mvwputch(w_data, ypos, 30, col, '>');
-                    for (int j = 0; j < current[line]->tools[i].size(); j++)
+                    for (unsigned j = 0; j < current[line]->tools[i].size(); j++)
                     {
                         itype_id type = current[line]->tools[i][j].type;
                         int charges = current[line]->tools[i][j].count;
@@ -761,7 +761,7 @@ recipe* game::select_crafting_recipe()
         // Loop to print the required components
             ypos++;
             mvwprintz(w_data, ypos, 30, col, _("Components required:"));
-            for (int i = 0; i < current[line]->components.size(); i++)
+            for (unsigned i = 0; i < current[line]->components.size(); i++)
             {
                 if (current[line]->components[i].size() > 0)
                 {
@@ -769,7 +769,7 @@ recipe* game::select_crafting_recipe()
                     mvwputch(w_data, ypos, 30, col, '>');
                 }
                 xpos = 32;
-                for (int j = 0; j < current[line]->components[i].size(); j++)
+                for (unsigned j = 0; j < current[line]->components[i].size(); j++)
                 {
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
@@ -974,7 +974,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
         }
     }
 
-    for (int i = 0; i < current.size(); i++)
+    for (unsigned i = 0; i < current.size(); i++)
     {
         //Check if we have the requisite tools and components
         if(can_make(current[i]))
@@ -1065,13 +1065,13 @@ void game::complete_craft()
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg(_("You fail to make the %s, and waste some materials."),
           item_controller->find_template(making->result)->name.c_str());
-    for (int i = 0; i < making->components.size(); i++)
+    for (unsigned i = 0; i < making->components.size(); i++)
     {
         if (making->components[i].size() > 0)
         consume_items(&u, making->components[i]);
     }
 
-  for (int i = 0; i < making->tools.size(); i++) {
+  for (unsigned i = 0; i < making->tools.size(); i++) {
    if (making->tools[i].size() > 0)
     consume_tools(&u, making->tools[i], false);
   }
@@ -1089,13 +1089,13 @@ void game::complete_craft()
 // If we're here, the craft was a success!
 // Use up the components and tools
  std::list<item> used;
- for (int i = 0; i < making->components.size(); i++) {
+ for (unsigned i = 0; i < making->components.size(); i++) {
   if (making->components[i].size() > 0) {
    std::list<item> tmp = consume_items(&u, making->components[i]);
    used.splice(used.end(), tmp);
   }
  }
- for (int i = 0; i < making->tools.size(); i++) {
+ for (unsigned i = 0; i < making->tools.size(); i++) {
   if (making->tools[i].size() > 0)
    consume_tools(&u, making->tools[i], false);
  }
@@ -1178,7 +1178,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     inventory map_inv;
     map_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
 
-    for (int i = 0; i < components.size(); i++)
+    for (unsigned i = 0; i < components.size(); i++)
     {
         itype_id type = components[i].type;
         int count = abs(components[i].count);
@@ -1246,16 +1246,16 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     {
         std::vector<std::string> options; // List for the menu_vec below
         // Populate options with the names of the items
-        for (int i = 0; i < map_has.size(); i++)
+        for (unsigned i = 0; i < map_has.size(); i++)
         {
             std::string tmpStr = item_controller->find_template(map_has[i].type)->name + _(" (nearby)");
             options.push_back(tmpStr);
         }
-        for (int i = 0; i < player_has.size(); i++)
+        for (unsigned i = 0; i < player_has.size(); i++)
         {
             options.push_back(item_controller->find_template(player_has[i].type)->name);
         }
-        for (int i = 0; i < mixed.size(); i++)
+        for (unsigned i = 0; i < mixed.size(); i++)
         {
             std::string tmpStr = item_controller->find_template(mixed[i].type)->name +_(" (on person & nearby)");
             options.push_back(tmpStr);
@@ -1286,7 +1286,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         }
     }
 
-    for (int i = 0; i < player_use.size(); i++)
+    for (unsigned i = 0; i < player_use.size(); i++)
     {
         if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
             player_use[i].count > 0)
@@ -1301,7 +1301,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             ret.splice(ret.end(), tmp);
         }
     }
-    for (int i = 0; i < map_use.size(); i++)
+    for (unsigned i = 0; i < map_use.size(); i++)
     {
         if (item_controller->find_template(map_use[i].type)->count_by_charges() &&
             map_use[i].count > 0)
@@ -1318,7 +1318,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
            ret.splice(ret.end(), tmp);
         }
     }
-    for (int i = 0; i < mixed_use.size(); i++)
+    for (unsigned i = 0; i < mixed_use.size(); i++)
     {
         if (item_controller->find_template(mixed_use[i].type)->count_by_charges() &&
             mixed_use[i].count > 0)
@@ -1355,7 +1355,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
  std::vector<component> player_has;
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
- for (int i = 0; i < tools.size() && !found_nocharge; i++) {
+ for (unsigned i = 0; i < tools.size() && !found_nocharge; i++) {
   if (!force_available && tools[i].available != 1)
   {
    continue;
@@ -1382,11 +1382,11 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
  } else { // Variety of options, list them and pick one
 // Populate the list
   std::vector<std::string> options;
-  for (int i = 0; i < map_has.size(); i++) {
+  for (unsigned i = 0; i < map_has.size(); i++) {
    std::string tmpStr = item_controller->find_template(map_has[i].type)->name + _(" (nearby)");
    options.push_back(tmpStr);
   }
-  for (int i = 0; i < player_has.size(); i++)
+  for (unsigned i = 0; i < player_has.size(); i++)
    options.push_back(item_controller->find_template(player_has[i].type)->name);
 
   if (options.empty()) // This SHOULD only happen if cooking with a fire,
@@ -1439,14 +1439,14 @@ void game::disassemble(char ch)
                 // loop over the tools and see what's required...again
                 inventory crafting_inv = crafting_inventory(&u);
                 bool have_all_tools = true;
-                for (int j = 0; j < cur_recipe->tools.size(); j++)
+                for (unsigned j = 0; j < cur_recipe->tools.size(); j++)
                 {
                     if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
                     {
                         continue;
                     }
                     bool have_this_tool = false;
-                    for (int k = 0; k < cur_recipe->tools[j].size(); k++)
+                    for (unsigned k = 0; k < cur_recipe->tools[j].size(); k++)
                     {
                         itype_id type = cur_recipe->tools[j][k].type;
                         int req = cur_recipe->tools[j][k].count; // -1 => 1
@@ -1585,7 +1585,7 @@ void game::complete_disassemble()
     }
 
   // consume tool charges
-  for (int j = 0; j < dis->tools.size(); j++)
+  for (unsigned j = 0; j < dis->tools.size(); j++)
   {
     if (dis->tools[j].size() > 0)
         consume_tools(&u, dis->tools[j], false);
@@ -1607,7 +1607,7 @@ void game::complete_disassemble()
    if (dis->skill_used)
     u.practice(turn, dis->skill_used, (dis->difficulty) * 2);
 
-  for (int j = 0; j < dis->components.size(); j++)
+  for (unsigned j = 0; j < dis->components.size(); j++)
   {
     if (dis->components[j].size() != 0)
     {
