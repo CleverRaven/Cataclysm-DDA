@@ -43,11 +43,11 @@ computer& computer::operator=(const computer &rhs)
     name = rhs.name;
     mission_id = rhs.mission_id;
     options.clear();
-    for (int i = 0; i < rhs.options.size(); i++) {
+    for (unsigned i = 0; i < rhs.options.size(); i++) {
         options.push_back(rhs.options[i]);
     }
     failures.clear();
-    for (int i = 0; i < rhs.failures.size(); i++) {
+    for (unsigned i = 0; i < rhs.failures.size(); i++) {
         failures.push_back(rhs.failures[i]);
     }
     w_terminal = NULL;
@@ -148,7 +148,7 @@ void computer::use(game *g)
         //reset_terminal();
         print_newline();
         print_line("%s - %s", name.c_str(), _("Root Menu"));
-        for (int i = 0; i < options.size(); i++)
+        for (unsigned i = 0; i < options.size(); i++)
         {
             print_line("%d - %s", i + 1, options[i].name.c_str());
         }
@@ -229,7 +229,7 @@ std::string computer::save_data()
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
-    for (int i = 0; i < options.size(); i++)
+    for (unsigned i = 0; i < options.size(); i++)
     {
         savename = options[i].name;
         found = savename.find(" ");
@@ -242,7 +242,7 @@ std::string computer::save_data()
              options[i].security << " ";
     }
     data << failures.size() << " ";
-    for (int i = 0; i < failures.size(); i++)
+    for (unsigned i = 0; i < failures.size(); i++)
     {
         data << int(failures[i]) << " ";
     }
@@ -341,7 +341,7 @@ void computer::activate_function(game *g, computer_action action)
                             if (g->m.furn(x1, y1) == f_counter)
                             {
                                 bool found_item = false;
-                                for (int i = 0; i < g->m.i_at(x1, y1).size(); i++)
+                                for (unsigned i = 0; i < g->m.i_at(x1, y1).size(); i++)
                                 {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
                                     if (it->is_container()){
@@ -643,7 +643,7 @@ void computer::activate_function(game *g, computer_action action)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
             {
-                for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++)
                 {
                     if (g->m.i_at(x, y)[i].is_bionic())
                     {
@@ -666,7 +666,7 @@ void computer::activate_function(game *g, computer_action action)
         print_line(_("Bionic access - Manifest:"));
         print_newline();
 
-        for (int i = 0; i < names.size(); i++)
+        for (unsigned i = 0; i < names.size(); i++)
         {
             print_line(names[i].c_str());
         }
@@ -1391,7 +1391,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             {
                 if (g->m.ter(x, y) == t_centrifuge)
                 {
-                    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++)
                     {
                         if (g->m.i_at(x, y).empty())
                         {
@@ -1433,7 +1433,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             {
                 if (g->m.ter(x, y) == t_floor_blue)
                 {
-                    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++)
                     {
                         if (g->m.i_at(x, y).empty())
                         {

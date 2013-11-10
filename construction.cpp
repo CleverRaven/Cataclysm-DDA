@@ -522,7 +522,7 @@ void game::construction_menu()
 
 // Print stages and their requirements
    int posx = 33, posy = 2;
-   for (int n = 0; n < current_con->stages.size(); n++) {
+   for (unsigned n = 0; n < current_con->stages.size(); n++) {
      nc_color color_stage = (player_can_build(u, total_inv, current_con, n,
                              false, true) ? c_white : c_dkgray);
 
@@ -553,7 +553,7 @@ void game::construction_menu()
     posx = 33;
     for (int i = 0; i < 9 && !has_tool[i]; i++) {
      mvwprintz(w_con, posy, posx-2, c_white, ">");
-     for (int j = 0; j < stage.tools[i].size(); j++) {
+     for (unsigned j = 0; j < stage.tools[i].size(); j++) {
       itype_id tool = stage.tools[i][j].type;
       nc_color col = c_red;
       if (total_inv.has_amount(tool, 1)) {
@@ -595,7 +595,7 @@ void game::construction_menu()
      if (has_component[i])
        continue;
      mvwprintz(w_con, posy, posx-2, c_white, ">");
-     for (int j = 0; j < stage.components[i].size() && i < 10; j++) {
+     for (unsigned j = 0; j < stage.components[i].size() && i < 10; j++) {
       nc_color col = c_red;
       component comp = stage.components[i][j];
       if (( item_controller->find_template(comp.type)->is_ammo() &&
@@ -725,7 +725,7 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
    if (stage->tools[j].size() > 0) {
     tools_required = true;
     has_tool = false;
-    for (int k = 0; k < stage->tools[j].size(); k++) {
+    for (unsigned k = 0; k < stage->tools[j].size(); k++) {
      if (pinv.has_amount(stage->tools[j][k].type, 1))
      {
          has_tool = true;
@@ -742,7 +742,7 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
    if (stage->components[j].size() > 0) {
     components_required = true;
     has_component = false;
-    for (int k = 0; k < stage->components[j].size(); k++) {
+    for (unsigned k = 0; k < stage->components[j].size(); k++) {
      if (( item_controller->find_template(stage->components[j][k].type)->is_ammo() &&
            pinv.has_charges(stage->components[j][k].type,
                             stage->components[j][k].count)    ) ||
@@ -785,7 +785,7 @@ void game::place_construction(constructable *con)
     y++;
    construct test;
    bool place_okay = (test.*(con->able))(this, point(x, y));
-   for (int i = 0; i < con->stages.size() && !place_okay; i++) {
+   for (unsigned i = 0; i < con->stages.size() && !place_okay; i++) {
     ter_id t = con->stages[i].terrain; furn_id f = con->stages[i].furniture;
     if ((t != t_null || f != f_null) &&
        (m.ter(x, y) == t || t == t_null) &&
@@ -796,7 +796,7 @@ void game::place_construction(constructable *con)
    if (place_okay) {
 // Make sure we're not trying to continue a construction that we can't finish
     int starting_stage = 0, max_stage = -1;
-    for (int i = 0; i < con->stages.size(); i++) {
+    for (unsigned i = 0; i < con->stages.size(); i++) {
      ter_id t = con->stages[i].terrain; furn_id f = con->stages[i].furniture;
      if ((t != t_null || f != f_null) &&
         (m.ter(x, y) == t || t == t_null) &&
@@ -807,7 +807,7 @@ void game::place_construction(constructable *con)
     if (starting_stage == con->stages.size() && con->loopstages)
      starting_stage = 0; // Looping stages
 
-    for(int i = starting_stage; i < con->stages.size(); i++) {
+    for (int i = starting_stage; i < con->stages.size(); i++) {
      if (player_can_build(u, total_inv, con, i, true, true))
        max_stage = i;
      else
@@ -831,7 +831,7 @@ void game::place_construction(constructable *con)
  if (!choose_adjacent(_("Contruct where?"), dirx, diry))
   return;
  bool point_is_okay = false;
- for (int i = 0; i < valid.size() && !point_is_okay; i++) {
+ for (unsigned i = 0; i < valid.size() && !point_is_okay; i++) {
   if (valid[i].x == dirx && valid[i].y == diry)
    point_is_okay = true;
  }
@@ -842,7 +842,7 @@ void game::place_construction(constructable *con)
 
 // Figure out what stage to start at, and what stage is the maximum
  int starting_stage = 0, max_stage = 0;
- for (int i = 0; i < con->stages.size(); i++) {
+ for (unsigned i = 0; i < con->stages.size(); i++) {
   ter_id t = con->stages[i].terrain; furn_id f = con->stages[i].furniture;
   if ((t != t_null || f != f_null) &&
      (m.ter(dirx, diry) == t || t == t_null) &&
@@ -1031,7 +1031,7 @@ void construct::done_tree(game *g, point p)
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
-    for (int i = 0; i < tree.size(); i++) {
+    for (unsigned i = 0; i < tree.size(); i++) {
         g->m.destroy(g, tree[i].x, tree[i].y, true);
         g->m.ter_set(tree[i].x, tree[i].y, t_trunk);
     }

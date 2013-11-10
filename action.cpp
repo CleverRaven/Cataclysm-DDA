@@ -662,7 +662,7 @@ std::string press_x(action_id act, std::string key_bound_pre, std::string key_bo
         return key_unbound;
     } else {
         std::string keyed = key_bound_pre.append("");
-        for (int j = 0; j < keys.size(); j++) {
+        for (unsigned j = 0; j < keys.size(); j++) {
             if (keys[j] == '\'' || keys[j] == '"'){
                 if (j < keys.size() - 1) {
                     keyed += keys[j]; keyed += _(" or ");
@@ -695,7 +695,7 @@ std::string press_x(action_id act, std::string act_desc)
         return act_desc;
     } else {
         std::string keyed = ("");
-        for (int j = 0; j < keys.size(); j++) {
+        for (unsigned j = 0; j < keys.size(); j++) {
             if (tolower(keys[j])==zing) {
                 if (z_ing) {
                     keyed.replace(1,1,1,act_desc.at(0));

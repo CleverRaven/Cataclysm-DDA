@@ -69,7 +69,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
 {
     if (u_see( x, y))
     {
-        for (int i = 0; i < ret.size(); i++)
+        for (unsigned i = 0; i < ret.size(); i++)
         {
             int mondex = mon_at(ret[i].x, ret[i].y),
             npcdex = npc_at(ret[i].x, ret[i].y);
@@ -94,7 +94,7 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 {
     (void)x; //unused
     (void)y; //unused
-    for (int i = 1; i < vPoint.size(); i++)
+    for (unsigned i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
     }
@@ -116,10 +116,10 @@ void game::draw_weather(weather_printable wPrint)
 // draws footsteps that have been created by monsters moving about
 void game::draw_footsteps()
 {
-    for (int i = 0; i < footsteps.size(); i++) {
+    for (unsigned i = 0; i < footsteps.size(); i++) {
         if (!u_see(footsteps_source[i]->posx(),footsteps_source[i]->posy())) {
             std::vector<point> unseen_points;
-            for (int j = 0; j < footsteps[i].size(); j++) {
+            for (unsigned j = 0; j < footsteps[i].size(); j++) {
                 if (!u_see(footsteps[i][j].x,footsteps[i][j].y)) {
                     unseen_points.push_back(point(footsteps[i][j].x,
                                                   footsteps[i][j].y));
