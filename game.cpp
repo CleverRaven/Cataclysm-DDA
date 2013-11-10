@@ -3092,6 +3092,8 @@ void game::debug()
                 active_npc[i]->posy %= SEEY;
             }
             active_npc.clear();
+            m.clear_vehicle_cache();
+            m.vehicle_list.clear();
             clear_zombies();
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
