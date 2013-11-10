@@ -216,7 +216,7 @@ class game
   void mission_step_complete(int id, int step); // Parial completion
   void process_missions(); // Process missions, see if time's run out
 
-  void teleport(player *p = NULL);
+  void teleport(player *p = NULL, bool add_teleglow = true);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   // when player is thrown (by impact or something)
   void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled = false);

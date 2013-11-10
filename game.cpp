@@ -3074,7 +3074,7 @@ void game::debug()
    break;
 
   case 2:
-   teleport();
+   teleport(&u, false);
    break;
 
   case 3: {
@@ -11651,7 +11651,7 @@ void game::msg_buffer()
  refresh_all();
 }
 
-void game::teleport(player *p)
+void game::teleport(player *p, bool add_teleglow)
 {
     if (p == NULL) {
         p = &u;
@@ -11659,7 +11659,9 @@ void game::teleport(player *p)
     int newx, newy, tries = 0;
     bool is_u = (p == &u);
 
-    p->add_disease("teleglow", 300);
+    if(add_teleglow) {
+        p->add_disease("teleglow", 300);
+    }
     do {
         newx = p->posx + rng(0, SEEX * 2) - SEEX;
         newy = p->posy + rng(0, SEEY * 2) - SEEY;
