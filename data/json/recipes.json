@@ -5168,8 +5168,7 @@
   ],
   "components": [
     [
-      [ "coffee_raw", 1 ],
-      [ "coffee_syrup", 1 ]
+      [ "coffee_raw", 1 ]
     ],
     [
       [ "water", 1 ],
