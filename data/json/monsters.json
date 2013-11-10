@@ -1822,7 +1822,7 @@
     "name": "boomer",
     "species":"ZOMBIE",
     "symbol":"Z",
-    "color":"ltgray",
+    "color":"pink",
     "size":"LARGE",
     "material":"flesh",
     "diff":8,
