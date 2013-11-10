@@ -1852,6 +1852,48 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "mininuke_mod",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",  7],
+  "difficulty": 8,
+  "time": 95000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      ["mininuke", 1]
+    ],
+    [
+      [ "cable", 2 ]
+    ],
+    [
+      [ "circuit", 1 ]
+    ],
+    [
+      [ "transponder", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "chainsaw_off",
   "category": "CC_WEAPON",
@@ -14554,6 +14596,53 @@
     ],
     [
       ["scrap", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mininuke_launcher",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skill_sec": ["gun",3],
+  "difficulty": 8,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["hacksaw", -1], ["toolset", -1]
+    ],
+    [
+      ["screwdriver", -1], ["toolset", -1]
+    ],
+    [
+      ["wrench", -1], ["toolset", -1]
+    ],
+    [
+      ["welder", 200], ["welder_crude", 300], ["toolset", 8]
+    ]
+  ],
+  "components": [
+    [
+      ["pipe", 2],
+      ["rebar", 2]
+    ],
+    [
+      ["duct_tape", 200]
+    ],
+    [
+      ["2x4", 1],
+      ["stick", 1 ]
+    ],
+    [
+      ["spring", 1]
+    ],
+    [
+      ["steel_chunk", 3],
+      ["scrap", 9]
     ]
   ]
 },{

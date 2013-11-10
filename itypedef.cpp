@@ -367,6 +367,7 @@ std::string ammo_name(ammotype t)
     if( t == "8x40mm" )     return _("8x40mm caseless");
     if( t == "5x50" )       return _("5x50mm flechette");
     if( t == "signal_flare")return _("signal flare");
+    if( t == "mininuke_mod")return _("modified mininuke");
     if( t == "charcoal" )   return _("charcoal");
     if( t == "metal_rail" ) return _("ferrous rail projectile");
     if( t == "UPS" )        return _("UPS");
@@ -413,6 +414,7 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "8x40mm"  )      return "8mm_caseless";
     if( guntype == "5x50"  )        return "5x50dart";
     if( guntype == "signal_flare")  return "signal_flare";
+    if( guntype == "mininuke_mod")  return "mininuke_mod";
     if( guntype == "metal_rail"  )  return "rebar_rail";
     if( guntype == "UPS"  )         return _("UPS");
     if( guntype == "components"  )  return _("components");
