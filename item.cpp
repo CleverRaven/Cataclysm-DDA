@@ -2387,3 +2387,51 @@ int item::getlight_emit(bool calculate_dimming) const {
     }
     return lumint / 10;
 }
+
+// How much more of this liquid can be put in this container
+int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const
+{
+    error = L_ERR_NONE;
+    if (!is_container()) {
+        error = L_ERR_NOT_CONTAINER;
+        return 0;
+    }
+
+    if (contents.empty()) {
+        if (!has_flag("WATERTIGHT")) { // invalid container types
+            error = L_ERR_NOT_WATERTIGHT;
+            return 0;
+        } else if (!has_flag("SEALS")) {
+            error = L_ERR_NOT_SEALED;
+            return 0;
+        }
+    } else { // Not empty
+        if (contents[0].type->id != liquid.type->id) {
+            error = L_ERR_NO_MIX;
+            return 0;
+        }
+    }
+
+    it_container *container = dynamic_cast<it_container *>(type);
+    int total_capacity = container->contains;
+
+    if (liquid.is_food()) {
+        it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
+        total_capacity = container->contains * tmp_comest->charges;
+    } else if (liquid.is_ammo()) {
+        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
+        total_capacity = container->contains * tmp_ammo->count;
+    }
+
+    int remaining_capacity = total_capacity;
+    if (!contents.empty()) {
+        remaining_capacity -= contents[0].charges;
+    }
+
+    if (remaining_capacity <= 0) {
+        error = L_ERR_FULL;
+        return 0;
+    }
+
+    return remaining_capacity;
+}

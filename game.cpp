@@ -8513,64 +8513,6 @@ void game::grab()
     }
 }
 
-// How much more of this liquid can be put in this container
-int game::get_remaining_capacity_for_liquid(item *cont, item &liquid, bool interactive)
-{
-    if (!cont->is_container()) {
-        if (interactive) {
-            add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(), liquid.tname(this).c_str());
-        }
-        return 0;
-    }
-
-    if (cont->contents.empty()) {
-        if (!cont->has_flag("WATERTIGHT")) { // invalid container types
-            if (interactive) {
-                add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
-            }
-            return 0;
-        } else if (!cont->has_flag("SEALS")) {
-            if (interactive) {
-                add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
-            }
-            return 0;
-        }
-    } else { // Not empty
-        if (cont->contents[0].type->id != liquid.type->id) {
-            if (interactive) {
-                add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
-            }
-            return 0;
-        }
-    }
-
-    it_container *container = dynamic_cast<it_container *>(cont->type);
-    int total_capacity = container->contains;
-
-    if (liquid.is_food()) {
-        it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
-        total_capacity = container->contains * tmp_comest->charges;
-    } else if (liquid.is_ammo()) {
-        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
-        total_capacity = container->contains * tmp_ammo->count;
-    }
-
-    int remaining_capacity = total_capacity;
-    if (!cont->contents.empty()) {
-        remaining_capacity -= cont->contents[0].charges;
-    }
-
-    if (remaining_capacity <= 0) {
-        if (interactive) {
-            add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
-                liquid.tname(this).c_str());
-        }
-        return 0;
-    }
-
-    return remaining_capacity;
-}
-
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source /*= NULL*/, item *cont /*= NULL*/)
 {
@@ -8631,9 +8573,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         std::stringstream text;
         text << _("Container for ") << liquid.tname(this);
 
-        inventory reduced_inv = get_inv_reduced_by_category(IC_CONTAINER);
-
-        char ch = inv_type(text.str().c_str(), IC_CONTAINER);
+        char ch = inv_for_liquid(liquid, text.str().c_str());
         if (!u.has_item(ch)) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
@@ -8718,9 +8658,30 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
 
     } else {      // filling up normal containers
-        std::string error;
-        int remaining_capacity = get_remaining_capacity_for_liquid(cont, liquid, true);
+        LIQUID_FILL_ERROR error;
+        int remaining_capacity = cont->get_remaining_capacity_for_liquid(liquid, error);
         if (remaining_capacity <= 0) {
+            switch (error)
+            {
+            case L_ERR_NO_MIX:
+                add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
+                break;
+            case L_ERR_NOT_CONTAINER:
+                add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(), liquid.tname(this).c_str());
+                break;
+            case L_ERR_NOT_WATERTIGHT:
+                add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
+                break;
+            case L_ERR_NOT_SEALED:
+                add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
+                break;
+            case L_ERR_FULL:
+                add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
+                    liquid.tname(this).c_str());
+                break;
+            default:
+                break;
+            }
             return false;
         }
 
@@ -8782,7 +8743,7 @@ int game::move_liquid(item &liquid)
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname(this);
-  char ch = inv_type(text.str().c_str(), IC_CONTAINER);
+  char ch = inv_for_liquid(liquid, text.str().c_str());
 
   //is container selected?
   if(u.has_item(ch)) {
