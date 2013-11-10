@@ -225,6 +225,7 @@ public:
 
     bool has_member(const std::string &name); // true iff named member exists
     std::set<std::string> get_member_names();
+    std::string str(); // copy object json as string
 
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
@@ -281,6 +282,7 @@ public:
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();
+    std::string str(); // copy array json as string
 
     // iterative access
     bool next_bool();
@@ -383,6 +385,7 @@ public:
     std::string line_number(int offset_modifier=0); // for occasional use only
     void error(std::string message, int offset=0); // ditto
     void rewind(int max_lines=-1, int max_chars=-1);
+    std::string substr(size_t pos, size_t len=std::string::npos);
 };
 
 class JsonOut {
