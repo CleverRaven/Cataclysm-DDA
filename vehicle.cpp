@@ -464,11 +464,11 @@ void vehicle::use_controls()
     case toggle_gps:
         if (gps_on)
         {
-            g->cur_om->remove_vehicle(this);
+            g->cur_om->remove_vehicle(om_id);
             gps_on = false;
         } else 
         {
-            g->cur_om->vehicles.push_back(this);
+            om_id = g->cur_om->add_vehicle(this);
             gps_on = true;
         }
         g->add_msg((gps_on) ? _("GPS tracking enabled") : _("GPS tracking disabled"));
@@ -1311,6 +1311,18 @@ int vehicle::omap_x() {
 
 int vehicle::omap_y() {
     return levy + (global_y() / SEEY);
+}
+
+void vehicle::update_map_x(int x) {
+    levx = x;
+    if (gps_on)
+        g->cur_om->vehicles[om_id].x = omap_x()/2;
+}
+
+void vehicle::update_map_y(int y) {
+    levy = y;
+    if (gps_on)
+        g->cur_om->vehicles[om_id].y = omap_y()/2;
 }
 
 int vehicle::total_mass()

@@ -878,17 +878,28 @@ void overmap::remove_npc(int npc_id)
     }
 }
 
-void overmap::remove_vehicle(vehicle *veh)
+void overmap::remove_vehicle(int id)
 {
-    for(int i = 0; i < vehicles.size(); i++)
-    {
-        if(vehicles[i] == veh)
-        {
-            //Remove this vehicle from the list of overmap vehicles.
-            vehicles.erase(vehicles.begin() + i);
-            return;
-        }
-    }
+    std::map<int, om_vehicle>::iterator om_veh = vehicles.find(id);
+    if (om_veh != vehicles.end())
+        vehicles.erase(om_veh);
+
+}
+
+int overmap::add_vehicle(vehicle *veh)
+{
+    int id = vehicles.size() + 1;
+    // this *should* be unique but just in case
+    while ( vehicles.count(id) > 0 )
+        id++;
+
+    om_vehicle tracked_veh;
+    tracked_veh.x = veh->omap_x()/2;
+    tracked_veh.y = veh->omap_y()/2;
+    tracked_veh.name = veh->name;
+    vehicles[id]=tracked_veh;
+
+    return id;
 }
 
 point overmap::display_notes(game* g, int const z) const
@@ -982,9 +993,11 @@ bool overmap::has_vehicle(game *g, int const x, int const y, int const z) const
     // vehicles only spawn at z level 0 (for now)
     if (!z == 0)
         return false;
-    for(int n = 0; n < vehicles.size(); n++)
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+         it != vehicles.end(); it++)
     {
-        if (vehicles[n]->omap_x()/2 == x && vehicles[n]->omap_y()/2 == y)
+        om_vehicle om_veh = it->second;
+        if ( om_veh.x == x && om_veh.y == y )
             return true;
     }
     return false;
@@ -1053,21 +1066,25 @@ void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int c
         return;
     int i = 0, maxnamelength = 0;
     //Check the max namelength of the vehicles in the target
-    for (int n = 0; n < vehicles.size(); n++)
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+         it != vehicles.end(); it++)
     {
-        if (vehicles[n]->omap_x()/2 == x && vehicles[n]->omap_y()/2 == y)
+        om_vehicle om_veh = it->second;
+        if ( om_veh.x == x && om_veh.y == y )
         {
-            if (vehicles[n]->name.length() > maxnamelength)
-                maxnamelength = vehicles[n]->name.length();
+            if (om_veh.name.length() > maxnamelength)
+                maxnamelength = om_veh.name.length();
         }
     }
     //Check if the target has a vehicle in it.
-    for (int n = 0; n < vehicles.size(); n++)
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+         it != vehicles.end(); it++)
     {
-        if (vehicles[n]->omap_x()/2 == x && vehicles[n]->omap_y()/2 == y)
+        om_vehicle om_veh = it->second;
+        if (om_veh.x == x && om_veh.y == y)
         {
-            mvwprintz(w, i, 0, c_yellow, vehicles[n]->name.c_str());
-            for (int j = vehicles[n]->name.length(); j < maxnamelength; j++)
+            mvwprintz(w, i, 0, c_yellow, om_veh.name.c_str());
+            for (int j = om_veh.name.length(); j < maxnamelength; j++)
                 mvwputch(w, i, j, c_black, LINE_XXXX);
             i++;
         }

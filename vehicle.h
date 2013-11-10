@@ -305,6 +305,10 @@ public:
     int omap_x ();
     int omap_y ();
 
+// update map coordinates of the vehicle
+    void update_map_x(int x);
+    void update_map_y(int y);
+
 // Checks how much certain fuel left in tanks. If for_engine == true that means
 // ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
     int fuel_left (ammotype ftype, bool for_engine = false);
@@ -492,6 +496,7 @@ public:
     bool cruise_on;     // cruise control on/off
     bool lights_on;     // lights on/off
     bool gps_on;        // vehicle tracking on/off
+    int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //emergency vehicle flasher lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
