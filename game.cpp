@@ -4301,18 +4301,48 @@ bool game::pl_sees(player *p, monster *mon, int &t)
  return m.sees(p->posx, p->posy, mon->posx(), mon->posy(), range, t);
 }
 
+/**
+ * Attempts to find which map co-ordinates the specified item is located at,
+ * looking at the player, the ground, NPCs, and vehicles in that order.
+ * @param it A pointer to the item to find.
+ * @return The location of the item, or (-999, -999) if it wasn't found.
+ */
 point game::find_item(item *it)
 {
- if (u.has_item(it))
-  return point(u.posx, u.posy);
- point ret = m.find_item(it);
- if (ret.x != -1 && ret.y != -1)
-  return ret;
- for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i]->inv.has_item(it))
-   return point(active_npc[i]->posx, active_npc[i]->posy);
- }
- return point(-999, -999);
+    //Does the player have it?
+    if (u.has_item(it)) {
+        return point(u.posx, u.posy);
+    }
+    //Is it in a vehicle?
+    for (std::set<vehicle*>::iterator veh_iterator = m.vehicle_list.begin();
+            veh_iterator != m.vehicle_list.end(); veh_iterator++) {
+        vehicle *next_vehicle = *veh_iterator;
+        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature("CARGO", false);
+        for(std::vector<int>::iterator part_index = cargo_parts.begin();
+                part_index != cargo_parts.end(); part_index++) {
+            std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
+            for (int n = items_in_part->size() - 1; n >= 0; n--) {
+                if (&((*items_in_part)[n]) == it) {
+                    int mapx = next_vehicle->global_x() + next_vehicle->parts[*part_index].precalc_dx[0];
+                    int mapy = next_vehicle->global_y() + next_vehicle->parts[*part_index].precalc_dy[0];
+                    return point(mapx, mapy);
+                }
+            }
+        }
+    }
+    //Does an NPC have it?
+    for (int i = 0; i < active_npc.size(); i++) {
+        if (active_npc[i]->inv.has_item(it)) {
+            return point(active_npc[i]->posx, active_npc[i]->posy);
+        }
+    }
+    //Is it on the ground? (Check this last - takes the most time)
+    point ret = m.find_item(it);
+    if (ret.x != -1 && ret.y != -1) {
+        return ret;
+    }
+    //Not found anywhere
+    return point(-999, -999);
 }
 
 void game::remove_item(item *it)
