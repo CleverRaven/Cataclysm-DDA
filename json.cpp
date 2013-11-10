@@ -145,6 +145,15 @@ std::string JsonObject::line_number()
     return jsin->line_number();
 }
 
+std::string JsonObject::str()
+{
+    if (jsin) {
+        return jsin->substr(start,end-start);
+    } else {
+        return "{}";
+    }
+}
+
 bool JsonObject::get_bool(const std::string &name)
 {
     int pos = verify_position(name);
@@ -410,6 +419,15 @@ int JsonArray::size()
     return positions.size();
 }
 
+std::string JsonArray::str()
+{
+    if (jsin) {
+        return jsin->substr(start,end-start);
+    } else {
+        return "[]";
+    }
+}
+
 void JsonArray::verify_index(int i)
 {
     if (!jsin) {
@@ -421,6 +439,7 @@ void JsonArray::verify_index(int i)
         jsin->error(err.str());
     }
 }
+
 
 /* iterative access */
 
@@ -1338,6 +1357,20 @@ void JsonIn::rewind(int max_lines, int max_chars)
         }
         stream->seekg(-1, std::istream::cur);
     }
+}
+
+std::string JsonIn::substr(size_t pos, size_t len)
+{
+    std::string ret;
+    if (len == std::string::npos) {
+        stream->seekg(0, std::istream::end);
+        size_t end = tell();
+        len = end - pos;
+    }
+    ret.resize(len);
+    stream->seekg(pos);
+    stream->read(&ret[0],len);
+    return ret;
 }
 
 
