@@ -977,7 +977,6 @@ bool overmap::has_npc(game *g, int const x, int const y, int const z) const
     return false;
 }
 
-// should be merged with has_npc
 bool overmap::has_vehicle(game *g, int const x, int const y, int const z) const
 {
     // vehicles only spawn at z level 0 (for now)
@@ -1048,7 +1047,6 @@ void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const
     mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
-// again should be merged with print_npcs
 void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int const z)
 {
     if (!z==0) // vehicles only exist on zlevel 0
