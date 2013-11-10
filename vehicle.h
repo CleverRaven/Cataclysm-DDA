@@ -301,6 +301,10 @@ public:
     int global_x ();
     int global_y ();
 
+// get omap coordinate for vehicle
+    int omap_x ();
+    int omap_y ();
+
 // Checks how much certain fuel left in tanks. If for_engine == true that means
 // ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
     int fuel_left (ammotype ftype, bool for_engine = false);
@@ -480,6 +484,7 @@ public:
 
     // save values
     int posx, posy;
+    int levx,levy;       // vehicle map coordinates.
     tileray face;       // frame direction
     tileray move;       // direction we are moving
     int velocity;       // vehicle current velocity, mph * 100

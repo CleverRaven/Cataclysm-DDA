@@ -983,11 +983,9 @@ bool overmap::has_vehicle(game *g, int const x, int const y, int const z) const
     // vehicles only spawn at z level 0 (for now)
     if (!z == 0)
         return false;
-    //Check if the target overmap square has an vehicle in it.
-    for (int n = 0; n < vehicles.size(); n++) {
-        int vx = (g->levx + (vehicles[n]->global_x() / SEEX)) / 2;
-        int vy = (g->levy + (vehicles[n]->global_y() / SEEY)) / 2;
-        if (vx == x && vy == y)
+    for(int n = 0; n < vehicles.size(); n++)
+    {
+        if (vehicles[n]->omap_x()/2 == x && vehicles[n]->omap_y()/2 == y)
             return true;
     }
     return false;
@@ -1059,9 +1057,7 @@ void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int c
     //Check the max namelength of the vehicles in the target
     for (int n = 0; n < vehicles.size(); n++)
     {
-        int vx = (g->levx + (vehicles[n]->global_x() / SEEX)) / 2;
-        int vy = (g->levy + (vehicles[n]->global_y() / SEEY)) / 2;
-        if (vx == x && vy == y)
+        if (vehicles[n]->omap_x()/2 == x && vehicles[n]->omap_y()/2 == y)
         {
             if (vehicles[n]->name.length() > maxnamelength)
                 maxnamelength = vehicles[n]->name.length();
@@ -1070,9 +1066,7 @@ void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int c
     //Check if the target has a vehicle in it.
     for (int n = 0; n < vehicles.size(); n++)
     {
-        int vx = (g->levx + (vehicles[n]->global_x() / SEEX)) / 2;
-        int vy = (g->levy + (vehicles[n]->global_y() / SEEY)) / 2;
-        if (vx == x && vy == y)
+        if (vehicles[n]->omap_x()/2 == x && vehicles[n]->omap_y()/2 == y)
         {
             mvwprintz(w, i, 0, c_yellow, vehicles[n]->name.c_str());
             for (int j = vehicles[n]->name.length(); j < maxnamelength; j++)

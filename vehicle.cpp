@@ -150,6 +150,10 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     if (init_veh_fuel > 100)
      veh_fuel_mult = 100;
 
+    // im assuming vehicles only spawn in active maps
+    levx = g->levx;
+    levy = g->levy;
+
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
     //  0 = undamgaed
@@ -1299,6 +1303,14 @@ int vehicle::global_x ()
 int vehicle::global_y ()
 {
     return smy * SEEY + posy;
+}
+
+int vehicle::omap_x() {
+    return levx + (global_x() / SEEX);
+}
+
+int vehicle::omap_y() {
+    return levy + (global_y() / SEEY);
 }
 
 int vehicle::total_mass()

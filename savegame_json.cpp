@@ -1434,6 +1434,8 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picostring(data,"type",type);
     picoint(data, "posx", posx);
     picoint(data, "posy", posy);
+    picoint(data, "levx", levx);
+    picoint(data, "levy", levy);
     picoint(data, "faceDir", fdir);
     picoint(data, "moveDir", mdir);
     picoint(data, "turn_dir", turn_dir);
@@ -1526,6 +1528,8 @@ picojson::value vehicle::json_save( bool save_contents ) {
     data["type"] = pv ( type );
     data["posx"] = pv ( posx );
     data["posy"] = pv ( posy );
+    data["levx"] = pv ( levx );
+    data["levy"] = pv ( levy );
     data["faceDir"] = pv ( face.dir() );
     data["moveDir"] = pv ( move.dir() );
     data["turn_dir"] = pv ( turn_dir );
