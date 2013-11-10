@@ -2629,7 +2629,7 @@ bool game::load_master(std::string worldname)
  std::string data;
  std::stringstream datafile;
  datafile << world_generator->all_worlds[worldname]->world_path << "/master.gsav";
- fin.open(datafile.str().c_str());
+ fin.open(datafile.str().c_str(), std::ifstream::in | std::ifstream::binary);
  if (!fin.is_open())
   return false;
 
