@@ -289,6 +289,7 @@ public:
     std::string next_string();
     JsonArray next_array();
     JsonObject next_object();
+    void skip_value(); // ignore whatever is next
 
     // static access
     bool get_bool(int index);

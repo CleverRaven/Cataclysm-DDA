@@ -461,6 +461,12 @@ JsonObject JsonArray::next_object()
     return jsin->get_object();
 }
 
+void JsonArray::skip_value()
+{
+    verify_index(index);
+    ++index;
+}
+
 /* static access */
 
 bool JsonArray::get_bool(int i)
