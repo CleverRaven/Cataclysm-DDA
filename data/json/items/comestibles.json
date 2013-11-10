@@ -6794,7 +6794,7 @@
         "addiction_type" : "alcohol",
         "spoils_in" : 0,
         "use_action" : "ALCOHOL",
-        "stim" : -24,
+        "stim" : -14,
         "container" : "bottle_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
@@ -6911,7 +6911,7 @@
         "addiction_type" : "none",
         "spoils_in" : 90,
         "use_action" : "NONE",
-        "stim" : -24,
+        "stim" : 0,
         "container" : "jar_3l_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
@@ -6929,7 +6929,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : -2,
+        "fun" : 2,
         "flags" : ["USE_EAT_VERB"]
     },
     {
@@ -6941,7 +6941,7 @@
         "addiction_type" : "none",
         "spoils_in" : 90,
         "use_action" : "NONE",
-        "stim" : -24,
+        "stim" : 0,
         "container" : "jar_3l_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
@@ -6959,7 +6959,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : -2,
+        "fun" : 2,
         "flags" : ["USE_EAT_VERB"]
     },
     {
@@ -8140,7 +8140,7 @@
         "addiction_type" : "none",
         "spoils_in" : 90,
         "use_action" : "NONE",
-        "stim" : -24,
+        "stim" : 0,
         "container" : "jar_3l_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
@@ -8158,7 +8158,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : -2,
+        "fun" : 2,
         "flags" : ["USE_EAT_VERB"]
     },
     {
