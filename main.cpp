@@ -114,29 +114,29 @@ int main(int argc, char *argv[])
 }
 
 void exit_handler(int s) {
-     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
-         erase(); // Clear screen
-         endwin(); // End ncurses
+    if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
+        erase(); // Clear screen
+        endwin(); // End ncurses
         int ret;
-         #if (defined _WIN32 || defined WINDOWS)
-             ret = system("cls"); // Tell the terminal to clear itself
-             ret = system("color 07");
-         #else
-             ret = system("clear"); // Tell the terminal to clear itself
-         #endif
+        #if (defined _WIN32 || defined WINDOWS)
+            ret = system("cls"); // Tell the terminal to clear itself
+            ret = system("color 07");
+        #else
+            ret = system("clear"); // Tell the terminal to clear itself
+        #endif
         if (ret != 0) {
             DebugLog() << "system(\"clear\"): error returned\n";
         }
 
-         if(g != NULL) {
-             if(g->game_error()) {
-                 delete g;
-                 exit(1);
-             } else {
-                 delete g;
-                 exit(0);
-             }
-         }
-         exit(0);
-     }
+        if(g != NULL) {
+            if(g->game_error()) {
+                delete g;
+                exit(1);
+            } else {
+                delete g;
+                exit(0);
+            }
+        }
+        exit(0);
+    }
 }
