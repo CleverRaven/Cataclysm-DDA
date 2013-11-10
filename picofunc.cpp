@@ -49,6 +49,16 @@ bool picobool(const picojson::object & obj, std::string key, bool & var) {
       return false;
 }
 
+bool picobool(JsonObject & obj, std::string key, bool & var)
+{
+    if (obj.has_bool(key)) {
+        var = obj.get_bool(key);
+        return true;
+    }
+    if (_log_failures==true) dbg(D_INFO) << "json find falure: "<<key<<"]";
+    return false;
+}
+
 /*
  * int
  */
@@ -74,6 +84,27 @@ bool picoint(const picojson::object & obj, std::string key, int & var) {
       return false;
   }
 
+bool picoint(JsonObject & obj, std::string key, int & var)
+{
+    if (obj.has_number(key)) {
+        double tmpf = obj.get_float(key);
+        int tmpi = (int)tmpf;
+        if (tmpi != tmpf) {
+            if(_testing_save) {
+                popup("key %s %d != %f",key.c_str(),tmpi,tmpf);
+            }
+        } else {
+            var = tmpi;
+            if(_really_testing_save) {
+                popup("OK %s %d == %f == %d",key.c_str(),tmpi,tmpf,tmpi);
+            }
+            return true;
+        }
+    }
+    if (_log_failures==true) dbg(D_INFO) << "json find falure: "<<key<<"]";
+    return false;
+}
+
 /*
  * std::string
  */
@@ -88,6 +119,16 @@ bool picostring(const picojson::object & obj, std::string key, std::string & var
       } 
       if (_log_failures==true) dbg(D_INFO) << "json find falure: "<<key<<"]";
       return false;
+}
+
+bool picostring(JsonObject & obj, std::string key, std::string & var)
+{
+    if (obj.has_string(key)) {
+        var = obj.get_string(key);
+        return true;
+    }
+    if (_log_failures==true) dbg(D_INFO) << "json find falure: "<<key<<"]";
+    return false;
 }
 
 /*
@@ -115,6 +156,27 @@ bool picouint(const picojson::object & obj, std::string key, unsigned int & var)
       return false;
   }
 
+bool picouint(JsonObject & obj, std::string key, unsigned int & var)
+{
+    if (obj.has_number(key)) {
+        double tmpf = obj.get_float(key);
+        unsigned int tmpi = tmpf;
+        if (tmpi != tmpf) {
+            if(_testing_save) {
+                popup("key %s %d != %f",key.c_str(),tmpi,tmpf);
+            }
+        } else {
+            var = tmpi;
+            if(_really_testing_save) {
+                popup("OK %s %d == %f == %d",key.c_str(),tmpi,tmpf,tmpi);
+            }
+            return true;
+        }
+    }
+    if (_log_failures==true) dbg(D_INFO) << "json find falure: "<<key<<"]";
+    return false;
+}
+
 /*
  * point
  */
@@ -127,6 +189,20 @@ bool picopoint(const picojson::object & obj, std::string key, point & var) {
              var.x = int ( it->second.get<picojson::array>()[0].get<double>() );
              var.y = int ( it->second.get<picojson::array>()[1].get<double>() );
              return true;
+        }
+    }
+    if (_log_failures==true) dbg(D_INFO) << "json find falure: "<<key<<"]";
+    return false;
+}
+
+bool picopoint(JsonObject & obj, std::string key, point & var)
+{
+    if (obj.has_array(key)) {
+        JsonArray ar = obj.get_array(key);
+        if (ar.size() == 2 && ar.has_number(0) && ar.has_number(1)) {
+            var.x = ar.get_int(0);
+            var.y = ar.get_int(1);
+            return true;
         }
     }
     if (_log_failures==true) dbg(D_INFO) << "json find falure: "<<key<<"]";
@@ -149,6 +225,23 @@ bool picovector(picojson::object & obj, std::string key, std::vector<int> & var)
     }
     return false;
 }
+
+bool picovector(JsonObject & obj, std::string key, std::vector<int> & var)
+{
+    if (obj.has_array(key)) {
+        JsonArray ar = obj.get_array(key);
+        var.clear();
+        while (ar.has_more()) {
+            if (ar.test_number()) {
+                var.push_back(ar.next_int());
+            } else {
+                ar.skip_value();
+            }
+        }
+    }
+    return false;
+}
+
 /*
  * ptr to wrapped array
  */
