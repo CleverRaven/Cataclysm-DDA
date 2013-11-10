@@ -9709,6 +9709,9 @@ void game::unload(item& it)
   // Then try a masterkey shotgun
   else if (has_shotgun2 != -1 && weapon->contents[has_shotgun2].charges > 0)
    weapon = &weapon->contents[has_shotgun2];
+  // Then try a Rivtech shotgun
+  else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0)
+   weapon = &weapon->contents[has_shotgun3];
  }
 
  item newam;

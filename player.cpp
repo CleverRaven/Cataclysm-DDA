@@ -7495,6 +7495,7 @@ hint_rating player::rate_action_unload(item *it) {
   has_40mml = it->has_gunmod ("pipe_launcher40mm");
   has_shotgun = it->has_gunmod ("u_shotgun");
   has_shotgun2 = it->has_gunmod ("masterkey");
+  has_shotgun3 = it->has_gunmod ("rm121aux");
  }
  if (it->is_container() ||
      (it->charges == 0 &&
@@ -7502,7 +7503,8 @@ hint_rating player::rate_action_unload(item *it) {
       (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
       (has_40mml == -1 || it->contents[has_40mml].charges <= 0) &&
       (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0) &&
-      (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0))) {
+      (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0) &&
+      (has_shotgun3 == -1 || it->contents[has_shotgun3].charges <= 0))) {
   if (it->contents.size() == 0) {
    return HINT_IFFY;
   }
@@ -7735,12 +7737,12 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                            gun->tname(g).c_str());
                 return;
             } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
-                        mod->id == "masterkey" || mod->id == "u_shotgun" ||
-                        mod->id == "bayonet" || mod->id == "gun_crossbow" ||
-                        mod->id == "sword_bayonet") &&
+                        mod->id == "masterkey" || mod->id == "rm121aux" || mod->id == "u_shotgun" ||
+                        mod->id == "bayonet" || mod->id == "gun_crossbow" || mod->id == "sword_bayonet") &&
                        (gun->contents[i].type->id == "pipe_launcher40mm" ||
                         gun->contents[i].type->id == "m203" ||
                         gun->contents[i].type->id == "masterkey" ||
+                        gun->contents[i].type->id == "rm121aux" ||
                         gun->contents[i].type->id == "u_shotgun" ||
                         gun->contents[i].type->id == "bayonet" ||
                         gun->contents[i].type->id == "sword_bayonet" ||
