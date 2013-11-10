@@ -610,6 +610,8 @@ int player::roll_cut_damage(monster *z, bool crit)
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   if (has_trait("CLAWS"))
    ret += 6;
+  if (has_bionic("bio_razors"))
+   ret += 4;
   if (has_trait("TALONS"))
    ret += 6 + ((int)skillLevel("unarmed") > 8 ? 8 : (int)skillLevel("unarmed"));
   if (has_trait("SLIME_HANDS") && (z == NULL || !z->has_flag(MF_ACIDPROOF)))
@@ -647,6 +649,8 @@ int player::roll_stab_damage(monster *z, bool crit)
    ret += 6;
   if (has_trait("NAILS") && z_armor == 0)
    ret++;
+  if (has_bionic("bio_razors"))
+   ret += 4;
   if (has_trait("THORNS"))
    ret += 4;
  } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
