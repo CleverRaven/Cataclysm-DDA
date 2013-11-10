@@ -941,6 +941,13 @@ double JsonIn::get_float()
         neg = true;
         stream->get(ch);
     }
+    if (strict && ch == '0') {
+        // allow a single leading zero in front of a '.' or 'e'/'E'
+        stream->get(ch);
+        if (ch >= '0' && ch <= '9') {
+            error("leading zeros not strictly allowed", -1);
+        }
+    }
     while (ch >= '0' && ch <= '9') {
         i *= 10;
         i += (ch - '0');
