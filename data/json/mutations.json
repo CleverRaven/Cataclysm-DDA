@@ -68,6 +68,7 @@
         "description": "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
         "starting_trait": true,
         "changes_to": ["NIGHTVISION2"],
+		"cancels": ["ELFA_NV", "ELFA_FNV"],
         "category": ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
     },{
         "type" : "mutation",
@@ -525,6 +526,7 @@
         "description": "You can see incredibly well in the dark!",
         "prereqs": ["NIGHTVISION"],
         "changes_to": ["NIGHTVISION3"],
+		"cancels": ["ELFA_NV", "ELFA_FNV"],
         "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -534,6 +536,7 @@
         "description": "You can see in pitch blackness as if you were wearing night-vision goggles.",
         "prereqs": ["NIGHTVISION2"],
         "leads_to": ["INFRARED"],
+		"cancels": ["ELFA_NV", "ELFA_FNV"],
         "category": ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
 	},{
 		"type": "mutation",
@@ -552,6 +555,7 @@
         "description": "The shadows don't seem as dark now.",
 		"prereqs": ["ELFAEYES"],
         "changes_to": ["ELFA_FNV"],
+		"cancels": ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category": ["MUTCAT_ELFA"]
 	},{
 		"type": "mutation",
@@ -560,6 +564,7 @@
         "points": 5,
         "description": "You can see clearly, even in the darkest caves and under moonless skies.",
 		"prereqs": ["ELFA_NV"],
+		"cancels": ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
