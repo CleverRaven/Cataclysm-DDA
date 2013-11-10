@@ -282,6 +282,7 @@ public:
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();
+    bool empty();
     std::string str(); // copy array json as string
 
     // iterative access
