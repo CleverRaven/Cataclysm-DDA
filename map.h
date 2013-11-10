@@ -436,7 +436,8 @@ submap * getsubmap( const int grididx );
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
  
  void process_active_items_in_submap(game *g, const int nonant);
- bool process_active_item(game *g, item &item, const int nonant, const int i, const int j);
+ void process_active_items_in_vehicles(game *g, const int nonant);
+ bool process_active_item(game *g, item *it, const int nonant, const int i, const int j);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

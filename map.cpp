@@ -2150,8 +2150,9 @@ point map::find_item(const item *it)
  for (ret.x = 0; ret.x < SEEX * my_MAPSIZE; ret.x++) {
   for (ret.y = 0; ret.y < SEEY * my_MAPSIZE; ret.y++) {
    for (int i = 0; i < i_at(ret.x, ret.y).size(); i++) {
-    if (it == &i_at(ret.x, ret.y)[i])
+    if (it == &i_at(ret.x, ret.y)[i]) {
      return ret;
+    }
    }
   }
  }
@@ -2333,12 +2334,17 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
 
 void map::process_active_items(game *g)
 {
- for (int gx = 0; gx < my_MAPSIZE; gx++) {
-  for (int gy = 0; gy < my_MAPSIZE; gy++) {
-   if (grid[gx + gy * my_MAPSIZE]->active_item_count > 0)
-    process_active_items_in_submap(g, gx + gy * my_MAPSIZE);
-  }
- }
+    for (int gx = 0; gx < my_MAPSIZE; gx++) {
+        for (int gy = 0; gy < my_MAPSIZE; gy++) {
+            const int nonant = gx + gy * my_MAPSIZE;
+            if (grid[nonant]->active_item_count > 0) {
+                process_active_items_in_submap(g, nonant);
+            }
+            if (grid[nonant]->vehicles.size() > 0) {
+                process_active_items_in_vehicles(g, nonant);
+            }
+        }
+    }
 }
 
 void map::process_active_items_in_submap(game *g, const int nonant)
@@ -2348,7 +2354,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
             std::vector<item> *items = &(grid[nonant]->itm[i][j]);
             //Do a count-down loop, as some items may be removed
             for (int n = items->size() - 1; n >= 0; n--) {
-                if(process_active_item(g, (*items)[n], nonant, i, j)) {
+                if(process_active_item(g, &((*items)[n]), nonant, i, j)) {
                     items->erase(items->begin() + n);
                     grid[nonant]->active_item_count--;
                 }
@@ -2357,71 +2363,91 @@ void map::process_active_items_in_submap(game *g, const int nonant)
     }
 }
 
+void map::process_active_items_in_vehicles(game *g, const int nonant)
+{
+    std::vector<vehicle*> *vehicles = &(grid[nonant]->vehicles);
+    for (int v = vehicles->size() - 1; v >= 0; v--) {
+        vehicle *next_vehicle = (*vehicles)[v];
+        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature("CARGO", false);
+        for(std::vector<int>::iterator part_index = cargo_parts.begin();
+                part_index != cargo_parts.end(); part_index++) {
+            std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
+            int mapx = next_vehicle->posx + next_vehicle->parts[*part_index].precalc_dx[0];
+            int mapy = next_vehicle->posy + next_vehicle->parts[*part_index].precalc_dy[0];
+            for(int n = items_in_part->size() - 1; n >= 0; n--) {
+                if(process_active_item(g, &((*items_in_part)[n]), nonant, mapx, mapy)) {
+                    next_vehicle->remove_item(*part_index, n);
+                }
+            }
+        }
+    }
+}
+
 /**
  * Processes a single active item.
- * @param g A reference to the current game.
- * @param it The item we're processing.
+ * @param g A pointer to the current game.
+ * @param it A pointer to the item we're processing.
  * @param nonant The current submap nonant.
  * @param i The x-coordinate inside the submap.
  * @param j The y-coordinate inside the submap.
  * @return true If the item needs to be removed.
  */
-bool map::process_active_item(game* g, item& it, const int nonant, const int i, const int j) {
-    if (it.active ||
-        (it.is_container() && it.contents.size() > 0 &&
-         it.contents[0].active))
+bool map::process_active_item(game* g, item *it, const int nonant, const int i, const int j) {
+    if (it->active ||
+        (it->is_container() && it->contents.size() > 0 &&
+         it->contents[0].active))
     {
-        if (it.is_food()) { // food items
-            if (it.has_flag("HOT")) {
-                it.item_counter--;
-                if (it.item_counter == 0) {
-                    it.item_tags.erase("HOT");
-                    it.active = false;
+        if (it->is_food()) { // food items
+            if (it->has_flag("HOT")) {
+                it->item_counter--;
+                if (it->item_counter == 0) {
+                    it->item_tags.erase("HOT");
+                    it->active = false;
                     grid[nonant]->active_item_count--;
                 }
             }
-        } else if (it.is_food_container()) { // food in containers
-            if (it.contents[0].has_flag("HOT")) {
-                it.contents[0].item_counter--;
-                if (it.contents[0].item_counter == 0) {
-                    it.contents[0].item_tags.erase("HOT");
-                    it.contents[0].active = false;
+        } else if (it->is_food_container()) { // food in containers
+            if (it->contents[0].has_flag("HOT")) {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0) {
+                    it->contents[0].item_tags.erase("HOT");
+                    it->contents[0].active = false;
                     grid[nonant]->active_item_count--;
                 }
             }
-        } else if (it.type->id == "corpse") { // some corpses rez over time
-            if (it.ready_to_revive(g)) {
-                if (rng(0,it.volume()) > it.burnt) {
+        } else if (it->type->id == "corpse") { // some corpses rez over time
+            if (it->ready_to_revive(g)) {
+                if (rng(0,it->volume()) > it->burnt) {
                     int mapx = (nonant % my_MAPSIZE) * SEEX + i;
                     int mapy = (nonant / my_MAPSIZE) * SEEY + j;
                     if (g->u_see(mapx, mapy)) {
                         g->add_msg(_("A nearby corpse rises and moves towards you!"));
                     }
-                    g->revive_corpse(mapx, mapy, &it);
+                    g->revive_corpse(mapx, mapy, it);
                     return true;
                 } else {
-                    it.active = false;
+                    it->active = false;
                 }
             }
-        } else if (!it.is_tool()) { // It's probably a charger gun
-            it.active = false;
-            it.charges = 0;
+        } else if (!it->is_tool()) { // It's probably a charger gun
+            it->active = false;
+            it->charges = 0;
         } else {
-            it_tool* tmp = dynamic_cast<it_tool*>(it.type);
+            it_tool* tmp = dynamic_cast<it_tool*>(it->type);
             if (tmp->use != &iuse::none) {
-                tmp->use.call(g, &(g->u), &(it), true);
+                tmp->use.call(g, &(g->u), it, true);
             }
             if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0) {
-                it.charges--;
+                it->charges--;
             }
-            if (it.charges <= 0) {
+            if (it->charges <= 0) {
                 if (tmp->use != &iuse::none) {
-                    tmp->use.call(g, &(g->u), &(it), false);
+                    tmp->use.call(g, &(g->u), it, false);
                 }
-                if (tmp->revert_to == "null" || it.charges == -1) {
+                if (tmp->revert_to == "null" || it->charges == -1) {
                     return true;
                 } else {
-                    it.type = g->itypes[tmp->revert_to];
+                    it->type = g->itypes[tmp->revert_to];
                 }
             }
         }
