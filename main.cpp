@@ -117,12 +117,16 @@ void exit_handler(int s) {
      if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
          erase(); // Clear screen
          endwin(); // End ncurses
+        int ret;
          #if (defined _WIN32 || defined WINDOWS)
-             system("cls"); // Tell the terminal to clear itself
-             system("color 07");
+             ret = system("cls"); // Tell the terminal to clear itself
+             ret = system("color 07");
          #else
-             system("clear"); // Tell the terminal to clear itself
+             ret = system("clear"); // Tell the terminal to clear itself
          #endif
+        if (ret != 0) {
+            DebugLog() << "system(\"clear\"): error returned\n";
+        }
 
          if(g != NULL) {
              if(g->game_error()) {
