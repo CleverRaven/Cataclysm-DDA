@@ -16001,6 +16001,34 @@
     ]
     ]
 },{
+  "type" : "recipe",
+  "result" : "lawn_dart",
+  "category" : "CC_WEAPON",
+  "skill_used" : "fabrication",
+  "skills_required" : ["throw", 1],
+  "difficulty" : 8,
+  "time" : 30000,
+  "reversible" : false,
+  "autolearn" : true,
+  "tools" : [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+    [ 
+      ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components" : [ 
+  [ 
+  ["plastic_chunk", 4] 
+  ],
+  [
+  [ "scrap", 2 ]
+  ]
+  ]
+},{
         "type" : "recipe",
   "result": "switchblade",
   "category": "CC_WEAPON",
