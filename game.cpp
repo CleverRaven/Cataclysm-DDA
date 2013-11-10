@@ -8514,7 +8514,7 @@ void game::grab()
 }
 
 // Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source /*= NULL*/, item *cont /*= NULL*/)
+bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source, item *cont)
 {
     if (!liquid.made_of(LIQUID)) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -8573,7 +8573,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         std::stringstream text;
         text << _("Container for ") << liquid.tname(this);
 
-        char ch = inv_for_liquid(liquid, text.str().c_str());
+        char ch = inv_for_liquid(liquid, text.str().c_str(), false);
         if (!u.has_item(ch)) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
@@ -8722,6 +8722,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                 liquid.charges -= remaining_capacity;
                 liquid_copy.charges = remaining_capacity;
                 all_poured = false;
+            } else {
+                add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                    cont->tname(this).c_str());
             }
             cont->put_in(liquid_copy);
             return all_poured;
@@ -8743,7 +8746,7 @@ int game::move_liquid(item &liquid)
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname(this);
-  char ch = inv_for_liquid(liquid, text.str().c_str());
+  char ch = inv_for_liquid(liquid, text.str().c_str(), false);
 
   //is container selected?
   if(u.has_item(ch)) {

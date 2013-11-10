@@ -284,11 +284,17 @@ char game::inv_type(std::string title, item_cat inv_item_type)
     return inv(reduced_inv,title);
 }
 
-char game::inv_for_liquid(const item &liquid, const std::string title)
+char game::inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single)
 {
     u.inv.restack(&u);
     u.inv.sort();
     inventory reduced_inv = u.inv.filter_by_capacity_for_liquid(liquid);
+    if (auto_choose_single && reduced_inv.size() == 1) {
+        std::list<item> cont_stack = reduced_inv.const_stack(0);
+        if (cont_stack.size() > 0) {
+            return cont_stack.front().invlet;
+        }
+    }
     return inv(reduced_inv, title);
 }
 
