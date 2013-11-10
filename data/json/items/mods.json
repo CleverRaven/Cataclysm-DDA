@@ -666,7 +666,7 @@
         "burst_modifier" : 0,
         "loudness_modifier" : 0,
         "to_hit" : -1,
-        "dispersion_modifier" : 1,
+        "dispersion_modifier" : 2,
         "price" : 1200,
         "clip_size_modifier" : 5,
         "description" : "The RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles. It allows a total of five caseless shotgun rounds to be loaded and fired.",
