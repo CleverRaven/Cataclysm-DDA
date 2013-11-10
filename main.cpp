@@ -125,7 +125,7 @@ void exit_handler(int s) {
             ret = system("clear"); // Tell the terminal to clear itself
         #endif
         if (ret != 0) {
-            DebugLog() << "system(\"clear\"): error returned\n";
+            DebugLog() << "main.cpp:exit_handler(): system(\"clear\"): error returned\n";
         }
 
         if(g != NULL) {
