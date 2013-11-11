@@ -252,7 +252,7 @@ void game::unserialize(std::ifstream & fin) {
             clear_zombies();
             monster montmp;
             for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
-                montmp.json_load( *pit, &mtypes );
+                montmp.json_load(*pit);
                 add_zombie(montmp);
             }
 

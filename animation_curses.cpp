@@ -58,6 +58,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
 /* Player hit animation */
 void game::draw_hit_player(player *p, bool dead)
 {
+    (void)dead; //unused
     hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                   POSY + (p->posy - (u.posy + u.view_offset_y)),
                   red_background(p->color()), '@');
@@ -91,6 +92,8 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
 }
 void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 {
+    (void)x; //unused
+    (void)y; //unused
     for (int i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);

@@ -354,12 +354,15 @@
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
@@ -890,6 +893,7 @@
     <ClCompile Include="..\keypress.cpp" />
     <ClCompile Include="..\lightmap.cpp" />
     <ClCompile Include="..\line.cpp" />
+    <ClCompile Include="..\live_view.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\main_menu.cpp" />
     <ClCompile Include="..\map.cpp" />
@@ -994,7 +998,6 @@
     <ClInclude Include="..\iexamine.h" />
     <ClInclude Include="..\init.h" />
     <ClInclude Include="..\input.h" />
-    <ClInclude Include="..\input_defs.h" />
     <ClInclude Include="..\inventory.h" />
     <ClInclude Include="..\item.h" />
     <ClInclude Include="..\item_factory.h" />
@@ -1009,6 +1012,7 @@
     <ClInclude Include="..\keypress.h" />
     <ClInclude Include="..\lightmap.h" />
     <ClInclude Include="..\line.h" />
+    <ClInclude Include="..\live_view.h" />
     <ClInclude Include="..\map.h" />
     <ClInclude Include="..\mapbuffer.h" />
     <ClInclude Include="..\mapdata.h" />

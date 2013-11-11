@@ -22,6 +22,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
+#include "live_view.h"
 #include "worldfactory.h"
 #include <vector>
 #include <map>
@@ -249,10 +250,13 @@ class game
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
   void peek();
-  point look_debug(point pnt=point(-256,-256));
+  point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(); //List all items around the player
   int list_monsters(); //List all monsters around the player
+  // Shared method to print "look around" info
+  void print_all_tile_info(int lx, int ly, WINDOW* w_look, int column, int &line, bool mouse_hover);
+
   bool list_items_match(std::string sText, std::string sPattern);
   int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
   int list_filter_low_priority(std::vector<map_item_stack> &stack,int start, std::string prorities);
@@ -283,7 +287,6 @@ class game
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
   std::map<std::string, itype*> itypes;
-  std::vector <mtype*> mtypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions
@@ -324,6 +327,7 @@ class game
   WINDOW *w_status;
   WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
+  live_view liveview;
 
  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
 
@@ -490,6 +494,14 @@ class game
   void chat(); // Talk to a nearby NPC  'C'
   void plthrow(char chInput = '.'); // Throw an item  't'
 
+  // Internal methods to show "look around" info
+  void print_fields_info(int lx, int ly, WINDOW* w_look, int column, int &line);
+  void print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line);
+  void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
+  void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
+  
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
 // returns a Bresenham line to that square.  It is called by plfire() and
@@ -531,6 +543,10 @@ class game
 //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
   void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
   void quicksave();        // Saves the game without quitting
+
+// Input related
+  bool handle_mouseview(input_context &ctxt, std::string &action); // Handles box showing items under mouse
+  void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
 
 // On-request draw functions
   void draw_overmap();     // Draws the overmap, allows note-taking etc.
@@ -581,6 +597,7 @@ class game
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
+  const int lookHeight; // Look Around window height
 
   bool is_hostile_within(int distance);
 };

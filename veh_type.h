@@ -4,6 +4,15 @@
 #include "color.h"
 #include "itype.h"
 
+/**
+ * Represents an entry in the breaks_into list.
+ */
+struct break_entry {
+    std::string item_id;
+    int min;
+    int max;
+};
+
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts
  * ANCHOR_POINT - Allows secure seatbelt attachment
@@ -33,6 +42,7 @@ struct vpart_info
     int difficulty;     // installation difficulty (mechanics requirement)
     std::string location;   //Where in the vehicle this part goes
     std::set<std::string> flags;    // flags
+    std::vector<break_entry> breaks_into;
 
     int z_order;        // z-ordering, inferred from location, cached here
 

@@ -14,9 +14,6 @@
 #include <map>
 #include <vector>
 #include "json.h"
-
-#include "input_defs.h"
-
 typedef int chtype;
 typedef unsigned short attr_t;
 typedef unsigned int u_int32_t;
@@ -78,6 +75,7 @@ typedef struct {
 
 } WINDOW;
 
+
 #define A_NORMAL __NORMAL
 #define A_STANDOUT __STANDOUT
 #define A_UNDERLINE __UNDERSCORE
@@ -117,6 +115,9 @@ typedef struct {
 #define    KEY_PPAGE      0x153    /* page up */
 #define    KEY_ENTER      0x157    /* enter */
 
+#define ERR (-1) // Error return.
+#define OK (0)   // Success return.
+
 /* Curses external declarations. */
 
 extern WINDOW *stdscr;
@@ -124,8 +125,6 @@ extern WINDOW *stdscr;
 #define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
 //Curses Functions
-#define ERR (-1) // Error return.
-#define OK (0) // Success return.
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 int delwin(WINDOW *win);
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
@@ -191,7 +190,6 @@ void curses_drawwindow(WINDOW* win);
 void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
-input_event getch_kyb_mouse(WINDOW* capture_win = NULL);
 int curses_start_color();
 #ifdef SDLTILES
 void init_tiles();

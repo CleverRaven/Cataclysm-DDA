@@ -1533,7 +1533,7 @@ void game::disassemble(char ch)
         {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
             int num_pages = (dis_item->volume() *2) * 10;
-            m.spawn_item(u.posx,u.posy,"paper", 0, 1, num_pages);
+            m.spawn_item(u.posx, u.posy, "paper", 0, num_pages);
             u.inv.remove_item(dis_item);
         }
         return;
@@ -1624,7 +1624,7 @@ void game::complete_disassemble()
           if (newit.count_by_charges())
           {
             if (dis->difficulty == 0 || comp_success)
-              m.spawn_item(u.posx, u.posy, dis->components[j][0].type, 0, 0, compcount);
+              m.spawn_item(u.posx, u.posy, dis->components[j][0].type, 0, compcount);
             else
               add_msg(_("You fail to recover a component."));
             compcount = 0;
