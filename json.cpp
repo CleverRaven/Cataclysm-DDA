@@ -940,6 +940,11 @@ double JsonIn::get_float()
     if (ch == '-') {
         neg = true;
         stream->get(ch);
+    } else if (ch != '.' && (ch < '0' || ch > '9')) {
+        // not a valid float
+        std::stringstream err;
+        err << "expecting number but found '" << ch << "'";
+        error(err.str(), -1);
     }
     if (strict && ch == '0') {
         // allow a single leading zero in front of a '.' or 'e'/'E'
