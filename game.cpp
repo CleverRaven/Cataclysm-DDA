@@ -3094,7 +3094,6 @@ void game::debug()
             active_npc.clear();
             // Save monsters.
              for (unsigned int i = 0; i < num_zombies(); i++) {
-                monster &z = zombie(i);
                 force_save_monster(zombie(i));
                 remove_zombie(i);
                 i--;
