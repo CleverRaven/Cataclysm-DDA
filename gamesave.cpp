@@ -643,16 +643,14 @@ void game::unserialize_master(std::ifstream &fin) {
                 jsin.start_array();
                 while (!jsin.end_array()) {
                     mission mis;
-                    JsonObject mis_json = jsin.get_object();
-                    mis.deserialize(mis_json);
+                    mis.deserialize(jsin);
                     active_missions.push_back(mis);
                 }
             } else if (name == "factions") {
                 jsin.start_array();
                 while (!jsin.end_array()) {
                     faction fac;
-                    JsonObject fac_json = jsin.get_object();
-                    fac.deserialize(fac_json);
+                    fac.deserialize(jsin);
                     factions.push_back(fac);
                 }
             } else {

@@ -480,16 +480,14 @@ public:
 
 class JsonDeserializer {
 public:
-    virtual void deserialize(JsonObject &jsobj) = 0;
-    void deserialize(const std::string &json_object_string) {
-        // note: object string must include starting and ending braces {}
-        std::istringstream s(json_object_string);
+    virtual void deserialize(JsonIn &jsin) = 0;
+    void deserialize(const std::string &json_string) {
+        std::istringstream s(json_string);
         deserialize(s);
     }
     void deserialize(std::istream &i) {
         JsonIn jin(&i);
-        JsonObject jo = jin.get_object();
-        deserialize(jo);
+        deserialize(jin);
     }
 };
 
