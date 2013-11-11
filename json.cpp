@@ -377,6 +377,81 @@ bool JsonObject::has_object(const std::string &name)
     return false;
 }
 
+/* non-fatal value setting by reference */
+
+bool JsonObject::read_into(const std::string &name, bool &b)
+{
+    if (!has_bool(name)) {
+        return false;
+    }
+    b = get_bool(name);
+    return true;
+}
+
+bool JsonObject::read_into(const std::string &name, int &i)
+{
+    if (!has_number(name)) {
+        return false;
+    }
+    i = get_int(name);
+    return true;
+}
+
+bool JsonObject::read_into(const std::string &name, unsigned int &u)
+{
+    if (!has_number(name)) {
+        return false;
+    }
+    u = get_int(name);
+    return true;
+}
+
+bool JsonObject::read_into(const std::string &name, float &f)
+{
+    if (!has_number(name)) {
+        return false;
+    }
+    f = get_float(name);
+    return true;
+}
+
+bool JsonObject::read_into(const std::string &name, double &d)
+{
+    if (!has_number(name)) {
+        return false;
+    }
+    d = get_float(name);
+    return true;
+}
+
+bool JsonObject::read_into(const std::string &name, std::string &s)
+{
+    if (!has_string(name)) {
+        return false;
+    }
+    s = get_string(name);
+    return true;
+}
+
+bool JsonObject::read_into(const std::string &name, JsonDeserializer &j)
+{
+    // can't know what type of json object it will deserialize from,
+    // so just try to deserialize, catching any error.
+    // TODO: non-verbose flag for JsonIn errors so try/catch is faster here
+    int pos = verify_position(name, false);
+    if (!pos) {
+        return false;
+    }
+    try {
+        jsin->seek(pos);
+        JsonObject jo = jsin->get_object();
+        j.deserialize(jo);
+        return true;
+    } catch (std::string e) {
+        return false;
+    }
+}
+
 
 /* class JsonArray
  * represents a JSON array,
