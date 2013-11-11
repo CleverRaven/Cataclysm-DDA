@@ -1354,10 +1354,10 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
             tmp.text = string_format(_("You slash %s with a talon!"),
                                      target.c_str());
         } else if (male) {
-            tmp.text = string_format(_("%s slash %s with a talon!"),
+            tmp.text = string_format(_("%s slashes %s with a talon!"),
                                      name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s slash %s with a talon!"),
+            tmp.text = string_format(_("%s slashes %s with a talon!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
