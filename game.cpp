@@ -114,7 +114,7 @@ void game::init_data()
     init_faction_data();
     init_morale();
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    item_controller->init(this); //Item manager
+    item_controller->init_old(); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
@@ -7824,7 +7824,7 @@ void game::pickup(int posx, int posy, int min)
                     used_feature = true;
                     if (veh->fuel_left("battery") > 0) {
                         //Will be -1 if no battery at all
-                        item tmp_hotplate( g->itypes["hotplate"], 0 );
+                        item tmp_hotplate( itypes["hotplate"], 0 );
                         // Drain a ton of power
                         tmp_hotplate.charges = veh->drain( "battery", 100 );
                         if( tmp_hotplate.is_tool() ) {
@@ -7846,7 +7846,7 @@ void game::pickup(int posx, int posy, int min)
                     if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
                     {
                         int amt = veh->drain("water", veh->fuel_left("water"));
-                        item fill_water(g->itypes[default_ammo("water")], g->turn);
+                        item fill_water(itypes[default_ammo("water")], g->turn);
                         fill_water.charges = amt;
                         int back = g->move_liquid(fill_water);
                         if(back >= 0)
@@ -7888,7 +7888,7 @@ void game::pickup(int posx, int posy, int min)
                     used_feature = true;
                     if (veh->fuel_left("battery") > 0) {
                         //Will be -1 if no battery at all
-                        item tmp_welder( g->itypes["welder"], 0 );
+                        item tmp_welder( itypes["welder"], 0 );
                         // Drain a ton of power
                         tmp_welder.charges = veh->drain( "battery", 1000 );
                         if( tmp_welder.is_tool() ) {
@@ -7910,7 +7910,7 @@ void game::pickup(int posx, int posy, int min)
                     used_feature = true;
                     if (veh->fuel_left("battery") > 0) {
                         //Will be -1 if no battery at all
-                        item tmp_purifier( g->itypes["water_purifier"], 0 );
+                        item tmp_purifier( itypes["water_purifier"], 0 );
                         // Drain a ton of power
                         tmp_purifier.charges = veh->drain( "battery", 100 );
                         if( tmp_purifier.is_tool() ) {
@@ -11815,7 +11815,7 @@ bool game::spread_fungus(int x, int y)
                 for (int k = 0; k < g->m.i_at(x, y).size(); k++) {
                     m.i_rem(x, y, k);
                 }
-                item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                item seeds(itypes["fungal_seeds"], int(g->turn));
                 m.add_item_or_charges(x, y, seeds);
             }
         }
@@ -11899,7 +11899,7 @@ bool game::spread_fungus(int x, int y)
                             for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
                                 m.i_rem(i, j, k);
                             }
-                            item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                            item seeds(itypes["fungal_seeds"], int(g->turn));
                             m.add_item_or_charges(x, y, seeds);
                         }
                     }

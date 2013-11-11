@@ -2174,7 +2174,7 @@ void map::spawn_item(const int x, const int y, item new_item,
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
-    new_item = new_item.in_its_container(&(g->itypes));
+    new_item = new_item.in_its_container(&(itypes));
     if ((new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) ||
         has_flag("DESTROY_ITEM", x, y))
     {
@@ -2414,7 +2414,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
                                 grid[nonant]->active_item_count--;
                                 n--;
                             } else {
-                                (*items)[n].type = g->itypes[tmp->revert_to];
+                                (*items)[n].type = itypes[tmp->revert_to];
                             }
                         }
                     }

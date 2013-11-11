@@ -188,7 +188,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
        }
       }
   } else {
-   g->add_msg(_("Looks like you need a %s."),g->itypes[card_type]->name.c_str());
+   g->add_msg(_("Looks like you need a %s."),itypes[card_type]->name.c_str());
   }
  }
 }
@@ -205,7 +205,7 @@ void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
 
         // "Replace"
         if(m->ter(examx,examy) == t_rubble) {
-            item rock(g->itypes["rock"], g->turn);
+            item rock(itypes["rock"], g->turn);
             m->add_item_or_charges(p->posx, p->posy, rock);
             m->add_item_or_charges(p->posx, p->posy, rock);
         }
@@ -247,7 +247,7 @@ void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->furn_set(examx + i, examy + j, f_null);
  g->add_msg(_("You take down the tent"));
- item dropped(g->itypes["tent_kit"], g->turn);
+ item dropped(itypes["tent_kit"], g->turn);
  m->add_item_or_charges(examx, examy, dropped);
 }
 
@@ -261,7 +261,7 @@ void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->furn_set(examx + i, examy + j, f_null);
  g->add_msg(_("You take down the shelter"));
- item dropped(g->itypes["shelter_kit"], g->turn);
+ item dropped(itypes["shelter_kit"], g->turn);
  m->add_item_or_charges(examx, examy, dropped);
 }
 
@@ -274,10 +274,10 @@ void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
  if (query_yn(_("Clear up that wreckage?"))) {
   p->moves -= 200;
   m->ter_set(examx, examy, t_dirt);
-  item chunk(g->itypes["steel_chunk"], g->turn);
-  item scrap(g->itypes["scrap"], g->turn);
-  item pipe(g->itypes["pipe"], g->turn);
-  item wire(g->itypes["wire"], g->turn);
+  item chunk(itypes["steel_chunk"], g->turn);
+  item scrap(itypes["scrap"], g->turn);
+  item pipe(itypes["pipe"], g->turn);
+  item wire(itypes["wire"], g->turn);
   m->add_item_or_charges(examx, examy, chunk);
   m->add_item_or_charges(examx, examy, scrap);
   if (one_in(5)) {
@@ -345,7 +345,7 @@ void iexamine::pit_covered(game *g, player *p, map *m, int examx, int examy)
         return;
     }
 
-    item plank(g->itypes["2x4"], g->turn);
+    item plank(itypes["2x4"], g->turn);
     g->add_msg(_("You remove the plank."));
     m->add_item_or_charges(p->posx, p->posy, plank);
 
@@ -402,7 +402,7 @@ void iexamine::remove_fence_rope(game *g, player *p, map *m, int examx, int exam
   none(g, p, m, examx, examy);
   return;
  }
- item rope(g->itypes["rope_6"], g->turn);
+ item rope(itypes["rope_6"], g->turn);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->ter_set(examx, examy, t_fence_post);
@@ -416,7 +416,7 @@ void iexamine::remove_fence_wire(game *g, player *p, map *m, int examx, int exam
   return;
  }
 
- item rope(g->itypes["wire"], g->turn);
+ item rope(itypes["wire"], g->turn);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->ter_set(examx, examy, t_fence_post);
@@ -429,7 +429,7 @@ void iexamine::remove_fence_barbed(game *g, player *p, map *m, int examx, int ex
   return;
  }
 
- item rope(g->itypes["wire_barbed"], g->turn);
+ item rope(itypes["wire_barbed"], g->turn);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->ter_set(examx, examy, t_fence_post);

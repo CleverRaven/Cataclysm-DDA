@@ -42,6 +42,9 @@ extern std::vector<std::string> artifact_itype_ids;
 extern std::vector<std::string> standard_itype_ids;
 extern std::vector<std::string> pseudo_itype_ids;
 
+struct itype;
+extern std::map<std::string, itype*> itypes;
+
 typedef std::string ammotype;
 
 enum software_type {

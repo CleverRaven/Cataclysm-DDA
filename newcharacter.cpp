@@ -57,7 +57,7 @@ void save_template(player *u);
 
 bool player::create(game *g, character_type type, std::string tempname)
 {
-    weapon = item(g->itypes["null"], 0);
+    weapon = item(itypes["null"], 0);
 
     g->u.prof = profession::generic();
 
@@ -313,7 +313,7 @@ bool player::create(game *g, character_type type, std::string tempname)
     }
 
 
-    ret_null = item(g->itypes["null"], 0);
+    ret_null = item(itypes["null"], 0);
     weapon = ret_null;
 
 
@@ -323,7 +323,7 @@ bool player::create(game *g, character_type type, std::string tempname)
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         tmp = item(item_controller->find_template(*iter), 0);
-        tmp = tmp.in_its_container(&(g->itypes));
+        tmp = tmp.in_its_container(&(itypes));
         inv.push_back(tmp);
     }
 
@@ -360,29 +360,29 @@ bool player::create(game *g, character_type type, std::string tempname)
 
     // Those who are both near-sighted and far-sighted start with bifocal glasses.
     if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
-        tmp = item(g->itypes["glasses_bifocal"], 0);
+        tmp = item(itypes["glasses_bifocal"], 0);
         inv.push_back(tmp);
     }
     // The near-sighted start with eyeglasses.
     else if (has_trait("MYOPIC")) {
-        tmp = item(g->itypes["glasses_eye"], 0);
+        tmp = item(itypes["glasses_eye"], 0);
         inv.push_back(tmp);
     }
     // The far-sighted start with reading glasses.
     else if (has_trait("HYPEROPIC")) {
-        tmp = item(g->itypes["glasses_reading"], 0);
+        tmp = item(itypes["glasses_reading"], 0);
         inv.push_back(tmp);
     }
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item(g->itypes["inhaler"], 0);
+        tmp = item(itypes["inhaler"], 0);
         inv.push_back(tmp);
     }
     // Basic starter gear, added independently of profession.
-    tmp = item(g->itypes["pockknife"], 0);
+    tmp = item(itypes["pockknife"], 0);
     inv.push_back(tmp);
-    tmp = item(g->itypes["matches"], 0);
+    tmp = item(itypes["matches"], 0);
     inv.push_back(tmp);
     // make sure we have no mutations
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
@@ -938,7 +938,7 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
             mvwprintz(w_items, 1 + i, 2, c_ltgray, "                                        ");
             if (i < pipo.size()) {
                 // dirty
-                mvwprintz(w_items, 1 + i , 2, c_ltgray, g->itypes[pipo[i]]->name.c_str());
+                mvwprintz(w_items, 1 + i , 2, c_ltgray, itypes[pipo[i]]->name.c_str());
             }
         }
         //TODO: starting_skills, addictions, w/e
