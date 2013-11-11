@@ -102,7 +102,7 @@ public:
     std::string save_info();
     void load_info(std::string data);
     using JsonDeserializer::deserialize;
-    void deserialize(JsonObject &jsobj);
+    void deserialize(JsonIn &jsin);
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
 

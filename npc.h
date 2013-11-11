@@ -148,8 +148,8 @@ public:
 
     using JsonSerializer::serialize;
     using JsonDeserializer::deserialize;
-    void serialize(JsonOut &json) const;
-    void deserialize(JsonObject &jo);
+    void serialize(JsonOut &jsout) const;
+    void deserialize(JsonIn &jsin);
 };
 
 struct npc_personality {

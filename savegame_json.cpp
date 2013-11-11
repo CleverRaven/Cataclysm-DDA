@@ -859,11 +859,12 @@ picojson::value npc_favor::json_save()  {
     return pv( data );
 }
 
-void npc_favor::deserialize(JsonObject &jo)
+void npc_favor::deserialize(JsonIn &jsin)
 {
+    JsonObject jo = jsin.get_object();
     type = npc_favor_type(jo.get_int("type"));
-    value = jo.get_int("value");
-    item_id = jo.get_string("itype_id");
+    jo.read_into("value", value);
+    jo.read_into("itype_id", item_id);
     skill = NULL;
     if (jo.has_int("skill_id")) {
         skill = Skill::skill(jo.get_int("skill_id"));
@@ -1577,19 +1578,18 @@ picojson::value vehicle::json_save( bool save_contents ) {
 
 ////////////////// mission.h
 ////
-void mission::deserialize(JsonObject &jo)
+void mission::deserialize(JsonIn &jsin)
 {
+    JsonObject jo = jsin.get_object();
+
     if (jo.has_member("type_id")) {
         type = &(g->mission_types[jo.get_int("type_id")]);
     }
-    description = jo.get_string("description", description);
-    failed = jo.get_bool("failed", failed);
-    value = jo.get_int("value", value);
-    if (jo.has_object("reward")) {
-        JsonObject rew = jo.get_object("reward");
-        reward.deserialize(rew);
-    }
-    uid = jo.get_int("uid", uid );
+    jo.read_into("description", description);
+    jo.read_into("failed", failed);
+    jo.read_into("value", value);
+    jo.read_into("reward", reward);
+    jo.read_into("uid", uid );
     JsonArray ja = jo.get_array("target");
     if (ja.size() == 2) {
         target.x = ja.get_int(0);
@@ -1597,12 +1597,12 @@ void mission::deserialize(JsonObject &jo)
     }
     follow_up = mission_id(jo.get_int("follow_up", follow_up));
     item_id = itype_id(jo.get_string("item_id", item_id));
-    deadline = jo.get_int("deadline", deadline );
-    step = jo.get_int("step", step );
-    count = jo.get_int("count", count );
-    npc_id = jo.get_int("npc_id", npc_id );
-    good_fac_id = jo.get_int("good_fac_id", good_fac_id );
-    bad_fac_id = jo.get_int("bad_fac_id", bad_fac_id );
+    jo.read_into("deadline", deadline );
+    jo.read_into("step", step );
+    jo.read_into("count", count );
+    jo.read_into("npc_id", npc_id );
+    jo.read_into("good_fac_id", good_fac_id );
+    jo.read_into("bad_fac_id", bad_fac_id );
 }
 
 void mission::serialize(JsonOut &json) const
@@ -1635,28 +1635,30 @@ void mission::serialize(JsonOut &json) const
 
 ////////////////// faction.h
 ////
-void faction::deserialize(JsonObject &jo)
+void faction::deserialize(JsonIn &jsin)
 {
-    id = jo.get_int("id", id);
-    name = jo.get_string("name", name);
+    JsonObject jo = jsin.get_object();
+
+    jo.read_into("id", id);
+    jo.read_into("name", name);
     goal = faction_goal(jo.get_int("goal", goal));
     values = jo.get_int("values", values);
     job1 = faction_job(jo.get_int("job1", job1));
     job2 = faction_job(jo.get_int("job2", job2));
-    likes_u = jo.get_int("likes_u", likes_u);
-    respects_u = jo.get_int("respects_u", respects_u);
-    known_by_u = jo.get_bool("known_by_u", known_by_u);
-    strength = jo.get_int("strength", strength);
-    sneak = jo.get_int("sneak", sneak);
-    crime = jo.get_int("crime", crime);
-    cult = jo.get_int("cult", cult);
-    good = jo.get_int("good", good);
-    omx = jo.get_int("omx", omx);
-    omy = jo.get_int("omy", omy);
-    mapx = jo.get_int("mapx", mapx);
-    mapy = jo.get_int("mapy", mapy);
-    size = jo.get_int("size", size);
-    power = jo.get_int("power", power);
+    jo.read_into("likes_u", likes_u);
+    jo.read_into("respects_u", respects_u);
+    jo.read_into("known_by_u", known_by_u);
+    jo.read_into("strength", strength);
+    jo.read_into("sneak", sneak);
+    jo.read_into("crime", crime);
+    jo.read_into("cult", cult);
+    jo.read_into("good", good);
+    jo.read_into("omx", omx);
+    jo.read_into("omy", omy);
+    jo.read_into("mapx", mapx);
+    jo.read_into("mapy", mapy);
+    jo.read_into("size", size);
+    jo.read_into("power", power);
     if (jo.has_array("opinion_of")) {
         opinion_of = jo.get_int_array("opinion_of");
     }

@@ -441,8 +441,7 @@ bool JsonObject::read_into(const std::string &name, JsonDeserializer &j)
     }
     try {
         jsin->seek(pos);
-        JsonObject jo = jsin->get_object();
-        j.deserialize(jo);
+        j.deserialize(*jsin);
         return true;
     } catch (std::string e) {
         return false;
