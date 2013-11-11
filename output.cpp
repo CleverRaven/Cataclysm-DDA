@@ -348,26 +348,11 @@ int query_int(const char *mes, ...)
     char buff[1024];
     vsprintf(buff, mes, ap);
     va_end(ap);
-    int win_width = utf8_width(buff) + 10;
 
-    WINDOW *w = newwin(3, win_width, (TERMY - 3) / 2,
-                       11 + ((TERMX > win_width) ? (TERMX - win_width) / 2 : 0));
+    std::string raw_input = string_input_popup(std::string(buff));
 
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    mvwprintz(w, 1, 1, c_ltred, _("%s (0-9)"), buff);
-    wrefresh(w);
-
-    int temp;
-    do {
-        temp = getch();
-    } while ((temp - 48) < 0 || (temp - 48) > 9);
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
-
-    return temp - 48;
+    //Note that atoi returns 0 for anything it doesn't like.
+    return atoi(raw_input.c_str());
 }
 
 std::string string_input_popup(std::string title, int width, std::string input, std::string desc,
