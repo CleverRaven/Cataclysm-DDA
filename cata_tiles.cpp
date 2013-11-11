@@ -1034,6 +1034,9 @@ bool cata_tiles::draw_vpart(int x, int y)
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
     bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
+    if (tile_ids->find(vpid) == tile_ids->end()){
+        vpid = "GENERIC_VPART";
+    }
     bool ret = draw_from_id_string(vpid, x, y, subtile, veh_dir);
     if (ret && draw_highlight){
         draw_item_highlight(x, y);
@@ -1054,6 +1057,9 @@ bool cata_tiles::draw_entity(int x, int y)
         {
             ent_name = m.type->id;
             entity_here = true;
+            if (tile_ids->find(ent_name) == tile_ids->end()){
+                ent_name = "GENERIC_MONSTER";
+            }
         }
     }
     // check for NPC (next most common)
