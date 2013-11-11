@@ -260,6 +260,17 @@ public:
     bool has_array(const std::string &name);
     bool has_object(const std::string &name);
 
+    // set values by reference
+    // return true if the value was set, false otherwise.
+    // return false if the member is not found.
+    bool read_into(const std::string &name, bool &b);
+    bool read_into(const std::string &name, int &i);
+    bool read_into(const std::string &name, unsigned int &u);
+    bool read_into(const std::string &name, float &f);
+    bool read_into(const std::string &name, double &d);
+    bool read_into(const std::string &name, std::string &s);
+    bool read_into(const std::string &name, JsonDeserializer &j);
+
     // useful debug info
     std::string line_number(); // for occasional use only
 };
