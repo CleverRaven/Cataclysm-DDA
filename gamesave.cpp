@@ -123,7 +123,7 @@ void game::serialize(std::ofstream & fout) {
 
         std::vector<picojson::value> smdata;
         for (int i = 0; i < coming_to_stairs.size(); i++) {
-            amdata.push_back( coming_to_stairs[i].json_save(true) );
+            smdata.push_back( coming_to_stairs[i].json_save(true) );
         }
         data["stair_monsters"] = pv ( smdata );
 

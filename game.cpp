@@ -10886,7 +10886,7 @@ void game::vertical_move(int movez, bool force) {
 // Check if there are monsters are using the stairs.
     if (!coming_to_stairs.empty()) {
 		// TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
-            add_msg(_("You try to use the stairs. Suddenly you are blocked by a %s!"), coming_to_stairs[1].name().c_str());
+            add_msg(_("You try to use the stairs. Suddenly you are blocked by a %s!"), coming_to_stairs[0].name().c_str());
             update_stair_monsters();
             u.moves -= 100;
             return;
@@ -11004,9 +11004,9 @@ void game::vertical_move(int movez, bool force) {
  for (unsigned int i = 0; i < num_zombies(); i++) {
     monster &z = zombie(i);
     int turns = z.turns_to_reach(this, u.posx, u.posy);
-        if (turns < 999 && coming_to_stairs.size() < 2) {
+        if (turns < 10 && coming_to_stairs.size() < 2 && z.will_reach(this, u.posx, u.posy)) {
             z.onstairs = true;
-            z.staircount = 1 + turns;
+            z.staircount = 10 + turns;
             coming_to_stairs.push_back(z);
             //remove_zombie(i);
         } else {
@@ -11087,8 +11087,7 @@ void game::vertical_move(int movez, bool force) {
 }
 
 
-void game::update_map(int &x, int &y)
-{
+void game::update_map(int &x, int &y) {
  int shiftx = 0, shifty = 0;
  int olevx = 0, olevy = 0;
  while (x < SEEX * int(MAPSIZE / 2)) {
@@ -11132,7 +11131,7 @@ void game::update_map(int &x, int &y)
 
  // Shift monsters if we're actually shifting
  if(shiftx || shifty)
-    despawn_monsters(false, shiftx, shifty);
+    despawn_monsters(shiftx, shifty);
 
  // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
@@ -11298,7 +11297,7 @@ void game::update_stair_monsters() {
                     found_stairs = true;
                     int mposx = sx, mposy = sy;
 
-                    coming_to_stairs[i].staircount -= 50;
+                    coming_to_stairs[i].staircount -= 4;
 
                     if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
                         coming_to_stairs[i].setpos(mposx, mposy, true);
@@ -11351,7 +11350,7 @@ void game::force_save_monster(monster &z) {
     tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
 }
 
-void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
+void game::despawn_monsters(const int shiftx, const int shifty)
 {
     for (unsigned int i = 0; i < num_zombies(); i++) {
         monster &z = zombie(i);
@@ -11359,22 +11358,12 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
         if(shiftx != 0 || shifty != 0) {
             z.shift(shiftx, shifty);
             if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
-                    z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE
-                    && !stairs) {
+                    z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE) {
                 // We're inbounds, so don't despawn after all.
-                // Or we were taking stairs.
                 continue;
             } else {
-                if (stairs && z.will_reach(this, u.posx, u.posy)) {
-                    int turns = z.turns_to_reach(this, u.posx, u.posy);
-                    if (turns < 999 && coming_to_stairs.size() < 2) {
-                        z.onstairs = true;
-                        z.staircount = turns + 1;
-                        coming_to_stairs.push_back(z);
-                    }
-                }
-                else if ( (z.spawnmapx != -1) || z.getkeep() ||
-                          ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
+                if ( (z.spawnmapx != -1) || z.getkeep() ||
+                          ((shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
                     // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
                     real_coords rc( m.getabs(z.posx(), z.posy() ) ); // still madness, bud handles straddling omap and -/+
                     z.spawnmapx = rc.om_sub.x;

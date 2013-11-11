@@ -1134,6 +1134,8 @@ bool monster::json_load(picojson::value parsed)
     picoint(data, "anger", anger);
     picoint(data, "morale", morale);
     picobool(data, "hallucination", hallucination);
+    picoint(data, "onstairs", onstairs);
+    picoint(data, "staircount", staircount);
 
     plans.clear();
     picojson::object::const_iterator pvplans_it = data.find("plans");
@@ -1197,6 +1199,8 @@ picojson::value monster::json_save(bool save_contents)
     data["anger"] = pv(anger);
     data["morale"] = pv(morale);
     data["hallucination"] = pv(hallucination);
+    data["onstairs"] = pv(onstairs);
+    data["stairscount"] = pv(staircount);
 
     if ( plans.size() > 0 ) {
         std::vector<picojson::value> pvplans;
@@ -1321,6 +1325,7 @@ bool item::json_load(picojson::value & parsed, game * g)
         light.width = (short)tmpwidth;
         light.direction = (short)tmpdir;
     }
+
 
     picojson::object::iterator pcontfind = data.find("contents");
     if ( pcontfind != data.end() && pcontfind->second.is<picojson::array>()) {

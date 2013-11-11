@@ -515,7 +515,7 @@ class game
 // Map updating and monster spawning
   void replace_stair_monsters();
   void update_stair_monsters();
-  void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
+  void despawn_monsters(const int shiftx = 0, const int shifty = 0);
   void force_save_monster(monster &z);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
