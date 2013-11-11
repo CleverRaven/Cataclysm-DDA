@@ -501,7 +501,7 @@ class game
   void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
-  
+
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
 // returns a Bresenham line to that square.  It is called by plfire() and
@@ -514,6 +514,7 @@ class game
   void replace_stair_monsters();
   void update_stair_monsters();
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
+  void force_save_monster(monster &z);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);

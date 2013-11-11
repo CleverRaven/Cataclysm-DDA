@@ -3092,6 +3092,13 @@ void game::debug()
                 active_npc[i]->posy %= SEEY;
             }
             active_npc.clear();
+            // Save monsters.
+             for (unsigned int i = 0; i < num_zombies(); i++) {
+                monster &z = zombie(i);
+                force_save_monster(zombie(i));
+                remove_zombie(i);
+                i--;
+             }
             clear_zombies();
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
@@ -10987,8 +10994,17 @@ void game::vertical_move(int movez, bool force)
   monstairy = levy;
   monstairz = levz;
  }
- // Despawn monsters, only push them onto the stair monster list if we're taking stairs.
- despawn_monsters( abs(movez) == 1 && !force );
+ // Make sure monsters are saved!
+ for (unsigned int i = 0; i < num_zombies(); i++) {
+    monster &z = zombie(i);
+    int turns = z.turns_to_reach(this, u.posx, u.posy);
+        if (turns < 999) {
+            coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
+        } else {
+            force_save_monster(i);
+        }
+        remove_zombie(i);
+}
  clear_zombies();
 
 // Figure out where we know there are up/down connectors
@@ -11300,6 +11316,19 @@ void game::update_stair_monsters()
  }
 }
 
+void game::force_save_monster(monster &z) {
+    real_coords rc( m.getabs(z.posx(), z.posy() ) );
+    z.spawnmapx = rc.om_sub.x;
+    z.spawnmapy = rc.om_sub.y;
+    z.spawnposx = rc.sub_pos.x;
+    z.spawnposy = rc.sub_pos.y;
+
+    tinymap tmp(&traps);
+    tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
+    tmp.add_spawn(&z);
+    tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
+}
+
 void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
 {
     for (unsigned int i = 0; i < num_zombies(); i++)
@@ -11310,9 +11339,11 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
         {
             z.shift(shiftx, shifty);
             if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
-                    z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE )
+                    z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE
+                    && !stairs)
             {
                 // We're inbounds, so don't despawn after all.
+                // Or we were taking stairs.
                 continue;
             }
             else
