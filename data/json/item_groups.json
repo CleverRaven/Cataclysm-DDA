@@ -808,6 +808,7 @@
       ["hamburger", 30],
       ["bacon", 25],
       ["cheese", 30],
+      ["restaurantmap", 5],
       ["noodles_fast", 30]
     ]
   },{
@@ -843,6 +844,7 @@
       ["coffee_raw", 15],
       ["coffee_raw", 15],
       ["choco_coffee_beans", 10],
+      ["restaurantmap", 5],
       ["salt", 10]
     ]
   },{
@@ -866,6 +868,7 @@
       ["mp3", 18],
       ["portable_game", 8],
       ["roadmap", 40],
+      ["restaurantmap", 20],
       ["money_bundle", 55],
       ["gum", 30],
       ["caff_gum", 10],
@@ -3971,6 +3974,7 @@
       ["atomic_coffeepot", 5],
       ["pda", 3],
       ["id_military", 3],
+      ["militarymap", 3],
       ["bayonet", 10],
       ["pistol_bayonet", 4],
       ["rope_30", 35],
@@ -4407,6 +4411,7 @@
       ["fungicide", 3],
       ["flaregun", 20],
       ["signal_flare", 25],
+      ["militarymap", 4],
       ["quikclot", 20]
     ]
   },{
@@ -4491,6 +4496,7 @@
       ["fetus", 1],
       ["id_science", 2],
       ["id_military", 3],
+      ["militarymap", 2],
       ["dump_pouch", 10],
       ["electrohack", 3],
       ["processor", 15],
