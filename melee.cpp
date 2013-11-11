@@ -477,6 +477,7 @@ int player::dodge(game *g)
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
 	if (has_trait("TAIL_LIZARD")) {ret+= 2;}
+	if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
     if (has_trait("WINGS_BAT")) {ret -= 3;}
@@ -1338,6 +1339,25 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
                                      name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s kicks %s with her hooves!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+	
+    if (has_trait("RAP_TALONS") && one_in(30 - dex_cur - 2 * skillLevel("unarmed"))) {
+        special_attack tmp;
+        tmp.cut = str_cur * 4;
+        if (tmp.cut > 60) {
+            tmp.cut = 60;
+        }
+        if (is_u) {
+            tmp.text = string_format(_("You slash %s with a talon!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s slash %s with a talon!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s slash %s with a talon!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
