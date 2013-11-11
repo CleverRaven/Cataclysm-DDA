@@ -280,5 +280,30 @@ const std::string multitile_keys[] =
     toString(open),
     toString(broken)
 };
+const std::string generic_tile_keys[] =
+{
+    "GENERIC_MONSTER",
+    "GENERIC_TERRAIN",
+    "GENERIC_FURNITURE",
+    "GENERIC_TRAP",
+    "GENERIC_FIELD",
+    "GENERIC_VPART",
+    "GENERIC_ITEM",
+    "GENERIC_ITEM_FOOD",
+    "GENERIC_ITEM_DRINK",
+    "GENERIC_ITEM_BASH_WEAPON",
+    "GENERIC_ITEM_CUT_WEAPON",
+    "GENERIC_ITEM_GUN",
+    "GENERIC_ITEM_GUNMOD",
+    "GENERIC_ITEM_AMMO",
+    "GENERIC_ITEM_ARMOR",
+    "GENERIC_ITEM_BOOK",
+    "GENERIC_ITEM_CONTAINER",
+    "GENERIC_ITEM_TOOL",
+    "GENERIC_ITEM_STATIONARY",
+    "GENERIC_ITEM_VEH_PART",
+    "GENERIC_ITEM_ARTIFACT",
+    "GENERIC_ITEM_BIONIC"
+};
 
 #endif // TILE_ID_DATA

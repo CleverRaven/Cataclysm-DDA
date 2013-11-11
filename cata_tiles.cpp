@@ -364,6 +364,30 @@ void cata_tiles::load_tilejson_from_file(std::ifstream *f)
         }
         (*tile_ids)[t_id] = curr_tile;
     }
+    // 3) Load generic tile data
+    if (config.has_member("Generic_Tiles") && config.has_array("Generic_Tiles")){
+        JsonArray gen_tiles = config.get_array("Generic_Tiles");
+        while (gen_tiles.has_more()){
+            JsonObject jo = gen_tiles.next_object();
+
+            tile_type *curr_tile = new tile_type();
+            std::string t_id = entry.get_string("id");
+            t_id = "GENERIC_"+t_id;
+            int t_fg = entry.get_int("fg", -1);
+            int t_bg = entry.get_int("bg", -1);
+
+            // write the information of the base tile to curr_tile
+            curr_tile->bg = t_bg;
+            curr_tile->fg = t_fg;
+            curr_tile->multitile = false;
+            curr_tile->rotates = false;
+
+            if (!tile_ids) {
+                tile_ids = new tile_id_map;
+            }
+            (*tile_ids)[t_id] = curr_tile;
+        }
+    }
     DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids->size() << "\n";
 }
 
@@ -806,6 +830,10 @@ bool cata_tiles::draw_terrain(int x, int y)
 
     tname = terlist[t].id;
 
+    if (tile_ids->find(tname) == tile_ids->end()){
+        tname = "GENERIC_TERRAIN";
+    }
+
     return draw_from_id_string(tname, x, y, subtile, rotation);
 }
 
@@ -831,6 +859,10 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
+    if (tile_ids->find(f_name) == tile_ids->end()){
+        f_name = "GENERIC_FURNITURE";
+    }
+
     bool ret = draw_from_id_string(f_name, x, y, subtile, rotation);
     if (ret && g->m.i_at(x, y).size() > 0){
         draw_item_highlight(x, y);
@@ -855,6 +887,11 @@ bool cata_tiles::draw_trap(int x, int y)
 
     int subtile = 0, rotation = 0;
     get_tile_values(tr_id, neighborhood, subtile, rotation);
+
+    if (tile_ids->find(tr_name) == tile_ids->end()){
+        tr_name = "GENERIC_TRAP";
+    }
+
 
     return draw_from_id_string(tr_name, x, y, subtile, rotation);
 }
@@ -909,6 +946,10 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         int subtile = 0, rotation = 0;
         get_tile_values(f.fieldSymbol(), neighborhood, subtile, rotation);
 
+        if (tile_ids->find(fd_name) == tile_ids->end()){
+            fd_name = "GENERIC_FIELD";
+        }
+
         ret_draw_field = draw_from_id_string(fd_name, x, y, subtile, rotation);
     }
     if(do_item){
@@ -919,6 +960,41 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         item display_item = items[items.size() - 1];
         // get the item's name, as that is the key used to find it in the map
         std::string it_name = display_item.type->id;
+        if (tile_ids->find(it_name) == tile_ids->end()){
+            it_name = "GENERIC_ITEM";
+            if (display_item.is_food()){
+                it_name += "_FOOD";
+            }else if (display_item.is_drink()){
+                it_name += "_DRINK";
+            }else if (display_item.is_bashing_weapon()){
+                it_name += "_BASH_WEAPON";
+            }else if (display_item.is_cutting_weapon()){
+                it_name += "_CUT_WEAPON";
+            }else if (display_item.is_gun()){
+                it_name += "_GUN";
+            }else if (display_item.is_gunmod()){
+                it_name += "_GUNMOD";
+            }else if (display_item.is_ammo()){
+                it_name += "_AMMO";
+            }else if (display_item.is_armor()){
+                it_name += "_ARMOR";
+            }else if (display_item.is_book()){
+                it_name += "_BOOK";
+            }else if (display_item.is_container()){
+                it_name += "_CONTAINER";
+            }else if (display_item.is_tool()){
+                it_name += "_TOOL";
+            }else if (display_item.is_stationary()){
+                it_name += "_STATIONARY";
+            }else if (display_item.is_var_veh_part()){
+                it_name += "_VEH_PART";
+            }else if (display_item.is_artifact()){
+                it_name += "_ARTIFACT";
+            }else if (display_item.is_bionic()){
+                it_name += "_BIONIC";
+            }
+        }
+
         ret_draw_item = draw_from_id_string(it_name, x, y, 0, 0);
         if (ret_draw_item && items.size() > 1){
             draw_item_highlight(x, y);
