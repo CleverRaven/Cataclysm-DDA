@@ -11336,7 +11336,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
                     z.spawnposy = rc.sub_pos.y;
 
                     // We're saving him, so there's no need to keep anymore.
-                    z.setkeep = false;
+                    z.setkeep(false);
 
                     tinymap tmp(&traps);
                     tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
@@ -11359,7 +11359,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
                     }
                 }
                 // Check if we should keep him.
-                if !(z.getkeep()) {
+                if (!z.getkeep()) {
                     remove_zombie(i);
                     i--;
                 }
