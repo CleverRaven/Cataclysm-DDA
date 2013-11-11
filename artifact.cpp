@@ -798,6 +798,8 @@ void load_artifacts(const std::string &artfilename, itypemap &itypes)
 
 void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
 {
+    // delete current artefact ids
+    artifact_itype_ids.clear();
     // read and create artifacts from json array in artifacts.gsav
     JsonIn artifact_json(f);
     artifact_json.start_array();
