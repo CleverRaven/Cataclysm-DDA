@@ -419,7 +419,7 @@ void vehicle::use_controls()
     }
 
     options_choice.push_back(control_cancel);
-    options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
+    options_message.push_back(uimenu_entry(_("Do nothing"), '^'));
 
     uimenu selectmenu;
     selectmenu.text = _("Vehicle controls");
