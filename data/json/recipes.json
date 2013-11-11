@@ -5596,7 +5596,8 @@
       [ "powder_eggs", 5 ]
     ],
     [
-      [ "meat", 2 ]
+      [ "meat", 2 ],
+      [ "dry_meat", 2]
     ]
   ]
 },{
