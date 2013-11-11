@@ -5612,7 +5612,7 @@ int iuse::artifact(game *g, player *p, item *it, bool t)
     bug = "mon_wasp";
     num = rng(1, 2);
    }
-   if (bug != mon_null) {
+   if (bug != "mon_null") {
     monster spawned(GetMType(bug));
     spawned.friendly = -1;
     for (int j = 0; j < num && !empty.empty(); j++) {
