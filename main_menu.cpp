@@ -347,7 +347,7 @@ bool game::opening_screen()
                         }
                         werase(w_background);
                         wrefresh(w_background);
-
+                        itypes.clear();
                         load_artifacts(world->world_path + "/artifacts.gsav",
                                        itypes);
                         MAPBUFFER.load(world->world_name);
@@ -512,6 +512,7 @@ bool game::opening_screen()
                             delwin(w_open);
                             return (opening_screen());
                         }
+                        itypes.clear();
                         load_artifacts(world->world_path + "/artifacts.gsav",
                                        itypes);
                         MAPBUFFER.load(world->world_name);
@@ -557,7 +558,7 @@ bool game::opening_screen()
                         wrefresh(w_background);
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(world);
-
+                        itypes.clear();
                         load_artifacts(world->world_path + "/artifacts.gsav",
                                        itypes);
                         MAPBUFFER.load(world->world_name);

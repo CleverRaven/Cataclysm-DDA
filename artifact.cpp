@@ -501,7 +501,7 @@ itype* new_artifact(itypemap &itypes)
    art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
 
   art->id = itypes.size();
-  
+
   itypes[art->id]=art;
   artifact_itype_ids.push_back(art->id);
   return art;
