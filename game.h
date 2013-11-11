@@ -286,7 +286,6 @@ class game
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
-  std::map<std::string, itype*> itypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions

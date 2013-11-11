@@ -3762,7 +3762,7 @@ case ot_lmoe_under:
     tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
     add_trap(19, 19, tr_dissector);
     item body;
-    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+    body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
     if (one_in(2))add_item(1, 1, body);
     else add_spawn("mon_zombie_shrieker", 1, 1, 1);
     if (one_in(2))add_item(9, 3, body);
@@ -4024,7 +4024,7 @@ case ot_lmoe_under:
       else if (this->furn(i,j) == f_locker)
           place_items("science", 60,  i,  j, i,  j, false, 0);
       item body;
-      body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+      body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
       if (one_in(500) && this->ter(i,j) == t_rock_floor)add_item(i, j, body);
       }
      }
@@ -4079,7 +4079,7 @@ A......D.........|dh...|\n\
          place_items("mine_equipment", 30,  i,  j, i,  j, false, 0);
      if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn("mon_zombie", 1, i, j);
      item body;
-     body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+     body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
      if (one_in(500) && this->ter(i,j) == t_rock_floor)add_item(i, j, body);
      }
     }
@@ -4123,7 +4123,7 @@ ff.......|....|WWWWWWWW|\n\
     }
    }
    item body;
-   body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+   body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
    add_item(17, 15, body);
    add_item(8, 3, body);
    add_item(10, 3, body);
@@ -4166,7 +4166,7 @@ ff.......|....|WWWWWWWW|\n\
        }
        if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn("mon_zombie", 1, i, j);
        item body;
-       body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+       body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
        if (one_in(400) && this->ter(i,j) == t_rock_floor) add_item(i, j, body);
       }
      }
@@ -4636,7 +4636,7 @@ ff.......|....|WWWWWWWW|\n\
      add_spawn("mon_zombie_soldier", 1, rnx, rny);
     else if (one_in(2)) {
      item body;
-     body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+     body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
      add_item(rnx, rny, body);
      place_items("launchers",  10, rnx, rny, rnx, rny, true, 0);
      place_items("mil_rifles", 30, rnx, rny, rnx, rny, true, 0);
@@ -4945,8 +4945,8 @@ ff.......|....|WWWWWWWW|\n\
   square(this, t_rock_floor, SEEX - 1, 1, SEEX + 2, 4);
   square(this, t_rock_floor, SEEX, 5, SEEX + 1, SEEY * 2 - 1);
   line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
-  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), new_artifact(g->itypes), 0);
-  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), new_artifact(g->itypes), 0);
+  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), new_artifact(itypes), 0);
+  spawn_artifact(rng(SEEX, SEEX + 1), rng(2, 3), new_artifact(itypes), 0);
   return;
 
  case ot_sewage_treatment:
@@ -5350,7 +5350,7 @@ ff.......|....|WWWWWWWW|\n\
       } while (body.x == -1 && tries < 10);
       if (tries < 10) {
        item miner;
-       miner.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+       miner.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
        add_item(body.x, body.y, miner);
        place_items("mine_equipment", 60, body.x, body.y, body.x, body.y,
                    false, 0);
@@ -5398,7 +5398,7 @@ ff.......|....|WWWWWWWW|\n\
      line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
      ter_set(orx + 3, ory + 3, t_rock);
      item miner;
-     miner.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+     miner.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
      add_item(orx + 2, ory + 3, miner);
      place_items("mine_equipment", 60, orx + 2, ory + 3, orx + 2, ory + 3,
                  false, 0);
@@ -5563,7 +5563,7 @@ ff.......|....|WWWWWWWW|\n\
 
    case 2: { // The Thing dog
     item miner;
-    miner.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+    miner.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
     int num_bodies = rng(4, 8);
     for (int i = 0; i < num_bodies; i++) {
      int x = rng(4, SEEX * 2 - 5), y = rng(4, SEEX * 2 - 5);
@@ -5571,7 +5571,7 @@ ff.......|....|WWWWWWWW|\n\
      place_items("mine_equipment", 60, x, y, x, y, false, 0);
     }
     add_spawn("mon_dog_thing", 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
-    spawn_artifact(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), new_artifact(g->itypes), 0);
+    spawn_artifact(rng(SEEX, SEEX + 1), rng(SEEY, SEEY + 1), new_artifact(itypes), 0);
    } break;
 
    case 3: { // Spiral down
@@ -8259,7 +8259,7 @@ case ot_haz_sar_entrance_b1:{
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+                body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
             else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
@@ -8329,7 +8329,7 @@ case ot_haz_sar_b1:{
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+                body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
             else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
@@ -8393,7 +8393,7 @@ case ot_haz_sar_b1:{
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+                body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
             else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
@@ -8463,7 +8463,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         if (this->ter(i,j) == t_rock_floor){
             if (one_in(250)){
                 item body;
-                body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+                body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
                 add_item(i, j, body);
                 place_items("science",  70, i, j, i, j, true, 0);}
             else if (one_in(80))add_spawn("mon_zombie", 1, i, j);
@@ -8533,7 +8533,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 case 3:
                     // bat corpses
                     for (int i = rng(1,12); i < 0; i--) {
-                        body.make_corpse(g->itypes["corpse"], GetMType("mon_bat"), g->turn);
+                        body.make_corpse(itypes["corpse"], GetMType("mon_bat"), g->turn);
                         add_item(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                     }
                     break;
@@ -8552,7 +8552,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     for (int ii = 0; ii < bloodline.size(); ii++) {
                         add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
                     }
-                    body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+                    body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
                     add_item(hermx, hermy, body);
                     // This seems verbose.  Maybe a function to spawn from a list of item groups?
                     place_items("stash_food", 50, hermx-1, hermy-1, hermx+1, hermy+1, true, 0);
@@ -9937,7 +9937,7 @@ case ot_farm_field:
   rn = rng(10, 15);
   for (int i = 0; i < rn; i++) {
    item body;
-   body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+   body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
    int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
    if (ter(zx, zy) == t_bed || one_in(3))
     add_item(zx, zy, body);
@@ -10266,7 +10266,7 @@ case ot_farm_field:
   rn = rng(15, 20);
   for (int i = 0; i < rn; i++) {
    item body;
-   body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+   body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
    int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
    if (move_cost(zx, zy) > 0) {
      if (furn(zx, zy) == f_bed || one_in(3)) {
@@ -11937,7 +11937,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
 
 void map::place_gas_pump(int x, int y, int charges)
 {
- item gas(g->itypes["gasoline"], 0);
+ item gas(itypes["gasoline"], 0);
  gas.charges = charges;
  add_item(x, y, gas);
  ter_set(x, y, t_gas_pump);
@@ -11945,7 +11945,7 @@ void map::place_gas_pump(int x, int y, int charges)
 
 void map::place_toilet(int x, int y, int charges)
 {
-    item water(g->itypes["water"], 0);
+    item water(itypes["water"], 0);
     water.charges = charges;
     add_item(x, y, water);
     furn_set(x, y, f_toilet);
@@ -13743,7 +13743,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2)
 void map::add_extra(map_extra type, game *g)
 {
  item body;
- body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+ body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
 
  switch (type) {
 
@@ -14103,7 +14103,7 @@ void map::add_extra(map_extra type, game *g)
   artifact_natural_property prop =
    artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
   create_anomaly(center.x, center.y, prop);
-  spawn_artifact(center.x, center.y, new_natural_artifact(g->itypes, prop), 0);
+  spawn_artifact(center.x, center.y, new_natural_artifact(itypes, prop), 0);
  } break;
 
  default: break;
@@ -14286,7 +14286,7 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad)
 void add_corpse(game *g, map *m, int x, int y)
 {
  item body;
- body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), 0);
+ body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
  m->add_item_or_charges(x, y, body);
  m->put_items_from("shoes",  1, x, y, 0, 0, 0);
  m->put_items_from("pants",  1, x, y, 0, 0, 0);
