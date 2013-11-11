@@ -3901,12 +3901,17 @@ int iuse::firecracker_act(game *g, player *p, item *it, bool t)
 
 int iuse::mininuke(game *g, player *p, item *it, bool t)
 {
+ int time = query_int(_("Set the timer to (0 to cancel)?"));
+ if (time == 0) {
+  g->add_msg_if_player(p,"Never mind.");
+  return 0;
+ }
+ g->add_msg_if_player(p,_("You set the timer to %d."), time);
  if(!p->is_npc()) {
    p->add_memorial_log(_("Activated a mininuke."));
  }
- g->add_msg_if_player(p,_("You activate the mininuke."));
  it->make(g->itypes["mininuke_act"]);
- it->charges = 10;
+ it->charges = time;
  it->active = true;
  return it->type->charges_to_use();
 }
