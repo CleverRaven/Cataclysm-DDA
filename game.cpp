@@ -2729,7 +2729,7 @@ void game::save_artifacts()
 {
     std::ofstream fout;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
-    fout.open(artfilename.c_str(), ios_base::trunc);
+    fout.open(artfilename.c_str(), std::ofstream::trunc);
     JsonOut json(&fout);
     json.start_array();
     for ( std::vector<std::string>::iterator it =
