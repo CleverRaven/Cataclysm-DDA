@@ -20,7 +20,6 @@ enum trap_id {
  tr_fur_rollmat,
  tr_beartrap,
  tr_beartrap_buried,
- tr_snare,
  tr_nailboard,
  tr_caltrops,
  tr_tripwire,
