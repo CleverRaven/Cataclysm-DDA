@@ -74,6 +74,8 @@ enum quit_status {
  QUIT_ERROR
 };
 
+// Refactoring into base monster class.
+
 struct monster_and_count
 {
  monster mon;
@@ -127,7 +129,7 @@ class game
   void decrease_nextinv(); // Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
   void add_msg_string(const std::string &s);
-  void add_msg(const char* msg, ...);
+    void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_if_npc(player* p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
@@ -305,7 +307,7 @@ class game
   map m;
   int levx, levy, levz; // Placement inside the overmap
   player u;
-  std::vector<monster_and_count> coming_to_stairs;
+  std::vector<monster> coming_to_stairs;
   int monstairx, monstairy, monstairz;
   std::vector<npc *> active_npc;
   std::vector<faction> factions;

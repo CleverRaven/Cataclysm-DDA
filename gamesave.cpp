@@ -121,6 +121,12 @@ void game::serialize(std::ofstream & fout) {
         }
         data["active_monsters"] = pv( amdata );
 
+        std::vector<picojson::value> smdata;
+        for (int i = 0; i < coming_to_stairs.size(); i++) {
+            amdata.push_back( coming_to_stairs[i].json_save(true) );
+        }
+        data["stair_monsters"] = pv ( smdata );
+
         // save killcounts.
         std::map<std::string, picojson::value> killmap;
         for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
@@ -255,6 +261,14 @@ void game::unserialize(std::ifstream & fin) {
                 montmp.json_load(*pit);
                 montmp.setkeep(true);
                 add_zombie(montmp);
+            }
+
+            picojson::array * sdata = pgetarray(pdata,"stair_monsters");
+            coming_to_stairs.clear();
+            monster stairtmp;
+            for( picojson::array::iterator pit = sdata->begin(); pit != sdata->end(); ++pit) {
+                stairtmp.json_load(*pit);
+                coming_to_stairs.push_back(stairtmp);
             }
 
             picojson::object * odata = pgetmap(pdata,"kills");

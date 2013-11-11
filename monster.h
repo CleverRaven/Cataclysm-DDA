@@ -226,6 +226,11 @@ class monster {
  inline int posy() const { return _posy; }
 
  short ignoring;
+
+ // Stair data.
+ bool onstairs;
+ int staircount;
+
 private:
  std::vector <point> plans;
  int _posx, _posy;

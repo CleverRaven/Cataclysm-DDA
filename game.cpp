@@ -10882,8 +10882,16 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
     }
 }
 
-void game::vertical_move(int movez, bool force)
-{
+void game::vertical_move(int movez, bool force) {
+// Check if there are monsters are using the stairs.
+    if (!coming_to_stairs.empty()) {
+		// TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
+            add_msg(_("You try to use the stairs. Suddenly you are blocked by a %s!"), coming_to_stairs[1].name().c_str());
+            update_stair_monsters();
+            u.moves -= 100;
+            return;
+    }
+
 // > and < are used for diving underwater.
  if (m.move_cost(u.posx, u.posy) == 0 && m.has_flag("SWIMMABLE", u.posx, u.posy)){
   if (movez == -1) {
@@ -10996,13 +11004,16 @@ void game::vertical_move(int movez, bool force)
  for (unsigned int i = 0; i < num_zombies(); i++) {
     monster &z = zombie(i);
     int turns = z.turns_to_reach(this, u.posx, u.posy);
-        if (turns < 999) {
-            coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
+        if (turns < 999 && coming_to_stairs.size() < 2) {
+            z.onstairs = true;
+            z.staircount = 1 + turns;
+            coming_to_stairs.push_back(z);
+            //remove_zombie(i);
         } else {
-            force_save_monster(zombie(i));
+            force_save_monster(z);
         }
-        remove_zombie(i);
 }
+ despawn_monsters();
  clear_zombies();
 
 // Figure out where we know there are up/down connectors
@@ -11257,61 +11268,74 @@ point game::om_location()
 
 void game::replace_stair_monsters()
 {
- for (int i = 0; i < coming_to_stairs.size(); i++)
-  add_zombie(coming_to_stairs[i].mon);
+ for (int i = 0; i < coming_to_stairs.size(); i++) {
+    coming_to_stairs[i].onstairs = false;
+    coming_to_stairs[i].staircount = 0;
+    add_zombie(coming_to_stairs[i]);
+ }
  coming_to_stairs.clear();
 }
 
 //TODO: abstract out the location checking code
 //TODO: refactor so zombies can follow up and down stairs instead of this mess
-void game::update_stair_monsters()
-{
- if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
-  return;
+void game::update_stair_monsters() {
+    if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
+        return;
 
- for (int i = 0; i < coming_to_stairs.size(); i++) {
-  coming_to_stairs[i].count--;
-  if (coming_to_stairs[i].count <= 0) {
-   int startx = rng(0, SEEX * MAPSIZE - 1), starty = rng(0, SEEY * MAPSIZE - 1);
-   bool found_stairs = false;
-   for (int x = 0; x < SEEX * MAPSIZE && !found_stairs; x++) {
-    for (int y = 0; y < SEEY * MAPSIZE && !found_stairs; y++) {
-     int sx = (startx + x) % (SEEX * MAPSIZE),
-         sy = (starty + y) % (SEEY * MAPSIZE);
-     if (m.has_flag("GOES_UP", sx, sy) || m.has_flag("GOES_DOWN", sx, sy)) {
-      found_stairs = true;
-      int mposx = sx, mposy = sy;
-      int tries = 0;
-      while (!is_empty(mposx, mposy) && tries < 10) {
-       mposx = sx + rng(-2, 2);
-       mposy = sy + rng(-2, 2);
-       tries++;
-      }
-      if (tries < 10) {
-       coming_to_stairs[i].mon.setpos(mposx, mposy, true);
-       add_zombie( coming_to_stairs[i].mon );
-       if (u_see(sx, sy)) {
-        if (m.has_flag("GOES_UP", sx, sy)) {
-            add_msg(_("A %s comes down the %s!"), coming_to_stairs[i].mon.name().c_str(),
-                m.tername(sx, sy).c_str());
-        } else {
-            add_msg(_("A %s comes up the %s!"), coming_to_stairs[i].mon.name().c_str(),
-                m.tername(sx, sy).c_str());
+
+    for (int i = 0; i < coming_to_stairs.size(); i++)
+    {
+        int startx = rng(0, SEEX * MAPSIZE - 1), starty = rng(0, SEEY * MAPSIZE - 1);
+        bool found_stairs = false;
+        for (int x = 0; x < SEEX * MAPSIZE && !found_stairs; x++)
+        {
+            for (int y = 0; y < SEEY * MAPSIZE && !found_stairs; y++)
+            {
+                int sx = (startx + x) % (SEEX * MAPSIZE),
+                    sy = (starty + y) % (SEEY * MAPSIZE);
+
+                if (m.has_flag("GOES_UP", sx, sy) || m.has_flag("GOES_DOWN", sx, sy)) {
+                    found_stairs = true;
+                    int mposx = sx, mposy = sy;
+
+                    coming_to_stairs[i].staircount -= 50;
+
+                    if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
+                        coming_to_stairs[i].setpos(mposx, mposy, true);
+                        coming_to_stairs[i].onstairs = false;
+                        coming_to_stairs[i].staircount = false;
+                        add_zombie(coming_to_stairs[i]);
+                        if (u_see(sx, sy)) {
+                            if (m.has_flag("GOES_UP", sx, sy)) {
+                                add_msg(_("A %s comes down the %s!"), coming_to_stairs[i].name().c_str(),
+                                        m.tername(sx, sy).c_str());
+                            }
+                            else {
+                                add_msg(_("A %s comes up the %s!"), coming_to_stairs[i].name().c_str(),
+                                        m.tername(sx, sy).c_str());
+                            }
+                        }
+                    }
+                    else {
+                        return;
+                        // Let the player know zombies are trying to come.
+                        sound(sx, sy, 5, _("something on the stairs!"));
+                        if (u_see(sx, sy))
+                        {
+                            add_msg(_("You see a %s on the stairs!"), coming_to_stairs[i].name().c_str());
+                        }
+                    }
+                }
+            }
         }
-       }
-      }
-     }
+        coming_to_stairs.erase(coming_to_stairs.begin() + i);
+        i--;
     }
-   }
-   coming_to_stairs.erase(coming_to_stairs.begin() + i);
-   i--;
-  }
- }
- if (coming_to_stairs.empty()) {
-  monstairx = -1;
-  monstairy = -1;
-  monstairz = 999;
- }
+    if (coming_to_stairs.empty()) {
+        monstairx = -1;
+        monstairy = -1;
+        monstairz = 999;
+    }
 }
 
 void game::force_save_monster(monster &z) {
@@ -11329,34 +11353,28 @@ void game::force_save_monster(monster &z) {
 
 void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
 {
-    for (unsigned int i = 0; i < num_zombies(); i++)
-    {
+    for (unsigned int i = 0; i < num_zombies(); i++) {
         monster &z = zombie(i);
         // If either shift argument is non-zero, we're shifting.
-        if(shiftx != 0 || shifty != 0)
-        {
+        if(shiftx != 0 || shifty != 0) {
             z.shift(shiftx, shifty);
             if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
                     z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE
-                    && !stairs)
-            {
+                    && !stairs) {
                 // We're inbounds, so don't despawn after all.
                 // Or we were taking stairs.
                 continue;
-            }
-            else
-            {
-                if (stairs && z.will_reach(this, u.posx, u.posy))
-                {
+            } else {
+                if (stairs && z.will_reach(this, u.posx, u.posy)) {
                     int turns = z.turns_to_reach(this, u.posx, u.posy);
-                    if (turns < 999)
-                    {
-                        coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
+                    if (turns < 999 && coming_to_stairs.size() < 2) {
+                        z.onstairs = true;
+                        z.staircount = turns + 1;
+                        coming_to_stairs.push_back(z);
                     }
                 }
                 else if ( (z.spawnmapx != -1) || z.getkeep() ||
-                          ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) )
-                {
+                          ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
                     // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
                     real_coords rc( m.getabs(z.posx(), z.posy() ) ); // still madness, bud handles straddling omap and -/+
                     z.spawnmapx = rc.om_sub.x;
