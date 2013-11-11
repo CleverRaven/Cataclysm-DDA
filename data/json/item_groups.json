@@ -2610,6 +2610,7 @@
       ["essay_book", 6],
       ["poetry_book", 6],
       ["philosophy_book", 2],
+      ["survivormap", 1],
       ["pocketwatch", 10]
     ]
   },{
@@ -3011,6 +3012,7 @@
       ["sm_extinguisher", 10],
       ["flaregun", 5],
       ["signal_flare", 10],
+      ["survivormap", 1],
       ["pur_tablets", 5]
     ]
   },{
@@ -3701,6 +3703,7 @@
       ["sm_extinguisher", 10],
       ["flaregun", 20],
       ["signal_flare", 25],
+      ["survivormap", 1],
       ["charcoal", 5]
     ]
   },{
@@ -4023,6 +4026,7 @@
       ["pocketwatch", 5],
       ["child_book", 20],
       ["e_tool", 10],
+      ["survivormap", 5],
       ["pur_tablets", 10]
     ]
   },{
@@ -4070,6 +4074,7 @@
       ["rock", 40],
       ["stick", 95],
       ["bio_metabolics", 10],
+      ["survivormap", 1],
       ["bio_blaster", 10]
     ]
   },{
@@ -4522,6 +4527,7 @@
       ["RPG-7_ammo", 1],
       ["hazmat_suit", 5],
       ["recipe_medicalmut", 10],
+      ["survivormap", 5],
       ["pur_tablets", 20]
     ]
   },{

@@ -812,6 +812,29 @@
   },
 
   {
+    "id": "survivormap",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "survivor's map",
+    "description": "This is a hand-drawn map of the local area. Whomever created it has marked down the locations of nearby supply sources, including gun stores and gas stations.",
+    "price": 1000,
+    "material": "paper",
+    "weight": 30,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SURVIVORMAP"
+  },
+
+  {
     "id": "crowbar",
     "type": "TOOL",
     "symbol": ";",

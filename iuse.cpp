@@ -2212,7 +2212,34 @@ int iuse::roadmap(game *g, player *p, item *it, bool t)
   // Show police stations
  roadmap_targets(g, p, it, t, (int)ot_police_north, 4, 0, 0);
   // Show pharmacies
- roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 4, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_office_doctor_north, 4, 0, 0);
+
+ g->add_msg_if_player(p, _("You add roads and points of interest to your map."));
+
+ return 1;
+}
+
+int iuse::survivormap(game *g, player *p, item *it, bool t)
+{
+ if (it->charges < 1) {
+  g->add_msg_if_player(p, _("There isn't anything new on the map."));
+  return 0;
+ }
+  // Show roads
+ roadmap_targets(g, p, it, t, (int)ot_hiway_ns, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_road_ns, 12, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
+
+  // Show evac shelters
+ roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 1, 0, 0);
+  // Show gun stores
+ roadmap_targets(g, p, it, t, (int)ot_s_gun_north, 2, 0, 0);
+  // Show grocery stores
+ roadmap_targets(g, p, it, t, (int)ot_s_grocery_north, 2, 0, 0);
+  // Show military surplus stores
+ roadmap_targets(g, p, it, t, (int)ot_mil_surplus_north, 4, 0, 0);
+  // Show gas stations
+ roadmap_targets(g, p, it, t, (int)ot_s_gas_north, 4, 0, 0);
 
  g->add_msg_if_player(p, _("You add roads and points of interest to your map."));
 
