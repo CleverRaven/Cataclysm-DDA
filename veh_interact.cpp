@@ -49,8 +49,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     // +-------------------------+
     int winw1 = 12;
     int winw2 = 35;
-    int winh1 = 3;
-    int winh2 = 13;
+    int winh1 = 4;
+    int winh2 = 12;
     int winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 4;
     int winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
     int winx1 = winw1;
@@ -324,7 +324,7 @@ void veh_interact::do_install(task_reason reason)
         }
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, a <color_%4$s>powered_welder</color>, and level <color_%5$s>%6$d</color> skill in mechanics.%7$s"),
+                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, a <color_%4$s>powered welder</color>, and level <color_%5$s>%6$d</color> skill in mechanics.%7$s"),
                        has_comps ? "ltgreen" : "red",
                        g->itypes[itm]->name.c_str(),
                        has_wrench ? "ltgreen" : "red",
