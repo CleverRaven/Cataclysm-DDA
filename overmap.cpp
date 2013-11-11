@@ -1083,7 +1083,7 @@ void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int c
         om_vehicle om_veh = it->second;
         if (om_veh.x == x && om_veh.y == y)
         {
-            mvwprintz(w, i, 0, c_yellow, om_veh.name.c_str());
+            mvwprintz(w, i, 0, c_cyan, om_veh.name.c_str());
             for (int j = om_veh.name.length(); j < maxnamelength; j++)
                 mvwputch(w, i, j, c_black, LINE_XXXX);
             i++;
