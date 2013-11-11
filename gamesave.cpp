@@ -253,6 +253,7 @@ void game::unserialize(std::ifstream & fin) {
             monster montmp;
             for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
                 montmp.json_load(*pit);
+                montmp.setkeep(true);
                 add_zombie(montmp);
             }
 
@@ -277,7 +278,7 @@ void game::load_weather(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
-     
+
      while(!fin.eof()) {
         std::string data;
         getline(fin, data);

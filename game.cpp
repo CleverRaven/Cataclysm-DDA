@@ -318,7 +318,7 @@ void game::init_ui(){
             // bottom of the screen.
             stat2H = TERMY - stat2Y;
         }
-    } 
+    }
     liveview.init(this, mouse_view_x, mouseview_y, sidebarWidth, mouseview_h);
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
@@ -1525,7 +1525,7 @@ void game::process_missions()
 void game::handle_key_blocking_activity() {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (is_hostile_very_close() && 
+    if (is_hostile_very_close() &&
         u.activity.type != ACT_NULL &&
         u.activity.moves_left > 0 &&
         !u.activity.warned_of_proximity)
@@ -2709,7 +2709,7 @@ void game::load(std::string worldname, std::string name)
  load_master(worldname);
  update_map(u.posx, u.posy);
  set_adjacent_overmaps(true);
- MAPBUFFER.set_dirty();
+ MAPBUFFER.save();
  draw();
 }
 
@@ -7904,7 +7904,7 @@ void game::pickup(int posx, int posy, int min)
                     }
                 }
             }
-            
+
             if (craft_part >= 0) {
                 if (query_yn(_("Use the water purifier?"))) {
                     used_feature = true;
@@ -11107,7 +11107,7 @@ void game::update_map(int &x, int &y)
 
  // Shift monsters if we're actually shifting
  if(shiftx || shifty)
-  despawn_monsters(false, shiftx, shifty);
+    despawn_monsters(false, shiftx, shifty);
 
  // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
@@ -11302,52 +11302,68 @@ void game::update_stair_monsters()
 
 void game::despawn_monsters(const bool stairs, const int shiftx, const int shifty)
 {
-    for (unsigned int i = 0; i < num_zombies(); i++) {
+    for (unsigned int i = 0; i < num_zombies(); i++)
+    {
         monster &z = zombie(i);
         // If either shift argument is non-zero, we're shifting.
-        if(shiftx != 0 || shifty != 0) {
+        if(shiftx != 0 || shifty != 0)
+        {
             z.shift(shiftx, shifty);
             if( z.posx() >= 0 && z.posx() <= SEEX * MAPSIZE &&
-                z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE ) {
+                    z.posy() >= 0 && z.posy() <= SEEY * MAPSIZE )
+            {
                 // We're inbounds, so don't despawn after all.
                 continue;
             }
-        }
+            else
+            {
+                if (stairs && z.will_reach(this, u.posx, u.posy))
+                {
+                    int turns = z.turns_to_reach(this, u.posx, u.posy);
+                    if (turns < 999)
+                    {
+                        coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
+                    }
+                }
+                else if ( (z.spawnmapx != -1) || z.getkeep() ||
+                          ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) )
+                {
+                    // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
+                    real_coords rc( m.getabs(z.posx(), z.posy() ) ); // still madness, bud handles straddling omap and -/+
+                    z.spawnmapx = rc.om_sub.x;
+                    z.spawnmapy = rc.om_sub.y;
+                    z.spawnposx = rc.sub_pos.x;
+                    z.spawnposy = rc.sub_pos.y;
 
-        if (stairs && z.will_reach(this, u.posx, u.posy)) {
-            int turns = z.turns_to_reach(this, u.posx, u.posy);
-            if (turns < 999) {
-                coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
-            }
-        } else if ( (z.spawnmapx != -1) ||
-                    ((stairs || shiftx != 0 || shifty != 0) && z.friendly != 0 ) ) {
-            // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
-            real_coords rc( m.getabs(z.posx(), z.posy() ) ); // still madness, bud handles straddling omap and -/+
-            z.spawnmapx = rc.om_sub.x;
-            z.spawnmapy = rc.om_sub.y;
-            z.spawnposx = rc.sub_pos.x;
-            z.spawnposy = rc.sub_pos.y;
+                    // We're saving him, so there's no need to keep anymore.
+                    z.setkeep = false;
 
-            tinymap tmp(&traps);
-            tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
-            tmp.add_spawn(&z);
-            tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
-        } else {
-            // No spawn site, so absorb them back into a group.
-            int group = valid_group((z.type->id), levx + shiftx, levy + shifty, levz);
-            if (group != -1) {
-                cur_om->zg[group].population++;
-                if (cur_om->zg[group].population /
-                    (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                    !cur_om->zg[group].diffuse) {
-                    cur_om->zg[group].radius++;
+                    tinymap tmp(&traps);
+                    tmp.load(this, z.spawnmapx, z.spawnmapy, levz, false);
+                    tmp.add_spawn(&z);
+                    tmp.save(cur_om, turn, z.spawnmapx, z.spawnmapy, levz);
+                }
+                else
+                {
+                    // No spawn site, so absorb them back into a group.
+                    int group = valid_group((z.type->id), levx + shiftx, levy + shifty, levz);
+                    if (group != -1)
+                    {
+                        cur_om->zg[group].population++;
+                        if (cur_om->zg[group].population /
+                                (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
+                                !cur_om->zg[group].diffuse)
+                        {
+                            cur_om->zg[group].radius++;
+                        }
+                    }
+                }
+                // Check if we should keep him.
+                if !(z.getkeep()) {
+                    remove_zombie(i);
+                    i--;
                 }
             }
-        }
-        // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
-        if(shiftx != 0 || shifty != 0) {
-            remove_zombie(i);
-            i--;
         }
     }
 
@@ -11416,7 +11432,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type, 
+     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,
                                                              &group, (int)turn );
      zom = monster(GetMType(spawn_details.name));
      for (int kk = 0; kk < spawn_details.pack_size; kk++){
