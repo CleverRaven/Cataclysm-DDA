@@ -115,6 +115,8 @@ int JsonObject::verify_position(const std::string &name,
     int pos = positions[name]; // initialized to 0 if it doesn't exist
     if (pos > start) {
         return pos;
+    } else if (throw_exception && !jsin) {
+        throw (std::string)"member lookup on empty object: " + name;
     } else if (throw_exception) {
         jsin->seek(start);
         jsin->error("member not found: " + name);
