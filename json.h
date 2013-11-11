@@ -219,6 +219,7 @@ private:
 public:
     JsonObject(JsonIn *jsin);
     JsonObject(const JsonObject &jsobj);
+    JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
     ~JsonObject() { finish(); }
 
     void finish(); // moves the stream to the end of the object
