@@ -11001,7 +11001,7 @@ void game::vertical_move(int movez, bool force)
         if (turns < 999) {
             coming_to_stairs.push_back( monster_and_count(z, 1 + turns) );
         } else {
-            force_save_monster(i);
+            force_save_monster(zombie(i));
         }
         remove_zombie(i);
 }
