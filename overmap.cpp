@@ -1798,12 +1798,14 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy, z);
       see = diag.seen(omx, omy, z);
+      veh_here = diag.has_vehicle(g, omx, omy, z);
       note_here = diag.has_note(omx, omy, z);
       if (note_here)
        note_text = diag.note(omx, omy, z);
      } else {
       cur_ter = hori.ter(omx, omy, z);
       see = hori.seen(omx, omy, z);
+      veh_here = hori.has_vehicle(g, omx, omy, z);
       note_here = hori.has_note(omx, omy, z);
       if (note_here)
        note_text = hori.note(omx, omy, z);
@@ -1814,12 +1816,14 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy, z);
       see = diag.seen(omx, omy, z);
+      veh_here = diag.has_vehicle(g, omx, omy, z);
       note_here = diag.has_note(omx, omy, z);
       if (note_here)
        note_text = diag.note(omx, omy, z);
      } else {
       cur_ter = hori.ter(omx, omy, z);
       see = hori.seen(omx, omy, z);
+      veh_here = hori.has_vehicle(g, omx, omy, z);
       note_here = hori.has_note(omx, omy, z);
       if (note_here)
        note_text = hori.note(omx, omy, z);
@@ -1828,6 +1832,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy, z);
      see = vert.seen(omx, omy, z);
+     veh_here = vert.has_vehicle(g, omx, omy, z);
      note_here = vert.has_note(omx, omy, z);
      if (note_here)
       note_text = vert.note(omx, omy, z);
@@ -1835,6 +1840,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy, z);
      see = vert.seen(omx, omy, z);
+     veh_here = vert.has_vehicle(g, omx, omy, z);
      note_here = vert.has_note(omx, omy, z);
      if (note_here)
       note_text = vert.note(omx, omy, z);
