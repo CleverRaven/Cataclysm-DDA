@@ -11288,7 +11288,6 @@ void game::update_stair_monsters() {
     // Redundant.
     //if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
     //    return;
-    add_msg(_("Debug!"));
 
     for (int i = 0; i < coming_to_stairs.size(); i++) {
         int startx = rng(0, SEEX * MAPSIZE - 1), starty = rng(0, SEEY * MAPSIZE - 1);
