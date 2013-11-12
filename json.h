@@ -275,6 +275,10 @@ public:
     bool read_into(const std::string &name, double &d);
     bool read_into(const std::string &name, std::string &s);
     bool read_into(const std::string &name, JsonDeserializer &j);
+    template <typename T>
+    bool read_into(const std::string &name, std::vector<T> &v); // see below
+    template <typename T>
+    bool read_into(const std::string &name, std::set<T> &v); // see below
 
     // useful debug info
     std::string line_number(); // for occasional use only
@@ -506,5 +510,41 @@ public:
         deserialize(jin);
     }
 };
+
+/* compound templates */
+
+// JsonObject named array ~> vector
+template <typename T>
+bool JsonObject::read_into(const std::string &name, std::vector<T> &v)
+{
+    if (!has_array(name)) { return false; }
+    JsonArray ja = get_array(name);
+    v.clear();
+    try {
+        while (ja.has_more()) {
+            T element;
+            ja.read_into(element);
+            v.push_back(element);
+        }
+        return true;
+    } catch (std::string e) { return false; }
+}
+
+// JsonObject named array ~> set
+template <typename T>
+bool JsonObject::read_into(const std::string &name, std::set<T> &v)
+{
+    if (!has_array(name)) { return false; }
+    JsonArray ja = get_array(name);
+    v.clear();
+    try {
+        while (ja.has_more()) {
+            T element;
+            ja.read_into(element);
+            v.insert(element);
+        }
+        return true;
+    } catch (std::string e) { return false; }
+}
 
 #endif // _JSON_H_
