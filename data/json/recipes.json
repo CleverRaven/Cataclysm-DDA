@@ -60,7 +60,152 @@
       [ "battery", 200 ]
     ]
   ]
+},    {
+        "type" : "recipe",
+  "result": "bowl_pewter",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tin", 100 ]
+    ]
+  ]
 },{
+        "type" : "recipe",
+  "result": "silver",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 800 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "small_relic",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "badge_deputy",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "necklace",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "ring",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gold_small", 50 ]
+    ]
+  ]
+},
+{
         "type" : "recipe",
   "result": "usb_drive",
   "id_suffix": "uncraft",
@@ -2812,7 +2957,11 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold_small", 200 ]
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
     ]
   ]
 },{
@@ -2847,7 +2996,12 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold_small", 100 ]
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
+
     ]
   ]
 },{
@@ -2882,7 +3036,12 @@
     ],
     [
       [ "lead", 40 ],
-      [ "gold_small", 40 ]
+      [ "gold_small", 40 ],
+      [ "silver_small", 40 ],
+      [ "tin", 40 ],
+      [ "bismuth", 40 ],
+      [ "solder_wire", 40 ]
+
     ]
   ]
 },{
@@ -2917,7 +3076,12 @@
     ],
     [
       [ "lead", 250 ],
-      [ "gold_small", 250 ]
+      [ "gold_small", 250 ],
+      [ "silver_small", 250 ],
+      [ "tin", 250 ],
+      [ "bismuth", 250 ],
+      [ "solder_wire", 250 ]
+
     ]
   ]
 },{
@@ -2952,7 +3116,12 @@
     ],
     [
       [ "lead", 125 ],
-      [ "gold_small", 125 ]
+      [ "gold_small", 125 ],
+      [ "silver_small", 125 ],
+      [ "tin", 125 ],
+      [ "bismuth", 125 ],
+      [ "solder_wire", 125 ]
+
     ]
   ]
 },{
@@ -2987,7 +3156,12 @@
     ],
     [
       [ "lead", 300 ],
-      [ "gold_small", 300 ]
+      [ "gold_small", 300 ],
+      [ "silver_small", 300 ],
+      [ "tin", 300 ],
+      [ "bismuth", 300 ],
+      [ "solder_wire", 300 ]
+
     ]
   ]
 },{
@@ -3022,7 +3196,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -3057,7 +3236,11 @@
     ],
     [
       [ "lead", 500 ],
-      [ "gold_small", 500 ]
+      [ "gold_small", 500 ],
+      [ "silver_small", 500 ],
+      [ "tin", 500 ],
+      [ "bismuth", 500 ]
+
     ]
   ]
 },{
@@ -3092,7 +3275,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -3127,7 +3315,12 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold_small", 100 ]
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
+
     ]
   ]
 },{
@@ -3162,7 +3355,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400]
+      [ "gold_small", 400],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 3]
@@ -3200,7 +3398,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 2 ]
@@ -3238,7 +3441,12 @@
     ],
     [
       [ "lead", 450 ],
-      [ "gold_small", 450]
+      [ "gold_small", 450],
+      [ "silver_small", 450 ],
+      [ "tin", 450 ],
+      [ "bismuth", 450 ],
+      [ "solder_wire", 450 ]
+
     ],
     [
       [ "cu_pipe", 2 ]
@@ -3276,7 +3484,12 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold_small", 200 ]
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+
     ]
   ]
 },{
@@ -3311,7 +3524,12 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold_small", 200 ]
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+
     ]
   ]
 },{
@@ -3346,7 +3564,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ] ,
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 4 ]
@@ -3384,7 +3607,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 4 ]
@@ -3426,7 +3654,12 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold_small", 80 ]
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80 ]
+
     ]
   ]
 },{
@@ -3465,7 +3698,12 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold_small", 80 ]
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80 ]
+
     ]
   ]
 },{
@@ -3538,7 +3776,11 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold_small", 100 ]
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3576,7 +3818,12 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold_small", 80 ]
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3616,7 +3863,13 @@
       [ "gunpowder", 1000 ]
     ],
     [
-      [ "lead", 200 ]
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3690,13 +3943,17 @@
       [ "gunpowder", 1000 ]
     ],
     [
-      [ "lead", 380 ]
+      [ "lead", 380 ],
+      [ "gold_small", 380 ],
+      [ "silver_small", 380 ],
+      [ "tin", 380 ],
+      [ "bismuth", 380 ],
+      [ "solder_wire", 380 ]
     ],
     [
       [ "cu_pipe", 3 ]
     ]
   ]
-  
 },{
         "type" : "recipe",
   "result": "3006_incendiary",
@@ -3766,7 +4023,12 @@
     ],
     [
       [ "lead", 120 ],
-      [ "gold_small", 120 ]
+      [ "gold_small", 120 ],
+      [ "silver_small", 120 ],
+      [ "tin", 120 ],
+      [ "bismuth", 120 ],
+      [ "solder_wire", 120 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3804,7 +4066,12 @@
     ],
     [
       [ "lead", 120 ],
-      [ "gold_small", 120 ]
+      [ "gold_small", 120 ],
+      [ "silver_small", 120 ],
+      [ "tin", 120 ],
+      [ "bismuth", 120 ],
+      [ "solder_wire", 120 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3916,7 +4183,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -3951,7 +4223,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -3986,7 +4263,11 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
     ]
   ]
 },{
@@ -4024,8 +4305,8 @@
     ],
     [
       [ "nail", 160 ]
-    ]
-  ]
+     ]
+   ]
 },{
         "type" : "recipe",
   "result": "water_clean",
@@ -7312,13 +7593,13 @@
   ],
   "components": [
     [
-	  [ "mutagen_slime", 1 ]
-	],
+      [ "mutagen_slime", 1 ]
+    ],
     [
       [ "mutagen_plant", 1 ]
     ],
     [
-	  [ "mutagen_bird", 1 ]
+      [ "mutagen_bird", 1 ]
     ],
     [
       [ "purifier", 3 ]
@@ -15049,13 +15330,13 @@
 "qualities":[
     {"id":"CUT","level":1,"amount":1}
     ],
-  "tools": [ 
-    [ 
-      ["rock", -1], 
+  "tools": [
+    [
+      ["rock", -1],
       ["primitive_hammer", -1],
       ["hammer", -1],
       ["hatchet", -1],
-      ["toolset", -1] 
+      ["toolset", -1]
     ]
   ],
   "components": [
@@ -17983,7 +18264,7 @@
     ],
   "components":
    [
-    [ 
+    [
      ["pilot_light", 1]
     ],
     [
@@ -17991,10 +18272,10 @@
      [ "steel_chunk", 12 ],
      [ "scrap", 36 ]
     ],
-    [ 
+    [
      [ "metal_tank", 1 ]
     ],
-    [ 
+    [
      [ "pipe", 3]
     ]
    ]
@@ -18031,7 +18312,7 @@
     ],
   "components":
     [
-     [ ["pilot_light", 1] 
+     [ ["pilot_light", 1]
     ],
     [
      [ "scrap", 4 ]
@@ -18076,10 +18357,10 @@
        [ "steel_chunk", 20 ],
        [ "scrap", 60 ]
      ],
-     [ 
+     [
        [ "metal_tank", 1 ]
      ],
-     [ 
+     [
        ["pipe", 6]
      ]
   ]
@@ -18421,8 +18702,7 @@
       ["plastic_chunk", 3]
     ]
   ]
-},
-  {
+},{
     "type" : "recipe",
     "result": "9mmfmj",
     "category": "CC_AMMO",
@@ -18454,15 +18734,17 @@
       ],
       [
         [ "lead", 150 ],
-        [ "gold_small", 150 ]
+        [ "gold_small", 150 ],
+        [ "silver_small", 150 ],
+        [ "tin", 150 ],
+        [ "bismuth", 150 ],
+        [ "solder_wire", 150 ]
       ],
       [
         [ "cu_pipe", 2 ]
       ]
     ]
-  },
-
-  {
+  },{
     "type" : "recipe",
     "result": "38_fmj",
     "category": "CC_AMMO",
@@ -18494,15 +18776,17 @@
       ],
       [
         [ "lead", 200 ],
-        [ "gold_small", 200 ]
+        [ "gold_small", 200 ],
+        [ "silver_small", 200 ],
+        [ "tin", 200 ],
+        [ "bismuth", 200 ],
+        [ "solder_wire", 200 ]
       ],
       [
         [ "cu_pipe", 2 ]
       ]
     ]
-  },
-
-  {
+   },{
     "type" : "recipe",
     "result": "40fmj",
     "category": "CC_AMMO",
@@ -18534,7 +18818,11 @@
       ],
       [
         [ "lead", 250 ],
-        [ "gold_small", 250 ]
+        [ "gold_small", 250 ],
+        [ "silver_small", 250 ],
+        [ "tin", 250 ],
+        [ "bismuth", 250 ],
+        [ "solder_wire", 250 ]
       ],
       [
         [ "cu_pipe", 2 ]
@@ -18576,10 +18864,15 @@
     [
       [ "lead", 200 ],
       [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ],
       [ "nail", 100 ]
     ]
   ]
-  },{
+  },
+{
   "type" : "recipe",
   "result": "power_armor_helmet_basic",
   "category": "CC_NONCRAFT",
@@ -18746,7 +19039,11 @@
       ],
       [
         [ "lead", 400 ],
-        [ "gold_small", 400 ]
+        [ "gold_small", 400 ],
+        [ "silver_small", 400 ],
+        [ "tin", 400 ],
+        [ "bismuth", 400 ],
+        [ "solder_wire", 400 ]
       ],
       [
         [ "cu_pipe", 3 ]

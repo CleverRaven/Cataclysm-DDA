@@ -67,6 +67,25 @@
         "flags": ["RIGID", "WATERTIGHT"]
     },
     {
+        "id":"bowl_pewter",
+        "type":"CONTAINER",
+        "color":"light_cyan",
+        "symbol":")",
+        "to_hit":1,
+        "name":"pewter bowl",
+        "description":"A pewter bowl. Can be used as a container or as a tool. Holds 250 ml of liquid.",
+        "cutting":0,
+        "price":1,
+        "weight":50,
+        "volume":1,
+        "bashing":2,
+        "cutting":0,
+        "to_hit":1,
+        "material":"steel",
+        "contains":1,
+        "flags":[ "RIGID" ]
+    },
+    {
         "id": "can_food",
         "type": "CONTAINER",
         "symbol": ")",
