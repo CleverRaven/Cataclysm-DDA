@@ -2233,11 +2233,11 @@ int iuse::survivormap(game *g, player *p, item *it, bool t)
  roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
 
   // Show pharmacies
- roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 1, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_s_pharm_north, 4, 0, 0);
   // Show gun stores
- roadmap_targets(g, p, it, t, (int)ot_s_gun_north, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_s_gun_north, 4, 0, 0);
   // Show grocery stores
- roadmap_targets(g, p, it, t, (int)ot_s_grocery_north, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_s_grocery_north, 4, 0, 0);
   // Show military surplus stores
  roadmap_targets(g, p, it, t, (int)ot_mil_surplus_north, 4, 0, 0);
   // Show gas stations
@@ -2260,15 +2260,15 @@ int iuse::militarymap(game *g, player *p, item *it, bool t)
  roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
 
   // Show FEMA camps
- roadmap_targets(g, p, it, t, (int)ot_fema_entrance, 1, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_fema_entrance, 2, 0, 0);
   // Show bunkers
- roadmap_targets(g, p, it, t, (int)ot_bunker, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_bunker, 1, 0, 0);
   // Show outposts
- roadmap_targets(g, p, it, t, (int)ot_outpost, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_outpost, 1, 0, 0);
   // Show nuclear silos
- roadmap_targets(g, p, it, t, (int)ot_silo, 4, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_silo, 1, 0, 0);
   // Show evac shelters
- roadmap_targets(g, p, it, t, (int)ot_shelter, 4, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_shelter, 1, 0, 0);
 
  g->add_msg_if_player(p, _("You add roads and facilities to your map."));
 
@@ -2287,11 +2287,11 @@ int iuse::restaurantmap(game *g, player *p, item *it, bool t)
  roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
 
   // Show coffee shops
- roadmap_targets(g, p, it, t, (int)ot_s_restaurant_coffee_north, 1, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_s_restaurant_coffee_north, 4, 0, 0);
   // Show restaurants
- roadmap_targets(g, p, it, t, (int)ot_s_restaurant_north, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_s_restaurant_north, 4, 0, 0);
   // Show bars
- roadmap_targets(g, p, it, t, (int)ot_bar_north, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_bar_north, 4, 0, 0);
   // Show fast food joints
  roadmap_targets(g, p, it, t, (int)ot_s_restaurant_fast_north, 4, 0, 0);
 
@@ -2312,15 +2312,15 @@ int iuse::touristmap(game *g, player *p, item *it, bool t)
  roadmap_targets(g, p, it, t, (int)ot_bridge_ns, 2, 0, 0);
 
   // Show hotels
- roadmap_targets(g, p, it, t, (int)ot_hotel_tower_1_2, 1, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_hotel_tower_1_2, 2, 0, 0);
   // Show restaurants
- roadmap_targets(g, p, it, t, (int)ot_s_restaurant_north, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_s_restaurant_north, 4, 0, 0);
   // Show cathedrals
- roadmap_targets(g, p, it, t, (int)ot_cathedral_1_entrance, 2, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_cathedral_1_entrance, 4, 0, 0);
   // Show fast food joints
  roadmap_targets(g, p, it, t, (int)ot_s_restaurant_fast_north, 4, 0, 0);
   // Show fast megastores
- roadmap_targets(g, p, it, t, (int)ot_megastore_entrance, 4, 0, 0);
+ roadmap_targets(g, p, it, t, (int)ot_megastore_entrance, 2, 0, 0);
 
  g->add_msg_if_player(p, _("You add roads and tourist attractions to your map."));
 
