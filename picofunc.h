@@ -14,13 +14,6 @@ bool picouint(const picojson::object & obj, std::string key, unsigned int & var)
 bool picopoint(const picojson::object & obj, std::string key, point & var);
 bool picovector(picojson::object & obj, std::string key, std::vector<int> & var);
 
-bool picobool(JsonObject & obj, std::string key, bool & var);
-bool picoint(JsonObject & obj, std::string key, int & var);
-bool picostring(JsonObject & obj, std::string key, std::string & var);
-bool picouint(JsonObject & obj, std::string key, unsigned int & var);
-bool picopoint(JsonObject & obj, std::string key, point & var);
-bool picovector(JsonObject & obj, std::string key, std::vector<int> & var);
-
 picojson::array * pgetarray(picojson::object & obj, std::string key);
 picojson::object * pgetmap(picojson::object & obj, std::string key);
 
