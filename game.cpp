@@ -10898,7 +10898,7 @@ void game::vertical_move(int movez, bool force) {
             int dexroll = dice(6, u.dex_cur + u.skillLevel("dodge") * 2);
             int strroll = dice(3, u.str_cur + u.skillLevel("melee") * 1.5);
             if (coming_to_stairs.size() > 4) {
-                add_msg(_("The stairs are packed!"));
+                add_msg(_("The are a lot of them on the %s!"), m.tername(u.posx, u.posy).c_str());
                 dexroll /= 4;
                 strroll /= 2;
             }
@@ -11363,10 +11363,10 @@ void game::update_stair_monsters() {
                     add_zombie(z);
                     if (u_see(mposx, mposy)) {
                         if (m.has_flag("GOES_UP", mposx, mposy)) {
-                            add_msg(_("The %s pops out of the %s!"), z.name().c_str(),
+                            add_msg(_("The %s comes down the %s!"), z.name().c_str(),
                                     m.tername(mposx, mposy).c_str());
                         } else {
-                            add_msg(_("The %s pops out of the %s!"), z.name().c_str(),
+                            add_msg(_("The %s comes up the %s!"), z.name().c_str(),
                                     m.tername(mposx, mposy).c_str());
                         }
                     }
