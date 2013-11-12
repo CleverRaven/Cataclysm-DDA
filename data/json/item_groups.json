@@ -809,6 +809,7 @@
       ["bacon", 25],
       ["cheese", 30],
       ["restaurantmap", 5],
+      ["touristmap", 2],
       ["noodles_fast", 30]
     ]
   },{
@@ -845,6 +846,7 @@
       ["coffee_raw", 15],
       ["choco_coffee_beans", 10],
       ["restaurantmap", 5],
+      ["touristmap", 2],
       ["salt", 10]
     ]
   },{
@@ -868,6 +870,7 @@
       ["mp3", 18],
       ["portable_game", 8],
       ["roadmap", 40],
+      ["touristmap", 20],
       ["restaurantmap", 20],
       ["money_bundle", 55],
       ["gum", 30],
