@@ -501,7 +501,7 @@ public:
  //Record of player stats, for posterity only
  stats* lifetime_stats();
 
- int getID ();
+ int getID () const;
 
  bool is_underwater() const;
  void set_underwater(bool);

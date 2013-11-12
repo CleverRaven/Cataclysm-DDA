@@ -8840,7 +8840,7 @@ void player::setID (int i)
     this->id = i;
 }
 
-int player::getID ()
+int player::getID () const
 {
     return this->id;
 }
