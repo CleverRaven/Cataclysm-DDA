@@ -11378,7 +11378,7 @@ void game::update_stair_monsters() {
                     z.setpos(mposx, mposy, true);
                     while(tries < 9) {
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
-                        if (z.can_move_to(this, mposx + pushx, mposy + pushy)) {
+                        if (z.can_move_to(this, mposx + pushx, mposy + pushy) && pushx != 0 && pushy != 0) {
                             add_msg(_("The %s pushed you back!"), z.name().c_str());
                             u.posx += pushx;
                             u.posy += pushy;
