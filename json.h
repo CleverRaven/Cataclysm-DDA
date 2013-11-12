@@ -480,6 +480,7 @@ public:
 
 class JsonSerializer {
 public:
+    virtual ~JsonSerializer() {}
     virtual void serialize(JsonOut &jsout) const = 0;
     std::string serialize() const {
         std::ostringstream s;
@@ -494,6 +495,7 @@ public:
 
 class JsonDeserializer {
 public:
+    virtual ~JsonDeserializer() {}
     virtual void deserialize(JsonIn &jsin) = 0;
     void deserialize(const std::string &json_string) {
         std::istringstream s(json_string);
