@@ -11299,61 +11299,106 @@ void game::replace_stair_monsters()
 //TODO: abstract out the location checking code
 //TODO: refactor so zombies can follow up and down stairs instead of this mess
 void game::update_stair_monsters() {
-    // Redundant.
-    //if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
-    //    return;
-    for (int i = 0; i < coming_to_stairs.size(); i++) {
-        int startx = rng(0, SEEX * MAPSIZE - 1), starty = rng(0, SEEY * MAPSIZE - 1);
-        bool found_stairs = false;
-        for (int x = 0; x < SEEX * MAPSIZE && !found_stairs; x++) {
-            for (int y = 0; y < SEEY * MAPSIZE && !found_stairs; y++) {
-                int sx = (startx + x) % (SEEX * MAPSIZE),
-                sy = (starty + y) % (SEEY * MAPSIZE);
 
-                if (m.has_flag("GOES_UP", sx, sy) || m.has_flag("GOES_DOWN", sx, sy)) {
-                    found_stairs = true;
-                    int mposx = sx, mposy = sy;
+    // Search for the stairs closest to the player.
+    std::vector<int> stairx, stairy;
+    std::vector<int> stairdist;
 
-                    coming_to_stairs[i].staircount -= 4;
-                    // Let the player know zombies are trying to come.
-                    sound(sx, sy, 5, _("something on the stairs!"));
-                    if (u_see(sx, sy)) {
-                        if (coming_to_stairs[i].staircount > 4)
-                            add_msg(_("You see a %s on the stairs!"), coming_to_stairs[i].name().c_str());
-                        else
-                            add_msg(_("The %s is almost at the bottom of the stairs!"), coming_to_stairs[i].name().c_str());
-                        if (coming_to_stairs.size() > 4)
-                            add_msg(_("The stairs are packed!"));
-                        else if (coming_to_stairs.size() > 1)
-                            add_msg(_("There's something else behind it!"));
-                    }
-
-                    if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
-                        coming_to_stairs[i].setpos(mposx, mposy, true);
-                        coming_to_stairs[i].onstairs = false;
-                        coming_to_stairs[i].staircount = 0;
-                        add_zombie(coming_to_stairs[i]);
-                        if (u_see(sx, sy)) {
-                            if (m.has_flag("GOES_UP", sx, sy)) {
-                                add_msg(_("A %s comes down the %s!"), coming_to_stairs[i].name().c_str(),
-                                        m.tername(sx, sy).c_str());
-                            } else {
-                                add_msg(_("A %s comes up the %s!"), coming_to_stairs[i].name().c_str(),
-                                        m.tername(sx, sy).c_str());
-                            }
-                        }
-                        coming_to_stairs.erase(coming_to_stairs.begin() + i);
-                    } else if (u.posx == mposx && u.posy == mposy && coming_to_stairs[i].staircount <= 0) {
-                        fling_player_or_monster(&u, 0, one_in(360), 5, false);
-                        add_msg(_("The %s pushed you back!"), coming_to_stairs[i].name().c_str());
-                        u.moves -= 100;
-                        return;
-                    }
+    if (!coming_to_stairs.empty()) {
+        for (int x = 0; x < SEEX * MAPSIZE; x++) {
+            for (int y = 0; y < SEEY * MAPSIZE; y++) {
+                if (m.has_flag("GOES_UP", x, y) || m.has_flag("GOES_DOWN", x, y)) {
+                    stairx.push_back(x);
+                    stairy.push_back(y);
+                    stairdist.push_back(rl_dist(x, y, u.posx, u.posy));
                 }
             }
         }
+        if (stairdist.empty())
+            return;         // Found no stairs?
 
+        // Find closest stairs.
+        int si = 0;
+        for (int i = 0; i < stairdist.size(); i++) {
+            if (stairdist[i] < stairdist[si])
+                si = i;
+        }
+
+        // Attempt to spawn zombies.
+        for (int i = 0; i < coming_to_stairs.size(); i++) {
+            int mposx = stairx[si], mposy = stairy[si];
+            monster &z = coming_to_stairs[i];
+
+            // We might be not be visible.
+            if (!( z.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
+                    z.posy() < 0 - (SEEY * MAPSIZE) / 6 ||
+                    z.posx() > (SEEX * MAPSIZE * 7) / 6 ||
+                    z.posy() > (SEEY * MAPSIZE * 7) / 6 ) ) {
+
+                coming_to_stairs[i].staircount -= 4;
+                // Let the player know zombies are trying to come.
+                z.setpos(mposx, mposy, true);
+                if (u_see(mposx, mposy)) {
+                    std::stringstream dump;
+                    if (coming_to_stairs[i].staircount > 4)
+                        dump << _("You see a ") << z.name() << _(" on the stairs!");
+                    else
+                        dump << _("The ") << z.name() << _(" is almost at the ")
+                        << (m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top")) <<  _(" of the ")
+                        << m.tername(mposx, mposy).c_str() << "!";
+                    if (coming_to_stairs.size() > 4)
+                        dump << _(" A lot of them are on the ") << m.tername(mposx, mposy).c_str() << "!";
+                    else if (coming_to_stairs.size() > 1)
+                        dump << _(" There's something else behind it!");
+                    add_msg(dump.str().c_str());
+                }
+                else {
+                    sound(mposx, mposy, 5, _("a sound nearby from the stairs!"));
+                }
+
+                if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
+                    z.setpos(mposx, mposy, true);
+                    z.onstairs = false;
+                    z.staircount = 0;
+                    add_zombie(z);
+                    if (u_see(mposx, mposy)) {
+                        if (m.has_flag("GOES_UP", mposx, mposy)) {
+                            add_msg(_("The %s pops out of the %s!"), z.name().c_str(),
+                                    m.tername(mposx, mposy).c_str());
+                        } else {
+                            add_msg(_("The %s pops out of the %s!"), z.name().c_str(),
+                                    m.tername(mposx, mposy).c_str());
+                        }
+                    }
+                    coming_to_stairs.erase(coming_to_stairs.begin() + i);
+                } else if (u.posx == mposx && mposy == mposy && z.staircount <= 0) {
+                    // Search for a clear tile.
+                    int pushx = -1, pushy = -1;
+                    int tries = 0;
+                    z.setpos(mposx, mposy, true);
+                    while(tries < 9) {
+                        pushx = rng(-1, 1), pushy = rng(-1, 1);
+                        if (z.can_move_to(this, mposx + pushx, mposy + pushy)) {
+                            add_msg(_("The %s pushed you back!"), z.name().c_str());
+                            u.posx += pushx;
+                            u.posy += pushy;
+                            u.moves -= 100;
+                            // Stumble.
+                            if (u.dodge(this) < 12)
+                                u.add_disease("downed", 2);
+                            return;
+                        }
+                        tries++;
+                    }
+                    add_msg(_("The %s tried to push you back but failed! It attacks you!"), z.name().c_str());
+                    z.hit_player(this, u, false);
+                    u.moves -= 100;
+                    return;
+                }
+            }
+        }
     }
+
     if (coming_to_stairs.empty()) {
         monstairx = -1;
         monstairy = -1;
