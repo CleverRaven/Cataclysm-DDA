@@ -109,6 +109,9 @@ void JsonObject::finish()
     }
 }
 
+size_t JsonObject::size() { return positions.size(); }
+bool JsonObject::empty() { return positions.empty(); }
+
 int JsonObject::verify_position(const std::string &name,
                                 const bool throw_exception)
 {
@@ -155,6 +158,14 @@ std::string JsonObject::str()
         return "{}";
     }
 }
+
+JsonIn* JsonObject::get_raw(const std::string &name)
+{
+    int pos = verify_position(name);
+    jsin->seek(pos);
+    return jsin;
+}
+
 
 /* returning values by name */
 

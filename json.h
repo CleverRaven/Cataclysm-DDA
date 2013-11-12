@@ -223,10 +223,14 @@ public:
     ~JsonObject() { finish(); }
 
     void finish(); // moves the stream to the end of the object
+    size_t size();
+    bool empty();
 
     bool has_member(const std::string &name); // true iff named member exists
     std::set<std::string> get_member_names();
     std::string str(); // copy object json as string
+    // seek to a value and return a pointer to the JsonIn (member must exist)
+    JsonIn* get_raw(const std::string &name);
 
     // values by name
     // variants with no fallback throw an error if the name is not found.
