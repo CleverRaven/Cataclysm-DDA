@@ -8,7 +8,6 @@
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
-#include "picojson.h"
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
