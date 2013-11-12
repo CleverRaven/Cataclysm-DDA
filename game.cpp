@@ -3102,7 +3102,6 @@ void game::debug()
             // Save monsters.
              for (unsigned int i = 0; i < num_zombies(); i++) {
                 force_save_monster(zombie(i));
-                remove_zombie(i);
              }
             clear_zombies();
             levx = tmp.x * 2 - int(MAPSIZE / 2);
