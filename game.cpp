@@ -11011,7 +11011,7 @@ void game::vertical_move(int movez, bool force) {
  for (unsigned int i = 0; i < num_zombies(); i++) {
     monster &z = zombie(i);
     int turns = z.turns_to_reach(this, u.posx, u.posy);
-        if (turns < 10 && coming_to_stairs.size() < 2 && z.will_reach(this, u.posx, u.posy)) {
+        if (turns < 10 && coming_to_stairs.size() < 8 && z.will_reach(this, u.posx, u.posy)) {
             z.onstairs = true;
             z.staircount = 10 + turns;
             coming_to_stairs.push_back(z);
