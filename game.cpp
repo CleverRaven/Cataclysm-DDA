@@ -11371,7 +11371,7 @@ void game::update_stair_monsters() {
                         }
                     }
                     coming_to_stairs.erase(coming_to_stairs.begin() + i);
-                } else if (u.posx == mposx && mposy == mposy && z.staircount <= 0) {
+                } else if (u.posx == mposx && u.posy == mposy && z.staircount <= 0) {
                     // Search for a clear tile.
                     int pushx = -1, pushy = -1;
                     int tries = 0;
