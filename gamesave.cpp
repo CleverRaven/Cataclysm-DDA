@@ -264,11 +264,13 @@ void game::unserialize(std::ifstream & fin) {
             }
 
             picojson::array * sdata = pgetarray(pdata,"stair_monsters");
-            coming_to_stairs.clear();
-            monster stairtmp;
-            for( picojson::array::iterator pit = sdata->begin(); pit != sdata->end(); ++pit) {
-                stairtmp.json_load(*pit);
-                coming_to_stairs.push_back(stairtmp);
+            if (sdata != NULL) {
+                coming_to_stairs.clear();
+                monster stairtmp;
+                for( picojson::array::iterator pit = sdata->begin(); pit != sdata->end(); ++pit) {
+                    stairtmp.json_load(*pit);
+                    coming_to_stairs.push_back(stairtmp);
+                }
             }
 
             picojson::object * odata = pgetmap(pdata,"kills");

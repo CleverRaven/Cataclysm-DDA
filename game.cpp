@@ -11345,14 +11345,9 @@ void game::update_stair_monsters() {
                         }
                         coming_to_stairs.erase(coming_to_stairs.begin() + i);
                     } else if (u.posx == mposx && u.posy == mposy && coming_to_stairs[i].staircount <= 0) {
-                        fling_player_or_monster(&u, 0, one_in(360), 10, true);
+                        fling_player_or_monster(&u, 0, one_in(360), 5, false);
                         add_msg(_("The %s pushed you back!"), coming_to_stairs[i].name().c_str());
                         u.moves -= 100;
-
-                        if (one_in(3) > 2) {
-                            u.add_disease("downed", 1);
-                            add_msg(_("You trip up!"));
-                        }
                         return;
                     }
                 }
