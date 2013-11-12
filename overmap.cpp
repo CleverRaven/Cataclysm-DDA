@@ -2500,7 +2500,7 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
                          ter(finalex, finaley, z) != ot_ice_lab_core);
   ter(finalex, finaley, z) = ot_ice_lab_finale;
  }
- zg.push_back(mongroup("GROUP_ice_lab", (x * 2), (y * 2), z, s, 400));
+ zg.push_back(mongroup("GROUP_ICE_LAB", (x * 2), (y * 2), z, s, 400));
 
  return numstairs > 0;
 }
