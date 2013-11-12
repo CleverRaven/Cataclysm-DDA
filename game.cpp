@@ -11346,10 +11346,6 @@ void game::update_stair_monsters() {
                         dump << _("The ") << z.name() << _(" is almost at the ")
                         << (m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top")) <<  _(" of the ")
                         << m.tername(mposx, mposy).c_str() << "!";
-                    if (coming_to_stairs.size() > 4)
-                        dump << _(" A lot of them are on the ") << m.tername(mposx, mposy).c_str() << "!";
-                    else if (coming_to_stairs.size() > 1)
-                        dump << _(" There's something else behind it!");
                     add_msg(dump.str().c_str());
                 }
                 else {
