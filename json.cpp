@@ -736,6 +736,80 @@ bool JsonArray::has_object(int i)
     return jsin->test_object();
 }
 
+/* iterative value setting by reference */
+
+bool JsonArray::read_into(bool &b)
+{
+    if (!test_bool()) {
+        skip_value();
+        return false;
+    }
+    b = next_bool();
+    return true;
+}
+
+bool JsonArray::read_into(int &i)
+{
+    if (!test_number()) {
+        skip_value();
+        return false;
+    }
+    i = next_int();
+    return true;
+}
+
+bool JsonArray::read_into(unsigned &u)
+{
+    if (!test_number()) {
+        skip_value();
+        return false;
+    }
+    u = next_int();
+    return true;
+}
+
+bool JsonArray::read_into(float &f)
+{
+    if (!test_number()) {
+        skip_value();
+        return false;
+    }
+    f = next_float();
+    return true;
+}
+
+bool JsonArray::read_into(double &d)
+{
+    if (!test_number()) {
+        skip_value();
+        return false;
+    }
+    d = next_float();
+    return true;
+}
+
+bool JsonArray::read_into(std::string &s)
+{
+    if (!test_string()) {
+        skip_value();
+        return false;
+    }
+    s = next_string();
+    return true;
+}
+
+bool JsonArray::read_into(JsonDeserializer &j)
+{
+    try {
+        verify_index(index);
+        jsin->seek(positions[index++]);
+        j.deserialize(*jsin);
+        return true;
+    } catch (std::string e) {
+        return false;
+    }
+}
+
 
 /* class JsonIn
  * represents an istream of JSON data,
