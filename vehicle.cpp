@@ -72,14 +72,11 @@ void vehicle::load (std::ifstream &stin)
     if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
         std::stringstream derp;
         derp << type;
-        picojson::value pdata;
-        derp >> pdata;
-        std::string jsonerr = picojson::get_last_error();
-
-        if ( ! jsonerr.empty() ) {
+        JsonIn jsin(&derp);
+        try {
+            deserialize(jsin);
+        } catch (std::string jsonerr) {
             debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
-        } else {
-            json_load(pdata, g);
         }
     } else {
         load_legacy(stin);
@@ -127,7 +124,7 @@ void vehicle::add_missing_frames()
 
 void vehicle::save (std::ofstream &stout)
 {
-    stout << json_save(true).serialize();
+    serialize(stout);
     stout << std::endl;
     return;
 }

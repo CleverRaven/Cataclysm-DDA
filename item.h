@@ -56,7 +56,7 @@ struct iteminfo{
   }
 };
 
-class item
+class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
@@ -64,7 +64,7 @@ public:
  item(itype* it, unsigned int turn, char let);
  void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata, game *g);
- item(picojson::value & parsed, game * g);
+ item(JsonObject &jo);
  virtual ~item();
  void init();
  void make(itype* it);
@@ -93,8 +93,19 @@ public:
  char pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, char invlet);
  void next_mode();
- bool json_load(picojson::value & parsed, game * g);
- virtual picojson::value json_save(bool save_contents=false) const;
+
+    using JsonSerializer::serialize;
+    // give the option not to save recursively, but recurse by default
+    void serialize(JsonOut &jsout) const { serialize(jsout, true); }
+    virtual void serialize(JsonOut &jsout, bool save_contents) const;
+    using JsonDeserializer::deserialize;
+    // easy deserialization from JsonObject
+    virtual void deserialize(JsonObject &jo);
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        deserialize(jo);
+    }
+
  std::string save_info() const; // Formatted for save files
  //
  void load_legacy(game * g, std::stringstream & dump);

@@ -1305,13 +1305,11 @@ void player::load_info(game *g, std::string data)
         check = data[1];
     }
     if ( check == '{' ) {
-        picojson::value pdata;
-        dump >> pdata;
-        std::string jsonerr = picojson::get_last_error();
-        if ( ! jsonerr.empty() ) {
+        JsonIn jsin(&dump);
+        try {
+            deserialize(jsin);
+        } catch (std::string jsonerr) {
             debugmsg("Bad player json\n%s", jsonerr.c_str() );
-        } else {
-            json_load(pdata, g);
         }
         return;
     } else { // old save
@@ -1322,7 +1320,7 @@ void player::load_info(game *g, std::string data)
 std::string player::save_info()
 {
     std::stringstream dump;
-    dump << json_save(true).serialize();
+    dump << serialize(); // saves contents
     dump << std::endl;
     dump << dump_memorial();
     return dump.str();
@@ -1647,7 +1645,13 @@ std::string player::dump_memorial()
  */
 stats* player::lifetime_stats()
 {
-  return &player_stats;
+    return &player_stats;
+}
+
+// copy of stats, for saving
+stats player::get_stats() const
+{
+    return player_stats;
 }
 
 inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
@@ -8742,6 +8746,23 @@ SkillLevel& player::skillLevel(std::string ident) {
 
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
+}
+
+SkillLevel player::get_skill_level(Skill *_skill) const
+{
+    for (std::map<Skill*,SkillLevel>::const_iterator it = _skills.begin();
+            it != _skills.end(); ++it) {
+        if (it->first == _skill) {
+            return it->second;
+        }
+    }
+    return SkillLevel();
+}
+
+SkillLevel player::get_skill_level(const std::string &ident) const
+{
+    Skill *sk = Skill::skill(ident);
+    return get_skill_level(sk);
 }
 
 void player::copy_skill_levels(const player *rhs)
