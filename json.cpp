@@ -271,7 +271,10 @@ std::vector<std::string> JsonObject::get_string_array(const std::string &name)
 
 JsonObject JsonObject::get_object(const std::string &name)
 {
-    int pos = verify_position(name);
+    int pos = positions[name];
+    if (pos <= start) {
+        return JsonObject(); // empty object
+    }
     jsin->seek(pos);
     return jsin->get_object();
 }
