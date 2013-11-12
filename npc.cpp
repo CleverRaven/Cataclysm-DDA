@@ -146,7 +146,7 @@ npc& npc::operator= (const npc & rhs)
 
 std::string npc::save_info()
 {
-  return json_save(true).serialize();
+    return serialize(); // also saves contents
 }
 
 void npc::load_info(game *g, std::string data)
@@ -160,13 +160,11 @@ void npc::load_info(game *g, std::string data)
         check = data[1];
     }
     if ( check == '{' ) {
-        picojson::value pdata;
-        dump >> pdata;
-        std::string jsonerr = picojson::get_last_error();
-        if ( ! jsonerr.empty() ) {
+        JsonIn jsin(&dump);
+        try {
+            deserialize(jsin);
+        } catch (std::string jsonerr) {
             debugmsg("Bad npc json\n%s", jsonerr.c_str() );
-        } else {
-            json_load(pdata, g);
         }
         return;
     } else {

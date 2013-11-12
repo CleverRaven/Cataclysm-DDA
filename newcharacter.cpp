@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <cassert>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT        c_white   // Selected stat

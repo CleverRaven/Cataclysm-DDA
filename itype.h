@@ -8,10 +8,11 @@
 #include "bodypart.h"
 #include "skill.h"
 #include "bionics.h"
-#include "picojson.h"
 #include "rng.h"
 #include "material.h"
 #include "mtype.h"
+#include "json.h"
+
 #include <string>
 #include <vector>
 #include <sstream>
@@ -151,7 +152,6 @@ struct itype
  virtual bool is_wheel()         { return false; }
  virtual bool count_by_charges() { return false; }
  virtual int  charges_to_use()  { return 1; }
- virtual picojson::value save_data() { return picojson::value(); }
 
  std::string dmg_adj(int dam) { return material_type::find_material(m1)->dmg_adj(dam); }
 
@@ -483,7 +483,6 @@ struct it_armor : public itype
  virtual bool is_armor() { return true; }
  virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
- virtual picojson::value save_data() { return picojson::value(); }
  std::string bash_dmg_verb() { return m2 == "null" || !one_in(3) ?
          material_type::find_material(m1)->bash_dmg_verb() :
          material_type::find_material(m2)->bash_dmg_verb();
@@ -580,7 +579,6 @@ struct it_tool : public itype
 
  virtual bool is_tool()          { return true; }
  virtual bool is_artifact()      { return false; }
- virtual picojson::value save_data() { return picojson::value(); }
  int charges_to_use()   { return charges_per_use; }
 
  it_tool() :itype()

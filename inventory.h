@@ -120,11 +120,11 @@ class inventory
 
   void load_invlet_cache( std::ifstream &fin ); // see savegame_legacy.cpp
 
-  void json_load_invcache(picojson::value & parsed);
-  void json_load_items(picojson::value & parsed, game * g);
+  void json_load_invcache(JsonIn &jsin);
+  void json_load_items(JsonIn &jsin);
 
-  picojson::value json_save_invcache() const;
-  picojson::value json_save_items() const;
+  void json_save_invcache(JsonOut &jsout) const;
+  void json_save_items(JsonOut &jsout) const;
 
   item nullitem;
   std::list<item> nullstack;
