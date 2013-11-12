@@ -249,7 +249,7 @@ public:
     JsonArray get_array(const std::string &name);
     std::vector<int> get_int_array(const std::string &name);
     std::vector<std::string> get_string_array(const std::string &name);
-    // get_object throws exception if not found (can change if desirable)
+    // get_object returns empty object if not found
     JsonObject get_object(const std::string &name);
     // get_tags returns empty set if none found
     std::set<std::string> get_tags(const std::string &name);
@@ -297,7 +297,7 @@ private:
 public:
     JsonArray(JsonIn *jsin);
     JsonArray(const JsonArray &jsarr);
-    JsonArray() : positions(), start(0), index(0), jsin(NULL) {};
+    JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
     ~JsonArray() { finish(); }
 
     void finish(); // move the stream position to the end of the array
@@ -353,6 +353,9 @@ public:
     bool read_into(std::string &s);
     bool read_into(JsonDeserializer &j);
 };
+
+
+/* JsonIn */
 
 class JsonIn {
 private:
@@ -422,6 +425,9 @@ public:
     void rewind(int max_lines=-1, int max_chars=-1);
     std::string substr(size_t pos, size_t len=std::string::npos);
 };
+
+
+/* JsonOut */
 
 class JsonOut {
 private:
