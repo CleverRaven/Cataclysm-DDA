@@ -339,6 +339,15 @@ public:
     bool has_string(int index);
     bool has_array(int index);
     bool has_object(int index);
+
+    // iteratively set values by reference
+    bool read_into(bool &b);
+    bool read_into(int &i);
+    bool read_into(unsigned &u);
+    bool read_into(float &f);
+    bool read_into(double &d);
+    bool read_into(std::string &s);
+    bool read_into(JsonDeserializer &j);
 };
 
 class JsonIn {
