@@ -2679,6 +2679,13 @@ void game::load(std::string worldname, std::string name)
  unserialize(fin);
  fin.close();
 
+ // Stair handling.
+ if (!coming_to_stairs.empty()) {
+    monstairx = -1;
+    monstairy = -1;
+    monstairz = 999;
+ }
+
  // weather
  std::string wfile = std::string( worldpath + base64_encode(u.name) + ".weather" );
  fin.open(wfile.c_str());
@@ -11278,18 +11285,16 @@ void game::replace_stair_monsters()
 //TODO: abstract out the location checking code
 //TODO: refactor so zombies can follow up and down stairs instead of this mess
 void game::update_stair_monsters() {
-    if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
-        return;
+    // Redundant.
+    //if (abs(levx - monstairx) > 1 || abs(levy - monstairy) > 1)
+    //    return;
+    add_msg(_("Debug!"));
 
-
-    for (int i = 0; i < coming_to_stairs.size(); i++)
-    {
+    for (int i = 0; i < coming_to_stairs.size(); i++) {
         int startx = rng(0, SEEX * MAPSIZE - 1), starty = rng(0, SEEY * MAPSIZE - 1);
         bool found_stairs = false;
-        for (int x = 0; x < SEEX * MAPSIZE && !found_stairs; x++)
-        {
-            for (int y = 0; y < SEEY * MAPSIZE && !found_stairs; y++)
-            {
+        for (int x = 0; x < SEEX * MAPSIZE && !found_stairs; x++) {
+            for (int y = 0; y < SEEY * MAPSIZE && !found_stairs; y++) {
                 int sx = (startx + x) % (SEEX * MAPSIZE),
                     sy = (starty + y) % (SEEY * MAPSIZE);
 
@@ -11302,33 +11307,29 @@ void game::update_stair_monsters() {
                     if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
                         coming_to_stairs[i].setpos(mposx, mposy, true);
                         coming_to_stairs[i].onstairs = false;
-                        coming_to_stairs[i].staircount = false;
+                        coming_to_stairs[i].staircount = 0;
                         add_zombie(coming_to_stairs[i]);
                         if (u_see(sx, sy)) {
                             if (m.has_flag("GOES_UP", sx, sy)) {
                                 add_msg(_("A %s comes down the %s!"), coming_to_stairs[i].name().c_str(),
                                         m.tername(sx, sy).c_str());
-                            }
-                            else {
+                            } else {
                                 add_msg(_("A %s comes up the %s!"), coming_to_stairs[i].name().c_str(),
                                         m.tername(sx, sy).c_str());
                             }
                         }
-                    }
-                    else {
+                        coming_to_stairs.erase(coming_to_stairs.begin() + i);
+                    } else {
                         return;
                         // Let the player know zombies are trying to come.
                         sound(sx, sy, 5, _("something on the stairs!"));
-                        if (u_see(sx, sy))
-                        {
+                        if (u_see(sx, sy)) {
                             add_msg(_("You see a %s on the stairs!"), coming_to_stairs[i].name().c_str());
                         }
                     }
                 }
             }
         }
-        coming_to_stairs.erase(coming_to_stairs.begin() + i);
-        i--;
     }
     if (coming_to_stairs.empty()) {
         monstairx = -1;

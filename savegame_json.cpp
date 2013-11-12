@@ -1134,8 +1134,8 @@ bool monster::json_load(picojson::value parsed)
     picoint(data, "anger", anger);
     picoint(data, "morale", morale);
     picobool(data, "hallucination", hallucination);
-    picoint(data, "onstairs", onstairs);
-    picoint(data, "staircount", staircount);
+    picobool(data, "onstairs", onstairs);
+    picoint(data, "stairscount", staircount);
 
     plans.clear();
     picojson::object::const_iterator pvplans_it = data.find("plans");
