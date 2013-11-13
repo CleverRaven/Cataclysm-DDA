@@ -701,7 +701,7 @@ void veh_interact::do_rename(task_reason reason)
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);
-        if (veh->gps_on)
+        if (veh->tracking_on)
             g->cur_om->vehicles[veh->om_id].name = name;
     }
     werase(w_stats);

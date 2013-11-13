@@ -439,9 +439,9 @@
     },
     {
         "type":"GENERIC",
-        "id": "gps_tracker",
-        "name": "GPS Tracker",
-        "description": "A GPS tracker, when installed on a vehicle allows you track the vehicle through your PDA",
+        "id": "veh_tracker",
+        "name": "vehicle tracking device",
+        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle through your PDA",
         "weight": 400,
         "to_hit": 0,
         "color": "red",

@@ -8574,7 +8574,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "gps_tracker",
+  "result": "veh_tracker",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
   "difficulty": 4,

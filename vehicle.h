@@ -495,7 +495,7 @@ public:
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
     bool lights_on;     // lights on/off
-    bool gps_on;        // vehicle tracking on/off
+    bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //emergency vehicle flasher lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
@@ -506,7 +506,7 @@ public:
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
     int lights_power;   // total power of components with LIGHT flag
-    int gps_power;      // total power consumed by gps modules (why would you use more than one?)
+    int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
 };
 
 #endif

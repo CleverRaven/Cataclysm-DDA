@@ -1443,7 +1443,7 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picoint(data, "velocity", velocity);
     picoint(data, "cruise_velocity", cruise_velocity);
     picobool(data, "cruise_on", cruise_on);
-    picobool(data, "gps_on", gps_on);
+    picobool(data, "tracking_on", tracking_on);
     picobool(data, "lights_on", lights_on);
     //Handle old vehicles that don't have this flag
     if(data.count("overhead_lights_on") > 0) {
@@ -1544,7 +1544,7 @@ picojson::value vehicle::json_save( bool save_contents ) {
     data["turret_mode"] = pv ( turret_mode );
     data["skidding"] = pv ( skidding );
     data["turret_mode"] = pv ( turret_mode );
-    data["gps_on"] = pv (gps_on);
+    data["tracking_on"] = pv (tracking_on);
 
     data["of_turn_carry"] = pv ( of_turn_carry );
     data["name"] = pv ( name );
