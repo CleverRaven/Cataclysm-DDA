@@ -253,6 +253,7 @@ void mdeath::disappear(game *g, monster *z) {
 void mdeath::guilt(game *g, monster *z) {
     const int MAX_GUILT_DISTANCE = 5;
     int kill_count = g->kill_count(z->type->id);
+    int maxKills = 100; // this is when the player stop caring altogether.
     
     // different message as we kill more of the same monster
     std::string msg = "You feel guilty for killing %s."; // default guilt message
@@ -276,9 +277,9 @@ void mdeath::guilt(game *g, monster *z) {
         // We probably didn't kill it
         return;
     }
-    if (kill_count >= 100){
+    if (kill_count >= maxKills){
         // player no longer cares
-        if (kill_count == 100)
+        if (kill_count == maxKills)
             g->add_msg(_("After killing so many bloody %ss you no longer care "
                           "about their deaths anymore."), z->name().c_str());
         return;
@@ -290,12 +291,13 @@ void mdeath::guilt(game *g, monster *z) {
         }
     }
 
-    // g->add_msg(_("Killing %s fills you with guilt."), z->name().c_str());
     g->add_msg(_(msg.c_str()), z->name().c_str());
 
-    int moraleMalus = (kill_count/2) + -50;
+    int moraleMalus = -50;
+    moraleMalus -= kill_count * ((float) moraleMalus / maxKills );
     int maxMalus = -250;
-    int duration = 300 - (kill_count * 3);
+    int duration = 300;
+    duration -= kill_count * ((float) duration / maxKills);
     int decayDelay = 30;
     if (z->type->in_species("ZOMBIE")) {
         moraleMalus /= 10;
