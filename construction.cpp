@@ -382,6 +382,26 @@ void game::init_construction()
    COMP("nail", 8);
    COMP("2x4", 6);
 
+ CONSTRUCT(_("Build Table"), 0, &construct::able_empty,
+                                &construct::done_nothing);
+  STAGE(furnlist[f_table], 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("nail", 8);
+   COMP("2x4", 4);
+
+ CONSTRUCT(_("Build Chair"), 0, &construct::able_empty,
+                                &construct::done_nothing);
+  STAGE(furnlist[f_chair], 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("nail", 8);
+   COMP("2x4", 2);
+
  CONSTRUCT(_("Build Makeshift Bed"), 0, &construct::able_empty,
                                 &construct::done_nothing);
   STAGE(furnlist[f_makeshift_bed], 20);
