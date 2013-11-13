@@ -287,7 +287,11 @@ void mdeath::guilt(game *g, monster *z) {
         for (std::map<int, std::string>::iterator it = guilt_tresholds.begin();
                 it != guilt_tresholds.end(); it++){
             if (kill_count >= it->first)
+            {
                 msg = it->second;
+                break;
+
+            }
         }
     }
 
