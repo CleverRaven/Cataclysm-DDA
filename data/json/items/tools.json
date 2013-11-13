@@ -1286,7 +1286,7 @@
     "description": "This is an military anti-personnel mine that is triggered when stepped upon.",
     "price": 1000,
     "material": "iron",
-    "weight": 1360,
+    "weight": 2360,
     "volume": 2,
     "bashing": 6,
     "cutting": 0,
