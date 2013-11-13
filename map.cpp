@@ -3494,18 +3494,18 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
             }
         }
     } else { // sx < 0; work through it backwards
-        for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
+        for (int gridx = my_MAPSIZE - 1; gridx > 0; gridx--) {
             if (sy >= 0) {
                 for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
                     if (gridx + sx > 0 && gridy + sy < my_MAPSIZE) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
-                        gridx + sx + (gridy + sy) * my_MAPSIZE);
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
                     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
-                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
+                for (int gridy = my_MAPSIZE - 1; gridy > 0; gridy--) {
                     if (gridx + sx > 0 && gridy + sy > 0) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
