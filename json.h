@@ -529,8 +529,9 @@ bool JsonObject::read_into(const std::string &name, std::vector<T> &v)
     try {
         while (ja.has_more()) {
             T element;
-            ja.read_into(element);
-            v.push_back(element);
+            if (ja.read_into(element)) {
+                v.push_back(element);
+            }
         }
         return true;
     } catch (std::string e) { return false; }
@@ -546,8 +547,9 @@ bool JsonObject::read_into(const std::string &name, std::set<T> &v)
     try {
         while (ja.has_more()) {
             T element;
-            ja.read_into(element);
-            v.insert(element);
+            if (ja.read_into(element)) {
+                v.insert(element);
+            }
         }
         return true;
     } catch (std::string e) { return false; }
