@@ -340,37 +340,37 @@ void mapbuffer::unserialize(std::ifstream & fin) {
   int turndif = (master_game ? int(master_game->turn) - turn : 0);
   if (turndif < 0)
    turndif = 0;
-// Load terrain
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    int tmpter;
-    fin >> tmpter;
-    tmpter = ter_key[tmpter];
-    sm->ter[i][j] = ter_id(tmpter);
-
-    sm->frn[i][j] = f_null;
-    sm->itm[i][j].clear();
-    sm->trp[i][j] = tr_null;
-    //sm->fld[i][j] = field(); //not needed now
-    sm->graf[i][j] = graffiti();
-   }
-  }
-// Load irradiation
   int radtmp;
   int count = 0;
   for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    if (count == 0) {
-     fin >> radtmp >> count;
-     radtmp -= int(turndif / 100); // Radiation slowly decays
-     if (radtmp < 0) {
-      radtmp = 0;
-     }
+    for (int i = 0; i < SEEX; i++) {
+
+      // Load terrain
+      int tmpter;
+      fin >> tmpter;
+      tmpter = ter_key[tmpter];
+      sm->ter[i][j] = ter_id(tmpter);
+
+      sm->frn[i][j] = f_null;
+      sm->itm[i][j].clear();
+      sm->trp[i][j] = tr_null;
+      //sm->fld[i][j] = field(); //not needed now
+      sm->graf[i][j] = graffiti();
+
+      // Load irradiation
+      if (count == 0) {
+        fin >> radtmp >> count;
+        radtmp -= int(turndif / 100); // Radiation slowly decays
+        if (radtmp < 0) {
+          radtmp = 0;
+        }
+      }
+      count--;
+      sm->rad[i][j] = radtmp;
     }
-    count--;
-    sm->rad[i][j] = radtmp;
-   }
   }
+
+
 // Load items and traps and fields and spawn points and vehicles
   std::string string_identifier;
   do {
