@@ -4694,7 +4694,7 @@ int iuse::cut_log_into_planks(game *g, player *p, item *it)
     }
     for (int i = 0; i < planks; i++) {
         int iter = 0;
-        while (p->has_item(plank.invlet)) {
+        while (p->has_item(plank.invlet) && iter < inv_chars.size()) {
             plank.invlet = g->nextinv;
             g->advance_nextinv();
             iter++;
@@ -4710,7 +4710,7 @@ int iuse::cut_log_into_planks(game *g, player *p, item *it)
     }
     for (int i = 0; i < scraps; i++) {
         int iter = 0;
-        while (p->has_item(scrap.invlet)) {
+        while (p->has_item(scrap.invlet) && iter < inv_chars.size()) {
             scrap.invlet = g->nextinv;
             g->advance_nextinv();
             iter++;
