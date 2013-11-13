@@ -541,6 +541,11 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         return false;
     }
 
+    //No other part can be placed on a protrusion
+    if(!parts_in_square.empty() && part_info(parts_in_square[0]).has_flag("PROTRUSION")) {
+        return false;
+    }
+
     //No part type can stack with itself, or any other part in the same slot
     for( std::vector<int>::const_iterator part_it = parts_in_square.begin();
          part_it != parts_in_square.end(); ++part_it ) {
