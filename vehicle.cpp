@@ -35,6 +35,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     of_turn_carry = 0;
     turret_mode = 0;
     lights_power = 0;
+    gps_power = 0;
     cruise_velocity = 0;
     skidding = false;
     cruise_on = true;
@@ -302,16 +303,10 @@ void vehicle::use_controls()
     // Always have this option
     int curent = 0;
     int letgoent = 0;
+
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
-
-    curent++;
-
-    // In the future we might use a gps tracking device in the vehicle
-    options_choice.push_back(toggle_gps);
-    options_message.push_back(uimenu_entry((gps_on) ? _("Disable GPS tracking") :
-                                            _("Enable GPS tracking"), 'g'));
 
     curent++;
 
@@ -319,6 +314,7 @@ void vehicle::use_controls()
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
+    bool has_gps = false;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -334,6 +330,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "HORN")) {
             has_horn = true;
+        }
+        else if (part_flag(p, "GPS")) {
+            has_gps = true;
         }
     }
 
@@ -364,6 +363,15 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_turrets);
         options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
                                                _("Disable turrets"), 't'));
+        curent++;
+    }
+
+    // GPS Tracking on the overmap
+    if (has_gps) {
+        options_choice.push_back(toggle_gps);
+        options_message.push_back(uimenu_entry((gps_on) ? _("Disable GPS tracking") :
+                                                _("Enable GPS tracking"), 'g'));
+
         curent++;
     }
 
@@ -466,12 +474,15 @@ void vehicle::use_controls()
         {
             g->cur_om->remove_vehicle(om_id);
             gps_on = false;
-        } else 
+            g->add_msg(_("GPS tracking disabled"));
+        } else if (fuel_left("battery"))
         {
             om_id = g->cur_om->add_vehicle(this);
             gps_on = true;
+            g->add_msg(_("GPS tracking enabled"));
+        } else {
+            g->add_msg(_("GPS won't turn on"));
         }
-        g->add_msg((gps_on) ? _("GPS tracking enabled") : _("GPS tracking disabled"));
         break;
     case control_cancel:
         break;
@@ -812,6 +823,10 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
         lights.push_back(parts.size()-1);
         lights_power += part_info(parts.size()-1).power;
     }
+    if(part_flag(parts.size()-1, "GPS"))
+    {
+        gps_power += part_info(parts.size()-1).power;
+    }
     if(part_flag(parts.size()-1,"FUEL_TANK"))
         fuel.push_back(parts.size()-1);
     find_exhaust ();
@@ -861,6 +876,23 @@ void vehicle::remove_part (int p)
 {
     if(part_flag(p,"LIGHT")) {
         lights_power -= part_info( parts.size() - 1 ).power;
+    } else if (part_flag(p, "GPS")) {
+        gps_power -= part_info( parts.size() - 1 ).power;
+        // disable gps if there are no other gps trackers installed.
+        if (gps_on)
+        {
+            bool has_gps = false;
+            for (int i = 0; i != parts.size(); i++){
+                if (i != p && part_flag(i, "GPS")){
+                    has_gps = true;
+                    break;
+                }
+            }
+            if (!has_gps){ // disable gps
+                g->cur_om->remove_vehicle(om_id);
+                gps_on = false;
+            }
+        }
     }
     parts.erase(parts.begin() + p);
     find_horns ();
@@ -1744,6 +1776,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 {
     int power=0;
     if(lights_on)power += lights_power;
+    if(gps_on)power += gps_power;
     if(power <= 0)return;
     for(int f=0;f<fuel.size() && power > 0;f++)
     {
@@ -1764,6 +1797,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(power)
     {
         lights_on = false;
+        gps_on = false;
         overhead_lights_on = false;
         if(player_in_control(&g->u))
             g->add_msg("The %s's battery dies!",name.c_str());

@@ -8574,6 +8574,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "gps_tracker",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "amplifier", 1 ]
+    ],
+    [
+      [ "transponder", 1 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "two_way_radio",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",

@@ -439,6 +439,21 @@
     },
     {
         "type":"GENERIC",
+        "id": "gps_tracker",
+        "name": "GPS Tracker",
+        "description": "A GPS tracker, when installed on a vehicle allows you track the vehicle through your PDA",
+        "weight": 400,
+        "to_hit": 0,
+        "color": "red",
+        "symbol": ";",
+        "material": ["plastic", "iron"],
+        "volume": 2,
+        "bashing": 1,
+        "cutting": 0,
+        "price": 800
+    },
+    {
+        "type":"GENERIC",
         "id": "light_emergency_red",
         "name": "emergency vehicle light (red)",
         "description": "One of the red-colored lights from the top of an emergency services vehicle. When turned on, the lights rotate to shine in all directions.",
