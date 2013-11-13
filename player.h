@@ -14,6 +14,7 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
+#include "action.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -404,6 +405,14 @@ public:
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
 
+ // Auto move methods
+ void set_destination(const std::vector<point> &route);
+ void clear_destination();
+ bool has_destination() const;
+ std::vector<point> &get_auto_move_route();
+ action_id get_next_auto_move_direction();
+ void shift_destination(int shiftx, int shifty);
+ 
 // Library functions
  double logistic(double t);
  double logistic_range(int min, int max, int pos);
@@ -523,6 +532,10 @@ protected:
 private:
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
+
+    std::vector<point> auto_move_route;
+    // Used to make sure auto move is canceled if we stumble off course
+    point next_expected_position;
 
     int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
     //NPCs also use this ID value. Values should never be reused.

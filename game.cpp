@@ -1158,6 +1158,10 @@ bool game::cancel_activity_query(const char* message, ...)
     std::string stop_message = s + stop_phrase[u.activity.type];
 
     if (ACT_NULL == u.activity.type) {
+        if (u.has_destination()) {
+            add_msg(_("You were hurt. Auto-move cancelled"));
+            u.clear_destination();
+        }
         doit = false;
     } else if (query_yn(stop_message.c_str())) {
         doit = true;
@@ -1711,15 +1715,15 @@ void game::hide_mouseview()
     }
 }
 
-
-bool game::handle_action()
+input_context game::get_player_input(std::string &action)
 {
     input_context ctxt("DEFAULTMODE");
     ctxt.register_directions();
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
     ctxt.register_action("MOUSE_MOVE");
-    std::string action;
+    ctxt.register_action("SELECT");
+    ctxt.register_action("SEC_SELECT");
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
@@ -1840,50 +1844,163 @@ bool game::handle_action()
         while (handle_mouseview(ctxt, action)) {;}
     }
 
+    return ctxt;
+}
+
+bool game::handle_action()
+{
+    std::string action;
+    input_context ctxt;
+
     action_id act = ACTION_NULL;
-    if (action == "ANY_INPUT") {
-        char ch = ctxt.get_raw_input().get_first_input();
-        if (keymap.find(ch) == keymap.end()) {
-            if (ch != ' ' && ch != '\n') {
-                add_msg(_("Unknown command: '%c'"), ch);
-            }
+    if (u.has_destination()) {
+        act = u.get_next_auto_move_direction();
+        if (act == ACTION_NULL) {
+            add_msg(_("Auto-move cancelled"));
+            u.clear_destination();
             return false;
         }
-
-        act = keymap[ch];
     } else {
-        // Hack to turn new movement actions back into old ones, till this whole context
-        // gets updated to the new style
-        if (action == "UP") {
-            act = ACTION_MOVE_N;
-        } else if (action == "RIGHTUP") {
-            act = ACTION_MOVE_NE;
-        } else if (action == "RIGHT") {
-            act = ACTION_MOVE_E;
-        } else if (action == "RIGHTDOWN") {
-            act = ACTION_MOVE_SE;
-        } else if (action == "DOWN") {
-            act = ACTION_MOVE_S;
-        } else if (action == "LEFTDOWN") {
-            act = ACTION_MOVE_SW;
-        } else if (action == "LEFT") {
-            act = ACTION_MOVE_W;
+        ctxt = get_player_input(action);
+    }
+
+    int veh_part;
+    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    bool veh_ctrl = veh && veh->player_in_control (&u);
+
+    // If performing an action with right mouse button, co-ordinates
+    // to target.
+    int mouse_action_x = -1, mouse_action_y = -1;
+
+    if (act == ACTION_NULL) {
+        if (action == "SELECT" || action == "SEC_SELECT") {
+            // Mouse buttons
+            if (veh_ctrl) {
+                return false;
+            }
+
+            int mx, my;
+            if (!ctxt.get_coordinates(w_terrain, mx, my) || !u_see(mx, my)) {
+                // Not clicked in visible terrain
+                return false;
+            }
+
+            if (action == "SELECT") {
+                bool new_destination = true;
+                if (destination_preview.size() > 0) {
+                    point final_destination = destination_preview.back();
+                    if (final_destination.x == mx && final_destination.y == my) {
+                        // Second click
+                        new_destination = false;
+                        u.set_destination(destination_preview);
+                        destination_preview.clear();
+                        act = u.get_next_auto_move_direction();
+                        if (act == ACTION_NULL) {
+                            u.clear_destination();
+                            return false;
+                        }
+                    }
+                }
+
+                if (new_destination) {
+                    destination_preview = m.route(u.posx, u.posy, mx, my, false);
+                    return false;
+                }
+            } else {
+                // Right mouse button
+
+                bool had_destination_to_clear = destination_preview.size() > 0;
+                u.clear_destination();
+                destination_preview.clear();
+
+                if (had_destination_to_clear) {
+                    return false;
+                }
+
+                mouse_action_x = mx;
+                mouse_action_y = my;
+                bool can_fire = false;
+                int mouse_selected_mondex = mon_at(mx, my);
+                if (mouse_selected_mondex != -1) {
+                    if (!u.weapon.is_gun()) {
+                        add_msg(_("You are not wielding a ranged weapon."));
+                        return false;
+                    }
+
+                    monster &z = _active_monsters[mouse_selected_mondex];
+                    if (!u_see(&z)) {
+                        add_msg(_("Nothing relevant here."));
+                        return false;
+                    }
+
+                    //TODO: Add weapon range check. This requires weapon to be reloaded.
+
+                    act = ACTION_FIRE;
+                } else if (m.close_door(mx, my, !m.is_outside(mx, my), true)) {
+                    act = ACTION_CLOSE;
+                } else {
+                    int dx = abs(u.posx - mx);
+                    int dy = abs(u.posy - my);
+                    if (dx < 2 && dy < 2) {
+                        if (dy == 0 && dx == 0) {
+                            act = ACTION_PICKUP;
+                        } else {
+                            act = ACTION_EXAMINE;
+                        }
+                    } else {
+                        add_msg(_("Nothing relevant here."));
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    if (act == ACTION_NULL) {
+        u.clear_destination();
+        destination_preview.clear();
+
+        if (action == "ANY_INPUT") {
+            char ch = ctxt.get_raw_input().get_first_input();
+            if (keymap.find(ch) == keymap.end()) {
+                if (ch != ' ' && ch != '\n') {
+                    add_msg(_("Unknown command: '%c'"), ch);
+                }
+                return false;
+            }
+
+            act = keymap[ch];
         } else {
-            act = ACTION_MOVE_NW;
+            // Hack to turn new movement actions back into old ones, till this whole context
+            // gets updated to the new style
+            if (action == "UP") {
+                act = ACTION_MOVE_N;
+            } else if (action == "RIGHTUP") {
+                act = ACTION_MOVE_NE;
+            } else if (action == "RIGHT") {
+                act = ACTION_MOVE_E;
+            } else if (action == "RIGHTDOWN") {
+                act = ACTION_MOVE_SE;
+            } else if (action == "DOWN") {
+                act = ACTION_MOVE_S;
+            } else if (action == "LEFTDOWN") {
+                act = ACTION_MOVE_SW;
+            } else if (action == "LEFT") {
+                act = ACTION_MOVE_W;
+            } else {
+                act = ACTION_MOVE_NW;
+            }
         }
     }
 
 // This has no action unless we're in a special game mode.
  gamemode->pre_action(this, act);
 
- int veh_part;
- vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
- bool veh_ctrl = veh && veh->player_in_control (&u);
-
  int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
  int soffsetr = 0 - soffset;
 
  int before_action_moves = u.moves;
+ bool continue_auto_move = false;
 
  switch (act) {
 
@@ -1901,7 +2018,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(0, -1);
    else
-    plmove(0, -1);
+    continue_auto_move = plmove(0, -1);
    break;
 
   case ACTION_MOVE_NE:
@@ -1910,7 +2027,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(1, -1);
    else
-    plmove(1, -1);
+    continue_auto_move = plmove(1, -1);
    break;
 
   case ACTION_MOVE_E:
@@ -1919,7 +2036,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(1, 0);
    else
-    plmove(1, 0);
+    continue_auto_move = plmove(1, 0);
    break;
 
   case ACTION_MOVE_SE:
@@ -1928,7 +2045,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(1, 1);
    else
-    plmove(1, 1);
+    continue_auto_move = plmove(1, 1);
    break;
 
   case ACTION_MOVE_S:
@@ -1937,7 +2054,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(0, 1);
    else
-   plmove(0, 1);
+   continue_auto_move = plmove(0, 1);
    break;
 
   case ACTION_MOVE_SW:
@@ -1946,7 +2063,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(-1, 1);
    else
-    plmove(-1, 1);
+    continue_auto_move = plmove(-1, 1);
    break;
 
   case ACTION_MOVE_W:
@@ -1955,7 +2072,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(-1, 0);
    else
-    plmove(-1, 0);
+    continue_auto_move = plmove(-1, 0);
    break;
 
   case ACTION_MOVE_NW:
@@ -1964,7 +2081,7 @@ bool game::handle_action()
    if (veh_ctrl)
     pldrive(-1, -1);
    else
-    plmove(-1, -1);
+    continue_auto_move = plmove(-1, -1);
    break;
 
   case ACTION_MOVE_DOWN:
@@ -2023,7 +2140,7 @@ bool game::handle_action()
    break;
 
   case ACTION_CLOSE:
-   close();
+   close(mouse_action_x, mouse_action_y);
    break;
 
   case ACTION_SMASH:
@@ -2034,7 +2151,7 @@ bool game::handle_action()
    break;
 
   case ACTION_EXAMINE:
-   examine();
+   examine(mouse_action_x, mouse_action_y);
    break;
 
   case ACTION_ADVANCEDINV:
@@ -2160,11 +2277,11 @@ bool game::handle_action()
    break;
 
   case ACTION_FIRE:
-   plfire(false);
+   plfire(false, mouse_action_x, mouse_action_y);
    break;
 
   case ACTION_FIRE_BURST:
-   plfire(true);
+   plfire(true, mouse_action_x, mouse_action_y);
    break;
 
   case ACTION_SELECT_FIRE_MODE:
@@ -2398,6 +2515,10 @@ bool game::handle_action()
     add_msg(_("Debug messages OFF!"));
    }
    break;
+ }
+
+ if (!continue_auto_move) {
+     u.clear_destination();
  }
 
  gamemode->post_action(this, act);
@@ -3881,6 +4002,11 @@ void game::draw_ter(int posx, int posy)
                 }
             }
         }
+    }
+
+    if (destination_preview.size() > 0) {
+        point final_destination = destination_preview.back();
+        draw_line(final_destination.x, final_destination.y, destination_preview);
     }
 
     wrefresh(w_terrain);
@@ -6059,11 +6185,13 @@ void game::open()
     }
 }
 
-void game::close()
+void game::close(int closex, int closey)
 {
-    int closex, closey;
-    if (!choose_adjacent(_("Close where?"), closex, closey))
-        return;
+    if (closex == -1) {
+        if (!choose_adjacent(_("Close where?"), closex, closey)) {
+            return;
+        }
+    }
 
     bool didit = false;
 
@@ -6095,7 +6223,7 @@ void game::close()
     } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
        add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else
-        didit = m.close_door(closex, closey, true);
+        didit = m.close_door(closex, closey, true, false);
 
     if (didit)
         u.moves -= 90;
@@ -6593,11 +6721,13 @@ void game::control_vehicle()
     }
 }
 
-void game::examine()
+void game::examine(int examx, int examy)
 {
- int examx, examy;
- if (!choose_adjacent(_("Examine where?"), examx, examy))
-    return;
+    if (examx == -1) {
+        if (!choose_adjacent(_("Examine where?"), examx, examy)) {
+            return;
+        }
+    }
 
  int veh_part = 0;
  vehicle *veh = m.veh_at (examx, examy, veh_part);
@@ -9165,7 +9295,7 @@ void game::plthrow(char chInput)
  throw_item(u, x, y, thrown, trajectory);
 }
 
-void game::plfire(bool burst)
+void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
  char reload_invlet = 0;
  if (!u.weapon.is_gun())
@@ -9259,7 +9389,8 @@ void game::plfire(bool burst)
      if(rl_dist( u.posx, u.posy, z.posx(), z.posy() ) <= range) {
        mon_targets.push_back(z);
        targetindices.push_back(i);
-       if (i == last_target) {
+       bool is_default_target = default_target_x == z.posx() && default_target_y == z.posy();
+       if (is_default_target || (passtarget == -1 && i == last_target)) {
          passtarget = mon_targets.size() - 1;
        }
      }
@@ -10037,14 +10168,14 @@ void game::pldrive(int x, int y) {
     }
 }
 
-void game::plmove(int dx, int dy)
+bool game::plmove(int dx, int dy)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
    add_msg(_("Monster spotted--safe mode is on! \
 (%s to turn it off or %s to ignore monster.)"),
            press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
            from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
-  return;
+  return false;
  }
  int x = 0;
  int y = 0;
@@ -10071,12 +10202,17 @@ void game::plmove(int dx, int dy)
  if (mondex != -1) {
      monster &z = zombie(mondex);
      if (z.friendly == 0 && !(z.type->has_flag(MF_VERMIN))) {
+         if (u.has_destination()) {
+             add_msg(_("Monster in the way. Auto-move canceled. Click directly on monster to attack."));
+             u.clear_destination();
+             return false;
+         }
          int udam = u.hit_mon(this, &z);
          if (z.hurt(udam) || z.is_hallucination()) {
              kill_mon(mondex, true);
          }
          draw_hit_mon(x,y,z,z.dead);
-         return;
+         return false;
      } else {
          displace = true;
      }
@@ -10084,6 +10220,7 @@ void game::plmove(int dx, int dy)
  // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
+     bool force_attack = false;
      if(!active_npc[npcdex]->is_enemy()){
          if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
              if (active_npc[npcdex]->is_friend()) {
@@ -10091,11 +10228,18 @@ void game::plmove(int dx, int dy)
                  active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
              }
 
-             return; // Cancel the attack
+             return false; // Cancel the attack
          } else {
              //The NPC knows we started the fight, used for morale penalty.
              active_npc[npcdex]->hit_by_player = true;
+             force_attack = true;
          }
+     }
+
+     if (u.has_destination() && !force_attack) {
+         add_msg(_("NPC in the way. Auto-move canceled. Click directly on NPC to attack."));
+         u.clear_destination();
+         return false;
      }
 
      u.hit_player(this, *active_npc[npcdex]);
@@ -10104,7 +10248,7 @@ void game::plmove(int dx, int dy)
          active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
          active_npc[npcdex]->die(this, true);
      }
-     return;
+     return false;
  }
 
      // Otherwise, actual movement, zomg
@@ -10124,7 +10268,7 @@ void game::plmove(int dx, int dy)
   }
   if (newdist > curdist) {
    add_msg(_("You cannot pull yourself away from the faultline..."));
-   return;
+   return false;
   }
  }
 
@@ -10132,7 +10276,7 @@ void game::plmove(int dx, int dy)
   if (rng(0, 40) > u.str_cur + int(u.dex_cur / 2)) {
    add_msg(_("You try to escape the pit, but slip back in."));
    u.moves -= 100;
-   return;
+   return false;
   } else {
    add_msg(_("You escape the pit!"));
    u.rem_disease("in_pit");
@@ -10142,12 +10286,12 @@ void game::plmove(int dx, int dy)
   if (rng(0, 40) > u.dex_cur + int(u.str_cur / 2)) {
    add_msg(_("You struggle to stand."));
    u.moves -= 100;
-   return;
+   return false;
   } else {
    add_msg(_("You stand up."));
    u.rem_disease("downed");
    u.moves -= 100;
-   return;
+   return false;
   }
  }
 
@@ -10193,13 +10337,13 @@ void game::plmove(int dx, int dy)
    if (query_yn(_("Dive from moving vehicle?"))) {
     moving_vehicle_dismount(x, y);
    }
-   return;
+   return false;
   } else if (veh1 != veh0) {
    add_msg(_("There is another vehicle in the way."));
-   return;
+   return false;
   } else if (veh1->part_with_feature(vpart1, "BOARDABLE") < 0) {
    add_msg(_("That part of the vehicle is currently unsafe."));
-   return;
+   return false;
   }
  }
 
@@ -10234,7 +10378,7 @@ void game::plmove(int dx, int dy)
                 break;
         }
         if ((dangerous) && !query_yn(_("Really step into that %s?"), cur->name().c_str())) {
-            return;
+            return false;
     }
     }
 
@@ -10242,7 +10386,7 @@ void game::plmove(int dx, int dy)
     u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility){
         if (  !traps[m.tr_at(x, y)]->is_benign() &&
               !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str())){
-            return;
+            return false;
         }
   }
 
@@ -10255,13 +10399,13 @@ void game::plmove(int dx, int dy)
       if( NULL != grabbed_vehicle ) {
           if( grabbed_vehicle == veh0 ) {
               add_msg(_("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
-              return;
+              return false;
           }
           drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
               (float)(u.weight_capacity() * 5);
           if( drag_multiplier > 2.0 ) {
               add_msg(_("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
-              return;
+              return false;
           }
           tileray mdir;
 
@@ -10309,7 +10453,7 @@ void game::plmove(int dx, int dy)
                   u.posy = player_prev_y;
                   u.grab_point.x = prev_grab_x;
                   u.grab_point.y = prev_grab_y;
-                  return;
+                  return false;
               }
               u.posx = player_prev_x;
               u.posy = player_prev_y;
@@ -10369,15 +10513,15 @@ void game::plmove(int dx, int dy)
           if ( ! canmove ) {
               add_msg( _("The %s collides with something."), furntype.name.c_str() );
               u.moves -= 50; // "oh was that your foot? Sorry :-O"
-              return;
+              return false;
           } else if ( ! m.can_move_furniture( fpos.x, fpos.y, &u ) ) {
               add_msg(_("The %s is too heavy for you to budge!"), furntype.name.c_str() );
               u.moves -= 100; // time spent straining and going 'hnngh!'
-              return; // furniture and or obstacle wins.
+              return false; // furniture and or obstacle wins.
           } else if ( ! src_item_ok && dst_items > 0 ) {
               add_msg( _("There's stuff in the way.") );
               u.moves -= 50; // "oh was that your stuffed parrot? Sorry :-O"
-              return;
+              return false;
           }
 
           if ( pulling_furniture ) { // normalize movecost for pulling: furniture moves into our current square -then- we move away
@@ -10421,7 +10565,7 @@ void game::plmove(int dx, int dy)
                   u.grab_point = point (0, 0);
                   u.grab_type = OBJECT_NONE;
               }
-              return; // We moved furniture but stayed still.
+              return false; // We moved furniture but stayed still.
           } else if ( pushing_furniture && m.move_cost(x, y) <= 0 ) { // Not sure how that chair got into a wall, but don't let player follow.
               add_msg( _("You let go of the %s as it slides past %s"), furntype.name.c_str(), m.ter_at(x,y).name.c_str() );
               u.grab_point = point (0, 0);
@@ -10500,10 +10644,10 @@ void game::plmove(int dx, int dy)
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
      }
-     return;
+     return false;
     } else {
      add_msg(_("You can't displace your %s."), z.name().c_str());
-     return;
+     return false;
     }
    }
    z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
@@ -10652,6 +10796,7 @@ void game::plmove(int dx, int dy)
   else //or you couldn't tunnel due to lack of energy
   {
       u.power_level -= 10; //failure is expensive!
+      return false;
   }
 
  } else if (veh_closed_door) { // move_cost <= 0
@@ -10684,7 +10829,10 @@ void game::plmove(int dx, int dy)
    u.moves -= 80;
    add_msg(_("You rattle the bars but the door is locked!"));
   }
+  return false;
  }
+
+ return true;
 }
 
 void game::plswim(int x, int y)
@@ -11106,8 +11254,10 @@ void game::update_map(int &x, int &y)
  set_adjacent_overmaps();
 
  // Shift monsters if we're actually shifting
- if(shiftx || shifty)
-  despawn_monsters(false, shiftx, shifty);
+ if (shiftx || shifty) {
+    despawn_monsters(false, shiftx, shifty);
+    u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
+ }
 
  // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
