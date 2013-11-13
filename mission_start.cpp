@@ -8,7 +8,7 @@
  * updating *miss with the target and any other important information.
  */
 
-void mission_start::standard(game *g, mission *miss)
+void mission_start::standard(game *, mission *)
 {
 }
 
@@ -281,7 +281,7 @@ void mission_start::place_priest_diary(game *g, mission *miss)
    comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
   else
    comppoint = valid[rng(0, valid.size() - 1)];
- compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary", 0);
+ compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary");
  compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
@@ -323,7 +323,7 @@ void mission_start::place_deposit_box(game *g, mission *miss)
    comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
   else
    comppoint = valid[rng(0, valid.size() - 1)];
-compmap.spawn_item(comppoint.x, comppoint.y, "safe_box", 0);
+compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
 compmap.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
@@ -468,6 +468,6 @@ for (int x = site.x - 2; x <= site.x + 2; x++) {
  g->cur_om->npcs.push_back(temp);
 }
 
-void mission_start::place_book(game *g, mission *miss)
+void mission_start::place_book(game *, mission *)
 {
 }

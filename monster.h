@@ -59,7 +59,7 @@ class monster {
 // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
- void print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5); // Prints information to w.
+ int print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
  char symbol(); // Just our type's symbol; no context
  void draw(WINDOW* w, int plx, int ply, bool inv);
  nc_color color_with_effects(); // Color with fire, beartrapped, etc.
@@ -73,10 +73,10 @@ class monster {
  int vision_range(int x, int y); // Returns monster vision range, x and y are the target spot
  bool made_of(std::string m); // Returns true if it's made of m
  bool made_of(phase_id p); // Returns true if its phase is p
- bool json_load(picojson::value parsed, std::vector<mtype*> *mtypes);
+ bool json_load(picojson::value parsed);
  void json_load(picojson::value parsed, game * g);
- void load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump);
- void load_info(std::string data, std::vector<mtype*> *mtypes);
+ void load_legacy(std::stringstream & dump);
+ void load_info(std::string data);
 
  virtual picojson::value json_save(bool save_contents = false);
  std::string save_info();    // String of all data, for save files
@@ -184,7 +184,7 @@ class monster {
     bool has_effect(monster_effect_type effect); // True if we have the effect
     void rem_effect(monster_effect_type effect); // Remove a given effect
     void process_effects(game *g); // Process long-term effects
-    bool make_fungus(game *g);  // Makes this monster into a fungus version
+    bool make_fungus();  // Makes this monster into a fungus version
                                 // Returns false if no such monster exists
     void make_friendly();
     void add_item(item it);     // Add an item to inventory

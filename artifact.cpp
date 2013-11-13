@@ -1,8 +1,13 @@
-#include <sstream>
-#include <vector>
-#include "game.h"
 #include "artifact.h"
-#include "artifactdata.h"
+
+#include "itype.h"
+#include "output.h" // string_format
+#include "json.h"
+
+#include <string>
+#include <vector>
+#include <sstream>
+#include <fstream>
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
@@ -101,7 +106,7 @@ std::string artifact_adj[NUM_ART_ADJS];
 std::string artifact_noun[NUM_ART_NOUNS];
 std::string artifact_name(std::string type);
 
-void game::init_artifacts()
+void init_artifacts()
 {
     artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
     {"BUG", "BUG", 0, 0, 0, 0},
@@ -367,7 +372,7 @@ void game::init_artifacts()
 
 }
 
-itype* game::new_artifact()
+itype* new_artifact(itypemap &itypes)
 {
  if (one_in(2)) { // Generate a "tool" artifact
 
@@ -612,7 +617,7 @@ itype* game::new_artifact()
  }
 }
 
-itype* game::new_natural_artifact(artifact_natural_property prop)
+itype* new_natural_artifact(itypemap &itypes, artifact_natural_property prop)
 {
 // Natural artifacts are always tools.
  it_artifact_tool *art = new it_artifact_tool();
@@ -771,273 +776,204 @@ std::string artifact_name(std::string type)
 }
 
 
-void game::process_artifact(item *it, player *p, bool wielded)
+/* Json Loading and saving */
+
+void load_artifacts(const std::string &artfilename, itypemap &itypes)
 {
- std::vector<art_effect_passive> effects;
- if (it->is_armor()) {
-  it_artifact_armor* armor = dynamic_cast<it_artifact_armor*>(it->type);
-  effects = armor->effects_worn;
- } else if (it->is_tool()) {
-  it_artifact_tool* tool = dynamic_cast<it_artifact_tool*>(it->type);
-  effects = tool->effects_carried;
-  if (wielded) {
-   for (int i = 0; i < tool->effects_wielded.size(); i++)
-    effects.push_back(tool->effects_wielded[i]);
-  }
-// Recharge it if necessary
-  if (it->charges < tool->max_charges) {
-   switch (tool->charge_type) {
-    case ARTC_TIME:
-     if (turn.seconds() == 0 && turn.minutes() == 0) // Once per hour
-      it->charges++;
-     break;
-    case ARTC_SOLAR:
-     if (turn.seconds() == 0 && turn.minutes() % 10 == 0 &&
-         is_in_sunlight(p->posx, p->posy))
-      it->charges++;
-     break;
-    case ARTC_PAIN:
-     if (turn.seconds() == 0) {
-      add_msg(_("You suddenly feel sharp pain for no reason."));
-      p->pain += 3 * rng(1, 3);
-      it->charges++;
-     }
-     break;
-    case ARTC_HP:
-     if (turn.seconds() == 0) {
-      add_msg(_("You feel your body decaying."));
-      p->hurtall(1);
-      it->charges++;
-     }
-     break;
-   }
-  }
- }
-
- for (int i = 0; i < effects.size(); i++) {
-  switch (effects[i]) {
-  case AEP_STR_UP:
-   p->str_cur += 4;
-   break;
-  case AEP_DEX_UP:
-   p->dex_cur += 4;
-   break;
-  case AEP_PER_UP:
-   p->per_cur += 4;
-   break;
-  case AEP_INT_UP:
-   p->int_cur += 4;
-   break;
-  case AEP_ALL_UP:
-   p->str_cur += 2;
-   p->dex_cur += 2;
-   p->per_cur += 2;
-   p->int_cur += 2;
-   break;
-  case AEP_SPEED_UP: // Handled in player::current_speed()
-   break;
-
-  case AEP_IODINE:
-   if (p->radiation > 0)
-    p->radiation--;
-   break;
-
-  case AEP_SMOKE:
-   if (one_in(10)) {
-    int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
-    if (m.add_field(this, x, y, fd_smoke, rng(1, 3)))
-     add_msg(_("The %s emits some smoke."), it->tname().c_str());
-   }
-   break;
-
-  case AEP_SNAKES:
-   break; // Handled in player::hit()
-
-  case AEP_EXTINGUISH:
-   for (int x = p->posx - 1; x <= p->posx + 1; x++) {
-    for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-        m.adjust_field_age(point(x,y), fd_fire, -1);
+    std::ifstream file_test(artfilename.c_str(),
+                            std::ifstream::in | std::ifstream::binary);
+    if (!file_test.good()) {
+        file_test.close();
+        return;
     }
-   }
 
-  case AEP_HUNGER:
-   if (one_in(100))
-    p->hunger++;
-   break;
+    try {
+        load_artifacts_from_ifstream(&file_test, itypes);
+    } catch (std::string e) {
+        debugmsg("%s: %s", artfilename.c_str(), e.c_str());
+    }
 
-  case AEP_THIRST:
-   if (one_in(120))
-    p->thirst++;
-   break;
-
-  case AEP_EVIL:
-   if (one_in(150)) { // Once every 15 minutes, on average
-    p->add_disease("evil", 300);
-    if (!wielded && !it->is_armor())
-     add_msg((it->is_armor() ? _("You have an urge to wear the %s.") : _("You have an urge to wield the %s.")), it->tname().c_str());
-   }
-   break;
-
-  case AEP_SCHIZO:
-   break; // Handled in player::suffer()
-
-  case AEP_RADIOACTIVE:
-   if (one_in(4))
-    p->radiation++;
-   break;
-
-  case AEP_STR_DOWN:
-   p->str_cur -= 3;
-   break;
-
-  case AEP_DEX_DOWN:
-   p->dex_cur -= 3;
-   break;
-
-  case AEP_PER_DOWN:
-   p->per_cur -= 3;
-   break;
-
-  case AEP_INT_DOWN:
-   p->int_cur -= 3;
-   break;
-
-  case AEP_ALL_DOWN:
-   p->str_cur -= 2;
-   p->dex_cur -= 2;
-   p->per_cur -= 2;
-   p->int_cur -= 2;
-   break;
-
-  case AEP_SPEED_DOWN:
-   break; // Handled in player::current_speed()
-  }
- }
+    file_test.close();
 }
 
-void game::add_artifact_messages(std::vector<art_effect_passive> effects)
+void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
 {
- int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
- for (int i = 0; i < effects.size(); i++) {
-  switch (effects[i]) {
-   case AEP_STR_UP:   net_str += 4; break;
-   case AEP_DEX_UP:   net_dex += 4; break;
-   case AEP_PER_UP:   net_per += 4; break;
-   case AEP_INT_UP:   net_int += 4; break;
-   case AEP_ALL_UP:   net_str += 2;
-                      net_dex += 2;
-                      net_per += 2;
-                      net_int += 2; break;
-   case AEP_STR_DOWN: net_str -= 3; break;
-   case AEP_DEX_DOWN: net_dex -= 3; break;
-   case AEP_PER_DOWN: net_per -= 3; break;
-   case AEP_INT_DOWN: net_int -= 3; break;
-   case AEP_ALL_DOWN: net_str -= 2;
-                      net_dex -= 2;
-                      net_per -= 2;
-                      net_int -= 2; break;
-
-   case AEP_SPEED_UP:   net_speed += 20; break;
-   case AEP_SPEED_DOWN: net_speed -= 20; break;
-
-   case AEP_IODINE:
-    break; // No message
-
-   case AEP_SNAKES:
-    add_msg(_("Your skin feels slithery."));
-    break;
-
-   case AEP_INVISIBLE:
-    add_msg(_("You fade into invisibility!"));
-    break;
-
-   case AEP_CLAIRVOYANCE:
-    add_msg(_("You can see through walls!"));
-    break;
-
-   case AEP_SUPER_CLAIRVOYANCE:
-    add_msg(_("You can see through everything!"));
-    break;
-
-   case AEP_STEALTH:
-    add_msg(_("Your steps stop making noise."));
-    break;
-
-   case AEP_GLOW:
-    add_msg(_("A glow of light forms around you."));
-    break;
-
-   case AEP_PSYSHIELD:
-    add_msg(_("Your mental state feels protected."));
-    break;
-
-   case AEP_RESIST_ELECTRICITY:
-    add_msg(_("You feel insulated."));
-    break;
-
-   case AEP_CARRY_MORE:
-    add_msg(_("Your back feels strengthened."));
-    break;
-
-   case AEP_HUNGER:
-    add_msg(_("You feel hungry."));
-    break;
-
-   case AEP_THIRST:
-    add_msg(_("You feel thirsty."));
-    break;
-
-   case AEP_EVIL:
-    add_msg(_("You feel an evil presence..."));
-    break;
-
-   case AEP_SCHIZO:
-    add_msg(_("You feel a tickle of insanity."));
-    break;
-
-   case AEP_RADIOACTIVE:
-    add_msg(_("Your skin prickles with radiation."));
-    break;
-
-   case AEP_MUTAGENIC:
-    add_msg(_("You feel your genetic makeup degrading."));
-    break;
-
-   case AEP_ATTENTION:
-    add_msg(_("You feel an otherworldly attention upon you..."));
-    break;
-
-   case AEP_FORCE_TELEPORT:
-    add_msg(_("You feel a force pulling you inwards."));
-    break;
-
-   case AEP_MOVEMENT_NOISE:
-    add_msg(_("You hear a rattling noise coming from inside yourself."));
-    break;
-
-   case AEP_BAD_WEATHER:
-    add_msg(_("You feel storms coming."));
-    break;
-  }
- }
-
- std::string stat_info = "";
- if (net_str != 0) {
-  stat_info += string_format(_("Str %s%d! "), (net_str > 0 ? "+" : ""), net_str);
- }
- if (net_dex != 0) {
-  stat_info += string_format( _("Dex %s%d! "), (net_dex > 0 ? "+" : ""), net_dex);
- }
- if (net_int != 0) {
-  stat_info += string_format(_("Int %s%d! "), (net_int > 0 ? "+" : ""), net_int);
- }
- if (net_per != 0) {
-  stat_info += string_format(_("Per %s%d! "), (net_per > 0 ? "+" : ""), net_per);
- }
-
- if (stat_info.length() > 0)
-  add_msg(stat_info.c_str());
-
- if (net_speed != 0)
-  add_msg(_("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
+    // read and create artifacts from json array in artifacts.gsav
+    JsonIn artifact_json(f);
+    artifact_json.start_array();
+    while (!artifact_json.end_array()) {
+        JsonObject jo = artifact_json.get_object();
+        std::string type = jo.get_string("type");
+        std::string id = jo.get_string("id");
+        if (type == "artifact_tool") {
+            it_artifact_tool *art = new it_artifact_tool(jo);
+            itypes[id] = art;
+            artifact_itype_ids.push_back(id);
+        } else if (type == "artifact_armor") {
+            it_artifact_armor *art = new it_artifact_armor(jo);
+            itypes[id] = art;
+            artifact_itype_ids.push_back(id);
+        } else {
+            throw jo.line_number() + ": unrecognized artifact type.";
+        }
+    }
 }
+
+
+void it_artifact_tool::deserialize(JsonObject &jo)
+{
+    id = jo.get_string("id");
+    name = jo.get_string("name");
+    description = jo.get_string("description");
+    sym = jo.get_int("sym");
+    color = int_to_color(jo.get_int("color"));
+    price = jo.get_int("price");
+    m1 = jo.get_string("m1");
+    m2 = jo.get_string("m2");
+    volume = jo.get_int("volume");
+    weight = jo.get_int("weight");
+    melee_dam = jo.get_int("melee_dam");
+    melee_cut = jo.get_int("melee_cut");
+    m_to_hit = jo.get_int("m_to_hit");
+    item_tags = jo.get_tags("item_flags");
+
+    max_charges = jo.get_int("max_charges");
+    def_charges = jo.get_int("def_charges");
+    charges_per_use = jo.get_int("charges_per_use");
+    turns_per_charge = jo.get_int("turns_per_charge");
+    ammo = jo.get_string("ammo");
+    revert_to = jo.get_string("revert_to");
+
+    charge_type = (art_charge)jo.get_int("charge_type");
+
+    JsonArray ja = jo.get_array("effects_wielded");
+    while (ja.has_more()) {
+        effects_wielded.push_back((art_effect_passive)ja.next_int());
+    }
+
+    ja = jo.get_array("effects_activated");
+    while (ja.has_more()) {
+        effects_activated.push_back((art_effect_active)ja.next_int());
+    }
+
+    ja = jo.get_array("effects_carried");
+    while (ja.has_more()) {
+        effects_carried.push_back((art_effect_passive)ja.next_int());
+    }
+}
+
+void it_artifact_armor::deserialize(JsonObject &jo)
+{
+    id = jo.get_string("id");
+    name = jo.get_string("name");
+    description = jo.get_string("description");
+    sym = jo.get_int("sym");
+    color = int_to_color(jo.get_int("color"));
+    price = jo.get_int("price");
+    m1 = jo.get_string("m1");
+    m2 = jo.get_string("m2");
+    volume = jo.get_int("volume");
+    weight = jo.get_int("weight");
+    melee_dam = jo.get_int("melee_dam");
+    melee_cut = jo.get_int("melee_cut");
+    m_to_hit = jo.get_int("m_to_hit");
+    item_tags = jo.get_tags("item_flags");
+
+    covers = jo.get_int("covers");
+    encumber = jo.get_int("encumber");
+    coverage = jo.get_int("coverage");
+    thickness = jo.get_int("material_thickness");
+    env_resist = jo.get_int("env_resist");
+    warmth = jo.get_int("warmth");
+    storage = jo.get_int("storage");
+    power_armor = jo.get_bool("power_armor");
+
+    JsonArray ja = jo.get_array("effects_worn");
+    while (ja.has_more()) {
+        effects_worn.push_back((art_effect_passive)ja.next_int());
+    }
+}
+
+void it_artifact_tool::serialize(JsonOut &json) const
+{
+    json.start_object();
+
+    json.member("type", "artifact_tool");
+
+    // generic data
+    json.member("id", id);
+    json.member("name", name);
+    json.member("description", description);
+    json.member("sym", sym);
+    json.member("color", color_to_int(color));
+    json.member("price", price);
+    json.member("m1", m1);
+    json.member("m2", m2);
+    json.member("volume", volume);
+    json.member("weight", weight);
+    json.member("melee_dam", melee_dam);
+    json.member("melee_cut", melee_cut);
+    json.member("m_to_hit", m_to_hit);
+
+    json.member("item_flags", item_tags);
+    json.member("techniques", techniques);
+
+    // tool data
+    json.member("ammo", ammo);
+    json.member("max_charges", max_charges);
+    json.member("def_charges", def_charges);
+    json.member("charges_per_use", charges_per_use);
+    json.member("turns_per_charge", turns_per_charge);
+    json.member("revert_to", revert_to);
+
+    // artifact data
+    json.member("charge_type", charge_type);
+    json.member("effects_wielded", effects_wielded);
+    json.member("effects_activated", effects_activated);
+    json.member("effects_carried", effects_carried);
+
+    json.end_object();
+}
+
+void it_artifact_armor::serialize(JsonOut &json) const
+{
+    json.start_object();
+
+    json.member("type", "artifact_armor");
+
+    // generic data
+    json.member("id", id);
+    json.member("name", name);
+    json.member("description", description);
+    json.member("sym", sym);
+    json.member("color", color_to_int(color));
+    json.member("price", price);
+    json.member("m1", m1);
+    json.member("m2", m2);
+    json.member("volume", volume);
+    json.member("weight", weight);
+    json.member("id", id);
+    json.member("melee_dam", melee_dam);
+    json.member("melee_cut", melee_cut);
+    json.member("m_to_hit", m_to_hit);
+
+    json.member("item_flags", item_tags);
+
+    json.member("techniques", techniques);
+
+    // armor data
+    json.member("covers", covers);
+    json.member("encumber", encumber);
+    json.member("coverage", coverage);
+    json.member("material_thickness", thickness);
+    json.member("env_resist", env_resist);
+    json.member("warmth", warmth);
+    json.member("storage", storage);
+    json.member("power_armor", power_armor);
+
+    // artifact data
+    json.member("effects_worn", effects_worn);
+
+    json.end_object();
+}
+

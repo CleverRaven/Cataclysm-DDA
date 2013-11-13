@@ -7,8 +7,9 @@
 #include "omdata.h"
 #include "itype.h"
 #include "npc.h"
+#include "json.h"
 
-struct mission;
+class mission;
 class game;
 enum talk_topic;
 
@@ -72,8 +73,8 @@ enum mission_goal {
 };
 
 struct mission_place { // Return true if [posx,posy] is valid in overmap
-    bool never     (game *g, int posx, int posy) { return false; }
-    bool always    (game *g, int posx, int posy) { return true;  }
+    bool never     (game *, int, int) { return false; }
+    bool always    (game *, int, int) { return true;  }
     bool near_town (game *g, int posx, int posy);
 };
 
@@ -164,7 +165,9 @@ struct mission_type {
  mission create(game *g, int npc_id = -1); // Create a mission
 };
 
-struct mission {
+class mission : public JsonSerializer, public JsonDeserializer
+{
+public:
     mission_type *type;
     std::string description;// Basic descriptive text
     bool failed;            // True if we've failed it!
@@ -185,12 +188,13 @@ struct mission {
     int step;               // How much have we completed?
     mission_id follow_up;   // What mission do we get after this succeeds?
 
- std::string name();
- std::string save_info();
- void load_info(game *g, std::ifstream &info);
-
- void json_load(picojson::value parsed, game * g);
- picojson::value json_save(bool save_contents = false);
+    std::string name();
+    std::string save_info();
+    void load_info(game *g, std::ifstream &info);
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonObject &jsobj);
 
  mission()
  {

@@ -287,5 +287,110 @@
                 "key":"JOY_3"
             }
         ]
+    },
+    {
+        "id":"QUIT",
+        "name":"Exit Screen",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_3"
+            }
+        ]
+    },
+    {
+        "id":"FIRE",
+        "name":"Fire Weapon",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"F"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            },
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_RIGHT"
+            }
+        ]
+    },
+    {
+        "id":"PREV_TARGET",
+        "name":"Prev Target",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_UP"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "id":"NEXT_TARGET",
+        "name":"Next Target",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "id":"SELECT",
+        "name":"Select",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_LEFT"
+            }
+        ]
+    },
+    {
+        "id":"SELECT",
+        "name":"Select",
+        "category":"LOOK",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_LEFT"
+            }
+        ]
+    },
+    {
+        "id":"MOUSE_MOVE",
+        "name":"Mouse Move",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_MOVE"
+            }
+        ]
+    },
+    {
+        "id":"TOGGLE_FAST_SCROLL",
+        "name":"Toggle Fast Scroll",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            }
+        ]
     }
 ]

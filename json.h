@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <istream>
+#include <ostream>
+#include <sstream>
 #include <map>
 #include <set>
 
@@ -108,7 +110,7 @@
  * and calling the correct JsonIn method to read the value from the stream.
  * 
  * As such, when processing items using a JsonIn,
- * care must be taken to move the stream offset to the end of the item
+ * care should be taken to move the stream offset to the end of the item
  * after usage has finished.
  * This can be done by calling the .finish() method,
  * after the item has been dealt with, and before the stream continues.
@@ -198,14 +200,18 @@
 class JsonIn;
 class JsonObject;
 class JsonArray;
+class JsonOut;
+class JsonSerializer;
+class JsonDeserializer;
 
-bool is_whitespace(char ch);
+bool is_whitespace(char ch); // TODO: move this elsewhere
 
 class JsonObject {
 private:
     std::map<std::string, int> positions;
     int start;
     int end;
+    bool ate_final_separator;
     JsonIn *jsin;
     int verify_position(const std::string &name,
                         const bool throw_exception=true);
@@ -213,10 +219,12 @@ private:
 public:
     JsonObject(JsonIn *jsin);
     JsonObject(const JsonObject &jsobj);
+    ~JsonObject() { finish(); }
 
     void finish(); // moves the stream to the end of the object
 
     bool has_member(const std::string &name); // true iff named member exists
+    std::set<std::string> get_member_names();
 
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
@@ -231,6 +239,8 @@ public:
 
     // note: returns empty array if not found
     JsonArray get_array(const std::string &name);
+    std::vector<int> get_int_array(const std::string &name);
+    std::vector<std::string> get_string_array(const std::string &name);
     // note: throws exception if not found (can change behaviour if desirable)
     JsonObject get_object(const std::string &name);
     // note: returns empty set if not found
@@ -249,12 +259,6 @@ public:
 
     // useful debug info
     std::string line_number(); // for occasional use only
-
-    // sets and gets validation mode // todo constructor arg
-    bool strict;
-
-    // dump substring of input, for error messages and copying
-    std::string dump_input();
 };
 
 class JsonArray {
@@ -263,6 +267,7 @@ private:
     int start;
     int index;
     int end;
+    bool ate_final_separator;
     JsonIn *jsin;
     void verify_index(int i);
 
@@ -270,6 +275,9 @@ public:
     JsonArray(JsonIn *jsin);
     JsonArray(const JsonArray &jsarr);
     JsonArray() : positions(), start(0), index(0), jsin(NULL) {};
+    ~JsonArray() { finish(); }
+
+    void finish(); // move the stream position to the end of the array
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();
@@ -309,21 +317,18 @@ public:
     bool has_string(int index);
     bool has_array(int index);
     bool has_object(int index);
-
-    // sets and gets validation mode // todo constructor arg
-    bool strict;
-
-    // dump substring of input, for error messages and copying
-    std::string dump_input();
 };
 
 class JsonIn {
 private:
-
     std::istream *stream;
+    bool strict; // throw errors on non-RFC-4627-compliant input
+    bool ate_separator;
+
+    void end_value();
 
 public:
-    JsonIn(std::istream *stream);
+    JsonIn(std::istream *stream, bool strict = true);
 
     int tell(); // get current stream position
     void seek(int pos); // seek to specified stream position
@@ -332,19 +337,21 @@ public:
 
     // advance seek head to the next non-whitespace character
     void eat_whitespace();
+    // or rewind to the previous one
+    void uneat_whitespace();
 
     // quick skipping for when values don't have to be parsed
-    bool skip_member();
-    bool skip_pair_separator();
-    bool skip_string();
-    bool skip_value();
-    bool skip_object();
-    bool skip_array();
-    bool skip_true();
-    bool skip_false();
-    bool skip_null();
-    bool skip_number();
-    bool skip_separator();
+    void skip_member();
+    void skip_separator();
+    void skip_pair_separator();
+    void skip_string();
+    void skip_value();
+    void skip_object();
+    void skip_array();
+    void skip_true();
+    void skip_false();
+    void skip_null();
+    void skip_number();
 
     // data parsing
     std::string get_string(); // get the next value as a string
@@ -371,14 +378,98 @@ public:
     bool test_array();
     bool test_object();
 
-    // useful debug info
+    // error messages
     std::string line_number(int offset_modifier=0); // for occasional use only
+    void error(std::string message, int offset=0); // ditto
+    void rewind(int max_lines=-1, int max_chars=-1);
+};
 
-    // sets and gets validation mode // todo constructor arg
-    bool strict;
+class JsonOut {
+private:
+    std::ostream *stream;
+    bool need_separator;
 
-    // raw read of string, for dump_input
-    void read(char * str, int len);
+public:
+    JsonOut(std::ostream *stream); // TODO: pretty-printing
+
+    // punctuation
+    void write_separator();
+    void write_member_separator();
+    void start_object();
+    void end_object();
+    void start_array();
+    void end_array();
+
+    // write data to the output stream as JSON
+    void write_null();
+    void write(const bool &b);
+    void write(const int &i);
+    void write(const unsigned &u);
+    void write(const double &f);
+    void write(const std::string &s);
+    void write(const char *cstr) { write(std::string(cstr)); }
+    void write(const JsonSerializer &thing);
+    // vector ~> array
+    template <typename T> void write(const std::vector<T> &v)
+    {
+        start_array();
+        for (int i = 0; i < v.size(); ++i) {
+            write(v[i]);
+        }
+        end_array();
+    }
+    // set ~> array
+    template <typename T> void write(const std::set<T> &v)
+    {
+        start_array();
+        typename std::set<T>::iterator it;
+        for (it = v.begin(); it != v.end(); ++it) {
+            write(*it);
+        }
+        end_array();
+    }
+
+    // convenience methods for writing named object members
+    void member(const std::string &name); // TODO: enforce value after
+    void null_member(const std::string &name);
+    template <typename T> void member(const std::string &name, const T &value)
+    {
+        member(name);
+        write(value);
+    }
+    // map ~> object?
+};
+
+
+// inheritable interface classes for easy serialization
+
+class JsonSerializer {
+public:
+    virtual void serialize(JsonOut &jsout) const = 0;
+    std::string serialize() const {
+        std::ostringstream s;
+        serialize(s);
+        return s.str();
+    }
+    void serialize(std::ostream &o) const {
+        JsonOut jout(&o);
+        serialize(jout);
+    }
+};
+
+class JsonDeserializer {
+public:
+    virtual void deserialize(JsonObject &jsobj) = 0;
+    void deserialize(const std::string &json_object_string) {
+        // note: object string must include starting and ending braces {}
+        std::istringstream s(json_object_string);
+        deserialize(s);
+    }
+    void deserialize(std::istream &i) {
+        JsonIn jin(&i);
+        JsonObject jo = jin.get_object();
+        deserialize(jo);
+    }
 };
 
 #endif // _JSON_H_

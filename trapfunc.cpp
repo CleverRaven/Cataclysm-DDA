@@ -53,7 +53,7 @@ void trapfunc::beartrap(game *g, int x, int y)
     g->u.hit(g, bp_legs, random_side(bp_legs), 10, 16);
     g->u.add_disease("beartrap", 1, true);
     g->m.remove_trap(x, y);
-    g->m.spawn_item(x, y, "beartrap", g->turn);
+    g->m.spawn_item(x, y, "beartrap");
 }
 
 void trapfuncm::beartrap(game *g, monster *z, int x, int y)
@@ -65,7 +65,7 @@ void trapfuncm::beartrap(game *g, monster *z, int x, int y)
  g->sound(x, y, 8, _("SNAP!"));
  if (z->hurt(35)) {
   g->kill_mon(g->mon_at(x, y));
-  g->m.spawn_item(x, y, "beartrap", 0);
+  g->m.spawn_item(x, y, "beartrap");
  } else {
   z->moves = 0;
   z->add_effect(ME_BEARTRAP, rng(8, 15));
@@ -178,10 +178,10 @@ void trapfunc::crossbow(game *g, int x, int y)
  } else
   g->add_msg(_("You dodge the shot!"));
  g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "crossbow", 0);
- g->m.spawn_item(x, y, "string_6", 0);
+ g->m.spawn_item(x, y, "crossbow");
+ g->m.spawn_item(x, y, "string_6");
  if (add_bolt)
-  g->m.spawn_item(x, y, "bolt_steel", 0, 0, 1);
+  g->m.spawn_item(x, y, "bolt_steel", 1, 1);
 }
 
 void trapfuncm::crossbow(game *g, monster *z, int x, int y)
@@ -210,10 +210,10 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
     else if (seen)
         g->add_msg(_("A bolt shoots out, but misses the %s."), z->name().c_str());
     g->m.remove_trap(x, y);
-    g->m.spawn_item(x, y, "crossbow", 0);
-    g->m.spawn_item(x, y, "string_6", 0);
+    g->m.spawn_item(x, y, "crossbow");
+    g->m.spawn_item(x, y, "string_6");
     if (add_bolt)
-    g->m.spawn_item(x, y, "bolt_steel", 0, 0, 1);
+    g->m.spawn_item(x, y, "bolt_steel", 1, 1);
 }
 
 void trapfunc::shotgun(game *g, int x, int y)
@@ -243,8 +243,8 @@ void trapfunc::shotgun(game *g, int x, int y)
  } else
   g->add_msg(_("You dodge the shot!"));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
-  g->m.spawn_item(x, y, "shotgun_sawn", 0);
-  g->m.spawn_item(x, y, "string_6", 0);
+  g->m.spawn_item(x, y, "shotgun_sawn");
+  g->m.spawn_item(x, y, "string_6");
   g->m.remove_trap(x, y);
  } else
   g->m.add_trap(x, y, tr_shotgun_1);
@@ -270,10 +270,10 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
   g->kill_mon(g->mon_at(x, y));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
   g->m.remove_trap(x, y);
-  g->m.spawn_item(x, y, "shotgun_sawn", 0);
-  g->m.spawn_item(x, y, "string_6", 0);
-  g->m.spawn_item(x, y, "shotgun_sawn", 0);
-  g->m.spawn_item(x, y, "string_6", 0);
+  g->m.spawn_item(x, y, "shotgun_sawn");
+  g->m.spawn_item(x, y, "string_6");
+  g->m.spawn_item(x, y, "shotgun_sawn");
+  g->m.spawn_item(x, y, "string_6");
  } else
   g->m.add_trap(x, y, tr_shotgun_1);
 }
@@ -307,8 +307,8 @@ void trapfunc::snare_light(game *g, int x, int y)
  g->u.add_memorial_log(_("Triggered a light snare."));
  g->u.add_disease("lightsnare", rng(10, 20));
  g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "string_36", 0);
- g->m.spawn_item(x, y, "snare_trigger", 0);
+ g->m.spawn_item(x, y, "string_36");
+ g->m.spawn_item(x, y, "snare_trigger");
 }
 
 void trapfuncm::snare_light(game *g, monster *z, int x, int y)
@@ -352,8 +352,8 @@ void trapfuncm::snare_light(game *g, monster *z, int x, int y)
    break;
  }
  g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "string_36", 0);
- g->m.spawn_item(x, y, "snare_trigger", 0);
+ g->m.spawn_item(x, y, "string_36");
+ g->m.spawn_item(x, y, "snare_trigger");
 }
 
 void trapfunc::snare_heavy(game *g, int x, int y)
@@ -366,8 +366,8 @@ void trapfunc::snare_heavy(game *g, int x, int y)
  g->u.hit(g, bp_legs, side, 15, 20);
  g->u.add_disease("heavysnare", rng(20, 30));
  g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "rope_6", 0);
- g->m.spawn_item(x, y, "snare_trigger", 0);
+ g->m.spawn_item(x, y, "rope_6");
+ g->m.spawn_item(x, y, "snare_trigger");
 }
 
 void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
@@ -422,8 +422,8 @@ void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
    break;
  }
  g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "snare_trigger", 0);
- g->m.spawn_item(x, y, "rope_6", 0);
+ g->m.spawn_item(x, y, "snare_trigger");
+ g->m.spawn_item(x, y, "rope_6");
 }
 
 void trapfunc::landmine(game *g, int x, int y)
@@ -623,7 +623,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
             g->m.add_trap(x, y, tr_pit);
             for (int i = 0; i < 4; i++) { // 4 spears to a pit
                 if (one_in(3)) {
-                    g->m.spawn_item(x, y, "spear_wood", g->turn);
+                    g->m.spawn_item(x, y, "spear_wood");
                 }
             }
         }
@@ -655,7 +655,7 @@ void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
         g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 4; i++) { // 4 spears to a pit
             if (one_in(3)) {
-                g->m.spawn_item(x, y, "spear_wood", g->turn);
+                g->m.spawn_item(x, y, "spear_wood");
             }
         }
     }
@@ -696,6 +696,24 @@ void trapfuncm::lava(game *g, monster *z, int x, int y)
  z->hurt(dam);
 }
 
+// STUB
+void trapfunc::portal(game *g, int x, int y)
+{
+    // TODO: make this do something?
+    (void)g;
+    (void)x;
+    (void)y;
+}
+
+// STUB
+void trapfuncm::portal(game *g, monster *z, int x, int y)
+{
+    // TODO: make this do something?
+    (void)g;
+    (void)z;
+    (void)x;
+    (void)y;
+}
 
 void trapfunc::sinkhole(game *g, int x, int y)
 {
@@ -720,8 +738,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
     if (safe.empty()) {
      g->add_msg(_("There's nowhere to pull yourself to, and you sink!"));
      g->u.use_amount("rope_30", 1);
-     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
-                     "rope_30", g->turn);
+     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
      g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
      g->vertical_move(-1, true);
     } else {
@@ -736,16 +753,14 @@ void trapfunc::sinkhole(game *g, int x, int y)
     g->add_msg(_("You're not strong enough to pull yourself out..."));
     g->u.moves -= 100;
     g->u.use_amount("rope_30", 1);
-    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
-                    "rope_30", g->turn);
+    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
     g->vertical_move(-1, true);
    }
   } else {
    g->add_msg(_("Your throw misses completely, and you sink!"));
    if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
     g->u.use_amount("rope_30", 1);
-    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
-                    "rope_30", g->turn);
+    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
    }
    g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
    g->vertical_move(-1, true);
@@ -754,6 +769,16 @@ void trapfunc::sinkhole(game *g, int x, int y)
   g->add_msg(_("You sink into the sinkhole!"));
   g->vertical_move(-1, true);
  }
+}
+
+// STUB
+void trapfuncm::sinkhole(game *g, monster *z, int x, int y)
+{
+    // TODO: make something exciting happen here
+    (void)g;
+    (void)z;
+    (void)x;
+    (void)y;
 }
 
 void trapfunc::ledge(game *g, int x, int y)
