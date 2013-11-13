@@ -98,6 +98,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     // We create all the submaps, even if we're not a tinymap, so that map
     //  generation which overflows won't cause a crash.  At the bottom of this
     //  function, we save the upper-left 4 submaps, and delete the rest.
+    int count = 0;
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
         grid[i] = new submap;
         grid[i]->active_item_count = 0;
@@ -115,7 +116,9 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
                 grid[i]->graf[x][y] = graffiti();
             }
         }
+        count++;
     }
+//    debugmsg("%d submaps generated @ %d : %d", count, om->pos().x, om->pos().y);
 
     oter_id terrain_type, t_north, t_neast, t_east, t_seast, t_south,
                           t_nwest, t_west, t_swest, t_above;
@@ -125,11 +128,12 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     if ( x >= OMAPX * 2 || x < 0 || y >= OMAPY * 2 || y < 0) {
         dbg(D_INFO) << "map::generate: In section 1";
 
+    debugmsg("New OM!");
     // This happens when we're at the very edge of the overmap, and are generating
     // terrain for the adjacent overmap.
         int sx = 0, sy = 0;
         overx = (x % (OMAPX * 2)) / 2;
-        if (x >= OMAPX * 2) {
+        if (x > OMAPX * 2) {
             sx = 1;
         }
         if (x < 0) {
@@ -137,7 +141,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
             overx = (OMAPX * 2 + x) / 2;
         }
         overy = (y % (OMAPY * 2)) / 2;
-        if (y >= OMAPY * 2) {
+        if (y > OMAPY * 2) {
             sy = 1;
         }
         if (y < 0) {

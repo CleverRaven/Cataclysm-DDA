@@ -1525,7 +1525,7 @@ void game::process_missions()
 void game::handle_key_blocking_activity() {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (is_hostile_very_close() && 
+    if (is_hostile_very_close() &&
         u.activity.type != ACT_NULL &&
         u.activity.moves_left > 0 &&
         !u.activity.warned_of_proximity)
@@ -11102,6 +11102,7 @@ void game::update_map(int &x, int &y)
  if (olevx != 0 || olevy != 0) {
   cur_om->save();
   cur_om = &overmap_buffer.get(this, cur_om->pos().x + olevx, cur_om->pos().y + olevy);
+//  debugmsg("Changed OM");
  }
  set_adjacent_overmaps();
 
