@@ -2269,6 +2269,8 @@ int iuse::militarymap(game *g, player *p, item *it, bool t)
  roadmap_targets(g, p, it, t, (int)ot_silo, 1, 0, 0);
   // Show evac shelters
  roadmap_targets(g, p, it, t, (int)ot_shelter, 1, 0, 0);
+  // Show police stations
+ roadmap_targets(g, p, it, t, (int)ot_police_north, 4, 0, 0);
 
  g->add_msg_if_player(p, _("You add roads and facilities to your map."));
 
