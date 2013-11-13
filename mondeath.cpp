@@ -252,6 +252,15 @@ void mdeath::disappear(game *g, monster *z) {
 
 void mdeath::guilt(game *g, monster *z) {
     const int MAX_GUILT_DISTANCE = 5;
+    int kill_count = g->kill_count(z->type->id);
+    
+    // different message as we kill more of the same monster
+    std::string msg = "You feel guilty for killing %s."; // default guilt message
+    std::map<int, std::string> guilt_tresholds;
+    guilt_tresholds[75] = "You feel ashamed for killing %s.";
+    guilt_tresholds[50] = "You regret killing %s.";
+    guilt_tresholds[25] = "You feel remorse for killing %s.";
+
     /*  TODO:   Replace default cannibal checks with more elaborate conditions,
                  and add a "PSYCHOPATH" trait for terminally guilt-free folk.
                  Guilty cannibals could make for good drama!
@@ -267,12 +276,23 @@ void mdeath::guilt(game *g, monster *z) {
         // We probably didn't kill it
         return;
     }
+    if (kill_count >= 100){
+        // player no longer minds.
+        return;
+    } else {
+        for (std::map<int, std::string>::iterator it = guilt_tresholds.begin();
+                it != guilt_tresholds.end(); it++){
+            if (kill_count >= it->first)
+                msg = it->second;
+        }
+    }
 
-    g->add_msg(_("Killing %s fills you with guilt."), z->name().c_str());
+    // g->add_msg(_("Killing %s fills you with guilt."), z->name().c_str());
+    g->add_msg(_(msg.c_str()), z->name().c_str());
 
-    int moraleMalus = -50;
+    int moraleMalus = (kill_count/2) + -50;
     int maxMalus = -250;
-    int duration = 300;
+    int duration = 300 - (kill_count * 3);
     int decayDelay = 30;
     if (z->type->in_species("ZOMBIE")) {
         moraleMalus /= 10;
