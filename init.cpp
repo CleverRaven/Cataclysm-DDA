@@ -17,11 +17,8 @@
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
-<<<<<<< HEAD
 #include "overmap.h"
-=======
 #include "artifact.h"
->>>>>>> master
 
 #include <string>
 #include <vector>
