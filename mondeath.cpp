@@ -277,7 +277,10 @@ void mdeath::guilt(game *g, monster *z) {
         return;
     }
     if (kill_count >= 100){
-        // player no longer minds.
+        // player no longer cares
+        if (kill_count == 100)
+            g->add_msg(_("After killing so many bloody %ss you no longer care "
+                          "about their deaths anymore."), z->name().c_str());
         return;
     } else {
         for (std::map<int, std::string>::iterator it = guilt_tresholds.begin();
