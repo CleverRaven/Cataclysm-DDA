@@ -293,11 +293,9 @@ void mdeath::guilt(game *g, monster *z) {
 
     g->add_msg(_(msg.c_str()), z->name().c_str());
 
-    int moraleMalus = -50;
-    moraleMalus -= kill_count * ((float) moraleMalus / maxKills );
+    int moraleMalus = -50 * ((float) kill_count / maxKills);
     int maxMalus = -250;
-    int duration = 300;
-    duration -= kill_count * ((float) duration / maxKills);
+    int duration = 300 * ((float) kill_count / maxKills);
     int decayDelay = 30;
     if (z->type->in_species("ZOMBIE")) {
         moraleMalus /= 10;
