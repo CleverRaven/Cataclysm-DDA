@@ -1058,6 +1058,10 @@ void vehicle_part::deserialize(JsonIn &jsin)
     } else {
         data.read_into("id",pid);
     }
+    // if we don't know what type of part it is, it'll cause problems later.
+    if (vehicle_part_types.find(pid) == vehicle_part_types.end()) {
+        throw (std::string)"bad vehicle part, id: %s" + pid;
+    }
     id = pid;
     data.read_into("mount_dx", mount_dx);
     data.read_into("mount_dy", mount_dy);
