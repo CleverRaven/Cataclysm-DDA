@@ -2512,7 +2512,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (craftpart >= 0) { // we have a craftrig, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -2531,7 +2531,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -3482,39 +3482,46 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
                     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
                 }
+//                debugmsg("Sy>=0");
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-                    if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
+                    if (gridx + sx < my_MAPSIZE && gridy + sy > 0) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
                     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
                 }
+//                debugmsg("Sy<0");
             }
+//            debugmsg("Sx>=0");
         }
     } else { // sx < 0; work through it backwards
-        for (int gridx = my_MAPSIZE - 1; gridx >= 0; gridx--) {
+        for (int gridx = my_MAPSIZE - 1; gridx > 0; gridx--) {
             if (sy >= 0) {
                 for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-                    if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
-                        copy_grid(gridx + gridy * my_MAPSIZE,
-                        gridx + sx + (gridy + sy) * my_MAPSIZE);
-                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
-                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
-                }
-            } else { // sy < 0; work through it backwards
-                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
-                    if (gridx + sx >= 0 && gridy + sy >= 0) {
+                    if (gridx + sx > 1 && gridy + sy < my_MAPSIZE) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(gridx + gridy * my_MAPSIZE);
                     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
                 }
+
+//                debugmsg("Sy>=0");
+            } else { // sy < 0; work through it backwards
+                for (int gridy = my_MAPSIZE - 1; gridy > 0; gridy--) {
+                    if (gridx + sx > 1 && gridy + sy > 0) {
+                        copy_grid(gridx + gridy * my_MAPSIZE,
+                                  gridx + sx + (gridy + sy) * my_MAPSIZE);
+                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                    } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
+                        loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
+                }
+//                debugmsg("Sy<0");
             }
         }
+//        debugmsg("Sx<0");
     }
     reset_vehicle_cache();
 }
