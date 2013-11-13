@@ -3507,6 +3507,7 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
                     } else if (!loadn(g, wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
                 }
+
 //                debugmsg("Sy>=0");
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy > 0; gridy--) {
