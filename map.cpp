@@ -2501,7 +2501,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (craftpart >= 0) { // we have a craftrig, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -2520,7 +2520,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -3672,8 +3672,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
-  int newmapx = worldx + gridx - ((worldx + gridx) % 2);
-  int newmapy = worldy + gridy - ((worldy + gridy) % 2);
+  int newmapx = worldx + gridx - abs((worldx + gridx) % 2);
+  int newmapy = worldy + gridy - abs((worldy + gridy) % 2);
   overmap* this_om = om;
 
   int shiftx = 0;
