@@ -218,7 +218,7 @@ class overmap
   // Map helper function.
   bool has_npc(game *g, int const x, int const y, int const z) const;
   void print_npcs(game *g, WINDOW *w, int const x, int const y, int const z);
-  bool has_vehicle(game *g, int const x, int const y, int const z) const;
+  bool has_vehicle(game *g, int const x, int const y, int const z, bool require_pda = true) const;
   void print_vehicles(game *g, WINDOW *w, int const x, int const y, int const z);
 };
 

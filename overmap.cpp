@@ -988,11 +988,16 @@ bool overmap::has_npc(game *g, int const x, int const y, int const z) const
     return false;
 }
 
-bool overmap::has_vehicle(game *g, int const x, int const y, int const z) const
+bool overmap::has_vehicle(game *g, int const x, int const y, int const z, bool require_pda) const
 {
     // vehicles only spawn at z level 0 (for now)
     if (!z == 0)
         return false;
+
+    // if the player is not carrying a PDA then he cannot see the vehicle.
+    if (require_pda && !g->u.has_amount("pda", 1))
+        return false;
+
     for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
          it != vehicles.end(); it++)
     {
