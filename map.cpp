@@ -3483,7 +3483,7 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
                         loadn(g, wx + sx, wy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
-                for (int gridy = my_MAPSIZE - 1; gridy > 0; gridy--) {
+                for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
                     if (gridx + sx < my_MAPSIZE && gridy + sy > 0) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
