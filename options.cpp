@@ -603,6 +603,14 @@ void initOptions() {
                                              _("Choose the tileset you want to use. Only applicable on SDL builds."),
                                              tileset_names, "hoder");   // populate the options dynamically
 
+    OPTIONS["ARMOR_HIGHLIGHT"] =        cOpt("interface", _("Color armored vehicle parts"),
+                                             _("If true, an armored vehicle part will use the armor's color. If false, it uses the displayed part's color."),
+                                             true);
+
+    OPTIONS["CARGO_INVERT"] =           cOpt("interface", _("Highlight cargo"),
+                                             _("If true, car parts with items will be highlighted."),
+                                             true);
+
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (int i=0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
