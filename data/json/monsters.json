@@ -91,7 +91,7 @@
     "special_attack":"NONE",
     "description":"A mallard duck, often seen around rivers and other bodies of water. It feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "VIS40", "BONES", "FEATHER"],
-    "fear_triggers":["PLAYER_CLOSE"],
+    "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },
   {
