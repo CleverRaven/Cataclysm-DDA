@@ -304,14 +304,14 @@ void monster::move(game *g)
          (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
         // CONCRETE PLANS - Most likely based on sight
         // Check for a vehicle. If the player isn't in it, avoid the vehicle.
-        if (g->m.veh_at(x, y))  {
+        if (g->m.veh_at(plans[0].x, plans[0].y))  {
           if (!g->u.in_vehicle)  {
             // Try to go around.
             int tries = 0;
             int avoidx = rng(-1, 1);
             int avoidy = rng(-1, 1);
             while(tries < 9) {
-              if (g->m.veh_at(x + avoidx, y + avoidy)) {
+              if (g->m.veh_at(posx() + avoidx, posy() + avoidy)) {
                 avoidx = rng(-1, 1);
                 avoidy = rng(-1, 1);
                 tries++;
