@@ -142,6 +142,10 @@ int iuse::royal_jelly(game *g, player *p, item *it, bool t)
   message = _("You feel cleansed inside!");
   p->rem_disease("fungus");
  }
+ if (p->has_disease("dermatik")) {
+  message = _("You feel cleansed inside!");
+  p->rem_disease("dermatik");
+ }
  if (p->has_disease("blind")) {
   message = _("Your sight returns!");
   p->rem_disease("blind");
@@ -4300,11 +4304,8 @@ int iuse::shocktonfa_off(game *g, player *p, item *it, bool t)
                 return it->type->charges_to_use();
             }
         }
-
-        default
-                :
-            return 0;
     }
+    return 0;
 }
 
 int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
@@ -4318,7 +4319,7 @@ int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
             it->active = false;
         } else {
             int choice = menu(true, _("tactical tonfa"), _("Zap something"),
-                              _("turn off light"), _("cancel"), NULL);
+                              _("Turn off light"), _("cancel"), NULL);
 
             switch (choice) {
                 case 1: {
@@ -4333,8 +4334,7 @@ int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
                 }
             }
         }
-
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::mp3(game *g, player *p, item *it, bool t)
@@ -4694,7 +4694,7 @@ int iuse::cut_log_into_planks(game *g, player *p, item *it)
     }
     for (int i = 0; i < planks; i++) {
         int iter = 0;
-        while (p->has_item(plank.invlet)) {
+        while (p->has_item(plank.invlet) && iter < inv_chars.size()) {
             plank.invlet = g->nextinv;
             g->advance_nextinv();
             iter++;
@@ -4710,7 +4710,7 @@ int iuse::cut_log_into_planks(game *g, player *p, item *it)
     }
     for (int i = 0; i < scraps; i++) {
         int iter = 0;
-        while (p->has_item(scrap.invlet)) {
+        while (p->has_item(scrap.invlet) && iter < inv_chars.size()) {
             scrap.invlet = g->nextinv;
             g->advance_nextinv();
             iter++;
