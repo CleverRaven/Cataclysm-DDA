@@ -89,7 +89,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "rock_quern",
     "type": "TOOL",
@@ -2264,7 +2264,7 @@
      "revert_to" : "null",
      "use_action" : "TAZER"
   },
-  
+
   {
     "id" : "shocktonfa_off",
     "type":"TOOL",
@@ -2282,13 +2282,13 @@
     "to_hit" : 2,
     "max_charges" : 500,
     "initial_charges" : 0,
-    "charges_per_use" : 0,
+    "charges_per_use" : 1,
     "turns_per_charge" : 0,
     "ammo" : "battery",
     "revert_to" : "null",
     "use_action" : "SHOCKTONFA_OFF"
   },
-  
+
   {
     "id" : "shocktonfa_on",
     "type":"TOOL",
@@ -2307,7 +2307,7 @@
     "to_hit" : 2,
     "max_charges" : 500,
     "initial_charges" : 0,
-    "charges_per_use" : 0,
+    "charges_per_use" : 1,
     "turns_per_charge" : 15,
     "ammo" : "battery",
     "revert_to" : "shocktonfa_off",
@@ -2989,7 +2989,7 @@
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]]
   },
-  
+
   {
     "id": "zweihander",
     "type": "TOOL",
@@ -3015,7 +3015,7 @@
     "revert_to": "null",
     "use_action": "KNIFE"
   },
-  
+
   {
     "id": "zweifire_off",
     "type": "TOOL",
@@ -3041,7 +3041,7 @@
     "revert_to": "null",
     "use_action": "ZWEIFIRE_OFF"
   },
-  
+
   {
     "id": "zweifire_on",
     "type": "TOOL",
@@ -3190,7 +3190,7 @@
     "revert_to": "shishkebab_off",
     "use_action": "SHISHKEBAB_ON"
   },
-  
+
   {
     "id": "makeshift_halberd",
     "type": "TOOL",
@@ -3430,7 +3430,7 @@
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT"
   },
-  
+
   {
     "id" : "battletorch",
     "type": "TOOL",
@@ -3454,7 +3454,7 @@
     "revert_to": "null",
     "use_action": "BATTLETORCH"
   },
-    
+
   {
     "id" : "battletorch_lit",
     "type": "TOOL",
@@ -3919,7 +3919,7 @@
     "revert_to": "null",
     "use_action": "RAG"
   },
-  
+
   {
     "id": "plastic_chunk",
     "type": "TOOL",
@@ -4165,7 +4165,7 @@
     "name": "entrenching tool",
     "description": "This is a stout collapsible spade. It's commonly used by military forces and favored by hikers for digging.",
     "price": 120,
-    "material": "steel", 
+    "material": "steel",
     "weight": 628,
     "volume": 4,
     "bashing": 10,
@@ -4342,7 +4342,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
-  
+
   {
     "id": "jar_kompot",
     "type": "TOOL",
@@ -4620,7 +4620,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
-  
+
   {
     "id": "medical_gauze",
     "type": "TOOL",
@@ -4643,7 +4643,7 @@
     "revert_to": "null",
     "use_action": "RAG"
   },
-  
+
   {
     "id": "talking_doll",
     "type": "TOOL",
@@ -4666,7 +4666,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "towel",
     "type": "TOOL",
@@ -4689,7 +4689,7 @@
     "revert_to": "null",
     "use_action": "ABSORBENT"
   },
-  
+
   {
     "id": "folding_bicycle",
     "type": "TOOL",
@@ -4712,7 +4712,7 @@
     "revert_to": "null",
     "use_action": "UNFOLD_BICYCLE"
   },
-  
+
   {
     "id": "welder_crude",
     "type": "TOOL",
@@ -4735,7 +4735,7 @@
     "revert_to": "null",
     "use_action": "SOLDER_WELD"
   },
-  
+
   {
     "id": "still",
     "type": "TOOL",
@@ -4757,7 +4757,7 @@
     "ammo": "none",
     "revert_to": "null"
   },
-  
+
   {
     "id": "mold_plastic",
     "type": "TOOL",
@@ -4779,7 +4779,7 @@
     "revert_to": "null",
     "ammo": "NULL"
   },
-  
+
   {
     "id": "chemistry_set",
     "type": "TOOL",
@@ -4802,7 +4802,7 @@
     "revert_to": "null",
     "use_action": "HOTPLATE"
   },
-  
+
   {
     "id": "crackpipe",
     "type": "TOOL",
@@ -4825,7 +4825,7 @@
     "revert_to": "null",
     "ammo": "NULL"
   },
-  
+
   {
     "id": "pipe_glass",
     "type": "TOOL",
@@ -4848,7 +4848,7 @@
     "revert_to": "null",
     "ammo": "NULL"
   },
-  
+
   {
     "id": "pipe_tobacco",
     "type": "TOOL",
@@ -5009,7 +5009,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "nodachi",
     "type": "TOOL",
@@ -5081,8 +5081,8 @@
     "revert_to": "null",
     "use_action": "MATCHBOMB_ACT"
   },
-  
-  { 
+
+  {
     "id": "ref_lighter",
     "type": "TOOL",
     "symbol": ",",
@@ -5104,7 +5104,7 @@
     "revert_to": "null",
     "use_action": "LIGHTER"
   },
-  
+
   {
     "id": "char_forge",
     "type": "TOOL",
@@ -5127,7 +5127,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
     "id": "char_smoker",
     "type": "TOOL",
@@ -5242,7 +5242,7 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
-  
+
   {
         "type": "TOOL",
         "id" : "wrapped_rad_badge",
