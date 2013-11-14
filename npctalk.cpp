@@ -1098,7 +1098,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    resume << _("Yes, let's resume training ") <<
              (g->u.backlog.name != "" ?
               Skill::skill(g->u.backlog.name)->name() :
-              g->itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
+              itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
    SELECT_TEMP( resume.str(), g->u.backlog.index);
     SUCCESS(TALK_TRAIN_START);
   }
@@ -1125,7 +1125,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    shift = 0;
   for (int i = 0; i < styles.size() && printed < 9; i++) {
    printed++;
-   SELECT_TEMP( string_format(_("%s (cost 800)"), g->itypes[styles[i]]->name.c_str()) ,
+   SELECT_TEMP( string_format(_("%s (cost 800)"), itypes[styles[i]]->name.c_str()) ,
                 0 - i );
     SUCCESS(TALK_TRAIN_START);
   }

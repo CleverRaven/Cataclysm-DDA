@@ -27,7 +27,7 @@ public:
     //Setup
     Item_factory();
     void init();
-    void init(game* main_game) throw (std::string);
+    void init_old();
 
     void load_item_group(JsonObject &jsobj);
 

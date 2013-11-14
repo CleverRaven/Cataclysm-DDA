@@ -149,6 +149,7 @@ bool picovector(picojson::object & obj, std::string key, std::vector<int> & var)
     }
     return false;
 }
+
 /*
  * ptr to wrapped array
  */

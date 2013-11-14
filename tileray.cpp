@@ -56,22 +56,22 @@ void tileray::init (int adir)
     infinite = true;
 }
 
-int tileray::dx ()
+int tileray::dx () const
 {
     return last_dx;
 }
 
-int tileray::dy ()
+int tileray::dy () const
 {
     return last_dy;
 }
 
-int tileray::dir ()
+int tileray::dir () const
 {
     return direction;
 }
 
-int tileray::dir4 ()
+int tileray::dir4 () const
 {
     if (direction >= 45 && direction <= 135)
         return 1;

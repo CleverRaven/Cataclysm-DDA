@@ -8,7 +8,6 @@
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
-#include "picojson.h"
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
@@ -102,7 +101,7 @@ public:
     std::string save_info();
     void load_info(std::string data);
     using JsonDeserializer::deserialize;
-    void deserialize(JsonObject &jsobj);
+    void deserialize(JsonIn &jsin);
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
 

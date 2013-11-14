@@ -74,23 +74,25 @@ void game::serialize(std::ofstream & fout) {
         // Header
         fout << "# version " << savegame_version << std::endl;
 
-        std::map<std::string, picojson::value> data;
+        JsonOut json(&fout);
+
+        json.start_object();
         // basic game state information.
-        data["turn"] = pv( (int)turn );
-        data["last_target"] = pv( (int)last_target );
-        data["run_mode"] = pv( (int)run_mode );
-        data["mostseen"] = pv( mostseen );
-        data["nextinv"] = pv( (int)nextinv );
-        data["next_npc_id"] = pv( next_npc_id );
-        data["next_faction_id"] = pv( next_faction_id );
-        data["next_mission_id"] = pv( next_mission_id );
-        data["nextspawn"] = pv( (int)nextspawn );
+        json.member( "turn", (int)turn );
+        json.member( "last_target", (int)last_target );
+        json.member( "run_mode", (int)run_mode );
+        json.member( "mostseen", mostseen );
+        json.member( "nextinv", (int)nextinv );
+        json.member( "next_npc_id", next_npc_id );
+        json.member( "next_faction_id", next_faction_id );
+        json.member( "next_mission_id", next_mission_id );
+        json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
-        data["levx"] = pv( levx );
-        data["levy"] = pv( levy );
-        data["levz"] = pv( levz );
-        data["om_x"] = pv( cur_om->pos().x );
-        data["om_y"] = pv( cur_om->pos().y );
+        json.member( "levx", levx );
+        json.member( "levy", levy );
+        json.member( "levz", levz );
+        json.member( "om_x", cur_om->pos().x );
+        json.member( "om_y", cur_om->pos().y );
 
         // Next, the scent map.
         std::stringstream rle_out;
@@ -112,26 +114,22 @@ void game::serialize(std::ofstream & fout) {
             }
         }
         rle_out << rle_count;
-        data["grscent"] = pv ( rle_out.str() );
+        json.member( "grscent", rle_out.str() );
 
         // Then each monster
-        std::vector<picojson::value> amdata;
-        for (int i = 0; i < num_zombies(); i++) {
-            amdata.push_back( _active_monsters[i].json_save(true) );
-        }
-        data["active_monsters"] = pv( amdata );
+        json.member( "active_monsters", _active_monsters );
 
         // save killcounts.
-        std::map<std::string, picojson::value> killmap;
+        json.member( "kills" );
+        json.start_object();
         for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
-            killmap[kill->first] = pv(kill->second);
+            json.member( kill->first, kill->second );
         }
-        data["kills"] = pv( killmap );
+        json.end_object();
 
-        data["player"] = pv( u.json_save(true) );
+        json.member( "player", u );
 
-        fout << pv(data).serialize() << std::endl;
-        ////////
+        json.end_object();
 }
 
 /*
@@ -167,101 +165,105 @@ void chkversion(std::istream & fin) {
 /*
  * Parse an open .sav file.
  */
-void game::unserialize(std::ifstream & fin) {
-   if ( fin.peek() == '#' ) {
-       std::string vline;
-       getline(fin, vline);
-       std::string tmphash, tmpver;
-       int savedver=-1;
-       std::stringstream vliness(vline);
-       vliness >> tmphash >> tmpver >> savedver;
-       if ( tmpver == "version" && savedver != -1 ) {
-           savegame_loading_version = savedver;
-       }
-   }
-   if (savegame_loading_version != savegame_version) {
-       if ( unserialize_legacy(fin) == true ) {
+void game::unserialize(std::ifstream & fin)
+{
+    if ( fin.peek() == '#' ) {
+        std::string vline;
+        getline(fin, vline);
+        std::string tmphash, tmpver;
+        int savedver=-1;
+        std::stringstream vliness(vline);
+        vliness >> tmphash >> tmpver >> savedver;
+        if ( tmpver == "version" && savedver != -1 ) {
+            savegame_loading_version = savedver;
+        }
+    }
+    if (savegame_loading_version != savegame_version) {
+        if ( unserialize_legacy(fin) == true ) {
             return;
-       } else {
-           popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
-       }
-   }
-       // Format version 12. After radical compatibility breaking changes, raise savegame_version, cut below and add to
-       // unserialize_legacy in savegame_legacy.cpp
-            std::string linebuf;
-            std::stringstream linein;
+        } else {
+            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+        }
+    }
+    // Format version 12. After radical compatibility breaking changes, raise savegame_version, cut below and add to
+    // unserialize_legacy in savegame_legacy.cpp
+    std::string linebuf;
+    std::stringstream linein;
 
+    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
+    JsonIn jsin(&fin);
+    try {
+        JsonObject data = jsin.get_object();
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
-            picojson::value pval;
-            fin >> pval;
-            std::string jsonerr = picojson::get_last_error();
-            if ( ! jsonerr.empty() ) {
-                debugmsg("Bad save json\n%s", jsonerr.c_str() );
-            }
-            picojson::object &pdata = pval.get<picojson::object>();
+        data.read_into("turn",tmpturn);
+        data.read_into("last_target",tmptar);
+        data.read_into("run_mode", tmprun);
+        data.read_into("mostseen", mostseen);
+        data.read_into("nextinv", tmpinv);
+        nextinv = (char)tmpinv;
+        data.read_into("next_npc_id", next_npc_id);
+        data.read_into("next_faction_id", next_faction_id);
+        data.read_into("next_mission_id", next_mission_id);
+        data.read_into("nextspawn",tmpspawn);
+        data.read_into("levx",levx);
+        data.read_into("levy",levy);
+        data.read_into("levz",levz);
+        data.read_into("om_x",comx);
+        data.read_into("om_y",comy);
 
-            picoint(pdata,"turn",tmpturn);
-            picoint(pdata,"last_target",tmptar);
-            picoint(pdata,"run_mode", tmprun);
-            picoint(pdata,"mostseen", mostseen);
-            picoint(pdata,"nextinv", tmpinv);
-            nextinv = (char)tmpinv;
-            picoint(pdata,"next_npc_id", next_npc_id);
-            picoint(pdata,"next_faction_id", next_faction_id);
-            picoint(pdata,"next_mission_id", next_mission_id);
-            picoint(pdata,"nextspawn",tmpspawn);
-            picoint(pdata,"levx",levx);
-            picoint(pdata,"levy",levy);
-            picoint(pdata,"levz",levz);
-            picoint(pdata,"om_x",comx);
-            picoint(pdata,"om_y",comy);
+        turn = tmpturn;
+        nextspawn = tmpspawn;
 
-            turn = tmpturn;
-            nextspawn = tmpspawn;
+        cur_om = &overmap_buffer.get(this, comx, comy);
+        m.load(this, levx, levy, levz);
 
-            cur_om = &overmap_buffer.get(this, comx, comy);
-            m.load(this, levx, levy, levz);
+        run_mode = tmprun;
+        if (OPTIONS["SAFEMODE"] && run_mode == 0) {
+            run_mode = 1;
+        }
+        autosafemode = OPTIONS["AUTOSAFEMODE"];
+        last_target = tmptar;
 
-            run_mode = tmprun;
-            if (OPTIONS["SAFEMODE"] && run_mode == 0) {
-                run_mode = 1;
-            }
-            autosafemode = OPTIONS["AUTOSAFEMODE"];
-            last_target = tmptar;
+        linebuf="";
+        if ( data.read_into("grscent",linebuf) ) {
+            linein.clear();
+            linein.str(linebuf);
 
-            linebuf="";
-            if ( picostring(pdata,"grscent",linebuf) ) {
-                linein.clear();
-                linein.str(linebuf);
-
-                int stmp;
-                int count = 0;
-                for (int i = 0; i < SEEX *MAPSIZE; i++) {
-                    for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                        if (count == 0) {
-                            linein >> stmp >> count;
-                        }
-                        count--;
-                        grscent[i][j] = stmp;
+            int stmp;
+            int count = 0;
+            for (int i = 0; i < SEEX *MAPSIZE; i++) {
+                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+                    if (count == 0) {
+                        linein >> stmp >> count;
                     }
+                    count--;
+                    grscent[i][j] = stmp;
                 }
             }
+        }
 
-            picojson::array * vdata = pgetarray(pdata,"active_monsters");
-            clear_zombies();
+        JsonArray vdata = data.get_array("active_monsters");
+        clear_zombies();
+        while (vdata.has_more()) {
             monster montmp;
-            for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
-                montmp.json_load(*pit);
-                add_zombie(montmp);
-            }
+            vdata.read_into(montmp);
+            add_zombie(montmp);
+        }
 
-            picojson::object * odata = pgetmap(pdata,"kills");
-            for( picojson::object::const_iterator it = odata->begin(); it != odata->end(); ++it) {
-                kills[it->first] = (int)it->second.get<double>();
-            }
+        JsonObject odata = data.get_object("kills");
+        std::set<std::string> members = odata.get_member_names();
+        for (std::set<std::string>::const_iterator it = members.begin();
+                it != members.end(); ++it) {
+            kills[*it] = odata.get_int(*it);
+        }
 
-            u.json_load( pdata["player"], this);
+        data.read_into("player", u);
+
+    } catch (std::string jsonerr) {
+        debugmsg("Bad save json\n%s", jsonerr.c_str() );
+        return;
+    }
+
 }
 
 ///// weather
@@ -590,6 +592,7 @@ void game::unserialize_master(std::ifstream &fin) {
        }
    }
     try {
+        // single-pass parsing example
         JsonIn jsin(&fin);
         jsin.start_object();
         while (!jsin.end_object()) {
@@ -604,16 +607,14 @@ void game::unserialize_master(std::ifstream &fin) {
                 jsin.start_array();
                 while (!jsin.end_array()) {
                     mission mis;
-                    JsonObject mis_json = jsin.get_object();
-                    mis.deserialize(mis_json);
+                    mis.deserialize(jsin);
                     active_missions.push_back(mis);
                 }
             } else if (name == "factions") {
                 jsin.start_array();
                 while (!jsin.end_array()) {
                     faction fac;
-                    JsonObject fac_json = jsin.get_object();
-                    fac.deserialize(fac_json);
+                    fac.deserialize(jsin);
                     factions.push_back(fac);
                 }
             } else {

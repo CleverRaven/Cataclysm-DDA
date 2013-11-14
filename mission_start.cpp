@@ -39,7 +39,7 @@ void mission_start::place_dog(game *g, mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(g->itypes["dog_whistle"], 0) );
+ g->u.i_add( item(itypes["dog_whistle"], 0) );
  g->add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
 
  miss->target = house;
@@ -141,7 +141,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(g->itypes["usb_drive"], 0) );
+ g->u.i_add( item(itypes["usb_drive"], 0) );
  g->add_msg(_("%s gave you a USB drive."), dev->name.c_str());
 
  oter_id ter = ot_house_north;
@@ -339,7 +339,7 @@ void mission_start::reveal_lab_black_box(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(g->itypes["black_box"], 0) );
+  g->u.i_add( item(itypes["black_box"], 0) );
   g->add_msg(_("%s gave you back the black box."), dev->name.c_str());
  }
  int dist = 0;
@@ -357,7 +357,7 @@ void mission_start::open_sarcophagus(game *g, mission *miss)
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;
  if (p != NULL) {
-  g->u.i_add( item(g->itypes["sarcophagus_access_code"], 0) );
+  g->u.i_add( item(itypes["sarcophagus_access_code"], 0) );
   g->add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
  }
  int dist = 0;
@@ -374,7 +374,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(g->itypes["vacutainer"], 0) );
+  g->u.i_add( item(itypes["vacutainer"], 0) );
   g->add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
  }
  int dist = 0;

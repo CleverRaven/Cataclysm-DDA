@@ -72,14 +72,11 @@ void vehicle::load (std::ifstream &stin)
     if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
         std::stringstream derp;
         derp << type;
-        picojson::value pdata;
-        derp >> pdata;
-        std::string jsonerr = picojson::get_last_error();
-
-        if ( ! jsonerr.empty() ) {
+        JsonIn jsin(&derp);
+        try {
+            deserialize(jsin);
+        } catch (std::string jsonerr) {
             debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
-        } else {
-            json_load(pdata, g);
         }
     } else {
         load_legacy(stin);
@@ -127,7 +124,7 @@ void vehicle::add_missing_frames()
 
 void vehicle::save (std::ofstream &stout)
 {
-    stout << json_save(true).serialize();
+    serialize(stout);
     stout << std::endl;
     return;
 }
@@ -184,7 +181,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
             if(consistent_bignesses.count(parts[p].id) < 1){
                 //generate an item for this type, & cache its bigness
-                item tmp (g->itypes[part_info(p).item], 0);
+                item tmp (itypes[part_info(p).item], 0);
                 consistent_bignesses[parts[p].id] = tmp.bigness;
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
@@ -423,7 +420,7 @@ void vehicle::use_controls()
         g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
         // create a folding bicycle item
         item bicycle;
-        bicycle.make( g->itypes["folding_bicycle"] );
+        bicycle.make( itypes["folding_bicycle"] );
 
         std::ostringstream part_hps;
         // Stash part HP in item
@@ -779,7 +776,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
-    item tmp(g->itypes[vehicle_part_types[id].item], 0);
+    item tmp(itypes[vehicle_part_types[id].item], 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
@@ -803,7 +800,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
 void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
     //transfer bigness if relevant.
     itype_id  pitmid = part_info(partnum).item;
-    itype* itemtype = g->itypes[pitmid];
+    itype* itemtype = itypes[pitmid];
     if(itemtype->is_var_veh_part())
        parts[partnum].bigness = i.bigness;
 
@@ -817,7 +814,7 @@ void vehicle::get_part_properties_from_item(game* g, int partnum, item& i){
 void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
     //transfer bigness if relevant.
     itype_id  pitmid = part_info(partnum).item;
-    itype* itemtype = g->itypes[pitmid];
+    itype* itemtype = itypes[pitmid];
     if(itemtype->is_var_veh_part())
        i.bigness = parts[partnum].bigness;
 
@@ -864,7 +861,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            item piece(g->itypes[break_info[index].item_id], g->turn);
+            item piece(itypes[break_info[index].item_id], g->turn);
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
@@ -874,7 +871,7 @@ item vehicle::item_from_part( int part )
 {
     itype_id itm = part_info(part).item;
     int bigness = parts[part].bigness;
-    itype* parttype = g->itypes[itm];
+    itype* parttype = itypes[itm];
     item tmp(parttype, g->turn);
 
     //transfer damage, etc.
@@ -1289,7 +1286,7 @@ int vehicle::total_mass()
     int m = 0;
     for (int i = 0; i < parts.size(); i++)
     {
-        m += g->itypes[part_info(i).item]->weight;
+        m += itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++) {
             m += parts[i].items[j].type->weight;
         }
@@ -1307,7 +1304,7 @@ void vehicle::center_of_mass(int &x, int &y)
     for (int i = 0; i < parts.size(); i++)
     {
         int m_part = 0;
-        m_part += g->itypes[part_info(i).item]->weight;
+        m_part += itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++) {
             m_part += parts[i].items[j].type->weight;
         }
@@ -1649,7 +1646,7 @@ bool vehicle::valid_wheel_config ()
     float wo = 0, w2;
     for (int p = 0; p < parts.size(); p++)
     { // lets find vehicle's center of masses
-        w2 = g->itypes[part_info(p).item]->weight;
+        w2 = itypes[part_info(p).item]->weight;
         if (w2 < 1)
             continue;
         xo = xo * wo / (wo + w2) + parts[p].mount_dx * w2 / (wo + w2);
@@ -2032,8 +2029,8 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int degree = rng (70, 100);
 
     //Calculate damage resulting from d_E
-    material_type* vpart_item_mat1 = material_type::find_material(g->itypes[part_info(parm).item]->m1);
-    material_type* vpart_item_mat2 = material_type::find_material(g->itypes[part_info(parm).item]->m2);
+    material_type* vpart_item_mat1 = material_type::find_material(itypes[part_info(parm).item]->m1);
+    material_type* vpart_item_mat2 = material_type::find_material(itypes[part_info(parm).item]->m2);
     int vpart_dens;
     if(vpart_item_mat2->ident() == "null") {
         vpart_dens = vpart_item_mat1->density();
@@ -2452,7 +2449,7 @@ void vehicle::place_spawn_items()
                         }
                     }
                     item new_item = item_controller->create(*next_id, g->turn);
-                    new_item = new_item.in_its_container(&(g->itypes));
+                    new_item = new_item.in_its_container(&(itypes));
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }
@@ -2468,7 +2465,7 @@ void vehicle::place_spawn_items()
                     }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
                     item new_item = item_controller->create(group_tag, g->turn);
-                    new_item = new_item.in_its_container(&(g->itypes));
+                    new_item = new_item.in_its_container(&(itypes));
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }
@@ -2832,7 +2829,7 @@ void vehicle::fire_turret (int p, bool burst)
 {
     if (!part_flag (p, "TURRET"))
         return;
-    it_gun *gun = dynamic_cast<it_gun*> (g->itypes[part_info(p).item]);
+    it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
     if (!gun)
         return;
     int charges = burst? gun->burst : 1;
@@ -2846,7 +2843,7 @@ void vehicle::fire_turret (int p, bool burst)
         int fleft = fuel_left (amt);
         if (fleft < 1)
             return;
-        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == "gasoline" ? "gasoline" : "plasma"]);
+        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt == "gasoline" ? "gasoline" : "plasma"]);
         if (!ammo)
             return;
         if (fire_turret_internal (p, *gun, *ammo, charges))
@@ -2943,7 +2940,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
     // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( g->itypes["UPS_on"], 0 );
+    item tmp_ups( itypes["UPS_on"], 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( "battery", 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);

@@ -194,7 +194,7 @@ public:
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonObject &jsobj);
+    void deserialize(JsonIn &jsin);
 
  mission()
  {

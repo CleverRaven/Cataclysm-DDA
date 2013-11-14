@@ -69,7 +69,7 @@ struct vehicle_prototype
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
-struct vehicle_part
+struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part() : id("null"), mount_dx(0), mount_dy(0), hp(0),
       blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
@@ -102,6 +102,11 @@ struct vehicle_part
     };
     std::vector<item> items;// inventory
 
+    // json saving/loading
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 };
 
 /**
@@ -174,7 +179,7 @@ struct vehicle_part
  *   If you can't understand why installation fails, try to assemble your
  *   vehicle in game first.
  */
-class vehicle
+class vehicle : public JsonSerializer, public JsonDeserializer
 {
 private:
     game *g;
@@ -208,9 +213,11 @@ public:
 // Save vehicle data to stream
     void save (std::ofstream &stout);
 
-    void json_load( picojson::value & parsed, game * g );
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 
-    picojson::value json_save( bool save_contents = true );
 // Operate vehicle
     void use_controls();
 

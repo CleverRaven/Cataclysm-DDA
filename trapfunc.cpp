@@ -71,7 +71,7 @@ void trapfuncm::beartrap(game *g, monster *z, int x, int y)
   z->add_effect(ME_BEARTRAP, rng(8, 15));
  }
  g->m.remove_trap(x, y);
- item beartrap(g->itypes["beartrap"], 0);
+ item beartrap(itypes["beartrap"], 0);
  z->add_item(beartrap);
 }
 
