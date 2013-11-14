@@ -63,8 +63,7 @@
 
 bool is_whitespace(char ch)
 {
-    // TODO: this is not an exhaustive list of valid whitespace characters.
-    // it should probably be with the other utf8 processing functions as well.
+    // These are all the valid whitespace characters allowed by RFC 4627.
     if (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r') {
         return true;
     } else {

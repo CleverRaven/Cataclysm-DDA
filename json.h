@@ -204,7 +204,7 @@ class JsonOut;
 class JsonSerializer;
 class JsonDeserializer;
 
-bool is_whitespace(char ch); // TODO: move this elsewhere
+bool is_whitespace(char ch); // RFC 4627 compliant
 
 class JsonObject {
 private:
