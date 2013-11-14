@@ -193,9 +193,6 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
     message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
-// Handles speed penalties to monster & us, etc
- melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
-
 // Make a rather quiet sound, to alert any nearby monsters
  if (!is_quiet()) // check martial arts silence
   g->sound(posx, posy, 8, "");
@@ -205,6 +202,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
     if (g->u_see(z)) {
         player_hit_message(g, this, message, target_name, dam, critical_hit);
     }
+
+// Handles speed penalties to monster & us, etc
+ melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10);
@@ -1519,7 +1519,7 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
         }
     } else if (p.weapon.is_cutting_weapon()) {  // cutting weapon
         if (bash_dam + stab_dam + cut_dam >= 30) {
-            return npc ? _("<npcname> hacks %s") : _("You hack %s");
+            return npc ? _("<npcname> guts %s") : _("You gut %s");
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
             return npc ? _("<npcname> slices %s") : _("You slice %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {
