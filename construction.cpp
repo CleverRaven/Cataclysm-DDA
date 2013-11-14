@@ -371,6 +371,16 @@ void game::init_construction()
    TOOL("wrench");
    TOOLCONT("toolset");
    COMP("pipe", 12);
+   
+  CONSTRUCT(_("Build Cupboard"), 0, &construct::able_empty,
+                                &construct::done_nothing);
+  STAGE(furnlist[f_cupboard], 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   COMP("nail", 8);
+   COMP("2x4", 3);
 
  CONSTRUCT(_("Build Counter"), 0, &construct::able_empty,
                                 &construct::done_nothing);
