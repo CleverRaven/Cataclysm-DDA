@@ -3,6 +3,7 @@
 #include "item_factory.h"
 #include "line.h"
 #include "mapgenformat.h"
+#include "overmap.h"
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
@@ -133,7 +134,7 @@ ter_id dirt_or_pile()
 
 void mapgen_null(map *m)
 {
-    debugmsg("Generating terrain for ot_null, please report this as a bug");
+    debugmsg("Generating null terrain, please report this as a bug");
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             m->ter_set(i, j, t_null);
@@ -145,7 +146,7 @@ void mapgen_null(map *m)
 void mapgen_crater(map *m, mapgendata dat)
 {
     for(int i = 0; i < 4; i++) {
-        if(dat.t_nesw[i] != ot_crater) {
+        if(dat.t_nesw[i] != "crater") {
             dat.set_dir(i, 6);
         }
     }
@@ -221,21 +222,17 @@ void mapgen_dirtlot(map *m)
 
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn)
 {
-    switch (terrain_type) {
-    case ot_forest_thick:
+    if (terrain_type == "forest_thick") {
         dat.fill(8);
-        break;
-    case ot_forest_water:
+    } else if (terrain_type == "forest_water") {
         dat.fill(4);
-        break;
-    case ot_forest:
+    } else if (terrain_type == "forest") {
         dat.fill(0);
-        break;
     }
     for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i] == ot_forest || dat.t_nesw[i] == ot_forest_water) {
+        if (dat.t_nesw[i] == "forest" || dat.t_nesw[i] == "forest_water") {
             dat.dir(i) += 14;
-        } else if (dat.t_nesw[i] == ot_forest_thick) {
+        } else if (dat.t_nesw[i] == "forest_thick") {
             dat.dir(i) += 18;
         }
     }
@@ -284,14 +281,14 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
     }
     m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 
-    if (terrain_type == ot_forest_water) {
+    if (terrain_type == "forest_water") {
         // Reset *_fac to handle where to place water
         for (int i = 0; i < 8; i++) {
-            if (dat.t_nesw[i] == ot_forest_water) {
+            if (dat.t_nesw[i] == "forest_water") {
                 dat.set_dir(i, 2);
-            } else if (dat.t_nesw[i] >= ot_river_center && dat.t_nesw[i] <= ot_river_nw) {
+            } else if (is_ot_type("river", dat.t_nesw[i])) {
                 dat.set_dir(i, 3);
-            } else if (dat.t_nesw[i] == ot_forest || dat.t_nesw[i] == ot_forest_thick) {
+            } else if (dat.t_nesw[i] == "forest" || dat.t_nesw[i] == "forest_thick") {
                 dat.set_dir(i, 1);
             } else {
                 dat.set_dir(i, 0);
@@ -505,8 +502,8 @@ void mapgen_hive(map *m, mapgendata dat, int turn)
                 if (skip1 == 23 || skip2 == 23)
                     m->ter_set(i + 1, j + 4, t_floor_wax);
 
-                if (dat.t_nesw[0] == ot_hive && dat.t_nesw[1] == ot_hive &&
-                      dat.t_nesw[2] == ot_hive && dat.t_nesw[3] == ot_hive) {
+                if (dat.t_nesw[0] == "hive" && dat.t_nesw[1] == "hive" &&
+                      dat.t_nesw[2] == "hive" && dat.t_nesw[3] == "hive") {
                     m->place_items("hive_center", 90, i - 2, j - 2, i + 2, j + 2, false, turn);
                 } else {
                     m->place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
@@ -521,9 +518,9 @@ void mapgen_spider_pit(map *m, mapgendata dat, int turn)
     // First generate a forest
     dat.fill(4);
     for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i] == ot_forest || dat.t_nesw[i] == ot_forest_water) {
+        if (dat.t_nesw[i] == "forest" || dat.t_nesw[i] == "forest_water") {
             dat.dir(i) += 14;
-        } else if (dat.t_nesw[i] == ot_forest_thick) {
+        } else if (dat.t_nesw[i] == "forest_thick") {
             dat.dir(i) += 18;
         }
     }
@@ -611,13 +608,13 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
+        if (otermap[dat.t_nesw[i]].sidewalk) {
             sidewalks = true;
         }
     }
 
     int veh_spawn_heading;
-    if (terrain_type == ot_road_ew) {
+    if (terrain_type == "road_ew") {
         veh_spawn_heading = (one_in(2)? 0 : 180);
     } else {
         veh_spawn_heading = (one_in(2)? 270 : 90);
@@ -642,7 +639,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
             }
         }
     }
-    if (terrain_type == ot_road_ew) {
+    if (terrain_type == "road_ew") {
         m->rotate(1);
     }
     if(sidewalks) {
@@ -655,7 +652,7 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
+        if (otermap[dat.t_nesw[i]].sidewalk) {
             sidewalks = true;
         }
     }
@@ -736,13 +733,13 @@ ssss...................\n\
         mapf::basic_bind(". , y", t_pavement, t_dirt, t_pavement_y),
         mapf::basic_bind(". , y", f_null, f_null, f_null, f_null));
     }
-    if (terrain_type == ot_road_es) {
+    if (terrain_type == "road_es") {
         m->rotate(1);
     }
-    if (terrain_type == ot_road_sw) {
+    if (terrain_type == "road_sw") {
         m->rotate(2);
     }
-    if (terrain_type == ot_road_wn) {
+    if (terrain_type == "road_wn") {
         m->rotate(3); //looks like that the code above paints road_ne
     }
     if(sidewalks) {
@@ -755,7 +752,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
+        if (otermap[dat.t_nesw[i]].sidewalk) {
             sidewalks = true;
         }
     }
@@ -780,13 +777,13 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
             }
         }
     }
-    if (terrain_type == ot_road_esw) {
+    if (terrain_type == "road_esw") {
         m->rotate(1);
     }
-    if (terrain_type == ot_road_nsw) {
+    if (terrain_type == "road_nsw") {
         m->rotate(2);
     }
-    if (terrain_type == ot_road_new) {
+    if (terrain_type == "road_new") {
         m->rotate(3);
     }
     if(sidewalks) {
@@ -799,13 +796,13 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
 {
     bool plaza = false;
     for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i]  == ot_road_nesw || dat.t_nesw[i] == ot_road_nesw_manhole) {
+        if (dat.t_nesw[i] == "road_nesw" || dat.t_nesw[i] == "road_nesw_manhole") {
             plaza = true;
         }
     }
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
-        if (dat.t_nesw[i] >= ot_house_north && dat.t_nesw[i] <= ot_abstorefront_west) {
+        if (otermap[dat.t_nesw[i]].sidewalk) {
             sidewalks = true;
         }
     }
@@ -870,7 +867,7 @@ t   t\n\
     if(sidewalks) {
         m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
-    if (terrain_type == ot_road_nesw_manhole) {
+    if (terrain_type == "road_nesw_manhole") {
         m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
     }
 }
@@ -908,7 +905,7 @@ void mapgen_bridge(map *m, oter_id terrain_type, int turn)
         }
     }
 
-    if (terrain_type == ot_bridge_ew) {
+    if (terrain_type == "bridge_ew") {
         m->rotate(1);
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -931,7 +928,7 @@ void mapgen_highway(map *m, oter_id terrain_type, int turn)
             }
         }
     }
-    if (terrain_type == ot_hiway_ew) {
+    if (terrain_type == "hiway_ew") {
         m->rotate(1);
     }
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -964,13 +961,13 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type)
             }
         }
     }
-    if (terrain_type == ot_river_c_not_se) {
+    if (terrain_type == "river_c_not_se") {
         m->rotate(1);
     }
-    if (terrain_type == ot_river_c_not_sw) {
+    if (terrain_type == "river_c_not_sw") {
         m->rotate(2);
     }
-    if (terrain_type == ot_river_c_not_nw) {
+    if (terrain_type == "river_c_not_nw") {
         m->rotate(3);
     }
 }
@@ -986,13 +983,13 @@ void mapgen_river_straight(map *m, oter_id terrain_type)
             }
         }
     }
-    if (terrain_type == ot_river_east) {
+    if (terrain_type == "river_east") {
         m->rotate(1);
     }
-    if (terrain_type == ot_river_south) {
+    if (terrain_type == "river_south") {
         m->rotate(2);
     }
-    if (terrain_type == ot_river_west) {
+    if (terrain_type == "river_west") {
         m->rotate(3);
     }
 }
@@ -1008,13 +1005,13 @@ void mapgen_river_curved(map *m, oter_id terrain_type)
             }
         }
     }
-    if (terrain_type == ot_river_se) {
+    if (terrain_type == "river_se") {
         m->rotate(1);
     }
-    if (terrain_type == ot_river_sw) {
+    if (terrain_type == "river_sw") {
         m->rotate(2);
     }
-    if (terrain_type == ot_river_nw) {
+    if (terrain_type == "river_nw") {
         m->rotate(3);
     }
 }
@@ -1091,7 +1088,7 @@ void mapgen_parking_lot(map *m, mapgendata dat, int turn)
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
-        if (dat.t_nesw[1] >= ot_road_null && dat.t_nesw[1] <= ot_road_nesw_manhole) {
+        if (dat.t_nesw[i].size() > 5 && dat.t_nesw[i].find("road_",0,5) == 0) {
             m->rotate(i);
         }
     }
@@ -1270,13 +1267,13 @@ void mapgen_gas_station(map *m, oter_id terrain_type, float density)
     m->place_items("road",  12, 0,      0,  SEEX*2 - 1, top_w - 1, false, 0);
     m->place_items("behindcounter", 70, right_w - 4, top_w + 1, right_w - 1, top_w + 2, false, 0);
     m->place_items("softdrugs", 12, right_w - 1, bottom_w - 2, right_w - 1, bottom_w - 2, false, 0);
-    if (terrain_type == ot_s_gas_east) {
+    if (terrain_type == "s_gas_east") {
         m->rotate(1);
     }
-    if (terrain_type == ot_s_gas_south) {
+    if (terrain_type == "s_gas_south") {
         m->rotate(2);
     }
-    if (terrain_type == ot_s_gas_west) {
+    if (terrain_type == "s_gas_west") {
         m->rotate(3);
     }
     m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);

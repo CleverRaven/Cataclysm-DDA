@@ -4,7 +4,6 @@
 #include "string.h"
 #include "omdata.h"
 #include "mongroup.h"
-#include "settlement.h"
 #include "output.h"
 #include <vector>
 #include <iosfwd>
@@ -13,9 +12,9 @@
 #include "cursesdef.h"
 #include "name.h"
 #include "input.h"
+#include "json.h"
 
 class npc;
-struct settlement;
 
 #define OVERMAP_DEPTH 10
 #define OVERMAP_HEIGHT 0
@@ -107,9 +106,9 @@ class overmap
  * If no such tile can be found, (-1, -1) is returned.
  */
   // TODO: make this 3d
-  point find_closest(point origin, oter_id type, int type_range,
+  point find_closest(point origin, const oter_id &type,
                      int &dist, bool must_be_seen);
-  std::vector<point> find_all(tripoint origin, oter_id type, int type_range,
+  std::vector<point> find_all(tripoint origin, const oter_id &type,
                               int &dist, bool must_be_seen);
   std::vector<point> find_terrain(std::string term, int cursx, int cursy, int zlevel);
   int closest_city(point p);
@@ -118,8 +117,7 @@ class overmap
 // Interactive point choosing; used as the map screen
   point draw_overmap(game *g, int z);
 
-  bool ter_in_type_range(int x, int y, int z, oter_id type, int type_range);
-  oter_id& ter(int x, int y, int z);
+  oter_id& ter(const int x, const int y, const int z);
   bool&   seen(int x, int y, int z);
   std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
@@ -140,7 +138,6 @@ class overmap
   std::vector<npc *> npcs;
   std::vector<city> cities;
   std::vector<city> roads_out;
-  std::vector<settlement> towns;
 
  private:
   point loc;
@@ -186,16 +183,17 @@ class overmap
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
   // Connection highways
-  void place_hiways(std::vector<city> cities, int z, oter_id base);
+  void place_hiways(std::vector<city> cities, int z, const std::string &base);
   void place_subways(std::vector<point> stations);
-  void make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base);
+  void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
   void building_on_hiway(int x, int y, int dir);
   // Polishing
-  bool is_road(oter_id base, int x, int y, int z); // Dependant on road type
+  bool check_ot_type(const std::string &otype, int x, int y, int z);
   bool is_road(int x, int y, int z);
-  void polish(int z, oter_id min = ot_null, oter_id max = ot_tutorial);
-  void good_road(oter_id base, int x, int y, int z);
+  void polish(const int z, const std::string &terrain_type="all");
+  void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
+  oter_id rotate(const oter_id &oter, int dir);
   // Monsters, radios, etc.
   void place_specials();
   void place_special(overmap_special special, tripoint p);
@@ -215,5 +213,13 @@ class overmap
 //std::ostream & operator<<(std::ostream &, const overmap *);
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
+
+extern std::map<std::string,oter_t> otermap;
+extern std::vector<oter_t> oterlist;
+void load_overmap_terrain(JsonObject &jo);
+
+bool is_river(const oter_id &ter);
+bool is_ot_type(const std::string &otype, const oter_id &oter);
+map_extras& get_extras(const std::string &name);
 
 #endif

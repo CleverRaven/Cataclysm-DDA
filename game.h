@@ -403,7 +403,6 @@ class game
   void init_npctalk();
   void init_fields();
   void init_weather();
-  void init_overmap();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);

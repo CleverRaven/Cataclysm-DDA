@@ -17,6 +17,7 @@
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
+#include "overmap.h"
 #include "artifact.h"
 
 #include <string>
@@ -37,7 +38,7 @@ std::map<int,int> reverse_legacy_furn_id;
 void init_data_mappings() {
     set_ter_ids();
     set_furn_ids();
-
+    set_oter_ids();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
@@ -107,6 +108,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/martialarts.json");
     ret.push_back("data/json/tutorial.json");
     ret.push_back("data/json/tool_qualities.json");
+    ret.push_back("data/json/overmap_terrain.json");
     ret.push_back("data/json/recipes.json");
 
     return ret;
@@ -174,12 +176,15 @@ void init_data_structures()
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
+    type_function_map["overmap_terrain"] =
+        new StaticFunctionAccessor(&load_overmap_terrain);
 
     mutations_category[""].clear();
     init_mutation_parts();
     init_translation();
     init_martial_arts();
     init_inventory_categories();
+    init_colormap();
     init_artifacts();
 }
 

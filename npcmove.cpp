@@ -1992,34 +1992,34 @@ void npc::set_destination(game *g)
  decide_needs();
  if (needs.empty()) // We don't need anything in particular.
   needs.push_back(need_none);
- std::vector<oter_id> options;
+ std::vector<std::string> options;
  switch(needs[0]) {
-  case need_ammo:   options.push_back(ot_house_north);
-  case need_gun:    options.push_back(ot_s_gun_north); break;
+  case need_ammo:   options.push_back("house");
+  case need_gun:    options.push_back("s_gun"); break;
 
-  case need_weapon: options.push_back(ot_s_gun_north);
-                    options.push_back(ot_s_sports_north);
-                    options.push_back(ot_s_hardware_north); break;
+  case need_weapon: options.push_back("s_gun");
+                    options.push_back("s_sports");
+                    options.push_back("s_hardware"); break;
 
-  case need_drink:  options.push_back(ot_s_gas_north);
-                    options.push_back(ot_s_pharm_north);
-                    options.push_back(ot_s_liquor_north);
-  case need_food:   options.push_back(ot_s_grocery_north); break;
+  case need_drink:  options.push_back("s_gas");
+                    options.push_back("s_pharm");
+                    options.push_back("s_liquor");
+  case need_food:   options.push_back("s_grocery"); break;
 
-  default:      options.push_back(ot_house_north);
-                options.push_back(ot_s_gas_north);
-                options.push_back(ot_s_pharm_north);
-                options.push_back(ot_s_hardware_north);
-                options.push_back(ot_s_sports_north);
-                options.push_back(ot_s_liquor_north);
-                options.push_back(ot_s_gun_north);
-                options.push_back(ot_s_library_north);
+  default:      options.push_back("house");
+                options.push_back("s_gas");
+                options.push_back("s_pharm");
+                options.push_back("s_hardware");
+                options.push_back("s_sports");
+                options.push_back("s_liquor");
+                options.push_back("s_gun");
+                options.push_back("s_library");
  }
 
  oter_id dest_type = options[rng(0, options.size() - 1)];
 
  int dist = 0;
- point p = g->cur_om->find_closest(point(mapx, mapy),dest_type,4, dist, false);
+ point p = g->cur_om->find_closest(point(mapx, mapy), dest_type, dist, false);
  goalx = p.x;
  goaly = p.y;
  goalz = g->levz;
