@@ -305,25 +305,38 @@ void monster::move(game *g)
         // CONCRETE PLANS - Most likely based on sight
         // Check for a vehicle. If the player isn't in it, avoid the vehicle.
         if (g->m.veh_at(plans[0].x, plans[0].y))  {
-          if (!g->u.in_vehicle)  {
+          if (!g->u.in_vehicle)  { // If the player is in the vehicle, we don't care. Smash it.
             // Try to go around.
-            int tries = 0;
-            int avoidx = rng(-1, 1);
-            int avoidy = rng(-1, 1);
-            while(tries < 9) {
-              if (g->m.veh_at(posx() + avoidx, posy() + avoidy)) {
-                avoidx = rng(-1, 1);
-                avoidy = rng(-1, 1);
-                tries++;
-              } else {
-                plans[0].x = posx() + avoidx, plans[0].y = posy() + avoidy;   // Hopefully we'll go around.
-                tries = 9; // Break out.
+            int newx [8] = {-1, 0, 1, 1, 1, 0, -1, -1};  // x positions from top left.
+            int newy [8] = {-1, -1, -1, 0, 1, 1, 1, 0};  // y positions from top left.
+            int distances [8];
+            for (int i = 0; i < 9; i++) {
+              newx[i] += posx();
+              newy[i] += posy();
+              // Calculate distances and whether a vehicle is there.
+              distances[i] = rl_dist(newx[i], newy[i], plans.back().x, plans.back().y);
+              if (g->m.veh_at(newx[i], newy[i]))
+                distances[i] *= 10; // Make the distance longer so we wont be likely to pick it (unless surrounded).
+            }
+            // Find the shortest distance, that will be our intended path.
+            int smallest = 0;
+            for (int i = 1; i < 9; i++) {
+              if (distances[i] < distances[smallest]) {
+                smallest = i;
               }
             }
+            // Go to that closest position.
+            plans.clear();
+            next.x = newx[smallest];
+            next.y = newy[smallest];
+            moved = true;
           }
         }
-        next = plans[0];
-        moved = true;
+        // Player was in the vehicle or there was no vehicle. Concrete plans!
+        if (!moved) {
+          next = plans[0];
+          moved = true;
+        }
     } else if (has_flag(MF_SMELLS)) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
