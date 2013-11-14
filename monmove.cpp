@@ -333,7 +333,7 @@ void monster::move(game *g)
         if (g->m.veh_at(x, y))  {
           if (!g->u.in_vehicle)  {
             // Try to go around.
-            int tries;
+            int tries = 0;
             int avoidx = rng(-1, 1); int avoidy = rng(-1, 1);
             while(tries < 9) {
               if (g->m.veh_at(x + avoidx, y + avoidy)) {
@@ -342,7 +342,7 @@ void monster::move(game *g)
               }
               else {
                 x += avoidx, y += avoidy;   // Hopefully we'll go around.
-                tries = 80; // Break out.
+                tries = 9; // Break out.
               }
             }
           }
