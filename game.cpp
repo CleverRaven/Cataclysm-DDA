@@ -2597,7 +2597,11 @@ void game::death_screen()
                 (void)rename( save_dirent->d_name, graveyard_path.c_str() );
             }
         }
-        (void)chdir("..");
+        int ret;
+        ret = chdir("..");
+        if (ret != 0) {
+            debugmsg("game::death_screen: Can\'t chdir(\"..\") from \"save\" directory");
+        }
         (void)closedir(save_dir);
     }
 #endif
