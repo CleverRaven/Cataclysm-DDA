@@ -341,7 +341,7 @@ void monster::move(game *g)
                 tries++;
               }
               else {
-                x += avoidx, y += avoidy;   // Hopefully we'll go around.
+                x = posx() + avoidx, y = posy() + avoidy;   // Hopefully we'll go around.
                 tries = 9; // Break out.
               }
             }
