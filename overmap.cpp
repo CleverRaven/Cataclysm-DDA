@@ -3375,13 +3375,29 @@ void overmap::place_mongroups()
      for (int sy = y - 3; sy <= y + 3; sy++) {
       if (ter(sx, sy, 0) == ot_forest_water)
        swamp_count += 2;
-      else if (is_river(ter(sx, sy, 0)))
-       swamp_count++;
      }
     }
-    if (swamp_count >= 25) // ~25% swamp or ~50% river
+    if (swamp_count >= 25)
      zg.push_back(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
                            rng(swamp_count * 8, swamp_count * 25)));
+   }
+  }
+ }
+
+  if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+  // Figure out where rivers are, and place swamp monsters
+  for (int x = 3; x < OMAPX - 3; x += 7) {
+   for (int y = 3; y < OMAPY - 3; y += 7) {
+    int river_count = 0;
+    for (int sx = x - 3; sx <= x + 3; sx++) {
+     for (int sy = y - 3; sy <= y + 3; sy++) {
+      if (is_river(ter(sx, sy, 0)))
+       river_count++;
+     }
+    }
+    if (river_count >= 25)
+     zg.push_back(mongroup("GROUP_RIVER", x * 2, y * 2, 0, 3,
+                           rng(river_count * 8, river_count * 25)));
    }
   }
  }
