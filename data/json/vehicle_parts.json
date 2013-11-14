@@ -1330,6 +1330,22 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "v_curtains",
+        "name": "curtains",
+        "symbol": "\"",
+        "color": "dark_gray",
+        "broken_symbol": "0",
+        "broken_color": "light_gray",
+        "damage_modifier": 1,
+        "durability": 200,
+        "bonus": 25,
+        "item": "sheet",
+        "location": "on_windshield",
+        "difficulty": 1,
+        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OBSTACLE", "OPAQUE"],
+        "breaks_into": []
+    },{
+        "type" : "vehicle_part",
         "id" : "solar_panel",
         "name": "solar panel",
         "symbol": "#",
