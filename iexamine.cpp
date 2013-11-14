@@ -791,7 +791,7 @@ void iexamine::aggie_plant(game *g, player *p, map *m, int examx, int examy) {
             m->i_at(examx, examy)[0].bday = 0;
         }
         p->use_charges("fertilizer_liquid", 1);
-        m->spawn_item(examx, examy, "fertilizer", 1, 1);
+        m->i_at(examx, examy).push_back(item_controller->create("fertilizer", (int) g->turn));
     }
 }
 
