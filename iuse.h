@@ -19,6 +19,7 @@ class iuse
   int firstaid         (game *g, player *p, item *it, bool t);
   int disinfectant     (game *g, player *p, item *it, bool t);
   int caff             (game *g, player *p, item *it, bool t);
+  int atomic_caff      (game *g, player *p, item *it, bool t);
   int alcohol          (game *g, player *p, item *it, bool t);
   int alcohol_weak     (game *g, player *p, item *it, bool t);
   int pkill            (game *g, player *p, item *it, bool t);
