@@ -309,12 +309,12 @@ void monster::move(game *g)
             // Try to go around.
             int newx [8] = {-1, 0, 1, 1, 1, 0, -1, -1};  // x positions from top left.
             int newy [8] = {-1, -1, -1, 0, 1, 1, 1, 0};  // y positions from top left.
-            int distances [8];
+            float distances [8];
             for (int i = 0; i < 9; i++) {
               newx[i] += posx();
               newy[i] += posy();
               // Calculate distances and whether a vehicle is there.
-              distances[i] = rl_dist(newx[i], newy[i], plans.back().x, plans.back().y);
+              distances[i] = float_dist(newx[i], newy[i], plans.back().x, plans.back().y);
               if (g->m.veh_at(newx[i], newy[i]))
                 distances[i] *= 10; // Make the distance longer so we wont be likely to pick it (unless surrounded).
             }
