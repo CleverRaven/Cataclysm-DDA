@@ -14,8 +14,6 @@
  */
 veh_interact::veh_interact ()
 {
-    cursor_x = 0;
-    cursor_y = 0;
     cpart = -1;
     ddx = 0;
     ddy = 0;
@@ -93,28 +91,28 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                       LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
-    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + msg_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
-    mvwputch(w_border, mode_h + msg_h + 1, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXX);
+    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, 0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + msg_h + 1, 0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
+    mvwputch(w_border, mode_h + msg_h + 1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
 
     wrefresh(w_border);
 
     // Two lines dividing the three middle sections.
     for (int i = winy1; i < winy2; i++) {
-        mvwputch(w_grid, i, winx2, c_ltgray, LINE_XOXO);
-        mvwputch(w_grid, i, winx1, c_ltgray, LINE_XOXO);
+        mvwputch(w_grid, i, winx2, c_dkgray, LINE_XOXO);
+        mvwputch(w_grid, i, winx1, c_dkgray, LINE_XOXO);
     }
     // Two lines dividing the vertical menu sections.
     for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
-        mvwputch( w_grid, winy1, i, c_ltgray, LINE_OXOX );
-        mvwputch( w_grid, winy2-1, i, c_ltgray, LINE_OXOX );
+        mvwputch( w_grid, winy1, i, c_dkgray, LINE_OXOX );
+        mvwputch( w_grid, winy2-1, i, c_dkgray, LINE_OXOX );
     }
     // Fix up the line intersections.
-    mvwputch( w_grid, winy1, winx1, c_ltgray, LINE_OXXX );
-    mvwputch( w_grid, winy1, winx2, c_ltgray, LINE_OXXX );
-    mvwputch( w_grid, winy2 - 1, winx1, c_ltgray, LINE_XXOX );
-    mvwputch( w_grid, winy2 - 1, winx2, c_ltgray, LINE_XXOX );
+    mvwputch( w_grid, winy1, winx1, c_dkgray, LINE_OXXX );
+    mvwputch( w_grid, winy1, winx2, c_dkgray, LINE_OXXX );
+    mvwputch( w_grid, winy2 - 1, winx1, c_dkgray, LINE_XXOX );
+    mvwputch( w_grid, winy2 - 1, winx2, c_dkgray, LINE_XXOX );
 
     wrefresh(w_grid);
 
@@ -153,26 +151,23 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         if (ch == KEY_ESCAPE || ch == 'q' ) {
             finish = true;
         } else {
-            if (dx != -2 && (dx || dy) &&
-                cursor_x + dx >= -6 && cursor_x + dx < 6 &&
-                cursor_y + dy >= -6 && cursor_y + dy < 6)
-            {
+            if (dx != -2 && (dx || dy)) {
                 move_cursor(dx, dy);
             }
             else
             {
-                int mval = cant_do(ch);
+                task_reason reason = cant_do(ch);
                 display_mode (ch);
                 switch (ch)
                 {
-                    case 'i': do_install(mval); break;
-                    case 'r': do_repair(mval);  break;
-                    case 'f': do_refill(mval);  break;
-                    case 'o': do_remove(mval);  break;
-                    case 'e': do_rename(mval);  break;
-                    case 's': do_siphon(mval);  break;
-                    case 'c': do_tirechange(mval); break;
-                    case 'd': do_drain(mval);  break;
+                    case 'i': do_install(reason); break;
+                    case 'r': do_repair(reason);  break;
+                    case 'f': do_refill(reason);  break;
+                    case 'o': do_remove(reason);  break;
+                    case 'e': do_rename(reason);  break;
+                    case 's': do_siphon(reason);  break;
+                    case 'c': do_tirechange(reason); break;
+                    case 'd': do_drain(reason);  break;
                 }
                 if (sel_cmd != ' ')
                 {
@@ -210,7 +205,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
  *         3 if something else obstructs the action,
  *         4 if the player's skill isn't high enough.
  */
-int veh_interact::cant_do (char mode)
+task_reason veh_interact::cant_do (char mode)
 {
     bool valid_target = false;
     bool has_tools = false;
@@ -228,7 +223,7 @@ int veh_interact::cant_do (char mode)
         has_tools = has_welder;
         break;
     case 'f': // refill mode
-        valid_target = ptank != NULL;
+        valid_target = (ptank != NULL && ptank->hp > 0);
         has_tools = has_fuel;
         break;
     case 'o': // remove mode
@@ -250,30 +245,30 @@ int veh_interact::cant_do (char mode)
         has_tools = has_siphon;
         break;
     default:
-        return -1;
+        return UNKNOWN_TASK;
     }
 
     if( !valid_target ) {
-        return 1;
+        return INVALID_TARGET;
     }
     if( !has_tools ) {
-        return 2;
+        return LACK_TOOLS;
     }
     if( !part_free ) {
-        return 3;
+        return NOT_FREE;
     }
     if( !has_skill ) {
-        return 4;
+        return LACK_SKILL;
     }
-    return 0;
+    return CAN_DO;
 }
 
 /**
  * Handles installing a new part.
- * @param reason 1 if the square can't have anything installed,
- *               2 if the player is lacking tools.
+ * @param reason INVALID_TARGET if the square can't have anything installed,
+ *               LACK_TOOLS if the player is lacking tools.
  */
-void veh_interact::do_install(int reason)
+void veh_interact::do_install(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
@@ -285,11 +280,11 @@ void veh_interact::do_install(int reason)
     }
     switch (reason)
     {
-    case 1:
+    case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Cannot install any part here."));
         wrefresh (w_msg);
         return;
-    case 2:
+    case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("You need a <color_%1$s>wrench</color> and a <color_%2$s>powered welder</color> to install parts."),
                        has_wrench ? "ltgreen" : "red",
@@ -373,10 +368,10 @@ void veh_interact::do_install(int reason)
 
 /**
  * Handles repairing a vehicle part.
- * @param reason 1 if there's no damaged parts in the selected square,
- *               2 if the player is lacking tools.
+ * @param reason INVALID_TARGET if there's no damaged parts in the selected square,
+ *               LACK_TOOLS if the player is lacking tools.
  */
-void veh_interact::do_repair(int reason)
+void veh_interact::do_repair(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
@@ -388,11 +383,11 @@ void veh_interact::do_repair(int reason)
     }
     switch (reason)
     {
-    case 1:
+    case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("There are no damaged parts here."));
         wrefresh (w_msg);
         return;
-    case 2:
+    case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("You need a <color_%s>powered welder</color> to repair."),
                        has_welder ? "ltgreen" : "red");
@@ -463,20 +458,20 @@ void veh_interact::do_repair(int reason)
 
 /**
  * Handles refilling a vehicle's fuel tank.
- * @param reason 1 if there's no fuel tank in the spot,
- *               2 if the player has nothing to fill the tank with.
+ * @param reason INVALID_TARGET if there's no fuel tank in the spot,
+ *               LACK_TOOLS if the player has nothing to fill the tank with.
  */
-void veh_interact::do_refill(int reason)
+void veh_interact::do_refill(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason)
     {
-    case 1:
+    case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("There's no fuel tank here."));
         wrefresh (w_msg);
         return;
-    case 2:
+    case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("You need <color_red>%s</color>."),
                        ammo_name(vehicle_part_types[ptank->id].fuel_type).c_str());
@@ -489,12 +484,12 @@ void veh_interact::do_refill(int reason)
 
 /**
  * Handles removing a part from the vehicle.
- * @param reason 1 if there are no parts to remove,
- *               2 if the player is lacking tools,
- *               3 if there's something attached that needs to be removed first,
- *               4 if the player's mechanics skill isn't high enough.
+ * @param reason INVALID_TARGET if there are no parts to remove,
+ *               LACK_TOOLS if the player is lacking tools,
+ *               NOT_FREE if there's something attached that needs to be removed first,
+ *               LACK_SKILL if the player's mechanics skill isn't high enough.
  */
-void veh_interact::do_remove(int reason)
+void veh_interact::do_remove(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
@@ -506,11 +501,11 @@ void veh_interact::do_remove(int reason)
     }
     switch (reason)
     {
-    case 1:
+    case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("No parts here."));
         wrefresh (w_msg);
         return;
-    case 2:
+    case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
                        has_wrench ? "ltgreen" : "red",
@@ -523,12 +518,12 @@ void veh_interact::do_remove(int reason)
         }
         wrefresh (w_msg);
         return;
-    case 3:
+    case NOT_FREE:
         mvwprintz(w_msg, 0, 1, c_ltred,
                   _("You cannot remove that part while something is attached to it."));
         wrefresh (w_msg);
         return;
-    case 4:
+    case LACK_SKILL:
         mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
         wrefresh (w_msg);
         return;
@@ -584,19 +579,20 @@ void veh_interact::do_remove(int reason)
 
 /**
  * Handles siphoning gas.
- * @param reason 1 if the vehicle has no gas, 2 if the player has no hose.
+ * @param reason INVALID_TARGET if the vehicle has no gas,
+ *               NO_TOOLS if the player has no hose.
  */
-void veh_interact::do_siphon(int reason)
+void veh_interact::do_siphon(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason)
     {
-    case 1:
+    case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no gasoline to siphon."));
         wrefresh (w_msg);
         return;
-    case 2:
+    case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("You need a <color_red>hose</color> to siphon fuel."));
         wrefresh (w_msg);
@@ -607,19 +603,19 @@ void veh_interact::do_siphon(int reason)
 
 /**
  * Handles changing a tire.
- * @param reason 1 if there's no wheel in the selected square,
- *               2 if the player is missing a tool.
+ * @param reason INVALID_TARGET if there's no wheel in the selected square,
+ *               LACK_TOOLS if the player is missing a tool.
  */
-void veh_interact::do_tirechange(int reason)
+void veh_interact::do_tirechange(task_reason reason)
 {
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
     switch( reason ) {
-    case 1:
+    case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("There is no wheel to change here."));
         wrefresh (w_msg);
         return;
-    case 2:
+    case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
                        has_wrench ? "ltgreen" : "red",
@@ -674,19 +670,20 @@ void veh_interact::do_tirechange(int reason)
 
 /**
  * Handles draining water from a vehicle.
- * @param reason 1 if the vehicle has no water, 2 if the player has no hose.
+ * @param reason INVALID_TARGET if the vehicle has no water,
+ *               LACK_TOOLS if the player has no hose.
  */
-void veh_interact::do_drain(int reason)
+void veh_interact::do_drain(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason)
     {
-    case 1:
+    case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no water to siphon.") );
         wrefresh (w_msg);
         return;
-    case 2:
+    case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("You need a <color_red>hose</color> to siphon water.") );
         wrefresh (w_msg);
@@ -699,7 +696,7 @@ void veh_interact::do_drain(int reason)
  * Handles renaming a vehicle.
  * @param reason Unused.
  */
-void veh_interact::do_rename(int reason)
+void veh_interact::do_rename(task_reason reason)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
@@ -731,13 +728,14 @@ int veh_interact::part_at (int dx, int dy)
  */
 void veh_interact::move_cursor (int dx, int dy)
 {
-    mvwputch (w_disp, cursor_y + 6, cursor_x + 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
+    mvwputch (w_disp, 6, 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
-    cursor_x += dx;
-    cursor_y += dy;
-    cpart = part_at (cursor_x, cursor_y);
-    int vdx = -ddx - cursor_y;
-    int vdy = cursor_x - ddy;
+    ddx += dy;
+    ddy -= dx;
+    display_veh();
+    cpart = part_at (0, 0);
+    int vdx = -ddx;
+    int vdy = -ddy;
     int vx, vy;
     veh->coord_translate (vdx, vdy, vx, vy);
     int vehx = veh->global_x() + vx;
@@ -749,7 +747,7 @@ void veh_interact::move_cursor (int dx, int dy)
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
-    mvwputch (w_disp, cursor_y + 6, cursor_x + 6, obstruct ? red_background(col) : hilite(col),
+    mvwputch (w_disp, 6, 6, obstruct ? red_background(col) : hilite(col),
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     wrefresh (w_disp);
     werase (w_parts);
@@ -801,7 +799,7 @@ void veh_interact::move_cursor (int dx, int dy)
             {
                 ptank = &veh->parts[p];
             }
-            if (veh->part_flag(p, "WHEEL") && veh->parts[p].amount < veh->part_info(p).size)
+            if (veh->part_flag(p, "WHEEL"))
             {
                 wheel = &veh->parts[p];
             }
@@ -818,53 +816,7 @@ void veh_interact::move_cursor (int dx, int dy)
  */
 void veh_interact::display_veh ()
 {
-    int x1 = 12, y1 = 12, x2 = -12, y2 = -12;
-    for (int p = 0; p < veh->parts.size(); p++)
-    {
-        if (veh->parts[p].mount_dx < x1)
-        {
-            x1 = veh->parts[p].mount_dx;
-        }
-        if (veh->parts[p].mount_dy < y1)
-        {
-            y1 = veh->parts[p].mount_dy;
-        }
-        if (veh->parts[p].mount_dx > x2)
-        {
-            x2 = veh->parts[p].mount_dx;
-        }
-        if (veh->parts[p].mount_dy > y2)
-        {
-            y2 = veh->parts[p].mount_dy;
-        }
-    }
-    ddx = 0;
-    ddy = 0;
-    if (x2 - x1 < 11) { x1--; x2++; }
-    if (y2 - y1 < 11 ) { y1--; y2++; }
-    if (x1 < -5)
-    {
-        ddx = -5 - x1;
-    }
-    else
-    {
-        if (x2 > 6)
-        {
-            ddx = 6 - x2;
-        }
-    }
-    if (y1 < -6)
-    {
-        ddy = -6 - y1;
-    }
-    else
-    {
-        if (y2 > 5)
-        {
-            ddy = 5 - y2;
-        }
-    }
-
+    werase(w_disp);
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     for (int i = 0; i < structural_parts.size(); i++)
@@ -874,11 +826,11 @@ void veh_interact::display_veh ()
         nc_color col = veh->part_color (p);
         int y = -(veh->parts[p].mount_dx + ddx);
         int x = veh->parts[p].mount_dy + ddy;
-        mvwputch (w_disp, 6+y, 6+x, cursor_x == x && cursor_y == y? hilite(col) : col, special_symbol(sym));
-        if (cursor_x == x && cursor_y == y)
-        {
+        if(x == 0 && y == 0) {
+            col = hilite(col);
             cpart = p;
         }
+        mvwputch (w_disp, 6+y, 6+x, col, special_symbol(sym));
     }
     wrefresh (w_disp);
 }
@@ -1218,7 +1170,9 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0)
         {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
             used_item = consume_vpart_item (g, veh->parts[vehicle_part].id);
+            veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(component("wrench", -1));
             g->consume_tools(&g->u, tools, true);
             tools.clear();
@@ -1257,6 +1211,8 @@ void complete_vehicle (game *g)
             {
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
             }
+        } else {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
         }
         if (veh->parts.size() < 2)
         {

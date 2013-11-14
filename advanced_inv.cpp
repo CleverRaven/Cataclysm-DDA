@@ -183,7 +183,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         }
 
         if( isinventory && items[i].stacks > 1 ) {
-            mvwprintz(window, 6 + x, amount_column, thiscolor, "[%d]", items[i].stacks);
+            mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
         } else if ( isall ) {
             mvwprintz(window, 6 + x, amount_column, thiscolor, "%s", squares[items[i].area].shortname.c_str());
         }
@@ -324,7 +324,7 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
             area.max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
             area.max_volume = area.veh->max_volume(area.vstor);
         } else {
-            area.canputitems=(!(g->m.has_flag("NOITEM",u.posx+area.offx,u.posy+area.offy)) && !(g->m.has_flag("SEALED",u.posx+area.offx,u.posy+area.offy) ));
+            area.canputitems = g->m.can_put_items(u.posx+area.offx, u.posy+area.offy);
             area.size = g->m.i_at(u.posx+area.offx,u.posy+area.offy).size();
             area.max_size = MAX_ITEM_IN_SQUARE;
             area.max_volume = g->m.max_volume(u.posx+area.offx,u.posy+area.offy);
@@ -1020,7 +1020,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     if ( destarea == isinventory ) // if destination is inventory
                     {
                         if(squares[destarea].size >= max_inv) {
-                            popup(_("Too many itens"));
+                            popup(_("Too many items."));
                             continue;
                         }
                         int tryvolume = it->volume();

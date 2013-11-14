@@ -354,12 +354,15 @@
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
       <PreprocessorDefinitions>_MBCS;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
@@ -851,8 +854,8 @@
     <ClCompile Include="..\building_generation.cpp" />
     <ClCompile Include="..\calendar.cpp" />
     <ClCompile Include="..\catacharset.cpp" />
-    <ClCompile Include="..\catajson.cpp" />
     <ClCompile Include="..\cata_tiles.cpp" />
+    <ClCompile Include="..\char_validity_check.cpp" />
     <ClCompile Include="..\color.cpp" />
     <ClCompile Include="..\computer.cpp" />
     <ClCompile Include="..\construction.cpp" />
@@ -890,6 +893,7 @@
     <ClCompile Include="..\keypress.cpp" />
     <ClCompile Include="..\lightmap.cpp" />
     <ClCompile Include="..\line.cpp" />
+    <ClCompile Include="..\live_view.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\main_menu.cpp" />
     <ClCompile Include="..\map.cpp" />
@@ -939,6 +943,7 @@
     <ClCompile Include="..\skill.cpp" />
     <ClCompile Include="..\text_snippets.cpp" />
     <ClCompile Include="..\tileray.cpp" />
+    <ClCompile Include="..\translations.cpp" />
     <ClCompile Include="..\trapdef.cpp" />
     <ClCompile Include="..\trapfunc.cpp" />
     <ClCompile Include="..\tutorial.cpp" />
@@ -952,13 +957,13 @@
     <ClCompile Include="..\weather_data.cpp" />
     <ClCompile Include="..\wincurse.cpp" />
     <ClCompile Include="..\wish.cpp" />
+    <ClCompile Include="..\worldfactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\action.h" />
     <ClInclude Include="..\addiction.h" />
     <ClInclude Include="..\advanced_inv.h" />
     <ClInclude Include="..\artifact.h" />
-    <ClInclude Include="..\artifactdata.h" />
     <ClInclude Include="..\auto_pickup.h" />
     <ClInclude Include="..\basecamp.h" />
     <ClInclude Include="..\bionics.h" />
@@ -967,8 +972,8 @@
     <ClInclude Include="..\calendar.h" />
     <ClInclude Include="..\catacharset.h" />
     <ClInclude Include="..\catacurse.h" />
-    <ClInclude Include="..\catajson.h" />
     <ClInclude Include="..\cata_tiles.h" />
+    <ClInclude Include="..\char_validity_check.h" />
     <ClInclude Include="..\color.h" />
     <ClInclude Include="..\computer.h" />
     <ClInclude Include="..\construction.h" />
@@ -993,7 +998,6 @@
     <ClInclude Include="..\iexamine.h" />
     <ClInclude Include="..\init.h" />
     <ClInclude Include="..\input.h" />
-    <ClInclude Include="..\input_defs.h" />
     <ClInclude Include="..\inventory.h" />
     <ClInclude Include="..\item.h" />
     <ClInclude Include="..\item_factory.h" />
@@ -1008,6 +1012,7 @@
     <ClInclude Include="..\keypress.h" />
     <ClInclude Include="..\lightmap.h" />
     <ClInclude Include="..\line.h" />
+    <ClInclude Include="..\live_view.h" />
     <ClInclude Include="..\map.h" />
     <ClInclude Include="..\mapbuffer.h" />
     <ClInclude Include="..\mapdata.h" />
@@ -1058,6 +1063,7 @@
     <ClInclude Include="..\version.h" />
     <ClInclude Include="..\wdirent.h" />
     <ClInclude Include="..\weather.h" />
+    <ClInclude Include="..\worldfactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource.rc" />

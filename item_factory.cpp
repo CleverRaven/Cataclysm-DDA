@@ -1,7 +1,6 @@
 #include "item_factory.h"
 #include "rng.h"
 #include "enums.h"
-#include "catajson.h"
 #include "json.h"
 #include "addiction.h"
 #include "translations.h"
@@ -22,8 +21,11 @@ Item_factory* item_controller = new Item_factory();
 Item_factory::Item_factory(){
     init();
     m_missing_item = new itype();
-    m_missing_item->name = _("Error: Item Missing.");
-    m_missing_item->description = _("There is only the space where an object should be, but isn't. No item template of this type exists.");
+    // intentionally left untranslated
+    // because using _() at global scope is problematic,
+    // and if this appears it's a bug anyway.
+    m_missing_item->name = "Error: Item Missing.";
+    m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 
@@ -62,10 +64,12 @@ void Item_factory::init(){
     iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
     iuse_function_list["INHALER"] = &iuse::inhaler;
     iuse_function_list["BLECH"] = &iuse::blech;
+    iuse_function_list["CHEW"] = &iuse::chew;
     iuse_function_list["MUTAGEN"] = &iuse::mutagen;
     iuse_function_list["PURIFIER"] = &iuse::purifier;
     iuse_function_list["MARLOSS"] = &iuse::marloss;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
+    iuse_function_list["CATFOOD"] = &iuse::catfood;
 
   // TOOLS
     iuse_function_list["LIGHTER"] = &iuse::lighter;
@@ -159,6 +163,9 @@ void Item_factory::init(){
     iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
     iuse_function_list["adv_UPS_ON"] = &iuse::adv_UPS_on;
     iuse_function_list["TAZER"] = &iuse::tazer;
+    iuse_function_list["TAZER2"] = &iuse::tazer2;
+    iuse_function_list["SHOCKTONFA_OFF"] = &iuse::shocktonfa_off;
+    iuse_function_list["SHOCKTONFA_ON"] = &iuse::shocktonfa_on;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
     iuse_function_list["PORTABLE_GAME"] = &iuse::portable_game;
@@ -172,6 +179,8 @@ void Item_factory::init(){
     iuse_function_list["SHELTER"] = &iuse::shelter;
     iuse_function_list["TORCH"] = &iuse::torch;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
+    iuse_function_list["HANDFLARE"] = &iuse::handflare;
+    iuse_function_list["HANDFLARE_LIT"] = &iuse::handflare_lit;
     iuse_function_list["BATTLETORCH"] = &iuse::battletorch;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["CANDLE"] = &iuse::candle;
@@ -191,6 +200,7 @@ void Item_factory::init(){
     iuse_function_list["ABSORBENT"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
+    iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;

@@ -990,7 +990,7 @@ void npc::move_to(game *g, int x, int y)
  } else {
   if (in_vehicle) {
       // TODO: handle this nicely - npcs should not jump from moving vehicles
-      g->m.unboard_vehicle(g, posx, posy);
+      g->m.unboard_vehicle(posx, posy);
   }
   else
   {
@@ -1015,12 +1015,15 @@ void npc::move_to(game *g, int x, int y)
   int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
   g->m.bash(x, y, smashskill, bashsound);
   g->sound(x, y, 18, bashsound);
- } else
- if (g->m.field_at(x, y).findField(fd_rubble))
-  g->u.add_disease("bouldering", 100, false, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
- else
-  g->u.rem_disease("bouldering");
-  moves -= 100;
+ } else {
+     int frubble = g->m.get_field_strength( point(x, y), fd_rubble );
+     if (frubble > 0 ) {
+        g->u.add_disease("bouldering", 100, false, frubble, 3);
+     } else {
+        g->u.rem_disease("bouldering");
+     }
+     moves -= 100;
+  }
  }
 }
 
@@ -1665,7 +1668,7 @@ void npc::heal_player(game *g, player &patient)
   move_to_next(g);
  } else { // Close enough to heal!
   int lowest_HP = 400;
-  hp_part worst;
+  hp_part worst = hp_head;
 // Chose the worst-hurting body part
   for (int i = 0; i < num_hp_parts; i++) {
    int hp = patient.hp_cur[i];
@@ -1730,7 +1733,7 @@ void npc::heal_player(game *g, player &patient)
 void npc::heal_self(game *g)
 {
  int lowest_HP = 400;
- hp_part worst;
+ hp_part worst = hp_head;
 // Chose the worst-hurting body part
  for (int i = 0; i < num_hp_parts; i++) {
   int hp = hp_cur[i];

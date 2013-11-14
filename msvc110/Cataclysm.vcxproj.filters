@@ -57,7 +57,7 @@
     <ClCompile Include="..\catacharset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\catajson.cpp">
+    <ClCompile Include="..\char_validity_check.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\color.cpp">
@@ -333,6 +333,9 @@
     <ClCompile Include="..\wish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\wcwidth.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -357,6 +360,18 @@
     <ClCompile Include="..\savegame_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\live_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\translations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\char_validity_check.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\action.h">
@@ -369,9 +384,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\artifact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\artifactdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\auto_pickup.h">
@@ -401,7 +413,7 @@
     <ClInclude Include="..\catacurse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\catajson.h">
+    <ClInclude Include="..\char_validity_check.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\color.h">
@@ -644,6 +656,9 @@
     <ClInclude Include="..\weather.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\worldfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\coordinates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -668,7 +683,13 @@
     <ClInclude Include="..\savegame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\input_defs.h">
+    <ClInclude Include="..\live_view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\char_validity_check.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\worldfactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

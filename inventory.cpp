@@ -312,7 +312,7 @@ void inventory::clone_stack (const std::list<item> & rhs) {
        newstack.push_back(*iter);
     }
     items.push_back(newstack);
-//    return *this;    
+//    return *this;
 }
 
 void inventory::push_back(std::list<item> newits)
@@ -386,7 +386,7 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 item& inventory::add_item(item newit, bool keep_invlet)
 {
 //dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
- 
+
     bool reuse_cached_letter = false;
 
     // Check how many stacks of this type already are in our inventory.
@@ -490,56 +490,37 @@ void inventory::restack(player *p)
     // 2. remove items from non-matching stacks
     // 3. combine matching stacks
 
-    if (!p)
-    {
+    if (!p) {
         return;
     }
 
     std::list<item> to_restack;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet))
-        {
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet)) {
             assign_empty_invlet(iter->front());
-            for (std::list<item>::iterator stack_iter = iter->begin();
-                 stack_iter != iter->end();
-                 ++stack_iter)
-            {
+            for( std::list<item>::iterator stack_iter = iter->begin();
+                 stack_iter != iter->end(); ++stack_iter ) {
                 stack_iter->invlet = iter->front().invlet;
             }
         }
 
-        // remove non-matching items
-        while (iter->size() > 0 && !iter->front().stacks_with(iter->back()))
-        {
-            to_restack.splice(to_restack.begin(), *iter, iter->begin());
-        }
-        if (iter->size() <= 0)
-        {
-            iter = items.erase(iter);
-            --iter;
-            continue;
+        // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
+        while( iter->size() > 1 && !iter->front().stacks_with(iter->back()) ) {
+            to_restack.splice(to_restack.begin(), *iter, --iter->end());
         }
     }
 
     // combine matching stacks
     // separate loop to ensure that ALL stacks are homogeneous
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        for (invstack::iterator other = iter; other != items.end(); ++other)
-        {
-            if (iter != other && iter->front().type->id == other->front().type->id)
-            {
-                if (other->front().charges != -1 && (other->front().is_food() || other->front().is_ammo()))
-                {
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        for (invstack::iterator other = iter; other != items.end(); ++other) {
+            if (iter != other && iter->front().type->id == other->front().type->id) {
+                if (other->front().charges != -1 && (other->front().is_food() ||
+                                                     other->front().is_ammo())) {
                     iter->front().charges += other->front().charges;
-                }
-                else if (iter->front().stacks_with(other->front()))
-                {
+                } else if (iter->front().stacks_with(other->front())) {
                     iter->splice(iter->begin(), *other);
-                }
-                else
-                {
+                } else {
                     continue;
                 }
                 other = items.erase(other);
@@ -581,6 +562,23 @@ void inventory::form_from_map(game *g, point origin, int range)
     water.charges = 50;
     add_item(water);
    }
+   // kludge that can probably be done better to check specifically for toilet water to use in
+   // crafting
+   if (furnlist[g->m.furn(x,y)].examine == &iexamine::toilet){
+    // get water charges at location
+     std::vector<item> toiletitems = g->m.i_at(x,y);
+     int waterindex = -1;
+     for (int i = 0; i < toiletitems.size(); ++i){
+        if (toiletitems[i].typeId() == "water"){
+            waterindex = i;
+            break;
+        }
+     }
+     if (waterindex >= 0 && toiletitems[waterindex].charges > 0){
+        add_item(toiletitems[waterindex]);
+     }
+
+   }
 
    int vpart = -1;
    vehicle *veh = g->m.veh_at(x, y, vpart);
@@ -588,6 +586,8 @@ void inventory::form_from_map(game *g, point origin, int range)
    if (veh) {
      const int kpart = veh->part_with_feature(vpart, "KITCHEN");
      const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+     const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+     const int forgepart = veh->part_with_feature(vpart, "FORGE");
 
      if (kpart >= 0) {
        item hotplate(g->itypes["hotplate"], 0);
@@ -611,6 +611,24 @@ void inventory::form_from_map(game *g, point origin, int range)
        item soldering_iron(g->itypes["soldering_iron"], 0);
        soldering_iron.charges = veh->fuel_left("battery", true);
        add_item(soldering_iron);
+       }
+     if (craftpart >= 0) {
+       item vac_sealer(g->itypes["vac_sealer"], 0);
+       vac_sealer.charges = veh->fuel_left("battery", true);
+       add_item(vac_sealer);
+
+       item dehydrator(g->itypes["dehydrator"], 0);
+       dehydrator.charges = veh->fuel_left("battery", true);
+       add_item(dehydrator);
+
+       item press(g->itypes["press"], 0);
+       press.charges = veh->fuel_left("battery", true);
+       add_item(press);
+       }
+     if (forgepart >= 0) {
+       item forge(g->itypes["forge"], 0);
+       forge.charges = veh->fuel_left("battery", true);
+       add_item(forge);
        }
      }
    }
@@ -1155,13 +1173,13 @@ bool inventory::has_item(item *it) const
     return false;
 }
 
-bool inventory::has_items_with_quality(std::string name, int level, int amount) const
+bool inventory::has_items_with_quality(std::string id, int level, int amount) const
 {
     int found = 0;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter){
         for(std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter){
             std::map<std::string,int> qualities = stack_iter->type->qualities;
-            std::map<std::string,int>::const_iterator quality_iter = qualities.find(name);
+            std::map<std::string,int>::const_iterator quality_iter = qualities.find(id);
             if(quality_iter!=qualities.end() && level >= quality_iter->second){
               found++;
             }
@@ -1236,7 +1254,7 @@ int inventory::butcher_factor() const
              ++stack_iter)
         {
             const item& cur_item = *stack_iter;
-            if (cur_item.damage_cut() >= 10 && !cur_item.has_flag("SPEAR"))
+            if (cur_item.has_quality("CUT") && !cur_item.has_flag("SPEAR"))
             {
                 int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
                              cur_item.damage_cut();

@@ -62,8 +62,8 @@ typedef std::vector<wrapped_vehicle> VehicleList;
  */
 class map
 {
+ friend class editmap;
  public:
-
 // Constructors & Initialization
  map();
  map(std::vector<trap*> *trptr);
@@ -95,7 +95,7 @@ class map
 
 // File I/O
  virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- virtual void load(game *g, const int wx, const int wy, const int wz, const bool update_vehicles = true);
+ virtual void load(game *g, const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
  void shift(game *g, const int wx, const int wy, const int wz, const int x, const int y);
  void spawn_monsters(game *g);
  void clear_spawns();
@@ -191,7 +191,7 @@ class map
 
  // put player on vehicle at x,y
  void board_vehicle(game *g, int x, int y, player *p);
- void unboard_vehicle(game *g, const int x, const int y);//remove player from vehicle at x,y
+ void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
  void clear_vehicle_cache();
@@ -238,6 +238,7 @@ class map
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool can_put_items(const int x, const int y); // True if items can be placed in this tile
  bool has_flag_ter(std::string flag, const int x, const int y);  // checks terrain
  bool has_flag_furn(std::string flag, const int x, const int y);  // checks furniture
  bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
@@ -263,7 +264,7 @@ class map
             const std::set<std::string>& ammo_effects);
  bool hit_with_acid(game *g, const int x, const int y);
  bool hit_with_fire(game *g, const int x, const int y);
- void marlossify(const int x, const int y);
+ bool marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
 
@@ -282,13 +283,14 @@ class map
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
  void spawn_artifact(const int x, const int y, itype* type, int bday);
- void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
+    void spawn_item(const int x, const int y, const std::string &itype_id,
+                    const unsigned quantity=1, const int charges=0,
+                    const unsigned birthday=0, const int damlevel=0);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
- void add_item(const int x, const int y, item new_item, int maxitems = 64); // Do we want mapgen and explosions piling up to MAX_ITEM_IN_SQUARE (1024)? NYET!
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
  void process_vehicles(game *g);
@@ -306,6 +308,14 @@ class map
 
 // Fields
  field& field_at(const int x, const int y);
+
+ int get_field_age(const point p, const field_id t);
+ int get_field_strength(const point p, const field_id t);
+ int adjust_field_age(const point p, const field_id t, const int offset);
+ int adjust_field_strength(game *g, const point p, const field_id t, const int offset);
+ int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
+ int set_field_strength(game *g, const point p, const field_id t, const int str, bool isoffset = false);
+ field_entry * get_field( const point p, const field_id t );
  bool add_field(game *g, const point p, const field_id t, unsigned int density, const int age);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
@@ -325,7 +335,7 @@ class map
 
 // Graffiti
  graffiti graffiti_at(int x, int y);
- bool add_graffiti(game *g, int x, int y, std::string contents);
+ bool add_graffiti(int x, int y, std::string contents);
 
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int z, const int turn);
@@ -338,8 +348,8 @@ class map
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
- void spawn_item(const int x, const int y, item new_item, const int birthday,
-                 const int quantity, const int charges, const int damlevel);
+    void spawn_item(const int x, const int y, item new_item,
+                    const int charges, const int damlevel);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
@@ -363,23 +373,29 @@ class map
  };
  point getabs(const int x=0, const int y=0 );
  point getlocal(const int x, const int y );
-
+ point getlocal( const point p ) { return getlocal(p.x, p.y); } 
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 
  int getmapsize() { return my_MAPSIZE; };
+
+ // Not protected/private for building_generation.cpp access
+ void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
+                              // Useful for houses, shops, etc
+ void add_road_vehicles(bool city, int facing);
+
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
  bool loadn(game *g, const int x, const int y, const int z, const int gridx, const int gridy,
-            const  bool update_vehicles = true);
+            const  bool update_vehicles = true, overmap *om = NULL);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-               const oter_id t_south, const oter_id t_west, const oter_id t_above, const int turn,
-               game *g, const float density, const int zlevel);
+                const oter_id t_south, const oter_id t_west, const oter_id t_neast,
+                const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                const oter_id t_above, const int turn, game *g, const float density,
+                const int zlevel);
  void add_extra(map_extra type, game *g);
- void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
-            // Useful for houses, shops, etc
  void build_transparency_cache();
  void build_outside_cache(const game *g);
  void generate_lightmap(game *g);
@@ -407,6 +423,7 @@ protected:
  void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
 
 private:
+submap * getsubmap( const int grididx );
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
@@ -420,7 +437,7 @@ private:
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
- void add_road_vehicles(bool city, int facing);
+ void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -438,6 +455,7 @@ std::vector<point> closest_points_first(int radius, point p);
 std::vector<point> closest_points_first(int radius,int x,int y);
 class tinymap : public map
 {
+friend class editmap;
 public:
  tinymap();
  tinymap(std::vector<trap*> *trptr);

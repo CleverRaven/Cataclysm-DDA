@@ -812,7 +812,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                                 }
                                 if (!valid.empty()) {
                                     point newp = valid[rng(0, valid.size() - 1)];
-                                    add_item(newp.x, newp.y, tmp);
+                                    add_item_or_charges(newp.x, newp.y, tmp);
                                     if (g->u.posx == newp.x && g->u.posy == newp.y) {
                                         g->add_msg(_("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
@@ -1087,14 +1087,24 @@ void map::step_in_field(int x, int y, game *g)
             break;
 
         case fd_smoke:
-            //Get smoke disease from standing in smoke.
-            if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("smoke", bp_mouth, 4, 15);
-            } else if (cur->getFieldDensity() == 2 && !inside){
-                g->u.infect("smoke", bp_mouth, 2, 7);
-            } else if (cur->getFieldDensity() == 1 && !inside && one_in(2)) {
-                g->u.infect("smoke", bp_mouth, 1, 2);
+                if (!inside) {
+                    //Get smoke disease from standing in smoke.
+                    signed char density = cur->getFieldDensity();
+                    int coughStr;
+                    int coughDur;
+                    if (density >= 3) {   // thick smoke
+                        coughStr = 4;
+                        coughDur = 15;
+                    } else if (density == 2) {  // smoke
+                        coughStr = 2;
+                        coughDur = 7;
+                    } else {    // density 1, thin smoke
+                        coughStr = 1;
+                        coughDur = 2;
+                    }
+                    g->u.infect("smoke", bp_mouth, coughStr, coughDur);
+                }
             }
             break;
 
@@ -1193,8 +1203,7 @@ void map::step_in_field(int x, int y, game *g)
 
 void map::mon_in_field(int x, int y, game *g, monster *z)
 {
-    if (z->has_flag(MF_DIGS) || 
-      (z->has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", x, y))) {
+    if (z->digging()) {
         return; // Digging monsters are immune to fields
     }
     field &curfield = field_at(x, y);
@@ -1223,9 +1232,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
  // TODO: Use acid resistance
         case fd_acid:
-            if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
-                (!z->has_flag(MF_CAN_DIG) || !g->m.has_flag("DIGGABLE", x, y)) &&
-                !z->has_flag(MF_ACIDPROOF)) {
+            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_ACIDPROOF)) {
                 if (cur->getFieldDensity() == 3) {
                     dam += rng(4, 10) + rng(2, 8);
                 } else {

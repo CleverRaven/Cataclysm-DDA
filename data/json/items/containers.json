@@ -228,7 +228,7 @@
         "description": "A half-litre glass jar with a metal screw top lid, used for canning.",
         "price": 2500,
         "weight": 264,
-        "volume": 1,
+        "volume": 2,
         "bashing": 8,
         "cutting": 0,
         "to_hit": 1,
@@ -245,7 +245,7 @@
         "description": "A three-litre glass jar with a metal screw top lid, used for canning.",
         "price": 3000,
         "weight": 365,
-        "volume": 3,
+        "volume": 12,
         "bashing": 10,
         "cutting": 0,
         "to_hit": 1,
@@ -290,7 +290,7 @@
     },
     {
         "id": "wrapper",
-        "type": "CONTAINER"
+        "type": "CONTAINER",
         "symbol": ",",
         "color": "light_gray",
         "name": "paper wrapper",
@@ -301,7 +301,7 @@
         "bashing": -8,
         "cutting": 0,
         "to_hit": -2,
-        "contains": 10
+        "contains": 10,
         "material": "paper"
     }
 ]

@@ -74,9 +74,9 @@ public:
  item in_its_container(std::map<std::string, itype*> *itypes);
 
  nc_color color(player *u) const;
- nc_color color_in_inventory(player *u);
+ nc_color color_in_inventory();
  std::string tname(game *g = NULL); // g needed for rotten-test
- void use(player &u);
+ void use();
  bool burn(int amount = 1); // Returns true if destroyed
 
 // Firearm specifics
@@ -109,6 +109,7 @@ public:
  bool invlet_is_okay();
  bool stacks_with(item rhs);
  void put_in(item payload);
+ void add_rain_to_container(bool acid, int charges = 1);
 
  int weight() const;
 
@@ -119,9 +120,9 @@ public:
  int damage_bash();
  int damage_cut() const;
  bool has_flag(std::string f) const;
- bool has_quality(std::string quality_name) const;
- bool has_quality(std::string quality_name, int quality_value) const;
- bool has_technique(std::string t, player *p = NULL);
+ bool has_quality(std::string quality_id) const;
+ bool has_quality(std::string quality_id, int quality_value) const;
+ bool has_technique(std::string t);
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
@@ -173,6 +174,9 @@ public:
  bool is_armor() const;
  bool is_book() const;
  bool is_container() const;
+ bool is_watertight_container() const;
+ int is_funnel_container(int bigger_than) const;
+ 
  bool is_tool() const;
  bool is_software() const;
  bool is_macguffin() const;

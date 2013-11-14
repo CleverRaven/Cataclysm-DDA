@@ -90,6 +90,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
 char rand_char();
 long special_symbol (long sym);
 
+// TODO: move these elsewhere
 // string manipulations.
 std::string from_sentence_case (const std::string &kingston);
 std::string string_format(std::string pattern, ...);
@@ -103,7 +104,7 @@ size_t shortcut_print(WINDOW* w, nc_color color, nc_color colork, const char* fm
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
-void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0);
+void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight, const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0, nc_color bar_color = c_white);
 void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW* w);
 

@@ -671,8 +671,36 @@ nc_color color_from_string(std::string new_color){
         return c_ltgreen;
     } else if("pink"==new_color){
         return c_pink;
+    } else if("white_red"==new_color){
+        return c_white_red;
+    } else if("ltgray_red"==new_color || "light_gray_red"==new_color){
+        return c_ltgray_red;
+    } else if("dkgray_red"==new_color || "dark_gray_red"==new_color){
+        return c_dkgray_red;
+    } else if("red_red"==new_color){
+        return c_red_red;
+    } else if("green_red"==new_color){
+        return c_green_red;
+    } else if("blue_red"==new_color){
+        return c_blue_red;
     } else if("cyan_red"==new_color){
         return c_cyan_red;
+    } else if("magenta_red"==new_color){
+        return c_magenta_red;
+    } else if("brown_red"==new_color){
+        return c_brown_red;
+    } else if("ltred_red"==new_color || "light_red_red"==new_color){
+        return c_ltred_red;
+    } else if("ltgreen_red"==new_color || "light_green_red"==new_color){
+        return c_ltgreen_red;
+    } else if("ltblue_red"==new_color || "light_blue_red"==new_color){
+        return c_ltblue_red;
+    } else if("ltcyan_red"==new_color || "light_cyan_red"==new_color){
+        return c_ltcyan_red;
+    } else if("pink_red"==new_color){
+        return c_pink_red;
+    } else if("yellow_red"==new_color){
+        return c_yellow_red;
     } else {
         return c_white;
     }

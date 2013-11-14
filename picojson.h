@@ -40,7 +40,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <locale>
+#include <clocale>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s

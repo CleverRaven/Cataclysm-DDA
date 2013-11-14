@@ -738,7 +738,7 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_SPORES:
             // Equivalent to X in 150000 + health * 1000
-            if (one_in(1000) && x_in_y(dis.intensity, 150 + p.health)) {
+            if (one_in(100) && x_in_y(dis.intensity, 150 + p.health)) {
                 p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
                 g->u.add_memorial_log(_("Contracted a fungal infection."));
             }
@@ -788,13 +788,11 @@ void dis_effect(player &p, disease &dis) {
             {
                 if (p.has_disease("sleep")) {
                     if (dis.duration == 1) {
-                        if (!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
-                            // You didn't hear the alarm
-                            dis.duration += 100; // 10 minute alarm interval
-                            // g->add_msg(_("An alarm rings but you don't hear it."));
-                            // If we don't hear it, how do we know it rings?
+                        if(!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
+                            // 10 minute automatic snooze
+                            dis.duration += 100;
                         } else {
-                            g->add_msg(_("You wake up to the ringing of an alarm-clock."));
+                            g->add_msg(_("You turn off your alarm-clock."));
                         }
                     }
                 } else if (!p.has_disease("lying_down")) {
@@ -1126,7 +1124,7 @@ void dis_effect(player &p, disease &dis) {
             if (dis.duration > 3600) {
                 // 12 teles
                 if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER", &g->mtypes);
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
                     monster beast(GetMType(spawn_details.name));
                     int x, y;
                     int tries = 0;
@@ -1193,7 +1191,7 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_ATTENTION:
             if (one_in(100000 / dis.duration) && one_in(100000 / dis.duration) && one_in(250)) {
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER", &g->mtypes);
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
                 monster beast(GetMType(spawn_details.name));
                 int x, y;
                 int tries = 0;
@@ -2224,7 +2222,7 @@ void manage_fungal_infection(player& p, disease& dis) {
                             g->add_msg(_("The %s is covered in tiny spores!"),
                                        g->zombie(zid).name().c_str());
                         }
-                        if (!g->zombie(zid).make_fungus(g)) {
+                        if (!g->zombie(zid).make_fungus()) {
                             g->kill_mon(zid);
                         }
                     } else if (one_in(4) && g->num_zombies() <= 1000){

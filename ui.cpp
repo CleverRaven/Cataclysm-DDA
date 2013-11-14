@@ -295,18 +295,18 @@ void uimenu::setup() {
     }
     if ( !autoassign.empty() ) {
         for ( int a = 0; a < autoassign.size(); a++ ) {
-            int palloc = autoassign[ a ];
             int setkey=-1;
-            if ( palloc < 9 ) {
-                setkey = palloc + 49; // 1-9;
-            } else if ( palloc == 9 ) {
-                setkey = palloc + 39; // 0;
-            } else if ( palloc < 36 ) {
-                setkey = palloc + 87; // a-z
-            } else if ( palloc < 61 ) {
-                setkey = palloc + 29; // A-Z
+            if ( a < 9 ) {
+                setkey = a + 49; // 1-9;
+            } else if ( a == 9 ) {
+                setkey = a + 39; // 0;
+            } else if ( a < 36 ) {
+                setkey = a + 87; // a-z
+            } else if ( a < 61 ) {
+                setkey = a + 29; // A-Z
             }
             if ( setkey != -1 && keymap.find(setkey) == keymap.end() ) {
+                int palloc = autoassign[ a ];
                 entries[ palloc ].hotkey = setkey;
                 keymap[ setkey ] = palloc;
             }

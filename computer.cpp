@@ -369,7 +369,7 @@ void computer::activate_function(game *g, computer_action action)
                                 if (!found_item)
                                 {
                                     item sewage(g->itypes["sewage"], g->turn);
-                                    g->m.add_item(x1, y1, sewage);
+                                    g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
                         }
@@ -475,7 +475,7 @@ void computer::activate_function(game *g, computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[rng(0, lab_notes.size()-1)];
+            log = lab_notes[(g->levx + g->levy + g->levz) % lab_notes.size()];
         }
 
         print_text(log.c_str());
@@ -928,7 +928,7 @@ of pureed bone & LSD."));
                         {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript(g->itypes["black_box_transcript"], g->turn);
-                            g->m.add_item(g->u.posx, g->u.posy, transcript);
+                            g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
                         }
                         else
                         {

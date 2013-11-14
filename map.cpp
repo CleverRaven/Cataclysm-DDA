@@ -14,6 +14,8 @@
 #include "debug.h"
 #include "item_factory.h"
 
+#include "overmapbuffer.h"
+
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -230,7 +232,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   g->update_map(x, y);
 }
 
-void map::unboard_vehicle(game *g, const int x, const int y)
+void map::unboard_vehicle(const int x, const int y)
 {
  int part = 0;
  vehicle *veh = veh_at(x, y, part);
@@ -737,7 +739,7 @@ bool map::vehproceed(game* g){
                     g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
                                psg->name.c_str(), veh->name.c_str());
                 }
-                g->m.unboard_vehicle(g, x + veh->parts[ppl[ps]].precalc_dx[0],
+                g->m.unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
                                      y + veh->parts[ppl[ps]].precalc_dy[0]);
                 g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
@@ -1089,39 +1091,43 @@ int map::combined_movecost(const int x1, const int y1,
 
 bool map::trans(const int x, const int y)
 {
- // Control statement is a problem. Normally returning false on an out-of-bounds
- // is how we stop rays from going on forever.  Instead we'll have to include
- // this check in the ray loop.
- int vpart = -1;
- vehicle *veh = veh_at(x, y, vpart);
- bool tertr;
- if (veh) {
-  tertr = !veh->part_with_feature(vpart, "OPAQUE") || veh->parts[vpart].hp <= 0;
-  if (!tertr) {
-   const int dpart = veh->part_with_feature(vpart, "OPENABLE");
-   if (dpart >= 0 && veh->parts[dpart].open)
-    tertr = true; // open opaque door
-  }
- } else
-  tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
- if( tertr ){
-  // Fields may obscure the view, too
-  field &curfield = field_at(x,y);
-  if(curfield.fieldCount() > 0){
-  field_entry *cur = NULL;
-   for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
-       field_list_it != curfield.getFieldEnd(); ++field_list_it){
-    cur = field_list_it->second;
-    if(cur == NULL) continue;
-    //If ANY field blocks vision, the tile does.
-    if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
-     return false;
+    // Control statement is a problem. Normally returning false on an out-of-bounds
+    // is how we stop rays from going on forever.  Instead we'll have to include
+    // this check in the ray loop.
+    int vpart = -1;
+    vehicle *veh = veh_at(x, y, vpart);
+    bool tertr;
+    if (veh) {
+        tertr = veh->part_with_feature(vpart, "OPAQUE") < 0;
+        if (!tertr) {
+            const int dpart = veh->part_with_feature(vpart, "OPENABLE");
+            if (veh->parts[dpart].open) {
+                tertr = true; // open opaque door
+            }
+        }
+    } else {
+        tertr = ( terlist[ter(x, y)].transparent && furnlist[furn(x, y)].transparent );
     }
-   }
-  }
-  return true; //no blockers found, this is transparent
- }
- return false; //failsafe block vision
+    if( tertr ) {
+        // Fields may obscure the view, too
+        field &curfield = field_at( x,y );
+        if( curfield.fieldCount() > 0 ) {
+            field_entry *cur = NULL;
+            for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+                 field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
+                cur = field_list_it->second;
+                if( cur == NULL ) {
+                    continue;
+                }
+                //If ANY field blocks vision, the tile does.
+                if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+                    return false;
+                }
+            }
+        }
+        return true; //no blockers found, this is transparent
+    }
+    return false; //failsafe block vision
 }
 
 bool map::has_flag(std::string flag, const int x, const int y)
@@ -1137,6 +1143,11 @@ bool map::has_flag(std::string flag, const int x, const int y)
   }
  }
  return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
+}
+
+bool map::can_put_items(const int x, const int y)
+{
+    return !has_flag("NOITEM", x, y) && !has_flag("SEALED", x, y);
 }
 
 bool map::has_flag_ter(std::string flag, const int x, const int y)
@@ -1248,9 +1259,7 @@ bool map::has_adjacent_furniture(const int x, const int y)
     {
         const int adj_x = x + cx[i];
         const int adj_y = y + cy[i];
-        furn_id fid = furn(adj_x, adj_y);
-        if ( fid == f_fridge || fid == f_glass_fridge || fid == f_dresser ||
-            fid == f_rack || fid == f_bookcase || fid == old_f_locker ) {
+        if ( has_furn(adj_x, adj_y) && furn_at(adj_x, adj_y).has_flag("BLOCKSDOOR") ) {
             return true;
         }
     }
@@ -1362,7 +1371,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
         int chance = bash->items[i].chance;
         if ( chance == -1 || rng(0, 100) >= chance ) {
            int numitems = bash->items[i].amount;
-           
+
            if ( bash->items[i].minamount != -1 ) {
               numitems = rng( bash->items[i].minamount, bash->items[i].amount );
            }
@@ -1375,7 +1384,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
                   numitems = 1;
               }
               for(int a = 0; a < numitems; a++ ) {
-                  add_item(x, y, new_item, 1024);
+                  add_item_or_charges(x, y, new_item);
               }
            }
         }
@@ -1387,7 +1396,7 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
   }
 } else {
  furn_id furnid = furn(x, y);
- if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o || 
+ if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
       furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
       furnid == f_canvas_door_o || furnid == f_groundsheet ) {
   result = rng(0, 6);
@@ -1413,9 +1422,9 @@ if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++) {
      if (furn(tentx + i, tenty + j) == f_groundsheet)
-      spawn_item(tentx + i, tenty + j, "broketent", 0);
+      spawn_item(tentx + i, tenty + j, "broketent");
      if (furn(tentx + i, tenty + j) == f_skin_groundsheet)
-      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit", 0);
+      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
      furn_set(tentx + i, tenty + j, f_null);
     }
 
@@ -1450,8 +1459,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(3)) spawn_item(i, j, "gasoline", 0);
-       if (one_in(6)) spawn_item(i, j, "steel_chunk", 0, 0, 3);
+       if (one_in(3)) spawn_item(i, j, "gasoline");
+       if (one_in(6)) spawn_item(i, j, "steel_chunk", 0, 3);
     }
    }
   }
@@ -1466,8 +1475,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(6)) spawn_item(i, j, "2x4", 0);
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
+       if (one_in(6)) spawn_item(i, j, "2x4");
+       if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
    }
   }
   break;
@@ -1478,7 +1487,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, "rock", 0);
+     spawn_item(i, j, "rock");
     ter_set(x, y, t_rubble);
    }
   }
@@ -1489,9 +1498,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) { spawn_item(i, j, "splinter", 0); }
-       if (one_in(6)) { spawn_item(i, j, "nail", 0, 0, 3); }
-       if (one_in(100)) { spawn_item(x, y, "cu_pipe", 0); }
+       if (one_in(5)) { spawn_item(i, j, "splinter"); }
+       if (one_in(6)) { spawn_item(i, j, "nail", 0, 3); }
+       if (one_in(100)) { spawn_item(x, y, "cu_pipe"); }
    }
   }
   ter_set(x, y, t_rubble);
@@ -1535,10 +1544,10 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) spawn_item(i, j, "rock", 0);
-       if (one_in(4)) spawn_item(i, j, "splinter", 0);
-       if (one_in(3)) spawn_item(i, j, "rebar", 0);
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
+       if (one_in(5)) spawn_item(i, j, "rock");
+       if (one_in(4)) spawn_item(i, j, "splinter");
+       if (one_in(3)) spawn_item(i, j, "rebar");
+       if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
@@ -1586,11 +1595,11 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
           for (int j = y - 1; j <= y + 1; j++)
           {
               if(move_cost(i, j) == 0) continue;
-              if (one_in(3)) spawn_item(i, j, "rope_6", 0);
-              if (one_in(2)) spawn_item(i, j, "splinter", 0);
-              if (one_in(3)) spawn_item(i, j, "stick", 0);
-              if (one_in(6)) spawn_item(i, j, "2x4", 0);
-              if (one_in(9)) spawn_item(i, j, "log", 0);
+              if (one_in(3)) spawn_item(i, j, "rope_6");
+              if (one_in(2)) spawn_item(i, j, "splinter");
+              if (one_in(3)) spawn_item(i, j, "stick");
+              if (one_in(6)) spawn_item(i, j, "2x4");
+              if (one_in(9)) spawn_item(i, j, "log");
           }
       }
       ter_set(x, y, t_dirt);
@@ -1685,9 +1694,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 {
                     g->sound(x, y, 16, _("glass breaking!"));
                     ter_set(x, y, t_window_frame);
-                    spawn_item(x, y, "sheet", 0, 1);
-                    spawn_item(x, y, "stick", 0);
-                    spawn_item(x, y, "string_36", 0);
+                    spawn_item(x, y, "sheet", 1);
+                    spawn_item(x, y, "stick");
+                    spawn_item(x, y, "string_36");
                 }
             }
         break;
@@ -1788,7 +1797,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                             for (int j = y - 2; j <= y + 2; j++)
                             {
                                 if (move_cost(i, j) > 0 && one_in(3))
-                                    spawn_item(i, j, "gasoline", 0);
+                                    spawn_item(i, j, "gasoline");
                             }
                         }
                         g->sound(x, y, 10, _("smash!"));
@@ -1951,20 +1960,18 @@ bool map::hit_with_fire(game *g, const int x, const int y)
     return true;
 }
 
-void map::marlossify(const int x, const int y)
+bool map::marlossify(const int x, const int y)
 {
- const int type = rng(1, 9);
- switch (type) {
-  case 1:
-  case 2:
-  case 3:
-  case 4: ter_set(x, y, t_fungus);      break;
-  case 5:
-  case 6:
-  case 7: ter_set(x, y, t_marloss);     break;
-  case 8: ter_set(x, y, t_tree_fungal); break;
-  case 9: ter_set(x, y, t_slime);       break;
- }
+    if (one_in(25) && (terlist[ter(x, y)].movecost != 0 && !has_furn(x, y))) {
+        ter_set(x, y, t_marloss);
+        return true;
+    }
+    for (int i = 0; i < 25; i++) {
+        if(!g->spread_fungus(x, y)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool map::open_door(const int x, const int y, const bool inside)
@@ -2126,6 +2133,7 @@ item map::water_from(const int x, const int y)
 
 item map::acid_from(const int x, const int y)
 {
+    (void)x; (void)y; //all acid is acid, i guess?
     item ret(item_controller->find_template("water_acid"), 0);
     return ret;
 }
@@ -2158,8 +2166,8 @@ point map::find_item(const item *it)
  return ret;
 }
 
-void map::spawn_item(const int x, const int y, item new_item, const int birthday,
-                     const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, item new_item,
+                     const int charges, const int damlevel)
 {
     if (charges && new_item.charges > 0)
     {
@@ -2195,25 +2203,30 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
 void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 {
     item newart(type, bday);
-    add_item(x, y, newart);
+    add_item_or_charges(x, y, newart);
 }
 
 //New spawn_item method, using item factory
 // added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday,
-                     const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, const std::string &type_id,
+                     const unsigned quantity, const int charges,
+                     const unsigned birthday, const int damlevel)
 {
-    item new_item = item_controller->create(type_id, birthday);
+    // recurse to spawn (quantity - 1) items
     for(int i = 1; i < quantity; i++)
     {
-        spawn_item(x, y, type_id, birthday, 0, charges);
+        spawn_item(x, y, type_id, 1, charges, birthday, damlevel);
     }
-    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
+    // spawn the item
+    item new_item = item_controller->create(type_id, birthday);
+    spawn_item(x, y, new_item, charges, damlevel);
 }
 
 // stub for now, could vary by ter type
-int map::max_volume(const int x, const int y) {
-   return MAX_VOLUME_IN_SQUARE;
+int map::max_volume(const int x, const int y)
+{
+    (void)x; (void)y; //stub
+    return MAX_VOLUME_IN_SQUARE;
 }
 
 // total volume of all the things
@@ -2463,6 +2476,8 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
       if (veh) { // check if a vehicle part is present to provide water/power
         const int kpart = veh->part_with_feature(vpart, "KITCHEN");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
           ammotype ftype = "NULL";
@@ -2487,6 +2502,40 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (type == "welder")
             ftype = "battery";
           else if (type == "soldering_iron")
+            ftype = "battery";
+
+          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+          tmp.charges = veh->drain(ftype, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
+
+          if (quantity == 0)
+            return ret;
+        }
+        
+        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+          ammotype ftype = "NULL";
+
+          if (type == "press")
+            ftype = "battery";
+          else if (type == "vac_sealer")
+            ftype = "battery";
+          else if (type == "dehydrator")
+            ftype = "battery";
+
+          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+          tmp.charges = veh->drain(ftype, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
+
+          if (quantity == 0)
+            return ret;
+        }
+        
+        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+          ammotype ftype = "NULL";
+
+          if (type == "forge")
             ftype = "battery";
 
           item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
@@ -2611,7 +2660,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   std::vector<itype_id> comp = g->traps[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
-    spawn_item(x, y, comp[i], 0, 0, 1);
+    spawn_item(x, y, comp[i], 1, 1);
   }
   if (tr_at(x, y) == tr_engine) {
       for (int i = -1; i <= 1; i++) {
@@ -2655,7 +2704,9 @@ void map::remove_trap(const int x, const int y)
         traplocs[t].erase(point(x, y));
     }
 }
-
+/*
+ * Get wrapper for all fields at xy
+ */
 field& map::field_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
@@ -2670,6 +2721,88 @@ field& map::field_at(const int x, const int y)
  return grid[nonant]->fld[lx][ly];
 }
 
+/*
+ * Increment/decrement age of field type at point.
+ * returns resulting age or -1 if not present.
+ */
+int map::adjust_field_age(const point p, const field_id t, const int offset) {
+    return set_field_age( p, t, offset, true);
+}
+
+/*
+ * Increment/decrement strength of field type at point, creating if not present, removing if strength becomes 0
+ * returns resulting strength, or 0 for not present
+ */
+int map::adjust_field_strength(game *g, const point p, const field_id t, const int offset) {
+    return set_field_strength(g, p, t, offset, true);
+}
+
+/*
+ * Set age of field type at point, or increment/decrement if offset=true
+ * returns resulting age or -1 if not present.
+ */
+int map::set_field_age(const point p, const field_id t, const int age, bool isoffset) {
+    field_entry * field_ptr = get_field( p, t );
+    if ( field_ptr != NULL ) {
+        int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
+        field_ptr->setFieldDensity( adj );
+        return adj;
+    }
+    return -1;
+}
+
+/*
+ * set strength of field type at point, creating if not present, removing if strength is 0
+ * returns resulting strength, or 0 for not present
+ */
+int map::set_field_strength(game * g, const point p, const field_id t, const int str, bool isoffset) {
+    field_entry * field_ptr = get_field( p, t );
+    if ( field_ptr != NULL ) {
+        int adj = ( isoffset ? field_ptr->getFieldDensity() : 0 ) + str;
+        if ( adj > 0 ) {
+            field_ptr->setFieldDensity( adj );
+            return adj;
+        } else {
+            remove_field( p.x, p.y, t );
+            return 0;
+        }
+    } else if ( 0 + str > 0 ) {
+        return ( add_field( g, p, t, str, 0 ) ? str : 0 );
+    }
+    return 0;
+}
+
+/*
+ * get age of field type at point. -1 = not present
+ */
+int map::get_field_age( const point p, const field_id t ) {
+    field_entry * field_ptr = get_field( p, t );
+    return ( field_ptr == NULL ? -1 : field_ptr->getFieldAge() );
+}
+
+/*
+ * get strength of field type at point. 0 = not present
+ */
+int map::get_field_strength( const point p, const field_id t ) {
+    field_entry * field_ptr = get_field( p, t );
+    return ( field_ptr == NULL ? 0 : field_ptr->getFieldDensity() );
+}
+
+/*
+ * get field type at point. NULL if not present
+ */
+field_entry * map::get_field( const point p, const field_id t ) {
+    if (!INBOUNDS(p.x, p.y))
+        return NULL;
+    const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
+    const int lx = p.x % SEEX;
+    const int ly = p.y % SEEY;
+    return grid[nonant]->fld[lx][ly].findField(t);
+}
+
+/*
+ * add field type at point, or set denity if present
+ */
 bool map::add_field(game *g, const point p, const field_id t, unsigned int density, const int age)
 {
     if (!INBOUNDS(p.x, p.y))
@@ -2691,12 +2824,19 @@ bool map::add_field(game *g, const point p, const field_id t, unsigned int densi
     return true;
 }
 
+/*
+ * add field type at xy, or set denity if present
+ */
 bool map::add_field(game *g, const int x, const int y,
                     const field_id t, const unsigned char new_density)
 {
  return this->add_field(g,point(x,y),t,new_density,0);
 }
 
+
+/*
+ * remove field type at xy
+ */
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
 {
  if (!INBOUNDS(x, y))
@@ -2727,17 +2867,17 @@ bool map::allow_camp(const int x, const int y, const int radius)
     return camp_at(x, y, radius) == NULL;
 }
 
+// locate the nearest camp in some radius (default CAMPSIZE)
 basecamp* map::camp_at(const int x, const int y, const int radius)
 {
-    // locate the nearest camp in a CAMPSIZE radius
     if (!INBOUNDS(x, y)) {
         return NULL;
     }
 
-    const int sx = std::max(0, x / SEEX - CAMPSIZE);
-    const int sy = std::max(0, y / SEEY - CAMPSIZE);
-    const int ex = std::min(MAPSIZE - 1, x / SEEX + CAMPSIZE);
-    const int ey = std::min(MAPSIZE - 1, y / SEEY + CAMPSIZE);
+    const int sx = std::max(0, x / SEEX - radius);
+    const int sy = std::max(0, y / SEEY - radius);
+    const int ex = std::min(MAPSIZE - 1, x / SEEX + radius);
+    const int ey = std::min(MAPSIZE - 1, y / SEEY + radius);
 
     for (int ly = sy; ly < ey; ++ly) {
         for (int lx = sx; lx < ex; ++lx) {
@@ -3270,12 +3410,12 @@ void map::save(overmap *om, unsigned const int turn, const int x, const int y, c
  }
 }
 
-void map::load(game *g, const int wx, const int wy, const int wz, const bool update_vehicle)
+void map::load(game *g, const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
 {
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(g, wx, wy, wz, gridx, gridy, update_vehicle))
-    loadn(g, wx, wy, wz, gridx, gridy, update_vehicle);
+   if (!loadn(g, wx, wy, wz, gridx, gridy, update_vehicle, om))
+    loadn(g, wx, wy, wz, gridx, gridy, update_vehicle, om);
   }
  }
 }
@@ -3412,13 +3552,16 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
-bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, const int gridx, const int gridy,
-                const bool update_vehicles)
-{
+bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
+                const int gridx, const int gridy, const bool update_vehicles, overmap * om) {
+ if (om == NULL) {
+     om = g->cur_om;
+ }
+
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = g->cur_om->pos().x * OMAPX * 2 + worldx + gridx,
-           absy = g->cur_om->pos().y * OMAPY * 2 + worldy + gridy,
+ const int absx = om->pos().x * OMAPX * 2 + worldx + gridx,
+           absy = om->pos().y * OMAPY * 2 + worldy + gridy,
            gridn = gridx + gridy * my_MAPSIZE;
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
@@ -3447,36 +3590,70 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
    }
   }
 
+  // fixme; roll off into some function elsewhere ---v
+
     // check traps
+    std::map<point, trap_id> rain_backlog;
+    bool do_funnels = ( worldz >= 0 && g->weather_log.size() > 0 ); // empty if just loaded a save here
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             const trap_id t = tmpsub->trp[x][y];
             if (t != tr_null) {
+
                 const int fx = x + gridx * SEEX;
                 const int fy = y + gridy * SEEY;
                 traplocs[t].insert(point(fx, fy));
+                if ( do_funnels &&
+                     g->traps[t]->funnel_radius_mm > 0 &&             // funnel
+                     has_flag_ter_or_furn("INDOORS", fx, fy) == false // we have no outside_cache
+                   ) {
+                    rain_backlog[point(x, y)] = t;
+                }
             }
         }
     }
 
-  // check spoiled stuff
+  // check spoiled stuff, and fill up funnels while we're at it
   for (int x = 0; x < SEEX; x++) {
       for (int y = 0; y < SEEY; y++) {
+          int biggest_container_idx = -1;
+          int maxvolume = 0;
+          bool do_container_check = false;
+
+          if ( do_funnels && ! rain_backlog.empty() && rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
+              do_container_check = true;
+          }
+          int intidx = 0;
+
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
-              if(it->goes_bad()) {
+              if ( do_container_check == true ) { // cannot link trap to mapitems
+                  int itvol = it->is_funnel_container(maxvolume); // big
+                  if ( itvol > maxvolume ) {                      // biggest
+                      biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
+                      itvol = maxvolume;
+                  }
+              }
+              if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
                   int maxShelfLife = it->bday + (food->spoils * 600)*2;
                   if(g->turn >= maxShelfLife) {
                       it = tmpsub->itm[x][y].erase(it);
-                  } else { ++it; }
-              } else { ++it; }
+                  } else { ++it; intidx++; }
+              } else { ++it; intidx++; }
           }
+
+          if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
+              item * it = &tmpsub->itm[x][y][biggest_container_idx];
+              trap_id fun_trap_id = rain_backlog[point(x,y)];
+              retroactively_fill_from_funnel(g, it, fun_trap_id, int(g->turn) ); // bucket: what inside??
+          }
+
       }
   }
 
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * (int)OPTIONS["SEASON_LENGTH"] / 2;
+  const int plantEpoch = 14400 * (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 2;
 
   // check plants
   for (int x = 0; x < SEEX; x++) {
@@ -3489,6 +3666,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
           furn = (furn_id((int)furn + 1));
           seed.bday += plantEpoch;
 
+          // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
           tmpsub->itm[x][y].resize(1);
 
           tmpsub->itm[x][y][0].bday = seed.bday;
@@ -3497,6 +3675,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
       }
     }
   }
+  // fixme; roll off into some function elsewhere ---^
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
@@ -3506,27 +3685,37 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 //  squares divisible by 2.
   int newmapx = worldx + gridx - ((worldx + gridx) % 2);
   int newmapy = worldy + gridy - ((worldy + gridy) % 2);
-  overmap* this_om = g->cur_om;
+  overmap* this_om = om;
 
-  // slightly out of bounds? to the east, south, or both?
-  // cur_om is the one containing the upper-left corner of the map
-  if (newmapx >= OMAPX*2){
-     newmapx -= OMAPX*2;
-     this_om = g->om_hori;
-     if (newmapy >= OMAPY*2){
-        newmapy -= OMAPY*2;
-        this_om = g->om_diag;
-     }
+  int shiftx = 0;
+  int shifty = 0;
+  if ( newmapx < 0 ) {
+    while ( newmapx < 0 ) {
+      shiftx--;
+      newmapx += OMAPX * 2;
+    }
+  } else if ( newmapx >= OMAPX * 2 ) {
+    while ( newmapx >= OMAPX * 2 ) {
+      shiftx++;
+      newmapx -= OMAPX * 2;
+    }
   }
-  else if (newmapy >= OMAPY*2){
-     newmapy -= OMAPY*2;
-     this_om = g->om_vert;
+  if ( newmapy < 0 ) {
+    while ( newmapy < 0 ) {
+      shifty--;
+      newmapy += OMAPX * 2;
+    }
+  } else if ( newmapy >= OMAPX * 2 ) {
+    while ( newmapy >= OMAPX * 2 ) {
+      shifty++;
+      newmapy -= OMAPX * 2;
+    }
   }
 
-  if (worldx + gridx < 0)
-   newmapx = worldx + gridx;
-  if (worldy + gridy < 0)
-   newmapy = worldy + gridy;
+  if ( shiftx != 0 || shifty != 0 ) {
+       this_om = &overmap_buffer.get(g, om->pos().x + shiftx, om->pos().y + shifty);
+  }
+
   tmp_map.generate(g, this_om, newmapx, newmapy, worldz, int(g->turn));
   return false;
  }
@@ -3621,7 +3810,7 @@ bool map::inbounds(const int x, const int y)
  return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
 }
 
-bool map::add_graffiti(game *g, int x, int y, std::string contents)
+bool map::add_graffiti(int x, int y, std::string contents)
 {
   int nx = x;
   int ny = y;
@@ -3889,6 +4078,10 @@ void map::set_abs_sub( const int x, const int y, const int z ) {
   world_z = z;
   abs_min=point(x*SEEX, y*SEEY);
   abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
+}
+
+submap * map::getsubmap( const int grididx ) {
+    return grid[grididx];
 }
 
 

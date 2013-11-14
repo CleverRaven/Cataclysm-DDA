@@ -8,23 +8,25 @@
 		<Build>
 			<Target title="Release">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
 					<Add option="-O2" />
+					<Add option="-DRELEASE=1" />
 				</Compiler>
 			</Target>
 			<Target title="Release - Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-DLOCALIZE" />
+					<Add option="-DRELEASE=1" />
 				</Compiler>
 				<Linker>
 					<Add library="intl" />
@@ -33,22 +35,34 @@
 			</Target>
 			<Target title="Release -SDL">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-DTILES" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
+					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
+					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\include" />
 				</Compiler>
 				<Linker>
 					<Add library="libSDL.dll" />
 					<Add library="SDL_ttf" />
+					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
+					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
+					<Add directory="WinDepend\SDL-1.2.15\lib" />
+					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
+					<Add directory="WinDepend\libiconv\lib" />
+					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86" />
 				</Linker>
 			</Target>
 			<Target title="Release -SDL -Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -56,17 +70,28 @@
 					<Add option="-O2" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
+					<Add option="-DSDLTILES" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\include" />
+					<Add directory="WinDepend\SDL-1.2.15\include\SDL" />
+					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\include" />
 				</Compiler>
 				<Linker>
 					<Add library="intl" />
 					<Add library="iconv" />
-					<Add library="libSDL.dll" />
-					<Add library="SDL_ttf" />
+					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
+					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
+					<Add directory="WinDepend\SDL-1.2.15\lib" />
+					<Add directory="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86" />
+					<Add directory="WinDepend\libiconv\lib" />
+					<Add directory="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj\Debug\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -79,7 +104,7 @@
 			</Target>
 			<Target title="Debug - Localized">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj\Debug\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -95,7 +120,7 @@
 			</Target>
 			<Target title="Release - Tile Support">
 				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/TilesRelease/" />
+				<Option object_output="obj\TilesRelease\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -103,6 +128,7 @@
 					<Add option="-O2" />
 					<Add option="-pg" />
 					<Add option="-DSDLTILES" />
+					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>
@@ -111,13 +137,13 @@
 					<Add library="3rdparty\lib\libSDLmain.a" />
 					<Add library="3rdparty\lib\x86\SDL_image.lib" />
 					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
-					<Add directory="3rdparty/lib" />
-					<Add directory="3rdparty/lib/x86" />
+					<Add directory="3rdparty\lib" />
+					<Add directory="3rdparty\lib\x86" />
 				</Linker>
 			</Target>
 			<Target title="Debug - Tile Support">
 				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/TilesRelease/" />
+				<Option object_output="obj\TilesRelease\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -126,6 +152,7 @@
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add option="-DSDLTILES" />
+					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
 				<Linker>
@@ -134,8 +161,8 @@
 					<Add library="3rdparty\lib\libSDLmain.a" />
 					<Add library="3rdparty\lib\x86\SDL_image.lib" />
 					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
-					<Add directory="3rdparty/lib" />
-					<Add directory="3rdparty/lib/x86" />
+					<Add directory="3rdparty\lib" />
+					<Add directory="3rdparty\lib\x86" />
 				</Linker>
 			</Target>
 		</Build>
@@ -161,7 +188,6 @@
 		<Unit filename="animation_tiles.cpp" />
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
-		<Unit filename="artifactdata.h" />
 		<Unit filename="auto_pickup.cpp" />
 		<Unit filename="auto_pickup.h" />
 		<Unit filename="basecamp.cpp" />
@@ -179,8 +205,8 @@
 		<Unit filename="catacharset.cpp" />
 		<Unit filename="catacharset.h" />
 		<Unit filename="catacurse.h" />
-		<Unit filename="catajson.cpp" />
-		<Unit filename="catajson.h" />
+		<Unit filename="char_validity_check.cpp" />
+		<Unit filename="char_validity_check.h" />
 		<Unit filename="color.cpp" />
 		<Unit filename="color.h" />
 		<Unit filename="computer.cpp" />
@@ -345,6 +371,7 @@
 		<Unit filename="tile_id_data.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
+		<Unit filename="translations.cpp" />
 		<Unit filename="translations.h" />
 		<Unit filename="trap.h" />
 		<Unit filename="trapdef.cpp" />
@@ -370,6 +397,8 @@
 		<Unit filename="weather_data.cpp" />
 		<Unit filename="wincurse.cpp" />
 		<Unit filename="wish.cpp" />
+		<Unit filename="worldfactory.cpp" />
+		<Unit filename="worldfactory.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

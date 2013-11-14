@@ -9,14 +9,22 @@ enum sel_types {
   SEL_NULL, SEL_JACK
 };
 
+/** Represents possible return values from the cant_do function. */
+enum task_reason {
+    UNKNOWN_TASK = -1, //No such task
+    CAN_DO, //Task can be done
+    INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
+    LACK_TOOLS, //Player doesn't have all the tools they need
+    NOT_FREE, //Part is attached to something else and can't be unmounted
+    LACK_SKILL //Player doesn't have high enough mechanics skill
+};
+
 class vehicle;
 class game;
 
 class veh_interact
 {
 public:
-    int cursor_x;
-    int cursor_y;
     int ddx;
     int ddy;
     struct vpart_info *sel_vpart_info;
@@ -58,16 +66,16 @@ private:
 
     int part_at (int dx, int dy);
     void move_cursor (int dx, int dy);
-    int cant_do (char mode);
+    task_reason cant_do (char mode);
 
-    void do_install(int reason);
-    void do_repair(int reason);
-    void do_refill(int reason);
-    void do_remove(int reason);
-    void do_rename(int reason);
-    void do_siphon(int reason);
-    void do_tirechange(int reason);
-    void do_drain(int reason);
+    void do_install(task_reason reason);
+    void do_repair(task_reason reason);
+    void do_refill(task_reason reason);
+    void do_remove(task_reason reason);
+    void do_rename(task_reason reason);
+    void do_siphon(task_reason reason);
+    void do_tirechange(task_reason reason);
+    void do_drain(task_reason reason);
 
     void display_veh ();
     void display_stats ();

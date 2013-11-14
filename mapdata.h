@@ -103,6 +103,9 @@ struct map_bash_info {
  * TREE - This terrain is a tree
  * YOUNG - This terrain is a young tree
  * FUNGUS - Fungal covered
+ *
+ * Furniture only:
+ * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
  */
 typedef int ter_id;
 typedef int furn_id;
@@ -292,6 +295,11 @@ struct submap {
     std::vector<vehicle*> vehicles;
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
+
+    submap() : active_item_count(0), field_count(0)
+    {
+
+    }
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);

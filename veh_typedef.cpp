@@ -1,7 +1,7 @@
 #include "vehicle.h"
 #include "game.h"
 #include "item_factory.h"
-#include "catajson.h"
+#include "json.h"
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -87,6 +87,22 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.flags.insert(jarr.next_string());
     }
 
+    JsonArray breaks_into = jo.get_array("breaks_into");
+    while(breaks_into.has_more()) {
+        JsonObject next_entry = breaks_into.next_object();
+        break_entry next_break_entry;
+        next_break_entry.item_id = next_entry.get_string("item");
+        next_break_entry.min = next_entry.get_int("min");
+        next_break_entry.max = next_entry.get_int("max");
+        //Sanity check
+        if(next_break_entry.max < next_break_entry.min) {
+            debugmsg("For vehicle part %s: breaks_into item '%s' has min (%d) > max (%d)!",
+                             next_part.name.c_str(), next_break_entry.item_id.c_str(),
+                             next_break_entry.min, next_break_entry.max);
+        }
+        next_part.breaks_into.push_back(next_break_entry);
+    }
+
     //Plating shouldn't actually be shown; another part will be.
     //Calculate and cache z-ordering based off of location
     if(next_part.has_flag("ARMOR")) {
@@ -128,10 +144,19 @@ void game::load_vehicle(JsonObject &jo)
     vproto->id = jo.get_string("id");
     vproto->name = jo.get_string("name");
 
+    std::map<point, bool> cargo_spots;
+
     JsonArray parts = jo.get_array("parts");
+    point pxy;
+    std::string pid;
     while (parts.has_more()){
         JsonObject part = parts.next_object();
-        vproto->parts.push_back(std::pair<point, std::string>(point(part.get_int("x"), part.get_int("y")), part.get_string("part")));
+        pxy = point(part.get_int("x"), part.get_int("y"));
+        pid = part.get_string("part");
+        vproto->parts.push_back(std::pair<point, std::string>(pxy, pid));
+        if ( vehicle_part_types[pid].has_flag("CARGO") ) {
+            cargo_spots[pxy] = true;
+        }
     }
 
     JsonArray items = jo.get_array("items");
@@ -143,6 +168,9 @@ void game::load_vehicle(JsonObject &jo)
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
+                vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
+        } else if ( cargo_spots.find( point(next_spawn.x, next_spawn.y) ) == cargo_spots.end() ) {
+            debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                 vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {

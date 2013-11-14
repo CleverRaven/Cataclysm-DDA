@@ -10,17 +10,28 @@
 #include <sstream>
 #include <algorithm>
 
-#define iCategorieNum 11
-std::string CATEGORIES[iCategorieNum] =
- {_("GROUND:"), _("FIREARMS:"), _("AMMUNITION:"), _("CLOTHING:"),
-  _("FOOD/DRINKS:"), _("TOOLS:"), _("BOOKS:"), _("WEAPONS:"),
-  _("MODS/BIONICS:"), _("MEDICINE/DRUGS:"), _("OTHER:")};
+std::vector<std::string> CATEGORIES;
+
+void init_inventory_categories()
+{
+    CATEGORIES.push_back(_("GROUND:"));
+    CATEGORIES.push_back(_("FIREARMS:"));
+    CATEGORIES.push_back(_("AMMUNITION:"));
+    CATEGORIES.push_back(_("CLOTHING:"));
+    CATEGORIES.push_back(_("FOOD/DRINKS:"));
+    CATEGORIES.push_back(_("TOOLS:"));
+    CATEGORIES.push_back(_("BOOKS:"));
+    CATEGORIES.push_back(_("WEAPONS:"));
+    CATEGORIES.push_back(_("MODS/BIONICS:"));
+    CATEGORIES.push_back(_("MEDICINE/DRUGS:"));
+    CATEGORIES.push_back(_("OTHER:"));
+}
 
 //TODO: make this function not have issues with items that are classed as multiple things
 std::vector<int> find_firsts(invslice &slice)
 {
     std::vector<int> firsts;
-    for (int i = 0; i < iCategorieNum-1; i++) {
+    for (int i = 0; i < (CATEGORIES.size()-1); i++) {
         firsts.push_back(-1);
     }
 
@@ -106,7 +117,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    mvwprintz(w_inv, 3, 45, c_white, "%c + %s", g->u.weapon.invlet,
              g->u.weapname().c_str());
   else
-   mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
+   mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(), "%c - %s",
              g->u.weapon.invlet, g->u.weapname().c_str());
  } else
   mvwprintz(w_inv, 3, 45, c_ltgray, g->u.weapname().c_str());
@@ -176,9 +187,9 @@ char game::inv(inventory& inv, std::string title)
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
 
-   for (int i = 1; i < iCategorieNum; i++) {
+   for (int i = 1; i < CATEGORIES.size(); i++) {
     if (cur_it == firsts[i-1]) {
-     mvwprintz(w_inv, cur_line, 0, c_magenta, _(CATEGORIES[i].c_str()));
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
     }
    }
@@ -188,10 +199,10 @@ char game::inv(inventory& inv, std::string title)
     item& it = slice[cur_it]->front();
     if(cur_it==selected) selected_char=(int)it.invlet;
     mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
-    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory(&u) ), " %s",
+    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory() ), " %s",
               it.tname(this).c_str());
     if (slice[cur_it]->size() > 1)
-     wprintw(w_inv, " [%d]", slice[cur_it]->size());
+     wprintw(w_inv, " x %d", slice[cur_it]->size());
     if (it.charges > 0)
      wprintw(w_inv, " (%d)", it.charges);
     else if (it.contents.size() == 1 &&
@@ -200,7 +211,7 @@ char game::inv(inventory& inv, std::string title)
     cur_line++;
     max_it=cur_it;
    }
-//   cur_line++;
+
   }
   if (start > 0)
    mvwprintw(w_inv, maxitems + 4, 0, _("< Go Back"));
@@ -348,9 +359,9 @@ std::vector<item> game::multidrop()
    mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
    mvwprintw(w_inv, drp_line + 1, 90, "%s", drp_line_padding.c_str());
 // Print category header
-   for (int i = 1; i < iCategorieNum; i++) {
+   for (int i = 1; i < CATEGORIES.size(); i++) {
     if (cur_it == firsts[i-1]) {
-     mvwprintz(w_inv, cur_line, 0, c_magenta, _(CATEGORIES[i].c_str()));
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
     }
    }
@@ -370,7 +381,7 @@ std::vector<item> game::multidrop()
     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
               it.tname(this).c_str());
     if (stacks[cur_it]->size() > 1)
-     wprintz(w_inv, col, " [%d]", stacks[cur_it]->size());
+     wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
     if (it.charges > 0)
      wprintz(w_inv, col, " (%d)", it.charges);
     else if (it.contents.size() == 1 &&
@@ -380,7 +391,7 @@ std::vector<item> game::multidrop()
       mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname(this).c_str());
       if (icon=='+'){
         if (stacks[cur_it]->size() > 1)
-          wprintz(w_inv, col, " [%d]", stacks[cur_it]->size());
+          wprintz(w_inv, col, " x %d", stacks[cur_it]->size());
         if (it.charges > 0)
           wprintz(w_inv, col, " (%d)", it.charges);
       }
@@ -565,7 +576,7 @@ void game::compare(int iCompareX, int iCompareY)
  if (iCompareX != -999 && iCompareY != -999) {
   examx = u.posx + iCompareX;
   examy = u.posy + iCompareY;
- } else if (!choose_adjacent("Compare",examx,examy)) {
+ } else if (!choose_adjacent(_("Compare where?"),examx,examy)) {
      return;
  }
 
@@ -627,9 +638,9 @@ void game::compare(int iCompareX, int iCompareY)
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
 // Print category header
-   for (int i = iHeaderOffset; i < iCategorieNum; i++) {
+   for (int i = iHeaderOffset; i < CATEGORIES.size(); i++) {
     if (cur_it == firsts[i-iHeaderOffset]) {
-     mvwprintz(w_inv, cur_line, 0, c_magenta, _(CATEGORIES[i].c_str()));
+     mvwprintz(w_inv, cur_line, 0, c_magenta, CATEGORIES[i].c_str());
      cur_line++;
     }
    }
@@ -649,7 +660,7 @@ void game::compare(int iCompareX, int iCompareY)
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                it.tname(this).c_str());
      if (stacks[cur_it-groundsize]->size() > 1)
-      wprintz(w_inv, col, " [%d]", stacks[cur_it-groundsize]->size());
+      wprintz(w_inv, col, " x %d", stacks[cur_it-groundsize]->size());
      if (it.charges > 0)
       wprintz(w_inv, col, " (%d)", it.charges);
      else if (it.contents.size() == 1 &&

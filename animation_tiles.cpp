@@ -41,6 +41,8 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
 void game::draw_bullet(player &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet_char, timespec &ts)
 {
+    (void)i; //unused
+    (void)trajectory; //unused
     if (u_see(tx, ty)) {
         std::string bullet;// = "animation_bullet_normal";
         switch(bullet_char)
@@ -94,6 +96,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
 /* Player hit animation */
 void game::draw_hit_player(player *p, bool dead)
 {
+    (void)dead; //unused
     if (use_tiles)
     {
         // get base name of player id
@@ -211,5 +214,44 @@ void game::draw_weather(weather_printable wPrint)
             mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
         }
     }
+}
+
+// draws footsteps that have been created by monsters moving about
+void game::draw_footsteps()
+{
+    std::queue<point> step_tiles;
+    for (int i = 0; i < footsteps.size(); i++) {
+        if (!u_see(footsteps_source[i]->posx(),footsteps_source[i]->posy())){
+            std::vector<point> unseen_points;
+            for (int j = 0; j < footsteps[i].size(); j++){
+                if (!u_see(footsteps[i][j].x,footsteps[i][j].y)){
+                    unseen_points.push_back(point(footsteps[i][j].x,
+                                               footsteps[i][j].y));
+                }
+            }
+
+            if (use_tiles){
+                if (unseen_points.size() > 0){
+                    step_tiles.push(unseen_points[rng(0, unseen_points.size()-1)]);
+                }
+            }else{
+                if (unseen_points.size() > 0){
+                    point selected = unseen_points[rng(0,unseen_points.size() - 1)];
+
+                    mvwputch(w_terrain,
+                            POSY + (selected.y - (u.posy + u.view_offset_y)),
+                            POSX + (selected.x - (u.posx + u.view_offset_x)),
+                            c_yellow, '?');
+                }
+            }
+        }
+    }
+    if (use_tiles){
+        tilecontext->init_draw_footsteps(step_tiles);
+    }
+    footsteps.clear();
+    footsteps_source.clear();
+    wrefresh(w_terrain);
+    return;
 }
 #endif

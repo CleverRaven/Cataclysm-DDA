@@ -44,7 +44,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -73,7 +73,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -93,7 +93,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -125,7 +125,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -151,7 +151,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -215,7 +215,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -244,7 +244,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -363,7 +363,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -400,7 +400,7 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -432,7 +432,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -520,7 +520,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],  "components": [
     [
       [ "amplifier", 1 ]
@@ -529,17 +529,22 @@
 },{
         "type" : "recipe",
   "result": "reinforced_glass_sheet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
+  "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 5000,
+  "difficulty": 4,
+  "time": 20000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "tools": [
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 15 ],
+      [ "soldering_iron", 150 ]
     ]
   ],
   "components": [
@@ -582,12 +587,62 @@
     ],
     [
       [ "stick", 1 ],
+      [ "2x4", 1 ],
       [ "mop", 1 ],
       [ "broom", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "scythe_war",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ]
+      ],
+  "components": [
+    [
+      [ "duct_tape", 50 ]
+    ],
+    [
+      [ "scythe", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_knife",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "scrap", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "spike", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pointy_stick",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
@@ -596,7 +651,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -605,6 +660,26 @@
       [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
+    ]
+  ]
+},{
+       "type" : "recipe",
+  "result": "spear_rebar",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "scrap", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rebar", 1 ]
     ]
   ]
 },{
@@ -617,7 +692,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -640,11 +715,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "hose", 1 ]
@@ -660,11 +736,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -675,13 +752,13 @@
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 2000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -714,13 +791,13 @@
   "result": "javelin",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1, "throw", 2 ],
+  "skills_required": [ "survival", 1, "throw", 2 ],
   "difficulty": 3,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -749,7 +826,7 @@
   "result": "spear_knife",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 600,
   "reversible": true,
@@ -757,6 +834,7 @@
   "components": [
     [
       [ "stick", 1 ],
+      [ "2x4", 1 ],
       [ "broom", 1 ],
       [ "mop", 1 ]
     ],
@@ -776,23 +854,62 @@
   ]
 },{
         "type" : "recipe",
+  "result": "spear_steel",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required": [ "melee", 1 ],
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      ["hacksaw", -1]
+      ],
+      [
+      [ "welder", 20 ],
+      [ "welder_crude", 20 ],
+      [ "toolset", 2 ]
+      ]
+      ],
+  "components":
+     [
+     [
+      [ "pipe", 1 ]
+     ],
+     [
+     [ "steel_chunk", 1 ],
+     [ "scrap", 3 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "longbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -802,20 +919,22 @@
   "result": "selfbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 12000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -825,20 +944,22 @@
   "result": "shortbow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -848,23 +969,25 @@
   "result": "reflexrecurvebow",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [[ "archery", 7 ]],
+  "skills_required": [[ "archery", 7 ]],
   "difficulty": 5,
   "time": 25000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 3 ]
+      [ "stick", 3 ],
+      [ "2x4", 2 ]
     ],
     [
       [ "bone", 3 ]
     ],
     [
       [ "string_36", 2 ],
+      [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ]
     ]
@@ -885,7 +1008,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -898,10 +1021,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "homewrecker",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_36", 8 ]
+    ],
+    [
+      [ "steel_chunk", 4 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ],
+      [ "mop", 1 ],
+      [ "broom", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "caltrops",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "traps", 1 ],
+  "skills_required": [ "traps", 1 ],
   "difficulty": 2,
   "time": 100000,
   "reversible": false,
@@ -920,15 +1066,45 @@
       ["swage", -1]
       ],
       [
-      ["forge", 100], ["char_forge", 20]
+      ["forge", 50], ["char_forge", 10]
       ]
       ],
   "components":
     [
      [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 4 ],
-     [ "scrap", 12 ]
+     [ "steel_chunk", 1 ],
+     [ "scrap", 3 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "caltrops",
+  "id_suffix": "from wire",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "skills_required": [ "traps", 2 ],
+  "difficulty": 3,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+      [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+      ],
+      [
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "wire_barbed", 3 ],
+     [ "wire", 9 ]
      ]
     ]
 },{
@@ -947,7 +1123,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -997,7 +1173,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1028,7 +1204,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1042,7 +1218,7 @@
   "result": "revolver_shotgun",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [[ "gun", 3 ]],
+  "skills_required": [[ "gun", 3 ]],
   "difficulty": 3,
   "time": 6000,
   "reversible": false,
@@ -1059,7 +1235,7 @@
       [ "welder", 30 ],
       [ "welder_crude", 30 ],
       [ "toolset", 3 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1079,7 +1255,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1091,13 +1267,13 @@
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -1114,11 +1290,11 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "stick", 3 ]
     ],
     [
@@ -1139,7 +1315,7 @@
   "result": "crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -1152,11 +1328,11 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "stick", 4 ]
     ],
     [
@@ -1168,13 +1344,13 @@
   "result": "huge_crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 6,
   "time": 60000,
   "reversible": true,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -1198,11 +1374,11 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 4 ],
+      [ "2x4", 8 ],
       [ "stick", 16 ]
     ],
     [
@@ -1215,7 +1391,8 @@
       [ "spring", 4 ]
     ],
     [
-      [ "steel_chunk", 4 ]
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
     ],
     [
       [ "nail", 60 ]
@@ -1226,13 +1403,13 @@
   "result": "rep_crossbow",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty": 3,
   "time": 45000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -1245,11 +1422,11 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
-      [ "2x4", 2 ],
+      [ "2x4", 4 ],
       [ "stick", 8 ]
     ],
     [
@@ -1267,7 +1444,7 @@
   "result": "rifle_22",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12000,
   "reversible": true,
@@ -1280,7 +1457,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1295,7 +1472,7 @@
   "result": "pipe_shotgun",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12000,
   "reversible": true,
@@ -1331,7 +1508,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1343,7 +1520,7 @@
   "result": "rifle_9mm",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 14000,
   "reversible": true,
@@ -1356,7 +1533,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1371,7 +1548,7 @@
   "result": "smg_9mm",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 18000,
   "reversible": true,
@@ -1391,7 +1568,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1409,7 +1586,7 @@
   "result": "smg_45",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
   "reversible": true,
@@ -1447,7 +1624,7 @@
   "result": "flamethrower_simple",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 6,
   "time": 12000,
   "reversible": true,
@@ -1460,7 +1637,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1482,7 +1659,7 @@
   "result": "launcher_simple",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "launcher", 3 ],
+  "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
   "time": 6000,
   "reversible": true,
@@ -1491,14 +1668,15 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
       [ "pipe", 1 ]
     ],
     [
-      [ "2x4", 1 ]
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
     ],
     [
       [ "nail", 1 ]
@@ -1509,7 +1687,7 @@
   "result": "pipe_launcher40mm",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "launcher", 3 ],
+  "skills_required": [ "launcher", 3 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -1518,7 +1696,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1536,7 +1714,7 @@
   "result": "u_shotgun",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "shotgun", 3 ],
+  "skills_required": [ "shotgun", 3 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -1545,7 +1723,7 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1563,7 +1741,7 @@
   "result": "shot_he",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 2000,
   "reversible": false,
@@ -1572,7 +1750,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1598,7 +1776,7 @@
     [
       [ "hotplate", 5 ],
       [ "toolset", 1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1622,7 +1800,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1637,7 +1815,7 @@
   "result": "grenade",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -1646,7 +1824,7 @@
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1723,7 +1901,7 @@
   "result": "smokebomb",
   "category": "CC_WEAPON",
   "skill_used": "cooking",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 7500,
   "reversible": false,
@@ -1733,7 +1911,7 @@
       [ "screwdriver", -1 ],
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1763,7 +1941,7 @@
   "result": "gasbomb",
   "category": "CC_WEAPON",
   "skill_used": "cooking",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
@@ -1773,7 +1951,7 @@
       [ "screwdriver", -1 ],
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1798,7 +1976,7 @@
   "result": "nx17",
   "category": "CC_WEAPON",
   "skill_used": "electronics",
-  "requires_skills": [ "mechanics", 5 ],
+  "skills_required": [ "mechanics", 5 ],
   "difficulty": 8,
   "time": 40000,
   "reversible": true,
@@ -1811,7 +1989,7 @@
     [
       [ "soldering_iron", 6 ],
       [ "toolset", 1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1829,7 +2007,7 @@
   "result": "mininuke",
   "category": "CC_WEAPON",
   "skill_used": "mechanics",
-  "requires_skills": [ "electronics", 5 ],
+  "skills_required": [ "electronics", 5 ],
   "difficulty": 10,
   "time": 40000,
   "reversible": true,
@@ -1842,12 +2020,13 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
       [ "can_food", 2 ],
       [ "steel_chunk", 2 ],
+      [ "scrap", 6 ],
       [ "canister_empty", 1 ],
       [ "can_drink", 2 ]
     ],
@@ -1876,11 +2055,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -1912,25 +2092,25 @@
     "result": "bearing",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 2,
     "time": 45000,
     "reversible": false,
     "autolearn": true,
     "tools": [
-      [
+    [
       [ "press", -1 ]
-      ],
-      [
+    ],
+    [
       ["crucible", -1]
-      ],
-      [
+    ],
+    [
       ["forge", 100], ["char_forge", 20]
-      ]
+    ]
     ],
     "components": [
       [
-        [ "scrap", 5 ]
+        [ "scrap", 5 ],
         [ "lead", 50 ],
         [ "gold_small", 50 ]
       ]
@@ -1945,7 +2125,7 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -1961,20 +2141,20 @@
   "result" : "shaft_wood_heavy",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
       [ "mop", 2 ],
-      [ "2x4", 2 ],
+      [ "2x4", 1 ],
       [ "bee_sting", 2 ]
     ]
   ]
@@ -1983,7 +2163,7 @@
   "result" : "shaft_metal",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -1999,7 +2179,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2012,7 +2192,7 @@
   "result" : "arrowhead",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
@@ -2024,7 +2204,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2037,13 +2217,13 @@
   "result" : "fletching",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2060,13 +2240,13 @@
   "result" : "arrow_fire_hardened",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 0,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2083,13 +2263,13 @@
   "result" : "arrow_field_point",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 1,
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2098,7 +2278,7 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -2116,13 +2296,13 @@
   "result" : "arrow_small_game",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty" : 2,
   "time" : 2000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2140,13 +2320,13 @@
   "result" : "arrow_fire_hardened_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2161,13 +2341,13 @@
   "result" : "arrow_field_point_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2182,13 +2362,13 @@
   "result" : "flamable_arrow",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2218,13 +2398,13 @@
   "result" : "arrow_wood",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2242,7 +2422,7 @@
   "result" : "arrow_metal_sharpened",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
@@ -2270,13 +2450,13 @@
   "result" : "arrow_heavy_fire_hardened_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2296,13 +2476,13 @@
   "result" : "arrow_heavy_field_point_fletched",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 3 ],
+  "skills_required": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2323,13 +2503,13 @@
   "result" : "arrow_wood_heavy",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 5 ],
+  "skills_required": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
   "autolearn" : true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2347,13 +2527,13 @@
   "result" : "arrow_metal",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [ "archery", 5 ],
+  "skills_required": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2384,7 +2564,7 @@
   "result" : "arrow_exploding",
   "category" : "CC_AMMO",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 5 ], [ "mechanics", 3 ]],
+  "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 7000,
   "reversible" : false,
@@ -2418,7 +2598,7 @@
   "result" : "exploding_arrow_warhead",
   "category" : "CC_MISC",
   "skill_used" : "fabrication",
-  "requires_skills": [[ "archery", 5 ], [ "mechanics", 3 ]],
+  "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 5000,
   "reversible" : false,
@@ -2466,7 +2646,7 @@
   "result": "quiver",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty": 2,
   "time": 10000,
   "reversible": true,
@@ -2487,7 +2667,7 @@
   "result": "quiver_large",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "archery", 2 ],
+  "skills_required": [ "archery", 2 ],
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
@@ -2510,7 +2690,7 @@
       [ "leather", 8 ]
     ],
     [
-      [ "scrap", 2 ],
+      [ "scrap", 3 ],
       [ "steel_chunk", 1]
     ]
   ]
@@ -2519,13 +2699,13 @@
   "result": "bolt_wood",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "archery", 1 ],
+  "skills_required": [ "archery", 1 ],
   "difficulty": 1,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -2541,7 +2721,7 @@
   "result": "bolt_metal",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": ["archery", 3],
+  "skills_required": ["archery", 3],
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
@@ -2570,7 +2750,7 @@
   "result": "bolt_explosive",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": ["archery", 3],
+  "skills_required": ["archery", 3],
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
@@ -2605,7 +2785,7 @@
   "result": "9mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
@@ -2618,7 +2798,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2640,7 +2820,7 @@
   "result": "9mmP",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
@@ -2653,7 +2833,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2675,7 +2855,7 @@
   "result": "9mmP2",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -2688,7 +2868,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2710,7 +2890,7 @@
   "result": "38_special",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
@@ -2723,7 +2903,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2745,7 +2925,7 @@
   "result": "38_super",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 12500,
   "reversible": false,
@@ -2758,7 +2938,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2780,7 +2960,7 @@
   "result": "40sw",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
@@ -2793,7 +2973,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2815,7 +2995,7 @@
   "result": "10mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
@@ -2828,7 +3008,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2850,7 +3030,7 @@
   "result": "44magnum",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 25000,
   "reversible": false,
@@ -2863,7 +3043,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2885,7 +3065,7 @@
   "result": "45_acp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
@@ -2920,7 +3100,7 @@
   "result": "45_super",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -2955,7 +3135,7 @@
   "result": "45_jhp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
   "reversible": false,
@@ -2993,7 +3173,7 @@
   "result": "454_Casull",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 7,
   "time": 10000,
   "reversible": false,
@@ -3006,7 +3186,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3031,7 +3211,7 @@
   "result": "500_Magnum",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -3044,7 +3224,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3069,7 +3249,7 @@
   "result": "57mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
@@ -3082,7 +3262,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3104,7 +3284,7 @@
   "result": "46mm",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 3 ],
+  "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
@@ -3117,7 +3297,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3139,7 +3319,7 @@
   "result": "762_m43",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 40000,
   "reversible": false,
@@ -3152,7 +3332,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3177,7 +3357,7 @@
   "result": "762_m87",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 40000,
   "reversible": false,
@@ -3190,7 +3370,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3215,7 +3395,7 @@
   "result": "223",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
@@ -3228,7 +3408,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3254,7 +3434,7 @@
   "result": "556",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
   "reversible": false,
@@ -3267,7 +3447,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3293,7 +3473,7 @@
   "result": "556_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 15000,
   "reversible": false,
@@ -3306,7 +3486,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3331,7 +3511,7 @@
   "result": "270",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
@@ -3344,7 +3524,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3369,7 +3549,7 @@
   "result": "3006",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -3382,7 +3562,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3404,10 +3584,125 @@
   ]
 },{
         "type" : "recipe",
+  "result": "50_incendiary",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 7 ],
+  "difficulty": 8,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "50_casing", 10 ]
+    ],
+    [
+      [ "incendiary", 300 ]
+    ],
+   [
+      [ "lgrifle_primer", 20 ]
+    ],
+    [
+      [ "gunpowder", 1000 ]
+    ],
+    [
+      [ "lead", 200 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
+    ]
+  ]
+ },{
+        "type" : "recipe",
+  "result": "50ss",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 7 ],
+  "difficulty": 8,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "50_casing", 10 ]
+    ],
+    [
+      [ "lgrifle_primer", 20 ]
+    ],
+    [
+      [ "gunpowder", 1000 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
+    ]
+]
+  },{
+        "type" : "recipe",
+  "result": "50bmg",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 7 ],
+  "difficulty": 8,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "50_casing", 10 ]
+    ],
+    [
+      [ "lgrifle_primer", 20 ]
+    ],
+    [
+      [ "gunpowder", 1000 ]
+    ],
+    [
+      [ "lead", 380 ]
+    ],
+    [
+      [ "cu_pipe", 3 ]
+    ]
+  ]
+  
+},{
+        "type" : "recipe",
   "result": "3006_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 7 ],
+  "skills_required": [ "gun", 7 ],
   "difficulty": 7,
   "time": 2500,
   "reversible": false,
@@ -3420,7 +3715,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3444,7 +3739,7 @@
   "result": "308",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
@@ -3457,7 +3752,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3482,7 +3777,7 @@
   "result": "762_51",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 10000,
   "reversible": false,
@@ -3495,7 +3790,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3520,7 +3815,7 @@
   "result": "762_51_incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 5000,
   "reversible": false,
@@ -3533,7 +3828,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3554,10 +3849,47 @@
   ]
 },{
         "type" : "recipe",
-  "result": "shot_bird",
+  "result": "signal_flare",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 4 ]
+    ],
+    [
+      [ "shotgun_primer", 4 ]
+    ],
+    [
+      [ "gunpowder", 80 ]
+    ],
+    [
+      [ "incendiary", 80 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "shot_bird",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12500,
   "reversible": false,
@@ -3570,7 +3902,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3592,7 +3924,7 @@
   "result": "shot_00",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
@@ -3605,7 +3937,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3627,7 +3959,7 @@
   "result": "shot_slug",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
@@ -3640,7 +3972,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3662,7 +3994,7 @@
   "result": "shot_flechette",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 2 ],
+  "skills_required": [ "gun", 2 ],
   "difficulty": 3,
   "time": 12500,
   "reversible": false,
@@ -3678,7 +4010,7 @@
       [ "fire", -1 ],
       [ "toolset", 1 ],
       [ "press", 2 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3714,7 +4046,7 @@
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3724,7 +4056,7 @@
 },{
         "type" : "recipe",
   "result": "salt_water",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
@@ -3772,7 +4104,7 @@
   "id_suffix": "from batteries",
   "category": "CC_CHEM",
   "skill_used": "electronics",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -3786,6 +4118,28 @@
   "components": [
     [
       [ "battery", 125 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "water_acid",
+  "id_suffix": "from electrolysis",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -3809,6 +4163,7 @@
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
@@ -3949,7 +4304,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -4066,7 +4421,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -4096,7 +4451,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -4123,7 +4478,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -4166,6 +4521,7 @@
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
@@ -4215,7 +4571,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -4272,6 +4628,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "catfood",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "veggy_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4291,6 +4680,7 @@
       [ "pot", -1 ],
       [ "rock_pot", -1 ],
       [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
@@ -4457,7 +4847,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
     [
@@ -4541,11 +4931,14 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "teapot", -1 ],
       [ "pot", -1 ],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "atomic_coffeepot", -1 ]
     ]
   ],
   "components": [
@@ -4739,11 +5132,14 @@
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "teapot", -1 ],
       [ "pot", -1 ],
-      [ "rock_pot", -1 ]
+      [ "rock_pot", -1 ],
+      [ "atomic_coffeepot", -1 ]
     ]
   ],
   "components": [
@@ -4753,6 +5149,30 @@
     ],
     [
       [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "milk",
+  "id_suffix": "from powder",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "milk_powder", 1 ]
+    ],
+    [
       [ "water_clean", 1 ]
     ]
   ]
@@ -4939,6 +5359,23 @@
     ],
     [
       [ "vodka", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "drink_rumcola",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rum", 1 ]
+    ],
+    [
+      [ "cola", 1 ]
     ]
   ]
 },{
@@ -5508,7 +5945,8 @@
       [ "cranberries", 1 ],
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
-      [ "pomegranate", 1 ]
+      [ "pomegranate", 1 ],
+      [ "dry_fruit", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -5676,7 +6114,7 @@
     ],
     [
       [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ]
+      [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
@@ -5700,7 +6138,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -6010,7 +6448,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -6104,11 +6542,13 @@
   "tools": [
     [
       [ "hotplate", 15 ],
+      [ "chemistry_set", 15 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
-      [ "bottle_glass", -1 ],
+      [ "chemistry_set", -1 ],
+      [ "bottle_glass", 2 ],
       [ "hose", -1 ]
     ]
   ],
@@ -6137,12 +6577,14 @@
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "hotplate", 8 ],
+      [ "chemistry_set", 8 ],
       [ "toolset", 1 ]
     ]
   ],
@@ -6163,20 +6605,22 @@
   "result": "poppy_sleep",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "components": [
@@ -6192,20 +6636,22 @@
   "result": "poppy_pain",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "components": [
@@ -6221,24 +6667,26 @@
   "result": "fungicide",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ],
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
-      [ "hotplate", 2 ]
+      [ "hotplate", 2 ],
+      [ "chemistry_set", 2 ]
     ]
   ],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -6284,10 +6732,12 @@
   "tools": [
     [
       [ "hotplate", 3 ],
+      [ "chemistry_set", 3 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "chemistry_set", -1 ],
       [ "pan", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
@@ -6307,7 +6757,7 @@
   "result": "mutagen",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 8,
   "time": 10000,
   "reversible": false,
@@ -6327,6 +6777,7 @@
     [
       [ "meat_tainted", 3 ],
       [ "veggy_tainted", 5 ],
+      [ "slime_scrap", 5 ],
       [ "fetus", 1 ],
       [ "arm", 2 ],
       [ "leg", 2 ]
@@ -6345,7 +6796,7 @@
   "result": "mutagen_plant",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6378,7 +6829,7 @@
   "result": "mutagen_insect",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6413,7 +6864,7 @@
   "result": "mutagen_spider",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6446,7 +6897,7 @@
   "result": "mutagen_slime",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6467,7 +6918,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "sewage", 3 ]
+      [ "sewage", 3 ],
+      [ "slime_scrap", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -6479,7 +6931,7 @@
   "result": "mutagen_fish",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6515,7 +6967,7 @@
   "result": "mutagen_rat",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6548,7 +7000,7 @@
   "result": "mutagen_beast",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6581,7 +7033,7 @@
   "result": "mutagen_cattle",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6614,7 +7066,7 @@
   "result": "mutagen_cephalopod",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6648,7 +7100,7 @@
   "result": "mutagen_bird",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6681,7 +7133,7 @@
   "result": "mutagen_lizard",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6714,7 +7166,7 @@
   "result": "mutagen_troglobite",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6744,10 +7196,69 @@
   ]
 },{
         "type" : "recipe",
-  "result": "purifier",
+  "result": "mutagen_medical",
   "category": "CC_CHEM",
   "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 9,
+  "time": 10000,
+  "reversible": false,
+  "book_learn": [[ "recipe_medicalmut", 9 ]],
+  "autolearn": false,
+  "tools": [
+    [
+      [ "chemistry_set", 25 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen", 1 ]
+    ],
+    [
+      [ "blood", 1 ]
+    ],
+    [
+      [ "vitamins", 10 ]
+    ],
+    [
+      [ "iodine", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "canister_goo",
+  "category": "CC_CHEM",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "canister_empty", 1 ]
+    ],
+    [
+      [ "slime_scrap", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "purifier",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
   "reversible": false,
@@ -6778,11 +7289,83 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "mutagen_alpha",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_alpha", 9 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+	  [ "mutagen_slime", 1 ]
+	],
+    [
+      [ "mutagen_plant", 1 ]
+    ],
+    [
+	  [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "purifier", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mutagen_chimera",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_chimera", 9]],
+  "tools": [
+    [
+      [ "chemistry_set", 37 ],
+      [ "hotplate", 37 ],
+      [ "toolset", 3 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mutagen_lizard", 1 ]
+    ],
+    [
+      [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "mutagen_beast", 1 ]
+    ],
+    [
+      [ "mutagen_cattle", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "disinfectant",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 2 ],
+  "skills_required": [ "firstaid", 2 ],
   "difficulty": 4,
   "time": 24000,
   "reversible": false,
@@ -6812,7 +7395,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "oxy_powder", 20 ]
+      [ "oxy_powder", 10 ]
     ]
   ]
 },{
@@ -6820,7 +7403,7 @@
   "result": "iodine",
   "category": "CC_CHEM",
   "skill_used": "cooking",
-  "requires_skills": [ "firstaid", 1 ],
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 6,
   "time": 24000,
   "reversible": false,
@@ -6874,7 +7457,7 @@
     ],
     [
       [ "bleach", 1 ],
-      [ "oxy_powder", 100 ]
+      [ "oxy_powder", 50 ]
     ]
   ]
 },{
@@ -6888,10 +7471,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
+      [ "chemistry_set", 50 ]
     ]
   ],
   "components": [
@@ -6910,10 +7490,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "chemistry_set", 75 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
+      [ "chemistry_set", 50 ]
     ]
   ],
   "components": [
@@ -6950,7 +7527,11 @@
   ],
   "components": [
     [
-      [ "bleach", 2 ]
+      [ "bleach", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
     ]
   ]
 },{
@@ -6965,9 +7546,6 @@
   "tools": [
     [
       [ "chemistry_set", 50 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -7021,7 +7599,7 @@
       [ "con_milk", 1 ]
     ],
     [
-      [ "lye_powder", 20 ]
+      [ "lye_powder", 50 ]
     ],
     [
       [ "water_clean", 1 ],
@@ -7082,7 +7660,8 @@
   ],
   "components": [
     [
-      [ "rag", 1 ]
+      [ "rag", 1 ],
+      [ "bag_plastic", 1 ]
     ],
     [
       [ "oxy_powder", 5 ]
@@ -7096,7 +7675,7 @@
   "result": "gunpowder",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 1 ],
+  "skills_required": [ "cooking", 1 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
@@ -7128,7 +7707,7 @@
   "result": "incendiary",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 1 ],
+  "skills_required": [ "cooking", 1 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -7159,7 +7738,7 @@
   "result": "8mm_bootleg",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 2 ],
+  "skills_required": [ "cooking", 2 ],
   "difficulty": 7,
   "time": 45000,
   "reversible": false,
@@ -7201,7 +7780,7 @@
   "result": "8mm_bootleg_jsp",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 2 ],
+  "skills_required": [ "cooking", 2 ],
   "difficulty": 8,
   "time": 45000,
   "reversible": false,
@@ -7247,27 +7826,27 @@
     "result": "smpistol_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
     "autolearn": true,
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7284,27 +7863,27 @@
     "result": "lgpistol_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
     "autolearn": true,
     "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7321,27 +7900,27 @@
     "result": "smrifle_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7358,27 +7937,27 @@
     "result": "lgrifle_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7395,27 +7974,27 @@
     "result": "shotgun_primer",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 3 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
     "reversible": false,
     "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["press", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
@@ -7432,26 +8011,26 @@
     "result": "lead",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 1 ],
+    "skills_required": [ "gun", 1 ],
     "difficulty": 2,
     "time": 30000,
     "reversible": false,
     "autolearn": true,
     "tools": [
-      [
+     [
       [ "press", -1 ]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
-      ]
+     ]
     ],
     "components": [
       [
         [ "steel_chunk", 7 ],
-        [ "scrap", 20 ]
+        [ "scrap", 21 ]
       ]
     ]
   },{
@@ -7702,7 +8281,7 @@
   "result": "battery",
   "category": "CC_ELECTRONIC",
   "skill_used": "fabrication",
-  "requires_skills": [ "electronics", 1 ],
+  "skills_required": [ "electronics", 1 ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -7715,10 +8294,9 @@
   ],
   "components": [
     [
-      [ "ammonia", 1 ],
-      [ "lemon", 1 ],
+      [ "lemon", 2 ],
       [ "acid", 1 ],
-      [ "vinegar", 1 ]
+      [ "vinegar", 2 ]
     ],
     [
       [ "steel_chunk", 1 ],
@@ -7738,7 +8316,7 @@
   "result": "battery_compartment",
   "category": "CC_ELECTRONIC",
   "skill_used": "fabrication",
-  "requires_skills": [ "electronics", 3 ],
+  "skills_required": [ "electronics", 3 ],
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -7768,7 +8346,7 @@
   "result": "coilgun",
   "category": "CC_WEAPON",
   "skill_used": "electronics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
@@ -7900,7 +8478,7 @@
   "result": "water_purifier",
   "category": "CC_ELECTRONIC",
   "skill_used": "mechanics",
-  "requires_skills": [ "electronics", 1 ],
+  "skills_required": [ "electronics", 1 ],
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
@@ -8038,7 +8616,7 @@
   "result": "electrohack",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "computer", 1 ],
+  "skills_required": [ "computer", 1 ],
   "difficulty": 4,
   "time": 35000,
   "reversible": true,
@@ -8110,7 +8688,7 @@
   "result": "mp3",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "computer", 1 ],
+  "skills_required": [ "computer", 1 ],
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
@@ -8144,7 +8722,7 @@
   "result": "portable_game",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": ["computer",  5],
+  "skills_required": ["computer",  5],
   "difficulty": 8,
   "time": 60000,
   "reversible": true,
@@ -8254,7 +8832,7 @@
   "result" : "adv_UPS_off",
   "category" : "CC_ELECTRONIC",
   "skill_used" : "electronics",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty" : 9,
   "time" : 85000,
   "reversible" : true,
@@ -8292,7 +8870,7 @@
   "result": "bio_power_storage",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8328,7 +8906,7 @@
   "result": "bio_power_storage_mkII",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 12,
   "time": 70000,
   "reversible": true,
@@ -8365,7 +8943,7 @@
   "result": "bio_solar",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8400,7 +8978,7 @@
   "result": "bio_batteries",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8432,7 +9010,7 @@
   "result": "bio_power_armor_interface",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8464,7 +9042,7 @@
   "result": "bio_power_armor_interface_mkII",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 9,
   "time": 50000,
   "reversible": true,
@@ -8499,7 +9077,7 @@
   "result": "bio_evap",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8532,7 +9110,7 @@
   "result": "bio_laser",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 9,
   "time": 50000,
   "reversible": true,
@@ -8568,7 +9146,7 @@
   "result": "bio_flashlight",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8604,7 +9182,7 @@
   "result": "bio_water_extractor",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8640,7 +9218,7 @@
   "result": "bio_armor_head",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8679,7 +9257,7 @@
   "result": "bio_armor_arms",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8718,7 +9296,7 @@
   "result": "bio_armor_torso",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8757,7 +9335,7 @@
   "result": "bio_armor_legs",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
@@ -8797,7 +9375,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8823,7 +9401,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8849,7 +9427,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8875,7 +9453,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8901,7 +9479,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8927,7 +9505,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -8953,7 +9531,7 @@
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "skill_used": "electronics",
-  "requires_skills": [ "firstaid", 5 ],
+  "skills_required": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
@@ -9174,7 +9752,7 @@
   "result": "boots_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
   "reversible": false,
@@ -9226,7 +9804,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -9241,6 +9819,54 @@
     [
       [ "leather", 2 ],
       [ "fur", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 24 ],
+      [ "sewing_kit", 24 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 18 ],
+      [ "fur", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "helmet_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 16 ],
+      [ "fur", 16 ]
     ]
   ]
 },{
@@ -9471,7 +10097,7 @@
   "result": "pants_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 40000,
   "reversible": false,
@@ -9497,7 +10123,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9517,7 +10143,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9557,7 +10183,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 42000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9577,7 +10203,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9597,7 +10223,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9617,7 +10243,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9657,7 +10283,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9677,7 +10303,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -9688,6 +10314,60 @@
   "components": [
     [
       [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_fur",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "loincloth_leather",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ]
     ]
   ]
 },{
@@ -9757,7 +10437,7 @@
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 200000,
   "reversible": false,
@@ -9798,7 +10478,7 @@
   "result": "coat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 100000,
   "reversible": false,
@@ -9844,7 +10524,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -9901,7 +10581,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -9913,7 +10593,7 @@
   "result": "gloves_fingerless_mod",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "fabrication", 1 ],
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 1,
   "time": 24000,
   "reversible": false,
@@ -9964,7 +10644,7 @@
   "result": "gloves_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 16000,
   "reversible": false,
@@ -10022,7 +10702,8 @@
       [ "string_6", 4 ]
     ],
     [
-      [ "steel_chunk", 2 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
     ]
   ]
 },{
@@ -10049,7 +10730,8 @@
       [ "string_6", 16 ]
     ],
     [
-      [ "steel_chunk", 4 ]
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
     ]
   ]
 },{
@@ -10080,7 +10762,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -10098,6 +10780,30 @@
     ],
     [
       [ "leather", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gauntlets_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 6 ],
+      [ "fur", 6 ]
     ]
   ]
 },{
@@ -10125,7 +10831,7 @@
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
@@ -10172,7 +10878,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10220,6 +10926,9 @@
   "time": 20000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
       [
       [ "welder", 56 ],
@@ -10250,7 +10959,7 @@
   "result": "goggles_nv",
   "category": "CC_ARMOR",
   "skill_used": "electronics",
-  "requires_skills": [ "tailor", 1 ],
+  "skills_required": [ "tailor", 1 ],
   "difficulty": 5,
   "time": 40000,
   "reversible": true,
@@ -10282,7 +10991,7 @@
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
   "reversible": false,
@@ -10303,7 +11012,6 @@
   "result": "hat_cotton",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
   "reversible": false,
@@ -10317,6 +11025,46 @@
   "components": [
     [
       [ "rag", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cowboy_hat",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 16 ],
+      [ "sewing_kit", 16 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sundress",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 6 ]
     ]
   ]
 },{
@@ -10347,7 +11095,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10382,7 +11130,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -10397,6 +11145,115 @@
     [
       [ "leather", 20 ],
       [ "fur", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_larmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 42 ],
+      [ "fur", 42 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_farmor",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 48 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_blarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "tailor", 3 ],
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ],
+    [
+      [ "hotplate", 20 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 10 ],
+      [ "water_clean", 10 ]
+    ],
+    [
+      [ "wax", 2 ],
+      [ "vinegar", 10 ]
+    ],
+    [
+      [ "salt", 5 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "armor_plarmor",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "skills_required": [ "tailor", 3 ],
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 22 ],
+      [ "sewing_kit", 22 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 6 ],
+      [ "scrap", 18 ]
+    ],
+    [
+      [ "armor_larmor", 1 ]
     ]
   ]
 },{
@@ -10491,7 +11348,7 @@
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 50000,
   "reversible": true,
@@ -10555,7 +11412,7 @@
   "result": "cloak_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 25000,
   "reversible": true,
@@ -10596,7 +11453,7 @@
   "result": "sleeping_bag",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 4,
   "time": 75000,
   "reversible": true,
@@ -10617,7 +11474,7 @@
   "result": "sleeping_bag_fur",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 5,
   "time": 75000,
   "reversible": true,
@@ -10630,10 +11487,10 @@
   ],
   "components": [
     [
-      [ "rag", 20 ]
+      [ "rag", 10 ]
     ],
     [
-      [ "fur", 10 ]
+      [ "fur", 20 ]
     ]
   ]
 },{
@@ -10656,7 +11513,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10664,6 +11522,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10677,7 +11536,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10694,11 +11553,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -10724,6 +11584,7 @@
       [ "string_36", 1 ],
       [ "string_6", 6 ],
       [ "sinew", 20 ],
+      [ "thread", 20 ],
       [ "plant_fibre", 20 ]
     ]
   ]
@@ -10732,7 +11593,7 @@
   "result": "leather_pouch",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
@@ -10751,6 +11612,7 @@
       [ "string_36", 1 ],
       [ "string_6", 6 ],
       [ "sinew", 20 ],
+      [ "thread", 20 ],
       [ "plant_fibre", 20 ]
     ]
   ]
@@ -10759,7 +11621,7 @@
   "result": "rock_pot",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "cooking", 1 ],
+  "skills_required": [ "cooking", 1 ],
   "difficulty": 2,
   "time": 20000,
   "reversible": false,
@@ -10779,6 +11641,7 @@
     ],
     [
       [ "sinew", 80 ],
+      [ "thread", 80 ],
       [ "plant_fibre", 80 ],
       [ "string_36", 1 ]
     ]
@@ -10788,7 +11651,7 @@
   "result": "primitive_shovel",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "carpentry", 1 ],
+  "skills_required": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 60000,
   "reversible": false,
@@ -10804,7 +11667,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10812,6 +11676,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10820,7 +11685,7 @@
   "result": "primitive_axe",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "carpentry", 1 ],
+  "skills_required": [ "carpentry", 1 ],
   "difficulty": 3,
   "time": 60000,
   "reversible": false,
@@ -10836,7 +11701,8 @@
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rock", 1 ]
@@ -10844,6 +11710,7 @@
     [
       [ "string_6", 2 ],
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ]
     ]
   ]
@@ -10869,7 +11736,7 @@
   "result": "waterskin",
   "category": "CC_MISC",
   "skill_used": "tailor",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -10883,6 +11750,7 @@
   "components": [
     [
       [ "sinew", 40 ],
+      [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "string_36", 1 ]
     ],
@@ -10901,7 +11769,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -10914,7 +11782,7 @@
   "result": "shelter_kit",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "carpentry", 1 ],
+  "skills_required": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 50000,
   "reversible": false,
@@ -10927,7 +11795,8 @@
   ],
   "components": [
     [
-      [ "stick", 10 ]
+      [ "stick", 10 ],
+      [ "2x4", 5 ]
     ],
     [
       [ "leather", 20 ]
@@ -10935,6 +11804,7 @@
     [
       [ "string_6", 10 ],
       [ "sinew", 500 ],
+      [ "thread", 500 ],
       [ "plant_fibre", 500 ]
     ]
   ]
@@ -10944,7 +11814,7 @@
   "id_suffix": "repair",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "tailor", 1 ],
+  "skills_required": [ "tailor", 1 ],
   "difficulty": 0,
   "time": 20000,
   "reversible": false,
@@ -10957,13 +11827,15 @@
   ],
   "components": [
     [
-      [ "stick", 3 ]
+      [ "stick", 3 ],
+      [ "2x4", 2 ]
     ],
     [
       [ "leather", 4 ]
     ],
     [
       [ "sinew", 60 ],
+      [ "thread", 60 ],
       [ "plant_fibre", 60 ],
       [ "string_6", 1 ]
     ],
@@ -10976,13 +11848,13 @@
   "result": "fur_rollmat",
   "category": "CC_MISC",
   "skill_used": "survival",
-  "requires_skills": [ "tailor", 1 ],
+  "skills_required": [ "tailor", 1 ],
   "difficulty": 1,
   "time": 20000,
   "reversible": true,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -11001,17 +11873,18 @@
   "result": "snare_trigger",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ]
   ]
 },{
@@ -11019,7 +11892,7 @@
   "result": "light_snare_kit",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
@@ -11037,7 +11910,7 @@
   "result": "heavy_snare_kit",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 8000,
   "reversible": true,
@@ -11106,7 +11979,8 @@
         "type" : "recipe",
   "result": "weldrig",
   "category": "CC_MISC",
-  "skill_used": "electronics",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",4],
   "difficulty": 4,
   "time": 60000,
   "reversible": true,
@@ -11138,15 +12012,70 @@
   ],
   "components": [
     [
-      [ "steel_chunk", 16 ],
-      [ "steel_plate", 2 ]
+      [ "frame", 1 ]
     ],
     [
       ["soldering_iron", 1]
     ],
     [
       [ "welder", 1 ],
-      [ "welder_crude", 3 ]
+      [ "welder_crude", 2 ]
+    ],
+    [
+      ["cable", 5]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "craftrig",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",3],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_fabrication", 4 ]],
+  "tools": [
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "frame", 1 ]
+    ],
+    [
+      ["vac_sealer", 1]
+    ],
+    [
+      [ "dehydrator", 1 ]
+    ],
+    [
+      [ "water_purifier", 1 ]
+    ],
+    [
+      [ "press", 1 ]
     ],
     [
       ["cable", 5]
@@ -11179,7 +12108,8 @@
       [ "pipe", 1 ]
     ],
     [
-      [ "steel_chunk", 2 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
     ],
     [
       [ "chain", 1 ]
@@ -11343,7 +12273,8 @@
       [ "pipe", 10 ]
     ],
     [
-      [ "steel_chunk", 12 ]
+      [ "steel_chunk", 12 ],
+      [ "scrap", 36 ]
     ],
     [
       [ "wire", 3 ]
@@ -11447,10 +12378,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wire",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "scrap", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "wire_barbed",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 8000,
   "reversible": false,
@@ -11620,7 +12582,8 @@
   ],
   "components": [
     [
-      [ "steel_chunk", 2 ]
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
     ],
     [
       [ "duct_tape", 30 ]
@@ -11657,7 +12620,8 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
-      [ "ant_egg", 1 ]
+      [ "ant_egg", 1 ],
+      [ "slime_scrap", 1 ]
     ]
   ]
 },{
@@ -11670,7 +12634,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -11726,6 +12690,7 @@
   "components": [
     [
       [ "steel_chunk", 4 ],
+      [ "scrap", 12 ],
       [ "rebar", 2 ]
     ]
   ]
@@ -11851,7 +12816,7 @@
     ],
     [
       [ "steel_chunk", 4 ],
-      [ "scrap", 8 ],
+      [ "scrap", 12 ],
       [ "spike", 4 ]
     ]
   ]
@@ -11944,6 +12909,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sword_bayonet",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "makeshift_machete", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pistol_bayonet",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -12007,7 +12989,7 @@
   "result": "beartrap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 3 ],
+  "skills_required": [ "mechanics", 3 ],
   "difficulty": 2,
   "time": 3000,
   "reversible": true,
@@ -12031,7 +13013,7 @@
   "result": "crossbow_trap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 4500,
   "reversible": true,
@@ -12054,7 +13036,7 @@
   "result": "shotgun_trap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 1 ],
+  "skills_required": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 5000,
   "reversible": true,
@@ -12076,7 +13058,7 @@
   "result": "blade_trap",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 3 ],
+  "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": true,
@@ -12123,7 +13105,7 @@
   "result": "landmine",
   "category": "CC_MISC",
   "skill_used": "traps",
-  "requires_skills": [ "mechanics", 3 ],
+  "skills_required": [ "mechanics", 3 ],
   "difficulty": 5,
   "time": 10000,
   "reversible": false,
@@ -12142,7 +13124,7 @@
       [ "can_food", 1 ],
       [ "steel_chunk", 1 ],
       [ "canister_empty", 1 ],
-      [ "scrap", 4 ]
+      [ "scrap", 3 ]
     ],
     [
       [ "nail", 100 ],
@@ -12245,8 +13227,8 @@
   "result": "arm_splint",
   "category": "CC_MISC",
   "skill_used": "firstaid",
-  "requires_skills": [ "survival", 1 ],
-  "difficulty": 2,
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
   "time": 1000,
   "reversible": false,
   "autolearn": true,
@@ -12274,8 +13256,8 @@
   "result": "leg_splint",
   "category": "CC_MISC",
   "skill_used": "firstaid",
-  "requires_skills": [ "survival", 1 ],
-  "difficulty": 2,
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
   "time": 1000,
   "reversible": false,
   "autolearn": true,
@@ -12294,7 +13276,7 @@
       [ "stick", 2 ],
       [ "broom", 2 ],
       [ "mop", 2 ],
-      [ "2x4", 2 ],
+      [ "2x4", 1 ],
       [ "pool_cue", 2 ]
     ]
   ]
@@ -12303,7 +13285,7 @@
   "result": "suppressor",
   "category": "CC_MISC",
   "skill_used": "mechanics",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 1,
   "time": 650,
   "reversible": false,
@@ -12328,7 +13310,7 @@
   "result": "brass_catcher",
   "category": "CC_MISC",
   "skill_used": "tailor",
-  "requires_skills": [ "gun", 1 ],
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 65000,
   "reversible": true,
@@ -12349,13 +13331,14 @@
   "result": "pheromone",
   "category": "CC_MISC",
   "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
+  "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 1200,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
+      [ "chemistry_set", 18 ],
       [ "hotplate", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
@@ -12374,7 +13357,7 @@
   "result": "laser_pack",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "electronics", 5 ],
+  "skills_required": [ "electronics", 5 ],
   "difficulty": 3,
   "time": 10000,
   "reversible": true,
@@ -12398,7 +13381,7 @@
   "result": "bot_manhack",
   "category": "CC_MISC",
   "skill_used": "mechanics",
-  "requires_skills": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
   "time": 8000,
   "reversible": true,
@@ -12433,7 +13416,7 @@
   "result": "bot_turret",
   "category": "CC_MISC",
   "skill_used": "mechanics",
-  "requires_skills": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
   "difficulty": 7,
   "time": 9000,
   "reversible": true,
@@ -12477,7 +13460,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12514,7 +13497,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12550,7 +13533,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12587,7 +13570,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12642,7 +13625,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12679,7 +13662,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12734,7 +13717,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -12806,7 +13789,8 @@
   ],
   "components": [
     [
-      [ "scrap", 3 ]
+      [ "scrap", 3 ],
+      [ "rebar", 1 ]
     ]
   ]
 },{
@@ -12845,7 +13829,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -12865,7 +13849,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -12913,17 +13897,17 @@
    "result": "sword_wood",
    "category": "CC_WEAPON",
    "skill_used": "fabrication",
-   "requires_skills": [ "melee", 1 ],
    "difficulty": 0,
    "time": 25000,
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "components": [
      [
-       ["2x4", 2]
+       ["2x4", 2],
+      [ "stick", 4 ]
      ]
    ]
 },{
@@ -12931,13 +13915,12 @@
   "result": "sword_nail",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": ["survival", 1],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -12961,7 +13944,6 @@
   "result": "sword_crude",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": ["survival", 2],
   "difficulty": 2,
   "time": 20000,
   "reversible": false,
@@ -13004,7 +13986,7 @@
       ["toolset", 10],
       ["fire", -1],
       ["forge", 7],
-      [ "char_forge", 2]
+      ["char_forge", 2]
       ]
   ],
   "components": [
@@ -13420,7 +14402,8 @@
       ["pipe", 1]
     ],
     [
-      ["2x4", 2]
+      ["2x4", 2],
+      [ "stick", 3 ]
     ],
     [
       ["nailgun", 1]
@@ -13509,13 +14492,15 @@
         ["superglue", 1]
     ],
     [
-        ["2x4", 1]
+        [ "2x4", 1],
+        [ "stick", 1 ]
     ],
     [
         ["metal_tank", 1]
     ],
     [
-        ["steel_chunk", 1]
+        ["steel_chunk", 1],
+        [ "scrap", 3 ]
     ],
     [
         ["scrap", 6]
@@ -13557,13 +14542,15 @@
       ["superglue", 1]
     ],
     [
-      ["2x4", 1]
+      ["2x4", 1],
+      [ "stick", 1 ]
     ],
     [
       ["metal_tank", 1]
     ],
     [
-      ["steel_chunk", 2]
+      ["steel_chunk", 2],
+      [ "scrap", 6]
     ],
     [
       ["scrap", 4]
@@ -13601,12 +14588,121 @@
       ["pipe", 1]
     ],
     [
-      ["2x4", 1]
+      ["2x4", 1],
+      [ "stick", 1 ]
     ],
     [
       ["scrap", 2]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "rebar_rifle",
+  "category": "CC_WEAPON",
+  "skill_used": "electronics",
+  "skill_sec": ["mechanics",6],
+  "difficulty": 9,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["hacksaw", -1], ["toolset", -1]
+    ],
+    [
+      ["screwdriver", -1], ["toolset", -1]
+    ],
+    [
+      ["wrench", -1], ["toolset", -1]
+    ],
+    [
+      ["welder", 300], ["welder_crude", 450], ["toolset", 12]
+    ]
+  ],
+  "components": [
+    [
+      ["cable", 80]
+    ],
+    [
+      ["2x4", 1],
+      [ "stick", 1 ]
+    ],
+    [
+      ["power_supply", 2]
+    ],
+    [
+      ["steel_chunk", 3],
+      [ "scrap", 18]
+    ],
+    [
+      ["rebar", 1]
+    ],
+    [
+      ["e_scrap", 20]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rebar_rail",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ],
+    [
+      ["hacksaw", -1], ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["rebar", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "steel_rail",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 50], ["char_forge", 10]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
+     ]
+    ]
 },{
         "type" : "recipe",
   "result": "fried_spam",
@@ -13617,7 +14713,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13683,7 +14779,7 @@
 },{
         "type" : "recipe",
   "result": "fertilizer_liquid",
-  "category": "CC_DRINK",
+  "category": "CC_CHEM",
   "skill_used": "cooking",
   "skills_required": ["surivival", 2],
   "difficulty": 3,
@@ -13691,8 +14787,8 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
-    [ [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
+    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+    [ [ "chemistry_set", -1 ], [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
   ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -13730,14 +14826,14 @@
   "result": "rock_quern",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ ["survival", 1], ["mechanics", 2], ["cooking", 2] ],
+  "skills_required": [ ["survival", 1], ["mechanics", 2], ["cooking", 2] ],
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
-  "components": [ [ ["stick", 2] ], [ ["rock", 6] ] ]
+  "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
 },{
         "type" : "recipe",
   "result": "welder_crude",
@@ -13763,7 +14859,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [ [ ["spray_can", 1] ],
     [ ["duct_tape", 25] ],
@@ -13790,7 +14886,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [ ["rock", -1], ["primitive_hammer", -1],
@@ -13847,10 +14943,70 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [ [ ["paper", 300] ],
     [ ["duct_tape", 150] ] ]
+},{
+       "type" : "recipe",
+  "result": "2byarm_guard",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "string_36", 4 ]
+    ],
+    [
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "rag", 8 ]
+    ]
+  ]
+},{
+       "type" : "recipe",
+  "result": "2byshin_guard",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "string_36", 2 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_wraps",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "knuckle_steel",
@@ -13879,8 +15035,41 @@
   "autolearn": true,
   "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
     [ ["screwdriver", -1], ["toolset", -1] ] ],
-  "components": [ [ ["2x4", 4] ],
+  "components": [ [ ["2x4", 4], [ "stick", 8 ] ],
     [ ["rebar", 5] ] ]
+},{
+        "type" : "recipe",
+  "result": "knuckle_nail",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+"qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "tools": [ 
+    [ 
+      ["rock", -1], 
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1] 
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 4 ]
+    ],
+    [
+      [ "nail", 16 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "cestus",
@@ -13922,7 +15111,7 @@
    "reversible": false,
    "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -13940,7 +15129,8 @@
       [ "meat", 1 ]
     ],
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "cheese", 2 ], [ "can_cheese", 1]
@@ -14742,6 +15932,110 @@
     ]
 },{
         "type" : "recipe",
+  "result": "throwing_knife",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 200], ["char_forge", 40]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 2 ],
+     [ "scrap", 6 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "throwing_axe",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["forge", 150], ["char_forge", 30]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_chunk", 3 ],
+     [ "scrap", 9 ]
+     ],
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
+    ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "switchblade",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 460000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 400], ["char_forge", 80]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "pot",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -14760,6 +16054,29 @@
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "teapot",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [ ["tongs", -1] ],
+      [ ["chisel", -1]],
+      [ ["anvil", -1] ],
+      [ ["forge", 100], ["char_forge", 20] ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
      ]
     ]
 },{
@@ -14797,17 +16114,57 @@
      ]
     ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "tonfa_wood",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "requires_skills": [ "bashing", 3 ],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cudgel",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "q_staff",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "requires_skills": [ "bashing", 2 ],
+  "skills_required": [ "bashing", 2 ],
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -14848,6 +16205,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "shock_staff",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 3 ],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "toolset", 1 ],
+      [ "soldering_iron", 10 ]
+    ],
+    [
+      ["toolset", -1],
+      ["screwdriver", -1]
+    ]
+    ],
+  "components": [
+    [
+      [ "i_staff", 1 ]
+    ],
+    [
+      [ "tazer", 1 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "wrench",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -14856,22 +16244,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 200], ["char_forge", 40]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
@@ -14890,22 +16278,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 150], ["char_forge", 30]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
@@ -14924,33 +16312,33 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 200], ["char_forge", 40]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
      [ "scrap", 12 ]
-     ],
-     [
-      [ "plastic_chunk", 1 ]
-     ]
+    ],
+    [
+     [ "plastic_chunk", 1 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "boltcutters",
@@ -14961,33 +16349,33 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 300], ["char_forge", 60]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
-     ],
-     [
-      [ "plastic_chunk", 2 ]
-     ]
+    ],
+    [
+     [ "plastic_chunk", 2 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "shovel",
@@ -14998,34 +16386,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 200], ["char_forge", 40]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
-     ],
-     [
+    ],
+    [
       [ "2x4", 2 ],
       [ "stick", 4 ]
-     ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "e_tool",
@@ -15036,33 +16424,33 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 350], ["char_forge", 70]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
+     ]
+    ],
+  "components":
+   [
+    [
      [ "steel_lump", 4 ],
      [ "steel_chunk", 16 ],
      [ "scrap", 48 ]
-     ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "hoe",
@@ -15073,34 +16461,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 250], ["char_forge", 50]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 2 ],
      [ "steel_chunk", 8 ],
      [ "scrap", 24 ]
-     ],
-     [
-      [ "2x4", 2 ],
-      [ "stick", 4 ]
-     ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "ax",
@@ -15111,34 +16499,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 3 ],
-     [ "steel_chunk", 12 ],
-     [ "scrap", 36 ]
+      ["tongs", -1]
      ],
      [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 9 ],
+     [ "scrap", 27 ]
+    ],
+    [
+     [ "2x4", 3 ],
+     [ "stick", 6 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "saw",
@@ -15149,34 +16537,34 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 350], ["char_forge", 70]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 2 ],
-     [ "steel_chunk", 8 ],
-     [ "scrap", 24 ]
+      ["tongs", -1]
      ],
      [
-      [ "2x4", 2 ],
-      [ "stick", 4 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 6 ],
+     [ "scrap", 18 ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "hammer_sledge",
@@ -15187,31 +16575,68 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 8 ],
-     [ "steel_chunk", 32 ]
+      ["tongs", -1]
      ],
      [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 8 ],
+     [ "steel_chunk", 24 ]
+    ],
+    [
+     [ "2x4", 3 ],
+     [ "stick", 6 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "scythe",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 460000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 6 ],
+     [ "steel_chunk", 18 ]
+    ],
+    [
+     [ "2x4", 2 ],
+     [ "stick", 4 ]
      ]
     ]
 },{
@@ -15219,35 +16644,35 @@
   "result": "chain",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "difficulty": 9,
+  "difficulty": 6,
   "time": 520000,
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 450], ["char_forge", 90]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
      [ "steel_lump", 8 ],
-     [ "steel_chunk", 32 ]
+     [ "steel_chunk", 24 ]
      ]
     ]
 },{
@@ -15256,26 +16681,26 @@
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 6,
-  "time": 180000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 20], ["char_forge", 4]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
@@ -15294,26 +16719,26 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 450], ["char_forge", 90]
-      ]
-      ],
+     ]
+    ],
   "components":
     [
      [
-     [ "steel_lump", 30 ]
+      [ "steel_lump", 30 ]
      ],
      [
       [ "fur", 16 ],
@@ -15331,32 +16756,32 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 400], ["char_forge", 80]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 20 ],
-     [ "steel_chunk", 80 ]
+      ["tongs", -1]
      ],
      [
-      [ "fur", 20 ],
-      [ "leather", 20 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 400], ["char_forge", 80]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 20 ],
+     [ "steel_chunk", 80 ]
+    ],
+    [
+     [ "fur", 20 ],
+     [ "leather", 20 ]
+    ]
     ]
 },{
         "type" : "recipe",
@@ -15369,34 +16794,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 6 ],
-     [ "steel_chunk", 48 ],
-     [ "scrap", 72 ]
+      ["tongs", -1]
      ],
      [
-      [ "fur", 10 ],
-      [ "leather", 10 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 6 ],
+     [ "steel_chunk", 48 ]
+    ],
+    [
+     [ "fur", 10 ],
+     [ "leather", 10 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "boots_plate",
@@ -15408,34 +16832,34 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 250], ["char_forge", 50]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 250], ["char_forge", 50]
+     ]
+     ],
+  "components":
+   [
+    [
      [ "steel_lump", 8 ],
      [ "steel_chunk", 32 ],
      [ "scrap", 96 ]
-     ],
-     [
-      [ "fur", 16 ],
-      [ "leather", 16 ]
-     ]
+    ],
+    [
+     [ "fur", 16 ],
+     [ "leather", 16 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_plate",
@@ -15447,33 +16871,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 350], ["char_forge", 70]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 14 ],
-     [ "steel_chunk", 56 ]
+      ["tongs", -1]
      ],
      [
-      [ "fur", 4 ],
-      [ "leather", 4 ]
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 14 ],
+     [ "steel_chunk", 56 ]
+    ],
+    [
+     [ "fur", 4 ],
+     [ "leather", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_barbute",
@@ -15485,33 +16909,33 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["crucible", -1]
-      ],
-      [
-      ["forge", 300], ["char_forge", 60]
-      ]
-      ],
-  "components":
-    [
      [
-     [ "steel_lump", 10 ],
-     [ "steel_chunk", 40 ]
+      ["tongs", -1]
      ],
      [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 300], ["char_forge", 60]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 10 ],
+     [ "steel_chunk", 40 ]
+    ],
+    [
       [ "fur", 4 ],
       [ "leather", 4 ]
-     ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "armor_samurai",
@@ -15523,36 +16947,36 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["swage", -1]
-      ],
-      [
-      ["forge", 450], ["char_forge", 90]
-      ]
-      ],
-  "components":
-    [
      [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 450], ["char_forge", 90]
+     ]
+    ],
+  "components":
+   [
+    [
      [ "steel_lump", 16 ],
      [ "steel_chunk", 64 ]
-     ],
-     [
-      [ "fur", 28 ],
-      [ "leather", 28 ]
-     ],
-     [
-      [ "rag", 10 ]
-     ]
+    ],
+    [
+     [ "fur", 28 ],
+     [ "leather", 28 ]
+    ],
+    [
+     [ "rag", 10 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "helmet_kabuto",
@@ -15564,35 +16988,35 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["crucible", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 450], ["char_forge", 90]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 12 ]
-     ],
-     [
-      [ "fur", 14 ],
-      [ "leather", 14 ]
-     ],
-     [
-      [ "rag", 4 ]
      ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 12 ]
+    ],
+    [
+     [ "fur", 14 ],
+     [ "leather", 14 ]
+    ],
+    [
+     [ "rag", 4 ]
     ]
+   ]
 },{
         "type" : "recipe",
   "result": "apron_leather",
@@ -15623,22 +17047,22 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-      [
+     [
       ["tongs", -1]
-      ],
-      [
+     ],
+     [
       ["chisel", -1]
-      ],
-      [
+     ],
+     [
       ["anvil", -1]
-      ],
-      [
+     ],
+     [
       ["swage", -1]
-      ],
-      [
+     ],
+     [
       ["forge", 350], ["char_forge", 70]
-      ]
-      ],
+     ]
+    ],
   "components": [
     [
      [ "steel_lump", 1 ],
@@ -15659,7 +17083,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
    [
@@ -15677,7 +17101,8 @@
       [ "meat", 1 ]
     ],
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "pickle", 1],
@@ -15699,7 +17124,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
     [
@@ -15714,7 +17139,8 @@
   ],
   "components": [
     [
-      [ "bread", 2 ]
+      [ "bread", 2 ],
+      [ "hardtack", 4]
     ],
     [
       [ "bacon", 1 ]
@@ -15736,7 +17162,7 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"name":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1}
    ],
    "tools": [
     [
@@ -15768,7 +17194,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
       [
@@ -15777,13 +17203,13 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 6 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 6 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15791,10 +17217,10 @@
       [ "ragpouch", 4 ],
       [ "leather_pouch", 2 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 50 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15807,27 +17233,27 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
-      [
+     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
-      ],
-      [
+     ],
+     [
       [ "needle_bone", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 30 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15835,15 +17261,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 200 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15856,30 +17282,30 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
-      [
+     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
       [ "toolset", 2 ]
-      ],
-      [
+     ],
+     [
       [ "needle_bone", 150 ],
       [ "sewing_kit", 150 ]
-      ]
+     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 20 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15887,15 +17313,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15908,7 +17334,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -15923,20 +17349,20 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 20 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 4 ],
-      [ "scrap", 8 ]
-      ],
-      [
+      [ "scrap", 12 ]
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -15944,15 +17370,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -15964,18 +17390,10 @@
   "time": 300000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
-    [
-      [ "scissors", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
@@ -15987,19 +17405,19 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 10 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 20 ]
-      ],
-      [
+     ],
+     [
       [ "fur", 20 ]
-      ],
-      [
+     ],
+     [
       [ "coat_rain", 1 ]
-      ],
-      [
+     ],
+     [
       [ "chestrig", 1 ],
       [ "legrig", 1 ],
       [ "vest", 1 ],
@@ -16007,15 +17425,15 @@
       [ "ragpouch", 6 ],
       [ "leather_pouch", 4 ],
       [ "fanny", 2 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 300 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16027,18 +17445,10 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
-    [
-      [ "scissors", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
@@ -16050,28 +17460,29 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "helmet_liner", 1 ],
       [ "hat_cotton", 1 ],
       [ "rag", 3 ]
-      ],
-      [
+     ],
+     [
       [ "tac_helmet", 1 ],
+      [ "tac_fullhelmet", 1 ],
       [ "helmet_army", 1 ],
       [ "kevlar_plate", 6 ]
-      ],
-      [
+     ],
+     [
       [ "hood_rain", 1 ],
       [ "bag_plastic", 2 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 75 ]
-      ],
-      [
+     ],
+     [
       [ "helmet_riot", 1 ],
       [ "helmet_motor", 1 ],
       [ "helmet_football", 1 ],
@@ -16080,7 +17491,7 @@
       [ "helmet_bike", 1 ],
       [ "hat_hard", 1 ],
       [ "plastic_chunk", 8 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16092,18 +17503,10 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
-    [
-      [ "scissors", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
@@ -16115,29 +17518,29 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 2 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 2 ]
-      ],
-      [
+     ],
+     [
       [ "scrap", 4 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 50 ]
-      ],
-      [
+     ],
+     [
       [ "gloves_tactical", 1 ],
       [ "kevlar_plate", 4 ]
-      ],
-      [
+     ],
+     [
       [ "gloves_leather", 1 ],
       [ "gloves_light", 1 ],
       [ "gloves_liner", 1 ],
       [ "wetsuit_gloves", 1 ],
       [ "fire_gauntlets", 1 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16149,18 +17552,10 @@
   "time": 120000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
-    [
-      [ "scissors", -1 ],
-      [ "knife_steak", -1 ],
-      [ "knife_combat", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "pockknife", -1 ],
-      [ "scalpel", -1 ],
-      [ "machete", -1 ],
-      [ "broadsword", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
@@ -16172,25 +17567,25 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "rag", 4 ]
-      ],
-      [
+     ],
+     [
       [ "leather", 4 ]
-      ],
-      [
+     ],
+     [
       [ "steel_chunk", 4 ],
       [ "scrap", 12 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 100 ]
-      ],
-      [
+     ],
+     [
       [ "boots_combat", 1 ],
       [ "boots_steel", 1 ],
       [ "boots_hiking", 1 ],
       [ "boots", 1 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16203,7 +17598,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16213,17 +17608,17 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "cleansuit", 1 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 600 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16236,7 +17631,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16246,17 +17641,17 @@
     ]
   ],
   "components": [
-      [
+     [
       [ "hazmat_suit", 1 ]
-      ],
-      [
+     ],
+     [
       [ "duct_tape", 800 ]
-      ],
-      [
+     ],
+     [
       [ "kevlar", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
-      ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -16284,9 +17679,9 @@
       [ "toolset", -1 ]
     ],
     [
-      ["welder", 100],
-      ["welder_crude", 150],
-      ["toolset", 4]
+      [ "welder", 100],
+      [ "welder_crude", 150],
+      [ "toolset", 4]
     ]
   ],
   "components": [
@@ -16335,7 +17730,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16383,7 +17778,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16424,7 +17819,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 5 ]],
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
  "tools": [
     [
@@ -16528,8 +17923,8 @@
         "type" : "recipe",
   "result": "quikclot",
   "category": "CC_CHEM",
-  "skill_used": "firstaid",
-  "requires_skills": [ "cooking", 1 ],
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
   "difficulty": 4,
   "time": 1200,
   "reversible": false,
@@ -16537,10 +17932,12 @@
   "tools": [
     [
       [ "hotplate", 18 ],
+      [ "chemistry_set", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
+      [ "chemistry_set", -1 ],
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
     ]
@@ -16565,75 +17962,83 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 10 ],
       [ "soldering_iron", 100 ]
-      ] ],
+     ]
+    ],
   "components":
+   [
+    [ 
+     ["pilot_light", 1]
+    ],
     [
-     [ ["pilot_light", 1] ],
-     [
      [ "steel_lump", 3 ],
      [ "steel_chunk", 12 ],
      [ "scrap", 36 ]
-     ],
-     [ [ "metal_tank", 1 ]
-     ],
-     [ ["pipe", 3]
-     ]
-  ]
+    ],
+    [ 
+     [ "metal_tank", 1 ]
+    ],
+    [ 
+     [ "pipe", 3]
+    ]
+   ]
 },{
         "type" : "recipe",
   "result": "char_smoker",
   "category": "CC_MISC",
   "skill_used": "fabrication",
-  "requires_skills": [ "cooking", 2 ],
+  "skills_required": [ "cooking", 2 ],
   "difficulty": 2,
   "time": 70000,
   "reversible": true,
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+     ],
+     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 5 ],
       [ "soldering_iron", 50 ]
-      ] ],
+     ]
+    ],
   "components":
     [
-     [ ["pilot_light", 1] ],
-     [
+     [ ["pilot_light", 1] 
+    ],
+    [
      [ "scrap", 4 ]
-     ],
-     [ [ "metal_tank", 1 ]
-     ]
+    ],
+    [
+     [ "metal_tank", 1 ]
+    ]
   ]
 },{
         "type" : "recipe",
@@ -16646,34 +18051,36 @@
   "autolearn": true,
   "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
-      [
+    [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-      ],
-      [
+    ],
+    [
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
       [ "toolset", 15 ],
       [ "soldering_iron", 150 ]
-      ] ],
+    ] ],
   "components":
     [
      [
-     [ "steel_lump", 5 ],
-     [ "steel_chunk", 20 ],
-     [ "scrap", 60 ]
+       [ "steel_lump", 5 ],
+       [ "steel_chunk", 20 ],
+       [ "scrap", 60 ]
      ],
-     [ [ "metal_tank", 1 ]
+     [ 
+       [ "metal_tank", 1 ]
      ],
-     [ ["pipe", 6]
+     [ 
+       ["pipe", 6]
      ]
   ]
 },{
@@ -16696,10 +18103,10 @@
     ],
     [
       [ "char_kiln", -1 ] ]
-  ],
+    ],
   "components": [
     [
-      [ "2x4", 5 ],
+      [ "2x4", 3 ],
       [ "stick", 5 ],
       [ "splinter", 20 ],
       [ "bone", 40 ],
@@ -16713,18 +18120,34 @@
   "skill_used": "survival",
   "difficulty": 2,
   "time": 30000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "bottle_glass", 2 ],
-      [ "bottle_plastic", 5 ]
+      [ "jug_plastic", 1 ]
     ],
     [
-      [ "hose", 1 ]
+      [ "rag", 4 ]
     ],
     [
-      [ "scrap", 8 ]
+      [ "charcoal", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "char_purifier",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "jug_plastic", 1 ]
     ],
     [
       [ "rag", 4 ]
@@ -16774,8 +18197,8 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 1],
-      ["fire", -1]
+      [ "toolset", 1],
+      [ "fire", -1]
     ]
   ],
   "components": [
@@ -16796,7 +18219,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16805,8 +18228,8 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 1],
-      ["fire", -1]
+      [ "toolset", 1],
+      [ "fire", -1]
     ]
   ],
   "components": [
@@ -16832,7 +18255,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16868,7 +18291,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16899,7 +18322,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -16930,7 +18353,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -16950,7 +18373,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities" : [
-    {"name":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -16965,7 +18388,7 @@
   "result": "unbio_blaster_gun",
   "category": "CC_WEAPON",
   "skill_used": "electronics",
-  "requires_skills": [ "fabrication", 4, "gun", 2 ],
+  "skills_required": [ "fabrication", 4, "gun", 2 ],
   "difficulty": 6,
   "time": 30000,
   "reversible": false,
@@ -16988,7 +18411,8 @@
       [ "power_supply", 1 ]
     ],
     [
-      [ "2x4", 1 ]
+      [ "2x4", 1 ],
+      [ "stick", 1 ]
     ],
     [
       ["cable", 3]
@@ -17003,7 +18427,7 @@
     "result": "9mmfmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
@@ -17043,7 +18467,7 @@
     "result": "38_fmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 30000,
     "reversible": false,
@@ -17056,7 +18480,7 @@
         [ "fire", -1 ],
         [ "toolset", 1 ],
         [ "press", 2 ]
-          ]
+      ]
     ],
     "components": [
       [
@@ -17083,7 +18507,7 @@
     "result": "40fmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 35000,
     "reversible": false,
@@ -17121,7 +18545,7 @@
   "result": "5x50dart",
   "category": "CC_AMMO",
   "skill_used": "fabrication",
-  "requires_skills": [ "gun", 5 ],
+  "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 8000,
   "reversible": false,
@@ -17160,7 +18584,7 @@
   "result": "power_armor_helmet_basic",
   "category": "CC_NONCRAFT",
   "skill_used": "fabrication",
-  "requires_skills": ["electronics",  4],
+  "skills_required": ["electronics",  4],
   "difficulty": 8,
   "time": 80000,
   "reversible": true,
@@ -17208,7 +18632,7 @@
   "result": "power_armor_basic",
   "category": "CC_NONCRAFT",
   "skill_used": "fabrication",
-  "requires_skills": ["electronics",  5],
+  "skills_required": ["electronics",  5],
   "difficulty": 7,
   "time": 80000,
   "reversible": true,
@@ -17295,7 +18719,7 @@
     "result": "44fmj",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
-    "requires_skills": [ "gun", 4 ],
+    "skills_required": [ "gun", 4 ],
     "difficulty": 5,
     "time": 25000,
     "reversible": false,
@@ -17427,6 +18851,160 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "pot_helmet",
+  "category": "CC_ARMOR",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "pot", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "tonfa",
+  "category" : "CC_WEAPON",
+  "skill_used" : "fabrication",
+  "skills_required" : ["melee", 1],
+  "difficulty" : 6,
+  "time" : 30000,
+  "reversible" : false,
+  "autolearn" : true,
+  "tools" : [ [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components" : [ [ ["plastic_chunk", 10] ] ]
+},{
+  "type" : "recipe",
+  "result" : "shocktonfa_off",
+  "category" : "CC_WEAPON",
+  "skill_used" : "fabrication",
+  "skills_required" : [ "electronics", 3 ],
+  "difficulty" : 6,
+  "time" : 45000,
+  "reversible" : false,
+  "autolearn" : true,
+  "tools" : [
+     [ ["mold_plastic", -1] ],
+     [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+     ],
+     [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+     ],
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+     ]
+  ],
+  "components" : [
+     [
+      ["plastic_chunk", 10]
+     ],
+     [
+     ["amplifier", 2]
+     ],
+     [
+     ["power_supply", 1]
+     ],
+     [
+      [ "scrap", 2 ]
+     ],
+     [
+      [ "cable", 10 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "atomic_light",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 3,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "atomic_coffeepot",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "plastic_chunk", 3 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "element", 1 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ]
+  ]
+},
+
+    {
+        "type" : "recipe",
+  "result": "rag",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "thread", 100 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "juice",
   "category": "CC_DRINK",
@@ -17444,7 +19022,7 @@
   "components": [
     [
        [ "apple", 2 ],
-       [ "blueberries", 2 ]
+       [ "blueberries", 2 ],
        [ "orange", 2 ],
        [ "lemon", 2 ],
        [ "banana", 2 ],
@@ -17467,6 +19045,95 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gobag",
+  "category": "CC_ARMOR",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "duffelbag", 1 ]
+    ],
+    [
+      [ "backpack", 1 ]
+    ],
+    [
+      [ "helmet_army", 1 ]
+    ],
+    [
+      [ "jacket_army", 1 ]
+    ],
+    [
+      [ "pants_army", 1 ]
+    ],
+    [
+      [ "tshirt", 7 ]
+    ],
+    [
+      [ "under_armor", 1 ]
+    ],
+    [
+      [ "kevlar", 1 ]
+    ],
+    [
+      [ "chestrig", 1 ]
+    ],
+    [
+      [ "coat_rain", 1 ]
+    ],
+    [
+      [ "hood_rain", 1 ]
+    ],
+    [
+      [ "long_underpants", 1 ]
+    ],
+    [
+      [ "towel", 1 ]
+    ],
+    [
+      [ "rollmat", 1 ]
+    ],
+    [
+      [ "boots_combat", 1 ]
+    ],
+    [
+      [ "sneakers", 1 ]
+    ],
+    [
+      [ "socks", 7 ]
+    ],
+    [
+      [ "gloves_tactical", 1 ]
+    ],
+    [
+      [ "gloves_rubber", 1 ]
+    ],
+    [
+      [ "fire_gauntlets", 1 ]
+    ],
+    [
+      [ "battery", 100 ]
+    ],
+    [
+      [ "flashlight", 1 ]
+    ],
+    [
+      [ "lighter", 1 ]
+    ],
+    [
+      [ "pockknife", 1 ]
+    ],
+    [
+      [ "rollmat", 1 ]
+    ],
+    [
+      [ "sleeping_bag", 1 ]
     ]
   ]
 }

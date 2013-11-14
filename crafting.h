@@ -25,18 +25,24 @@ struct component
 
 struct quality_requirement
 {
-  std::string name;
+  std::string id;
   int count;
   bool available;
   int level;
 
-  quality_requirement() { name = "UNKNOWN"; count = 0; available = false; level = 0;}
-  quality_requirement(std::string new_name, int new_count, int new_level){ 
-    name = new_name; 
+  quality_requirement() { id = "UNKNOWN"; count = 0; available = false; level = 0;}
+  quality_requirement(std::string new_id, int new_count, int new_level){
+    id = new_id;
     count = new_count;
     level = new_level;
-    available = false; 
+    available = false;
   }
+};
+
+struct quality
+{
+    std::string id;
+    std::string name;
 };
 
 struct recipe {
@@ -106,7 +112,11 @@ typedef std::map<craft_cat, recipe_list> recipe_map;
 void load_recipe_category(JsonObject &jsobj);
 void load_recipe(JsonObject &jsobj);
 recipe* recipe_by_name(std::string name);
+void finalize_recipes();
 
 extern recipe_map recipes; // The list of valid recipes
+
+void load_quality(JsonObject &jo);
+extern std::map<std::string,quality> qualities;
 
 #endif

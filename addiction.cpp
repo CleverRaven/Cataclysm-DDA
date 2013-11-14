@@ -36,7 +36,7 @@ void addict_effect(game *g, addiction &add)
         case ADD_ALCOHOL:
             g->u.per_cur--;
             g->u.int_cur--;
-            if (rng(40, 1200) <= in * 10) {
+            if (rng(40, 1200) <= in * 10 && g->u.health > -100) {
                 g->u.health--;
             }
             if (one_in(20) && rng(0, 20) < in) {
@@ -72,7 +72,7 @@ void addict_effect(game *g, addiction &add)
                 if (g->u.pain < in * 3) {
                     g->u.pain++;
                 }
-                if (in >= 40 || one_in((1200 - 30 * in))) {
+                if ((in >= 40 || one_in(1200 - 30 * in)) && g->u.health > -100) {
                     g->u.health--;
                 }
                 if (one_in(20) && dice(2, 20) < in) {
@@ -101,7 +101,7 @@ void addict_effect(game *g, addiction &add)
             if (g->u.stim > -100 && (in >= 20 || int(g->turn) % (100 - in * 5) == 0)) {
                 g->u.stim--;
             }
-            if (rng(0, 150) <= in) {
+            if (rng(0, 150) <= in && g->u.health > -100) {
                 g->u.health--;
             }
             if (dice(2, 100) < in) {

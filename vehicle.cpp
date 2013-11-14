@@ -9,6 +9,8 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 
+#include "debug.h"
+
 const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
 
 enum vehicle_controls {
@@ -339,7 +341,7 @@ void vehicle::use_controls()
     //Honk the horn!
     if (has_horn) {
         options_choice.push_back(activate_horn);
-        options_message.push_back(uimenu_entry("Honk horn", 'o'));
+        options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
         curent++;
     }
 
@@ -386,7 +388,7 @@ void vehicle::use_controls()
         g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
-        if(!lights_on || fuel_left("battery") ) {
+        if(lights_on || fuel_left("battery") ) {
             lights_on = !lights_on;
             g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
@@ -527,12 +529,12 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     //It also has to be a real part, not the null part
-    vpart_info part = vehicle_part_types[id];
+    const vpart_info part = vehicle_part_types[id];
     if(part.has_flag("NOINSTALL")) {
         return false;
     }
 
-    std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+    const std::vector<int> parts_in_square = parts_at_relative(dx, dy);
 
     //First part in an empty square MUST be a structural part
     if(parts_in_square.empty() && part.location != "structure") {
@@ -540,13 +542,18 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     //No part type can stack with itself, or any other part in the same slot
-    for(int index = 0; index < parts_in_square.size(); index++) {
-
-        vpart_info other_part = vehicle_part_types[parts[parts_in_square[index]].id];
+    for( std::vector<int>::const_iterator part_it = parts_in_square.begin();
+         part_it != parts_in_square.end(); ++part_it ) {
+        const vpart_info other_part = vehicle_part_types[parts[*part_it].id];
 
         //Parts with no location can stack with each other (but not themselves)
-        if(part.id == other_part.id || 
+        if(part.id == other_part.id ||
                 (!part.location.empty() && part.location == other_part.location)) {
+            return false;
+        }
+        // Until we have an interface for handling multiple components with CARGO space,
+        // exclude them from being mounted in the same tile.
+        if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
             return false;
         }
 
@@ -566,9 +573,8 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     //Seatbelts must be installed on a seat
     if(vehicle_part_types[id].has_flag("SEATBELT")) {
         bool anchor_found = false;
-        std::vector<int> parts_here = parts_at_relative(dx, dy);
-        for( std::vector<int>::iterator it = parts_here.begin();
-             it != parts_here.end(); ++it ) {
+        for( std::vector<int>::const_iterator it = parts_in_square.begin();
+             it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("BELTABLE")) {
                 anchor_found = true;
             }
@@ -839,6 +845,26 @@ void vehicle::remove_part (int p)
     insides_dirty = true;
 }
 
+/**
+ * Breaks the specified part into the pieces defined by its breaks_into entry.
+ * @param p The index of the part to break.
+ * @param x The map x-coordinate to place pieces at (give or take).
+ * @param y The map y-coordinate to place pieces at (give or take).
+ * @param scatter If true, pieces are scattered near the target square.
+ */
+void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
+    std::vector<break_entry> break_info = part_info(p).breaks_into;
+    for(int index = 0; index < break_info.size(); index++) {
+        int quantity = rng(break_info[index].min, break_info[index].max);
+        for(int num = 0; num < quantity; num++) {
+            const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
+            const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
+            item piece(g->itypes[break_info[index].item_id], g->turn);
+            g->m.add_item_or_charges(actual_x, actual_y, piece);
+        }
+    }
+}
+
 item vehicle::item_from_part( int part )
 {
     itype_id itm = part_info(part).item;
@@ -865,13 +891,11 @@ std::vector<int> vehicle::parts_at_relative (int dx, int dy)
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
 {
-    if (part_flag(part, flag)) {
-        return part;
-    }
     std::vector<int> parts_here = parts_at_relative(parts[part].mount_dx, parts[part].mount_dy);
-    for (int i = 0; i < parts_here.size(); i++) {
-        if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
-            return parts_here[i];
+    for( std::vector<int>::iterator part_it = parts_here.begin();
+         part_it != parts_here.end(); ++part_it ) {
+        if (part_flag(*part_it, flag) && (!unbroken || parts[*part_it].hp > 0)) {
+            return *part_it;
         }
     }
     return -1;
@@ -1000,7 +1024,7 @@ char vehicle::part_sym (int p)
     }
 
     int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-    
+
     if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
         return '\''; // open door
     } else {
@@ -1009,30 +1033,62 @@ char vehicle::part_sym (int p)
     }
 }
 
+// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
+// vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
+std::string vehicle::part_id_string(int p, char &part_mod)
+{
+    part_mod = 0;
+    std::string idinfo;
+    if (p < 0 || p >= parts.size()){
+        return "";
+    }
+
+    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+    idinfo = parts[displayed_part].id;
+
+    if (part_flag (displayed_part, "OPENABLE") && parts[displayed_part].open) {
+        part_mod = 1; // open
+    } else if (parts[displayed_part].hp <= 0){
+        part_mod = 2; // broken
+    }
+
+    return idinfo;
+}
+
 nc_color vehicle::part_color (int p)
 {
     if (p < 0 || p >= parts.size()) {
         return c_black;
     }
 
+    nc_color col;
+
     //If armoring is present, it colors the visible part
     int parm = part_with_feature(p, "ARMOR", false);
     if (parm >= 0) {
-        return part_info(parm).color;
-    }
-
-    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-
-    if (parts[displayed_part].blood > 200) {
-        return c_red;
-    } else if (parts[displayed_part].blood > 0) {
-        return c_ltred;
-    }
-
-    if (parts[displayed_part].hp <= 0) {
-        return part_info(displayed_part).color_broken;
+        col = part_info(parm).color;
     } else {
-        return part_info(displayed_part).color;
+
+        int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+
+        if (parts[displayed_part].blood > 200) {
+            col = c_red;
+        } else if (parts[displayed_part].blood > 0) {
+            col = c_ltred;
+        } else if (parts[displayed_part].hp <= 0) {
+            col = part_info(displayed_part).color_broken;
+        } else {
+            col = part_info(displayed_part).color;
+        }
+
+    }
+
+    //Invert colors for cargo parts with stuff in them
+    int cargo_part = part_with_feature(p, "CARGO");
+    if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
+        return invert_color(col);
+    } else {
+        return col;
     }
 }
 
@@ -1045,10 +1101,10 @@ nc_color vehicle::part_color (int p)
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
+int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -1*/)
 {
     if (p < 0 || p >= parts.size()) {
-        return;
+        return y1;
     }
     std::vector<int> pl = this->parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
     int y = y1;
@@ -1096,7 +1152,7 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
         } else {
             left_sym = "-"; right_sym = "-";
         }
-        
+
         mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, left_sym.c_str());
         mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, right_sym.c_str());
@@ -1111,6 +1167,8 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
         }
         y++;
     }
+
+    return y;
 }
 
 void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose)
@@ -1290,7 +1348,8 @@ int vehicle::refill (ammotype ftype, int amount)
     {
         if (part_flag(p, "FUEL_TANK") &&
             part_info(p).fuel_type == ftype &&
-            parts[p].amount < part_info(p).size)
+            parts[p].amount < part_info(p).size &&
+            parts[p].hp > 0)
         {
             int need = part_info(p).size - parts[p].amount;
             if (amount < need)
@@ -1892,6 +1951,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
        return ret;
     }
 
+    //Damage armor before damaging any other parts
     int parm = part_with_feature (part, "ARMOR");
     if (parm < 0) {
         parm = part;
@@ -2117,7 +2177,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (snd.length() > 0) {
             g->add_msg (_("You hear a %s"), snd.c_str());
         }
-        g->sound (x, y, smashed? 80 : 50, "");
+        g->sound(x, y, smashed? 80 : 50, "");
     } else {
         std::string dname;
         if (z) {
@@ -2132,16 +2192,9 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
 
         if (part_flag(part, "SHARP")) {
-            field &local_field = g->m.field_at(x, y);
-            if (local_field.findField(fd_blood) &&
-                local_field.findField(fd_blood)->getFieldDensity() < 2) {
-                local_field.findField(fd_blood)->
-                    setFieldDensity(local_field.findField(fd_blood)->getFieldDensity() + 1);
-            } else {
-                g->m.add_field(g, x, y, fd_blood, 1);
-            }
+            g->m.adjust_field_strength(g, point(x, y), fd_blood, 1 );
         } else {
-            g->sound (x, y, 20, "");
+            g->sound(x, y, 20, "");
         }
     }
 
@@ -2203,7 +2256,7 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = _("SNAP!");
             wreckit = true;
             g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "beartrap", 0);
+            g->m.spawn_item(x, y, "beartrap");
             break;
         case tr_nailboard:
             wreckit = true;
@@ -2219,10 +2272,10 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = _("Clank!");
             wreckit = true;
             g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "crossbow", 0);
-            g->m.spawn_item(x, y, "string_6", 0);
+            g->m.spawn_item(x, y, "crossbow");
+            g->m.spawn_item(x, y, "string_6");
             if (!one_in(10))
-                g->m.spawn_item(x, y, "bolt_steel", 0);
+                g->m.spawn_item(x, y, "bolt_steel");
             break;
         case tr_shotgun_2:
         case tr_shotgun_1:
@@ -2235,8 +2288,8 @@ void vehicle::handle_trap (int x, int y, int part)
             else
             {
                 g->m.remove_trap(x, y);
-                g->m.spawn_item(x, y, "shotgun_sawn", 0);
-                g->m.spawn_item(x, y, "string_6", 0);
+                g->m.spawn_item(x, y, "shotgun_sawn");
+                g->m.spawn_item(x, y, "string_6");
             }
             break;
         case tr_landmine_buried:
@@ -2271,7 +2324,7 @@ void vehicle::handle_trap (int x, int y, int part)
     if (msg.size() > 0 && g->u_see(x, y))
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
     if (noise > 0)
-        g->sound (x, y, noise, snd);
+        g->sound(x, y, noise, snd);
     if (wreckit && chance >= rng (1, 100))
         damage (part, 500);
     if (expl > 0)
@@ -2378,29 +2431,42 @@ void vehicle::place_spawn_items()
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
             int part = part_at(next_spawn->x, next_spawn->y);
-            part = part_with_feature(part, "CARGO");
+            part = part_with_feature(part, "CARGO", false);
             if(part < 0) {
-                //Is it broken, or was it never there in the first place?
-                if(part_with_feature(part, "CARGO", false) < 0) {
-                    //Was never there - mistake in placement
-                    debugmsg("No CARGO parts at (%d, %d) of %s!",
-                            next_spawn->x, next_spawn->y, name.c_str());
-                } else {
-                    //Present, but broken - don't place items
-                    continue;
-                }
+                debugmsg("No CARGO parts at (%d, %d) of %s!",
+                        next_spawn->x, next_spawn->y, name.c_str());
             } else {
+                bool partbroken = ( parts[part].hp < 1 );
+                int idmg = 0;
                 for(std::vector<std::string>::iterator next_id = next_spawn->item_ids.begin();
                         next_id != next_spawn->item_ids.end(); next_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     item new_item = item_controller->create(*next_id, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
                 for(std::vector<std::string>::iterator next_group_id = next_spawn->item_groups.begin();
                         next_group_id != next_spawn->item_groups.end(); next_group_id++) {
+                    if ( partbroken ) {
+                        int idmg = rng(1, 10);
+                        if ( idmg > 5 ) {
+                            continue;
+                        }
+                    }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
                     item new_item = item_controller->create(group_tag, g->turn);
                     new_item = new_item.in_its_container(&(g->itypes));
+                    if ( idmg > 0 ) {
+                        new_item.damage = (signed char)idmg;
+                    }
                     add_item(part, new_item);
                 }
             }
@@ -2578,8 +2644,8 @@ void vehicle::unboard_all ()
 {
     std::vector<int> bp = boarded_parts ();
     for (int i = 0; i < bp.size(); i++) {
-        g->m.unboard_vehicle (g, global_x() + parts[bp[i]].precalc_dx[0], global_y() +
-                              parts[bp[i]].precalc_dy[0]);
+        g->m.unboard_vehicle (global_x() + parts[bp[i]].precalc_dx[0],
+                              global_y() + parts[bp[i]].precalc_dy[0]);
     }
 }
 
@@ -2635,11 +2701,59 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
 
 int vehicle::damage_direct (int p, int dmg, int type)
 {
-    if (parts[p].hp <= 0)
+    if (parts[p].hp <= 0) {
+        /* Already-destroyed part - chance it could be torn off into pieces.
+         * Chance increases with damage, and decreases with part max durability
+         * (so lights, etc are easily removed; frames and plating not so much) */
+        if(rng(0, part_info(p).durability / 10) < dmg) {
+            int x_pos = global_x() + parts[p].precalc_dx[0];
+            int y_pos = global_y() + parts[p].precalc_dy[0];
+            if(part_info(p).location == "structure") {
+                //For structural parts, remove other parts first
+                std::vector<int> parts_in_square = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+                for(int index = parts_in_square.size() - 1; index >= 0; index--) {
+                    //Ignore the frame being destroyed
+                    if(parts_in_square[index] != p) {
+                        if(g->u_see(x_pos, y_pos)) {
+                            g->add_msg(_("The %s's %s is torn off!"), name.c_str(),
+                                    part_info(parts_in_square[index]).name.c_str());
+                        }
+                        item part_as_item = item_from_part(parts_in_square[index]);
+                        g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
+                        remove_part(parts_in_square[index]);
+                    }
+                    /* After clearing the frame, remove it if normally legal to
+                     * do so (it's not (0, 0) and not holding the vehicle
+                     * together). At a later date, some more complicated system
+                     * (such as actually making two vehicles from the split
+                     * parts) would be ideal. */
+                    if(can_unmount(p)) {
+                        if(g->u_see(x_pos, y_pos)) {
+                            g->add_msg(_("The %s's %s is destroyed!"),
+                                    name.c_str(), part_info(p).name.c_str());
+                        }
+                        break_part_into_pieces(p, x_pos, y_pos, true);
+                        remove_part(p);
+                    }
+                }
+            } else {
+                //Just break it off
+                if(g->u_see(x_pos, y_pos)) {
+                    g->add_msg(_("The %s's %s is destroyed!"),
+                                    name.c_str(), part_info(p).name.c_str());
+                }
+                break_part_into_pieces(p, x_pos, y_pos, true);
+                remove_part(p);
+            }
+            insides_dirty = true;
+        }
         return dmg;
+    }
+    
     int tsh = part_info(p).durability / 10;
-    if (tsh > 20)
+    if (tsh > 20) {
         tsh = 20;
+    }
     int dres = dmg;
     if (dmg >= tsh || type != 1)
     {
@@ -2674,7 +2788,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
         {
             g->m.spawn_item(global_x() + parts[p].precalc_dx[0],
                            global_y() + parts[p].precalc_dy[0],
-                           part_info(p).item, g->turn);
+                           part_info(p).item, 1, 0, g->turn);
             remove_part (p);
         }
     }
@@ -2701,8 +2815,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, "gasoline", 0);
-                    g->m.spawn_item(i, j, "gasoline", 0);
+                    g->m.spawn_item(i, j, "gasoline");
+                    g->m.spawn_item(i, j, "gasoline");
                     parts[p].amount -= 100;
                 }
     }
@@ -2883,7 +2997,7 @@ void vehicle::open_or_close(int part_index, bool opening)
       //Look for parts 1 square off in any cardinal direction
       int xdiff = parts[next_index].mount_dx - parts[part_index].mount_dx;
       int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
-      if(((xdiff * xdiff == 1) != (ydiff * ydiff == 1)) && // != used as XOR
+      if((xdiff * xdiff + ydiff * ydiff == 1) && // (x^2 + y^2) == 1
               (part_info(next_index).id == part_info(part_index).id) &&
               (parts[next_index].open == opening ? 0 : 1)) {
         open_or_close(next_index, opening);

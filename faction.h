@@ -1,6 +1,8 @@
 #ifndef _FACTION_H_
 #define _FACTION_H_
 
+#include "json.h"
+
 #include <string>
 #include <vector>
 
@@ -77,7 +79,9 @@ struct faction_value_datum {
  int cult;
 };
 
-struct faction {
+class faction : public JsonSerializer, public JsonDeserializer
+{
+public:
     static std::string faction_adj_pos[15];
     static std::string faction_adj_neu[15];
     static std::string faction_adj_bad[15];
@@ -92,13 +96,15 @@ struct faction {
     static faction_value_datum facjob_data[NUM_FACJOBS];
     static faction_value_datum facval_data[NUM_FACVALS];
 
- faction();
- faction(int uid);
- ~faction();
- std::string save_info();
- void load_info(std::string data);
- void json_load(picojson::value parsed, game * g);
- picojson::value json_save(bool save_contents = false);
+    faction();
+    faction(int uid);
+    ~faction();
+    std::string save_info();
+    void load_info(std::string data);
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonObject &jsobj);
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
 
  void randomize();
  void make_army();

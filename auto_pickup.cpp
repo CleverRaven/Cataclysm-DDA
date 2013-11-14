@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <locale>
 
 std::map<std::string, std::string> mapAutoPickupItems;
 std::vector<cPickupRules> vAutoPickupRules[5];
@@ -409,7 +410,7 @@ void load_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
     fin.open(sFile.c_str());
@@ -610,10 +611,10 @@ void save_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
         std::ifstream fin;
 
-        fin.open(("save/" + base64_encode(g->u.name) + ".sav").c_str());
+        fin.open((world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav").c_str());
         if(!fin.is_open()) {
             return;
         }
@@ -646,7 +647,7 @@ void create_default_auto_pickup(bool bCharacter)
     std::string sFile = "data/auto_pickup.txt";
 
     if (bCharacter) {
-        sFile = "save/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
     fout.open(sFile.c_str());

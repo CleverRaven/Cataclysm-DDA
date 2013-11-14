@@ -23,37 +23,45 @@ id++;
 keys.push_back("cot");
 traps.push_back(new trap(id, "COT", _("cot"), c_green, '#',  -1, 0,
     0, &trapfunc::none, &trapfuncm::cot, keys));;
+traps[id]->benign = true;
 
 keys.clear();
 id++;
 keys.push_back("brazier");
 traps.push_back(new trap(id, "BRAZIER", _("brazier"), c_red, '#',  -1, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
+traps[id]->benign = true;
 
 keys.clear();
 id++;
 keys.push_back("funnel");
 traps.push_back(new trap(id, "FUNNEL", _("funnel"), c_yellow, 'V',  -1, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
+traps[id]->funnel_radius_mm = 380;
+traps[id]->benign = true;
 
 keys.clear();
 id++;
 keys.push_back("makeshift_funnel");
 traps.push_back(new trap(id, "MAKESHIFT_FUNNEL", _("makeshift funnel"), c_yellow, 'v',  -1, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
+traps[id]->funnel_radius_mm = 85;
+traps[id]->benign = true;
 
 keys.clear();
 id++;
 keys.push_back("rollmat");
 traps.push_back(new trap(id, "ROLLMAT", _("roll mat"), c_blue, '#',  -1, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
+traps[id]->benign = true;
 
-    keys.clear();
+keys.clear();
 id++;
 keys.push_back("fur_rollmat");
 traps.push_back(new trap(id, "FUR_ROLLMAT", _("fur roll mat"), c_brown, '#',  -1, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
-    
+traps[id]->benign = true;
+
 keys.clear();
 id++;
 keys.push_back("beartrap");
@@ -67,13 +75,6 @@ traps.push_back(new trap(id, "BEARTRAP_BURIED", _("buried bear trap"), c_blue, '
     4, &trapfunc::beartrap, &trapfuncm::beartrap, keys));;
 
 // Name Symbol Color Vis Avd Diff
-
-keys.clear();
-id++;
-keys.push_back("stick");
-keys.push_back("string_36");
-traps.push_back(new trap(id, "SNARE", _("rabbit snare"), c_brown, '\\', 5, 10,
-    2, &trapfunc::snare, &trapfuncm::snare, keys));;
 
 keys.clear();
 id++;

@@ -47,6 +47,7 @@ struct monster_effect
 };
 
 class monster {
+ friend class editmap;
  public:
  monster();
  monster(mtype *t);
@@ -58,7 +59,7 @@ class monster {
 // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
- void print_info(game *g, WINDOW* w, int vStart = 6); // Prints information to w.
+ int print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
  char symbol(); // Just our type's symbol; no context
  void draw(WINDOW* w, int plx, int ply, bool inv);
  nc_color color_with_effects(); // Color with fire, beartrapped, etc.
@@ -68,16 +69,20 @@ class monster {
  bool can_hear();     // MF_HEARS and no ME_DEAF
  bool can_submerge(); // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
  bool can_drown();    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
+ bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
+ int vision_range(int x, int y); // Returns monster vision range, x and y are the target spot
  bool made_of(std::string m); // Returns true if it's made of m
  bool made_of(phase_id p); // Returns true if its phase is p
- bool json_load(picojson::value parsed, std::vector<mtype*> *mtypes);
+ bool json_load(picojson::value parsed);
  void json_load(picojson::value parsed, game * g);
- void load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump);
- void load_info(std::string data, std::vector<mtype*> *mtypes);
+ void load_legacy(std::stringstream & dump);
+ void load_info(std::string data);
 
  virtual picojson::value json_save(bool save_contents = false);
  std::string save_info();    // String of all data, for save files
  void debug(player &u);      // Gives debug info
+
+ point move_target(); // Returns point at the end of the monster's current plans
 
 // Movement
  void receive_moves();       // Gives us movement points
@@ -179,7 +184,7 @@ class monster {
     bool has_effect(monster_effect_type effect); // True if we have the effect
     void rem_effect(monster_effect_type effect); // Remove a given effect
     void process_effects(game *g); // Process long-term effects
-    bool make_fungus(game *g);  // Makes this monster into a fungus version
+    bool make_fungus();  // Makes this monster into a fungus version
                                 // Returns false if no such monster exists
     void make_friendly();
     void add_item(item it);     // Add an item to inventory
@@ -216,6 +221,7 @@ class monster {
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
 
+ short ignoring;
 private:
  std::vector <point> plans;
  int _posx, _posy;
