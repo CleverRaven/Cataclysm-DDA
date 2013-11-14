@@ -6,7 +6,7 @@ export TERM=xterm
 out=$(yes ' ' |./cataclysm --jsonverify 2>&1)
 rc=$?
 echo -n "$out" |
-  tr -d '\r' |
+  tr -d '\b\r' |
   sed -r "s/$e(\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K|d|H|J|B|@|r]|\[\??[0-9]+[hl]|[\(\)=<>][B0]?|[78])//g" |
   grep -v '^  Press spacebar\.\.\.$'
 exit $rc
