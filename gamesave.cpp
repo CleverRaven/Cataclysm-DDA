@@ -592,6 +592,7 @@ void game::unserialize_master(std::ifstream &fin) {
        }
    }
     try {
+        // single-pass parsing example
         JsonIn jsin(&fin);
         jsin.start_object();
         while (!jsin.end_object()) {
