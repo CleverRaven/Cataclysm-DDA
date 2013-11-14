@@ -653,6 +653,8 @@
   "tools": [
     [
       [ "rock", -1 ],
+      [ "hammer", -1]
+      [ "primitive_hammer", -1]
     ]
   ],
   "components": [
