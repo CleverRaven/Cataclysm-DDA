@@ -204,14 +204,14 @@ class JsonOut;
 class JsonSerializer;
 class JsonDeserializer;
 
-bool is_whitespace(char ch); // TODO: move this elsewhere
+bool is_whitespace(char ch); // RFC 4627 compliant
 
 class JsonObject {
 private:
     std::map<std::string, int> positions;
     int start;
     int end;
-    bool ate_final_separator;
+    bool final_separator;
     JsonIn *jsin;
     int verify_position(const std::string &name,
                         const bool throw_exception=true);
@@ -267,7 +267,7 @@ private:
     int start;
     int index;
     int end;
-    bool ate_final_separator;
+    bool final_separator;
     JsonIn *jsin;
     void verify_index(int i);
 
@@ -325,10 +325,15 @@ private:
     bool strict; // throw errors on non-RFC-4627-compliant input
     bool ate_separator;
 
+    void skip_separator();
+    void skip_pair_separator();
     void end_value();
 
 public:
     JsonIn(std::istream *stream, bool strict = true);
+
+    bool get_ate_separator() { return ate_separator; }
+    void set_ate_separator(bool s) { ate_separator = s; }
 
     int tell(); // get current stream position
     void seek(int pos); // seek to specified stream position
@@ -342,8 +347,6 @@ public:
 
     // quick skipping for when values don't have to be parsed
     void skip_member();
-    void skip_separator();
-    void skip_pair_separator();
     void skip_string();
     void skip_value();
     void skip_object();
