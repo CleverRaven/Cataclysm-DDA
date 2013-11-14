@@ -367,6 +367,7 @@ std::string ammo_name(ammotype t)
     if( t == "8x40mm" )     return _("8x40mm caseless");
     if( t == "20x66mm" )    return _("20x66mm caseless shotgun");
     if( t == "5x50" )       return _("5x50mm flechette");
+    if( t == "20x66mm" )    return _("20x66mm");
     if( t == "signal_flare")return _("signal flare");
     if( t == "charcoal" )   return _("charcoal");
     if( t == "metal_rail" ) return _("ferrous rail projectile");
