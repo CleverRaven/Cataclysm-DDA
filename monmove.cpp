@@ -303,6 +303,25 @@ void monster::move(game *g)
          (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
          (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
         // CONCRETE PLANS - Most likely based on sight
+        // Check for a vehicle. If the player isn't in it, avoid the vehicle.
+        if (g->m.veh_at(x, y))  {
+          if (!g->u.in_vehicle)  {
+            // Try to go around.
+            int tries = 0;
+            int avoidx = rng(-1, 1);
+            int avoidy = rng(-1, 1);
+            while(tries < 9) {
+              if (g->m.veh_at(x + avoidx, y + avoidy)) {
+                avoidx = rng(-1, 1);
+                avoidy = rng(-1, 1);
+                tries++;
+              } else {
+                plans[0].x = posx() + avoidx, plans[0].y = posy() + avoidy;   // Hopefully we'll go around.
+                tries = 9; // Break out.
+              }
+            }
+          }
+        }
         next = plans[0];
         moved = true;
     } else if (has_flag(MF_SMELLS)) {
@@ -329,24 +348,6 @@ void monster::move(game *g)
     if (moved) { // Actual effects of moving to the square we've chosen
         // Note: The below works because C++ in A() || B() won't call B() if A() is true
         int& x = next.x; int& y = next.y; // Define alias for x and y
-        // Check for a vehicle. If the player isn't in it, avoid the vehicle.
-        if (g->m.veh_at(x, y))  {
-          if (!g->u.in_vehicle)  {
-            // Try to go around.
-            int tries = 0;
-            int avoidx = rng(-1, 1); int avoidy = rng(-1, 1);
-            while(tries < 9) {
-              if (g->m.veh_at(x + avoidx, y + avoidy)) {
-                avoidx = rng(-1, 1); avoidy = rng(-1, 1);
-                tries++;
-              }
-              else {
-                x = posx() + avoidx, y = posy() + avoidy;   // Hopefully we'll go around.
-                tries = 9; // Break out.
-              }
-            }
-          }
-        }
         bool did_something = attack_at(x, y) || bash_at(x, y) || move_to(g, x, y);
         if(!did_something) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
