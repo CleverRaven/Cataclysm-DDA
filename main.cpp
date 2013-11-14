@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     setupDebug();
 #endif
     int seed = time(NULL);
-
+    bool verifyexit = false;
     // set locale to system default
     setlocale(LC_ALL, "");
 #ifdef LOCALIZE
@@ -60,6 +60,9 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--jsonverify") {
+            argc--;
+            verifyexit = true;
         } else { // ignore unknown args.
             argc--;
         }
@@ -88,6 +91,10 @@ int main(int argc, char *argv[])
     if(g->game_error()) {
         exit_handler(-999);
     }
+    if ( verifyexit ) {
+        exit_handler(0);
+    }
+
     g->init_ui();
     MAPBUFFER.set_game(g);
     if(g->game_error()) {
