@@ -501,7 +501,7 @@ itype* new_artifact(itypemap &itypes)
    art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
 
   art->id = itypes.size();
-  
+
   itypes[art->id]=art;
   artifact_itype_ids.push_back(art->id);
   return art;
@@ -798,6 +798,8 @@ void load_artifacts(const std::string &artfilename, itypemap &itypes)
 
 void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
 {
+    // delete current artefact ids
+    artifact_itype_ids.clear();
     // read and create artifacts from json array in artifacts.gsav
     JsonIn artifact_json(f);
     artifact_json.start_array();
