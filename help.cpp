@@ -556,7 +556,7 @@ extremities from frostbite and to keep your distance from large fires."));
             mvwprintz(w_help, 0, 0, c_white, _("\
 You control vehicles using the numpad, or vikeys. However, you control their\n\
                     controls, rather than the vehicle directly. In order to\n\
-                    assume control of the vehicle, get to a location with\n\
+                    assome control of the vehicle, get to a location with\n\
  \\ | /     \\ | /    \"vehicle controls\" and %s. Once you are in control,\n\
   \\|/       \\|/     %s accelerates, %s slows or reverses, and %s & %s turn\n\
  -- --     -- --      left or right, respectively.  Your diagonals both turn\n\
@@ -569,14 +569,14 @@ fumble less and less. To simply maintain course and speed, hit %s.\n\
 \n\
 It's a good idea to pull the handbrake-\"s\"-when parking, just to be safe.\n\
 If you want to get out, hit the lights, toggle cruise control, or otherwise\n\
-use the vehicle controls, %s to bring up the \"Vehicle Controls\" menu."),
+use the vehicle controls, hit %s to bring up the \"Vehicle Controls\" menu."),
             press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str(),
-            press_x(ACTION_MOVE_N, _(""), _("'move_n'")).c_str(),
-            press_x(ACTION_MOVE_S, _(""), _("'move_s'")).c_str(),
-            press_x(ACTION_MOVE_W, _(""), _("'move_w'")).c_str(),
-            press_x(ACTION_MOVE_E, _(""), _("'move_e'")).c_str(),
-			press_x(ACTION_PAUSE, _(""), _("'pause'")).c_str(),
-			press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str());
+            press_x(ACTION_MOVE_N).c_str(),
+            press_x(ACTION_MOVE_S).c_str(),
+            press_x(ACTION_MOVE_W).c_str(),
+            press_x(ACTION_MOVE_E).c_str(),
+			press_x(ACTION_PAUSE).c_str(),
+			press_x(ACTION_CONTROL_VEHICLE).c_str());
             for(int acty = 0; acty < 3; acty++) {
                 for(int actx = 0; actx < 3; actx++) {
                     std::vector<char> keys = keys_bound_to( movearray[acty*3+actx] );
