@@ -1345,7 +1345,7 @@
         ],
         "bash": {
             "str_min": 1, "str_max": 10,
-            "sound": "crak",
+            "sound": "crack.",
             "sound_fail": "whump.",
             "ter_set": "t_dirt",
             "items": [
@@ -1367,7 +1367,7 @@
         ],
         "bash": {
             "str_min": 1, "str_max": 10,
-            "sound": "crak",
+            "sound": "crack.",
             "sound_fail": "whump.",
             "ter_set": "t_dirt",
             "items": [
@@ -1439,7 +1439,7 @@
         "examine_action": "fence_post",
         "bash": {
             "str_min": 1, "str_max": 10,
-            "sound": "crak",
+            "sound": "crack.",
             "sound_fail": "whump.",
             "ter_set": "t_dirt",
             "items": [

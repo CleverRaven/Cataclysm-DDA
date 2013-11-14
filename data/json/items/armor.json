@@ -6209,7 +6209,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment. /n Disassemble to unpack and enjoy.",
+        "description" : "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment. Disassemble to unpack and enjoy.",
         "price" : 1000,
         "material" : ["cotton", "plastic"],
         "volume" : 143,
