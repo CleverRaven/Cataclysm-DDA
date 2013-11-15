@@ -381,12 +381,8 @@ WORLDPTR worldfactory::pick_world()
             ++it;
         }
     }
-    // if there is only one world to pick from, autoreturn it
-    if (world_names.size() == 1) {
-        return worlds[world_names[0]];
-    }
     // if there are no worlds to pick from, immediately try to make one
-    else if (world_names.empty()) {
+    if (world_names.empty()) {
         return make_new_world();
     }
 
@@ -406,10 +402,16 @@ WORLDPTR worldfactory::pick_world()
         for (int j = 0; j < iContentHeight; ++j) {
             world_pages[i].push_back(world_names[worldnum++]);
             if (worldnum == world_names.size()) {
+                if ( 1+j >= iContentHeight ) {
+                    i++;
+                    world_pages[i] = std::vector<std::string>();
+                }
+                world_pages[i].push_back( string_format("(%s)",_("Create a new world for this character")) );
                 break;
             }
         }
     }
+    
     int sel = 0, selpage = 0;
 
     WINDOW *w_worlds_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
@@ -532,6 +534,18 @@ WORLDPTR worldfactory::pick_world()
                     } while(world_pages[selpage].size() == 0);
                     break;
                 case '\n':
+                    if( (iContentHeight * selpage) + sel  >= all_worlds.size() ) {
+                        WORLDPTR madeworld = make_new_world();
+                        if ( madeworld ) {
+                            return madeworld;
+                        }
+                        wrefresh(w_worlds);
+                        wrefresh(w_worlds_border);
+                        wrefresh(w_worlds_header);
+                        wrefresh(w_worlds_tooltip);
+
+                        break;
+                    }
                     // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
                     std::string querystring = string_format(_("Do you want to start the game in world [%s]?"), world_pages[selpage][sel].c_str());
                     if (query_yn(querystring.c_str())) {
