@@ -308,20 +308,21 @@ void monster::move(game *g)
           // If the player is in the vehicle, we don't care. Smash it. But check if he's far away.
           if (!g->m.veh_at(g->u.posx, g->u.posy) || rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 6)  {
             // Try to go around.
-            int newx [8] = {-1, 0, 1, 1, 1, 0, -1, -1};  // x positions from top left.
-            int newy [8] = {-1, -1, -1, 0, 1, 1, 1, 0};  // y positions from top left.
+            int newx [8] = {-1, 0, 1, -1, 1, -1, 0, 1};  // x positions from top left.
+            int newy [8] = {-1, -1, -1, 0, 0, 1, 1, 1};  // y positions from top left.
             float distances [8];
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 8; i++) {
               newx[i] += posx();
               newy[i] += posy();
               // Calculate distances and whether a vehicle is there.
               distances[i] = float_dist(newx[i], newy[i], plans.back().x, plans.back().y);
-              if (g->m.veh_at(newx[i], newy[i]))
+              if (g->m.veh_at(newx[i], newy[i])) {
                 distances[i] *= 10; // Make the distance longer so we wont be likely to pick it (unless surrounded).
+              }
             }
             // Find the shortest distance, that will be our intended path.
             int smallest = 0;
-            for (int i = 1; i < 9; i++) {
+            for (int i = 1; i < 8; i++) {
               if (distances[i] < distances[smallest]) {
                 smallest = i;
               }
