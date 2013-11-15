@@ -812,6 +812,7 @@ void game::process_activity()
 {
  it_book* reading;
  item* book_item;
+ item reloadable;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 150 == 0) {
@@ -884,20 +885,21 @@ void game::process_activity()
    switch (u.activity.type) {
 
    case ACT_RELOAD:
-    if (u.weapon.reload(u, u.activity.invlet))
-     if (u.weapon.is_gun() && u.weapon.has_flag("RELOAD_ONE")) {
+    reloadable = u.inv.item_by_letter(u.activity.name[0]);
+    if (reloadable.reload(u, u.activity.invlet))
+     if (reloadable.is_gun() && u.weapon.has_flag("RELOAD_ONE")) {
       add_msg(_("You insert a cartridge into your %s."),
-              u.weapon.tname(this).c_str());
+              reloadable.tname(this).c_str());
       if (u.recoil < 8)
        u.recoil = 8;
       if (u.recoil > 8)
        u.recoil = (8 + u.recoil) / 2;
      } else {
-      add_msg(_("You reload your %s."), u.weapon.tname(this).c_str());
+      add_msg(_("You reload your %s."), reloadable.tname(this).c_str());
       u.recoil = 6;
      }
     else
-     add_msg(_("Can't reload your %s."), u.weapon.tname(this).c_str());
+     add_msg(_("Can't reload your %s."), reloadable.tname(this).c_str());
     break;
 
    case ACT_READ:
@@ -9721,7 +9723,8 @@ void game::reload(char chInput)
      }
 
      // and finally reload.
-     u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet);
+     const char chStr[2]={chInput, '\0'};
+     u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet, chStr);
      u.moves = 0;
 
  } else if (it.is_tool()) { // tools are simpler
@@ -9743,7 +9746,8 @@ void game::reload(char chInput)
     }
 
     // do the actual reloading
-    u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet);
+     const char chStr[2]={chInput, '\0'};
+    u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet, chStr);
     u.moves = 0;
 
  } else { // what else is there?
