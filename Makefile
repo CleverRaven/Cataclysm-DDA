@@ -182,11 +182,10 @@ ifdef LUA
     CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua-5.1)
     LDFLAGS += $(shell pkg-config --silence-errors --libs lua)
     CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua)
-
-    CXXFLAGS += -DLUA
-
-    EXTRA_DEPENDENCIES += catalua/catabindings.cpp
   endif
+
+  CXXFLAGS += -DLUA
+  LUA_DEPENDENCIES = catalua/catabindings.cpp
 endif
 
 ifdef TILES
@@ -292,7 +291,7 @@ endif
 all: version $(TARGET) $(L10N)
 	@
 
-$(TARGET): $(ODIR) $(DDIR) $(OBJS) $(EXTRA_DEPENDENCIES)
+$(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
@@ -324,6 +323,8 @@ version.cpp: version
 catalua/catabindings.cpp: catalua/class_definitions.lua catalua/generate_bindings.lua
 	cd catalua && lua generate_bindings.lua
 
+catalua.cpp: $(LUA_DEPENDENCIES)
+
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
@@ -331,7 +332,7 @@ clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
-	rm -f version.h
+	rm -f version.h catalua/catabindings.cpp
 
 distclean:
 	rm -rf $(BINDIST_DIR)
