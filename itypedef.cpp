@@ -416,8 +416,8 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "5x50"  )        return "5x50dart";
     if( guntype == "signal_flare")  return "signal_flare";
     if( guntype == "metal_rail"  )  return "rebar_rail";
-    if( guntype == "UPS"  )         return _("UPS");
-    if( guntype == "components"  )  return _("components");
+    if( guntype == "UPS"  )         return "UPS";
+    if( guntype == "components"  )  return "components";
     if( guntype == "50"  )          return "50bmg";
     return "null";
 }

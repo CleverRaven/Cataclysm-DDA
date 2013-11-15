@@ -3975,6 +3975,7 @@
     "description": "This is a small, multipurpose electronic device. It can be loaded with a variety of apps, providing all kinds of functionality.",
     "price": 35,
     "material": ["plastic", "iron"],
+    "flags" : ["WATCH", "ALARMCLOCK"],
     "weight": 141,
     "volume": 1,
     "bashing": 0,
