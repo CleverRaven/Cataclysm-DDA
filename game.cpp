@@ -9721,7 +9721,7 @@ void game::reload(char chInput)
      }
 
      // and finally reload.
-     u.assign_activity(this, ACT_READ, it.reload_time(u), -1, am_invlet);
+     u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet);
      u.moves = 0;
 
  } else if (it.is_tool()) { // tools are simpler
