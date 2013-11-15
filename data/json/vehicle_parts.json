@@ -1523,7 +1523,7 @@
         "durability": 400,
         "fuel_type": "fusion",
         "item": "ftk93",
-        "difficulty": 7,
+        "difficulty" : 7,
         "size": 10,
         "location": "on_roof",
         "flags": ["TURRET", "CARGO"],
