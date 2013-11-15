@@ -118,8 +118,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     crafting_inv = g->crafting_inventory(&g->u);
 
-    int charges = static_cast<it_tool *>(g->itypes["welder"])->charges_per_use;
-    int charges_crude = static_cast<it_tool *>(g->itypes["welder_crude"])->charges_per_use;
+    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
         crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
@@ -326,7 +326,7 @@ void veh_interact::do_install(task_reason reason)
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, a <color_%4$s>powered_welder</color>, and level <color_%5$s>%6$d</color> skill in mechanics.%7$s"),
                        has_comps ? "ltgreen" : "red",
-                       g->itypes[itm]->name.c_str(),
+                       itypes[itm]->name.c_str(),
                        has_wrench ? "ltgreen" : "red",
                        has_welder ? "ltgreen" : "red",
                        has_skill ? "ltgreen" : "red",
@@ -419,7 +419,7 @@ void veh_interact::do_repair(task_reason reason)
                            _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
                            has_wrench ? "ltgreen" : "red",
                            has_comps ? "ltgreen" : "red",
-                           g->itypes[itm]->name.c_str());
+                           itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
@@ -1108,8 +1108,8 @@ void complete_vehicle (game *g)
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
     std::vector<component> tools;
-    int welder_charges = static_cast<it_tool *>(g->itypes["welder"])->charges_per_use;
-    int welder_crude_charges = static_cast<it_tool *>(g->itypes["welder_crude"])->charges_per_use;
+    int welder_charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int welder_crude_charges = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     int partnum;
     item used_item;
     bool broken;

@@ -182,8 +182,8 @@ void npc::randomize(game *g, npc_class type)
  dex_max = dice(4, 3);
  int_max = dice(4, 3);
  per_max = dice(4, 3);
- ret_null = item(g->itypes["null"], 0);
- weapon   = item(g->itypes["null"], 0);
+ ret_null = item(itypes["null"], 0);
+ weapon   = item(itypes["null"], 0);
  inv.clear();
  personality.aggression = rng(-10, 10);
  personality.bravery =    rng( -3, 10);
@@ -737,22 +737,22 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  }
 // Fill in the standard things we wear
  if (shoes != "null")
-  ret.push_back(item(g->itypes[shoes], 0));
+  ret.push_back(item(itypes[shoes], 0));
  if (pants != "null")
-  ret.push_back(item(g->itypes[pants], 0));
+  ret.push_back(item(itypes[pants], 0));
  if (shirt != "null")
-  ret.push_back(item(g->itypes[shirt], 0));
+  ret.push_back(item(itypes[shirt], 0));
  if (coat != "null")
-  ret.push_back(item(g->itypes[coat], 0));
+  ret.push_back(item(itypes[coat], 0));
  if (gloves != "null")
-  ret.push_back(item(g->itypes[gloves], 0));
+  ret.push_back(item(itypes[gloves], 0));
 // Bad to wear a mask under a motorcycle helmet
  if (mask != "null" && hat != "helmet_motor")
-  ret.push_back(item(g->itypes[mask], 0));
+  ret.push_back(item(itypes[mask], 0));
  if (glasses != "null")
-  ret.push_back(item(g->itypes[glasses], 0));
+  ret.push_back(item(itypes[glasses], 0));
  if (hat != "null")
-  ret.push_back(item(g->itypes[hat], 0));
+  ret.push_back(item(itypes[hat], 0));
 
 // Second pass--for extra stuff like backpacks, etc
  switch (type) {
@@ -760,16 +760,16 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  case NC_DOCTOR:
  case NC_SCIENTIST:
   if (one_in(10))
-   ret.push_back(item(g->itypes["backpack"], 0));
+   ret.push_back(item(itypes["backpack"], 0));
   break;
  case NC_COWBOY:
  case NC_BOUNTY_HUNTER:
   if (one_in(2))
-   ret.push_back(item(g->itypes["backpack"], 0));
+   ret.push_back(item(itypes["backpack"], 0));
   break;
  case NC_TRADER:
   if (!one_in(15))
-   ret.push_back(item(g->itypes["backpack"], 0));
+   ret.push_back(item(itypes["backpack"], 0));
   break;
  }
 
@@ -780,29 +780,29 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
 {
  int total_space = me->volume_capacity() - 2;
  std::list<item> ret;
- ret.push_back( item(g->itypes["lighter"], 0) );
+ ret.push_back( item(itypes["lighter"], 0) );
  itype_id tmp;
 
 // First, if we're wielding a gun, get some ammo for it
  if (me->weapon.is_gun()) {
   it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
   tmp = default_ammo(gun->ammo);
-  if (total_space >= g->itypes[tmp]->volume) {
-   ret.push_back(item(g->itypes[tmp], 0));
+  if (total_space >= itypes[tmp]->volume) {
+   ret.push_back(item(itypes[tmp], 0));
    total_space -= ret.back().volume();
   }
   while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
-         !one_in(4) && total_space >= g->itypes[tmp]->volume) {
-   ret.push_back(item(g->itypes[tmp], 0));
+         !one_in(4) && total_space >= itypes[tmp]->volume) {
+   ret.push_back(item(itypes[tmp], 0));
    total_space -= ret.back().volume();
   }
  }
  if (type == NC_TRADER) { // Traders just have tons of random junk
   while (total_space > 0 && !one_in(50)) {
    tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
-   if (total_space >= g->itypes[tmp]->volume) {
-    ret.push_back(item(g->itypes[tmp], 0));
-    ret.back() = ret.back().in_its_container(&g->itypes);
+   if (total_space >= itypes[tmp]->volume) {
+    ret.push_back(item(itypes[tmp], 0));
+    ret.back() = ret.back().in_its_container(&itypes);
     total_space -= ret.back().volume();
    }
   }
@@ -813,7 +813,7 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
   while(total_space > 0 && !one_in(10)) {
    Item_tag selected_item = item_controller->id_from(from);
    item tmpit = item_controller->create(selected_item, 0);
-   tmpit = tmpit.in_its_container(&g->itypes);
+   tmpit = tmpit.in_its_container(&itypes);
    if (total_space >= tmpit.volume()) {
     ret.push_back(tmpit);
     total_space -= tmpit.volume();
@@ -828,7 +828,7 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
     from = "harddrugs";
    Item_tag selected_item = item_controller->id_from(from);
    item tmpit = item_controller->create(selected_item, 0);
-   tmpit = tmpit.in_its_container(&g->itypes);
+   tmpit = tmpit.in_its_container(&itypes);
    if (total_space >= tmpit.volume()) {
     ret.push_back(tmpit);
     total_space -= tmpit.volume();
@@ -839,9 +839,9 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
 
  while (total_space > 0 && !one_in(8)) {
   tmp = standard_itype_ids[rng(0, standard_itype_ids.size()-1)];
-  if (total_space >= g->itypes[tmp]->volume) {
-   ret.push_back(item(g->itypes[tmp], 0));
-   ret.back() = ret.back().in_its_container(&g->itypes);
+  if (total_space >= itypes[tmp]->volume) {
+   ret.push_back(item(itypes[tmp], 0));
+   ret.back() = ret.back().in_its_container(&itypes);
    total_space -= ret.back().volume();
   }
  }
@@ -973,7 +973,7 @@ void npc::starting_weapon(game *g)
     {
         it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
         weapon.charges = gun->clip;
-        weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[default_ammo(gun->ammo)]);
+        weapon.curammo = dynamic_cast<it_ammo*>(itypes[default_ammo(gun->ammo)]);
     }
 }
 
@@ -1950,7 +1950,7 @@ void npc::die(game *g, bool your_fault)
     }
 
     item my_body;
-    my_body.make_corpse(g->itypes["corpse"], GetMType("mon_null"), g->turn);
+    my_body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
     my_body.name = name;
     g->m.add_item_or_charges(posx, posy, my_body);
     std::vector<item *> dump;

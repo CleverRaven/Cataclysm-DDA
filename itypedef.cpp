@@ -26,6 +26,8 @@ std::vector<std::string> artifact_itype_ids;
 std::vector<std::string> standard_itype_ids;
 std::vector<std::string> pseudo_itype_ids;
 
+std::map<std::string, itype*> itypes;
+
 // GENERAL GUIDELINES
 // When adding a new item, you MUST REMEMBER to insert it in the itype_id enum
 //  at the top of itype.h!

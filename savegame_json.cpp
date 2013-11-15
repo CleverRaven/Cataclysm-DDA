@@ -666,8 +666,8 @@ void player::json_load(picojson::value & parsed, game *g) {
                      std::string tmpitype;
                      tmpmorale.type = (morale_type)tmptype;
                      if (picostring(pmorale,"item_type",tmpitype) ) {
-                         if ( g->itypes.find(tmpitype) != g->itypes.end()) {
-                             tmpmorale.item_type = g->itypes[tmpitype];
+                         if ( itypes.find(tmpitype) != itypes.end()) {
+                             tmpmorale.item_type = itypes[tmpitype];
                          }
                      }
                      picoint(pmorale,"bonus",tmpmorale.bonus);
@@ -1267,7 +1267,7 @@ bool item::json_load(picojson::value & parsed, game * g)
         corpse = NULL;
     }
 
-    make(g->itypes[idtmp]);
+    make(itypes[idtmp]);
 
     if ( ! picostring(data, "name", name) ) {
         name=type->name;
@@ -1283,7 +1283,7 @@ bool item::json_load(picojson::value & parsed, game * g)
 
     picostring(data, "curammo", ammotmp);
     if ( ammotmp != "null" ) {
-        curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
+        curammo = dynamic_cast<it_ammo*>(itypes[ammotmp]);
     } else {
         curammo = NULL;
     }

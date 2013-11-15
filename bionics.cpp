@@ -337,7 +337,7 @@ void player::activate_bionic(int b, game *g)
   pkill = 0;
   stim = 0;
  } else if(bio.id == "bio_evap"){
-  item water = item(g->itypes["water_clean"], 0);
+  item water = item(itypes["water_clean"], 0);
   if (g->handle_liquid(water, true, true))
   {
       moves -= 100;
@@ -368,25 +368,25 @@ void player::activate_bionic(int b, game *g)
    g->add_msg(_("Your claws extend, forcing you to drop your %s."),
               weapon.tname().c_str());
    g->m.add_item_or_charges(posx, posy, weapon);
-   weapon = item(g->itypes["bio_claws_weapon"], 0);
+   weapon = item(itypes["bio_claws_weapon"], 0);
    weapon.invlet = '#';
   } else {
    g->add_msg(_("Your claws extend!"));
-   weapon = item(g->itypes["bio_claws_weapon"], 0);
+   weapon = item(itypes["bio_claws_weapon"], 0);
    weapon.invlet = '#';
   }
  } else if(bio.id == "bio_blaster"){
   tmp_item = weapon;
-  weapon = item(g->itypes["bio_blaster_gun"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["generic_no_ammo"]);
+  weapon = item(itypes["bio_blaster_gun"], 0);
+  weapon.curammo = dynamic_cast<it_ammo*>(itypes["generic_no_ammo"]);
   weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);
   weapon = tmp_item;
  } else if (bio.id == "bio_laser"){
   tmp_item = weapon;
-  weapon = item(g->itypes["bio_laser_gun"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["generic_no_ammo"]);
+  weapon = item(itypes["bio_laser_gun"], 0);
+  weapon.curammo = dynamic_cast<it_ammo*>(itypes["generic_no_ammo"]);
   weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);
@@ -412,7 +412,7 @@ void player::activate_bionic(int b, game *g)
               avail = tmp.volume() / 2;
           }
           if(avail > 0 && query_yn(_("Extract water from the %s"), tmp.tname().c_str())) {
-              item water = item(g->itypes["water_clean"], 0);
+              item water = item(itypes["water_clean"], 0);
               if (g->handle_liquid(water, true, true)) {
                   moves -= 100;
               } else if (query_yn(_("Drink directly from the condensor?"))) {
@@ -487,8 +487,8 @@ void player::activate_bionic(int b, game *g)
    g->add_msg_if_player(this,_("You unleash a powerful shockwave!"));
  } else if(bio.id == "bio_chain_lightning"){
   tmp_item = weapon;
-  weapon = item(g->itypes["bio_lightning"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["generic_no_ammo"]);
+  weapon = item(itypes["bio_lightning"], 0);
+  weapon.curammo = dynamic_cast<it_ammo*>(itypes["generic_no_ammo"]);
   weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);

@@ -1352,8 +1352,8 @@ void mattack::smg(game *g, monster *z)
   tmp.str_cur = 16;
   tmp.dex_cur = 8;
   tmp.per_cur = 12;
-  tmp.weapon = item(g->itypes["smg_9mm"], 0);
-  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
+  tmp.weapon = item(itypes["smg_9mm"], 0);
+  tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
   tmp.weapon.charges = 10;
   std::vector<point> traj = line_to(z->posx(), z->posy(),
                                     target->posx(), target->posy(), fire_t);
@@ -1391,8 +1391,8 @@ void mattack::smg(game *g, monster *z)
   tmp.str_cur = 16;
   tmp.dex_cur = 8;
   tmp.per_cur = 12;
- tmp.weapon = item(g->itypes["smg_9mm"], 0);
- tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
+ tmp.weapon = item(itypes["smg_9mm"], 0);
+ tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
  tmp.weapon.charges = 10;
  std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
  g->fire(tmp, g->u.posx, g->u.posy, traj, true);
