@@ -4,7 +4,7 @@
         "id" : "mag_porn",
         "name" : "Playboy",
         "max_level" : 0,
-        "description" : "You can read it for the articles. Or not.",
+        "description" : "You can read it for the articles. Or not."
         "weight" : 60,
         "to_hit" : 1,
         "color" : "pink",
@@ -3142,3 +3142,4 @@
         "to_hit" : 0
     }
 ]
+,
