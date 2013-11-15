@@ -9696,9 +9696,11 @@ void game::reload(char chInput)
          for (int i = 0; i < it.contents.size(); i++)
          {
              contents = it.contents[i];
-             if (contents.is_gunmod() && contents.typeId() == "spare_mag" &&
-                 contents.charges < (dynamic_cast<it_gun*>(it.type))->clip ||
-                 contents.charges < contents.clip_size()) 
+             if ((contents.is_gunmod() && 
+                  (contents.typeId() == "spare_mag" &&
+                   contents.charges < (dynamic_cast<it_gun*>(it.type))->clip)) ||
+                (contents.has_flag("AUX_MODE") &&
+                 contents.charges < contents.clip_size()))
              {
                  magazine_isfull = false;
                  break;
