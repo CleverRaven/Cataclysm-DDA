@@ -4313,7 +4313,7 @@ int iuse::shocktonfa_on(game *g, player *p, item *it, bool t)
             it->active = false;
         } else {
             int choice = menu(true, _("tactical tonfa"), _("Zap something"),
-                              _("Turn off light"), _("cancel"), NULL);
+                              _("turn off light"), _("cancel"), NULL);
 
             switch (choice) {
                 case 1: {
