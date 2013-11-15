@@ -6054,16 +6054,24 @@ void game::open()
     int vpart;
     vehicle *veh = m.veh_at(openx, openy, vpart);
     if (veh) {
-        int door = veh->part_with_feature(vpart, "OPENABLE");
-        if(door >= 0) {
-            if (veh->parts[door].open) {
-                add_msg(_("That door is already open."));
+        int openable = veh->part_with_feature(vpart, "OPENABLE");
+        if(openable >= 0) {
+            const char *name = veh->part_info(openable).name.c_str();
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+                const vehicle *in_veh = m.veh_at(u.posx, u.posy);
+                if (!in_veh || in_veh != veh){
+                    add_msg(_("That %s can only opened from the inside."), name);
+                    return;
+                } 
+            } 
+            if (veh->parts[openable].open) {
+                add_msg(_("That %s is already open."), name);
                 u.moves += 100;
             } else {
-                veh->open(door);
+                veh->open(openable);
             }
-            return;
         }
+        return;
     }
 
     if (m.is_outside(u.posx, u.posy))
@@ -6105,13 +6113,21 @@ void game::close()
         add_msg(_("There's a %s in the way!"), z.name().c_str());
     }
     else if (veh) {
-        int door = veh->part_with_feature(vpart, "OPENABLE");
-        if(door >= 0) {
-            if(veh->parts[door].open) {
-                veh->close(door);
+        int openable = veh->part_with_feature(vpart, "OPENABLE");
+        if(openable >= 0) {
+            const char *name = veh->part_info(openable).name.c_str();
+            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")){
+                const vehicle *in_veh = m.veh_at(u.posx, u.posy);
+                if (!in_veh || in_veh != veh){
+                    add_msg(_("That %s can only closed from the inside."), name);
+                    return;
+                } 
+            } 
+            if (veh->parts[openable].open) {
+                veh->close(openable);
                 didit = true;
             } else {
-                add_msg(_("That door is already closed."));
+                add_msg(_("That %s is already closed."), name);
             }
         }
     } else if (m.furn(closex, closey) != f_safe_o && m.i_at(closex, closey).size() > 0)
@@ -10233,7 +10249,11 @@ void game::plmove(int dx, int dy)
  bool veh_closed_door = false;
  if (veh1) {
   dpart = veh1->part_with_feature (vpart1, "OPENABLE");
-  veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
+  if (veh1->part_info(dpart).has_flag("OPENCLOSE_INSIDE") && (!veh0 || veh0 != veh1)){
+      veh_closed_door = false;
+  } else {
+      veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
+  }
  }
 
  if (veh0 && abs(veh0->velocity) > 100) {

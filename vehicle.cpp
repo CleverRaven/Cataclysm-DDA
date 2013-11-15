@@ -2991,12 +2991,6 @@ void vehicle::close(int part_index)
 
 void vehicle::open_or_close(int part_index, bool opening)
 {
-  if (part_info(part_index).has_flag("OPENCLOSE_INSIDE")){
-      // check if player is inside
-      vehicle *veh = g->m.veh_at(g->u.posx, g->u.posx);
-      if (!veh || veh != this)
-        return;
-  }
   parts[part_index].open = opening ? 1 : 0;
   insides_dirty = true;
 
