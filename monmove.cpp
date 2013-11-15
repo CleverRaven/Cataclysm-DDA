@@ -305,7 +305,8 @@ void monster::move(game *g)
         // CONCRETE PLANS - Most likely based on sight
         // Check for a vehicle. If the player isn't in it, avoid the vehicle.
         if (g->m.veh_at(plans[0].x, plans[0].y))  {
-          if (!g->m.veh_at(g->u.posx, g->u.posy))  { // If the player is in the vehicle, we don't care. Smash it.
+          // If the player is in the vehicle, we don't care. Smash it. But check if he's far away.
+          if (!g->m.veh_at(g->u.posx, g->u.posy) || rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 6)  {
             // Try to go around.
             int newx [8] = {-1, 0, 1, 1, 1, 0, -1, -1};  // x positions from top left.
             int newy [8] = {-1, -1, -1, 0, 1, 1, 1, 0};  // y positions from top left.
