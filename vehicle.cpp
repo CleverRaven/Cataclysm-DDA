@@ -861,6 +861,19 @@ void vehicle::remove_part (int p)
     if(part_flag(p,"LIGHT")) {
         lights_power -= part_info( parts.size() - 1 ).power;
     }
+    
+    // if a windshield is removed (usually destroyed) also remove curtians
+    // attached to it.
+    if(part_flag(p, "WINDOW")) {
+        int curtain = part_with_feature(p, "CURTAIN", false);
+        if (curtain >= 0) {
+            int x = parts[curtain].precalc_dx[0], y = parts[curtain].precalc_dy[0];
+            item it = item_from_part(curtain);
+            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            remove_part(curtain);
+        }
+    }
+
     parts.erase(parts.begin() + p);
     find_horns ();
     find_lights ();
