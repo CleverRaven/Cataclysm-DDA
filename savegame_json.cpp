@@ -1645,7 +1645,7 @@ void faction::deserialize(JsonObject &jo)
     job2 = faction_job(jo.get_int("job2", job2));
     likes_u = jo.get_int("likes_u", likes_u);
     respects_u = jo.get_int("respects_u", respects_u);
-    known_by_u = jo.get_int("known_by_u", known_by_u);
+    known_by_u = jo.get_bool("known_by_u", known_by_u);
     strength = jo.get_int("strength", strength);
     sneak = jo.get_int("sneak", sneak);
     crime = jo.get_int("crime", crime);
