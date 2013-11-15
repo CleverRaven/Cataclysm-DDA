@@ -839,7 +839,7 @@
         "bashing" : 0,
         "cutting" : 0,
         "burst_modifier" : 0,
-        "recoil_modifier" : -4,
+        "recoil_modifier" : -6,
         "price" : 720,
         "loudness_modifier" : 8
     },
