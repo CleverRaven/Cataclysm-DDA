@@ -715,7 +715,7 @@
         "item": "glass_sheet",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OVER", "OBSTACLE"],
+        "flags": ["OVER", "OBSTACLE", "WINDOW"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -1342,7 +1342,7 @@
         "item": "sheet",
         "location": "on_windshield",
         "difficulty": 1,
-        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE"],
+        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -1651,7 +1651,7 @@
         "item": "reinforced_glass_sheet",
         "difficulty": 6,
         "location": "center",
-        "flags": ["OBSTACLE"],
+        "flags": ["OBSTACLE", "WINDOW"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
