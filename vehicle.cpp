@@ -862,7 +862,7 @@ void vehicle::remove_part (int p)
         lights_power -= part_info( parts.size() - 1 ).power;
     }
     
-    // if a windshield is removed (usually destroyed) also remove curtians
+    // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if(part_flag(p, "WINDOW")) {
         int curtain = part_with_feature(p, "CURTAIN", false);
