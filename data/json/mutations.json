@@ -973,12 +973,6 @@
             "ignored" : 6
          }
       ]
-=======
-        "category" : ["MUTCAT_CATTLE"],
-        "wet_protection" : [
-            { "part" : "FEET", "ignored" : 6 }
-        ]
->>>>>>> json_restyle
     },{
         "type" : "mutation",
         "id" : "SAPROVORE",
@@ -1086,13 +1080,6 @@
             "good" : 3
          }
       ]
-=======
-        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
-        "category" : ["MUTCAT_FISH"],
-        "wet_protection" : [
-            { "part" : "LEGS", "good" : 3 }
-        ]
->>>>>>> json_restyle
     },{
         "type" : "mutation",
         "id" : "TAIL_LONG",
