@@ -2092,6 +2092,15 @@ char item::pick_reload_ammo(player &u, bool interactive)
   am = u.has_ammo(ammo_type());
  }
 
+ // Check if the player is wielding ammo
+ if (g->u.is_armed() && g->u.weapon.is_ammo()){
+     // if it is compatible then include it.
+     it_ammo* w_ammo = dynamic_cast<it_ammo*>(u.weapon.type);
+     if (w_ammo->type == ammo_type())
+         am.push_back(&u.weapon);
+ }
+
+
  char am_invlet = 0;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
@@ -2143,6 +2152,12 @@ bool item::reload(player &u, char ammo_invlet)
  int max_load = 1;
  item *reload_target = NULL;
  item *ammo_to_use = (ammo_invlet != 0 ? &u.inv.item_by_letter(ammo_invlet) : NULL);
+
+ // also check if wielding ammo
+ if (ammo_to_use->is_null()) {
+     if (u.is_armed() && u.weapon.is_ammo() and u.weapon.invlet == ammo_invlet)
+         ammo_to_use = &u.weapon;
+ }
 
  // Handle ammo in containers, currently only gasoline
  if(ammo_to_use && ammo_to_use->is_container())
@@ -2253,6 +2268,9 @@ bool item::reload(player &u, char ammo_invlet)
       if (ammo_to_use->is_container())
       {
           ammo_to_use->contents.erase(ammo_to_use->contents.begin());
+      }
+      else if (u.weapon.invlet == ammo_to_use->invlet) {
+          u.remove_weapon();
       }
       else
       {

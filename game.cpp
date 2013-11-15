@@ -887,7 +887,7 @@ void game::process_activity()
    case ACT_RELOAD:
     reloadable = u.inv.item_by_letter(u.activity.name[0]);
     if (reloadable.reload(u, u.activity.invlet))
-     if (reloadable.is_gun() && u.weapon.has_flag("RELOAD_ONE")) {
+     if (reloadable.is_gun() && reloadable.has_flag("RELOAD_ONE")) {
       add_msg(_("You insert a cartridge into your %s."),
               reloadable.tname(this).c_str());
       if (u.recoil < 8)
