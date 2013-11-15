@@ -9668,34 +9668,88 @@ void game::takeoff(char chInput)
 
 void game::reload(char chInput)
 {
- //Quick and dirty hack
- //Save old weapon in temp variable
- //Wield item that should be unloaded
- //Reload weapon
- //Put unloaded item back into inventory
- //Wield old weapon
- bool bSwitch = false;
- item oTempWeapon;
- item inv_it = u.inv.item_by_letter(chInput);
+ item it = u.inv.item_by_letter(chInput);
 
- if (u.weapon.invlet != chInput && !inv_it.is_null()) {
-  oTempWeapon = u.weapon;
-  u.weapon = inv_it;
-  u.inv.remove_item_by_letter(chInput);
-  bSwitch = true;
+ // Gun reloading is more complex.
+ if (it.is_gun()) {
+
+     // bows etc do not need to reload.
+     if (it.has_flag("RELOAD_AND_SHOOT")) {
+         add_msg(_("Your %s does not need to be reloaded, it reloads and fires "
+                     "a single motion."), it.tname().c_str());
+         return;
+     }
+
+     // Make sure the item is actually reloadable
+     if (it.ammo_type() == "NULL") {
+         add_msg(_("Your %s does not reload normally."), it.tname().c_str());
+         return;
+     }
+
+     // See if the gun is fully loaded.
+     if (it.charges == it.clip_size()) {
+         
+         // Also see if the spare magazine is loaded
+         bool magazine_isfull = true;
+         item contents;
+
+         for (int i = 0; i < it.contents.size(); i++)
+         {
+             contents = it.contents[i];
+             if (contents.is_gunmod() && contents.typeId() == "spare_mag" &&
+                 contents.charges < (dynamic_cast<it_gun*>(it.type))->clip ||
+                 contents.charges < contents.clip_size()) 
+             {
+                 magazine_isfull = false;
+                 break;
+             }
+         }
+
+         if (magazine_isfull) {
+             add_msg(_("Your %s is fully loaded!"), it.tname().c_str());
+             return;
+         }
+     }
+
+     // pick ammo
+     char am_invlet = it.pick_reload_ammo(u, true);
+     if (am_invlet == 0) {
+         add_msg(_("Out of ammo!"));
+         return;
+     }
+
+     // and finally reload.
+     u.assign_activity(this, ACT_READ, it.reload_time(u), -1, am_invlet);
+     u.moves = 0;
+
+ } else if (it.is_tool()) { // tools are simpler
+     it_tool* tool = dynamic_cast<it_tool*>(it.type);
+
+     // see if its actually reloadable.
+     if (tool->ammo == "NULL") {
+         add_msg(_("You can't reload a %s!"), it.tname().c_str());
+         return;
+     }
+
+    // pick ammo
+    char am_invlet = it.pick_reload_ammo(u, true);
+
+    if (am_invlet == 0) {
+        // no ammo, fail reload
+        add_msg(_("Out of %s!"), ammo_name(tool->ammo).c_str());
+        return;
+    }
+
+    // do the actual reloading
+    u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet);
+    u.moves = 0;
+
+ } else { // what else is there?
+     add_msg(_("You can't reload a %s!"), it.tname().c_str());
  }
 
- if (bSwitch || u.weapon.invlet == chInput) {
-  reload();
-  u.activity.moves_left = 0;
-  monmove();
-  process_activity();
- }
-
- if (bSwitch) {
-  u.inv.push_back(u.weapon);
-  u.weapon = oTempWeapon;
- }
+ // all done.
+ refresh_all();
 }
 
 void game::reload()
