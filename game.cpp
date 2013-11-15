@@ -812,7 +812,7 @@ void game::process_activity()
 {
  it_book* reading;
  item* book_item;
- item reloadable;
+ item* reloadable;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 150 == 0) {
@@ -885,21 +885,25 @@ void game::process_activity()
    switch (u.activity.type) {
 
    case ACT_RELOAD:
-    reloadable = u.inv.item_by_letter(u.activity.name[0]);
-    if (reloadable.reload(u, u.activity.invlet))
-     if (reloadable.is_gun() && reloadable.has_flag("RELOAD_ONE")) {
+    if (u.activity.name[0] == u.weapon.invlet) {
+        reloadable = &u.weapon;
+    } else {
+        reloadable = &u.inv.item_by_letter(u.activity.name[0]);
+    }
+    if (reloadable->reload(u, u.activity.invlet))
+     if (reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE")) {
       add_msg(_("You insert a cartridge into your %s."),
-              reloadable.tname(this).c_str());
+              reloadable->tname(this).c_str());
       if (u.recoil < 8)
        u.recoil = 8;
       if (u.recoil > 8)
        u.recoil = (8 + u.recoil) / 2;
      } else {
-      add_msg(_("You reload your %s."), reloadable.tname(this).c_str());
+      add_msg(_("You reload your %s."), reloadable->tname(this).c_str());
       u.recoil = 6;
      }
     else
-     add_msg(_("Can't reload your %s."), reloadable.tname(this).c_str());
+     add_msg(_("Can't reload your %s."), reloadable->tname(this).c_str());
     break;
 
    case ACT_READ:
@@ -9670,37 +9674,42 @@ void game::takeoff(char chInput)
 
 void game::reload(char chInput)
 {
- item it = u.inv.item_by_letter(chInput);
+ item* it;
+ if (u.weapon.invlet == chInput) {
+      it = &u.weapon;
+ } else {
+      it = &u.inv.item_by_letter(chInput);
+ }
 
  // Gun reloading is more complex.
- if (it.is_gun()) {
+ if (it->is_gun()) {
 
      // bows etc do not need to reload.
-     if (it.has_flag("RELOAD_AND_SHOOT")) {
+     if (it->has_flag("RELOAD_AND_SHOOT")) {
          add_msg(_("Your %s does not need to be reloaded, it reloads and fires "
-                     "a single motion."), it.tname().c_str());
+                     "a single motion."), it->tname().c_str());
          return;
      }
 
      // Make sure the item is actually reloadable
-     if (it.ammo_type() == "NULL") {
-         add_msg(_("Your %s does not reload normally."), it.tname().c_str());
+     if (it->ammo_type() == "NULL") {
+         add_msg(_("Your %s does not reload normally."), it->tname().c_str());
          return;
      }
 
      // See if the gun is fully loaded.
-     if (it.charges == it.clip_size()) {
+     if (it->charges == it->clip_size()) {
          
          // Also see if the spare magazine is loaded
          bool magazine_isfull = true;
          item contents;
 
-         for (int i = 0; i < it.contents.size(); i++)
+         for (int i = 0; i < it->contents.size(); i++)
          {
-             contents = it.contents[i];
+             contents = it->contents[i];
              if ((contents.is_gunmod() && 
                   (contents.typeId() == "spare_mag" &&
-                   contents.charges < (dynamic_cast<it_gun*>(it.type))->clip)) ||
+                   contents.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
                 (contents.has_flag("AUX_MODE") &&
                  contents.charges < contents.clip_size()))
              {
@@ -9710,13 +9719,13 @@ void game::reload(char chInput)
          }
 
          if (magazine_isfull) {
-             add_msg(_("Your %s is fully loaded!"), it.tname().c_str());
+             add_msg(_("Your %s is fully loaded!"), it->tname().c_str());
              return;
          }
      }
 
      // pick ammo
-     char am_invlet = it.pick_reload_ammo(u, true);
+     char am_invlet = it->pick_reload_ammo(u, true);
      if (am_invlet == 0) {
          add_msg(_("Out of ammo!"));
          return;
@@ -9724,20 +9733,20 @@ void game::reload(char chInput)
 
      // and finally reload.
      const char chStr[2]={chInput, '\0'};
-     u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet, chStr);
+     u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
      u.moves = 0;
 
- } else if (it.is_tool()) { // tools are simpler
-     it_tool* tool = dynamic_cast<it_tool*>(it.type);
+ } else if (it->is_tool()) { // tools are simpler
+     it_tool* tool = dynamic_cast<it_tool*>(it->type);
 
      // see if its actually reloadable.
      if (tool->ammo == "NULL") {
-         add_msg(_("You can't reload a %s!"), it.tname().c_str());
+         add_msg(_("You can't reload a %s!"), it->tname().c_str());
          return;
      }
 
     // pick ammo
-    char am_invlet = it.pick_reload_ammo(u, true);
+    char am_invlet = it->pick_reload_ammo(u, true);
 
     if (am_invlet == 0) {
         // no ammo, fail reload
@@ -9747,11 +9756,11 @@ void game::reload(char chInput)
 
     // do the actual reloading
      const char chStr[2]={chInput, '\0'};
-    u.assign_activity(this, ACT_RELOAD, it.reload_time(u), -1, am_invlet, chStr);
+    u.assign_activity(this, ACT_RELOAD, it->reload_time(u), -1, am_invlet, chStr);
     u.moves = 0;
 
  } else { // what else is there?
-     add_msg(_("You can't reload a %s!"), it.tname().c_str());
+     add_msg(_("You can't reload a %s!"), it->tname().c_str());
  }
 
  // all done.
@@ -9760,60 +9769,11 @@ void game::reload(char chInput)
 
 void game::reload()
 {
- if (u.weapon.is_gun()) {
-  if (u.weapon.has_flag("RELOAD_AND_SHOOT")) {
-   add_msg(_("Your %s does not need to be reloaded; it reloads and fires in a \
-single action."), u.weapon.tname().c_str());
-   return;
-  }
-  if (u.weapon.ammo_type() == "NULL") {
-   add_msg(_("Your %s does not reload normally."), u.weapon.tname().c_str());
-   return;
-  }
-  if (u.weapon.charges == u.weapon.clip_size()) {
-      int alternate_magazine = -1;
-      for (int i = 0; i < u.weapon.contents.size(); i++)
-      {
-          if ((u.weapon.contents[i].is_gunmod() &&
-               (u.weapon.contents[i].typeId() == "spare_mag" &&
-                u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip)) ||
-              ((u.weapon.contents[i].has_flag("MODE_AUX") &&
-                u.weapon.contents[i].charges < u.weapon.contents[i].clip_size())))
-          {
-              alternate_magazine = i;
-          }
-      }
-      if(alternate_magazine == -1) {
-          add_msg(_("Your %s is fully loaded!"), u.weapon.tname(this).c_str());
-          return;
-      }
-  }
-  char invlet = u.weapon.pick_reload_ammo(u, true);
-  if (invlet == 0) {
-   add_msg(_("Out of ammo!"));
-   return;
-  }
-  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), -1, invlet);
-  u.moves = 0;
- } else if (u.weapon.is_tool()) {
-  it_tool* tool = dynamic_cast<it_tool*>(u.weapon.type);
-  if (tool->ammo == "NULL") {
-   add_msg(_("You can't reload a %s!"), u.weapon.tname(this).c_str());
-   return;
-  }
-  char invlet = u.weapon.pick_reload_ammo(u, true);
-  if (invlet == 0) {
-// Reload failed
-   add_msg(_("Out of %s!"), ammo_name(tool->ammo).c_str());
-   return;
-  }
-  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), -1, invlet);
-  u.moves = 0;
- } else if (!u.is_armed())
-  add_msg(_("You're not wielding anything."));
- else
-  add_msg(_("You can't reload a %s!"), u.weapon.tname(this).c_str());
- refresh_all();
+    if (!u.is_armed()) {
+      add_msg(_("You're not wielding anything."));
+    } else {
+      reload(u.weapon.invlet);
+    }
 }
 
 // Unload a containter, gun, or tool
