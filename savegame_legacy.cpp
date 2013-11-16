@@ -183,6 +183,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::stringstream linein;
 
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int local_save_version = savegame_loading_version;
 
             parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
@@ -197,6 +198,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             cur_om = &overmap_buffer.get(this, comx, comy);
             m.load(this, levx, levy, levz);
+            // Restore version after it's reset by loading the map.
+            savegame_loading_version = local_save_version;
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
