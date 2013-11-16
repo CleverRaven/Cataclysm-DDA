@@ -8258,6 +8258,10 @@ void game::pickup(int posx, int posy, int min)
    {
        if(itemcount != 0 || pickup_count[idx] == 0)
        {
+           if(itemcount >= here[idx].charges) {
+               // Ignore the count if we pickup the whole stack anyway
+               itemcount = 0;
+           }
            pickup_count[idx] = itemcount;
            itemcount = 0;
 
