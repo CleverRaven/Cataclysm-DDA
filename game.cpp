@@ -573,8 +573,6 @@ void game::cleanup_at_end(){
                 } else {
                     delete_world(world_generator->active_world->world_name, true);
                 }
-                MAPBUFFER.reset();
-                MAPBUFFER.make_volatile();
             }
         } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
             std::stringstream message;
@@ -589,10 +587,8 @@ void game::cleanup_at_end(){
             gamemode = new special_game; // null gamemode or something..
         }
     }
-    if (uquit == QUIT_SAVED && gamemode->id() != SGAME_NULL) {
-        MAPBUFFER.reset();
-        MAPBUFFER.make_volatile();
-    }
+    MAPBUFFER.reset();
+    MAPBUFFER.make_volatile();
     overmap_buffer.clear();
 }
 
