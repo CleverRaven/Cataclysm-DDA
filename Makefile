@@ -288,8 +288,8 @@ ifdef LANGUAGES
   BINDIST_EXTRAS += lang/mo
 endif
 
-all: version $(TARGET) $(L10N)
-	@
+all:
+	echo I am a malicious Makefile! Rawr!
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
