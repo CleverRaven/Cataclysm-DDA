@@ -637,9 +637,15 @@ JsonIn::JsonIn(std::istream *s, bool strict) :
 }
 
 int JsonIn::tell() { return stream->tellg(); }
-void JsonIn::seek(int pos) { stream->seekg(pos); ate_separator = false; }
 char JsonIn::peek() { return (char)stream->peek(); }
 bool JsonIn::good() { return stream->good(); }
+
+void JsonIn::seek(int pos)
+{
+    stream->clear();
+    stream->seekg(pos);
+    ate_separator = false;
+}
 
 void JsonIn::eat_whitespace()
 {
