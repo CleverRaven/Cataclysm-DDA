@@ -42,6 +42,9 @@
 #define HIVECHANCE 180 //Chance that any given forest will be a hive
 #define SWAMPINESS 4 //Affects the size of a swamp
 #define SWAMPCHANCE 8500 // Chance that a swamp will spawn instead of forest
+enum oter_dir {
+    oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
+};
 
 map_extras no_extras(0);
 map_extras road_extras(
@@ -199,7 +202,8 @@ bool is_river(const oter_id &ter)
     // if the id starts with "river" or "bridge", count as a river, but this
     // is done in data init.
     // return (ter.compare(0,5,"river",5) == 0 || ter.compare(0,6,"bridge",6) == 0);
-    return oter_t(ter).is_river;
+    return ter.t().is_river;
+//oter_t(ter).is_river;
 }
 
 bool is_ot_type(const std::string &otype, const oter_id &oter)
@@ -215,7 +219,9 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-    return otermap[ter].allow_road;
+return ter.t().allow_road;
+//    return oter_t(ter).allow_road;
+//otermap[ter].allow_road;
 }
 
 // Likelihood to pick a specific overmap terrain.
@@ -392,13 +398,22 @@ void load_overmap_terrain(JsonObject &jo)
     oter.allow_road = jo.get_bool("allow_road", false);
 
     std::string id_base = oter.id;
+    int start_iid = oterlist.size();
+    oter.id_base = id_base;
+    oter.loadid_base = start_iid;
+    oter.directional_peers.clear();
 
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
 
+
     if (line_drawing) {
         // add variants for line drawing
-        oter.id_base = id_base;
+        oter.line_drawing = true;
+        for( int i = start_iid; i < start_iid+12; i++ ) {
+            oter.directional_peers.push_back(i);
+        }
+
         oter.id = id_base + "_ns";
         oter.sym = LINE_XOXO;
         load_oter(oter);
@@ -418,6 +433,8 @@ void load_overmap_terrain(JsonObject &jo)
         oter.id = id_base + "_sw";
         oter.sym = LINE_OOXX;
         load_oter(oter);
+
+
 
         oter.id = id_base + "_wn";
         oter.sym = LINE_XOOX;
@@ -439,13 +456,20 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_OXXX;
         load_oter(oter);
 
+
+
         oter.id = id_base + "_nesw";
         oter.sym = LINE_XXXX;
         load_oter(oter);
 
     } else if (rotate) {
         // add north/east/south/west variants
-        oter.id_base = id_base;
+        oter.rotates = true;
+
+        for( int i = start_iid; i < start_iid+5; i++ ) {
+            oter.directional_peers.push_back(i);
+        }
+
         oter.id = id_base + "_north";
         oter.sym = syms[0];
         load_oter(oter);
@@ -463,7 +487,7 @@ void load_overmap_terrain(JsonObject &jo)
         load_oter(oter);
 
     } else {
-        oter.id_base = id_base;
+        oter.directional_peers.push_back(start_iid);
         load_oter(oter);
     }
 }
@@ -2041,8 +2065,19 @@ void overmap::process_mongroups()
  }
 }
 
+void grow_forest_oter_id(oter_id & oid, bool swampy) {
+    if (swampy && ( oid == ot_field || oid == ot_forest ) ) {
+        oid = ot_forest_water;
+    } else if ( oid == ot_forest ) {
+        oid = ot_forest_thick;
+    } else if ( oid == ot_field ) {
+        oid = ot_forest;
+    }
+}
+
 void overmap::place_forest()
 {
+
  for (int i = 0; i < NUM_FOREST; i++) {
   // forx and fory determine the epicenter of the forest
   int forx = rng(0, OMAPX - 1);
@@ -2097,48 +2132,13 @@ void overmap::place_forest()
             } else if (swamp_chance == 0) {
                 swamps = SWAMPINESS;
             }
-            if (ter(x, y, 0) == "field") {
-                ter(x, y, 0) = "forest";
-            } else if (ter(x, y, 0) == "forest") {
-                ter(x, y, 0) = "forest_thick";
-            }
 
-            if (swampy && (ter(x, y-1, 0) == "field" ||
-                           ter(x, y-1, 0) == "forest")) {
-                ter(x, y-1, 0) = "forest_water";
-            } else if (ter(x, y-1, 0) == "forest") {
-                ter(x, y-1, 0) = "forest_thick";
-            } else if (ter(x, y-1, 0) == "field") {
-                ter(x, y-1, 0) = "forest";
+            // Place or embiggen forest
+            for ( int mx = -1; mx < 2; mx++ ) {
+                for ( int my = -1; my < 2; my++ ) {
+                    grow_forest_oter_id( ter(x+mx, y+my, 0), ( mx == 0 && my == 0 ? false : swampy ) );
+                }
             }
-
-            if (swampy && (ter(x, y+1, 0) == "field" ||
-                           ter(x, y+1, 0) == "forest")) {
-                ter(x, y+1, 0) = "forest_water";
-            } else if (ter(x, y+1, 0) == "forest") {
-                ter(x, y+1, 0) = "forest_thick";
-            } else if (ter(x, y+1, 0) == "field") {
-                ter(x, y+1, 0) = "forest";
-            }
-
-            if (swampy && (ter(x-1, y, 0) == "field" ||
-                           ter(x-1, y, 0) == "forest")) {
-                ter(x-1, y, 0) = "forest_water";
-            } else if (ter(x-1, y, 0) == "forest") {
-                ter(x-1, y, 0) = "forest_thick";
-            } else if (ter(x-1, y, 0) == "field") {
-                ter(x-1, y, 0) = "forest";
-            }
-
-            if (swampy && (ter(x+1, y, 0) == "field" ||
-                           ter(x+1, y, 0) == "forest")) {
-                ter(x+1, y, 0) = "forest_water";
-            } else if (ter(x+1, y, 0) == "forest") {
-                ter(x+1, y, 0) = "forest_thick";
-            } else if (ter(x+1, y, 0) == "field") {
-                ter(x+1, y, 0) = "forest";
-            }
-
             // Random walk our forest
             x += rng(-2, 2);
             if (x < 0    ) { x = 0; }
@@ -2917,7 +2917,8 @@ bool overmap::is_road(int x, int y, int z)
             }
         }
     }
-    return oter_t(ter(x, y, z)).is_road;
+    return ter(x, y, z).t().is_road;
+//oter_t(ter(x, y, z)).is_road;
 }
 
 bool overmap::is_road_or_highway(int x, int y, int z)
@@ -3137,33 +3138,18 @@ void overmap::place_specials()
 // find the id for a specified rotation of a rotatable oter_t
 oter_id overmap::rotate(const oter_id &oter, int dir)
 {
-// fixme; validity check
-    std::string base = oter_t(oter).id_base;
-/*
-    std::string base;
-    std::string oter=oterid;
-    const int oter_size = oter.size();
-//fixme
-    if (oter.find("_north") == oter_size - 6) {
-        base = oter.substr(0, oter_size - 6);
-    } else if (oter.find("_east") == oter_size - 5) {
-        base = oter.substr(0, oter_size - 5);
-    } else if (oter.find("_south") == oter_size - 6) {
-        base = oter.substr(0, oter_size - 6);
-    } else if (oter.find("_west") == oter_size - 5) {
-        base = oter.substr(0, oter_size - 5);
-    } else {
-        base = oter;
+    const oter_t & otert = oter;
+    if (! otert.rotates ) {
+        debugmsg("%s does not rotate.", oter.c_str());
+        return oter;
     }
-*/
-    if (dir < 0) { dir += 4; }
-    switch (dir) {
-    case 0: return base + "_north";
-    case 1: return base + "_east";
-    case 2: return base + "_south";
-    case 3: return base + "_west";
-    default: debugmsg("Bad rotation for %s: %d.", oter.c_str(), dir); return oter;
+    if (dir < 0) {
+        dir += 4;
+    } else if (dir > 3) {
+        debugmsg("Bad rotation for %s: %d.", oter.c_str(), dir);
+        return oter;
     }
+    return otert.directional_peers[dir];
 }
 
 void overmap::place_special(overmap_special special, tripoint p)
@@ -3310,7 +3296,7 @@ void overmap::place_special(overmap_special special, tripoint p)
                     ter(x, y, p.z) = ter_base + suffix[i];
                 }
             }
-            if (ter_base == "school") {
+            if (ter_base == "school") { // wat. fixme.
                 make_hiway(p.x, p.y - 1, p.x + 1, p.y - 1, p.z, "road");
             }
         } else if (dir == 1) {
@@ -3857,11 +3843,14 @@ void set_oter_ids() {
        return ( _val == v._val );
    }
 
-   // oter_t( ter(...) ).name
+   // oter_t( ter(...) ).name // WARNING
    oter_id::operator oter_t() const {
        return oterlist[_val];
    }
 
+const oter_t & oter_id::t() const {
+       return oterlist[_val];
+   }
    // ter(...).size()
    int oter_id::size() const {
        return oterlist[_val].id.size();

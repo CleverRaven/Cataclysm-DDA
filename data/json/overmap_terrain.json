@@ -206,7 +206,7 @@
         "id" : "house",
         "name" : "house",
         "rotate" : true,
-        "sym" : [62, 62, 118, 60],
+        "sym" : [94, 62, 118, 60],
         "color" : "light_green",
         "see_cost" : 2,
         "extras" : "build",
