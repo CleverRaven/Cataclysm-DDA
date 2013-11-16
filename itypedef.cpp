@@ -371,6 +371,7 @@ std::string ammo_name(ammotype t)
     if( t == "charcoal" )   return _("charcoal");
     if( t == "metal_rail" ) return _("ferrous rail projectile");
     if( t == "UPS" )        return _("UPS");
+    if( t == "thrown" )     return _("throwing weapon");
     if( t == "components" ) return _("components");
     return "XXX";
 }
@@ -418,6 +419,7 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "metal_rail"  )  return "rebar_rail";
     if( guntype == "UPS"  )         return "UPS";
     if( guntype == "components"  )  return "components";
+    if( guntype == "thrown"  )      return "thrown";
     if( guntype == "50"  )          return "50bmg";
     return "null";
 }
