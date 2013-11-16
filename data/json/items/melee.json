@@ -1927,7 +1927,7 @@
         "id" : "javelin_iron",
         "name" : "iron javelin",
         "description" : "An iron-tipped wooden throwing spear. The grip area has also be carved and covered for better grip.",
-        "weight" : 920,
+        "weight" : 960,
         "to_hit" : 2,
         "color" : "light_gray",
         "symbol" : "/",
@@ -1935,7 +1935,7 @@
         "techniques" : ["WBLOCK_1", "RAPID"],
         "volume" : 4,
         "bashing" : 5,
-        "cutting" : 13,
+        "cutting" : 15,
         "flags" : ["SPEAR"],
         "price" : 90
     },
