@@ -1368,6 +1368,17 @@ void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
 
   if (effects.count("NAPALM_BIG"))
     g->explosion(x, y, 72, 0, true);
+    
+  if (effects.count("MININUKE_MOD"))
+  g->explosion(x, y, 200, 0, false);
+  int junk;
+  for (int i = -4; i <= 4; i++) {
+   for (int j = -4; j <= 4; j++) {
+    if (g->m.sees(x, y, x + i, y + j, 3, junk) &&
+        g->m.move_cost(x + i, y + j) > 0)
+     g->m.add_field(g, x + i, y + j, fd_nuke_gas, 3);
+   }
+  }
 
   if (effects.count("ACIDBOMB")) {
     for (int i = x - 1; i <= x + 1; i++) {
