@@ -16425,6 +16425,7 @@
   "category": "CC_MISC",
   "skill_used": "fabrication",
   "difficulty": 5,
+  "skills_required" : [ "mechanics", 3 ],
   "time": 300000,
   "reversible": false,
   "autolearn": true,
