@@ -3175,6 +3175,7 @@
         "skill" : "none",
         "intelligence" : 8,
 		"required_level" : 0,
+		"max_level" : 0,
         "color" : "gray",
         "symbol" : "?",
         "material" : ["paper", "plastic"],
