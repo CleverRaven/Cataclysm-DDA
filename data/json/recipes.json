@@ -5645,23 +5645,23 @@
   ],
   "components": [
     [
-      [ "broth", 2 ],
-      [ "broth_bone", 2 ]
+      [ "broth", 1 ],
+      [ "broth_bone", 1 ]
     ],
     [
-      [ "meat", 2 ],
-      [ "meat_smoked", 2 ],
-      [ "dry_meat", 2 ],
-      [ "rehydrated_meat", 2 ],
+      [ "meat", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
       [ "sausage", 1 ],
-      [ "bacon", 2 ],
-      [ "powder_eggs", 15 ]
+      [ "bacon", 1 ],
+      [ "powder_eggs", 10 ]
     ],
     [
-      [ "veggy_wild", 2 ],
-      [ "veggy", 2 ],
-      [ "rehydrated_veggy", 2 ],
-      [ "dry_veggy", 2 ]
+      [ "veggy_wild", 1 ],
+      [ "veggy", 1 ],
+      [ "rehydrated_veggy", 1 ],
+      [ "dry_veggy", 1 ]
     ]
   ]
 },{
