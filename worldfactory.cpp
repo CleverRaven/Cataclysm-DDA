@@ -197,7 +197,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     if (save_world(newworld, true)){
         // move files from origin_path into new world path
         std::vector<std::string> origin_files = file_finder::get_files_from_path(".", origin_path, false);
-        for (int i = 0; i < origin_files.size(); ++i){
+        for (unsigned i = 0; i < origin_files.size(); ++i){
             std::string filename = origin_files[i].substr(origin_files[i].find_last_of("/\\"));
 
             rename(origin_files[i].c_str(), std::string(newworld->world_path + filename).c_str());
@@ -299,7 +299,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     if (world_dirs.size() > 0) {
         // worlds exist by having an option file
         // create worlds
-        for (int i = 0; i < world_dirs.size(); ++i) {
+        for (unsigned i = 0; i < world_dirs.size(); ++i) {
             // get the option file again
             // we can assume that there is only one master.gsav, so just collect the first path
             bool no_options = true;
@@ -311,7 +311,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             // get the save files
             std::vector<std::string> world_sav_files = file_finder::get_files_from_path(SAVE_EXTENSION, world_dirs[i], false);
             // split the save file names between the directory and the extension
-            for (int j = 0; j < world_sav_files.size(); ++j) {
+            for (unsigned j = 0; j < world_sav_files.size(); ++j) {
                 size_t save_index = world_sav_files[j].find(SAVE_EXTENSION);
                 world_sav_files[j] = world_sav_files[j].substr(world_dirs[i].size() + 1, save_index - (world_dirs[i].size() + 1));
             }
@@ -326,7 +326,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             retworlds[worldname]->world_name = worldname;
             all_worldnames.push_back(worldname);
             // add sav files
-            for (int j = 0; j < world_sav_files.size(); ++j) {
+            for (unsigned j = 0; j < world_sav_files.size(); ++j) {
                 retworlds[worldname]->world_saves.push_back(world_sav_files[j]);
             }
             // set world path
@@ -459,7 +459,7 @@ WORLDPTR worldfactory::pick_world()
         }
 
         //Draw World Names
-        for (int i = 0; i < world_pages[selpage].size(); ++i) {
+        for (unsigned i = 0; i < world_pages[selpage].size(); ++i) {
             sTemp.str("");
             sTemp << i + 1;
             mvwprintz(w_worlds, i, 0, c_white, sTemp.str().c_str());

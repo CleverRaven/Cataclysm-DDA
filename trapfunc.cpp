@@ -1018,9 +1018,6 @@ trap_id trap_id_from_string(std::string trap_name) {
   if ("beartrap_buried" == trap_name) {
     return tr_beartrap_buried;
   }
-  if ("snare" == trap_name) {
-    return tr_snare;
-  }
   if ("nailboard" == trap_name) {
     return tr_nailboard;
   }

@@ -671,6 +671,7 @@ overmap::overmap(overmap const& o)
     : zg(o.zg)
     , radios(o.radios)
     , npcs(o.npcs)
+    , vehicles(o.vehicles)
     , cities(o.cities)
     , roads_out(o.roads_out)
     , towns(o.towns)
@@ -704,6 +705,7 @@ overmap& overmap::operator=(overmap const& o)
     zg = o.zg;
     radios = o.radios;
     npcs = o.npcs;
+    vehicles = o.vehicles;
     cities = o.cities;
     roads_out = o.roads_out;
     towns = o.towns;
@@ -876,6 +878,30 @@ void overmap::remove_npc(int npc_id)
     }
 }
 
+void overmap::remove_vehicle(int id)
+{
+    std::map<int, om_vehicle>::iterator om_veh = vehicles.find(id);
+    if (om_veh != vehicles.end())
+        vehicles.erase(om_veh);
+
+}
+
+int overmap::add_vehicle(vehicle *veh)
+{
+    int id = vehicles.size() + 1;
+    // this *should* be unique but just in case
+    while ( vehicles.count(id) > 0 )
+        id++;
+
+    om_vehicle tracked_veh;
+    tracked_veh.x = veh->omap_x()/2;
+    tracked_veh.y = veh->omap_y()/2;
+    tracked_veh.name = veh->name;
+    vehicles[id]=tracked_veh;
+
+    return id;
+}
+
 point overmap::display_notes(game* g, int const z) const
 {
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
@@ -962,6 +988,26 @@ bool overmap::has_npc(game *g, int const x, int const y, int const z) const
     return false;
 }
 
+bool overmap::has_vehicle(game *g, int const x, int const y, int const z, bool require_pda) const
+{
+    // vehicles only spawn at z level 0 (for now)
+    if (!z == 0)
+        return false;
+
+    // if the player is not carrying a PDA then he cannot see the vehicle.
+    if (require_pda && !g->u.has_amount("pda", 1))
+        return false;
+
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+         it != vehicles.end(); it++)
+    {
+        om_vehicle om_veh = it->second;
+        if ( om_veh.x == x && om_veh.y == y )
+            return true;
+    }
+    return false;
+}
+
 // int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
 //     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
 
@@ -1010,6 +1056,42 @@ void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const
                     mvwputch(w, i, j, c_black, LINE_XXXX);
                 i++;
             }
+        }
+    }
+    for (int j = 0; j < i; j++)
+        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
+    for (int j = 0; j < maxnamelength; j++)
+        mvwputch(w, i, j, c_white, LINE_OXOX);
+    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
+}
+
+void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int const z)
+{
+    if (!z==0) // vehicles only exist on zlevel 0
+        return;
+    int i = 0, maxnamelength = 0;
+    //Check the max namelength of the vehicles in the target
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+         it != vehicles.end(); it++)
+    {
+        om_vehicle om_veh = it->second;
+        if ( om_veh.x == x && om_veh.y == y )
+        {
+            if (om_veh.name.length() > maxnamelength)
+                maxnamelength = om_veh.name.length();
+        }
+    }
+    //Check if the target has a vehicle in it.
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+         it != vehicles.end(); it++)
+    {
+        om_vehicle om_veh = it->second;
+        if (om_veh.x == x && om_veh.y == y)
+        {
+            mvwprintz(w, i, 0, c_cyan, om_veh.name.c_str());
+            for (int j = om_veh.name.length(); j < maxnamelength; j++)
+                mvwputch(w, i, j, c_black, LINE_XXXX);
+            i++;
         }
     }
     for (int j = 0; j < i; j++)
@@ -1644,7 +1726,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
                    int &origx, int &origy, signed char &ch, bool blink,
                    overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
 {
- bool note_here = false, npc_here = false;
+ bool note_here = false, npc_here = false, veh_here = false;
  std::string note_text;
  int om_map_width = TERMX-28;
  int om_map_height = TERMY;
@@ -1703,6 +1785,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
     omy = cursy + j;
     see = false;
     npc_here = false;
+    veh_here = false;
     if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) { // It's in-bounds
      cur_ter = ter(omx, omy, z);
      see = seen(omx, omy, z);
@@ -1711,6 +1794,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       note_text = note(omx, omy, z);
         //Check if there is an npc.
         npc_here = has_npc(g,omx,omy,z);
+        // and a vehicle
+        veh_here = has_vehicle(g,omx,omy,z);
 // <Out of bounds placement>
     } else if (omx < 0) {
      omx += OMAPX;
@@ -1718,12 +1803,14 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy, z);
       see = diag.seen(omx, omy, z);
+      veh_here = diag.has_vehicle(g, omx, omy, z);
       note_here = diag.has_note(omx, omy, z);
       if (note_here)
        note_text = diag.note(omx, omy, z);
      } else {
       cur_ter = hori.ter(omx, omy, z);
       see = hori.seen(omx, omy, z);
+      veh_here = hori.has_vehicle(g, omx, omy, z);
       note_here = hori.has_note(omx, omy, z);
       if (note_here)
        note_text = hori.note(omx, omy, z);
@@ -1734,12 +1821,14 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy, z);
       see = diag.seen(omx, omy, z);
+      veh_here = diag.has_vehicle(g, omx, omy, z);
       note_here = diag.has_note(omx, omy, z);
       if (note_here)
        note_text = diag.note(omx, omy, z);
      } else {
       cur_ter = hori.ter(omx, omy, z);
       see = hori.seen(omx, omy, z);
+      veh_here = hori.has_vehicle(g, omx, omy, z);
       note_here = hori.has_note(omx, omy, z);
       if (note_here)
        note_text = hori.note(omx, omy, z);
@@ -1748,6 +1837,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy, z);
      see = vert.seen(omx, omy, z);
+     veh_here = vert.has_vehicle(g, omx, omy, z);
      note_here = vert.has_note(omx, omy, z);
      if (note_here)
       note_text = vert.note(omx, omy, z);
@@ -1755,6 +1845,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy, z);
      see = vert.seen(omx, omy, z);
+     veh_here = vert.has_vehicle(g, omx, omy, z);
      note_here = vert.has_note(omx, omy, z);
      if (note_here)
       note_text = vert.note(omx, omy, z);
@@ -1774,6 +1865,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      } else if (npc_here && blink) {
       ter_color = c_pink;
       ter_sym = '@';
+     } else if (veh_here && blink) {
+         ter_color = c_cyan;
+         ter_sym = 'c';
      } else if (omx == target.x && omy == target.y && blink) {
       ter_color = c_red;
       ter_sym = '*';
@@ -1829,6 +1923,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   } else if (has_npc(g, cursx, cursy, z))
     {
         print_npcs(g, w, cursx, cursy, z);
+    } else if (has_vehicle(g, cursx, cursy, z))
+    {
+        print_vehicles(g, w, cursx, cursy, z);
     }
 
 
@@ -3375,13 +3472,29 @@ void overmap::place_mongroups()
      for (int sy = y - 3; sy <= y + 3; sy++) {
       if (ter(sx, sy, 0) == ot_forest_water)
        swamp_count += 2;
-      else if (is_river(ter(sx, sy, 0)))
-       swamp_count++;
      }
     }
-    if (swamp_count >= 25) // ~25% swamp or ~50% river
+    if (swamp_count >= 25)
      zg.push_back(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
                            rng(swamp_count * 8, swamp_count * 25)));
+   }
+  }
+ }
+
+  if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+  // Figure out where rivers are, and place swamp monsters
+  for (int x = 3; x < OMAPX - 3; x += 7) {
+   for (int y = 3; y < OMAPY - 3; y += 7) {
+    int river_count = 0;
+    for (int sx = x - 3; sx <= x + 3; sx++) {
+     for (int sy = y - 3; sy <= y + 3; sy++) {
+      if (is_river(ter(sx, sy, 0)))
+       river_count++;
+     }
+    }
+    if (river_count >= 25)
+     zg.push_back(mongroup("GROUP_RIVER", x * 2, y * 2, 0, 3,
+                           rng(river_count * 8, river_count * 25)));
    }
   }
  }

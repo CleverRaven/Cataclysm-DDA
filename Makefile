@@ -27,6 +27,8 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Enable lua debug support
+#  make LUA=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -168,6 +170,24 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RFLAGS = -J rc -O coff
 endif
 
+ifdef LUA
+  ifeq ($(TARGETSYSTEM),WINDOWS)
+    # Windows expects to have lua unpacked at a specific location
+    LDFLAGS += -llua
+  else
+    # On unix-like systems, use pkg-config to find lua
+    LDFLAGS += $(shell pkg-config --silence-errors --libs lua5.1)
+    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua5.1)
+    LDFLAGS += $(shell pkg-config --silence-errors --libs lua-5.1)
+    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua-5.1)
+    LDFLAGS += $(shell pkg-config --silence-errors --libs lua)
+    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua)
+  endif
+
+  CXXFLAGS += -DLUA
+  LUA_DEPENDENCIES = catalua/catabindings.cpp
+endif
+
 ifdef TILES
   SDL = 1
   BINDIST_EXTRAS += gfx
@@ -300,6 +320,11 @@ $(ODIR)/SDLMain.o: SDLMain.m
 
 version.cpp: version
 
+catalua/catabindings.cpp: catalua/class_definitions.lua catalua/generate_bindings.lua
+	cd catalua && lua generate_bindings.lua
+
+catalua.cpp: $(LUA_DEPENDENCIES)
+
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
@@ -307,7 +332,7 @@ clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
-	rm -f version.h
+	rm -f version.h catalua/catabindings.cpp
 
 distclean:
 	rm -rf $(BINDIST_DIR)

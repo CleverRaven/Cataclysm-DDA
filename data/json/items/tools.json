@@ -1284,9 +1284,9 @@
     "color": "dark_gray",
     "name": "land mine",
     "description": "This is an military anti-personnel mine that is triggered when stepped upon.",
-    "price": 2400,
+    "price": 1000,
     "material": "iron",
-    "weight": 13600,
+    "weight": 2360,
     "volume": 2,
     "bashing": 6,
     "cutting": 0,
@@ -4156,6 +4156,31 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "DIG"
+  },
+  
+  {
+    "id": "primitive_knife",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "stone knife",
+    "description": "This is a sharpened stone set into a hollowed handle. Not nearly as usable as a proper knife, but it's better than nothing.",
+    "price": 5,
+    "material": ["wood", "stone"],
+    "flags": "STAB",
+    "weight": 453,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 1,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
   },
 
   {

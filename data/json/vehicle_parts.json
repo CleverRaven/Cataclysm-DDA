@@ -37,6 +37,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "tracker",
+        "name": "tracking device",
+        "symbol": "*",
+        "color": "red",
+        "broken_symbol": "#",
+        "broken_color": "light_gray",
+        "damage_modifier": 10,
+        "durability": 20,
+        "item": "veh_tracker",
+        "difficulty": 3,
+        "power": 6,
+        "flags": [
+            "TRACK", "UNMOUNT_ON_DAMAGE"
+            ],
+        "breaks_into": [
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "saddle",
         "name": "saddle",
         "symbol": "#",
@@ -715,7 +734,7 @@
         "item": "glass_sheet",
         "difficulty": 1,
         "location": "center",
-        "flags": ["OVER", "OBSTACLE"],
+        "flags": ["OVER", "OBSTACLE", "WINDOW"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -1330,6 +1349,22 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "v_curtain",
+        "name": "curtain",
+        "symbol": "\"",
+        "color": "dark_gray",
+        "broken_symbol": "0",
+        "broken_color": "light_gray",
+        "damage_modifier": 1,
+        "durability": 200,
+        "bonus": 25,
+        "item": "sheet",
+        "location": "on_windshield",
+        "difficulty": 1,
+        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
+        "breaks_into": []
+    },{
+        "type" : "vehicle_part",
         "id" : "solar_panel",
         "name": "solar panel",
         "symbol": "#",
@@ -1635,7 +1670,7 @@
         "item": "reinforced_glass_sheet",
         "difficulty": 6,
         "location": "center",
-        "flags": ["OBSTACLE"],
+        "flags": ["OBSTACLE", "WINDOW"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
