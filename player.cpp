@@ -356,7 +356,7 @@ if (has_active_bionic("bio_reactor") && power_level < max_power_level &&
 		power_level++;
 	}
 	else
-		g->add_msg_if_player(_("Your bionic minireactor is out of plutonium charges."));
+		g->add_msg_if_player(this,_("Your bionic minireactor is out of plutonium charges."));
 }
 
 // Trait / mutation buffs
