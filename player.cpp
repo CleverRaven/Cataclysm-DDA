@@ -6281,7 +6281,7 @@ bool player::consume(game *g, signed char ch)
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
 	        } else {
-	        plut_charge += 50;
+	        plut_charge += 10000;
 	        }
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->type->is_book()) {
