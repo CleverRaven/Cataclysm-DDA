@@ -58,57 +58,61 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         valid_entry = valid_entry && (HOURS(it->starts) < g->turn.get_turn());
         valid_entry = valid_entry && (it->lasts_forever() || HOURS(it->ends) > g->turn.get_turn());
 
-        //Check to insure the various conditions for this spawn definition are met
+        std::vector<std::pair<int,int> > valid_times_of_day;
+        bool season_limited = false;
+        bool season_matched = false;
+        //Collect the various spawn conditions, and then insure they are met appropriately
         for(std::vector<std::string>::iterator condition = it->conditions.begin(); condition != it->conditions.end(); ++condition){
-            if((*condition) == "DAY"){
-                //Unless day, invalid
-                if(!(g->turn.get_turn() > g->turn.sunrise().get_turn() && g->turn.get_turn() < g->turn.sunset().get_turn())){
-                    valid_entry = false;
-                }
-            } else if((*condition) == "NIGHT"){
-                //Unless night, invalid
-                if( !(g->turn.get_turn() < g->turn.sunrise().get_turn() || g->turn.get_turn() > g->turn.sunset().get_turn()) ){
-                    valid_entry = false;
-                }
-            } else if((*condition) == "DUSK"){
-                //Unless we're a certain distance from sundown
-                if( !(g->turn.get_turn() > (g->turn.sunset().get_turn()-HOURS(1) ) &&
-                      g->turn.get_turn() < (g->turn.sunset().get_turn()+HOURS(1) )) ){
-                    valid_entry = false;
-                }
-            } else if((*condition) == "DAWN"){
-                //Unless we're a certain distance from sunup
-                if( !(g->turn.get_turn() > (g->turn.sunrise().get_turn()-HOURS(1) ) &&
-                      g->turn.get_turn() < (g->turn.sunrise().get_turn()+HOURS(1) )) ){
-                    valid_entry = false;
-                }
-            } else if((*condition) == "TWILIGHT"){
-                //Unless we're a certain distance from sunup OR sundown
-                if(!((g->turn.get_turn() > (g->turn.sunset().get_turn()-HOURS(1) ) &&
-                      g->turn.get_turn() < (g->turn.sunset().get_turn()+HOURS(1) ))|| //dusk OR
-                     (g->turn.get_turn() > (g->turn.sunrise().get_turn()-HOURS(1) ) && //dawn
-                      g->turn.get_turn() < (g->turn.sunrise().get_turn()+HOURS(1) )))){
-                    valid_entry = false;
+            //Collect valid time of day ranges
+            if( (*condition) == "DAY" || (*condition) == "NIGHT" || (*condition) == "DUSK" || (*condition) == "DAWN" ){
+                int sunset = g->turn.sunset().get_turn();
+                int sunrise = g->turn.sunrise().get_turn();
+                if((*condition) == "DAY"){
+                    valid_times_of_day.push_back( std::make_pair(sunrise,sunset) );
+                } else if((*condition) == "NIGHT"){
+                    valid_times_of_day.push_back( std::make_pair(sunset,sunrise) );
+                } else if((*condition) == "DUSK"){
+                    valid_times_of_day.push_back( std::make_pair(sunset-HOURS(1),sunset+HOURS(1)) );
+                } else if((*condition) == "DAWN"){
+                    valid_times_of_day.push_back( std::make_pair(sunrise-HOURS(1),sunrise+HOURS(1)) );
                 }
             }
-            if((*condition) == "SUMMER"){
-                if(g->turn.get_season() != SUMMER){
-                    valid_entry = false;
-                }
-            } else if((*condition) == "WINTER"){
-                if(g->turn.get_season() != WINTER){
-                    valid_entry = false;
-                }
-            } else if((*condition) == "AUTUMN"){
-                if(g->turn.get_season() != AUTUMN){
-                    valid_entry = false;
-                }
-            } else if((*condition) == "SPRING"){
-                if(g->turn.get_season() != SPRING){
-                    valid_entry = false;
+            
+            //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
+            if( (*condition) == "SUMMER" || (*condition) == "WINTER" || (*condition) == "SPRING" || (*condition) == "AUTUMN" ){
+                season_limited = true;
+                if( (g->turn.get_season() == SUMMER && (*condition) == "SUMMER") ||
+                    (g->turn.get_season() == WINTER && (*condition) == "WINTER") ||
+                    (g->turn.get_season() == SPRING && (*condition) == "SPRING") ||
+                    (g->turn.get_season() == AUTUMN && (*condition) == "AUTUMN") ){
+                    season_matched = true;
                 }
             }
         }
+
+        //Make sure the current time of day is within one of the valid time ranges for this spawn
+        bool is_valid_time_of_day = false;
+        if(valid_times_of_day.size() < 1){
+            //Then it can spawn whenever, since no times were defined
+            is_valid_time_of_day = true;
+        } else {
+            //Otherwise, it's valid if it matches any of the times of day
+            for(std::vector<std::pair<int,int> >::iterator time_pair = valid_times_of_day.begin(); time_pair != valid_times_of_day.end(); ++time_pair){
+                int time_now = g->turn.get_turn();
+                if(time_now > time_pair->first &&  time_now < time_pair->second){
+                    is_valid_time_of_day = true;
+                }
+            }
+        }
+        if(!is_valid_time_of_day){
+            valid_entry = false;
+        }
+
+        //If we are limited by season, make sure we matched a season
+        if(season_limited && !season_matched){
+            valid_entry = false;
+        }
+
         //If the entry was valid, check to see if we actually spawn it
         if(valid_entry){
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
