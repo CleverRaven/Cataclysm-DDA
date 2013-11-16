@@ -221,7 +221,8 @@ void faction::load_info(std::string data)
  goal = faction_goal(goaltmp);
  job1 = faction_job(jobtmp1);
  job2 = faction_job(jobtmp2);
- int tmpsize, tmpop;
+ int tmpsize = 0;
+ int tmpop = 0;
  dump >> tmpsize;
  for (int i = 0; i < tmpsize; i++) {
   dump >> tmpop;
