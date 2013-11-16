@@ -110,6 +110,7 @@ player::player() : name("")
  max_power_level = 0;
  hunger = 0;
  thirst = 0;
+ plut_charge = 0;
  fatigue = 0;
  stim = 0;
  pain = 0;
@@ -6260,6 +6261,8 @@ bool player::consume(game *g, signed char ch)
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo()) {
+	if(to_eat.type->id == “battery”)
+{
             const int factor = 20;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
@@ -6268,6 +6271,9 @@ bool player::consume(game *g, signed char ch)
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
+	        } else {
+	        plut_charge += 50;
+	        }
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->type->is_book()) {
                 it_book* book = dynamic_cast<it_book*>(to_eat->type);
