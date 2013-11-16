@@ -820,6 +820,8 @@
       ["hamburger", 30],
       ["bacon", 25],
       ["cheese", 30],
+      ["restaurantmap", 5],
+      ["touristmap", 2],
       ["noodles_fast", 30]
     ]
   },{
@@ -855,6 +857,8 @@
       ["coffee_raw", 15],
       ["coffee_raw", 15],
       ["choco_coffee_beans", 10],
+      ["restaurantmap", 5],
+      ["touristmap", 2],
       ["salt", 10]
     ]
   },{
@@ -879,6 +883,8 @@
       ["mp3", 18],
       ["portable_game", 8],
       ["roadmap", 40],
+      ["touristmap", 20],
+      ["restaurantmap", 20],
       ["money_bundle", 55],
       ["gum", 30],
       ["caff_gum", 10],
@@ -2638,6 +2644,7 @@
       ["essay_book", 6],
       ["poetry_book", 6],
       ["philosophy_book", 2],
+      ["survivormap", 1],
       ["pocketwatch", 10]
     ]
   },{
@@ -3041,6 +3048,7 @@
       ["sm_extinguisher", 10],
       ["flaregun", 5],
       ["signal_flare", 10],
+      ["survivormap", 1],
       ["pur_tablets", 5]
     ]
   },{
@@ -3742,6 +3750,7 @@
       ["sm_extinguisher", 10],
       ["flaregun", 20],
       ["signal_flare", 25],
+      ["survivormap", 1],
       ["charcoal", 5]
     ]
   },{
@@ -4009,6 +4018,7 @@
       ["atomic_coffeepot", 5],
       ["pda", 3],
       ["id_military", 3],
+      ["militarymap", 3],
       ["bayonet", 10],
       ["pistol_bayonet", 4],
       ["rope_30", 35],
@@ -4070,6 +4080,7 @@
       ["pocketwatch", 5],
       ["child_book", 20],
       ["e_tool", 10],
+      ["survivormap", 5],
       ["pur_tablets", 10]
     ]
   },{
@@ -4117,6 +4128,7 @@
       ["rock", 40],
       ["stick", 95],
       ["bio_metabolics", 10],
+      ["survivormap", 1],
       ["bio_blaster", 10]
     ]
   },{
@@ -4459,6 +4471,7 @@
       ["fungicide", 3],
       ["flaregun", 20],
       ["signal_flare", 25],
+      ["militarymap", 4],
       ["quikclot", 20]
     ]
   },{
@@ -4543,6 +4556,7 @@
       ["fetus", 1],
       ["id_science", 2],
       ["id_military", 3],
+      ["militarymap", 2],
       ["dump_pouch", 10],
       ["electrohack", 3],
       ["processor", 15],
@@ -4579,6 +4593,7 @@
       ["RPG-7_ammo", 1],
       ["hazmat_suit", 5],
       ["recipe_medicalmut", 10],
+      ["survivormap", 5],
       ["pur_tablets", 20]
     ]
   },{

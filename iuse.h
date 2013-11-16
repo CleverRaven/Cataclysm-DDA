@@ -78,6 +78,10 @@ class iuse
   int noise_emitter_off(game *g, player *p, item *it, bool t);
   int noise_emitter_on (game *g, player *p, item *it, bool t);
   int roadmap          (game *g, player *p, item *it, bool t);
+  int survivormap      (game *g, player *p, item *it, bool t);
+  int militarymap      (game *g, player *p, item *it, bool t);
+  int restaurantmap    (game *g, player *p, item *it, bool t);
+  int touristmap       (game *g, player *p, item *it, bool t);
   int picklock         (game *g, player *p, item *it, bool t);
   int crowbar          (game *g, player *p, item *it, bool t);
   int makemound        (game *g, player *p, item *it, bool t);
