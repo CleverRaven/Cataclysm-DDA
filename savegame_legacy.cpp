@@ -1311,10 +1311,10 @@ void player::load_legacy(game *g, std::stringstream & dump) {
   std::string item_id;
   dump >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
-  if (g->itypes.find(item_id) == g->itypes.end())
+  if (itypes.find(item_id) == itypes.end())
    mortmp.item_type = NULL;
   else
-   mortmp.item_type = g->itypes[item_id];
+   mortmp.item_type = itypes[item_id];
 
   dump >> mortmp.bonus >> mortmp.duration >> mortmp.decay_start
        >> mortmp.age;
@@ -1588,14 +1588,14 @@ void item::load_legacy(game * g, std::stringstream & dump) {
         }
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
-    make(g->itypes[idtmp]);
+    make(itypes[idtmp]);
     invlet = char(lettmp);
     damage = damtmp;
     active = false;
     if (acttmp == 1)
         active = true;
     if (ammotmp != "null")
-        curammo = dynamic_cast<it_ammo*>(g->itypes[ammotmp]);
+        curammo = dynamic_cast<it_ammo*>(itypes[ammotmp]);
     else
         curammo = NULL;
 }

@@ -339,7 +339,7 @@ void mdeath::amigara(game *g, monster *z) {
     if (count <= 1) { // We're the last!
         g->u.rem_disease("amigara");
         g->add_msg(_("Your obsession with the fault fades away..."));
-        item art(new_artifact(g->itypes), g->turn);
+        item art(new_artifact(itypes), g->turn);
         g->m.add_item_or_charges(z->posx(), z->posy(), art);
     }
     normal(g, z);
@@ -536,7 +536,7 @@ void make_gibs(game* g, monster* z, int amount) {
 void make_mon_corpse(game* g, monster* z, int damageLvl) {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse(g->itypes["corpse"], z->type, g->turn);
+    corpse.make_corpse(itypes["corpse"], z->type, g->turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

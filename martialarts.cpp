@@ -351,6 +351,10 @@ bool ma_buff::is_quiet() {
   return quiet;
 }
 
+bool ma_buff::can_melee() {
+  return melee_allowed;
+}
+
 
 
 martialart::martialart() {
@@ -452,13 +456,13 @@ bool player::has_grab_break_tec() {
 
 bool player::can_leg_block() {
   return (skillLevel("unarmed") >= martialarts[style_selected].leg_block &&
-          martialarts[style_selected].leg_block > -1 && 
+          martialarts[style_selected].leg_block > -1 &&
           (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_l] > 0));
 }
 
 bool player::can_arm_block() {
   return (skillLevel("unarmed") >= martialarts[style_selected].arm_block &&
-          martialarts[style_selected].arm_block > -1 && 
+          martialarts[style_selected].arm_block > -1 &&
           (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_l] > 0));
 }
 
@@ -582,6 +586,17 @@ bool player::is_quiet() {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
       if (ma_buffs[it->buff_id].is_quiet()) return true;
+    }
+  }
+  return false;
+}
+
+bool player::can_melee() {
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      if (ma_buffs[it->buff_id].can_melee()) return true;
     }
   }
   return false;

@@ -26,7 +26,7 @@ public:
     //Setup
     Item_factory();
     void init();
-    void init(game* main_game) throw (std::string);
+    void init_old();
     void register_iuse_lua(const char* name, int lua_function);
 
     void load_item_group(JsonObject &jsobj);

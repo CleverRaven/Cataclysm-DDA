@@ -113,7 +113,7 @@ void game::init_data()
     init_faction_data();
     init_morale();
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    item_controller->init(this); //Item manager
+    item_controller->init_old(); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
@@ -7887,7 +7887,7 @@ void game::pickup(int posx, int posy, int min)
                     used_feature = true;
                     if (veh->fuel_left("battery") > 0) {
                         //Will be -1 if no battery at all
-                        item tmp_hotplate( g->itypes["hotplate"], 0 );
+                        item tmp_hotplate( itypes["hotplate"], 0 );
                         // Drain a ton of power
                         tmp_hotplate.charges = veh->drain( "battery", 100 );
                         if( tmp_hotplate.is_tool() ) {
@@ -7909,7 +7909,7 @@ void game::pickup(int posx, int posy, int min)
                     if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
                     {
                         int amt = veh->drain("water", veh->fuel_left("water"));
-                        item fill_water(g->itypes[default_ammo("water")], g->turn);
+                        item fill_water(itypes[default_ammo("water")], g->turn);
                         fill_water.charges = amt;
                         int back = g->move_liquid(fill_water);
                         if(back >= 0)
@@ -7951,7 +7951,7 @@ void game::pickup(int posx, int posy, int min)
                     used_feature = true;
                     if (veh->fuel_left("battery") > 0) {
                         //Will be -1 if no battery at all
-                        item tmp_welder( g->itypes["welder"], 0 );
+                        item tmp_welder( itypes["welder"], 0 );
                         // Drain a ton of power
                         tmp_welder.charges = veh->drain( "battery", 1000 );
                         if( tmp_welder.is_tool() ) {
@@ -7973,7 +7973,7 @@ void game::pickup(int posx, int posy, int min)
                     used_feature = true;
                     if (veh->fuel_left("battery") > 0) {
                         //Will be -1 if no battery at all
-                        item tmp_purifier( g->itypes["water_purifier"], 0 );
+                        item tmp_purifier( itypes["water_purifier"], 0 );
                         // Drain a ton of power
                         tmp_purifier.charges = veh->drain( "battery", 100 );
                         if( tmp_purifier.is_tool() ) {
@@ -8581,7 +8581,7 @@ void game::grab()
 }
 
 // Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source)
+bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source, item *cont)
 {
     if (!liquid.made_of(LIQUID)) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -8636,22 +8636,26 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
     }
 
-    std::stringstream text;
-    text << _("Container for ") << liquid.tname(this);
-    char ch = inv_type(text.str().c_str(), IC_CONTAINER);
-    if (!u.has_item(ch)) {
-        // No container selected (escaped, ...), ask to pour
-        // we asked to pour rotten already
-        if (!from_ground && !liquid.rotten(this) &&
+    if (cont == NULL) {
+        std::stringstream text;
+        text << _("Container for ") << liquid.tname(this);
+
+        char ch = inv_for_liquid(liquid, text.str().c_str(), false);
+        if (!u.has_item(ch)) {
+            // No container selected (escaped, ...), ask to pour
+            // we asked to pour rotten already
+            if (!from_ground && !liquid.rotten(this) &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname(this).c_str())) {
-            if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
-                m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-            return true;
+                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy))
+                        m.add_item_or_charges(u.posx, u.posy, liquid, 1);
+                    return true;
+            }
+            return false;
         }
-        return false;
+
+        cont = &(u.i_at(ch));
     }
 
-    item *cont = &(u.i_at(ch));
     if (cont == NULL || cont->is_null()) {
         // Container is null, ask to pour.
         // we asked to pour rotten already
@@ -8720,98 +8724,77 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
         return true;
 
-    } else if (!cont->is_container()) {
-        add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(),
-                liquid.tname(this).c_str());
-        return false;
     } else {      // filling up normal containers
-        // first, check if liquid types are compatible
-        if (!cont->contents.empty()) {
-            if  (cont->contents[0].type->id != liquid.type->id) {
+        LIQUID_FILL_ERROR error;
+        int remaining_capacity = cont->get_remaining_capacity_for_liquid(liquid, error);
+        if (remaining_capacity <= 0) {
+            switch (error)
+            {
+            case L_ERR_NO_MIX:
                 add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
-                return false;
-            }
-        }
-
-        // ok, liquids are compatible.  Now check what the type of liquid is
-        // this will determine how much the holding container can hold
-
-        it_container *container = dynamic_cast<it_container *>(cont->type);
-        int holding_container_charges;
-
-        if (liquid.type->is_food()) {
-            it_comest *tmp_comest = dynamic_cast<it_comest *>(liquid.type);
-            holding_container_charges = container->contains * tmp_comest->charges;
-        } else if (liquid.type->is_ammo()) {
-            it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(liquid.type);
-            holding_container_charges = container->contains * tmp_ammo->count;
-        } else {
-            holding_container_charges = container->contains;
-        }
-
-        // if the holding container is NOT empty
-        if (!cont->contents.empty()) {
-            // case 1: container is completely full
-            if (cont->contents[0].charges == holding_container_charges) {
+                break;
+            case L_ERR_NOT_CONTAINER:
+                add_msg(_("That %s won't hold %s."), cont->tname(this).c_str(), liquid.tname(this).c_str());
+                break;
+            case L_ERR_NOT_WATERTIGHT:
+                add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
+                break;
+            case L_ERR_NOT_SEALED:
+                add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
+                break;
+            case L_ERR_FULL:
                 add_msg(_("Your %s can't hold any more %s."), cont->tname(this).c_str(),
-                        liquid.tname(this).c_str());
-                return false;
+                    liquid.tname(this).c_str());
+                break;
+            default:
+                break;
             }
+            return false;
+        }
 
-            // case 2: container is half full
-
+        if (!cont->contents.empty()) {
+            // Container is partly full
             if (infinite) {
-                cont->contents[0].charges = holding_container_charges;
+                cont->contents[0].charges += remaining_capacity;
                 add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
                         cont->tname(this).c_str());
                 return true;
             } else { // Container is finite, not empty and not full, add liquid to it
                 add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
                         cont->tname(this).c_str());
-                cont->contents[0].charges += liquid.charges;
-                if (cont->contents[0].charges > holding_container_charges) {
-                    int extra = cont->contents[0].charges - holding_container_charges;
-                    cont->contents[0].charges = holding_container_charges;
-                    liquid.charges = extra;
+                if (remaining_capacity > liquid.charges) {
+                    remaining_capacity = liquid.charges;
+                }
+                cont->contents[0].charges += remaining_capacity;
+                liquid.charges -= remaining_capacity;
+                if (liquid.charges > 0) {
                     add_msg(_("There's some left over!"));
                     // Why not try to find another container here?
                     return false;
                 }
                 return true;
             }
-        } else { // pouring into an empty container
-            if (!cont->has_flag("WATERTIGHT")) { // invalid container types
-                add_msg(_("That %s isn't water-tight."), cont->tname(this).c_str());
-                return false;
-            } else if (!(cont->has_flag("SEALS"))) {
-                add_msg(_("You can't seal that %s!"), cont->tname(this).c_str());
-                return false;
-            }
+        } else {
             // pouring into a valid empty container
-            int default_charges = 1;
-
-            if (liquid.is_food()) {
-                it_comest *comest = dynamic_cast<it_comest *>(liquid.type);
-                default_charges = comest->charges;
-            } else if (liquid.is_ammo()) {
-                it_ammo *ammo = dynamic_cast<it_ammo *>(liquid.type);
-                default_charges = ammo->count;
-            }
-
+            item liquid_copy = liquid;
+            bool all_poured = true;
             if (infinite) { // if filling from infinite source, top it to max
-                liquid.charges = container->contains * default_charges;
-            } else if (liquid.charges > container->contains * default_charges) {
+                liquid_copy.charges = remaining_capacity;
+                add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                    cont->tname(this).c_str());
+            } else if (liquid.charges > remaining_capacity) {
                 add_msg(_("You fill your %s with some of the %s."), cont->tname(this).c_str(),
                         liquid.tname(this).c_str());
                 u.inv.unsort();
-                int oldcharges = liquid.charges - container->contains * default_charges;
-                liquid.charges = container->contains * default_charges;
-                cont->put_in(liquid);
-                liquid.charges = oldcharges;
-                return false;
+                liquid.charges -= remaining_capacity;
+                liquid_copy.charges = remaining_capacity;
+                all_poured = false;
+            } else {
+                add_msg(_("You pour %s into your %s."), liquid.tname(this).c_str(),
+                    cont->tname(this).c_str());
             }
-            cont->put_in(liquid);
-            return true;
+            cont->put_in(liquid_copy);
+            return all_poured;
         }
     }
     return false;
@@ -8830,7 +8813,7 @@ int game::move_liquid(item &liquid)
   //liquid is in fact a liquid.
   std::stringstream text;
   text << _("Container for ") << liquid.tname(this);
-  char ch = inv_type(text.str().c_str(), IC_CONTAINER);
+  char ch = inv_for_liquid(liquid, text.str().c_str(), false);
 
   //is container selected?
   if(u.has_item(ch)) {
@@ -11906,7 +11889,7 @@ bool game::spread_fungus(int x, int y)
                 for (int k = 0; k < g->m.i_at(x, y).size(); k++) {
                     m.i_rem(x, y, k);
                 }
-                item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                item seeds(itypes["fungal_seeds"], int(g->turn));
                 m.add_item_or_charges(x, y, seeds);
             }
         }
@@ -11990,7 +11973,7 @@ bool game::spread_fungus(int x, int y)
                             for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
                                 m.i_rem(i, j, k);
                             }
-                            item seeds(g->itypes["fungal_seeds"], int(g->turn));
+                            item seeds(itypes["fungal_seeds"], int(g->turn));
                             m.add_item_or_charges(x, y, seeds);
                         }
                     }

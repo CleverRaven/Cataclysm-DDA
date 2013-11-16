@@ -56,6 +56,9 @@ struct iteminfo{
   }
 };
 
+enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT, 
+    L_ERR_NOT_SEALED, L_ERR_FULL};
+
 class item
 {
 public:
@@ -184,6 +187,8 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+
+ int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
 
  bool operator<(const item& other) const;
 

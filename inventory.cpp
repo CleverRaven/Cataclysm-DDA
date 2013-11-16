@@ -273,6 +273,19 @@ inventory inventory::filter_by_category(item_cat cat, const player& u) const
     return reduced_inv;
 }
 
+inventory inventory::filter_by_capacity_for_liquid(const item &liquid) const
+{
+    inventory reduced_inv;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
+        const item& it = iter->front();
+        LIQUID_FILL_ERROR error;
+        if (it.get_remaining_capacity_for_liquid(liquid, error) > 0) {
+            reduced_inv.clone_stack(*iter);
+        }
+    }
+    return reduced_inv;
+}
+
 
 void inventory::unsort()
 {
@@ -553,12 +566,12 @@ void inventory::form_from_map(game *g, point origin, int range)
 // Kludges for now!
    ter_id terrain_id = g->m.ter(x, y);
    if ((g->m.field_at(x, y).findField(fd_fire)) || (terrain_id == t_lava)) {
-    item fire(g->itypes["fire"], 0);
+    item fire(itypes["fire"], 0);
     fire.charges = 1;
     add_item(fire);
    }
    if (terrain_id == t_water_sh || terrain_id == t_water_dp){
-    item water(g->itypes["water"], 0);
+    item water(itypes["water"], 0);
     water.charges = 50;
     add_item(water);
    }
@@ -590,43 +603,43 @@ void inventory::form_from_map(game *g, point origin, int range)
      const int forgepart = veh->part_with_feature(vpart, "FORGE");
 
      if (kpart >= 0) {
-       item hotplate(g->itypes["hotplate"], 0);
+       item hotplate(itypes["hotplate"], 0);
        hotplate.charges = veh->fuel_left("battery", true);
        add_item(hotplate);
 
-       item water(g->itypes["water_clean"], 0);
+       item water(itypes["water_clean"], 0);
        water.charges = veh->fuel_left("water");
        add_item(water);
 
-       item pot(g->itypes["pot"], 0);
+       item pot(itypes["pot"], 0);
        add_item(pot);
-       item pan(g->itypes["pan"], 0);
+       item pan(itypes["pan"], 0);
        add_item(pan);
        }
      if (weldpart >= 0) {
-       item welder(g->itypes["welder"], 0);
+       item welder(itypes["welder"], 0);
        welder.charges = veh->fuel_left("battery", true);
        add_item(welder);
 
-       item soldering_iron(g->itypes["soldering_iron"], 0);
+       item soldering_iron(itypes["soldering_iron"], 0);
        soldering_iron.charges = veh->fuel_left("battery", true);
        add_item(soldering_iron);
        }
      if (craftpart >= 0) {
-       item vac_sealer(g->itypes["vac_sealer"], 0);
+       item vac_sealer(itypes["vac_sealer"], 0);
        vac_sealer.charges = veh->fuel_left("battery", true);
        add_item(vac_sealer);
 
-       item dehydrator(g->itypes["dehydrator"], 0);
+       item dehydrator(itypes["dehydrator"], 0);
        dehydrator.charges = veh->fuel_left("battery", true);
        add_item(dehydrator);
 
-       item press(g->itypes["press"], 0);
+       item press(itypes["press"], 0);
        press.charges = veh->fuel_left("battery", true);
        add_item(press);
        }
      if (forgepart >= 0) {
-       item forge(g->itypes["forge"], 0);
+       item forge(itypes["forge"], 0);
        forge.charges = veh->fuel_left("battery", true);
        add_item(forge);
        }

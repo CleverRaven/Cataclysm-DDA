@@ -301,8 +301,8 @@ player& player::operator= (const player & rhs)
 
 void player::normalize(game *g)
 {
- ret_null = item(g->itypes["null"], 0);
- weapon   = item(g->itypes["null"], 0);
+ ret_null = item(itypes["null"], 0);
+ weapon   = item(itypes["null"], 0);
  style_selected = "style_none";
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
@@ -2713,24 +2713,29 @@ void player::disp_morale(game *g)
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
     bool sideStyle = use_narrow_sidebar();
-
-    // get the current weapon mode or mods
-    std::string mode = "";
-    if (weapon.mode == "MODE_BURST") {
-        mode = _("Burst");
-    } else {
-        item* gunmod = weapon.active_gunmod();
-        if (gunmod != NULL) {
-            mode = gunmod->type->name;
-        }
-    }
-
     WINDOW *weapwin = sideStyle ? w2 : w;
-    if (mode == "") {
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
-    } else {
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s (%s)"), weapname().c_str(), mode.c_str());
+
+    // Print current weapon, or attachment if active.
+    item* gunmod = weapon.active_gunmod();
+    std::string mode = "";
+    std::stringstream attachment;
+    if (gunmod != NULL)
+    {
+        attachment << gunmod->type->name.c_str();
+        for (int i = 0; i < weapon.contents.size(); i++)
+                if (weapon.contents[i].is_gunmod() &&
+                        weapon.contents[i].has_flag("MODE_AUX"))
+                    attachment << " (" << weapon.contents[i].charges << ")";
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Mod)"), attachment.str().c_str());
     }
+    else
+    {
+        if (weapon.mode == "MODE_BURST")
+                mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Burst)"), weapname().c_str());
+        else
+            mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s"), weapname().c_str());
+    }
+
     if (weapon.is_gun()) {
         int adj_recoil = recoil + driving_recoil;
         if (adj_recoil > 0) {
@@ -2747,16 +2752,33 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         }
     }
 
-    // Print currently used style
+    // Print currently used style or weapon mode.
     std::string style = "";
-    if (style_selected == "style_none") {
-        style = _("No Style");
-    } else {
-        style = martialarts[style_selected].name;
-    }
-    if (style != "") {
+    if (is_armed())
+    {
+        if (style_selected == "style_none")
+            style = _("Normal");
+        else if (can_melee())
+            style = martialarts[style_selected].name;
+
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_blue, style.c_str());
+        mvwprintz(weapwin, 1, x, c_red, style.c_str());
+    }
+    else
+    {
+        if (style_selected == "style_none")
+        {
+            style = _("No Style");
+        }
+        else
+        {
+            style = martialarts[style_selected].name;
+        }
+        if (style != "")
+        {
+            int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
+            mvwprintz(weapwin, 1, x, c_blue, style.c_str());
+        }
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
@@ -3447,7 +3469,7 @@ int player::throw_range(signed char ch)
   return -1;
  else
   tmp = inv.item_by_letter(ch);
- 
+
  if (tmp.count_by_charges() && tmp.charges > 1)
   tmp.charges = 1;
 
@@ -4388,7 +4410,7 @@ int player::addiction_level(add_type type)
 bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( g->itypes[default_ammo(desired_liquid)], g->turn );
+    item used_item( itypes[default_ammo(desired_liquid)], g->turn );
     used_item.charges = liquid_amount;
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {
@@ -5484,7 +5506,7 @@ bool player::process_single_active_item(game *g, item *it)
                 }
                 else
                 {
-                    it->type = g->itypes[tmp->revert_to];
+                    it->type = itypes[tmp->revert_to];
                 }
             }
         }
@@ -6234,12 +6256,12 @@ bool player::consume(game *g, signed char ch)
                 // Check tools
                 bool has = has_amount(comest->tool, 1);
                 // Tools with charges need to have charges, not just be present.
-                if (g->itypes[comest->tool]->count_by_charges()) {
+                if (itypes[comest->tool]->count_by_charges()) {
                     has = has_charges(comest->tool, 1);
                 }
                 if (!has) {
                     g->add_msg_if_player(this,_("You need a %s to consume that!"),
-                                         g->itypes[comest->tool]->name.c_str());
+                                         itypes[comest->tool]->name.c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
@@ -6345,12 +6367,12 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     if (comest->tool != "null") {
         bool has = has_amount(comest->tool, 1);
-        if (g->itypes[comest->tool]->count_by_charges()) {
+        if (itypes[comest->tool]->count_by_charges()) {
             has = has_charges(comest->tool, 1);
         }
         if (!has) {
             g->add_msg_if_player(this,_("You need a %s to consume that!"),
-                       g->itypes[comest->tool]->name.c_str());
+                       itypes[comest->tool]->name.c_str());
             return false;
         }
     }
@@ -6431,7 +6453,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
                                   eaten->tname(g).c_str());
     }
 
-    if (g->itypes[comest->tool]->is_tool()) {
+    if (itypes[comest->tool]->is_tool()) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
@@ -7527,7 +7549,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
              ++list_iter)
         {
             recipe* cur_recipe = *list_iter;
-            if (it->type == g->itypes[cur_recipe->result] && cur_recipe->reversible)
+            if (it->type == itypes[cur_recipe->result] && cur_recipe->reversible)
             // ok, a valid recipe exists for the item, and it is reversible
             // assign the activity
             {
@@ -8001,7 +8023,7 @@ bool player::try_study_recipe(game *g, it_book *book)
             {
                 learn_recipe(iter->first);
                 g->add_msg(_("Learned a recipe for %s from the %s."),
-                           g->itypes[iter->first->result]->name.c_str(), book->name.c_str());
+                           itypes[iter->first->result]->name.c_str(), book->name.c_str());
                 return true;
             }
             else
