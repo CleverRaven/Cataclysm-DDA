@@ -5,7 +5,6 @@
 #include "itype.h"
 #include "item.h"
 #include "color.h"
-#include "picojson.h"
 #include "json.h"
 #include "item_group.h"
 #include "iuse.h"
@@ -16,7 +15,6 @@
 
 typedef std::string Item_tag;
 typedef std::vector<item> Item_list;
-typedef int (iuse::*Use_function)(game*,player*,item*,bool);
 
 //For the iuse arguments
 class game;
@@ -29,6 +27,7 @@ public:
     Item_factory();
     void init();
     void init(game* main_game) throw (std::string);
+    void register_iuse_lua(const char* name, int lua_function);
 
     void load_item_group(JsonObject &jsobj);
 
@@ -64,7 +63,7 @@ private:
     std::map<Item_tag, Item_group*> m_template_groups;
 
     //json data handlers
-    Use_function use_from_string(std::string name);
+    use_function use_from_string(std::string name);
     phase_id phase_from_tag(Item_tag name);
 
     void load_basic_info(JsonObject &jo, itype *new_item);
@@ -83,7 +82,7 @@ private:
                                unsigned& cur_bitmask, std::string new_flag);
 
     //iuse stuff
-    std::map<Item_tag, Use_function> iuse_function_list;
+    std::map<Item_tag, use_function> iuse_function_list;
     //techniques stuff
     std::map<Item_tag, matec_id> techniques_list;
     //bodyparts

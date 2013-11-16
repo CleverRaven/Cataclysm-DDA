@@ -28,7 +28,6 @@
 #include <math.h>
 #include <vector>
 #include "debug.h"
-#include "artifactdata.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 #define maplim 132
@@ -264,7 +263,7 @@ void editmap::uphelp (std::string txt1, std::string txt2, std::string title)
  * main()
  */
 
-point editmap::edit(point coords)
+point editmap::edit()
 {
     target.x = g->u.posx + g->u.view_offset_x;
     target.y = g->u.posy + g->u.view_offset_y;
@@ -298,16 +297,16 @@ point editmap::edit(point coords)
             input = get_input(ch); // get_input: Not very useful for arbitrary keys, so check getch value first.
         }
         if(ch == 'g') {
-            edit_ter( target );
+            edit_ter();
             lastop = 'g';
         } else if ( ch == 'f' ) {
-            edit_fld( target );
+            edit_fld();
             lastop = 'f';
         } else if ( ch == 'i' ) {
-            edit_itm( target );
+            edit_itm();
             lastop = 'i';
         } else if ( ch == 't' ) {
-            edit_trp( target );
+            edit_trp();
             lastop = 't';
         } else if ( ch == 'v' ) {
             uberdraw = !uberdraw;
@@ -317,14 +316,14 @@ point editmap::edit(point coords)
             int veh_part = -1;
             vehicle *veh = g->m.veh_at(target.x, target.y, veh_part);
           if(mon_index >= 0) {
-            edit_mon(target);
+            edit_mon();
           } else if (npc_index >= 0) {
-            edit_npc(target);
+            edit_npc();
           } else if (veh) {
-            edit_veh(target);
+            edit_veh();
           }
         } else if ( ch == 'o' ) {
-            edit_mapgen( target );
+            edit_mapgen();
             lastop = 'o';
             target_list.clear();
             origin = target;
@@ -630,7 +629,7 @@ int get_alt_ter(bool isvert, ter_id sel_ter) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// edit terrain type / furniture
-int editmap::edit_ter(point coords)
+int editmap::edit_ter()
 {
     int ret = 0;
     int pwh = TERRAIN_WINDOW_HEIGHT - 4;
@@ -945,7 +944,7 @@ void editmap::update_fmenu_entry(uimenu *fmenu, field *field, int idx)
     fmenu->entries[idx].extratxt.color = ftype.color[fdens-1];
 }
 
-void editmap::setup_fmenu(uimenu *fmenu, field *field)
+void editmap::setup_fmenu(uimenu *fmenu)
 {
     std::string fname;
     fmenu->entries.clear();
@@ -963,7 +962,7 @@ void editmap::setup_fmenu(uimenu *fmenu, field *field)
     }
 }
 
-int editmap::edit_fld(point coords)
+int editmap::edit_fld()
 {
     int ret = 0;
     uimenu fmenu;
@@ -972,7 +971,7 @@ int editmap::edit_fld(point coords)
     fmenu.w_y = 0;
     fmenu.w_x = TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X;
     fmenu.return_invalid = true;
-    setup_fmenu(&fmenu, cur_field);
+    setup_fmenu(&fmenu);
 
     do {
         uphelp("[s/tab] shape select, [m]ove, [<,>] density",
@@ -1064,7 +1063,7 @@ int editmap::edit_fld(point coords)
             int sel_tmp = fmenu.selected;
             int ret = select_shape(editshape, ( fmenu.keypress == 'm' ? 1 : 0 ) );
             if ( ret > 0 ) {
-                setup_fmenu(&fmenu, cur_field);
+                setup_fmenu(&fmenu);
             }
             fmenu.selected = sel_tmp;
         } else if ( fmenu.keypress == 'v' ) {
@@ -1078,7 +1077,7 @@ int editmap::edit_fld(point coords)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// edit traps
-int editmap::edit_trp(point coords)
+int editmap::edit_trp()
 {
     int ret = 0;
     int pwh = TERRAIN_WINDOW_HEIGHT - infoHeight - 1;
@@ -1166,7 +1165,7 @@ enum editmap_imenu_ent {
     imenu_exit,
 };
 
-int editmap::edit_itm(point coords)
+int editmap::edit_itm()
 {
     int ret = 0;
     uimenu ilmenu;
@@ -1281,7 +1280,7 @@ int editmap::edit_itm(point coords)
 /*
  *  Todo
  */
-int editmap::edit_mon(point coords)
+int editmap::edit_mon()
 {
     int ret = 0;
     int mon_index = g->mon_at(target.x, target.y);
@@ -1291,7 +1290,7 @@ int editmap::edit_mon(point coords)
 }
 
 
-int editmap::edit_veh(point coords)
+int editmap::edit_veh()
 {
     int ret = 0;
     int veh_part = -1;
@@ -1400,7 +1399,7 @@ bool editmap::move_target( InputEvent &input, int ch, int moveorigin )
 /*
  * Todo
  */
-int editmap::edit_npc(point coords)
+int editmap::edit_npc()
 {
     int ret = 0;
     int npc_index = g->npc_at(target.x, target.y);
@@ -1714,7 +1713,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 /*
  * Move mapgen's target, which is different enough from the standard tile edit to warrant it's own function.
  */
-int editmap::mapgen_retarget ( WINDOW *preview, map *mptr)
+int editmap::mapgen_retarget()
 {
     int ret = 0;
     int ch = 0;
@@ -1762,7 +1761,7 @@ int editmap::mapgen_retarget ( WINDOW *preview, map *mptr)
 /*
  * apply mapgen to a temporary map and overlay over terrain window, optionally regenerating, rotating, and applying to the real in-game map
  */
-int editmap::edit_mapgen(point coords)
+int editmap::edit_mapgen()
 {
     int ret = 0;
     point orig = target;

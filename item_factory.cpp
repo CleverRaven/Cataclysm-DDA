@@ -40,6 +40,7 @@ void Item_factory::init(){
     iuse_function_list["FIRSTAID"] = &iuse::firstaid;
     iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
+    iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
     iuse_function_list["PKILL"] = &iuse::pkill;
@@ -633,8 +634,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     }
 }
 
-Use_function Item_factory::use_from_string(std::string function_name){
-    std::map<Item_tag, Use_function>::iterator found_function = iuse_function_list.find(function_name);
+use_function Item_factory::use_from_string(std::string function_name){
+    std::map<Item_tag, use_function>::iterator found_function = iuse_function_list.find(function_name);
 
     //Before returning, make sure sure the function actually exists
     if(found_function != iuse_function_list.end()){

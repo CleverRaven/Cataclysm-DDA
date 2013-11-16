@@ -174,7 +174,7 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w, int vStart, int vLines)
+int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -185,7 +185,7 @@ void monster::print_info(game *g, WINDOW* w, int vStart, int vLines)
 
  const int vEnd = vStart + vLines;
 
- mvwprintz(w, vStart, 1, c_white, "%s ", type->name.c_str());
+ mvwprintz(w, vStart++, column, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
   case MATT_FRIEND:
    wprintz(w, h_white, _("Friendly! "));
@@ -233,13 +233,14 @@ void monster::print_info(game *g, WINDOW* w, int vStart, int vLines)
   damage_info = _("it is nearly dead");
   col = c_red;
  }
- mvwprintz(w, vStart+1, 1, col, damage_info.c_str());
+ mvwprintz(w, vStart++, column, col, damage_info.c_str());
 
-    int line = vStart + 2;
-    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 2);
+    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
     int numlines = lines.size();
-    for (int i = 0; i < numlines && line <= vEnd; i++, line++)
-        mvwprintz(w, line, 1, c_white, lines[i].c_str());
+    for (int i = 0; i < numlines && vStart <= vEnd; i++)
+        mvwprintz(w, vStart++, column, c_white, lines[i].c_str());
+
+    return vStart;
 }
 
 char monster::symbol()
@@ -341,7 +342,7 @@ bool monster::made_of(phase_id p)
  return false;
 }
 
-void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
+void monster::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -352,11 +353,11 @@ void monster::load_info(std::string data, std::vector <mtype *> *mtypes)
         if ( ! jsonerr.empty() ) {
             debugmsg("Bad monster json\n%s", jsonerr.c_str() );
         } else {
-            json_load(pdata, mtypes);
+            json_load(pdata);
         }
         return;
     } else {
-        load_legacy(mtypes, dump);
+        load_legacy(dump);
     }
 }
 
@@ -552,60 +553,60 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
 }
 
 int monster::hit(game *g, player &p, body_part &bp_hit) {
-    int ret = 0;
-    int highest_hit = 0;
+ int ret = 0;
+ int highest_hit = 0;
 
     //If the player is knocked down or the monster can fly, any body part is a valid target
     if(p.is_on_ground() || has_flag(MF_FLIES)){
         highest_hit = 20;
     } 
     else {
-         switch (type->size) {
-             case MS_TINY:
-                 highest_hit = 3;
-                 break;
-             case MS_SMALL:
-                 highest_hit = 12;
-                 break;
-             case MS_MEDIUM:
-                 highest_hit = 20;
-                 break;
-             case MS_LARGE:
-                 highest_hit = 28;
-                 break;
-             case MS_HUGE:
-                 highest_hit = 35;
-                 break;
-         }
+ switch (type->size) {
+ case MS_TINY:
+  highest_hit = 3;
+ break;
+ case MS_SMALL:
+  highest_hit = 12;
+ break;
+ case MS_MEDIUM:
+  highest_hit = 20;
+ break;
+ case MS_LARGE:
+  highest_hit = 28;
+ break;
+ case MS_HUGE:
+  highest_hit = 35;
+ break;
+ }
          if (digging()){
-             highest_hit -= 8;
+  highest_hit -= 8;
          }
         if (highest_hit <= 1){
-            highest_hit = 2;
+  highest_hit = 2;
         }
     }
 
     if (highest_hit > 20){
-        highest_hit = 20;
+  highest_hit = 20;
     }
- 
 
-    int bp_rand = rng(0, highest_hit - 1);
+
+ int bp_rand = rng(0, highest_hit - 1);
     if (bp_rand <=  2){
-        bp_hit = bp_legs;
+  bp_hit = bp_legs;
     } else if (bp_rand <= 10){
-        bp_hit = bp_torso;
+  bp_hit = bp_torso;
     } else if (bp_rand <= 14){
-        bp_hit = bp_arms;
+  bp_hit = bp_arms;
     } else if (bp_rand <= 16){
-        bp_hit = bp_mouth;
+  bp_hit = bp_mouth;
     } else if (bp_rand == 17){
-        bp_hit = bp_eyes;
+  bp_hit = bp_eyes;
     } else{
-        bp_hit = bp_head;
+  bp_hit = bp_head;
     }
-    ret += dice(type->melee_dice, type->melee_sides);
-    return ret;
+ ret += dice(type->melee_dice, type->melee_sides);
+ return ret;
 }
 
 void monster::hit_monster(game *g, int i)
@@ -808,7 +809,7 @@ void monster::drop_items_on_death(game *g)
         // We have selected a string representing an item group, now
         // get a random item tag from it and spawn it.
         Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
-        g->m.spawn_item(_posx, _posy, selected_item, 0);
+        g->m.spawn_item(_posx, _posy, selected_item);
 
         if (type->item_chance < 0)
         {
@@ -882,7 +883,7 @@ void monster::process_effects(game *g)
  }
 }
 
-bool monster::make_fungus(game *g)
+bool monster::make_fungus()
 {
     char polypick = 0;
     std::string tid = type->id;

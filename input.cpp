@@ -1,6 +1,6 @@
 #include "cursesdef.h"
 #include "input.h"
-#include "picojson.h"
+#include "json.h"
 #include "output.h"
 #include "keypress.h"
 #include <fstream>
@@ -76,27 +76,6 @@ InputEvent get_input(int ch)
             return Undefined;
     }
 
-}
-
-// Gets input from both keyboard and mouse
-mapped_input get_input_from_kyb_mouse()
-{
-    input_event raw_event;
-
-#if (defined TILES || defined SDLTILES)
-        raw_event = getch_kyb_mouse();
-#else
-        raw_event.type = CATA_INPUT_KEYBOARD;
-        raw_event.add_input(get_keypress());
-#endif
-
-    mapped_input mapped;
-    mapped.evt = raw_event;
-    if (raw_event.type != CATA_INPUT_MOUSE) {
-        mapped.command = get_input(raw_event.get_first_input());
-    }
-
-    return mapped;
 }
 
 bool is_mouse_enabled()
@@ -175,83 +154,64 @@ void input_manager::init() {
     init_keycode_mapping();
 
     std::ifstream data_file;
-    picojson::value input_value;
 
     std::string file_name = "data/raw/keybindings.json";
-    data_file.open(file_name.c_str());
+    data_file.open(file_name.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if(!data_file.good()) {
         throw "Could not read " + file_name;
     }
 
-    data_file >> input_value;
-    data_file.close();
-
-    if(!input_value.is<picojson::array>()) {
-        throw file_name + "is not an array";
-    }
+    JsonIn jsin(&data_file);
 
     //Crawl through once and create an entry for every definition
-    const picojson::array& root = input_value.get<picojson::array>();
-
-    for (picojson::array::const_iterator entry = root.begin();
-         entry != root.end(); ++entry) {
-        if( !(entry->is<picojson::object>()) ){
-            debugmsg("Invalid keybinding setting, entry not a JSON object");
-            continue;
-        }
-
+    jsin.start_array();
+    while (!jsin.end_array()) {
         // JSON object representing the action
-        const picojson::value& action_object = *entry;
+        JsonObject action = jsin.get_object();
 
-        const std::string& action_id = action_object.get("id").get<std::string>();
-
-        std::string context = "default";
-        if(action_object.contains("category")) {
-            context = action_object.get("category").get<std::string>();
-        }
+        const std::string action_id = action.get_string("id");
+        actionID_to_name[action_id] = action.get_string("name", action_id);
+        const std::string context = action.get_string("category", "default");
 
         // Iterate over the bindings JSON array
-        const picojson::array& keybindings = action_object.get("bindings").get<picojson::array>();
-        for (picojson::array::const_iterator subentry = keybindings.begin();
-             subentry != keybindings.end(); ++subentry) {
-
-            const picojson::value& keybinding = *subentry;
-            const std::string& input_method = keybinding.get("input_method").get<std::string>();
+        JsonArray bindings = action.get_array("bindings");
+        const bool defaultcontext = (context == "default");
+        while (bindings.has_more()) {
+            JsonObject keybinding = bindings.next_object();
+            std::string input_method = keybinding.get_string("input_method");
             input_event new_event;
             if(input_method == "keyboard") {
                 new_event.type = CATA_INPUT_KEYBOARD;
             } else if(input_method == "gamepad") {
                 new_event.type = CATA_INPUT_GAMEPAD;
+            } else if(input_method == "mouse") {
+                new_event.type = CATA_INPUT_MOUSE;
             }
 
-            if(keybinding.get("key").is<std::string>()) {
-                const std::string& key = keybinding.get("key").get<std::string>();
-
-                new_event.sequence.push_back(inp_mngr.get_keycode(key));
-            } else if(keybinding.get("key").is<picojson::array>()) {
-                picojson::array keys = keybinding.get("key").get<picojson::array>();
-                for(int i=0; i<keys.size(); i++) {
-                    const std::string& next_key = keybinding.get("key").get(i).get<std::string>();
-
-                    new_event.sequence.push_back(inp_mngr.get_keycode(next_key));
+            if (keybinding.has_array("key")) {
+                JsonArray keys = keybinding.get_array("key");
+                while (keys.has_more()) {
+                    new_event.sequence.push_back(
+                        get_keycode(keys.next_string())
+                    );
                 }
+            } else { // assume string if not array, and throw if not string
+                new_event.sequence.push_back(
+                    get_keycode(keybinding.get_string("key"))
+                );
             }
 
-            if(context == "default") {
+            if (defaultcontext) {
                 action_to_input[action_id].push_back(new_event);
             } else {
                 action_contexts[context][action_id].push_back(new_event);
             }
         }
-
-        if(!action_object.contains("name")) {
-            actionID_to_name[action_id] = action_id;
-        } else {
-            actionID_to_name[action_id] = action_object.get("name").get<std::string>();
-        }
     }
-}
+
+    data_file.close();
+        }
 
 void input_manager::add_keycode_pair(long ch, const std::string& name) {
     keycode_to_keyname[ch] = name;
@@ -297,6 +257,12 @@ void input_manager::init_keycode_mapping() {
     add_gamepad_keycode_pair(JOY_5,         "JOY_5");
     add_gamepad_keycode_pair(JOY_6,         "JOY_6");
     add_gamepad_keycode_pair(JOY_7,         "JOY_7");
+
+    keyname_to_keycode["MOUSE_LEFT"] = MOUSE_BUTTON_LEFT;
+    keyname_to_keycode["MOUSE_RIGHT"] = MOUSE_BUTTON_RIGHT;
+    keyname_to_keycode["SCROLL_UP"] = SCROLLWHEEL_UP;
+    keyname_to_keycode["SCROLL_DOWN"] = SCROLLWHEEL_DOWN;
+    keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
 }
 
 long input_manager::get_keycode(std::string name) {
@@ -306,8 +272,24 @@ long input_manager::get_keycode(std::string name) {
 std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
     if(inp_type == CATA_INPUT_KEYBOARD) {
         return keycode_to_keyname[ch];
-    } else {
+    } else if(inp_type == CATA_INPUT_MOUSE) {
+        if(ch == MOUSE_BUTTON_LEFT) {
+            return "MOUSE_LEFT";
+        } else if(ch == MOUSE_BUTTON_RIGHT) {
+            return "MOUSE_RIGHT";
+        } else if(ch == SCROLLWHEEL_UP) {
+            return "SCROLL_UP";
+        } else if(ch == SCROLLWHEEL_DOWN) {
+            return "SCROLL_DOWN";
+        } else if(ch == MOUSE_MOVE) {
+            return "MOUSE_MOVE";
+        } else {
+            return "MOUSE_UNKNOWN";
+        }
+    } else if (inp_type == CATA_INPUT_GAMEPAD) {
         return gamepad_keycode_to_keyname[ch];
+    } else {
+        return "UNKNOWN";
     }
 }
 
@@ -330,6 +312,8 @@ const std::string& input_manager::get_action_name(const std::string& action) {
 const std::string CATA_ERROR = "ERROR";
 const std::string UNDEFINED = "UNDEFINED";
 const std::string ANY_INPUT = "ANY_INPUT";
+const std::string COORDINATE = "COORDINATE";
+const std::string TIMEOUT = "TIMEOUT";
 
 const std::string& input_context::input_to_action(input_event& inp) {
     for(int i=0; i<registered_actions.size(); i++) {
@@ -346,9 +330,19 @@ const std::string& input_context::input_to_action(input_event& inp) {
     return CATA_ERROR;
 }
 
+void input_manager::set_timeout(int delay)
+{
+    timeout(delay);
+    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    should_timeout = delay > 0;
+}
+
+
 void input_context::register_action(const std::string& action_descriptor) {
     if(action_descriptor == "ANY_INPUT") {
         registered_any_input = true;
+    } else if(action_descriptor == "COORDINATE") {
+        handling_coordinate_input = true;
     }
 
     registered_actions.push_back(action_descriptor);
@@ -392,8 +386,13 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
 }
 
 const std::string& input_context::handle_input() {
+    next_action.type = CATA_INPUT_ERROR;
     while(1) {
-        input_event next_action = inp_mngr.get_input_event(NULL);
+        next_action = inp_mngr.get_input_event(NULL);
+
+        if (next_action.type == CATA_INPUT_TIMEOUT) {
+            return TIMEOUT;
+        }
 
         const std::string& action = input_to_action(next_action);
 
@@ -403,9 +402,22 @@ const std::string& input_context::handle_input() {
             continue;
         }
 
+        if(next_action.type == CATA_INPUT_MOUSE) {
+            if(!handling_coordinate_input) {
+                continue; // Ignore this mouse input.
+            }
+
+            coordinate_input_received = true;
+            coordinate_x = next_action.mouse_x;
+            coordinate_y = next_action.mouse_y;
+        } else {
+            coordinate_input_received = false;
+        }
+
         if(action != CATA_ERROR) {
             return action;
         }
+
         // If we registered to receive any input, return ANY_INPUT
         // to signify that an unregistered key was pressed.
         if(registered_any_input) {
@@ -517,24 +529,38 @@ void input_context::display_help() {
     werase(w_help);
 }
 
+input_event input_context::get_raw_input()
+{
+    return next_action;
+}
+
 #ifndef TILES
     // If we're using curses, we need to provide get_input_event() here.
     input_event input_manager::get_input_event(WINDOW* win) {
-        int key = getch();
+        int key = get_keypress();
         input_event rval;
 
         if(key == ERR) {
-            rval.type = CATA_INPUT_ERROR;
+            if (should_timeout) {
+                rval.type = CATA_INPUT_TIMEOUT;
+            } else {
+                rval.type = CATA_INPUT_ERROR;
+            }
         } else {
             rval.type = CATA_INPUT_KEYBOARD;
             rval.sequence.push_back(key);
         }
-
+        should_timeout = false;
         return rval;
     }
 
     // Also specify that we don't have a gamepad plugged in.
     bool gamepad_available() {
+        return false;
+    }
+
+    // Coordinates just never happen(no mouse input)
+    bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 #endif

@@ -191,7 +191,7 @@ class map
 
  // put player on vehicle at x,y
  void board_vehicle(game *g, int x, int y, player *p);
- void unboard_vehicle(game *g, const int x, const int y);//remove player from vehicle at x,y
+ void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
  void clear_vehicle_cache();
@@ -238,6 +238,7 @@ class map
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(std::string flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool can_put_items(const int x, const int y); // True if items can be placed in this tile
  bool has_flag_ter(std::string flag, const int x, const int y);  // checks terrain
  bool has_flag_furn(std::string flag, const int x, const int y);  // checks furniture
  bool has_flag_ter_or_furn(std::string flag, const int x, const int y); // checks terrain or furniture
@@ -282,14 +283,15 @@ class map
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
  void spawn_artifact(const int x, const int y, itype* type, int bday);
- void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
+    void spawn_item(const int x, const int y, const std::string &itype_id,
+                    const unsigned quantity=1, const int charges=0,
+                    const unsigned birthday=0, const int damlevel=0);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void process_active_items(game *g);
- void process_active_items_in_submap(game *g, const int nonant);
  void process_vehicles(game *g);
 
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
@@ -332,7 +334,7 @@ class map
 
 // Graffiti
  graffiti graffiti_at(int x, int y);
- bool add_graffiti(game *g, int x, int y, std::string contents);
+ bool add_graffiti(int x, int y, std::string contents);
 
 // mapgen.cpp functions
  void generate(game *g, overmap *om, const int x, const int y, const int z, const int turn);
@@ -345,8 +347,8 @@ class map
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
- void spawn_item(const int x, const int y, item new_item, const int birthday,
-                 const int quantity, const int charges, const int damlevel);
+    void spawn_item(const int x, const int y, item new_item,
+                    const int charges, const int damlevel);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
@@ -435,6 +437,10 @@ submap * getsubmap( const int grididx );
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
+ 
+ void process_active_items_in_submap(game *g, const int nonant);
+ void process_active_items_in_vehicles(game *g, const int nonant);
+ bool process_active_item(game *g, item *it, const int nonant, const int i, const int j);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

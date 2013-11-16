@@ -317,6 +317,7 @@ void player::activate_bionic(int b, game *g)
   delwin(w);
  } else if(bio.id == "bio_blood_filter"){
   rem_disease("fungus");
+  rem_disease("dermatik");
   rem_disease("poison");
   rem_disease("pkill1");
   rem_disease("pkill2");

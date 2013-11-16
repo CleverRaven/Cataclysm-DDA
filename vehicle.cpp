@@ -589,6 +589,21 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
+    // curtains must be installed on (reinforced)windshields
+    // TODO: do this automatically using "location":"on_mountpoint"
+    if (vehicle_part_types[id].has_flag("CURTAIN")) {
+        bool anchor_found = false;
+        for ( std::vector<int>::const_iterator it = parts_in_square.begin();
+                it != parts_in_square.end(); it++) {
+            if (part_info(*it).has_flag("WINDOW")) {
+                anchor_found = true;
+            }
+        }
+        if (!anchor_found) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -606,6 +621,11 @@ bool vehicle::can_unmount (int p)
 
     //Can't remove a seat if there's still a seatbelt there
     if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
+        return false;
+    }
+    
+    // Can't remove a window with curtains still on it
+    if(part_flag(p, "WINDOW") && part_with_feature(p, "CURTAIN") >=0) {
         return false;
     }
 
@@ -841,6 +861,19 @@ void vehicle::remove_part (int p)
     if(part_flag(p,"LIGHT")) {
         lights_power -= part_info( parts.size() - 1 ).power;
     }
+    
+    // if a windshield is removed (usually destroyed) also remove curtains
+    // attached to it.
+    if(part_flag(p, "WINDOW")) {
+        int curtain = part_with_feature(p, "CURTAIN", false);
+        if (curtain >= 0) {
+            int x = parts[curtain].precalc_dx[0], y = parts[curtain].precalc_dy[0];
+            item it = item_from_part(curtain);
+            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            remove_part(curtain);
+        }
+    }
+
     parts.erase(parts.begin() + p);
     find_horns ();
     find_lights ();
@@ -848,6 +881,26 @@ void vehicle::remove_part (int p)
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
+}
+
+/**
+ * Breaks the specified part into the pieces defined by its breaks_into entry.
+ * @param p The index of the part to break.
+ * @param x The map x-coordinate to place pieces at (give or take).
+ * @param y The map y-coordinate to place pieces at (give or take).
+ * @param scatter If true, pieces are scattered near the target square.
+ */
+void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
+    std::vector<break_entry> break_info = part_info(p).breaks_into;
+    for(int index = 0; index < break_info.size(); index++) {
+        int quantity = rng(break_info[index].min, break_info[index].max);
+        for(int num = 0; num < quantity; num++) {
+            const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
+            const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
+            item piece(g->itypes[break_info[index].item_id], g->turn);
+            g->m.add_item_or_charges(actual_x, actual_y, piece);
+        }
+    }
 }
 
 item vehicle::item_from_part( int part )
@@ -1068,6 +1121,13 @@ nc_color vehicle::part_color (int p)
 
     }
 
+    // curtains turn windshields gray
+    int curtains = part_with_feature(p, "CURTAIN", false);
+    if (curtains >= 0) {
+        if (part_with_feature(p, "WINDOW", true) >= 0 && !parts[curtains].open)
+            col = part_info(curtains).color;
+    }
+
     //Invert colors for cargo parts with stuff in them
     int cargo_part = part_with_feature(p, "CARGO");
     if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
@@ -1086,10 +1146,10 @@ nc_color vehicle::part_color (int p)
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
+int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -1*/)
 {
     if (p < 0 || p >= parts.size()) {
-        return;
+        return y1;
     }
     std::vector<int> pl = this->parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
     int y = y1;
@@ -1152,6 +1212,8 @@ void vehicle::print_part_desc (WINDOW *win, int y1, int width, int p, int hl)
         }
         y++;
     }
+
+    return y;
 }
 
 void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose)
@@ -2239,7 +2301,7 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = _("SNAP!");
             wreckit = true;
             g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "beartrap", 0);
+            g->m.spawn_item(x, y, "beartrap");
             break;
         case tr_nailboard:
             wreckit = true;
@@ -2255,10 +2317,10 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = _("Clank!");
             wreckit = true;
             g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "crossbow", 0);
-            g->m.spawn_item(x, y, "string_6", 0);
+            g->m.spawn_item(x, y, "crossbow");
+            g->m.spawn_item(x, y, "string_6");
             if (!one_in(10))
-                g->m.spawn_item(x, y, "bolt_steel", 0);
+                g->m.spawn_item(x, y, "bolt_steel");
             break;
         case tr_shotgun_2:
         case tr_shotgun_1:
@@ -2271,8 +2333,8 @@ void vehicle::handle_trap (int x, int y, int part)
             else
             {
                 g->m.remove_trap(x, y);
-                g->m.spawn_item(x, y, "shotgun_sawn", 0);
-                g->m.spawn_item(x, y, "string_6", 0);
+                g->m.spawn_item(x, y, "shotgun_sawn");
+                g->m.spawn_item(x, y, "string_6");
             }
             break;
         case tr_landmine_buried:
@@ -2627,8 +2689,8 @@ void vehicle::unboard_all ()
 {
     std::vector<int> bp = boarded_parts ();
     for (int i = 0; i < bp.size(); i++) {
-        g->m.unboard_vehicle (g, global_x() + parts[bp[i]].precalc_dx[0], global_y() +
-                              parts[bp[i]].precalc_dy[0]);
+        g->m.unboard_vehicle (global_x() + parts[bp[i]].precalc_dx[0],
+                              global_y() + parts[bp[i]].precalc_dy[0]);
     }
 }
 
@@ -2684,11 +2746,59 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
 
 int vehicle::damage_direct (int p, int dmg, int type)
 {
-    if (parts[p].hp <= 0)
+    if (parts[p].hp <= 0) {
+        /* Already-destroyed part - chance it could be torn off into pieces.
+         * Chance increases with damage, and decreases with part max durability
+         * (so lights, etc are easily removed; frames and plating not so much) */
+        if(rng(0, part_info(p).durability / 10) < dmg) {
+            int x_pos = global_x() + parts[p].precalc_dx[0];
+            int y_pos = global_y() + parts[p].precalc_dy[0];
+            if(part_info(p).location == "structure") {
+                //For structural parts, remove other parts first
+                std::vector<int> parts_in_square = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+                for(int index = parts_in_square.size() - 1; index >= 0; index--) {
+                    //Ignore the frame being destroyed
+                    if(parts_in_square[index] != p) {
+                        if(g->u_see(x_pos, y_pos)) {
+                            g->add_msg(_("The %s's %s is torn off!"), name.c_str(),
+                                    part_info(parts_in_square[index]).name.c_str());
+                        }
+                        item part_as_item = item_from_part(parts_in_square[index]);
+                        g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
+                        remove_part(parts_in_square[index]);
+                    }
+                    /* After clearing the frame, remove it if normally legal to
+                     * do so (it's not (0, 0) and not holding the vehicle
+                     * together). At a later date, some more complicated system
+                     * (such as actually making two vehicles from the split
+                     * parts) would be ideal. */
+                    if(can_unmount(p)) {
+                        if(g->u_see(x_pos, y_pos)) {
+                            g->add_msg(_("The %s's %s is destroyed!"),
+                                    name.c_str(), part_info(p).name.c_str());
+                        }
+                        break_part_into_pieces(p, x_pos, y_pos, true);
+                        remove_part(p);
+                    }
+                }
+            } else {
+                //Just break it off
+                if(g->u_see(x_pos, y_pos)) {
+                    g->add_msg(_("The %s's %s is destroyed!"),
+                                    name.c_str(), part_info(p).name.c_str());
+                }
+                break_part_into_pieces(p, x_pos, y_pos, true);
+                remove_part(p);
+            }
+            insides_dirty = true;
+        }
         return dmg;
+    }
+    
     int tsh = part_info(p).durability / 10;
-    if (tsh > 20)
+    if (tsh > 20) {
         tsh = 20;
+    }
     int dres = dmg;
     if (dmg >= tsh || type != 1)
     {
@@ -2723,7 +2833,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
         {
             g->m.spawn_item(global_x() + parts[p].precalc_dx[0],
                            global_y() + parts[p].precalc_dy[0],
-                           part_info(p).item, g->turn);
+                           part_info(p).item, 1, 0, g->turn);
             remove_part (p);
         }
     }
@@ -2750,8 +2860,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, "gasoline", 0);
-                    g->m.spawn_item(i, j, "gasoline", 0);
+                    g->m.spawn_item(i, j, "gasoline");
+                    g->m.spawn_item(i, j, "gasoline");
                     parts[p].amount -= 100;
                 }
     }

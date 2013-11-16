@@ -211,6 +211,7 @@ task_reason veh_interact::cant_do (char mode)
     bool has_tools = false;
     bool part_free = true;
     bool has_skill = true;
+    bool can_remove_wheel = has_wrench && has_jack && wheel;
 
     switch (mode)
     {
@@ -228,9 +229,9 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'o': // remove mode
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
-        has_tools = has_wrench && has_hacksaw;
+        has_tools = (has_wrench && has_hacksaw) || can_remove_wheel;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
-        has_skill = g->u.skillLevel("mechanics") >= 2;
+        has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
         break;
     case 's': // siphon mode
         valid_target = veh->fuel_left("gasoline") > 0;
@@ -499,6 +500,8 @@ void veh_interact::do_remove(task_reason reason)
         wrefresh (w_msg);
         return;
     }
+    bool can_hacksaw = has_wrench && has_hacksaw &&
+                       g->u.skillLevel("mechanics") >= 2;
     switch (reason)
     {
     case INVALID_TARGET:
@@ -535,6 +538,8 @@ void veh_interact::do_remove(task_reason reason)
     while (true)
     {
         sel_vehicle_part = &veh->parts[parts_here[pos]];
+        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
@@ -543,9 +548,18 @@ void veh_interact::do_remove(task_reason reason)
         get_direction (dx, dy, ch);
         if (ch == '\n' || ch == ' ')
         {
-            if(veh->can_unmount(parts_here[pos])) {
-                sel_cmd = 'o';
-                return;
+            if (veh->can_unmount(parts_here[pos])) {
+                if (can_hacksaw || is_wheel) {
+                    sel_cmd = 'o';
+                    return;
+                } else {
+                    fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
+                                   has_wrench ? "ltgreen" : "red",
+                                   has_hacksaw ? "ltgreen" : "red");
+                    wrefresh (w_msg);
+                    return;
+                }
             } else {
                 mvwprintz(w_msg, 0, 1, c_ltred,
                   _("You cannot remove that part while something is attached to it."));
@@ -1171,6 +1185,7 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0)
         {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
             used_item = consume_vpart_item (g, veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(component("wrench", -1));
@@ -1211,6 +1226,8 @@ void complete_vehicle (game *g)
             {
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
             }
+        } else {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
         }
         if (veh->parts.size() < 2)
         {

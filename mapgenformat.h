@@ -57,29 +57,33 @@ namespace internal
    virtual int operator ()(map* m, const int x, const int y) = 0;
  };
 
- class statically_determine_terrain : public determine_terrain
- {
-  private:
-   int id;
-  public:
-   statically_determine_terrain():id(0) {}
-   statically_determine_terrain(int pid):id(pid) {}
-   virtual ~statically_determine_terrain() {}
-   virtual int operator ()(map* m, const int x, const int y){return id;}
- };
+    class statically_determine_terrain : public determine_terrain
+    {
+    private:
+        int id;
+    public:
+        statically_determine_terrain() : id(0) {}
+        statically_determine_terrain(int pid) : id(pid) {}
+        virtual ~statically_determine_terrain() {}
+        virtual int operator ()(map *, const int /*x*/, const int /*y*/) {
+            return id;
+        }
+    };
 
- class determine_terrain_with_simple_method : public determine_terrain
- {
-  public:
-   typedef ter_id (*ter_id_func)();
-  private:
-   ter_id_func f;
-  public:
-   determine_terrain_with_simple_method():f(NULL) {}
-   determine_terrain_with_simple_method(ter_id_func pf):f(pf) {}
-   virtual ~determine_terrain_with_simple_method() {}
-   virtual int operator ()(map* m, const int x, const int y){return f();}
- };
+    class determine_terrain_with_simple_method : public determine_terrain
+    {
+    public:
+        typedef ter_id (*ter_id_func)();
+    private:
+        ter_id_func f;
+    public:
+        determine_terrain_with_simple_method() : f(NULL) {}
+        determine_terrain_with_simple_method(ter_id_func pf) : f(pf) {}
+        virtual ~determine_terrain_with_simple_method() {}
+        virtual int operator ()(map *, const int /*x*/, const int /*y*/) {
+            return f();
+        }
+    };
 
  //TODO: make use of this
  class determine_terrain_with_complex_method : public determine_terrain

@@ -25,7 +25,6 @@
 #include <math.h>
 #include <vector>
 #include "debug.h"
-#include "artifactdata.h"
 #include "weather.h"
 #include "monstergenerator.h"
 // for legacy classdata loaders
@@ -135,7 +134,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             for (int i = 0; i < nummon; i++)
             {
                 getline(fin, data);
-                montmp.load_info(data, &mtypes);
+                montmp.load_info(data);
                 add_zombie(montmp);
             }
 
@@ -225,7 +224,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             for (int i = 0; i < nummon; i++)
             {
                 getline(fin, data);
-                montmp.load_info(data, &mtypes);
+                montmp.load_info(data);
 
                 fin >> num_items;
                 // Chomp the endline after number of items.
@@ -341,7 +340,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             for (int i = 0; i < nummon; i++)
             {
                 getline(fin, data);
-                montmp.load_info(data, &mtypes);
+                montmp.load_info(data);
 
                 fin >> num_items;
                 // Chomp the endline after number of items.
@@ -453,7 +452,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
           fin.get(junk); // Chomp that pesky endline
          for (int i = 0; i < nummon; i++) {
           getline(fin, data);
-          montmp.load_info(data, &mtypes);
+          montmp.load_info(data);
 
           fin >> num_items;
           // Chomp the endline after number of items.
@@ -1068,14 +1067,14 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 ///// monster.h
 
 
-void monster::load_legacy(std::vector <mtype *> *mtypes, std::stringstream & dump) {
+void monster::load_legacy(std::stringstream & dump) {
     int idtmp, plansize;
     dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
 
     // load->int->str->int (possibly shifted)
-    type = (*mtypes)[ monster_ints[ legacy_mon_id[ idtmp ] ] ];
+    type = GetMType( legacy_mon_id[idtmp] );
 
     point ptmp;
     plans.clear();
