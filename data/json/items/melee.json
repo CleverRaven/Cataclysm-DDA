@@ -2083,7 +2083,7 @@
     "to_hit": -6
   },
   { "type":"GENERIC",
- "id": "knuckle_steel",
+    "id": "knuckle_steel",
     "symbol" : "3",
     "color": "dark_gray",
     "name": "steel knuckles",
@@ -2099,7 +2099,7 @@
   },
 
   { "type":"GENERIC",
- "id": "knuckle_katar",
+    "id": "knuckle_katar",
     "symbol" : "!",
     "color": "dark_gray",
     "name": "razorbar katar",
@@ -2115,7 +2115,7 @@
     "techniques": ["WBLOCK_1"]
   },
   { "type":"GENERIC",
- "id": "cestus",
+    "id": "cestus",
     "symbol" : "3",
     "color": "light_gray",
     "name": "cestus",
@@ -2130,7 +2130,7 @@
     "to_hit": 0
   },
   { "type":"GENERIC",
- "id": "knuckle_brass",
+    "id": "knuckle_brass",
     "symbol" : "3",
     "color": "yellow",
     "name": "brass knuckles",
