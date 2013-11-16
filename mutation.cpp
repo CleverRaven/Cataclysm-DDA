@@ -391,7 +391,7 @@ void mutation_effect(game *g, player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_mouth);
 
-    } else if (mut == "HOOVES") {
+    } else if (mut == "HOOVES" || mut == "RAP_TALONS") {
         // Destroy footwear
         destroy = true;
         bps.push_back(bp_feet);
