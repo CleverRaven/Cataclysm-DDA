@@ -372,6 +372,7 @@ std::string ammo_name(ammotype t)
     if( t == "metal_rail" ) return _("ferrous rail projectile");
     if( t == "UPS" )        return _("UPS");
     if( t == "components" ) return _("components");
+    if( t == "throwing" ) return _("thrown");
     return "XXX";
 }
 
