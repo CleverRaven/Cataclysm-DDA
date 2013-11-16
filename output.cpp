@@ -312,17 +312,22 @@ bool query_yn(const char *mes, ...)
     va_end(ap);
 
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
-    std::string query = (force_uc ? _(" (Y/N - Case Sensitive)") : _(" (y/n)"));
+    std::string query;
+    if (force_uc) {
+        query = string_format(_("%s (Y/N - Case Sensitive)"), buff);
+    } else {
+        query = string_format(_("%s (y/n)"), buff);
+    }
 
-    int win_width = utf8_width(buff) + utf8_width(query.c_str()) + 2;
+    int win_width = utf8_width(query.c_str()) + 2;
     win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
 
     std::vector<std::string> textformatted;
-    textformatted = foldstring(buff + query, win_width);
+    textformatted = foldstring(query, win_width);
     WINDOW *w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
                        (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
 
-    fold_and_print(w, 1, 1, win_width, c_ltred, _("%s%s"), buff, query.c_str());
+    fold_and_print(w, 1, 1, win_width, c_ltred, query.c_str());
 
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
