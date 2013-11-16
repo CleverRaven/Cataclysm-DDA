@@ -554,7 +554,9 @@
       ["flask_hip", 5],
       ["tux", 1],
       ["dress_wedding", 1],
-      ["corset", 15]
+      ["corset", 15],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
   },{
     "type":"item_group",
@@ -707,7 +709,9 @@
       ["flask_hip", 2],
       ["tux", 1],
       ["dress_wedding", 1],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
   },{
     "type":"item_group",
@@ -2082,7 +2086,9 @@
       ["army_top", 20],
       ["tux", 1],
       ["dress_wedding", 1],
-      ["jersey", 40]
+      ["jersey", 40],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
   },{
     "type":"item_group",
@@ -2891,7 +2897,9 @@
       ["flaregun", 10],
       ["signal_flare", 15],
       ["rm120c", 5],
-      ["knee_pads", 10]
+      ["knee_pads", 10],
+      ["maid_dress", 3],
+      ["maid_hat", 3]
     ]
   },{
     "type":"item_group",
