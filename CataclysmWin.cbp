@@ -281,6 +281,8 @@
 		<Unit filename="lightmap.h" />
 		<Unit filename="line.cpp" />
 		<Unit filename="line.h" />
+		<Unit filename="live_view.cpp" />
+		<Unit filename="live_view.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main_menu.cpp" />
 		<Unit filename="map.cpp" />

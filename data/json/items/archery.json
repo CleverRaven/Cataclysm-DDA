@@ -968,7 +968,7 @@
         "bashing" : 0,
         "cutting" : 16,
         "to_hit" : -1,
-        "ammo_type" : "NULL",
+        "ammo_type" : "thrown",
         "casing" : "NULL",
         "damage" : 0,
         "pierce" : 0,
