@@ -1434,12 +1434,16 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
     picostring(data,"type",type);
     picoint(data, "posx", posx);
     picoint(data, "posy", posy);
+    picoint(data, "levx", levx);
+    picoint(data, "levy", levy);
+    picoint(data, "om_id", om_id);
     picoint(data, "faceDir", fdir);
     picoint(data, "moveDir", mdir);
     picoint(data, "turn_dir", turn_dir);
     picoint(data, "velocity", velocity);
     picoint(data, "cruise_velocity", cruise_velocity);
     picobool(data, "cruise_on", cruise_on);
+    picobool(data, "tracking_on", tracking_on);
     picobool(data, "lights_on", lights_on);
     //Handle old vehicles that don't have this flag
     if(data.count("overhead_lights_on") > 0) {
@@ -1525,6 +1529,9 @@ picojson::value vehicle::json_save( bool save_contents ) {
     data["type"] = pv ( type );
     data["posx"] = pv ( posx );
     data["posy"] = pv ( posy );
+    data["levx"] = pv ( levx );
+    data["levy"] = pv ( levy );
+    data ["om_id"] = pv (om_id);
     data["faceDir"] = pv ( face.dir() );
     data["moveDir"] = pv ( move.dir() );
     data["turn_dir"] = pv ( turn_dir );
@@ -1537,6 +1544,7 @@ picojson::value vehicle::json_save( bool save_contents ) {
     data["turret_mode"] = pv ( turret_mode );
     data["skidding"] = pv ( skidding );
     data["turret_mode"] = pv ( turret_mode );
+    data["tracking_on"] = pv (tracking_on);
 
     data["of_turn_carry"] = pv ( of_turn_carry );
     data["name"] = pv ( name );

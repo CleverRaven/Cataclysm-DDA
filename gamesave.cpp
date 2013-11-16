@@ -395,6 +395,11 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             getline(fin, tmp.message); // Chomp endl
             getline(fin, tmp.message);
             radios.push_back(tmp);
+        } else if ( datatype == 'v' ) {
+            om_vehicle v;
+            int id;
+            fin >> id >> v.name >> v.x >> v.y;
+            vehicles[id]=v;
         } else if (datatype == 'n') { // NPC
 // When we start loading a new NPC, check to see if we've accumulated items for
 //   assignment to an NPC.
@@ -565,6 +570,15 @@ void overmap::save()
     for (int i = 0; i < radios.size(); i++)
         fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
             " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
+
+    // store tracked vehicle locations and names
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+            it != vehicles.end(); it++)
+    {
+        int id = it->first;
+        om_vehicle v = it->second;
+        fout << "v " << id << " " << v.name << " " << v.x << " " << v.y << std::endl;
+    }
 
     //saving the npcs
     for (int i = 0; i < npcs.size(); i++)

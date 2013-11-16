@@ -3508,6 +3508,14 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
         }
     }
 
+    // update vehicles own overmap location
+    std::set<vehicle *>::iterator veh;
+    for (veh = vehicle_list.begin(); veh != vehicle_list.end(); ++veh)
+    {
+        (*veh)->update_map_x(wx);
+        (*veh)->update_map_y(wy);
+    }
+
 // Clear vehicle list and rebuild after shift
     clear_vehicle_cache();
     vehicle_list.clear();
