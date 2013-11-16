@@ -882,7 +882,9 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
     const int iContentHeight = FULL_SCREEN_HEIGHT - 9;
     int iStartPos = 0;
 
-    WINDOW *w_items = newwin(iContentHeight, 50, 5 + getbegy(w), 27 + getbegx(w));
+    WINDOW *w_items = newwin(iContentHeight, 22, 5 + getbegy(w), 21 + getbegx(w));
+    WINDOW *w_skills = newwin(iContentHeight, 32, 5 + getbegy(w), 43+ getbegx(w));
+    WINDOW *w_addictions = newwin(iContentHeight - 10, 32, 15 + getbegy(w), 43+ getbegx(w));
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
@@ -934,16 +936,41 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
         }
 
         std::vector<std::string>  pipo = sorted_profs[cur_id]->items();
-        mvwprintz(w_items, 0, 2, c_ltgray, _("Profession items:"));
+        mvwprintz(w_items, 0, 0, c_ltgray, _("Profession items:"));
         for (int i = 0; i < iContentHeight; i++) {
             // clean
-            mvwprintz(w_items, 1 + i, 2, c_ltgray, "                                        ");
+            mvwprintz(w_items, 1 + i, 0, c_ltgray, "                                        ");
             if (i < pipo.size()) {
                 // dirty
-                mvwprintz(w_items, 1 + i , 2, c_ltgray, itypes[pipo[i]]->name.c_str());
+                mvwprintz(w_items, 1 + i , 0, c_ltgray, g->itypes[pipo[i]]->name.c_str());
             }
         }
-        //TODO: starting_skills, addictions, w/e
+        profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
+        mvwprintz(w_skills, 0, 0, c_ltgray, _("Profession skills:"));
+        for (int i = 0; i < iContentHeight; i++) {
+            // clean
+            mvwprintz(w_skills, 1 + i, 0, c_ltgray, "                                                  ");
+            if (i < prof_skills.size()) {
+                // dirty
+                std::stringstream skill_listing;
+                skill_listing << prof_skills[i].first << " (" << prof_skills[i].second << ")";
+                mvwprintz(w_skills, 1 + i , 0, c_ltgray, skill_listing.str().c_str());
+            }
+        }
+        std::vector<addiction> prof_addictions = sorted_profs[cur_id]->addictions();
+        if(prof_addictions.size() > 0){
+            mvwprintz(w_addictions, 0, 0, c_ltgray, _("Addictions:"));
+            for (int i = 0; i < iContentHeight; i++) {
+                // clean
+                mvwprintz(w_addictions, 1 + i, 0, c_ltgray, "                                                  ");
+                if (i < prof_addictions.size()) {
+                    // dirty
+                    std::stringstream addiction_listing;
+                    addiction_listing << addiction_name(prof_addictions[i]) << " (" << prof_addictions[i].intensity << ")";
+                    mvwprintz(w_addictions, 1 + i , 0, c_ltgray, addiction_listing.str().c_str());
+                }
+            }
+        }
 
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
@@ -951,6 +978,8 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
         wrefresh(w);
         wrefresh(w_description);
         wrefresh(w_items);
+        wrefresh(w_skills);
+        wrefresh(w_addictions);
         switch (input()) {
             case 'j':
             case '2':
