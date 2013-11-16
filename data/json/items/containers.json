@@ -118,6 +118,23 @@
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
+        "id": "2lcanteen",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "dark_gray",
+        "name": "2.5L canteen",
+        "description": "A large plastic water canteen, with a 2.5 liter capacity and strap.",
+        "price": 1250,
+        "weight": 155,
+        "volume": 10,
+        "bashing": -8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 10,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
         "id": "jerrycan",
         "type": "CONTAINER",
         "symbol": ")",
