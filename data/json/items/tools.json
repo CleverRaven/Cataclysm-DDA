@@ -4575,6 +4575,29 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
+  
+   {
+    "id": "bag_hflesh_vac",
+    "type": "TOOL",
+    "symbol": "%",
+    "color": "red",
+    "name": "vacuum-packed salted simpleton slices",
+    "description": "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use to open and eat to enjoy.",
+    "price": 75,
+    "material": ["plastic", "hflesh"],
+    "weight": 240,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "DEJAR"
+  },
 
   {
     "id": "bag_veggy_vac",
