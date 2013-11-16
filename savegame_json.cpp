@@ -1456,6 +1456,8 @@ void vehicle::json_load(picojson::value & parsed, game * g ) {
                     new_part.flags = pflag;
                 }
                 picoint(pdata, "passenger_id", new_part.passenger_id );
+                picoint(pdata, "tow_x", new_part.tow_x );
+                picoint(pdata, "tow_y", new_part.tow_y );
 
                 picojson::array * piarray=pgetarray(pdata,"items");
                 new_part.items.clear();
@@ -1528,6 +1530,8 @@ picojson::value vehicle::json_save( bool save_contents ) {
         pdata["bigness"] = pv ( parts[p].bigness );
         pdata["flags"] = pv ( parts[p].flags );
         pdata["passenger_id"] = pv ( parts[p].passenger_id );
+        pdata["tow_x"] = pv (parts[p].tow_x );
+        pdata["tow_y"] = pv (parts[p].tow_y );
         if ( parts[p].items.size() > 0 ) {
             for (int i = 0; i < parts[p].items.size(); i++) {
                 pitms.push_back( parts[p].items[i].json_save(true) );

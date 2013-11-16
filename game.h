@@ -437,6 +437,7 @@ class game
   void wait(); // Long wait (player action)  '^'
   void open(); // Open a door  'o'
   void close(); // Close a door  'c'
+  void tow(); // Tow a wagon
   void smash(); // Smash terrain
   void craft();                        // See crafting.cpp
   void recraft();                      // See crafting.cpp

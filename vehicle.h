@@ -69,7 +69,7 @@ struct vehicle_prototype
 struct vehicle_part
 {
     vehicle_part() : id("null"), mount_dx(0), mount_dy(0), hp(0),
-      blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
+      blood(0), bigness(0), inside(false), flags(0), passenger_id(0), tow_x(0), tow_y(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -79,6 +79,8 @@ struct vehicle_part
     int remove_flag( int flag ) { return flags &= ~flag; }
 
     static const int passenger_flag = 1;
+    static const int towing_flag = 2;
+
 
     std::string id;         // id in map of parts (vehicle_part_types key)
     int mount_dx;           // mount point on the forward/backward axis
@@ -91,6 +93,8 @@ struct vehicle_part
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     int flags;
     int passenger_id;       // carrying passenger
+    int tow_x;              // x coord of joint
+    int tow_y;              // y coord of joint
     union
     {
         int amount;         // amount of fuel for tank/charge in battery
@@ -446,6 +450,19 @@ public:
     void open(int part_index);
     void close(int part_index);
 
+    // tow a vehicle
+    void tow(int part_index);
+    void move_towed(int dx, int dy);
+
+    // damage towing mechanism
+    void tow_loading(int part_index, int load);
+
+    // scratch all bottom vehicle's parts if there is lack of wheels
+    void damage_bottom();
+
+    // detach the wagon
+    void detach(int part_index, bool intended = false);
+
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
 
@@ -491,5 +508,7 @@ public:
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
     int lights_power;   // total power of components with LIGHT flag
 };
+
+vehicle *towed_vehicle(int x, int y);
 
 #endif

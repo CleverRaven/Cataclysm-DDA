@@ -815,6 +815,9 @@ bool map::vehproceed(game* g){
         // accept new position
         // if submap changed, we need to process grid from the beginning.
         displace_vehicle (g, x, y, dx, dy);
+
+        // Towing attached wagon
+        veh->move_towed(dx, dy);
     } else { // can_move
         veh->stop();
     }

@@ -1269,6 +1269,12 @@ int vehicle::total_mass()
         if (part_flag(i,"BOARDABLE") && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m += 81500; // TODO: get real weight
         }
+        if (part_flag(i, "TOW_MALE") && parts[i].has_flag(vehicle_part::towing_flag)) {
+            vehicle *wagon = towed_vehicle(parts[i].tow_x, parts[i].tow_y);
+            if (wagon != NULL) {
+                m += wagon->total_mass() * 1000;
+            }
+        }
     }
     return m/1000;
 }
@@ -1287,6 +1293,15 @@ void vehicle::center_of_mass(int &x, int &y)
         if (part_flag(i,"BOARDABLE") && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m_part += 81500; // TODO: get real weight
         }
+
+        if (part_flag(i, "TOW_MALE") && parts[i].has_flag(vehicle_part::towing_flag)) {
+            vehicle *wagon = towed_vehicle(parts[i].tow_x, parts[i].tow_y);
+            // towed vehicle without wheels it's really bad
+            if (wagon != NULL) {
+                m_part += wagon->total_mass() * 1000 * (wagon->valid_wheel_config() ? 1 : 3);
+            }
+        }
+
         xf += parts[i].precalc_dx[0] * m_part / 1000;
         yf += parts[i].precalc_dy[0] * m_part / 1000;
     }
@@ -1623,6 +1638,16 @@ bool vehicle::valid_wheel_config ()
     for (int p = 0; p < parts.size(); p++)
     { // lets find vehicle's center of masses
         w2 = g->itypes[part_info(p).item]->weight;
+        // TODO: actual coordinate of wagon's mass should be defined.
+        // Now wagon's mass is concentrated at joint point and that's obviously wrong
+        if (parts[p].has_flag(vehicle_part::towing_flag)) {
+            vehicle *wagon = NULL;
+            wagon = towed_vehicle(parts[p].tow_x, parts[p].tow_y);
+            // wagon w/o enough wheels has tripled effective weight due to friction
+            if (wagon != NULL) {
+                w2 += wagon->total_mass() * 1000 * (wagon->valid_wheel_config() ? 1 : 3);
+            }
+        }
         if (w2 < 1)
             continue;
         xo = xo * wo / (wo + w2) + parts[p].mount_dx * w2 / (wo + w2);
@@ -2506,6 +2531,8 @@ void vehicle::gain_moves (int mp)
             fire_turret (p);
         }
     }
+
+   // move_towed();
 }
 
 void vehicle::find_horns ()
@@ -2934,6 +2961,209 @@ void vehicle::open_or_close(int part_index, bool opening)
       }
     }
   }
+}
+
+// Ugly and useless function. Replace it ASAP!
+vehicle *towed_vehicle(int x, int y)
+{
+    vehicle *tow_veh = g->m.veh_at(x, y);
+
+    g->add_msg("%d, %d", x, y);
+    if (tow_veh == NULL)
+        g->add_msg("towed veh not found");
+    return tow_veh;
+}
+
+// Switch towing condition of selected part
+void vehicle::tow(int part_index)
+{
+    if(part_info(part_index).has_flag("TOW_MALE") && parts[part_index].hp>0) {
+        if (!parts[part_index].has_flag(vehicle_part::towing_flag)) {
+            int global_part_x, global_part_y;
+            coord_translate(parts[part_index].mount_dx, parts[part_index].mount_dy,
+                            global_part_x, global_part_y);
+            global_part_x += global_x();
+            global_part_y += global_y();
+            
+            vehicle *wagon = NULL;
+            int vpart;
+            bool towed = false;
+            // check if female part is in adjacent cardinal tile
+            for (int delta_x = -1; delta_x <= 1; delta_x++) {
+                for (int delta_y = -1; delta_y <=1; delta_y++) {
+                    if (towed || (delta_x * delta_x + delta_y * delta_y != 1.0)) {
+                        continue;
+                    } 
+                    wagon = g->m.veh_at(global_part_x + delta_x, global_part_y + delta_y, vpart);
+                    if (wagon !=NULL && wagon != this) {
+                        int tow_coupler = wagon->part_with_feature(vpart, "TOW_FEMALE");
+                            if (tow_coupler >=0 && wagon->parts[tow_coupler].hp>0) {
+                                parts[part_index].set_flag(vehicle_part::towing_flag);
+                                // bad solution, it's better to get a pointer to exact vehicle;
+                                parts[part_index].tow_x = global_part_x + delta_x;
+                                parts[part_index].tow_y = global_part_y + delta_y;
+                                
+                                g->add_msg("%d, %d == %d, %d", (global_part_x + delta_x),
+                                    global_part_y + delta_y, parts[part_index].tow_x, parts[part_index].tow_y);
+                                // tow_female also should keep coords of another veh,
+                                // since you can use wagon for towing vehicle
+                                towed = true;
+                                break;
+                            }
+                    }
+                }
+            }
+
+            if (towed) {
+                g->add_msg(_("%s is attached for towing."), wagon->name.c_str());    
+            } else {
+                // TODO: separate in two cases: 1) hp=0, 2) coupler not found.
+                g->add_msg(_("Coupler isn't found or damaged."));
+            }
+        } else {
+            detach(part_index, true);
+        }
+    }
+}
+
+void vehicle::move_towed(int dx, int dy)
+{
+    for (int p = 0; p < parts.size(); p++) {
+        if (parts[p].has_flag(vehicle_part::towing_flag)) {
+            vehicle *wagon = towed_vehicle(parts[p].tow_x, parts[p].tow_y);
+
+            /* TODO: Spread the load thru the joints
+                     if a few tow hitches are used for single wagon towing */
+            int load = wagon->total_mass() * (wagon->valid_wheel_config() ? 1 : 3);
+            // loading of male part
+            tow_loading(p, load);
+            // TODO: loading of female part at wagon
+            // wagon->tow_loading(index_of_tow_female_part, load);
+
+            // damage the bottom due to lack of wheels
+            if (!wagon->valid_wheel_config()) {
+                wagon->damage_bottom();
+            }
+
+            // TODO: wagon moves on the same dx & dy as vehicle
+            // some better physics model will be placed here later
+            int x_coord = wagon->global_x();
+            int y_coord = wagon->global_y();
+            g->m.displace_vehicle(g, x_coord, y_coord, dx, dy);
+            parts[p].tow_x += dx;
+            parts[p].tow_y += dy;
+        }
+    }
+}
+
+// Break a weak joint
+void vehicle::tow_loading(int part_index, int load)
+{
+    const int allowable = 930; // kg, close to weight of in-game car
+    
+    // light loading
+    if (allowable > load ) {
+        return;
+    }
+
+    if (part_info(part_index).has_flag("LIGHT_LOADS") && parts[part_index].hp>0) {
+        // TODO: damage both male & female parts since they're overloaded
+        
+        int dmg;
+        // moderate loading or significant overloading?
+        if (load / allowable <= 1.5) {
+            dmg = int(20 * load / allowable) + rng(1, 5);
+        } else {
+            dmg = parts[part_index].hp;
+        }
+        
+        damage_direct(part_index, dmg, 0);
+        // define global coordinates of towing part
+        int x, y;
+        coord_translate(parts[part_index].mount_dx, parts[part_index].mount_dy, x, y);
+        x += global_x();
+        y += global_y();
+
+        std::string dmg_snd;
+        /* TODO: Add mechanical skill check and show a better description if it's high enough,
+                 something like "tearing of towing mechanism"
+        */
+        dmg_snd = _("crack!");
+        g->sound(x, y, 3, dmg_snd);
+    }
+    // towing mechanism is totally broken
+    if (parts[part_index].hp <= 0) {
+        detach(part_index, false);
+    }
+}
+
+// Bottom vehicle's parts get some bashing and incendiary dmg due to lack of wheels
+void vehicle::damage_bottom()
+{
+    // TODO: put terrain modifiction from game.cpp as separate function and call it here
+
+    // scratching sound
+    g->sound(global_x(), global_y(), 2, "some mechanical noise!");
+
+    //No need to check the same (x, y) spot more than once
+    std::set< std::pair<int, int> > locations_checked;
+    for (int i = 0; i < parts.size(); i++) {
+        int next_x = parts[i].mount_dx;
+        int next_y = parts[i].mount_dy;
+        std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
+
+        if (locations_checked.count(mount_location) == 0) {
+            // damage the structure only if wheel doesn't exist here
+            if (part_with_feature(i, "WHEEL", true) < 0) {
+                std::vector<int> parts_here = parts_at_relative(next_x, next_y);
+                bool found_under = false;
+                int part_for_dmg = -1;
+                for(std::vector<int>::iterator here = parts_here.begin();
+                here != parts_here.end(); here++) {
+                    // TODO: check ARMOR flag and damage it at first
+
+                    // damage underbody part
+                    if (part_info(*here).location == "under") {
+                        found_under = true;
+                        part_for_dmg = *here;
+                    }
+
+                    // damage structure part only if underbody part doesn't exist
+                    if ((!found_under) && (part_info(*here).location == "structure")) {
+                        part_for_dmg = *here;
+                    }
+                }
+
+                if(part_for_dmg >= 0) {
+                    //bashing damage
+                    damage_direct(part_for_dmg, rng(10, 35), 1);
+
+                    // damage from sparkles
+                    damage_direct(part_for_dmg, int(rng(1, 3) * velocity / 750), 2);
+                }
+            }
+        }
+
+        locations_checked.insert(mount_location);
+    }
+}
+
+void vehicle::detach(int part_index, bool intended)
+{
+    vehicle *wagon = towed_vehicle(parts[part_index].tow_x, parts[part_index].tow_y);
+    parts[part_index].remove_flag(vehicle_part::towing_flag);
+    if (intended) {
+        g->add_msg(_("%s is detached."), wagon->name.c_str());
+    } else {
+        // define global coordinates of towing part
+        int x, y;
+        coord_translate(parts[part_index].mount_dx, parts[part_index].mount_dy, x, y);
+        x += global_x();
+        y += global_y();
+
+        //sound at crashside
+        g->sound(x, y, 20, "CH-CH-BOOM!!!");
+    }
 }
 
 // a chance to stop skidding if moving in roughly the faced direction

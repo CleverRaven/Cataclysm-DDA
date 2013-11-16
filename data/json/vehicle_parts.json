@@ -1390,5 +1390,57 @@
         "difficulty": 1,
         "location": "on_roof",
         "flags": ["CIRCLE_LIGHT", "EVENTURN"]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_hitch",
+        "name": "tow ball",
+        "symbol": "!",
+        "color": "light_gray",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "durability": 320,
+        "item": "frame",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["TOW_MALE", "LIGHT_LOADS"]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_coupler",
+        "name": "coupler",
+        "symbol": "i",
+        "color": "light_gray",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "durability": 320,
+        "item": "frame",
+        "difficulty": 3,
+        "location": "center",
+        "flags": ["TOW_FEMALE", "LIGHT_LOADS"]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_hook",
+        "name": "pintle hook",
+        "symbol": "!",
+        "color": "light_gray",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "durability": 380,
+        "item": "frame",
+        "difficulty": 5,
+        "location": "center",
+        "flags": ["TOW_MALE"]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_gudgeon",
+        "name": "gudgeon",
+        "symbol": "i",
+        "color": "light_gray",
+        "broken_symbol": "x",
+        "broken_color": "light_gray",
+        "durability": 380,
+        "item": "frame",
+        "difficulty": 5,
+        "location": "center",
+        "flags": ["TOW_FEMALE"]
     }
 ]

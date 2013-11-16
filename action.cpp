@@ -175,6 +175,8 @@ std::string action_ident(action_id act)
             return "open";
         case ACTION_CLOSE:
             return "close";
+        case ACTION_TOW:
+            return "tow";
         case ACTION_SMASH:
             return "smash";
         case ACTION_EXAMINE:
@@ -354,6 +356,8 @@ std::string action_name(action_id act)
             return _("Open Door");
         case ACTION_CLOSE:
             return _("Close Door");
+        case ACTION_TOW:
+            return _("Switch towing state");
         case ACTION_SMASH:
             return _("Smash Nearby Terrain");
         case ACTION_EXAMINE:

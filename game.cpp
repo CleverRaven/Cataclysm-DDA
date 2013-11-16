@@ -1946,6 +1946,10 @@ bool game::handle_action()
    close();
    break;
 
+  case ACTION_TOW:
+   tow();
+   break;
+
   case ACTION_SMASH:
    if (veh_ctrl)
     handbrake();
@@ -6156,6 +6160,28 @@ void game::close()
     if (didit)
         u.moves -= 90;
 }
+
+void game::tow()
+{
+    int openx, openy;
+    if (!choose_adjacent(_("Where is tow hitch?"), openx, openy))
+        return;
+    u.moves -= 100;
+
+    int vpart;
+    vehicle *veh = m.veh_at(openx, openy, vpart);
+    if (veh) {
+        int tow_hitch = veh->part_with_feature(vpart, "TOW_MALE");
+        if(tow_hitch >= 0) {
+                veh->tow(tow_hitch);
+                return;
+        } else {
+        add_msg(_("No tow hitch there."));
+        u.moves += 100;
+        }
+    }
+}
+
 
 void game::smash()
 {
