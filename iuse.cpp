@@ -2186,9 +2186,8 @@ static void roadmap_targets(game *g, player *p, item *it, bool t,
 {
     point place;
     point origin = g->om_location();
-oter_id tgt(target);
     std::vector<point> places = g->cur_om->find_all(tripoint(origin.x, origin.y, g->levz),
-                                                    tgt, distance, false);
+                                                    target, distance, false);
 
     for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
         place = *iter;

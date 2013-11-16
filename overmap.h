@@ -114,7 +114,7 @@ class overmap
   // TODO: make this 3d
   point find_closest(point origin, const oter_id &type,
                      int &dist, bool must_be_seen);
-  std::vector<point> find_all(tripoint origin, const oter_id &type,
+  std::vector<point> find_all(tripoint origin, const std::string &type,
                               int &dist, bool must_be_seen);
   std::vector<point> find_terrain(std::string term, int cursx, int cursy, int zlevel);
   int closest_city(point p);

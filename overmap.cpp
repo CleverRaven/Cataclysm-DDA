@@ -1533,7 +1533,7 @@ point overmap::find_closest(point origin, const oter_id &type,
     return point(-1, -1);
 }
 
-std::vector<point> overmap::find_all(tripoint origin, const oter_id &type,
+std::vector<point> overmap::find_all(tripoint origin, const std::string &type,
                                      int &dist, bool must_be_seen)
 {
     std::vector<point> res;
