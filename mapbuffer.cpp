@@ -8,6 +8,7 @@
 #include "picofunc.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+const int savegame_minver_map = 11;
 
 mapbuffer MAPBUFFER;
 
@@ -272,11 +273,11 @@ void mapbuffer::unserialize(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
-   if (savegame_loading_version != savegame_version) { // We're version x but this is a save from version y, let's check to see if there's a loader
+   if (savegame_loading_version != savegame_version && savegame_loading_version < savegame_minver_map) { // We're version x but this is a save from version y, let's check to see if there's a loader
        if ( unserialize_legacy(fin) == true ) { // loader returned true, we're done.
             return;
        } else { // no unserialize_legacy for version y, continuing onwards towards possible disaster. Or not?
-           popup_nowait(_("Cannot find loader for overmap save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+           popup_nowait(_("Cannot find loader for map save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
 

@@ -89,7 +89,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 1000, false,
          &mission_place::always, &mission_start::open_sarcophagus,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  DESTINATION(ot_haz_sar_b1);
+  DESTINATION("haz_sar_b1");
 
 //martyr mission 1
  MISSION(_("Find Relic"), MGOAL_FIND_ITEM, 2, 1000, false,
@@ -141,7 +141,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 1000, false,
          &mission_place::always, &mission_start::join,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  DESTINATION(ot_fema);
+  DESTINATION("fema");
   FOLLOWUP(MISSION_REACH_FARM_HOUSE);
 
 //humanitarian mission 3
@@ -149,7 +149,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 1000, false,
          &mission_place::always, &mission_start::join,
          &mission_end::leave, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  DESTINATION(ot_farm);
+  DESTINATION("farm");
 
 //vigilante mission 1
  MISSION(_("Find Corporate Accounts"), MGOAL_FIND_ITEM, 2, 1400, false,
