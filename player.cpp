@@ -6261,7 +6261,7 @@ bool player::consume(game *g, signed char ch)
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo()) {
-	if(to_eat.type->id == “battery”)
+	if(to_eat.type->id == "battery")
 {
             const int factor = 20;
             int max_change = max_power_level - power_level;
