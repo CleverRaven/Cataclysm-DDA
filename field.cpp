@@ -1654,8 +1654,8 @@ Returns the next iterator or field_list.end().
 std::map<field_id, field_entry*>::iterator field::removeField(const field_id field_to_remove){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_remove);
     std::map<field_id, field_entry*>::iterator next = it;
-    ++next;
     if(it != field_list.end()) {
+        ++next;
         field_entry* tmp = it->second;
         delete tmp;
         field_list.erase(it);

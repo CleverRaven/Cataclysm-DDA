@@ -1232,6 +1232,20 @@ bool map::moppable_items_at(const int x, const int y)
   if (it->made_of(LIQUID))
    return true;
  }
+ field &fld = field_at(x, y);
+ if(fld.findField(fd_blood) != 0 || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
+  return true;
+ }
+ int vpart;
+ vehicle *veh = veh_at(x, y, vpart);
+ if(veh != 0) {
+  std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+  for(size_t i = 0; i < parts_here.size(); i++) {
+   if(veh->parts[parts_here[i]].blood > 0) {
+    return true;
+   }
+  }
+ }
  return false;
 }
 
@@ -1273,6 +1287,19 @@ void map::mop_spills(const int x, const int y) {
   if (it->made_of(LIQUID)) {
     i_rem(x, y, i);
     i--;
+  }
+ }
+ field &fld = field_at(x, y);
+ fld.removeField(fd_blood);
+ fld.removeField(fd_bile);
+ fld.removeField(fd_slime);
+ fld.removeField(fd_sludge);
+ int vpart;
+ vehicle *veh = veh_at(x, y, vpart);
+ if(veh != 0) {
+  std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+  for(size_t i = 0; i < parts_here.size(); i++) {
+   veh->parts[parts_here[i]].blood = 0;
   }
  }
 }
