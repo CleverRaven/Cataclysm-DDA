@@ -35,6 +35,14 @@
 },
 {
     "type"       :    "bionic",
+    "id"         :    "bio_reactor",
+    "name"       :    "Bionic Minireactor",
+    "active"     :    true,
+    "power_source" :  true,
+    "description":    "You can install plutonium cells into your bionic minireactor to create a constant source of power that seldom needs replacement."
+},
+{
+    "type"       :    "bionic",
     "id"         :    "bio_solar",
     "name"       :    "Solar Panels",
     "power_source" :  true,
