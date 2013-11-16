@@ -273,6 +273,19 @@ inventory inventory::filter_by_category(item_cat cat, const player& u) const
     return reduced_inv;
 }
 
+inventory inventory::filter_by_capacity_for_liquid(const item &liquid) const
+{
+    inventory reduced_inv;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
+        const item& it = iter->front();
+        LIQUID_FILL_ERROR error;
+        if (it.get_remaining_capacity_for_liquid(liquid, error) > 0) {
+            reduced_inv.clone_stack(*iter);
+        }
+    }
+    return reduced_inv;
+}
+
 
 void inventory::unsort()
 {

@@ -287,6 +287,7 @@ class game
   char inv(inventory&,std::string);
   char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
+  char inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
@@ -343,7 +344,7 @@ class game
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
   live_view liveview;
 
- bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
+  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
