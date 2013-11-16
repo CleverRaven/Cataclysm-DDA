@@ -8659,7 +8659,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "whiskey_barrel_small",
-        "name" : "whiskey",
+        "name" : "single malt whiskey",
         "weight" : 33,
         "color" : "brown",
         "addiction_type" : "alcohol",
