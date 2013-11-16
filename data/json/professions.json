@@ -153,6 +153,10 @@
                 "name": "cooking"
             }
         ],
+        "CBMs": [
+            "bio_time_freeze",
+            "bio_batteries"
+        ],
         "items": [
             "maid_hat",
             "maid_dress",
@@ -163,8 +167,7 @@
             "throwing_knife",
             "throwing_knife",
             "throwing_knife"
-        ],
-        "CBMs": "bio_time_freeze"
+        ]
     },
     {
         "type": "profession",
