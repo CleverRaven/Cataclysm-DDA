@@ -1566,6 +1566,7 @@
       ["wine_cabernet", 10],
       ["wine_noir", 2],
       ["beer", 60]
+      ["whiskey_barrel_small", 2]
     ]
   },{
     "type":"item_group",

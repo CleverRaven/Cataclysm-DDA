@@ -303,5 +303,22 @@
         "to_hit": -2,
         "contains": 10,
         "material": "paper"
+    },
+    {
+        "id": "barrel_small",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "wooden barrel",
+        "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future. It has a capacity of 120 liters.",
+        "price": 9500,
+        "weight": 42408,
+        "volume": 480,
+        "bashing": -5,
+        "cutting": 0,
+        "to_hit": -5,
+        "material": ["wood", "steel"],
+        "contains": 480,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     }
 ]
