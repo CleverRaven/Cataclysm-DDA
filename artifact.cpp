@@ -271,7 +271,7 @@ void init_artifacts()
         {_("Heavy"),     0,1400,  10, 20,    0,  0,   -2,  0,  ""},
         {_("Knobbed"),   1,250,   14, 30,    0,  0,   -1,  1,  ""},
         {_("Spiked"),    1,100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
-        {_("Edged"),     2,450,    0,  0,   20, 50,   -1,  2,  ""},
+        {_("Edged"),     2,450,    0,  0,   20, 50,   -1,  2,  "CHOP"},
         {_("Bladed"),    1,2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
     };
     for(int i=0;i<NUM_ARTWEAPS;i++) {artifact_weapon_data[i]=tmp_artifact_weapon_data[i];}
@@ -501,7 +501,7 @@ itype* new_artifact(itypemap &itypes)
    art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
 
   art->id = itypes.size();
-  
+
   itypes[art->id]=art;
   artifact_itype_ids.push_back(art->id);
   return art;
@@ -798,6 +798,8 @@ void load_artifacts(const std::string &artfilename, itypemap &itypes)
 
 void load_artifacts_from_ifstream(std::ifstream *f, itypemap &itypes)
 {
+    // delete current artefact ids
+    artifact_itype_ids.clear();
     // read and create artifacts from json array in artifacts.gsav
     JsonIn artifact_json(f);
     artifact_json.start_array();

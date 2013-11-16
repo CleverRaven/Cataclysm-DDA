@@ -49,6 +49,7 @@
 #endif
 #include <sys/stat.h>
 #include "debug.h"
+#include "catalua.h"
 
 #if (defined _WIN32 || defined __WIN32__)
 #ifndef NOMINMAX
@@ -99,7 +100,6 @@ game::game() :
 void game::init_data()
 {
  dout() << "Game initialized.";
-
  try {
  if(!picojson::get_last_error().empty())
   throw (std::string)"Failed to initialize a static variable";
@@ -126,7 +126,12 @@ void game::init_data()
 
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
-     finalize_recipes();
+    finalize_recipes();
+    
+ #ifdef LUA
+    init_lua();                 // Set up lua                       (SEE catalua.cpp)
+ #endif
+
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -318,7 +323,7 @@ void game::init_ui(){
             // bottom of the screen.
             stat2H = TERMY - stat2Y;
         }
-    } 
+    }
     liveview.init(this, mouse_view_x, mouseview_y, sidebarWidth, mouseview_h);
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
@@ -1525,7 +1530,7 @@ void game::process_missions()
 void game::handle_key_blocking_activity() {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (is_hostile_very_close() && 
+    if (is_hostile_very_close() &&
         u.activity.type != ACT_NULL &&
         u.activity.moves_left > 0 &&
         !u.activity.warned_of_proximity)
@@ -2629,7 +2634,7 @@ bool game::load_master(std::string worldname)
  std::string data;
  std::stringstream datafile;
  datafile << world_generator->all_worlds[worldname]->world_path << "/master.gsav";
- fin.open(datafile.str().c_str());
+ fin.open(datafile.str().c_str(), std::ifstream::in | std::ifstream::binary);
  if (!fin.is_open())
   return false;
 
@@ -2729,7 +2734,7 @@ void game::save_artifacts()
 {
     std::ofstream fout;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
-    fout.open(artfilename.c_str());
+    fout.open(artfilename.c_str(), std::ofstream::trunc);
     JsonOut json(&fout);
     json.start_array();
     for ( std::vector<std::string>::iterator it =
@@ -3064,7 +3069,10 @@ void game::debug()
                    _("Spawn Clarivoyance Artifact"), //15
                    _("Map editor"), // 16
                    _("Change weather"),         // 17
-                   _("Cancel"),                 // 18
+                   #ifdef LUA
+                       _("Lua Command"), // 18
+                   #endif
+                   _("Cancel"),
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -3341,6 +3349,14 @@ Current turn: %d; Next spawn %d.\n\
       }
   }
   break;
+  
+  #ifdef LUA
+      case 18: {
+          std::string luacode = string_input_popup(_("Lua:"), 60, "");
+          call_lua(luacode);
+      }
+      break;
+  #endif
  }
  erase();
  refresh_all();
@@ -4385,18 +4401,48 @@ bool game::pl_sees(player *p, monster *mon, int &t)
  return m.sees(p->posx, p->posy, mon->posx(), mon->posy(), range, t);
 }
 
+/**
+ * Attempts to find which map co-ordinates the specified item is located at,
+ * looking at the player, the ground, NPCs, and vehicles in that order.
+ * @param it A pointer to the item to find.
+ * @return The location of the item, or (-999, -999) if it wasn't found.
+ */
 point game::find_item(item *it)
 {
- if (u.has_item(it))
-  return point(u.posx, u.posy);
- point ret = m.find_item(it);
- if (ret.x != -1 && ret.y != -1)
-  return ret;
- for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i]->inv.has_item(it))
-   return point(active_npc[i]->posx, active_npc[i]->posy);
- }
- return point(-999, -999);
+    //Does the player have it?
+    if (u.has_item(it)) {
+        return point(u.posx, u.posy);
+    }
+    //Is it in a vehicle?
+    for (std::set<vehicle*>::iterator veh_iterator = m.vehicle_list.begin();
+            veh_iterator != m.vehicle_list.end(); veh_iterator++) {
+        vehicle *next_vehicle = *veh_iterator;
+        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature("CARGO", false);
+        for(std::vector<int>::iterator part_index = cargo_parts.begin();
+                part_index != cargo_parts.end(); part_index++) {
+            std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
+            for (int n = items_in_part->size() - 1; n >= 0; n--) {
+                if (&((*items_in_part)[n]) == it) {
+                    int mapx = next_vehicle->global_x() + next_vehicle->parts[*part_index].precalc_dx[0];
+                    int mapy = next_vehicle->global_y() + next_vehicle->parts[*part_index].precalc_dy[0];
+                    return point(mapx, mapy);
+                }
+            }
+        }
+    }
+    //Does an NPC have it?
+    for (int i = 0; i < active_npc.size(); i++) {
+        if (active_npc[i]->inv.has_item(it)) {
+            return point(active_npc[i]->posx, active_npc[i]->posy);
+        }
+    }
+    //Is it on the ground? (Check this last - takes the most time)
+    point ret = m.find_item(it);
+    if (ret.x != -1 && ret.y != -1) {
+        return ret;
+    }
+    //Not found anywhere
+    return point(-999, -999);
 }
 
 void game::remove_item(item *it)
@@ -7904,7 +7950,7 @@ void game::pickup(int posx, int posy, int min)
                     }
                 }
             }
-            
+
             if (craft_part >= 0) {
                 if (query_yn(_("Use the water purifier?"))) {
                     used_feature = true;
@@ -9768,17 +9814,26 @@ void game::unload(item& it)
     }
     int spare_mag = -1;
     int has_m203 = -1;
+    int has_40mml = -1;
     int has_shotgun = -1;
+    int has_shotgun2 = -1;
+    int has_shotgun3 = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod ("spare_mag");
         has_m203 = it.has_gunmod ("m203");
+        has_40mml = it.has_gunmod ("pipe_launcher40mm");
         has_shotgun = it.has_gunmod ("u_shotgun");
+        has_shotgun2 = it.has_gunmod ("masterkey");
+        has_shotgun3 = it.has_gunmod ("rm121aux");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
          (spare_mag == -1 || it.contents[spare_mag].charges <= 0) &&
          (has_m203 == -1 || it.contents[has_m203].charges <= 0) &&
-         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0)))
+         (has_40mml == -1 || it.contents[has_40mml].charges <= 0) &&
+         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
+         (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
+         (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0)))
     {
         if (it.contents.size() == 0)
         {
@@ -9851,9 +9906,18 @@ void game::unload(item& it)
   // Then try the grenade launcher
   else if (has_m203 != -1 && weapon->contents[has_m203].charges > 0)
    weapon = &weapon->contents[has_m203];
+  // Then try the pipe 40mm launcher
+  else if (has_40mml != -1 && weapon->contents[has_40mml].charges > 0)
+   weapon = &weapon->contents[has_40mml];
   // Then try an underslung shotgun
   else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
    weapon = &weapon->contents[has_shotgun];
+  // Then try a masterkey shotgun
+  else if (has_shotgun2 != -1 && weapon->contents[has_shotgun2].charges > 0)
+   weapon = &weapon->contents[has_shotgun2];
+  // Then try a Rivtech shotgun
+  else if (has_shotgun3 != -1 && weapon->contents[has_shotgun3].charges > 0)
+   weapon = &weapon->contents[has_shotgun3];
  }
 
  item newam;
@@ -11416,7 +11480,7 @@ void game::spawn_mon(int shiftx, int shifty)
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type, 
+     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,
                                                              &group, (int)turn );
      zom = monster(GetMType(spawn_details.name));
      for (int kk = 0; kk < spawn_details.pack_size; kk++){

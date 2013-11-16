@@ -63,8 +63,7 @@
 
 bool is_whitespace(char ch)
 {
-    // TODO: this is not an exhaustive list of valid whitespace characters.
-    // it should probably be with the other utf8 processing functions as well.
+    // These are all the valid whitespace characters allowed by RFC 4627.
     if (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r') {
         return true;
     } else {
@@ -90,6 +89,7 @@ JsonObject::JsonObject(JsonIn *j) : positions()
         jsin->skip_value();
     }
     end = jsin->tell();
+    final_separator = jsin->get_ate_separator();
 }
 
 JsonObject::JsonObject(const JsonObject &jo)
@@ -98,12 +98,15 @@ JsonObject::JsonObject(const JsonObject &jo)
     start = jo.start;
     positions = jo.positions;
     end = jo.end;
+    final_separator = jo.final_separator;
 }
 
 void JsonObject::finish()
 {
-    jsin->seek(end);
-    jsin->skip_separator(); // so it can track whether it ate it or not
+    if (jsin && jsin->good()) {
+        jsin->seek(end);
+        jsin->set_ate_separator(final_separator);
+    }
 }
 
 int JsonObject::verify_position(const std::string &name,
@@ -376,6 +379,7 @@ JsonArray::JsonArray(JsonIn *j) : positions()
         jsin->skip_value();
     }
     end = jsin->tell();
+    final_separator = jsin->get_ate_separator();
 }
 
 JsonArray::JsonArray(const JsonArray &ja)
@@ -385,13 +389,14 @@ JsonArray::JsonArray(const JsonArray &ja)
     index = 0;
     positions = ja.positions;
     end = ja.end;
+    final_separator = ja.final_separator;
 }
 
 void JsonArray::finish()
 {
     if (jsin && jsin->good()) {
         jsin->seek(end);
-        jsin->skip_separator(); // so it can track whether it ate it or not
+        jsin->set_ate_separator(final_separator);
     }
 }
 
@@ -679,9 +684,19 @@ void JsonIn::skip_separator()
         ate_separator = true;
     } else if (ch == ']' || ch == '}' || ch == ':') {
         // okay
+        if (strict && ate_separator) {
+            std::stringstream err;
+            err << "separator should not be found before '" << ch << "'";
+            uneat_whitespace();
+            error(err.str());
+        }
         ate_separator = false;
     } else if (ch == EOF) {
         // that's okay too... probably
+        if (strict && ate_separator) {
+            uneat_whitespace();
+            error("separator at end of file not strictly allowed");
+        }
         ate_separator = false;
     } else if (strict) {
         // not okay >:(
@@ -768,7 +783,7 @@ void JsonIn::skip_object()
     while (!end_object()) {
         skip_member();
     }
-    end_value();
+    // end_value called by end_object
 }
 
 void JsonIn::skip_array()
@@ -777,7 +792,7 @@ void JsonIn::skip_array()
     while (!end_array()) {
         skip_value();
     }
-    end_value();
+    // end_value called by end_array
 }
 
 void JsonIn::skip_true()
@@ -1041,7 +1056,7 @@ bool JsonIn::end_array()
             error("separator not strictly allowed at end of array");
         }
         stream->get();
-        ate_separator = false;
+        end_value();
         return true;
     } else {
         // not the end yet, so just return false?
@@ -1074,7 +1089,7 @@ bool JsonIn::end_object()
             error("separator not strictly allowed at end of object");
         }
         stream->get();
-        ate_separator = false;
+        end_value();
         return true;
     } else {
         // not the end yet, so just return false?
