@@ -806,12 +806,17 @@ void player::load_legacy(game *g, std::stringstream & dump) {
 
  int numill;
  disease illtmp;
- int temp_bpart;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart >> illtmp.side;
-     illtmp.bp = (body_part)temp_bpart;
+     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity;
+     if( savegame_loading_version >= 5 ) {
+         int temp_bpart;
+         dump >> temp_bpart >> illtmp.side;
+         illtmp.bp = (body_part)temp_bpart;
+     } else {
+         illtmp.side = -1;
+         illtmp.bp = num_bp;
+     }
      illness.push_back(illtmp);
  }
 
