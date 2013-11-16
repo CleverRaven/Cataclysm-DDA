@@ -88,6 +88,8 @@ enum quit_status {
  QUIT_ERROR
 };
 
+// Refactoring into base monster class.
+
 struct monster_and_count
 {
  monster mon;
@@ -141,7 +143,7 @@ class game
   void decrease_nextinv(); // Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
   void add_msg_string(const std::string &s);
-  void add_msg(const char* msg, ...);
+    void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_if_npc(player* p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
@@ -319,7 +321,7 @@ class game
   map m;
   int levx, levy, levz; // Placement inside the overmap
   player u;
-  std::vector<monster_and_count> coming_to_stairs;
+  std::vector<monster> coming_to_stairs;
   int monstairx, monstairy, monstairz;
   std::vector<npc *> active_npc;
   std::vector<faction> factions;
@@ -516,7 +518,7 @@ class game
   void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
-  
+
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
 // returns a Bresenham line to that square.  It is called by plfire() and
@@ -528,7 +530,8 @@ class game
 // Map updating and monster spawning
   void replace_stair_monsters();
   void update_stair_monsters();
-  void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
+  void despawn_monsters(const int shiftx = 0, const int shifty = 0);
+  void force_save_monster(monster &z);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);

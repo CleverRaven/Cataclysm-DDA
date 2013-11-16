@@ -44,6 +44,7 @@ monster::monster()
  unique_name = "";
  hallucination = false;
  ignoring = 0;
+ keep = 0;
 }
 
 monster::monster(mtype *t)
@@ -559,7 +560,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
     //If the player is knocked down or the monster can fly, any body part is a valid target
     if(p.is_on_ground() || has_flag(MF_FLIES)){
         highest_hit = 20;
-    } 
+    }
     else {
  switch (type->size) {
  case MS_TINY:
@@ -930,4 +931,14 @@ void monster::add_item(item it)
 bool monster::is_hallucination()
 {
   return hallucination;
+}
+
+bool monster::getkeep()
+{
+    return keep;
+}
+
+void monster::setkeep(bool r)
+{
+    keep = r;
 }
