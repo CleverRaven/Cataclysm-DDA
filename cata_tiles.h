@@ -173,7 +173,6 @@ class cata_tiles
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
         bool draw_field_or_item(int x, int y);
-        bool draw_item(int x, int y);
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
 
@@ -277,7 +276,7 @@ class cata_tiles
 
     protected:
     private:
-        void create_default_item_highlight(SDL_Surface *src);
+        void create_default_item_highlight();
         int
             sightrange_natural,
             sightrange_light,
