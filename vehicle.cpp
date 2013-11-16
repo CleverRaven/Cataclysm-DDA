@@ -18,6 +18,7 @@ enum vehicle_controls {
  toggle_lights,
  toggle_overhead_lights,
  toggle_turrets,
+ toggle_tracker,
  activate_horn,
  release_control,
  control_cancel,
@@ -34,10 +35,12 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     of_turn_carry = 0;
     turret_mode = 0;
     lights_power = 0;
+    tracking_power = 0;
     cruise_velocity = 0;
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    tracking_on = false;
     overhead_lights_on = false;
     insides_dirty = true;
 
@@ -147,6 +150,10 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
      veh_fuel_mult = rng (1,7);
     if (init_veh_fuel > 100)
      veh_fuel_mult = 100;
+
+    // im assuming vehicles only spawn in active maps
+    levx = g->levx;
+    levy = g->levy;
 
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
@@ -296,15 +303,18 @@ void vehicle::use_controls()
     // Always have this option
     int curent = 0;
     int letgoent = 0;
+
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
+
     curent++;
 
     bool has_lights = false;
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
+    bool has_tracker = false;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -320,6 +330,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "HORN")) {
             has_horn = true;
+        }
+        else if (part_flag(p, "TRACK")) {
+            has_tracker = true;
         }
     }
 
@@ -350,6 +363,15 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_turrets);
         options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
                                                _("Disable turrets"), 't'));
+        curent++;
+    }
+
+    // Tracking on the overmap
+    if (has_tracker) {
+        options_choice.push_back(toggle_tracker);
+        options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
+                                                _("Enable tracking device"), 'g'));
+
         curent++;
     }
 
@@ -447,6 +469,21 @@ void vehicle::use_controls()
         g->u.moves -= 500;
         break;
     }
+    case toggle_tracker:
+        if (tracking_on)
+        {
+            g->cur_om->remove_vehicle(om_id);
+            tracking_on = false;
+            g->add_msg(_("tracking device disabled"));
+        } else if (fuel_left("battery"))
+        {
+            om_id = g->cur_om->add_vehicle(this);
+            tracking_on = true;
+            g->add_msg(_("tracking device enabled"));
+        } else {
+            g->add_msg(_("tracking device won't turn on"));
+        }
+        break;
     case control_cancel:
         break;
     }
@@ -811,6 +848,10 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
         lights.push_back(parts.size()-1);
         lights_power += part_info(parts.size()-1).power;
     }
+    if(part_flag(parts.size()-1, "TRACK"))
+    {
+        tracking_power += part_info(parts.size()-1).power;
+    }
     if(part_flag(parts.size()-1,"FUEL_TANK"))
         fuel.push_back(parts.size()-1);
     find_exhaust ();
@@ -860,6 +901,23 @@ void vehicle::remove_part (int p)
 {
     if(part_flag(p,"LIGHT")) {
         lights_power -= part_info( parts.size() - 1 ).power;
+    } else if (part_flag(p, "TRACK")) {
+        tracking_power -= part_info( parts.size() - 1 ).power;
+        // disable tracking if there are no other trackers installed.
+        if (tracking_on)
+        {
+            bool has_tracker = false;
+            for (int i = 0; i != parts.size(); i++){
+                if (i != p && part_flag(i, "TRACK")){
+                    has_tracker = true;
+                    break;
+                }
+            }
+            if (!has_tracker){ // disable tracking
+                g->cur_om->remove_vehicle(om_id);
+                tracking_on = false;
+            }
+        }
     }
     
     // if a windshield is removed (usually destroyed) also remove curtains
@@ -1324,6 +1382,26 @@ int vehicle::global_y ()
     return smy * SEEY + posy;
 }
 
+int vehicle::omap_x() {
+    return levx + (global_x() / SEEX);
+}
+
+int vehicle::omap_y() {
+    return levy + (global_y() / SEEY);
+}
+
+void vehicle::update_map_x(int x) {
+    levx = x;
+    if (tracking_on)
+        g->cur_om->vehicles[om_id].x = omap_x()/2;
+}
+
+void vehicle::update_map_y(int y) {
+    levy = y;
+    if (tracking_on)
+        g->cur_om->vehicles[om_id].y = omap_y()/2;
+}
+
 int vehicle::total_mass()
 {
     int m = 0;
@@ -1743,6 +1821,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 {
     int power=0;
     if(lights_on)power += lights_power;
+    if(tracking_on)power += tracking_power;
     if(power <= 0)return;
     for(int f=0;f<fuel.size() && power > 0;f++)
     {
@@ -1763,6 +1842,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(power)
     {
         lights_on = false;
+        tracking_on = false;
         overhead_lights_on = false;
         if(player_in_control(&g->u))
             g->add_msg("The %s's battery dies!",name.c_str());

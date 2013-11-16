@@ -301,6 +301,14 @@ public:
     int global_x ();
     int global_y ();
 
+// get omap coordinate for vehicle
+    int omap_x ();
+    int omap_y ();
+
+// update map coordinates of the vehicle
+    void update_map_x(int x);
+    void update_map_y(int y);
+
 // Checks how much certain fuel left in tanks. If for_engine == true that means
 // ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
     int fuel_left (ammotype ftype, bool for_engine = false);
@@ -480,12 +488,15 @@ public:
 
     // save values
     int posx, posy;
+    int levx,levy;       // vehicle map coordinates.
     tileray face;       // frame direction
     tileray move;       // direction we are moving
     int velocity;       // vehicle current velocity, mph * 100
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
     bool lights_on;     // lights on/off
+    bool tracking_on;        // vehicle tracking on/off
+    int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //emergency vehicle flasher lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
@@ -495,6 +506,7 @@ public:
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
     int lights_power;   // total power of components with LIGHT flag
+    int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
 };
 
 #endif
