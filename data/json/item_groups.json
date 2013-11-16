@@ -765,6 +765,7 @@
       ["apple_cider", 50],
       ["lemonade", 50],
       ["energy_drink", 55],
+      ["energy_drink_atomic", 4],
       ["cola", 70],
       ["choc_drink", 30],
       ["rootbeer", 65],
@@ -4676,6 +4677,7 @@
     "id":"drugdealer",
     "items":[
       ["energy_drink", 55],
+      ["energy_drink_atomic", 8],
       ["knuckle_brass", 30],
       ["sports_drink", 35],
       ["purple_drink", 15],
@@ -4771,6 +4773,7 @@
     "id":"npc_hacker",
     "items":[
       ["energy_drink", 55],
+      ["energy_drink_atomic", 12],
       ["mag_computer", 45],
       ["mag_electronics", 25],
       ["adderall", 10],
