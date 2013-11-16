@@ -81,7 +81,7 @@ public:
  virtual void load_info(game *g, std::string data); // deserialize string when loading
  virtual std::string save_info(); // output serialized json string for saving
 
- void json_load_common_variables( std::map<std::string, picojson::value> & data ); 
+ void json_load_common_variables( std::map<std::string, picojson::value> & data );
  virtual void json_load(picojson::value & parsed, game *g);   // populate variables, inventory items, and misc from json object
 
  void json_save_common_variables( std::map<std::string, picojson::value> & data );
@@ -169,6 +169,7 @@ public:
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
  bool is_throw_immune(); // martial arts throw immunity
  bool is_quiet(); // martial arts quiet melee
+ bool can_melee();
  bool is_on_ground(); // all body parts are available to ground level damage sources
 
  bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
