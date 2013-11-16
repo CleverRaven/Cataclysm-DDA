@@ -349,6 +349,15 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
   hunger += 2;
   power_level++;
 }
+if (has_active_bionic("bio_reactor") && power_level < max_power_level &&
+	(int(g->turn) % 10 == 0)) {
+	if (plut_charge > 0) {
+		plut_charge--;
+		power_level++;
+	}
+	else
+		g->add_msg(_("Your bionic minireactor is out of plutonium charges.");
+}
 
 // Trait / mutation buffs
  if (has_trait("THICK_SCALES"))
