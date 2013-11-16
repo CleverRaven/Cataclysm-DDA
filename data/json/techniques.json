@@ -482,7 +482,7 @@
         "grab_break": true,
         "messages" : [
             "You slither free!",
-            "<npcname slithers free!"
+            "<npcname> slithers free!"
         ]
     },{
         "type" : "technique",
