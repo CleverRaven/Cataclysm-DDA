@@ -16245,7 +16245,11 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "tools": [ 
+     [ 
+      ["hammer", -1],
+      ["toolset", -1]
+     ],
      [
       ["tongs", -1]
      ],
@@ -16265,8 +16269,8 @@
   "components":
     [
      [
-     [ "steel_chunk", 1 ],
-     [ "scrap", 3 ]
+      ["steel_chunk", 1],
+      ["scrap", 3]
      ]
     ]
 },{
