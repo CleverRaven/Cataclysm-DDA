@@ -426,7 +426,7 @@ void veh_interact::do_repair(task_reason reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && 
+        if ((ch == '\n' || ch == ' ') &&
                 has_comps &&
                 (sel_vehicle_part->hp > 0 || has_wrench) && has_skill)
         {
@@ -515,7 +515,7 @@ void veh_interact::do_remove(task_reason reason)
                        has_hacksaw ? "ltgreen" : "red");
         if(wheel) {
             fold_and_print(w_msg, 1, 1, msg_width-2, c_ltgray,
-                           _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
+                           _("To remove a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
                            has_wrench ? "ltgreen" : "red",
                            has_jack ? "ltgreen" : "red");
         }
@@ -1089,7 +1089,7 @@ item consume_vpart_item (game *g, std::string vpid)
         {
             g->u.inv.remove_item_by_letter(candidates[selection].invlet);
         }
-    } 
+    }
     else
     { //map.
         int x = candidates[selection].mapx;
