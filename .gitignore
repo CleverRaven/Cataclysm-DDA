@@ -41,3 +41,6 @@ Thumbs.db
 core
 tags
 cscope.*
+
+# Compiled binary translations
+lang/mo/

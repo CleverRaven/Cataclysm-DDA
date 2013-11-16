@@ -17,7 +17,21 @@ fi
 if python lang/extract_json_strings.py 
 then
     # update cataclysm-dda.pot
-    xgettext -d cataclysm-dda -F -c~ -o lang/po/cataclysm-dda.pot --keyword=_ --keyword=pgettext:1c,2 *.cpp *.h lang/json/*.py
+    xgettext --default-domain="cataclysm-dda" \
+             --sort-by-file \
+             --add-comments="~" \
+             --output="lang/po/cataclysm-dda.pot" \
+             --keyword="_" \
+             --keyword="pgettext:1c,2" \
+             *.cpp *.h lang/json/*.py
+    # Fix msgfmt error's
+    package="cataclysm-dda"
+    version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
+    pot_file="lang/po/cataclysm-dda.pot"
+    sed -e "1,6d" \
+        -e "s/^\"Project-Id-Version:.*\"$/\"Project-Id-Version: $package $version\\\n\"/1" \
+        -e "/\"Plural-Forms:.*\"$/d" $pot_file > $pot_file.temp
+    mv $pot_file.temp $pot_file
 else
     echo 'UPDATE ABORTED'
     cd $oldpwd
