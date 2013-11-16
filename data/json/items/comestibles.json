@@ -2997,7 +2997,7 @@
 	{
         "type" : "COMESTIBLE",
         "id" : "sandwich_human",
-        "name" : "human sandwich",
+        "name" : "slob sandwich",
         "weight" : 186,
         "color" : "light_gray",
         "addiction_type" : "none",
@@ -5245,7 +5245,7 @@
 	{
         "type" : "COMESTIBLE",
         "id" : "pizza_human",
-        "name" : "human pizza",
+        "name" : "poser pizza",
         "weight" : 175,
         "color" : "light_red",
         "addiction_type" : "none",
@@ -5625,7 +5625,7 @@
 	{
         "type" : "COMESTIBLE",
         "id" : "hflesh_vac",
-        "name" : "salted sap slices",
+        "name" : "salted simpleton slices",
         "weight" : 120,
         "color" : "red",
         "addiction_type" : "none",
@@ -5742,7 +5742,7 @@
 	{
         "type" : "COMESTIBLE",
         "id" : "spaghetti_human",
-        "name" : "spaghetti italian",
+        "name" : "scoundrel spaghetti",
         "weight" : 350,
         "color" : "red",
         "addiction_type" : "none",
@@ -7203,8 +7203,8 @@
     },
 	{
         "type" : "COMESTIBLE",
-        "id" : "swisscheeseburger",
-        "name" : "swiss cheeseburger",
+        "id" : "cheeseburgerhuman",
+        "name" : "chump cheeseburger",
         "weight" : 340,
         "color" : "brown",
         "addiction_type" : "none",

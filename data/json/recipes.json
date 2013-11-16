@@ -15476,7 +15476,7 @@
   ]
 },{
         "type" : "recipe",
-   "result": "swisscheeseburger",
+   "result": "cheeseburgerhuman",
    "category": "CC_FOOD",
    "skill_used": "cooking",
    "difficulty": 3,
