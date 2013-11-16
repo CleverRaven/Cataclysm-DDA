@@ -13952,7 +13952,8 @@
   "difficulty": 4,
   "time": 20000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 1 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -17497,8 +17498,7 @@
    "time": 8000,
    "reversible": false,
    "autolearn": false,
-   "book_learn": [[ "cookbook_human", 3 ]],
-   "book_learn": [[ "cookbook_human", 3 ]],
+   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
    ],
