@@ -22,7 +22,6 @@ const std::string trap_names[num_trap_types] =
     toString(tr_fur_rollmat),
     toString(tr_beartrap),
     toString(tr_beartrap_buried),
-    toString(tr_snare),
     toString(tr_nailboard),
     toString(tr_caltrops),
     toString(tr_tripwire),
