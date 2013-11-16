@@ -589,6 +589,21 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
+    // curtains must be installed on (reinforced)windshields
+    // TODO: do this automatically using "location":"on_mountpoint"
+    if (vehicle_part_types[id].has_flag("CURTAIN")) {
+        bool anchor_found = false;
+        for ( std::vector<int>::const_iterator it = parts_in_square.begin();
+                it != parts_in_square.end(); it++) {
+            if (part_info(*it).has_flag("WINDOW")) {
+                anchor_found = true;
+            }
+        }
+        if (!anchor_found) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -606,6 +621,11 @@ bool vehicle::can_unmount (int p)
 
     //Can't remove a seat if there's still a seatbelt there
     if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
+        return false;
+    }
+    
+    // Can't remove a window with curtains still on it
+    if(part_flag(p, "WINDOW") && part_with_feature(p, "CURTAIN") >=0) {
         return false;
     }
 
@@ -841,6 +861,19 @@ void vehicle::remove_part (int p)
     if(part_flag(p,"LIGHT")) {
         lights_power -= part_info( parts.size() - 1 ).power;
     }
+    
+    // if a windshield is removed (usually destroyed) also remove curtains
+    // attached to it.
+    if(part_flag(p, "WINDOW")) {
+        int curtain = part_with_feature(p, "CURTAIN", false);
+        if (curtain >= 0) {
+            int x = parts[curtain].precalc_dx[0], y = parts[curtain].precalc_dy[0];
+            item it = item_from_part(curtain);
+            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            remove_part(curtain);
+        }
+    }
+
     parts.erase(parts.begin() + p);
     find_horns ();
     find_lights ();
@@ -1086,6 +1119,13 @@ nc_color vehicle::part_color (int p)
             col = part_info(displayed_part).color;
         }
 
+    }
+
+    // curtains turn windshields gray
+    int curtains = part_with_feature(p, "CURTAIN", false);
+    if (curtains >= 0) {
+        if (part_with_feature(p, "WINDOW", true) >= 0 && !parts[curtains].open)
+            col = part_info(curtains).color;
     }
 
     //Invert colors for cargo parts with stuff in them
