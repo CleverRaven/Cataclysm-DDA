@@ -356,7 +356,7 @@ if (has_active_bionic("bio_reactor") && power_level < max_power_level &&
 		power_level++;
 	}
 	else
-		g->add_msg_if_player(_("Your bionic minireactor is out of plutonium charges.");
+		g->add_msg_if_player(_("Your bionic minireactor is out of plutonium charges."));
 }
 
 // Trait / mutation buffs
@@ -6270,7 +6270,7 @@ bool player::consume(game *g, signed char ch)
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo()) {
-	if(to_eat.type->id == "battery")
+	if(to_eat->type->id == "battery")
 {
             const int factor = 20;
             int max_change = max_power_level - power_level;
