@@ -24,14 +24,17 @@ then
              --keyword="_" \
              --keyword="pgettext:1c,2" \
              *.cpp *.h lang/json/*.py
-    # Fix msgfmt error's
-    package="cataclysm-dda"
-    version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
-    pot_file="lang/po/cataclysm-dda.pot"
-    sed -e "1,6d" \
-        -e "s/^\"Project-Id-Version:.*\"$/\"Project-Id-Version: $package $version\\\n\"/1" \
-        -e "/\"Plural-Forms:.*\"$/d" $pot_file > $pot_file.temp
-    mv $pot_file.temp $pot_file
+    # Fix msgfmt errors
+    if [ "`head -n1 lang/po/cataclysm-dda.pot`" == "# SOME DESCRIPTIVE TITLE." ]
+    then
+        package="cataclysm-dda"
+        version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
+        pot_file="lang/po/cataclysm-dda.pot"
+        sed -e "1,6d" \
+            -e "s/^\"Project-Id-Version:.*\"$/\"Project-Id-Version: $package $version\\\n\"/1" \
+            -e "/\"Plural-Forms:.*\"$/d" $pot_file > $pot_file.temp
+        mv $pot_file.temp $pot_file
+    fi
 else
     echo 'UPDATE ABORTED'
     cd $oldpwd
