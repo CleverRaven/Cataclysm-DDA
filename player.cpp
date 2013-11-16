@@ -356,7 +356,7 @@ if (has_active_bionic("bio_reactor") && power_level < max_power_level &&
 		power_level++;
 	}
 	else
-		g->add_msg(_("Your bionic minireactor is out of plutonium charges.");
+		g->add_msg_if_player(_("Your bionic minireactor is out of plutonium charges.");
 }
 
 // Trait / mutation buffs
@@ -6281,7 +6281,10 @@ bool player::consume(game *g, signed char ch)
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
 	        } else {
-	        plut_charge += 10000;
+	        if(5000 - plut_charge < 1000)
+			g->add_msg_if_player(this,_("Your plutonium banks are full."));
+		else
+			plut_charge += 1000;
 	        }
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->type->is_book()) {
