@@ -230,7 +230,7 @@ struct use_function {
     }
 
     bool operator!=(use_function_pointer f) const {
-        return !(this->operator==(cpp_function));
+        return !(this->operator==(f));
     }
 };
 
