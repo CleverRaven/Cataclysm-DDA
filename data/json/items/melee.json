@@ -1924,6 +1924,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "javelin_iron",
+        "name" : "iron javelin",
+        "description" : "An iron-tipped wooden throwing spear. The grip area has also be carved and covered for better grip.",
+        "weight" : 920,
+        "to_hit" : 2,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["wood", "iron"],
+        "techniques" : ["WBLOCK_1", "RAPID"],
+        "volume" : 4,
+        "bashing" : 5,
+        "cutting" : 13,
+        "flags" : ["SPEAR"],
+        "price" : 90
+    },
+    {
+        "type":"GENERIC",
         "id" : "poppy_flower",
         "name" : "poppy flower",
         "description" : "A poppy stalk with some petals.",
