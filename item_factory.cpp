@@ -193,6 +193,7 @@ void Item_factory::init(){
     iuse_function_list["RAG"] = &iuse::rag;
     iuse_function_list["PDA"] = &iuse::pda;
     iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
+    iuse_function_list["BATTERY_CHARGER"] = &iuse::batterycharger;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["DEJAR"] = &iuse::dejar;
@@ -503,7 +504,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     List of current flags
     FIT - Reduces encumbrance by one
     VARSIZE - Can be made to fit via tailoring
-    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
+    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
     HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
     RAINPROOF - Works like a raincoat to protect from rain effects

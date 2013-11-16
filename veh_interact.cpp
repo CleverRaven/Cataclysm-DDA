@@ -426,7 +426,7 @@ void veh_interact::do_repair(task_reason reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && 
+        if ((ch == '\n' || ch == ' ') &&
                 has_comps &&
                 (sel_vehicle_part->hp > 0 || has_wrench) && has_skill)
         {
@@ -1089,7 +1089,7 @@ item consume_vpart_item (game *g, std::string vpid)
         {
             g->u.inv.remove_item_by_letter(candidates[selection].invlet);
         }
-    } 
+    }
     else
     { //map.
         int x = candidates[selection].mapx;

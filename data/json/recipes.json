@@ -3696,7 +3696,7 @@
       [ "cu_pipe", 3 ]
     ]
   ]
-  
+
 },{
         "type" : "recipe",
   "result": "3006_incendiary",
@@ -8899,6 +8899,45 @@
     ],
     [
       [ "cable", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "battery_charger",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "electronics",
+  "difficulty": 6,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "superglue", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "amplifier", 2 ]
+    ],
+    [
+      ["plastic_chunk", 4]
+    ],
+    [
+      [ "cable", 20 ]
+    ],
+    [
+      ["battery", 100]
     ]
   ]
 },{
@@ -15267,13 +15306,13 @@
 "qualities":[
     {"id":"CUT","level":1,"amount":1}
     ],
-  "tools": [ 
-    [ 
-      ["rock", -1], 
+  "tools": [
+    [
+      ["rock", -1],
       ["primitive_hammer", -1],
       ["hammer", -1],
       ["hatchet", -1],
-      ["toolset", -1] 
+      ["toolset", -1]
     ]
   ],
   "components": [
@@ -18229,7 +18268,7 @@
     ],
   "components":
    [
-    [ 
+    [
      ["pilot_light", 1]
     ],
     [
@@ -18237,10 +18276,10 @@
      [ "steel_chunk", 12 ],
      [ "scrap", 36 ]
     ],
-    [ 
+    [
      [ "metal_tank", 1 ]
     ],
-    [ 
+    [
      [ "pipe", 3]
     ]
    ]
@@ -18277,7 +18316,7 @@
     ],
   "components":
     [
-     [ ["pilot_light", 1] 
+     [ ["pilot_light", 1]
     ],
     [
      [ "scrap", 4 ]
@@ -18322,10 +18361,10 @@
        [ "steel_chunk", 20 ],
        [ "scrap", 60 ]
      ],
-     [ 
+     [
        [ "metal_tank", 1 ]
      ],
-     [ 
+     [
        ["pipe", 6]
      ]
   ]
