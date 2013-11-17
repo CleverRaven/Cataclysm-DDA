@@ -888,13 +888,13 @@ void veh_interact::display_stats ()
                    _("Acceleration:  <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
     fold_and_print(w_stats, 4, 1, second_column, c_ltgray,
-                   _("Mass:     <color_ltblue>%5d</color> %s"),
+                   _("Mass:        <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
     if (conf) {
-        fold_and_print(w_stats, 5, 1, second_column, c_ltgray,
+        fold_and_print(w_stats, 4, second_column, third_column, c_ltgray,
                        _("Wheels:  <color_ltgreen>enough</color>"));
     } else {
-        fold_and_print(w_stats, 5, 1, second_column, c_ltgray,
+		fold_and_print(w_stats, 4, second_column, third_column, c_ltgray,
                        _("Wheels:  <color_ltred>  lack</color>"));
     }
 
