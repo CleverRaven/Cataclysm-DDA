@@ -4,6 +4,8 @@
 #include "color.h"
 #include "catacharset.h"
 
+#include <cstring> // strlen
+
 //***********************************
 //Globals                           *
 //***********************************

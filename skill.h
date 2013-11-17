@@ -7,7 +7,6 @@
 #include <iostream>
 #include <stdint.h>
 #include "calendar.h"
-#include "picofunc.h"
 #include "json.h"
 
 class Skill {
@@ -44,7 +43,8 @@ class Skill {
   bool operator!=(const Skill& b) const { return !(*this == b); }
 };
 
-class SkillLevel {
+class SkillLevel : public JsonSerializer, public JsonDeserializer
+{
   int _level;
   int _exercise;
   bool _isTraining;
@@ -90,9 +90,10 @@ class SkillLevel {
 
    SkillLevel& operator= (const SkillLevel &rhs);
 
-  picojson::value json_save();
-  bool json_load(picojson::value & parsed);
-  bool json_load(std::map<std::string, picojson::value> & data );
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 
   // Make skillLevel act like a raw level by default.
   operator int() const { return _level; }

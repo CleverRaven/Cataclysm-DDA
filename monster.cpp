@@ -13,8 +13,7 @@
 #include <algorithm>
 #include "cursesdef.h"
 #include "monstergenerator.h"
-
-#include "picofunc.h"
+#include "json.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -348,13 +347,11 @@ void monster::load_info(std::string data)
     std::stringstream dump;
     dump << data;
     if ( dump.peek() == '{' ) {
-        picojson::value pdata;
-        dump >> pdata;
-        std::string jsonerr = picojson::get_last_error();
-        if ( ! jsonerr.empty() ) {
+        JsonIn jsin(&dump);
+        try {
+            deserialize(jsin);
+        } catch (std::string jsonerr) {
             debugmsg("Bad monster json\n%s", jsonerr.c_str() );
-        } else {
-            json_load(pdata);
         }
         return;
     } else {
@@ -368,7 +365,8 @@ void monster::load_info(std::string data)
  */
 std::string monster::save_info()
 {
-    return json_save(true).serialize();
+    // saves contents
+    return serialize();
 }
 
 void monster::debug(player &u)

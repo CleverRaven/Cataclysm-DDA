@@ -2,7 +2,7 @@
 #define _PLDATA_H_
 
 #include "enums.h"
-#include "picofunc.h"
+#include "json.h"
 #include "translations.h"
 #include "bodypart.h"
 #include <sstream>
@@ -34,8 +34,9 @@ enum add_type {
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 
-struct disease
+class disease : public JsonSerializer, public JsonDeserializer
 {
+public:
  dis_type type;
  int intensity;
  int duration;
@@ -58,16 +59,59 @@ struct disease
  disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; permanent = false; decay = 0; }
  disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1, bool perm = false, int dec = 0) :
     type(t) { duration = d; intensity = i; bp = part; side = s; permanent = perm; decay = dec; }
+
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &json) const {
+        json.start_object();
+        json.member("type", type);
+        json.member("intensity", intensity);
+        json.member("duration", duration);
+        json.member("bp", (int)bp);
+        json.member("side", side);
+        json.member("permanent", permanent);
+        json.member("decay", decay);
+        json.member("ma_buff_id", buff_id);
+        json.end_object();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        type = jo.get_string("type");
+        intensity = jo.get_int("intensity");
+        duration = jo.get_int("duration");
+        bp = (body_part)jo.get_int("bp");
+        side = jo.get_int("side");
+        permanent = jo.get_bool("permanent");
+        decay = jo.get_int("decay");
+        buff_id = jo.get_string("ma_buff_id");
+    }
 };
 
-struct addiction
+class addiction : public JsonSerializer, public JsonDeserializer
 {
+public:
  add_type type;
  int intensity;
  int sated;
  addiction() { type = ADD_NULL; intensity = 0; sated = 600; }
  addiction(add_type t) { type = t; intensity = 1; sated = 600; }
  addiction(add_type t, int i) { type = t; intensity = i; sated = 600; }
+
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &json) const {
+        json.start_object();
+        json.member("type_enum", type);
+        json.member("intensity", intensity);
+        json.member("sated", sated);
+        json.end_object();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        type = (add_type)jo.get_int("type_enum");
+        intensity = jo.get_int("intensity");
+        sated = jo.get_int("sated");
+    }
 };
 
 enum activity_type {
@@ -78,8 +122,9 @@ enum activity_type {
  NUM_ACTIVITIES
 };
 
-struct player_activity
+class player_activity : public JsonSerializer, public JsonDeserializer
 {
+public:
  activity_type type;
  int moves_left;
  int index;
@@ -124,8 +169,10 @@ struct player_activity
   }
  }
 
- picojson::value json_save(); // found in gamesave_json.cpp
- bool json_load(picojson::value & parsed);
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 
  void load_legacy(std::stringstream &dump);
 };

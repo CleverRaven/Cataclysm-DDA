@@ -101,8 +101,6 @@ void game::init_data()
 {
  dout() << "Game initialized.";
  try {
- if(!picojson::get_last_error().empty())
-  throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
     load_json_dir("data/json"); // load it, load it all!
@@ -2649,8 +2647,7 @@ void game::load_uistate(std::string worldname) {
     }
     try {
         JsonIn jsin(&fin);
-        JsonObject jo = jsin.get_object();
-        uistate.deserialize(jo);
+        uistate.deserialize(jsin);
     } catch (std::string e) {
         dbg(D_ERROR) << "load_uistate: " << e;
     }

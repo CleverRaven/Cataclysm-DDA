@@ -38,6 +38,8 @@
 #include "profession.h"
 #include "skill.h"
 #include "vehicle.h"
+#include "picofunc.h"
+
 //
 #include "mission.h"
 #include "faction.h"

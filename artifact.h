@@ -294,8 +294,15 @@ public:
     std::vector<art_effect_passive> effects_carried;
 
     bool is_artifact() { return true; }
+
+    using JsonSerializer::serialize;
     void serialize(JsonOut &json) const;
+    using JsonDeserializer::deserialize;
     void deserialize(JsonObject &jo);
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        deserialize(jo);
+    }
 
     it_artifact_tool(JsonObject &jo) : it_tool() { deserialize(jo); };
 
@@ -317,8 +324,15 @@ public:
     std::vector<art_effect_passive> effects_worn;
 
     bool is_artifact() { return true; }
+
+    using JsonSerializer::serialize;
     void serialize(JsonOut &json) const;
+    using JsonDeserializer::deserialize;
     void deserialize(JsonObject &jo);
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        deserialize(jo);
+    }
 
     it_artifact_armor(JsonObject &jo) : it_armor() { deserialize(jo); };
     it_artifact_armor() : it_armor() { price = 0; };
