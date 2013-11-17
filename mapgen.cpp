@@ -14026,7 +14026,7 @@ void map::add_extra(map_extra type, game *g)
   add_trap(x, y, tr_portal);
   int num_monsters = rng(0, 4);
   for (int i = 0; i < num_monsters; i++) {
-   std::string type = spawncreatures[( rng(0, 5) )];
+   std::string type = spawncreatures[( rng(0, 4) )];
    int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
    ter_set(mx, my, t_rubble);
    add_spawn(type, 1, mx, my);
