@@ -144,6 +144,16 @@
         "speaker" : "creepy_doll",
         "sound" : "Hey kids. Want some candy?",
         "volume" : 10
+   },{
+        "type" : "speech",
+        "speaker" : "creepy_doll",
+        "sound" : "Down here, they ALL float!",
+        "volume" : 10
+   },{
+        "type" : "speech",
+        "speaker" : "creepy_doll",
+        "sound" : "Do you really need that much honey?",
+        "volume" : 10
     },{
         "type" : "speech",
         "speaker" : "creepy_doll",
