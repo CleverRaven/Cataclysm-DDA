@@ -851,7 +851,7 @@
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Spy",
-        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes. The government employed you as a spy: you have night vision, an alarm and a hacking module powered by your own metabolism.",
+        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes. The government employed you as a spy: you have night vision, an alarm and a hacking module powered by a battery system.",
         "points": 6,
         "CBMs":[
             "bio_fingerhack",
