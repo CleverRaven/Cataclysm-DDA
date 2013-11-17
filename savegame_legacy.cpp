@@ -183,6 +183,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::stringstream linein;
 
             int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int local_save_version = savegame_loading_version;
 
             parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
@@ -197,6 +198,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             cur_om = &overmap_buffer.get(this, comx, comy);
             m.load(this, levx, levy, levz);
+            // Restore version after it's reset by loading the map.
+            savegame_loading_version = local_save_version;
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -803,12 +806,17 @@ void player::load_legacy(game *g, std::stringstream & dump) {
 
  int numill;
  disease illtmp;
- int temp_bpart;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart >> illtmp.side;
-     illtmp.bp = (body_part)temp_bpart;
+     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity;
+     if( savegame_loading_version >= 5 ) {
+         int temp_bpart;
+         dump >> temp_bpart >> illtmp.side;
+         illtmp.bp = (body_part)temp_bpart;
+     } else {
+         illtmp.side = -1;
+         illtmp.bp = num_bp;
+     }
      illness.push_back(illtmp);
  }
 
