@@ -8658,7 +8658,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "barrel_whiskey_spawn",
+        "id" : "barrel_malt_whiskey",
         "name" : "single malt whiskey",
         "weight" : 33,
         "color" : "brown",
@@ -8666,7 +8666,7 @@
         "spoils_in" : 0,
         "use_action" : "ALCOHOL",
         "stim" : -12,
-        "container" : "barrel_wiskey",
+        "container" : "barrel_whiskey",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",

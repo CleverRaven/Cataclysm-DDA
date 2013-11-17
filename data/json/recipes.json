@@ -1152,7 +1152,7 @@
     ],
     [
       [ "whiskey", 14 ],
-      [ "barrel_whiskey_spawn", 14 ],
+      [ "barrel_malt_whiskey", 14 ],
       [ "vodka", 14 ],
       [ "rum", 14 ],
       [ "tequila", 14 ],
@@ -2386,7 +2386,7 @@
     ],
     [
       [ "whiskey", 5 ],
-      [ "barrel_whiskey_spawn", 5 ],
+      [ "barrel_malt_whiskey", 5 ],
       [ "vodka", 5 ],
       [ "rum", 5 ],
       [ "tequila", 5 ],
@@ -5318,7 +5318,7 @@
   "components": [
     [
       [ "whiskey", 1 ],
-      [ "barrel_whiskey_spawn", 1 ]
+      [ "barrel_malt_whiskey", 1 ]
     ],
     [
       [ "coffee_syrup", 1 ]
@@ -7410,7 +7410,7 @@
   "components": [
     [
       [ "whiskey", 7 ],
-      [ "barrel_whiskey_spawn", 7 ],
+      [ "barrel_malt_whiskey", 7 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "tequila", 7 ],
@@ -12608,7 +12608,7 @@
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
-      [ "barrel_whiskey_spawn", 7 ],
+      [ "barrel_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ]
@@ -12634,7 +12634,7 @@
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
-      [ "barrel_whiskey_spawn", 7 ],
+      [ "barrel_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ]
@@ -13373,7 +13373,7 @@
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
-      [ "barrel_whiskey_spawn", 7 ],
+      [ "barrel_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
@@ -15257,7 +15257,7 @@
     [ ["fire", -1]  ] ],
   "components": [ [ ["meat_tainted", 12] ],
     [ ["vodka", 2] ],
-    [ ["whiskey", 2], [ "barrel_whiskey_spawn" 2 ] ],
+    [ ["whiskey", 2], [ "barrel_malt_whiskey" 2 ] ],
     [ ["rum", 2] ] ]
 },{
         "type" : "recipe",
