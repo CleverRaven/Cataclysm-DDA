@@ -4102,7 +4102,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 30,
     "ammo": "battery",
-    "revert_to": "null",
+    "revert_to": "pda",
     "use_action": "PDA_FLASHLIGHT"
   },
 
