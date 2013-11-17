@@ -205,6 +205,8 @@
 		<Unit filename="catacharset.cpp" />
 		<Unit filename="catacharset.h" />
 		<Unit filename="catacurse.h" />
+		<Unit filename="catalua.cpp" />
+		<Unit filename="catalua.h" />
 		<Unit filename="char_validity_check.cpp" />
 		<Unit filename="char_validity_check.h" />
 		<Unit filename="color.cpp" />
