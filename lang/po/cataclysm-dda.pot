@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: cataclysm-dda 0.9\n"
+"Project-Id-Version: cataclysm-dda 0.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-27 09:27+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
