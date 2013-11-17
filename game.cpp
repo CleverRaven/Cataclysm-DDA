@@ -1960,8 +1960,17 @@ bool game::handle_action()
         u.clear_destination();
         destination_preview.clear();
 
-        if (action == "ANY_INPUT") {
-            char ch = ctxt.get_raw_input().get_first_input();
+        int ch = ctxt.get_raw_input().get_first_input();
+        // Hack until new input system is fully implemented
+        if (ch == KEY_UP) {
+            act = ACTION_MOVE_N;
+        } else if (ch == KEY_RIGHT) {
+            act = ACTION_MOVE_E;
+        } else if (ch == KEY_DOWN) {
+            act = ACTION_MOVE_S;
+        } else if (ch == KEY_LEFT) {
+            act = ACTION_MOVE_W;
+        } else {
             if (keymap.find(ch) == keymap.end()) {
                 if (ch != ' ' && ch != '\n') {
                     add_msg(_("Unknown command: '%c'"), ch);
@@ -1970,26 +1979,6 @@ bool game::handle_action()
             }
 
             act = keymap[ch];
-        } else {
-            // Hack to turn new movement actions back into old ones, till this whole context
-            // gets updated to the new style
-            if (action == "UP") {
-                act = ACTION_MOVE_N;
-            } else if (action == "RIGHTUP") {
-                act = ACTION_MOVE_NE;
-            } else if (action == "RIGHT") {
-                act = ACTION_MOVE_E;
-            } else if (action == "RIGHTDOWN") {
-                act = ACTION_MOVE_SE;
-            } else if (action == "DOWN") {
-                act = ACTION_MOVE_S;
-            } else if (action == "LEFTDOWN") {
-                act = ACTION_MOVE_SW;
-            } else if (action == "LEFT") {
-                act = ACTION_MOVE_W;
-            } else {
-                act = ACTION_MOVE_NW;
-            }
         }
     }
 
