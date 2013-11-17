@@ -96,8 +96,12 @@
   { "monster" : "mon_thing",              // Monsters id
     "freq" : 100,                         // Chance of occurence, out of a thousand
     "multiplier" : 0,                     // How many monsters each monster in this definition should count as, if spawning a limited number of monsters
-    "pack_size" : [3,5],                  // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
-    "conditions" : ["TWILIGHT","SUMMER"]  // Conditions limiting when monsters spawn. Valid options: SUMMER, WINTER, AUTUMN, SPRING, DAY, NIGHT, DUSK, DAWN, TWILIGHT
+    // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
+    "pack_size" : [3,5],                    
+    // Conditions limiting when monsters spawn. Valid options: SUMMER, WINTER, AUTUMN, SPRING, DAY, NIGHT, DUSK, DAWN
+    // Multiple Time-of-day conditions (DAY, NIGHT, DUSK, DAWN) will be combined together so that any of those conditions makes the spawn valid
+    // Multiple Season conditions (SUMMER, WINTER, AUTUMN, SPRING) will be combined together so that any of those conditions makes the spawn valid
+    "conditions" : ["DUSK","DAWN","SUMMER"]
   }
 ```
 ###NAMES
