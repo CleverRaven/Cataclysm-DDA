@@ -893,6 +893,14 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
     // profession_display_sort() keeps "unemployed" at the top.
     std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
 
+    // Select the current profession, if possible.
+    for (int i = 0; i < sorted_profs.size(); ++i) {
+        if (sorted_profs[i]->ident() == u->prof->ident()) {
+            cur_id = i;
+            break;
+        }
+    }
+
     do {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
         std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
