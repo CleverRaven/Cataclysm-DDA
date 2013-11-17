@@ -52,8 +52,14 @@ void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int tur
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_pool(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_park(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_park_playground(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_park_basketball(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+
+void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn, float density, int variant); // not mapped
+void mapgen_generic_house_boxy(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_generic_house_big_livingroom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_generic_house_center_hallway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void init_mapgen_builtin_functions();
 

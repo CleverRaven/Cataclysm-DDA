@@ -1,4 +1,5 @@
 #include "building_generation.h"
+#include "mapgen.h"
 #include "output.h"
 #include "item_factory.h"
 #include "line.h"
@@ -43,7 +44,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["null"]             = &mapgen_null;
     mapgen_cfunction_map["crater"]           = &mapgen_crater;
     mapgen_cfunction_map["field"]            = &mapgen_field;
-    mapgen_cfunction_map["field_test"]            = &mapgen_field_w_puddles;
+    mapgen_cfunction_map["field_test"]       = &mapgen_field_w_puddles;
     mapgen_cfunction_map["dirtlot"]          = &mapgen_dirtlot;
     mapgen_cfunction_map["forest"]           = &mapgen_forest_general;
     mapgen_cfunction_map["hive"]             = &mapgen_hive;
@@ -61,8 +62,12 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["river_curved"]     = &mapgen_river_curved;
     mapgen_cfunction_map["parking_lot"]      = &mapgen_parking_lot;
     mapgen_cfunction_map["pool"]             = &mapgen_pool;
-    mapgen_cfunction_map["park"]             = &mapgen_park;
-    mapgen_cfunction_map["gas_station"]      = &mapgen_gas_station;     
+    mapgen_cfunction_map["park_playground"]             = &mapgen_park_playground;
+    mapgen_cfunction_map["park_basketball"]             = &mapgen_park_basketball;
+    mapgen_cfunction_map["s_gas"]      = &mapgen_gas_station;
+    mapgen_cfunction_map["house_generic_boxy"]      = &mapgen_generic_house_boxy;
+    mapgen_cfunction_map["house_generic_big_livingroom"]      = &mapgen_generic_house_big_livingroom;
+    mapgen_cfunction_map["house_generic_center_hallway"]      = &mapgen_generic_house_center_hallway;
 }
 
 //
@@ -1168,12 +1173,11 @@ void mapgen_pool(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 ........................\n",
     mapf::basic_bind( "+ n . w", t_concrete, t_concrete, t_grass, t_water_dp ),
     mapf::basic_bind( "n", f_dive_block));
-    m->add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY);
+    m->add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY); // fixme; use density
 }
 
-void mapgen_park(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+void mapgen_park_playground(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
-    if (one_in(3)) { // Playground
         fill_background(m, t_grass);
         mapf::formatted_set_simple(m, 0, 0,
 "\
@@ -1212,8 +1216,11 @@ void mapgen_park(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         } else if(one_in(2)) {
             m->add_vehicle (g, "food_cart", vx, vy, one_in(2)? 90 : 180, -1, -1);
         }
+        m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
+}
 
-    } else { // Basketball court
+void mapgen_park_basketball(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
         fill_background(m, t_pavement);
         mapf::formatted_set_simple(m, 0, 0,
 "\
@@ -1244,8 +1251,8 @@ void mapgen_park(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
         mapf::basic_bind("#", f_bench));
         m->rotate(rng(0, 3));
-    }
-    m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
+//    }
+    m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
 }
 
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -1320,4 +1327,755 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, 
         m->rotate(3);
     }
     m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+}
+////////////////////
+
+
+void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
+{
+    int pos_x1 = 0;
+    int pos_y1 = 0;
+
+    if (type == room_backyard) { //processing it separately
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
+                if ((i == x1) || (i == x2)) {
+                    m->ter_set(i, j, t_fence_v);
+                } else if (j == y2) {
+                    m->ter_set(i, j, t_fence_h);
+                } else {
+                    m->ter_set( i, j, t_grass);
+                    if (one_in(35)) {
+                        m->ter_set(i, j, t_tree_young);
+                    } else if (one_in(35)) {
+                        m->ter_set(i, j, t_tree);
+                    } else if (one_in(25)) {
+                        m->ter_set(i, j, t_dirt);
+                    }
+                }
+            }
+        }
+        m->ter_set((x1 + x2) / 2, y2, t_fencegate_c);
+        m->furn_set(x1 + 2, y1, f_chair);
+        m->furn_set(x1 + 2, y1 + 1, f_table);
+        return;
+    }
+
+    for (int i = x1; i <= x2; i++) {
+        for (int j = y1; j <= y2; j++) {
+            if (m->ter(i, j) == t_grass || m->ter(i, j) == t_dirt ||
+                m->ter(i, j) == t_floor) {
+                if (j == y1 || j == y2) {
+                    m->ter_set(i, j, t_wall_h);
+                    m->ter_set(i, j, t_wall_h);
+                } else if (i == x1 || i == x2) {
+                    m->ter_set(i, j, t_wall_v);
+                    m->ter_set(i, j, t_wall_v);
+                } else {
+                    m->ter_set(i, j, t_floor);
+                }
+            }
+        }
+    }
+    for (int i = y1 + 1; i <= y2 - 1; i++) {
+        m->ter_set(x1, i, t_wall_v);
+        m->ter_set(x2, i, t_wall_v);
+    }
+
+    items_location placed = "none";
+    int chance = 0, rn;
+    switch (type) {
+    case room_study:
+        placed = "livingroom";
+        chance = 40;
+        break;
+    case room_living:
+        placed = "livingroom";
+        chance = 83;
+        //choose random wall
+        switch (rng(1, 4)) { //some bookshelves
+        case 1:
+            pos_x1 = x1 + 2;
+            pos_y1 = y1 + 1;
+            m->furn_set(x1 + 2, y2 - 1, f_desk);
+            while (pos_x1 < x2) {
+                pos_x1 += 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 += 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 += 2;
+            }
+            break;
+        case 2:
+            pos_x1 = x2 - 2;
+            pos_y1 = y1 + 1;
+            m->furn_set(x1 + 2, y2 - 1, f_desk);
+            while (pos_x1 > x1) {
+                pos_x1 -= 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 -= 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 -= 2;
+            }
+            break;
+        case 3:
+            pos_x1 = x1 + 2;
+            pos_y1 = y2 - 1;
+            m->furn_set(x1 + 2, y2 - 1, f_desk);
+            while (pos_x1 < x2) {
+                pos_x1 += 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 += 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 += 2;
+            }
+            break;
+        case 4:
+            pos_x1 = x2 - 2;
+            pos_y1 = y2 - 1;
+            m->furn_set(x1 + 2, y2 - 1, f_desk);
+            while (pos_x1 > x1) {
+                pos_x1 -= 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 -= 1;
+                if ((m->ter(pos_x1, pos_y1) == t_wall_h) || (m->ter(pos_x1, pos_y1) == t_wall_v)) {
+                    break;
+                }
+                m->furn_set(pos_x1, pos_y1, f_bookcase);
+                pos_x1 -= 2;
+            }
+            break;
+            m->furn_set(rng(x1 + 2, x2 - 2), rng(y1 + 1, y2 - 1), f_armchair);
+        }
+
+
+        break;
+    case room_kitchen: {
+        placed = "kitchen";
+        chance = 75;
+        m->place_items("cleaning",  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
+        m->place_items("home_hw",   40, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
+        int oven_x = -1, oven_y = -1, cupboard_x = -1, cupboard_y = -1;
+
+        switch (rng(1, 4)) { //fridge, sink, oven and some cupboards near them
+        case 1:
+            m->furn_set(x1 + 2, y1 + 1, f_fridge);
+            m->place_items("fridge", 82, x1 + 2, y1 + 1, x1 + 2, y1 + 1, false, 0);
+            m->furn_set(x1 + 1, y1 + 1, f_sink);
+            if (x1 + 4 < x2) {
+                oven_x     = x1 + 3;
+                cupboard_x = x1 + 4;
+                oven_y = cupboard_y = y1 + 1;
+            }
+
+            break;
+        case 2:
+            m->furn_set(x2 - 2, y1 + 1, f_fridge);
+            m->place_items("fridge", 82, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, 0);
+            m->furn_set(x2 - 1, y1 + 1, f_sink);
+            if (x2 - 4 > x1) {
+                oven_x     = x2 - 3;
+                cupboard_x = x2 - 4;
+                oven_y = cupboard_y = y1 + 1;
+            }
+            break;
+        case 3:
+            m->furn_set(x1 + 2, y2 - 1, f_fridge);
+            m->place_items("fridge", 82, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
+            m->furn_set(x1 + 1, y2 - 1, f_sink);
+            if (x1 + 4 < x2) {
+                oven_x     = x1 + 3;
+                cupboard_x = x1 + 4;
+                oven_y = cupboard_y = y2 - 1;
+            }
+            break;
+        case 4:
+            m->furn_set(x2 - 2, y2 - 1, f_fridge);
+            m->place_items("fridge", 82, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, 0);
+            m->furn_set(x2 - 1, y2 - 1, f_sink);
+            if (x2 - 4 > x1) {
+                oven_x     = x2 - 3;
+                cupboard_x = x2 - 4;
+                oven_y = cupboard_y = y2 - 1;
+            }
+            break;
+        }
+
+        // oven and it's contents
+        if ( oven_x != -1 && oven_y != -1 ) {
+            m->furn_set(oven_x, oven_y, f_oven);
+            m->place_items("oven",       70, oven_x, oven_y, oven_x, oven_y, false, 0);
+        }
+
+        // cupboard and it's contents
+        if ( cupboard_x != -1 && cupboard_y != -1 ) {
+            m->furn_set(cupboard_x, cupboard_y, f_cupboard);
+            m->place_items("cleaning",   30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+            m->place_items("home_hw",    30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+            m->place_items("cannedfood", 30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+            m->place_items("pasta",      30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+        }
+
+        if (one_in(2)) { //dining table in the kitchen
+            square_furn(m, f_table, int((x1 + x2) / 2) - 1, int((y1 + y2) / 2) - 1, int((x1 + x2) / 2),
+                        int((y1 + y2) / 2) );
+        }
+        if (one_in(2)) {
+            for (int i = 0; i <= 2; i++) {
+                pos_x1 = rng(x1 + 2, x2 - 2);
+                pos_y1 = rng(y1 + 1, y2 - 1);
+                if (m->ter(pos_x1, pos_y1) == t_floor) {
+                    m->furn_set(pos_x1, pos_y1, f_chair);
+                }
+            }
+        }
+
+    }
+    break;
+    case room_bedroom:
+        placed = "bedroom";
+        chance = 78;
+        if (one_in(14)) {
+            m->place_items("homeguns", 58, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+        }
+        if (one_in(10)) {
+            m->place_items("home_hw",  40, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+        }
+        switch (rng(1, 5)) {
+        case 1:
+            m->furn_set(x1 + 1, y1 + 2, f_bed);
+            m->furn_set(x1 + 1, y1 + 3, f_bed);
+            break;
+        case 2:
+            m->furn_set(x1 + 2, y2 - 1, f_bed);
+            m->furn_set(x1 + 3, y2 - 1, f_bed);
+            break;
+        case 3:
+            m->furn_set(x2 - 1, y2 - 3, f_bed);
+            m->furn_set(x2 - 1, y2 - 2, f_bed);
+            break;
+        case 4:
+            m->furn_set(x2 - 3, y1 + 1, f_bed);
+            m->furn_set(x2 - 2, y1 + 1, f_bed);
+            break;
+        case 5:
+            m->furn_set(int((x1 + x2) / 2)    , y2 - 1, f_bed);
+            m->furn_set(int((x1 + x2) / 2) + 1, y2 - 1, f_bed);
+            m->furn_set(int((x1 + x2) / 2)    , y2 - 2, f_bed);
+            m->furn_set(int((x1 + x2) / 2) + 1, y2 - 2, f_bed);
+            break;
+        }
+        switch (rng(1, 4)) {
+        case 1:
+            m->furn_set(x1 + 2, y1 + 1, f_dresser);
+            m->place_items("dresser", 80, x1 + 2, y1 + 1, x1 + 2, y1 + 1, false, 0);
+            break;
+        case 2:
+            m->furn_set(x2 - 2, y2 - 1, f_dresser);
+            m->place_items("dresser", 80, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, 0);
+            break;
+        case 3:
+            rn = int((x1 + x2) / 2);
+            m->furn_set(rn, y1 + 1, f_dresser);
+            m->place_items("dresser", 80, rn, y1 + 1, rn, y1 + 1, false, 0);
+            break;
+        case 4:
+            rn = int((y1 + y2) / 2);
+            m->furn_set(x1 + 1, rn, f_dresser);
+            m->place_items("dresser", 80, x1 + 1, rn, x1 + 1, rn, false, 0);
+            break;
+        }
+        break;
+    case room_bathroom:
+        m->place_toilet(x2 - 1, y2 - 1);
+        m->place_items("harddrugs", 18, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
+        m->place_items("cleaning",  48, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
+        placed = "softdrugs";
+        chance = 72;
+        m->furn_set(x2 - 1, y2 - 2, f_bathtub);
+        if (!((m->ter(x2 - 3, y2 - 2) == t_wall_v) || (m->ter(x2 - 3, y2 - 2) == t_wall_h))) {
+            m->furn_set(x2 - 3, y2 - 2, f_sink);
+        }
+        break;
+    default:
+        break;
+    }
+    m->place_items(placed, chance, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+}
+
+
+void mapgen_generic_house_boxy(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+    mapgen_generic_house(m, terrain_type, dat, turn, density, 1);
+}
+
+void mapgen_generic_house_big_livingroom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+    mapgen_generic_house(m, terrain_type, dat, turn, density, 2);
+}
+
+void mapgen_generic_house_center_hallway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+    mapgen_generic_house(m, terrain_type, dat, turn, density, 3);
+}
+
+void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn, float density, int variant)
+{
+    int rn = 0;
+    int lw = 0;
+    int rw = 0;
+    int mw = 0;
+    int tw = 0;
+    int bw = 0;
+    int cw = 0;
+    int actual_house_height = 0;
+    int bw_old = 0;
+
+    int x = 0;
+    int y = 0;
+    lw = rng(0, 4);  // West external wall
+    mw = lw + rng(7, 10);  // Middle wall between bedroom & kitchen/bath
+    rw = SEEX * 2 - rng(1, 5); // East external wall
+    tw = rng(1, 6);  // North external wall
+    bw = SEEX * 2 - rng(2, 5); // South external wall
+    cw = tw + rng(4, 7);  // Middle wall between living room & kitchen/bed
+    actual_house_height = bw - rng(4,
+                                   6); //reserving some space for backyard. Actual south external wall.
+    bw_old = bw;
+
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (i > lw && i < rw && j > tw && j < bw) {
+                m->ter_set(i, j, t_floor);
+            } else {
+                m->ter_set(i, j, grass_or_dirt());
+            }
+            if (i >= lw && i <= rw && (j == tw || j == bw)) { //placing north and south walls
+                m->ter_set(i, j, t_wall_h);
+            }
+            if ((i == lw || i == rw) && j > tw &&
+                j < bw /*actual_house_height*/) { //placing west (lw) and east walls
+                m->ter_set(i, j, t_wall_v);
+            }
+        }
+    }
+    switch(variant) {
+    case 1: // Quadrants, essentially
+        mw = rng(lw + 5, rw - 5);
+        cw = tw + rng(4, 7);
+        house_room(m, room_living, mw, tw, rw, cw);
+        house_room(m, room_kitchen, lw, tw, mw, cw);
+        m->ter_set(mw, rng(tw + 2, cw - 2), (one_in(3) ? t_door_c : t_floor));
+        rn = rng(lw + 1, mw - 2);
+        m->ter_set(rn    , tw, t_window_domestic);
+        m->ter_set(rn + 1, tw, t_window_domestic);
+        rn = rng(mw + 1, rw - 2);
+        m->ter_set(rn    , tw, t_window_domestic);
+        m->ter_set(rn + 1, tw, t_window_domestic);
+        rn = rng(lw + 3, rw - 3); // Bottom part mw
+        if (rn <= lw + 5) {
+            // Bedroom on right, bathroom on left
+            house_room(m, room_bedroom, rn, cw, rw, bw);
+
+            // Put door between bedroom and living
+            m->ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+
+            if (bw - cw >= 10 && rn - lw >= 6) {
+                // All fits, placing bathroom and 2nd bedroom
+                house_room(m, room_bathroom, lw, bw - 5, rn, bw);
+                house_room(m, room_bedroom, lw, cw, rn, bw - 5);
+
+                // Put door between bathroom and bedroom
+                m->ter_set(rn, rng(bw - 4, bw - 1), t_door_c);
+
+                if (one_in(3)) {
+                    // Put door between 2nd bedroom and 1st bedroom
+                    m->ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
+                } else {
+                    // ...Otherwise, between 2nd bedroom and kitchen
+                    m->ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+                }
+            } else if (bw - cw > 4) {
+                // Too big for a bathroom, not big enough for 2nd bedroom
+                // Make it a bathroom anyway, but give the excess space back to
+                // the kitchen.
+                house_room(m, room_bathroom, lw, bw - 4, rn, bw);
+                for (int i = lw + 1; i < mw && i < rn; i++) {
+                    m->ter_set(i, cw, t_floor);
+                }
+
+                // Put door between excess space and bathroom
+                m->ter_set(rng(lw + 1, rn - 1), bw - 4, t_door_c);
+
+                // Put door between excess space and bedroom
+                m->ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
+            } else {
+                // Small enough to be a bathroom; make it one.
+                house_room(m, room_bathroom, lw, cw, rn, bw);
+
+                if (one_in(5)) {
+                    // Put door between batroom and kitchen with low chance
+                    m->ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+                } else {
+                    // ...Otherwise, between bathroom and bedroom
+                    m->ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+                }
+            }
+            // Point on bedroom wall, for window
+            rn = rng(rn + 2, rw - 2);
+        } else {
+            // Bedroom on left, bathroom on right
+            house_room(m, room_bedroom, lw, cw, rn, bw);
+
+            // Put door between bedroom and kitchen
+            m->ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+
+            if (bw - cw >= 10 && rw - rn >= 6) {
+                // All fits, placing bathroom and 2nd bedroom
+                house_room(m, room_bathroom, rn, bw - 5, rw, bw);
+                house_room(m, room_bedroom, rn, cw, rw, bw - 5);
+
+                // Put door between bathroom and bedroom
+                m->ter_set(rn, rng(bw - 4, bw - 1), t_door_c);
+
+                if (one_in(3)) {
+                    // Put door between 2nd bedroom and 1st bedroom
+                    m->ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
+                } else {
+                    // ...Otherwise, between 2nd bedroom and living
+                    m->ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+                }
+            } else if (bw - cw > 4) {
+                // Too big for a bathroom, not big enough for 2nd bedroom
+                // Make it a bathroom anyway, but give the excess space back to
+                // the living.
+                house_room(m, room_bathroom, rn, bw - 4, rw, bw);
+                for (int i = rw - 1; i > rn && i > mw; i--) {
+                    m->ter_set(i, cw, t_floor);
+                }
+
+                // Put door between excess space and bathroom
+                m->ter_set(rng(rw - 1, rn + 1), bw - 4, t_door_c);
+
+                // Put door between excess space and bedroom
+                m->ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
+            } else {
+                // Small enough to be a bathroom; make it one.
+                house_room(m, room_bathroom, rn, cw, rw, bw);
+
+                if (one_in(5)) {
+                    // Put door between bathroom and living with low chance
+                    m->ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+                } else {
+                    // ...Otherwise, between bathroom and bedroom
+                    m->ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+                }
+            }
+            // Point on bedroom wall, for window
+            rn = rng(lw + 2, rn - 2);
+        }
+        m->ter_set(rn    , bw, t_window_domestic);
+        m->ter_set(rn + 1, bw, t_window_domestic);
+        if (!one_in(3) && rw < SEEX * 2 - 1) { // Potential side windows
+            rn = rng(tw + 2, bw - 6);
+            m->ter_set(rw, rn    , t_window_domestic);
+            m->ter_set(rw, rn + 4, t_window_domestic);
+        }
+        if (!one_in(3) && lw > 0) { // Potential side windows
+            rn = rng(tw + 2, bw - 6);
+            m->ter_set(lw, rn    , t_window_domestic);
+            m->ter_set(lw, rn + 4, t_window_domestic);
+        }
+        if (one_in(2)) { // Placement of the main door
+            m->ter_set(rng(lw + 2, mw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
+            if (one_in(5)) { // Placement of side door
+                m->ter_set(rw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
+            }
+        } else {
+            m->ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
+            if (one_in(5)) {
+                m->ter_set(lw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
+            }
+        }
+        break;
+
+    case 2: // Old-style; simple;
+        //Modified by Jovan in 28 Aug 2013
+        //Long narrow living room in front, big kitchen and HUGE bedroom
+        bw = SEEX * 2 - 2;
+        cw = tw + rng(3, 6);
+        mw = rng(lw + 7, rw - 4);
+        //int actual_house_height=bw-rng(4,6);
+        //in some rare cases some rooms (especially kitchen and living room) may get rather small
+        if ((tw <= 3) && ( abs((actual_house_height - 3) - cw) >= 3 ) ) {
+            //everything is fine
+            house_room(m, room_backyard, lw, actual_house_height + 1, rw, bw);
+            //door from bedroom to backyard
+            m->ter_set((lw + mw) / 2, actual_house_height, t_door_c);
+        } else { //using old layout
+            actual_house_height = bw_old;
+        }
+        // Plop down the rooms
+        house_room(m, room_living, lw, tw, rw, cw);
+        house_room(m, room_kitchen, mw, cw, rw, actual_house_height - 3);
+        house_room(m, room_bedroom, lw, cw, mw, actual_house_height ); //making bedroom smaller
+        house_room(m, room_bathroom, mw, actual_house_height - 3, rw, actual_house_height);
+
+        // Space between kitchen & living room:
+        rn = rng(mw + 1, rw - 3);
+        m->ter_set(rn    , cw, t_floor);
+        m->ter_set(rn + 1, cw, t_floor);
+        // Front windows
+        rn = rng(2, 5);
+        m->ter_set(lw + rn    , tw, t_window_domestic);
+        m->ter_set(lw + rn + 1, tw, t_window_domestic);
+        m->ter_set(rw - rn    , tw, t_window_domestic);
+        m->ter_set(rw - rn + 1, tw, t_window_domestic);
+        // Front door
+        m->ter_set(rng(lw + 4, rw - 4), tw, (one_in(6) ? t_door_c : t_door_locked));
+        if (one_in(3)) { // Kitchen windows
+            rn = rng(cw + 1, actual_house_height - 5);
+            m->ter_set(rw, rn    , t_window_domestic);
+            m->ter_set(rw, rn + 1, t_window_domestic);
+        }
+        if (one_in(3)) { // Bedroom windows
+            rn = rng(cw + 1, actual_house_height - 2);
+            m->ter_set(lw, rn    , t_window_domestic);
+            m->ter_set(lw, rn + 1, t_window_domestic);
+        }
+        // Door to bedroom
+        if (one_in(4)) {
+            m->ter_set(rng(lw + 1, mw - 1), cw, t_door_c);
+        } else {
+            m->ter_set(mw, rng(cw + 3, actual_house_height - 4), t_door_c);
+        }
+        // Door to bathrom
+        if (one_in(4)) {
+            m->ter_set(mw, actual_house_height - 1, t_door_c);
+        } else {
+            m->ter_set(rng(mw + 2, rw - 2), actual_house_height - 3, t_door_c);
+        }
+        // Back windows
+        rn = rng(lw + 1, mw - 2);
+        m->ter_set(rn    , actual_house_height, t_window_domestic);
+        m->ter_set(rn + 1, actual_house_height, t_window_domestic);
+        rn = rng(mw + 1, rw - 1);
+        m->ter_set(rn, actual_house_height, t_window_domestic);
+        break;
+
+    case 3: // Long center hallway, kitchen, living room and office
+        mw = int((lw + rw) / 2);
+        cw = bw - rng(5, 7);
+        // Hallway doors and windows
+        m->ter_set(mw    , tw, (one_in(6) ? t_door_c : t_door_locked));
+        if (one_in(4)) {
+            m->ter_set(mw - 1, tw, t_window_domestic);
+            m->ter_set(mw + 1, tw, t_window_domestic);
+        }
+        for (int i = tw + 1; i < cw; i++) { // Hallway walls
+            m->ter_set(mw - 2, i, t_wall_v);
+            m->ter_set(mw + 2, i, t_wall_v);
+        }
+        if (one_in(2)) { // Front rooms are kitchen or living room
+            house_room(m, room_living, lw, tw, mw - 2, cw);
+            house_room(m, room_kitchen, mw + 2, tw, rw, cw);
+        } else {
+            house_room(m, room_kitchen, lw, tw, mw - 2, cw);
+            house_room(m, room_living, mw + 2, tw, rw, cw);
+        }
+        // Front windows
+        rn = rng(lw + 1, mw - 4);
+        m->ter_set(rn    , tw, t_window_domestic);
+        m->ter_set(rn + 1, tw, t_window_domestic);
+        rn = rng(mw + 3, rw - 2);
+        m->ter_set(rn    , tw, t_window_domestic);
+        m->ter_set(rn + 1, tw, t_window_domestic);
+        if (one_in(3) && lw > 0) { // Side windows?
+            rn = rng(tw + 1, cw - 2);
+            m->ter_set(lw, rn    , t_window_domestic);
+            m->ter_set(lw, rn + 1, t_window_domestic);
+        }
+        if (one_in(3) && rw < SEEX * 2 - 1) { // Side windows?
+            rn = rng(tw + 1, cw - 2);
+            m->ter_set(rw, rn    , t_window_domestic);
+            m->ter_set(rw, rn + 1, t_window_domestic);
+        }
+        if (one_in(2)) { // Bottom rooms are bedroom or bathroom
+            //bathroom to the left (eastern wall), study to the right
+            //house_room(m, room_bedroom, lw, cw, rw - 3, bw);
+            house_room(m, room_bedroom, mw - 2, cw, rw - 3, bw);
+            house_room(m, room_bathroom, rw - 3, cw, rw, bw);
+            house_room(m, room_study, lw, cw, mw - 2, bw);
+            //===Study Room Furniture==
+            m->ter_set(mw - 2, (bw + cw) / 2, t_door_o);
+            m->furn_set(lw + 1, cw + 1, f_chair);
+            m->furn_set(lw + 1, cw + 2, f_table);
+            m->ter_set(lw + 1, cw + 3, t_console_broken);
+            m->furn_set(lw + 3, bw - 1, f_bookcase);
+            m->place_items("magazines", 30,  lw + 3,  bw - 1, lw + 3,  bw - 1, false, 0);
+            m->place_items("novels", 40,  lw + 3,  bw - 1, lw + 3,  bw - 1, false, 0);
+            m->place_items("alcohol", 20,  lw + 3,  bw - 1, lw + 3,  bw - 1, false, 0);
+            m->place_items("manuals", 30,  lw + 3,  bw - 1, lw + 3,  bw - 1, false, 0);
+            //=========================
+            m->ter_set(rng(lw + 2, mw - 3), cw, t_door_c);
+            if (one_in(4)) {
+                m->ter_set(rng(rw - 2, rw - 1), cw, t_door_c);
+            } else {
+                m->ter_set(rw - 3, rng(cw + 2, bw - 2), t_door_c);
+            }
+            rn = rng(mw, rw - 5); //bedroom windows
+            m->ter_set(rn    , bw, t_window_domestic);
+            m->ter_set(rn + 1, bw, t_window_domestic);
+            m->ter_set(rng(lw + 2, mw - 3), bw, t_window_domestic); //study window
+
+            if (one_in(4)) {
+                m->ter_set(rng(rw - 2, rw - 1), bw, t_window_domestic);
+            } else {
+                m->ter(rw, rng(cw + 1, bw - 1));
+            }
+        } else { //bathroom to the right
+            house_room(m, room_bathroom, lw, cw, lw + 3, bw);
+            //house_room(m, room_bedroom, lw + 3, cw, rw, bw);
+            house_room(m, room_bedroom, lw + 3, cw, mw + 2, bw);
+            house_room(m, room_study, mw + 2, cw, rw, bw);
+            //===Study Room Furniture==
+            m->ter_set(mw + 2, (bw + cw) / 2, t_door_c);
+            m->furn_set(rw - 1, cw + 1, f_chair);
+            m->furn_set(rw - 1, cw + 2, f_table);
+            m->ter_set(rw - 1, cw + 3, t_console_broken);
+            m->furn_set(rw - 3, bw - 1, f_bookcase);
+            m->place_items("magazines", 40,  rw - 3,  bw - 1, rw - 3,  bw - 1, false, 0);
+            m->place_items("novels", 40,  rw - 3,  bw - 1, rw - 3,  bw - 1, false, 0);
+            m->place_items("alcohol", 20,  rw - 3,  bw - 1, rw - 3,  bw - 1, false, 0);
+            m->place_items("manuals", 20,  rw - 3,  bw - 1, rw - 3,  bw - 1, false, 0);
+            //=========================
+
+            if (one_in(4)) {
+                m->ter_set(rng(lw + 1, lw + 2), cw, t_door_c);
+            } else {
+                m->ter_set(lw + 3, rng(cw + 2, bw - 2), t_door_c);
+            }
+            rn = rng(lw + 4, mw); //bedroom windows
+            m->ter_set(rn    , bw, t_window_domestic);
+            m->ter_set(rn + 1, bw, t_window_domestic);
+            m->ter_set(rng(mw + 3, rw - 1), bw, t_window_domestic); //study window
+            if (one_in(4)) {
+                m->ter_set(rng(lw + 1, lw + 2), bw, t_window_domestic);
+            } else {
+                m->ter(lw, rng(cw + 1, bw - 1));
+            }
+        }
+        // Doors off the sides of the hallway
+        m->ter_set(mw - 2, rng(tw + 3, cw - 3), t_door_c);
+        m->ter_set(mw + 2, rng(tw + 3, cw - 3), t_door_c);
+        m->ter_set(mw, cw, t_door_c);
+        break;
+    } // Done with the various house structures
+    //////
+    if (rng(2, 7) < tw) { // Big front yard has a chance for a fence
+        for (int i = lw; i <= rw; i++) {
+            m->ter_set(i, 0, t_fence_h);
+        }
+        for (int i = 1; i < tw; i++) {
+            m->ter_set(lw, i, t_fence_v);
+            m->ter_set(rw, i, t_fence_v);
+        }
+        int hole = rng(SEEX - 3, SEEX + 2);
+        m->ter_set(hole, 0, t_dirt);
+        m->ter_set(hole + 1, 0, t_dirt);
+        if (one_in(tw)) {
+            m->ter_set(hole - 1, 1, t_tree_young);
+            m->ter_set(hole + 2, 1, t_tree_young);
+        }
+    }
+
+    if (is_ot_type("house_base", terrain_type)) {
+        int attempts = 20;
+        do {
+            rn = rng(lw + 1, rw - 1);
+            attempts--;
+        } while (m->ter(rn, actual_house_height - 1) != t_floor && attempts);
+        if( m->ter(rn, actual_house_height - 1) == t_floor && attempts ) {
+            m->ter_set(rn, actual_house_height - 1, t_stairs_down);
+        }
+    }
+    if (one_in(100)) { // Houses have a 1 in 100 chance of wasps!
+        for (int i = 0; i < SEEX * 2; i++) {
+            for (int j = 0; j < SEEY * 2; j++) {
+                if (m->ter(i, j) == t_door_c || m->ter(i, j) == t_door_locked) {
+                    m->ter_set(i, j, t_door_frame);
+                }
+                if (m->ter(i, j) == t_window_domestic && !one_in(3)) {
+                    m->ter_set(i, j, t_window_frame);
+                }
+                if ((m->ter(i, j) == t_wall_h || m->ter(i, j) == t_wall_v) && one_in(8)) {
+                    m->ter_set(i, j, t_paper);
+                }
+            }
+        }
+        int num_pods = rng(8, 12);
+        for (int i = 0; i < num_pods; i++) {
+            int podx = rng(1, SEEX * 2 - 2), pody = rng(1, SEEY * 2 - 2);
+            int nonx = 0, nony = 0;
+            while (nonx == 0 && nony == 0) {
+                nonx = rng(-1, 1);
+                nony = rng(-1, 1);
+            }
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    if ((x != nonx || y != nony) && (x != 0 || y != 0)) {
+                        m->ter_set(podx + x, pody + y, t_paper);
+                    }
+                }
+            }
+            m->add_spawn("mon_wasp", 1, podx, pody);
+        }
+        m->place_items("rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+
+    } else if (one_in(150)) { // No wasps; black widows?
+        for (int i = 0; i < SEEX * 2; i++) {
+            for (int j = 0; j < SEEY * 2; j++) {
+                if (m->ter(i, j) == t_floor) {
+                    if (one_in(15)) {
+                        m->add_spawn("mon_spider_widow_giant", rng(1, 2), i, j);
+                        for (int x = i - 1; x <= i + 1; x++) {
+                            for (int y = j - 1; y <= j + 1; y++) {
+                                if (m->ter(x, y) == t_floor) {
+                                    m->add_field(NULL, x, y, fd_web, rng(2, 3));
+                                }
+                            }
+                        }
+                    } else if (m->move_cost(i, j) > 0 && one_in(5)) {
+                        m->add_field(NULL, x, y, fd_web, 1);
+                    }
+                }
+            }
+        }
+        m->place_items("rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+    } else { // Just boring old zombies
+        m->place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+    }
+
+    int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
+    if ( iid_diff > 0 ) {
+        m->rotate(iid_diff);
+    }
 }

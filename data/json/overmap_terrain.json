@@ -127,7 +127,10 @@
         "sym" : 124,
         "color" : "dark_gray",
         "see_cost" : 2,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "bridge" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "bridge_ew",
@@ -135,7 +138,10 @@
         "sym" : 45,
         "color" : "dark_gray",
         "see_cost" : 2,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "bridge" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_center",
@@ -227,7 +233,12 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "house_generic_boxy" },
+            { "type": "builtin", "name": "house_generic_big_livingroom" },
+            { "type": "builtin", "name": "house_generic_center_hallway" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "house_base",
@@ -238,7 +249,12 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "house_generic_boxy" },
+            { "type": "builtin", "name": "house_generic_big_livingroom" },
+            { "type": "builtin", "name": "house_generic_center_hallway" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "s_lot",
@@ -248,7 +264,10 @@
         "see_cost" : 1,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "parking_lot" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "park",
@@ -258,7 +277,11 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "park_playground", "weight": 500 },
+            { "type": "builtin", "name": "park_basketball", "weight": 1000, "comment": "1000 is default" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "pool",
