@@ -389,25 +389,25 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     bool terrain_type_found = true;
 
     if (terrain_type == "") {
-        mapgen_null(this);
+        mapgen_null(this, terrain_type, facing_data, turn, density);
     } else if (terrain_type == "crater") {
-        mapgen_crater(this, facing_data);
+        mapgen_crater(this, terrain_type, facing_data, turn, density);
     } else if (terrain_type == "field") {
-        mapgen_field(this, turn);
+        mapgen_field(this, terrain_type, facing_data, turn, density);
     } else if (terrain_type == "dirtlot") {
-        mapgen_dirtlot(this);
+        mapgen_dirtlot(this, terrain_type, facing_data, turn, density);
 
     } else if (is_ot_type("forest", terrain_type)) {
-        mapgen_forest_general(this, terrain_type, facing_data, turn);
+        mapgen_forest_general(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "hive") {
-        mapgen_hive(this, facing_data, turn);
+        mapgen_hive(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "spider_pit") {
-        mapgen_spider_pit(this, facing_data, turn);
+        mapgen_spider_pit(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "fungal_bloom") {
-        mapgen_fungal_bloom(this);
+        mapgen_fungal_bloom(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "road_ns" ||
                terrain_type == "road_ew") {
@@ -430,10 +430,10 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
 
     } else if (is_ot_type("bridge", terrain_type)) {
-        mapgen_bridge(this, terrain_type, turn);
+        mapgen_bridge(this, terrain_type, facing_data, turn, density);
 
     } else if (is_ot_type("hiway", terrain_type)) {
-        mapgen_highway(this, terrain_type, turn);
+        mapgen_highway(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "river_center") {
         fill_background(this, t_water_dp);
@@ -442,19 +442,19 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                terrain_type == "river_c_not_se" ||
                terrain_type == "river_c_not_sw" ||
                terrain_type == "river_c_not_nw") {
-        mapgen_river_curved_not(this, terrain_type);
+        mapgen_river_curved_not(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "river_north" ||
                terrain_type == "river_east" ||
                terrain_type == "river_south" ||
                terrain_type == "river_west") {
-        mapgen_river_straight(this, terrain_type);
+        mapgen_river_straight(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "river_ne" ||
                terrain_type == "river_se" ||
                terrain_type == "river_sw" ||
                terrain_type == "river_nw") {
-        mapgen_river_curved(this, terrain_type);
+        mapgen_river_curved(this, terrain_type, facing_data, turn, density);
 
     } else if (is_ot_type("house", terrain_type)) {
 
@@ -893,16 +893,16 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         }
 
     } else if (terrain_type == "s_lot") {
-        mapgen_parking_lot(this, facing_data, turn);
+        mapgen_parking_lot(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "pool") {
-        mapgen_pool(this);
+        mapgen_pool(this, terrain_type, facing_data, turn, density);
 
     } else if (terrain_type == "park") {
-        mapgen_park(this);
+        mapgen_park(this, terrain_type, facing_data, turn, density);
 
     } else if (is_ot_type("s_gas", terrain_type)) {
-        mapgen_gas_station(this, terrain_type, density);
+        mapgen_gas_station(this, terrain_type, facing_data, turn, density);
 
     } else if (is_ot_type("s_pharm", terrain_type)) {
 

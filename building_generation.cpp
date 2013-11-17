@@ -132,7 +132,7 @@ ter_id dirt_or_pile()
 
 // helper functions below
 
-void mapgen_null(map *m)
+void mapgen_null(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     debugmsg("Generating null terrain, please report this as a bug");
     for (int i = 0; i < SEEX * 2; i++) {
@@ -143,7 +143,7 @@ void mapgen_null(map *m)
     }
 }
 
-void mapgen_crater(map *m, mapgendata dat)
+void mapgen_crater(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for(int i = 0; i < 4; i++) {
         if(dat.t_nesw[i] != "crater") {
@@ -166,7 +166,7 @@ void mapgen_crater(map *m, mapgendata dat)
     m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
-void mapgen_field(map *m, int turn)
+void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // There's a chance this field will be thick with strawberry
     // and blueberry bushes.
@@ -203,7 +203,7 @@ void mapgen_field(map *m, int turn)
     m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 }
 
-void mapgen_dirtlot(map *m)
+void mapgen_dirtlot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -220,7 +220,7 @@ void mapgen_dirtlot(map *m)
     }
 }
 
-void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn)
+void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     if (terrain_type == "forest_thick") {
         dat.fill(8);
@@ -383,7 +383,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
     }
 }
 
-void mapgen_hive(map *m, mapgendata dat, int turn)
+void mapgen_hive(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // Start with a basic forest pattern
     for (int i = 0; i < SEEX * 2; i++) {
@@ -513,7 +513,7 @@ void mapgen_hive(map *m, mapgendata dat, int turn)
     }
 }
 
-void mapgen_spider_pit(map *m, mapgendata dat, int turn)
+void mapgen_spider_pit(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // First generate a forest
     dat.fill(4);
@@ -578,7 +578,7 @@ void mapgen_spider_pit(map *m, mapgendata dat, int turn)
     }
 }
 
-void mapgen_fungal_bloom(map *m)
+void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -872,7 +872,7 @@ t   t\n\
     }
 }
 
-void mapgen_bridge(map *m, oter_id terrain_type, int turn)
+void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -911,7 +911,7 @@ void mapgen_bridge(map *m, oter_id terrain_type, int turn)
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
 
-void mapgen_highway(map *m, oter_id terrain_type, int turn)
+void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -950,7 +950,7 @@ void mapgen_highway(map *m, oter_id terrain_type, int turn)
     }
 }
 
-void mapgen_river_curved_not(map *m, oter_id terrain_type)
+void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = SEEX * 2 - 1; i >= 0; i--) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -972,7 +972,7 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type)
     }
 }
 
-void mapgen_river_straight(map *m, oter_id terrain_type)
+void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -994,7 +994,7 @@ void mapgen_river_straight(map *m, oter_id terrain_type)
     }
 }
 
-void mapgen_river_curved(map *m, oter_id terrain_type)
+void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = SEEX * 2 - 1; i >= 0; i--) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1016,7 +1016,7 @@ void mapgen_river_curved(map *m, oter_id terrain_type)
     }
 }
 
-void mapgen_parking_lot(map *m, mapgendata dat, int turn)
+void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1094,7 +1094,7 @@ void mapgen_parking_lot(map *m, mapgendata dat, int turn)
     }
 }
 
-void mapgen_pool(map *m)
+void mapgen_pool(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     fill_background(m, t_grass);
     mapf::formatted_set_simple(m, 0, 0,
@@ -1128,7 +1128,7 @@ void mapgen_pool(map *m)
     m->add_spawn("mon_zombie_swimmer", rng(1, 6), SEEX, SEEY);
 }
 
-void mapgen_park(map *m)
+void mapgen_park(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     if (one_in(3)) { // Playground
         fill_background(m, t_grass);
@@ -1205,7 +1205,7 @@ void mapgen_park(map *m)
     m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY);
 }
 
-void mapgen_gas_station(map *m, oter_id terrain_type, float density)
+void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     int top_w = rng(5, 14);
     int bottom_w = SEEY * 2 - rng(1, 2);

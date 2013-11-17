@@ -28,27 +28,27 @@ ter_id grass_or_dirt();
 ter_id dirt_or_pile();
 
 // helper functions for mapgen.cpp, so that we can avoid having a massive switch statement (sorta)
-void mapgen_null(map *m);
-void mapgen_crater(map *m, mapgendata dat);
-void mapgen_field(map *m, int turn);
-void mapgen_dirtlot(map *m);
-void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn);
-void mapgen_hive(map *m, mapgendata dat, int turn);
-void mapgen_spider_pit(map *m, mapgendata dat, int turn);
-void mapgen_fungal_bloom(map *m);
+void mapgen_null(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_crater(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_dirtlot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_hive(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_spider_pit(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_field(map *m, int turn);
-void mapgen_bridge(map *m, oter_id terrain_type, int turn);
-void mapgen_highway(map *m, oter_id terrain_type, int turn);
-void mapgen_river_curved_not(map *m, oter_id terrain_type);
-void mapgen_river_straight(map *m, oter_id terrain_type);
-void mapgen_river_curved(map *m, oter_id terrain_type);
-void mapgen_parking_lot(map *m, mapgendata dat, int turn);
-void mapgen_pool(map *m);
-void mapgen_park(map *m);
-void mapgen_gas_station(map *m, oter_id terrain_type, float density);
+void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_pool(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_park(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 #endif
