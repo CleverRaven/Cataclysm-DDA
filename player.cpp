@@ -352,7 +352,7 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
 if (has_active_bionic("bio_reactor") && power_level < max_power_level && (int(g->turn) % 10 == 0) && plut_charge > 0) {
 		plut_charge--;
 		power_level++;
-		if (one_in(13)) {
+		if (one_in(100)) {
 			radiation++;
 		}
 		if (plut_charge == 4000) {
