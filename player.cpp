@@ -8320,6 +8320,8 @@ int player::armor_bash(body_part bp)
   ret += 3;
  else if (bp == bp_legs && has_bionic("bio_armor_legs"))
   ret += 3;
+  else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
+  ret += 3;
  if (has_trait("FUR"))
   ret++;
  if (has_trait("CHITIN"))
@@ -8348,6 +8350,8 @@ int player::armor_cut(body_part bp)
  else if (bp == bp_torso && has_bionic("bio_armor_torso"))
   ret += 3;
  else if (bp == bp_legs && has_bionic("bio_armor_legs"))
+  ret += 3;
+ else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
   ret += 3;
  if (has_trait("THICKSKIN"))
   ret++;
@@ -8508,6 +8512,11 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         dam -= 3;
         cut -= 3;
     }
+    else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
+    {
+        dam -= 3;
+        cut -= 3;
+    }
     if (has_trait("THICKSKIN"))
         cut--;
     if (has_trait("SCALES"))
@@ -8560,6 +8569,14 @@ int player::resist(body_part bp)
     }
 
     if (bp == bp_mouth && has_bionic("bio_purifier") && ret < 5) {
+        ret += 2;
+        if (ret > 5) {
+            ret = 5;
+        }
+    }
+    return ret;
+    
+    if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
         if (ret > 5) {
             ret = 5;
