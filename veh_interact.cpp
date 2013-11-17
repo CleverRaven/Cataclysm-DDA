@@ -1065,7 +1065,7 @@ std::string veh_interact::getDurabilityDescription(const int& dur)
 	if (dur >= 10)
 		return std::string(_("wrecked"));
 	if (dur >= 0)
-		return std::string(_("totalled"));
+		return std::string(_("totaled"));
 	return std::string(_("error"));
 }
 
