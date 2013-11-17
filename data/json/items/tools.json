@@ -4713,7 +4713,7 @@
     "turns_per_charge": 20,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "DOLLCREEP"
+    "use_action": "DOLLCHAT"
   },
 
   {
