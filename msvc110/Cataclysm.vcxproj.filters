@@ -282,9 +282,6 @@
     <ClCompile Include="..\sdltiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\settlement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\setvector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -370,6 +367,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\catalua.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -605,9 +605,6 @@
     <ClInclude Include="..\SDLMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\settlement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\setvector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -690,6 +687,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\worldfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\catalua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
