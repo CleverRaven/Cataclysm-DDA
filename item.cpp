@@ -1472,6 +1472,8 @@ bool item::is_food(player const*u) const
         return true;
     if (u->has_bionic("bio_furnace") && flammable() && typeId() != "corpse")
         return true;
+    if (u->has_bionic("bio_reactor") && is_ammo() && (dynamic_cast<it_ammo*>(type))->type == "plut_cell")
+        return true;
     return false;
 }
 
