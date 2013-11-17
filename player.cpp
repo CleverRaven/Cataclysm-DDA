@@ -6300,15 +6300,20 @@ bool player::consume(game *g, signed char ch)
     } else {
  // Consume other type of items.
         // For when bionics let you eat fuel
-        if (to_eat->is_ammo()) {
+        bool eat_charge = has_bionic("bio_batteries") && to_eat->ammo_type() == "battery" && to_eat->charges > 0;
+        if (to_eat->is_ammo() || eat_charge) {
             const int factor = 20;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
                 g->add_msg_if_player(this,_("Your internal power storage is fully powered."));
             }
             charge_power(to_eat->charges / factor);
-            to_eat->charges -= max_change * factor; //negative charges seem to be okay
-            to_eat->charges++; //there's a flat subtraction later
+            to_eat->charges -= max_change * factor;
+            // Fix for tools stacking properly on consuming charges
+            if (to_eat->charges < 0)
+                to_eat->charges = 1;
+            else
+                to_eat->charges++;
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->type->is_book()) {
                 it_book* book = dynamic_cast<it_book*>(to_eat->type);
@@ -6329,6 +6334,12 @@ bool player::consume(game *g, signed char ch)
                                      to_eat->tname(g).c_str());
         }
         moves -= 250;
+
+        // Don't consume tool
+        if (eat_charge) {
+            to_eat->charges--;
+            return true;
+        }
         was_consumed = true;
     }
 

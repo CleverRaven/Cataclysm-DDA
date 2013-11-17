@@ -894,6 +894,29 @@ int item::price() const
     return ret;
 }
 
+int item::battery_type() const
+{
+    int bat_type = 0;
+
+    if (is_null())
+        return 0;
+
+    if (has_flag("BATTERY_SMALL"))
+        bat_type = 1;
+    if (has_flag("BATTERY_MEDIUM"))
+        bat_type = 2;
+    if (has_flag("BATTERY_LARGE"))
+        bat_type = 3;
+    if (has_flag("BATTERY_HUGE"))
+        bat_type = 4;
+
+    // Check for battery extender
+    if (bat_type > 0 && bat_type < 4 && has_flag("DOUBLE_AMMO"))
+        bat_type++;
+
+    return bat_type;
+}
+
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
@@ -1471,8 +1494,9 @@ bool item::is_food(player const*u) const
     if (type->is_food())
         return true;
 
-    if (u->has_bionic("bio_batteries") && is_ammo() &&
-            (dynamic_cast<it_ammo*>(type))->type == "battery")
+    // Capable of "eating" battery charge
+    if (u->has_bionic("bio_batteries") && ammo_type() == "battery" &&
+        charges > 0)
         return true;
     if (u->has_bionic("bio_furnace") && flammable() && typeId() != "corpse")
         return true;
@@ -2147,6 +2171,9 @@ bool item::reload(player &u, char ammo_invlet)
  int max_load = 1;
  item *reload_target = NULL;
  item *ammo_to_use = (ammo_invlet != 0 ? &u.inv.item_by_letter(ammo_invlet) : NULL);
+
+ if (ammo_to_use->ammo_type() == "battery")
+    return false;
 
  // Handle ammo in containers, currently only gasoline
  if(ammo_to_use && ammo_to_use->is_container())

@@ -1114,6 +1114,56 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
     }
 }
 
+int iuse::battery(game *g, player *p, item *it, bool t)
+{
+    char ch = g->inv_type(_("Swap batteries with what?"), IC_TOOL);
+    item *tool = &(p->i_at(ch));
+    if (it == NULL || tool == NULL || it->is_null() || tool->is_null()) {
+        g->add_msg_if_player(p,_("You do not have that item!"));
+        return 0;
+    }
+    if (!it->is_tool() || !tool->is_tool()) {
+        g->add_msg_if_player(p,_("That is not a tool!"));
+        return 0;
+    }
+    if (tool->ammo_type() != "battery") {
+        g->add_msg_if_player(p,_("That doesn't take batteries!"));
+        return 0;
+    }
+
+    // Get type of battery vs type you have
+    int bat_type = it->battery_type();
+    int tool_type = tool->battery_type();
+
+    // Check for battery type error, should be able to delete this later
+    if (bat_type <= 0 || tool_type <= 0) {
+        g->add_msg_if_player(p,_("That tool takes a different kind of batteries!"));
+        return 0;
+    }
+
+    // Check battery type compatibility
+    if (bat_type != tool_type) {
+        g->add_msg_if_player(p,_("That tool takes a different kind of batteries!"));
+        return 0;
+    }
+
+    // Swap items
+
+    //Check if it contains a battery already
+    if (tool->contents.size() == 1) {
+        tool->contents[0].charges = tool->charges;
+        p->i_add(tool->contents[0]);
+        tool->contents.empty();
+    }
+
+    tool->charges = it->charges;
+    it->charges = 0;
+    tool->contents.push_back(*it);
+    g->add_msg_if_player(p,_("You swap batteries."));
+
+    return 0;
+}
+
 int iuse::lighter(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
@@ -1321,6 +1371,8 @@ int iuse::extra_battery(game *g, player *p, item *it, bool t)
     }
 
     modded->item_tags.insert("DOUBLE_AMMO");
+    // Make sure rechargable battery isn't doubled in size
+    modded->item_tags.erase("RECHARGABLE_BATTERY");
     g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
     return 1;
 }
