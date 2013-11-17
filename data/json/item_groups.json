@@ -1615,7 +1615,7 @@
       ["jar_3l_glass", 8],
       ["flyer", 10],
       ["talking_doll", 60],
-      ["creepy_doll", 5],
+      ["creepy_doll", 5]
     ]
   },{
     "type":"item_group",
