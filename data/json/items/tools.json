@@ -4805,7 +4805,30 @@
     "turns_per_charge": 20,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "NONE"
+    "use_action": "DOLLCHAT"
+  },
+  
+  {
+    "id": "creepy_doll",
+    "type": "TOOL",
+    "symbol": "|",
+    "color": "pink",
+    "name": "talking doll",
+    "description": "This is a talking doll, meant for children. Fortunately it still works, and you could unload the batteries out of it.",
+    "price": 20,
+    "material": "plastic",
+    "weight": 907,
+    "volume": 3,
+    "bashing": -3,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 100,
+    "initial_charges": 20,
+    "charges_per_use": 1,
+    "turns_per_charge": 20,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "DOLLCHAT"
   },
 
   {

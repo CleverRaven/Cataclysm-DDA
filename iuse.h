@@ -188,6 +188,7 @@ class iuse
   int unfold_bicycle   (game *g, player *p, item *it, bool t);
   int airhorn          (game *g, player *p, item *it, bool t);
   int adrenaline_injector (game *g, player *p, item *it, bool t);
+  int talking_doll     (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   int mcg_note         (game *g, player *p, item *it, bool t);
 // ARTIFACTS
