@@ -2838,8 +2838,12 @@ void game::write_memorial_file() {
             player_name << u.name[index];
         }
     }
+    if(player_name.str().length() > 0) {
+        //Separate name and timestamp
+        player_name << '-';
+    }
 
-    std::string memorial_file_path = string_format("memorial/%s-%s.txt",
+    std::string memorial_file_path = string_format("memorial/%s%s.txt",
             player_name.str().c_str(), timestamp.c_str());
 
     std::ofstream memorial_file;
