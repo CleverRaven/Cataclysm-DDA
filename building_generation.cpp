@@ -68,6 +68,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["house_generic_boxy"]      = &mapgen_generic_house_boxy;
     mapgen_cfunction_map["house_generic_big_livingroom"]      = &mapgen_generic_house_big_livingroom;
     mapgen_cfunction_map["house_generic_center_hallway"]      = &mapgen_generic_house_center_hallway;
+    mapgen_cfunction_map["church_new_england"]             = &mapgen_church_new_england;
+    mapgen_cfunction_map["church_gothic"]             = &mapgen_church_gothic;
 }
 
 //
@@ -2007,7 +2009,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    if (is_ot_type("house_base", terrain_type)) {
+    if ("house_base" == terrain_type.t().id_base ) {
         int attempts = 20;
         do {
             rn = rng(lw + 1, rw - 1);
@@ -2017,7 +2019,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             m->ter_set(rn, actual_house_height - 1, t_stairs_down);
         }
     }
-    if (one_in(100)) { // Houses have a 1 in 100 chance of wasps!
+    if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if (m->ter(i, j) == t_door_c || m->ter(i, j) == t_door_locked) {
@@ -2050,7 +2052,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
         m->place_items("rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
-    } else if (one_in(150)) { // No wasps; black widows?
+    } else if (one_in(150)) { // todo; region_data // No wasps; black widows?
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if (m->ter(i, j) == t_floor) {
@@ -2076,6 +2078,115 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
     if ( iid_diff > 0 ) {
+        m->rotate(iid_diff);
+    }
+}
+
+/////////////////////////////
+void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+    computer *tmpcomp = NULL;
+    fill_background(m, &grass_or_dirt);
+    //New England or Country style, single centered steeple low clear windows
+    mapf::formatted_set_simple(m, 0, 0,"\
+         ^^^^^^         \n\
+     |---|--------|     \n\
+    ||dh.|.6ooo.ll||    \n\
+    |l...+.........Dsss \n\
+  ^^|--+-|------+--|^^s \n\
+  ^||..............||^s \n\
+   w.......tt.......w s \n\
+   |................| s \n\
+  ^w................w^s \n\
+  ^|.######..######.|^s \n\
+  ^w................w^s \n\
+  ^|.######..######.|^s \n\
+   w................w s \n\
+   |.######..######.| s \n\
+  ^w................w^s \n\
+  ^|.######..######.|^s \n\
+  ^|................|^s \n\
+   |-w|----..----|w-| s \n\
+    ^^|ll|....|ST|^^  s \n\
+     ^|.......+..|^   s \n\
+      |----++-|--|    s \n\
+         O ss O       s \n\
+     ^^    ss    ^^   s \n\
+     ^^    ss    ^^   s \n",
+       mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", t_column, t_console, t_shrub, t_floor,
+               t_wall_h, t_wall_v, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
+               t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
+       mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", f_null,   f_null,    f_null,  f_null,
+               f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
+               f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null)
+    );
+    m->spawn_item(9, 6, "brazier");
+    m->spawn_item(14, 6, "brazier");
+    m->place_items("church", 40,  5,  5, 8,  16, false, 0);
+    m->place_items("church", 40,  5,  5, 8,  16, false, 0);
+    m->place_items("church", 85,  12,  2, 14,  2, false, 0);
+    m->place_items("office", 60,  6,  2, 8,  3, false, 0);
+    m->place_items("jackets", 85,  7,  18, 8,  18, false, 0);
+    tmpcomp = m->add_computer(11, 2, _("Church Bells 1.2"), 0);
+    tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
+    tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
+    tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
+    int iid_diff = (int)terrain_type - terrain_type.t().loadid_base + 2;
+    if ( iid_diff != 4 ) {
+        m->rotate(iid_diff);
+    }
+}
+
+void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+    computer *tmpcomp = NULL;
+    fill_background(m, &grass_or_dirt);
+    //Gothic Style, unreachable high stained glass windows, stone construction
+    mapf::formatted_set_simple(m, 0, 0, "\
+ $$    W        W    $$ \n\
+ $$  WWWWGVBBVGWWWW  $$ \n\
+     W..h.cccc.h..W     \n\
+ WWVWWR..........RWWBWW \n\
+WW#.#.R....cc....R.#.#WW\n\
+ G#.#.R..........R.#.#V \n\
+ V#.#.Rrrrr..rrrrR.#.#B \n\
+WW#..................#WW\n\
+ WW+WW#####..#####WW+WW \n\
+ssss V............B ssss\n\
+s   WW#####..#####WW   s\n\
+s $ WW............WW $ s\n\
+s $  G#####..#####V  $ s\n\
+s $  B............G  $ s\n\
+s $ WW#####..#####WW $ s\n\
+s $ WW............WW $ s\n\
+s    V####....####B    s\n\
+s WWWW--|--gg-----WWWW s\n\
+s WllWTS|.....lll.W..W s\n\
+s W..+..+.........+..W s\n\
+s W..WWWWWW++WWWWWW6.W s\n\
+s W.CWW$$WWssWW$$WW..W s\n\
+s WWWWW    ss    WWWWW s\n\
+ssssssssssssssssssssssss\n",
+       mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", t_floor,   t_window_stained_red,
+               t_window_stained_green, t_window_stained_blue, t_rock, t_railing_v, t_railing_h, t_console, t_shrub,
+               t_rock_floor, t_wall_h, t_wall_v, t_rock_floor, t_rock_floor, t_door_c, t_door_glass_c,
+               t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_sidewalk),
+       mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", f_crate_c, f_null,
+               f_null,                 f_null,                f_null, f_null,      f_null,      f_null,    f_null,
+               f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,
+               f_sink,       f_chair,      f_counter,    f_locker,     f_null)
+    );
+    m->spawn_item(8, 4, "brazier");
+    m->spawn_item(15, 4, "brazier");
+    m->place_items("church", 70,  6,  7, 17,  16, false, 0);
+    m->place_items("church", 70,  6,  7, 17,  16, false, 0);
+    m->place_items("church", 60,  6,  7, 17,  16, false, 0);
+    m->place_items("cleaning", 60,  3,  18, 4,  21, false, 0);
+    m->place_items("jackets", 85,  14,  18, 16,  18, false, 0);
+    tmpcomp = m->add_computer(19, 20, _("Church Bells 1.2"), 0);
+    tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
+    tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
+    tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
+    int iid_diff = (int)terrain_type - terrain_type.t().loadid_base + 2;
+    if ( iid_diff != 4 ) {
         m->rotate(iid_diff);
     }
 }

@@ -1876,7 +1876,7 @@ ___DEEE|.R.|...,,...|sss\n",
             }
         }
 
-
+/*
     } else if (is_ot_type("church", terrain_type)) {
 
         // Init to grass & dirt;
@@ -1984,7 +1984,7 @@ ssssssssssssssssssssssss\n",
             rotate(1);
         }
 
-
+*/
     } else if (terrain_type == "cathedral_1_entrance") {
 
         fill_background(this, &grass_or_dirt);

@@ -417,7 +417,11 @@
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "sidewalk" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "church_new_england" },
+            { "type": "builtin", "name": "church_gothic" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_1_entrance",
