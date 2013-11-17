@@ -117,7 +117,7 @@ void ClearScreen()
 bool fexists(const char *filename)
 {
   std::ifstream ifile(filename);
-  return ifile;
+  return (bool)ifile;
 }
 
 //Registers, creates, and shows the Window!!
