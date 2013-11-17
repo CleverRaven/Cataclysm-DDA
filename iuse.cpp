@@ -6004,3 +6004,117 @@ int iuse::adrenaline_injector(game *g, player *p, item *it, bool t)
   }
   return it->type->charges_to_use();
 }
+
+int iuse::talking_doll(game *g, player *p, item *it, bool t)
+{
+	if(it->charges == 0) {
+
+		g->add_msg_if_player(p, _("The %s's batteries are dead."), it->name.c_str());
+
+		return 0;
+
+	}
+	
+	int effect_roll = rng(1,15);
+
+	if(it->type->id == "talking_doll") {
+		switch (effect_roll)
+		{
+			case 1:
+				g->sound(p->posx, p->posy, 10, _("Wanna play with me?"));
+				break;
+			case 2:
+				g->sound(p->posx, p->posy, 10, _("Sing with me!"));
+				break;
+			case 3:
+				g->sound(p->posx, p->posy, 10, _("I love you!"));
+				break;
+			case 4:
+				g->sound(p->posx, p->posy, 10, _("Please take me with you!"));
+				break;
+			case 5:
+				g->sound(p->posx, p->posy, 10, _("May I have a cookie?"));
+				break;
+			case 6:
+				g->sound(p->posx, p->posy, 10, _("Let's play together!"));
+				break;
+			case 7:
+				g->sound(p->posx, p->posy, 10, _("Time to play!"));
+				break;
+			case 8:
+				g->sound(p->posx, p->posy, 10, _("Om nom nom! Delicious!"));
+				break;
+			case 9:
+				g->sound(p->posx, p->posy, 10, _("Are you my mommy?"));
+				break;
+			case 10:
+				g->sound(p->posx, p->posy, 10, _("Oh, how fun!"));
+				break;
+			case 11:
+				g->sound(p->posx, p->posy, 10, _("You're my best friend!"));
+				break;
+			case 12:
+				g->sound(p->posx, p->posy, 10, _("Heehee!"));
+				break;
+			case 13:
+				g->sound(p->posx, p->posy, 10, _("Let's have fun!"));
+				break;
+			case 14:
+				g->sound(p->posx, p->posy, 10, _("Let's have a tea party!"));
+				break;
+			case 15:
+				g->sound(p->posx, p->posy, 10, _("You're the best!"));
+				break;
+		}
+	} else {
+		switch (effect_roll)
+		{
+			case 1:
+				g->sound(p->posx, p->posy, 5, _("You shouldn't have done that."));
+				break;
+			case 2:
+				g->sound(p->posx, p->posy, 10, _("Let's play... Russian roulette."));
+				break;
+			case 3:
+				g->sound(p->posx, p->posy, 10, _("I hate you."));
+				break;
+			case 4:
+				g->sound(p->posx, p->posy, 10, _("Go kill yourself!"));
+				break;
+			case 5:
+				g->sound(p->posx, p->posy, 5, _("Big Brother is watching you..."));
+				break;
+			case 6:
+				g->sound(p->posx, p->posy, 10, _("Die for me!"));
+				break;
+			case 7:
+				g->sound(p->posx, p->posy, 10, _("Why won't you die?"));
+				break;
+			case 8:
+				g->sound(p->posx, p->posy, 10, _("Blood... Delicious."));
+				break;
+			case 9:
+				g->sound(p->posx, p->posy, 15, _("See you... IN HELL!"));
+				break;
+			case 10:
+				g->sound(p->posx, p->posy, 100, _("AAAIEEEEEEE!!!"));
+				break;
+			case 11:
+				g->sound(p->posx, p->posy, 20, _("FUCK YOU!"));
+				break;
+			case 12:
+				g->sound(p->posx, p->posy, 10, _("What did you do with my Mommy?"));
+				break;
+			case 13:
+				g->sound(p->posx, p->posy, 10, _("Stay with me... forever!"));
+				break;
+			case 14:
+				g->sound(p->posx, p->posy, 10, _("Hey kids. Want some candy?"));
+				break;
+			case 15:
+				g->sound(p->posx, p->posy, 10, _("My previous owner squealed like a pig when I gutted her!"));
+				break;
+		}
+	}
+	return it->type->charges_to_use();
+}
