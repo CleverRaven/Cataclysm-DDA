@@ -14,8 +14,6 @@
 #include "enums.h"
 #include "color.h"
 
-class mdeath;
-
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
 */
@@ -228,7 +226,7 @@ struct mtype {
     float luminance;           // 0 is default, >0 gives luminance to lightmap
     int hp;
     unsigned int sp_freq;     // How long sp_attack takes to charge
-    void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
+    void (mdeath::*dies)(monster *); // What happens when this monster dies
     void (mattack::*sp_attack)(monster *); // This monster's special attack
 
     // Default constructor

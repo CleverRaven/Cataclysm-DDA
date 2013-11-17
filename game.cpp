@@ -5935,7 +5935,7 @@ void game::kill_mon(int index, bool u_did_it)
   if (u_did_it) {
    if (z.has_flag(MF_GUILT)) {
     mdeath tmpdeath;
-    tmpdeath.guilt(this, &z);
+    tmpdeath.guilt(&z);
    }
    if (!z.is_hallucination()) {
     kills[z.type->id]++; // Increment our kill counter

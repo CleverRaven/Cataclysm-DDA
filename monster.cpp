@@ -748,10 +748,10 @@ void monster::die(game *g)
  mdeath md;
  if(is_hallucination()) {
    //Hallucinations always just disappear
-   md.disappear(g, this);
+   md.disappear(this);
    return;
  } else {
-   (md.*type->dies)(g, this);
+   (md.*type->dies)(this);
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;

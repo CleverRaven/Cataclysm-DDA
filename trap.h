@@ -6,6 +6,8 @@
 #include "itype.h"
 #include <string>
 
+class game;
+
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the trap_names array in tile_id_data.h
 */

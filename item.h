@@ -5,8 +5,8 @@
 #include <vector>
 #include "itype.h"
 #include "mtype.h"
-//#include "npc.h"
 
+class game;
 class player;
 class npc;
 struct itype;

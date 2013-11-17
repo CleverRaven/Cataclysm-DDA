@@ -7,7 +7,7 @@
 #include <map>
 #include <set>
 
-typedef void (mdeath::*MonDeathFunction)(game*, monster*);
+typedef void (mdeath::*MonDeathFunction)(monster*);
 typedef void (mattack::*MonAttackFunction)(monster*);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
