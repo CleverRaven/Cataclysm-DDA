@@ -911,7 +911,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 75,
         "material_thickness" : 1
     },
@@ -935,7 +935,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 25,
         "material_thickness" : 1
     },
