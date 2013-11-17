@@ -282,9 +282,6 @@
     <ClCompile Include="..\sdltiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\settlement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\setvector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -606,9 +603,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\SDLMain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\settlement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\setvector.h">

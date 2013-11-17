@@ -939,7 +939,6 @@
     <ClCompile Include="..\savegame_json.cpp" />
     <ClCompile Include="..\savegame_legacy.cpp" />
     <ClCompile Include="..\sdltiles.cpp" />
-    <ClCompile Include="..\settlement.cpp" />
     <ClCompile Include="..\setvector.cpp" />
     <ClCompile Include="..\skill.cpp" />
     <ClCompile Include="..\text_snippets.cpp" />
@@ -1048,7 +1047,6 @@
     <ClInclude Include="..\rng.h" />
     <ClInclude Include="..\savegame.h" />
     <ClInclude Include="..\SDLMain.h" />
-    <ClInclude Include="..\settlement.h" />
     <ClInclude Include="..\setvector.h" />
     <ClInclude Include="..\skill.h" />
     <ClInclude Include="..\text_snippets.h" />
