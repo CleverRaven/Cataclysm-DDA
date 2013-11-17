@@ -335,7 +335,23 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
         }
     }
 }
+/////////////
+#include "mapgen.h"
+std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
 
+/////////////
+mapgen_function_builtin::mapgen_function_builtin(std::string sptr)
+{
+    ftype = MAPGENFUNC_C;
+    std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find(sptr);
+    if ( gptr !=  mapgen_cfunction_map.end() ) {
+        fptr = gptr->second;
+    } else {
+        debugmsg("No such mapgen function: %s ", sptr.c_str() );
+    }
+};
+
+/////////////
 // TODO: clean up variable shadowing in this function
 // unfortunately, due to how absurdly long the function is (over 8000 lines!), it'll be hard to
 // track down what is and isn't supposed to be carried around between bits of code.
@@ -388,7 +404,20 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
 
-    if (terrain_type == "") {
+// temporary
+    std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find( std::string(terrain_type) );
+
+if ( oter_mapgen.find( terrain_type.t().id_base ) != oter_mapgen.end() ) {
+   g->add_msg("found %s (for %s)",terrain_type.t().id_base.c_str(), std::string(terrain_type).c_str() );
+}
+
+    if ( gptr != mapgen_cfunction_map.end() ) {
+        void(*gfunction)(map*,oter_id,mapgendata,int,float) = gptr->second;
+        gfunction(this, terrain_type, facing_data, turn, density);
+        terrain_type_found = true; // later on we set false if invalid or something
+//return;
+/*
+    } else if (terrain_type == "") {
         mapgen_null(this, terrain_type, facing_data, turn, density);
     } else if (terrain_type == "crater") {
         mapgen_crater(this, terrain_type, facing_data, turn, density);
@@ -408,8 +437,9 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     } else if (terrain_type == "fungal_bloom") {
         mapgen_fungal_bloom(this, terrain_type, facing_data, turn, density);
+*/
 
-    } else if (terrain_type == "road_ns" ||
+    } else  /* F-f-ffuuuuuuuuuuu... */ if (terrain_type == "road_ns" ||
                terrain_type == "road_ew") {
         mapgen_road_straight(this, terrain_type, facing_data, turn, density);
 
@@ -13408,15 +13438,15 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     } else {
         // not one of the hardcoded ones!
         // load from JSON???
-        debugmsg("Error: tried to generate map for omtype %s, \"%s\"",
-                 terrain_type.c_str(), otermap[terrain_type].name.c_str());
+        debugmsg("Error: tried to generate map for omtype %s, \"%s\" (id_base %s)",
+                 terrain_type.c_str(), otermap[terrain_type].name.c_str(), terrain_type.t().id_base.c_str() );
         fill_background(this, t_floor);
 
     }}
     // THE END OF THE HUGE IF ELIF ELIF ELIF ELI FLIE FLIE FLIE FEL OMFG
 
     // WTF it is still going?...
-
+    // omg why are there two braces I'm so dizzy with vertigo
 
     // Now, fix sewers and subways so that they interconnect.
 

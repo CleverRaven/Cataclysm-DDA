@@ -35,7 +35,36 @@ mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west,
     nw_fac = 0;
     sw_fac = 0;
 }
+//
+std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
 
+void init_mapgen_builtin_functions() {
+    mapgen_cfunction_map.clear();
+    mapgen_cfunction_map["null"]             = &mapgen_null;
+    mapgen_cfunction_map["crater"]           = &mapgen_crater;
+    mapgen_cfunction_map["field"]            = &mapgen_field;
+    mapgen_cfunction_map["dirtlot"]          = &mapgen_dirtlot;
+    mapgen_cfunction_map["forest"]           = &mapgen_forest_general;
+    mapgen_cfunction_map["hive"]             = &mapgen_hive;
+    mapgen_cfunction_map["spider_pit"]       = &mapgen_spider_pit;
+    mapgen_cfunction_map["fungal_bloom"]     = &mapgen_fungal_bloom;
+    mapgen_cfunction_map["road_straight"]    = &mapgen_road_straight;
+    mapgen_cfunction_map["road_curved"]      = &mapgen_road_curved;
+    mapgen_cfunction_map["road_tee"]         = &mapgen_road_tee;
+    mapgen_cfunction_map["road_four_way"]    = &mapgen_road_four_way;
+    mapgen_cfunction_map["field"]            = &mapgen_field;
+    mapgen_cfunction_map["bridge"]           = &mapgen_bridge;
+    mapgen_cfunction_map["highway"]          = &mapgen_highway;
+    mapgen_cfunction_map["river_curved_not"] = &mapgen_river_curved_not;
+    mapgen_cfunction_map["river_straight"]   = &mapgen_river_straight;
+    mapgen_cfunction_map["river_curved"]     = &mapgen_river_curved;
+    mapgen_cfunction_map["parking_lot"]      = &mapgen_parking_lot;
+    mapgen_cfunction_map["pool"]             = &mapgen_pool;
+    mapgen_cfunction_map["park"]             = &mapgen_park;
+    mapgen_cfunction_map["gas_station"]      = &mapgen_gas_station;     
+}
+
+//
 void mapgendata::set_dir(int dir_in, int val)
 {
     switch (dir_in) {

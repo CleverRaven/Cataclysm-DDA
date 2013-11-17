@@ -24,6 +24,9 @@ public:
   int& dir(int dir_in);
 };
 
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+extern std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
+
 ter_id grass_or_dirt();
 ter_id dirt_or_pile();
 
@@ -50,5 +53,7 @@ void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 void mapgen_pool(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_park(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+
+void init_mapgen_builtin_functions();
 
 #endif

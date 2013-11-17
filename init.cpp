@@ -19,6 +19,7 @@
 #include "tutorial.h"
 #include "overmap.h"
 #include "artifact.h"
+#include "building_generation.h"
 
 #include <string>
 #include <vector>
@@ -186,6 +187,7 @@ void init_data_structures()
     init_inventory_categories();
     init_colormap();
     init_artifacts();
+    init_mapgen_builtin_functions();
 }
 
 void release_data_structures()
