@@ -349,13 +349,21 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
   hunger += 2;
   power_level++;
 }
-if (has_active_bionic("bio_reactor") && power_level < max_power_level && (int(g->turn) % 10 == 0)) {
-    if (plut_charge > 0) {
-        plut_charge--;
-        power_level++;
-    } else {
-        g->add_msg_if_player(this,_("Your bionic minireactor is out of plutonium charges."));
-    }
+if (has_active_bionic("bio_reactor") && power_level < max_power_level && (int(g->turn) % 10 == 0) && plut_charge > 0) {
+		plut_charge--;
+		power_level++;
+		radiation++;
+		if (plut_charge == 4000) {
+		g->add_msg_if_player(this,_("Your bionic minireactor has 4000 charges left."));
+		} else if (plut_charge == 3000) {
+		g->add_msg_if_player(this,_("Your bionic minireactor has 3000 charges left."));
+		} else if (plut_charge == 2000) {
+		g->add_msg_if_player(this,_("Your bionic minireactor has 2000 charges left."));
+		} else if (plut_charge == 1000) {
+		g->add_msg_if_player(this,_("Your bionic minireactor has 1000 charges left."));
+		} else if (plut_charge == 0) {
+		g->add_msg_if_player(this,_("Your bionic minireactor is out of plutonium charges."));
+		}
 }
 // Trait / mutation buffs
  if (has_trait("THICK_SCALES"))
@@ -6277,11 +6285,12 @@ bool player::consume(game *g, signed char ch)
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
         } else {
-          if(5000 - plut_charge < 1000)\
+          if(5000 - plut_charge < 1000){
       		g->add_msg_if_player(this,_("Your plutonium banks are full."));
-    		else
+    		} else {
       		plut_charge += 1000;
       		}
+        }
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->type->is_book()) {
                 it_book* book = dynamic_cast<it_book*>(to_eat->type);
