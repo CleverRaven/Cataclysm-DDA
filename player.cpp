@@ -352,7 +352,9 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
 if (has_active_bionic("bio_reactor") && power_level < max_power_level && (int(g->turn) % 10 == 0) && plut_charge > 0) {
 		plut_charge--;
 		power_level++;
-		radiation++;
+		if (one_in(13)) {
+			radiation++;
+		}
 		if (plut_charge == 4000) {
 		g->add_msg_if_player(this,_("Your bionic minireactor has 4000 charges left."));
 		} else if (plut_charge == 3000) {
