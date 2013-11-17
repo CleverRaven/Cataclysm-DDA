@@ -37,7 +37,7 @@ veh_interact::veh_interact ()
 void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 {
     veh = v;
-	countDurability();
+    countDurability();
     //        winw1   winw2   winw3
     //  winh1       |       |
     //        ------+-------+------
@@ -900,8 +900,8 @@ void veh_interact::display_stats ()
         fold_and_print(w_stats, 5, second_column, third_column, c_ltgray,
                        _("Wheels:         <color_ltgreen>enough</color>"));
     } else {
-		fold_and_print(w_stats, 5, second_column, third_column, c_ltgray,
-                       _("Wheels:         <color_ltred>  lack</color>"));
+        fold_and_print(w_stats, 5, second_column, third_column, c_ltgray,
+                       _("Wheels:             <color_ltred>lack</color>"));
     }
 
     fold_and_print(w_stats, 2, second_column, third_column, c_ltgray,
@@ -942,18 +942,7 @@ void veh_interact::display_stats ()
 
     mvwprintz(w_stats, 5, 1, c_ltgray, _("Status:  "));
     column += utf8_width(_("Status:  ")) + 1;
-    //mvwprintz(w_stats, 5, column, totalDurabilityColor, "%d", durabilityPercent);
-    //mvwprintz(w_stats, 5, column, totalDurabilityColor, "%s", totalDurabilityText);
     fold_and_print(w_stats, 5, column, third_column, totalDurabilityColor, totalDurabilityText.c_str());
-
-    //column++;
-    /*if (durabilityPercent > 9)
-        column++;
-    if (durabilityPercent > 99)
-        column++;
-    mvwprintz(w_stats, 5, column, c_ltgray, "%%");*/
-
-    //fold_and_print(w_stats, 5, 1, second_column, totalDurabilityColor, _("Status: %d%%"), durabilityPercent);
 
     wrefresh (w_stats);
 }
@@ -1019,17 +1008,24 @@ void veh_interact::countDurability()
 {
     int sum = 0; // sum of part HP
     int max = 0; // sum of part max HP, ie durability
-    double mostDamaged = 1; // we also want to get 
-    
+    double mostDamaged = 1; // durability ratio of the most damaged part
+
     for (int it = 0; it < veh->parts.size(); it++)
     {
         vehicle_part part = veh->parts[it];
-        sum += part.hp;
-        max += vehicle_part_types[part.id].durability;
+        int part_dur = vehicle_part_types[part.id].durability;
 
-        double damagedPercent = part.hp / vehicle_part_types[part.id].durability;
-        if (damagedPercent < mostDamaged && !isnan(damagedPercent)) // damagedPercent == damagedPercent checks that it's not an invalid number, eg div/0 or +-1.INF
-            mostDamaged = damagedPercent;
+        sum += part.hp;
+        max += part_dur;
+
+        if(part.hp < part_dur)
+        {
+            double damageRatio = part.hp / part_dur;
+            if (!isnan(damageRatio) && (damageRatio < mostDamaged))
+            {
+                mostDamaged = damageRatio;
+            }
+        }
     }
 
     double totalDamagePercent = sum / (double)max;
@@ -1044,9 +1040,9 @@ nc_color veh_interact::getDurabilityColor(const int& dur)
     if (dur >= 95)
         return c_green;
     if (dur >= 66)
-		return c_ltgreen;
+        return c_ltgreen;
     if (dur >= 33)
-		return c_yellow;
+        return c_yellow;
     if (dur >= 10)
         return c_ltred;
     if (dur >= 0)
@@ -1058,13 +1054,13 @@ std::string veh_interact::getDurabilityDescription(const int& dur)
 {
     if (dur >= 95)
         return std::string(_("like new"));
-	if (dur >= 66)
+    if (dur >= 66)
         return std::string(_("dented"));
-	if (dur >= 33)
+    if (dur >= 33)
         return std::string(_("battered"));
-	if (dur >= 10)
+    if (dur >= 10)
         return std::string(_("wrecked"));
-	if (dur >= 0)
+    if (dur >= 0)
         return std::string(_("totaled"));
     return std::string(_("error"));
 }
