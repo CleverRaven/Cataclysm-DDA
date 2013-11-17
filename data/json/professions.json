@@ -140,12 +140,12 @@
     {
         "type": "profession",
         "ident": "maid",
-        "name": "Knife-throwing Maid",
-        "description": "You were a maid for a wealthy lady. When the apocalypse broke out, she disappeared mysteriously, leaving a note reading \"Zombies causing a ruckus downtown, can't sleep. Don't come back until you've killed them all\"",
-        "points": 5,
+        "name": "Maid",
+        "description": "You were a maid for a wealthy lady. After the apocalypse broke out, she left on a vacation to an unkown place, leaving you to fend for yourself.",
+        "points": 2,
         "skills": [
             {
-                "level": 3,
+                "level": 1,
                 "name": "throwing"
             },
             {
@@ -153,20 +153,12 @@
                 "name": "cooking"
             }
         ],
-        "CBMs": [
-            "bio_time_freeze",
-            "bio_batteries"
-        ],
         "items": [
             "maid_hat",
             "maid_dress",
             "boots",
             "pocketwatch",
-            "throwing_knife",
-            "throwing_knife",
-            "throwing_knife",
-            "throwing_knife",
-            "throwing_knife"
+            "knife_butter"
         ]
     },
     {
