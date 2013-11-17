@@ -1370,7 +1370,6 @@ void player::memorial( std::ofstream &memorial_file )
         city nearest_city = g->cur_om->cities[city_index];
         //Give slightly different messages based on how far we are from the middle
         int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
-        debugmsg("dist: %d, size: %d", distance_from_city, nearest_city.s);
         if(distance_from_city > nearest_city.s + 4) {
             city_name << _("in the wilderness");
         } else if(distance_from_city >= nearest_city.s) {
