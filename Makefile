@@ -335,6 +335,7 @@ clean: clean-tests
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f $(SRC_DIR)/version.h $(LIB_DIR)/catalua/catabindings.cpp
+	rm -f version.h catalua/catabindings.cpp # old files
 
 distclean:
 	rm -rf $(BINDIST_DIR)
