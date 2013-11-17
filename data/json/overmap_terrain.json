@@ -238,7 +238,7 @@
         "id" : "park",
         "name" : "park",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "green",
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
