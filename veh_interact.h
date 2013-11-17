@@ -95,6 +95,9 @@ private:
     nc_color totalDurabilityColor;
     nc_color worstDurabilityColor;
 
+    /** Store the most damaged part's index, or -1 if they're all healthy. */
+    int mostDamagedPart;
+
     /* Vector of all vpart TYPES that can be mounted in the current square.
      * Can be converted to a vector<vpart_info>.
      * Updated whenever the cursor moves. */

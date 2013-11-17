@@ -26,6 +26,7 @@ veh_interact::veh_interact ()
     totalDurabilityColor = c_green;
     worstDurabilityColor = c_green;
     durabilityPercent = 100;
+    mostDamagedPart = -1;
 }
 
 /**
@@ -1024,6 +1025,7 @@ void veh_interact::countDurability()
             if (!isnan(damageRatio) && (damageRatio < mostDamaged))
             {
                 mostDamaged = damageRatio;
+                mostDamagedPart = it;
             }
         }
     }
