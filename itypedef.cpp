@@ -182,6 +182,7 @@ BIO_SINGLE("bio_metabolics", 700, c_yellow, 4);
 BIO_SINGLE("bio_furnace", 4500, c_yellow, 4);
 BIO_SINGLE("bio_ethanol", 1200, c_yellow, 4);
 BIO_SINGLE("bio_torsionratchet", 3800, c_yellow, 4);
+BIO_SINGLE("bio_reactor", 10000, c_yellow, 4);
 // utilities
 BIO_SINGLE("bio_tools", 8000, c_ltgray, 6);
 BIO_SINGLE("bio_storage", 4000, c_ltgray, 7);
