@@ -8702,7 +8702,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+        if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
             add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
             return false;
         }
