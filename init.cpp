@@ -19,6 +19,7 @@
 #include "tutorial.h"
 #include "overmap.h"
 #include "artifact.h"
+#include "speech.h"
 
 #include <string>
 #include <vector>
@@ -146,6 +147,8 @@ void init_data_structures()
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     type_function_map["monstergroup"] = new StaticFunctionAccessor(&MonsterGroupManager::LoadMonsterGroup);
+    type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
+
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
 
     // Non Static Function Access
