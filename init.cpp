@@ -88,6 +88,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/furniture.json");
     ret.push_back("data/json/terrain.json");
     ret.push_back("data/json/migo_speech.json");
+    ret.push_back("data/json/doll_speech.json");
     ret.push_back("data/json/names.json");
     ret.push_back("data/json/vehicle_parts.json");
     ret.push_back("data/json/vehicles.json");
