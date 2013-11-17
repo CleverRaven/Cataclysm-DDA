@@ -7,6 +7,7 @@
 #include "material.h"
 #include "json.h"
 #include "monstergenerator.h"
+#include "speech.h"
 #include <algorithm>
 
 //Used for e^(x) functions
@@ -19,8 +20,6 @@
 
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
-
-std::vector<SpeechBubble> parrotVector;
 
 void mattack::antqueen(game *g, monster *z)
 {
@@ -1668,20 +1667,7 @@ void mattack::parrot(game *g, monster *z) {
     if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->sp_timeout = z->type->sp_freq;  // Reset timer
-        // parrotVector should never have size < 1, but just in case:
-        if (parrotVector.size() == 0) { return; }
-        int index = rng(0, parrotVector.size() - 1);
-        SpeechBubble speech = parrotVector[index];
+        const SpeechBubble speech = get_speech( "migo" );
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
     }
-}
-
-void game::load_migo_speech(JsonObject &jo)
-{
-    std::string sound = _(jo.get_string("sound").c_str());
-    int volume = jo.get_int("volume");
-
-    SpeechBubble speech = {sound, volume};
-
-    parrotVector.push_back(speech);
 }
