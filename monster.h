@@ -56,6 +56,10 @@ class monster {
  void poly(mtype *t);
  void spawn(int x, int y); // All this does is moves the monster to x,y
 
+ bool keep; // Variable to track newly loaded monsters so they don't go kaput.
+ bool getkeep();
+ void setkeep(bool r);
+
 // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
@@ -222,6 +226,11 @@ class monster {
  inline int posy() const { return _posy; }
 
  short ignoring;
+
+ // Stair data.
+ bool onstairs;
+ int staircount;
+
 private:
  std::vector <point> plans;
  int _posx, _posy;
