@@ -49,8 +49,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     // +-------------------------+
     int winw1 = 12;
     int winw2 = 35;
-    int winh1 = 3;
-    int winh2 = 13;
+    int winh1 = 4;
+    int winh2 = 12;
     int winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 4;
     int winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
     int winx1 = winw1;
