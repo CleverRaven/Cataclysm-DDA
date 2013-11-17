@@ -7,6 +7,15 @@
 Item_group::Item_group(const Item_tag id) : m_id(id), m_max_odds(0){
 }
 
+void Item_group::check_items_exist() const {
+    for(std::vector<Item_group_entry*>::const_iterator iter = m_entries.begin(); iter != m_entries.end(); ++iter){
+        const Item_tag itag = (*iter)->get();
+        if(!item_controller->has_template(itag)) {
+            debugmsg("%s in group %s is not a valid item type", itag.c_str(), m_id.c_str());
+        }
+    }
+}
+
 // When selecting an id from this group, the value returned is determined based on the odds
 // given when inserted into the group.
 const Item_tag Item_group::get_id(){

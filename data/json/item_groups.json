@@ -730,7 +730,7 @@
       ["smrifle_primer", 10],
       ["lgrifle_primer", 10],
       ["lead", 10],
-      ["solder", 10],
+      ["solder_wire", 10],
       ["tin", 10],
       ["bismuth", 10],
       ["puller", 5],

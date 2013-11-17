@@ -251,6 +251,16 @@ void Item_factory::init_old() {
     }
 }
 
+void Item_factory::check_items_of_groups_exist() const {
+    for(std::map<Item_tag, Item_group*>::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
+        a->second->check_items_exist();
+    }
+}
+
+bool Item_factory::has_template(Item_tag id) const {
+    return m_templates.count(id) > 0;
+}
+
 //Returns the template with the given identification tag
 itype* Item_factory::find_template(const Item_tag id){
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
