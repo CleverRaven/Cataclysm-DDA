@@ -1361,6 +1361,25 @@ void player::memorial( std::ofstream &memorial_file )
     }
     std::string tername = otermap[cur_ter].name;
 
+    //Were they in a town, or out in the wilderness?
+    int city_index = g->cur_om->closest_city(cur_loc);
+    std::stringstream city_name;
+    if(city_index < 0) {
+        city_name << _("in the middle of nowhere");
+    } else {
+        city nearest_city = g->cur_om->cities[city_index];
+        //Give slightly different messages based on how far we are from the middle
+        int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
+        debugmsg("dist: %d, size: %d", distance_from_city, nearest_city.s);
+        if(distance_from_city > nearest_city.s + 4) {
+            city_name << _("in the wilderness");
+        } else if(distance_from_city >= nearest_city.s) {
+            city_name << _("on the outskirts of ") << nearest_city.name;
+        } else {
+            city_name << _("in ") << nearest_city.name;
+        }
+    }
+
     //Header
     std::string version = string_format("%s", getVersionString());
     memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
@@ -1375,7 +1394,7 @@ void player::memorial( std::ofstream &memorial_file )
                   << _(" of year ") << (g->turn.years() + 1)
                   << _(", day ") << (g->turn.days() + 1)
                   << _(", at ") << g->turn.print_time() << ".\n";
-    memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
+    memorial_file << pronoun << _(" was killed in a ") << tername << " " << city_name.str() << ".\n";
     memorial_file << "\n";
 
     //Misc
