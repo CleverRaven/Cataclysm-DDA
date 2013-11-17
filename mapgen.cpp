@@ -351,6 +351,16 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr)
     }
 };
 
+// dummy tester
+
+void mapgen_json(map * m,oter_id id,mapgendata md ,int t,float d, std::vector<std::string> s) {
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            m->ter_set(i, j, s[j]);
+        }
+    }
+};
+
 /////////////
 // TODO: clean up variable shadowing in this function
 // unfortunately, due to how absurdly long the function is (over 8000 lines!), it'll be hard to
@@ -404,18 +414,23 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
 
-// temporary
-    std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find( std::string(terrain_type) );
+    std::map<std::string, std::vector<mapgen_function*> >::iterator gptr = oter_mapgen.find( terrain_type.t().id_base );
 
-if ( oter_mapgen.find( terrain_type.t().id_base ) != oter_mapgen.end() ) {
-   g->add_msg("found %s (for %s)",terrain_type.t().id_base.c_str(), std::string(terrain_type).c_str() );
-}
-
-    if ( gptr != mapgen_cfunction_map.end() ) {
-        void(*gfunction)(map*,oter_id,mapgendata,int,float) = gptr->second;
-        gfunction(this, terrain_type, facing_data, turn, density);
-        terrain_type_found = true; // later on we set false if invalid or something
-//return;
+    if ( gptr != oter_mapgen.end() && gptr->second.size() > 0 ) {
+        int fld = rng(0, gptr->second.size() - 1);
+        //g->add_msg("draw_map: %s: %d / %d",terrain_type.c_str(),fld,gptr->second.size());
+        if ( gptr->second[fld]->function_type() == MAPGENFUNC_C ) {
+           void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( gptr->second[fld] )->fptr;
+           gfunction(this, terrain_type, facing_data, turn, density);
+        } else if ( gptr->second[fld]->function_type() == MAPGENFUNC_JSON ) {
+           mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(gptr->second[fld]);
+           mapgen_json(this, terrain_type, facing_data, turn, density, mf->data ); // dummy stub todo
+        } else if ( gptr->second[fld]->function_type() == MAPGENFUNC_LUA ) {
+           debugmsg("mapgen (%s): mapgen type 'lua' has not been written yet.",terrain_type.c_str() );
+        } else {
+           debugmsg("Invalid mapgen function type.");
+           
+        }
 /*
     } else if (terrain_type == "") {
         mapgen_null(this, terrain_type, facing_data, turn, density);

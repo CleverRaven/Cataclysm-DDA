@@ -358,7 +358,8 @@ void load_oter(oter_t & oter) {
     otermap[oter.id] = oter;
     oterlist.push_back(oter);
 }
-
+#include "building_generation.h"
+#include "mapgen.h"
 void load_overmap_terrain(JsonObject &jo)
 {
     oter_t oter;
@@ -406,6 +407,46 @@ void load_overmap_terrain(JsonObject &jo)
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
 
+    bool default_mapgen = jo.get_bool("default_mapgen", true);
+    if ( default_mapgen ) {
+        if ( mapgen_cfunction_map.find( id_base ) != mapgen_cfunction_map.end() ) {
+            oter_mapgen[id_base].push_back( new mapgen_function_builtin( id_base ) );
+        }
+    }
+    if ( jo.has_array("mapgen") ) {
+        JsonArray ja = jo.get_array("mapgen");
+        int c=0;
+        while ( ja.has_more() ) {
+            if ( ja.has_object(c) ) {
+                JsonObject jio = ja.next_object();
+                if ( jio.has_string("type") ) {
+                    std::string mgtype = jio.get_string("type");
+                    if ( mgtype == "builtin" ) { // c-function
+                        if ( jio.has_string("name") ) {
+                            std::string mgname = jio.get_string("name");
+                            if ( mapgen_cfunction_map.find( mgname ) != mapgen_cfunction_map.end() ) {
+                                oter_mapgen[id_base].push_back( new mapgen_function_builtin( mgname ) );
+                            } else {
+                                debugmsg("oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
+                            }
+                        } else {
+                            debugmsg("oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
+                        }
+                    } else if ( mgtype == "lua" ) { // todo
+                        debugmsg("oter_t[%s]: TODO mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+                    } else if ( mgtype == "json" ) { // todo
+                        debugmsg("oter_t[%s]: TODO mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+                    } else {
+                        debugmsg("oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+                    }
+                } else {
+                    debugmsg("oter_t[%s]: Invalid mapgen function (missing \"type\" value).", id_base.c_str() );
+                }
+            }
+            c++;
+        }
+
+    }
 
     if (line_drawing) {
         // add variants for line drawing

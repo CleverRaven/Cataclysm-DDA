@@ -43,6 +43,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["null"]             = &mapgen_null;
     mapgen_cfunction_map["crater"]           = &mapgen_crater;
     mapgen_cfunction_map["field"]            = &mapgen_field;
+    mapgen_cfunction_map["field_test"]            = &mapgen_field_w_puddles;
     mapgen_cfunction_map["dirtlot"]          = &mapgen_dirtlot;
     mapgen_cfunction_map["forest"]           = &mapgen_forest_general;
     mapgen_cfunction_map["hive"]             = &mapgen_hive;
@@ -230,6 +231,19 @@ void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         }
     }
     m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+}
+
+
+void mapgen_field_w_puddles(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    mapgen_field(m, terrain_type, dat, turn, density);
+    for ( int x = 0; x < 24; x++ ) {
+        for ( int y = 0; y < 24; y++ ) {
+            if ( one_in(5) ) {
+                 m->ter_set(x, y, t_water_sh);
+            }
+        }
+    }
 }
 
 void mapgen_dirtlot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)

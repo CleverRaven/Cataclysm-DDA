@@ -31,7 +31,10 @@
         "color" : "brown",
         "see_cost" : 2,
         "extras" : "field",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "field_test" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "forest",
@@ -49,7 +52,10 @@
         "color" : "green",
         "see_cost" : 4,
         "extras" : "field",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "forest" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "forest_water",
@@ -58,7 +64,10 @@
         "color" : "cyan",
         "see_cost" : 4,
         "extras" : "field",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "forest" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ns",
@@ -67,7 +76,11 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "highway" }
+        ]
+
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ew",
@@ -76,7 +89,10 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "highway" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "road_null",
