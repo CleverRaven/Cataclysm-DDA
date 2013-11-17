@@ -99,8 +99,12 @@ item::item(itype *it, unsigned int turn, char let)
             it_tool* tool = dynamic_cast<it_tool*>(it);
             if (tool->max_charges == 0)
                 charges = -1;
-            else
+            else {
                 charges = tool->def_charges;
+                if (tool->ammo != "NULL") {
+                    curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
+                }
+            }
         } else if (it->is_gunmod() && it->id == "spare_mag") {
             charges = 0;
         } else {
