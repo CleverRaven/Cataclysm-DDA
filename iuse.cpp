@@ -5761,7 +5761,7 @@ int iuse::artifact(player *p, item *it, bool t)
   case AEA_GROWTH: {
    monster tmptriffid(GetMType("mon_null"), p->posx, p->posy);
    mattack tmpattack;
-   tmpattack.growplants(g, &tmptriffid);
+   tmpattack.growplants(&tmptriffid);
   } break;
 
   case AEA_HURTALL:

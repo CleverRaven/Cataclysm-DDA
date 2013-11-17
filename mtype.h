@@ -229,7 +229,7 @@ struct mtype {
     int hp;
     unsigned int sp_freq;     // How long sp_attack takes to charge
     void (mdeath::*dies)(game *, monster *); // What happens when this monster dies
-    void (mattack::*sp_attack)(game *, monster *); // This monster's special attack
+    void (mattack::*sp_attack)(monster *); // This monster's special attack
 
     // Default constructor
     mtype ();

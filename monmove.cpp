@@ -235,7 +235,7 @@ void monster::move(game *g)
     if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
         mattack ma;
         if(!is_hallucination()) {
-            (ma.*type->sp_attack)(g, this);
+            (ma.*type->sp_attack)(this);
         }
     }
     if (moves < 0) {
