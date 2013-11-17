@@ -223,6 +223,7 @@ BIO_SINGLE("bio_water_extractor", 5500, c_green, 5);
 BIO_SINGLE("bio_shock", 5500, c_red, 5);
 BIO_SINGLE("bio_heat_absorb", 5500, c_red, 5);
 BIO_SINGLE("bio_claws", 5500, c_red, 5);
+BIO_SINGLE("bio_razors", 4500, c_red, 4);
 BIO_SINGLE("bio_shockwave", 5500, c_red, 5);
 // armor:
 BIO_SINGLE("bio_carbon", 7500, c_cyan, 9);
@@ -230,6 +231,7 @@ BIO_SINGLE("bio_armor_head", 3500, c_cyan, 5);
 BIO_SINGLE("bio_armor_torso", 3500, c_cyan, 4);
 BIO_SINGLE("bio_armor_arms", 3500, c_cyan, 3);
 BIO_SINGLE("bio_armor_legs", 3500, c_cyan, 3);
+BIO_SINGLE("bio_armor_eyes", 5500, c_cyan, 5);
 // espionage
 BIO_SINGLE("bio_face_mask", 8500, c_magenta, 5);
 BIO_SINGLE("bio_scent_mask", 8500, c_magenta, 5);

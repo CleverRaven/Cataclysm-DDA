@@ -214,6 +214,12 @@
 },
 {
     "type"       :    "bionic",
+    "id"         :    "bio_armor_eyes",
+    "name"       :    "Protective Lenses",
+    "description":    "Your eye sockets have been sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth. When you cry, you must spit out or swallow your tears."
+},
+{
+    "type"       :    "bionic",
     "id"         :    "bio_flashlight",
     "name"       :    "Cranial Flashlight",
     "active"     :    true,
@@ -390,6 +396,12 @@
     "active"     :    true,
     "cost"       :    3,
     "description":    "Your fingers can withdraw into your hands, allowing a set of vicious claws to extend.  These do considerable cutting damage, but prevent you from holding anything else."
+},
+{
+    "type"       :    "bionic",
+    "id"         :    "bio_razors",
+    "name"       :    "Fingertip Razors",
+    "description":    "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
 },
 {
     "type"       :    "bionic",
