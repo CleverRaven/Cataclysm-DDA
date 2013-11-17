@@ -292,17 +292,19 @@ bool player::create(game *g, character_type type, std::string tempname)
     if (has_trait("MARTIAL_ARTS2")) {
         matype_id ma_type;
         do {
-            int choice = (PLTYPE_NOW == type) ? rng(1, 4) :
+            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
                          menu(false, _("Pick your style:"), _("Krav Maga"), _("Muay Thai"), _("Ninjutsu"),
-                              _("Capoeira"), NULL);
+                              _("Capoeira"), _("Zui Quan"), NULL);
             if (choice == 1) {
                 ma_type = "style_krav_maga";
             } else if (choice == 2) {
                 ma_type = "style_muay_thai";
             } else if (choice == 3) {
                 ma_type = "style_ninjutsu";
-            } else { // choice == 4
+            } else if (choice == 4) {
                 ma_type = "style_capoeira";
+            } else { // choice == 5
+                ma_type = "style_zui_quan";
             }
             if (PLTYPE_NOW != type) {
                 popup(martialarts[ma_type].description.c_str());
