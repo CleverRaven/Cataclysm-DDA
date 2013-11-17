@@ -386,6 +386,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     mapgendata facing_data(t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest);
 
     computer *tmpcomp = NULL;
+    bool terrain_type_found = true;
 
     if (terrain_type == "") {
         mapgen_null(this);
@@ -10405,7 +10406,14 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         add_spawn("mon_blood_sacrifice", 1, 4, 21);
 
 
-    } else if (terrain_type == "farm") {
+    } else {
+        terrain_type_found = false;
+    }
+
+    // MSVC can't handle a single "if/else if" with this many clauses. Hack to 
+    // break the clause in two so MSVC compiles work, until this file is refactored.
+    if (!terrain_type_found) {
+    if (terrain_type == "farm") {
 
         if (!one_in(10)) {
             fill_background(this, &grass_or_dirt);
@@ -13404,7 +13412,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                  terrain_type.c_str(), otermap[terrain_type].name.c_str());
         fill_background(this, t_floor);
 
-    }
+    }}
     // THE END OF THE HUGE IF ELIF ELIF ELIF ELI FLIE FLIE FLIE FEL OMFG
 
     // WTF it is still going?...
