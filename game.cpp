@@ -10630,7 +10630,7 @@ void game::plmove(int dx, int dy)
    trap* tr = traps[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
     trapfunc f;
-    (f.*(tr->act))(this, x, y);
+    (f.*(tr->act))(x, y);
    }
   }
 
@@ -11180,7 +11180,7 @@ void game::vertical_move(int movez, bool force) {
   trap* tr = traps[m.tr_at(u.posx, u.posy)];
   if (force || !u.avoid_trap(tr)) {
    trapfunc f;
-   (f.*(tr->act))(this, u.posx, u.posy);
+   (f.*(tr->act))(u.posx, u.posy);
   }
  }
 

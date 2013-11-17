@@ -971,7 +971,7 @@ int monster::move_to(game *g, int x, int y, bool force)
         trap* tr = g->traps[g->m.tr_at(posx(), posy())];
         if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
             trapfuncm f;
-            (f.*(tr->actm))(g, this, posx(), posy());
+            (f.*(tr->actm))(this, posx(), posy());
         }
     }
     // Diggers turn the dirt into dirtmound

@@ -2753,7 +2753,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   g->add_msg(_("You fail to disarm the trap, and you set it off!"));
   trap* tr = g->traps[tr_at(x, y)];
   trapfunc f;
-  (f.*(tr->act))(g, x, y);
+  (f.*(tr->act))(x, y);
   if(diff - roll <= 6)
    // Give xp for failing, but not if we failed terribly (in which
    // case the trap may not be disarmable).

@@ -6,8 +6,6 @@
 #include "itype.h"
 #include <string>
 
-class game;
-
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the trap_names array in tile_id_data.h
 */
@@ -57,65 +55,65 @@ enum trap_id {
 struct trap;
 
 struct trapfunc {
-    void none           (game *,  int ,  int) {};
-    void bubble         (game *g, int x, int y);
-    void beartrap       (game *g, int x, int y);
-    void snare_light    (game *g, int x, int y);
-    void snare_heavy    (game *g, int x, int y);
-    void board          (game *g, int x, int y);
-    void caltrops       (game *g, int x, int y);
-    void tripwire       (game *g, int x, int y);
-    void crossbow       (game *g, int x, int y);
-    void shotgun        (game *g, int x, int y);
-    void blade          (game *g, int x, int y);
-    void landmine       (game *g, int x, int y);
-    void telepad        (game *g, int x, int y);
-    void goo            (game *g, int x, int y);
-    void dissector      (game *g, int x, int y);
-    void sinkhole       (game *g, int x, int y);
-    void pit            (game *g, int x, int y);
-    void pit_spikes     (game *g, int x, int y);
-    void lava           (game *g, int x, int y);
-    void portal         (game *g, int x, int y);
-    void ledge          (game *g, int x, int y);
-    void boobytrap      (game *g, int x, int y);
-    void temple_flood   (game *g, int x, int y);
-    void temple_toggle  (game *g, int x, int y);
-    void glow           (game *g, int x, int y);
-    void hum            (game *g, int x, int y);
-    void shadow         (game *g, int x, int y);
-    void drain          (game *g, int x, int y);
-    void snake          (game *g, int x, int y);
+    void none           (int ,  int) {};
+    void bubble         (int x, int y);
+    void beartrap       (int x, int y);
+    void snare_light    (int x, int y);
+    void snare_heavy    (int x, int y);
+    void board          (int x, int y);
+    void caltrops       (int x, int y);
+    void tripwire       (int x, int y);
+    void crossbow       (int x, int y);
+    void shotgun        (int x, int y);
+    void blade          (int x, int y);
+    void landmine       (int x, int y);
+    void telepad        (int x, int y);
+    void goo            (int x, int y);
+    void dissector      (int x, int y);
+    void sinkhole       (int x, int y);
+    void pit            (int x, int y);
+    void pit_spikes     (int x, int y);
+    void lava           (int x, int y);
+    void portal         (int x, int y);
+    void ledge          (int x, int y);
+    void boobytrap      (int x, int y);
+    void temple_flood   (int x, int y);
+    void temple_toggle  (int x, int y);
+    void glow           (int x, int y);
+    void hum            (int x, int y);
+    void shadow         (int x, int y);
+    void drain          (int x, int y);
+    void snake          (int x, int y);
 };
 
 struct trapfuncm {
-    void none           (game *,  monster *,  int ,  int ) {};
-    void bubble         (game *g, monster *z, int x, int y);
-    void cot            (game *g, monster *z, int x, int y);
-    void beartrap       (game *g, monster *z, int x, int y);
-    void board          (game *g, monster *z, int x, int y);
-    void caltrops       (game *g, monster *z, int x, int y);
-    void tripwire       (game *g, monster *z, int x, int y);
-    void crossbow       (game *g, monster *z, int x, int y);
-    void shotgun        (game *g, monster *z, int x, int y);
-    void blade          (game *g, monster *z, int x, int y);
-    void snare_light    (game *g, monster *z, int x, int y);
-    void snare_heavy    (game *g, monster *z, int x, int y);
-    void landmine       (game *g, monster *z, int x, int y);
-    void telepad        (game *g, monster *z, int x, int y);
-    void goo            (game *g, monster *z, int x, int y);
-    void dissector      (game *g, monster *z, int x, int y);
-    void sinkhole       (game *g, monster *z, int x, int y);
-    void pit            (game *g, monster *z, int x, int y);
-    void pit_spikes     (game *g, monster *z, int x, int y);
-    void lava           (game *g, monster *z, int x, int y);
-    void portal         (game *g, monster *z, int x, int y);
-    void ledge          (game *g, monster *z, int x, int y);
-    void boobytrap      (game *g, monster *z, int x, int y);
-    void glow           (game *g, monster *z, int x, int y);
-    void hum            (game *g, monster *z, int x, int y);
-    void drain          (game *g, monster *z, int x, int y);
-    void snake          (game *g, monster *z, int x, int y);
+    void none           (monster *,  int ,  int ) {};
+    void bubble         (monster *z, int x, int y);
+    void cot            (monster *z, int x, int y);
+    void beartrap       (monster *z, int x, int y);
+    void board          (monster *z, int x, int y);
+    void caltrops       (monster *z, int x, int y);
+    void tripwire       (monster *z, int x, int y);
+    void crossbow       (monster *z, int x, int y);
+    void shotgun        (monster *z, int x, int y);
+    void blade          (monster *z, int x, int y);
+    void snare_light    (monster *z, int x, int y);
+    void snare_heavy    (monster *z, int x, int y);
+    void landmine       (monster *z, int x, int y);
+    void telepad        (monster *z, int x, int y);
+    void goo            (monster *z, int x, int y);
+    void dissector      (monster *z, int x, int y);
+    void sinkhole       (monster *z, int x, int y);
+    void pit            (monster *z, int x, int y);
+    void pit_spikes     (monster *z, int x, int y);
+    void lava           (monster *z, int x, int y);
+    void portal         (monster *z, int x, int y);
+    void ledge          (monster *z, int x, int y);
+    void boobytrap      (monster *z, int x, int y);
+    void glow           (monster *z, int x, int y);
+    void hum            (monster *z, int x, int y);
+    void drain          (monster *z, int x, int y);
+    void snake          (monster *z, int x, int y);
 };
 
 struct trap {
@@ -130,9 +128,9 @@ struct trap {
  std::vector<itype_id> components; // For disassembly?
 
 // You stepped on it
- void (trapfunc::*act)(game *, int x, int y);
+ void (trapfunc::*act)(int x, int y);
 // Monster stepped on it
- void (trapfuncm::*actm)(game *, monster *, int x, int y);
+ void (trapfuncm::*actm)(monster *, int x, int y);
 // Type of trap
  bool is_benign();
  bool benign;
@@ -147,10 +145,10 @@ struct trap {
 
     trap(int pid, std::string /*string_id*/, std::string pname, nc_color pcolor,
             char psym, int pvisibility, int pavoidance, int pdifficulty,
-            void (trapfunc::*pact)(game *, int x, int y),
-            void (trapfuncm::*pactm)(game *, monster *, int x, int y),
+            void (trapfunc::*pact)(int x, int y),
+            void (trapfuncm::*pactm)(monster *, int x, int y),
             std::vector<std::string> keys) {
-        //string_id is ignored at the moment, will later replace the id 
+        //string_id is ignored at the moment, will later replace the id
         id = pid;
         sym = psym;
         color = pcolor;
