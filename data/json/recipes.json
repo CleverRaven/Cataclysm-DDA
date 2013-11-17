@@ -824,7 +824,7 @@
 },{
         "type" : "recipe",
   "result": "javelin_iron",
-  "category": "CC_MISC",
+  "category": "CC_WEAPON",
   "skill_used": "fabrication",
   "skills_required": [ "traps", 1 ],
   "difficulty": 2,
