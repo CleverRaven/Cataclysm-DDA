@@ -1857,6 +1857,10 @@ bool game::handle_action()
         act = ACTION_MOVE_S;
     } else if (ch == KEY_LEFT) {
         act = ACTION_MOVE_W;
+    } else if (ch == KEY_NPAGE) {
+        act = ACTION_MOVE_DOWN;
+    } else if (ch == KEY_PPAGE) {
+        act = ACTION_MOVE_UP;
     } else {
         if (keymap.find(ch) == keymap.end()) {
             if (ch != ' ' && ch != '\n') {
