@@ -2159,7 +2159,7 @@ bool item::reload(player &u, char ammo_invlet)
 
  // also check if wielding ammo
  if (ammo_to_use->is_null()) {
-     if (u.is_armed() && u.weapon.is_ammo() and u.weapon.invlet == ammo_invlet)
+     if (u.is_armed() && u.weapon.is_ammo() && u.weapon.invlet == ammo_invlet)
          ammo_to_use = &u.weapon;
  }
 
