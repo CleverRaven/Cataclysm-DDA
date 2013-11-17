@@ -74,6 +74,7 @@ class iuse
   int directional_antenna (game *g, player *p, item *it, bool t);
   int radio_off        (game *g, player *p, item *it, bool t);
   int radio_on         (game *g, player *p, item *it, bool t);
+  int batterycharger   (game *g, player *p, item *it, bool t);
   int horn_bicycle     (game *g, player *p, item *it, bool t);
   int noise_emitter_off(game *g, player *p, item *it, bool t);
   int noise_emitter_on (game *g, player *p, item *it, bool t);

@@ -5983,6 +5983,43 @@ int iuse::hotplate(game *g, player *p, item *it, bool t)
   return 0;
 }
 
+int iuse::batterycharger(game *g, player *p, item *it, bool t)
+{ // TODO: Rubber gloves negate electrocution. Electrocuting yourself from stupid or low dex.
+  // Wiring it wrong and shortcircuiting the battery, removing all its charge.
+  // Check for a battery at that location.
+  int dirx, diry;
+  g->choose_adjacent(_("Charge from what vehicle?"), dirx, diry);
+  vehicle* veh = g->m.veh_at(dirx, diry);
+  if (!veh) {
+    g->add_msg_if_player(p, "You can't charge from there!");
+    return 0;
+  }
+  if (veh->fuel_left("battery", true) > 10) {
+      if (it->charges < 100) {
+        int chargeamount = ((it->charges + 5) > 100) ? 100 : (it->charges + 5);
+
+        g->add_msg_if_player(p, "You start to charge your %s.", it->type->name.c_str());
+
+        ammotype ftype = "battery";
+        veh->drain(ftype, 1000);
+
+        // Insert chance to electrocute or short circuit here.
+        // Check for rubber gloves.
+        it->charges = chargeamount;
+        g->u.moves -= 1000;
+        return 0;
+      }
+      else {
+        g->add_msg_if_player(p, "Your %s is already fully charged!", it->type->name.c_str());
+      }
+  }
+  else {
+    g->add_msg_if_player(p, "The %s has no power left!", veh->name.c_str());
+  }
+  return 0;
+}
+
+
 int iuse::dejar(game *g, player *p, item *it, bool t)
 {
     if( (it->type->id).substr(0,4) == "jar_" ) {

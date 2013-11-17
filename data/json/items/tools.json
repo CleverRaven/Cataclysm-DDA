@@ -4107,6 +4107,30 @@
   },
 
   {
+    "id": "battery_charger",
+    "type": "TOOL",
+    "symbol": "[",
+    "color": "yellow",
+    "name": "battery charger",
+    "description": "A device that can charge batteries from an electric power source. It can recharge batteries from car power supplies but the slow current means it'll take some time.",
+    "price": 50,
+    "material": ["plastic", "iron"],
+    "weight": 500,
+    "volume": 4,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 100,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "BATTERY_CHARGER"
+  },
+
+
+  {
     "id": "pockknife",
     "type": "TOOL",
     "symbol": ";",
