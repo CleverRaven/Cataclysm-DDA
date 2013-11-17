@@ -140,9 +140,9 @@
     {
         "type": "profession",
         "ident": "maid",
-        "name": "Maid",
+        "name": "Knife-throwing Maid",
         "description": "You were a maid for a wealthy lady. When the apocalypse broke out, she disappeared mysteriously, leaving a note reading \"Zombies causing a ruckus downtown, can't sleep. Don't come back until you've killed them all\"",
-        "points": 6,
+        "points": 5,
         "skills": [
             {
                 "level": 3,
