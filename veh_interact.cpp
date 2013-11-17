@@ -395,8 +395,20 @@ void veh_interact::do_repair(task_reason reason)
     switch (reason)
     {
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("There are no damaged parts here."));
-        wrefresh (w_msg);
+        if(mostDamagedPart != -1)
+        {
+            int p = mostDamagedPart; // for convenience
+
+            int xOffset = veh->parts[p].mount_dy + ddy;
+            int yOffset = -(veh->parts[p].mount_dx + ddx);
+
+            move_cursor(xOffset, yOffset);
+        }
+        else
+        {
+            mvwprintz(w_msg, 0, 1, c_ltred, _("There are no damaged parts on this vehicle."));
+            wrefresh (w_msg);
+        }
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
