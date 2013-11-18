@@ -543,6 +543,7 @@
       ["blanket", 20],
       ["house_coat", 25],
       ["talking_doll", 65],
+      ["creepy_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
       ["pocketwatch", 5],
@@ -1634,7 +1635,8 @@
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
       ["flyer", 10],
-      ["talking_doll", 60]
+      ["talking_doll", 60],
+      ["creepy_doll", 1]
     ]
     },{
         "type" : "item_group",
