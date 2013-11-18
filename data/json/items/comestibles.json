@@ -8658,7 +8658,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "barrel_malt_whiskey",
+        "id" : "single_malt_whiskey",
         "name" : "single malt whiskey",
         "weight" : 33,
         "color" : "brown",

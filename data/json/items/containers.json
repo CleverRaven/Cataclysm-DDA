@@ -305,7 +305,7 @@
         "material": "paper"
     },
     {
-        "id": "barrel_whiskey",
+        "id": "wooden_barrel",
         "type": "CONTAINER",
         "symbol": ")",
         "color": "brown",
