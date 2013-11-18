@@ -2717,7 +2717,7 @@ void game::load(std::string worldname, std::string name)
  load_master(worldname);
  update_map(u.posx, u.posy);
  set_adjacent_overmaps(true);
- MAPBUFFER.save();
+ MAPBUFFER.set_dirty();
  draw();
 }
 
