@@ -277,7 +277,7 @@ HEADERS = $(wildcard $(SRC_DIR)/*.h)
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
-  _OBJS += $(RSRC:.rc=.o)
+  _OBJS += $(RSRC:$(SRC_DIR)/.rc=.o)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
