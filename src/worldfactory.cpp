@@ -799,7 +799,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         if (redraw_headers){
             for (int i = 0; i < headers.size(); ++i) {
                 werase(header_windows[i]);
-                const int header_x = (header_windows[i]->width - headers[i].size()) /2;
+                const int header_x = (getmaxx(header_windows[i]) - headers[i].size()) /2;
                 mvwprintz(header_windows[i], 0, header_x , c_cyan, headers[i].c_str());
 
                 if (active_header == i) {
@@ -835,23 +835,23 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             }
 
             if (selmod != NULL){
-                fold_and_print(w_description, 0, 0, w_description->width, c_white, mman_ui->get_information(selmod).c_str());
+                fold_and_print(w_description, 0, 0, getmaxx(w_description), c_white, mman_ui->get_information(selmod).c_str());
             }
             redraw_description = false;
             wrefresh(w_description);
         }
         if (redraw_list){
             werase(w_list);
-            calcStartPos(startsel[0], cursel[0], w_list->height, useable_mod_count);
+            calcStartPos(startsel[0], cursel[0], getmaxy(w_list), useable_mod_count);
 
             if (useable_mod_count == 0){
                 std::string error_output = "--NO AVAILABLE MODS--";
-                const int sLoc = (w_list->width - error_output.size())/2;
-                fold_and_print(w_list, 0, sLoc, w_list->width - sLoc, c_red, error_output.c_str());
+                const int sLoc = (getmaxx(w_list) - error_output.size())/2;
+                fold_and_print(w_list, 0, sLoc, getmaxx(w_list) - sLoc, c_red, error_output.c_str());
             }else{
                 std::stringstream list_output;
 
-                for (int i = startsel[0], c = 0; i < useable_mod_count && c < w_list->height; ++i, ++c){
+                for (int i = startsel[0], c = 0; i < useable_mod_count && c < getmaxy(w_list); ++i, ++c){
                     if (i != cursel[0]){
                         list_output << std::string(3, ' ');
                     }else{
@@ -864,25 +864,25 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                     }
                     list_output << mman->mods[mman->mod_map[mman_ui->usable_mods[i]]]->name << "\n";
                 }
-                fold_and_print(w_list, 0, 1, w_list->width-1, c_white, list_output.str().c_str());
+                fold_and_print(w_list, 0, 1, getmaxx(w_list)-1, c_white, list_output.str().c_str());
             }
-            draw_scrollbar(w_list, cursel[0], w_list->height, useable_mod_count, 0, 0);
+            draw_scrollbar(w_list, cursel[0], getmaxy(w_list), useable_mod_count, 0, 0);
 
             wrefresh(w_list);
         }
         if (redraw_active){
             werase(w_active);
             const int active_count = active_mod_order.size();
-            calcStartPos(startsel[1], cursel[1], w_active->height, active_count);
+            calcStartPos(startsel[1], cursel[1], getmaxy(w_active), active_count);
 
             if (active_count == 0){
                 std::string error_output = "--NO ACTIVE MODS--";
-                const int sLoc = (w_active->width - error_output.size())/2;
-                fold_and_print(w_active, 0, sLoc, w_active->width - sLoc, c_red, error_output.c_str());
+                const int sLoc = (getmaxx(w_active) - error_output.size())/2;
+                fold_and_print(w_active, 0, sLoc, getmaxx(w_active) - sLoc, c_red, error_output.c_str());
             }else{
                 std::stringstream list_output;
 
-                for (int i = startsel[1], c = 0; i < active_count && c < w_active->height; ++i, ++c){
+                for (int i = startsel[1], c = 0; i < active_count && c < getmaxy(w_active); ++i, ++c){
                     if (i != cursel[1]){
                         list_output << std::string(3, ' ');
                     }else{
@@ -895,10 +895,10 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                     }
                     list_output << mman->mods[mman->mod_map[active_mod_order[i]]]->name << "\n";
                 }
-                fold_and_print(w_active, 0, 1, w_active->width-1, c_white, list_output.str().c_str());
+                fold_and_print(w_active, 0, 1, getmaxx(w_active)-1, c_white, list_output.str().c_str());
             }
 
-            draw_scrollbar(w_active, cursel[1], w_active->height, active_count, 0, 0);
+            draw_scrollbar(w_active, cursel[1], getmaxy(w_active), active_count, 0, 0);
 
             wrefresh(w_active);
         }
@@ -907,7 +907,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if (active_header == 1){
                 std::stringstream shift_display;
                 // get shift information for whatever is visible in the active list
-                for (int i = startsel[1], c = 0; i < active_mod_order.size() && c < w_active->height; ++i, ++c){
+                for (int i = startsel[1], c = 0; i < active_mod_order.size() && c < getmaxy(w_active); ++i, ++c){
                     if (mman_ui->can_shift_up(i, active_mod_order)){
                         shift_display << "<color_blue>+</color> ";
                     }else{
@@ -920,7 +920,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                     }
                     shift_display<<"\n";
                 }
-                fold_and_print(w_shift, 2, 1, w_shift->width, c_white, shift_display.str().c_str());
+                fold_and_print(w_shift, 2, 1, getmaxx(w_shift), c_white, shift_display.str().c_str());
             }
             redraw_shift = false;
             wrefresh(w_shift);
