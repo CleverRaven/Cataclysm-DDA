@@ -139,7 +139,7 @@ void mapbuffer::save()
  for(int j = 0; j < SEEY; j++){
      for(int i = 0; i < SEEX; i++){
          // Save terrains
-         terout << int(sm->ter[i][j]) << " " << std::endl;
+         terout << int(sm->ter[i][j]) << " ";
 
          // Save radiation, re-examine this because it doesnt look like it works right
          int r = sm->rad[i][j];
@@ -195,6 +195,7 @@ void mapbuffer::save()
             graffout << "G " << i << " " << j << *sm->graf[i][j].contents << std::endl;
          }
      }
+     terout << std::endl;
  }
  radout << count << std::endl;
 
