@@ -4,7 +4,7 @@
 #include "dependency_tree.h"
 #include "json.h"
 
-#include "catacurse.h"
+#include "cursesdef.h"
 #include <string>
 #include <vector>
 #include <map>
