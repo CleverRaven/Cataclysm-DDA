@@ -942,7 +942,7 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
             mvwprintz(w_items, 1 + i, 0, c_ltgray, "                                        ");
             if (i < pipo.size()) {
                 // dirty
-                mvwprintz(w_items, 1 + i , 0, c_ltgray, g->itypes[pipo[i]]->name.c_str());
+                mvwprintz(w_items, 1 + i , 0, c_ltgray, itypes[pipo[i]]->name.c_str());
             }
         }
         profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
