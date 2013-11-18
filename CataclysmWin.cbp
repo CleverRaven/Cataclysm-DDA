@@ -368,6 +368,8 @@
 		<Unit filename="setvector.h" />
 		<Unit filename="skill.cpp" />
 		<Unit filename="skill.h" />
+		<Unit filename="speech.cpp" />
+		<Unit filename="speech.h" />
 		<Unit filename="text_snippets.cpp" />
 		<Unit filename="text_snippets.h" />
 		<Unit filename="tile_id_data.h" />
