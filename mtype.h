@@ -240,6 +240,7 @@ struct mtype {
     bool has_placate_trigger(monster_trigger trigger) const;
     bool in_category(std::string category) const;
     bool in_species(std::string _species) const;
+    bool friends_with(mtype *type) const;
 };
 
 #endif

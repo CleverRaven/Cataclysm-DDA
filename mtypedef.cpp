@@ -3,6 +3,7 @@
 #include "monattack.h"
 #include "itype.h"
 #include "setvector.h"
+#include "monstergenerator.h"
 
 mtype::mtype () {
     id = "mon_null";
@@ -55,4 +56,8 @@ bool mtype::in_category(std::string category) const {
 
 bool mtype::in_species(std::string spec) const {
     return (species.find(spec) != species.end());
+}
+
+bool mtype::friends_with(mtype *type) const {
+    return MonsterGenerator::generator().is_friendly_with(this, type);
 }

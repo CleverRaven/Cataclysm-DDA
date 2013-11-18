@@ -767,7 +767,7 @@ void monster::die(game *g)
   int light = g->light_level();
   for (int i = 0; i < g->num_zombies(); i++) {
    int t = 0;
-   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
+   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t) && type->friends_with((g->zombie(i).type))) {
     g->zombie(i).morale += morale_adjust;
     g->zombie(i).anger += anger_adjust;
    }
