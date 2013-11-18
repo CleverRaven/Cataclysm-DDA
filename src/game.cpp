@@ -10685,12 +10685,18 @@ void game::plmove(int dx, int dy)
             counts.push_back(1);
             for (int i = 1; i < m.i_at(x, y).size(); i++) {
                 std::string next = m.i_at(x, y)[i].tname(this);
-                if (next == names.back()) {
-                    counts.back() += 1;
-                    continue;
+                bool got_it = false;
+                for (int i = 0; i < names.size(); ++i) {
+                    if (next == names[i]) {
+                        counts[i] += 1;
+                        got_it = true;
+                        break;
+                    }
                 }
-                names.push_back(next);
-                counts.push_back(1);
+                if (!got_it) {
+                    names.push_back(next);
+                    counts.push_back(1);
+                }
                 if (names.size() > 3) {
                     break;
                 }
