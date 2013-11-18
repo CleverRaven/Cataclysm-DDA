@@ -86,7 +86,7 @@ enum MULTITILE_TYPE
 };
 
 /** Typedefs */
-typedef std::map<int, SDL_Rect*> tile_map;
+typedef std::map<int, SDL_Surface*> tile_map;
 typedef std::map<std::string, tile_type*> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
@@ -141,7 +141,6 @@ class cata_tiles
         /* After loading tileset, create additional cache for rotating each tile assuming it is used for rotations */
         void create_rotation_cache();
         /** Draw to screen */
-        void draw(); /* Deprecated */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
 
         /** How many rows and columns of tiles fit into given dimensions **/
@@ -174,7 +173,6 @@ class cata_tiles
         bool draw_furniture(int x, int y);
         bool draw_trap(int x, int y);
         bool draw_field_or_item(int x, int y);
-        bool draw_item(int x, int y);
         bool draw_vpart(int x, int y);
         bool draw_entity(int x, int y);
 
@@ -278,6 +276,7 @@ class cata_tiles
 
     protected:
     private:
+        void create_default_item_highlight();
         int
             sightrange_natural,
             sightrange_light,
