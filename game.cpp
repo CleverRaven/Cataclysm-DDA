@@ -104,56 +104,25 @@ void game::init_data()
  try {
  if(!picojson::get_last_error().empty())
   throw (std::string)"Failed to initialize a static variable";
+    // Removed initializers that rely on json specific information as they are getting initialized inside load_world_modfiles.
+    // Has the side effect of making the game startup almost instantly, but is a little slower when loading up a world.
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
-    DebugLog() << ".";
-//    load_json_dir("data/json"); // load it, load it all!
-    init_npctalk();DebugLog() << ".";
-    init_artifacts();DebugLog() << ".";
-    init_weather();DebugLog() << ".";
-    init_fields();DebugLog() << ".";
-    init_faction_data();DebugLog() << ".";
-    init_morale();DebugLog() << ".";
-//    init_itypes();               // Set up item types                (SEE itypedef.cpp)
-//    item_controller->init_old(); //Item manager
-    init_monitems();DebugLog() << ".";             // Set up the items monsters carry  (SEE monitemsdef.cpp)
-    init_traps();DebugLog() << ".";                // Set up the trap types            (SEE trapdef.cpp)
-//    init_missions();DebugLog() << ".";             // Set up mission templates         (SEE missiondef.cpp)
-//    init_construction();         // Set up constructables            (SEE construction.cpp)
-    init_autosave();DebugLog() << ".";             // Set up autosave
-    init_diseases();DebugLog() << ".";             // Set up disease lookup table
-    init_savedata_translation_tables();DebugLog() << ".";
-    inp_mngr.init();DebugLog() << ".";            // Load input config JSON
-
-/*
-    MonsterGenerator::generator().finalize_mtypes();
-    finalize_vehicles();
-    finalize_recipes();
-*/
+    init_npctalk();
+    init_artifacts();
+    init_weather();
+    init_fields();
+    init_faction_data();
+    init_morale();
+    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
+    init_traps();                // Set up the trap types            (SEE trapdef.cpp)
+    init_autosave();             // Set up autosave
+    init_diseases();             // Set up disease lookup table
+    init_savedata_translation_tables();
+    inp_mngr.init();            // Load input config JSON
  #ifdef LUA
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
  #endif
-/* old version stuff
-    init_data_structures(); // initialize cata data structures // safe
-//    load_json_dir("data/json"); // load it, load it all!
-    init_npctalk(); // safe
-    init_artifacts(); // safe
-    init_weather(); // safe
-    init_overmap(); // safe
-    init_fields(); // safe
-    init_faction_data(); // safe
-    init_morale(); // safe
-//    init_itypes();               // Set up item types                (SEE itypedef.cpp) // not safe?
-//    item_controller->init(this); //Item manager                                         // presumably safe?
-    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp) // safe
-    init_traps();                // Set up the trap types            (SEE trapdef.cpp) // safe
-    init_missions();             // Set up mission templates         (SEE missiondef.cpp) // presumably safe?
-//    init_construction();         // Set up constructables            (SEE construction.cpp) // presumably safe?
-    init_autosave();             // Set up autosave                                         // safe
-    init_diseases();             // Set up disease lookup table                             // safe
-    init_savedata_translation_tables(); // safe
-    inp_mngr.init();            // Load input config JSON // safe
-*/
  } catch(std::string &error_message)
  {
      uquit = QUIT_ERROR;
@@ -183,6 +152,7 @@ game::~game()
 
  release_traps();
  release_data_structures();
+ unload_active_json_data();
 }
 
 // Fixed window sizes
