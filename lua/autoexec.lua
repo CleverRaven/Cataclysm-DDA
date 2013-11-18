@@ -1,4 +1,4 @@
-dofile("catalua/class_definitions.lua")
+dofile("lua/class_definitions.lua")
 
 function generate_metatable(name, class)
     return {
