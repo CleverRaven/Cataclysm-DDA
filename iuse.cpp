@@ -484,6 +484,7 @@ static hp_part use_healing_item(game *g, player *p, item *it, int normal_power, 
 int iuse::bandage(game *g, player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(g, p, it, 3, 1, 4, it->name, 90, 0, 0, false) ) {
+        p->moves -= 100;
         return it->type->charges_to_use();
     }
     return 0;
@@ -492,6 +493,7 @@ int iuse::bandage(game *g, player *p, item *it, bool t)
 int iuse::firstaid(game *g, player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(g, p, it, 14, 10, 18, it->name, 95, 99, 95, false) ) {
+        p->moves -= 400;
         pkill(g, p, it, t);
         return it->type->charges_to_use();
     }
@@ -501,6 +503,7 @@ int iuse::firstaid(game *g, player *p, item *it, bool t)
 int iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(g, p, it, 6, 5, 9, it->name, 0, 95, 0, false) ) {
+        p->moves -= 50;
         return it->type->charges_to_use();
     }
     return 0;
@@ -5461,6 +5464,7 @@ int iuse::rag(game *g, player *p, item *it, bool t)
 {
     if (p->has_disease("bleed")){
         if (use_healing_item(g, p, it, 0, 0, 0, it->name, 50, 0, 0, false) != num_hp_parts) {
+            p->moves -= 100;
             p->use_charges("rag", 1);
             it->make(itypes["rag_bloody"]);
         }
