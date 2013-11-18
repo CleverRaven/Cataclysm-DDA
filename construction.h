@@ -68,6 +68,8 @@ struct construct // Construction functions.
  bool able_move(game *, point); // Able on furniture
 
  bool able_deconstruct(game *, point);
+ 
+ bool construct::able_rock(game *g, point p) { return (g->m.ter(p.x, p.y) == t_rock); } ?w=1
 
 // Does anything special happen when we're finished?
  void done_nothing(game *, point) { }
