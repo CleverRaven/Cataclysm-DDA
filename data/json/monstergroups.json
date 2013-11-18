@@ -63,7 +63,7 @@
 	  { "monster" : "mon_fox_gray", "freq" : 1, "cost_multiplier" : 0, "ends" : 2160                                  },
 	  { "monster" : "mon_fox_gray", "freq" : 2, "cost_multiplier" : 0, "ends" : 2160, "conditions" : ["DAWN", "DUSK"] },
 	  
-      { "monster" : "mon_fox_red", "freq" : 1, "cost_multiplier" : 0,                                                },
+      { "monster" : "mon_fox_red", "freq" : 1, "cost_multiplier" : 0                                                 },
 	  { "monster" : "mon_fox_red", "freq" : 2, "cost_multiplier" : 0,                "conditions" : ["DAWN", "DUSK"] },
 	  { "monster" : "mon_fox_red", "freq" : 1, "cost_multiplier" : 0, "ends" :   72                                  },
 	  { "monster" : "mon_fox_red", "freq" : 2, "cost_multiplier" : 0, "ends" :   72, "conditions" : ["DAWN", "DUSK"] },
