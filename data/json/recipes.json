@@ -15257,7 +15257,7 @@
     [ ["fire", -1]  ] ],
   "components": [ [ ["meat_tainted", 12] ],
     [ ["vodka", 2] ],
-    [ ["whiskey", 2], [ "single_malt_whiskey" 2 ] ],
+    [ ["whiskey", 2], [ "single_malt_whiskey", 2 ] ],
     [ ["rum", 2] ] ]
 },{
         "type" : "recipe",
@@ -19334,3 +19334,4 @@
     ]
   ]
 }
+]
