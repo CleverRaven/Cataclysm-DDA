@@ -426,20 +426,22 @@ void draw_tabs(WINDOW *w, std::string sTab)
             mvwputch(w, i, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_XOXO);
         }
     }
-
-    int tab_pos[6];
+    std::vector<std::string> tab_captions;
+    tab_captions.push_back(_("STATS"));
+    tab_captions.push_back(_("TRAITS"));
+    tab_captions.push_back(_("PROFESSION"));
+    tab_captions.push_back(_("SKILLS"));
+    tab_captions.push_back(_("DESCRIPTION"));
+    int tab_pos[6];   //this is actually tab_captions.size() + 1
     tab_pos[0] = 2;
-    tab_pos[1] = tab_pos[0] + utf8_width(_("STATS"));
-    tab_pos[2] = tab_pos[1] + utf8_width(_("TRAITS"));
-    tab_pos[3] = tab_pos[2] + utf8_width(_("PROFESSION"));
-    tab_pos[4] = tab_pos[3] + utf8_width(_("SKILLS"));
-    tab_pos[5] = tab_pos[4] + utf8_width(_("DESCRIPTION"));
+    for (int pos = 1; pos < 6; pos++) {
+        tab_pos[pos] = tab_pos[pos-1] + utf8_width(tab_captions[pos-1].c_str());
+    }
     int space = (FULL_SCREEN_WIDTH - tab_pos[5]) / 4 - 3;
-    draw_tab(w, tab_pos[0], _("STATS"), (sTab == "STATS"));
-    draw_tab(w, tab_pos[1] + space, _("TRAITS"), (sTab == "TRAITS"));
-    draw_tab(w, tab_pos[2] + space * 2, _("PROFESSION"), (sTab == "PROFESSION"));
-    draw_tab(w, tab_pos[3] + space * 3, _("SKILLS"), (sTab == "SKILLS"));
-    draw_tab(w, tab_pos[4] + space * 4, _("DESCRIPTION"), (sTab == "DESCRIPTION"));
+    for (size_t i = 0; i < tab_captions.size(); i++) {
+        draw_tab(w, tab_pos[i] + space * i, tab_captions[i].c_str(), (sTab == tab_captions[i]));
+    }
+    tab_captions.~vector();
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
     mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_OOXX); // ^|
