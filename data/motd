@@ -1,14 +1,14 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 68 characters; the following line is for reference
 ####################################################################
-Major features v0.8 Romero:
-* Tiles!
-* Optional huge cities packed with zombies!
-* Player memorial file.
-* Save compatability moving forward.
-* Russian and Chinese translations.
-* Farming.
-* Shopping carts.
+Major features v0.9 Ma:
+* World Factory: Multiple worlds managed at once.
+* New mutation categories.
+* TsuTiles.
+* Basic mouse support in SDL builds.
+* Vehicle constructon system rework.
+* Backward compatability with 0.8 saves.
+* Unbelievable amount of new content.
 
 For latest discussions and news on Cataclysm DDA, please visit:
 Homepage: http://www.cataclysmdda.com/

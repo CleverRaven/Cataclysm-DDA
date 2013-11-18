@@ -58,7 +58,7 @@ void mattack::antqueen(game *g, monster *z)
  } else if (egg_points.size() == 0) { // There's no eggs nearby--lay one.
   if (g->u_see(z->posx(), z->posy()))
    g->add_msg(_("The %s lays an egg!"), z->name().c_str());
-  g->m.spawn_item(z->posx(), z->posy(), "ant_egg", g->turn);
+  g->m.spawn_item(z->posx(), z->posy(), "ant_egg", 1, 0, g->turn);
  } else { // There are eggs nearby.  Let's hatch some.
   z->moves -= 20 * egg_points.size(); // It takes a while
   if (g->u_see(z->posx(), z->posy()))
@@ -693,7 +693,7 @@ void mattack::fungus(game *g, monster *z)
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
                     }
-                    if (!g->zombie(mondex).make_fungus(g)) {
+                    if (!g->zombie(mondex).make_fungus()) {
                         g->kill_mon(mondex, (z->friendly != 0));
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
@@ -901,7 +901,8 @@ void mattack::plant(game *g, monster *z)
 
 void mattack::disappear(game *g, monster *z)
 {
- z->hp = 0;
+    (void)g; //unused
+    z->hp = 0;
 }
 
 void mattack::formblob(game *g, monster *z)
@@ -1351,8 +1352,8 @@ void mattack::smg(game *g, monster *z)
   tmp.str_cur = 16;
   tmp.dex_cur = 8;
   tmp.per_cur = 12;
-  tmp.weapon = item(g->itypes["smg_9mm"], 0);
-  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
+  tmp.weapon = item(itypes["smg_9mm"], 0);
+  tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
   tmp.weapon.charges = 10;
   std::vector<point> traj = line_to(z->posx(), z->posy(),
                                     target->posx(), target->posy(), fire_t);
@@ -1390,8 +1391,8 @@ void mattack::smg(game *g, monster *z)
   tmp.str_cur = 16;
   tmp.dex_cur = 8;
   tmp.per_cur = 12;
- tmp.weapon = item(g->itypes["smg_9mm"], 0);
- tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
+ tmp.weapon = item(itypes["smg_9mm"], 0);
+ tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
  tmp.weapon.charges = 10;
  std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
  g->fire(tmp, g->u.posx, g->u.posy, traj, true);

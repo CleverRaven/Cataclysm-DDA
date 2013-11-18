@@ -324,7 +324,7 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
             area.max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
             area.max_volume = area.veh->max_volume(area.vstor);
         } else {
-            area.canputitems=(!(g->m.has_flag("NOITEM",u.posx+area.offx,u.posy+area.offy)) && !(g->m.has_flag("SEALED",u.posx+area.offx,u.posy+area.offy) ));
+            area.canputitems = g->m.can_put_items(u.posx+area.offx, u.posy+area.offy);
             area.size = g->m.i_at(u.posx+area.offx,u.posy+area.offy).size();
             area.max_size = MAX_ITEM_IN_SQUARE;
             area.max_volume = g->m.max_volume(u.posx+area.offx,u.posy+area.offy);
@@ -469,7 +469,7 @@ void advanced_inventory::recalc_pane(int i)
 
     if(panes[i].area == isinventory) {
        const invslice & stacks = u.inv.slice(0, u.inv.size());
-        for( int x = 0; x < stacks.size(); ++x ) {
+        for (unsigned x = 0; x < stacks.size(); ++x ) {
             item &item = stacks[x]->front();
             advanced_inv_listitem it;
             it.name = item.tname(g);
@@ -525,7 +525,7 @@ void advanced_inventory::recalc_pane(int i)
                 std::vector<item>& items = squares[s].vstor >= 0 ?
                                            squares[s].veh->parts[squares[s].vstor].items :
                                            m.i_at(squares[s].x , squares[s].y );
-                for(int x = 0; x < items.size() ; x++) {
+                for (unsigned x = 0; x < items.size(); x++) {
                     advanced_inv_listitem it;
                     it.idx = x;
                     it.name = items[x].tname(g);

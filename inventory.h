@@ -2,6 +2,8 @@
 #define _INVENTORY_H_
 
 #include "item.h"
+#include "artifact.h"
+
 #include <string>
 #include <vector>
 #include <list>
@@ -39,6 +41,7 @@ class inventory
 
   inventory filter_by_activation(player& u);
   inventory filter_by_category(item_cat cat, const player& u) const;
+  inventory filter_by_capacity_for_liquid(const item &liquid) const;
 
   void unsort(); // flags the inventory as unsorted
   void sort();

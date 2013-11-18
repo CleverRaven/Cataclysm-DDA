@@ -282,9 +282,6 @@
     <ClCompile Include="..\sdltiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\settlement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\setvector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -360,6 +357,9 @@
     <ClCompile Include="..\savegame_legacy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\live_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\translations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -367,6 +367,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\catalua.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -381,9 +384,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\artifact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\artifactdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\auto_pickup.h">
@@ -605,9 +605,6 @@
     <ClInclude Include="..\SDLMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\settlement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\setvector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -683,13 +680,16 @@
     <ClInclude Include="..\savegame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\input_defs.h">
+    <ClInclude Include="..\live_view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\char_validity_check.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\worldfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\catalua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -49,8 +49,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     // +-------------------------+
     int winw1 = 12;
     int winw2 = 35;
-    int winh1 = 3;
-    int winh2 = 13;
+    int winh1 = 4;
+    int winh2 = 12;
     int winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 4;
     int winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
     int winx1 = winw1;
@@ -118,8 +118,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     crafting_inv = g->crafting_inventory(&g->u);
 
-    int charges = static_cast<it_tool *>(g->itypes["welder"])->charges_per_use;
-    int charges_crude = static_cast<it_tool *>(g->itypes["welder_crude"])->charges_per_use;
+    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
         crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
@@ -130,6 +130,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                 (crafting_inv.has_amount("toolset", 1) &&
                  crafting_inv.has_charges("toolset", charges/20));
+    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
     has_jack = crafting_inv.has_amount("jack", 1);
     has_siphon = crafting_inv.has_amount("hose", 1);
 
@@ -211,16 +212,17 @@ task_reason veh_interact::cant_do (char mode)
     bool has_tools = false;
     bool part_free = true;
     bool has_skill = true;
+    bool can_remove_wheel = has_wrench && has_jack && wheel;
 
     switch (mode)
     {
     case 'i': // install mode
         valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
-        has_tools = has_wrench && has_welder;
+        has_tools = has_wrench && (has_welder || has_duct_tape);
         break;
     case 'r': // repair mode
         valid_target = need_repair.size() > 0 && cpart >= 0;
-        has_tools = has_welder;
+        has_tools = has_welder || has_duct_tape;
         break;
     case 'f': // refill mode
         valid_target = (ptank != NULL && ptank->hp > 0);
@@ -228,9 +230,9 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'o': // remove mode
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
-        has_tools = has_wrench && has_hacksaw;
+        has_tools = (has_wrench && has_hacksaw) || can_remove_wheel;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
-        has_skill = g->u.skillLevel("mechanics") >= 2;
+        has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
         break;
     case 's': // siphon mode
         valid_target = veh->fuel_left("gasoline") > 0;
@@ -286,9 +288,10 @@ void veh_interact::do_install(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>powered welder</color> to install parts."),
+                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder</color> or <color_%3$s>duct tape</color> to install parts."),
                        has_wrench ? "ltgreen" : "red",
-                       has_welder ? "ltgreen" : "red");
+                       has_welder ? "ltgreen" : "red",
+                       has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
     }
@@ -312,7 +315,7 @@ void veh_interact::do_install(task_reason reason)
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
-        bool has_tools = has_welder && has_wrench;
+        bool has_tools = (has_welder || has_duct_tape) && has_wrench;
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         std::string engine_string = "";
@@ -324,11 +327,12 @@ void veh_interact::do_install(task_reason reason)
         }
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, a <color_%4$s>powered_welder</color>, and level <color_%5$s>%6$d</color> skill in mechanics.%7$s"),
+                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
                        has_comps ? "ltgreen" : "red",
-                       g->itypes[itm]->name.c_str(),
+                       itypes[itm]->name.c_str(),
                        has_wrench ? "ltgreen" : "red",
                        has_welder ? "ltgreen" : "red",
+                       has_duct_tape ? "ltgreen" : "red",
                        has_skill ? "ltgreen" : "red",
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
@@ -389,8 +393,9 @@ void veh_interact::do_repair(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
-                       _("You need a <color_%s>powered welder</color> to repair."),
-                       has_welder ? "ltgreen" : "red");
+                       _("You need a <color_%1$s>powered welder</color> or <color_%2$s>duct tape</color> to repair."),
+                       has_welder ? "ltgreen" : "red",
+                       has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
     }
@@ -419,13 +424,13 @@ void veh_interact::do_repair(task_reason reason)
                            _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
                            has_wrench ? "ltgreen" : "red",
                            has_comps ? "ltgreen" : "red",
-                           g->itypes[itm]->name.c_str());
+                           itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && 
+        if ((ch == '\n' || ch == ' ') &&
                 has_comps &&
                 (sel_vehicle_part->hp > 0 || has_wrench) && has_skill)
         {
@@ -499,6 +504,8 @@ void veh_interact::do_remove(task_reason reason)
         wrefresh (w_msg);
         return;
     }
+    bool can_hacksaw = has_wrench && has_hacksaw &&
+                       g->u.skillLevel("mechanics") >= 2;
     switch (reason)
     {
     case INVALID_TARGET:
@@ -512,7 +519,7 @@ void veh_interact::do_remove(task_reason reason)
                        has_hacksaw ? "ltgreen" : "red");
         if(wheel) {
             fold_and_print(w_msg, 1, 1, msg_width-2, c_ltgray,
-                           _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
+                           _("To remove a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
                            has_wrench ? "ltgreen" : "red",
                            has_jack ? "ltgreen" : "red");
         }
@@ -535,6 +542,8 @@ void veh_interact::do_remove(task_reason reason)
     while (true)
     {
         sel_vehicle_part = &veh->parts[parts_here[pos]];
+        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
@@ -543,9 +552,18 @@ void veh_interact::do_remove(task_reason reason)
         get_direction (dx, dy, ch);
         if (ch == '\n' || ch == ' ')
         {
-            if(veh->can_unmount(parts_here[pos])) {
-                sel_cmd = 'o';
-                return;
+            if (veh->can_unmount(parts_here[pos])) {
+                if (can_hacksaw || is_wheel) {
+                    sel_cmd = 'o';
+                    return;
+                } else {
+                    fold_and_print(w_msg, 0, 1, msg_width-2, c_ltgray,
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw</color> to remove parts."),
+                                   has_wrench ? "ltgreen" : "red",
+                                   has_hacksaw ? "ltgreen" : "red");
+                    wrefresh (w_msg);
+                    return;
+                }
             } else {
                 mvwprintz(w_msg, 0, 1, c_ltred,
                   _("You cannot remove that part while something is attached to it."));
@@ -620,6 +638,7 @@ void veh_interact::do_tirechange(task_reason reason)
                        _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
                        has_wrench ? "ltgreen" : "red",
                        has_jack ? "ltgreen" : "red");
+        wrefresh (w_msg);
         return;
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:"));
@@ -701,6 +720,8 @@ void veh_interact::do_rename(task_reason reason)
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);
+        if (veh->tracking_on)
+            g->cur_om->vehicles[veh->om_id].name = name;
     }
     werase(w_stats);
     werase(w_grid);
@@ -1072,7 +1093,7 @@ item consume_vpart_item (game *g, std::string vpid)
         {
             g->u.inv.remove_item_by_letter(candidates[selection].invlet);
         }
-    } 
+    }
     else
     { //map.
         int x = candidates[selection].mapx;
@@ -1107,8 +1128,8 @@ void complete_vehicle (game *g)
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
     std::vector<component> tools;
-    int welder_charges = static_cast<it_tool *>(g->itypes["welder"])->charges_per_use;
-    int welder_crude_charges = static_cast<it_tool *>(g->itypes["welder_crude"])->charges_per_use;
+    int welder_charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int welder_crude_charges = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     int partnum;
     item used_item;
     bool broken;
@@ -1127,6 +1148,7 @@ void complete_vehicle (game *g)
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
+        tools.push_back(component("duct_tape", DUCT_TAPE_USED));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
 
@@ -1170,6 +1192,7 @@ void complete_vehicle (game *g)
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0)
         {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
             used_item = consume_vpart_item (g, veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(component("wrench", -1));
@@ -1180,6 +1203,7 @@ void complete_vehicle (game *g)
         }
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("welder_crude", welder_crude_charges));
+        tools.push_back(component("duct_tape", DUCT_TAPE_USED));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
@@ -1205,11 +1229,24 @@ void complete_vehicle (game *g)
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
             used_item = veh->item_from_part( vehicle_part );
+            // Transfer fuel back to tank
+            if (used_item.typeId() == "metal_tank")
+            {
+              ammotype desired_liquid = veh->part_info(vehicle_part).fuel_type;
+              item liquid( itypes[default_ammo(desired_liquid)], g->turn );
+
+              liquid.charges = veh->parts[vehicle_part].amount;
+              veh->parts[vehicle_part].amount = 0;
+
+              used_item.put_in(liquid);
+            }
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
             {
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
             }
+        } else {
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
         }
         if (veh->parts.size() < 2)
         {

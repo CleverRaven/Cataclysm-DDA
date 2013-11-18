@@ -26,6 +26,6 @@ void mission_end::deposit_box(game *g, mission *miss)
  std::string itemName = "deagle_44";
  if (one_in(4)) itemName = "katana";
  else if (one_in(3)) itemName = "m4a1";
- g->u.i_add( item(g->itypes[itemName], 0) );
+ g->u.i_add( item(itypes[itemName], 0) );
  g->add_msg(_("%s gave you an item from the deposit box."), p->name.c_str());
 }

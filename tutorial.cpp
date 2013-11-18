@@ -36,7 +36,7 @@ bool tutorial_game::init(game *g)
  g->cur_om->make_tutorial();
  g->cur_om->save();
  g->u.toggle_trait("QUICK");
- g->u.inv.push_back(item(g->itypes["lighter"], 0, 'e'));
+ g->u.inv.push_back(item(itypes["lighter"], 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
 // Init the starting map at g location.
@@ -166,7 +166,7 @@ void tutorial_game::post_action(game *g, action_id act)
   break;
 
  case ACTION_WEAR: {
-  itype *it = g->itypes[ g->u.last_item];
+  itype *it = itypes[ g->u.last_item];
   if (it->is_armor()) {
    it_armor *armor = dynamic_cast<it_armor*>(it);
    if (armor->coverage >= 2 || armor->thickness >= 2)
@@ -187,7 +187,7 @@ void tutorial_game::post_action(game *g, action_id act)
   add_message(g, LESSON_INTERACT);
 // Fall through to...
  case ACTION_PICKUP: {
-  itype *it = g->itypes[ g->u.last_item ];
+  itype *it = itypes[ g->u.last_item ];
   if (it->is_armor())
    add_message(g, LESSON_GOT_ARMOR);
   else if (it->is_gun())

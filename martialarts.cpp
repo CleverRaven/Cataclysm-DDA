@@ -327,8 +327,10 @@ int ma_buff::block_bonus(player& u) {
          u.int_cur*block_int +
          u.per_cur*block_per;
 }
-int ma_buff::speed_bonus(player& u) {
-  return speed;
+int ma_buff::speed_bonus(player& u)
+{
+    (void)u; //unused
+    return speed;
 }
 float ma_buff::bash_mult() {
   return bash_stat_mult;
@@ -353,6 +355,10 @@ bool ma_buff::is_throw_immune() {
 }
 bool ma_buff::is_quiet() {
   return quiet;
+}
+
+bool ma_buff::can_melee() {
+  return melee_allowed;
 }
 
 
@@ -586,6 +592,17 @@ bool player::is_quiet() {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
       if (ma_buffs[it->buff_id].is_quiet()) return true;
+    }
+  }
+  return false;
+}
+
+bool player::can_melee() {
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      if (ma_buffs[it->buff_id].can_melee()) return true;
     }
   }
   return false;

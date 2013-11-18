@@ -43,11 +43,11 @@ computer& computer::operator=(const computer &rhs)
     name = rhs.name;
     mission_id = rhs.mission_id;
     options.clear();
-    for (int i = 0; i < rhs.options.size(); i++) {
+    for (unsigned i = 0; i < rhs.options.size(); i++) {
         options.push_back(rhs.options[i]);
     }
     failures.clear();
-    for (int i = 0; i < rhs.failures.size(); i++) {
+    for (unsigned i = 0; i < rhs.failures.size(); i++) {
         failures.push_back(rhs.failures[i]);
     }
     w_terminal = NULL;
@@ -148,7 +148,7 @@ void computer::use(game *g)
         //reset_terminal();
         print_newline();
         print_line("%s - %s", name.c_str(), _("Root Menu"));
-        for (int i = 0; i < options.size(); i++)
+        for (unsigned i = 0; i < options.size(); i++)
         {
             print_line("%d - %s", i + 1, options[i].name.c_str());
         }
@@ -229,7 +229,7 @@ std::string computer::save_data()
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
-    for (int i = 0; i < options.size(); i++)
+    for (unsigned i = 0; i < options.size(); i++)
     {
         savename = options[i].name;
         found = savename.find(" ");
@@ -242,7 +242,7 @@ std::string computer::save_data()
              options[i].security << " ";
     }
     data << failures.size() << " ";
-    for (int i = 0; i < failures.size(); i++)
+    for (unsigned i = 0; i < failures.size(); i++)
     {
         data << int(failures[i]) << " ";
     }
@@ -341,11 +341,11 @@ void computer::activate_function(game *g, computer_action action)
                             if (g->m.furn(x1, y1) == f_counter)
                             {
                                 bool found_item = false;
-                                for (int i = 0; i < g->m.i_at(x1, y1).size(); i++)
+                                for (unsigned i = 0; i < g->m.i_at(x1, y1).size(); i++)
                                 {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
                                     if (it->is_container()){
-                                        item sewage = item(g->itypes["sewage"], g->turn);
+                                        item sewage = item(itypes["sewage"], g->turn);
                                         it_container* container = dynamic_cast<it_container*>(it->type);
                                         it_comest*    comest    = dynamic_cast<it_comest*>(sewage.type);
                                         int maxCharges = container->contains * comest->charges;
@@ -368,7 +368,7 @@ void computer::activate_function(game *g, computer_action action)
                                 }
                                 if (!found_item)
                                 {
-                                    item sewage(g->itypes["sewage"], g->turn);
+                                    item sewage(itypes["sewage"], g->turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
@@ -541,10 +541,8 @@ void computer::activate_function(game *g, computer_action action)
         for (int i = minx; i <= maxx; i++)
         {
             for (int j = miny; j <= maxy; j++)
-                if ((g->cur_om->ter(i, j, g->levz) >= ot_sewer_ns &&
-                        g->cur_om->ter(i, j, g->levz) <= ot_sewer_nesw) ||
-                        (g->cur_om->ter(i, j, g->levz) >= ot_sewage_treatment &&
-                         g->cur_om->ter(i, j, g->levz) <= ot_sewage_treatment_under))
+                if (is_ot_type("sewer", g->cur_om->ter(i, j, g->levz)) ||
+                    is_ot_type("sewage", g->cur_om->ter(i, j, g->levz)))
                 {
                     g->cur_om->seen(i, j, g->levz) = true;
                 }
@@ -606,7 +604,7 @@ void computer::activate_function(game *g, computer_action action)
         }
 
         g->u.add_memorial_log(_("Launched a nuke at a %s."),
-                oterlist[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
+                otermap[g->cur_om->ter(target.x, target.y, 0)].name.c_str());
         for(int x = target.x - 2; x <= target.x + 2; x++)
         {
             for(int y = target.y -  2; y <= target.y + 2; y++)
@@ -643,7 +641,7 @@ void computer::activate_function(game *g, computer_action action)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
             {
-                for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++)
                 {
                     if (g->m.i_at(x, y)[i].is_bionic())
                     {
@@ -666,7 +664,7 @@ void computer::activate_function(game *g, computer_action action)
         print_line(_("Bionic access - Manifest:"));
         print_newline();
 
-        for (int i = 0; i < names.size(); i++)
+        for (unsigned i = 0; i < names.size(); i++)
         {
             print_line(names[i].c_str());
         }
@@ -819,7 +817,7 @@ of pureed bone & LSD."));
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
-            item software(g->itypes[miss->item_id], 0);
+            item software(itypes[miss->item_id], 0);
             software.mission_id = mission_id;
             item* usb = g->u.pick_usb();
             usb->contents.clear();
@@ -875,7 +873,7 @@ of pureed bone & LSD."));
                                 }
                                 else
                                 {
-                                    item software(g->itypes["software_blood_data"], 0);
+                                    item software(itypes["software_blood_data"], 0);
                                     item* usb = g->u.pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
@@ -927,7 +925,7 @@ of pureed bone & LSD."));
                         if (g->m.i_at(x, y)[0].type->id == "black_box")
                         {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
-                            item transcript(g->itypes["black_box_transcript"], g->turn);
+                            item transcript(itypes["black_box_transcript"], g->turn);
                             g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
                         }
                         else
@@ -1391,7 +1389,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             {
                 if (g->m.ter(x, y) == t_centrifuge)
                 {
-                    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++)
                     {
                         if (g->m.i_at(x, y).empty())
                         {
@@ -1433,7 +1431,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             {
                 if (g->m.ter(x, y) == t_floor_blue)
                 {
-                    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
+                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++)
                     {
                         if (g->m.i_at(x, y).empty())
                         {

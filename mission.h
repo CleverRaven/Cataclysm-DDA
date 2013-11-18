@@ -7,8 +7,9 @@
 #include "omdata.h"
 #include "itype.h"
 #include "npc.h"
+#include "json.h"
 
-struct mission;
+class mission;
 class game;
 enum talk_topic;
 
@@ -57,7 +58,7 @@ enum mission_origin {
 enum mission_goal {
     MGOAL_NULL = 0,
     MGOAL_GO_TO,             // Reach a certain overmap tile
-    MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_id map tile like ot_hospital_entrance
+    MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_id map tile like "hospital_entrance"
     MGOAL_FIND_ITEM,         // Find an item of a given type
     MGOAL_FIND_ANY_ITEM,     // Find an item tagged with this mission
     MGOAL_FIND_MONSTER,      // Find and retrieve a friendly monster
@@ -72,8 +73,8 @@ enum mission_goal {
 };
 
 struct mission_place { // Return true if [posx,posy] is valid in overmap
-    bool never     (game *g, int posx, int posy) { return false; }
-    bool always    (game *g, int posx, int posy) { return true;  }
+    bool never     (game *, int, int) { return false; }
+    bool always    (game *, int, int) { return true;  }
     bool near_town (game *g, int posx, int posy);
 };
 
@@ -131,7 +132,7 @@ struct mission_type {
  itype_id item_id;
  npc_class recruit_class;  // The type of NPC you are to recruit
  int recruit_npc_id;
- mon_id monster_type;
+ std::string monster_type;
  int monster_kill_goal;
  oter_id target_id;
  mission_id follow_up;
@@ -153,10 +154,10 @@ struct mission_type {
    deadline_low = 0;
    deadline_high = 0;
    item_id = "null";
-   target_id = ot_null;
+   target_id = 0;///(0);// = "";
    recruit_class = NC_NONE;
    recruit_npc_id = -1;
-   monster_type = mon_null;
+   monster_type = "mon_null";
    monster_kill_goal = -1;
    follow_up = MISSION_NULL;
   };
@@ -164,7 +165,9 @@ struct mission_type {
  mission create(game *g, int npc_id = -1); // Create a mission
 };
 
-struct mission {
+class mission : public JsonSerializer, public JsonDeserializer
+{
+public:
     mission_type *type;
     std::string description;// Basic descriptive text
     bool failed;            // True if we've failed it!
@@ -185,12 +188,13 @@ struct mission {
     int step;               // How much have we completed?
     mission_id follow_up;   // What mission do we get after this succeeds?
 
- std::string name();
- std::string save_info();
- void load_info(game *g, std::ifstream &info);
-
- void json_load(picojson::value parsed, game * g);
- picojson::value json_save(bool save_contents = false);
+    std::string name();
+    std::string save_info();
+    void load_info(game *g, std::ifstream &info);
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonObject &jsobj);
 
  mission()
  {
@@ -201,10 +205,10 @@ struct mission {
   uid = -1;
   target = point(-1, -1);
   item_id = "null";
-  target_id = ot_null;
+  target_id = 0;
   recruit_class = NC_NONE;
   recruit_npc_id = -1;
-  monster_type = mon_null;
+  monster_type = "mon_null";
   monster_kill_goal = -1;
   count = 0;
   deadline = 0;

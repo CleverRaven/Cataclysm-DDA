@@ -45,6 +45,7 @@ void Item_factory::init(){
     iuse_function_list["FIRSTAID"] = &iuse::firstaid;
     iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
+    iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
     iuse_function_list["PKILL"] = &iuse::pkill;
@@ -102,6 +103,10 @@ void Item_factory::init(){
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
     iuse_function_list["ROADMAP"] = &iuse::roadmap;
+    iuse_function_list["SURVIVORMAP"] = &iuse::survivormap;
+    iuse_function_list["MILITARYMAP"] = &iuse::militarymap;
+    iuse_function_list["RESTAURANTMAP"] = &iuse::restaurantmap;
+    iuse_function_list["TOURISTMAP"] = &iuse::touristmap;
     iuse_function_list["PICKLOCK"] = &iuse::picklock;
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
@@ -207,6 +212,7 @@ void Item_factory::init(){
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
+    iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -230,13 +236,13 @@ void Item_factory::init(){
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
-void Item_factory::init(game* main_game) throw(std::string){
+void Item_factory::init_old() {
     // Make a copy of our items loaded from JSON
     std::map<Item_tag, itype*> new_templates = m_templates;
     //Copy the hardcoded template pointers to the factory list
-    m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
+    m_templates.insert(itypes.begin(), itypes.end());
     //Copy the JSON-derived items to the legacy list
-    main_game->itypes.insert(new_templates.begin(), new_templates.end());
+    itypes.insert(new_templates.begin(), new_templates.end());
     //And add them to the various item lists, as needed.
     for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
       standard_itype_ids.push_back(iter->first);
@@ -651,8 +657,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     }
 }
 
-Use_function Item_factory::use_from_string(std::string function_name){
-    std::map<Item_tag, Use_function>::iterator found_function = iuse_function_list.find(function_name);
+use_function Item_factory::use_from_string(std::string function_name){
+    std::map<Item_tag, use_function>::iterator found_function = iuse_function_list.find(function_name);
 
     //Before returning, make sure sure the function actually exists
     if(found_function != iuse_function_list.end()){

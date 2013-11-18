@@ -22,12 +22,27 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
+#include "live_view.h"
 #include "worldfactory.h"
 #include <vector>
 #include <map>
 #include <queue>
 #include <list>
 #include <stdarg.h>
+
+// Fixed window sizes
+#define HP_HEIGHT 14
+#define HP_WIDTH 7
+#define MINIMAP_HEIGHT 7
+#define MINIMAP_WIDTH 7
+#define MONINFO_HEIGHT 12
+#define MONINFO_WIDTH 48
+#define MESSAGES_HEIGHT 8
+#define MESSAGES_WIDTH 48
+#define LOCATION_HEIGHT 1
+#define LOCATION_WIDTH 48
+#define STATUS_HEIGHT 4
+#define STATUS_WIDTH 55
 
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
@@ -72,6 +87,8 @@ enum quit_status {
  QUIT_DIED,     // Actual death
  QUIT_ERROR
 };
+
+// Refactoring into base monster class.
 
 struct monster_and_count
 {
@@ -126,7 +143,7 @@ class game
   void decrease_nextinv(); // Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
   void add_msg_string(const std::string &s);
-  void add_msg(const char* msg, ...);
+    void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_if_npc(player* p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
@@ -215,7 +232,7 @@ class game
   void mission_step_complete(int id, int step); // Parial completion
   void process_missions(); // Process missions, see if time's run out
 
-  void teleport(player *p = NULL);
+  void teleport(player *p = NULL, bool add_teleglow = true);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   // when player is thrown (by impact or something)
   void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled = false);
@@ -245,16 +262,17 @@ class game
   faction* random_good_faction();
   faction* random_evil_faction();
 
-  itype* new_artifact();
-  itype* new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
   void peek();
-  point look_debug(point pnt=point(-256,-256));
+  point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(); //List all items around the player
   int list_monsters(); //List all monsters around the player
+  // Shared method to print "look around" info
+  void print_all_tile_info(int lx, int ly, WINDOW* w_look, int column, int &line, bool mouse_hover);
+
   bool list_items_match(std::string sText, std::string sPattern);
   int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
   int list_filter_low_priority(std::vector<map_item_stack> &stack,int start, std::string prorities);
@@ -271,6 +289,7 @@ class game
   char inv(inventory&,std::string);
   char inv_activatable(std::string title);
   char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
+  char inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
@@ -284,8 +303,6 @@ class game
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
-  std::map<std::string, itype*> itypes;
-  std::vector <mtype*> mtypes;
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
   std::vector<constructable*> constructions; // The list of constructions
@@ -304,7 +321,7 @@ class game
   map m;
   int levx, levy, levz; // Placement inside the overmap
   player u;
-  std::vector<monster_and_count> coming_to_stairs;
+  std::vector<monster> coming_to_stairs;
   int monstairx, monstairy, monstairz;
   std::vector<npc *> active_npc;
   std::vector<faction> factions;
@@ -326,8 +343,9 @@ class game
   WINDOW *w_status;
   WINDOW *w_status2;
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
+  live_view liveview;
 
- bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL);
+  bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
@@ -336,10 +354,6 @@ class game
  void open_gate( game *g, const int examx, const int examy, const ter_id handle_type );
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
-
-    void load_artifacts(std::string worldname); // Load artifact data
-                        // Needs to be called by main() before MAPBUFFER.load
-    void load_artifacts_from_file(std::ifstream *f); // Load artifact data
 
  // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
@@ -406,8 +420,6 @@ class game
   void init_npctalk();
   void init_fields();
   void init_weather();
-  void init_overmap();
-  void init_artifacts();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
@@ -422,6 +434,7 @@ class game
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
   void init_savedata_translation_tables();
+  void init_lua();          // Initializes lua interpreter.
   void create_factions(); // Creates new factions (for a new game world)
   void load_npcs(); //Make any nearby NPCs from the overmap active.
   void create_starting_npcs(); // Creates NPCs that start near you
@@ -498,6 +511,14 @@ class game
   void chat(); // Talk to a nearby NPC  'C'
   void plthrow(char chInput = '.'); // Throw an item  't'
 
+  // Internal methods to show "look around" info
+  void print_fields_info(int lx, int ly, WINDOW* w_look, int column, int &line);
+  void print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line);
+  void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
+  void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
+  void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
+
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
 // returns a Bresenham line to that square.  It is called by plfire() and
@@ -509,7 +530,8 @@ class game
 // Map updating and monster spawning
   void replace_stair_monsters();
   void update_stair_monsters();
-  void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
+  void despawn_monsters(const int shiftx = 0, const int shifty = 0);
+  void force_save_monster(monster &z);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
   int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);
@@ -539,6 +561,10 @@ class game
 //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
   void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
   void quicksave();        // Saves the game without quitting
+
+// Input related
+  bool handle_mouseview(input_context &ctxt, std::string &action); // Handles box showing items under mouse
+  void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
 
 // On-request draw functions
   void draw_overmap();     // Draws the overmap, allows note-taking etc.
@@ -589,6 +615,7 @@ class game
   special_game *gamemode;
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
+  const int lookHeight; // Look Around window height
 
   bool is_hostile_within(int distance);
 };

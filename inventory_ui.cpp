@@ -117,7 +117,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
    mvwprintz(w_inv, 3, 45, c_white, "%c + %s", g->u.weapon.invlet,
              g->u.weapname().c_str());
   else
-   mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(&(g->u)), "%c - %s",
+   mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(), "%c - %s",
              g->u.weapon.invlet, g->u.weapname().c_str());
  } else
   mvwprintz(w_inv, 3, 45, c_ltgray, g->u.weapname().c_str());
@@ -199,7 +199,7 @@ char game::inv(inventory& inv, std::string title)
     item& it = slice[cur_it]->front();
     if(cur_it==selected) selected_char=(int)it.invlet;
     mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
-    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory(&u) ), " %s",
+    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory() ), " %s",
               it.tname(this).c_str());
     if (slice[cur_it]->size() > 1)
      wprintw(w_inv, " x %d", slice[cur_it]->size());
@@ -278,10 +278,24 @@ char game::inv_activatable(std::string title)
 
 char game::inv_type(std::string title, item_cat inv_item_type)
 {
- u.inv.restack(&u);
- u.inv.sort();
- inventory reduced_inv = u.inv.filter_by_category(inv_item_type, u);
- return inv(reduced_inv,title);
+    u.inv.restack(&u);
+    u.inv.sort();
+    inventory reduced_inv = u.inv.filter_by_category(inv_item_type, u);
+    return inv(reduced_inv,title);
+}
+
+char game::inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single)
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    inventory reduced_inv = u.inv.filter_by_capacity_for_liquid(liquid);
+    if (auto_choose_single && reduced_inv.size() == 1) {
+        std::list<item> cont_stack = reduced_inv.const_stack(0);
+        if (cont_stack.size() > 0) {
+            return cont_stack.front().invlet;
+        }
+    }
+    return inv(reduced_inv, title);
 }
 
 std::vector<item> game::multidrop()

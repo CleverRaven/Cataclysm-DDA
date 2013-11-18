@@ -89,10 +89,12 @@ class uimenu_callback {
         void setptr(void * ptr) {
              myptr = ptr;
         }
-        virtual void select(int entnum, uimenu * menu) {};
-        virtual bool key(int key, int entnum, uimenu * menu) { return false; };
-        virtual void refresh(uimenu * menu) {};
-        virtual void redraw(uimenu * menu) {};
+        virtual void select(int /*entnum*/, uimenu *) {};
+        virtual bool key(int /*key*/, int /*entnum*/, uimenu *) {
+            return false;
+        };
+        virtual void refresh(uimenu *) {};
+        virtual void redraw(uimenu *) {};
         virtual ~uimenu_callback() {};
 };
 /*

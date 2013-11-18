@@ -319,7 +319,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
     //Loop through all itemfactory items
     //TODO: somehow generate damaged, fitting or container items
-    for (int i = 0; i < standard_itype_ids.size(); i++) {
+    for (unsigned i = 0; i < standard_itype_ids.size(); i++) {
         sItemName = item_controller->find_template(standard_itype_ids[i])->name;
         if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive && auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
             vMatchingItems.push_back(sItemName);
@@ -489,8 +489,8 @@ void merge_vector()
 {
     vAutoPickupRules[0].clear();
 
-    for (int i=1; i <= 2; i++) { //Loop through global 1 and character 2
-        for (int j=0; j < vAutoPickupRules[i].size(); j++) {
+    for (unsigned i = 1; i <= 2; i++) { //Loop through global 1 and character 2
+        for (unsigned j = 0; j < vAutoPickupRules[i].size(); j++) {
             if (vAutoPickupRules[i][j].sRule != "") {
                 vAutoPickupRules[0].push_back(cPickupRules(vAutoPickupRules[i][j].sRule, vAutoPickupRules[i][j].bActive, vAutoPickupRules[i][j].bExclude));
             }
@@ -500,7 +500,7 @@ void merge_vector()
 
 bool hasPickupRule(std::string sRule)
 {
-    for (int i = 0; i < vAutoPickupRules[2].size(); i++) {
+    for (unsigned i = 0; i < vAutoPickupRules[2].size(); i++) {
         if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() && ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
             return true;
         }
@@ -518,7 +518,7 @@ void addPickupRule(std::string sRule)
 
 void removePickupRule(std::string sRule)
 {
-    for (int i = 0; i < vAutoPickupRules[2].size(); i++) {
+    for (unsigned i = 0; i < vAutoPickupRules[2].size(); i++) {
         if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() && ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
             vAutoPickupRules[2].erase(vAutoPickupRules[2].begin() + i);
             merge_vector();
@@ -536,7 +536,7 @@ void createPickupRules(const std::string sItemNameIn)
 
     std::string sItemName = "";
 
-    for (int iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Includes only
+    for (unsigned iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Includes only
         if (!vAutoPickupRules[0][iPattern].bExclude) {
             if (sItemNameIn != "") {
                 if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
@@ -545,7 +545,7 @@ void createPickupRules(const std::string sItemNameIn)
                 }
             } else {
                 //Check include paterns against all itemfactory items
-                for (int i = 0; i < standard_itype_ids.size(); i++) {
+                for (unsigned i = 0; i < standard_itype_ids.size(); i++) {
                     sItemName = item_controller->find_template(standard_itype_ids[i])->name;
                     if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemName, vAutoPickupRules[0][iPattern].sRule)) {
                         mapAutoPickupItems[sItemName] = "true";
@@ -555,7 +555,7 @@ void createPickupRules(const std::string sItemNameIn)
         }
     }
 
-    for (int iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Excludes only
+    for (unsigned iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Excludes only
         if (vAutoPickupRules[0][iPattern].bExclude) {
             if (sItemNameIn != "") {
                 if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
@@ -578,7 +578,7 @@ void save_reset_changes(bool bReset)
 {
     for (int i=1; i <= 2; i++) { //Loop through global 1 and character 2
         vAutoPickupRules[i + ((bReset) ? 0: 2)].clear();
-        for (int j=0; j < vAutoPickupRules[i + ((bReset) ? 2: 0)].size(); j++) {
+        for (unsigned j=0; j < vAutoPickupRules[i + ((bReset) ? 2: 0)].size(); j++) {
             if (vAutoPickupRules[i + ((bReset) ? 2: 0)][j].sRule != "") {
                 vAutoPickupRules[i + ((bReset) ? 0: 2)].push_back(cPickupRules(vAutoPickupRules[i + ((bReset) ? 2: 0)][j].sRule, vAutoPickupRules[i + ((bReset) ? 2: 0)][j].bActive, vAutoPickupRules[i + ((bReset) ? 2: 0)][j].bExclude));
             }
@@ -628,7 +628,7 @@ void save_auto_pickup(bool bCharacter)
     }
 
     fout << auto_pickup_header(bCharacter) << std::endl;
-    for(int i = 0; i < vAutoPickupRules[(bCharacter) ? 2 : 1].size(); i++) {
+    for (unsigned i = 0; i < vAutoPickupRules[(bCharacter) ? 2 : 1].size(); i++) {
         fout << vAutoPickupRules[(bCharacter) ? 2 : 1][i].sRule << ";";
         fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bActive ? "T" : "F") << ";";
         fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bExclude ? "T" : "F");
@@ -710,7 +710,7 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
         return false;
     }
 
-    for (int i=0; i < vPattern.size(); i++) {
+    for (unsigned i=0; i < vPattern.size(); i++) {
         if (i==0 && vPattern[i] != "") { //beginning: ^vPat[i]
             if (sText.length() < vPattern[i].length() || ci_find_substr(sText.substr(0, vPattern[i].length()), vPattern[i]) == -1) {
                 //debugmsg(("1: sText: " + sText + " | sPattern: ^" + vPattern[i] + " | no match").c_str());

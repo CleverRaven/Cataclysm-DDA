@@ -604,7 +604,7 @@ void initOptions() {
                                              tileset_names, "hoder");   // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
-        for (int i=0; i < vPages.size(); ++i) {
+        for (unsigned i=0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
                 mPageItems[i].push_back(iter->first);
                 break;
@@ -711,7 +711,7 @@ void show_options()
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
-        for (int i = 0; i < vPages.size(); i++) {
+        for (unsigned i = 0; i < vPages.size(); i++) {
             if (mPageItems[i].size() > 0) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());

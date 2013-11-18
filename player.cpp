@@ -301,8 +301,8 @@ player& player::operator= (const player & rhs)
 
 void player::normalize(game *g)
 {
- ret_null = item(g->itypes["null"], 0);
- weapon   = item(g->itypes["null"], 0);
+ ret_null = item(itypes["null"], 0);
+ weapon   = item(itypes["null"], 0);
  style_selected = "style_none";
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
@@ -1175,11 +1175,11 @@ int player::run_cost(int base_cost, bool diag)
 {
     float movecost = float(base_cost);
     if (diag)
-        movecost *= 0.7071; // because everything here assumes 100 is base
+        movecost *= 0.7071f; // because everything here assumes 100 is base
     bool flatground = movecost < 105;
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
-        movecost *= .5;
+        movecost *= .5f;
         if (movecost < 100)
             movecost = 100;
     }
@@ -1194,25 +1194,25 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 25;
 
     if (has_trait("FLEET") && flatground)
-        movecost *= .85;
+        movecost *= .85f;
     if (has_trait("FLEET2") && flatground)
-        movecost *= .7;
+        movecost *= .7f;
     if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet))
-        movecost *= .9;
+        movecost *= .9f;
     if (has_trait("LIGHT_BONES"))
-        movecost *= .9;
+        movecost *= .9f;
     if (has_trait("HOLLOW_BONES"))
-        movecost *= .8;
+        movecost *= .8f;
     if (has_trait("WINGS_INSECT"))
         movecost -= 15;
     if (has_trait("LEG_TENTACLES"))
         movecost += 20;
     if (has_trait("PONDEROUS1"))
-        movecost *= 1.1;
+        movecost *= 1.1f;
     if (has_trait("PONDEROUS2"))
-        movecost *= 1.2;
+        movecost *= 1.2f;
     if (has_trait("PONDEROUS3"))
-        movecost *= 1.3;
+        movecost *= 1.3f;
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
@@ -1350,8 +1350,7 @@ void player::memorial( std::ofstream &memorial_file )
     //Figure out the location
     point cur_loc = g->om_location();
     oter_id cur_ter = g->cur_om->ter(cur_loc.x, cur_loc.y, g->levz);
-    if (cur_ter == ot_null)
-    {
+    if (cur_ter == "") {
         if (cur_loc.x >= OMAPX && cur_loc.y >= OMAPY) {
             cur_ter = g->om_diag->ter(cur_loc.x - OMAPX, cur_loc.y - OMAPY, g->levz);
         } else if (cur_loc.x >= OMAPX) {
@@ -1360,7 +1359,25 @@ void player::memorial( std::ofstream &memorial_file )
             cur_ter = g->om_vert->ter(cur_loc.x, cur_loc.y - OMAPY, g->levz);
         }
     }
-    std::string tername = oterlist[cur_ter].name;
+    std::string tername = otermap[cur_ter].name;
+
+    //Were they in a town, or out in the wilderness?
+    int city_index = g->cur_om->closest_city(cur_loc);
+    std::stringstream city_name;
+    if(city_index < 0) {
+        city_name << _("in the middle of nowhere");
+    } else {
+        city nearest_city = g->cur_om->cities[city_index];
+        //Give slightly different messages based on how far we are from the middle
+        int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
+        if(distance_from_city > nearest_city.s + 4) {
+            city_name << _("in the wilderness");
+        } else if(distance_from_city >= nearest_city.s) {
+            city_name << _("on the outskirts of ") << nearest_city.name;
+        } else {
+            city_name << _("in ") << nearest_city.name;
+        }
+    }
 
     //Header
     std::string version = string_format("%s", getVersionString());
@@ -1376,7 +1393,7 @@ void player::memorial( std::ofstream &memorial_file )
                   << _(" of year ") << (g->turn.years() + 1)
                   << _(", day ") << (g->turn.days() + 1)
                   << _(", at ") << g->turn.print_time() << ".\n";
-    memorial_file << pronoun << _(" was killed in a ") << tername << ".\n";
+    memorial_file << pronoun << _(" was killed in a ") << tername << " " << city_name.str() << ".\n";
     memorial_file << "\n";
 
     //Misc
@@ -1595,7 +1612,7 @@ void player::add_memorial_log(const char* message, ...)
             << (g->turn.days() + 1) << ", " << g->turn.print_time();
 
   oter_id cur_ter = g->cur_om->ter((g->levx + int(MAPSIZE / 2)) / 2, (g->levy + int(MAPSIZE / 2)) / 2, g->levz);
-  std::string location = oterlist[cur_ter].name;
+  std::string location = otermap[cur_ter].name;
 
   std::stringstream log_message;
   log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
@@ -2714,24 +2731,29 @@ void player::disp_morale(game *g)
 void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 {
     bool sideStyle = use_narrow_sidebar();
-
-    // get the current weapon mode or mods
-    std::string mode = "";
-    if (weapon.mode == "MODE_BURST") {
-        mode = _("Burst");
-    } else {
-        item* gunmod = weapon.active_gunmod();
-        if (gunmod != NULL) {
-            mode = gunmod->type->name;
-        }
-    }
-
     WINDOW *weapwin = sideStyle ? w2 : w;
-    if (mode == "") {
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s"), weapname().c_str());
-    } else {
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("Weapon: %s (%s)"), weapname().c_str(), mode.c_str());
+
+    // Print current weapon, or attachment if active.
+    item* gunmod = weapon.active_gunmod();
+    std::string mode = "";
+    std::stringstream attachment;
+    if (gunmod != NULL)
+    {
+        attachment << gunmod->type->name.c_str();
+        for (int i = 0; i < weapon.contents.size(); i++)
+                if (weapon.contents[i].is_gunmod() &&
+                        weapon.contents[i].has_flag("MODE_AUX"))
+                    attachment << " (" << weapon.contents[i].charges << ")";
+        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Mod)"), attachment.str().c_str());
     }
+    else
+    {
+        if (weapon.mode == "MODE_BURST")
+                mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Burst)"), weapname().c_str());
+        else
+            mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s"), weapname().c_str());
+    }
+
     if (weapon.is_gun()) {
         int adj_recoil = recoil + driving_recoil;
         if (adj_recoil > 0) {
@@ -2748,16 +2770,33 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
         }
     }
 
-    // Print currently used style
+    // Print currently used style or weapon mode.
     std::string style = "";
-    if (style_selected == "style_none") {
-        style = _("No Style");
-    } else {
-        style = martialarts[style_selected].name;
-    }
-    if (style != "") {
+    if (is_armed())
+    {
+        if (style_selected == "style_none")
+            style = _("Normal");
+        else if (can_melee())
+            style = martialarts[style_selected].name;
+
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_blue, style.c_str());
+        mvwprintz(weapwin, 1, x, c_red, style.c_str());
+    }
+    else
+    {
+        if (style_selected == "style_none")
+        {
+            style = _("No Style");
+        }
+        else
+        {
+            style = martialarts[style_selected].name;
+        }
+        if (style != "")
+        {
+            int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
+            mvwprintz(weapwin, 1, x, c_blue, style.c_str());
+        }
     }
 
     wmove(w, sideStyle ? 1 : 2, 0);
@@ -3296,8 +3335,10 @@ void player::recalc_sight_limits()
     // Set sight_boost and sight_boost_cap, based on night vision.
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
-    if (has_nv() || has_trait("NIGHTVISION3")) {
+    if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) {
         sight_boost = sight_boost_cap;
+	}else if (has_trait("ELFA_NV")) {
+        sight_boost = 6;
     } else if (has_trait("NIGHTVISION2")) {
         sight_boost = 4;
     } else if (has_trait("NIGHTVISION")) {
@@ -3360,7 +3401,7 @@ bool player::has_two_arms() const
 
 bool player::avoid_trap(trap* tr)
 {
-  int myroll = dice(3, dex_cur + skillLevel("dodge") * 1.5);
+  int myroll = dice(3, int(dex_cur + skillLevel("dodge") * 1.5));
  int traproll;
  if (per_cur - encumb(bp_eyes) >= tr->visibility)
   traproll = dice(3, tr->avoidance);
@@ -3446,7 +3487,7 @@ int player::throw_range(signed char ch)
   return -1;
  else
   tmp = inv.item_by_letter(ch);
- 
+
  if (tmp.count_by_charges() && tmp.charges > 1)
   tmp.charges = 1;
 
@@ -4387,7 +4428,7 @@ int player::addiction_level(add_type type)
 bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( g->itypes[default_ammo(desired_liquid)], g->turn );
+    item used_item( itypes[default_ammo(desired_liquid)], g->turn );
     used_item.charges = liquid_amount;
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {
@@ -5483,7 +5524,7 @@ bool player::process_single_active_item(game *g, item *it)
                 }
                 else
                 {
-                    it->type = g->itypes[tmp->revert_to];
+                    it->type = itypes[tmp->revert_to];
                 }
             }
         }
@@ -6233,12 +6274,12 @@ bool player::consume(game *g, signed char ch)
                 // Check tools
                 bool has = has_amount(comest->tool, 1);
                 // Tools with charges need to have charges, not just be present.
-                if (g->itypes[comest->tool]->count_by_charges()) {
+                if (itypes[comest->tool]->count_by_charges()) {
                     has = has_charges(comest->tool, 1);
                 }
                 if (!has) {
                     g->add_msg_if_player(this,_("You need a %s to consume that!"),
-                                         g->itypes[comest->tool]->name.c_str());
+                                         itypes[comest->tool]->name.c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
@@ -6344,12 +6385,12 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     if (comest->tool != "null") {
         bool has = has_amount(comest->tool, 1);
-        if (g->itypes[comest->tool]->count_by_charges()) {
+        if (itypes[comest->tool]->count_by_charges()) {
             has = has_charges(comest->tool, 1);
         }
         if (!has) {
             g->add_msg_if_player(this,_("You need a %s to consume that!"),
-                       g->itypes[comest->tool]->name.c_str());
+                       itypes[comest->tool]->name.c_str());
             return false;
         }
     }
@@ -6430,7 +6471,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
                                   eaten->tname(g).c_str());
     }
 
-    if (g->itypes[comest->tool]->is_tool()) {
+    if (itypes[comest->tool]->is_tool()) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
@@ -6544,6 +6585,9 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return false;
  }
  if (ch == -3) {
+  if(weapon.is_null()) {
+   return false;
+  }
   if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
    inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
@@ -7489,12 +7533,14 @@ hint_rating player::rate_action_unload(item *it) {
  int has_40mml = -1;
  int has_shotgun = -1;
  int has_shotgun2 = -1;
+ int has_shotgun3 = -1;
  if (it->is_gun()) {
   spare_mag = it->has_gunmod ("spare_mag");
   has_m203 = it->has_gunmod ("m203");
   has_40mml = it->has_gunmod ("pipe_launcher40mm");
   has_shotgun = it->has_gunmod ("u_shotgun");
   has_shotgun2 = it->has_gunmod ("masterkey");
+  has_shotgun3 = it->has_gunmod ("rm121aux");
  }
  if (it->is_container() ||
      (it->charges == 0 &&
@@ -7502,7 +7548,8 @@ hint_rating player::rate_action_unload(item *it) {
       (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
       (has_40mml == -1 || it->contents[has_40mml].charges <= 0) &&
       (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0) &&
-      (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0))) {
+      (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0) &&
+      (has_shotgun3 == -1 || it->contents[has_shotgun3].charges <= 0))) {
   if (it->contents.size() == 0) {
    return HINT_IFFY;
   }
@@ -7520,7 +7567,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
              ++list_iter)
         {
             recipe* cur_recipe = *list_iter;
-            if (it->type == g->itypes[cur_recipe->result] && cur_recipe->reversible)
+            if (it->type == itypes[cur_recipe->result] && cur_recipe->reversible)
             // ok, a valid recipe exists for the item, and it is reversible
             // assign the activity
             {
@@ -7606,6 +7653,7 @@ hint_rating player::rate_action_use(item *it)
 void player::use(game *g, char let)
 {
     item* used = &i_at(let);
+    item copy;
 
     if (used->is_null()) {
         g->add_msg(_("You do not have that item."));
@@ -7735,12 +7783,12 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                            gun->tname(g).c_str());
                 return;
             } else if ((mod->id == "pipe_launcher40mm" || mod->id == "m203" ||
-                        mod->id == "masterkey" || mod->id == "u_shotgun" ||
-                        mod->id == "bayonet" || mod->id == "gun_crossbow" ||
-                        mod->id == "sword_bayonet") &&
+                        mod->id == "masterkey" || mod->id == "rm121aux" || mod->id == "u_shotgun" ||
+                        mod->id == "bayonet" || mod->id == "gun_crossbow" || mod->id == "sword_bayonet") &&
                        (gun->contents[i].type->id == "pipe_launcher40mm" ||
                         gun->contents[i].type->id == "m203" ||
                         gun->contents[i].type->id == "masterkey" ||
+                        gun->contents[i].type->id == "rm121aux" ||
                         gun->contents[i].type->id == "u_shotgun" ||
                         gun->contents[i].type->id == "bayonet" ||
                         gun->contents[i].type->id == "sword_bayonet" ||
@@ -7993,7 +8041,7 @@ bool player::try_study_recipe(game *g, it_book *book)
             {
                 learn_recipe(iter->first);
                 g->add_msg(_("Learned a recipe for %s from the %s."),
-                           g->itypes[iter->first->result]->name.c_str(), book->name.c_str());
+                           itypes[iter->first->result]->name.c_str(), book->name.c_str());
                 return true;
             }
             else
@@ -8133,8 +8181,9 @@ float player::fine_detail_vision_mod(game *g)
     }
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
+	else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
     else if (has_trait("NIGHTVISION2")) { vision_ii -= 1.5; }
-    else if (has_trait("NIGHTVISION3")) { vision_ii -= 2.5; }
+    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 2.5; }
 
     if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;
@@ -8271,6 +8320,8 @@ int player::armor_bash(body_part bp)
   ret += 3;
  else if (bp == bp_legs && has_bionic("bio_armor_legs"))
   ret += 3;
+  else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
+  ret += 3;
  if (has_trait("FUR"))
   ret++;
  if (has_trait("CHITIN"))
@@ -8299,6 +8350,8 @@ int player::armor_cut(body_part bp)
  else if (bp == bp_torso && has_bionic("bio_armor_torso"))
   ret += 3;
  else if (bp == bp_legs && has_bionic("bio_armor_legs"))
+  ret += 3;
+ else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
   ret += 3;
  if (has_trait("THICKSKIN"))
   ret++;
@@ -8459,6 +8512,11 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         dam -= 3;
         cut -= 3;
     }
+    else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
+    {
+        dam -= 3;
+        cut -= 3;
+    }
     if (has_trait("THICKSKIN"))
         cut--;
     if (has_trait("SCALES"))
@@ -8511,6 +8569,14 @@ int player::resist(body_part bp)
     }
 
     if (bp == bp_mouth && has_bionic("bio_purifier") && ret < 5) {
+        ret += 2;
+        if (ret > 5) {
+            ret = 5;
+        }
+    }
+    return ret;
+    
+    if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
         if (ret > 5) {
             ret = 5;
@@ -8708,7 +8774,9 @@ std::string player::weapname(bool charges)
  } else if (weapon.is_container()) {
   std::stringstream dump;
   dump << weapon.tname().c_str();
-  dump << " (" << weapon.contents.size() << ")";
+  if(weapon.contents.size() == 1) {
+   dump << " (" << weapon.contents[0].charges << ")";
+  }
   return dump.str();
  } else if (weapon.is_null()) {
   return _("fists");

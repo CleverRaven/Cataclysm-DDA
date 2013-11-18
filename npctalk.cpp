@@ -1098,7 +1098,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    resume << _("Yes, let's resume training ") <<
              (g->u.backlog.name != "" ?
               Skill::skill(g->u.backlog.name)->name() :
-              g->itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
+              itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
    SELECT_TEMP( resume.str(), g->u.backlog.index);
     SUCCESS(TALK_TRAIN_START);
   }
@@ -1125,7 +1125,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    shift = 0;
   for (int i = 0; i < styles.size() && printed < 9; i++) {
    printed++;
-   SELECT_TEMP( string_format(_("%s (cost 800)"), g->itypes[styles[i]]->name.c_str()) ,
+   SELECT_TEMP( string_format(_("%s (cost 800)"), itypes[styles[i]]->name.c_str()) ,
                 0 - i );
     SUCCESS(TALK_TRAIN_START);
   }
@@ -1518,12 +1518,18 @@ int trial_chance(talk_response response, player *u, npc *p)
     chance -= 40;
    else if (u->has_trait("LIAR"))
     chance += 40;
+   if (u->has_trait("ELFAEYES"))
+    chance += 10;
    break;
 
   case TALK_TRIAL_PERSUADE:
    chance += u->talk_skill() - int(p->talk_skill() / 2) +
            p->op_of_u.trust * 2 + p->op_of_u.value;
+   if (u->has_trait("ELFAEYES"))
+    chance += 20;
    if (u->has_trait("GROWL"))
+    chance -= 25;
+   if (u->has_trait("HISS"))
     chance -= 25;
    if (u->has_trait("SNARL"))
     chance -= 60;
@@ -1534,9 +1540,13 @@ int trial_chance(talk_response response, player *u, npc *p)
            p->personality.bravery * 2;
    if (u->has_trait("TERRIFYING"))
     chance += 15;
+   if (u->has_trait("ELFAEYES"))
+    chance += 10;
    if (p->has_trait("TERRIFYING"))
     chance -= 15;
    if (u->has_trait("GROWL"))
+    chance += 15;
+   if (u->has_trait("HISS"))
     chance += 15;
    if (u->has_trait("SNARL"))
     chance += 30;

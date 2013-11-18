@@ -17,7 +17,8 @@
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
-#include "file_finder.h"
+#include "overmap.h"
+#include "artifact.h"
 
 #include <string>
 #include <vector>
@@ -25,6 +26,7 @@
 #include <sstream> // for throwing errors
 
 #include "savegame.h"
+#include "file_finder.h"
 
 
 typedef std::string type_string;
@@ -42,7 +44,7 @@ std::map<int,int> reverse_legacy_furn_id;
 void init_data_mappings() {
     set_ter_ids();
     set_furn_ids();
-
+    set_oter_ids();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
@@ -75,6 +77,7 @@ void init_data_mappings() {
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
+    (void)dirname; //not used yet
     std::vector<std::string> ret;
     ret = file_finder::get_files_from_path(".json", dirname, true);
 /*
@@ -163,11 +166,15 @@ void init_data_structures()
 
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
+    type_function_map["overmap_terrain"] =
+        new StaticFunctionAccessor(&load_overmap_terrain);
 
     mutations_category[""].clear();
     init_mutation_parts();
     init_martial_arts();
     init_inventory_categories();
+    init_colormap();
+    init_artifacts();
 }
 
 void release_data_structures()

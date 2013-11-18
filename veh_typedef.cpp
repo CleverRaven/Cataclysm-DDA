@@ -87,6 +87,22 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.flags.insert(jarr.next_string());
     }
 
+    JsonArray breaks_into = jo.get_array("breaks_into");
+    while(breaks_into.has_more()) {
+        JsonObject next_entry = breaks_into.next_object();
+        break_entry next_break_entry;
+        next_break_entry.item_id = next_entry.get_string("item");
+        next_break_entry.min = next_entry.get_int("min");
+        next_break_entry.max = next_entry.get_int("max");
+        //Sanity check
+        if(next_break_entry.max < next_break_entry.min) {
+            debugmsg("For vehicle part %s: breaks_into item '%s' has min (%d) > max (%d)!",
+                             next_part.name.c_str(), next_break_entry.item_id.c_str(),
+                             next_break_entry.min, next_break_entry.max);
+        }
+        next_part.breaks_into.push_back(next_break_entry);
+    }
+
     //Plating shouldn't actually be shown; another part will be.
     //Calculate and cache z-ordering based off of location
     if(next_part.has_flag("ARMOR")) {

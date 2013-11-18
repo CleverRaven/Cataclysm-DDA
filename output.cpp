@@ -299,31 +299,40 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
     fout.open("debug.log", std::ios_base::app | std::ios_base::out);
     fout << filename << "[" << line << "]: " << buff << "\n";
     fout.close();
-    while(getch() != ' ') ;
-    ;
+    while (getch() != ' ') {
+        // wait for spacebar
+    }
+    werase(stdscr);
 }
 
 bool query_yn(const char *mes, ...)
 {
-    bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     va_list ap;
     va_start(ap, mes);
     char buff[1024];
     vsprintf(buff, mes, ap);
     va_end(ap);
-    int win_width = utf8_width(buff) + 26;
 
-    WINDOW *w = newwin(3, win_width, (TERMY - 3) / 2,
+    bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
+    std::string query;
+    if (force_uc) {
+        query = string_format(_("%s (Y/N - Case Sensitive)"), buff);
+    } else {
+        query = string_format(_("%s (y/n)"), buff);
+    }
+
+    int win_width = utf8_width(query.c_str()) + 2;
+    win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
+
+    std::vector<std::string> textformatted;
+    textformatted = foldstring(query, win_width);
+    WINDOW *w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
                        (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
+
+    fold_and_print(w, 1, 1, win_width, c_ltred, query.c_str());
 
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
-    if (force_uc) {
-        mvwprintz(w, 1, 1, c_ltred, _("%s (Y/N - Case Sensitive)"), buff);
-    } else {
-        mvwprintz(w, 1, 1, c_ltred, _("%s (y/n)"), buff);
-    }
 
     wrefresh(w);
     char ch;
@@ -348,26 +357,11 @@ int query_int(const char *mes, ...)
     char buff[1024];
     vsprintf(buff, mes, ap);
     va_end(ap);
-    int win_width = utf8_width(buff) + 10;
 
-    WINDOW *w = newwin(3, win_width, (TERMY - 3) / 2,
-                       11 + ((TERMX > win_width) ? (TERMX - win_width) / 2 : 0));
+    std::string raw_input = string_input_popup(std::string(buff));
 
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    mvwprintz(w, 1, 1, c_ltred, _("%s (0-9)"), buff);
-    wrefresh(w);
-
-    int temp;
-    do {
-        temp = getch();
-    } while ((temp - 48) < 0 || (temp - 48) > 9);
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
-
-    return temp - 48;
+    //Note that atoi returns 0 for anything it doesn't like.
+    return atoi(raw_input.c_str());
 }
 
 std::string string_input_popup(std::string title, int width, std::string input, std::string desc,

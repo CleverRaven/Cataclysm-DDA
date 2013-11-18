@@ -67,6 +67,25 @@
         "flags": ["RIGID", "WATERTIGHT"]
     },
     {
+        "id":"bowl_pewter",
+        "type":"CONTAINER",
+        "color":"light_cyan",
+        "symbol":")",
+        "to_hit":1,
+        "name":"pewter bowl",
+        "description":"A pewter bowl. Can be used as a container or as a tool. Holds 250 ml of liquid.",
+        "cutting":0,
+        "price":1,
+        "weight":50,
+        "volume":1,
+        "bashing":2,
+        "cutting":0,
+        "to_hit":1,
+        "material":"steel",
+        "contains":1,
+        "flags":[ "RIGID" ]
+    },
+    {
         "id": "can_food",
         "type": "CONTAINER",
         "symbol": ")",
@@ -118,6 +137,23 @@
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
+        "id": "2lcanteen",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "dark_gray",
+        "name": "2.5L canteen",
+        "description": "A large plastic water canteen, with a 2.5 liter capacity and strap.",
+        "price": 1250,
+        "weight": 155,
+        "volume": 10,
+        "bashing": -8,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 10,
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
         "id": "jerrycan",
         "type": "CONTAINER",
         "symbol": ")",
@@ -140,15 +176,15 @@
         "symbol": ")",
         "color": "light_cyan",
         "name": "gallon jug",
-        "description": "A standard plastic jug used for household cleaning chemicals.",
+        "description": "A standard plastic jug used for milk and household cleaning chemicals.",
         "price": 2500,
         "weight": 190,
-        "volume": 10,
+        "volume": 15,
         "bashing": -8,
         "cutting": 0,
         "to_hit": 1,
         "material": "plastic",
-        "contains": 10,
+        "contains": 15,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
@@ -201,6 +237,23 @@
         "material": "steel",
         "contains": 100,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
+        "id" : "metal_tank",
+        "type": "CONTAINER",
+        "symbol" : "}",
+        "color" : "light_cyan",
+        "name" : "metal tank",
+        "description" : "A metal tank for holding liquids. Useful for crafting.",
+        "price" : 40,
+        "weight" : 2834,
+        "volume" : 15,
+        "bashing" : 3,
+        "cutting" : 0,
+        "to_hit" : -2,
+        "contains" : 15,
+        "material" : ["steel", "null"],
+        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
         "id": "keg",

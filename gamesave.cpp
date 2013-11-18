@@ -27,7 +27,6 @@
 #include <math.h>
 #include <vector>
 #include "debug.h"
-#include "artifactdata.h"
 #include "weather.h"
 
 #include "savegame.h"
@@ -37,7 +36,10 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 11;
+const int savegame_version = 12;
+const int savegame_minver_game = 11;
+//const int savegame_minver_map = 11;
+const int savegame_minver_overmap = 12;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -122,6 +124,12 @@ void game::serialize(std::ofstream & fout) {
         }
         data["active_monsters"] = pv( amdata );
 
+        std::vector<picojson::value> smdata;
+        for (int i = 0; i < coming_to_stairs.size(); i++) {
+            smdata.push_back( coming_to_stairs[i].json_save(true) );
+        }
+        data["stair_monsters"] = pv ( smdata );
+
         // save killcounts.
         std::map<std::string, picojson::value> killmap;
         for (std::map<std::string, int>::iterator kill = kills.begin(); kill != kills.end(); ++kill){
@@ -180,7 +188,7 @@ void game::unserialize(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
-   if (savegame_loading_version != savegame_version) {
+   if (savegame_loading_version != savegame_version && savegame_loading_version < savegame_minver_game ) {
        if ( unserialize_legacy(fin) == true ) {
             return;
        } else {
@@ -253,8 +261,19 @@ void game::unserialize(std::ifstream & fin) {
             clear_zombies();
             monster montmp;
             for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
-                montmp.json_load( *pit, &mtypes );
+                montmp.json_load(*pit);
+                montmp.setkeep(true);
                 add_zombie(montmp);
+            }
+
+            picojson::array * sdata = pgetarray(pdata,"stair_monsters");
+            if (sdata != NULL) {
+                coming_to_stairs.clear();
+                monster stairtmp;
+                for( picojson::array::iterator pit = sdata->begin(); pit != sdata->end(); ++pit) {
+                    stairtmp.json_load(*pit);
+                    coming_to_stairs.push_back(stairtmp);
+                }
             }
 
             picojson::object * odata = pgetmap(pdata,"kills");
@@ -278,7 +297,7 @@ void game::load_weather(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
-     
+
      while(!fin.eof()) {
         std::string data;
         getline(fin, data);
@@ -355,19 +374,23 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
         if (datatype == 'L') { // Load layer data, and switch to layer
             fin >> z;
 
-            int tmp_ter;
+            std::string tmp_ter;
+            oter_id tmp_otid(0);
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 int count = 0;
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
                             fin >> tmp_ter >> count;
-                            if (tmp_ter < 0 || tmp_ter > num_ter_types) {
-                                debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
+                            if (otermap.find(tmp_ter) == otermap.end()) {
+                                debugmsg("Loaded bad ter!  %s; ter %s", terfilename.c_str(), tmp_ter.c_str());
+                                tmp_otid = 0;
+                            } else {
+                                tmp_otid = tmp_ter;
                             }
                         }
                         count--;
-                        layer[z].terrain[i][j] = oter_id(tmp_ter);
+                        layer[z].terrain[i][j] = tmp_otid; //otermap[tmp_ter].loadid;
                         layer[z].visible[i][j] = false;
                     }
                 }
@@ -396,6 +419,11 @@ void overmap::unserialize(game * g, std::ifstream & fin, std::string const & plr
             getline(fin, tmp.message); // Chomp endl
             getline(fin, tmp.message);
             radios.push_back(tmp);
+        } else if ( datatype == 'v' ) {
+            om_vehicle v;
+            int id;
+            fin >> id >> v.name >> v.x >> v.y;
+            vehicles[id]=v;
         } else if (datatype == 'n') { // NPC
 // When we start loading a new NPC, check to see if we've accumulated items for
 //   assignment to an NPC.
@@ -535,16 +563,16 @@ void overmap::save()
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
         int count = 0;
-        int last_tertype = -1;
+        oter_id last_tertype(-1);
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
-                int t = int(layer[z].terrain[i][j]);
+                oter_id t = layer[z].terrain[i][j];
                 if (t != last_tertype) {
                     if (count) {
                         fout << count << " ";
                     }
                     last_tertype = t;
-                    fout << t << " ";
+                    fout << std::string(t) << " ";
                     count = 1;
                 } else {
                     count++;
@@ -567,6 +595,15 @@ void overmap::save()
         fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
             " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
 
+    // store tracked vehicle locations and names
+    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
+            it != vehicles.end(); it++)
+    {
+        int id = it->first;
+        om_vehicle v = it->second;
+        fout << "v " << id << " " << v.name << " " << v.x << " " << v.y << std::endl;
+    }
+
     //saving the npcs
     for (int i = 0; i < npcs.size(); i++)
         fout << "n " << npcs[i]->save_info() << std::endl;
@@ -583,62 +620,78 @@ void overmap::save()
 void game::unserialize_master(std::ifstream &fin) {
    savegame_loading_version = 0;
    chkversion(fin);
-   if (savegame_loading_version != savegame_version) {
+   if (savegame_loading_version != savegame_version && savegame_loading_version < 11) {
        if ( unserialize_master_legacy(fin) == true ) {
             return;
        } else {
            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
-    picojson::value pval;
-    fin >> pval;
-    std::string jsonerr = picojson::get_last_error();
-    if ( ! jsonerr.empty() ) {
-        debugmsg("Bad save json\n%s", jsonerr.c_str() );
-    }
-    picojson::object &data = pval.get<picojson::object>();
-    picoint(data, "next_mission_id", next_mission_id);
-    picoint(data, "next_faction_id", next_faction_id);
-    picoint(data, "next_npc_id", next_npc_id);
-
-    picojson::array * vdata = pgetarray(data,"active_missions");
-    if(vdata != NULL) {
-        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
-            mission tmp;
-            tmp.json_load( *pit, this );
-            active_missions.push_back(tmp);
+    try {
+        // single-pass parsing example
+        JsonIn jsin(&fin);
+        jsin.start_object();
+        while (!jsin.end_object()) {
+            std::string name = jsin.get_member_name();
+            if (name == "next_mission_id") {
+                next_mission_id = jsin.get_int();
+            } else if (name == "next_faction_id") {
+                next_faction_id = jsin.get_int();
+            } else if (name == "next_npc_id") {
+                next_npc_id = jsin.get_int();
+            } else if (name == "active_missions") {
+                jsin.start_array();
+                while (!jsin.end_array()) {
+                    mission mis;
+                    JsonObject mis_json = jsin.get_object();
+                    mis.deserialize(mis_json);
+                    active_missions.push_back(mis);
+                }
+            } else if (name == "factions") {
+                jsin.start_array();
+                while (!jsin.end_array()) {
+                    faction fac;
+                    JsonObject fac_json = jsin.get_object();
+                    fac.deserialize(fac_json);
+                    factions.push_back(fac);
+                }
+            } else {
+                // silently ignore anything else
+                jsin.skip_value();
+            }
         }
+    } catch (std::string e) {
+        debugmsg("error loading master.gsav: %s", e.c_str());
     }
-
-    vdata = pgetarray(data,"factions");
-    if(vdata != NULL) {
-        for( picojson::array::iterator pit = vdata->begin(); pit != vdata->end(); ++pit) {
-            faction tmp;
-            tmp.json_load( *pit, this );
-            factions.push_back(tmp);
-        }
-    }
-    
 }
 
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
-    std::map<std::string, picojson::value> data;
-    data["next_mission_id"] = pv ( next_mission_id );
-    data["next_faction_id"] = pv ( next_faction_id );
-    data["next_npc_id"] = pv ( next_npc_id );
+    try {
+        JsonOut json(&fout);
+        json.start_object();
 
-    std::vector<picojson::value> vdata;
-    for (int i = 0; i < active_missions.size(); i++) {
-        vdata.push_back( pv( active_missions[i].json_save() ) );
-    }
-    data["active_missions"] = pv( vdata );
-    vdata.clear();
+        json.member("next_mission_id", next_mission_id);
+        json.member("next_faction_id", next_faction_id);
+        json.member("next_npc_id", next_npc_id);
 
-    for (int i = 0; i < factions.size(); i++) {
-        vdata.push_back( pv( factions[i].json_save() ) );
+        json.member("active_missions");
+        json.start_array();
+        for (int i = 0; i < active_missions.size(); ++i) {
+            active_missions[i].serialize(json);
+        }
+        json.end_array();
+
+        json.member("factions");
+        json.start_array();
+        for (int i = 0; i < factions.size(); ++i) {
+            factions[i].serialize(json);
+        }
+        json.end_array();
+
+        json.end_object();
+    } catch (std::string e) {
+        debugmsg("error saving to master.gsav: %s", e.c_str());
     }
-    data["factions"] = pv( vdata );
-    vdata.clear();
-    fout << pv( data ).serialize() << std::endl;
 }
+

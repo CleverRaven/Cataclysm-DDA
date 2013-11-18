@@ -225,7 +225,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     if (save_world(newworld, true)){
         // move files from origin_path into new world path
         std::vector<std::string> origin_files = file_finder::get_files_from_path(".", origin_path, false);
-        for (int i = 0; i < origin_files.size(); ++i){
+        for (unsigned i = 0; i < origin_files.size(); ++i){
             std::string filename = origin_files[i].substr(origin_files[i].find_last_of("/\\"));
 
             rename(origin_files[i].c_str(), std::string(newworld->world_path + filename).c_str());
@@ -328,7 +328,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     if (world_dirs.size() > 0) {
         // worlds exist by having an option file
         // create worlds
-        for (int i = 0; i < world_dirs.size(); ++i) {
+        for (unsigned i = 0; i < world_dirs.size(); ++i) {
             // get the option file again
             // we can assume that there is only one master.gsav, so just collect the first path
             bool no_options = true;
@@ -340,7 +340,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             // get the save files
             std::vector<std::string> world_sav_files = file_finder::get_files_from_path(SAVE_EXTENSION, world_dirs[i], false);
             // split the save file names between the directory and the extension
-            for (int j = 0; j < world_sav_files.size(); ++j) {
+            for (unsigned j = 0; j < world_sav_files.size(); ++j) {
                 size_t save_index = world_sav_files[j].find(SAVE_EXTENSION);
                 world_sav_files[j] = world_sav_files[j].substr(world_dirs[i].size() + 1, save_index - (world_dirs[i].size() + 1));
             }
@@ -355,7 +355,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             retworlds[worldname]->world_name = worldname;
             all_worldnames.push_back(worldname);
             // add sav files
-            for (int j = 0; j < world_sav_files.size(); ++j) {
+            for (unsigned j = 0; j < world_sav_files.size(); ++j) {
                 retworlds[worldname]->world_saves.push_back(world_sav_files[j]);
             }
             // set world path
@@ -447,21 +447,21 @@ WORLDPTR worldfactory::pick_world()
     WINDOW *w_worlds        = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     wborder(w_worlds_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    mvwputch(w_worlds_border, 4, 0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_worlds_border, 4, 79, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_worlds_border, 4, 0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_worlds_border, 4, 79, c_dkgray, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_worlds_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
+        mvwputch(w_worlds_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, c_dkgray, LINE_XXOX); // _|_
     }
 
-    mvwprintz(w_worlds_border, 0, 36, c_ltred, _(" WORLD SELECTION "));
+    mvwprintz(w_worlds_border, 0, 31, c_ltred, _(" WORLD SELECTION "));
     wrefresh(w_worlds_border);
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
-            mvwputch(w_worlds_header, 0, i, c_ltgray, LINE_OXXX);
+            mvwputch(w_worlds_header, 0, i, c_dkgray, LINE_OXXX);
         } else {
-            mvwputch(w_worlds_header, 0, i, c_ltgray, LINE_OXOX); // Draw header line
+            mvwputch(w_worlds_header, 0, i, c_dkgray, LINE_OXOX); // Draw header line
         }
     }
 
@@ -476,7 +476,7 @@ WORLDPTR worldfactory::pick_world()
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if (mapLines[j]) {
-                    mvwputch(w_worlds, i, j, c_ltgray, LINE_XOXO);
+                    mvwputch(w_worlds, i, j, c_dkgray, LINE_XOXO);
                 } else {
                     mvwputch(w_worlds, i, j, c_black, ' ');
                 }
@@ -488,7 +488,7 @@ WORLDPTR worldfactory::pick_world()
         }
 
         //Draw World Names
-        for (int i = 0; i < world_pages[selpage].size(); ++i) {
+        for (unsigned i = 0; i < world_pages[selpage].size(); ++i) {
             sTemp.str("");
             sTemp << i + 1;
             mvwprintz(w_worlds, i, 0, c_white, sTemp.str().c_str());
@@ -513,7 +513,7 @@ WORLDPTR worldfactory::pick_world()
                 wprintz(w_worlds_header, c_white, "[");
                 wprintz(w_worlds_header, tabcolor, _("Page %d"), i + 1);
                 wprintz(w_worlds_header, c_white, "]");
-                wputch(w_worlds_header, c_white, LINE_OXOX);
+                wputch(w_worlds_header, c_dkgray, LINE_OXOX);
             }
         }
 
@@ -1085,7 +1085,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
                 mvwprintz(w_confirmation, 2, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
                 noname = true;
                 wrefresh(w_confirmation);
-                if (!query_yn(_("Are you SURE you're finished? Your world's name will be randomly generated."))) {
+                if (!query_yn(_("Are you SURE you're finished? World name will be randomly generated."))) {
                     continue;
                     continue;
                 } else {
@@ -1126,7 +1126,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
                                 worldname.erase(worldname.size() - 1);
                             }
                             worldname.erase(worldname.size() - 1);
-                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "_______________________________");
+                            mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "______________________________ ");
                             mvwprintz(w_confirmation, 2, namebar_pos, c_ltgray, "%s", worldname.c_str());
                             wprintz(w_confirmation, h_ltgray, "_");
                         }

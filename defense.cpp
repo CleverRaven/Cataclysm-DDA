@@ -158,10 +158,12 @@ void defense_game::pre_action(game *g, action_id &act)
 
 void defense_game::post_action(game *g, action_id act)
 {
+    (void)g; (void)act;
 }
 
 void defense_game::game_over(game *g)
 {
+    (void)g; //unused
     popup(_("You managed to survive through wave %d!"), current_wave);
     // Reset changed information
     reset_mtypes();
@@ -191,16 +193,16 @@ void defense_game::reset_mtypes()
 
 void defense_game::reset_itypes()
 {
-    g->itypes["2x4"]->volume = original_itype_values["2x4"][0];
-    g->itypes["2x4"]->weight = original_itype_values["2x4"][1];
-    g->itypes["landmine"]->price = original_itype_values["landmine"][0];
-    g->itypes["bot_turret"]->price = original_itype_values["bot_turret"][0];
+    itypes["2x4"]->volume = original_itype_values["2x4"][0];
+    itypes["2x4"]->weight = original_itype_values["2x4"][1];
+    itypes["landmine"]->price = original_itype_values["landmine"][0];
+    itypes["bot_turret"]->price = original_itype_values["bot_turret"][0];
 }
 
 void defense_game::reset_constructions()
 {
-    for (int i = 0; i < g->constructions.size(); i++) {
-        for (int j = 0; j < g->constructions[i]->stages.size(); j++) {
+    for (unsigned i = 0; i < g->constructions.size(); i++) {
+        for (unsigned j = 0; j < g->constructions[i]->stages.size(); j++) {
             g->constructions[i]->stages[j].time = original_construction_values[i][j];
         }
     }
@@ -221,23 +223,24 @@ void defense_game::reset_recipes()
 void defense_game::init_itypes(game *g)
 {
     std::vector<int> change_2x4, change_landmine, change_bot;
-    change_2x4.push_back(g->itypes["2x4"]->volume);
-    change_2x4.push_back(g->itypes["2x4"]->weight);
-    change_landmine.push_back(g->itypes["landmine"]->price);
-    change_bot.push_back(g->itypes["bot_turret"]->price);
+    change_2x4.push_back(itypes["2x4"]->volume);
+    change_2x4.push_back(itypes["2x4"]->weight);
+    change_landmine.push_back(itypes["landmine"]->price);
+    change_bot.push_back(itypes["bot_turret"]->price);
 
     original_itype_values["2x4"] = change_2x4;
     original_itype_values["landmine"] = change_landmine;
     original_itype_values["bot_turret"] = change_bot;
 
-    g->itypes["2x4"]->volume = 0;
-    g->itypes["2x4"]->weight = 0;
-    g->itypes["landmine"]->price = 300;
-    g->itypes["bot_turret"]->price = 6000;
+    itypes["2x4"]->volume = 0;
+    itypes["2x4"]->weight = 0;
+    itypes["landmine"]->price = 300;
+    itypes["bot_turret"]->price = 6000;
 }
 
 void defense_game::init_mtypes(game *g)
 {
+    (void)g; //unused
     m_flag flags[] = {MF_BASHES, MF_SMELLS, MF_HEARS, MF_SEES};
     monflags_to_add.insert(flags, flags + 4);
 
@@ -263,8 +266,8 @@ void defense_game::init_mtypes(game *g)
 
 void defense_game::init_constructions(game *g)
 {
-    for (int i = 0; i < g->constructions.size(); i++) {
-        for (int j = 0; j < g->constructions[i]->stages.size(); j++) {
+    for (unsigned i = 0; i < g->constructions.size(); i++) {
+        for (unsigned j = 0; j < g->constructions[i]->stages.size(); j++) {
             original_construction_values[i].push_back(g->constructions[i]->stages[j].time);
             g->constructions[i]->stages[j].time = 1; // Everything takes 1 minute
         }
@@ -273,6 +276,7 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
+    (void)g; //unused
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
     {
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
@@ -287,7 +291,7 @@ void defense_game::init_map(game *g)
 {
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++) {
-   g->cur_om->ter(x, y, 0) = ot_field;
+   g->cur_om->ter(x, y, 0) = "field";
    g->cur_om->seen(x, y, 0) = true;
   }
  }
@@ -299,36 +303,40 @@ void defense_game::init_map(game *g)
  g->u.posx = SEEX;
  g->u.posy = SEEY;
 
- switch (location) {
+    switch (location) {
 
- case DEFLOC_HOSPITAL:
-  for (int x = 49; x <= 51; x++) {
-   for (int y = 49; y <= 51; y++)
-    g->cur_om->ter(x, y, 0) = ot_hospital;
-  }
-  g->cur_om->ter(50, 49, 0) = ot_hospital_entrance;
-  break;
+    case DEFLOC_HOSPITAL:
+        for (int x = 49; x <= 51; x++) {
+            for (int y = 49; y <= 51; y++) {
+                g->cur_om->ter(x, y, 0) = "hospital";
+            }
+        }
+        g->cur_om->ter(50, 49, 0) = "hospital_entrance";
+        break;
 
- case DEFLOC_MALL:
-  for (int x = 49; x <= 51; x++) {
-   for (int y = 49; y <= 51; y++)
-    g->cur_om->ter(x, y, 0) = ot_megastore;
-  }
-  g->cur_om->ter(50, 49, 0) = ot_megastore_entrance;
-  break;
+    case DEFLOC_MALL:
+        for (int x = 49; x <= 51; x++) {
+            for (int y = 49; y <= 51; y++) {
+                g->cur_om->ter(x, y, 0) = "megastore";
+            }
+        }
+        g->cur_om->ter(50, 49, 0) = "megastore_entrance";
+        break;
 
- case DEFLOC_BAR:
-  g->cur_om->ter(50, 50, 0) = ot_bar_north;
-  break;
+    case DEFLOC_BAR:
+        g->cur_om->ter(50, 50, 0) = "bar_north";
+        break;
 
- case DEFLOC_MANSION:
-  for (int x = 49; x <= 51; x++) {
-   for (int y = 49; y <= 51; y++)
-    g->cur_om->ter(x, y, 0) = ot_mansion;
-  }
-  g->cur_om->ter(50, 49, 0) = ot_mansion_entrance;
-  break;
- }
+    case DEFLOC_MANSION:
+        for (int x = 49; x <= 51; x++) {
+            for (int y = 49; y <= 51; y++) {
+                g->cur_om->ter(x, y, 0) = "mansion";
+            }
+        }
+        g->cur_om->ter(50, 49, 0) = "mansion_entrance";
+        break;
+    }
+
 // Init the map
  int old_percent = 0;
  for (int i = 0; i <= MAPSIZE * 2; i += 2) {
@@ -978,17 +986,17 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
     if (current_window == 1 && items[category_selected].size() > 0) {
      item_count[category_selected][item_selected]++;
      itype_id tmp_itm = items[category_selected][item_selected];
-     total_price += caravan_price(g->u, g->itypes[tmp_itm]->price);
+     total_price += caravan_price(g->u, itypes[tmp_itm]->price);
      if (category_selected == CARAVAN_CART) { // Find the item in its category
       for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
-       for (int j = 0; j < items[i].size(); j++) {
+       for (unsigned j = 0; j < items[i].size(); j++) {
         if (items[i][j] == tmp_itm)
          item_count[i][j]++;
        }
       }
      } else { // Add / increase the item in the shopping cart
       bool found_item = false;
-      for (int i = 0; i < items[0].size() && !found_item; i++) {
+      for (unsigned i = 0; i < items[0].size() && !found_item; i++) {
        if (items[0][i] == tmp_itm) {
         found_item = true;
         item_count[0][i]++;
@@ -1012,17 +1020,17 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
         item_count[category_selected][item_selected] > 0) {
      item_count[category_selected][item_selected]--;
      itype_id tmp_itm = items[category_selected][item_selected];
-     total_price -= caravan_price(g->u, g->itypes[tmp_itm]->price);
+     total_price -= caravan_price(g->u, itypes[tmp_itm]->price);
      if (category_selected == CARAVAN_CART) { // Find the item in its category
       for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
-       for (int j = 0; j < items[i].size(); j++) {
+       for (unsigned j = 0; j < items[i].size(); j++) {
         if (items[i][j] == tmp_itm)
          item_count[i][j]--;
        }
       }
      } else { // Decrease / remove the item in the shopping cart
       bool found_item = false;
-      for (int i = 0; i < items[0].size() && !found_item; i++) {
+      for (unsigned i = 0; i < items[0].size() && !found_item; i++) {
        if (items[0][i] == tmp_itm) {
         found_item = true;
         item_count[0][i]--;
@@ -1079,9 +1087,9 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
  if (!cancel) {
   g->u.cash -= total_price;
   bool dropped_some = false;
-  for (int i = 0; i < items[0].size(); i++) {
-   item tmp(g->itypes[ items[0][i] ], g->turn);
-   tmp = tmp.in_its_container(&(g->itypes));
+  for (unsigned i = 0; i < items[0].size(); i++) {
+   item tmp(itypes[ items[0][i] ], g->turn);
+   tmp = tmp.in_its_container(&(itypes));
    for (int j = 0; j < item_count[0][i]; j++) {
     if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight()) &&
         g->u.inv.size() < inv_chars.size())
@@ -1249,7 +1257,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
   mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 // THEN print it--if item_selected is valid
  if (item_selected < items->size()) {
-  item tmp(g->itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
+  item tmp(itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
   fold_and_print(w, 12, 1, 38, c_white, tmp.info().c_str());
  }
 // Next, clear the item list on the right
@@ -1258,10 +1266,10 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 // Finally, print the item list on the right
  for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT-2 && i < items->size(); i++) {
   mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
-            g->itypes[ (*items)[i] ]->name.c_str());
+            itypes[ (*items)[i] ]->name.c_str());
   wprintz(w, c_white, " x %2d", (*counts)[i]);
   if ((*counts)[i] > 0) {
-   int price = caravan_price(g->u, g->itypes[(*items)[i]]->price *(*counts)[i]);
+   int price = caravan_price(g->u, itypes[(*items)[i]]->price *(*counts)[i]);
    wprintz(w, (price > g->u.cash ? c_red : c_green), "($%6d)", price);
   }
  }
@@ -1318,6 +1326,7 @@ void defense_game::spawn_wave(game *g)
 
 std::vector<std::string> defense_game::pick_monster_wave(game *g)
 {
+    (void)g; //unused
  std::vector<std::string> valid;
  std::vector<std::string> ret;
 
@@ -1375,7 +1384,7 @@ std::string defense_game::special_wave_message(std::string name)
 
  // Capitalize
  capitalize_letter(name);
- for (int i = 2; i < name.size(); i++) {
+ for (unsigned i = 2; i < name.size(); i++) {
   if (name[i - 1] == ' ') {
     capitalize_letter(name, i);
   }

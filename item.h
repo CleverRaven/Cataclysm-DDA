@@ -56,6 +56,9 @@ struct iteminfo{
   }
 };
 
+enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT, 
+    L_ERR_NOT_SEALED, L_ERR_FULL};
+
 class item
 {
 public:
@@ -74,9 +77,9 @@ public:
  item in_its_container(std::map<std::string, itype*> *itypes);
 
  nc_color color(player *u) const;
- nc_color color_in_inventory(player *u);
+ nc_color color_in_inventory();
  std::string tname(game *g = NULL); // g needed for rotten-test
- void use(player &u);
+ void use();
  bool burn(int amount = 1); // Returns true if destroyed
 
 // Firearm specifics
@@ -122,7 +125,7 @@ public:
  bool has_flag(std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
- bool has_technique(std::string t, player *p = NULL);
+ bool has_technique(std::string t);
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
@@ -184,6 +187,8 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+
+ int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
 
  bool operator<(const item& other) const;
 

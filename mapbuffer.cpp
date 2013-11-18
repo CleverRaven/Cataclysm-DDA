@@ -8,6 +8,7 @@
 #include "picofunc.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+const int savegame_minver_map = 11;
 
 mapbuffer MAPBUFFER;
 
@@ -125,81 +126,80 @@ void mapbuffer::save()
   submap *sm = it->second;
   fout << sm->turn_last_touched << std::endl;
   fout << sm->temperature << std::endl;
-// Dump the terrain.
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++)
-    fout << int(sm->ter[i][j]) << " ";
-   fout << std::endl;
-  }
- // Dump the radiation
-  int lastrad = -1;
-  int count = 0;
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    int r = sm->rad[i][j];
-    if (r == lastrad) {
-     count++;
-    } else {
-     if (count) {
-      fout << count << " ";
-     }
-     fout << r << " ";
-     lastrad = r;
-     count = 1;
-    }
-   }
-  }
-  fout << count;
-  fout << std::endl;
 
- // Furniture
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    if (sm->frn[i][j] != f_null)
-     fout << "f " << i << " " << j << " " << sm->frn[i][j] <<
-     std::endl;
-   }
-  }
- // Items section; designate it with an I.  Then check itm[][] for each square
- //   in the grid and print the coords and the item's details.
- // Designate it with a C if it's contained in the prior item.
- // Also, this wastes space since we print the coords for each item, when we
- //   could be printing a list of items for each coord (except the empty ones)
-  item tmp;
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    for (int k = 0; k < sm->itm[i][j].size(); k++) {
-     tmp = sm->itm[i][j][k];
-     fout << "I " << i << " " << j << std::endl;
-     fout << tmp.save_info() << std::endl;
-     for (int l = 0; l < tmp.contents.size(); l++)
-      fout << "C " << std::endl << tmp.contents[l].save_info() << std::endl;
-    }
-   }
-  }
- // Output the traps
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    if (sm->trp[i][j] != tr_null)
-     fout << "T " << i << " " << j << " " << sm->trp[i][j] <<
-     std::endl;
-   }
-  }
+ std::stringstream terout;
+ std::stringstream radout;
+ std::stringstream furnout;
+ std::stringstream itemout;
+ std::stringstream trapout;
+ std::stringstream fieldout;
+ std::stringstream graffout;
+ int count = 0;
+ int lastrad = -1;
+ for(int j = 0; j < SEEY; j++){
+     for(int i = 0; i < SEEX; i++){
+         // Save terrains
+         terout << int(sm->ter[i][j]) << " " << std::endl;
 
- // Output the fields
-  for (int j = 0; j < SEEY; j++) {
-   for (int i = 0; i < SEEX; i++) {
-    if (sm->fld[i][j].fieldCount() > 0){
-     for(std::map<field_id, field_entry*>::iterator it = sm->fld[i][j].getFieldStart();
-         it != sm->fld[i][j].getFieldEnd(); ++it){
-      if(it->second != NULL){
-       fout << "F " << i << " " << j << " " << int(it->second->getFieldType()) << " " <<
-        int(it->second->getFieldDensity()) << " " << (it->second->getFieldAge()) << std::endl;
-      }
+         // Save radiation, re-examine this because it doesnt look like it works right
+         int r = sm->rad[i][j];
+         if (r == lastrad) {
+            count++;
+         } else {
+            if (count) {
+                radout << count << " ";
+            }
+            radout << r << " ";
+            lastrad = r;
+            count = 1;
+         }
+
+         // Save furniture
+         if (sm->frn[i][j] != f_null)
+         {
+            furnout << "f " << i << " " << j << " " << sm->frn[i][j] << std::endl;
+         }
+
+         // Save items
+         item tmp;
+         for (int k = 0; k < sm->itm[i][j].size(); k++) {
+             tmp = sm->itm[i][j][k];
+             itemout << "I " << i << " " << j << std::endl;
+             itemout << tmp.save_info() << std::endl;
+             for (int l = 0; l < tmp.contents.size(); l++)
+             {
+                itemout << "C " << std::endl << tmp.contents[l].save_info() << std::endl;
+             }
+         }
+
+         // Save traps
+         if (sm->trp[i][j] != tr_null)
+         {
+            trapout << "T " << i << " " << j << " " << sm->trp[i][j] << std::endl;
+         }
+
+         // Save fields
+         if (sm->fld[i][j].fieldCount() > 0){
+            for(std::map<field_id, field_entry*>::iterator it = sm->fld[i][j].getFieldStart();
+              it != sm->fld[i][j].getFieldEnd(); ++it){
+                if(it->second != NULL){
+                    fieldout << "F " << i << " " << j << " " << int(it->second->getFieldType()) << " " <<
+                      int(it->second->getFieldDensity()) << " " << (it->second->getFieldAge()) << std::endl;
+                }
+            }
+         }
+
+         // Save graffiti
+         if (sm->graf[i][j].contents)
+         {
+            graffout << "G " << i << " " << j << *sm->graf[i][j].contents << std::endl;
+         }
      }
-    }
-   }
-  }
+ }
+ radout << count << std::endl;
+
+ fout << terout.str() << radout.str() << furnout.str() << itemout.str() << trapout.str() << graffout.str();
+
  // Output the spawn points
   spawn_point tmpsp;
   for (int i = 0; i < sm->spawns.size(); i++) {
@@ -222,13 +222,6 @@ void mapbuffer::save()
   if (sm->camp.is_valid())
    fout << "B " << sm->camp.save_data() << std::endl;
 
- // Output the graffiti
- for (int j = 0; j < SEEY; j++) {
-  for (int i = 0; i < SEEX; i++) {
-   if (sm->graf[i][j].contents)
-    fout << "G " << i << " " << j << *sm->graf[i][j].contents << std::endl;
-  }
- }
 
   fout << "----" << std::endl;
   num_saved_submaps++;
@@ -272,11 +265,11 @@ void mapbuffer::unserialize(std::ifstream & fin) {
            savegame_loading_version = savedver;
        }
    }
-   if (savegame_loading_version != savegame_version) { // We're version x but this is a save from version y, let's check to see if there's a loader
+   if (savegame_loading_version != savegame_version && savegame_loading_version < savegame_minver_map) { // We're version x but this is a save from version y, let's check to see if there's a loader
        if ( unserialize_legacy(fin) == true ) { // loader returned true, we're done.
             return;
        } else { // no unserialize_legacy for version y, continuing onwards towards possible disaster. Or not?
-           popup_nowait(_("Cannot find loader for overmap save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+           popup_nowait(_("Cannot find loader for map save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
        }
    }
 
