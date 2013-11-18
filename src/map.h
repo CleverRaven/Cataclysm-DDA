@@ -378,7 +378,7 @@ class map
 
  int getmapsize() { return my_MAPSIZE; };
 
- // Not protected/private for building_generation.cpp access
+ // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);
