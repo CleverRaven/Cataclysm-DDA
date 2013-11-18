@@ -1157,7 +1157,7 @@ nc_color vehicle::part_color (int p)
     nc_color col;
 
     //If armoring is present, it colors the visible part
-    int parm = part_with_feature(p, "ARMOR", false);
+    int parm = OPTIONS["ARMOR_HIGHLIGHT"] ? part_with_feature(p, "ARMOR", false) : -1;
     if (parm >= 0) {
         col = part_info(parm).color;
     } else {
@@ -1184,7 +1184,7 @@ nc_color vehicle::part_color (int p)
     }
 
     //Invert colors for cargo parts with stuff in them
-    int cargo_part = part_with_feature(p, "CARGO");
+    int cargo_part = OPTIONS["CARGO_INVERT"] ? part_with_feature(p, "CARGO") : -1;
     if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
         return invert_color(col);
     } else {

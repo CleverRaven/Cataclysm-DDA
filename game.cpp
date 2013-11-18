@@ -10693,10 +10693,23 @@ void game::plmove(int dx, int dy)
     }
   }
 
-  if (veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0
-           && u.in_vehicle)
-      add_msg(_("There are vehicle controls here.  %s to drive."),
-              press_x(ACTION_CONTROL_VEHICLE).c_str() );
+  if (veh1) {
+    int cargo_part = veh1->part_with_feature(vpart1, "CARGO");
+    if(cargo_part >= 0) {
+      //Tell the player how many parts are there, since looking in cars is annoying
+      int num_items = veh1->parts[cargo_part].items.size();
+      const char *message = num_items == 1 ?
+          _("There is an item in the %s's %s.") : _("There are many items in the %s's %s.");
+      if(num_items > 0) {
+        add_msg(message, veh1->name.c_str(),
+                veh1->part_info(cargo_part).name.c_str());
+      }
+    }
+    if (veh1->part_with_feature(vpart1, "CONTROLS") >= 0 && u.in_vehicle) {
+      add_msg(_("There are vehicle controls here. %s to drive."),
+                    press_x(ACTION_CONTROL_VEHICLE).c_str() );
+    }
+  }
 
   } else if (!m.has_flag("SWIMMABLE", x, y) && u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
   //probability travel through walls but not water
