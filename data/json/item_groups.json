@@ -1587,7 +1587,8 @@
       ["wine_chardonnay", 10],
       ["wine_cabernet", 10],
       ["wine_noir", 2],
-      ["beer", 60]
+      ["beer", 60],
+      ["single_malt_whiskey", 2]
     ]
     },{
         "type" : "item_group",
