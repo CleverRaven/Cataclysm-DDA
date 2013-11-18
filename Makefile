@@ -188,8 +188,8 @@ ifdef LUA
 
   CXXFLAGS += -DLUA
   LUA_DEPENDENCIES = $(LIB_DIR)/catalua/catabindings.cpp
-  BINDIST_EXTRAS += catalua/catalua.lua
-  BINDIST_EXTRAS += catalua/class_definitions.lua
+  BINDIST_EXTRAS += $(LIB_DIR)/catalua/catalua.lua
+  BINDIST_EXTRAS += $(LIB_DIR)/catalua/class_definitions.lua
 endif
 
 ifdef TILES

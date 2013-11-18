@@ -1034,7 +1034,7 @@ void veh_interact::countDurability()
         if(part.hp < part_dur)
         {
             double damageRatio = (double) part.hp / part_dur;
-            if (!isnan(damageRatio) && (damageRatio < mostDamaged))
+            if (!std::isnan(damageRatio) && (damageRatio < mostDamaged))
             {
                 mostDamaged = damageRatio;
                 mostDamagedPart = it;
