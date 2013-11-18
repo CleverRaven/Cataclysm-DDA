@@ -379,8 +379,6 @@ class game
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
-// Mi-Go speech bubble loading
-  void load_migo_speech(JsonObject &jo);
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);

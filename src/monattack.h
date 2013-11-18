@@ -5,11 +5,6 @@
 
 class game;
 
-struct SpeechBubble {
-    std::string text;
-    int volume;
-};
-
 class mattack {
 public:
     void none               (game *,  monster *) {};
@@ -59,7 +54,5 @@ public:
     void flesh_golem        (game *g, monster *z);
     void parrot             (game *g, monster *z);
 };
-
-extern std::vector<SpeechBubble> parrotVector;
 
 #endif

@@ -7,6 +7,7 @@
 #include "material.h"
 #include "json.h"
 #include "monstergenerator.h"
+#include "speech.h"
 #include <algorithm>
 
 //Used for e^(x) functions
@@ -19,8 +20,6 @@
 
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
-
-std::vector<SpeechBubble> parrotVector;
 
 void mattack::antqueen(game *g, monster *z)
 {
@@ -83,7 +82,7 @@ void mattack::shriek(game *g, monster *z)
  if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
      !g->sees_u(z->posx(), z->posy(), j))
   return; // Out of range
- z->moves = -240;   // It takes a while
+ z->moves -= 240;   // It takes a while
  z->sp_timeout = z->type->sp_freq; // Reset timer
  g->sound(z->posx(), z->posy(), 50, _("a terrible shriek!"));
 }
@@ -94,7 +93,7 @@ void mattack::rattle(game *g, monster *z)
  if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
      !g->sees_u(z->posx(), z->posy(), j))
   return; // Out of range
- z->moves = -20;   // It takes a very short while
+ z->moves -= 20;   // It takes a very short while
  z->sp_timeout = z->type->sp_freq; // Reset timer
  g->sound(z->posx(), z->posy(), 10, _("a sibilant rattling sound!"));
 }
@@ -107,7 +106,7 @@ void mattack::acid(game *g, monster *z)
        !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 10, 1, 100, junk)) {
         return; // Can't see/reach you, no attack
     }
-    z->moves = -300;   // It takes a while
+    z->moves -= 300;   // It takes a while
     z->sp_timeout = z->type->sp_freq; // Reset timer
     g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
     int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
@@ -140,7 +139,7 @@ void mattack::shockstorm(game *g, monster *z)
        !g->m.clear_path(z->posx(), z->posy(), g->u.posx, g->u.posy, 12, 1, 100, junk)) {
         return; // Can't see/reach you, no attack
     }
-    z->moves = -50;   // It takes a while
+    z->moves -= 50;   // It takes a while
     z->sp_timeout = z->type->sp_freq; // Reset timer
     g->add_msg(_("A bolt of electricity arcs towards you!"));
     int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
@@ -208,7 +207,7 @@ void mattack::boomer(game *g, monster *z)
   return; // Out of range
  std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, j);
  z->sp_timeout = z->type->sp_freq; // Reset timer
- z->moves = -250;   // It takes a while
+ z->moves -= 250;   // It takes a while
  bool u_see = g->u_see(z->posx(), z->posy());
  if (u_see)
   g->add_msg(_("The %s spews bile!"), z->name().c_str());
@@ -260,7 +259,7 @@ void mattack::resurrect(game *g, monster *z)
  if (sees_necromancer)
   g->add_msg(_("The %s throws its arms wide..."), z->name().c_str());
  z->sp_timeout = z->type->sp_freq; // Reset timer
- z->moves = -500;   // It takes a while
+ z->moves -= 500;   // It takes a while
  int raised = 0;
  for (int i = 0; i < corpses.size(); i++) {
   int x = corpses[i].x, y = corpses[i].y;
@@ -668,7 +667,7 @@ void mattack::triffid_heartbeat(game *g, monster *z)
 void mattack::fungus(game *g, monster *z)
 {
     // TODO: Infect NPCs?
-    z->moves = -200;   // It takes a while
+    z->moves -= 200;   // It takes a while
     z->sp_timeout = z->type->sp_freq; // Reset timer
     monster spore(GetMType("mon_spore"));
     int sporex, sporey;
@@ -889,7 +888,7 @@ void mattack::plant(game *g, monster *z)
                           z->name().c_str());
         }
         z->poly(GetMType("mon_fungaloid_young"));
-        z->moves = -1000; // It takes a while
+        z->moves -= 1000; // It takes a while
     } else {
         if (g->u_see(z->posx(), z->posy())) {
         g->add_msg(_("The %s falls to the ground and bursts!"),
@@ -950,7 +949,7 @@ void mattack::formblob(game *g, monster *z)
   if (didit) { // We did SOMEthing.
    if (z->type->id == "mon_blob" && z->speed <= 50) // We shrank!
     z->poly(GetMType("mon_blob"));
-   z->moves = -500;
+   z->moves -= 500;
    z->sp_timeout = z->type->sp_freq; // Reset timer
    return;
   }
@@ -1275,7 +1274,7 @@ void mattack::tazer(game *g, monster *z)
   return; // Out of range
  if (g->u.uncanny_dodge()) { return; }
  z->sp_timeout = z->type->sp_freq; // Reset timer
- z->moves = -200;   // It takes a while
+ z->moves -= 200;   // It takes a while
  g->add_msg(_("The %s shocks you!"), z->name().c_str());
  int shock = rng(1, 5);
  g->u.hurt(g, bp_torso, -1, shock * rng(1, 3));
@@ -1337,7 +1336,7 @@ void mattack::smg(game *g, monster *z)
     }
     return;
   }
-  z->moves = -150;   // It takes a while
+  z->moves -= 150;   // It takes a while
   if (g->u_see(z->posx(), z->posy()))
    g->add_msg(_("The %s fires its smg!"), z->name().c_str());
   npc tmp;
@@ -1374,7 +1373,7 @@ void mattack::smg(game *g, monster *z)
   z->moves -= 100;
   return;
  }
- z->moves = -150;   // It takes a while
+ z->moves -= 150;   // It takes a while
 
  if (g->u_see(z->posx(), z->posy()))
   g->add_msg(_("The %s fires its smg!"), z->name().c_str());
@@ -1406,7 +1405,7 @@ void mattack::flamethrower(game *g, monster *z)
      !g->sees_u(z->posx(), z->posy(), t))
     return; // Out of range
     z->sp_timeout = z->type->sp_freq; // Reset timer
-    z->moves = -500;   // It takes a while
+    z->moves -= 500;   // It takes a while
     std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
 
     for (int i = 0; i < traj.size(); i++)
@@ -1635,7 +1634,7 @@ void mattack::flesh_golem(game *g, monster *z)
                     !g->sees_u(z->posx(), z->posy(), j)) {
                 return; // Out of range
             }
-            z->moves = -200;
+            z->moves -= 200;
             z->sp_timeout = z->type->sp_freq; // Reset timer
             g->sound(z->posx(), z->posy(), 80, _("a terrifying roar that nearly deafens you!"));
         }
@@ -1665,28 +1664,10 @@ void mattack::flesh_golem(game *g, monster *z)
 }
 
 void mattack::parrot(game *g, monster *z) {
-    /*  let it talk when we're out of range, and it'll wake stuff up.
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 50) {
-        return; // Out of range
-    }
-    */
     if (one_in(20)) {
-        z->moves = -100;  // It takes a while
+        z->moves -= 100;  // It takes a while
         z->sp_timeout = z->type->sp_freq;  // Reset timer
-        // parrotVector should never have size < 1, but just in case:
-        if (parrotVector.size() == 0) { return; }
-        int index = rng(0, parrotVector.size() - 1);
-        SpeechBubble speech = parrotVector[index];
+        const SpeechBubble speech = get_speech( "migo" );
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
     }
-}
-
-void game::load_migo_speech(JsonObject &jo)
-{
-    std::string sound = _(jo.get_string("sound").c_str());
-    int volume = jo.get_int("volume");
-
-    SpeechBubble speech = {sound, volume};
-
-    parrotVector.push_back(speech);
 }
