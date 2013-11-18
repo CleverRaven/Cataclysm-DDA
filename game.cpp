@@ -106,28 +106,30 @@ void game::init_data()
   throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
     init_data_structures(); // initialize cata data structures
-    load_json_dir("data/json"); // load it, load it all!
-    init_npctalk();
-    init_artifacts();
-    init_weather();
-    init_fields();
-    init_faction_data();
-    init_morale();
-    init_itypes();               // Set up item types                (SEE itypedef.cpp)
-    item_controller->init_old(); //Item manager
-    init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
-    init_traps();                // Set up the trap types            (SEE trapdef.cpp)
-    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_construction();         // Set up constructables            (SEE construction.cpp)
-    init_autosave();             // Set up autosave
-    init_diseases();             // Set up disease lookup table
-    init_savedata_translation_tables();
-    inp_mngr.init();            // Load input config JSON
+    DebugLog() << ".";
+//    load_json_dir("data/json"); // load it, load it all!
+    init_npctalk();DebugLog() << ".";
+    init_artifacts();DebugLog() << ".";
+    init_weather();DebugLog() << ".";
+    init_fields();DebugLog() << ".";
+    init_faction_data();DebugLog() << ".";
+    init_morale();DebugLog() << ".";
+//    init_itypes();               // Set up item types                (SEE itypedef.cpp)
+//    item_controller->init_old(); //Item manager
+    init_monitems();DebugLog() << ".";             // Set up the items monsters carry  (SEE monitemsdef.cpp)
+    init_traps();DebugLog() << ".";                // Set up the trap types            (SEE trapdef.cpp)
+//    init_missions();DebugLog() << ".";             // Set up mission templates         (SEE missiondef.cpp)
+//    init_construction();         // Set up constructables            (SEE construction.cpp)
+    init_autosave();DebugLog() << ".";             // Set up autosave
+    init_diseases();DebugLog() << ".";             // Set up disease lookup table
+    init_savedata_translation_tables();DebugLog() << ".";
+    inp_mngr.init();DebugLog() << ".";            // Load input config JSON
 
+/*
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
     finalize_recipes();
-    
+*/
  #ifdef LUA
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
  #endif
@@ -151,11 +153,6 @@ void game::init_data()
     init_diseases();             // Set up disease lookup table                             // safe
     init_savedata_translation_tables(); // safe
     inp_mngr.init();            // Load input config JSON // safe
-*/
-/*
-    MonsterGenerator::generator().finalize_mtypes();
-    finalize_vehicles();
-     finalize_recipes();
 */
  } catch(std::string &error_message)
  {
@@ -412,9 +409,6 @@ void game::setup()
 // Set up all default values for a new game
 void game::start_game(std::string worldname)
 {
-    load_artifacts(worldname);
-    MAPBUFFER.load(worldname);
-
  turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
  if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
  else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer")
@@ -2692,9 +2686,6 @@ void game::load_uistate(std::string worldname) {
 
 void game::load(std::string worldname, std::string name)
 {
-    load_artifacts(worldname);
-    MAPBUFFER.load(worldname);
-
  std::ifstream fin;
  std::string worldpath = world_generator->all_worlds[worldname]->world_path;
  worldpath += "/";
@@ -2751,7 +2742,7 @@ void game::load(std::string worldname, std::string name)
  load_master(worldname);
  update_map(u.posx, u.posy);
  set_adjacent_overmaps(true);
- MAPBUFFER.save();
+ //MAPBUFFER.save(); // just thought of this... why am I saving the mapbuffer after loading the map?
  draw();
 }
 
@@ -2782,7 +2773,9 @@ void game::load_world_modfiles(std::string worldname)
 
     load_json_files(worldmodfiles);
     init_itypes();
-    item_controller->init(this);
+    //item_controller->init(this);
+    item_controller->init_old(); //Item manager
+    init_missions();             // Set up mission templates         (SEE missiondef.cpp)
     init_construction();
 
     MonsterGenerator::generator().finalize_mtypes();
@@ -3461,7 +3454,7 @@ Current turn: %d; Next spawn %d.\n\
       }
   }
   break;
-  
+
   #ifdef LUA
       case 18: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
@@ -6190,8 +6183,8 @@ void game::open()
                 if (!in_veh || in_veh != veh){
                     add_msg(_("That %s can only opened from the inside."), name);
                     return;
-                } 
-            } 
+                }
+            }
             if (veh->parts[openable].open) {
                 add_msg(_("That %s is already open."), name);
                 u.moves += 100;
@@ -6249,8 +6242,8 @@ void game::close()
                 if (!in_veh || in_veh != veh){
                     add_msg(_("That %s can only closed from the inside."), name);
                     return;
-                } 
-            } 
+                }
+            }
             if (veh->parts[openable].open) {
                 veh->close(openable);
                 didit = true;
@@ -9824,7 +9817,7 @@ void game::reload(char chInput)
 
      // See if the gun is fully loaded.
      if (it->charges == it->clip_size()) {
-         
+
          // Also see if the spare magazine is loaded
          bool magazine_isfull = true;
          item contents;
@@ -9832,7 +9825,7 @@ void game::reload(char chInput)
          for (int i = 0; i < it->contents.size(); i++)
          {
              contents = it->contents[i];
-             if ((contents.is_gunmod() && 
+             if ((contents.is_gunmod() &&
                   (contents.typeId() == "spare_mag" &&
                    contents.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
                 (contents.has_flag("AUX_MODE") &&

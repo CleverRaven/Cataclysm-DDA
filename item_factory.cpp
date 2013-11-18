@@ -625,7 +625,7 @@ void Item_factory::clear_items_and_groups()
     }
     m_template_groups.clear();
     for (std::map<Item_tag, itype*>::iterator it = m_templates.begin(); it != m_templates.end(); ++it){
-        g->itypes.erase(it->first);
+        itypes.erase(it->first);
         it->second = NULL;
     }
     m_templates.clear();

@@ -77,7 +77,7 @@ void init_data_mappings() {
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
-    (void)dirname; //not used yet
+    //(void)dirname; //not used yet
     std::vector<std::string> ret;
     ret = file_finder::get_files_from_path(".json", dirname, true);
 /*
@@ -94,10 +94,12 @@ void load_object(JsonObject &jo, bool initialrun)
 
     if (type_function_map.find(type) != type_function_map.end())
     {
+        /*
         if ( initialrun && type_delayed_order.find(type) != type_delayed_order.end() ) {
             type_delayed[ type_delayed_order[type] ].push_back( jo.dump_input() );
             return;
         }
+        */
         (*type_function_map[type])(jo);
     } else if ( type_ignored.count(type) == 0) {
         std::stringstream err;
@@ -351,6 +353,7 @@ void unload_active_json_data()
     clear_techniques_and_martial_arts();
     // clear tutorial messages
     clear_tutorial_messages();
+    g->mission_types.clear();
 
     item_controller->reinit();
 }
