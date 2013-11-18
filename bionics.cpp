@@ -360,6 +360,11 @@ void player::activate_bionic(int b, game *g)
        power_level += bionics["bio_lighter"]->power_cost;
   }
 
+ } if(bio.id == "bio_geiger"){
+  g->add_msg(_("Your radiation level: %d"), radiation);
+
+  
+              
  } else if(bio.id == "bio_claws"){
   if (weapon.type->id == "bio_claws_weapon") {
    g->add_msg(_("You withdraw your claws."));
