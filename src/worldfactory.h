@@ -1,6 +1,7 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
+#include "mod_manager.h"
 #include "options.h"
 #include "output.h"
 #include "debug.h"
@@ -46,7 +47,7 @@ class worldfactory
         virtual ~worldfactory();
 
         // Generate a world
-        WORLDPTR make_new_world();
+        WORLDPTR make_new_world(bool make_default = false);
         WORLDPTR make_new_world(special_game_id special_type);
         WORLDPTR convert_to_world(std::string origin_path);
 
@@ -61,17 +62,22 @@ class worldfactory
         std::map<std::string, WORLDPTR> all_worlds;
         std::vector<std::string> all_worldnames;
 
+        std::vector<std::string> active_mod_order;
+
         void remove_world(std::string worldname);
         bool valid_worldname(std::string name, bool automated = false);
     protected:
     private:
         std::string pick_random_name();
         int show_worldgen_tab_options(WINDOW *win, WORLDPTR world);
+        int show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world);
         int show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world);
 
         void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
 
         std::map<std::string, cOpt> get_world_options(std::string path);
+        mod_manager *mman;
+        mod_ui *mman_ui;
 };
 
 extern worldfactory *world_generator;

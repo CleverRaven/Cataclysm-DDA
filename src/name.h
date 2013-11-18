@@ -54,7 +54,7 @@ class NameGenerator {
 
   std::vector<std::string> filteredNames(uint32_t searchFlags);
   std::string getName(uint32_t searchFlags);
-
+  void clear_names();
  private:
   NameGenerator();
 

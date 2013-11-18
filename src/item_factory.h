@@ -26,6 +26,7 @@ public:
     //Setup
     Item_factory();
     void init();
+    void reinit();
     void init_old();
     void register_iuse_lua(const char* name, int lua_function);
 
@@ -57,6 +58,7 @@ public:
     void load_gunmod    (JsonObject &jo);
     void load_generic   (JsonObject &jo);
 
+    void clear_items_and_groups();
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;

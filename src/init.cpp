@@ -26,9 +26,15 @@
 #include <sstream> // for throwing errors
 
 #include "savegame.h"
+#include "file_finder.h"
+
 
 typedef std::string type_string;
+std::map<type_string, unsigned> type_counts;
 std::map<type_string, TFunctor*> type_function_map;
+std::map<type_string, int> type_delayed_order;
+std::vector<std::vector<std::string> > type_delayed;
+std::set<std::string> type_ignored;
 
 std::map<int,int> reverse_legacy_ter_id;
 std::map<int,int> reverse_legacy_furn_id;
@@ -71,56 +77,31 @@ void init_data_mappings() {
 // TODO: make this actually load files from the named directory
 std::vector<std::string> listfiles(std::string const &dirname)
 {
-    (void)dirname; //not used yet
+    //(void)dirname; //not used yet
     std::vector<std::string> ret;
-
-    ret.push_back("data/json/materials.json");
-    ret.push_back("data/json/bionics.json");
-    ret.push_back("data/json/professions.json");
-    ret.push_back("data/json/skills.json");
-    ret.push_back("data/json/dreams.json");
-    ret.push_back("data/json/mutations.json");
-    ret.push_back("data/json/snippets.json");
-    ret.push_back("data/json/item_groups.json");
-    ret.push_back("data/json/lab_notes.json");
-    ret.push_back("data/json/hints.json");
-    ret.push_back("data/json/furniture.json");
-    ret.push_back("data/json/terrain.json");
-    ret.push_back("data/json/migo_speech.json");
-    ret.push_back("data/json/names.json");
-    ret.push_back("data/json/vehicle_parts.json");
-    ret.push_back("data/json/vehicles.json");
-    ret.push_back("data/json/species.json");
-    ret.push_back("data/json/monsters.json");
-    ret.push_back("data/json/monstergroups.json");
-    ret.push_back("data/json/items/ammo.json");
-    ret.push_back("data/json/items/archery.json");
-    ret.push_back("data/json/items/armor.json");
-    ret.push_back("data/json/items/books.json");
-    ret.push_back("data/json/items/comestibles.json");
-    ret.push_back("data/json/items/containers.json");
-    ret.push_back("data/json/items/melee.json");
-    ret.push_back("data/json/items/mods.json");
-    ret.push_back("data/json/items/ranged.json");
-    ret.push_back("data/json/items/tools.json");
-    ret.push_back("data/json/items/vehicle_parts.json");
-    ret.push_back("data/json/techniques.json");
-    ret.push_back("data/json/martialarts.json");
-    ret.push_back("data/json/tutorial.json");
-    ret.push_back("data/json/tool_qualities.json");
-    ret.push_back("data/json/overmap_terrain.json");
-    ret.push_back("data/json/recipes.json");
-
+    ret = file_finder::get_files_from_path(".json", dirname, true);
+/*
+    ret.push_back("data/json/materials.json"); // should this be implicitly first? Works fine..
+*/
     return ret;
 }
 
-void load_object(JsonObject &jo)
+void load_object(JsonObject &jo, bool initialrun)
 {
     std::string type = jo.get_string("type");
+
+    type_counts[type]++;
+
     if (type_function_map.find(type) != type_function_map.end())
     {
+        /*
+        if ( initialrun && type_delayed_order.find(type) != type_delayed_order.end() ) {
+            type_delayed[ type_delayed_order[type] ].push_back( jo.dump_input() );
+            return;
+        }
+        */
         (*type_function_map[type])(jo);
-    } else {
+    } else if ( type_ignored.count(type) == 0) {
         std::stringstream err;
         err << jo.line_number() << ": ";
         err << "unrecognized JSON object, type: \"" << type << "\"";
@@ -128,10 +109,21 @@ void load_object(JsonObject &jo)
     }
 }
 
-void null_load_target(JsonObject &) {}
-
 void init_data_structures()
 {
+    type_ignored.insert("colordef");   // loaded earlier.
+    type_ignored.insert("INSTRUMENT"); // ...unimplemented?
+
+    const int delayed_queue_size = 3;      // for now this is only 1 depth, then mods + mods delayed (likely overkill);
+    //type_delayed_order["vehicle"] = 0;     // after vehicle_parts
+    //type_delayed_order["recipe"] = 0;      // after items
+    //type_delayed_order["martial_art"] = 0; //
+
+    type_delayed.resize(delayed_queue_size);
+    for(int i = 0; i < delayed_queue_size; i++ ) {
+        type_delayed[i].clear();
+    }
+
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -147,7 +139,6 @@ void init_data_structures()
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     type_function_map["monstergroup"] = new StaticFunctionAccessor(&MonsterGroupManager::LoadMonsterGroup);
     //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
-
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET, &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_item_group);
@@ -174,6 +165,7 @@ void init_data_structures()
     type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
+
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
     type_function_map["overmap_terrain"] =
@@ -181,7 +173,6 @@ void init_data_structures()
 
     mutations_category[""].clear();
     init_mutation_parts();
-    init_translation();
     init_martial_arts();
     init_inventory_categories();
     init_colormap();
@@ -196,12 +187,27 @@ void release_data_structures()
             delete it->second;
     }
     type_function_map.clear();
+
+    std::stringstream counts;
+    for (std::map<std::string, unsigned>::iterator it = type_counts.begin(); it != type_counts.end(); ++it){
+        counts << it->first << " -- " << it->second << "\n";
+    }
+    DebugLog() << counts.str();
 }
 
 void load_json_dir(std::string const &dirname)
 {
+    //    load_overlay("data/overlay.json");
     // get a list of all files in the directory
     std::vector<std::string> dir = listfiles(dirname);
+
+    // moved to avoid code duplication for when all mod-files are being loaded at one time.
+    load_json_files(dir);
+}
+
+void load_json_files(std::vector<std::string> const &files)
+{
+    std::vector<std::string> dir = files;
     // iterate over each file
     std::vector<std::string>::iterator it;
     for (it = dir.begin(); it != dir.end(); it++) {
@@ -220,10 +226,29 @@ void load_json_dir(std::string const &dirname)
             JsonIn jsin(&iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
+            DebugLog() << *(it) << ": " << e << "\n";
             throw *(it) + ": " + e;
         }
     }
-    init_data_mappings();
+
+    for( int i = 0; i < type_delayed.size(); i++ ) {
+        for ( int d = 0; d < type_delayed[i].size(); d++ ) {
+            std::istringstream iss( type_delayed[i][d] );
+            try {
+                JsonIn jsin(&iss);
+                jsin.eat_whitespace(); // should not be needed
+                JsonObject jo = jsin.get_object();
+                load_object(jo, false); // don't re-queue, parse
+            } catch (std::string e) {
+                throw *(it) + ": " + e;
+            }
+        }
+        type_delayed[i].clear();
+    }
+
+    if ( t_floor != termap["t_floor"].loadid ) {
+        init_data_mappings(); // this should only kick off once
+    }
 }
 
 void load_all_from_json(JsonIn &jsin)
@@ -273,4 +298,62 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
+void unload_active_json_data()
+{
+    // clear materials
+    material_type::_all_materials.clear();
+    // clear bionics
+    for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
+        delete bio->second;
+    }
+    bionics.clear();
+    // clear professions
+    profession::_all_profs.clear();
+    // clear skills
+    for (int i = 0; i < Skill::skills.size(); ++i){
+        delete Skill::skills[i];
+    }
+    Skill::skills.clear();
+    // clear dreams
+    dreams.clear();
+    // clear mutations (traits, mutation categories and mutation data)
+    mutations_category.clear();
+    mutation_data.clear();
+    traits.clear();
+    // clear lab notes
+    computer::clear_lab_notes();
+    // clear hints
+    clear_hints();
+    // clear furniture
+    furnlist.clear();
+    furnmap.clear();
+    // clear terrains
+    terlist.clear();
+    termap.clear();
+    // clear monster groups
+    MonsterGroupManager::ClearMonsterGroups();
+    // clear snippits
+    SNIPPET.clear_snippets();
+    // clear item groups and items
+    item_controller->clear_items_and_groups();
 
+    // clear migo speech
+    parrotVector.clear();
+    // clear out names
+    NameGenerator::generator().clear_names();
+    // clear out vehicles and vehicle parts
+    vehicle_part_types.clear();
+    for (std::map<std::string, vehicle*>::iterator veh = g->vtypes.begin(); veh != g->vtypes.end(); ++veh){
+        delete veh->second;
+    }
+    g->vtypes.clear();
+    // clear recipes, recipe categories, and tool qualities
+    clear_recipes_categories_qualities();
+    // clear techniques, martial arts, and ma buffs
+    clear_techniques_and_martial_arts();
+    // clear tutorial messages
+    clear_tutorial_messages();
+    g->mission_types.clear();
+
+    item_controller->reinit();
+}

@@ -69,13 +69,14 @@ public:
     }
 };
 //********** END - Functor Base, Static and Class member accessors
-
 std::vector<std::string> listfiles(std::string const &dirname);
-void load_object(JsonObject &jsobj);
+void load_object(JsonObject &jsobj, bool initialrun = true);
 void init_data_structures();
 void release_data_structures();
+void unload_active_json_data();
 
 void load_json_dir(std::string const &dirname);
+void load_json_files(std::vector<std::string> const &files);
 void load_all_from_json(JsonIn &jsin);
 
 #endif // _INIT_H_

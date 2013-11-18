@@ -10,7 +10,6 @@
 #include "color.h"
 #include "options.h"
 #include "mapbuffer.h"
-#include "debug.h"
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>

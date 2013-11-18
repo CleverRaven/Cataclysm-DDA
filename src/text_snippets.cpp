@@ -17,6 +17,12 @@ void snippet_library::load_snippet(JsonObject &jsobj)
     categories.insert( std::pair<std::string, int>(category, hash) );
 }
 
+void snippet_library::clear_snippets()
+{
+    snippets.clear();
+    categories.clear();
+}
+
 int snippet_library::assign( const std::string category ) const
 {
     std::multimap<std::string,int>::const_iterator category_start = categories.lower_bound(category);
