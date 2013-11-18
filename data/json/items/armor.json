@@ -3115,7 +3115,8 @@
         "bashing" : -3,
         "flags" : ["WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 3,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
