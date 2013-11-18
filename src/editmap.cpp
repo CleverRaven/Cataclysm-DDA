@@ -1547,7 +1547,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     tinymap tmpmap(&g->traps);
     tmpmap.load(g, tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
     // this should -not- be saved, map::save appends a dupe to mapbuffer.
-    tmpmap.generate(g, oms[1][1], tc.abs_sub.x, tc.abs_sub.y, zlevel, int(g->turn));;
+    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
 
     point pofs = pos2screen(target.x - 11, target.y - 11); //
     WINDOW *w_preview = newwin(24, 24, pofs.y, pofs.x );
@@ -1581,7 +1581,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             lastsel = gmenu.selected;
             oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = gmenu.selected;
             cleartmpmap( tmpmap );
-            tmpmap.generate(g, oms[1][1], tc.abs_sub.x, tc.abs_sub.y, zlevel, int(g->turn));;
+            tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
             showpreview = true;
         }
         if ( showpreview ) {
@@ -1606,7 +1606,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 if ( gpmenu.ret == 0 ) {
 
                     cleartmpmap( tmpmap );
-                    tmpmap.generate(g, oms[1][1], tc.abs_sub.x, tc.abs_sub.y, zlevel, int(g->turn));;
+                    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
                     showpreview = true;
                 } else if ( gpmenu.ret == 1 ) {
                     tmpmap.rotate(1);
@@ -1777,7 +1777,7 @@ int editmap::edit_mapgen()
 
     for (int i = 0; i < terlist.size(); i++) {
         oter_id id = oter_id(i);
-        gmenu.addentry(-1, true, 0, "%s", std::string(id).c_str() );
+        gmenu.addentry(-1, true, 0, "[%3d] %s", (int)id, std::string(id).c_str() );
         if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {
             gmenu.entries[i].enabled = false;
         }
@@ -1814,8 +1814,7 @@ int editmap::edit_mapgen()
         //        point msub=point(target.x/12, target.y/12);
 
         tc.fromabs(g->m.getabs(target.x, target.y));
-        point omt = tc.om_pos;
-        point omt_lpos = g->m.getlocal(omt.x * 2 * 12, omt.y * 2 * 12);
+        point omt_lpos = g->m.getlocal( tc.begin_om_pos() );
         point om_ltarget = point(omt_lpos.x + 11, omt_lpos.y + 11);
 
         if ( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
