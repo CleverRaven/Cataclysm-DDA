@@ -381,10 +381,6 @@ bool player::create(game *g, character_type type, std::string tempname)
         tmp = item(itypes["inhaler"], 0);
         inv.push_back(tmp);
     }
-    // Basic starter gear, added independently of profession.
-    tmp = item(itypes["pockknife"], 0);
-    inv.push_back(tmp);
-    tmp = item(itypes["matches"], 0);
     inv.push_back(tmp);
     // make sure we have no mutations
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
