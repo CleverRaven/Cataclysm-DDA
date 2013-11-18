@@ -10674,29 +10674,50 @@ void game::plmove(int dx, int dy)
   if (m.has_flag("SWIMMABLE", x, y))
     u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
 
-  // List items here
-  if (!m.has_flag("SEALED", x, y)) {
-    if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 && m.i_at(x, y).size() != 0) {
-      // TODO: Rewrite to be localizable
-      std::string buff = _("You see here ");
-
-      for (int i = 0; i < m.i_at(x, y).size(); i++) {
-        buff += m.i_at(x, y)[i].tname(this);
-
-        if (i + 2 < m.i_at(x, y).size())
-          buff += _(", ");
-        else if (i + 1 < m.i_at(x, y).size())
-          buff += _(", and ");
-
-      }
-
-      buff += _(".");
-
-      add_msg(buff.c_str());
-    } else if (m.i_at(x, y).size() != 0) {
-      add_msg(_("There are many items here."));
+    // List items here
+    if (!m.has_flag("SEALED", x, y)) {
+        if (u.has_disease("blind") && !m.i_at(x, y).empty()) {
+            add_msg(_("There's something here, but you can't see what it is."));
+        } else if (!m.i_at(x, y).empty()) {
+            // TODO: Rewrite to be localizable
+            std::stringstream buff;
+            buff << _("You see here ");
+            std::vector<std::string> names;
+            std::vector<size_t> counts;
+            names.push_back(m.i_at(x, y)[0].tname(this));
+            counts.push_back(1);
+            for (int i = 1; i < m.i_at(x, y).size(); i++) {
+                std::string next = m.i_at(x, y)[i].tname(this);
+                if (next == names.back()) {
+                    counts.back() += 1;
+                    continue;
+                }
+                names.push_back(next);
+                counts.push_back(1);
+                if (names.size() > 3) {
+                    break;
+                }
+            }
+            if (names.size() > 3) {
+                add_msg(_("There are many items here."));
+            } else {
+                for (int i = 0; i < names.size(); ++i) {
+                    buff << names[i];
+                    if (counts[i] > 1) {
+                        //~ number of items
+                        buff << " x " << counts[i];
+                    }
+                    if (i + 2 < names.size()) {
+                        buff << _(", ");
+                    } else if (i + 1 < names.size()) {
+                        buff << _(", and ");
+                    }
+                }
+                buff << _(".");
+                add_msg(buff.str().c_str());
+            }
+        }
     }
-  }
 
   if (veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0
            && u.in_vehicle)
