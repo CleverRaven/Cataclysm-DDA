@@ -193,18 +193,21 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
     message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
-// Handles speed penalties to monster & us, etc
- melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
-
 // Make a rather quiet sound, to alert any nearby monsters
  if (!is_quiet()) // check martial arts silence
   g->sound(posx, posy, 8, "");
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
-    if (g->u_see(z)) {
-        player_hit_message(g, this, message, target_name, dam, critical_hit);
-    }
+ // Handles speed penalties to monster & us, etc
+ std::string specialmsg = melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
+
+  if (g->u_see(z)) {
+      player_hit_message(g, this, message, target_name, dam, critical_hit);
+  }
+  
+  if (!specialmsg.empty())
+    g->add_msg(specialmsg.c_str());
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10);
@@ -1073,11 +1076,13 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  }
 }
 
-void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
+std::string player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                                    int &bash_dam, int &cut_dam, int &stab_dam)
 {
+    std::stringstream dump;
+  
     if (z == NULL && p == NULL) {
-        return;
+        return NULL;
     }
     const bool mon = (z != NULL);
     const bool npc = (p != NULL && p->is_npc());
@@ -1225,8 +1230,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
          !z->is_hallucination()) {
-   g->add_msg_if_player(p,_("Your %s gets stuck in %s, pulling it out of your hands!"),
-              weapon.tname().c_str(), target.c_str());
+  if (you)
+    dump << _("Your ")<<weapon.tname()<<_(" gets stuck in ")<<target<<_(", pulling it out of your hands!");
   if (mon) {
    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
     z->speed *= .7;
@@ -1243,8 +1248,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
   if (cutting_penalty >= 50 && !z->is_hallucination()) {
-   g->add_msg_if_player(p,_("Your %s gets stuck in %s, but you yank it free."),
-              weapon.tname().c_str(), target.c_str());
+    if (you)
+    dump << _("Your ")<<weapon.tname()<<_(" gets stuck in ")<<target<<_(", but you yank it free.");
   }
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
@@ -1258,6 +1263,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   // on-hit effects for martial arts
   ma_onhit_effects();
 
+  return dump.str();
 }
 
 std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
@@ -1543,7 +1549,7 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
         }
     } else if (p.weapon.is_cutting_weapon()) {  // cutting weapon
         if (bash_dam + stab_dam + cut_dam >= 30) {
-            return npc ? _("<npcname> hacks %s") : _("You hack %s");
+            return npc ? _("<npcname> guts %s") : _("You gut %s");
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
             return npc ? _("<npcname> slices %s") : _("You slice %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {
