@@ -138,21 +138,6 @@
     },
     {
         "type":"GENERIC",
-        "id" : "metal_tank",
-        "name" : "metal tank",
-        "description" : "A metal tank for holding liquids. Useful for crafting.",
-        "weight" : 2834,
-        "to_hit" : -2,
-        "color" : "light_cyan",
-        "symbol" : "}",
-        "material" : ["steel", "null"],
-        "volume" : 18,
-        "bashing" : 3,
-        "cutting" : 0,
-        "price" : 40
-    },
-    {
-        "type":"GENERIC",
         "id" : "small_storage_battery",
         "name" : "small storage battery",
         "description" : "A small storage battery. Useful for crafting.",

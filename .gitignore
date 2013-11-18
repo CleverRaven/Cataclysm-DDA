@@ -10,8 +10,8 @@ logg.txt
 bindist/
 cataclysmdda-*
 objwin/
-version.h
-catalua/catabindings.cpp
+src/version.h
+src/lib/catalua/catabindings.cpp
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout
