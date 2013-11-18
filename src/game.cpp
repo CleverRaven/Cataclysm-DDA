@@ -124,7 +124,7 @@ void game::init_data()
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
     finalize_recipes();
-    
+
  #ifdef LUA
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
  #endif
@@ -2666,7 +2666,7 @@ void game::load(std::string worldname, std::string name)
  worldpath += "/";
  std::stringstream playerfile;
  playerfile << worldpath << name << ".sav";
- fin.open(playerfile.str().c_str());
+ fin.open(playerfile.str().c_str(), std::ifstream::in | std::ifstream::binary);
 // First, read in basic game state information.
  if (!fin.is_open()) {
   dbg(D_ERROR) << "game:load: No save game exists!";
@@ -3358,7 +3358,7 @@ Current turn: %d; Next spawn %d.\n\
       }
   }
   break;
-  
+
   #ifdef LUA
       case 18: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
@@ -6087,8 +6087,8 @@ void game::open()
                 if (!in_veh || in_veh != veh){
                     add_msg(_("That %s can only opened from the inside."), name);
                     return;
-                } 
-            } 
+                }
+            }
             if (veh->parts[openable].open) {
                 add_msg(_("That %s is already open."), name);
                 u.moves += 100;
@@ -6146,8 +6146,8 @@ void game::close()
                 if (!in_veh || in_veh != veh){
                     add_msg(_("That %s can only closed from the inside."), name);
                     return;
-                } 
-            } 
+                }
+            }
             if (veh->parts[openable].open) {
                 veh->close(openable);
                 didit = true;
@@ -9721,7 +9721,7 @@ void game::reload(char chInput)
 
      // See if the gun is fully loaded.
      if (it->charges == it->clip_size()) {
-         
+
          // Also see if the spare magazine is loaded
          bool magazine_isfull = true;
          item contents;
@@ -9729,7 +9729,7 @@ void game::reload(char chInput)
          for (int i = 0; i < it->contents.size(); i++)
          {
              contents = it->contents[i];
-             if ((contents.is_gunmod() && 
+             if ((contents.is_gunmod() &&
                   (contents.typeId() == "spare_mag" &&
                    contents.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
                 (contents.has_flag("AUX_MODE") &&
