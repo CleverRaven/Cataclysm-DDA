@@ -10679,9 +10679,6 @@ void game::plmove(int dx, int dy)
         if (u.has_disease("blind") && !m.i_at(x, y).empty()) {
             add_msg(_("There's something here, but you can't see what it is."));
         } else if (!m.i_at(x, y).empty()) {
-            // TODO: Rewrite to be localizable
-            std::stringstream buff;
-            buff << _("You see here ");
             std::vector<std::string> names;
             std::vector<size_t> counts;
             names.push_back(m.i_at(x, y)[0].tname(this));
@@ -10698,23 +10695,21 @@ void game::plmove(int dx, int dy)
                     break;
                 }
             }
-            if (names.size() > 3) {
-                add_msg(_("There are many items here."));
+            for (int i = 0; i < names.size(); ++i) {
+                //~ number of items: "<number> <item>"
+                std::string fmt = ngettext("%1$d %2$s", "%1$d %2$ss", counts[i]);
+                names[i] = string_format(fmt, counts[i], names[i].c_str());
+            }
+            if (names.size() == 1) {
+                add_msg(_("You see here %s."), names[0].c_str());
+            } else if (names.size() == 2) {
+                add_msg(_("You see here %s and %s."),
+                        names[0].c_str(), names[1].c_str());
+            } else if (names.size() == 3) {
+                add_msg(_("You see here %s, %s, and %s."), names[0].c_str(),
+                        names[1].c_str(), names[2].c_str());
             } else {
-                for (int i = 0; i < names.size(); ++i) {
-                    buff << names[i];
-                    if (counts[i] > 1) {
-                        //~ number of items
-                        buff << " x " << counts[i];
-                    }
-                    if (i + 2 < names.size()) {
-                        buff << _(", ");
-                    } else if (i + 1 < names.size()) {
-                        buff << _(", and ");
-                    }
-                }
-                buff << _(".");
-                add_msg(buff.str().c_str());
+                add_msg(_("There are many items here."));
             }
         }
     }
