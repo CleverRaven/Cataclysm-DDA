@@ -25,7 +25,8 @@ public:
      bool faulty; // Whether or not the bionic is faulty
 };
 
-struct bionic {
+struct bionic : public JsonSerializer, public JsonDeserializer
+{
  bionic_id id;
  char invlet;
  bool powered;
@@ -41,6 +42,23 @@ struct bionic {
   powered = false;
   charge = 0;
  };
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &json) const {
+        json.start_object();
+        json.member("id", id);
+        json.member("invlet", (int)invlet);
+        json.member("powered", powered);
+        json.member("charge", charge);
+        json.end_object();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        id = jo.get_string("id");
+        invlet = jo.get_int("invlet");
+        powered = jo.get_bool("powered");
+        charge = jo.get_int("charge");
+    }
 };
 
 extern std::map<bionic_id, bionic_data*> bionics;

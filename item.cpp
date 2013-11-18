@@ -3,14 +3,16 @@
 #include "output.h"
 #include "skill.h"
 #include "game.h"
-#include <sstream>
-#include <algorithm>
 #include "cursesdef.h"
 #include "text_snippets.h"
 #include "material.h"
 #include "item_factory.h"
 #include "options.h"
 #include "uistate.h"
+
+#include <cmath> // floor
+#include <sstream>
+#include <algorithm>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -151,9 +153,9 @@ item::item(std::string itemdata, game *g)
  load_info(itemdata, g);
 }
 
-item::item(picojson::value & parsed, game *g)
- {
-    json_load(parsed, g);
+item::item(JsonObject &jo)
+{
+    deserialize(jo);
 }
 
 item::~item()
@@ -277,7 +279,11 @@ const char ivaresc=001;
  */
 std::string item::save_info() const
 {
-    return json_save().serialize();
+    // doing this manually so as not to recurse
+    std::stringstream s;
+    JsonOut jsout(&s);
+    serialize(jsout, false);
+    return s.str();
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
@@ -327,13 +333,11 @@ void item::load_info(std::string data, game *g)
         check=data[1];
     }
     if ( check == '{' ) {
-        picojson::value pdata;
-        dump >> pdata;
-        std::string jsonerr = picojson::get_last_error();
-        if ( ! jsonerr.empty() ) {
+        JsonIn jsin(&dump);
+        try {
+            deserialize(jsin);
+        } catch (std::string jsonerr) {
             debugmsg("Bad item json\n%s", jsonerr.c_str() );
-        } else {
-            json_load(pdata, g);
         }
         return;
     } else {
@@ -2254,7 +2258,7 @@ bool item::reload(player &u, char ammo_invlet)
   }
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on") {
       int charges_per_plut = 500;
-      int max_plut = std::floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
+      int max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
       int charges_used = std::min(ammo_to_use->charges, max_plut);
       reload_target->charges += (charges_used * charges_per_plut);
       ammo_to_use->charges -= charges_used;

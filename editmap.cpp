@@ -79,8 +79,7 @@ void edit_json( SAVEOBJ *it, game * g )
 {
 
     int tmret = -1;
-    picojson::value js1=it->json_save(true);
-    std::string save1 = js1.serialize();
+    std::string save1 = it->serialize();
     std::string osave1=save1;
     std::vector<std::string> fs1 = fld_string(save1, TERMX-10);
     std::string save2;
@@ -94,11 +93,8 @@ void edit_json( SAVEOBJ *it, game * g )
         if(tmret == 0) {
             std::stringstream dump;
             dump << save1;
-            dump >> js1;
-
-            it->json_load(js1, g);
-            picojson::value s2=it->json_save(true);
-            save2 = s2.serialize();
+            it->deserialize(dump);
+            save2 = it->serialize();
             fs2 = fld_string(save2, TERMX-10);
 
             tm.addentry(-1, true, -2, "== Reloaded: =====================" );
@@ -124,7 +120,7 @@ void edit_json( SAVEOBJ *it, game * g )
             fout.close();
 
             fout.open("save/jtest-2j.txt");
-            fout << it->json_save(true).serialize();
+            fout << it->serialize();
             fout.close();
         } 
         tm.addentry(0,true,'r',"rehash");

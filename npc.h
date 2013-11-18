@@ -128,9 +128,8 @@ enum npc_favor_type {
  NUM_FAVOR_TYPES
 };
 
-class npc_favor : public JsonSerializer, public JsonDeserializer
+struct npc_favor : public JsonSerializer, public JsonDeserializer
 {
-public:
     npc_favor_type type;
     int value;
     itype_id item_id;
@@ -143,16 +142,14 @@ public:
         skill = NULL;
     };
 
-    bool json_load(std::map<std::string, picojson::value> & data);
-    picojson::value json_save();
-
     using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
     using JsonDeserializer::deserialize;
-    void serialize(JsonOut &json) const;
-    void deserialize(JsonObject &jo);
+    void deserialize(JsonIn &jsin);
 };
 
-struct npc_personality {
+struct npc_personality : public JsonSerializer, public JsonDeserializer
+{
 // All values should be in the -10 to 10 range.
  signed char aggression;
  signed char bravery;
@@ -164,11 +161,14 @@ struct npc_personality {
   collector  = 0;
   altruism   = 0;
  };
- picojson::value json_save();
- void json_load(std::map<std::string, picojson::value> & data);
+
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 };
 
-struct npc_opinion
+struct npc_opinion : public JsonSerializer, public JsonDeserializer
 {
  int trust;
  int fear;
@@ -230,8 +230,11 @@ struct npc_opinion
  {
   return (npc_opinion(*this) += rhs);
  };
- picojson::value json_save();
- bool json_load(std::map<std::string, picojson::value> & data );
+
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 
  void load_legacy(std::stringstream &info);
 };
@@ -244,7 +247,7 @@ enum combat_engagement {
  ENGAGE_ALL
 };
 
-struct npc_combat_rules
+struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
 {
  combat_engagement engagement;
  bool use_guns;
@@ -261,9 +264,10 @@ struct npc_combat_rules
 
  void load_legacy(std::istream &data);
 
- picojson::value json_save();
- bool json_load(std::map<std::string, picojson::value> & data);
-
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 };
 
 enum talk_topic {
@@ -331,7 +335,7 @@ enum talk_topic {
  NUM_TALK_TOPICS
 };
 
-struct npc_chatbin
+struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 {
  std::vector<int> missions;
  std::vector<int> missions_assigned;
@@ -347,14 +351,17 @@ struct npc_chatbin
   skill = NULL;
   first_topic = TALK_NONE;
  }
- picojson::value json_save();
- bool json_load(std::map<std::string, picojson::value> & data);
+
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 
  void load_legacy(std::stringstream &info);
 };
 
-class npc : public player {
-
+class npc : public player
+{
 public:
 
  npc();
@@ -378,12 +385,10 @@ public:
  virtual void load_info(game *g, std::string data);// Overloaded from player
  virtual std::string save_info();
 
-//  void json_load_common_variables( std::map<std::string, picojson::value> & data ); 
- virtual void json_load(picojson::value & parsed, game * g);   // populate variables, inventory items, and misc from json object
-
-// void json_save_common_variables( std::map<std::string, picojson::value> & data );
- virtual picojson::value json_save(bool save_contents=false);
-
+    using player::deserialize;
+    virtual void deserialize(JsonIn &jsin);
+    using player::serialize;
+    virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);

@@ -33,10 +33,10 @@ public:
     void init (int adx, int ady);   // init ray with dx,dy
     void init (int adir);           // init ray with direction
 
-    int dx ();      // return dx of last advance (-1 to 1)
-    int dy ();      // return dy of last advance (-1 to 1)
-    int dir ();     // return direction of ray (degrees)
-    int dir4 ();    // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
+    int dx () const;      // return dx of last advance (-1 to 1)
+    int dy () const;      // return dy of last advance (-1 to 1)
+    int dir () const;     // return direction of ray (degrees)
+    int dir4 () const;    // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
     long dir_symbol (long sym); // convert certain symbols from north-facing variant into current dir facing
     int ortho_dx (int od); // return dx for point at "od" distance in orthogonal direction
     int ortho_dy (int od); // return dy for point at "od" distance in orthogonal direction

@@ -1,6 +1,8 @@
 #ifndef _ENUMS_H_
 #define _ENUMS_H_
 
+#include "json.h" // (de)serialization for points
+
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
@@ -38,12 +40,26 @@ enum damage_type
     NUM_DAM_TYPES
 };
 
-struct point {
- int x;
- int y;
- point(int X = 0, int Y = 0) : x (X), y (Y) {}
- point(const point &p) : x (p.x), y (p.y) {}
- ~point(){}
+struct point : public JsonSerializer, public JsonDeserializer
+{
+    int x;
+    int y;
+    point(int X = 0, int Y = 0) : x (X), y (Y) {}
+    point(const point &p) : x (p.x), y (p.y) {}
+    ~point(){}
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const {
+        jsout.start_array();
+        jsout.write(x);
+        jsout.write(y);
+        jsout.end_array();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) {
+        JsonArray ja = jsin.get_array();
+        x = ja.get_int(0);
+        y = ja.get_int(1);
+    }
 };
 
 inline bool operator<(const point& a, const point& b)

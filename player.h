@@ -14,6 +14,8 @@
 #include "crafting.h"
 #include "vehicle.h"
 #include "martialarts.h"
+#include "json.h"
+
 #include <vector>
 #include <string>
 #include <map>
@@ -36,7 +38,7 @@ struct special_attack
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
-struct stats
+struct stats : public JsonSerializer, public JsonDeserializer
 {
     int squares_walked;
     int damage_taken;
@@ -53,9 +55,28 @@ struct stats
     stats() {
         reset();
     }
+
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &json) const {
+        json.start_object();
+        json.member("squares_walked", squares_walked);
+        json.member("damage_taken", damage_taken);
+        json.member("damage_healed", damage_healed);
+        json.member("headshots", headshots);
+        json.end_object();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        jo.read_into("squares_walked", squares_walked);
+        jo.read_into("damage_taken", damage_taken);
+        jo.read_into("damage_healed", damage_healed);
+        jo.read_into("headshots", headshots);
+    }
 };
 
-class player {
+class player : public JsonSerializer, public JsonDeserializer
+{
   std::map<Skill*,SkillLevel> _skills;
 
 public:
@@ -81,11 +102,16 @@ public:
  virtual void load_info(game *g, std::string data); // deserialize string when loading
  virtual std::string save_info(); // output serialized json string for saving
 
- void json_load_common_variables( std::map<std::string, picojson::value> & data );
- virtual void json_load(picojson::value & parsed, game *g);   // populate variables, inventory items, and misc from json object
+    // populate variables, inventory items, and misc from json object
+    void json_load_common_variables(JsonObject &jsout);
+    using JsonDeserializer::deserialize;
+    virtual void deserialize(JsonIn &jsin);
 
- void json_save_common_variables( std::map<std::string, picojson::value> & data );
- virtual picojson::value json_save(bool save_contents=false);
+    void json_save_common_variables(JsonOut &json) const;
+    using JsonSerializer::serialize;
+    // by default save all contained info
+    void serialize(JsonOut &jsout) const { serialize(jsout, true); }
+    virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g); // '@' key; extended character info
@@ -466,6 +492,10 @@ public:
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
 
+    // for serialization
+    SkillLevel get_skill_level(Skill* _skill) const;
+    SkillLevel get_skill_level(const std::string &ident) const;
+
  void set_skill_level(Skill* _skill, int level);
  void set_skill_level(std::string ident, int level);
 
@@ -498,10 +528,11 @@ public:
  //Notable events, to be printed in memorial
  std::vector <std::string> memorial_log;
 
- //Record of player stats, for posterity only
- stats* lifetime_stats();
+    //Record of player stats, for posterity only
+    stats* lifetime_stats();
+    stats get_stats() const; // for serialization
 
- int getID ();
+ int getID () const;
 
  bool is_underwater() const;
  void set_underwater(bool);

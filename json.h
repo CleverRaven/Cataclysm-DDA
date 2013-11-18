@@ -219,13 +219,20 @@ private:
 public:
     JsonObject(JsonIn *jsin);
     JsonObject(const JsonObject &jsobj);
+    JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
     ~JsonObject() { finish(); }
 
     void finish(); // moves the stream to the end of the object
+    size_t size();
+    bool empty();
 
     bool has_member(const std::string &name); // true iff named member exists
     std::set<std::string> get_member_names();
+    std::string str(); // copy object json as string
+    // seek to a value and return a pointer to the JsonIn (member must exist)
+    JsonIn* get_raw(const std::string &name);
 
+    // values by name
     // variants with no fallback throw an error if the name is not found.
     // variants with a fallback return the fallback value in stead.
     bool get_bool(const std::string &name);
@@ -237,13 +244,14 @@ public:
     std::string get_string(const std::string &name);
     std::string get_string(const std::string &name, const std::string &fallback);
 
-    // note: returns empty array if not found
+    // containers by name
+    // get_array returns empty array if the member is not found
     JsonArray get_array(const std::string &name);
     std::vector<int> get_int_array(const std::string &name);
     std::vector<std::string> get_string_array(const std::string &name);
-    // note: throws exception if not found (can change behaviour if desirable)
+    // get_object returns empty object if not found
     JsonObject get_object(const std::string &name);
-    // note: returns empty set if not found
+    // get_tags returns empty set if none found
     std::set<std::string> get_tags(const std::string &name);
     // TODO: some sort of get_map(), maybe
 
@@ -256,6 +264,21 @@ public:
     bool has_string(const std::string &name);
     bool has_array(const std::string &name);
     bool has_object(const std::string &name);
+
+    // set values by reference
+    // return true if the value was set, false otherwise.
+    // return false if the member is not found.
+    bool read_into(const std::string &name, bool &b);
+    bool read_into(const std::string &name, int &i);
+    bool read_into(const std::string &name, unsigned int &u);
+    bool read_into(const std::string &name, float &f);
+    bool read_into(const std::string &name, double &d);
+    bool read_into(const std::string &name, std::string &s);
+    bool read_into(const std::string &name, JsonDeserializer &j);
+    template <typename T>
+    bool read_into(const std::string &name, std::vector<T> &v); // see below
+    template <typename T>
+    bool read_into(const std::string &name, std::set<T> &v); // see below
 
     // useful debug info
     std::string line_number(); // for occasional use only
@@ -274,13 +297,15 @@ private:
 public:
     JsonArray(JsonIn *jsin);
     JsonArray(const JsonArray &jsarr);
-    JsonArray() : positions(), start(0), index(0), jsin(NULL) {};
+    JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
     ~JsonArray() { finish(); }
 
     void finish(); // move the stream position to the end of the array
 
     bool has_more(); // true iff more elements may be retrieved with next_*
     int size();
+    bool empty();
+    std::string str(); // copy array json as string
 
     // iterative access
     bool next_bool();
@@ -289,6 +314,7 @@ public:
     std::string next_string();
     JsonArray next_array();
     JsonObject next_object();
+    void skip_value(); // ignore whatever is next
 
     // static access
     bool get_bool(int index);
@@ -317,7 +343,19 @@ public:
     bool has_string(int index);
     bool has_array(int index);
     bool has_object(int index);
+
+    // iteratively set values by reference
+    bool read_into(bool &b);
+    bool read_into(int &i);
+    bool read_into(unsigned &u);
+    bool read_into(float &f);
+    bool read_into(double &d);
+    bool read_into(std::string &s);
+    bool read_into(JsonDeserializer &j);
 };
+
+
+/* JsonIn */
 
 class JsonIn {
 private:
@@ -385,7 +423,11 @@ public:
     std::string line_number(int offset_modifier=0); // for occasional use only
     void error(std::string message, int offset=0); // ditto
     void rewind(int max_lines=-1, int max_chars=-1);
+    std::string substr(size_t pos, size_t len=std::string::npos);
 };
+
+
+/* JsonOut */
 
 class JsonOut {
 private:
@@ -448,6 +490,7 @@ public:
 
 class JsonSerializer {
 public:
+    virtual ~JsonSerializer() {}
     virtual void serialize(JsonOut &jsout) const = 0;
     std::string serialize() const {
         std::ostringstream s;
@@ -462,17 +505,54 @@ public:
 
 class JsonDeserializer {
 public:
-    virtual void deserialize(JsonObject &jsobj) = 0;
-    void deserialize(const std::string &json_object_string) {
-        // note: object string must include starting and ending braces {}
-        std::istringstream s(json_object_string);
+    virtual ~JsonDeserializer() {}
+    virtual void deserialize(JsonIn &jsin) = 0;
+    void deserialize(const std::string &json_string) {
+        std::istringstream s(json_string);
         deserialize(s);
     }
     void deserialize(std::istream &i) {
         JsonIn jin(&i);
-        JsonObject jo = jin.get_object();
-        deserialize(jo);
+        deserialize(jin);
     }
 };
+
+/* compound templates */
+
+// JsonObject named array ~> vector
+template <typename T>
+bool JsonObject::read_into(const std::string &name, std::vector<T> &v)
+{
+    if (!has_array(name)) { return false; }
+    JsonArray ja = get_array(name);
+    v.clear();
+    try {
+        while (ja.has_more()) {
+            T element;
+            if (ja.read_into(element)) {
+                v.push_back(element);
+            }
+        }
+        return true;
+    } catch (std::string e) { return false; }
+}
+
+// JsonObject named array ~> set
+template <typename T>
+bool JsonObject::read_into(const std::string &name, std::set<T> &v)
+{
+    if (!has_array(name)) { return false; }
+    JsonArray ja = get_array(name);
+    v.clear();
+    try {
+        while (ja.has_more()) {
+            T element;
+            if (ja.read_into(element)) {
+                v.insert(element);
+            }
+        }
+        return true;
+    } catch (std::string e) { return false; }
+}
 
 #endif // _JSON_H_
