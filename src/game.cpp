@@ -5936,7 +5936,7 @@ void game::kill_mon(int index, bool u_did_it)
   if (u_did_it) {
    if (z.has_flag(MF_GUILT)) {
     mdeath tmpdeath;
-    tmpdeath.guilt(this, &z);
+    tmpdeath.guilt(&z);
    }
    if (!z.is_hallucination()) {
     kills[z.type->id]++; // Increment our kill counter
@@ -7900,7 +7900,7 @@ void game::pickup(int posx, int posy, int min)
                         if( tmp_hotplate.is_tool() ) {
                             it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
                             if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                                tmptool->use.call(g, &u, &tmp_hotplate, false);
+                                tmptool->use.call(&u, &tmp_hotplate, false);
                                 tmp_hotplate.charges -= tmptool->charges_per_use;
                                 veh->refill( "battery", tmp_hotplate.charges );
                             }
@@ -7964,7 +7964,7 @@ void game::pickup(int posx, int posy, int min)
                         if( tmp_welder.is_tool() ) {
                             it_tool * tmptool = static_cast<it_tool*>((&tmp_welder)->type);
                             if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                                tmptool->use.call( g, &u, &tmp_welder, false );
+                                tmptool->use.call( &u, &tmp_welder, false );
                                 tmp_welder.charges -= tmptool->charges_per_use;
                                 veh->refill( "battery", tmp_welder.charges );
                             }
@@ -7986,7 +7986,7 @@ void game::pickup(int posx, int posy, int min)
                         if( tmp_purifier.is_tool() ) {
                             it_tool * tmptool = static_cast<it_tool*>((&tmp_purifier)->type);
                             if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                                tmptool->use.call( g, &u, &tmp_purifier, false );
+                                tmptool->use.call( &u, &tmp_purifier, false );
                                 tmp_purifier.charges -= tmptool->charges_per_use;
                                 veh->refill( "battery", tmp_purifier.charges );
                             }
@@ -10631,7 +10631,7 @@ void game::plmove(int dx, int dy)
    trap* tr = traps[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
     trapfunc f;
-    (f.*(tr->act))(this, x, y);
+    (f.*(tr->act))(x, y);
    }
   }
 
@@ -11181,7 +11181,7 @@ void game::vertical_move(int movez, bool force) {
   trap* tr = traps[m.tr_at(u.posx, u.posy)];
   if (force || !u.avoid_trap(tr)) {
    trapfunc f;
-   (f.*(tr->act))(this, u.posx, u.posy);
+   (f.*(tr->act))(u.posx, u.posy);
   }
  }
 

@@ -1,8 +1,5 @@
-#include "game.h"
-#include "mondeath.h"
-#include "monattack.h"
-#include "itype.h"
-#include "setvector.h"
+#include "mtype.h"
+#include "translations.h"
 
 mtype::mtype () {
     id = "mon_null";

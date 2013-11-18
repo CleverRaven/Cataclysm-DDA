@@ -1078,7 +1078,7 @@ void construct::done_trunk_plank(game *g, point p)
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
         item tmplog(itypes["log"], int(g->turn), g->nextinv);
-        iuse::cut_log_into_planks( g, &(g->u), &tmplog);
+        iuse::cut_log_into_planks( &(g->u), &tmplog);
     }
 }
 

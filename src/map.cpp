@@ -2473,14 +2473,14 @@ bool map::process_active_item(game* g, item *it, const int nonant, const int i, 
         } else {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
             if (tmp->use != &iuse::none) {
-                tmp->use.call(g, &(g->u), it, true);
+                tmp->use.call(&(g->u), it, true);
             }
             if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
             if (it->charges <= 0) {
                 if (tmp->use != &iuse::none) {
-                    tmp->use.call(g, &(g->u), it, false);
+                    tmp->use.call(&(g->u), it, false);
                 }
                 if (tmp->revert_to == "null" || it->charges == -1) {
                     return true;
@@ -2753,7 +2753,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   g->add_msg(_("You fail to disarm the trap, and you set it off!"));
   trap* tr = g->traps[tr_at(x, y)];
   trapfunc f;
-  (f.*(tr->act))(g, x, y);
+  (f.*(tr->act))(x, y);
   if(diff - roll <= 6)
    // Give xp for failing, but not if we failed terribly (in which
    // case the trap may not be disarmable).

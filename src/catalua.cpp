@@ -1,5 +1,10 @@
 #include "catalua.h"
 
+#include "game.h"
+#include "item_factory.h"
+#include "item.h"
+#include "pldata.h"
+
 #ifdef LUA
 extern "C" {
 #include "lua.h"
@@ -257,11 +262,11 @@ void game::init_lua() {
 #endif // #ifdef LUA
 
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-int use_function::call(game* game, player* player_instance, item* item_instance, bool active) {
+int use_function::call(player* player_instance, item* item_instance, bool active) {
     if(function_type == USE_FUNCTION_CPP) {
         // If it's a C++ function, simply call it with the given arguments.
         iuse tmp;
-        return (tmp.*cpp_function)(game, player_instance, item_instance, active);
+        return (tmp.*cpp_function)(player_instance, item_instance, active);
     } else {
         #ifdef LUA
 
@@ -307,15 +312,15 @@ int use_function::call(game* game, player* player_instance, item* item_instance,
         // access.
         luah_remove_from_registry(L, item_in_registry);
         luah_setmetatable(L, "outdated_metatable");
-        
+
         return lua_tointeger(L, -1);
-        
+
         #else
-        
+
         // If LUA isn't defined and for some reason we registered a lua function,
         // simply do nothing.
         return 0;
-        
+
         #endif
 
     }

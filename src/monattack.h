@@ -1,58 +1,54 @@
 #ifndef _MONATTACK_H_
 #define _MONATTACK_H_
 
-//#include "game.h"
-
-class game;
-
 class mattack {
 public:
-    void none               (game *,  monster *) {};
-    void antqueen           (game *g, monster *z);
-    void shriek             (game *g, monster *z);
-    void rattle             (game *g, monster *z);
-    void acid               (game *g, monster *z);
-    void shockstorm         (game *g, monster *z);
-    void smokecloud         (game *g, monster *z);
-    void boomer             (game *g, monster *z);
-    void resurrect          (game *g, monster *z);
-    void science            (game *g, monster *z);
-    void growplants         (game *g, monster *z);
-    void grow_vine          (game *g, monster *z);
-    void vine               (game *g, monster *z);
-    void spit_sap           (game *g, monster *z);
-    void triffid_heartbeat  (game *g, monster *z);
-    void fungus             (game *g, monster *z);
-    void fungus_growth      (game *g, monster *z);
-    void fungus_sprout      (game *g, monster *z);
-    void leap               (game *g, monster *z);
-    void dermatik           (game *g, monster *z);
-    void dermatik_growth    (game *g, monster *z);
-    void plant              (game *g, monster *z);
-    void disappear          (game *g, monster *z);
-    void formblob           (game *g, monster *z);
-    void dogthing           (game *g, monster *z);
-    void tentacle           (game *g, monster *z);
-    void vortex             (game *g, monster *z);
-    void gene_sting         (game *g, monster *z);
-    void para_sting         (game *g, monster *z);
-    void triffid_growth     (game *g, monster *z);
-    void stare              (game *g, monster *z);
-    void fear_paralyze      (game *g, monster *z);
-    void photograph         (game *g, monster *z);
-    void tazer              (game *g, monster *z);
-    void smg                (game *g, monster *z);
-    void flamethrower       (game *g, monster *z);
-    void copbot             (game *g, monster *z);
-    void multi_robot        (game *g, monster *z); // Pick from tazer, smg, flame
-    void ratking            (game *g, monster *z);
-    void generator          (game *g, monster *z);
-    void upgrade            (game *g, monster *z);
-    void breathe            (game *g, monster *z);
-    void bite               (game *g, monster *z);
-    void brandish           (game *g, monster *z);
-    void flesh_golem        (game *g, monster *z);
-    void parrot             (game *g, monster *z);
+    void none               (monster *) {};
+    void antqueen           (monster *z);
+    void shriek             (monster *z);
+    void rattle             (monster *z);
+    void acid               (monster *z);
+    void shockstorm         (monster *z);
+    void smokecloud         (monster *z);
+    void boomer             (monster *z);
+    void resurrect          (monster *z);
+    void science            (monster *z);
+    void growplants         (monster *z);
+    void grow_vine          (monster *z);
+    void vine               (monster *z);
+    void spit_sap           (monster *z);
+    void triffid_heartbeat  (monster *z);
+    void fungus             (monster *z);
+    void fungus_growth      (monster *z);
+    void fungus_sprout      (monster *z);
+    void leap               (monster *z);
+    void dermatik           (monster *z);
+    void dermatik_growth    (monster *z);
+    void plant              (monster *z);
+    void disappear          (monster *z);
+    void formblob           (monster *z);
+    void dogthing           (monster *z);
+    void tentacle           (monster *z);
+    void vortex             (monster *z);
+    void gene_sting         (monster *z);
+    void para_sting         (monster *z);
+    void triffid_growth     (monster *z);
+    void stare              (monster *z);
+    void fear_paralyze      (monster *z);
+    void photograph         (monster *z);
+    void tazer              (monster *z);
+    void smg                (monster *z);
+    void flamethrower       (monster *z);
+    void copbot             (monster *z);
+    void multi_robot        (monster *z); // Pick from tazer, smg, flame
+    void ratking            (monster *z);
+    void generator          (monster *z);
+    void upgrade            (monster *z);
+    void breathe            (monster *z);
+    void bite               (monster *z);
+    void brandish           (monster *z);
+    void flesh_golem        (monster *z);
+    void parrot             (monster *z);
 };
 
 #endif
