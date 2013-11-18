@@ -85,6 +85,16 @@ private:
     void display_mode (char mode);
     void display_list (int pos, std::vector<vpart_info> list);
 
+    void countDurability();
+    nc_color getDurabilityColor(const int& dur);
+    std::string getDurabilityDescription(const int& dur);
+
+    int durabilityPercent;
+    std::string totalDurabilityText;
+    std::string worstDurabilityText;
+    nc_color totalDurabilityColor;
+    nc_color worstDurabilityColor;
+
     /* Vector of all vpart TYPES that can be mounted in the current square.
      * Can be converted to a vector<vpart_info>.
      * Updated whenever the cursor moves. */
