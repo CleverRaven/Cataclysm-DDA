@@ -365,6 +365,14 @@ void player::activate_bionic(int b, game *g)
 
   
               
+ } if(bio.id == "bio_radscrubber"){
+  if (radiation > 4){
+  g->add_msg(_("You activate your radiation scrubber system."));
+  radiation -= 5;
+ } else {
+  g->add_msg(_("You activate your radiation scrubber system."));
+   radiation = 0;       
+  }
  } else if(bio.id == "bio_claws"){
   if (weapon.type->id == "bio_claws_weapon") {
    g->add_msg(_("You withdraw your claws."));
