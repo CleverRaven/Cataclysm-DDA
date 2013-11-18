@@ -3190,6 +3190,7 @@
       ["chemistry_set", 10],
       ["sm_extinguisher", 20],
       ["charcoal", 15]
+	  ]
 	},{
         "type" : "item_group",
         "id" : "chem-lab",
