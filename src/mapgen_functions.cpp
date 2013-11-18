@@ -1,4 +1,4 @@
-#include "building_generation.h"
+#include "mapgen_functions.h"
 #include "output.h"
 #include "item_factory.h"
 #include "line.h"
