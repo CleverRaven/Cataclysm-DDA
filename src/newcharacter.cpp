@@ -441,7 +441,6 @@ void draw_tabs(WINDOW *w, std::string sTab)
     for (size_t i = 0; i < tab_captions.size(); i++) {
         draw_tab(w, tab_pos[i] + space * i, tab_captions[i].c_str(), (sTab == tab_captions[i]));
     }
-    tab_captions.~vector();
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
     mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, c_ltgray, LINE_OOXX); // ^|
