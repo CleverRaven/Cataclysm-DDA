@@ -5764,12 +5764,12 @@ void game::emp_blast(int x, int y)
   if (z.has_flag(MF_ELECTRONIC)) {
    // TODO: Add flag to mob instead.
    if (z.type->id == "mon_turret" && one_in(3)) {
-     add_msg(_("The EMP blast causes the %s to malfunction and deactivate!"), z.name().c_str());
+     add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
       remove_zombie(mondex);
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
    }
    else if (z.type->id == "mon_manhack" && one_in(6)) {
-     add_msg(_("The EMP blast causes the %s to malfunction and drop from the air!"), z.name().c_str());
+     add_msg(_("The %s flies erratically and drops from the air!"), z.name().c_str());
      remove_zombie(mondex);
      m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
    }
