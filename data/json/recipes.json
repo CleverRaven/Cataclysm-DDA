@@ -4216,7 +4216,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 1 ]],
+  "book_learn": [[ "cookbook_human", 0 ]],
   "tools": [
     [
       [ "pan", -1 ],
@@ -4357,7 +4357,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 1 ]],
+  "book_learn": [[ "cookbook_human", 2 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -4563,7 +4563,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 3 ]],
+  "book_learn": [[ "cookbook_human", 0 ]],
   "tools": [
     [
       [ "hotplate", 7 ],
@@ -4809,6 +4809,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "cooked_burritio",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 2500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "frozen_burritio", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "cooked_dinner",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4925,6 +4947,221 @@
       [ "salt", 1 ],
       [ "seasoning_salt", 10 ]
     ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "nachos",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "potato_raw", 1 ]
+    ],
+    [
+      [ "salt", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "nachosc",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cheese", 1 ],
+	  [ "cheese_spray", 1]
+    ],
+	[
+	  [ "nachos", 3 ],
+	]
+  ]
+},{
+        "type" : "recipe",
+   "result": "nachosm",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ],
+	  [ "dry_meat", 2],
+	  [ "rehydrated_meat", 2]
+    ],
+	[
+	  [ "nachos", 3 ],
+	]
+  ]
+},{
+        "type" : "recipe",
+   "result": "nachosmc",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ],
+	  [ "dry_meat", 2],
+	  [ "rehydrated_meat", 2]
+    ],
+	[
+      [ "cheese", 1 ],
+	  [ "cheese_spray", 1]
+    ],
+	[
+	  [ "nachos", 3 ],
+	]
+  ]
+},{
+        "type" : "recipe",
+   "result": "nachosh",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 1 ],
+	  [ "dry_hflesh", 2],
+	  [ "rehydrated_hflesh", 2]
+    ],
+	[
+	  [ "nachos", 3 ],
+	]
+  ]
+},{
+        "type" : "recipe",
+   "result": "nachoshc",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 20000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 1 ],
+	  [ "dry_hflesh", 2],
+	  [ "rehydrated_hflesh", 2]
+    ],
+	[
+      [ "cheese", 1 ],
+	  [ "cheese_spray", 1]
+    ],
+	[
+	  [ "nachos", 3 ],
+	]
   ]
 },{
         "type" : "recipe",
@@ -6432,6 +6669,75 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pie_meat",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pie_human",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "human_flesh", 1],
+      [ "rehydrated_hflesh", 2 ],
+      [ "dry_hflesh", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pizza_veggy",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -6524,7 +6830,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 2 ]],
+  "book_learn": [[ "cookbook_human", 3 ]],
   "tools": [
     [
       [ "hotplate", 8 ],
@@ -6610,7 +6916,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 3 ]],
+  "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -13787,7 +14093,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 2 ]],
+  "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -13953,7 +14259,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 1 ]],
+  "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -17498,7 +17804,7 @@
    "time": 8000,
    "reversible": false,
    "autolearn": false,
-   "book_learn": [[ "cookbook_human", 1 ]],
+   "book_learn": [[ "cookbook_human", 3 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
    ],
@@ -18299,7 +18605,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_human", 5 ]],
+  "book_learn": [[ "cookbook_human", 6 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
