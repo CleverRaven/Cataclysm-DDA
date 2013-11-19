@@ -1945,7 +1945,6 @@ bool game::handle_action()
 
                 mouse_action_x = mx;
                 mouse_action_y = my;
-                bool can_fire = false;
                 int mouse_selected_mondex = mon_at(mx, my);
                 if (mouse_selected_mondex != -1) {
                     monster &z = _active_monsters[mouse_selected_mondex];
