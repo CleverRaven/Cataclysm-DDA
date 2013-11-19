@@ -4948,13 +4948,13 @@
         "material" : ["plastic", "null"],
         "volume" : 14,
         "cutting" : 0,
-        "warmth" : 30,
+        "warmth" : 10,
         "phase" : "solid",
-        "enviromental_protection" : 3,
+        "enviromental_protection" : 4,
         "encumbrance" : 5,
         "bashing" : -5,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD"],
+        "flags" : ["OVERSIZE", "HOOD", "WATERPROOF"],
         "material_thickness" : 2
     },
     {
