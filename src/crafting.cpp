@@ -545,15 +545,23 @@ craft_cat game::prev_craft_cat(craft_cat cat)
 recipe* game::select_crafting_recipe()
 {
     const int headHeight = 3;
-    const int tailHeight = 4;
+    const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
+    bool isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
+
+    const int width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) : FULL_SCREEN_WIDTH;
+    const int wStart = ( TERMX - width ) / 2;
+    const int tailHeight = isWide ? 3 : 4;
     const int dataLines = TERMY - headHeight - tailHeight;
     const int dataHalfLines = dataLines / 2;
     const int dataHeight = TERMY - headHeight;
 
-    WINDOW *w_head = newwin(headHeight, FULL_SCREEN_WIDTH, 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    WINDOW *w_data = newwin(dataHeight, FULL_SCREEN_WIDTH, headHeight, (TERMX  > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    int lastid = -1;
 
+    WINDOW *w_head = newwin(headHeight, width, 0, wStart);
+    WINDOW *w_data = newwin(dataHeight, width, headHeight, wStart);
 
+    const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
+    std::vector<std::string> folded;
     craft_cat tab = "CC_WEAPON";
     std::vector<recipe*> current;
     std::vector<bool> available;
@@ -576,6 +584,7 @@ recipe* game::select_crafting_recipe()
             } else {
                 keepline = false;
             }
+
             draw_recipe_tabs(w_head, tab, (filterstring == "")?false:true);
             current.clear();
             available.clear();
@@ -585,23 +594,33 @@ recipe* game::select_crafting_recipe()
 
         // Clear the screen of recipe data, and draw it anew
         werase(w_data);
-        if (filterstring != "") {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
-        } else {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
-        }
-        mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
 
+        if ( isWide ) {
+            mvwprintz(w_data, dataLines+1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+            wprintz(w_data, c_white, "  ");
+            if (filterstring != "") {
+                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
+            } else {
+                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind"));
+            }
+        } else {
+            if (filterstring != "") {
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
+            } else {
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
+            }
+            mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+        }
         // Draw borders
-        for (int i = 1; i < FULL_SCREEN_WIDTH-1; ++i) { // _
+        for (int i = 1; i < width-1; ++i) { // _
             mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
         }
-        for (int i = 1; i < dataHeight-1; ++i) { // |
+        for (int i = 0; i < dataHeight-1; ++i) { // |
             mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w_data, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
+            mvwputch(w_data, i, width-1, c_ltgray, LINE_XOXO);
         }
         mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
-        mvwputch(w_data, dataHeight-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // |_
+        mvwputch(w_data, dataHeight-1, width-1, c_ltgray, LINE_XOOX); // |_
 
         int recmin = 0, recmax = current.size();
         if (recmax > dataLines) {
@@ -702,7 +721,7 @@ recipe* game::select_crafting_recipe()
 
                     std::stringstream qualinfo;
                     qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
-                    ypos += fold_and_print(w_data, ypos, xpos, getmaxx(w_data)-xpos-1, toolcol, qualinfo.str().c_str());
+                    ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH-xpos-1, toolcol, qualinfo.str().c_str());
                 }
                 ypos--;
                 // Loop to print the required tools
@@ -811,6 +830,21 @@ recipe* game::select_crafting_recipe()
                     }
                 }
             }
+
+            if ( isWide ) {
+                if ( lastid != current[line]->id ) {
+                    lastid = current[line]->id;
+                    tmp = item(item_controller->find_template(current[line]->result), 0);
+                    folded = foldstring(tmp.info(true), iInfoWidth);
+                }
+                int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
+                 
+                for(int i = 0; i < maxline; i++) {
+                    mvwprintz(w_data, i, FULL_SCREEN_WIDTH+1, c_dkgray, folded[i].c_str() );
+                }
+
+            }
+
         }
 
         //Draw Scrollbar
@@ -917,13 +951,14 @@ recipe* game::select_crafting_recipe()
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
-    for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
+    int width = getmaxx(w);
+    for (int i = 0; i < width; i++)
     {
         mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
     }
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
     if(!filtered)
     {
         draw_tab(w,  2, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
