@@ -64,6 +64,8 @@ static bool needupdate = false;
 static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
 static SDL_Surface *glyph_cache[128][16]; //cache ascii characters
+static SDL_Surface *ascii[16];
+int tilewidth=0;
 TTF_Font* font;
 static int ttf_height_hack = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
@@ -84,6 +86,7 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 std::map< std::string,std::vector<int> > consolecolors;
+void (*OutputChar)(Uint16 t, int x, int y, unsigned char color);
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -218,8 +221,8 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 static void cache_glyphs()
 {
-    int top=999, bottom=-999;
 
+    int top=999, bottom=-999;
     start_color();
 
     for(int ch=0; ch<128; ch++)
@@ -244,7 +247,7 @@ static void cache_glyphs()
     ttf_height_hack =  delta - top;
 }
 
-static void OutputChar(Uint16 t, int x, int y, unsigned char color)
+static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
@@ -263,6 +266,14 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
         }
         if(t>=0x80) SDL_FreeSurface(glyph);
     }
+}
+static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
+{
+	SDL_Rect src;
+	src.x=(t%tilewidth)*fontwidth; src.y=(t/tilewidth)*fontheight; src.w=fontwidth; src.h=fontheight;
+    SDL_Rect rect;
+    rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
+    SDL_BlitSurface(ascii[color], &src, screen, &rect);
 }
 
 #ifdef SDLTILES
@@ -915,6 +926,7 @@ static int test_face_size(std::string f, int size, int faceIndex)
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
+
     lastchar=-1;
     inputdelay=-1;
 
@@ -953,6 +965,44 @@ WINDOW *curses_init(void)
     WindowHeight= (OPTIONS["VIEWPORT_Y"] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
+	while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp")
+	||!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png"))
+	{
+		SDL_Surface *asciiload;
+		typeface = "data/font/" + typeface;
+		asciiload=IMG_Load(typeface.c_str());
+		if(!asciiload||asciiload->w*asciiload->h<(fontwidth*fontheight*256))
+		{
+			SDL_FreeSurface(asciiload);
+			break;
+		}
+		Uint32 key = SDL_MapRGB(asciiload->format,0xFF,0,0xFF);
+		SDL_SetColorKey(asciiload,SDL_SRCCOLORKEY,key);
+		ascii[0]=SDL_DisplayFormat(asciiload);
+		SDL_FreeSurface(asciiload);
+		for(int a=1;a<16;a++)
+			ascii[a]=SDL_ConvertSurface(ascii[0],ascii[0]->format,ascii[0]->flags);
+
+		init_colors();
+		for(int a=0;a<15;a++)
+		{
+			SDL_LockSurface(ascii[a]);
+			int size=ascii[a]->h*ascii[a]->w;
+			Uint32 *pixels = (Uint32 *)ascii[a]->pixels;
+			Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
+			for(int i=0;i<size;i++)
+			{
+				if(pixels[i] == 0xFFFFFF)
+					pixels[i] = color;
+			}
+			SDL_UnlockSurface(ascii[a]);
+		}
+		if(fontwidth)tilewidth=ascii[0]->w/fontwidth;
+		OutputChar = &OutputImageChar;
+		mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
+		return mainwin;
+	}
+
     std::string sysfnt = find_system_font(typeface, faceIndex);
     if(sysfnt!="") typeface = sysfnt;
 
@@ -985,9 +1035,12 @@ WINDOW *curses_init(void)
     // this causes baseline problems for certain fonts
     // I can only guess by check a certain tall character...
     cache_glyphs();
+	init_colors();
+
+	OutputChar = &OutputFontChar;
 
     mainwin = newwin((OPTIONS["VIEWPORT_Y"] * 2 + 1),(((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55) + (OPTIONS["VIEWPORT_Y"] * 2 + 1)),0,0);
-
+	
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -1018,6 +1071,7 @@ int curses_destroy(void)
             glyph_cache[i][j] = NULL;
         }
     }
+	for(int a=0;a<16;a++)SDL_FreeSurface(ascii[a]);
     WinDestroy();
     return 1;
 }
