@@ -5740,7 +5740,7 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of heavily customized, armored gloves, modified to be easy of wear while providing maximum protection under extreme conditions.",
+        "description" : "A pair of heavily customized, armored gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
         "price" : 180,
         "material" : ["kevlar", "steel"],
         "volume" : 4,
