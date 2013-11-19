@@ -4165,6 +4165,8 @@ int iuse::UPS_off(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You turn the power supply on."));
   if (p->is_wearing("goggles_nv"))
    g->add_msg_if_player(p,_("Your light amp goggles power on."));
+  if (p->is_wearing("optical_cloak"))
+   g->add_msg_if_player(p,_("Your optical cloak flickers as it becomes transparent."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor engages."));
   it->make(itypes["UPS_on"]);
@@ -4190,6 +4192,8 @@ int iuse::UPS_on(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("The UPS powers off with a soft hum."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
+  if (p->is_wearing("optical_cloak"))
+   g->add_msg_if_player(p,_("Your optical cloak flickers for a moment as it becomes opaque."));
   it->make(itypes["UPS_off"]);
   it->active = false;
   return 0;
@@ -4205,6 +4209,9 @@ int iuse::adv_UPS_off(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You turn the power supply on."));
   if (p->is_wearing("goggles_nv")) {
    g->add_msg_if_player(p,_("Your light amp goggles power on."));
+  }
+  if (p->is_wearing("optical_cloak")) {
+   g->add_msg_if_player(p,_("Your optical cloak becomes transparent."));
   }
   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
     g->add_msg_if_player(p, _("Your power armor engages."));
@@ -4231,6 +4238,8 @@ int iuse::adv_UPS_on(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("The advanced UPS powers off with a soft hum."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
+  if (p->is_wearing("optical_cloak"))
+   g->add_msg_if_player(p,_("Your optical cloak becomes opaque."));
   it->make(itypes["adv_UPS_off"]);
   it->active = false;
  }
