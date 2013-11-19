@@ -394,6 +394,15 @@ void mdeath::explode(monster *z) {
     g->explosion(z->posx(), z->posy(), size, 0, false);
 }
 
+void mdeath::broken(monster *z) {
+  if (z->type->id == "mon_manhack") {
+    g->m.spawn_item(z->posx(), z->posy(), "broken_manhack", 1, 0, g->turn);
+  }
+  else {
+    debugmsg("Tried to create a broken %s but it does not exist.", z->type->name.c_str());
+  }
+}
+
 void mdeath::ratking(monster *z) {
     g->u.rem_disease("rat");
     if (g->u_see(z)) {
