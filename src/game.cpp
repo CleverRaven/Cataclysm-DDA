@@ -5762,12 +5762,25 @@ void game::emp_blast(int x, int y)
  if (mondex != -1) {
   monster &z = _active_monsters[mondex];
   if (z.has_flag(MF_ELECTRONIC)) {
-   add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
-   int dam = dice(10, 10);
-   if (z.hurt(dam))
-    kill_mon(mondex); // TODO: Player's fault?
-   else if (one_in(6))
-    z.make_friendly();
+   // TODO: Add flag to mob instead.
+   if (z.type->id == "mon_turret" && one_in(3)) {
+     add_msg(_("The EMP blast causes the %s to malfunction and deactivate!"), z.name().c_str());
+      remove_zombie(mondex);
+      m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+   }
+   else if (z.type->id == "mon_manhack" && one_in(6)) {
+     add_msg(_("The EMP blast causes the %s to malfunction and drop from the air!"), z.name().c_str());
+     remove_zombie(mondex);
+     m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+   }
+   else {
+      add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
+      int dam = dice(10, 10);
+      if (z.hurt(dam))
+        kill_mon(mondex); // TODO: Player's fault?
+      else if (one_in(6))
+        z.make_friendly();
+    }
   } else
    add_msg(_("The %s is unaffected by the EMP blast."), z.name().c_str());
  }
