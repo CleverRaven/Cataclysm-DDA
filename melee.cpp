@@ -1226,7 +1226,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
          !z->is_hallucination()) {
   if (you)
-    dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname(), target);
+    dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
   if (mon) {
    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
     z->speed *= .7;
