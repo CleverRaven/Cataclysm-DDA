@@ -2400,8 +2400,8 @@
       ["glasses_safety", 40],
       ["vacutainer", 10],
       ["usb_drive", 5],
-	  ["recipe_elfa", 1],
-	  ["recipe_medicalmut", 2],
+      ["recipe_elfa", 1],
+      ["recipe_medicalmut", 2],
       ["disinfectant", 35],
       ["medical_gauze", 10],
       ["medical_tape", 45],
@@ -3145,7 +3145,7 @@
       ["bottle_glass", 10],
       ["syringe", 1],
       ["adrenaline_injector", 1],
-	  ["1st_aid", 5],
+      ["1st_aid", 5],
       ["extinguisher", 25],
       ["hotplate", 15],
       ["funnel", 50],
@@ -3190,7 +3190,7 @@
       ["chemistry_set", 10],
       ["sm_extinguisher", 20],
       ["charcoal", 15]
-	  ]
+	]
 	},{
         "type" : "item_group",
         "id" : "chem_lab",
@@ -4745,7 +4745,7 @@
       ["pocket_firearms", 2],
       ["SICP", 3],
       ["textbook_robots", 1],
-	  ["recipe_elfa", 1],
+      ["recipe_elfa", 1],
       ["soldering_iron", 70],
       ["solder_wire", 70],
       ["geiger_off", 8],
