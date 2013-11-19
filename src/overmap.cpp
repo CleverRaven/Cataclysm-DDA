@@ -971,7 +971,7 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
  std::vector<point> river_end; // East/South endpoints of rivers
 
 // Determine points where rivers & roads should connect w/ adjacent maps
- const oter_id river_center("river_center"); // optimized comparison. 
+ const oter_id river_center("river_center"); // optimized comparison.
 
  if (north != NULL) {
   for (int i = 2; i < OMAPX - 2; i++) {
@@ -2215,8 +2215,8 @@ void overmap::place_cities()
  int NUM_CITIES = dice(4, 4);
  int start_dir;
  int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
- int city_min = op_city_size - 1;
- int city_max = op_city_size + 1;
+ int city_min = std::max(op_city_size - 2, 0);
+ int city_max = op_city_size + 2;
  // Limit number of cities based on how big they are.
  NUM_CITIES = std::min(NUM_CITIES, int(256 / op_city_size * op_city_size));
 
@@ -2711,7 +2711,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
             return;
         }
 
-        // otherwise, expand to 
+        // otherwise, expand to
         for(int d = 0; d < 4; d++) {
             int x = mn.x + dx[d];
             int y = mn.y + dy[d];
@@ -3792,11 +3792,11 @@ void set_oter_ids() {
 
 
 //////////////////////////
-//// sneaky 
+//// sneaky
 
    // ter(...) = 0;
    const int& oter_id::operator=(const int& i) {
-      _val = i;                        
+      _val = i;
       return _val;
    }
    // ter(...) = "rock"
@@ -3810,7 +3810,7 @@ void set_oter_ids() {
 
    // int index = ter(...);
    oter_id::operator int() const {
-      return _val;       
+      return _val;
    }
 
    // ter(...) != "foobar"
@@ -3828,11 +3828,11 @@ void set_oter_ids() {
    }
    bool oter_id::operator<=(const char * v) const {
       std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
-      return ( it == otermap.end() || it->second.loadid <= _val);         
+      return ( it == otermap.end() || it->second.loadid <= _val);
    }
    bool oter_id::operator>=(const char * v) const {
       std::map<std::string, oter_t>::const_iterator it=otermap.find(v);
-      return ( it != otermap.end() && it->second.loadid >= _val);         
+      return ( it != otermap.end() && it->second.loadid >= _val);
    }
 
    // o_id1 != o_id2
