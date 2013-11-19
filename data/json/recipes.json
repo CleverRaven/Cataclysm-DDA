@@ -3912,7 +3912,7 @@
       [ "shotgun_primer", 25 ]
     ],
     [
-      [ "gunpowder", 300 ]
+    [ "gunpowder", 300 ]
     ],
     [
       [ "lead", 400 ],
@@ -4556,6 +4556,67 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bologna",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 8 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "seasoning_salt", 10 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hfleshbologna",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 4 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      [ "char_smoker", 2 ]
+    ],
+    [
+      [ "tongs", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 8 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "seasoning_salt", 10 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "human_cooked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -4889,6 +4950,89 @@
   ]
 },{
         "type" : "recipe",
+  "result": "macaroni_helper",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spaghetti_raw", 1 ],
+      [ "macaroni_raw", 1],
+      [ "noodles_fast", 3]
+    ],
+    [
+      [ "meat", 1 ],
+      [ "dry_meat", 2],
+      [ "rehydrated_meat", 2]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hobo_helper",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 1 ]],
+  "tools": [
+    [
+      [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spaghetti_raw", 1 ],
+      [ "macaroni_raw", 1],
+      [ "noodles_fast", 3]
+    ],
+    [
+      [ "human_flesh", 1 ],
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "potato_baked",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -5009,11 +5153,11 @@
   "components": [
     [
       [ "cheese", 1 ],
-	  [ "cheese_spray", 1]
+      [ "cheese_spray", 1]
     ],
-	[
-	  [ "nachos", 3 ],
-	]
+    [
+      [ "nachos", 3 ],
+    ]
   ]
 },{
         "type" : "recipe",
@@ -5043,12 +5187,12 @@
   "components": [
     [
       [ "meat", 1 ],
-	  [ "dry_meat", 2],
-	  [ "rehydrated_meat", 2]
+      [ "dry_meat", 2],
+      [ "rehydrated_meat", 2]
     ],
-	[
-	  [ "nachos", 3 ],
-	]
+    [
+      [ "nachos", 3 ],
+    ]
   ]
 },{
         "type" : "recipe",
@@ -5078,16 +5222,16 @@
   "components": [
     [
       [ "meat", 1 ],
-	  [ "dry_meat", 2],
-	  [ "rehydrated_meat", 2]
+      [ "dry_meat", 2],
+      [ "rehydrated_meat", 2]
     ],
-	[
+    [
       [ "cheese", 1 ],
-	  [ "cheese_spray", 1]
+      [ "cheese_spray", 1]
     ],
-	[
-	  [ "nachos", 3 ],
-	]
+    [
+      [ "nachos", 3 ],
+    ]
   ]
 },{
         "type" : "recipe",
@@ -5097,7 +5241,8 @@
    "difficulty": 0,
    "time": 20000,
    "reversible": false,
-   "autolearn": true,
+   "autolearn": false,
+  "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
    ],
@@ -5117,12 +5262,12 @@
   "components": [
     [
       [ "human_flesh", 1 ],
-	  [ "dry_hflesh", 2],
-	  [ "rehydrated_hflesh", 2]
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2]
     ],
-	[
-	  [ "nachos", 3 ],
-	]
+    [
+      [ "nachos", 3 ],
+    ]
   ]
 },{
         "type" : "recipe",
@@ -5152,16 +5297,45 @@
   "components": [
     [
       [ "human_flesh", 1 ],
-	  [ "dry_hflesh", 2],
-	  [ "rehydrated_hflesh", 2]
+      [ "dry_hflesh", 2],
+      [ "rehydrated_hflesh", 2]
     ],
-	[
+    [
       [ "cheese", 1 ],
-	  [ "cheese_spray", 1]
+      [ "cheese_spray", 1]
     ],
-	[
-	  [ "nachos", 3 ],
-	]
+    [
+      [ "nachos", 3 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "cheese_fries",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 10000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cheese", 1 ],
+      [ "cheese_spray", 1]
+    ],
+    [
+      [ "fries", 3 ],
+    ]
   ]
 },{
         "type" : "recipe",
@@ -6441,6 +6615,201 @@
       [ "blackberries", 1 ],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "choc_pancakes",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 5 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "chocolate", 1 ],
+      [ "choc_drink", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "waffles",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "waffleiron", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 2 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ]
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fruit_pancakes",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "waffleiron", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 2 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ]
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ],
+      [ "jam_fruit", 1 ],
+      [ "strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "cherries", 1 ],
+      [ "plums", 1 ],
+      [ "grapes", 1 ],
+      [ "cranberries", 1 ],
+      [ "raspberries", 1 ],
+      [ "blackberries", 1 ],
+      [ "rehydrated_fruit", 1 ],
+      [ "dry_fruit", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "choc_pancakes",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ],
+      [ "powder_eggs", 2 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ]
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "chocolate", 1 ],
+      [ "choc_drink", 2]
     ]
   ]
 },{
@@ -7782,13 +8151,13 @@
   ],
   "components": [
     [
-	  [ "mutagen_slime", 1 ]
-	],
+      [ "mutagen_slime", 1 ]
+    ],
     [
       [ "mutagen_plant", 1 ]
     ],
     [
-	  [ "mutagen_bird", 1 ]
+      [ "mutagen_bird", 1 ]
     ],
     [
       [ "purifier", 3 ]
@@ -17793,6 +18162,70 @@
     ],
     [
       [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "hotdogs_cooked",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hotdogs_frozen", 1 ]
+    ],
+    [
+      [ "bread", 4 ],
+      [ "hardtack", 8]
+    ],
+    [
+      [ "ketchup", 4 ], 
+      [ "mustard", 4]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "corndogs_cooked",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 6500,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "corndogs_frozen", 1 ]
     ]
   ]
 },{
