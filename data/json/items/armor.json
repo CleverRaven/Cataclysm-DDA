@@ -19,7 +19,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 1
     },
@@ -67,7 +67,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 75,
         "material_thickness" : 1
     },
@@ -843,7 +843,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 95,
         "material_thickness" : 1
     },
@@ -867,7 +867,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 95,
         "material_thickness" : 1
     },
@@ -889,10 +889,10 @@
         "warmth" : 5,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
-        "coverage" : 0,
+        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "coverage" : 15,
         "material_thickness" : 0
     },
     {
@@ -913,9 +913,9 @@
         "warmth" : 5,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 30,
         "material_thickness" : 1
     },
@@ -939,8 +939,8 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
-        "coverage" : 0,
+        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "coverage" : 15,
         "material_thickness" : 0
     },
     {
@@ -961,10 +961,10 @@
         "warmth" : 5,
         "phase" : "solid",
         "enviromental_protection" : 0,
-        "encumbrance" : 0,
+        "encumbrance" : -1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
-        "coverage" : 0,
+        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "coverage" : 25,
         "material_thickness" : 0
     },
     {
@@ -1226,7 +1226,7 @@
         "enviromental_protection" : 2,
         "encumbrance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -1250,7 +1250,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -2,
-        "flags" : ["VARSIZE","WATER_FRIENDLY"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -1274,7 +1274,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE","WATER_FRIENDLY"],
+        "flags" : ["VARSIZE","WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 1
     },
@@ -1298,7 +1298,7 @@
         "enviromental_protection" : 2,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 90,
         "material_thickness" : 2
     },
@@ -1360,7 +1360,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A very thin and loose camisole. They are very light and easy to wear.",
+        "description" : "A very thin and loose camisole. It is very light and easy to wear.",
         "price" : 120,
         "material" : ["cotton", "null"],
         "volume" : 2,
@@ -2329,7 +2329,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 95,
         "material_thickness" : 1
     },
@@ -2353,7 +2353,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 1
     },
@@ -2377,7 +2377,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 1
     },
@@ -2928,7 +2928,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 70,
         "material_thickness" : 2
     },
@@ -3045,7 +3045,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 95,
         "material_thickness" : 1
     },
@@ -4232,7 +4232,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : 1,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 3
     },

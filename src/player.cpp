@@ -7273,6 +7273,8 @@ void player::sort_armor(game *g)
             else
                 tmp_str = "";
 
+            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT"))
+                tmp_str += _("It lies close to the skin.\n");
             if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
                 tmp_str += _("It has pockets.\n");
                 if (tmp_worn[leftListIndex]->has_flag("HOOD"))
@@ -8274,6 +8276,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                         layers -= .5;
                     }
                 }
+                if( worn[i].has_flag( "SKINTIGHT" ) ) {
+                  // Skintight clothes will negate layering.
+                  layers -= .5;
+                }
             }
         }
     }
@@ -8579,7 +8585,7 @@ int player::resist(body_part bp)
         }
     }
     return ret;
-    
+
     if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
         if (ret > 5) {
