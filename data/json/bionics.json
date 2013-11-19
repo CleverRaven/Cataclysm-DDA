@@ -309,6 +309,20 @@
     "description":    "Small sensors have been implanted in your heart, allowing you to analyse your blood.  This will detect many illnesses, drugs, and other conditions."
     },{
         "type" : "bionic",
+        "id" : "bio_geiger",
+    "name"       :    "Integrated Dosimeter",
+    "active"     :    true,
+    "cost"       :    1,
+    "description":    "Small radiation sensors have been implanted throughout your body, allowing you to analyse your level of absorbed radiation."
+    },{
+        "type" : "bionic",
+        "id" : "bio_radscrubber",
+    "name"       :    "Radiation Scrubber System",
+    "active"     :    true,
+    "cost"       :    2,
+    "description":    "A system of advanced piezomechanical blood filters have been implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power."
+    },{
+        "type" : "bionic",
         "id" : "bio_blood_filter",
     "name"       :    "Blood Filter",
     "active"     :    true,

@@ -45,7 +45,7 @@
         "color": "green",
         "move_cost_mod": 2,
         "required_str": 5,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "ORGANIC"]
+        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"]
     },{
         "type" : "furniture",
         "id" : "f_bed",
@@ -223,7 +223,15 @@
         "color": "ltcyan",
         "move_cost_mod": 1,
         "required_str": 5,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM"],
+        "bash": {
+            "str_min": 2, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "plastic_chunk", "amount": 2, "minamount": 1 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_desk",
@@ -251,7 +259,17 @@
         "color": "dkgray",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"]
+        "flags": ["TRANSPARENT", "DECONSTRUCT", "BASHABLE"],
+		"bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 6, "minamount": 2},
+                { "item": "steel_chunk", "amount": 1, "minamount": 0},
+                { "item": "pipe", "amount": 1 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_bench",
@@ -278,7 +296,7 @@
         "symbol": "#",
         "color": "red",
         "move_cost_mod": 2,
-        "required_str": 9,
+        "required_str": 8,
         "flags": ["TRANSPARENT", "FLAMMABLE", "DECONSTRUCT", "ORGANIC"],
         "bash": {
             "str_min": 3, "str_max": 45,
@@ -433,7 +451,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC", "BLOCKSDOR"],
+        "flags": ["FLAMMABLE", "BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR"],
         "bash": {
             "str_min": 3, "str_max": 45,
             "sound": "smash!",
@@ -452,7 +470,18 @@
         "bgcolor": "white",
         "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"]
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 7, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "hose", "amount": 2, "minamount": 0},
+                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_dryer",
@@ -461,7 +490,18 @@
         "bgcolor": "white",
         "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"]
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 7, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "hose", "amount": 2, "minamount": 0},
+                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_dumpster",
@@ -470,7 +510,17 @@
         "color": "green",
         "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"]
+        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1},
+                { "item": "pipe", "amount": 2, "minamount": 1 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_dive_block",
@@ -506,7 +556,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 12,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC"],
+        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "DECONSTRUCT", "PLACE_ITEM", "ORGANIC"],
         "bash": {
             "str_min": 1, "str_max": 20,
             "sound": "smash!",

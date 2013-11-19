@@ -1587,7 +1587,8 @@
       ["wine_chardonnay", 10],
       ["wine_cabernet", 10],
       ["wine_noir", 2],
-      ["beer", 60]
+      ["beer", 60],
+      ["single_malt_whiskey", 2]
     ]
     },{
         "type" : "item_group",
@@ -3348,6 +3349,8 @@
       ["bio_shockwave", 10],
       ["bio_nanobots", 10],
       ["bio_blood_anal", 10],
+      ["bio_geiger", 10],
+      ["bio_radscrubber", 10],
       ["bio_ads", 10],
       ["bio_ods", 10],
       ["bio_uncanny_dodge", 10],
@@ -3637,6 +3640,8 @@
       ["bio_night", 10],
       ["bio_nanobots", 10],
       ["bio_blood_anal", 10],
+      ["bio_geiger", 10],
+      ["bio_radscrubber", 10],
       ["bio_ads", 10],
       ["bio_ods", 10],
       ["bio_uncanny_dodge", 10],
