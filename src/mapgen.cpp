@@ -7183,7 +7183,7 @@ ssssssssssssssssssssssss\n",
                 if (this->furn(i, j) == f_desk) {
                     place_items("school", 50,  i,  j, i,  j, false, 0);
                 } else if (this->furn(i, j) == f_locker) {
-                    place_items("chemschool", 60,  i,  j, i,  j, false, 0);
+                    place_items("chem_school", 60,  i,  j, i,  j, false, 0);
                 }
             }
         }
@@ -12752,9 +12752,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 furn_set(1           , i, f_counter);
                 furn_set(SEEX * 2 - 2, i, f_counter);
             }
-            place_items("chemhome", 90,        1, 1,        1, SEEY + 3, false, 0);
+            place_items("chem_home", 90,        1, 1,        1, SEEY + 3, false, 0);
             if (one_in(3)) {
-                place_items("chemhome", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
+                place_items("chem_home", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
             } else {
                 place_items("electronics", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
             }
@@ -14541,7 +14541,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int y = y1 + 1; y <= y2 - 1; y++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem-lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
                 }
             }
         } else {
@@ -14550,7 +14550,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int x = x1 + 1; x <= x2 - 1; x++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem-lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
                 }
             }
         }
@@ -14707,7 +14707,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                 m->place_items("dresser", 70, x + 1, y2, x + 1, y2, false, 0);
             }
         }
-        m->place_items("lab-dorm", 84, x1, y1, x2, y2, false, 0);
+        m->place_items("lab_dorm", 84, x1, y1, x2, y2, false, 0);
         break;
     case room_split:
         if (rotate % 2 == 0) {
@@ -14759,9 +14759,9 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 }
             }
         }
-        m->place_items("chem-lab", 85, x1 + 1, y1, x2 - 1, y1, false, 0);
-        m->place_items("chem-lab", 85, x1 + 1, y2, x2 - 1, y2, false, 0);
-        m->place_items("chem-lab", 85, x1, y1 + 1, x1, y2 - 1, false, 0);
+        m->place_items("chem_lab", 85, x1 + 1, y1, x2 - 1, y1, false, 0);
+        m->place_items("chem_lab", 85, x1 + 1, y2, x2 - 1, y2, false, 0);
+        m->place_items("chem_lab", 85, x1, y1 + 1, x1, y2 - 1, false, 0);
         break;
 
     case 2: // Hydroponics.
@@ -14779,7 +14779,7 @@ void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)
                 }
             }
         }
-        m->place_items("chem-lab", 80, x1, y1, x1, y2, false, turn - 50);
+        m->place_items("chem_lab", 80, x1, y1, x1, y2, false, turn - 50);
         m->place_items("hydro", 92, x1 + 1, y1 + 1, x2 - 1, y1 + 1, false, turn);
         m->place_items("hydro", 92, x1 + 1, y2 - 1, x2 - 1, y2 - 1, false, turn);
         break;
