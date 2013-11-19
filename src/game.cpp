@@ -2905,8 +2905,23 @@ void game::write_memorial_file() {
         }
     }
 
-    std::string memorial_file_path = string_format("memorial/%s-%s.txt",
-            u.name.c_str(), timestamp.c_str());
+    /* Remove non-ASCII glyphs from character names - unicode symbols are not
+     * valid in filenames. */
+    std::stringstream player_name;
+    for(int index = 0; index < u.name.size(); index++) {
+        if((unsigned char)u.name[index] <= '~') {
+            player_name << u.name[index];
+        }
+    }
+    if(player_name.str().length() > 0) {
+        //Separate name and timestamp
+        player_name << '-';
+    }
+
+    //Omit the name if too many unusable characters stripped
+    std::string memorial_file_path = string_format("memorial/%s%s.txt",
+            player_name.str().length() <= (u.name.length() / 5) ? "" : player_name.str().c_str(),
+            timestamp.c_str());
 
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
