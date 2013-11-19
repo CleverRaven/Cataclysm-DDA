@@ -2000,8 +2000,8 @@
       ["sweater", 75],
       ["hoodie", 65],
       ["under_armor", 20],
-      ["jersey", 40]
-      ["camisole", 60],
+      ["jersey", 40],
+      ["camisole", 60]
     ]
     },{
         "type" : "item_group",
