@@ -10713,10 +10713,15 @@ void game::plmove(int dx, int dy)
         } else if (!m.i_at(x, y).empty()) {
             std::vector<std::string> names;
             std::vector<size_t> counts;
-            names.push_back(m.i_at(x, y)[0].tname(this));
-            counts.push_back(1);
+            item& tmpitem = m.i_at(x, y)[0];
+            names.push_back(tmpitem.tname(this));
+            if (tmpitem.count_by_charges()) {
+                counts.push_back(tmpitem.charges);
+            } else {
+                counts.push_back(1);
+            }
             for (int i = 1; i < m.i_at(x, y).size(); i++) {
-                item& tmpitem = m.i_at(x, y)[i];
+                tmpitem = m.i_at(x, y)[i];
                 std::string next = tmpitem.tname(this);
                 bool got_it = false;
                 for (int i = 0; i < names.size(); ++i) {
