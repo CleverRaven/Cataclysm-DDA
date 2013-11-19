@@ -3341,7 +3341,7 @@ void player::recalc_sight_limits()
     sight_boost_cap = 12;
     if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) {
         sight_boost = sight_boost_cap;
-	}else if (has_trait("ELFA_NV")) {
+    }else if (has_trait("ELFA_NV")) {
         sight_boost = 6;
     } else if (has_trait("NIGHTVISION2")) {
         sight_boost = 4;
@@ -8185,7 +8185,7 @@ float player::fine_detail_vision_mod(game *g)
     }
 
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
-	else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
+    else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
     else if (has_trait("NIGHTVISION2")) { vision_ii -= 1.5; }
     else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV")) { vision_ii -= 2.5; }
 

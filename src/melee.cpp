@@ -476,8 +476,8 @@ int player::dodge(game *g)
 
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
-	if (has_trait("TAIL_LIZARD")) {ret+= 2;}
-	if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
+    if (has_trait("TAIL_LIZARD")) {ret+= 2;}
+    if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
     if (has_trait("WINGS_BAT")) {ret -= 3;}
@@ -1347,7 +1347,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         }
         ret.push_back(tmp);
     }
-	
+    
     if (has_trait("RAP_TALONS") && one_in(30 - dex_cur - 2 * skillLevel("unarmed"))) {
         special_attack tmp;
         tmp.cut = str_cur * 4;
@@ -1464,7 +1464,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         ret.push_back(tmp);
     }
 
-	    if (has_trait("TAIL_LIZARD") && one_in(3) && one_in(10 - dex_cur)) {
+        if (has_trait("TAIL_LIZARD") && one_in(3) && one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 8;
         if (is_u) {
@@ -1479,7 +1479,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         }
         ret.push_back(tmp);
     }
-	
+    
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
             has_trait("ARM_TENTACLES_8")) {
         int num_attacks = 1;
