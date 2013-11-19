@@ -586,7 +586,7 @@
     {
         "type" : "ARMOR",
         "id" : "shorts_denim",
-        "name" : "shorts",
+        "name" : "denim shorts",
         "weight" : 260,
         "color" : "light_blue",
         "covers" : ["LEGS"],
