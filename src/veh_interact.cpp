@@ -921,7 +921,7 @@ void veh_interact::display_stats ()
                        _("Wheels:         <color_ltgreen>enough</color>"));
     } else {
         fold_and_print(w_stats, 5, second_column, third_column, c_ltgray,
-                       _("Wheels:             <color_ltred>lack</color>"));
+                       _("Wheels:           <color_ltred>lack</color>"));
     }
 
     fold_and_print(w_stats, 2, second_column, third_column, c_ltgray,
@@ -963,6 +963,22 @@ void veh_interact::display_stats ()
     mvwprintz(w_stats, 5, 1, c_ltgray, _("Status:  "));
     column += utf8_width(_("Status:  ")) + 1;
     fold_and_print(w_stats, 5, column, third_column, totalDurabilityColor, totalDurabilityText.c_str());
+
+    // Write the most damaged part
+    if (mostDamagedPart != -1)
+    {
+        std::string partName;
+        mvwprintz(w_stats, 4, second_column, c_ltgray, _("Most damaged:  "));   
+        column = second_column + utf8_width(_("Most damaged:  ")) + 1;  
+        std::string partID = veh->parts[mostDamagedPart].id;  
+        auto part = veh->parts[mostDamagedPart];
+        int damagepercent = part.hp / vehicle_part_types[part.id].durability;
+        nc_color damagecolor = getDurabilityColor(damagepercent * 100);
+        partName = vehicle_part_types[partID].name;
+        fold_and_print(w_stats, 4, column, third_column, damagecolor, "%s", partName.c_str());
+    }   
+    
+
 
     wrefresh (w_stats);
 }
@@ -1059,30 +1075,60 @@ void veh_interact::countDurability()
 nc_color veh_interact::getDurabilityColor(const int& dur)
 {
     if (dur >= 95)
+    {
         return c_green;
+    }
     if (dur >= 66)
+    {
         return c_ltgreen;
+    }
     if (dur >= 33)
+    {
         return c_yellow;
+    }
     if (dur >= 10)
+    {
         return c_ltred;
-    if (dur >= 0)
+    }
+    if (dur > 0)
+    {
         return c_red;
-    return c_dkgray;
+    }
+    if (dur == 0)
+    {
+        return c_dkgray;
+    }
+
+    return c_black_yellow;
 }
 
 std::string veh_interact::getDurabilityDescription(const int& dur)
 {
     if (dur >= 95)
+    {
         return std::string(_("like new"));
+    }        
     if (dur >= 66)
+    {
         return std::string(_("dented"));
+    }        
     if (dur >= 33)
+    {
         return std::string(_("battered"));
+    }        
     if (dur >= 10)
+    {
         return std::string(_("wrecked"));
-    if (dur >= 0)
+    }        
+    if (dur > 0)
+    {
         return std::string(_("totaled"));
+    }        
+    if (dur == 0)
+    {
+        return std::string(_("destroyed"));
+    }
+       
     return std::string(_("error"));
 }
 
@@ -1399,3 +1445,4 @@ void complete_vehicle (game *g)
         break;
     }
 }
+
