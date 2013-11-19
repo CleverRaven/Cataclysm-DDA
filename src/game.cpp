@@ -1875,6 +1875,7 @@ bool game::handle_action()
     input_context ctxt;
 
     action_id act = ACTION_NULL;
+    // Check if we have an auto-move destination
     if (u.has_destination()) {
         act = u.get_next_auto_move_direction();
         if (act == ACTION_NULL) {
@@ -1883,6 +1884,7 @@ bool game::handle_action()
             return false;
         }
     } else {
+        // No auto-move, ask plaer for input
         ctxt = get_player_input(action);
     }
 
@@ -1891,13 +1893,14 @@ bool game::handle_action()
     bool veh_ctrl = veh && veh->player_in_control (&u);
 
     // If performing an action with right mouse button, co-ordinates
-    // to target.
+    // of location clicked.
     int mouse_action_x = -1, mouse_action_y = -1;
 
     if (act == ACTION_NULL) {
         if (action == "SELECT" || action == "SEC_SELECT") {
-            // Mouse buttons
+            // Mouse button click
             if (veh_ctrl) {
+                // No mouse use in vehicle
                 return false;
             }
 
@@ -1918,6 +1921,7 @@ bool game::handle_action()
                         destination_preview.clear();
                         act = u.get_next_auto_move_direction();
                         if (act == ACTION_NULL) {
+                            // Something went wrong
                             u.clear_destination();
                             return false;
                         }
@@ -1944,14 +1948,14 @@ bool game::handle_action()
                 bool can_fire = false;
                 int mouse_selected_mondex = mon_at(mx, my);
                 if (mouse_selected_mondex != -1) {
-                    if (!u.weapon.is_gun()) {
-                        add_msg(_("You are not wielding a ranged weapon."));
-                        return false;
-                    }
-
                     monster &z = _active_monsters[mouse_selected_mondex];
                     if (!u_see(&z)) {
                         add_msg(_("Nothing relevant here."));
+                        return false;
+                    }
+
+                    if (!u.weapon.is_gun()) {
+                        add_msg(_("You are not wielding a ranged weapon."));
                         return false;
                     }
 
@@ -1965,8 +1969,10 @@ bool game::handle_action()
                     int dy = abs(u.posy - my);
                     if (dx < 2 && dy < 2) {
                         if (dy == 0 && dx == 0) {
+                            // Clicked on self
                             act = ACTION_PICKUP;
                         } else {
+                            // Clicked adjacent tile
                             act = ACTION_EXAMINE;
                         }
                     } else {
@@ -1979,6 +1985,7 @@ bool game::handle_action()
     }
 
     if (act == ACTION_NULL) {
+        // No auto-move action, no mouse clicks.
         u.clear_destination();
         destination_preview.clear();
 
@@ -2015,6 +2022,9 @@ bool game::handle_action()
  int soffsetr = 0 - soffset;
 
  int before_action_moves = u.moves;
+
+ // Use to track if auto-move should be cancelled due to a failed
+ // move or obstacle
  bool continue_auto_move = false;
 
  switch (act) {
@@ -4062,6 +4072,7 @@ void game::draw_ter(int posx, int posy)
     }
 
     if (destination_preview.size() > 0) {
+        // Draw auto-move preview trail
         point final_destination = destination_preview.back();
         draw_line(final_destination.x, final_destination.y, destination_preview);
     }

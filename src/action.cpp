@@ -778,5 +778,3 @@ action_id get_movement_direction_from_delta(const int dx, const int dy)
         return ACTION_MOVE_NW;
     }
 }
-
-
