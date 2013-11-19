@@ -1868,7 +1868,6 @@ int item::dispersion()
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
     }
     ret += damage * 2;
-    if (ret < 0) ret = 0;
     return ret;
 }
 
