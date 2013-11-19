@@ -1069,7 +1069,7 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_trunk_log(game *g, point p)
 {
-    g->m.spawn_item(p.x, p.y, "log", 1, 0, g->turn, rng(5, 15));
+    g->m.spawn_item(p.x, p.y, "log", rng(5, 15), 0, g->turn);
 }
 
 void construct::done_trunk_plank(game *g, point p)
