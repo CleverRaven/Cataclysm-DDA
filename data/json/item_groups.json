@@ -4543,8 +4543,8 @@
       ["sm_extinguisher", 10],
       ["flaregun", 20],
       ["signal_flare", 25],
-      ["glasses_bal", 10]
-      ["optical_cloak", 1],
+      ["glasses_bal", 10],
+      ["optical_cloak", 1]
     ]
     },{
         "type" : "item_group",
@@ -4704,8 +4704,8 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["militarymap", 4],
-      ["quikclot", 20]
-      ["optical_cloak", 1],
+      ["quikclot", 20],
+      ["optical_cloak", 1]
     ]
     },{
         "type" : "item_group",
@@ -4776,8 +4776,8 @@
       ["chemistry_set", 4],
       ["oxy_powder", 8],
       ["fungicide", 10],
-      ["pur_tablets", 10]
-      ["optical_cloak", 1],
+      ["pur_tablets", 10],
+      ["optical_cloak", 1]
     ]
     },{
         "type" : "item_group",
@@ -4828,8 +4828,8 @@
       ["hazmat_suit", 5],
       ["recipe_medicalmut", 10],
       ["survivormap", 5],
-      ["pur_tablets", 20]
-      ["optical_cloak", 2],
+      ["pur_tablets", 20],
+      ["optical_cloak", 2]
     ]
     },{
         "type" : "item_group",
