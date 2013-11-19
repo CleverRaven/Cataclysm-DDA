@@ -10684,27 +10684,43 @@ void game::plmove(int dx, int dy)
             names.push_back(m.i_at(x, y)[0].tname(this));
             counts.push_back(1);
             for (int i = 1; i < m.i_at(x, y).size(); i++) {
-                std::string next = m.i_at(x, y)[i].tname(this);
+                item& tmpitem = m.i_at(x, y)[i];
+                std::string next = tmpitem.tname(this);
                 bool got_it = false;
                 for (int i = 0; i < names.size(); ++i) {
                     if (next == names[i]) {
-                        counts[i] += 1;
+                        if (tmpitem.count_by_charges()) {
+                            counts[i] += tmpitem.charges;
+                        } else {
+                            counts[i] += 1;
+                        }
                         got_it = true;
                         break;
                     }
                 }
                 if (!got_it) {
                     names.push_back(next);
-                    counts.push_back(1);
+                    if (tmpitem.count_by_charges()) {
+                        counts.push_back(tmpitem.charges);
+                    } else {
+                        counts.push_back(1);
+                    }
                 }
                 if (names.size() > 3) {
                     break;
                 }
             }
             for (int i = 0; i < names.size(); ++i) {
-                //~ number of items: "<number> <item>"
-                std::string fmt = ngettext("%1$d %2$s", "%1$d %2$ss", counts[i]);
-                names[i] = string_format(fmt, counts[i], names[i].c_str());
+                std::string fmt;
+                if (counts[i] == 1) {
+                    //~ one item (e.g. "a dress")
+                    fmt = _("a %s");
+                    names[i] = string_format(fmt, names[i].c_str());
+                } else {
+                    //~ number of items: "<number> <item>"
+                    fmt = ngettext("%1$d %2$s", "%1$d %2$ss", counts[i]);
+                    names[i] = string_format(fmt, counts[i], names[i].c_str());
+                }
             }
             if (names.size() == 1) {
                 add_msg(_("You see here %s."), names[0].c_str());
