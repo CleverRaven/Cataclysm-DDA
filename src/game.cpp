@@ -10714,7 +10714,11 @@ void game::plmove(int dx, int dy)
             std::vector<std::string> names;
             std::vector<size_t> counts;
             names.push_back(m.i_at(x, y)[0].tname(this));
-            counts.push_back(1);
+            if (m.i_at(x, y)[0].count_by_charges()) {
+                counts.push_back(m.i_at(x, y)[0].charges);
+            } else {
+                counts.push_back(1);
+            }
             for (int i = 1; i < m.i_at(x, y).size(); i++) {
                 item& tmpitem = m.i_at(x, y)[i];
                 std::string next = tmpitem.tname(this);
