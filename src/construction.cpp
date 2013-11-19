@@ -75,6 +75,7 @@ void game::init_construction()
    TOOL("ax");
    TOOLCONT("primitive_axe");
    TOOLCONT("chainsaw_on");
+   TOOLCONT("combatsaw_on");
 
  CONSTRUCT(_("Chop Tree trunk into logs"), 0, &construct::able_trunk, &construct::done_trunk_log);
   STAGE(t_dirt, 20);
