@@ -728,6 +728,7 @@ void show_options()
         wrefresh(w_options);
 
         ch = input();
+        DebugLog() << "Read '" << ch << "' from input.\n";
 
         if (mPageItems[iCurrentPage].size() > 0 || ch == '\t') {
             switch(ch) {
