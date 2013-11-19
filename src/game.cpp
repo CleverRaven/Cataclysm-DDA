@@ -593,28 +593,28 @@ void game::cleanup_at_end(){
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
 {
- if (is_game_over()) {
-  cleanup_at_end();
-  return true;
- }
-// Actual stuff
- gamemode->per_turn(this);
- turn.increment();
- process_events();
- process_missions();
- if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) // Midnight!
-  cur_om->process_mongroups();
+    if (is_game_over()) {
+        cleanup_at_end();
+        return true;
+    }
+    // Actual stuff
+    gamemode->per_turn(this);
+    turn.increment();
+    process_events();
+    process_missions();
+    if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) // Midnight!
+        cur_om->process_mongroups();
 
-// Check if we've overdosed... in any deadly way.
- if (u.stim > 250) {
-  add_msg(_("You have a sudden heart attack!"));
-  u.add_memorial_log(_("Died of a drug overdose."));
-  u.hp_cur[hp_torso] = 0;
- } else if (u.stim < -200 || u.pkill > 240) {
-  add_msg(_("Your breathing stops completely."));
-  u.add_memorial_log(_("Died of a drug overdose."));
-  u.hp_cur[hp_torso] = 0;
- }
+    // Check if we've overdosed... in any deadly way.
+    if (u.stim > 250) {
+        add_msg(_("You have a sudden heart attack!"));
+        u.add_memorial_log(_("Died of a drug overdose."));
+        u.hp_cur[hp_torso] = 0;
+    } else if (u.stim < -200 || u.pkill > 240) {
+        add_msg(_("Your breathing stops completely."));
+        u.add_memorial_log(_("Died of a drug overdose."));
+        u.hp_cur[hp_torso] = 0;
+    }
     // Check if we're starving or have starved
     if (u.hunger >= 3000){
         if (u.hunger >= 6000){
@@ -659,118 +659,135 @@ bool game::do_turn()
         }
     }
 
- if (turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
-  if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
-      (!u.has_bionic("bio_recycler") || turn % 300 == 0))
-   u.hunger++;
-  if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
-      (!u.has_trait("PLANTSKIN") || !one_in(5)))
-   u.thirst++;
-  // Fatigue caps at slightly after the point where characters will fall asleep without player input
-  if(u.fatigue < 1050){
-  u.fatigue++;
-  }
-  if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
-      if (u.activity.type == ACT_NULL){
-     add_msg(_("You're feeling tired.  %s to lie down for sleep."),
-             press_x(ACTION_SLEEP).c_str());
-      } else {
-    cancel_activity_query(_("You're feeling tired."));
-  }
-  }
-  if (u.stim < 0)
-   u.stim++;
-  if (u.stim > 0)
-   u.stim--;
-  if (u.pkill > 0)
-   u.pkill--;
-  if (u.pkill < 0)
-   u.pkill++;
-  if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy))
-   u.charge_power(1);
- }
- if (turn % 300 == 0) { // Pain up/down every 30 minutes
-  if (u.pain > 0)
-   u.pain -= 1 + int(u.pain / 10);
-  else if (u.pain < 0)
-   u.pain++;
-// Mutation healing effects
-  if (u.has_trait("FASTHEALER2") && one_in(5))
-   u.healall(1);
-  if (u.has_trait("REGEN") && one_in(2))
-   u.healall(1);
-  if (u.has_trait("ROT2") && one_in(5))
-   u.hurtall(1);
-  if (u.has_trait("ROT3") && one_in(2))
-   u.hurtall(1);
+    if (turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
+        if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
+            (!u.has_bionic("bio_recycler") || turn % 300 == 0)) {
+            u.hunger++;
+        }
+        if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
+            (!u.has_trait("PLANTSKIN") || !one_in(5))) {
+            u.thirst++;
+        }
+        // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
+        if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+            u.fatigue++;
+        }
+        if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
+            if (u.activity.type == ACT_NULL) {
+                add_msg(_("You're feeling tired.  %s to lie down for sleep."),
+                        press_x(ACTION_SLEEP).c_str());
+            } else {
+                cancel_activity_query(_("You're feeling tired."));
+            }
+        }
+        if (u.stim < 0) {
+            u.stim++;
+        }
+        if (u.stim > 0) {
+            u.stim--;
+        }
+        if (u.pkill > 0) {
+            u.pkill--;
+        }
+        if (u.pkill < 0) {
+            u.pkill++;
+        }
+        if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
+            u.charge_power(1);
+        }
+    }
 
-  if (u.radiation > 1 && one_in(3))
-   u.radiation--;
-  u.get_sick(this);
- }
+    if (turn % 300 == 0) { // Pain up/down every 30 minutes
+        if (u.pain > 0) {
+            u.pain -= 1 + int(u.pain / 10);
+        } else if (u.pain < 0) {
+            u.pain++;
+        }
+        // Mutation healing effects
+        if (u.has_trait("FASTHEALER2") && one_in(5)) {
+            u.healall(1);
+        }
+        if (u.has_trait("REGEN") && one_in(2)) {
+            u.healall(1);
+        }
+        if (u.has_trait("ROT2") && one_in(5)) {
+            u.hurtall(1);
+        }
+        if (u.has_trait("ROT3") && one_in(2)) {
+            u.hurtall(1);
+        }
 
-// Auto-save if autosave is enabled
- if (OPTIONS["AUTOSAVE"] &&
-     turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0)
-     autosave();
+        if (u.radiation > 1 && one_in(3)) {
+            u.radiation--;
+        }
+        u.get_sick( this );
+    }
 
- update_weather();
+    // Auto-save if autosave is enabled
+    if (OPTIONS["AUTOSAVE"] &&
+        turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
+        autosave();
+    }
 
-// The following happens when we stay still; 10/40 minutes overdue for spawn
- if ((!u.has_trait("INCONSPICUOUS") && turn > nextspawn +  100) ||
-     ( u.has_trait("INCONSPICUOUS") && turn > nextspawn +  400)   ) {
-  spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
-  nextspawn = turn;
- }
+    update_weather();
 
- process_activity();
- if(u.moves > 0) {
-     while (u.moves > 0) {
-          cleanup_dead();
-          if (!u.has_disease("sleep") && u.activity.type == ACT_NULL)
-              draw();
+    // The following happens when we stay still; 10/40 minutes overdue for spawn
+    if ((!u.has_trait("INCONSPICUOUS") && turn > nextspawn +  100) ||
+        ( u.has_trait("INCONSPICUOUS") && turn > nextspawn +  400)   ) {
+        spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
+        nextspawn = turn;
+    }
 
-          if(handle_action()) {
-              ++moves_since_last_save;
-              u.action_taken();
-          }
+    process_activity();
+    if(u.moves > 0) {
+        while (u.moves > 0) {
+            cleanup_dead();
+            if (!u.has_disease("sleep") && u.activity.type == ACT_NULL) {
+                draw();
+            }
 
-          if (is_game_over()) {
-              cleanup_at_end();
-              return true;
-          }
-     }
- } else {
-     handle_key_blocking_activity();
- }
- update_scent();
- m.vehmove(this);
- m.process_fields(this);
- m.process_active_items(this);
- m.step_in_field(u.posx, u.posy, this);
+            if(handle_action()) {
+                ++moves_since_last_save;
+                u.action_taken();
+            }
 
- monmove();
- update_stair_monsters();
- u.reset(this);
- u.process_active_items(this);
- u.suffer(this);
+            if (is_game_over()) {
+                cleanup_at_end();
+                return true;
+            }
+        }
+    } else {
+        handle_key_blocking_activity();
+    }
+    update_scent();
+    m.vehmove(this);
+    m.process_fields(this);
+    m.process_active_items(this);
+    m.step_in_field(u.posx, u.posy, this);
 
- if (levz >= 0 && !u.is_underwater()) {
-  weather_effect weffect;
-  (weffect.*(weather_data[weather].effect))(this);
- }
+    monmove();
+    update_stair_monsters();
+    u.reset(this);
+    u.process_active_items(this);
+    u.suffer(this);
 
- if (u.has_disease("sleep") && int(turn) % 300 == 0) {
-  draw();
-  refresh();
- }
+    if (levz >= 0 && !u.is_underwater()) {
+        weather_effect weffect;
+        (weffect.*(weather_data[weather].effect))(this);
+    }
 
- u.update_bodytemp(this);
+    if (u.has_disease("sleep") && int(turn) % 300 == 0) {
+        draw();
+        refresh();
+    }
 
- rustCheck();
- if (turn % 10 == 0)
-  u.update_morale();
- return false;
+    u.update_bodytemp(this);
+
+    rustCheck();
+    if (turn % 10 == 0) {
+        u.update_morale();
+    }
+    return false;
 }
 
 void game::rustCheck()
