@@ -3,23 +3,23 @@
         "type" : "technique",
         "id" : "WIDE",
         "name" : "Wide Strike",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
         "messages" : [
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
         ],
         "aoe" : "wide",
-        "quick": true
+        "quick" : true
     },{
         "type" : "technique",
         "id" : "BRUTAL",
         "name" : "Brutal Strike",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "crit_tec": true,
-        "stun_dur": 1,
-        "knockback_dist": 1,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "knockback_dist" : 1,
         "messages" : [
             "You send %s reeling",
             "<npcname> sends %s reeling"
@@ -28,9 +28,9 @@
         "type" : "technique",
         "id" : "RAPID",
         "name" : "Rapid Strike",
-        "min_unarmed": 0,
-        "unarmed_allowed": true,
-        "quick": true,
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "quick" : true,
         "messages" : [
             "You quickly strike %s",
             "<npcname> quickly strikes %s"
@@ -39,9 +39,9 @@
         "type" : "technique",
         "id" : "WRAP",
         "name" : "Wrap attack",
-        "min_unarmed": 0,
-        "unarmed_allowed": true,
-        "stun_dur": 2,
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "stun_dur" : 2,
         "messages" : [
             "You wrap up %s",
             "<npcname> wraps up %s"
@@ -50,9 +50,9 @@
         "type" : "technique",
         "id" : "SWEEP",
         "name" : "Sweep Attack",
-        "min_unarmed": 0,
-        "unarmed_allowed": true,
-        "down_dur": 2,
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "down_dur" : 2,
         "messages" : [
             "You sweep %s",
             "<npcname> sweeps %s"
@@ -61,63 +61,63 @@
         "type" : "technique",
         "id" : "tec_feint",
         "name" : "Feint",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "defensive": true,
-        "miss_recovery": true
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true
     },{
         "type" : "technique",
         "id" : "tec_break",
         "name" : "Grab Break",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "defensive": true,
-        "grab_break": true
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "defensive" : true,
+        "grab_break" : true
     },{
         "type" : "technique",
         "id" : "tec_precise",
         "name" : "Precise Strike",
-        "min_unarmed": 0,
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You jab deftly at %s",
             "<npcname> jabs deftly at %s"
         ],
-        "stun_dur": 2
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_karate_rapid",
         "name" : "quick punch",
-        "min_unarmed": 0,
-        "unarmed_allowed": true,
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
         "messages" : [
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "quick": true
+        "quick" : true
     },{
         "type" : "technique",
         "id" : "tec_karate_precise",
         "name" : "karate chop",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You karate chop %s",
             "<npcname> karate chops %s"
         ],
-        "stun_dur": 2
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_aikido_throw",
         "name" : "throw",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "down_dur": 1,
-        "knockback_dist": 1,
-        "knockback_spread": 1,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "down_dur" : 1,
+        "knockback_dist" : 1,
+        "knockback_spread" : 1,
         "messages" : [
             "You throw %s",
             "<npcname> throws %s"
@@ -126,10 +126,10 @@
         "type" : "technique",
         "id" : "tec_aikido_feint",
         "name" : "feint at",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "miss_recovery": true,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
         "messages" : [
             "You feint at %s",
             "<npcname> feints at %s"
@@ -138,9 +138,9 @@
         "type" : "technique",
         "id" : "tec_aikido_disarm",
         "name" : "disarm",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "disarms": true,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "disarms" : true,
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
@@ -149,11 +149,11 @@
         "type" : "technique",
         "id" : "tec_judo_throw",
         "name" : "throw",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "down_dur": 1,
-        "knockback_dist": 1,
-        "knockback_spread": 1,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "down_dur" : 1,
+        "knockback_dist" : 1,
+        "knockback_spread" : 1,
         "messages" : [
             "You throw %s",
             "<npcname> throws %s"
@@ -162,9 +162,9 @@
         "type" : "technique",
         "id" : "tec_judo_grab",
         "name" : "grab",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "down_dur": 1,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "down_dur" : 1,
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
@@ -173,9 +173,9 @@
         "type" : "technique",
         "id" : "tec_taichi_disarm",
         "name" : "disarm",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "disarms": true,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "disarms" : true,
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
@@ -184,10 +184,10 @@
         "type" : "technique",
         "id" : "tec_taichi_precise",
         "name" : "precise strike",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "crit_tec": true,
-        "stun_dur": 2,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
+        "stun_dur" : 2,
         "messages" : [
             "You strike %s",
             "<npcname> strikes %s"
@@ -196,10 +196,10 @@
         "type" : "technique",
         "id" : "tec_capoeira_feint",
         "name" : "feint at",
-        "min_unarmed": 1,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "miss_recovery": true,
+        "min_unarmed" : 1,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
         "messages" : [
             "You feint at %s",
             "<npcname> feints at %s"
@@ -208,56 +208,56 @@
         "type" : "technique",
         "id" : "tec_muay_thai_elbow",
         "name" : "elbow",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
         "messages" : [
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "quick": true,
-        "stun_dur": 1
+        "quick" : true,
+        "stun_dur" : 1
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_kick",
         "name" : "kick",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
         "messages" : [
             "You power-kick %s",
             "<npcname> power-kicks %s"
         ],
-        "stun_dur": 1
+        "stun_dur" : 1
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_knee",
         "name" : "flying knee",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You flying knee %s",
             "<npcname> flying knees %s"
         ],
-        "stun_dur": 1
+        "stun_dur" : 1
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_rapid",
         "name" : "quick punch",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
         "messages" : [
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "quick": true
+        "quick" : true
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_feint",
         "name" : "feint at",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "miss_recovery": true,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
         "messages" : [
             "You feint at %s",
             "<npcname> feints at %s"
@@ -266,21 +266,21 @@
         "type" : "technique",
         "id" : "tec_krav_maga_precise",
         "name" : "precise strike",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You jab %s",
             "<npcname> jabs %s"
         ],
-        "stun_dur": 2
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_disarm",
         "name" : "disarm",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "disarms": true,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "disarms" : true,
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
@@ -289,9 +289,9 @@
         "type" : "technique",
         "id" : "tec_krav_maga_grab",
         "name" : "grab",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "down_dur": 1,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "down_dur" : 1,
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
@@ -300,35 +300,35 @@
         "type" : "technique",
         "id" : "tec_krav_maga_break",
         "name" : "grab break",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "defensive": true,
-        "grab_break": true
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "defensive" : true,
+        "grab_break" : true
     },{
         "type" : "technique",
         "id" : "tec_ninjutsu_precise",
         "name" : "surprise attack",
-        "min_unarmed": 3,
-        "min_melee": 3,
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 3,
+        "min_melee" : 3,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You surprise attack %s",
             "<npcname> surprise attacks %s"
         ],
-        "stun_dur": 2,
-        "bash_mult": 1.4,
-        "cut_mult": 2
+        "stun_dur" : 2,
+        "bash_mult" : 1.4,
+        "cut_mult" : 2
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_precise",
         "name" : "axe-kick",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "crit_tec": true,
-        "stun_dur": 2,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
+        "stun_dur" : 2,
         "messages" : [
             "You axe-kick %s",
             "<npcname> axe-kicks %s"
@@ -338,32 +338,32 @@
         "id" : "tec_taekwondo_push",
         "name" : "side kick",
         "min_unarmed":3,
-        "unarmed_allowed": true,
+        "unarmed_allowed" : true,
         "messages" : [
             "You side-kick %s",
             "<npcname> side-kicks %s"
         ],
-        "stun_dur": 1,
-        "knockback_dist": 1
+        "stun_dur" : 1,
+        "knockback_dist" : 1
     },{
         "type" : "technique",
         "id" : "tec_taekwondo_sweep",
         "name" : "sweep kick",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
         "messages" : [
             "You sweep-kick %s",
             "<npcname> sweep-kicks %s"
         ],
-        "down_dur": 2
+        "down_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_zuiquan_feint",
         "name" : "Drunk feint",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "miss_recovery": true,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
         "messages" : [
             "You stumble and leer at %s",
             "<npcname> stumbles and leers at %s"
@@ -372,10 +372,10 @@
         "type" : "technique",
         "id" : "tec_venom_snake_feint",
         "name" : "Viper Hiss",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "defensive": true,
-        "miss_recovery": true,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
         "messages" : [
             "You hiss threateningly at %s",
             "<npcname> hisses threateningly at %s"
@@ -384,9 +384,9 @@
         "type" : "technique",
         "id" : "tec_venom_snake_rapid",
         "name" : "Viper Bite",
-        "min_unarmed": 0,
-        "unarmed_allowed": true,
-        "quick": true,
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "quick" : true,
         "messages" : [
             "You Snakebite %s",
             "<npcname> Snakebites %s"
@@ -396,55 +396,55 @@
         "type" : "technique",
         "id" : "tec_venom_snake_break",
         "name" : "Viper Writhe",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "defensive": true,
-        "grab_break": true
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "defensive" : true,
+        "grab_break" : true
     },{
         "type" : "technique",
         "id" : "tec_scorpion_brutal",
         "name" : "Stinger Strike",
-        "unarmed_allowed": true,
-        "crit_tec": true,
-        "stun_dur": 3,
-        "knockback_dist": 3,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
+        "stun_dur" : 3,
+        "knockback_dist" : 3,
         "messages" : [
             "Your Stinger Kick sends %s flying!",
             "<npcname>'s Stinger Kick sends %s flying!"
         ],
-        "bash_mult": 2
+        "bash_mult" : 2
     },{
         "type" : "technique",
         "id" : "tec_scorpion_precise",
         "name" : "Pincer Strike",
-        "min_unarmed": 0,
-        "unarmed_allowed": true,
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
         "messages" : [
             "You punch %s with your Pincer Fist!",
             "<npcname> jabs %s with a Pincer Fist!"
         ],
-        "stun_dur": 2,
-        "bash_mult": 1.25
+        "stun_dur" : 2,
+        "bash_mult" : 1.25
     },{
         "type" : "technique",
         "id" : "tec_toad_grab",
         "name" : "Toad's Tongue",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "quick": true,
-        "down_dur": 3,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "quick" : true,
+        "down_dur" : 3,
         "messages" : [
             "You snatch and clobber %s",
             "<npcname> snatches and clobbers %s"
         ],
-        "bash_mult": 1.5
+        "bash_mult" : 1.5
     },{
         "type" : "technique",
         "id" : "tec_centipede_rapid",
         "name" : "Rapid Strike",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "quick": true,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "quick" : true,
         "messages" : [
             "You swiftly hit %s",
             "<npcname> swiftly hits %s"
@@ -453,9 +453,9 @@
         "type" : "technique",
         "id" : "tec_snake_rapid",
         "name" : "Snake Snap",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "quick": true,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "quick" : true,
         "messages" : [
             "You swiftly jab %s",
             "<npcname> swiftly jabs %s"
@@ -464,10 +464,10 @@
         "type" : "technique",
         "id" : "tec_snake_feint",
         "name" : "Snake Slide",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "miss_recovery": true,
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
         "messages" : [
             "You make serpentine hand motions at %s",
             "<npcname> makes serpentine hand motions at %s"
@@ -476,33 +476,33 @@
         "type" : "technique",
         "id" : "tec_snake_break",
         "name" : "Snake Slither",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "grab_break": true,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "grab_break" : true,
         "messages" : [
             "You slither free!",
-            "<npcname slithers free!"
+            "<npcname> slithers free!"
         ]
     },{
         "type" : "technique",
         "id" : "tec_snake_precise",
         "name" : "Snake Strike",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You strike out at %s",
             "<npcname> strikes out at %s"
         ],
-        "stun_dur": 2
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_tiger_grab",
         "name" : "Tiger Takedown",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "down_dur": 1,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "down_dur" : 1,
         "messages" : [
             "You grab and ground %s!",
             "<npcname> grabs and grounds %s!"
@@ -511,21 +511,21 @@
         "type" : "technique",
         "id" : "tec_leopard_precise",
         "name" : "Leopard Fist",
-        "min_unarmed": 5,
-        "unarmed_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You strike out at %s with your Leopard Fist!",
             "<npcname> strikes out at %s with a Leopard Fist!"
         ],
-        "stun_dur": 2
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_leopard_rapid",
         "name" : "Leopard Swipe",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "quick": true,
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "quick" : true,
         "messages" : [
             "You quickly swipe at %s",
             "<npcname> quickly swipes at %s"
@@ -534,8 +534,8 @@
         "type" : "technique",
         "id" : "tec_dragon_grab",
         "name" : "Dragon Snatch",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
         "messages" : [
             "You grab and knee %s!",
             "<npcname> grabs and knees %s!"
@@ -544,9 +544,9 @@
         "type" : "technique",
         "id" : "tec_dragon_sweep",
         "name" : "Dragon Sweeper",
-        "min_unarmed": 5,
-        "unarmed_allowed": true,
-        "down_dur": 2,
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "down_dur" : 2,
         "messages" : [
             "You low-roundhouse %s 's legs!",
             "<npcname> low-roundhouses %s 's legs!"
@@ -555,11 +555,11 @@
         "type" : "technique",
         "id" : "tec_dragon_brutal",
         "name" : "Dragon Strike",
-        "min_unarmed": 6,
-        "unarmed_allowed": true,
-        "crit_tec": true,
-        "stun_dur": 1,
-        "knockback_dist": 1,
+        "min_unarmed" : 6,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "knockback_dist" : 1,
         "messages" : [
             "You send %s reeling with a Dragon Strike!",
             "<npcname> sends %s reeling with a Dragon Strike!"
@@ -568,11 +568,11 @@
         "type" : "technique",
         "id" : "tec_crane_feint",
         "name" : "Crane Wing",
-        "min_unarmed": 2,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "miss_recovery": true,
-        "messages": [
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
+        "messages" : [
             "You raise your arms intimidatingly!",
             "<npcname> performs the Crane Wing!"
         ]
@@ -580,11 +580,11 @@
         "type" : "technique",
         "id" : "tec_crane_break",
         "name" : "Crane Flap",
-        "min_unarmed": 3,
-        "unarmed_allowed": true,
-        "defensive": true,
-        "grab_break": true,
-        "messages": [
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "grab_break" : true,
+        "messages" : [
             "You swing your arms and break free!",
             "<npcname> flaps free!"
         ]
@@ -592,13 +592,13 @@
         "type" : "technique",
         "id" : "tec_crane_precise",
         "name" : "Crane Strike",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "crit_tec": true,
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You hand-peck %s",
             "<npcname> hand-pecks %s"
         ],
-        "stun_dur": 2
+        "stun_dur" : 2
     }
 ]
