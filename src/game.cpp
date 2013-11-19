@@ -10674,29 +10674,69 @@ void game::plmove(int dx, int dy)
   if (m.has_flag("SWIMMABLE", x, y))
     u.drench(this, 40, mfb(bp_feet) | mfb(bp_legs));
 
-  // List items here
-  if (!m.has_flag("SEALED", x, y)) {
-    if (!u.has_disease("blind") && m.i_at(x, y).size() <= 3 && m.i_at(x, y).size() != 0) {
-      // TODO: Rewrite to be localizable
-      std::string buff = _("You see here ");
-
-      for (int i = 0; i < m.i_at(x, y).size(); i++) {
-        buff += m.i_at(x, y)[i].tname(this);
-
-        if (i + 2 < m.i_at(x, y).size())
-          buff += _(", ");
-        else if (i + 1 < m.i_at(x, y).size())
-          buff += _(", and ");
-
-      }
-
-      buff += _(".");
-
-      add_msg(buff.c_str());
-    } else if (m.i_at(x, y).size() != 0) {
-      add_msg(_("There are many items here."));
+    // List items here
+    if (!m.has_flag("SEALED", x, y)) {
+        if (u.has_disease("blind") && !m.i_at(x, y).empty()) {
+            add_msg(_("There's something here, but you can't see what it is."));
+        } else if (!m.i_at(x, y).empty()) {
+            std::vector<std::string> names;
+            std::vector<size_t> counts;
+            names.push_back(m.i_at(x, y)[0].tname(this));
+            counts.push_back(1);
+            for (int i = 1; i < m.i_at(x, y).size(); i++) {
+                item& tmpitem = m.i_at(x, y)[i];
+                std::string next = tmpitem.tname(this);
+                bool got_it = false;
+                for (int i = 0; i < names.size(); ++i) {
+                    if (next == names[i]) {
+                        if (tmpitem.count_by_charges()) {
+                            counts[i] += tmpitem.charges;
+                        } else {
+                            counts[i] += 1;
+                        }
+                        got_it = true;
+                        break;
+                    }
+                }
+                if (!got_it) {
+                    names.push_back(next);
+                    if (tmpitem.count_by_charges()) {
+                        counts.push_back(tmpitem.charges);
+                    } else {
+                        counts.push_back(1);
+                    }
+                }
+                if (names.size() > 6) {
+                    break;
+                }
+            }
+            for (int i = 0; i < names.size(); ++i) {
+                std::string fmt;
+                if (counts[i] == 1) {
+                    //~ one item (e.g. "a dress")
+                    fmt = _("a %s");
+                    names[i] = string_format(fmt, names[i].c_str());
+                } else {
+                    //~ number of items: "<number> <item>"
+                    fmt = ngettext("%1$d %2$s", "%1$d %2$ss", counts[i]);
+                    names[i] = string_format(fmt, counts[i], names[i].c_str());
+                }
+            }
+            if (names.size() == 1) {
+                add_msg(_("You see here %s."), names[0].c_str());
+            } else if (names.size() == 2) {
+                add_msg(_("You see here %s and %s."),
+                        names[0].c_str(), names[1].c_str());
+            } else if (names.size() == 3) {
+                add_msg(_("You see here %s, %s, and %s."), names[0].c_str(),
+                        names[1].c_str(), names[2].c_str());
+            } else if (names.size() < 7) {
+                add_msg(_("There are %d items here."), names.size());
+            } else {
+                add_msg(_("There are many items here."));
+            }
+        }
     }
-  }
 
   if (veh1 && veh1->part_with_feature(vpart1, "CONTROLS") >= 0
            && u.in_vehicle)
