@@ -205,7 +205,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   if (g->u_see(z)) {
       player_hit_message(g, this, message, target_name, dam, critical_hit);
   }
-  
+
   if (!specialmsg.empty())
     g->add_msg(specialmsg.c_str());
 
@@ -770,7 +770,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
     // don't apply downing techniques to someone who's already downed
     if (downed && tec.down_dur > 0) continue;
 
-    // don't apply disarming techniques to someone without a weapon 
+    // don't apply disarming techniques to someone without a weapon
     //TODO: these are the stat reqs for tec_disarm
     // dice(   dex_cur +    skillLevel("unarmed"),  8) >
     // dice(p->dex_cur + p->skillLevel("melee"),   10))
@@ -1075,7 +1075,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
                                    int &bash_dam, int &cut_dam, int &stab_dam)
 {
     std::stringstream dump;
-  
+
     if (z == NULL && p == NULL) {
         return NULL;
     }
@@ -1226,7 +1226,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
          !z->is_hallucination()) {
   if (you)
-    dump << _("Your ")<<weapon.tname()<<_(" gets stuck in ")<<target<<_(", pulling it out of your hands!");
+    dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname(), target);
   if (mon) {
    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
     z->speed *= .7;
@@ -1461,7 +1461,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         }
         ret.push_back(tmp);
     }
-	
+
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
             has_trait("ARM_TENTACLES_8")) {
         int num_attacks = 1;
@@ -1525,7 +1525,7 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
         }
     } else if (p.weapon.is_cutting_weapon()) {  // cutting weapon
         if (bash_dam + stab_dam + cut_dam >= 30) {
-            return npc ? _("<npcname> guts %s") : _("You gut %s");
+            return npc ? _("<npcname> hacks %s") : _("You hack %s");
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
             return npc ? _("<npcname> slices %s") : _("You slice %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {
