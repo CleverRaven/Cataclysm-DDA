@@ -10640,11 +10640,47 @@ void game::plmove(int dx, int dy)
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
      }
      return;
-    } else {
+    }
+    else {
      add_msg(_("You can't displace your %s."), z.name().c_str());
      return;
     }
    }
+   else if (z.type->id == "mon_manhack") {
+    if (query_yn(_("Reprogram the manhack?"))) {
+      int choice = 0;
+      if (z.has_effect(ME_DOCILE))
+        choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
+      else
+        choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
+      switch (choice) {
+      case 1:{
+        if (z.has_effect(ME_DOCILE)) {
+          z.rem_effect(ME_DOCILE);
+          if (one_in(3))
+            add_msg(_("The %s hovers momentarily as it surveys the area."), z.name().c_str());
+        }
+        else {
+          z.add_effect(ME_DOCILE, -1);
+          add_msg(_("The %s ."), z.name().c_str());
+          if (one_in(3))
+            add_msg(_("The %s lets out a whirring noise and starts to follow you."), z.name().c_str());
+        }
+        break;
+      }
+      case 2: {
+        remove_zombie(mondex);
+        m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+        break;
+      }
+      default: {
+        return;
+      }
+      }
+      u.moves -= 100;
+    }
+    return;
+  }
    z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z.name().c_str());
   }
