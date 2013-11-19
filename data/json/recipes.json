@@ -8751,8 +8751,7 @@
     ],
     "components": [
       [
-        [ "steel_chunk", 7 ],
-        [ "scrap", 21 ]
+        [ "actual_scrap", 7 ]
       ]
     ]
   },{
