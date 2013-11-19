@@ -1884,7 +1884,7 @@ bool game::handle_action()
             return false;
         }
     } else {
-        // No auto-move, ask plaer for input
+        // No auto-move, ask player for input
         ctxt = get_player_input(action);
     }
 
