@@ -2843,8 +2843,10 @@ void game::write_memorial_file() {
         player_name << '-';
     }
 
+    //Omit the name if too many unusable characters stripped
     std::string memorial_file_path = string_format("memorial/%s%s.txt",
-            player_name.str().c_str(), timestamp.c_str());
+            player_name.str().length() <= (u.name.length() / 5) ? "" : player_name.str().c_str(),
+            timestamp.c_str());
 
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
