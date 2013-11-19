@@ -918,20 +918,17 @@ void veh_interact::display_stats ()
     fold_and_print(w_stats, 5, column, third_column, totalDurabilityColor, totalDurabilityText.c_str());
 
     // Write the most damaged part
-    if (mostDamagedPart != -1)
-    {
+    if (mostDamagedPart != -1) {
         std::string partName;
-        mvwprintz(w_stats, 4, second_column, c_ltgray, _("Most damaged:  "));   
-        column = second_column + utf8_width(_("Most damaged:  ")) + 1;  
-        std::string partID = veh->parts[mostDamagedPart].id;  
-        auto part = veh->parts[mostDamagedPart];
+        mvwprintz(w_stats, 4, second_column, c_ltgray, _("Most damaged:  "));
+        column = second_column + utf8_width(_("Most damaged:  ")) + 1;
+        std::string partID = veh->parts[mostDamagedPart].id;
+        vehicle_part part = veh->parts[mostDamagedPart];
         int damagepercent = part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent * 100);
         partName = vehicle_part_types[partID].name;
         fold_and_print(w_stats, 4, column, third_column, damagecolor, "%s", partName.c_str());
-    }   
-    
-
+    }
 
     wrefresh (w_stats);
 }
