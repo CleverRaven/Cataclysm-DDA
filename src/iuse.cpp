@@ -492,6 +492,14 @@ int iuse::bandage(player *p, item *it, bool t)
 
 int iuse::firstaid(player *p, item *it, bool t)
 {
+    // Assign first aid long action.
+    p->assign_activity(g, ACT_FIRSTAID, 10000, -1, it->invlet, it->name);
+    return 0;
+}
+
+// Used when finishing the first aid long action.
+int iuse::completefirstaid(player *p, item *it, bool t)
+{
     if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false) ) {
         pkill(p, it, t);
         return it->type->charges_to_use();

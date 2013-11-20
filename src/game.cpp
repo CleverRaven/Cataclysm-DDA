@@ -1058,6 +1058,15 @@ void game::process_activity()
 
     break;
 
+   case ACT_FIRSTAID:
+    {
+      item it = u.inv.item_by_letter(u.activity.invlet);
+      iuse tmp;
+      tmp.completefirstaid(&u, &it, false);
+    }
+
+    break;
+
    case ACT_VEHICLE:
     complete_vehicle (this);
     break;
