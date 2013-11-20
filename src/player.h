@@ -361,6 +361,7 @@ public:
  void practice(const calendar& turn, std::string s, int amount);
 
  void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
+ bool has_activity(game* g, const activity_type type);
  void cancel_activity();
 
  int weight_carried();
@@ -439,7 +440,7 @@ public:
  std::vector<point> &get_auto_move_route();
  action_id get_next_auto_move_direction();
  void shift_destination(int shiftx, int shifty);
- 
+
 // Library functions
  double logistic(double t);
  double logistic_range(int min, int max, int pos);
