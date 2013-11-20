@@ -8581,7 +8581,7 @@ int player::resist(body_part bp)
         }
     }
     return ret;
-    
+
     if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
         if (ret > 5) {
@@ -8744,6 +8744,15 @@ void player::assign_activity(game* g, activity_type type, int moves, int index, 
         activity = player_activity(type, moves, index, invlet, name);
     }
     activity.warned_of_proximity = false;
+}
+
+bool player::has_activity(game* g, const activity_type type)
+{
+    if (activity.type == type) {
+        return true;
+    }
+
+    return false;
 }
 
 void player::cancel_activity()

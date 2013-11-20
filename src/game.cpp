@@ -833,7 +833,7 @@ void game::process_activity()
   if (int(turn) % 150 == 0) {
    draw();
   }
-  if (u.activity.type == ACT_WAIT) { // Based on time, not speed
+  if (u.activity.type == ACT_WAIT || u.activity.type == ACT_WAIT_WEATHER) { // Based on time, not speed
    u.activity.moves_left -= 100;
    u.pause(this);
   } else if (u.activity.type == ACT_GAME) {
@@ -1034,6 +1034,7 @@ void game::process_activity()
     break;
 
    case ACT_WAIT:
+   case ACT_WAIT_WEATHER:
     u.activity.continuous = false;
     add_msg(_("You finish waiting."));
     break;
@@ -1285,6 +1286,10 @@ void game::update_weather()
             levz >= 0 && m.is_outside(u.posx, u.posy))
         {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
+        }
+
+        if (weather != old_weather && u.has_activity(this, ACT_WAIT_WEATHER)) {
+            u.assign_activity(this, ACT_WAIT_WEATHER, 0, 0);
         }
     }
 }
@@ -1568,7 +1573,8 @@ void game::handle_key_blocking_activity() {
             u.activity.type == ACT_BUILD ||
             u.activity.type == ACT_LONGCRAFT ||
             u.activity.type == ACT_REFILL_VEHICLE ||
-            u.activity.type == ACT_WAIT
+            u.activity.type == ACT_WAIT ||
+            u.activity.type == ACT_WAIT_WEATHER
         )
     ) {
         timeout(1);
@@ -11934,18 +11940,31 @@ void game::wait()
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");
+    int i = 0;
     as_m.entries.push_back(uimenu_entry(1, true, '1', (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats") ));
     as_m.entries.push_back(uimenu_entry(2, true, '2', (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats") ));
-    as_m.entries.push_back(uimenu_entry(3, true, '3', (bHasWatch) ? _("1 hour") : _("Wait till dawn") ));
-    as_m.entries.push_back(uimenu_entry(4, true, '4', (bHasWatch) ? _("2 hours") : _("Wait till noon") ));
-    as_m.entries.push_back(uimenu_entry(5, true, '5', (bHasWatch) ? _("3 hours") : _("Wait till dusk") ));
-    as_m.entries.push_back(uimenu_entry(6, true, '6', (bHasWatch) ? _("6 hours") : _("Wait till midnight") ));
-    as_m.entries.push_back(uimenu_entry(7, true, '7', _("Exit") ));
+
+    if (bHasWatch) {
+        as_m.entries.push_back(uimenu_entry(3, true, '3', _("1 hour") ));
+        as_m.entries.push_back(uimenu_entry(4, true, '4', _("2 hours") ));
+        as_m.entries.push_back(uimenu_entry(5, true, '5', _("3 hours") ));
+        as_m.entries.push_back(uimenu_entry(6, true, '6', _("6 hours") ));
+    }
+
+    as_m.entries.push_back(uimenu_entry(7, true, 'd', _("Wait till dawn") ));
+    as_m.entries.push_back(uimenu_entry(8, true, 'n', _("Wait till noon") ));
+    as_m.entries.push_back(uimenu_entry(9, true, 'k', _("Wait till dusk") ));
+    as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight") ));
+    as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes") ));
+
+    as_m.entries.push_back(uimenu_entry(++i, true, 'x', _("Exit") ));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     const int iHour = turn.getHour();
 
     int time = 0;
+    activity_type actType = ACT_WAIT;
+
     switch (as_m.ret) {
         case 1:
             time =   5000;
@@ -11954,22 +11973,38 @@ void game::wait()
             time =  30000;
             break;
         case 3:
-            time =  (bHasWatch) ? 60000 : (60000 * ((iHour <= 6) ? 6-iHour : 24-iHour+6));
+            time =  60000;
             break;
         case 4:
-            time = (bHasWatch) ? 120000 : (60000 * ((iHour <= 12) ? 12-iHour : 12-iHour+6));
+            time = 120000;
             break;
         case 5:
-            time = (bHasWatch) ? 180000 : (60000 * ((iHour <= 18) ? 18-iHour : 18-iHour+6));
+            time = 180000;
             break;
         case 6:
-            time = (bHasWatch) ? 360000 : (60000 * ((iHour <= 24) ? 24-iHour : 24-iHour+6));
+            time = 360000;
+            break;
+        case 7:
+            time = 60000 * ((iHour <= 6) ? 6-iHour : 24-iHour+6);
+            break;
+        case 8:
+            time = 60000 * ((iHour <= 12) ? 12-iHour : 12-iHour+6);
+            break;
+        case 9:
+            time = 60000 * ((iHour <= 18) ? 18-iHour : 18-iHour+6);
+            break;
+        case 10:
+            time = 60000 * ((iHour <= 24) ? 24-iHour : 24-iHour+6);
+            break;
+        case 11:
+            time = 999999999;
+            actType = ACT_WAIT_WEATHER;
             break;
         default:
             return;
     }
 
-    u.assign_activity(this, ACT_WAIT, time, 0);
+    u.assign_activity(this, actType, time, 0);
     u.activity.continuous = true;
     u.moves = 0;
 }
