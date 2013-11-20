@@ -140,6 +140,8 @@ player::player() : name("")
  sight_boost = 0;
  sight_boost_cap = 0;
  lastrecipe = NULL;
+ next_expected_position.x = -1;
+ next_expected_position.y = -1;
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
@@ -8992,4 +8994,69 @@ void player::environmental_revert_effect()
 
     recalc_sight_limits();
 }
+
+void player::set_destination(const std::vector<point> &route)
+{
+    auto_move_route = route;
+}
+
+void player::clear_destination()
+{
+    auto_move_route.clear();
+    next_expected_position.x = -1;
+    next_expected_position.y = -1;
+}
+
+bool player::has_destination() const
+{
+    return auto_move_route.size() > 0;
+}
+
+std::vector<point> &player::get_auto_move_route()
+{
+    return auto_move_route;
+}
+
+action_id player::get_next_auto_move_direction()
+{
+    if (!has_destination()) {
+        return ACTION_NULL;
+    }
+
+    if (next_expected_position.x != -1) {
+        if (posx != next_expected_position.x || posy != next_expected_position.y) {
+            // We're off course, possibly stumbling or stuck, cancel auto move
+            return ACTION_NULL;
+        }
+    }
+
+    next_expected_position = auto_move_route.front();
+    auto_move_route.erase(auto_move_route.begin());
+
+    int dx = next_expected_position.x - posx;
+    int dy = next_expected_position.y - posy;
+
+    if (abs(dx) > 1 || abs(dy) > 1) {
+        // Should never happen, but check just in case
+        return ACTION_NULL;
+    }
+
+    return get_movement_direction_from_delta(dx, dy);
+}
+
+void player::shift_destination(int shiftx, int shifty)
+{
+    if (next_expected_position.x != -1) {
+        next_expected_position.x += shiftx;
+        next_expected_position.y += shifty;
+    }
+
+    for (std::vector<point>::iterator it = auto_move_route.begin(); it != auto_move_route.end(); it++) {
+        it->x += shiftx;
+        it->y += shifty;
+    }
+}
+
+
+
 // --- End ---

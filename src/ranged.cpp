@@ -854,8 +854,15 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   // Our coordinates will either be determined by coordinate input(mouse),
   // by a direction key, or by the previous value.
   if (action == "SELECT" && ctxt.get_coordinates(g->w_terrain, tarx, tary)) {
-      tarx = tarx - x;
-      tary = tary - y;
+      if (!OPTIONS["USE_TILES"] && snap_to_target) {
+          // Snap to target doesn't currently work with tiles.
+          tarx += x - u.posx;
+          tary += y - u.posy;
+      }
+      tarx -= x;
+      tary -= y;
+
+
   } else {
     ctxt.get_direction(tarx, tary, action);
     if(tarx == -2) {

@@ -2064,7 +2064,7 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, int u
   }
  }
 
-bool map::close_door(const int x, const int y, const bool inside)
+bool map::close_door(const int x, const int y, const bool inside, const bool check_only)
 {
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
@@ -2076,7 +2076,9 @@ bool map::close_door(const int x, const int y, const bool inside)
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
-     ter_set(x, y, termap[ terid ].close );
+     if (!check_only) {
+        ter_set(x, y, termap[ terid ].close );
+     }
      return true;
  } else if ( furnmap[ furnid ].close.size() > 0 && furnmap[ furnid ].close != "t_null" ) {
      if ( furnmap.find( furnmap[ furnid ].close ) == furnmap.end() ) {
@@ -2086,7 +2088,9 @@ bool map::close_door(const int x, const int y, const bool inside)
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
-     furn_set(x, y, furnmap[ furnid ].close );
+     if (!check_only) {
+         furn_set(x, y, furnmap[ furnid ].close );
+     }
      return true;
  }
  return false;
