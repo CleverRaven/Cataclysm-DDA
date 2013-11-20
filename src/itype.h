@@ -416,6 +416,7 @@ struct it_gun : public itype
 struct it_gunmod : public itype
 {
  signed char dispersion, damage, loudness, clip, recoil, burst;
+ float zoom;
  ammotype newtype;
  std::set<std::string> acceptible_ammo_types;
  bool used_on_pistol;
@@ -434,8 +435,8 @@ struct it_gunmod : public itype
 
            signed char pdispersion, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
-           ammotype pnewtype, std::set<std::string> a_a_t, bool pistol,
-           bool shotgun, bool smg, bool rifle)
+           signed char pzoom, ammotype pnewtype, std::set<std::string> a_a_t,
+           bool pistol,bool shotgun, bool smg, bool rifle)
 
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
@@ -445,6 +446,7 @@ struct it_gunmod : public itype
   clip = pclip;
   recoil = precoil;
   burst = pburst;
+  zoom = pzoom;
   newtype = pnewtype;
   acceptible_ammo_types = a_a_t;
   used_on_pistol = pistol;
@@ -460,6 +462,7 @@ struct it_gunmod : public itype
   clip = 0;
   recoil = 0;
   burst = 0;
+  zoom = 1.0;
   newtype = "";
   used_on_pistol = false;
   used_on_shotgun = false;

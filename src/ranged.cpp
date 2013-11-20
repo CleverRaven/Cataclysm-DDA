@@ -1102,10 +1102,19 @@ int calculate_range(player &p, int tarx, int tary)
   else
    trange = int(trange * .8);
  }
-
- if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE)
+ // If our weapon has a zoom modifier and we are long range, reduce the effective distance
+ if(p.weapon.zoom() > 1.01) {
+  if(trange > LONG_RANGE){
+    trange = LONG_RANGE / 2 + int(trange / p.weapon.zoom());
+  }else {
+    // If we are at short range, penalize to long range
+    trange = LONG_RANGE;
+  }
+ } // If we are firing a rifle from long range without a scope
+ else if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE) {
   trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
-
+ }
+ 
  return trange;
 }
 
@@ -1131,7 +1140,7 @@ double calculate_missed_by(player &p, int trange, item* weapon)
     deviation += rng(0, weapon->curammo->dispersion);
     // item::dispersion() doesn't support gunmods.
     deviation += rng(0, p.weapon.dispersion());
-    int adj_recoil = p.recoil + p.driving_recoil;
+    int adj_recoil = int((p.recoil + p.driving_recoil) * weapon->zoom());
     deviation += rng(int(adj_recoil / 4), adj_recoil);
 
     if (deviation < 0) { return 0; }

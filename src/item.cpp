@@ -519,7 +519,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
    dump->push_back(iteminfo("GUNMOD", _("Recoil: "), "", mod->recoil, true, ((mod->recoil > 0) ? "+" : ""), true, true));
   if (mod->burst != 0)
    dump->push_back(iteminfo("GUNMOD", _("Burst: "), "", mod->burst, true, (mod->burst > 0 ? "+" : "")));
-
+  if (mod->zoom != 1)
+   dump->push_back(iteminfo("GUNMOD", _("Zoom Factor: "), "", mod->zoom, true, (mod->zoom > 1.0 ? "+" : "")));
   if (mod->newtype != "NULL")
    dump->push_back(iteminfo("GUNMOD", "" + ammo_name(mod->newtype)));
 
@@ -1869,6 +1870,24 @@ int item::dispersion()
     }
     ret += damage * 2;
     if (ret < 0) ret = 0;
+    return ret;
+}
+
+float item::zoom()
+{
+    if (!is_gun() && !is_gunmod())
+        return 1.0;
+    if(is_gunmod()) 
+        return dynamic_cast<it_gunmod*>(type)->zoom;
+
+    float ret = 1.0;
+    float current = 1.0;
+    for (int i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod())
+            current = (dynamic_cast<it_gunmod*>(contents[i].type))->zoom;
+            if(current > ret)
+                ret = current;
+    }
     return ret;
 }
 
