@@ -304,8 +304,11 @@ void monster::move(game *g)
          (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
         // CONCRETE PLANS - Most likely based on sight
         // Check for a vehicle. If the player isn't in it, avoid the vehicle.
-        if (g->m.veh_at(plans[0].x, plans[0].y))  {
-          // If the player is in the vehicle, we don't care. Smash it. But check if he's far away.
+        // If we are in a vehicle, smash our way out.
+        // Once in a while, attack the vehicle anyway.
+        if (g->m.veh_at(plans[0].x, plans[0].y) && !g->m.veh_at(posx(), posy()) &&
+            !one_in(3))  {
+          // If the player isn't in a vehicle, or is far away, path around obstacles.
           if (!g->m.veh_at(g->u.posx, g->u.posy) || rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 6)  {
             // Try to go around.
             int newx [8] = {-1, 0, 1, -1, 1, -1, 0, 1};  // x positions from top left.
@@ -334,7 +337,7 @@ void monster::move(game *g)
             moved = true;
           }
         }
-        // Player was in the vehicle or there was no vehicle. Concrete plans!
+        // Player was in the vehicle or there was no vehicle, or we were inside one. Concrete plans!
         if (!moved) {
           next = plans[0];
           moved = true;
@@ -877,7 +880,7 @@ int monster::bash_at(int x, int y) {
               if ( helpermon.wandx == wandx && helpermon.wandy == wandy && helpermon.has_flag(MF_BASHES) ) {
                  // helpers lined up behind primary basher add full strength, so do those at either shoulder, others add 50%
                  //addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
-                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides); 
+                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
                  // helpers lined up behind primary basher add full strength, others 50%
                  addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
                  mo_bash += addbash;
