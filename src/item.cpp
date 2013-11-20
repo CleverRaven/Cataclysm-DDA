@@ -519,7 +519,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
    dump->push_back(iteminfo("GUNMOD", _("Recoil: "), "", mod->recoil, true, ((mod->recoil > 0) ? "+" : ""), true, true));
   if (mod->burst != 0)
    dump->push_back(iteminfo("GUNMOD", _("Burst: "), "", mod->burst, true, (mod->burst > 0 ? "+" : "")));
-  if (mod->zoom != 1)
+  if (mod->zoom > 1.0)
    dump->push_back(iteminfo("GUNMOD", _("Zoom Factor: "), "", mod->zoom, true, (mod->zoom > 1.0 ? "+" : "")));
   if (mod->newtype != "NULL")
    dump->push_back(iteminfo("GUNMOD", "" + ammo_name(mod->newtype)));

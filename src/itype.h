@@ -432,10 +432,10 @@ struct it_gunmod : public itype
            unsigned short pvolume, unsigned int pweight,
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
-
            signed char pdispersion, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
-           signed char pzoom, ammotype pnewtype, std::set<std::string> a_a_t,
+           float pzoom,
+           ammotype pnewtype, std::set<std::string> a_a_t,
            bool pistol,bool shotgun, bool smg, bool rifle)
 
  :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
