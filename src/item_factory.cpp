@@ -460,6 +460,7 @@ void Item_factory::load_gunmod(JsonObject& jo)
     gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
     gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
     gunmod_template->burst = jo.get_int("burst_modifier", 0);
+    gunmod_template->zoom = jo.get_float("zoom_factor", 1.0);
     gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
     gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
 
