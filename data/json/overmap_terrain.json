@@ -1,0 +1,1545 @@
+[
+    {
+        "type" : "overmap_terrain",
+        "id" : "",
+        "name" : "nothing",
+        "rotate" : false,
+        "line_drawing" : false,
+        "sym" : 37,
+        "color" : "white",
+        "see_cost" : 0,
+        "extras" : "none",
+        "known_down" : false,
+        "known_up" : false,
+        "mondensity" : 0,
+        "sidewalk" : false,
+        "allow_road" : false
+    },{
+        "type" : "overmap_terrain",
+        "id" : "crater",
+        "name" : "crater",
+        "sym" : 79,
+        "color" : "red",
+        "see_cost" : 2,
+        "extras" : "field",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "field",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 2,
+        "extras" : "field",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "forest",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 3,
+        "extras" : "field",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "forest_thick",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 4,
+        "extras" : "field",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "forest_water",
+        "name" : "swamp",
+        "sym" : 70,
+        "color" : "cyan",
+        "see_cost" : 4,
+        "extras" : "field",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hiway_ns",
+        "name" : "highway",
+        "sym" : 72,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "extras" : "road",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hiway_ew",
+        "name" : "highway",
+        "sym" : 61,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "extras" : "road",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "road_null",
+        "name" : "bug-ridden road",
+        "sym" : 37,
+        "color" : "magenta",
+        "see_cost" : 0,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "road",
+        "name" : "road",
+        "line_drawing" : true,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "extras" : "road",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "road_nesw_manhole",
+        "name" : "road, manhole",
+        "sym" : 4194414,
+        "color" : "yellow",
+        "see_cost" : 2,
+        "extras" : "road",
+        "known_down" : true,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bridge_ns",
+        "name" : "bridge",
+        "sym" : 124,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bridge_ew",
+        "name" : "bridge",
+        "sym" : 45,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_center",
+        "name" : "river",
+        "sym" : 82,
+        "color" : "blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river",
+        "name" : "river bank",
+        "rotate" : true,
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_c_not_ne",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_c_not_nw",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_c_not_se",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_c_not_sw",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_ne",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_se",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_sw",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "river_nw",
+        "name" : "river bank",
+        "sym" : 82,
+        "color" : "light_blue",
+        "see_cost" : 1,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "house",
+        "name" : "house",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_green",
+        "see_cost" : 2,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "house_base",
+        "name" : "house",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_green",
+        "see_cost" : 2,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_lot",
+        "name" : "parking lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 1,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "park",
+        "name" : "park",
+        "sym" : 79,
+        "color" : "green",
+        "see_cost" : 2,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pool",
+        "name" : "pool",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_gas",
+        "name" : "gas station",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_blue",
+        "see_cost" : 0,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_pharm",
+        "name" : "pharmacy",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_red",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_doctor",
+        "name" : "doctor's office",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_cubical",
+        "name" : "office",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_con_tower_1_entrance",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_con_tower_1",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_mod_tower_1_entrance",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_mod_tower_1",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_1_entrance",
+        "name" : "office tower",
+        "sym" : 84,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_1",
+        "name" : "office tower",
+        "sym" : 116,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_b_entrance",
+        "name" : "tower parking",
+        "sym" : 112,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_b",
+        "name" : "tower parking",
+        "sym" : 112,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "church",
+        "name" : "church",
+        "rotate" : true,
+        "sym" : 67,
+        "color" : "light_red",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_1_entrance",
+        "name" : "cathedral",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_1",
+        "name" : "cathedral",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_b_entrance",
+        "name" : "cathedral basement",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_b",
+        "name" : "cathedral basement",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_grocery",
+        "name" : "grocery store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_hardware",
+        "name" : "hardware store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_electronics",
+        "name" : "electronics store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "yellow",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_sports",
+        "name" : "sporting goods store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_cyan",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_liquor",
+        "name" : "liquor store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "magenta",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_gun",
+        "name" : "gun store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "red",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_clothes",
+        "name" : "clothing store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "blue",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_library",
+        "name" : "library",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_restaurant",
+        "name" : "restaurant",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "pink",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_restaurant_fast",
+        "name" : "fast food restaurant",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "pink",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_restaurant_coffee",
+        "name" : "coffee shop",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "pink",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sub_station",
+        "name" : "subway station",
+        "rotate" : true,
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 5,
+        "known_down" : true,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_garage",
+        "name" : "garage",
+        "rotate" : true,
+        "sym" : 79,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cabin_strange",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cabin_strange_b",
+        "name" : "cabin basement",
+        "sym" : 67,
+        "color" : "i_green",
+        "see_cost" : 5,
+        "extras" : "build"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cabin",
+        "name" : "cabin",
+        "sym" : 67,
+        "color" : "i_green",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "dirtlot",
+        "name" : "dirt lot",
+        "sym" : 79,
+        "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm",
+        "name" : "farm",
+        "sym" : 94,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_field",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "police",
+        "name" : "police station",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "h_yellow",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bank",
+        "name" : "bank",
+        "rotate" : true,
+        "sym" : 36,
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bar",
+        "name" : "bar",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "magenta",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pawn",
+        "name" : "pawn shop",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_surplus",
+        "name" : "mil. surplus",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "furniture",
+        "name" : "furniture store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "abstorefront",
+        "name" : "abandoned storefront",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "h_dkgray",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "megastore_entrance",
+        "name" : "megastore",
+        "sym" : 43,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "megastore",
+        "name" : "megastore",
+        "sym" : 77,
+        "color" : "blue",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital_entrance",
+        "name" : "hospital",
+        "sym" : 72,
+        "color" : "light_red",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hospital",
+        "name" : "hospital",
+        "sym" : 72,
+        "color" : "red",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "public_works_entrance",
+        "name" : "public works",
+        "sym" : 87,
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "public_works",
+        "name" : "public works",
+        "sym" : 119,
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_1",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_2",
+        "name" : "regional school",
+        "sym" : 83,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_3",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_4",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_5",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_6",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_7",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_8",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "school_9",
+        "name" : "regional school",
+        "sym" : 115,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_2",
+        "name" : "prison",
+        "sym" : 80,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_3",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_4",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_5",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_6",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_7",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_8",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_9",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_entrance",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_1",
+        "name" : "hotel parking",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_2",
+        "name" : "hotel parking",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_3",
+        "name" : "hotel parking",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_4",
+        "name" : "hotel parking",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_5",
+        "name" : "hotel entrance",
+        "sym" : 72,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_6",
+        "name" : "hotel parking",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_7",
+        "name" : "hotel tower",
+        "sym" : 72,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_8",
+        "name" : "hotel tower",
+        "sym" : 72,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_1_9",
+        "name" : "hotel tower",
+        "sym" : 72,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_b_1",
+        "name" : "hotel basement",
+        "sym" : 66,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_b_2",
+        "name" : "hotel basement",
+        "sym" : 66,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hotel_tower_b_3",
+        "name" : "hotel basement",
+        "sym" : 66,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mansion_entrance",
+        "name" : "mansion",
+        "sym" : 77,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mansion",
+        "name" : "mansion",
+        "sym" : 77,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "fema_entrance",
+        "name" : "fema camp",
+        "sym" : 43,
+        "color" : "blue",
+        "see_cost" : 5,
+        "extras" : "build"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "fema",
+        "name" : "fema camp",
+        "sym" : 70,
+        "color" : "i_blue",
+        "see_cost" : 5,
+        "extras" : "build"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "station_radio",
+        "name" : "radio station",
+        "rotate" : true,
+        "sym" : 88,
+        "color" : "i_ltgray",
+        "see_cost" : 5,
+        "extras" : "build",
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "shelter",
+        "name" : "evac shelter",
+        "sym" : 43,
+        "color" : "white",
+        "see_cost" : 2,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "shelter_under",
+        "name" : "evac shelter",
+        "sym" : 43,
+        "color" : "white",
+        "see_cost" : 2,
+        "known_up" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "lmoe",
+        "name" : "LMOE shelter",
+        "sym" : 43,
+        "color" : "red",
+        "see_cost" : 2,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "lmoe_under",
+        "name" : "LMOE shelter",
+        "sym" : 43,
+        "color" : "red",
+        "see_cost" : 2,
+        "known_up" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "lab",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "lab_stairs",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "blue",
+        "see_cost" : 5,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "lab_core",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "lab_finale",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "cyan",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ice_lab",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ice_lab_stairs",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "blue",
+        "see_cost" : 5,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ice_lab_core",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ice_lab_finale",
+        "name" : "science lab",
+        "sym" : 76,
+        "color" : "cyan",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "nuke_plant_entrance",
+        "name" : "nuclear plant",
+        "sym" : 80,
+        "color" : "light_green",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "nuke_plant",
+        "name" : "nuclear plant",
+        "sym" : 80,
+        "color" : "light_green",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bunker",
+        "name" : "military bunker",
+        "sym" : 66,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "known_down" : true,
+        "known_up" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "outpost",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "extras" : "build"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "silo",
+        "name" : "missile silo",
+        "sym" : 48,
+        "color" : "light_gray",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "silo_finale",
+        "name" : "missile silo",
+        "sym" : 48,
+        "color" : "light_gray",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "temple",
+        "name" : "strange temple",
+        "sym" : 84,
+        "color" : "magenta",
+        "see_cost" : 5,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "temple_stairs",
+        "name" : "strange temple",
+        "sym" : 84,
+        "color" : "pink",
+        "see_cost" : 5,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "temple_core",
+        "name" : "strange temple",
+        "sym" : 84,
+        "color" : "pink",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "temple_finale",
+        "name" : "strange temple",
+        "sym" : 84,
+        "color" : "yellow",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sewage_treatment",
+        "name" : "sewage treatment",
+        "sym" : 80,
+        "color" : "red",
+        "see_cost" : 5,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sewage_treatment_hub",
+        "name" : "sewage treatment",
+        "sym" : 80,
+        "color" : "green",
+        "see_cost" : 5,
+        "known_up" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sewage_treatment_under",
+        "name" : "sewage treatment",
+        "sym" : 80,
+        "color" : "green",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mine_entrance",
+        "name" : "mine entrance",
+        "sym" : 77,
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mine_shaft",
+        "name" : "mine shaft",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "known_down" : true,
+        "known_up" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mine",
+        "name" : "mine",
+        "sym" : 77,
+        "color" : "brown",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mine_down",
+        "name" : "mine",
+        "sym" : 77,
+        "color" : "brown",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mine_finale",
+        "name" : "mine",
+        "sym" : 77,
+        "color" : "brown",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "spiral_hub",
+        "name" : "spiral cavern",
+        "sym" : 64,
+        "color" : "pink",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "spiral",
+        "name" : "spiral cavern",
+        "sym" : 64,
+        "color" : "pink",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "radio_tower",
+        "name" : "radio tower",
+        "sym" : 88,
+        "color" : "light_gray",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "toxic_dump",
+        "name" : "toxic waste dump",
+        "sym" : 68,
+        "color" : "pink",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "haz_sar_entrance",
+        "name" : "hazardous waste sarcophagus",
+        "sym" : 88,
+        "color" : "light_red",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "haz_sar",
+        "name" : "hazardous waste sarcophagus",
+        "sym" : 88,
+        "color" : "pink",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "haz_sar_entrance_b1",
+        "name" : "hazardous waste sarcophagus",
+        "sym" : 88,
+        "color" : "pink",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "haz_sar_b1",
+        "name" : "hazardous waste sarcophagus",
+        "sym" : 88,
+        "color" : "pink",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cave",
+        "name" : "cave",
+        "sym" : 67,
+        "color" : "brown",
+        "see_cost" : 2,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cave_rat",
+        "name" : "rat cave",
+        "sym" : 67,
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hive",
+        "name" : "bee hive",
+        "sym" : 56,
+        "color" : "yellow",
+        "see_cost" : 3,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "fungal_bloom",
+        "name" : "fungal bloom",
+        "sym" : 84,
+        "color" : "light_gray",
+        "see_cost" : 2,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "spider_pit",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 3,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "spider_pit_under",
+        "name" : "cavern",
+        "sym" : 48,
+        "color" : "light_gray",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "anthill",
+        "name" : "anthill",
+        "sym" : 37,
+        "color" : "brown",
+        "see_cost" : 2,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "slimepit",
+        "name" : "slime pit",
+        "sym" : 126,
+        "color" : "light_green",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "slimepit_down",
+        "name" : "slime pit",
+        "sym" : 126,
+        "color" : "light_green",
+        "see_cost" : 2,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "triffid_grove",
+        "name" : "triffid grove",
+        "sym" : 84,
+        "color" : "light_red",
+        "see_cost" : 5,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "triffid_roots",
+        "name" : "triffid roots",
+        "sym" : 84,
+        "color" : "light_red",
+        "see_cost" : 5,
+        "known_down" : true,
+        "known_up" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "triffid_finale",
+        "name" : "triffid heart",
+        "sym" : 84,
+        "color" : "red",
+        "see_cost" : 5,
+        "known_up" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "basement",
+        "name" : "basement",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "known_up" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cavern",
+        "name" : "cavern",
+        "sym" : 48,
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rock",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rift",
+        "name" : "rift",
+        "sym" : 94,
+        "color" : "red",
+        "see_cost" : 2,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hellmouth",
+        "name" : "hellmouth",
+        "sym" : 94,
+        "color" : "light_red",
+        "see_cost" : 2,
+        "known_down" : true,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "subway_station",
+        "name" : "subway station",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 5,
+        "extras" : "subway",
+        "known_up" : true,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "subway",
+        "name" : "subway",
+        "line_drawing" : true,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "extras" : "subway",
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sewer",
+        "name" : "sewer",
+        "line_drawing" : true,
+        "color" : "green",
+        "see_cost" : 5,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ants",
+        "name" : "ant tunnel",
+        "line_drawing" : true,
+        "color" : "brown",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ants_food",
+        "name" : "ant food storage",
+        "sym" : 79,
+        "color" : "green",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ants_larvae",
+        "name" : "ant larva chamber",
+        "sym" : 79,
+        "color" : "white",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ants_queen",
+        "name" : "ant queen chamber",
+        "sym" : 79,
+        "color" : "red",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "tutorial",
+        "name" : "tutorial room",
+        "sym" : 79,
+        "color" : "cyan",
+        "see_cost" : 5
+    }
+]

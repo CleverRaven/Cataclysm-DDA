@@ -142,7 +142,7 @@
                 "name": "dodge"
             }
         ]
-    }
+    },
     {
         "type" : "ARMOR",
         "id" : "haunted_sweater",
@@ -331,7 +331,7 @@
     "flags":["SEES", "HEARS", "WARM", "BASHES", "BLEED", "REGENERATES_10", "NO_BREATHE", "VIS50"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT"],
     "fear_triggers":["FIRE"]
-  }
+  },
   {
     "type":"MONSTER",
     "id":"mon_vampire",
