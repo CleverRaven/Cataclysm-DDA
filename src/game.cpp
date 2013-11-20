@@ -1060,11 +1060,11 @@ void game::process_activity()
 
    case ACT_FIRSTAID:
     {
-      add_msg(_("You finish using the first aid."));
+      draw();
       item it = u.inv.item_by_letter(u.activity.invlet);
       iuse tmp;
       tmp.completefirstaid(&u, &it, false);
-      u.inv.remove_partial_stack(u.activity.invlet, 1);
+      u.inv.remove_item_by_charges(u.activity.invlet, 1);
     }
 
     break;
