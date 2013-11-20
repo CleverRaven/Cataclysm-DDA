@@ -2819,7 +2819,7 @@ int map::set_field_age(const point p, const field_id t, const int age, bool isof
     field_entry * field_ptr = get_field( p, t );
     if ( field_ptr != NULL ) {
         int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
-        field_ptr->setFieldDensity( adj );
+        field_ptr->setFieldAge( adj );
         return adj;
     }
     return -1;
