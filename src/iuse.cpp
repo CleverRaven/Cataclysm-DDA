@@ -5384,7 +5384,7 @@ int iuse::knife(player *p, item *it, bool t)
     kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
     kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
     if (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ) {
-        if ( !p->use_charges_if_avail("fire", 4) ) {
+        if ( !p->has_charges("fire", 4) ) {
             kmenu.addentry( cauterize, false, -1,
                             _("You need a lighter with 4 charges before you can cauterize yourself.") );
         } else {
@@ -5400,6 +5400,7 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     if ( choice == cauterize) {
+        p->use_charges("fire", 4);
         if (!(p->has_disease("bite") || p->has_disease("bleed"))) {
             cauterize_effect(p, it, true);
         } else {
