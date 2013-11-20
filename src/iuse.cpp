@@ -493,7 +493,8 @@ int iuse::bandage(player *p, item *it, bool t)
 int iuse::firstaid(player *p, item *it, bool t)
 {
     // Assign first aid long action.
-    p->assign_activity(g, ACT_FIRSTAID, 10000, -1, it->invlet, it->name);
+    p->assign_activity(g, ACT_FIRSTAID, 1000, 0, it->invlet, it->name);
+    p->moves = 0;
     return 0;
 }
 
