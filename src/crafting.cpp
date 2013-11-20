@@ -205,7 +205,6 @@ bool game::making_would_work(recipe *making)
 }
 bool game::can_make(recipe *r)
 {
-    bool RET_VAL = true;
     inventory crafting_inv = crafting_inventory(&u);
     if(!u.knows_recipe(r))
     {
@@ -227,7 +226,7 @@ bool game::can_make(recipe *r)
             quality_iter->available = true;
         } else {
             quality_iter->available = false;
-            RET_VAL = false;
+            return false;
         }
         ++quality_iter;
     }
@@ -264,7 +263,7 @@ bool game::can_make(recipe *r)
         }
         if(!has_tool_in_set)
         {
-            RET_VAL = false;
+            return false;
         }
         ++tool_set_it;
     }
@@ -291,35 +290,28 @@ bool game::can_make(recipe *r)
                 {
                     has_comp_in_set = true;
                     comp.available = 1;
-                }
-                else
-                {
-                    comp.available = -1;
+                    break;
                 }
             }
             else if (crafting_inv.has_amount(type, abs(req)))
             {
                 has_comp_in_set = true;
                 comp.available = 1;
-            }
-            else
-            {
-                comp.available = -1;
+                break;
             }
             ++comp_it;
         }
         if(!has_comp_in_set)
         {
-            RET_VAL = false;
+            return false;
         }
         ++comp_set_it;
     }
-    return check_enough_materials(r, crafting_inv) && RET_VAL;
+    return check_enough_materials(r, crafting_inv);
 }
 
 bool game::check_enough_materials(recipe *r, inventory crafting_inv)
 {
-    bool RET_VAL = true;
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
     while (comp_set_it != components.end())
@@ -399,7 +391,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         if (!atleast_one_available)
         // this set doesn't have any components available, so the recipe can't be crafted
         {
-            RET_VAL = false;
+            return false;
         }
         ++comp_set_it;
     }
@@ -478,12 +470,12 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         if (!atleast_one_available)
             // this set doesn't have any tools available, so the recipe can't be crafted
         {
-            RET_VAL = false;
+            return false;
         }
         ++tool_set_it;
     }
 
-    return RET_VAL;
+    return true;
 }
 
 void game::craft()
@@ -945,7 +937,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 
 inventory game::crafting_inventory(player *p){
  inventory crafting_inv;
- crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+ crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false);
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
@@ -1184,11 +1176,6 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         int count = abs(components[i].count);
         bool pl = false, mp = false;
 
-        if (components[i].available != 1)
-        {
-            continue;
-        }
-
         if (item_controller->find_template(type)->count_by_charges() && count > 0)
         {
             if (p->has_charges(type, count))
@@ -1204,6 +1191,8 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             if (!pl && !mp && p->charges_of(type) + map_inv.charges_of(type) >= count)
             {
                 mixed.push_back(components[i]);
+            } else {
+                continue;
             }
         }
         else // Counting by units, not charges
@@ -1222,6 +1211,8 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             if (!pl && !mp && p->amount_of(type) + map_inv.amount_of(type) >= count)
             {
                 mixed.push_back(components[i]);
+            } else {
+                continue;
             }
 
         }
