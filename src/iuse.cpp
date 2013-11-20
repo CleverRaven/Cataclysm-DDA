@@ -494,6 +494,10 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
 int iuse::bandage(player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(p, it, 3, 1, 4, it->name, 90, 0, 0, false) ) {
+        if (it->type->id != "quikclot") {
+          // Make bandages and rags take arbitrarily longer than hemostatic powder.
+          p->moves -= 100;
+        }
         return it->type->charges_to_use();
     }
     return 0;
