@@ -3015,7 +3015,7 @@
     "description": "This is a thin sword with an ornate hand guard. It looks like the preferred weapon of gentlemen and swashbucklers. Light and quick, it makes any battle a stylish battle.",
     "price": 980,
     "material": "steel",
-    "flags": "STAB",
+    "flags": "SPEAR",
     "techniques": ["RAPID", "WBLOCK_2", "PRECISE"],
     "weight": 1000,
     "volume": 6,
