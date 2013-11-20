@@ -303,11 +303,11 @@ void monster::move(game *g)
          (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
          (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
         // CONCRETE PLANS - Most likely based on sight
+
         // Check for a vehicle. If the player isn't in it, avoid the vehicle.
-        // If we are in a vehicle, smash our way out.
-        // Once in a while, attack the vehicle anyway.
+        // Attack vehicle if: we are in a vehicle, we are very angry, or from a chance
         if (g->m.veh_at(plans[0].x, plans[0].y) && !g->m.veh_at(posx(), posy()) &&
-            !one_in(3))  {
+            !one_in(3) && anger < 110)  {
           // If the player isn't in a vehicle, or is far away, path around obstacles.
           if (!g->m.veh_at(g->u.posx, g->u.posy) || rl_dist(posx(), posy(), g->u.posx, g->u.posy) > 6)  {
             // Try to go around.
@@ -334,6 +334,9 @@ void monster::move(game *g)
             plans.clear();
             next.x = newx[smallest];
             next.y = newy[smallest];
+            // Make ourselves a bit more angry.
+            // When anger is above a threshold (ie. we got stuck) we will attack the vehicle instead.
+            anger += 1;
             moved = true;
           }
         }
