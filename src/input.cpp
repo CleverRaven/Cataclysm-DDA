@@ -3,6 +3,7 @@
 #include "json.h"
 #include "output.h"
 #include "keypress.h"
+#include "game.h"
 #include <fstream>
 
 /* TODO Replace the hardcoded values with an abstraction layer.
@@ -80,7 +81,7 @@ InputEvent get_input(int ch)
 
 bool is_mouse_enabled()
 {
-#if !(defined TILES || defined SDLTILES)
+#if ((defined _WIN32 || defined WINDOWS) && !(defined SDLTILES || defined TILES))
     return false;
 #else
     return true;
@@ -535,32 +536,68 @@ input_event input_context::get_raw_input()
 }
 
 #ifndef TILES
-    // If we're using curses, we need to provide get_input_event() here.
-    input_event input_manager::get_input_event(WINDOW* win) {
-        int key = get_keypress();
-        input_event rval;
+void init_interface()
+{
+    mousemask(BUTTON1_CLICKED | BUTTON2_CLICKED, NULL);
+}
 
-        if(key == ERR) {
-            if (should_timeout) {
-                rval.type = CATA_INPUT_TIMEOUT;
+// If we're using curses, we need to provide get_input_event() here.
+input_event input_manager::get_input_event(WINDOW* win)
+{
+    int key = get_keypress();
+    input_event rval;
+    if(key == KEY_MOUSE) {
+        MEVENT event;
+        if(getmouse(&event) == OK) {
+            rval.type = CATA_INPUT_MOUSE;
+            rval.mouse_x = event.x;
+            rval.mouse_y = event.y;
+            if(event.bstate & BUTTON1_CLICKED) {
+                rval.add_input(MOUSE_BUTTON_LEFT);
+            } else if(event.bstate & BUTTON2_CLICKED) {
+                rval.add_input(MOUSE_BUTTON_RIGHT);
             } else {
                 rval.type = CATA_INPUT_ERROR;
             }
         } else {
-            rval.type = CATA_INPUT_KEYBOARD;
-            rval.sequence.push_back(key);
+            rval.type = CATA_INPUT_ERROR;
         }
-        should_timeout = false;
-        return rval;
+    } else if(key == ERR) {
+        if (should_timeout) {
+            rval.type = CATA_INPUT_TIMEOUT;
+        } else {
+            rval.type = CATA_INPUT_ERROR;
+        }
+    } else {
+        rval.type = CATA_INPUT_KEYBOARD;
+        rval.add_input(key);
     }
+    should_timeout = false;
+    return rval;
+}
 
-    // Also specify that we don't have a gamepad plugged in.
-    bool gamepad_available() {
+// Also specify that we don't have a gamepad plugged in.
+bool gamepad_available()
+{
+    return false;
+}
+
+// Coordinates just never happen(no mouse input)
+bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
+{
+    int view_columns = getmaxx(capture_win);
+    int view_rows = getmaxy(capture_win);
+    int win_left = getbegx(capture_win);
+    int win_right = win_left + view_columns;
+    int win_top = getbegy(capture_win);
+    int win_bottom = win_top + view_rows;
+    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
         return false;
     }
-
-    // Coordinates just never happen(no mouse input)
-    bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
-        return false;
-    }
+    
+    x = g->ter_view_x - ((view_columns/2) - coordinate_x);
+    y = g->ter_view_y - ((view_rows/2) - coordinate_y);
+    
+    return true;
+}
 #endif
