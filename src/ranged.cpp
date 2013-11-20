@@ -1124,11 +1124,11 @@ double calculate_missed_by(player &p, int trange, item* weapon)
     double deviation = 0.; // Measured in quarter-degrees.
     // Up to 0.75 degrees for each skill point < 8.
     if (p.skillLevel(firing->skill_used) < 8) {
-        deviation += rng(0, 3 * (8 - p.skillLevel(firing->skill_used)));
+        deviation += rng(0, 3 * (8 - (p.skillLevel(firing->skill_used) + weapon->skill_mod())));
     }
 
     // Up to 0.25 deg per each skill point < 9.
-    if (p.skillLevel("gun") < 9) { deviation += rng(0, 9 - p.skillLevel("gun")); }
+    if (p.skillLevel("gun") < 9) { deviation += rng(0, 9 - (p.skillLevel("gun") + weapon->skill_mod()) ); }
 
     deviation += rng(0, p.ranged_dex_mod());
     deviation += rng(0, p.ranged_per_mod());

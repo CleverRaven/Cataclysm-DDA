@@ -361,6 +361,7 @@ struct it_gun : public itype
  signed char dispersion;
  signed char recoil;
  signed char durability;
+ signed char skill_mod;
  unsigned char burst;
  int clip;
  int reload_time;
@@ -380,7 +381,7 @@ struct it_gun : public itype
         const char *pskill_used, ammotype pammo,
         signed char pdmg_bonus, signed char prange,
         signed char pdispersion, signed char precoil, unsigned char pdurability,
-        unsigned char pburst, int pclip, int preload_time)
+        unsigned char pburst, unsigned char pskill, int pclip, int preload_time)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   skill_used = pskill_used?Skill::skill(pskill_used):NULL;
@@ -392,6 +393,7 @@ struct it_gun : public itype
   recoil = precoil;
   durability = pdurability;
   burst = pburst;
+  skill_mod = pskill;
   clip = pclip;
   reload_time = preload_time;
   ammo_effects = effects;
@@ -408,6 +410,7 @@ struct it_gun : public itype
   recoil = 0;
   durability = 0;
   burst = 0;
+  skill_mod = 0;
   clip = 0;
   reload_time = 0;
  };
@@ -415,7 +418,7 @@ struct it_gun : public itype
 
 struct it_gunmod : public itype
 {
- signed char dispersion, damage, loudness, clip, recoil, burst;
+ signed char dispersion, damage, loudness, clip, recoil, burst, skill_mod;
  ammotype newtype;
  std::set<std::string> acceptible_ammo_types;
  bool used_on_pistol;
@@ -434,6 +437,7 @@ struct it_gunmod : public itype
 
            signed char pdispersion, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
+           signed char pskill,
            ammotype pnewtype, std::set<std::string> a_a_t, bool pistol,
            bool shotgun, bool smg, bool rifle)
 
@@ -445,6 +449,7 @@ struct it_gunmod : public itype
   clip = pclip;
   recoil = precoil;
   burst = pburst;
+  skill_mod = pskill;
   newtype = pnewtype;
   acceptible_ammo_types = a_a_t;
   used_on_pistol = pistol;
@@ -460,6 +465,7 @@ struct it_gunmod : public itype
   clip = 0;
   recoil = 0;
   burst = 0;
+  skill_mod = 0;
   newtype = "";
   used_on_pistol = false;
   used_on_shotgun = false;
