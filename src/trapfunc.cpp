@@ -1110,3 +1110,199 @@ trap_id trap_id_from_string(std::string trap_name) {
   debugmsg("No match found for trap '%s'.", trap_name.c_str());
   return tr_null;
 }
+
+/**
+ * Takes the name of a trap function and returns a function pointer to it.
+ * @param function_name The name of the trapfunc function to find.
+ * @return A function pointer to the matched function, or to trapfunc::none if
+ *         there is no match.
+ */
+trap_function trap_function_from_string(std::string function_name)
+{
+    if("none" == function_name) {
+        return &trapfunc::none;
+    }
+    if("bubble" == function_name) {
+        return &trapfunc::bubble;
+    }
+    if("beartrap" == function_name) {
+        return &trapfunc::beartrap;
+    }
+    if("board" == function_name) {
+        return &trapfunc::board;
+    }
+    if("caltrops" == function_name) {
+        return &trapfunc::caltrops;
+    }
+    if("tripwire" == function_name) {
+        return &trapfunc::tripwire;
+    }
+    if("crossbow" == function_name) {
+        return &trapfunc::crossbow;
+    }
+    if("shotgun" == function_name) {
+        return &trapfunc::shotgun;
+    }
+    if("blade" == function_name) {
+        return &trapfunc::blade;
+    }
+    if("snare_light" == function_name) {
+        return &trapfunc::snare_light;
+    }
+    if("snare_heavy" == function_name) {
+        return &trapfunc::snare_heavy;
+    }
+    if("landmine" == function_name) {
+        return &trapfunc::landmine;
+    }
+    if("telepad" == function_name) {
+        return &trapfunc::telepad;
+    }
+    if("goo" == function_name) {
+        return &trapfunc::goo;
+    }
+    if("dissector" == function_name) {
+        return &trapfunc::dissector;
+    }
+    if("sinkhole" == function_name) {
+        return &trapfunc::sinkhole;
+    }
+    if("pit" == function_name) {
+        return &trapfunc::pit;
+    }
+    if("pit_spikes" == function_name) {
+        return &trapfunc::pit_spikes;
+    }
+    if("lava" == function_name) {
+        return &trapfunc::lava;
+    }
+    if("portal" == function_name) {
+        return &trapfunc::portal;
+    }
+    if("ledge" == function_name) {
+        return &trapfunc::ledge;
+    }
+    if("boobytrap" == function_name) {
+        return &trapfunc::boobytrap;
+    }
+    if("temple_flood" == function_name) {
+        return &trapfunc::temple_flood;
+    }
+    if("temple_toggle" == function_name) {
+        return &trapfunc::temple_toggle;
+    }
+    if("glow" == function_name) {
+        return &trapfunc::glow;
+    }
+    if("hum" == function_name) {
+        return &trapfunc::hum;
+    }
+    if("shadow" == function_name) {
+        return &trapfunc::shadow;
+    }
+    if("drain" == function_name) {
+        return &trapfunc::drain;
+    }
+    if("snake" == function_name) {
+        return &trapfunc::snake;
+    }
+
+    //No match found
+    debugmsg("Could not find a trapfunc function matching '%s'!", function_name.c_str());
+    return &trapfunc::none;
+}
+
+/**
+ * Takes the name of a trapfuncm function and returns a function pointer to it.
+ * @param function_name The name of the trapfuncm function to find.
+ * @return A function pointer to the matched function, or to trapfuncm::none if
+ *         there is no match.
+ */
+trap_function_mon trap_function_mon_from_string(std::string function_name)
+{
+    if("none" == function_name) {
+        return &trapfuncm::none;
+    }
+    if("bubble" == function_name) {
+        return &trapfuncm::bubble;
+    }
+    if("cot" == function_name) {
+        return &trapfuncm::cot;
+    }
+    if("beartrap" == function_name) {
+        return &trapfuncm::beartrap;
+    }
+    if("board" == function_name) {
+        return &trapfuncm::board;
+    }
+    if("caltrops" == function_name) {
+        return &trapfuncm::caltrops;
+    }
+    if("tripwire" == function_name) {
+        return &trapfuncm::tripwire;
+    }
+    if("crossbow" == function_name) {
+        return &trapfuncm::crossbow;
+    }
+    if("shotgun" == function_name) {
+        return &trapfuncm::shotgun;
+    }
+    if("blade" == function_name) {
+        return &trapfuncm::blade;
+    }
+    if("snare_light" == function_name) {
+        return &trapfuncm::snare_light;
+    }
+    if("snare_heavy" == function_name) {
+        return &trapfuncm::snare_heavy;
+    }
+    if("landmine" == function_name) {
+        return &trapfuncm::landmine;
+    }
+    if("telepad" == function_name) {
+        return &trapfuncm::telepad;
+    }
+    if("goo" == function_name) {
+        return &trapfuncm::goo;
+    }
+    if("dissector" == function_name) {
+        return &trapfuncm::dissector;
+    }
+    if("sinkhole" == function_name) {
+        return &trapfuncm::sinkhole;
+    }
+    if("pit" == function_name) {
+        return &trapfuncm::pit;
+    }
+    if("pit_spikes" == function_name) {
+        return &trapfuncm::pit_spikes;
+    }
+    if("lava" == function_name) {
+        return &trapfuncm::lava;
+    }
+    if("portal" == function_name) {
+        return &trapfuncm::portal;
+    }
+    if("ledge" == function_name) {
+        return &trapfuncm::ledge;
+    }
+    if("boobytrap" == function_name) {
+        return &trapfuncm::boobytrap;
+    }
+    if("glow" == function_name) {
+        return &trapfuncm::glow;
+    }
+    if("hum" == function_name) {
+        return &trapfuncm::hum;
+    }
+    if("drain" == function_name) {
+        return &trapfuncm::drain;
+    }
+    if("snake" == function_name) {
+        return &trapfuncm::snake;
+    }
+
+    //No match found
+    debugmsg("Could not find a trapfuncm function matching '%s'!", function_name.c_str());
+    return &trapfuncm::none;
+}

@@ -170,4 +170,9 @@ struct trap {
 
 trap_id trap_id_from_string(std::string trap_name);
 
+typedef void (trapfunc::*trap_function)(int, int);
+typedef void (trapfuncm::*trap_function_mon)(monster *, int, int);
+trap_function trap_function_from_string(std::string function_name);
+trap_function_mon trap_function_mon_from_string(std::string function_name);
+
 #endif
