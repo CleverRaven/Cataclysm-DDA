@@ -1475,7 +1475,7 @@ void overmap::make_tutorial()
     zg.clear();
 }
 
-point overmap::find_closest(point origin, const oter_id &type,
+point overmap::find_closest(point origin, const std::string &type,
                             int &dist, bool must_be_seen)
 {
     //does origin qualify?
@@ -1551,7 +1551,7 @@ std::vector<point> overmap::find_all(tripoint origin, const std::string &type,
     return res;
 }
 
-std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy, int zlevel)
+std::vector<point> overmap::find_terrain(const std::string &term, int cursx, int cursy, int zlevel)
 {
     std::vector<point> found;
     for (int x = 0; x < OMAPX; x++) {
