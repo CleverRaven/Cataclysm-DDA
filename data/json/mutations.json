@@ -1923,6 +1923,20 @@
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
+
+        "type" : "mutation",
+        "id" : "ARM_FEATHERS",
+        "name" : "Feathered Arms",
+        "points" : -2,
+        "visibility" : 8,
+        "ugliness" : 2,
+        "description" : "Your arms have grown vibrantly colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
+        "category" : ["MUTCAT_RAPTOR"]
+        "wet_protection" : [
+            { "part" : "ARMS", "neutral" : 50 },
+            { "part" : "HANDS", "neutral" : 10 }
+        ]
+    },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES",
         "name" : "Tentacle Arms",

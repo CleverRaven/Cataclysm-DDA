@@ -8299,6 +8299,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     if( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
         ret += 1;
     }
+    if( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
+        ret += 2;
+    }
     if (bp == bp_hands &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
@@ -8532,6 +8535,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     if (has_trait("SLEEK_SCALES"))
         cut -= 1;
     if (has_trait("FEATHERS"))
+        dam--;
+    if (bp == bp_arms && has_trait("ARM_FEATHERS"))
         dam--;
     if (has_trait("FUR"))
         dam--;
