@@ -1,10 +1,7 @@
 #ifndef _CATALUA_H_
 #define _CATALUA_H_
 
-#include "game.h"
-#include "item_factory.h"
-#include "item.h"
-#include "pldata.h"
+#include "monster.h"
 
 #ifdef LUA
 
@@ -13,7 +10,7 @@
  */
 int lua_monster_move(monster* m);
 
-/** 
+/**
  * Call the given string as lua code, used for interactive debugging.
  */
 int call_lua(std::string tocall);

@@ -255,7 +255,7 @@ class map
  void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
  void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
- bool close_door(const int x, const int y, const bool inside);
+ bool close_door(const int x, const int y, const bool inside, const bool check_only);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
  bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
@@ -378,7 +378,7 @@ class map
 
  int getmapsize() { return my_MAPSIZE; };
 
- // Not protected/private for building_generation.cpp access
+ // Not protected/private for mapgen_functions.cpp access
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);

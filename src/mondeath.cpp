@@ -8,7 +8,7 @@
 #include <math.h>  // rounding
 #include <sstream>
 
-void mdeath::normal(game *g, monster *z) {
+void mdeath::normal(monster *z) {
     if (g->u_see(z)) {
         g->add_msg(_("The %s dies!"), z->name().c_str());
     }
@@ -42,26 +42,26 @@ void mdeath::normal(game *g, monster *z) {
         }
         bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
         if (!pulverized) {
-            make_mon_corpse(g, z, int(floor(corpseDamage)));
+            make_mon_corpse(z, int(floor(corpseDamage)));
         } else if (monSize >= MS_MEDIUM) {
             gibAmount += rng(1,6);
         }
         // Limit chunking to flesh and veggy creatures until other kinds are supported.
         bool leaveGibs = (isFleshy || z->made_of("veggy"));
         if (leaveGibs) {
-            make_gibs(g, z, gibAmount);
+            make_gibs( z, gibAmount);
         }
     }
 }
 
-void mdeath::acid(game *g, monster *z) {
+void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
         g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
     }
     g->m.add_field(g, z->posx(), z->posy(), fd_acid, 3);
 }
 
-void mdeath::boomer(game *g, monster *z) {
+void mdeath::boomer(monster *z) {
     std::string tmp;
     g->sound(z->posx(), z->posy(), 24, _("a boomer explode!"));
     for (int i = -1; i <= 1; i++) {
@@ -80,7 +80,7 @@ void mdeath::boomer(game *g, monster *z) {
     }
 }
 
-void mdeath::kill_vines(game *g, monster *z) {
+void mdeath::kill_vines(monster *z) {
     std::vector<int> vines;
     std::vector<int> hubs;
     for (int i = 0; i < g->num_zombies(); i++) {
@@ -111,7 +111,7 @@ void mdeath::kill_vines(game *g, monster *z) {
     }
 }
 
-void mdeath::vine_cut(game *g, monster *z) {
+void mdeath::vine_cut(monster *z) {
     std::vector<int> vines;
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
@@ -146,15 +146,15 @@ void mdeath::vine_cut(game *g, monster *z) {
     }
 }
 
-void mdeath::triffid_heart(game *g, monster *z) {
+void mdeath::triffid_heart(monster *z) {
     if (g->u_see(z)) {
         g->add_msg(_("The surrounding roots begin to crack and crumble."));
     }
     g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
 }
 
-void mdeath::fungus(game *g, monster *z) {
-    mdeath::normal(g, z);
+void mdeath::fungus(monster *z) {
+    mdeath::normal( z);
     monster spore(GetMType("mon_spore"));
     bool fungal = false;
     int mondex = -1;
@@ -211,13 +211,13 @@ void mdeath::fungus(game *g, monster *z) {
     }
 }
 
-void mdeath::disintegrate(game *g, monster *z) {
+void mdeath::disintegrate(monster *z) {
     if (g->u_see(z)) {
         g->add_msg(_("The %s disintegrates!"), z->name().c_str());
     }
 }
 
-void mdeath::worm(game *g, monster *z) {
+void mdeath::worm(monster *z) {
     if (g->u_see(z))
         g->add_msg(_("The %s splits in two!"), z->name().c_str());
 
@@ -246,11 +246,11 @@ void mdeath::worm(game *g, monster *z) {
     }
 }
 
-void mdeath::disappear(game *g, monster *z) {
+void mdeath::disappear(monster *z) {
     g->add_msg(_("The %s disappears."), z->name().c_str());
 }
 
-void mdeath::guilt(game *g, monster *z) {
+void mdeath::guilt(monster *z) {
     const int MAX_GUILT_DISTANCE = 5;
     int kill_count = g->kill_count(z->type->id);
     int maxKills = 100; // this is when the player stop caring altogether.
@@ -306,7 +306,7 @@ void mdeath::guilt(game *g, monster *z) {
     g->u.add_morale(MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay);
 
 }
-void mdeath::blobsplit(game *g, monster *z) {
+void mdeath::blobsplit(monster *z) {
     int speed = z->speed - rng(30, 50);
     g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(5,10));
     if (speed <= 0) {
@@ -346,13 +346,13 @@ void mdeath::blobsplit(game *g, monster *z) {
     }
 }
 
-void mdeath::melt(game *g, monster *z) {
+void mdeath::melt(monster *z) {
     if (g->u_see(z)) {
         g->add_msg(_("The %s melts away."), z->name().c_str());
     }
 }
 
-void mdeath::amigara(game *g, monster *z) {
+void mdeath::amigara(monster *z) {
     if (!g->u.has_disease("amigara")) {
         return;
     }
@@ -368,16 +368,16 @@ void mdeath::amigara(game *g, monster *z) {
         item art(new_artifact(itypes), g->turn);
         g->m.add_item_or_charges(z->posx(), z->posy(), art);
     }
-    normal(g, z);
+    normal( z);
 }
 
-void mdeath::thing(game *g, monster *z) {
+void mdeath::thing(monster *z) {
     monster thing(GetMType("mon_thing"));
     thing.spawn(z->posx(), z->posy());
     g->add_zombie(thing);
 }
 
-void mdeath::explode(game *g, monster *z) {
+void mdeath::explode(monster *z) {
     int size = 0;
     switch (z->type->size) {
         case MS_TINY:
@@ -394,7 +394,7 @@ void mdeath::explode(game *g, monster *z) {
     g->explosion(z->posx(), z->posy(), size, 0, false);
 }
 
-void mdeath::ratking(game *g, monster *z) {
+void mdeath::ratking(monster *z) {
     g->u.rem_disease("rat");
     if (g->u_see(z)) {
         g->add_msg(_("Rats suddenly swarm into view."));
@@ -422,7 +422,7 @@ void mdeath::ratking(game *g, monster *z) {
     }
 }
 
-void mdeath::smokeburst(game *g, monster *z) {
+void mdeath::smokeburst(monster *z) {
     std::string tmp;
     g->sound(z->posx(), z->posy(), 24, _("a smoker explode!"));
     for (int i = -1; i <= 1; i++) {
@@ -438,9 +438,9 @@ void mdeath::smokeburst(game *g, monster *z) {
 }
 
 // this function generates clothing for zombies
-void mdeath::zombie(game *g, monster *z) {
+void mdeath::zombie(monster *z) {
     // normal death function first
-    mdeath::normal(g, z);
+    mdeath::normal( z);
 
     // skip clothing generation if the zombie was rezzed rather than spawned
     if (z->no_extra_death_drops) {
@@ -514,12 +514,12 @@ void mdeath::zombie(game *g, monster *z) {
     }
 }
 
-void mdeath::gameover(game *g, monster *z) {
+void mdeath::gameover(monster *z) {
     g->add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers(game *g, monster *z)
+void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
     for (int i = 0; i < g->num_zombies(); i++) {
@@ -530,7 +530,7 @@ void mdeath::kill_breathers(game *g, monster *z)
     }
 }
 
-void make_gibs(game* g, monster* z, int amount) {
+void make_gibs(monster* z, int amount) {
     if (amount <= 0) {
         return;
     }
@@ -559,7 +559,7 @@ void make_gibs(game* g, monster* z, int amount) {
     }
 }
 
-void make_mon_corpse(game* g, monster* z, int damageLvl) {
+void make_mon_corpse(monster* z, int damageLvl) {
     const int MAX_DAM = 4;
     item corpse;
     corpse.make_corpse(itypes["corpse"], z->type, g->turn);

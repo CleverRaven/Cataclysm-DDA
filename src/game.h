@@ -199,7 +199,7 @@ class game
   void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
   void hit_monster_with_flags(monster &z, const std::set<std::string> &effects);
-  void plfire(bool burst); // Player fires a gun (target selection)...
+  void plfire(bool burst, int default_target_x = -1, int default_target_y = -1); // Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
             bool burst);
@@ -379,8 +379,6 @@ class game
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
 
-// Mi-Go speech bubble loading
-  void load_migo_speech(JsonObject &jo);
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
@@ -446,10 +444,12 @@ class game
   void mutation_wish(); // Mutate
 
   void pldrive(int x, int y); // drive vehicle
-  void plmove(int x, int y); // Standard movement; handles attacks, traps, &c
+  // Standard movement; handles attacks, traps, &c. Returns false if auto move
+  // should be canceled
+  bool plmove(int dx, int dy);
   void wait(); // Long wait (player action)  '^'
   void open(); // Open a door  'o'
-  void close(); // Close a door  'c'
+  void close(int closex = -1, int closey = -1); // Close a door  'c'
   void smash(); // Smash terrain
   void craft();                        // See crafting.cpp
   void recraft();                      // See crafting.cpp
@@ -480,7 +480,7 @@ class game
   bool vehicle_near ();
   void handbrake ();
   void control_vehicle(); // Use vehicle controls  '^'
-  void examine();// Examine nearby terrain  'e'
+  void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
   void advanced_inv();
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
@@ -518,6 +518,7 @@ class game
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
+  input_context get_player_input(std::string &action);
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
 // returns a Bresenham line to that square.  It is called by plfire() and
@@ -587,8 +588,8 @@ class game
 
   signed char last_target; // The last monster targeted
   int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
+                //  monsters spawns, go to 2 - No movement allowed
   std::vector<int> new_seen_mon;
-   //  monsters spawns, go to 2 - No movement allowed
   int mostseen;  // # of mons seen last turn; if this increases, run_mode++
   bool autosafemode; // is autosafemode enabled?
   int turnssincelastmon; // needed for auto run mode
@@ -615,6 +616,9 @@ class game
 
   int moveCount; //Times the player has moved (not pause, sleep, etc)
   const int lookHeight; // Look Around window height
+
+  // Preview for auto move route
+  std::vector<point> destination_preview;
 
   bool is_hostile_within(int distance);
 };

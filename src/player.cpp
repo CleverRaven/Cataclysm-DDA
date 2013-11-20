@@ -140,6 +140,8 @@ player::player() : name("")
  sight_boost = 0;
  sight_boost_cap = 0;
  lastrecipe = NULL;
+ next_expected_position.x = -1;
+ next_expected_position.y = -1;
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
@@ -5514,14 +5516,14 @@ bool player::process_single_active_item(game *g, item *it)
         else if (it->is_tool())
         {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            tmp->use.call(g, this, it, true);
+            tmp->use.call(this, it, true);
             if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
             {
                 it->charges--;
             }
             if (it->charges <= 0)
             {
-                tmp->use.call(g, this, it, false);
+                tmp->use.call(this, it, false);
                 if (tmp->revert_to == "null")
                 {
                     return false;
@@ -6290,7 +6292,7 @@ bool player::consume(game *g, signed char ch)
             }
             if (comest->use != &iuse::none) {
                 //Check special use
-                int was_used = comest->use.call(g, this, to_eat, false);
+                int was_used = comest->use.call(this, to_eat, false);
                 if( was_used == 0 ) {
                     return false;
                 }
@@ -6433,7 +6435,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
 
     if (comest->use != &iuse::none) {
-        to_eat = comest->use.call(g, this, eaten, false);
+        to_eat = comest->use.call(this, eaten, false);
         if( to_eat == 0 ) {
             return false;
         }
@@ -7669,7 +7671,7 @@ void player::use(game *g, char let)
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
         if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
-            int charges_used = tool->use.call(g, this, used, false);
+            int charges_used = tool->use.call(this, used, false);
             if ( charges_used >= 1 ) {
                 if( tool->charges_per_use > 0 ) {
                     used->charges -= std::min(used->charges, charges_used);
@@ -7686,7 +7688,7 @@ void player::use(game *g, char let)
                        used->charges, tool->charges_per_use);
         }
     } else if (used->type->use == &iuse::boots) {
-        used->type->use.call(g, this, used, false);
+        used->type->use.call(this, used, false);
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
@@ -7904,7 +7906,7 @@ void player::read(game *g, char ch)
     }
     if (mac != NULL)
     {
-        mac->use.call(g, this, it, false);
+        mac->use.call(this, it, false);
         return;
     }
 
@@ -8992,4 +8994,69 @@ void player::environmental_revert_effect()
 
     recalc_sight_limits();
 }
+
+void player::set_destination(const std::vector<point> &route)
+{
+    auto_move_route = route;
+}
+
+void player::clear_destination()
+{
+    auto_move_route.clear();
+    next_expected_position.x = -1;
+    next_expected_position.y = -1;
+}
+
+bool player::has_destination() const
+{
+    return auto_move_route.size() > 0;
+}
+
+std::vector<point> &player::get_auto_move_route()
+{
+    return auto_move_route;
+}
+
+action_id player::get_next_auto_move_direction()
+{
+    if (!has_destination()) {
+        return ACTION_NULL;
+    }
+
+    if (next_expected_position.x != -1) {
+        if (posx != next_expected_position.x || posy != next_expected_position.y) {
+            // We're off course, possibly stumbling or stuck, cancel auto move
+            return ACTION_NULL;
+        }
+    }
+
+    next_expected_position = auto_move_route.front();
+    auto_move_route.erase(auto_move_route.begin());
+
+    int dx = next_expected_position.x - posx;
+    int dy = next_expected_position.y - posy;
+
+    if (abs(dx) > 1 || abs(dy) > 1) {
+        // Should never happen, but check just in case
+        return ACTION_NULL;
+    }
+
+    return get_movement_direction_from_delta(dx, dy);
+}
+
+void player::shift_destination(int shiftx, int shifty)
+{
+    if (next_expected_position.x != -1) {
+        next_expected_position.x += shiftx;
+        next_expected_position.y += shifty;
+    }
+
+    for (std::vector<point>::iterator it = auto_move_route.begin(); it != auto_move_route.end(); it++) {
+        it->x += shiftx;
+        it->y += shifty;
+    }
+}
+
+
+
 // --- End ---

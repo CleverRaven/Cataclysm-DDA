@@ -213,6 +213,8 @@ BIO_SINGLE("bio_sunglasses", 4500, c_ltgreen, 4);
 BIO_SINGLE("bio_climate", 3500, c_ltgreen, 3);
 BIO_SINGLE("bio_heatsink", 3500, c_ltgreen, 3);
 BIO_SINGLE("bio_blood_filter", 3500, c_ltgreen, 3);
+BIO_SINGLE("bio_geiger", 3500, c_ltgreen, 3);
+BIO_SINGLE("bio_radscrubber", 4500, c_ltgreen, 4);
 // nutritional
 BIO_SINGLE("bio_recycler", 8500, c_green, 6);
 BIO_SINGLE("bio_digestion", 5500, c_green, 6);

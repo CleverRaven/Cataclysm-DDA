@@ -1020,17 +1020,13 @@ bool construct::able_pit(game *g, point p)
 
 bool construct::able_between_walls(game *g, point p)
 {
+    // need two or more orthogonally adjacent supports
     int num_supports = 0;
-    if (g->m.move_cost(p.x, p.y) != 0) {
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (((dx == 0) ^ (dy == 0))
-                        && g->m.has_flag("SUPPORTS_ROOF", p.x + dx, p.y + dy)) {
-                    num_supports++;
-                }
-            }
-        }
-    }
+    if (g->m.move_cost(p.x, p.y) == 0) { return false; }
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y - 1)) { ++num_supports; }
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y + 1)) { ++num_supports; }
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x - 1, p.y)) { ++num_supports; }
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x + 1, p.y)) { ++num_supports; }
     return num_supports >= 2;
 }
 
@@ -1069,7 +1065,7 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_trunk_log(game *g, point p)
 {
-    g->m.spawn_item(p.x, p.y, "log", 1, 0, g->turn, rng(5, 15));
+    g->m.spawn_item(p.x, p.y, "log", rng(5, 15), 0, g->turn);
 }
 
 void construct::done_trunk_plank(game *g, point p)
@@ -1078,7 +1074,7 @@ void construct::done_trunk_plank(game *g, point p)
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
         item tmplog(itypes["log"], int(g->turn), g->nextinv);
-        iuse::cut_log_into_planks( g, &(g->u), &tmplog);
+        iuse::cut_log_into_planks( &(g->u), &tmplog);
     }
 }
 
