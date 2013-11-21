@@ -667,6 +667,7 @@
       ["shorts", 70],
       ["shorts_denim", 50],
       ["pants", 75],
+      ["leather_belt", 30],
       ["pants_leather", 60],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
@@ -1977,6 +1978,7 @@
       ["shorts", 70],
       ["shorts_denim", 35],
       ["pants", 75],
+      ["leather_belt", 30],
       ["pants_leather", 60],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
@@ -2059,6 +2061,7 @@
       ["shorts", 70],
       ["shorts_denim", 35],
       ["pants", 75],
+      ["leather_belt", 30],
       ["suit", 60],
       ["tophat", 10],
       ["bowhat", 10],
@@ -2263,7 +2266,8 @@
         "id" : "cop_pants",
     "items":[
       ["pants", 75],
-      ["pants_cargo", 70]
+      ["pants_cargo", 70],
+      ["leather_belt", 30]
     ]
     },{
         "type" : "item_group",
