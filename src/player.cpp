@@ -8250,6 +8250,9 @@ int player::encumb(body_part bp) {
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
+
+    bool skintight = false;
+
     it_armor* armor;
     for (int i = 0; i < worn.size(); i++)
     {
@@ -8278,7 +8281,11 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 }
                 if( worn[i].has_flag( "SKINTIGHT" ) ) {
                   // Skintight clothes will negate layering.
-                  layers -= .5;
+                  // But only if we aren't wearing more than one.
+                  if (!skintight) {
+                    skintight = true;
+                    layers -= .5;
+                  }
                 }
             }
         }
