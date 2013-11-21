@@ -1000,19 +1000,22 @@ void game::pick_recipes(inventory crafting_inv, std::vector<recipe*> &current,
 
     for (recipe_list::iterator iter = this_tab_recipes.begin(); iter != this_tab_recipes.end(); ++iter)
     {
-        if ((*iter)->difficulty >= 0 )
+        if (u.knows_recipe(*iter))
         {
-            if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
+            if ((*iter)->difficulty >= 0 )
             {
-                if (can_make_with_inventory(*iter, crafting_inv))
+                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
                 {
-                    current.insert(current.begin(), *iter);
-                    available.insert(available.begin(), true);
-                }
-                else
-                {
-                    current.push_back(*iter);
-                    available.push_back(false);
+                    if (can_make_with_inventory(*iter, crafting_inv))
+                    {
+                        current.insert(current.begin(), *iter);
+                        available.insert(available.begin(), true);
+                    }
+                    else
+                    {
+                        current.push_back(*iter);
+                        available.push_back(false);
+                    }
                 }
             }
         }
