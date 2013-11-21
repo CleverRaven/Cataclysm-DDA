@@ -903,7 +903,7 @@
         "color" : "white",
         "covers" : ["TORSO"],
         "to_hit" : 0,
-        "storage" : 1,
+        "storage" : 0,
         "symbol" : "[",
         "description" : "A simple bra. For protecting those bits you don't want zombies to look at.",
         "price" : 60,
