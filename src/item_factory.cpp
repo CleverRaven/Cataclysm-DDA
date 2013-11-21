@@ -109,6 +109,8 @@ void Item_factory::init(){
     iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+    iuse_function_list["CARVER_OFF"] = &iuse::carver_off;
+    iuse_function_list["CARVER_ON"] = &iuse::carver_on;
     iuse_function_list["SHISHKEBAB_OFF"] = &iuse::shishkebab_off;
     iuse_function_list["SHISHKEBAB_ON"] = &iuse::shishkebab_on;
     iuse_function_list["FIREMACHETE_OFF"] = &iuse::firemachete_off;
@@ -508,7 +510,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     List of current flags
     FIT - Reduces encumbrance by one
     VARSIZE - Can be made to fit via tailoring
-    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
+    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
     HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
     RAINPROOF - Works like a raincoat to protect from rain effects
