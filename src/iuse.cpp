@@ -2672,7 +2672,7 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
 int iuse::carver_off(player *p, item *it, bool t)
 {
  p->moves -= 80;
- if (rng(0, 10) - it->damage > 5 && it->charges > 0) {
+ if (it->charges > 0) {
   g->sound(p->posx, p->posy, 20,
            _("The electric carver's serrated blades start buzzing!"));
   it->make(itypes["carver_on"]);
