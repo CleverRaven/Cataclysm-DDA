@@ -2669,6 +2669,34 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
+int iuse::carver_off(player *p, item *it, bool t)
+{
+ p->moves -= 80;
+ if (rng(0, 10) - it->damage > 5 && it->charges > 0) {
+  g->sound(p->posx, p->posy, 20,
+           _("The electric carver's serrated blades start buzzing!"));
+  it->make(itypes["carver_on"]);
+  it->active = true;
+ } else {
+  g->add_msg_if_player(p,_("You pull the trigger but nothing happens."));
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::carver_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(10)) {
+   g->sound(p->posx, p->posy, 8, _("Your electric carver buzzes."));
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your electric carver dies."));
+  it->make(itypes["carver_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
 int iuse::shishkebab_off(player *p, item *it, bool t)
 {
     int choice = menu(true, _("What's the plan?"), _("Bring the heat!"),
