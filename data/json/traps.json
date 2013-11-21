@@ -10,7 +10,7 @@
         "avoidance" : 0,
         "difficulty" : 0,
         "player_action" : "none",
-        "monster_action" : "none",
+        "monster_action" : "none"
     },
     {
         "type" : "trap",
@@ -253,7 +253,7 @@
         "avoidance" : 4,
         "difficulty" : 99,
         "player_action" : "blade",
-        "monster_action" : "blade",
+        "monster_action" : "blade"
 
     },
     {
@@ -323,7 +323,7 @@
         "avoidance" : 15,
         "difficulty" : 20,
         "player_action" : "telepad",
-        "monster_action" : "telepad",
+        "monster_action" : "telepad"
     },
     {
         "type" : "trap",
@@ -336,7 +336,7 @@
         "avoidance" : 15,
         "difficulty" : 15,
         "player_action" : "goo",
-        "monster_action" : "goo",
+        "monster_action" : "goo"
     },
     {
         "type" : "trap",
@@ -349,7 +349,7 @@
         "avoidance" : 20,
         "difficulty" : 99,
         "player_action" : "dissector",
-        "monster_action" : "dissector",
+        "monster_action" : "dissector"
     },
     {
         "type" : "trap",
@@ -362,7 +362,7 @@
         "avoidance" : 14,
         "difficulty" : 99,
         "player_action" : "sinkhole",
-        "monster_action" : "sinkhole",
+        "monster_action" : "sinkhole"
     },
     {
         "type" : "trap",
@@ -375,7 +375,7 @@
         "avoidance" : 8,
         "difficulty" : 99,
         "player_action" : "pit",
-        "monster_action" : "pit",
+        "monster_action" : "pit"
     },
     {
         "type" : "trap",
@@ -388,7 +388,7 @@
         "avoidance" : 8,
         "difficulty" : 99,
         "player_action" : "pit_spikes",
-        "monster_action" : "pit_spikes",
+        "monster_action" : "pit_spikes"
     },
     {
         "type" : "trap",
@@ -401,7 +401,7 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "lava",
-        "monster_action" : "lava",
+        "monster_action" : "lava"
     },
     {
         "type" : "trap",
@@ -414,7 +414,7 @@
         "avoidance" : 30,
         "difficulty" : 99,
         "player_action" : "portal",
-        "monster_action" : "portal",
+        "monster_action" : "portal"
     },
     {
         "type" : "trap",
@@ -427,7 +427,7 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "ledge",
-        "monster_action" : "ledge",
+        "monster_action" : "ledge"
     },
     {
         "type" : "trap",
@@ -440,7 +440,7 @@
         "avoidance" : 4,
         "difficulty" : 7,
         "player_action" : "boobytrap",
-        "monster_action" : "boobytrap",
+        "monster_action" : "boobytrap"
     },
     {
         "type" : "trap",
@@ -453,7 +453,7 @@
         "avoidance" : 20,
         "difficulty" : 99,
         "player_action" : "temple_flood",
-        "monster_action" : "none",
+        "monster_action" : "none"
     },
     {
         "type" : "trap",
@@ -466,7 +466,7 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "temple_toggle",
-        "monster_action" : "none",
+        "monster_action" : "none"
     },
     {
         "type" : "trap",
@@ -479,7 +479,7 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "glow",
-        "monster_action" : "glow",
+        "monster_action" : "glow"
     },
     {
         "type" : "trap",
@@ -492,7 +492,7 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "hum",
-        "monster_action" : "hum",
+        "monster_action" : "hum"
     },
     {
         "type" : "trap",
@@ -505,7 +505,7 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "shadow",
-        "monster_action" : "none",
+        "monster_action" : "none"
     },
     {
         "type" : "trap",
@@ -518,7 +518,7 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "drain",
-        "monster_action" : "drain",
+        "monster_action" : "drain"
     },
     {
         "type" : "trap",
@@ -531,6 +531,6 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "player_action" : "snake",
-        "monster_action" : "snake",
+        "monster_action" : "snake"
     }
 ]
