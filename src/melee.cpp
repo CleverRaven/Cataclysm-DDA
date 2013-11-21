@@ -772,7 +772,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
     // don't apply downing techniques to someone who's already downed
     if (downed && tec.down_dur > 0) continue;
 
-    // don't apply disarming techniques to someone without a weapon 
+    // don't apply disarming techniques to someone without a weapon
     //TODO: these are the stat reqs for tec_disarm
     // dice(   dex_cur +    skillLevel("unarmed"),  8) >
     // dice(p->dex_cur + p->skillLevel("melee"),   10))
@@ -1479,7 +1479,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         }
         ret.push_back(tmp);
     }
-	
+
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
             has_trait("ARM_TENTACLES_8")) {
         int num_attacks = 1;
@@ -1543,9 +1543,9 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
              return npc ? _("<npcname> runs through %s") : _("You run through %s");
           }
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
-            return npc ? _("<npcname> pierces %s") : _("You pierce %s");
+            return npc ? _("<npcname> pierces %s") : _("You puncture %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {
-            return npc ? _("<npcname> stabs %s") : _("You stab %s");
+            return npc ? _("<npcname> stabs at %s") : _("You pierce %s");
         } else {
             return npc ? _("<npcname> pokes %s") : _("You poke %s");
         }
