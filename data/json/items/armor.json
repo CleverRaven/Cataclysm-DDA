@@ -1384,7 +1384,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A very thin and loose camisole. It is very light and easy to wear.",
+        "description" : "A small camisole made from silk. Typically used as an undergarment, it is light and easy to wear.",
         "price" : 120,
         "material" : ["cotton", "null"],
         "volume" : 2,
