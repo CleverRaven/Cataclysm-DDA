@@ -777,7 +777,7 @@ void dis_effect(player &p, disease &dis) {
                         g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
                     }
                 }
-                p.add_disease("sleep", 6000);
+                p.fall_asleep(6000);
             }
             if (dis.duration == 1 && !p.has_disease("sleep")) {
                 g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
@@ -1115,7 +1115,7 @@ void dis_effect(player &p, disease &dis) {
                     if (!p.is_npc()) {
                         g->add_msg(_("You pass out."));
                     }
-                    p.add_disease("sleep", 1200);
+                    p.fall_asleep(1200);
                     if (one_in(6)) {
                         p.rem_disease("teleglow");
                     }
@@ -2356,7 +2356,7 @@ static void handle_alcohol(player& p, disease& dis) {
     bool readyForNap = one_in(500 - int(dis.duration / 80));
     if (!p.has_disease("sleep") && dis.duration >= 4500 && readyForNap) {
         g->add_msg_if_player(&p,_("You pass out."));
-        p.add_disease("sleep", dis.duration / 2);
+        p.fall_asleep(dis.duration / 2);
     }
 }
 
@@ -2486,7 +2486,7 @@ static void handle_infected_wound(player& p, disease& dis) {
                 p.rem_disease("sleep");
                 g->add_msg(_("You pass out."));
             }
-            p.add_disease("sleep", 60);
+            p.fall_asleep(60);
         }
     } else {
         // Death. 24 hours after infection. Total time, 30 hours including bite.
@@ -2522,7 +2522,7 @@ static void handle_recovery(player& p, disease& dis) {
             if (p.has_disease("sleep")) {
                 p.rem_disease("sleep");
                 g->add_msg(_("You pass out."));
-                p.add_disease("sleep", 60);
+                p.fall_asleep(60);
             }
         }
     } else if (dis.duration > 33600) {
