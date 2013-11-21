@@ -199,7 +199,7 @@ void mapbuffer::save()
  }
  radout << count << std::endl;
 
- fout << terout.str() << radout.str() << furnout.str() << itemout.str() << trapout.str() << graffout.str();
+ fout << terout.str() << radout.str() << furnout.str() << itemout.str() << trapout.str() << fieldout.str() << graffout.str();
 
  // Output the spawn points
   spawn_point tmpsp;
