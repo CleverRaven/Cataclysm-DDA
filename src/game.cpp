@@ -9035,7 +9035,7 @@ int game::move_liquid(item &liquid)
       return -1;
       }
 
-      if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+      if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
       add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
       return -1;
       }
