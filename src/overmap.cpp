@@ -2227,12 +2227,12 @@ void overmap::place_cities()
  while (cities.size() < NUM_CITIES) {
   int cx = rng(12, OMAPX - 12);
   int cy = rng(12, OMAPY - 12);
-  int size = village_size;
+  int size = dice(town_min, town_max);
   if (one_in(6)) {
     size = city_size;
   }
   else if (one_in(3)) {
-    size = dice(town_min, town_max);
+    size = village_size;
   }
   if (ter(cx, cy, 0) == "field") {
    ter(cx, cy, 0) = "road_nesw";
