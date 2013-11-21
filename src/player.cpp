@@ -8119,6 +8119,17 @@ bool player::can_sleep(game *g)
  return false;
 }
 
+void player::fall_asleep(int duration)
+{
+    add_disease("sleep", duration);
+}
+
+void player::wake_up()
+{
+    rem_disease("sleep");
+    g->add_msg_if_player(this, _("You wake up."));
+}
+
 std::string player::is_snuggling(game *g)
 {
     std::vector<item>& floor_item = g->m.i_at(posx, posy);
