@@ -510,6 +510,12 @@ void mdeath::zombie(monster *z) {
             if (one_in(15)) {
                 g->m.put_items_from("bags", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
+            if (one_in(2)) {
+              g->m.put_items_from("female_underwear", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            else {
+              g->m.put_items_from("male_underwear", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
         break;
     }
 }

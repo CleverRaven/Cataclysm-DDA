@@ -2057,6 +2057,22 @@
     ]
     },{
         "type" : "item_group",
+        "id" : "female_underwear",
+    "items":[
+      ["bra", 90],
+      ["panties", 70],
+      ["boy_shorts", 50]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "male_underwear",
+    "items":[
+      ["white_vest", 30],
+      ["boxer_shorts", 70],
+      ["briefs", 30]
+    ]
+    },{
+        "type" : "item_group",
         "id" : "allclothes",
     "items":[
       ["jeans", 90],
