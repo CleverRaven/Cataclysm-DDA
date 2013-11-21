@@ -77,7 +77,7 @@ void game::serialize(std::ofstream & fout) {
         // Header
         fout << "# version " << savegame_version << std::endl;
 
-        JsonOut json(&fout);
+        JsonOut json(&fout, true); // pretty-print
 
         json.start_object();
         // basic game state information.
@@ -661,7 +661,7 @@ void game::unserialize_master(std::ifstream &fin) {
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     try {
-        JsonOut json(&fout);
+        JsonOut json(&fout, true); // pretty-print
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);
