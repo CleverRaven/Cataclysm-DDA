@@ -482,7 +482,7 @@ bool map::vehproceed(game* g){
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             // deep water
-            if(move_cost_ter_furn(px, py) == 0) {
+            if(move_cost_ter_furn(px, py) == 0 && has_flag("SWIMMABLE", px, py)) {
                 submerged_wheels++;
             }
         }

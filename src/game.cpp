@@ -4079,7 +4079,8 @@ void game::draw_ter(int posx, int posy)
     if (destination_preview.size() > 0) {
         // Draw auto-move preview trail
         point final_destination = destination_preview.back();
-        draw_line(final_destination.x, final_destination.y, destination_preview);
+        point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
+        draw_line(final_destination.x, final_destination.y, center, destination_preview);
     }
 
     wrefresh(w_terrain);
@@ -9035,7 +9036,7 @@ int game::move_liquid(item &liquid)
       return -1;
       }
 
-      if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+      if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
       add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
       return -1;
       }

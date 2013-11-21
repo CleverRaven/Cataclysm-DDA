@@ -2418,6 +2418,41 @@ int item::getlight_emit(bool calculate_dimming) const {
 int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const
 {
     error = L_ERR_NONE;
+
+    if (liquid.is_ammo() && (is_tool() || is_gun())) {
+        // for filling up chainsaws, jackhammers and flamethrowers
+        ammotype ammo = "NULL";
+        int max = 0;
+
+        if (is_tool()) {
+            it_tool *tool = dynamic_cast<it_tool *>(type);
+            ammo = tool->ammo;
+            max = tool->max_charges;
+        } else {
+            it_gun *gun = dynamic_cast<it_gun *>(type);
+            ammo = gun->ammo;
+            max = gun->clip;
+        }
+
+        ammotype liquid_type = liquid.ammo_type();
+
+        if (ammo != liquid_type) {
+            error = L_ERR_NOT_CONTAINER;
+            return 0;
+        }
+
+        if (max <= 0 || charges >= max) {
+            error = L_ERR_FULL;
+            return 0;
+        }
+
+        if (charges > 0 && curammo != NULL && curammo->id != liquid.type->id) {
+            error = L_ERR_NO_MIX;
+            return 0;
+        }
+        return max - charges;
+    }
+
     if (!is_container()) {
         error = L_ERR_NOT_CONTAINER;
         return 0;
