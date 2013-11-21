@@ -4544,7 +4544,8 @@ bool game::sees_u(int x, int y, int &t)
  }
 
  return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
-           u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
+           u.has_active_optcloak() || u.has_artifact_with(AEP_INVISIBLE))
+           && m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y)
