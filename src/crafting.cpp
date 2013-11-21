@@ -830,7 +830,7 @@ recipe* game::select_crafting_recipe()
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
                 int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
-                 
+
                 for(int i = 0; i < maxline; i++) {
                     mvwprintz(w_data, i, FULL_SCREEN_WIDTH+1, col, folded[i].c_str() );
                 }
@@ -986,59 +986,31 @@ inventory game::crafting_inventory(player *p){
 void game::pick_recipes(std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab,std::string filter)
 {
+
+    recipe_list this_tab_recipes = recipes[tab];
+
     current.clear();
     available.clear();
 
-    if (filter == "")
+    for (recipe_list::iterator iter = this_tab_recipes.begin(); iter != this_tab_recipes.end(); ++iter)
     {
-        add_known_recipes(current, recipes[tab]);
-    }
-    else
-    {
-        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
+        if ((*iter)->difficulty >= 0 )
         {
-            add_known_recipes(current, iter->second, filter);
-        }
-    }
-
-    for (unsigned i = 0; i < current.size(); i++)
-    {
-        //Check if we have the requisite tools and components
-        if(can_make(current[i]))
-        {
-            available.push_back(true);
-        }
-        else
-        {
-            available.push_back(false);
-        }
-    }
-}
-
-void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
-{
-    std::vector<recipe*> can_craft;
-    for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
-    {
-        if (u.knows_recipe(*iter))
-        {
-            if ((*iter)->difficulty >= 0 )
+            if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
             {
-                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
+                if (can_make(*iter))
                 {
-                    if (can_make(*iter))
-                    {
-                        can_craft.push_back(*iter);
-                    }
-                    else
-                    {
-                        current.push_back(*iter);
-                    }
+                    current.insert(current.begin(), *iter);
+                    available.insert(available.begin(), true);
+                }
+                else
+                {
+                    current.push_back(*iter);
+                    available.push_back(false);
                 }
             }
         }
     }
-    current.insert(current.begin(),can_craft.begin(),can_craft.end());
 }
 
 void game::make_craft(recipe *making)
