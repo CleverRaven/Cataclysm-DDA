@@ -4585,7 +4585,7 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
-      [ "seasoning_salt", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },{
@@ -4616,7 +4616,7 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
-      [ "seasoning_salt", 10 ],
+      [ "seasoning_salt", 10 ]
     ]
   ]
 },{
@@ -5162,7 +5162,7 @@
       [ "cheese_spray", 1]
     ],
     [
-      [ "nachos", 3 ],
+      [ "nachos", 3 ]
     ]
   ]
 },{
@@ -5197,7 +5197,7 @@
       [ "rehydrated_meat", 2]
     ],
     [
-      [ "nachos", 3 ],
+      [ "nachos", 3 ]
     ]
   ]
 },{
@@ -5236,7 +5236,7 @@
       [ "cheese_spray", 1]
     ],
     [
-      [ "nachos", 3 ],
+      [ "nachos", 3 ]
     ]
   ]
 },{
@@ -5272,7 +5272,7 @@
       [ "rehydrated_hflesh", 2]
     ],
     [
-      [ "nachos", 3 ],
+      [ "nachos", 3 ]
     ]
   ]
 },{
@@ -5311,7 +5311,7 @@
       [ "cheese_spray", 1]
     ],
     [
-      [ "nachos", 3 ],
+      [ "nachos", 3 ]
     ]
   ]
 },{
@@ -5340,7 +5340,7 @@
       [ "cheese_spray", 1]
     ],
     [
-      [ "fries", 3 ],
+      [ "fries", 3 ]
     ]
   ]
 },{
@@ -6735,7 +6735,7 @@
     ],
     [
       [ "sugar", 1 ]
-    ]
+    ],
     [
       [ "cooking_oil", 1 ]
     ],
@@ -6746,7 +6746,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "fruit_pancakes",
+  "result": "fruit_waffles",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 3,
@@ -6779,7 +6779,7 @@
     ],
     [
       [ "sugar", 1 ]
-    ]
+    ],
     [
       [ "cooking_oil", 1 ]
     ],
@@ -6806,7 +6806,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "choc_pancakes",
+  "result": "choc_waffles",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 3,
@@ -6842,7 +6842,7 @@
     ],
     [
       [ "sugar", 1 ]
-    ]
+    ],
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
@@ -7110,7 +7110,7 @@
       [ "irradiated_rhubarb", 2 ],
       [ "irradiated_papaya", 2 ],
       [ "irradiated_apricot", 2 ],
-      [ "irradiated_kiwi", 2 ],
+      [ "irradiated_kiwi", 2 ]
     ],
     [
       [ "sugar", 2 ]
@@ -7222,7 +7222,7 @@
     ],
     [
       [ "meat", 1]
-    ]
+    ],
     [
       [ "can_beans", 1]
     ],
@@ -7259,7 +7259,7 @@
       [ "dry_veggy", 2 ]
     ],
     [
-      [ "human_flesh", 1],
+      [ "human_flesh", 1]
     ],
     [
       [ "tomato", 1 ]
@@ -18456,7 +18456,7 @@
     ],
     [
       [ "water", 1],
-      [ "water_clean", 1],
+      [ "water_clean", 1]
     ]
   ]
 },{
@@ -18488,7 +18488,7 @@
     ],
     [
       [ "chili", 1]
-    ]
+    ],
     [
       [ "bread", 4 ],
       [ "hardtack", 8]
@@ -18527,7 +18527,7 @@
     ],
     [
       [ "chili_human", 1]
-    ]
+    ],
     [
       [ "bread", 4 ],
       [ "hardtack", 8]
