@@ -115,7 +115,6 @@ void game::init_data()
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_construction();         // Set up constructables            (SEE construction.cpp)
     init_autosave();             // Set up autosave
     init_diseases();             // Set up disease lookup table
     init_savedata_translation_tables();

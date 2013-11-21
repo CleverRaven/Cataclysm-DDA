@@ -1,0 +1,646 @@
+[
+    {
+        "type" : "construction",
+        "description" : "Dig Pit",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel", "digging_stick" ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_terrain" : "t_pit_shallow"
+    },{
+        "type" : "construction",
+        "description" : "Dig Pit",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "pre_terrain" : "t_pit_shallow",
+        "post_terrain" : "t_pit"
+    },{
+        "type" : "construction",
+        "description" : "Spike Pit",
+        "difficulty" : 0,
+        "time" : 5,
+        "components" : [
+            [ [ "spear_wood", 4 ], [ "pointy_stick", 4] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_pit_spiked"
+    },{
+        "type" : "construction",
+        "description" : "Fill Pit",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_pit_shallow"
+    },{
+        "type" : "construction",
+        "description" : "Fill Pit",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "pre_terrain" : "t_pit_shallow",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
+        "description" : "Chop Down Tree",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "ax", "primitive_axe", "chainsaw_on" ]
+        ],
+        "pre_terrain" : "t_tree",
+        "post_terrain" : "t_dirt",
+        "post_special" : "done_tree"
+    },{
+        "type" : "construction",
+        "description" : "Chop Tree trunk into logs",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "ax", "primitive_axe", "chainsaw_on" ]
+        ],
+        "pre_terrain" : "t_trunk",
+        "post_terrain" : "t_dirt",
+        "post_special" : "done_trunk_log"
+    },{
+        "type" : "construction",
+        "description" : "Chop Tree trunk into planks",
+        "difficulty" : 0,
+        "time" : 23,
+        "tools" : [
+            [ "ax", "primitive_axe", "chainsaw_on", "saw" ]
+        ],
+        "pre_terrain" : "t_trunk",
+        "post_terrain" : "t_dirt",
+        "post_special" : "done_trunk_plank"
+    },{
+        "type" : "construction",
+        "description" : "Clean Broken Window",
+        "difficulty" : 0,
+        "time" : 5,
+        "pre_terrain" : "t_window_frame",
+        "post_terrain" : "t_window_empty"
+    },{
+        "type" : "construction",
+        "description" : "Repair Door",
+        "difficulty" : 1,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 3 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_terrain" : "t_door_b",
+        "post_terrain" : "t_door"
+    },{
+        "type" : "construction",
+        "description" : "Board Up Door",
+        "difficulty" : 0,
+        "time" : 8,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_DOOR",
+        "post_terrain" : "t_door_boarded"
+    },{
+        "type" : "construction",
+        "description" : "Board Up Window",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_WINDOW",
+        "post_terrain" : "t_window_boarded"
+    },{
+        "type" : "construction",
+        "description" : "Build Wall",
+        "difficulty" : 2,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 10 ] ],
+            [ [ "nail", 20 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_wall_half"
+    },{
+        "type" : "construction",
+        "description" : "Build Wall",
+        "difficulty" : 2,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 10 ] ],
+            [ [ "nail", 20 ] ]
+        ],
+        "pre_terrain" : "t_wall_half",
+        "post_terrain" : "t_wall_wood"
+    },{
+        "type" : "construction",
+        "description" : "Build Log Wall",
+        "difficulty" : 2,
+        "time" : 20,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "components" : [
+            [ [ "log", 2 ] ],
+            [ [ "stick", 3 ], [ "2x4", 6 ] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_wall_log_half"
+    },{
+        "type" : "construction",
+        "description" : "Build Log Wall",
+        "difficulty" : 2,
+        "time" : 20,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "components" : [
+            [ [ "log", 2 ] ],
+            [ [ "stick", 3 ], [ "2x4", 6 ] ]
+        ],
+        "pre_terrain" : "t_wall_log_half",
+        "post_terrain" : "t_wall_log"
+    },{
+        "type" : "construction",
+        "description" : "Build Palisade Wall",
+        "difficulty" : 2,
+        "time" : 20,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "components" : [
+            [ [ "log", 3 ] ],
+            [ [ "rope_6", 2 ] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_palisade"
+    },{
+        "type" : "construction",
+        "description" : "Build Rope & Pulley System",
+        "difficulty" : 2,
+        "time" : 5,
+        "components" : [
+            [ [ "rope_30", 1 ] ],
+            [ [ "stick", 8 ], [ "2x4", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_palisade_pulley"
+    },{
+        "type" : "construction",
+        "description" : "Build Palisade Gate",
+        "difficulty" : 2,
+        "time" : 20,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "components" : [
+            [ [ "log", 2 ] ],
+            [ [ "2x4", 3 ] ],
+            [ [ "rope_6", 2 ] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_palisade_gate"
+    },{
+        "type" : "construction",
+        "description" : "Build Window",
+        "difficulty" : 2,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 15 ], [ "log", 2 ] ],
+            [ [ "nail", 30 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_window_empty"
+    },{
+        "type" : "construction",
+        "description" : "Build Window",
+        "difficulty" : 2,
+        "time" : 5,
+        "components" : [
+            [ [ "glass_sheet", 1 ] ]
+        ],
+        "pre_terrain" : "t_window_empty",
+        "post_terrain" : "t_window"
+    },{
+        "type" : "construction",
+        "description" : "Build Window",
+        "difficulty" : 2,
+        "time" : 5,
+        "tools" : [
+            [ "saw" ]
+        ],
+        "components" : [
+            [ [ "nail", 4 ] ],
+            [ [ "sheet", 2 ] ],
+            [ [ "stick", 1 ] ],
+            [ [ "string_36", 1 ] ]
+        ],
+        "pre_terrain" : "t_window",
+        "post_terrain" : "t_window_domestic"
+    },{
+        "type" : "construction",
+        "description" : "Build Door",
+        "difficulty" : 2,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 24 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_door_frame"
+    },{
+        "type" : "construction",
+        "description" : "Build Door",
+        "difficulty" : 2,
+        "time" : 15,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_terrain" : "t_door_frame",
+        "post_terrain" : "t_door_c"
+    },{
+        "type" : "construction",
+        "description" : "Fence Posts",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "rock", "hatchet",
+              "shovel", "e_tool", "primitive_shovel", "ax", "primitive_axe" ]
+        ],
+        "components" : [
+            [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_terrain" : "t_fence_post"
+    },{
+        "type" : "construction",
+        "description" : "Build Fence",
+        "difficulty" : 1,
+        "time" : 5,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "rock" ]
+        ],
+        "components" : [
+            [ [ "2x4", 5 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_fence_post",
+        "post_terrain" : "t_fence_h"
+    },{
+        "type" : "construction",
+        "description" : "Realign Fence",
+        "difficulty" : 0,
+        "time" : 1,
+        "pre_terrain" : "t_fence_h",
+        "post_terrain" : "t_fence_v"
+    },{
+        "type" : "construction",
+        "description" : "Realign Fence",
+        "difficulty" : 0,
+        "time" : 1,
+        "pre_terrain" : "t_fence_v",
+        "post_terrain" : "t_fence_h"
+    },{
+        "type" : "construction",
+        "description" : "Build Wire Fence",
+        "difficulty" : 3,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "rock" ]
+        ],
+        "components" : [
+            [ [ "pipe", 6 ] ],
+            [ [ "scrap", 8 ] ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_terrain" : "t_chainfence_posts"
+    },{
+        "type" : "construction",
+        "description" : "Build wire Fence",
+        "difficulty" : 3,
+        "time" : 20,
+        "components" : [
+            [ [ "wire", 20 ] ]
+        ],
+        "pre_terrain" : "t_chainfence_posts",
+        "post_terrain" : "t_chainfence_v"
+    },{
+        "type" : "construction",
+        "description" : "Realign Fence",
+        "difficulty" : 0,
+        "time" : 1,
+        "pre_terrain" : "t_chainfence_h",
+        "post_terrain" : "t_chainfence_v"
+    },{
+        "type" : "construction",
+        "description" : "Realign Fence",
+        "difficulty" : 0,
+        "time" : 1,
+        "pre_terrain" : "t_chainfence_v",
+        "post_terrain" : "t_chainfence_h"
+    },{
+        "type" : "construction",
+        "description" : "Build Wire Gate",
+        "difficulty" : 3,
+        "time" : 10,
+        "components" : [
+            [ [ "wire", 20 ] ],
+            [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ],
+            [ [ "pipe", 20 ] ]
+        ],
+        "pre_special" : "check_support",
+        "post_terrain" : "t_chaingate_c"
+    },{
+        "type" : "construction",
+        "description" : "Build Roof",
+        "difficulty" : 3,
+        "time" : 40,
+        "tools" : [
+            ["hammer", "primitive_hammer", "hatchet", "nailgun"]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 40 ] ]
+        ],
+        "pre_special" : "check_support",
+        "post_terrain" : "t_floor"
+    },{
+        "type" : "construction",
+        "description" : "Build Log & Sod Roof",
+        "difficulty" : 3,
+        "time" : 0,
+        "tools" : [
+            ["hammer", "primitive_hammer", "hatchet"],
+            ["shovel", "e_tool", "primitive_shovel"]
+        ],
+        "components" : [
+            [ [ "log", 2 ] ],
+            [ [ "stick", 4 ], [ "2x4", 8 ] ]
+        ],
+        "pre_special" : "check_support",
+        "post_terrain" : "t_floor"
+    },{
+        "type" : "construction",
+        "description" : "Tape up window",
+        "difficulty" : 0,
+        "time" : 2,
+        "components" : [
+            [ [ "duct_tape", 50 ] ]
+        ],
+        "pre_terrain" : "t_window",
+        "post_terrain" : "t_window_taped"
+    },{
+        "type" : "construction",
+        "description" : "Tape up window",
+        "difficulty" : 0,
+        "time" : 2,
+        "components" : [
+            [ [ "duct_tape", 50 ] ]
+        ],
+        "pre_terrain" : "t_window_domestic",
+        "post_terrain" : "t_window_domestic_taped"
+    },{
+        "type" : "construction",
+        "description" : "Tape up window",
+        "difficulty" : 0,
+        "time" : 2,
+        "components" : [
+            [ [ "duct_tape", 50 ] ]
+        ],
+        "pre_terrain" : "t_window_alarm",
+        "post_terrain" : "t_window_alarm_taped"
+    },{
+        "type" : "construction",
+        "description" : "Build Bulletin board",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_bulletin"
+    },{
+        "type" : "construction",
+        "description" : "Build Dresser",
+        "difficulty" : 1,
+        "time" : 20,
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 6 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_dresser"
+    },{
+        "type" : "construction",
+        "description" : "Build Bookcase",
+        "difficulty" : 1,
+        "time" : 20,
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 16 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_bookcase"
+    },{
+        "type" : "construction",
+        "description" : "Build Locker",
+        "difficulty" : 1,
+        "time" : 20,
+        "tools" : [
+            [ "wrench", "toolset" ],
+            [ "hammer", "primitive_hammer", "hatchet" ]
+        ],
+        "components" : [
+            [ [ "sheet_metal", 2 ] ],
+            [ [ "pipe", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_locker"
+    },{
+        "type" : "construction",
+        "description" : "Build Metal Rack",
+        "difficulty" : 1,
+        "time" : 20,
+        "tools" : [
+            [ "wrench", "toolset" ],
+            [ "hammer", "primitive_hammer", "hatchet" ]
+        ],
+        "components" : [
+            [ [ "pipe", 12 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_rack"
+    },{
+        "type" : "construction",
+        "description" : "Build Cupboard",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 3 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_cupboard"
+    },{
+        "type" : "construction",
+        "description" : "Build Counter",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 6 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_counter"
+    },{
+        "type" : "construction",
+        "description" : "Build Table",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_table"
+    },{
+        "type" : "construction",
+        "description" : "Build Chair",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 2 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_chair"
+    },{
+        "type" : "construction",
+        "description" : "Build Makeshift Bed",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 10 ] ],
+            [ [ "nail", 8 ] ],
+            [ [ "blanket", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_makeshift_bed"
+    },{
+        "type" : "construction",
+        "description" : "Build Wood Stove",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "hacksaw" ]
+        ],
+        "components" : [
+            [ [ "metal_tank", 1 ] ],
+            [ [ "pipe", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_woodstove"
+    },{
+        "type" : "construction",
+        "description" : "Build Stone Fireplace",
+        "difficulty" : 0,
+        "time" : 40,
+        "tools" : [
+            [ "hammer", "primitive_hammer",
+              "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "components" : [
+            [ [ "rock", 40 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_fireplace"
+    },{
+        "type" : "construction",
+        "description" : "Deconstruct Furniture",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ],
+            [ "screwdriver", "toolset" ]
+        ],
+        "pre_flags" : "DECONSTRUCT",
+        "post_special" : "done_deconstruct"
+    },{
+        "type" : "construction",
+        "description" : "Start vehicle construction",
+        "difficulty" : 0,
+        "time" : 10,
+        "components" : [
+            [ [ "frame", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_special" : "done_vehicle"
+    }
+]
