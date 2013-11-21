@@ -6287,10 +6287,10 @@ bool player::consume(game *g, signed char ch)
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
         } else {
-          if(5000 - plut_charge < 1000){
+          if(500 - plut_charge < 100){
       		g->add_msg_if_player(this,_("Your plutonium banks are full."));
     		} else {
-      		plut_charge += 1000;
+      		plut_charge += 100;
       		}
         }
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
