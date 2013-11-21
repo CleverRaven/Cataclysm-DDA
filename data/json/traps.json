@@ -2,6 +2,7 @@
     {
         "type" : "trap",
         "id" : "NONE",
+        "legacy_id": 0,
         "name" : "none",
         "color" : "white",
         "symbol" : "?",
@@ -14,6 +15,7 @@
     {
         "type" : "trap",
         "id" : "BUBBLEWRAP",
+        "legacy_id": 1,
         "name" : "bubble wrap",
         "color" : "light_cyan",
         "symbol" : "_",
@@ -27,6 +29,7 @@
     {
         "type" : "trap",
         "id" : "COT",
+        "legacy_id": 2,
         "name" : "cot",
         "color" : "green",
         "symbol" : "#",
@@ -41,6 +44,7 @@
     {
         "type" : "trap",
         "id" : "BRAZIER",
+        "legacy_id": 3,
         "name" : "brazier",
         "color" : "red",
         "symbol" : "#",
@@ -55,6 +59,7 @@
     {
         "type" : "trap",
         "id" : "FUNNEL",
+        "legacy_id": 4,
         "name" : "funnel",
         "color" : "yellow",
         "symbol" : "V",
@@ -69,6 +74,7 @@
     {
         "type" : "trap",
         "id" : "MAKESHIFT_FUNNEL",
+        "legacy_id": 5,
         "name" : "makeshift funnel",
         "color" : "yellow",
         "symbol" : "v",
@@ -83,6 +89,7 @@
     {
         "type" : "trap",
         "id" : "ROLLMAT",
+        "legacy_id": 6,
         "name" : "roll mat",
         "color" : "blue",
         "symbol" : "#",
@@ -97,6 +104,7 @@
     {
         "type" : "trap",
         "id" : "FUR_ROLLMAT",
+        "legacy_id": 7,
         "name" : "fur roll mat",
         "color" : "brown",
         "symbol" : "#",
@@ -111,6 +119,7 @@
     {
         "type" : "trap",
         "id" : "BEARTRAP",
+        "legacy_id": 8,
         "name" : "bear trap",
         "color" : "blue",
         "symbol" : "^",
@@ -124,6 +133,7 @@
     {
         "type" : "trap",
         "id" : "BEARTRAP_BURIED",
+        "legacy_id": 9,
         "name" : "buried bear trap",
         "color" : "blue",
         "symbol" : "^",
@@ -137,6 +147,7 @@
     {
         "type" : "trap",
         "id" : "NAILBOARD",
+        "legacy_id": 10,
         "name" : "spiked board",
         "color" : "light_gray",
         "symbol" : "_",
@@ -150,6 +161,7 @@
     {
         "type" : "trap",
         "id" : "CALTROPS",
+        "legacy_id": 11,
         "name" : "caltrops",
         "color" : "dark_gray",
         "symbol" : "_",
@@ -163,6 +175,7 @@
     {
         "type" : "trap",
         "id" : "TRIPWIRE",
+        "legacy_id": 12,
         "name" : "tripwire",
         "color" : "light_red",
         "symbol" : "^",
@@ -176,6 +189,7 @@
     {
         "type" : "trap",
         "id" : "CROSSBOW_TRAP",
+        "legacy_id": 13,
         "name" : "crossbow trap",
         "color" : "green",
         "symbol" : "^",
@@ -189,6 +203,7 @@
     {
         "type" : "trap",
         "id" : "SHOTGUN_2",
+        "legacy_id": 14,
         "name" : "shotgun trap",
         "color" : "red",
         "symbol" : "^",
@@ -202,6 +217,7 @@
     {
         "type" : "trap",
         "id" : "SHOTGUN_1",
+        "legacy_id": 15,
         "name" : "shotgun trap",
         "color" : "red",
         "symbol" : "^",
@@ -215,6 +231,7 @@
     {
         "type" : "trap",
         "id" : "ENGINE",
+        "legacy_id": 16,
         "name" : "spinning blade engine",
         "color" : "light_red",
         "symbol" : "_",
@@ -228,6 +245,7 @@
     {
         "type" : "trap",
         "id" : "BLADE",
+        "legacy_id": 17,
         "name" : "spinning blade",
         "color" : "cyan",
         "symbol" : "\\",
@@ -241,6 +259,7 @@
     {
         "type" : "trap",
         "id" : "LIGHT_SNARE",
+        "legacy_id": 18,
         "name" : "light snare trap",
         "color" : "brown",
         "symbol" : "^",
@@ -254,6 +273,7 @@
     {
         "type" : "trap",
         "id" : "LIGHT_SNARE",
+        "legacy_id": 19,
         "name" : "heavy snare trap",
         "color" : "brown",
         "symbol" : "^",
@@ -267,6 +287,7 @@
     {
         "type" : "trap",
         "id" : "LANDMINE",
+        "legacy_id": 20,
         "name" : "land mine",
         "color" : "red",
         "symbol" : "^",
@@ -280,6 +301,7 @@
     {
         "type" : "trap",
         "id" : "LANDMINE_BURIED",
+        "legacy_id": 21,
         "name" : "buried land mine",
         "color" : "red",
         "symbol" : "_",
@@ -293,6 +315,7 @@
     {
         "type" : "trap",
         "id" : "TELEPAD",
+        "legacy_id": 22,
         "name" : "teleport pad",
         "color" : "magenta",
         "symbol" : "_",
@@ -305,6 +328,7 @@
     {
         "type" : "trap",
         "id" : "GOO",
+        "legacy_id": 23,
         "name" : "goo pit",
         "color" : "dark_gray",
         "symbol" : "_",
@@ -317,6 +341,7 @@
     {
         "type" : "trap",
         "id" : "DISSECTOR",
+        "legacy_id": 24,
         "name" : "dissector",
         "color" : "cyan",
         "symbol" : "7",
@@ -329,6 +354,7 @@
     {
         "type" : "trap",
         "id" : "SINKHOLE",
+        "legacy_id": 25,
         "name" : "sinkhole",
         "color" : "brown",
         "symbol" : "_",
@@ -341,6 +367,7 @@
     {
         "type" : "trap",
         "id" : "PIT",
+        "legacy_id": 26,
         "name" : "pit",
         "color" : "brown",
         "symbol" : "0",
@@ -353,6 +380,7 @@
     {
         "type" : "trap",
         "id" : "SPIKE_PIT",
+        "legacy_id": 27,
         "name" : "spiked pit",
         "color" : "blue",
         "symbol" : "0",
@@ -365,6 +393,7 @@
     {
         "type" : "trap",
         "id" : "LAVA",
+        "legacy_id": 28,
         "name" : "lava",
         "color" : "red",
         "symbol" : "~",
@@ -377,6 +406,7 @@
     {
         "type" : "trap",
         "id" : "PORTAL",
+        "legacy_id": 29,
         "name" : "shimmering portal",
         "color" : "magenta",
         "symbol" : "%",
@@ -389,6 +419,7 @@
     {
         "type" : "trap",
         "id" : "LEDGE",
+        "legacy_id": 30,
         "name" : "ledge",
         "color" : "black",
         "symbol" : " ",
@@ -401,6 +432,7 @@
     {
         "type" : "trap",
         "id" : "BOOBY_TRAP",
+        "legacy_id": 31,
         "name" : "booby trap",
         "color" : "light_cyan",
         "symbol" : "^",
@@ -413,6 +445,7 @@
     {
         "type" : "trap",
         "id" : "RAISED_TILE",
+        "legacy_id": 32,
         "name" : "ledge",
         "color" : "light_gray",
         "symbol" : "^",
@@ -425,6 +458,7 @@
     {
         "type" : "trap",
         "id" : "TOGGLE_BLOCK",
+        "legacy_id": 33,
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -437,6 +471,7 @@
     {
         "type" : "trap",
         "id" : "GLOW_TRAP",
+        "legacy_id": 34,
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -449,6 +484,7 @@
     {
         "type" : "trap",
         "id" : "HUM_TRAP",
+        "legacy_id": 35,
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -461,6 +497,7 @@
     {
         "type" : "trap",
         "id" : "SHADOW_TRAP",
+        "legacy_id": 36,
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -473,6 +510,7 @@
     {
         "type" : "trap",
         "id" : "DRAIN_TRAP",
+        "legacy_id": 37,
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -485,6 +523,7 @@
     {
         "type" : "trap",
         "id" : "SNAKE_TRAP",
+        "legacy_id": 38,
         "name" : "",
         "color" : "white",
         "symbol" : "^",
