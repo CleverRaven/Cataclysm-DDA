@@ -203,9 +203,15 @@ bool game::making_would_work(recipe *making)
 
     return false;
 }
+
 bool game::can_make(recipe *r)
 {
-    inventory crafting_inv = crafting_inventory(&u);
+     inventory crafting_inv = crafting_inventory(&u);
+     return can_make_with_inventory(r, crafting_inv);
+}
+
+bool game::can_make_with_inventory(recipe *r, inventory crafting_inv)
+{
     if(!u.knows_recipe(r))
     {
         return false;
@@ -581,7 +587,7 @@ recipe* game::select_crafting_recipe()
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(current, available, tab,filterstring);
+            pick_recipes(crafting_inv, current, available, tab,filterstring);
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -983,7 +989,7 @@ inventory game::crafting_inventory(player *p){
  return crafting_inv;
 }
 
-void game::pick_recipes(std::vector<recipe*> &current,
+void game::pick_recipes(inventory crafting_inv, std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab,std::string filter)
 {
 
@@ -998,7 +1004,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
         {
             if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
             {
-                if (can_make(*iter))
+                if (can_make_with_inventory(*iter, crafting_inv))
                 {
                     current.insert(current.begin(), *iter);
                     available.insert(available.begin(), true);
