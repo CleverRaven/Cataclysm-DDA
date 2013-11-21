@@ -1,5 +1,6 @@
 [
     {
+        "type" : "trap",
         "id" : "NONE",
         "name" : "none",
         "color" : "white",
@@ -11,6 +12,7 @@
         "monster_action" : "none",
     },
     {
+        "type" : "trap",
         "id" : "BUBBLEWRAP",
         "name" : "bubble wrap",
         "color" : "light_cyan",
@@ -23,6 +25,7 @@
         "drops" : ["bubblewrap"]
     },
     {
+        "type" : "trap",
         "id" : "COT",
         "name" : "cot",
         "color" : "green",
@@ -36,6 +39,7 @@
         "benign" : "true"
     },
     {
+        "type" : "trap",
         "id" : "BRAZIER",
         "name" : "brazier",
         "color" : "red",
@@ -49,6 +53,7 @@
         "benign" : "true"
     },
     {
+        "type" : "trap",
         "id" : "FUNNEL",
         "name" : "funnel",
         "color" : "yellow",
@@ -62,6 +67,7 @@
         "benign" : "true"
     },
     {
+        "type" : "trap",
         "id" : "MAKESHIFT_FUNNEL",
         "name" : "makeshift funnel",
         "color" : "yellow",
@@ -75,6 +81,7 @@
         "benign" : "true"
     },
     {
+        "type" : "trap",
         "id" : "ROLLMAT",
         "name" : "roll mat",
         "color" : "blue",
@@ -88,6 +95,7 @@
         "benign" : "true"
     },
     {
+        "type" : "trap",
         "id" : "FUR_ROLLMAT",
         "name" : "fur roll mat",
         "color" : "brown",
@@ -101,6 +109,7 @@
         "benign" : "true"
     },
     {
+        "type" : "trap",
         "id" : "BEARTRAP",
         "name" : "bear trap",
         "color" : "blue",
@@ -113,6 +122,7 @@
         "drops" : ["beartrap"]
     },
     {
+        "type" : "trap",
         "id" : "BEARTRAP_BURIED",
         "name" : "buried bear trap",
         "color" : "blue",
@@ -125,6 +135,7 @@
         "drops" : ["beartrap"]
     },
     {
+        "type" : "trap",
         "id" : "NAILBOARD",
         "name" : "spiked board",
         "color" : "light_gray",
@@ -137,6 +148,7 @@
         "drops" : ["board_trap"]
     },
     {
+        "type" : "trap",
         "id" : "CALTROPS",
         "name" : "caltrops",
         "color" : "dark_gray",
@@ -149,6 +161,7 @@
         "drops" : ["caltrops"]
     },
     {
+        "type" : "trap",
         "id" : "TRIPWIRE",
         "name" : "tripwire",
         "color" : "light_red",
@@ -161,6 +174,7 @@
         "drops" : ["string_36"]
     },
     {
+        "type" : "trap",
         "id" : "CROSSBOW_TRAP",
         "name" : "crossbow trap",
         "color" : "green",
@@ -173,6 +187,7 @@
         "drops" : ["string_36", "crossbow", "bolt_steel"]
     },
     {
+        "type" : "trap",
         "id" : "SHOTGUN_2",
         "name" : "shotgun trap",
         "color" : "red",
@@ -185,6 +200,7 @@
         "drops" : ["string_36", "shotgun_sawn"]
     },
     {
+        "type" : "trap",
         "id" : "SHOTGUN_1",
         "name" : "shotgun trap",
         "color" : "red",
@@ -197,6 +213,7 @@
         "drops" : ["string_36", "shotgun_sawn"]
     },
     {
+        "type" : "trap",
         "id" : "ENGINE",
         "name" : "spinning blade engine",
         "color" : "light_red",
@@ -209,6 +226,7 @@
         "drops" : ["motor", "blade", "blade", "string_36"]
     },
     {
+        "type" : "trap",
         "id" : "BLADE",
         "name" : "spinning blade",
         "color" : "cyan",
@@ -221,6 +239,7 @@
 
     },
     {
+        "type" : "trap",
         "id" : "LIGHT_SNARE",
         "name" : "light snare trap",
         "color" : "brown",
@@ -233,6 +252,7 @@
         "drops" : ["light_snare_kit"]
     },
     {
+        "type" : "trap",
         "id" : "LIGHT_SNARE",
         "name" : "heavy snare trap",
         "color" : "brown",
@@ -245,6 +265,7 @@
         "drops" : ["heavy_snare_kit"]
     },
     {
+        "type" : "trap",
         "id" : "LANDMINE",
         "name" : "land mine",
         "color" : "red",
@@ -257,6 +278,7 @@
         "drops" : ["landmine"]
     },
     {
+        "type" : "trap",
         "id" : "LANDMINE_BURIED",
         "name" : "buried land mine",
         "color" : "red",
@@ -269,6 +291,7 @@
         "drops" : ["landmine"]
     },
     {
+        "type" : "trap",
         "id" : "TELEPAD",
         "name" : "teleport pad",
         "color" : "magenta",
@@ -280,6 +303,7 @@
         "monster_action" : "telepad",
     },
     {
+        "type" : "trap",
         "id" : "GOO",
         "name" : "goo pit",
         "color" : "dark_gray",
@@ -291,6 +315,7 @@
         "monster_action" : "goo",
     },
     {
+        "type" : "trap",
         "id" : "DISSECTOR",
         "name" : "dissector",
         "color" : "cyan",
@@ -302,6 +327,7 @@
         "monster_action" : "dissector",
     },
     {
+        "type" : "trap",
         "id" : "SINKHOLE",
         "name" : "sinkhole",
         "color" : "brown",
@@ -313,6 +339,7 @@
         "monster_action" : "sinkhole",
     },
     {
+        "type" : "trap",
         "id" : "PIT",
         "name" : "pit",
         "color" : "brown",
@@ -324,6 +351,7 @@
         "monster_action" : "pit",
     },
     {
+        "type" : "trap",
         "id" : "SPIKE_PIT",
         "name" : "spiked pit",
         "color" : "blue",
@@ -335,6 +363,7 @@
         "monster_action" : "pit_spikes",
     },
     {
+        "type" : "trap",
         "id" : "LAVA",
         "name" : "lava",
         "color" : "red",
@@ -346,6 +375,7 @@
         "monster_action" : "lava",
     },
     {
+        "type" : "trap",
         "id" : "PORTAL",
         "name" : "shimmering portal",
         "color" : "magenta",
@@ -357,6 +387,7 @@
         "monster_action" : "portal",
     },
     {
+        "type" : "trap",
         "id" : "LEDGE",
         "name" : "ledge",
         "color" : "black",
@@ -368,6 +399,7 @@
         "monster_action" : "ledge",
     },
     {
+        "type" : "trap",
         "id" : "BOOBY_TRAP",
         "name" : "booby trap",
         "color" : "light_cyan",
@@ -379,6 +411,7 @@
         "monster_action" : "boobytrap",
     },
     {
+        "type" : "trap",
         "id" : "RAISED_TILE",
         "name" : "ledge",
         "color" : "light_gray",
@@ -390,6 +423,7 @@
         "monster_action" : "none",
     },
     {
+        "type" : "trap",
         "id" : "TOGGLE_BLOCK",
         "name" : "",
         "color" : "white",
@@ -401,6 +435,7 @@
         "monster_action" : "none",
     },
     {
+        "type" : "trap",
         "id" : "GLOW_TRAP",
         "name" : "",
         "color" : "white",
@@ -412,6 +447,7 @@
         "monster_action" : "glow",
     },
     {
+        "type" : "trap",
         "id" : "HUM_TRAP",
         "name" : "",
         "color" : "white",
@@ -423,6 +459,7 @@
         "monster_action" : "hum",
     },
     {
+        "type" : "trap",
         "id" : "SHADOW_TRAP",
         "name" : "",
         "color" : "white",
@@ -434,6 +471,7 @@
         "monster_action" : "none",
     },
     {
+        "type" : "trap",
         "id" : "DRAIN_TRAP",
         "name" : "",
         "color" : "white",
@@ -445,6 +483,7 @@
         "monster_action" : "drain",
     },
     {
+        "type" : "trap",
         "id" : "SNAKE_TRAP",
         "name" : "",
         "color" : "white",
