@@ -780,7 +780,8 @@
   ],
   "components": [
     [
-      [ "rag", 1 ]
+      [ "rag", 1 ],
+      [ "duct_tape", 50 ]
     ],
     [
       [ "spike", 1 ]

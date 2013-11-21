@@ -34,7 +34,7 @@ void game::init_monitems() {
     setvector(&monitems["mon_zombie_cop"], "cop_weapons", 20, NULL);
 
     setvector(&monitems["mon_zombie_scientist"],
-              "harddrugs", 6, "chemistry", 10,
+              "harddrugs", 6, "chem_lab", 10,
               "teleport", 6, "goo", 8, "cloning_vat", 1,
               "dissection", 10, "electronics", 9, "bionics", 1,
               "radio", 2, "textbooks", 3, NULL);

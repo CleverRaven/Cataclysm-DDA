@@ -140,6 +140,8 @@ player::player() : name("")
  sight_boost = 0;
  sight_boost_cap = 0;
  lastrecipe = NULL;
+ next_expected_position.x = -1;
+ next_expected_position.y = -1;
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
@@ -3623,12 +3625,12 @@ int player::intimidation()
 
 int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
- int painadd = 0;
- if (has_disease("sleep")) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    int painadd = 0;
+    if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  absorb(g, bphurt, dam, cut);
 
@@ -3764,12 +3766,12 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
 {
- int painadd = 0;
- if (has_disease("sleep") && rng(0, dam) > 2) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    int painadd = 0;
+    if (has_disease("sleep") && rng(0, dam) > 2) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  if (dam <= 0)
   return;
@@ -3854,8 +3856,7 @@ void player::hurt(hp_part hurt, int dam)
 {
     int painadd = 0;
     if (has_disease("sleep") && rng(0, dam) > 2) {
-        g->add_msg(_("You wake up!"));
-        rem_disease("sleep");
+        wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
@@ -3972,11 +3973,11 @@ void player::hurtall(int dam)
 
 void player::hitall(game *g, int dam, int vary)
 {
- if (has_disease("sleep")) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  for (int i = 0; i < num_hp_parts; i++) {
   int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
@@ -4491,6 +4492,7 @@ void player::suffer(game *g)
             illness[i].intensity--;
         }
         if (illness[i].duration <= 0 || illness[i].intensity == 0) {
+            dis_end_msg(*this, illness[i]);
             illness.erase(illness.begin() + i);
             i--;
         }
@@ -4735,11 +4737,12 @@ void player::suffer(game *g)
    oxygen = int(oxygen / 2);
    auto_use = false;
   }
-  if (has_disease("sleep")) {
-   rem_disease("sleep");
-   g->add_msg(_("Your asthma wakes you up!"));
-   auto_use = false;
-  }
+
+        if (has_disease("sleep")) {
+            wake_up(_("Your asthma wakes you up!"));
+            auto_use = false;
+        }
+
   if (auto_use)
    use_charges("inhaler", 1);
   else {
@@ -4761,14 +4764,13 @@ void player::suffer(game *g)
    pain--;
  }
 
- if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
-  g->add_msg(_("The sunlight burns your skin!"));
-  if (has_disease("sleep")) {
-   rem_disease("sleep");
-   g->add_msg(_("You wake up!"));
-  }
-  hurtall(1);
- }
+    if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
+        g->add_msg(_("The sunlight burns your skin!"));
+        if (has_disease("sleep")) {
+            wake_up(_("You wake up!"));
+        }
+        hurtall(1);
+    }
 
  if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
      g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
@@ -8117,6 +8119,21 @@ bool player::can_sleep(game *g)
  return false;
 }
 
+void player::fall_asleep(int duration)
+{
+    add_disease("sleep", duration);
+}
+
+void player::wake_up(const char * message)
+{
+    rem_disease("sleep");
+    if (message) {
+        g->add_msg_if_player(this, message);
+    } else {
+        g->add_msg_if_player(this, _("You wake up."));
+    }
+}
+
 std::string player::is_snuggling(game *g)
 {
     std::vector<item>& floor_item = g->m.i_at(posx, posy);
@@ -8579,7 +8596,7 @@ int player::resist(body_part bp)
         }
     }
     return ret;
-    
+
     if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
         if (ret > 5) {
@@ -8742,6 +8759,15 @@ void player::assign_activity(game* g, activity_type type, int moves, int index, 
         activity = player_activity(type, moves, index, invlet, name);
     }
     activity.warned_of_proximity = false;
+}
+
+bool player::has_activity(game* g, const activity_type type)
+{
+    if (activity.type == type) {
+        return true;
+    }
+
+    return false;
 }
 
 void player::cancel_activity()
@@ -8992,4 +9018,69 @@ void player::environmental_revert_effect()
 
     recalc_sight_limits();
 }
+
+void player::set_destination(const std::vector<point> &route)
+{
+    auto_move_route = route;
+}
+
+void player::clear_destination()
+{
+    auto_move_route.clear();
+    next_expected_position.x = -1;
+    next_expected_position.y = -1;
+}
+
+bool player::has_destination() const
+{
+    return auto_move_route.size() > 0;
+}
+
+std::vector<point> &player::get_auto_move_route()
+{
+    return auto_move_route;
+}
+
+action_id player::get_next_auto_move_direction()
+{
+    if (!has_destination()) {
+        return ACTION_NULL;
+    }
+
+    if (next_expected_position.x != -1) {
+        if (posx != next_expected_position.x || posy != next_expected_position.y) {
+            // We're off course, possibly stumbling or stuck, cancel auto move
+            return ACTION_NULL;
+        }
+    }
+
+    next_expected_position = auto_move_route.front();
+    auto_move_route.erase(auto_move_route.begin());
+
+    int dx = next_expected_position.x - posx;
+    int dy = next_expected_position.y - posy;
+
+    if (abs(dx) > 1 || abs(dy) > 1) {
+        // Should never happen, but check just in case
+        return ACTION_NULL;
+    }
+
+    return get_movement_direction_from_delta(dx, dy);
+}
+
+void player::shift_destination(int shiftx, int shifty)
+{
+    if (next_expected_position.x != -1) {
+        next_expected_position.x += shiftx;
+        next_expected_position.y += shifty;
+    }
+
+    for (std::vector<point>::iterator it = auto_move_route.begin(); it != auto_move_route.end(); it++) {
+        it->x += shiftx;
+        it->y += shifty;
+    }
+}
+
+
+
 // --- End ---

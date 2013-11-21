@@ -16,6 +16,7 @@
 #include "martialarts.h"
 #include "json.h"
 
+#include "action.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -333,6 +334,8 @@ public:
  void read(game *g, char let); // Read a book
  void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g); // Checked each turn during DIS_LYING_DOWN
+ void fall_asleep(int duration);
+ void wake_up(const char * message = NULL);
  std::string is_snuggling(game *g);    // Check to see if the player is using floor items to keep warm. If so, return one such item
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
@@ -360,6 +363,7 @@ public:
  void practice(const calendar& turn, std::string s, int amount);
 
  void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
+ bool has_activity(game* g, const activity_type type);
  void cancel_activity();
 
  int weight_carried();
@@ -430,6 +434,14 @@ public:
  bool can_study_recipe(it_book *book);
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
+
+ // Auto move methods
+ void set_destination(const std::vector<point> &route);
+ void clear_destination();
+ bool has_destination() const;
+ std::vector<point> &get_auto_move_route();
+ action_id get_next_auto_move_direction();
+ void shift_destination(int shiftx, int shifty);
 
 // Library functions
  double logistic(double t);
@@ -555,6 +567,10 @@ protected:
 private:
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
+
+    std::vector<point> auto_move_route;
+    // Used to make sure auto move is canceled if we stumble off course
+    point next_expected_position;
 
     int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
     //NPCs also use this ID value. Values should never be reused.
