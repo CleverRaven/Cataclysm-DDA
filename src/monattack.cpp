@@ -1352,7 +1352,6 @@ void mattack::smg(monster *z)
   tmp.dex_cur = 8;
   tmp.per_cur = 12;
   tmp.weapon = item(itypes["smg_9mm"], 0);
-  tmp.weapon.contents.push_back(item(itypes["brass_catcher"], 0));
   tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
   tmp.weapon.charges = 10;
   std::vector<point> traj = line_to(z->posx(), z->posy(),
