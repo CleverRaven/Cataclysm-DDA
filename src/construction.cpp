@@ -10,6 +10,7 @@
 #include "item_factory.h"
 #include "catacharset.h"
 #include "action.h"
+#include "translations.h"
 
 #include <algorithm>
 
@@ -669,7 +670,7 @@ void load_construction(JsonObject &jo)
     construction *con = new construction;
     JsonArray temp;
 
-    con->description = jo.get_string("description");
+    con->description = _(jo.get_string("description").c_str());
     con->difficulty = jo.get_int("difficulty");
     con->time = jo.get_int("time");
 
