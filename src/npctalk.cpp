@@ -1538,6 +1538,12 @@ int trial_chance(talk_response response, player *u, npc *p)
   case TALK_TRIAL_INTIMIDATE:
    chance += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
            p->personality.bravery * 2;
+   if (u->has_trait("MINOTAUR"))
+    chance += 15;
+   if (u->has_trait("MUZZLE"))
+    chance += 6;
+   if (u->has_trait("LONG_MUZZLE"))
+    chance += 20;
    if (u->has_trait("TERRIFYING"))
     chance += 15;
    if (u->has_trait("ELFAEYES"))
