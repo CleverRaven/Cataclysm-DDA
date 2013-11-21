@@ -3625,12 +3625,12 @@ int player::intimidation()
 
 int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
- int painadd = 0;
- if (has_disease("sleep")) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    int painadd = 0;
+    if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  absorb(g, bphurt, dam, cut);
 
@@ -3766,12 +3766,12 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
 {
- int painadd = 0;
- if (has_disease("sleep") && rng(0, dam) > 2) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    int painadd = 0;
+    if (has_disease("sleep") && rng(0, dam) > 2) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  if (dam <= 0)
   return;
@@ -3856,8 +3856,7 @@ void player::hurt(hp_part hurt, int dam)
 {
     int painadd = 0;
     if (has_disease("sleep") && rng(0, dam) > 2) {
-        g->add_msg(_("You wake up!"));
-        rem_disease("sleep");
+        wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
@@ -3974,11 +3973,11 @@ void player::hurtall(int dam)
 
 void player::hitall(game *g, int dam, int vary)
 {
- if (has_disease("sleep")) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  for (int i = 0; i < num_hp_parts; i++) {
   int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
@@ -4737,11 +4736,12 @@ void player::suffer(game *g)
    oxygen = int(oxygen / 2);
    auto_use = false;
   }
-  if (has_disease("sleep")) {
-   rem_disease("sleep");
-   g->add_msg(_("Your asthma wakes you up!"));
-   auto_use = false;
-  }
+
+        if (has_disease("sleep")) {
+            wake_up(_("Your asthma wakes you up!"));
+            auto_use = false;
+        }
+
   if (auto_use)
    use_charges("inhaler", 1);
   else {
@@ -4763,14 +4763,13 @@ void player::suffer(game *g)
    pain--;
  }
 
- if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
-  g->add_msg(_("The sunlight burns your skin!"));
-  if (has_disease("sleep")) {
-   rem_disease("sleep");
-   g->add_msg(_("You wake up!"));
-  }
-  hurtall(1);
- }
+    if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
+        g->add_msg(_("The sunlight burns your skin!"));
+        if (has_disease("sleep")) {
+            wake_up(_("You wake up!"));
+        }
+        hurtall(1);
+    }
 
  if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
      g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
@@ -8124,10 +8123,14 @@ void player::fall_asleep(int duration)
     add_disease("sleep", duration);
 }
 
-void player::wake_up()
+void player::wake_up(const char * message)
 {
     rem_disease("sleep");
-    g->add_msg_if_player(this, _("You wake up."));
+    if (message) {
+        g->add_msg_if_player(this, message);
+    } else {
+        g->add_msg_if_player(this, _("You wake up."));
+    }
 }
 
 std::string player::is_snuggling(game *g)
