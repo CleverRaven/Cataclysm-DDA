@@ -117,23 +117,35 @@ void construction_menu()
     }
     nc_color color_stage = c_white;
 
-    std::string mes;
-    if (current_con->post_terrain != "") {
-        if (current_con->post_is_furniture) {
-            mes = furnmap[current_con->post_terrain].name;
-        } else {
-            mes = termap[current_con->post_terrain].name;
-        }
-    } else {
-        mes = "";
-    }
+    // display difficulty
     int pskill = g->u.skillLevel("carpentry");
     int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
     posy++;
     mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
               _("Difficulty: %d"), diff);
-    posy++;
-    mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"), mes.c_str());
+    // display required terrain
+    if (current_con->pre_terrain != "") {
+        posy++;
+        if (current_con->pre_is_furniture) {
+            mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
+                      furnmap[current_con->pre_terrain].name.c_str());
+        } else {
+            mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
+                      termap[current_con->pre_terrain].name.c_str());
+        }
+    }
+    // display result
+    if (current_con->post_terrain != "") {
+        posy++;
+        if (current_con->post_is_furniture) {
+            mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
+                      furnmap[current_con->post_terrain].name.c_str());
+        } else {
+            mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
+                      termap[current_con->post_terrain].name.c_str());
+        }
+    }
+    // display time needed
     posy++;
     mvwprintz(w_con, posy, 31, color_stage, _("Time: %1d minutes"), current_con->time);
     // Print tools
