@@ -6495,7 +6495,6 @@ void game::use_wielded_item()
 
 bool game::choose_adjacent(std::string message, int &x, int &y)
 {
-    refresh_all();
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(w_terrain, 0, 0, query_text.c_str());
