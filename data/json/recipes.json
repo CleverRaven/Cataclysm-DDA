@@ -14725,6 +14725,41 @@
   ]
 },{
         "type" : "recipe",
+  "result": "flask_hip",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 150], ["char_forge", 30]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "scrap", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
    "result": "sword_wood",
    "category": "CC_WEAPON",
    "skill_used": "fabrication",
