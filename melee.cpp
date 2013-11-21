@@ -1244,7 +1244,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
    moves -= cutting_penalty;
   if (cutting_penalty >= 50 && !z->is_hallucination()) {
     if (you)
-    dump << _("Your ")<<weapon.tname()<<_(" gets stuck in ")<<target<<_(", but you yank it free.");
+    dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(), target.c_str());
   }
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
