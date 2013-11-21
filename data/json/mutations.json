@@ -1614,6 +1614,48 @@
         "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
+        "id" : "SNOUT",
+        "name" : "Snout",
+        "points" : -1,
+        "visibility" : 4,
+        "ugliness" : 3,
+        "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
+        "changes_to" : ["MINOTAUR", "MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
+    },{
+        "type" : "mutation",
+        "id" : "MINOTAUR",
+        "name" : "Bovine Snout",
+        "points" : -2,
+        "visibility" : 5,
+        "ugliness" : 6,
+        "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
+        "cancels" : ["MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "MUZZLE",
+        "name" : "Lupine Muzzle",
+        "points" : -1,
+        "visibility" : 5,
+        "ugliness" : 4,
+        "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
+    },{
+        "type" : "mutation",
+        "id" : "LONG_MUZZLE",
+        "name" : "Reptilian Muzzle",
+        "points" : -2,
+        "visibility" : 8,
+        "ugliness" : 8,
+        "description" : "Your face and jaws, well, are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
+        "cancels" : ["MUZZLE", "MINOTAUR", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
         "id" : "HOLLOW_BONES",
         "name" : "Hollow Bones",
         "points" : -6,
