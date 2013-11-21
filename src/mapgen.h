@@ -2,7 +2,7 @@
 #define _MAPGEN_H_
 #include <map>
 #include <string>
-
+#include "mapgen_functions.h"
 
 enum mapgen_function_type {
     MAPGENFUNC_ERROR,

@@ -358,7 +358,6 @@ void load_oter(oter_t & oter) {
     otermap[oter.id] = oter;
     oterlist.push_back(oter);
 }
-#include "building_generation.h"
 #include "mapgen.h"
 void load_overmap_terrain(JsonObject &jo)
 {
