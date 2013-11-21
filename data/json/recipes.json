@@ -16559,6 +16559,50 @@
     ]
 },{
         "type" : "recipe",
+  "result": "battleaxe",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 450],
+      [ "char_forge", 90]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "katana",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
