@@ -1135,7 +1135,7 @@
     "turns_per_charge": 1,
     "ammo": "batteries",
     "revert_to": "carver_off",
-    "use_action": "CARVER_ON"
+    "use_action": "CARVER_ON",
     "qualities": [["CUT", 1]]
   },
   {
