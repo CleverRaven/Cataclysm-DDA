@@ -655,7 +655,9 @@
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["rm120c", 3],
-      ["u_shotgun", 5]
+      ["u_shotgun", 5],
+      ["umbrella_gun", 1],
+      ["cane_gun", 3]
     ]
     },{
         "type" : "item_group",
@@ -1730,7 +1732,8 @@
       ["remington_870", 9],
       ["mossberg_500", 5],
       ["rm20", 2],
-      ["saiga_12", 3]
+      ["saiga_12", 3],
+      ["cane_gun", 1]
     ]
     },{
         "type" : "item_group",
@@ -1851,6 +1854,8 @@
       ["flaregun", 8],
       ["signal_flare", 5],
       ["blowgun", 5]
+      ["umbrella_gun", 1],
+      ["cane_gun", 2]
     ]
     },{
         "type" : "item_group",
@@ -2663,6 +2668,7 @@
       ["coat_rain", 50],
       ["hood_rain", 30],
       ["cane", 10],
+      ["cane_gun", 1],
       ["candlestick", 80],
       ["umbrella", 50],
       ["essay_book", 6],
@@ -2925,7 +2931,9 @@
       ["flaregun", 10],
       ["signal_flare", 15],
       ["rm120c", 5],
-      ["knee_pads", 10]
+      ["knee_pads", 10],
+      ["cane_gun", 3],
+      ["umbrella_gun", 1]
     ]
     },{
         "type" : "item_group",
@@ -4971,6 +4979,7 @@
       ["45_acp", 7],
       ["glock_19", 7],
       ["shotgun_sawn", 1],
+      ["cane_gun", 1],
       ["uzi", 8],
       ["tec9", 10],
       ["mac_10", 14],
