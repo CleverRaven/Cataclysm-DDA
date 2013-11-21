@@ -115,7 +115,6 @@ void game::init_data()
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_construction();         // Set up constructables            (SEE construction.cpp)
     init_autosave();             // Set up autosave
     init_diseases();             // Set up disease lookup table
     init_savedata_translation_tables();
@@ -6499,6 +6498,7 @@ void game::use_item(char chInput)
   return;
  }
  last_action += ch;
+ refresh_all();
  u.use(this, ch);
 }
 
@@ -6509,7 +6509,6 @@ void game::use_wielded_item()
 
 bool game::choose_adjacent(std::string message, int &x, int &y)
 {
-    refresh_all();
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(w_terrain, 0, 0, query_text.c_str());

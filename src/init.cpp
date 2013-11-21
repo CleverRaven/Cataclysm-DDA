@@ -20,6 +20,7 @@
 #include "overmap.h"
 #include "artifact.h"
 #include "speech.h"
+#include "construction.h"
 
 #include <string>
 #include <vector>
@@ -112,6 +113,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/tool_qualities.json");
     ret.push_back("data/json/overmap_terrain.json");
     ret.push_back("data/json/recipes.json");
+    ret.push_back("data/json/construction.json");
 
     return ret;
 }
@@ -181,6 +183,8 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_tutorial_messages);
     type_function_map["overmap_terrain"] =
         new StaticFunctionAccessor(&load_overmap_terrain);
+    type_function_map["construction"] =
+        new StaticFunctionAccessor(&load_construction);
 
     mutations_category[""].clear();
     init_mutation_parts();
