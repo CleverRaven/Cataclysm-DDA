@@ -410,7 +410,8 @@ void place_construction(const std::string &desc)
                 y++;
             }
             for (unsigned i = 0; i < cons.size(); ++i) {
-                if (can_construct(cons[i], x, y)) {
+                if (can_construct(cons[i], x, y)
+                        && player_can_build(g->u, total_inv, cons[i])) {
                     valid[point(x, y)] = cons[i];
                 }
             }
