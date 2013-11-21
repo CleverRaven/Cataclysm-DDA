@@ -1285,7 +1285,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  //Having lupine or croc jaws makes it much easier to sink your fangs into people
     if (has_trait("FANGS") && (
-            (!wearing_something_on(bp_mouth) && !(has_trait("MUZZLE") && !has_trait("LONG_MUZZLE") &&
+            (!wearing_something_on(bp_mouth) && !has_trait("MUZZLE") && !has_trait("LONG_MUZZLE") &&
             one_in(20 - dex_cur - skillLevel("unarmed"))) ||
             (has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) ||
             (has_trait("LONG_MUZZLE") && one_in(15 - dex_cur - skillLevel("unarmed"))))) {
