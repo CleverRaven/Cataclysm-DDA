@@ -75,12 +75,14 @@ void game::init_construction()
    TOOL("ax");
    TOOLCONT("primitive_axe");
    TOOLCONT("chainsaw_on");
+   TOOLCONT("battleaxe");
 
  CONSTRUCT(_("Chop Tree trunk into logs"), 0, &construct::able_trunk, &construct::done_trunk_log);
   STAGE(t_dirt, 20);
    TOOL("ax");
    TOOLCONT("primitive_axe");
    TOOLCONT("chainsaw_on");
+   TOOLCONT("battleaxe");
 
  CONSTRUCT(_("Chop Tree trunk into planks"), 0, &construct::able_trunk, &construct::done_trunk_plank);
   STAGE(t_dirt, 23);
@@ -88,6 +90,8 @@ void game::init_construction()
    TOOLCONT("primitive_axe");
    TOOLCONT("chainsaw_on");
    TOOLCONT("saw");
+   TOOLCONT("battleaxe");
+
 
  CONSTRUCT(_("Move Furniture"), -1, &construct::able_move, &construct::done_move);
   STAGE(1);

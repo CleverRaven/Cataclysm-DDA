@@ -3431,6 +3431,30 @@
   },
 
   {
+    "id": "battleaxe",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "battle axe",
+    "description": "This is a massive axe designed for warfare. Though intended for use as a weapon, it can also be pressed into service as a rather clumsy woodcutting tool.",
+    "price": 105,
+    "material": ["steel", "wood"],
+    "weight": 3102,
+    "volume": 13,
+    "bashing": 20,
+    "cutting": 22,
+    "flags" : ["CHOP"],
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "LUMBER"
+  },
+
+  {
     "id": "hacksaw",
     "type": "TOOL",
     "symbol": ";",
