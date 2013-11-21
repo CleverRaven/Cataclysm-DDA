@@ -1291,7 +1291,8 @@ nc_color player::color()
   return c_pink;
  if (underwater)
   return c_blue;
- if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE))
+ if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
+    (is_wearing("optical_cloak") && (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))))
   return c_dkgray;
  return c_white;
 }
@@ -3179,6 +3180,15 @@ bool player::has_bionic(bionic_id b) const
    return true;
  }
  return false;
+}
+
+bool player::has_active_optcloak() {
+  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
+      && is_wearing("optical_cloak")) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool player::has_active_bionic(bionic_id b) const
@@ -5481,6 +5491,30 @@ void player::process_active_items(game *g)
             g->process_artifact(&(worn[i]), this);
         }
     }
+
+  // Drain UPS if using optical cloak.
+  // TODO: Move somewhere else.
+  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
+      && is_wearing("optical_cloak")) {
+    // Drain UPS.
+    if (has_charges("adv_UPS_on", 24)) {
+      use_charges("adv_UPS_on", 24);
+      if (charges_of("adv_UPS_on") < 120 && one_in(3))
+        g->add_msg_if_player(this, _("Your optical cloak flickers for a moment!"));
+    } else if (has_charges("UPS_on", 40)) {
+      use_charges("UPS_on", 40);
+      if (charges_of("UPS_on") < 200 && one_in(3))
+        g->add_msg_if_player(this, _("Your optical cloak flickers for a moment!"));
+    } else {
+      if (has_charges("adv_UPS_on", charges_of("adv_UPS_on"))) {
+          // Drain last power.
+          use_charges("adv_UPS_on", charges_of("adv_UPS_on"));
+      }
+      else {
+        use_charges("UPS_on", charges_of("UPS_on"));
+      }
+    }
+  }
 }
 
 // returns false if the item needs to be removed

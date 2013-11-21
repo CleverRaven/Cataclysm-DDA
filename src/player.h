@@ -144,6 +144,7 @@ public:
 
  bool has_bionic(bionic_id b) const;
  bool has_active_bionic(bionic_id b) const;
+ bool has_active_optcloak();
  void add_bionic(bionic_id b);
  void charge_power(int amount);
  void power_bionics(game *g);
