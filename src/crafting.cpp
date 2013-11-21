@@ -210,7 +210,7 @@ bool game::can_make(recipe *r)
      return can_make_with_inventory(r, crafting_inv);
 }
 
-bool game::can_make_with_inventory(recipe *r, inventory crafting_inv)
+bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
 {
     if(!u.knows_recipe(r))
     {
@@ -316,7 +316,7 @@ bool game::can_make_with_inventory(recipe *r, inventory crafting_inv)
     return check_enough_materials(r, crafting_inv);
 }
 
-bool game::check_enough_materials(recipe *r, inventory crafting_inv)
+bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
 {
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
@@ -989,7 +989,7 @@ inventory game::crafting_inventory(player *p){
  return crafting_inv;
 }
 
-void game::pick_recipes(inventory crafting_inv, std::vector<recipe*> &current,
+void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab,std::string filter)
 {
 

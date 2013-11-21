@@ -458,15 +458,13 @@ class game
   recipe* select_crafting_recipe();    // See crafting.cpp
   bool making_would_work(recipe *r);   // See crafting.cpp
   bool can_make(recipe *r);            // See crafting.cpp
-  bool can_make_with_inventory(recipe *r, inventory crafting_inv);            // See crafting.cpp
-    bool check_enough_materials(recipe *r, inventory crafting_inv);
+  bool can_make_with_inventory(recipe *r, const inventory& crafting_inv);            // See crafting.cpp
+    bool check_enough_materials(recipe *r, const inventory& crafting_inv);
   void make_craft(recipe *making);     // See crafting.cpp
   void make_all_craft(recipe *making); // See crafting.cpp
   void complete_craft();               // See crafting.cpp
-  void pick_recipes(inventory crafting_inv, std::vector<recipe*> &current,
+  void pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
-  void add_known_recipes(std::vector<recipe*> &current, recipe_list source,
-                             std::string filter = ""); //crafting.cpp
   craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
   craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
   void disassemble(char ch = 0);       // See crafting.cpp
