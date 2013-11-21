@@ -145,6 +145,20 @@
             [ [ "2x4", 10 ] ],
             [ [ "nail", 20 ] ]
         ],
+        "pre_terrain" : "t_window_empty",
+        "post_terrain" : "t_wall_half"
+    },{
+        "type" : "construction",
+        "description" : "Build Wall",
+        "difficulty" : 2,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 10 ] ],
+            [ [ "nail", 20 ] ]
+        ],
         "pre_special" : "check_empty",
         "post_terrain" : "t_wall_half"
     },{
