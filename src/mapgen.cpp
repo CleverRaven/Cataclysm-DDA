@@ -18,6 +18,10 @@
 #include <cassert>
 #include <list>
 
+#ifdef LUA
+#include "catalua.h"
+#endif
+
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
@@ -295,7 +299,6 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     }
 }
 /////////////
-#include "mapgen.h"
 std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
 
 /////////////
@@ -319,6 +322,30 @@ void mapgen_json(map * m,oter_id id,mapgendata md ,int t,float d, std::vector<st
         }
     }
 };
+
+// wip
+void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::string & scr) {
+#ifdef LUA
+    lua_mapgen(m, std::string(id), md, t, d, scr);
+#else
+    mapgen_crater(m,id,md,t,d);
+    mapf::formatted_set_terrain(m, 0, 6, 
+"\
+    *   *  ***\n\
+    **  * *   *\n\
+    * * * *   *\n\
+    *  ** *   *\n\
+    *   *  ***\n\
+\n\
+ *     *   *   *\n\
+ *     *   *  * *\n\
+ *     *   *  ***\n\
+ *     *   * *   *\n\
+ *****  ***  *   *\n\
+", mapf::basic_bind("*", t_paper), mapf::end()); // should never happen: overmap loader skips lua mapgens on !LUA builds. 
+
+#endif
+}
 
 /////////////
 // TODO: clean up variable shadowing in this function
@@ -385,7 +412,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
            mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(gptr->second[fld]);
            mapgen_json(this, terrain_type, facing_data, turn, density, mf->data ); // dummy stub todo
         } else if ( gptr->second[fld]->function_type() == MAPGENFUNC_LUA ) {
-           debugmsg("mapgen %s (%s): mapgen type 'lua' has not been written yet.",terrain_type.c_str(), terrain_type.t().id_base.c_str() );
+           mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(gptr->second[fld]);
+           mapgen_lua(this, terrain_type, facing_data, turn, density, mf->scr );
         } else {
            debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), terrain_type.t().id_base.c_str() );
         }
@@ -410,13 +438,6 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     } else if (terrain_type == "road_nesw" ||
                terrain_type == "road_nesw_manhole") {
         mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
-
-/*    } else if (is_ot_type("bridge", terrain_type)) {
-        mapgen_bridge(this, terrain_type, facing_data, turn, density);
-
-    } else if (is_ot_type("hiway", terrain_type)) {
-        mapgen_highway(this, terrain_type, facing_data, turn, density);
-*/
     } else if (terrain_type == "river_center") {
         fill_background(this, t_water_dp);
 

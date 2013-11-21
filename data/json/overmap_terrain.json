@@ -33,7 +33,31 @@
         "extras" : "field",
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "field_test" }
+            { "type": "builtin", "name": "field_test", "weight": -1, "comment": "weight < 1 disabbles" },
+            { "type": "lua", "comment": "Inlined, easier to edit", "script": [
+                "-- tertype, turn = ...",
+                "function g_or_d_or_p()",
+                "  if game.one_in(6) then",
+                "      return \"t_water_sh\"",
+                "  end",
+                "  if game.rng(1,4) == 1 then",
+                "    return \"t_grass\"",
+                "  end",
+                "  return \"t_dirt\"",
+                "end",
+                "x = 0",
+                "while x < 24 do",
+                "  y = 0",
+                "  while y < 24 do",
+                "    map:ter_set(x, y, g_or_d_or_p())",
+                "    y = y + 1",
+                "  end",
+                "  x = x + 1",
+                "end",
+                "map:place_items(\"field\", 60, 0, 0, 23, 23, 1, turn)",
+                "game.add_msg(\"generated oter=\"..tertype..\" turn=\"..turn)"
+              ]
+            }
         ]
     },{
         "type" : "overmap_terrain",

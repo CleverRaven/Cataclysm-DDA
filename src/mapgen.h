@@ -43,20 +43,17 @@ class mapgen_function_json : public virtual mapgen_function {
     }
 };
 
-extern std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
-
-
-
-// dummy tester
-/*
-void mapgen_json(map * m,oter_id id,mapgendata md ,int t,float d, std::vector<std::string> s) {
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            m->ter_set(i, j, s[j]);
-        }
+class mapgen_function_lua : public virtual mapgen_function {
+    public:
+    virtual void dummy_() {}
+    const std::string scr;
+    mapgen_function_lua(std::string s) : scr(s) {
+        ftype = MAPGENFUNC_LUA;
+//        scr = s;
     }
 };
-*/
+
+extern std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
 
 /// move to building_generation
 enum room_type {
