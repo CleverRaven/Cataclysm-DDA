@@ -1304,8 +1304,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE")) &&
-            one_in(18 - dex_cur - skillLevel("unarmed"))) {
+    if (!has_trait("FANGS") && has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) {
         special_attack tmp;
         tmp.cut = 4;
         if (is_u) {
