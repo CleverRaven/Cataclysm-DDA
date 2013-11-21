@@ -6485,6 +6485,7 @@ void game::use_item(char chInput)
   return;
  }
  last_action += ch;
+ refresh_all();
  u.use(this, ch);
 }
 
