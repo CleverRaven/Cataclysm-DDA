@@ -148,12 +148,32 @@ classes = {
             ter = {
                 args = {"int", "int"},
                 rval = "int"
+            },
+            ter_set = {
+                args = {"int", "int", "string"},
+                rval = nil
+            },
+            furn = {
+                args = {"int", "int"},
+                rval = "int"
+            },
+            furn_set = {
+                args = {"int", "int", "string"},
+                rval = nil
+            },
+            place_items = {
+                args = {"string", "int", "int", "int", "int",  "int", "bool", "int"},
+                rval = nil
             }
         }
     },
     ter_t = {
         attributes = {
             name = {
+                type = "string",
+                writable = false
+            },
+            id = {
                 type = "string",
                 writable = false
             },
@@ -212,6 +232,11 @@ global_functions = {
         args = { "cstring" },
         rval = nil
     },
+    popup = {
+        cpp_name = "popup",
+        args = { "cstring" },
+        rval = nil
+    },
     string_input_popup = {
         cpp_name = "string_input_popup",
         args = { "string", "int", "string" },
@@ -231,6 +256,11 @@ global_functions = {
         cpp_name = "rng",
         args = {"int", "int"},
         rval = "int"
+    },
+    one_in = {
+        cpp_name = "one_in",
+        args = {"int"},
+        rval = "bool"
     },
     distance = {
         cpp_name = "rl_dist",
