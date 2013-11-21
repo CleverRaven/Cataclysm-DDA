@@ -4492,6 +4492,7 @@ void player::suffer(game *g)
             illness[i].intensity--;
         }
         if (illness[i].duration <= 0 || illness[i].intensity == 0) {
+            dis_end_msg(*this, illness[i]);
             illness.erase(illness.begin() + i);
             i--;
         }

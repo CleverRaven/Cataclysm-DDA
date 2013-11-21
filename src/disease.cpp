@@ -255,6 +255,17 @@ void dis_msg(dis_type type_string) {
     }
 }
 
+void dis_end_msg(player &p, disease &dis)
+{
+    switch (disease_type_lookup[dis.type]) {
+    case DI_SLEEP:
+        g->add_msg_if_player(&p, _("You wake up."));
+        break;
+    default:
+        break;
+    }
+}
+
 void dis_remove_memorial(dis_type type_string) {
 
   dis_type_enum type = disease_type_lookup[type_string];
