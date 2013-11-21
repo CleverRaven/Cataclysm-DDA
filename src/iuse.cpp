@@ -3902,7 +3902,7 @@ int iuse::matchbomb_act(player *p, item *it, bool t) {
 
 int iuse::firecracker_pack(player *p, item *it, bool t)
 {
- if (!p->use_charges_if_avail("fire", 1)) {
+ if (!p->has_charges("fire", 1)) {
   g->add_msg_if_player(p,_("You need a lighter!"));
   return 0;
  }
@@ -3937,12 +3937,14 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
    mvwprintz(w, 2, mid_x, c_white, "%d ", charges); //Trailing space clears the second digit when decreasing from 10 to 9
    wrefresh(w);
   } else if(ch == 'A') {
+   p->use_charges("fire", 1);
    if(charges == it->charges) {
     g->add_msg_if_player(p,_("You light the pack of firecrackers."));
     it->make(itypes["firecracker_pack_act"]);
     it->charges = charges;
     it->bday = g->turn;
     it->active = true;
+    return 0; // don't use any charges at all. it has became a new item
    } else {
     if(charges == 1) {
      g->add_msg_if_player(p,_("You light one firecracker."));
@@ -3954,7 +3956,6 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
      g->add_msg_if_player(p,_("You light a string of %d firecrackers."), charges);
      item new_it = item(itypes["firecracker_pack_act"], int(g->turn));
      new_it.charges = charges;
-     new_it.bday = g->turn;
      new_it.active = true;
      p->i_add(new_it, g);
     }
@@ -3964,7 +3965,7 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
    }
    close = true;
   } else if(ch == 'C') {
-   close = true;
+   return 0; // don't use any charges at all
   }
   if(!close) {
    ch = getch();
