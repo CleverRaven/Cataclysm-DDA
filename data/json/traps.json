@@ -39,7 +39,7 @@
         "player_action" : "none",
         "monster_action" : "cot",
         "drops" : ["cot"],
-        "benign" : "true"
+        "benign" : true
     },
     {
         "type" : "trap",
@@ -54,7 +54,7 @@
         "player_action" : "none",
         "monster_action" : "none",
         "drops" : ["brazier"],
-        "benign" : "true"
+        "benign" : true
     },
     {
         "type" : "trap",
@@ -69,7 +69,7 @@
         "player_action" : "none",
         "monster_action" : "none",
         "drops" : ["funnel"],
-        "benign" : "true"
+        "benign" : true
     },
     {
         "type" : "trap",
@@ -84,7 +84,7 @@
         "player_action" : "none",
         "monster_action" : "none",
         "drops" : ["makeshift_funnel"],
-        "benign" : "true"
+        "benign" : true
     },
     {
         "type" : "trap",
@@ -99,7 +99,7 @@
         "player_action" : "none",
         "monster_action" : "none",
         "drops" : ["rollmat"],
-        "benign" : "true"
+        "benign" : true
     },
     {
         "type" : "trap",
@@ -114,7 +114,7 @@
         "player_action" : "none",
         "monster_action" : "none",
         "drops" : ["fur_rollmat"],
-        "benign" : "true"
+        "benign" : true
     },
     {
         "type" : "trap",
