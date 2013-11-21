@@ -245,12 +245,12 @@ task_reason veh_interact::cant_do (char mode)
 
     switch (mode) {
     case 'i': // install mode
-        enough_morale = g->u.morale_level() < MIN_MORALE_CRAFT;
+        enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && (has_welder || has_duct_tape);
         break;
     case 'r': // repair mode
-        enough_morale = g->u.morale_level() < MIN_MORALE_CRAFT;
+        enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = need_repair.size() > 0 && cpart >= 0;
         has_tools = has_welder || has_duct_tape;
         break;
@@ -259,7 +259,7 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = has_fuel;
         break;
     case 'o': // remove mode
-        enough_morale = g->u.morale_level() < MIN_MORALE_CRAFT;
+        enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
         has_tools = (has_wrench && has_hacksaw) || can_remove_wheel;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
