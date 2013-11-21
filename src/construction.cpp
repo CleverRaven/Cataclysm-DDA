@@ -380,6 +380,16 @@ bool can_construct(construction *con, int x, int y)
             place_okay &= g->m.has_flag(*it, x, y);
         }
     }
+    // make sure the construction would actually do something
+    if (con->post_terrain != "") {
+        if (con->post_is_furniture) {
+            furn_id f = furnmap[con->post_terrain].loadid;
+            place_okay &= (g->m.furn(x, y) != f);
+        } else {
+            ter_id t = termap[con->post_terrain].loadid;
+            place_okay &= (g->m.ter(x, y) != t);
+        }
+    }
     return place_okay;
 }
 
