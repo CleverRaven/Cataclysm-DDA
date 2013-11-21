@@ -2215,15 +2215,25 @@ void overmap::place_cities()
  int NUM_CITIES = dice(4, 4);
  int start_dir;
  int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
- int city_min = std::max(op_city_size - 2, 0);
- int city_max = op_city_size + 2;
- // Limit number of cities based on how big they are.
+ // Limit number of cities based on average size.
  NUM_CITIES = std::min(NUM_CITIES, int(256 / op_city_size * op_city_size));
+
+ // Generate a list of random cities in accordance with village/town/city rules.
+ int village_size = std::max(op_city_size - 2, 1);
+ int town_min = std::max(op_city_size - 1, 1);
+ int town_max = op_city_size + 1;
+ int city_size = op_city_size + 2;
 
  while (cities.size() < NUM_CITIES) {
   int cx = rng(12, OMAPX - 12);
   int cy = rng(12, OMAPY - 12);
-  int size = dice(city_min, city_max) ;
+  int size = village_size;
+  if (one_in(6)) {
+    size = city_size;
+  }
+  else if (one_in(3)) {
+    size = dice(town_min, town_max);
+  }
   if (ter(cx, cy, 0) == "field") {
    ter(cx, cy, 0) = "road_nesw";
    city tmp; tmp.x = cx; tmp.y = cy; tmp.s = size;
