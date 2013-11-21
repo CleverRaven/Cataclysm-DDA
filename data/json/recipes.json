@@ -60,7 +60,152 @@
       [ "battery", 200 ]
     ]
   ]
+},    {
+        "type" : "recipe",
+  "result": "bowl_pewter",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tin", 100 ]
+    ]
+  ]
 },{
+        "type" : "recipe",
+  "result": "silver",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 800 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "small_relic",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "badge_deputy",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "necklace",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "silver_small", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "ring",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hammer", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gold_small", 50 ]
+    ]
+  ]
+},
+{
         "type" : "recipe",
   "result": "usb_drive",
   "id_suffix": "uncraft",
@@ -635,7 +780,8 @@
   ],
   "components": [
     [
-      [ "rag", 1 ]
+      [ "rag", 1 ],
+      [ "duct_tape", 50 ]
     ],
     [
       [ "spike", 1 ]
@@ -845,6 +991,39 @@
       [ "duct_tape", 20 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "javelin_iron",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required": [ "traps", 1 ],
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 10]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "javelin", 1 ]
+     ],
+     [
+     ["scrap", 1]
+     ]
+    ]
 },{
         "type" : "recipe",
   "result": "spear_knife",
@@ -1176,6 +1355,7 @@
     ],
     [
       [ "whiskey", 14 ],
+      [ "single_malt_whiskey", 14 ],
       [ "vodka", 14 ],
       [ "rum", 14 ],
       [ "tequila", 14 ],
@@ -1876,6 +2056,48 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "mininuke_mod",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",  7],
+  "difficulty": 8,
+  "time": 95000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["screwdriver", -1],
+      ["toolset", -1]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      ["mininuke", 1]
+    ],
+    [
+      [ "cable", 2 ]
+    ],
+    [
+      [ "circuit", 1 ]
+    ],
+    [
+      [ "transponder", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "chainsaw_off",
   "category": "CC_WEAPON",
@@ -2409,6 +2631,7 @@
     ],
     [
       [ "whiskey", 5 ],
+      [ "single_malt_whiskey", 5 ],
       [ "vodka", 5 ],
       [ "rum", 5 ],
       [ "tequila", 5 ],
@@ -2836,7 +3059,11 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold_small", 200 ]
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
     ]
   ]
 },{
@@ -2871,7 +3098,12 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold_small", 100 ]
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
+
     ]
   ]
 },{
@@ -2906,7 +3138,12 @@
     ],
     [
       [ "lead", 40 ],
-      [ "gold_small", 40 ]
+      [ "gold_small", 40 ],
+      [ "silver_small", 40 ],
+      [ "tin", 40 ],
+      [ "bismuth", 40 ],
+      [ "solder_wire", 40 ]
+
     ]
   ]
 },{
@@ -2941,7 +3178,12 @@
     ],
     [
       [ "lead", 250 ],
-      [ "gold_small", 250 ]
+      [ "gold_small", 250 ],
+      [ "silver_small", 250 ],
+      [ "tin", 250 ],
+      [ "bismuth", 250 ],
+      [ "solder_wire", 250 ]
+
     ]
   ]
 },{
@@ -2976,7 +3218,12 @@
     ],
     [
       [ "lead", 125 ],
-      [ "gold_small", 125 ]
+      [ "gold_small", 125 ],
+      [ "silver_small", 125 ],
+      [ "tin", 125 ],
+      [ "bismuth", 125 ],
+      [ "solder_wire", 125 ]
+
     ]
   ]
 },{
@@ -3011,7 +3258,12 @@
     ],
     [
       [ "lead", 300 ],
-      [ "gold_small", 300 ]
+      [ "gold_small", 300 ],
+      [ "silver_small", 300 ],
+      [ "tin", 300 ],
+      [ "bismuth", 300 ],
+      [ "solder_wire", 300 ]
+
     ]
   ]
 },{
@@ -3046,7 +3298,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -3081,7 +3338,11 @@
     ],
     [
       [ "lead", 500 ],
-      [ "gold_small", 500 ]
+      [ "gold_small", 500 ],
+      [ "silver_small", 500 ],
+      [ "tin", 500 ],
+      [ "bismuth", 500 ]
+
     ]
   ]
 },{
@@ -3116,7 +3377,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -3151,7 +3417,12 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold_small", 100 ]
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
+
     ]
   ]
 },{
@@ -3186,7 +3457,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400]
+      [ "gold_small", 400],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 3]
@@ -3224,7 +3500,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 2 ]
@@ -3262,7 +3543,12 @@
     ],
     [
       [ "lead", 450 ],
-      [ "gold_small", 450]
+      [ "gold_small", 450],
+      [ "silver_small", 450 ],
+      [ "tin", 450 ],
+      [ "bismuth", 450 ],
+      [ "solder_wire", 450 ]
+
     ],
     [
       [ "cu_pipe", 2 ]
@@ -3300,7 +3586,12 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold_small", 200 ]
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+
     ]
   ]
 },{
@@ -3335,7 +3626,12 @@
     ],
     [
       [ "lead", 200 ],
-      [ "gold_small", 200 ]
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+
     ]
   ]
 },{
@@ -3370,7 +3666,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ] ,
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 4 ]
@@ -3408,7 +3709,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ],
     [
       [ "cu_pipe", 4 ]
@@ -3450,7 +3756,12 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold_small", 80 ]
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80 ]
+
     ]
   ]
 },{
@@ -3489,7 +3800,12 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold_small", 80 ]
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80 ]
+
     ]
   ]
 },{
@@ -3562,7 +3878,11 @@
     ],
     [
       [ "lead", 100 ],
-      [ "gold_small", 100 ]
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3600,7 +3920,12 @@
     ],
     [
       [ "lead", 80 ],
-      [ "gold_small", 80 ]
+      [ "gold_small", 80 ] ,
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3640,7 +3965,13 @@
       [ "gunpowder", 1000 ]
     ],
     [
-      [ "lead", 200 ]
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3714,13 +4045,17 @@
       [ "gunpowder", 1000 ]
     ],
     [
-      [ "lead", 380 ]
+      [ "lead", 380 ],
+      [ "gold_small", 380 ],
+      [ "silver_small", 380 ],
+      [ "tin", 380 ],
+      [ "bismuth", 380 ],
+      [ "solder_wire", 380 ]
     ],
     [
       [ "cu_pipe", 3 ]
     ]
   ]
-  
 },{
         "type" : "recipe",
   "result": "3006_incendiary",
@@ -3790,7 +4125,12 @@
     ],
     [
       [ "lead", 120 ],
-      [ "gold_small", 120 ]
+      [ "gold_small", 120 ],
+      [ "silver_small", 120 ],
+      [ "tin", 120 ],
+      [ "bismuth", 120 ],
+      [ "solder_wire", 120 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3828,7 +4168,12 @@
     ],
     [
       [ "lead", 120 ],
-      [ "gold_small", 120 ]
+      [ "gold_small", 120 ],
+      [ "silver_small", 120 ],
+      [ "tin", 120 ],
+      [ "bismuth", 120 ],
+      [ "solder_wire", 120 ]
+
     ],
     [
       [ "cu_pipe", 3 ]
@@ -3940,7 +4285,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -3975,7 +4325,12 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+
     ]
   ]
 },{
@@ -4010,7 +4365,11 @@
     ],
     [
       [ "lead", 400 ],
-      [ "gold_small", 400 ]
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
     ]
   ]
 },{
@@ -4048,8 +4407,8 @@
     ],
     [
       [ "nail", 160 ]
-    ]
-  ]
+     ]
+   ]
 },{
         "type" : "recipe",
   "result": "water_clean",
@@ -4191,6 +4550,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "javelin_iron", -1 ],
       [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
@@ -4226,6 +4586,38 @@
   "components": [
     [
       [ "dry_meat", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rehydrated_hflesh",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 1 ]],
+  "tools": [
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "dry_hflesh", 2 ]
     ],
     [
       [ "water_clean", 1 ]
@@ -4338,6 +4730,29 @@
   "components": [
     [
       [ "meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dry_hflesh",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 1 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 2 ]
     ]
   ]
 },{
@@ -4549,6 +4964,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "javelin_iron", -1 ],
       [ "spear_knife", -1 ],
       [ "tongs", -1 ]
         ]
@@ -4708,6 +5124,7 @@
       [ "pointy_stick", -1 ],
       [ "skewer", -1 ],
       [ "javelin", -1 ],
+      [ "javelin_iron", -1 ],
       [ "spear_knife", -1 ],
       [ "tongs", -1 ]
     ]
@@ -5339,7 +5756,8 @@
   "autolearn": true,
   "components": [
     [
-      [ "whiskey", 1 ]
+      [ "whiskey", 1 ],
+      [ "single_malt_whiskey", 1 ]
     ],
     [
       [ "coffee_syrup", 1 ]
@@ -5643,7 +6061,8 @@
       [ "powder_eggs", 5 ]
     ],
     [
-      [ "meat", 2 ]
+      [ "meat", 2 ],
+      [ "dry_meat", 2]
     ]
   ]
 },{
@@ -5669,23 +6088,23 @@
   ],
   "components": [
     [
-      [ "broth", 2 ],
-      [ "broth_bone", 2 ]
+      [ "broth", 1 ],
+      [ "broth_bone", 1 ]
     ],
     [
-      [ "meat", 2 ],
-      [ "meat_smoked", 2 ],
-      [ "dry_meat", 2 ],
-      [ "rehydrated_meat", 2 ],
+      [ "meat", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
       [ "sausage", 1 ],
-      [ "bacon", 2 ],
-      [ "powder_eggs", 15 ]
+      [ "bacon", 1 ],
+      [ "powder_eggs", 10 ]
     ],
     [
-      [ "veggy_wild", 2 ],
-      [ "veggy", 2 ],
-      [ "rehydrated_veggy", 2 ],
-      [ "dry_veggy", 2 ]
+      [ "veggy_wild", 1 ],
+      [ "veggy", 1 ],
+      [ "rehydrated_veggy", 1 ],
+      [ "dry_veggy", 1 ]
     ]
   ]
 },{
@@ -6486,6 +6905,47 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pizza_human",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 2 ]],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "human_flesh", 2 ],
+      [ "human_canned", 1 ],
+      [ "hflesh_vac", 2 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "dry_hflesh", 2 ]
+    ],
+    [
+      [ "sauce_red", 1 ],
+      [ "seasoning_italian", 5 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "spaghetti_bolognese",
   "category": "CC_FOOD",
   "skill_used": "cooking",
@@ -6527,6 +6987,51 @@
       [ "meat_canned", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "spaghetti_human",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spaghetti_raw", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "sauce_red", 1 ],
+      [ "tomato", 2 ]
+    ],
+    [
+      [ "human_flesh", 2 ],
+      [ "human_canned", 1 ],
+      [ "rehydrated_hflesh", 2 ],
+      [ "dry_hflesh", 2 ]
     ]
   ]
 },{
@@ -7359,16 +7864,49 @@
   ],
   "components": [
     [
-	  [ "mutagen_slime", 1 ]
+      [ "mutagen_slime", 1 ]
+    ],
+    [
+      [ "mutagen_plant", 1 ]
+    ],
+    [
+      [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "purifier", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mutagen_elfa",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_elfa", 10 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 31 ],
+      [ "hotplate", 31 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+	  [ "mutagen_slime", 2 ]
 	],
     [
       [ "mutagen_plant", 1 ]
     ],
     [
 	  [ "mutagen_bird", 1 ]
-    ],
-    [
-      [ "purifier", 3 ]
     ]
   ]
 },{
@@ -7409,6 +7947,39 @@
   ]
 },{
   "type" : "recipe",
+  "result": "mutagen_raptor",
+  "category": "CC_CHEM",
+  "skill_used": "cooking",
+  "requires_skills": [ "firstaid", 1 ],
+  "difficulty": 10,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_raptor", 9 ]],
+  "tools": [
+    [
+      [ "chemistry_set", 31 ],
+      [ "hotplate", 31 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "chemistry_set", -1 ]
+    ]
+  ],
+  "components": [
+    [
+	  [ "mutagen_lizard", 1 ]
+	],
+    [
+	  [ "mutagen_bird", 1 ]
+    ],
+    [
+      [ "purifier", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "disinfectant",
   "category": "CC_CHEM",
   "skill_used": "cooking",
@@ -7431,6 +8002,7 @@
   "components": [
     [
       [ "whiskey", 7 ],
+      [ "single_malt_whiskey", 7 ],
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "tequila", 7 ],
@@ -8745,6 +9317,39 @@
     ],
     [
       [ "scrap", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "veh_tracker",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "amplifier", 1 ]
+    ],
+    [
+      [ "transponder", 1 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ],
+    [
+      [ "cable", 10 ]
     ]
   ]
 },{
@@ -11720,6 +12325,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "primitive_knife",
+  "category": "CC_MISC",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ],
+	  [ "bone", 1 ]
+    ],
+    [
+      [ "rock", 1 ]
+    ],
+    [
+      [ "string_6", 1 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "plant_fibre", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "digging_stick",
   "category": "CC_MISC",
   "skill_used": "survival",
@@ -12628,6 +13267,7 @@
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
+      [ "single_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ]
@@ -12653,6 +13293,7 @@
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
+      [ "single_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ]
@@ -13391,6 +14032,7 @@
       [ "vodka", 7 ],
       [ "rum", 7 ],
       [ "whiskey", 7 ],
+      [ "single_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
@@ -13821,6 +14463,44 @@
     ],
     [
       [ "meat", 2 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "salt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bag_hflesh_vac",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 1 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "vac_sealer", 10 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "bag_plastic", 1 ]
+    ],
+    [
+      [ "human_flesh", 2 ]
     ],
     [
       [ "salt_water", 1 ],
@@ -14674,11 +15354,8 @@
         ["metal_tank", 1]
     ],
     [
-        ["steel_chunk", 1],
-        [ "scrap", 3 ]
-    ],
-    [
-        ["scrap", 6]
+        ["steel_chunk", 3],
+        [ "scrap", 9 ]
     ]
   ]
 },{
@@ -14724,11 +15401,55 @@
       ["metal_tank", 1]
     ],
     [
-      ["steel_chunk", 2],
-      [ "scrap", 6]
+      ["steel_chunk", 3],
+      [ "scrap", 9]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mininuke_launcher",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skill_sec": ["gun",3],
+  "difficulty": 8,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["goggles_welding", -1]
     ],
     [
-      ["scrap", 4]
+      ["hacksaw", -1], ["toolset", -1]
+    ],
+    [
+      ["screwdriver", -1], ["toolset", -1]
+    ],
+    [
+      ["wrench", -1], ["toolset", -1]
+    ],
+    [
+      ["welder", 200], ["welder_crude", 300], ["toolset", 8]
+    ]
+  ],
+  "components": [
+    [
+      ["pipe", 2],
+      ["rebar", 2]
+    ],
+    [
+      ["duct_tape", 200]
+    ],
+    [
+      ["2x4", 2],
+      ["stick", 2 ]
+    ],
+    [
+      ["spring", 2]
+    ],
+    [
+      ["steel_chunk", 3],
+      ["scrap", 9]
     ]
   ]
 },{
@@ -14822,7 +15543,7 @@
 },{
         "type" : "recipe",
   "result": "rebar_rail",
-  "category": "CC_WEAPON",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 36000,
@@ -14848,7 +15569,7 @@
 },{
         "type" : "recipe",
   "result": "steel_rail",
-  "category": "CC_MISC",
+  "category": "CC_AMMO",
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 30000,
@@ -15224,13 +15945,13 @@
 "qualities":[
     {"id":"CUT","level":1,"amount":1}
     ],
-  "tools": [ 
-    [ 
-      ["rock", -1], 
+  "tools": [
+    [
+      ["rock", -1],
       ["primitive_hammer", -1],
       ["hammer", -1],
       ["hatchet", -1],
-      ["toolset", -1] 
+      ["toolset", -1]
     ]
   ],
   "components": [
@@ -15274,7 +15995,7 @@
     [ ["fire", -1]  ] ],
   "components": [ [ ["meat_tainted", 12] ],
     [ ["vodka", 2] ],
-    [ ["whiskey", 2] ],
+    [ ["whiskey", 2], [ "single_malt_whiskey", 2 ] ],
     [ ["rum", 2] ] ]
 },{
         "type" : "recipe",
@@ -15302,6 +16023,51 @@
   "components": [
     [
       [ "meat", 1 ]
+    ],
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "cheese", 2 ], [ "can_cheese", 1]
+    ],
+    [
+      [ "pickle", 1],
+      [ "veggy_pickled", 1],
+      [ "onion", 1],
+      [ "tomato", 1]
+    ],
+    [
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "cheeseburgerhuman",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 3,
+   "time": 9000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 1 ]
     ],
     [
       [ "bread", 2 ],
@@ -16176,6 +16942,34 @@
     ]
     ]
 },{
+  "type" : "recipe",
+  "result" : "lawn_dart",
+  "category" : "CC_WEAPON",
+  "skill_used" : "fabrication",
+  "skills_required" : ["throw", 1],
+  "difficulty" : 8,
+  "time" : 30000,
+  "reversible" : false,
+  "autolearn" : true,
+  "tools" : [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+    [ 
+      ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+    ]
+  ],
+  "components" : [ 
+  [ 
+  ["plastic_chunk", 4] 
+  ],
+  [
+  [ "scrap", 2 ]
+  ]
+  ]
+},{
         "type" : "recipe",
   "result": "switchblade",
   "category": "CC_WEAPON",
@@ -16411,6 +17205,44 @@
   ]
 },{
         "type" : "recipe",
+  "result": "blade",
+  "id_suffix": "from steel",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ 
+     [ 
+      ["hammer", -1],
+      ["toolset", -1]
+     ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["forge", 100], ["char_forge", 20]
+     ]
+    ],
+  "components":
+    [
+     [
+      ["steel_chunk", 1],
+      ["scrap", 3]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "wrench",
   "category": "CC_MISC",
   "skill_used": "fabrication",
@@ -16430,6 +17262,44 @@
      ],
      [
       ["crucible", -1]
+     ],
+     [
+      ["forge", 200], ["char_forge", 40]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "jack",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "skills_required" : [ "mechanics", 3 ],
+  "time": 300000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["swage", -1]
      ],
      [
       ["forge", 200], ["char_forge", 40]
@@ -17291,6 +18161,48 @@
   ]
 },{
         "type" : "recipe",
+   "result": "bobburger",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 3,
+   "time": 8000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "cookbook_human", 1 ]],
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 1 ]
+    ],
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "pickle", 1],
+      [ "veggy_pickled", 1],
+      [ "onion", 1],
+      [ "tomato", 1]
+    ],
+    [
+      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
    "result": "blt",
    "category": "CC_FOOD",
    "skill_used": "cooking",
@@ -17325,6 +18237,71 @@
     ],
     [
       [ "tomato", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_t",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 6000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "meat", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+   "result": "sandwich_human",
+   "category": "CC_FOOD",
+   "skill_used": "cooking",
+   "difficulty": 1,
+   "time": 6000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "cookbook_human", 1 ]],
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+   "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 2 ],
+      [ "hardtack", 4]
+    ],
+    [
+      [ "human_flesh", 1 ]
     ]
   ]
 },{
@@ -18158,7 +19135,7 @@
     ],
   "components":
    [
-    [ 
+    [
      ["pilot_light", 1]
     ],
     [
@@ -18166,10 +19143,10 @@
      [ "steel_chunk", 12 ],
      [ "scrap", 36 ]
     ],
-    [ 
+    [
      [ "metal_tank", 1 ]
     ],
-    [ 
+    [
      [ "pipe", 3]
     ]
    ]
@@ -18206,7 +19183,7 @@
     ],
   "components":
     [
-     [ ["pilot_light", 1] 
+     [ ["pilot_light", 1]
     ],
     [
      [ "scrap", 4 ]
@@ -18251,10 +19228,10 @@
        [ "steel_chunk", 20 ],
        [ "scrap", 60 ]
      ],
-     [ 
+     [
        [ "metal_tank", 1 ]
      ],
-     [ 
+     [
        ["pipe", 6]
      ]
   ]
@@ -18308,7 +19285,7 @@
       [ "rag", 4 ]
     ],
     [
-      [ "charcoal", 10 ]
+      [ "charcoal", 15 ]
     ]
   ]
 },{
@@ -18596,8 +19573,7 @@
       ["plastic_chunk", 3]
     ]
   ]
-},
-  {
+},{
     "type" : "recipe",
     "result": "9mmfmj",
     "category": "CC_AMMO",
@@ -18629,15 +19605,17 @@
       ],
       [
         [ "lead", 150 ],
-        [ "gold_small", 150 ]
+        [ "gold_small", 150 ],
+        [ "silver_small", 150 ],
+        [ "tin", 150 ],
+        [ "bismuth", 150 ],
+        [ "solder_wire", 150 ]
       ],
       [
         [ "cu_pipe", 2 ]
       ]
     ]
-  },
-
-  {
+  },{
     "type" : "recipe",
     "result": "38_fmj",
     "category": "CC_AMMO",
@@ -18669,15 +19647,17 @@
       ],
       [
         [ "lead", 200 ],
-        [ "gold_small", 200 ]
+        [ "gold_small", 200 ],
+        [ "silver_small", 200 ],
+        [ "tin", 200 ],
+        [ "bismuth", 200 ],
+        [ "solder_wire", 200 ]
       ],
       [
         [ "cu_pipe", 2 ]
       ]
     ]
-  },
-
-  {
+   },{
     "type" : "recipe",
     "result": "40fmj",
     "category": "CC_AMMO",
@@ -18709,7 +19689,11 @@
       ],
       [
         [ "lead", 250 ],
-        [ "gold_small", 250 ]
+        [ "gold_small", 250 ],
+        [ "silver_small", 250 ],
+        [ "tin", 250 ],
+        [ "bismuth", 250 ],
+        [ "solder_wire", 250 ]
       ],
       [
         [ "cu_pipe", 2 ]
@@ -18751,10 +19735,15 @@
     [
       [ "lead", 200 ],
       [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ],
       [ "nail", 100 ]
     ]
   ]
-  },{
+  },
+{
   "type" : "recipe",
   "result": "power_armor_helmet_basic",
   "category": "CC_NONCRAFT",
@@ -18921,7 +19910,11 @@
       ],
       [
         [ "lead", 400 ],
-        [ "gold_small", 400 ]
+        [ "gold_small", 400 ],
+        [ "silver_small", 400 ],
+        [ "tin", 400 ],
+        [ "bismuth", 400 ],
+        [ "solder_wire", 400 ]
       ],
       [
         [ "cu_pipe", 3 ]
@@ -19272,9 +20265,6 @@
       [ "towel", 1 ]
     ],
     [
-      [ "rollmat", 1 ]
-    ],
-    [
       [ "boots_combat", 1 ]
     ],
     [
@@ -19309,6 +20299,45 @@
     ],
     [
       [ "sleeping_bag", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "wooden_barrel",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "toolset", -1 ],
+      [ "saw", -1 ]
+    ],
+    [
+      [ "toolset", -1 ],
+      [ "hammer", -1 ],
+      [ "primitive_hammer", -1 ]
+    ],
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["welder", 20],
+      ["welder_crude", 30],
+      ["toolset", 1]
+    ],
+    [
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "2x4", 30 ]
+    ],
+    [
+      [ "scrap", 6 ]
     ]
   ]
 }

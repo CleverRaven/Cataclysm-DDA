@@ -409,7 +409,8 @@
         "encumbrance" : 1,
         "bashing" : 4,
         "coverage" : 95,
-        "material_thickness" : 5
+        "material_thickness" : 5,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -433,7 +434,8 @@
         "bashing" : 4,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 95,
-        "material_thickness" : 5
+        "material_thickness" : 5,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -457,7 +459,8 @@
         "bashing" : 4,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 90,
-        "material_thickness" : 6
+        "material_thickness" : 6,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -1485,7 +1488,7 @@
         "enviromental_protection" : 10,
         "encumbrance" : 2,
         "bashing" : -5,
-        "flags" : ["VARSIZE","WATERPROOF", "HOOD"],
+        "flags" : ["VARSIZE","WATERPROOF", "HOOD", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -1509,7 +1512,7 @@
         "enviromental_protection" : 9,
         "encumbrance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -1533,7 +1536,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 4,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -1557,7 +1560,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 5,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -1576,7 +1579,7 @@
         "material" : ["kevlar", "plastic"],
         "volume" : 5,
         "cutting" : 0,
-        "warmth" : 25,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 12,
         "encumbrance" : 2,
@@ -1600,7 +1603,7 @@
         "material" : ["leather", "cotton"],
         "volume" : 7,
         "cutting" : 0,
-        "warmth" : 5,
+        "warmth" : 0,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "encumbrance" : 0,
@@ -3112,7 +3115,8 @@
         "bashing" : -3,
         "flags" : ["WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 3
+        "material_thickness" : 3,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -4302,6 +4306,29 @@
         "bashing" : -4,
         "coverage" : 30,
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "molle_pack",
+        "name" : "MOLLE pack",
+        "weight" : 966,
+        "color" : "green",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 60,
+        "symbol" : "[",
+        "description" : "The Modular Lightweight Load-carrying Equipment is an advanced military backpack. Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.",
+        "price" : 360,
+        "material" : ["cotton", "kevlar"],
+        "volume" : 12,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -4,
+        "coverage" : 35,
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",
@@ -5548,7 +5575,7 @@
         "material" : ["kevlar", "cotton"],
         "volume" : 42,
         "cutting" : 0,
-        "warmth" : 25,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 1,
@@ -5572,7 +5599,7 @@
         "material" : ["kevlar", "leather"],
         "volume" : 46,
         "cutting" : 0,
-        "warmth" : 25,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 2,
@@ -5603,7 +5630,8 @@
         "bashing" : 7,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 5
+        "material_thickness" : 5,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -5644,7 +5672,7 @@
         "material" : ["kevlar", "steel"],
         "volume" : 48,
         "cutting" : 0,
-        "warmth" : 25,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 3,
@@ -5692,7 +5720,7 @@
         "material" : ["steel", "kevlar"],
         "volume" : 12,
         "cutting" : 0,
-        "warmth" : 25,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 1,
@@ -5712,12 +5740,12 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of heavily customized, armored gloves, modified to be easy of wear while providing maximum protection under extreme conditions.",
+        "description" : "A pair of heavily customized, armored gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
         "price" : 180,
         "material" : ["kevlar", "steel"],
         "volume" : 4,
         "cutting" : 0,
-        "warmth" : 25,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 1,
@@ -5742,7 +5770,7 @@
         "material" : ["kevlar", "steel"],
         "volume" : 10,
         "cutting" : 0,
-        "warmth" : 25,
+        "warmth" : 15,
         "phase" : "solid",
         "enviromental_protection" : 5,
         "encumbrance" : 3,

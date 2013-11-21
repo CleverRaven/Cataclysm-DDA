@@ -316,6 +316,10 @@
             },
             {
                 "input_method":"keyboard",
+                "key":"."
+            },
+            {
+                "input_method":"keyboard",
                 "key":"RETURN"
             },
             {
@@ -363,6 +367,16 @@
         ]
     },
     {
+        "id":"SEC_SELECT",
+        "name":"Select",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"MOUSE_RIGHT"
+            }
+        ]
+    },
+    {
         "id":"SELECT",
         "name":"Select",
         "category":"LOOK",
@@ -390,6 +404,16 @@
             {
                 "input_method":"keyboard",
                 "key":"f"
+            }
+        ]
+    },
+    {
+        "id":"TOGGLE_SNAP_TO_TARGET",
+        "name":"Toggle Snap to Target",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"*"
             }
         ]
     }

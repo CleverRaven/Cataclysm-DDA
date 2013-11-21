@@ -2,2136 +2,1994 @@
     {
         "type" : "mutation",
         "id" : "FLEET",
-        "name": "Fleet-Footed",
-        "points": 3,
-        "description": "You can run more quickly than most, resulting in a 15% speed bonus on sure footing.",
-        "starting_trait": true,
-        "cancels": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
-        "changes_to": ["FLEET2"],
-        "category": ["MUTCAT_SPIDER"]
+        "name" : "Fleet-Footed",
+        "points" : 3,
+        "description" : "You can run more quickly than most, resulting in a 15% speed bonus on sure footing.",
+        "starting_trait" : true,
+        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
+        "changes_to" : ["FLEET2"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "PARKOUR",
-        "name": "Parkour Expert",
-        "points": 2,
-        "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Parkour Expert",
+        "points" : 2,
+        "description" : "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "QUICK",
-        "name": "Quick",
-        "points": 3,
-        "description": "You're just generally quick! You get a 10% bonus to action points.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_CHIMERA"]
+        "name" : "Quick",
+        "points" : 3,
+        "description" : "You're just generally quick! You get a 10% bonus to action points.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "OPTIMISTIC",
-        "name": "Optimist",
-        "points": 2,
-        "description": "Nothing gets you down! You savor the joys of life, ignore its hardships, and are generally happier than most people.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Optimist",
+        "points" : 2,
+        "description" : "Nothing gets you down! You savor the joys of life, ignore its hardships, and are generally happier than most people.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "FASTHEALER",
-        "name": "Fast Healer",
-        "points": 2,
-        "description": "You heal a little faster than most; sleeping will heal more lost HP.",
-        "starting_trait": true,
-        "cancels": ["ROT1", "ROT2", "ROT3"],
-        "changes_to": ["FASTHEALER2"],
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Fast Healer",
+        "points" : 2,
+        "description" : "You heal a little faster than most; sleeping will heal more lost HP.",
+        "starting_trait" : true,
+        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "changes_to" : ["FASTHEALER2"],
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
-        "name": "Light Eater",
-        "points": 3,
-        "description": "Your metabolism is a little slower, and you require less food than most.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
+        "name" : "Light Eater",
+        "points" : 3,
+        "description" : "Your metabolism is a little slower, and you require less food than most.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
         "id" : "PAINRESIST",
-        "name": "Pain Resistant",
-        "points": 2,
-        "description": "You have a high tolerance for pain.",
-        "starting_trait": true,
-        "valid": false,
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Pain Resistant",
+        "points" : 2,
+        "description" : "You have a high tolerance for pain.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION",
-        "name": "Night Vision",
-        "points": 1,
-        "description": "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
-        "starting_trait": true,
-        "changes_to": ["NIGHTVISION2"],
-        "category": ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
+        "name" : "Night Vision",
+        "points" : 1,
+        "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
+        "starting_trait" : true,
+        "changes_to" : ["NIGHTVISION2"],
+        "cancels": ["ELFA_NV", "ELFA_FNV"],
+        "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "POISRESIST",
-        "name": "Poison Resistant",
-        "points": 1,
-        "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
-        "starting_trait": true,
-        "category": ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER", "MUTCAT_MEDICAL"]
+        "name" : "Poison Resistant",
+        "points" : 1,
+        "description" : "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
+        "starting_trait" : true,
+        "category" : [
+            "MUTCAT_INSECT",
+            "MUTCAT_SLIME",
+            "MUTCAT_SPIDER",
+            "MUTCAT_MEDICAL"
+        ]
     },{
         "type" : "mutation",
         "id" : "FASTREADER",
-        "name": "Fast Reader",
-        "points": 1,
-        "description": "You're a quick reader, and can get through books a lot faster than most.",
-        "starting_trait": true,
-        "valid": false,
-        "cancels": ["ILLITERATE"]
+        "name" : "Fast Reader",
+        "points" : 1,
+        "description" : "You're a quick reader, and can get through books a lot faster than most.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["ILLITERATE"]
     },{
         "type" : "mutation",
         "id" : "TOUGH",
-        "name": "Tough",
-        "points": 3,
-        "description": "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
-        "starting_trait": true,
-        "valid": false,
-        "cancels": ["FRAIL", "GLASSJAW"]
+        "name" : "Tough",
+        "points" : 3,
+        "description" : "It takes a lot to bring you down! You get a 20% bonus to all hit points.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["FRAIL", "GLASSJAW"]
     },{
         "type" : "mutation",
         "id" : "THICKSKIN",
-        "name": "Thick-Skinned",
-        "points": 2,
-        "description": "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
-        "starting_trait": true,
-        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
-        "wet_protection":[
-         {
-            "part": "LEGS",
-            "ignored": 0,
-            "neutral": 1,
-            "good": 0
-         },
-         {
-            "part": "ARMS",
-            "neutral": 1
-         },
-         {
-            "part": "TORSO",
-            "neutral": 2
-         }
-      ]
+        "name" : "Thick-Skinned",
+        "points" : 2,
+        "description" : "Your skin is tough. Cutting damage is slightly reduced for you. Slightly decreases wet penalties.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
+        "wet_protection" : [
+            {
+                "part" : "LEGS",
+                "ignored" : 0,
+                "neutral" : 1,
+                "good" : 0
+            },{
+                "part" : "ARMS",
+                "neutral" : 1
+            },{
+                "part" : "TORSO",
+                "neutral" : 2
+            }
+        ]
     },{
         "type" : "mutation",
         "id" : "PACKMULE",
-        "name": "Packmule",
-        "points": 3,
-        "description": "You can manage to find space for anything! You can carry 40% more volume.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Packmule",
+        "points" : 3,
+        "description" : "You can manage to find space for anything! You can carry 40% more volume.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "FASTLEARNER",
-        "name": "Fast Learner",
-        "points": 3,
-        "description": "You have a flexible mind, allowing you to learn skills much faster than others. Note that this only applies to real-world experience, not to skill gain from other sources like books.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Fast Learner",
+        "points" : 3,
+        "description" : "You have a flexible mind, allowing you to learn skills much faster than others. Note that this only applies to real-world experience, not to skill gain from other sources like books.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "DEFT",
-        "name": "Deft",
-        "points": 2,
-        "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BIRD", "MUTCAT_BEAST"]
+        "name" : "Deft",
+        "points" : 2,
+        "description" : "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BIRD", "MUTCAT_BEAST", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "DRUNKEN",
-        "name": "Drunken Master",
-        "points": 2,
-        "description": "The ancient arts of drunken brawling come naturally to you! While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
-        "starting_trait": true,
-        "valid": false,
-        "cancels": ["LIGHTWEIGHT"]
+        "name" : "Drunken Master",
+        "points" : 2,
+        "description" : "The ancient arts of drunken brawling come naturally to you! While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["LIGHTWEIGHT"]
     },{
         "type" : "mutation",
         "id" : "GOURMAND",
-        "name": "Gourmand",
-        "points": 2,
-        "description": "You eat faster, and can eat and drink more, than anyone else! You also enjoy food more; delicious food is better for your morale, and you don't mind some unsavory meals.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Gourmand",
+        "points" : 2,
+        "description" : "You eat faster, and can eat and drink more, than anyone else! You also enjoy food more; delicious food is better for your morale, and you don't mind some unsavory meals.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "ANIMALEMPATH",
-        "name": "Animal Empathy",
-        "points": 1,
-        "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack. This only applies to natural animals such as woodland creatures.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BEAST"]
+        "name" : "Animal Empathy",
+        "points" : 1,
+        "description" : "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack. This only applies to natural animals such as woodland creatures.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
         "id" : "TERRIFYING",
-        "name": "Terrifying",
-        "points": 2,
-        "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_CHIMERA"]
+        "name" : "Terrifying",
+        "points" : 2,
+        "description" : "There's something about you that creatures find frightening, and they are more likely to try to flee.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "DISRESISTANT",
-        "name": "Disease Resistant",
-        "points": 1,
-        "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
-        "starting_trait": true,
-        "changes_to": ["DISIMMUNE"],
-        "category": ["MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
+        "name" : "Disease Resistant",
+        "points" : 1,
+        "description" : "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
+        "starting_trait" : true,
+        "changes_to" : ["DISIMMUNE"],
+        "category" : ["MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "ADRENALINE",
-        "name": "High Adrenaline",
-        "points": 3,
-        "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+        "name" : "High Adrenaline",
+        "points" : 3,
+        "description" : "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "SELFAWARE",
-        "name": "Self-aware",
-        "points": 1,
-        "description": "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
-        "starting_trait": true,
-        "valid": false,
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Self-aware",
+        "points" : 1,
+        "description" : "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "INCONSPICUOUS",
-        "name": "Inconspicuous",
-        "points": 2,
-        "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Inconspicuous",
+        "points" : 2,
+        "description" : "While sleeping or staying still, it is less likely that monsters will wander close to you.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "MASOCHIST",
-        "name": "Masochist",
-        "points": 2,
-        "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Masochist",
+        "points" : 2,
+        "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "STYLISH",
-        "name": "Stylish",
-        "points": 2,
-        "description": "Practicality is far less important than style. Even at the end of the world, it's important to look your best.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Stylish",
+        "points" : 2,
+        "description" : "Practicality is far less important than style. Your morale is improved by wearing fashionable and attractive clothing.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "LIGHTSTEP",
-        "name": "Light Step",
-        "points": 1,
-        "description": "You make less noise while walking. You're also less likely to set off traps.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BIRD"]
+        "name" : "Light Step",
+        "points" : 1,
+        "description" : "You make less noise while walking. You're also less likely to set off traps.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ROBUST",
-        "name": "Robust Genetics",
-        "points": 2,
-        "description": "You have a very strong genetic base. If you mutate, the odds that the mutation will be beneficial are greatly increased.",
-        "starting_trait": true,
-        "category": ["MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
+        "name" : "Robust Genetics",
+        "points" : 2,
+        "description" : "You have a very strong genetic base. If you mutate, the odds that the mutation will be beneficial are greatly increased.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "CANNIBAL",
-        "name": "Cannibal",
-        "points": 3,
-        "description": "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
-        "starting_trait": true,
-        "valid": false,
-        "cancels": ["VEGETARIAN"]
+        "name" : "Cannibal",
+        "points" : 3,
+        "description" : "For your whole life you've been forbidden from indulging in your peculiar tastes. Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["VEGETARIAN"]
     },{
         "type" : "mutation",
         "id" : "MARTIAL_ARTS",
-        "name": "Martial Arts Training",
-        "points": 3,
-        "description": "You have received some martial arts training at a local dojo. You start with your choice of karate, judo, aikido, tai chi, or taekwondo.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Martial Arts Training",
+        "points" : 3,
+        "description" : "You have received some martial arts training at a local dojo. You start with your choice of karate, judo, aikido, tai chi, or taekwondo.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "MARTIAL_ARTS2",
-        "name": "Self-Defense Classes",
-        "points": 3,
-        "description": "You have taken some self-defense classes at a nearby gym. You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Self-Defense Classes",
+        "points" : 3,
+        "description" : "You have taken some self-defense classes at a nearby gym. You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "LIAR",
-        "name": "Skilled Liar",
-        "points": 2,
-        "description": "You have no qualms about bending the truth, and have practically no tells. Telling lies and otherwise bluffing will be much easier for you.",
-        "starting_trait": true,
-        "cancels": ["TRUTHTELLER"]
+        "name" : "Skilled Liar",
+        "points" : 2,
+        "description" : "You have no qualms about bending the truth, and have practically no tells. Telling lies and otherwise bluffing will be much easier for you.",
+        "starting_trait" : true,
+        "cancels" : ["TRUTHTELLER"]
     },{
         "type" : "mutation",
         "id" : "PRETTY",
-        "name": "Pretty",
-        "points": 1,
-        "ugliness": -2,
-        "description": "You are a sight to behold. NPCs who care about such thing will react more kindly to you.",
-        "starting_trait": true,
-        "category": ["MUTCAT_ALPHA"],
-        "cancels": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "changes_to": ["BEAUTIFUL"]
+        "name" : "Pretty",
+        "points" : 1,
+        "ugliness" : -2,
+        "description" : "You are a sight to behold. NPCs who care about such thing will react more kindly to you.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_ALPHA"],
+        "cancels" : ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
+        "changes_to" : ["BEAUTIFUL"]
     },{
         "type" : "mutation",
         "id" : "MYOPIC",
-        "name": "Near-Sighted",
-        "points": -2,
-        "description": "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BEAST", "MUTCAT_TROGLO"]
+        "name" : "Near-Sighted",
+        "points" : -2,
+        "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
-        "name": "Far-Sighted",
-        "points": -2,
-        "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting. However, you are guaranteed to start with a pair of reading glasses.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Far-Sighted",
+        "points" : -2,
+        "description" : "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting. However, you are guaranteed to start with a pair of reading glasses.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER",
-        "name": "Heavy Sleeper",
-        "points": -1,
-        "description": "You're quite the heavy sleeper. Noises are unlikely to wake you up.",
-        "starting_trait": true,
-        "category": ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
+        "name" : "Heavy Sleeper",
+        "points" : -1,
+        "description" : "You're quite the heavy sleeper. Noises are unlikely to wake you up.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_INSECT", "MUTCAT_PLANT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "ASTHMA",
-        "name": "Asthmatic",
-        "points": -4,
-        "description": "You will occasionally need to use an inhaler, or else suffer severe physical limitations. However, you are guaranteed to start with an inhaler.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Asthmatic",
+        "points" : -4,
+        "description" : "You will occasionally need to use an inhaler, or else suffer severe physical limitations. However, you are guaranteed to start with an inhaler.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "BADBACK",
-        "name": "Bad Back",
-        "points": -3,
-        "description": "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BIRD"]
+        "name" : "Bad Back",
+        "points" : -3,
+        "description" : "You simply can not carry as much as people with a similar strength could. Your maximum weight carried is reduced by 35%.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ILLITERATE",
-        "name": "Illiterate",
-        "points": -5,
-        "description": "You never learned to read! Books and computers are off-limits to you.",
-        "starting_trait": true,
-        "valid": false,
-        "cancels": ["FASTREADER"]
+        "name" : "Illiterate",
+        "points" : -5,
+        "description" : "You never learned to read! Books and computers are off-limits to you.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["FASTREADER"]
     },{
         "type" : "mutation",
         "id" : "BADHEARING",
-        "name": "Poor Hearing",
-        "points": -2,
-        "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
-        "starting_trait": true,
-        "category": ["MUTCAT_PLANT"]
+        "name" : "Poor Hearing",
+        "points" : -2,
+        "description" : "Your hearing is poor, and you may not hear quiet or far-off noises.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "INSOMNIA",
-        "name": "Insomniac",
-        "points": -2,
-        "description": "You have a hard time falling asleep, even under the best circumstances!",
-        "starting_trait": true,
-        "valid": false,
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Insomniac",
+        "points" : -2,
+        "description" : "You have a hard time falling asleep, even under the best circumstances!",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "VEGETARIAN",
-        "name": "Meat Intolerance",
-        "points": -3,
-        "description": "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
-        "starting_trait": true,
-        "valid": false,
-        "cancels": ["CANNIBAL"]
+        "name" : "Meat Intolerance",
+        "points" : -3,
+        "description" : "You have problems with eating meat. It's possible for you to eat it, but you will suffer morale penalties due to nausea.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["CANNIBAL"]
     },{
         "type" : "mutation",
         "id" : "GLASSJAW",
-        "name": "Glass Jaw",
-        "points": -3,
-        "description": "Your head can't take much abuse. Its maximum HP is 20% lower than usual.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BIRD"],
-        "cancels": ["TOUGH"]
+        "name" : "Glass Jaw",
+        "points" : -3,
+        "description" : "Your head can't take much abuse. Its maximum HP is 20% lower than usual.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BIRD", "MUTCAT_RAPTOR"],
+        "cancels" : ["TOUGH"]
     },{
         "type" : "mutation",
         "id" : "FORGETFUL",
-        "name": "Forgetful",
-        "points": -3,
-        "description": "You have a hard time remembering things. Your skills will erode slightly faster than usual.",
-        "starting_trait": true,
-        "category": ["MUTCAT_BEAST", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+        "name" : "Forgetful",
+        "points" : -3,
+        "description" : "You have a hard time remembering things. Your skills will erode slightly faster than usual.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_BEAST", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "LIGHTWEIGHT",
-        "name": "Lightweight",
-        "points": -1,
-        "description": "Alcohol and drugs go straight to your head. You suffer the negative effects of these for longer.",
-        "starting_trait": true,
-        "category": ["MUTCAT_MEDICAL"],
-        "cancels": ["DRUNKEN"]
+        "name" : "Lightweight",
+        "points" : -1,
+        "description" : "Alcohol and drugs go straight to your head. You suffer the negative effects of these for longer.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_MEDICAL"],
+        "cancels" : ["DRUNKEN"]
     },{
         "type" : "mutation",
         "id" : "ADDICTIVE",
-        "name": "Addictive Personality",
-        "points": -3,
-        "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
-        "starting_trait": true,
-        "valid": false,
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Addictive Personality",
+        "points" : -3,
+        "description" : "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "TRIGGERHAPPY",
-        "name": "Trigger Happy",
-        "points": -2,
-        "description": "On rare occasion, you will go full-auto when you intended to fire a single shot. This has no effect when firing handguns or other semi-automatic firearms.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Trigger Happy",
+        "points" : -2,
+        "description" : "On rare occasion, you will go full-auto when you intended to fire a single shot. This has no effect when firing handguns or other semi-automatic firearms.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "SMELLY",
-        "name": "Smelly",
-        "points": -1,
-        "description": "Your scent is particularly strong. It's not offensive to humans, but animals that track your scent will do so more easily.",
-        "starting_trait": true,
-        "changes_to": ["SMELLY2"]
+        "name" : "Smelly",
+        "points" : -1,
+        "description" : "Your scent is particularly strong. It's not offensive to humans, but animals that track your scent will do so more easily.",
+        "starting_trait" : true,
+        "changes_to" : ["SMELLY2"]
     },{
         "type" : "mutation",
         "id" : "CHEMIMBALANCE",
-        "name": "Chemical Imbalance",
-        "points": -2,
-        "description": "You suffer from a minor chemical imbalance, whether mental or physical. Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
-        "starting_trait": true,
-        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+        "name" : "Chemical Imbalance",
+        "points" : -2,
+        "description" : "You suffer from a minor chemical imbalance, whether mental or physical. Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
+        "starting_trait" : true,
+        "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "SCHIZOPHRENIC",
-        "name": "Schizophrenic",
-        "points": -5,
-        "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations. Some of these effects may be controlled through the use of Thorazine.",
-        "starting_trait": true,
-        "valid": false,
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Schizophrenic",
+        "points" : -5,
+        "description" : "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations. Some of these effects may be controlled through the use of Thorazine.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "JITTERY",
-        "name": "Jittery",
-        "points": -3,
-        "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your dexterity.",
-        "starting_trait": true,
-        "valid": false,
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Jittery",
+        "points" : -3,
+        "description" : "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your dexterity.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "HOARDER",
-        "name": "Hoarder",
-        "points": -4,
-        "description": "You don't feel right unless you're carrying as much as you can. You suffer morale penalties for carrying less than maximum volume (weight is ignored). Xanax can help control this anxiety.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Hoarder",
+        "points" : -4,
+        "description" : "You don't feel right unless you're carrying as much as you can. You suffer morale penalties for carrying less than maximum volume (weight is ignored). Xanax can help control this anxiety.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "SAVANT",
-        "name": "Savant",
-        "points": -4,
-        "description": "You tend to specialize in one skill and be poor at all others. You advance at half speed in all skills except your best one. Note that combining this with Fast Learner will come out to a slower rate of learning for all skills.",
-        "starting_trait": true,
-        "valid": false
+        "name" : "Savant",
+        "points" : -4,
+        "description" : "You tend to specialize in one skill and be poor at all others. You advance at half speed in all skills except your best one. Note that combining this with Fast Learner will come out to a slower rate of learning for all skills.",
+        "starting_trait" : true,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "MOODSWINGS",
-        "name": "Mood Swings",
-        "points": -1,
-        "description": "Your morale will shift up and down at random, often dramatically.",
-        "starting_trait": true,
-        "valid": false,
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Mood Swings",
+        "points" : -1,
+        "description" : "Your morale will shift up and down at random, often dramatically.",
+        "starting_trait" : true,
+        "valid" : false,
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "WEAKSTOMACH",
-        "name": "Weak Stomach",
-        "points": -1,
-        "description": "You are more likely to throw up from food poisoning, alcohol, etc.",
-        "starting_trait": true,
-        "changes_to": ["NAUSEA"]
+        "name" : "Weak Stomach",
+        "points" : -1,
+        "description" : "You are more likely to throw up from food poisoning, alcohol, etc.",
+        "starting_trait" : true,
+        "changes_to" : ["NAUSEA"]
     },{
         "type" : "mutation",
         "id" : "WOOLALLERGY",
-        "name": "Wool Allergy",
-        "points": -1,
-        "description": "You are badly allergic to wool, and can not wear any clothing made of the substance.",
-        "starting_trait": true,
-        "valid": true
+        "name" : "Wool Allergy",
+        "points" : -1,
+        "description" : "You are badly allergic to wool, and can not wear any clothing made of the substance.",
+        "starting_trait" : true,
+        "valid" : true
     },{
         "type" : "mutation",
         "id" : "TRUTHTELLER",
-        "name": "Truth Teller",
-        "points": -2,
-        "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed. Telling lies and otherwise bluffing will be much more difficult for you.",
-        "starting_trait": true,
-        "cancels": ["LIAR"]
+        "name" : "Truth Teller",
+        "points" : -2,
+        "description" : "When you try to tell a lie, you blush, stammer, and get all shifty-eyed. Telling lies and otherwise bluffing will be much more difficult for you.",
+        "starting_trait" : true,
+        "cancels" : ["LIAR"]
     },{
         "type" : "mutation",
         "id" : "UGLY",
-        "name": "Ugly",
-        "points": -1,
-        "ugliness": 2,
-        "description": "You're not much to look at. NPCs who care about such things will react poorly to you.",
-        "starting_trait": true,
-        "cancels": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "changes_to": ["DEFORMED"]
+        "name" : "Ugly",
+        "points" : -1,
+        "ugliness" : 2,
+        "description" : "You're not much to look at. NPCs who care about such things will react poorly to you.",
+        "starting_trait" : true,
+        "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
+        "changes_to" : ["DEFORMED"],
+        "categories": ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "FRAIL",
-        "name": "Frail",
-        "points": -6,
-        "description": "Your whole body can't take much abuse. Its maximum HP is 75% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
-        "starting_trait": true,
-        "valid": false,
-        "cancels": ["TOUGH"]
+        "name" : "Frail",
+        "points" : -6,
+        "description" : "Your whole body can't take much abuse. Its maximum HP is 75% points lower than usual. Stacks with Glass Jaw. Not for casuals.",
+        "starting_trait" : true,
+        "valid" : false,
+        "cancels" : ["TOUGH"]
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
-        "name": "Rough Skin",
-        "points": 0,
-        "visibility": 2,
-        "ugliness": 1,
-        "description": "Your skin is slightly rough. This has no gameplay effect.",
-        "changes_to": ["SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN"],
-        "category": ["MUTCAT_LIZARD"]
+        "name" : "Rough Skin",
+        "points" : 0,
+        "visibility" : 2,
+        "ugliness" : 1,
+        "description" : "Your skin is slightly rough. This has no gameplay effect.",
+        "changes_to" : ["SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN"],
+        "category" : ["MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION2",
-        "name": "High Night Vision",
-        "points": 3,
-        "description": "You can see incredibly well in the dark!",
-        "prereqs": ["NIGHTVISION"],
-        "changes_to": ["NIGHTVISION3"],
-        "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
+        "name" : "High Night Vision",
+        "points" : 3,
+        "description" : "You can see incredibly well in the dark!",
+        "prereqs" : ["NIGHTVISION"],
+        "changes_to" : ["NIGHTVISION3"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
-        "name": "Full Night Vision",
-        "points": 5,
-        "description": "You can see in pitch blackness as if you were wearing night-vision goggles.",
-        "prereqs": ["NIGHTVISION2"],
-        "leads_to": ["INFRARED"],
-        "category": ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+        "name" : "Full Night Vision",
+        "points" : 5,
+        "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.",
+        "prereqs" : ["NIGHTVISION2"],
+        "leads_to" : ["INFRARED"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV"],
+        "category" : ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+	},{
+        "type" : "mutation",
+        "id" : "ELFAEYES",
+        "name" : "Fey Eyes",
+        "points" : 1,
+        "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
+        "leads_to" : ["ELFA_NV"],
+        "valid" : false,
+        "category" : ["MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "ELFA_NV",
+        "name" : "Fey Vision",
+        "points" : 3,
+        "description" : "The shadows don't seem as dark now.",
+        "prereqs" : ["ELFAEYES"],
+        "changes_to" : ["ELFA_FNV"],
+        "cancels" : ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "category" : ["MUTCAT_ELFA"]
+    },{
+        "type" : "mutation",
+        "id" : "ELFA_FNV",
+        "name" : "Fey Nightsight",
+        "points" : 5,
+        "description" : "You can see clearly, even in the darkest caves and under moonless skies.",
+        "prereqs" : ["ELFA_NV"],
+        "cancels" : ["NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "INFRARED",
-        "name": "Infrared Vision",
-        "points": 5,
-        "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
-        "prereqs": ["NIGHTVISION3"],
-        "category": ["MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+        "name" : "Infrared Vision",
+        "points" : 5,
+        "description" : "Your eyes have mutated to pick up radiation in the infrared spectrum.",
+        "prereqs" : ["NIGHTVISION3"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "LIZ_EYE",
-        "name": "Reptilian Eyes",
-        "points": 0,
-        "visibility": 2,
-        "ugliness": 1,
-        "description": "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
-        "leads_to": ["LIZ_IR"],
-        "category": ["MUTCAT_LIZARD"]
+        "name" : "Reptilian Eyes",
+        "points" : 0,
+        "visibility" : 2,
+        "ugliness" : 1,
+        "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
+        "leads_to" : ["LIZ_IR"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "LIZ_IR",
-        "name": "Reptilian IR",
-        "points": 5,
-        "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
-        "prereqs": ["LIZ_EYE"],
-        "category": ["MUTCAT_LIZARD"]
+        "name" : "Reptilian IR",
+        "points" : 5,
+        "description" : "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
+        "prereqs" : ["LIZ_EYE"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "FASTHEALER2",
-        "name": "Very Fast Healer",
-        "points": 5,
-        "description": "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
-        "cancels": ["ROT1", "ROT2", "ROT3"],
-        "prereqs": ["FASTHEALER"],
-        "changes_to": ["REGEN"],
-        "category": ["MUTCAT_PLANT"]
+        "name" : "Very Fast Healer",
+        "points" : 5,
+        "description" : "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
+        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "prereqs" : ["FASTHEALER"],
+        "changes_to" : ["REGEN"],
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "REGEN",
-        "name": "Regeneration",
-        "points": 10,
-        "description": "Your flesh regenerates from wounds incredibly quickly.",
-        "cancels": ["ROT1", "ROT2", "ROT3"],
-        "prereqs": ["FASTHEALER2"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_TROGLO"]
+        "name" : "Regeneration",
+        "points" : 10,
+        "description" : "Your flesh regenerates from wounds incredibly quickly.",
+        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "prereqs" : ["FASTHEALER2"],
+        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
         "id" : "FANGS",
-        "name": "Fangs",
-        "points": 2,
-        "visibility": 2,
-        "ugliness": 2,
-        "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
-        "cancels": ["BEAK"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+        "name" : "Fangs",
+        "points" : 2,
+        "visibility" : 2,
+        "ugliness" : 2,
+        "description" : "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
+        "cancels" : ["BEAK"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "MEMBRANE",
-        "name": "Nictitating Membrane",
-        "points": 1,
-        "visibility": 1,
-        "ugliness": 2,
-        "description": "You have a second set of clear eyelids which lower while underwater, allowing you to see as though you were wearing goggles. Slightly decreases wet penalties.",
-        "prereqs": ["EYEBULGE"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_FISH"],
-        "wet_protection":[
-         {
-            "part": "EYES",
-            "neutral": 1
-         }
-      ]
+        "name" : "Nictitating Membrane",
+        "points" : 1,
+        "visibility" : 1,
+        "ugliness" : 2,
+        "description" : "You have a second set of clear eyelids which lower while underwater, allowing you to see as though you were wearing goggles. Slightly decreases wet penalties.",
+        "prereqs" : ["EYEBULGE"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH"],
+        "wet_protection" : [
+            { "part" : "EYES", "neutral" : 1 }
+        ]
     },{
         "type" : "mutation",
         "id" : "GILLS",
-        "name": "Gills",
-        "points": 3,
-        "visibility": 5,
-        "ugliness": 3,
-        "description": "You've grown a set of gills in your neck, allowing you to breathe underwater. Slightly increases wet benefits.",
-        "category": ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "good": 1
-         }
-      ]
+        "name" : "Gills",
+        "points" : 3,
+        "visibility" : 5,
+        "ugliness" : 3,
+        "description" : "You've grown a set of gills in your neck, allowing you to breathe underwater. Slightly increases wet benefits.",
+        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "HEAD", "good" : 1 }
+        ]
     },{
         "type" : "mutation",
         "id" : "SCALES",
-        "name": "Scales",
-        "points": 6,
-        "visibility": 10,
-        "ugliness": 3,
-        "description": "A set of flexible green scales has grown to cover your body, acting as natural armor. Somewhat reduces wet effects.",
-        "category": ["MUTCAT_CHIMERA"],
-        "prereqs": ["SKIN_ROUGH"],
-        "changes_to": ["THICK_SCALES", "SLEEK_SCALES"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 3
-         },
-         {
-            "part": "LEGS",
-            "ignored": 10
-         },
-         {
-            "part": "FEET",
-            "ignored": 3
-         },
-         {
-            "part": "ARMS",
-            "ignored": 9
-         },
-         {
-            "part": "HANDS",
-            "ignored": 2
-         },
-         {
-            "part": "TORSO",
-            "ignored": 20
-         }
-      ]
+        "name" : "Scales",
+        "points" : 6,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "A set of flexible green scales has grown to cover your body, acting as natural armor. Somewhat reduces wet effects.",
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
+        "prereqs" : ["SKIN_ROUGH"],
+        "changes_to" : ["THICK_SCALES", "SLEEK_SCALES"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 3 },
+            { "part" : "LEGS", "ignored" : 10 },
+            { "part" : "FEET", "ignored" : 3 },
+            { "part" : "ARMS", "ignored" : 9 },
+            { "part" : "HANDS", "ignored" : 2 },
+            { "part" : "TORSO", "ignored" : 20 }
+        ]
     },{
         "type" : "mutation",
         "id" : "THICK_SCALES",
-        "name": "Thick Scales",
-        "points": 6,
-        "visibility": 10,
-        "ugliness": 4,
-        "description": "A set of heavy green scales has grown to cover your body, acting as natural armor. While difficult to penetrate, it also limits your flexibility, resulting in a -2 penalty to Dexterity. Greatly reduces wet effects.",
-        "prereqs": ["SCALES"],
-        "cancels": ["SLEEK_SCALES", "FEATHERS"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 5
-         },
-         {
-            "part": "LEGS",
-            "ignored": 16
-         },
-         {
-            "part": "FEET",
-            "ignored": 5
-         },
-         {
-            "part": "ARMS",
-            "ignored": 14
-         },
-         {
-            "part": "HANDS",
-            "ignored": 4
-         },
-         {
-            "part": "TORSO",
-            "ignored": 30
-         }
-      ]
+        "name" : "Thick Scales",
+        "points" : 6,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "A set of heavy green scales has grown to cover your body, acting as natural armor. While difficult to penetrate, it also limits your flexibility, resulting in a -2 penalty to Dexterity. Greatly reduces wet effects.",
+        "prereqs" : ["SCALES"],
+        "cancels" : ["SLEEK_SCALES", "FEATHERS"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 5 },
+            { "part" : "LEGS", "ignored" : 16 },
+            { "part" : "FEET", "ignored" : 5 },
+            { "part" : "ARMS", "ignored" : 14 },
+            { "part" : "HANDS", "ignored" : 4 },
+            { "part" : "TORSO", "ignored" : 30 }
+        ]
     },{
         "type" : "mutation",
         "id" : "SLEEK_SCALES",
-        "name": "Sleek Scales",
-        "points": 8,
-        "visibility": 10,
-        "ugliness": 4,
-        "description": "A set of very flexible and slick scales has grown to cover your body. These act as weak natural armor, improve your ability to swim, and make you difficult to grab. Mostly reduces wet effects.",
-        "prereqs": ["SCALES"],
-        "cancels": ["THICK_SCALES", "FEATHERS"],
-        "category": ["MUTCAT_FISH"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 7
-         },
-         {
-            "part": "LEGS",
-            "ignored": 21
-         },
-         {
-            "part": "FEET",
-            "ignored": 6
-         },
-         {
-            "part": "ARMS",
-            "ignored": 19
-         },
-         {
-            "part": "HANDS",
-            "ignored": 5
-         },
-         {
-            "part": "TORSO",
-            "ignored": 40
-         }
-      ]
+        "name" : "Sleek Scales",
+        "points" : 8,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "A set of very flexible and slick scales has grown to cover your body. These act as weak natural armor, improve your ability to swim, and make you difficult to grab. Mostly reduces wet effects.",
+        "prereqs" : ["SCALES"],
+        "cancels" : ["THICK_SCALES", "FEATHERS"],
+        "category" : ["MUTCAT_FISH"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 7 },
+            { "part" : "LEGS", "ignored" : 21 },
+            { "part" : "FEET", "ignored" : 6 },
+            { "part" : "ARMS", "ignored" : 19 },
+            { "part" : "HANDS", "ignored" : 5 },
+            { "part" : "TORSO", "ignored" : 40 }
+        ]
     },{
         "type" : "mutation",
         "id" : "LIGHT_BONES",
-        "name": "Light Bones",
-        "points": 2,
-        "description": "Your bones are very light. This enables you to run and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
-        "changes_to": ["HOLLOW_BONES"]
+        "name" : "Light Bones",
+        "points" : 2,
+        "description" : "Your bones are very light. This enables you to run and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
+        "changes_to" : ["HOLLOW_BONES"]
     },{
         "type" : "mutation",
         "id" : "FEATHERS",
-        "name": "Feathers",
-        "points": 2,
-        "visibility": 10,
-        "ugliness": 3,
-        "description": "Iridescent feathers have grown to cover your entire body, providing a marginal protection against attacks and minor protection from cold. They also provide a natural waterproofing.",
-        "prereqs": ["SKIN_ROUGH"],
-        "cancels": ["THICK_SCALES", "SLEEK_SCALES"],
-        "category": ["MUTCAT_BIRD"]
+        "name" : "Feathers",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "Iridescent feathers have grown to cover your entire body, providing a marginal protection against attacks and minor protection from cold. They also provide a natural waterproofing.",
+        "prereqs" : ["SKIN_ROUGH"],
+        "cancels" : ["THICK_SCALES", "SLEEK_SCALES"],
+        "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
         "id" : "LIGHTFUR",
-        "name": "Lightly Furred",
-        "points": 1,
-        "visibility": 6,
-        "ugliness": 2,
-        "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
-        "category": ["MUTCAT_CHIMERA"],
-        "prereqs": ["SKIN_ROUGH"],
-        "cancels": ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "changes_to": ["FUR"]
+        "name" : "Lightly Furred",
+        "points" : 1,
+        "visibility" : 6,
+        "ugliness" : 2,
+        "description" : "Light fur has grown to cover your entire body, providing slight protection from cold.",
+        "category" : ["MUTCAT_CHIMERA"],
+        "prereqs" : ["SKIN_ROUGH"],
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
+        "changes_to" : ["FUR"]
     },{
         "type" : "mutation",
         "id" : "FUR",
-        "name": "Furry",
-        "points": 2,
-        "visibility": 10,
-        "ugliness": 3,
-        "description": "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
-        "cancels": ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "prereqs": ["LIGHTFUR"],
-        "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
+        "name" : "Furry",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
+        "prereqs" : ["LIGHTFUR"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "CHITIN",
-        "name": "Chitinous Skin",
-        "points": 2,
-        "visibility": 3,
-        "ugliness": 2,
-        "description": "Your epidermis has turned into a thin, flexible layer of chitin. It provides minor protection from cutting wounds. Slightly reduces wet effects.",
-        "prereqs": ["SKIN_ROUGH"],
-        "cancels": ["SCALES", "FEATHERS", "LIGHTFUR", "PLANTSKIN"],
-        "changes_to": ["CHITIN2"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 1
-         },
-         {
-            "part": "LEGS",
-            "ignored": 5
-         },
-         {
-            "part": "FEET",
-            "ignored": 1
-         },
-         {
-            "part": "ARMS",
-            "ignored": 4
-         },
-         {
-            "part": "HANDS",
-            "ignored": 1
-         },
-         {
-            "part": "TORSO",
-            "ignored": 10
-         }
-      ]
+        "name" : "Chitinous Skin",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "Your epidermis has turned into a thin, flexible layer of chitin. It provides minor protection from cutting wounds. Slightly reduces wet effects.",
+        "prereqs" : ["SKIN_ROUGH"],
+        "cancels" : ["SCALES", "FEATHERS", "LIGHTFUR", "PLANTSKIN"],
+        "changes_to" : ["CHITIN2"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 1 },
+            { "part" : "LEGS", "ignored" : 5 },
+            { "part" : "FEET", "ignored" : 1 },
+            { "part" : "ARMS", "ignored" : 4 },
+            { "part" : "HANDS", "ignored" : 1 },
+            { "part" : "TORSO", "ignored" : 10 }
+        ]
     },{
         "type" : "mutation",
         "id" : "CHITIN2",
-        "name": "Chitinous Armor",
-        "points": 2,
-        "visibility": 6,
-        "ugliness": 3,
-        "description": "You've grown a chitin exoskeleton, much like that of an insect. It provides considerable physical protection, but reduces your dexterity by 1. Somewhat reduces wet effects.",
-        "prereqs": ["CHITIN"],
-        "changes_to": ["CHITIN3"],
-        "category": ["MUTCAT_INSECT"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 2
-         },
-         {
-            "part": "LEGS",
-            "ignored": 9
-         },
-         {
-            "part": "FEET",
-            "ignored": 2
-         },
-         {
-            "part": "ARMS",
-            "ignored": 8
-         },
-         {
-            "part": "HANDS",
-            "ignored": 2
-         },
-         {
-            "part": "TORSO",
-            "ignored": 18
-         }
-      ]
+        "name" : "Chitinous Armor",
+        "points" : 2,
+        "visibility" : 6,
+        "ugliness" : 3,
+        "description" : "You've grown a chitin exoskeleton, much like that of an insect. It provides considerable physical protection, but reduces your dexterity by 1. Somewhat reduces wet effects.",
+        "prereqs" : ["CHITIN"],
+        "changes_to" : ["CHITIN3"],
+        "category" : ["MUTCAT_INSECT"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 2 },
+            { "part" : "LEGS", "ignored" : 9 },
+            { "part" : "FEET", "ignored" : 2 },
+            { "part" : "ARMS", "ignored" : 8 },
+            { "part" : "HANDS", "ignored" : 2 },
+            { "part" : "TORSO", "ignored" : 18 }
+        ]
     },{
         "type" : "mutation",
         "id" : "CHITIN3",
-        "name": "Chitinous Plate",
-        "points": 2,
-        "visibility": 8,
-        "ugliness": 5,
-        "description": "You've grown a chitin exoskeleton made of thick, stiff plates. It provides excellent physical protection, but reduces your dexterity by 1 and encumbers all body parts but your eyes and mouth. Greatly reduces wet effects.",
-        "prereqs": ["CHITIN2"],
-        "category": ["MUTCAT_SPIDER"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 4
-         },
-         {
-            "part": "LEGS",
-            "ignored": 14
-         },
-         {
-            "part": "FEET",
-            "ignored": 4
-         },
-         {
-            "part": "ARMS",
-            "ignored": 12
-         },
-         {
-            "part": "HANDS",
-            "ignored": 3
-         },
-         {
-            "part": "TORSO",
-            "ignored": 26
-         }
-      ]
+        "name" : "Chitinous Plate",
+        "points" : 2,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "You've grown a chitin exoskeleton made of thick, stiff plates. It provides excellent physical protection, but reduces your dexterity by 1 and encumbers all body parts but your eyes and mouth. Greatly reduces wet effects.",
+        "prereqs" : ["CHITIN2"],
+        "category" : ["MUTCAT_SPIDER"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 4 },
+            { "part" : "LEGS", "ignored" : 14 },
+            { "part" : "FEET", "ignored" : 4 },
+            { "part" : "ARMS", "ignored" : 12 },
+            { "part" : "HANDS", "ignored" : 3 },
+            { "part" : "TORSO", "ignored" : 26 }
+        ]
     },{
         "type" : "mutation",
         "id" : "SPINES",
-        "name": "Spines",
-        "points": 1,
-        "description": "Your skin is covered with fine spines. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive moderate damage.",
-        "changes_to": ["QUILLS"]
+        "name" : "Spines",
+        "points" : 1,
+        "description" : "Your skin is covered with fine spines. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive moderate damage.",
+        "changes_to" : ["QUILLS"]
     },{
         "type" : "mutation",
         "id" : "QUILLS",
-        "name": "Quills",
-        "points": 3,
-        "description": "Your body is covered with large quills. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive significant damage.",
-        "prereqs": ["SPINES"]
+        "name" : "Quills",
+        "points" : 3,
+        "description" : "Your body is covered with large quills. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive significant damage.",
+        "prereqs" : ["SPINES"]
     },{
         "type" : "mutation",
         "id" : "PLANTSKIN",
-        "name": "Phelloderm",
-        "points": 4,
-        "visibility": 3,
-        "ugliness": 2,
-        "description": "Your skin is light green and has a slightly woody quality to it. This provides a weak armor, and helps you retain moisture, resulting in less thirst. Greatly decreases wet penalties.",
-        "cancels": ["FEATHERS", "LIGHTFUR", "FUR", "CHITIN", "CHITIN2", "CHITIN3", "SCALES"],
-        "changes_to": ["BARK"],
-        "leads_to": ["THORNS", "LEAVES"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "neutral": 4
-         },
-         {
-            "part": "LEGS",
-            "neutral": 5
-         },
-         {
-            "part": "FEET",
-            "neutral": 1
-         },
-         {
-            "part": "ARMS",
-            "neutral": 4
-         },
-         {
-            "part": "HANDS",
-            "neutral": 1
-         },
-         {
-            "part": "TORSO",
-            "neutral": 10
-         }
-      ]
+        "name" : "Phelloderm",
+        "points" : 4,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "Your skin is light green and has a slightly woody quality to it. This provides a weak armor, and helps you retain moisture, resulting in less thirst. Greatly decreases wet penalties.",
+        "cancels" : ["FEATHERS", "LIGHTFUR", "FUR", "CHITIN", "CHITIN2", "CHITIN3", "SCALES"],
+        "changes_to" : ["BARK"],
+        "leads_to" : ["THORNS", "LEAVES"],
+        "categories": ["MUTCAT_ELFA"],
+        "wet_protection" : [
+            { "part" : "HEAD", "neutral" : 4 },
+            { "part" : "LEGS", "neutral" : 5 },
+            { "part" : "FEET", "neutral" : 1 },
+            { "part" : "ARMS", "neutral" : 4 },
+            { "part" : "HANDS", "neutral" : 1 },
+            { "part" : "TORSO", "neutral" : 10 }
+        ]
     },{
         "type" : "mutation",
         "id" : "BARK",
-        "name": "Bark",
-        "points": 5,
-        "visibility": 10,
-        "ugliness": 3,
-        "description": "Your skin is coated in a light bark, like that of a tree. This provides resistance to bashing and cutting damage and minor protection from fire. Greatly reduces wet effects.",
-        "prereqs": ["PLANTSKIN"],
-        "category": ["MUTCAT_PLANT"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 5
-         },
-         {
-            "part": "LEGS",
-            "ignored": 16
-         },
-         {
-            "part": "FEET",
-            "ignored": 5
-         },
-         {
-            "part": "ARMS",
-            "ignored": 14
-         },
-         {
-            "part": "HANDS",
-            "ignored": 4
-         },
-         {
-            "part": "TORSO",
-            "ignored": 30
-         }
-      ]
+        "name" : "Bark",
+        "points" : 5,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "Your skin is coated in a light bark, like that of a tree. This provides resistance to bashing and cutting damage and minor protection from fire. Greatly reduces wet effects.",
+        "prereqs" : ["PLANTSKIN"],
+        "category" : ["MUTCAT_PLANT"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 5 },
+            { "part" : "LEGS", "ignored" : 16 },
+            { "part" : "FEET", "ignored" : 5 },
+            { "part" : "ARMS", "ignored" : 14 },
+            { "part" : "HANDS", "ignored" : 4 },
+            { "part" : "TORSO", "ignored" : 30 }
+        ]
     },{
         "type" : "mutation",
         "id" : "THORNS",
-        "name": "Thorns",
-        "points": 6,
-        "visibility": 8,
-        "ugliness": 4,
-        "description": "Your skin is covered in small, woody thorns. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage. Your punches may also deal extra damage.",
-        "prereqs": ["BARK"],
-        "category": ["MUTCAT_PLANT"]
+        "name" : "Thorns",
+        "points" : 6,
+        "visibility" : 8,
+        "ugliness" : 4,
+        "description" : "Your skin is covered in small, woody thorns. Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage. Your punches may also deal extra damage.",
+        "prereqs" : ["BARK"],
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "LEAVES",
-        "name": "Leaves",
-        "points": 6,
-        "visibility": 8,
-        "ugliness": 3,
-        "description": "All the hair on your body has turned to long, grass-like leaves. Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight. Slightly reduces wet effects.",
-        "prereqs": ["BARK"],
-        "category": ["MUTCAT_PLANT"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "ignored": 1
-         }
-      ]
+        "name" : "Leaves",
+        "points" : 6,
+        "visibility" : 8,
+        "ugliness" : 3,
+        "description" : "All the hair on your body has turned to long, grass-like leaves. Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight. Slightly reduces wet effects.",
+        "prereqs" : ["BARK"],
+        "category" : ["MUTCAT_PLANT", "MUTCAT_ELFA"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 1 }
+        ]
     },{
         "type" : "mutation",
         "id" : "NAILS",
-        "name": "Long Fingernails",
-        "points": 1,
-        "visibility": 1,
-        "description": "Your fingernails are long and sharp. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
-        "changes_to": ["CLAWS", "TALONS"]
+        "name" : "Long Fingernails",
+        "points" : 1,
+        "visibility" : 1,
+        "description" : "Your fingernails are long and sharp. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+        "changes_to" : ["CLAWS", "TALONS"]
     },{
         "type" : "mutation",
         "id" : "CLAWS",
-        "name": "Claws",
-        "points": 2,
-        "visibility": 3,
-        "ugliness": 2,
-        "description": "You have claws on the ends of your fingers. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
-        "prereqs": ["NAILS"],
-        "cancels": ["TALONS"],
-        "category": ["MUTCAT_BEAST", "MUTCAT_RAT"]
+        "name" : "Claws",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "You have claws on the ends of your fingers. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+        "prereqs" : ["NAILS"],
+        "cancels" : ["TALONS"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "TALONS",
-        "name": "Large Talons",
-        "points": 2,
-        "visibility": 4,
-        "ugliness": 3,
-        "description": "Your index fingers have grown into huge talons. After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack. They also prevent you from wearing gloves.",
-        "prereqs": ["NAILS"],
-        "cancels": ["CLAWS"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_BIRD", "MUTCAT_CHIMERA"]
+        "name" : "Large Talons",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 3,
+        "description" : "Your index fingers have grown into huge talons. After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack. They also prevent you from wearing gloves.",
+        "prereqs" : ["NAILS"],
+        "cancels" : ["CLAWS"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BIRD", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RADIOGENIC",
-        "name": "Radiogenic",
-        "points": 3,
-        "description": "Your system has adapted to radiation. While irradiated, you will actually heal slowly, converting the radiation into hit points.",
-        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL"]
+        "name" : "Radiogenic",
+        "points" : 3,
+        "description" : "Your system has adapted to radiation. While irradiated, you will actually heal slowly, converting the radiation into hit points.",
+        "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "MARLOSS",
-        "name": "Marloss Carrier",
-        "points": 4,
-        "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to eat more.",
-        "valid": false
+        "name" : "Marloss Carrier",
+        "points" : 4,
+        "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to eat more.",
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "PHEROMONE_INSECT",
-        "name": "Insect Pheromones",
-        "points": 8,
-        "description": "Your body produces low-level pheromones, identifying you as a friend to many species of insects. Insects will attack you much less.",
-        "prereqs": ["SMELLY2"],
-        "cancels": ["PHEROMONE_MAMMAL"],
-        "category": ["MUTCAT_INSECT"]
+        "name" : "Insect Pheromones",
+        "points" : 8,
+        "description" : "Your body produces low-level pheromones, identifying you as a friend to many species of insects. Insects will attack you much less.",
+        "prereqs" : ["SMELLY2"],
+        "cancels" : ["PHEROMONE_MAMMAL"],
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "PHEROMONE_MAMMAL",
-        "name": "Mammal Pheromones",
-        "points": 8,
-        "description": "Your body produces low-level pheromones which puts mammals at ease. They will be less likely to attack or flee from you.",
-        "prereqs": ["SMELLY2"],
-        "cancels": ["PHEROMONE_INSECT"],
-        "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE"]
+        "name" : "Mammal Pheromones",
+        "points" : 8,
+        "description" : "Your body produces low-level pheromones which puts mammals at ease. They will be less likely to attack or flee from you.",
+        "prereqs" : ["SMELLY2"],
+        "cancels" : ["PHEROMONE_INSECT"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
         "id" : "DISIMMUNE",
-        "name": "Disease Immune",
-        "points": 6,
-        "description": "Your body is simply immune to diseases. You will never catch an ambient disease.",
-        "prereqs": ["DISRESISTANT"],
-        "category": ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLO"]
+        "name" : "Disease Immune",
+        "points" : 6,
+        "description" : "Your body is simply immune to diseases. You will never catch an ambient disease.",
+        "prereqs" : ["DISRESISTANT"],
+        "category" : ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
         "id" : "POISONOUS",
-        "name": "Poisonous",
-        "points": 8,
-        "description": "Your body produces a potent venom. Any special attacks from mutations have a chance to poison your target.",
-        "prereqs": ["POISRESIST"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+        "name" : "Poisonous",
+        "points" : 8,
+        "description" : "Your body produces a potent venom. Any special attacks from mutations have a chance to poison your target.",
+        "prereqs" : ["POISRESIST"],
+        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "SLIME_HANDS",
-        "name": "Slime Hands",
-        "points": 4,
-        "visibility": 5,
-        "ugliness": 4,
-        "description": "The skin on your hands is a mucous membrane and produces a thick, acrid slime. Attacks using your hand will cause minor acid damage. Slightly increases wet benefits.",
-        "prereqs": ["SLIMY"],
-        "category": ["MUTCAT_SLIME"],
-        "wet_protection":[
-         {
-            "part": "HANDS",
-            "good": 5
-         }
-      ]
+        "name" : "Slime Hands",
+        "points" : 4,
+        "visibility" : 5,
+        "ugliness" : 4,
+        "description" : "The skin on your hands is a mucous membrane and produces a thick, acrid slime. Attacks using your hand will cause minor acid damage. Slightly increases wet benefits.",
+        "prereqs" : ["SLIMY"],
+        "category" : ["MUTCAT_SLIME"],
+        "wet_protection" : [
+            { "part" : "HANDS", "good" : 5 }
+        ]
     },{
         "type" : "mutation",
         "id" : "COMPOUND_EYES",
-        "name": "Compound Eyes",
-        "points": 2,
-        "visibility": 9,
-        "ugliness": 5,
-        "description": "Your eyes are compound, like those of an insect. This increases your perception by 2 so long as you aren't wearing eyewear.",
-        "prereqs": ["EYEBULGE"],
-        "category": ["MUTCAT_SPIDER"]
+        "name" : "Compound Eyes",
+        "points" : 2,
+        "visibility" : 9,
+        "ugliness" : 5,
+        "description" : "Your eyes are compound, like those of an insect. This increases your perception by 2 so long as you aren't wearing eyewear.",
+        "prereqs" : ["EYEBULGE"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "PADDED_FEET",
-        "name": "Padded Feet",
-        "points": 1,
-        "visibility": 1,
-        "description": "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
-        "cancels": ["HOOVES", "LEG_TENTACLES"],
-        "category": ["MUTCAT_BEAST"],
-        "wet_protection":[
-         {
-            "part": "FEET",
-            "neutral": 2
-         }
-      ]
+        "name" : "Padded Feet",
+        "points" : 1,
+        "visibility" : 1,
+        "description" : "The bottoms of your feet are strongly padded. You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when running barefoot. Slightly decreases wet penalties.",
+        "cancels" : ["HOOVES", "LEG_TENTACLES"],
+        "category" : ["MUTCAT_BEAST"],
+        "wet_protection" : [
+            { "part" : "FEET", "neutral" : 2 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "RAP_TALONS",
+        "name" : "Toe Talons",
+        "points" : -2,
+        "visibility" : 4,
+        "ugliness" : 2,
+        "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes. Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES"],
+        "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "HOOVES",
-        "name": "Hooves",
-        "points": -4,
-        "visibility": 2,
-        "ugliness": 2,
-        "description": "Your feet have fused into hooves. This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you can not wear shoes of any kind. Somewhat reduces wet effects.",
-        "cancels": ["PADDED_FEET", "LEG_TENTACLES"],
-        "category": ["MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
+        "name" : "Hooves",
+        "points" : -4,
+        "visibility" : 2,
+        "ugliness" : 2,
+        "description" : "Your feet have fused into hooves. This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you can not wear shoes of any kind. Somewhat reduces wet effects.",
+        "cancels" : ["PADDED_FEET", "LEG_TENTACLES"],
+        "category" : ["MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "wet_protection":[
          {
-            "part": "FEET",
-            "ignored": 6
+            "part" : "FEET",
+            "ignored" : 6
          }
       ]
     },{
         "type" : "mutation",
         "id" : "SAPROVORE",
-        "name": "Saprovore",
-        "points": 4,
-        "description": "Your digestive system is specialized to allow you to consume decaying material. You can eat rotten food, albeit for less nutrition than usual.",
-        "prereqs": ["CARNIVORE"],
-        "cancels": ["HERBIVORE", "RUMINANT"],
-        "category": ["MUTCAT_TROGLO", "MUTCAT_CHIMERA"]
+        "name" : "Saprovore",
+        "points" : 4,
+        "description" : "Your digestive system is specialized to allow you to consume decaying material. You can eat rotten food, albeit for less nutrition than usual.",
+        "prereqs" : ["CARNIVORE"],
+        "cancels" : ["HERBIVORE", "RUMINANT"],
+        "category" : ["MUTCAT_TROGLO", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RUMINANT",
-        "name": "Ruminant",
-        "points": 5,
-        "description": "Your digestive system is capable of digesting cellulose and other rough plant material. You can eat underbrush by standing over it and pressing E.",
-        "prereqs": ["HERBIVORE"],
-        "cancels": ["CARNIVORE", "SAPROVORE"],
-        "category": ["MUTCAT_CATTLE"]
+        "name" : "Ruminant",
+        "points" : 5,
+        "description" : "Your digestive system is capable of digesting cellulose and other rough plant material. You can eat underbrush by standing over it and pressing E.",
+        "prereqs" : ["HERBIVORE"],
+        "cancels" : ["CARNIVORE", "SAPROVORE"],
+        "category" : ["MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
         "id" : "HORNS",
-        "name": "Horns",
-        "points": 2,
-        "visibility": 3,
-        "ugliness": 1,
-        "description": "You have a pair of small horns on your head. They allow you to make a weak piercing headbutt attack.",
-        "prereqs": ["HEADBUMPS"],
-        "cancels": ["ANTENNAE"],
-        "changes_to": ["HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
-        "category": ["MUTCAT_CATTLE"]
+        "name" : "Horns",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 1,
+        "description" : "You have a pair of small horns on your head. They allow you to make a weak piercing headbutt attack.",
+        "prereqs" : ["HEADBUMPS"],
+        "cancels" : ["ANTENNAE"],
+        "changes_to" : ["HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
+        "category" : ["MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
         "id" : "HORNS_CURLED",
-        "name": "Curled Horns",
-        "points": 1,
-        "visibility": 8,
-        "ugliness": 2,
-        "description": "You have a pair of large curled horns, like those of a ram. They allow you to make a strong bashing headbutt attack, but prevent you from wearing any headwear.",
-        "prereqs": ["HORNS"],
-        "cancels": ["ANTENNAE", "HORNS_POINTED", "ANTLERS"],
-        "category": ["MUTCAT_CHIMERA"]
+        "name" : "Curled Horns",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 2,
+        "description" : "You have a pair of large curled horns, like those of a ram. They allow you to make a strong bashing headbutt attack, but prevent you from wearing any headwear.",
+        "prereqs" : ["HORNS"],
+        "cancels" : ["ANTENNAE", "HORNS_POINTED", "ANTLERS"],
+        "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "HORNS_POINTED",
-        "name": "Pointed Horns",
-        "points": 2,
-        "visibility": 8,
-        "ugliness": 2,
-        "description": "You have a pair of long, pointed horns, like those of an antelope. They allow you to make a strong piercing headbutt attack, but prevent you from wearing any headwear the is not made of fabric.",
-        "prereqs": ["HORNS"],
-        "cancels": ["ANTENNAE", "HORNS_CURLED", "ANTLERS"]
+        "name" : "Pointed Horns",
+        "points" : 2,
+        "visibility" : 8,
+        "ugliness" : 2,
+        "description" : "You have a pair of long, pointed horns, like those of an antelope. They allow you to make a strong piercing headbutt attack, but prevent you from wearing any headwear the is not made of fabric.",
+        "prereqs" : ["HORNS"],
+        "cancels" : ["ANTENNAE", "HORNS_CURLED", "ANTLERS"]
     },{
         "type" : "mutation",
         "id" : "ANTLERS",
-        "name": "Antlers",
-        "points": -2,
-        "visibility": 10,
-        "ugliness": 3,
-        "description": "You have a huge rack of antlers, like those of a moose. They prevent you from hearing headwear that is not made of fabric, but provide a weak headbutt attack.",
-        "prereqs": ["HORNS"],
-        "cancels": ["ANTENNAE", "HORNS_CURLED", "HORNS_POINTED"]
+        "name" : "Antlers",
+        "points" : -2,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "You have a huge rack of antlers, like those of a moose. They prevent you from hearing headwear that is not made of fabric, but provide a weak headbutt attack.",
+        "prereqs" : ["HORNS"],
+        "cancels" : ["ANTENNAE", "HORNS_CURLED", "HORNS_POINTED"]
     },{
         "type" : "mutation",
         "id" : "ANTENNAE",
-        "name": "Antennae",
-        "points": 1,
-        "visibility": 9,
-        "ugliness": 4,
-        "description": "You have a pair of antennae. They allow you to detect the presence of monsters up to a few tiles away, even if you can't see or hear them, but prevent you from wearing headwear that is not made of fabric.",
-        "prereqs": ["HEADBUMPS"],
-        "cancels": ["HORNS", "HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
-        "category": ["MUTCAT_INSECT"]
+        "name" : "Antennae",
+        "points" : 1,
+        "visibility" : 9,
+        "ugliness" : 4,
+        "description" : "You have a pair of antennae. They allow you to detect the presence of monsters up to a few tiles away, even if you can't see or hear them, but prevent you from wearing headwear that is not made of fabric.",
+        "prereqs" : ["HEADBUMPS"],
+        "cancels" : ["HORNS", "HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "FLEET2",
-        "name": "Road-Runner",
-        "points": 4,
-        "description": "Your legs are extremely limber and fast-moving. You run 30% faster on flat surfaces.",
-        "prereqs": ["FLEET"],
-        "cancels": ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
-        "category": ["MUTCAT_BIRD"]
+        "name" : "Road-Runner",
+        "points" : 4,
+        "description" : "Your legs are extremely limber and fast-moving. You run 30% faster on flat surfaces.",
+        "prereqs" : ["FLEET"],
+        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
+        "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
         "id" : "TAIL_STUB",
-        "name": "Stubby Tail",
-        "points": 0,
-        "visibility": 1,
-        "ugliness": 2,
-        "description": "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
-        "changes_to": ["TAIL_LONG", "TAIL_LIZARD", "TAIL_FIN"]
+        "name" : "Stubby Tail",
+        "points" : 0,
+        "visibility" : 1,
+        "ugliness" : 2,
+        "description" : "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
+        "changes_to" : ["TAIL_LONG", "TAIL_LIZARD", "TAIL_FIN"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FIN",
-        "name": "Tail Fin",
-        "points": 1,
-        "visibility": 4,
-        "ugliness": 2,
-        "description": "You have a fin-like tail. It allows you to swim more quickly. Slightly increases wet benefits.",
-        "prereqs": ["TAIL_STUB"],
-        "cancels": ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_LIZARD", "TAIL_STING", "TAIL_CLUB"],
-        "category": ["MUTCAT_FISH"],
+        "name" : "Tail Fin",
+        "points" : 1,
+        "visibility" : 4,
+        "ugliness" : 2,
+        "description" : "You have a fin-like tail. It allows you to swim more quickly. Slightly increases wet benefits.",
+        "prereqs" : ["TAIL_STUB"],
+        "cancels" : ["TAIL_LONG", "TAIL_FLUFFY", "TAIL_LIZARD", "TAIL_STING", "TAIL_CLUB"],
+        "category" : ["MUTCAT_FISH"],
         "wet_protection":[
          {
-            "part": "LEGS",
-            "good": 3
+            "part" : "LEGS",
+            "good" : 3
          }
       ]
     },{
         "type" : "mutation",
         "id" : "TAIL_LONG",
-        "name": "Long Tail",
-        "points": 2,
-        "visibility": 6,
-        "ugliness": 2,
-        "description": "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
-        "prereqs": ["TAIL_STUB"],
-        "cancels": ["TAIL_FIN"],
-        "changes_to": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
-        "category": ["MUTCAT_CATTLE", "MUTCAT_RAT"]
+        "name" : "Long Tail",
+        "points" : 2,
+        "visibility" : 6,
+        "ugliness" : 2,
+        "description" : "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
+        "prereqs" : ["TAIL_STUB"],
+        "cancels" : ["TAIL_FIN"],
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
+        "category" : ["MUTCAT_CATTLE", "MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "TAIL_THICK",
-        "name": "Thick Tail",
-        "points": 3,
-        "visibility": 8,
-        "ugliness": 2,
-        "description": "You have a long, thick, lizardlike tail. It helps you balance a bit but also makes a serviceable whip.",
-        "prereqs": ["TAIL_STUB"],
-        "cancels": ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING"],
-        "changes_to": ["TAIL_CLUB"],
-        "category": ["MUTCAT_LIZARD"]
+        "name" : "Thick Tail",
+        "points" : 3,
+        "visibility" : 8,
+        "ugliness" : 2,
+        "description" : "You have a long, thick, lizardlike tail. It helps you balance a bit but also makes a serviceable whip.",
+        "prereqs" : ["TAIL_STUB"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING"],
+        "changes_to" : ["TAIL_CLUB"],
+        "category" : ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
+        "id" : "TAIL_RAPTOR",
+        "name" : "Raptor Tail",
+        "points" : 3,
+        "visibility" : 8,
+        "ugliness" : 2,
+        "description" : "You have a long and semi-stiff lizardlike tail. You can't effectively lash it in combat, but do find it significantly improves your balance.",
+        "prereqs" : ["TAIL_STUB"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
+        "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FLUFFY",
-        "name": "Fluffy Tail",
-        "points": 2,
-        "visibility": 7,
-        "description": "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.",
-        "prereqs": ["TAIL_LONG"],
-        "cancels": ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
-        "category": ["MUTCAT_BEAST"]
+        "name" : "Fluffy Tail",
+        "points" : 2,
+        "visibility" : 7,
+        "description" : "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.",
+        "prereqs" : ["TAIL_LONG"],
+        "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
+        "category" : ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
         "id" : "TAIL_STING",
-        "name": "Spiked Tail",
-        "points": 2,
-        "visibility": 6,
-        "ugliness": 3,
-        "description": "You have a long tail that ends in a vicious stinger, like that of a scorpion. It does not improve your balance at all, but allows for a powerful piercing attack.",
-        "prereqs": ["TAIL_LONG"],
-        "cancels": ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
-        "category": ["MUTCAT_INSECT"]
+        "name" : "Spiked Tail",
+        "points" : 2,
+        "visibility" : 6,
+        "ugliness" : 3,
+        "description" : "You have a long tail that ends in a vicious stinger, like that of a scorpion. It does not improve your balance at all, but allows for a powerful piercing attack.",
+        "prereqs" : ["TAIL_LONG"],
+        "cancels" : ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "TAIL_CLUB",
-        "name": "Club Tail",
-        "points": 2,
-        "visibility": 7,
-        "ugliness": 2,
-        "description": "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
-        "prereqs": ["TAIL_LIZARD"],
-        "cancels": ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"],
-        "category": ["MUTCAT_CHIMERA"]
+        "name" : "Club Tail",
+        "points" : 2,
+        "visibility" : 7,
+        "ugliness" : 2,
+        "description" : "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
+        "prereqs" : ["TAIL_LIZARD"],
+        "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN"],
+        "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "PAINREC1",
-        "name": "Pain Recovery",
-        "points": 3,
-        "description": "You recover from pain slightly faster than normal.",
-        "changes_to": ["PAINREC2"]
+        "name" : "Pain Recovery",
+        "points" : 3,
+        "description" : "You recover from pain slightly faster than normal.",
+        "changes_to" : ["PAINREC2"]
     },{
         "type" : "mutation",
         "id" : "PAINREC2",
-        "name": "Quick Pain Recovery",
-        "points": 5,
-        "description": "You recover from pain faster than normal.",
-        "prereqs": ["PAINREC1"],
-        "changes_to": ["PAINREC3"]
+        "name" : "Quick Pain Recovery",
+        "points" : 5,
+        "description" : "You recover from pain faster than normal.",
+        "prereqs" : ["PAINREC1"],
+        "changes_to" : ["PAINREC3"]
     },{
         "type" : "mutation",
         "id" : "PAINREC3",
-        "name": "Very Quick Pain Recovery",
-        "points": 8,
-        "description": "You recover from pain much faster than normal.",
-        "prereqs": ["PAINREC2"],
-        "category": ["MUTCAT_MEDICAL"]
+        "name" : "Very Quick Pain Recovery",
+        "points" : 8,
+        "description" : "You recover from pain much faster than normal.",
+        "prereqs" : ["PAINREC2"],
+        "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "WINGS_BIRD",
-        "name": "Bird Wings",
-        "points": 2,
-        "visibility": 4,
-        "ugliness": 2,
-        "description": "You have a pair of large, feathered wings. Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
-        "prereqs": ["WINGS_STUB"],
-        "cancels": ["WINGS_BAT", "WINGS_INSECT"],
-        "category": ["MUTCAT_BIRD"]
+        "name" : "Bird Wings",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 2,
+        "description" : "You have a pair of large, feathered wings. Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+        "prereqs" : ["WINGS_STUB"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT"],
+        "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
         "id" : "WINGS_INSECT",
-        "name": "Insect Wings",
-        "points": 3,
-        "visibility": 4,
-        "ugliness": 4,
-        "description": "You have a pair of large, translucent wings. You buzz them as you run, enabling you to run faster.",
-        "prereqs": ["WINGS_STUB"],
-        "cancels": ["WINGS_BIRD", "WINGS_BAT"],
-        "category": ["MUTCAT_INSECT"]
+        "name" : "Insect Wings",
+        "points" : 3,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "You have a pair of large, translucent wings. You buzz them as you run, enabling you to run faster.",
+        "prereqs" : ["WINGS_STUB"],
+        "cancels" : ["WINGS_BIRD", "WINGS_BAT"],
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "MOUTH_TENTACLES",
-        "name": "Mouth Tentacles",
-        "points": 1,
-        "visibility": 8,
-        "ugliness": 5,
-        "description": "A set of tentacles surrounds your mouth. They allow you to eat twice as fast. Slightly decreases wet penalties.",
-        "prereqs": ["MOUTH_FLAPS"],
-        "cancels": ["MANDIBLES"],
-        "category": ["MUTCAT_CEPHALOPOD"],
-        "wet_protection":[
-         {
-            "part": "MOUTH",
-            "neutral": 1
-         }
-      ]
+        "name" : "Mouth Tentacles",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "A set of tentacles surrounds your mouth. They allow you to eat twice as fast. Slightly decreases wet penalties.",
+        "prereqs" : ["MOUTH_FLAPS"],
+        "cancels" : ["MANDIBLES"],
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "MOUTH", "neutral" : 1 }
+        ]
     },{
         "type" : "mutation",
         "id" : "MANDIBLES",
-        "name": "Mandibles",
-        "points": 2,
-        "visibility": 8,
-        "ugliness": 6,
-        "description": "A set of insect-like mandibles have grown around your mouth. They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear. Slightly reduces wet effects.",
-        "prereqs": ["MOUTH_FLAPS"],
-        "cancels": ["BEAK", "FANGS", "MOUTH_TENTACLES"],
-        "category": ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
-        "wet_protection":[
-         {
-            "part": "MOUTH",
-            "ignored": 1
-         }
-      ]
+        "name" : "Mandibles",
+        "points" : 2,
+        "visibility" : 8,
+        "ugliness" : 6,
+        "description" : "A set of insect-like mandibles have grown around your mouth. They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear. Slightly reduces wet effects.",
+        "prereqs" : ["MOUTH_FLAPS"],
+        "cancels" : ["BEAK", "FANGS", "MOUTH_TENTACLES"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
+        "wet_protection" : [
+            { "part" : "MOUTH", "ignored" : 1 }
+        ]
     },{
         "type" : "mutation",
         "id" : "CANINE_EARS",
-        "name": "Canine Ears",
-        "points": 2,
-        "visibility": 4,
-        "ugliness": 1,
-        "description": "Your ears have extended into long, pointed ones, like those of a canine. They enhance your hearing, allowing you to hear at greater distances.",
-        "category": ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
+        "name" : "Canine Ears",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 1,
+        "description" : "Your ears have extended into long, pointed ones, like those of a canine. They enhance your hearing, allowing you to hear at greater distances.",
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "ELFA_EARS",
+        "name" : "Pointed Ears",
+        "points" : 0,
+        "visibility" : 4,
+        "ugliness" : 1,
+        "description" : "Your upper earlobes have grown noticably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
+        "valid" : false,
+        "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "WEB_WALKER",
-        "name": "Web Walker",
-        "points": 3,
-        "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs. Walking through webs does not affect you at all.",
-        "leads_to": ["WEB_WEAVER"]
+        "name" : "Web Walker",
+        "points" : 3,
+        "description" : "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs. Walking through webs does not affect you at all.",
+        "leads_to" : ["WEB_WEAVER"]
     },{
         "type" : "mutation",
         "id" : "WEB_WEAVER",
-        "name": "Web Weaver",
-        "points": 3,
-        "description": "Your body produces webs. As you move, there is a chance that you will leave webs in your wake.",
-        "prereqs": ["WEB_WALKER"],
-        "cancels": ["SLIMY"],
-        "category": ["MUTCAT_SPIDER"]
+        "name" : "Web Weaver",
+        "points" : 3,
+        "description" : "Your body produces webs. As you move, there is a chance that you will leave webs in your wake.",
+        "prereqs" : ["WEB_WALKER"],
+        "cancels" : ["SLIMY"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "WHISKERS",
-        "name": "Whiskers",
-        "points": 1,
-        "visibility": 3,
-        "ugliness": 1,
-        "description": "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
-        "category": ["MUTCAT_RAT"]
+        "name" : "Whiskers",
+        "points" : 1,
+        "visibility" : 3,
+        "ugliness" : 1,
+        "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "STR_UP",
-        "name": "Strong",
-        "points": 1,
-        "description": "Your muscles are a little stronger. Strength + 1",
-        "changes_to": ["STR_UP_2"],
-        "category": ["MUTCAT_INSECT"]
+        "name" : "Strong",
+        "points" : 1,
+        "description" : "Your muscles are a little stronger. Strength + 1",
+        "changes_to" : ["STR_UP_2"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "STR_UP_2",
-        "name": "Very Strong",
-        "points": 2,
-        "description": "Your muscles are stronger. Strength + 2",
-        "prereqs": ["STR_UP"],
-        "changes_to": ["STR_UP_3"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT", "MUTCAT_ALPHA"]
+        "name" : "Very Strong",
+        "points" : 2,
+        "description" : "Your muscles are stronger. Strength + 2",
+        "prereqs" : ["STR_UP"],
+        "changes_to" : ["STR_UP_3"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_PLANT", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "STR_UP_3",
-        "name": "Extremely Strong",
-        "points": 4,
-        "visibility": 1,
-        "description": "Your muscles are much stronger. Strength + 4",
-        "prereqs": ["STR_UP_2"],
-        "changes_to": ["STR_UP_4"],
-        "category": ["MUTCAT_CHIMERA"]
+        "name" : "Extremely Strong",
+        "points" : 4,
+        "visibility" : 1,
+        "description" : "Your muscles are much stronger. Strength + 4",
+        "prereqs" : ["STR_UP_2"],
+        "changes_to" : ["STR_UP_4"],
+        "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "STR_UP_4",
-        "name": "Insanely Strong",
-        "points": 7,
-        "visibility": 2,
-        "ugliness": 2,
-        "description": "Your muscles are noticeably bulging. Strength + 7",
-        "prereqs": ["STR_UP_3"],
-        "category": ["MUTCAT_BEAST"]
+        "name" : "Insanely Strong",
+        "points" : 7,
+        "visibility" : 2,
+        "ugliness" : 2,
+        "description" : "Your muscles are noticeably bulging. Strength + 7",
+        "prereqs" : ["STR_UP_3"],
+        "category" : ["MUTCAT_BEAST"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP",
-        "name": "Dextrous",
-        "points": 1,
-        "description": "You are a little nimbler. Dexterity + 1",
-        "changes_to": ["DEX_UP_2"],
-        "category": ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_ALPHA"]
+        "name" : "Dextrous",
+        "points" : 1,
+        "description" : "You are a little nimbler. Dexterity + 1",
+        "changes_to" : ["DEX_UP_2"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_2",
-        "name": "Very Dextrous",
-        "points": 2,
-        "description": "You are nimbler. Dexterity + 2",
-        "prereqs": ["DEX_UP"],
-        "changes_to": ["DEX_UP_3"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_SPIDER", "MUTCAT_CHIMERA"]
+        "name" : "Very Dextrous",
+        "points" : 2,
+        "description" : "You are nimbler. Dexterity + 2",
+        "prereqs" : ["DEX_UP"],
+        "changes_to" : ["DEX_UP_3"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_3",
-        "name": "Extremely Dextrous",
-        "points": 3,
-        "description": "You are nimble and quick. Dexterity + 4",
-        "prereqs": ["DEX_UP_2"],
-        "changes_to": ["DEX_UP_4"],
-        "category": ["MUTCAT_BIRD"]
+        "name" : "Extremely Dextrous",
+        "points" : 3,
+        "description" : "You are nimble and quick. Dexterity + 4",
+        "prereqs" : ["DEX_UP_2"],
+        "changes_to" : ["DEX_UP_4"],
+        "category" : ["MUTCAT_BIRD", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "DEX_UP_4",
-        "name": "Insanely Dextrous",
-        "points": 4,
-        "description": "You are much nimbler than before. Dexterity + 7",
-        "prereqs": ["DEX_UP_3"],
-        "category": ["MUTCAT_CEPHALOPOD"]
+        "name" : "Insanely Dextrous",
+        "points" : 4,
+        "description" : "You are much nimbler than before. Dexterity + 7",
+        "prereqs" : ["DEX_UP_3"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id" : "INT_UP",
-        "name": "Smart",
-        "points": 1,
-        "description": "You are a little smarter. Intelligence + 1",
-        "changes_to": ["INT_UP_2"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
+        "name" : "Smart",
+        "points" : 1,
+        "description" : "You are a little smarter. Intelligence + 1",
+        "changes_to" : ["INT_UP_2"],
+        "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "INT_UP_2",
-        "name": "Very Smart",
-        "points": 2,
-        "ugliness": 0,"description": "You are smarter. Intelligence + 2",
-        "prereqs": ["INT_UP"],
-        "changes_to": ["INT_UP_3"]
+        "name" : "Very Smart",
+        "points" : 2,
+        "ugliness" : 0,"description" : "You are smarter. Intelligence + 2",
+        "prereqs" : ["INT_UP"],
+        "changes_to" : ["INT_UP_3"]
     },{
         "type" : "mutation",
         "id" : "INT_UP_3",
-        "name": "Extremely Smart",
-        "points": 3,
-        "visibility": 1,
-        "ugliness": 1,
-        "description": "You are much smarter, and your skull bulges slightly. Intelligence + 4",
-        "prereqs": ["INT_UP_2"],
-        "changes_to": ["INT_UP_4"]
+        "name" : "Extremely Smart",
+        "points" : 3,
+        "visibility" : 1,
+        "ugliness" : 1,
+        "description" : "You are much smarter, and your skull bulges slightly. Intelligence + 4",
+        "prereqs" : ["INT_UP_2"],
+        "changes_to" : ["INT_UP_4"],
+        "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "INT_UP_4",
-        "name": "Insanely Smart",
-        "points": 4,
-        "visibility": 3,
-        "ugliness": 3,
-        "description": "Your skull bulges noticeably with your impressive brain. Intelligence + 7",
-        "prereqs": ["INT_UP_3"],
-        "category": ["MUTCAT_CEPHALOPOD"]
+        "name" : "Insanely Smart",
+        "points" : 4,
+        "visibility" : 3,
+        "ugliness" : 3,
+        "description" : "Your skull bulges noticeably with your impressive brain. Intelligence + 7",
+        "prereqs" : ["INT_UP_3"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id" : "PER_UP",
-        "name": "Perceptive",
-        "points": 1,
-        "description": "Your senses are a little keener. Perception + 1",
-        "changes_to": ["PER_UP_2"]
+        "name" : "Perceptive",
+        "points" : 1,
+        "description" : "Your senses are a little keener. Perception + 1",
+        "changes_to" : ["PER_UP_2"]
     },{
         "type" : "mutation",
         "id" : "PER_UP_2",
-        "name": "Very Perceptive",
-        "points": 2,
-        "description": "Your senses are keener. Perception + 2",
-        "prereqs": ["PER_UP"],
-        "changes_to": ["PER_UP_3"],
-        "category": ["MUTCAT_ALPHA", "MUTCAT_CHIMERA"]
+        "name" : "Very Perceptive",
+        "points" : 2,
+        "description" : "Your senses are keener. Perception + 2",
+        "prereqs" : ["PER_UP"],
+        "changes_to" : ["PER_UP_3"],
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "PER_UP_3",
-        "name": "Extremely Perceptive",
-        "points": 3,
-        "description": "Your senses are much keener. Perception + 4",
-        "prereqs": ["PER_UP_2"],
-        "changes_to": ["PER_UP_4"]
+        "name" : "Extremely Perceptive",
+        "points" : 3,
+        "description" : "Your senses are much keener. Perception + 4",
+        "prereqs" : ["PER_UP_2"],
+        "changes_to" : ["PER_UP_4"],
+        "category" : ["MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "PER_UP_4",
-        "name": "Insanely Perceptive",
-        "points": 4,
-        "description": "You can sense things you never imagined. Perception + 7",
-        "prereqs": ["PER_UP_3"],
-        "category": ["MUTCAT_BIRD"]
+        "name" : "Insanely Perceptive",
+        "points" : 4,
+        "description" : "You can sense things you never imagined. Perception + 7",
+        "prereqs" : ["PER_UP_3"],
+        "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
         "id" : "HEADBUMPS",
-        "name": "Head Bumps",
-        "points": 0,
-        "visibility": 3,
-        "ugliness": 3,
-        "description": "You have a pair of bumps on your skull.",
-        "changes_to": ["HORNS", "ANTENNAE"]
+        "name" : "Head Bumps",
+        "points" : 0,
+        "visibility" : 3,
+        "ugliness" : 3,
+        "description" : "You have a pair of bumps on your skull.",
+        "changes_to" : ["HORNS", "ANTENNAE"]
     },{
         "type" : "mutation",
         "id" : "SLIT_NOSTRILS",
-        "name": "Slit Nostrils",
-        "points": -2,
-        "visibility": 7,
-        "ugliness": 4,
-        "description": "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance. This makes breathing slightly difficult and increases mouth encumbrance by 1.",
-        "category": ["MUTCAT_LIZARD", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"]
+        "name" : "Slit Nostrils",
+        "points" : -2,
+        "visibility" : 7,
+        "ugliness" : 4,
+        "description" : "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance. This makes breathing slightly difficult and increases mouth encumbrance by 1.",
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "FORKED_TONGUE",
-        "name": "Forked Tongue",
-        "points": 0,
-        "visibility": 1,
-        "ugliness": 3,
-        "description": "Your tongue is forked, like that of a reptile. This has no effect.",
-        "category": ["MUTCAT_LIZARD"]
+        "name" : "Forked Tongue",
+        "points" : 0,
+        "visibility" : 1,
+        "ugliness" : 3,
+        "description" : "Your tongue is forked, like that of a reptile. This has no effect.",
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "EYEBULGE",
-        "name": "Bulging Eyes",
-        "points": 0,
-        "visibility": 8,
-        "ugliness": 4,
-        "description": "Your eyes bulge out several inches from your skull. This does not affect your vision in any way.",
-        "leads_to": ["MEMBRANE"],
-        "changes_to": ["COMPOUND_EYES"]
+        "name" : "Bulging Eyes",
+        "points" : 0,
+        "visibility" : 8,
+        "ugliness" : 4,
+        "description" : "Your eyes bulge out several inches from your skull. This does not affect your vision in any way.",
+        "leads_to" : ["MEMBRANE"],
+        "changes_to" : ["COMPOUND_EYES"]
     },{
         "type" : "mutation",
         "id" : "MOUTH_FLAPS",
-        "name": "Mouth Flaps",
-        "points": -1,
-        "visibility": 7,
-        "ugliness": 6,
-        "description": "Skin tabs and odd flaps of skin surround your mouth. They don't affect your eating, but are unpleasant to look at.",
-        "category": ["MUTCAT_CHIMERA"],
-        "leads_to": ["MOUTH_TENTACLES", "MANDIBLES"]
+        "name" : "Mouth Flaps",
+        "points" : -1,
+        "visibility" : 7,
+        "ugliness" : 6,
+        "description" : "Skin tabs and odd flaps of skin surround your mouth. They don't affect your eating, but are unpleasant to look at.",
+        "category" : ["MUTCAT_CHIMERA"],
+        "leads_to" : ["MOUTH_TENTACLES", "MANDIBLES"]
     },{
         "type" : "mutation",
         "id" : "WINGS_STUB",
-        "name": "Wing Stubs",
-        "points": 0,
-        "visibility": 2,
-        "ugliness": 2,
-        "description": "You have a pair of stubby little wings projecting from your shoulderblades. They can be wiggled at will, but are useless.",
-        "changes_to": ["WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT"]
+        "name" : "Wing Stubs",
+        "points" : 0,
+        "visibility" : 2,
+        "ugliness" : 2,
+        "description" : "You have a pair of stubby little wings projecting from your shoulderblades. They can be wiggled at will, but are useless.",
+        "changes_to" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT"]
     },{
         "type" : "mutation",
         "id" : "WINGS_BAT",
-        "name": "Bat Wings",
-        "points": -1,
-        "visibility": 9,
-        "ugliness": 4,
-        "description": "You have a pair of large, leathery wings. You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
-        "prereqs": ["WINGS_STUB"],
-        "cancels": ["WINGS_BIRD", "WINGS_INSECT"]
+        "name" : "Bat Wings",
+        "points" : -1,
+        "visibility" : 9,
+        "ugliness" : 4,
+        "description" : "You have a pair of large, leathery wings. You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
+        "prereqs" : ["WINGS_STUB"],
+        "cancels" : ["WINGS_BIRD", "WINGS_INSECT"]
     },{
         "type" : "mutation",
         "id" : "PALE",
-        "name": "Pale Skin",
-        "points": 0,
-        "visibility": 3,
-        "ugliness": 1,
-        "description": "Your skin is rather pale.",
-        "changes_to": ["ALBINO"],
-        "leads_to": ["TROGLO"]
+        "name" : "Pale Skin",
+        "points" : 0,
+        "visibility" : 3,
+        "ugliness" : 1,
+        "description" : "Your skin is rather pale.",
+        "changes_to" : ["ALBINO"],
+        "leads_to" : ["TROGLO"]
     },{
         "type" : "mutation",
         "id" : "SPOTS",
-        "name": "Spots",
-        "points": 0,
-        "visibility": 6,
-        "ugliness": 2,
-        "description": "Your skin is covered in a pattern of red spots.",
-        "changes_to": ["SORES"]
+        "name" : "Spots",
+        "points" : 0,
+        "visibility" : 6,
+        "ugliness" : 2,
+        "description" : "Your skin is covered in a pattern of red spots.",
+        "changes_to" : ["SORES"]
     },{
         "type" : "mutation",
         "id" : "SMELLY2",
-        "name": "Very Smelly",
-        "points": -4,
-        "visibility": 4,
-        "ugliness": 5,
-        "description": "You smell awful. Monsters that track scent will find you very easily, and humans will react poorly.",
-        "prereqs": ["SMELLY"],
-        "leads_to": ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"],
-        "category": ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_CHIMERA"]
+        "name" : "Very Smelly",
+        "points" : -4,
+        "visibility" : 4,
+        "ugliness" : 5,
+        "description" : "You smell awful. Monsters that track scent will find you very easily, and humans will react poorly.",
+        "prereqs" : ["SMELLY"],
+        "leads_to" : ["PHEROMONE_INSECT", "PHEROMONE_MAMMAL"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED",
-        "name": "Deformed",
-        "points": -2,
-        "visibility": 4,
-        "ugliness": 4,
-        "description": "You're minorly deformed. Some people will react badly to your appearance.",
-        "cancels": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "prereqs": ["UGLY"],
-        "changes_to": ["DEFORMED2"],
-        "category": ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD"]
+        "name" : "Deformed",
+        "points" : -2,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "You're minorly deformed. Some people will react badly to your appearance.",
+        "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
+        "prereqs" : ["UGLY"],
+        "changes_to" : ["DEFORMED2"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_CATTLE", "MUTCAT_INSECT", "MUTCAT_CEPHALOPOD"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED2",
-        "name": "Badly Deformed",
-        "points": -4,
-        "visibility": 7,
-        "ugliness": 7,
-        "description": "You're hideously deformed. Some people will have a strong negative reaction to your appearance.",
-        "cancels": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "prereqs": ["DEFORMED"],
-        "changes_to": ["DEFORMED3"],
-        "category": ["MUTCAT_BEAST", "MUTCAT_PLANT"]
+        "name" : "Badly Deformed",
+        "points" : -4,
+        "visibility" : 7,
+        "ugliness" : 7,
+        "description" : "You're hideously deformed. Some people will have a strong negative reaction to your appearance.",
+        "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
+        "prereqs" : ["DEFORMED"],
+        "changes_to" : ["DEFORMED3"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "DEFORMED3",
-        "name": "Grotesque",
-        "points": -7,
-        "visibility": 10,
-        "ugliness": 10,
-        "description": "Your visage is disgusting and liable to induce vomiting. People will not want to interact with you unless they have a very good reason to.",
-        "cancels": ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
-        "prereqs": ["DEFORMED2"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
+        "name" : "Grotesque",
+        "points" : -7,
+        "visibility" : 10,
+        "ugliness" : 10,
+        "description" : "Your visage is disgusting and liable to induce vomiting. People will not want to interact with you unless they have a very good reason to.",
+        "cancels" : ["PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3"],
+        "prereqs" : ["DEFORMED2"],
+        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "BEAUTIFUL",
-        "name": "Beautiful",
-        "points": 2,
-        "visibility": -4,
-        "ugliness": -4,
-        "description": "You're a real head-turner. Some people will react well to your appearance, and most people have an easier time trusting you.",
-        "cancels": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "prereqs": ["PRETTY"],
-        "changes_to": ["BEAUTIFUL2"]
+        "name" : "Beautiful",
+        "points" : 2,
+        "visibility" : -4,
+        "ugliness" : -4,
+        "description" : "You're a real head-turner. Some people will react well to your appearance, and most people have an easier time trusting you.",
+        "cancels" : ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
+        "prereqs" : ["PRETTY"],
+        "changes_to" : ["BEAUTIFUL2"]
     },{
         "type" : "mutation",
         "id" : "BEAUTIFUL2",
-        "name": "Very Beautiful",
-        "points": 4,
-        "visibility": -7,
-        "ugliness": -7,
-        "description": "You are a vision of beauty. Some people will react very well to your looks, and most people will trust you immediately.",
-        "cancels": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "prereqs": ["BEAUTIFUL"],
-        "changes_to": ["BEAUTIFUL3"]
+        "name" : "Very Beautiful",
+        "points" : 4,
+        "visibility" : -7,
+        "ugliness" : -7,
+        "description" : "You are a vision of beauty. Some people will react very well to your looks, and most people will trust you immediately.",
+        "cancels" : ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
+        "prereqs" : ["BEAUTIFUL"],
+        "changes_to" : ["BEAUTIFUL3"]
     },{
         "type" : "mutation",
         "id" : "BEAUTIFUL3",
-        "name": "Glorious",
-        "points": 7,
-        "visibility": -10,
-        "ugliness": -10,
-        "description": "You are incredibly beautiful. People cannot help themselves for your charms, and will do whatever they can to please you.",
-        "cancels": ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
-        "prereqs": ["BEAUTIFUL2"]
+        "name" : "Glorious",
+        "points" : 7,
+        "visibility" : -10,
+        "ugliness" : -10,
+        "description" : "You are incredibly beautiful. People cannot help themselves for your charms, and will do whatever they can to please you.",
+        "cancels" : ["UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3"],
+        "prereqs" : ["BEAUTIFUL2"],
+        "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "HOLLOW_BONES",
-        "name": "Hollow Bones",
-        "points": -6,
-        "description": "You have Avian Bone Syndrome--your bones are nearly hollow. Your body is very light as a result, enabling you to run and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
-        "prereqs": ["LIGHT_BONES"],
-        "category": ["MUTCAT_BIRD", "MUTCAT_SLIME"]
+        "name" : "Hollow Bones",
+        "points" : -6,
+        "description" : "You have Avian Bone Syndrome--your bones are nearly hollow. Your body is very light as a result, enabling you to run and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
+        "prereqs" : ["LIGHT_BONES"],
+        "category" : ["MUTCAT_BIRD", "MUTCAT_SLIME", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "NAUSEA",
-        "name": "Nausea",
-        "points": -3,
-        "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
-        "prereqs": ["WEAKSTOMACH"],
-        "changes_to": ["VOMITOUS"],
-        "category": ["MUTCAT_ALPHA"]
+        "name" : "Nausea",
+        "points" : -3,
+        "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
+        "prereqs" : ["WEAKSTOMACH"],
+        "changes_to" : ["VOMITOUS"],
+        "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
-        "name": "Vomitous",
-        "points": -8,
-        "description": "You have a major digestive disorder, which causes you to vomit frequently.",
-        "prereqs": ["NAUSEA"],
-        "category": ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
+        "name" : "Vomitous",
+        "points" : -8,
+        "description" : "You have a major digestive disorder, which causes you to vomit frequently.",
+        "prereqs" : ["NAUSEA"],
+        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "HUNGER",
-        "name": "Fast Metabolism",
-        "points": -2,
-        "description": "You require more food than most people.",
-        "category": ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+        "name" : "Fast Metabolism",
+        "points" : -2,
+        "description" : "You require more food than most people.",
+        "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA", "MUTCAT_ELFA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "THIRST",
-        "name": "High Thirst",
-        "points": -3,
-        "description": "Your body dries out easily; you need to drink a lot more water.",
-        "category": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA"]
+        "name" : "High Thirst",
+        "points" : -3,
+        "description" : "Your body dries out easily; you need to drink a lot more water.",
+        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ROT1",
-        "name": "Weakening",
-        "points": -6,
-        "description": "You feel as though you are slowly weakening, but it's so slight a feeling that it does not affect you at all.",
-        "cancels": ["FASTHEALER", "FASTHEALER2", "REGEN"],
-        "changes_to": ["ROT2"],
-        "category": ["MUTCAT_ALPHA"]
+        "name" : "Weakening",
+        "points" : -6,
+        "description" : "You feel as though you are slowly weakening, but it's so slight a feeling that it does not affect you at all.",
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
+        "changes_to" : ["ROT2"],
+        "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
         "id" : "ROT2",
-        "name": "Deterioration",
-        "points": -8,
-        "description": "Your body is very slowly wasting away.",
-        "cancels": ["FASTHEALER", "FASTHEALER2", "REGEN"],
-        "prereqs": ["ROT1"],
-        "changes_to": ["ROT3"],
-        "category": ["MUTCAT_CHIMERA"]
+        "name" : "Deterioration",
+        "points" : -8,
+        "description" : "Your body is very slowly wasting away.",
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
+        "prereqs" : ["ROT1"],
+        "changes_to" : ["ROT3"],
+        "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "ROT3",
-        "name": "Disintegration",
-        "points": -10,
-        "description": "Your body is slowly wasting away!",
-        "cancels": ["FASTHEALER", "FASTHEALER2", "REGEN"],
-        "prereqs": ["ROT2"]
+        "name" : "Disintegration",
+        "points" : -10,
+        "description" : "Your body is slowly wasting away!",
+        "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
+        "prereqs" : ["ROT2"],
+        "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "ALBINO",
-        "name": "Albino",
-        "points": -2,
-        "description": "Your skin lacks pigment, and is nearly transparent. You suffer serious burns in direct sunlight.",
-        "prereqs": ["PALE"],
-        "category": ["MUTCAT_TROGLO"]
+        "name" : "Albino",
+        "points" : -2,
+        "description" : "Your skin lacks pigment, and is nearly transparent. You suffer serious burns in direct sunlight.",
+        "prereqs" : ["PALE"],
+        "category" : ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
         "id" : "SORES",
-        "name": "Sores",
-        "points": -2,
-        "visibility": 5,
-        "ugliness": 6,
-        "description": "Your body is covered in painful sores. The pain is worse when they are covered in clothing.",
-        "prereqs": ["SPOTS"],
-        "category": ["MUTCAT_SLIME"]
+        "name" : "Sores",
+        "points" : -2,
+        "visibility" : 5,
+        "ugliness" : 6,
+        "description" : "Your body is covered in painful sores. The pain is worse when they are covered in clothing.",
+        "prereqs" : ["SPOTS"],
+        "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "TROGLO",
-        "name": "Light Sensitive",
-        "points": -2,
-        "description": "Sunlight makes you uncomfortable. If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
-        "cancels": ["SUNLIGHT_DEPENDENT"],
-        "changes_to": ["TROGLO2"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER"]
+        "name" : "Light Sensitive",
+        "points" : -2,
+        "description" : "Sunlight makes you uncomfortable. If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
+        "cancels" : ["SUNLIGHT_DEPENDENT"],
+        "changes_to" : ["TROGLO2"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "TROGLO2",
-        "name": "Very Light Sensitive",
-        "points": -3,
-        "description": "Sunlight makes you very uncomfortable. If you are outdoors during the day, you suffer -1 to all stats; -2 if the weather is Sunny.",
-        "cancels": ["SUNLIGHT_DEPENDENT"],
-        "prereqs": ["TROGLO"],
-        "changes_to": ["TROGLO3"],
-        "category": ["MUTCAT_RAT"]
+        "name" : "Very Light Sensitive",
+        "points" : -3,
+        "description" : "Sunlight makes you very uncomfortable. If you are outdoors during the day, you suffer -1 to all stats; -2 if the weather is Sunny.",
+        "cancels" : ["SUNLIGHT_DEPENDENT"],
+        "prereqs" : ["TROGLO"],
+        "changes_to" : ["TROGLO3"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "TROGLO3",
-        "name": "Troglobite",
-        "points": -5,
-        "description": "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
-        "cancels": ["SUNLIGHT_DEPENDENT"],
-        "prereqs": ["TROGLO2"],
-        "category": ["MUTCAT_TROGLO"]
+        "name" : "Troglobite",
+        "points" : -5,
+        "description" : "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
+        "cancels" : ["SUNLIGHT_DEPENDENT"],
+        "prereqs" : ["TROGLO2"],
+        "category" : ["MUTCAT_TROGLO"]
     },{
         "type" : "mutation",
         "id" : "WEBBED",
-        "name": "Webbed Hands",
-        "points": -1,
-        "visibility": 3,
-        "ugliness": 2,
-        "description": "Your hands and feet are heavily webbed, reducing your dexterity by 1 and preventing you from wearing gloves. However, you can swim much faster. Slightly decreases wet penalties.",
-        "category": ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_SLIME"],
-        "wet_protection":[
-         {
-            "part": "HANDS",
-            "neutral": 3
-         }
-      ]
+        "name" : "Webbed Hands",
+        "points" : -1,
+        "visibility" : 3,
+        "ugliness" : 2,
+        "description" : "Your hands and feet are heavily webbed, reducing your dexterity by 1 and preventing you from wearing gloves. However, you can swim much faster. Slightly decreases wet penalties.",
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_SLIME"],
+        "wet_protection" : [
+            { "part" : "HANDS", "neutral" : 3 }
+        ]
     },{
         "type" : "mutation",
         "id" : "BEAK",
-        "name": "Beak",
-        "points": -1,
-        "visibility": 8,
-        "ugliness": 4,
-        "description": "You have a beak for a mouth. You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouthgear. Slightly reduces wet effects.",
-        "cancels": ["FANGS", "MANDIBLES"],
-        "category": ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD"],
-        "wet_protection":[
-         {
-            "part": "MOUTH",
-            "ignored": 1
-         }
-      ]
+        "name" : "Beak",
+        "points" : -1,
+        "visibility" : 8,
+        "ugliness" : 4,
+        "description" : "You have a beak for a mouth. You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouthgear. Slightly reduces wet effects.",
+        "cancels" : ["FANGS", "MANDIBLES"],
+        "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "MOUTH", "ignored" : 1 }
+        ]
     },{
         "type" : "mutation",
         "id" : "UNSTABLE",
-        "name": "Genetically Unstable",
-        "points": -4,
-        "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
-        "category": ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+        "name" : "Genetically Unstable",
+        "points" : -4,
+        "description" : "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
+        "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE1",
-        "name": "Minor Radioactivity",
-        "points": -4,
-        "description": "Your body has become radioactive! You continuously emit low levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
-        "changes_to": ["RADIOACTIVE2"],
-        "category": ["MUTCAT_SLIME"]
+        "name" : "Minor Radioactivity",
+        "points" : -4,
+        "description" : "Your body has become radioactive! You continuously emit low levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "changes_to" : ["RADIOACTIVE2"],
+        "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE2",
-        "name": "Radioactivity",
-        "points": -4,
-        "description": "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
-        "prereqs": ["RADIOACTIVE1"],
-        "changes_to": ["RADIOACTIVE3"]
+        "name" : "Radioactivity",
+        "points" : -4,
+        "description" : "Your body has become radioactive! You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "prereqs" : ["RADIOACTIVE1"],
+        "changes_to" : ["RADIOACTIVE3"],
+        "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE3",
-        "name": "Severe Radioactivity",
-        "points": -4,
-        "description": "Your body has become radioactive! You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
-        "prereqs": ["RADIOACTIVE2"]
+        "name" : "Severe Radioactivity",
+        "points" : -4,
+        "description" : "Your body has become radioactive! You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "prereqs" : ["RADIOACTIVE2"]
     },{
         "type" : "mutation",
         "id" : "SLIMY",
-        "name": "Slimy",
-        "points": 2,
-        "visibility": 7,
-        "ugliness": 6,
-        "description": "Your body is coated with a fine slime, which oozes off of you, leaving a trail. Greatly increases wet benefits.",
-        "leads_to": ["SLIME_HANDS"],
-        "category": ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"],
-        "wet_protection":[
-         {
-            "part": "HEAD",
-            "neutral": 3,
-            "good": 4
-         },
-         {
-            "part": "LEGS",
-            "neutral": 7,
-            "good": 14
-         },
-         {
-            "part": "FEET",
-            "neutral": 2,
-            "good": 4
-         },
-         {
-            "part": "ARMS",
-            "neutral": 7,
-            "good": 12
-         },
-         {
-            "part": "HANDS",
-            "neutral": 2,
-            "good": 3
-         },
-         {
-            "part": "TORSO",
-            "neutral": 14,
-            "good": 26
-         }
-      ]
+        "name" : "Slimy",
+        "points" : 2,
+        "visibility" : 7,
+        "ugliness" : 6,
+        "description" : "Your body is coated with a fine slime, which oozes off of you, leaving a trail. Greatly increases wet benefits.",
+        "leads_to" : ["SLIME_HANDS"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "HEAD", "neutral" : 3, "good" : 4 },
+            { "part" : "LEGS", "neutral" : 7, "good" : 14 },
+            { "part" : "FEET", "neutral" : 2, "good" : 4 },
+            { "part" : "ARMS", "neutral" : 7, "good" : 12 },
+            { "part" : "HANDS", "neutral" : 2, "good" : 3 },
+            { "part" : "TORSO", "neutral" : 14, "good" : 26 }
+        ]
     },{
         "type" : "mutation",
         "id" : "HERBIVORE",
-        "name": "Herbivore",
-        "points": -3,
-        "description": "Your body's ability to digest meat is severely hampered. Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
-        "cancels": ["CARNIVORE", "SAPROVORE"],
-        "leads_to": ["RUMINANT"]
+        "name" : "Herbivore",
+        "points" : -3,
+        "description" : "Your body's ability to digest meat is severely hampered. Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
+        "cancels" : ["CARNIVORE", "SAPROVORE"],
+        "leads_to" : ["RUMINANT"]
     },{
         "type" : "mutation",
         "id" : "CARNIVORE",
-        "name": "Carnivore",
-        "points": -3,
-        "description": "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
-        "cancels": ["HERBIVORE", "RUMINANT"],
-        "leads_to": ["SAPROVORE"],
-        "category": ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA"]
+        "name" : "Carnivore",
+        "points" : -3,
+        "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
+        "cancels" : ["HERBIVORE", "RUMINANT"],
+        "leads_to" : ["SAPROVORE"],
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
-        "name": "Ponderous",
-        "points": -3,
-        "description": "Your muscles are generally slow to move. You run 10% slower.",
-        "cancels": ["FLEET", "FLEET2"],
-        "changes_to": ["PONDEROUS2"]
+        "name" : "Ponderous",
+        "points" : -3,
+        "description" : "Your muscles are generally slow to move. You run 10% slower.",
+        "cancels" : ["FLEET", "FLEET2"],
+        "changes_to" : ["PONDEROUS2"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS2",
-        "name": "Very Ponderous",
-        "points": -5,
-        "description": "Your muscles are quite slow to move. You run 20% slower.",
-        "cancels": ["FLEET", "FLEET2"],
-        "prereqs": ["PONDEROUS1"],
-        "changes_to": ["PONDEROUS3"],
-        "category": ["MUTCAT_CATTLE"]
+        "name" : "Very Ponderous",
+        "points" : -5,
+        "description" : "Your muscles are quite slow to move. You run 20% slower.",
+        "cancels" : ["FLEET", "FLEET2"],
+        "prereqs" : ["PONDEROUS1"],
+        "changes_to" : ["PONDEROUS3"],
+        "category" : ["MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS3",
-        "name": "Extremely Ponderous",
-        "points": -8,
-        "description": "Your muscles are very slow to move. You run 30% slower.",
-        "cancels": ["FLEET", "FLEET2"],
-        "prereqs": ["PONDEROUS2"],
-        "category": ["MUTCAT_PLANT"]
+        "name" : "Extremely Ponderous",
+        "points" : -8,
+        "description" : "Your muscles are very slow to move. You run 30% slower.",
+        "cancels" : ["FLEET", "FLEET2"],
+        "prereqs" : ["PONDEROUS2"],
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "SUNLIGHT_DEPENDENT",
-        "name": "Sunlight dependent",
-        "points": -5,
-        "description": "You feel very sluggish when not in direct sunlight. You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
-        "cancels": ["TROGLO", "TROGLO2", "TROGLO3"]
+        "name" : "Sunlight dependent",
+        "points" : -5,
+        "description" : "You feel very sluggish when not in direct sunlight. You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
+        "cancels" : ["TROGLO", "TROGLO2", "TROGLO3"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD",
-        "name": "Heat dependent",
-        "points": -2,
-        "description": "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
-        "changes_to": ["COLDBLOOD2"],
-        "category": ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
+        "name" : "Heat dependent",
+        "points" : -2,
+        "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
+        "changes_to" : ["COLDBLOOD2"],
+        "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
-        "name": "Very Heat dependent",
-        "points": -3,
-        "description": "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
-        "prereqs": ["COLDBLOOD"],
-        "changes_to": ["COLDBLOOD3"],
-        "category": ["MUTCAT_FISH"]
+        "name" : "Very Heat dependent",
+        "points" : -3,
+        "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
+        "prereqs" : ["COLDBLOOD"],
+        "changes_to" : ["COLDBLOOD3"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD3",
-        "name": "Cold Blooded",
-        "points": -5,
-        "description": "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
-        "prereqs": ["COLDBLOOD2"],
-        "category": ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
+        "name" : "Cold Blooded",
+        "points" : -5,
+        "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
+        "prereqs" : ["COLDBLOOD2"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "GROWL",
-        "name": "Growling Voice",
-        "points": -1,
-        "description": "You have a growling, rough voice. Persuading NPCs will be more difficult, but threatening them will be easier.",
-        "changes_to": ["SNARL"],
-        "category": ["MUTCAT_RAT"]
+        "name" : "Growling Voice",
+        "points" : -1,
+        "description" : "You have a growling, rough voice. Persuading NPCs will be more difficult, but threatening them will be easier.",
+        "changes_to" : ["SNARL"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "SNARL",
-        "name": "Snarling Voice",
-        "points": -2,
-        "description": "You have a threatening snarl in your voice. Persuading NPCs will be near impossible, but threatening them will be much easier.",
-        "prereqs": ["GROWL"],
-        "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+        "name" : "Snarling Voice",
+        "points" : -2,
+        "description" : "You have a threatening snarl in your voice. Persuading NPCs will be near impossible, but threatening them will be much easier.",
+        "prereqs" : ["GROWL"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "HISS",
+        "name": "Hissing Voice",
+        "points": -1,
+        "description": "You hiss when speaking. Persuading NPCs will be more difficult, but threatening them will be easier.",
+        "category": ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "SHOUT1",
-        "name": "Shouter",
-        "points": -2,
-        "description": "You occasionally shout uncontrollably.",
-        "changes_to": ["SHOUT2"]
+        "name" : "Shouter",
+        "points" : -2,
+        "description" : "You occasionally shout uncontrollably.",
+        "changes_to" : ["SHOUT2"],
+        "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "SHOUT2",
-        "name": "Screamer",
-        "points": -3,
-        "description": "You sometimes scream uncontrollably.",
-        "prereqs": ["SHOUT1"],
-        "changes_to": ["SHOUT3"]
+        "name" : "Screamer",
+        "points" : -3,
+        "description" : "You sometimes scream uncontrollably.",
+        "prereqs" : ["SHOUT1"],
+        "changes_to" : ["SHOUT3"]
     },{
         "type" : "mutation",
         "id" : "SHOUT3",
-        "name": "Howler",
-        "points": -5,
-        "description": "You frequently let out a piercing howl.",
-        "prereqs": ["SHOUT2"],
-        "category": ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+        "name" : "Howler",
+        "points" : -5,
+        "description" : "You frequently let out a piercing howl.",
+        "prereqs" : ["SHOUT2"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES",
-        "name": "Tentacle Arms",
-        "points": -5,
-        "visibility": 7,
-        "ugliness": 4,
-        "description": "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. Somewhat decreases wet penalties.",
-        "changes_to": ["ARM_TENTACLES_4"],
-        "wet_protection":[
-         {
-            "part": "ARMS",
-            "neutral": 19
-         },
-         {
-            "part": "HANDS",
-            "neutral": 5
-         }
-      ]
+        "name" : "Tentacle Arms",
+        "points" : -5,
+        "visibility" : 7,
+        "ugliness" : 4,
+        "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. Somewhat decreases wet penalties.",
+        "changes_to" : ["ARM_TENTACLES_4"],
+        "wet_protection" : [
+            { "part" : "ARMS", "neutral" : 19 },
+            { "part" : "HANDS", "neutral" : 5 }
+        ]
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES_4",
-        "name": "4 Tentacles",
-        "points": -3,
-        "visibility": 8,
-        "ugliness": 5,
-        "description": "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 3 extra attacks with them. Somewhat decreases wet penalties.",
-        "prereqs": ["ARM_TENTACLES"],
-        "changes_to": ["ARM_TENTACLES_8"],
-        "wet_protection":[
-         {
-            "part": "ARMS",
-            "neutral": 19
-         },
-         {
-            "part": "HANDS",
-            "neutral": 5
-         }
-      ]
+        "name" : "4 Tentacles",
+        "points" : -3,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 3 extra attacks with them. Somewhat decreases wet penalties.",
+        "prereqs" : ["ARM_TENTACLES"],
+        "changes_to" : ["ARM_TENTACLES_8"],
+        "wet_protection" : [
+            { "part" : "ARMS", "neutral" : 19 },
+            { "part" : "HANDS", "neutral" : 5 }
+        ]
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES_8",
-        "name": "8 Tentacles",
-        "points": -2,
-        "visibility": 9,
-        "ugliness": 6,
-        "description": "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 7 extra attacks with them. Somewhat decreases wet penalties.",
-        "prereqs": ["ARM_TENTACLES_4"],
-        "category": ["MUTCAT_CEPHALOPOD"],
-        "wet_protection":[
-         {
-            "part": "ARMS",
-            "neutral": 19
-         },
-         {
-            "part": "HANDS",
-            "neutral": 5
-         }
-      ]
+        "name" : "8 Tentacles",
+        "points" : -2,
+        "visibility" : 9,
+        "ugliness" : 6,
+        "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 7 extra attacks with them. Somewhat decreases wet penalties.",
+        "prereqs" : ["ARM_TENTACLES_4"],
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "ARMS", "neutral" : 19 },
+            { "part" : "HANDS", "neutral" : 5 }
+        ]
     },{
         "type" : "mutation",
         "id" : "SHELL",
-        "name": "Shell",
-        "points": -5,
-        "visibility": 8,
-        "ugliness": 3,
-        "description": "You have grown a thick shell over your torso, providing excellent armor. You find you can use the empty space as 16 storage space, but cannot wear anything on your torso. Somewhat reduces wet effects.",
-        "prereqs": ["CHITIN"],
-        "cancels": ["CHITIN3"],
-        "category": ["MUTCAT_CEPHALOPOD"],
-        "wet_protection":[
-         {
-            "part": "TORSO",
-            "ignored": 26
-         }
-      ]
+        "name" : "Shell",
+        "points" : -5,
+        "visibility" : 8,
+        "ugliness" : 3,
+        "description" : "You have grown a thick shell over your torso, providing excellent armor. You find you can use the empty space as 16 storage space, but cannot wear anything on your torso. Somewhat reduces wet effects.",
+        "prereqs" : ["CHITIN"],
+        "cancels" : ["CHITIN3"],
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "TORSO", "ignored" : 26 }
+        ]
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
-        "name": "Leg Tentacles",
-        "points": -3,
-        "visibility": 8,
-        "ugliness": 4,
-        "description": "Your legs have transformed into six tentacles. This decreases your speed on land by 20%, but makes your movement silent. However, they also increase your swimming speed. Somewhat decreases wet penalties.",
-        "cancels": ["PADDED_FEET", "HOOVES"],
-        "category": ["MUTCAT_CEPHALOPOD"],
-        "wet_protection":[
-         {
-            "part": "LEGS",
-            "neutral": 21
-         },
-         {
-            "part": "FEET",
-            "neutral": 6
-         }
-      ]
+        "name" : "Leg Tentacles",
+        "points" : -3,
+        "visibility" : 8,
+        "ugliness" : 4,
+        "description" : "Your legs have transformed into six tentacles. This decreases your speed on land by 20%, but makes your movement silent. However, they also increase your swimming speed. Somewhat decreases wet penalties.",
+        "cancels" : ["PADDED_FEET", "HOOVES"],
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "LEGS", "neutral" : 21 },
+            { "part" : "FEET", "neutral" : 6 }
+        ]
     }
 ]

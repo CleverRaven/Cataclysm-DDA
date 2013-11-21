@@ -1,1167 +1,1168 @@
 [
-{
-    "type":"migo_speech",
-    "sound" : "\"Hello?\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Who's there?\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Can you help me?\"",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Over here!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Can you repeat that?\"",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You're just copying me, aren't you?\"",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'm not afraid of you!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Come here!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Please, don't!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "a horrified scream!",
-    "volume" : 60
-},
-{
-    "type":"migo_speech",
-    "sound" : "a little girl's wailing!",
-    "volume" : 50
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"So, what is this thing supposed to be, exactly?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Uncategorized object seven-seven-three-four.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It came from the other side of one of the apertures.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Mommy, help!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We're still trying to figure out what makes it tick.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We're not even sure what it is.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"The cell structure is unlike any we've ever seen.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It does seem to have some form of higher level brain functioning.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Problem solving, memory retention, that sort of thing.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"There appear to be some anomalous aspects to the mimicry.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Members of the species have some kind of neurocognitive link.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"This one's repeating phrases that the previous specimen was exposed to.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "a child shrieking!",
-    "volume" : 60
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Oh God, my leg, Oh God!\"",
-    "volume" : 60
-},
-{
-    "type":"migo_speech",
-    "sound" : "a long cry of agony!",
-    "volume" : 60
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You mean it's not just parroting us?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's parroting us, but we're uncertain as to how or why.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It may be a mechanism for attracting prey.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It could even be a way of trying to scare us off.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We just don't know.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "an anguished wail!",
-    "volume" : 60
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You're gonna rot in hell for this!\"",
-    "volume" : 60
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You hear me!?\"",
-    "volume" : 50
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You're gonna rot in hell, you pieces of shit!\"",
-    "volume" : 60
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Like we said, we have no idea what it's thinking.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Is that glass electrified?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Why don't you touch it and find out?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Of course it is.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"What'll happen if the power goes out?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Don't worry about it.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Don't worry.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"There are seven backup generators.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"And what if all the backups fail?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We'd have to terminate the specimen.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"The glass alone won't keep us safe for very long.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"That fuckin' thing is horrible, man, it gives me the creeps.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's probably more scared of us than we are of it.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Somehow, I doubt that.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Hey, we got other specimens that could withstand a grenade.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"And that's supposed to comfort me?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"At least we know they can die.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"U-O Seven-Seven-Three-Four.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Individual instances of U-O Seven-Seven-Three-Four.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"To be kept in a standard biohazardous containment chamber.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Until such time as more permanent arrangements are made.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Shows a noted preference for human brain tissue.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Destroy the specimen if it begins to interact with the lock.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Kill them all and let God sort them out!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I watched a snail crawl along the edge of a straight razor.\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I've seen horrors, horrors that you've seen.\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I love the smell of napalm in the morning.\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"This is the way the fuckin' world ends.\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Look at this fuckin' shit we're in, man.\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Every man has got a breaking point.\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'ma cut those fuckin' tentacles off, bitch!\"",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Watch you bleed out!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I wonder if it understands us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Do you understand what I'm saying?\"",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Look, it's responding!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"That's the first time it moved all morning.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'm certain it's trying to understand us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'm not convinced it can actually comprehend us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's just repeating us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Just being an alien creature doesn't mean it's intelligent.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Just because it doesn't look like you doesn't mean that it isn't.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Please open the door and enter the cell.\"",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Would it react differently with a child?\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Experiments to determine extent of cognitive abilities still underway.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Subject has so far displayed a total lack of empathy toward human suffering.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I got a round trip ticket.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How's your mom doing?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How's your dad doing?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I love you.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I love you too.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Just a little.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Only a few more days 'til the weekend.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Do you smoke?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You're new here, aren't you?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How do you like it here?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It won't hurt a bit.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"That was a long time ago.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Does it scare you?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Don't worry, it can't hurt us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"What are you afraid will happen?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Anything else?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You think they're the same sex?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Do they even have sex?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Can I see your phone?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You got a dollar I can borrow?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you busy at the moment?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you busy later?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you busy tonight?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you free tonight?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you going to the party tonight?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you going to help them?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you alone?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you hungry?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'm hungry.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Go ahead.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Have a good time.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Have you eaten yet?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Is it supposed to rain tomorrow?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Okay.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Good.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Great.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Fantastic.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"God damn it.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"God damn it!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Damn it.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Damn it!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Fuck.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Shit.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Fuck!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Shit!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Fuckin' piece of garbage.\"",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I need a new lab coat.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Excellent.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Excuse me.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Go ahead.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Good morning.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Good afternoon.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Good evening.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Good night.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Good luck.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Can I help you?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you seeing anyone?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Forget it.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How long were you two together?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Give me a call later.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Call me.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"From time to time.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We have a serious situation here.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Call the police.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Call an ambulance.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Get me the White House.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you feeling all right?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I think I'll live.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I think I need to see a doctor.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Is everything all right?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'm okay, don't worry about me.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's just a scratch.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I've got a headache.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'm fine.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Are you sure?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Positive.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Affirmative.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Negative.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Sorry.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Happy Birthday!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Have you ever been to California?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"What time do you get off?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We should hit up the shooting range later.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'm heading to the pool after work.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Have a good trip.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Where did you come from?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Have you been waiting long?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Have you done this before?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Hello.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Help!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Here it is.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I've got family coming tomorrow.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How do I use this?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How do you know?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How long have you been here?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How many languages do you speak?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How many people?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How much were these earrings?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How much do I owe you?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How much will it cost?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How much would you like?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How old are you?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How tall is it?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How was the movie?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How was your trip?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How's it going?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"See you later.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"See you tonight.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I got this weird rash a few days ago.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Let me have a look at it.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"When did you find out?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Seven o'clock.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Nobody is helping us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We're on our own.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We're all alone.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"We should split into groups of two each.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It can't follow all of us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Be careful out there.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"There you are.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I've been looking all over for you.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's looking for us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's faster than us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's looking right at us.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"It's heading right for us!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Can you swim?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Don't do that.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"You hear that?\"",
-    "volume" : 10
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Be quiet.\"",
-    "volume" : 10
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Look out!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Run!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Hurry!\"",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"No!\"",
-    "volume" : 50
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"I'll never forget you.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Take his gun, we're going to need it.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"How do we get out of here?\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"This place is like a maze.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Oh God, I'm the only one left.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Please, I don't want to die.\"",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Mom.\"",
-    "volume" : 10
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Mom, I miss you.\"",
-    "volume" : 10
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"Please, God.\"",
-    "volume" : 5
-},
-{
-    "type":"migo_speech",
-    "sound" : "a gurgling sound.",
-    "volume" : 10
-},
-{
-    "type":"migo_speech",
-    "sound" : "a choking sound.",
-    "volume" : 10
-},
-{
-    "type":"migo_speech",
-    "sound" : "a snapping sound.",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "a beeping sound.",
-    "volume" : 20
-},
-{
-    "type":"migo_speech",
-    "sound" : "a loud beeping sound.",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "a very loud beeping sound.",
-    "volume" : 40
-},
-{
-    "type":"migo_speech",
-    "sound" : "a loud hiss.",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "a loud crackling noise.",
-    "volume" : 30
-},
-{
-    "type":"migo_speech",
-    "sound" : "gunfire!",
-    "volume" : 90
-},
-{
-    "type":"migo_speech",
-    "sound" : "a klaxon blaring!",
-    "volume" : 90
-},
-{
-    "type":"migo_speech",
-    "sound" : "\"EMERGENCY, EMERGENCY!\"",
-    "volume" : 70
-},
-{
-    "type":"migo_speech",
-    "sound" : "a static hissing sound.",
-    "volume" : 30
-}
+    {
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Hello?\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Who's there?\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Can you help me?\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Over here!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Can you repeat that?\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You're just copying me, aren't you?\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'm not afraid of you!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Come here!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Please, don't!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a horrified scream!",
+        "volume" : 60
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a little girl's wailing!",
+        "volume" : 50
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"So, what is this thing supposed to be, exactly?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Uncategorized object seven-seven-three-four.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It came from the other side of one of the apertures.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Mommy, help!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We're still trying to figure out what makes it tick.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We're not even sure what it is.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"The cell structure is unlike any we've ever seen.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It does seem to have some form of higher level brain functioning.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Problem solving, memory retention, that sort of thing.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"There appear to be some anomalous aspects to the mimicry.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Members of the species have some kind of neurocognitive link.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"This one's repeating phrases that the previous specimen was exposed to.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a child shrieking!",
+        "volume" : 60
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Oh God, my leg, Oh God!\"",
+        "volume" : 60
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a long cry of agony!",
+        "volume" : 60
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You mean it's not just parroting us?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's parroting us, but we're uncertain as to how or why.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It may be a mechanism for attracting prey.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It could even be a way of trying to scare us off.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We just don't know.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "an anguished wail!",
+        "volume" : 60
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You're gonna rot in hell for this!\"",
+        "volume" : 60
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You hear me!?\"",
+        "volume" : 50
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You're gonna rot in hell, you pieces of shit!\"",
+        "volume" : 60
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Like we said, we have no idea what it's thinking.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Is that glass electrified?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Why don't you touch it and find out?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Of course it is.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"What'll happen if the power goes out?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Don't worry about it.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Don't worry.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"There are seven backup generators.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"And what if all the backups fail?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We'd have to terminate the specimen.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"The glass alone won't keep us safe for very long.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"That fuckin' thing is horrible, man, it gives me the creeps.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's probably more scared of us than we are of it.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Somehow, I doubt that.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Hey, we got other specimens that could withstand a grenade.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"And that's supposed to comfort me?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"At least we know they can die.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"U-O Seven-Seven-Three-Four.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Individual instances of U-O Seven-Seven-Three-Four.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"To be kept in a standard biohazardous containment chamber.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Until such time as more permanent arrangements are made.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Shows a noted preference for human brain tissue.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Destroy the specimen if it begins to interact with the lock.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Kill them all and let God sort them out!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I watched a snail crawl along the edge of a straight razor.\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I've seen horrors, horrors that you've seen.\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I love the smell of napalm in the morning.\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"This is the way the fuckin' world ends.\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Look at this fuckin' shit we're in, man.\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Every man has got a breaking point.\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'ma cut those fuckin' tentacles off, bitch!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Watch you bleed out!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I wonder if it understands us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Do you understand what I'm saying?\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Look, it's responding!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"That's the first time it moved all morning.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'm certain it's trying to understand us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'm not convinced it can actually comprehend us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's just repeating us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Just being an alien creature doesn't mean it's intelligent.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Just because it doesn't look like you doesn't mean that it isn't.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Please open the door and enter the cell.\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Would it react differently with a child?\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Experiments to determine extent of cognitive abilities still underway.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Subject has so far displayed a total lack of empathy toward human suffering.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I got a round trip ticket.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How's your mom doing?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How's your dad doing?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I love you.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I love you too.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Just a little.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Only a few more days 'til the weekend.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Do you smoke?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You're new here, aren't you?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How do you like it here?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It won't hurt a bit.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"That was a long time ago.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Does it scare you?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Don't worry, it can't hurt us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"What are you afraid will happen?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Anything else?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You think they're the same sex?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Do they even have sex?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Can I see your phone?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You got a dollar I can borrow?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you busy at the moment?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you busy later?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you busy tonight?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you free tonight?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you going to the party tonight?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you going to help them?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you alone?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you hungry?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'm hungry.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Go ahead.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Have a good time.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Have you eaten yet?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Is it supposed to rain tomorrow?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Okay.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Good.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Great.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Fantastic.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"God damn it.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"God damn it!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Damn it.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Damn it!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Fuck.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Shit.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Fuck!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Shit!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Fuckin' piece of garbage.\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I need a new lab coat.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Excellent.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Excuse me.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Go ahead.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Good morning.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Good afternoon.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Good evening.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Good night.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Good luck.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Can I help you?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you seeing anyone?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Forget it.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How long were you two together?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Give me a call later.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Call me.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"From time to time.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We have a serious situation here.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Call the police.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Call an ambulance.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Get me the White House.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you feeling all right?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I think I'll live.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I think I need to see a doctor.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Is everything all right?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'm okay, don't worry about me.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's just a scratch.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I've got a headache.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'm fine.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Are you sure?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Positive.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Affirmative.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Negative.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Sorry.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Happy Birthday!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Have you ever been to California?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"What time do you get off?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We should hit up the shooting range later.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'm heading to the pool after work.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Have a good trip.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Where did you come from?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Have you been waiting long?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Have you done this before?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Hello.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Help!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Here it is.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I've got family coming tomorrow.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How do I use this?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How do you know?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How long have you been here?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How many languages do you speak?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How many people?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How much were these earrings?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How much do I owe you?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How much will it cost?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How much would you like?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How old are you?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How tall is it?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How was the movie?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How was your trip?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How's it going?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"See you later.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"See you tonight.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I got this weird rash a few days ago.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Let me have a look at it.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"When did you find out?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Seven o'clock.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Nobody is helping us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We're on our own.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We're all alone.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"We should split into groups of two each.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It can't follow all of us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Be careful out there.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"There you are.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I've been looking all over for you.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's looking for us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's faster than us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's looking right at us.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"It's heading right for us!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Can you swim?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Don't do that.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"You hear that?\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Be quiet.\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Look out!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Run!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Hurry!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"No!\"",
+        "volume" : 50
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"I'll never forget you.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Take his gun, we're going to need it.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"How do we get out of here?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"This place is like a maze.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Oh God, I'm the only one left.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Please, I don't want to die.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Mom.\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Mom, I miss you.\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"Please, God.\"",
+        "volume" : 5
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a gurgling sound.",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a choking sound.",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a snapping sound.",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a beeping sound.",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a loud beeping sound.",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a very loud beeping sound.",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a loud hiss.",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a loud crackling noise.",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "gunfire!",
+        "volume" : 90
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a klaxon blaring!",
+        "volume" : 90
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "\"EMERGENCY, EMERGENCY!\"",
+        "volume" : 70
+    },{
+        "type" : "speech",
+        "speaker" : "migo",
+        "sound" : "a static hissing sound.",
+        "volume" : 30
+    }
 ]

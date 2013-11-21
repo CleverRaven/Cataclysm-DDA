@@ -10,7 +10,8 @@ logg.txt
 bindist/
 cataclysmdda-*
 objwin/
-version.h
+src/version.h
+lua/catabindings.cpp
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout
@@ -40,3 +41,6 @@ Thumbs.db
 core
 tags
 cscope.*
+
+# Compiled binary translations
+lang/mo/

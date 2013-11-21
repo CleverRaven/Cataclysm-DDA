@@ -111,6 +111,14 @@
             ],
         "category" : "MUTCAT_ALPHA",
         "strength" : 1
+	},{
+        "type" : "dream",
+        "messages" : [
+            "You have a strange dream.",
+            "You feel a yearning..."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 1
     },{
         "type" : "dream",
         "messages" : [
@@ -118,6 +126,14 @@
             "Your dreams...are complex and multifaceted."
             ],
         "category" : "MUTCAT_CHIMERA",
+        "strength" : 1
+	},{
+        "type" : "dream",
+        "messages" : [
+            "You dream of the tropics.",
+            "You feel warm."
+            ],
+        "category" : "MUTCAT_RAPTOR",
         "strength" : 1
     },{
         "type" : "dream",
@@ -234,12 +250,28 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You dream of a home in the forests.",
+            "You feel beautiful, and yet riven with worry..."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 2
+	},{
+        "type" : "dream",
+        "messages" : [
             "You can't quite work out what the dream is about...it just keeps changing.",
             "Your dream is filled with creatures, and yet all seem like you."
             ],
         "category" : "MUTCAT_CHIMERA",
         "strength" : 2
     },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of stalking some sort of lizard...no, that can't be right, can it?",
+            "For some reason you dream of your shoes.  They don't fit, and nothing seems to help..."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 2
+	},{
         "type" : "dream",
         "messages" : [
             "You are terrified by a dream of becoming a lizard hybrid.",
@@ -351,6 +383,14 @@
             ],
         "category" : "MUTCAT_ALPHA",
         "strength" : 3
+	},{
+        "type" : "dream",
+        "messages" : [
+            "NO! You will not allow this corruption to prevail!",
+            "You see yourself reflected in the beauty of the forest."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 3
     },{
         "type" : "dream",
         "messages" : [
@@ -358,6 +398,14 @@
             "Hoof. Talon. Tooth. Fight. Feed. Forward."
             ],
         "category" : "MUTCAT_CHIMERA",
+        "strength" : 3
+	},{
+        "type" : "dream",
+        "messages" : [
+            "You've never felt so lithe and powerful.",
+            "After an exciting and tasty hunt, you retire to your nest.  Mmm, yes, nest."
+            ],
+        "category" : "MUTCAT_RAPTOR",
         "strength" : 3
    }
 ]

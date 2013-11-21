@@ -138,21 +138,6 @@
     },
     {
         "type":"GENERIC",
-        "id" : "metal_tank",
-        "name" : "metal tank",
-        "description" : "A metal tank for holding liquids. Useful for crafting.",
-        "weight" : 2834,
-        "to_hit" : -2,
-        "color" : "light_cyan",
-        "symbol" : "}",
-        "material" : ["steel", "null"],
-        "volume" : 18,
-        "bashing" : 3,
-        "cutting" : 0,
-        "price" : 40
-    },
-    {
-        "type":"GENERIC",
         "id" : "small_storage_battery",
         "name" : "small storage battery",
         "description" : "A small storage battery. Useful for crafting.",
@@ -436,6 +421,21 @@
         "bashing" : 0,
         "cutting" : 0,
         "price" : 400
+    },
+    {
+        "type":"GENERIC",
+        "id": "veh_tracker",
+        "name": "vehicle tracking device",
+        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle through your PDA",
+        "weight": 400,
+        "to_hit": 0,
+        "color": "red",
+        "symbol": ";",
+        "material": ["plastic", "iron"],
+        "volume": 2,
+        "bashing": 1,
+        "cutting": 0,
+        "price": 800
     },
     {
         "type":"GENERIC",
