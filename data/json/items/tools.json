@@ -1108,7 +1108,7 @@
     "initial_charges": 100,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "batteries",
+    "ammo": "battery",
     "revert_to": "null",
     "use_action": "CARVER_OFF"
   },
@@ -1133,7 +1133,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "batteries",
+    "ammo": "battery",
     "revert_to": "carver_off",
     "use_action": "CARVER_ON",
     "qualities": [["CUT", 1]]
