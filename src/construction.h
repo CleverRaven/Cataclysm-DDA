@@ -48,7 +48,10 @@ extern std::vector<construction*> constructions;
 void load_construction(JsonObject &jsobj);
 void construction_menu();
 bool player_can_build(player &p, inventory inv, construction *con);
-void place_construction(construction *con);
+bool player_can_build(player &p, inventory pinv, const std::string &desc);
+bool can_construct(construction *con, int x, int y);
+bool can_construct(construction *con);
+void place_construction(const std::string &desc);
 void complete_construction();
 
 #endif // _CONSTRUCTION_H_

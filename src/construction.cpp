@@ -14,15 +14,34 @@
 #include <algorithm>
 
 std::vector<construction*> constructions;
+std::map<std::string,std::vector<construction*> > constructions_by_desc;
 
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
 
 void construction_menu()
 {
+    // only display constructions the player can theoretically perform
+    std::vector<std::string> available;
+    for (unsigned i = 0; i < constructions.size(); ++i) {
+        construction *c = constructions[i];
+        if (can_construct(c)) {
+            bool already_have_it = false;
+            for (unsigned j = 0; j < available.size(); ++j) {
+                if (available[j] == c->description) {
+                    already_have_it = true;
+                    break;
+                }
+            }
+            if (!already_have_it) {
+                available.push_back(c->description);
+            }
+        }
+    }
+
     int iMaxY = TERMY;
-    if (constructions.size()+2 < iMaxY) {
-        iMaxY = constructions.size()+2;
+    if (available.size()+2 < iMaxY) {
+        iMaxY = available.size()+2;
     }
     if (iMaxY < FULL_SCREEN_HEIGHT) {
         iMaxY = FULL_SCREEN_HEIGHT;
@@ -58,16 +77,16 @@ void construction_menu()
     mvwputch(w_con, i, j, c_black, ' ');
   }
   //Draw Scrollbar
-  draw_scrollbar(w_con, select, iMaxY-2, constructions.size(), 1);
-// Determine where in the master list to start printing
+  draw_scrollbar(w_con, select, iMaxY-2, available.size(), 1);
+  // Determine where in the master list to start printing
   //int offset = select - 11;
   int offset = 0;
   if (select >= iMaxY-2)
    offset = select - iMaxY + 3;
-// Print the constructions between offset and max (or how many will fit)
-  for (int i = 0; i < iMaxY-2 && (i + offset) < constructions.size(); i++) {
+  // Print the constructions between offset and max (or how many will fit)
+  for (int i = 0; i < iMaxY-2 && (i + offset) < available.size(); i++) {
    int current = i + offset;
-   nc_color col = (player_can_build(g->u, total_inv, constructions[current]) ?
+   nc_color col = (player_can_build(g->u, total_inv, available[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
    unsigned char hotkey = 97 + current;
@@ -76,26 +95,27 @@ void construction_menu()
 
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, constructions[current]->description.c_str());
+   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, available[current].c_str());
   }
 
   if (update_info) {
    update_info = false;
-   construction *current_con = constructions[select];
-// Print difficulty
-   int pskill = g->u.skillLevel("carpentry");
-   int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
-   mvwprintz(w_con, 1, 43, (pskill >= diff ? c_white : c_red),
-             "%d   ", diff);
-// Clear out lines for tools & materials
+   std::string current_desc = available[select];
+   // Clear out lines for tools & materials
    for (int i = 2; i < iMaxY-1; i++) {
     for (int j = 31; j < 79; j++)
      mvwputch(w_con, i, j, c_black, ' ');
    }
 
-// Print stages and their requirement
-   int posx = 33, posy = 2;
-     nc_color color_stage = (player_can_build(g->u, total_inv, current_con) ? c_white : c_dkgray);
+   // Print stages and their requirement
+   int posx = 33, posy = 0;
+   std::vector<construction*> options = constructions_by_desc[current_desc];
+   for (unsigned i = 0; i < options.size(); ++i) {
+    construction *current_con = options[i];
+    if (!can_construct(current_con)) {
+     continue;
+    }
+    nc_color color_stage = c_white;
 
     std::string mes;
     if (current_con->post_terrain != "") {
@@ -107,11 +127,16 @@ void construction_menu()
     } else {
         mes = "";
     }
+    int pskill = g->u.skillLevel("carpentry");
+    int diff = current_con->difficulty > 0 ? current_con->difficulty : 0;
     posy++;
-    mvwprintz(w_con, posy, 31, color_stage, mes.c_str());
+    mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
+              _("Difficulty: %d"), diff);
+    posy++;
+    mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"), mes.c_str());
     posy++;
     mvwprintz(w_con, posy, 31, color_stage, _("Time: %1d minutes"), current_con->time);
-// Print tools
+    // Print tools
     std::vector<bool> has_tool;
     posy++;
     posx = 33;
@@ -144,7 +169,7 @@ void construction_menu()
      posy ++;
      posx = 33;
     }
-// Print components
+    // Print components
     posx = 33;
     std::vector<bool> has_component;
     for (int i = 0; i < current_con->components.size(); i++) {
@@ -168,7 +193,7 @@ void construction_menu()
       mvwprintz(w_con, posy, posx, col, "%s x%d",
                 item_controller->find_template(comp.type)->name.c_str(), comp.count);
       posx += length + 3; // + 2 for " x", + 1 for an empty space
-// Add more space for the length of the count
+      // Add more space for the length of the count
       if (comp.count < 10)
        posx++;
       else if (comp.count < 100)
@@ -188,6 +213,7 @@ void construction_menu()
      posy ++;
      posx = 33;
     }
+   }
    wrefresh(w_con);
   } // Finished updating
 
@@ -195,7 +221,7 @@ void construction_menu()
   switch (ch) {
    case KEY_DOWN:
     update_info = true;
-    if (select < constructions.size() - 1)
+    if (select < available.size() - 1)
      select++;
     else
      select = 0;
@@ -205,7 +231,7 @@ void construction_menu()
     if (select > 0)
      select--;
     else
-     select = constructions.size() - 1;
+     select = available.size() - 1;
     break;
    case ' ':
    case KEY_ESCAPE:
@@ -224,9 +250,9 @@ void construction_menu()
     else if (ch == '\n')
      chosen = select;
 
-    if (chosen < constructions.size()) {
-     if (player_can_build(g->u, total_inv, constructions[chosen])) {
-      place_construction(constructions[chosen]);
+    if (chosen < available.size()) {
+     if (player_can_build(g->u, total_inv, available[chosen])) {
+      place_construction(available[chosen]);
       exit = true;
      } else {
       popup(_("You can't build that!"));
@@ -248,6 +274,18 @@ void construction_menu()
 
  wrefresh(w_con);
  g->refresh_all();
+}
+
+bool player_can_build(player &p, inventory pinv, const std::string &desc)
+{
+    // check all with the same desc to see if player can build any
+    std::vector<construction*> cons = constructions_by_desc[desc];
+    for (unsigned i = 0; i < cons.size(); ++i) {
+        if (player_can_build(p, pinv, cons[i])) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool player_can_build(player &p, inventory pinv, construction *con)
@@ -307,65 +345,88 @@ bool player_can_build(player &p, inventory pinv, construction *con)
            (has_tool || !tools_required);
 }
 
-void place_construction(construction *con)
+bool can_construct(construction *con, int x, int y)
 {
-    g->refresh_all();
-    inventory total_inv = g->crafting_inventory(&(g->u));
+    // see if the special pre-function checks out
+    construct test;
+    bool place_okay = (test.*(con->pre_special))(point(x, y));
+    // see if the terrain type checks out
+    if (con->pre_terrain != "") {
+        if (con->pre_is_furniture) {
+            furn_id f = furnmap[con->pre_terrain].loadid;
+            place_okay &= (g->m.furn(x, y) == f);
+        } else {
+            ter_id t = termap[con->pre_terrain].loadid;
+            place_okay &= (g->m.ter(x, y) == t);
+        }
+    }
+    // see if the flags check out
+    if (!con->pre_flags.empty()) {
+        std::set<std::string>::iterator it;
+        for (it = con->pre_flags.begin(); it != con->pre_flags.end(); ++it) {
+            place_okay &= g->m.has_flag(*it, x, y);
+        }
+    }
+    return place_okay;
+}
 
-    std::vector<point> valid;
+bool can_construct(construction *con)
+{
     for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
         for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
             if (x == g->u.posx && y == g->u.posy) {
                 y++;
             }
-            // see if the special pre-function checks out
-            construct test;
-            bool place_okay = (test.*(con->pre_special))(point(x, y));
-            // see if the terrain type checks out
-            if (con->pre_terrain != "") {
-                if (con->pre_is_furniture) {
-                    furn_id f = furnmap[con->pre_terrain].loadid;
-                    place_okay &= (g->m.furn(x, y) == f);
-                } else {
-                    ter_id t = termap[con->pre_terrain].loadid;
-                    place_okay &= (g->m.ter(x, y) == t);
-                }
-            }
-            // see if the flags check out
-            if (!con->pre_flags.empty()) {
-                std::set<std::string>::iterator it;
-                for (it = con->pre_flags.begin(); it != con->pre_flags.end(); ++it) {
-                    place_okay &= g->m.has_flag(*it, x, y);
-                }
-            }
-
-            if (place_okay) {
-                valid.push_back(point(x, y));
-                g->m.drawsq(g->w_terrain, g->u, x, y, true, false);
-                wrefresh(g->w_terrain);
+            if (can_construct(con, x, y)) {
+                return true;
             }
         }
     }
+    return false;
+}
+
+void place_construction(const std::string &desc)
+{
+    g->refresh_all();
+    inventory total_inv = g->crafting_inventory(&(g->u));
+
+    std::vector<construction*> cons = constructions_by_desc[desc];
+    std::map<point,construction*> valid;
+    for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
+        for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
+            if (x == g->u.posx && y == g->u.posy) {
+                y++;
+            }
+            for (unsigned i = 0; i < cons.size(); ++i) {
+                if (can_construct(cons[i], x, y)) {
+                    valid[point(x, y)] = cons[i];
+                }
+            }
+        }
+    }
+
+    for (std::map<point,construction*>::iterator it = valid.begin();
+            it != valid.end(); ++it) {
+        int x = it->first.x, y = it->first.y;
+        g->m.drawsq(g->w_terrain, g->u, x, y, true, false);
+    }
+    wrefresh(g->w_terrain);
 
     int dirx, diry;
     if (!g->choose_adjacent(_("Contruct where?"), dirx, diry)) {
         return;
     }
 
-    bool point_is_okay = false;
-    for (unsigned i = 0; i < valid.size() && !point_is_okay; i++) {
-        if (valid[i].x == dirx && valid[i].y == diry) {
-            point_is_okay = true;
-        }
-    }
-    if (!point_is_okay) {
+    point choice(dirx, diry);
+    if (valid.find(choice) == valid.end()) {
         g->add_msg(_("You cannot build there!"));
         return;
     }
 
+    construction *con = valid[choice];
     g->u.assign_activity(g, ACT_BUILD, con->time * 1000, con->id);
     g->u.moves = 0;
-    g->u.activity.placement = point(dirx, diry);
+    g->u.activity.placement = choice;
 }
 
 void complete_construction()
@@ -671,5 +732,6 @@ void load_construction(JsonObject &jo)
 
     con->id = constructions.size();
     constructions.push_back(con);
+    constructions_by_desc[con->description].push_back(con);
 }
 
