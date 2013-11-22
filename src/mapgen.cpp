@@ -438,6 +438,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     } else if (terrain_type == "road_nesw" ||
                terrain_type == "road_nesw_manhole") {
         mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
+/*
     } else if (terrain_type == "river_center") {
         fill_background(this, t_water_dp);
 
@@ -458,6 +459,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                terrain_type == "river_sw" ||
                terrain_type == "river_nw") {
         mapgen_river_curved(this, terrain_type, facing_data, turn, density);
+*/
     } else if (terrain_type == "apartments_con_tower_1_entrance") {
 
         fill_background(this, &grass_or_dirt);

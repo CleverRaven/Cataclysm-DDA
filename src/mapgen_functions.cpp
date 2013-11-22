@@ -57,6 +57,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["field"]            = &mapgen_field;
     mapgen_cfunction_map["bridge"]           = &mapgen_bridge;
     mapgen_cfunction_map["highway"]          = &mapgen_highway;
+    mapgen_cfunction_map["river_center"] = &mapgen_river_center;
     mapgen_cfunction_map["river_curved_not"] = &mapgen_river_curved_not;
     mapgen_cfunction_map["river_straight"]   = &mapgen_river_straight;
     mapgen_cfunction_map["river_curved"]     = &mapgen_river_curved;
@@ -1036,6 +1037,11 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, floa
             m->add_vehicle (g, "armored_car", vx, vy, one_in(2)? 90 : 180, 0, -1);
         }
     }
+}
+
+void mapgen_river_center(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    fill_background(m, t_water_dp);
 }
 
 void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)

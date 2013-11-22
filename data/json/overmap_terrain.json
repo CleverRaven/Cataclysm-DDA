@@ -173,7 +173,10 @@
         "sym" : 82,
         "color" : "blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_center" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river",
@@ -182,7 +185,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_straight" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_ne",
@@ -190,7 +196,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_nw",
@@ -198,7 +207,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_se",
@@ -206,7 +218,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_sw",
@@ -214,7 +229,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved_not" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_ne",
@@ -222,7 +240,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_se",
@@ -230,7 +251,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_sw",
@@ -238,7 +262,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_nw",
@@ -246,7 +273,10 @@
         "sym" : 82,
         "color" : "light_blue",
         "see_cost" : 1,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "river_curved" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "house",
