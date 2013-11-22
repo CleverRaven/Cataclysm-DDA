@@ -2035,7 +2035,7 @@ bool game::handle_action()
    else
    if (u.has_trait("WEB_WEAVER") && !u.in_vehicle) {
       g->m.add_field(g, u.posx, u.posy, fd_web, 1); //this adds density to if its not already there.
-      add_msg("You spin some webbing.");
+      add_msg("You spin some webbing.");}
     u.pause(this);
    break;
 

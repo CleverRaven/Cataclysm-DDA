@@ -1297,7 +1297,7 @@
         "description" : "Your body produces and anchors webbing.  Too bad you can't seem to control the process.  There is a chance that you will leave webs in your wake.",
         "prereqs" : ["WEB_WALKER"],
         "cancels" : ["SLIMY"],
-        "leads_to" : ["WEB_WEAVER"],
+        "changes_to" : ["WEB_WEAVER"],
         "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
