@@ -3571,7 +3571,7 @@
     "items":[
       ["bot_manhack", 1],
       ["bot_turret", 1],
-      ["9mm", 10]
+      ["9mm", 3]
     ]
     },{
         "type" : "item_group",
