@@ -867,7 +867,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINGTIGHT"],
         "coverage" : 95,
         "material_thickness" : 1
     },
