@@ -7096,6 +7096,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
                                 (worn[j].invlet != let)) {
                             if (autodrop) {
                                 g->m.add_item_or_charges(posx, posy, worn[j]);
+                                g->add_msg(_("You take off your your %s."), worn[j].tname(g).c_str());
                                 worn.erase(worn.begin() + j);
 
                                 // We've invalidated our index into worn[],
