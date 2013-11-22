@@ -824,7 +824,7 @@ void monster::deserialize(JsonIn &jsin)
     data.read_into("morale", morale);
     data.read_into("hallucination", hallucination);
     data.read_into("onstairs", onstairs);
-    data.read_into("stairscount", staircount); // really?
+    data.read_into("stairscount", staircount); // really? re: exploitable if not.
 
     data.read_into("plans", plans);
 
@@ -858,8 +858,10 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("morale",morale);
     json.member("hallucination",hallucination);
     json.member("onstairs",onstairs);
-    json.member("stairscount",staircount); // really...
+    json.member("stairscount",staircount); // really...  re: exploitable if not.
     json.member("plans", plans);
+    json.member("ammo", ammo);
+
 
     if ( save_contents ) {
         json.member("inv");
@@ -869,7 +871,6 @@ void monster::serialize(JsonOut &json, bool save_contents) const
         }
         json.end_array();
     }
-    json.member("ammo", ammo);
 
     json.end_object();
 }

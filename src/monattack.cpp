@@ -1283,6 +1283,10 @@ void mattack::tazer(monster *z)
 
 void mattack::smg(monster *z)
 {
+ // Make sure our ammo isn't weird.
+ if (z->ammo > 500) {
+   z->ammo = 500;
+ }
  int t, fire_t = 0;
  if (z->friendly != 0) {   // Attacking monsters, not the player!
   monster* target = NULL;
