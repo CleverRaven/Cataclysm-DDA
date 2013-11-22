@@ -5241,7 +5241,7 @@
   ]
 },{
         "type" : "recipe",
-   "result": "nachosh",
+   "result": "nachoshf",
    "category": "CC_FOOD",
    "skill_used": "cooking",
    "difficulty": 0,
@@ -6998,7 +6998,7 @@
       [ "pomegranate", 1 ],
       [ "irradiated_mango", 1],
       [ "mango", 1 ],
-      [ "irradiated_appricot", 1],
+      [ "irradiated_apricot", 1],
       [ "apricot", 1 ],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ]
