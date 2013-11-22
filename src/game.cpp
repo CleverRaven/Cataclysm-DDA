@@ -1075,6 +1075,19 @@ void game::process_activity()
 
     break;
 
+   case ACT_FIRSTAID:
+    {
+      item it = u.inv.item_by_letter(u.activity.invlet);
+      iuse tmp;
+      tmp.completefirstaid(&u, &it, false);
+      u.inv.remove_item_by_charges(u.activity.invlet, 1);
+      // Erase activity and values.
+      u.activity.type = ACT_NULL;
+      u.activity.values.clear();
+    }
+
+    break;
+
    case ACT_VEHICLE:
     complete_vehicle (this);
     break;
@@ -1135,7 +1148,8 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
         _(" Stop crafting?"), _(" Stop disassembly?"),
         _(" Stop butchering?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
-        _(" Stop pumping gas?"), _(" Stop training?")
+        _(" Stop pumping gas?"), _(" Stop training?"),
+        _(" Stop waiting?"), _(" Stop using first aid?")
     };
 
     std::string stop_message = s + stop_phrase[u.activity.type] +
@@ -1173,7 +1187,8 @@ bool game::cancel_activity_query(const char* message, ...)
         _(" Stop crafting?"), _(" Stop disassembly?"),
         _(" Stop butchering?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
-        _(" Stop pumping gas?"), _(" Stop training?")
+        _(" Stop pumping gas?"), _(" Stop training?"),
+        _(" Stop waiting?"), _(" Stop using first aid?")
     };
 
     std::string stop_message = s + stop_phrase[u.activity.type];
@@ -1573,7 +1588,8 @@ void game::handle_key_blocking_activity() {
             u.activity.type == ACT_LONGCRAFT ||
             u.activity.type == ACT_REFILL_VEHICLE ||
             u.activity.type == ACT_WAIT ||
-            u.activity.type == ACT_WAIT_WEATHER
+            u.activity.type == ACT_WAIT_WEATHER ||
+            u.activity.type == ACT_FIRSTAID
         )
     ) {
         timeout(1);

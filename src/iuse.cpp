@@ -422,11 +422,20 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
             }
         }
     } else { // Player--present a menu
+      if(p->activity.type != ACT_FIRSTAID) {
         healed = body_window(p, it, item_name, normal_bonus, head_bonus,
                              torso_bonus, bleed, bite, infect, force);
-        if (healed == num_hp_parts) {
-            return healed;
-        }
+      }
+      // Brick healing if using a first aid kit for the first time.
+      // TODO: Base check on something other than the name.
+      if (item_name == "first aid kit" && p->activity.type != ACT_FIRSTAID) {
+          // Cancel and wait for activity completion.
+          return healed;
+      }
+      else if (p->activity.type == ACT_FIRSTAID) {
+        // Completed activity, extract body part from it.
+        healed = (hp_part)p->activity.values[0];
+      }
     }
     p->practice(g->turn, "firstaid", 8);
     int dam = 0;
@@ -485,12 +494,30 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
 int iuse::bandage(player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(p, it, 3, 1, 4, it->name, 90, 0, 0, false) ) {
+        if (it->type->id != "quikclot") {
+          // Make bandages and rags take arbitrarily longer than hemostatic powder.
+          p->moves -= 100;
+        }
         return it->type->charges_to_use();
     }
     return 0;
 }
 
 int iuse::firstaid(player *p, item *it, bool t)
+{
+    // Assign first aid long action.
+    int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
+    if (healed != num_hp_parts) {
+      p->assign_activity(g, ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0, it->invlet, it->name);
+      p->activity.values.push_back(healed);
+      p->moves = 0;
+    }
+
+    return 0;
+}
+
+// Used when finishing the first aid long action.
+int iuse::completefirstaid(player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false) ) {
         pkill(p, it, t);
