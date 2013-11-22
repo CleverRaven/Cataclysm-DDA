@@ -205,6 +205,7 @@ void Item_factory::init(){
     iuse_function_list["ABSORBENT"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
+    iuse_function_list["CONTACTS"] = &iuse::contacts;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
@@ -508,7 +509,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     List of current flags
     FIT - Reduces encumbrance by one
     VARSIZE - Can be made to fit via tailoring
-    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
+    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
     HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
     RAINPROOF - Works like a raincoat to protect from rain effects
