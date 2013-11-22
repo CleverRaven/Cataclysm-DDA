@@ -732,7 +732,8 @@ void player::update_bodytemp(game *g)
         }
         else if (furn_at_pos == f_makeshift_bed ||
                  furn_at_pos == f_armchair ||
-                 furn_at_pos == f_sofa)
+                 furn_at_pos == f_sofa||
+                 furn_at_pos == f_hay)
         {
             floor_bedding_warmth += 500;
         }
@@ -8104,7 +8105,8 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-     furn_at_pos == f_sofa ||(veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+     furn_at_pos == f_sofa || furn_at_pos == f_hay || 
+     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
@@ -8131,7 +8133,7 @@ bool player::can_sleep(game *g)
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa)
+     furn_at_pos == f_sofa || furn_at_pos == f_hay)
   sleepy += 4;
  else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair)
