@@ -676,7 +676,7 @@
       ["sundress", 50],
       ["camisole", 60],
       ["bra", 70],
-      ["white_vest", 70],
+      ["undershirt", 70],
       ["boxer_shorts", 50],
       ["briefs", 40],
       ["panties", 70],
@@ -2067,7 +2067,7 @@
         "type" : "item_group",
         "id" : "male_underwear",
     "items":[
-      ["white_vest", 30],
+      ["undershirt", 30],
       ["boxer_shorts", 70],
       ["briefs", 30]
     ]
@@ -2097,7 +2097,7 @@
       ["tank_top", 50],
       ["camisole", 30],
       ["bra", 30],
-      ["white_vest", 30],
+      ["undershirt", 30],
       ["boxer_shorts", 30],
       ["briefs", 15],
       ["panties", 30],
