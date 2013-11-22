@@ -2222,7 +2222,7 @@ void overmap::place_cities()
  int village_size = std::max(op_city_size - 2, 1);
  int town_min = std::max(op_city_size - 1, 1);
  int town_max = op_city_size + 1;
- int city_size = op_city_size + 2;
+ int city_size = op_city_size + 3;
 
  while (cities.size() < NUM_CITIES) {
   int cx = rng(12, OMAPX - 12);
