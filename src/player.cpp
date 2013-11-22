@@ -4803,7 +4803,7 @@ void player::suffer(game *g)
    g->m.add_field(g, posx, posy, fd_slime, 1);
  }
 
- if (has_trait("WEB_WEAVER") && !in_vehicle && one_in(3)) {
+ if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
    g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
  }
 

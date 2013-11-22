@@ -1291,11 +1291,21 @@
         "leads_to" : ["WEB_WEAVER"]
     },{
         "type" : "mutation",
+        "id" : "WEB_SPINNER",
+        "name" : "Web Spinner",
+        "points" : 3,
+        "description" : "Your body produces and anchors webbing.  Too bad you can't seem to control the process.  There is a chance that you will leave webs in your wake.",
+        "prereqs" : ["WEB_WALKER"],
+        "cancels" : ["SLIMY"],
+        "leads_to" : ["WEB_WEAVER"],
+        "category" : ["MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
         "id" : "WEB_WEAVER",
         "name" : "Web Weaver",
-        "points" : 3,
-        "description" : "Your body produces webs. As you move, there is a chance that you will leave webs in your wake.",
-        "prereqs" : ["WEB_WALKER"],
+        "points" : 5,
+        "description" : "You've developed the necessary anatomy and techniques to control your web-generation.  Use the pause function to spin or enhance webs.",
+        "prereqs" : ["WEB_SPINNER"],
         "cancels" : ["SLIMY"],
         "category" : ["MUTCAT_SPIDER"]
     },{
