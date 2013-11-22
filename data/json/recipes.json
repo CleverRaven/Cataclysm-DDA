@@ -5283,7 +5283,8 @@
    "difficulty": 0,
    "time": 20000,
    "reversible": false,
-   "autolearn": true,
+   "autolearn": false,
+  "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
    ],
