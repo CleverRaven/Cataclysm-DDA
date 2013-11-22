@@ -514,8 +514,6 @@ bool game::opening_screen()
                         }
                         load_artifacts(world->world_path + "/artifacts.gsav",
                                        itypes);
-                        MAPBUFFER.load(world->world_name);
-
                         start = true;
                     }
                 }
