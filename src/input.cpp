@@ -152,6 +152,8 @@ std::string get_input_string_from_file(std::string fname)
 input_manager inp_mngr;
 
 void input_manager::init() {
+    last_mouse_x = last_mouse_y = -1;
+    
     init_keycode_mapping();
 
     std::ifstream data_file;
@@ -389,7 +391,19 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
 const std::string& input_context::handle_input() {
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
+        
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+        // Register for ncurses mouse input
+        mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
+#endif
+
         next_action = inp_mngr.get_input_event(NULL);
+
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+        // De-register from ncurses mouse input
+        mousemask(0, NULL);
+#endif
+        
 
         if (next_action.type == CATA_INPUT_TIMEOUT) {
             return TIMEOUT;
@@ -536,11 +550,6 @@ input_event input_context::get_raw_input()
 }
 
 #ifndef TILES
-void init_interface()
-{
-    mousemask(BUTTON1_CLICKED | BUTTON2_CLICKED, NULL);
-}
-
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event(WINDOW* win)
 {
@@ -550,12 +559,16 @@ input_event input_manager::get_input_event(WINDOW* win)
         MEVENT event;
         if(getmouse(&event) == OK) {
             rval.type = CATA_INPUT_MOUSE;
-            rval.mouse_x = event.x;
-            rval.mouse_y = event.y;
+            rval.mouse_x = event.x - VIEW_OFFSET_X;
+            rval.mouse_y = event.y - VIEW_OFFSET_Y;
+            inp_mngr.last_mouse_x = rval.mouse_x;
+            inp_mngr.last_mouse_y = rval.mouse_y;
             if(event.bstate & BUTTON1_CLICKED) {
                 rval.add_input(MOUSE_BUTTON_LEFT);
-            } else if(event.bstate & BUTTON2_CLICKED) {
+            } else if(event.bstate & BUTTON3_CLICKED) {
                 rval.add_input(MOUSE_BUTTON_RIGHT);
+            } else if(event.bstate & REPORT_MOUSE_POSITION) {
+                rval.add_input(MOUSE_MOVE);
             } else {
                 rval.type = CATA_INPUT_ERROR;
             }
@@ -573,6 +586,12 @@ input_event input_manager::get_input_event(WINDOW* win)
         rval.add_input(key);
     }
     should_timeout = false;
+
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+    // De-register ncurses mouse input
+    mousemask(0, NULL);
+#endif
+
     return rval;
 }
 
@@ -587,10 +606,10 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
 {
     int view_columns = getmaxx(capture_win);
     int view_rows = getmaxy(capture_win);
-    int win_left = getbegx(capture_win);
-    int win_right = win_left + view_columns;
-    int win_top = getbegy(capture_win);
-    int win_bottom = win_top + view_rows;
+    int win_left = getbegx(capture_win) - VIEW_OFFSET_X;
+    int win_right = win_left + view_columns - 1;
+    int win_top = getbegy(capture_win) - VIEW_OFFSET_Y;
+    int win_bottom = win_top + view_rows - 1;
     if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
         return false;
     }

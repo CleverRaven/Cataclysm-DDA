@@ -71,7 +71,7 @@ struct input_event {
                                 // events, simply make this of size 1.
 
     int mouse_x, mouse_y;       // Mouse click co-ordinates, if applicable
-
+    
     input_event()
     {
         mouse_x = mouse_y = 0;
@@ -199,6 +199,8 @@ public:
 
     bool translate_to_window_position();
 
+    int last_mouse_x, last_mouse_y; // ncurses does not have a mouse move event
+    
     /**
      * Sets input polling timeout as appropriate for the current interface system.
      * Use this method to set timeouts when using input_manager, rather than calling
