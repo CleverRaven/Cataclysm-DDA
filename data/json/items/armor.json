@@ -1083,7 +1083,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 80,
         "material_thickness" : 1
     },
@@ -1107,7 +1107,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 60,
         "material_thickness" : 2
     },
@@ -3007,7 +3007,7 @@
     {
         "type" : "ARMOR",
         "id" : "armguard_soft",
-        "name" : "soft arm sleeves",
+        "name" : "neoprene arm sleeves",
         "weight" : 258,
         "color" : "light_red",
         "covers" : ["ARMS"],
@@ -5631,7 +5631,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
         "coverage" : 30,
         "material_thickness" : 5
     },
