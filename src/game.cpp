@@ -10862,12 +10862,12 @@ bool game::plmove(int dx, int dy)
         break;
       }
       default: {
-        return;
+        return false;
       }
       }
       u.moves -= 100;
     }
-    return;
+    return false;
   }
    z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z.name().c_str());
