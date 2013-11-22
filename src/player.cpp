@@ -8273,13 +8273,13 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 armorenc += armor->encumber;
                 // Fitted clothes will either reduce encumbrance or negate layering.
                 if( worn[i].has_flag( "FIT" ) ) {
-                    if( armor->encumber > 0 ) {
+                    if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
                     } else {
                         layers -= .5;
                     }
                 }
-                if( worn[i].has_flag( "SKINTIGHT" ) && layers > 1) {
+                if( worn[i].has_flag( "SKINTIGHT" ) && armorenc > 0 && layers > 0) {
                   // Skintight clothes will negate layering.
                   // But only if we aren't wearing more than two.
                   if (skintight < 2) {
