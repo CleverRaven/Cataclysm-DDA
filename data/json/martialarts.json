@@ -136,7 +136,7 @@
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
                 "cur_mult" : 1.2,
-                "description" : "slightly increased cutting damage"
+                "description" : "Slightly increased cutting damage"
             }
         ],
         "techniques" : [
