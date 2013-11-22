@@ -630,7 +630,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
     else
     {
-        sound(tx, ty, 8, _("thud."));
+        if(m.has_flag("LIQUID", tx, ty))
+            sound(tx, ty, 10, _("splash!"));
+        else
+            sound(tx, ty, 8, _("thud."));
         m.add_item_or_charges(tx, ty, thrown);
     }
 }
