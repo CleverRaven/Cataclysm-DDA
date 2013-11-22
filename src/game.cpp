@@ -10802,13 +10802,22 @@ bool game::plmove(int dx, int dy)
       m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
      }
      return false;
-    } else {
-     add_msg(_("You can't displace your %s."), z.name().c_str());
+    }
+    else if (z.type->id == "mon_laserturret") {
+     if (query_yn(_("Deactivate the laser turret?"))) {
+      remove_zombie(mondex);
+      u.moves -= 100;
+      m.spawn_item(x, y, "bot_laserturret", 1, 0, turn);
+     }
      return false;
     }
+    else {
+     add_msg(_("You can't displace your %s."), z.name().c_str());
+     return false;
    }
    z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z.name().c_str());
+   }
   }
 
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||

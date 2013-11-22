@@ -65,6 +65,7 @@ void game::init_monitems() {
     setvector(&monitems["mon_chickenbot"], "robots", 4, "chickenbot", 1, NULL);
     setvector(&monitems["mon_tankbot"], "robots", 4, "tankbot", 1, NULL);
     setvector(&monitems["mon_turret"], "robots", 10, "turret", 1, NULL);
+    setvector(&monitems["mon_laserturret"], "robots", 10, "laserturret", 1, NULL);
     setvector(&monitems["mon_fungal_fighter"], "fungal_sting", 1, NULL);
     setvector(&monitems["mon_shia"], "shia_stuff", 1, NULL);
 }

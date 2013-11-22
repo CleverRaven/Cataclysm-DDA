@@ -1386,7 +1386,7 @@ void mattack::smg(monster *z)
  z->moves -= 150;   // It takes a while
 
   if (z->ammo > 0) {
-    if (g->u_see(z->posx(), z->posy())) {
+    if (g->u_see(z->posx(), z->posy()))
       g->add_msg(_("The %s fires its smg!"), z->name().c_str());
       // Set up a temporary player to fire this gun
       npc tmp;
@@ -1417,11 +1417,11 @@ void mattack::smg(monster *z)
         g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
       }
     }
-  }
 }
 
 void mattack::laser(monster *z)
 {
+ bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
  int t, fire_t = 0;
  if (z->friendly != 0) {   // Attacking monsters, not the player!
   monster* target = NULL;
@@ -1476,28 +1476,38 @@ void mattack::laser(monster *z)
     return;
   }
   z->moves -= 150;   // It takes a while
-    if (g->u_see(z->posx(), z->posy()))
-     g->add_msg(_("The %s's barrel spins and a laser shoots out!"), z->name().c_str());
-    npc tmp;
-    tmp.name = _("The ") + z->name();
+  if (sunlight) {
+      if (g->u_see(z->posx(), z->posy()))
+       g->add_msg(_("The %s's barrel spins and fires!"), z->name().c_str());
+      npc tmp;
+      tmp.name = _("The ") + z->name();
 
-    tmp.skillLevel("pistol").level(8);
-    tmp.skillLevel("gun").level(4);
+      tmp.skillLevel("rifle").level(8);
+      tmp.skillLevel("gun").level(4);
 
-    tmp.recoil = 0;
-    tmp.posx = z->posx();
-    tmp.posy = z->posy();
-    tmp.str_cur = 16;
-    tmp.dex_cur = 8;
-    tmp.per_cur = 12;
-    tmp.weapon = item(itypes["v29"], 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["UPS"]);
-    tmp.weapon.charges = 20;
-    std::vector<point> traj = line_to(z->posx(), z->posy(),
-                                      target->posx(), target->posy(), fire_t);
-    g->fire(tmp, target->posx(), target->posy(), traj, true);
-    z->ammo -= 1;
-  return;
+      tmp.recoil = 0;
+      tmp.posx = z->posx();
+      tmp.posy = z->posy();
+      tmp.str_cur = 16;
+      tmp.dex_cur = 8;
+      tmp.per_cur = 12;
+      tmp.weapon = item(itypes["cerberus_laser"], 0);
+      tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
+      tmp.weapon.charges = 100;
+      std::vector<point> traj = line_to(z->posx(), z->posy(),
+                                        target->posx(), target->posy(), fire_t);
+      g->fire(tmp, target->posx(), target->posy(), traj, true);
+    return;
+  }
+  else {
+    if (one_in(3)) {
+      if (g->u_see(z->posx(), z->posy()))
+         g->add_msg(_("The %s's barrel spins but nothing happens!"), z->name().c_str());
+    }
+    else if (one_in(4)) {
+      g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
+    }
+  }
  }
 
 // Not friendly; hence, firing at the player
@@ -1513,14 +1523,14 @@ void mattack::laser(monster *z)
   return;
  }
  z->moves -= 150;   // It takes a while
-
-  if (g->u_see(z->posx(), z->posy())) {
-      g->add_msg(_("The %s's barrel spins and a laser shoots out!"), z->name().c_str());
+  if (sunlight) {
+    if (g->u_see(z->posx(), z->posy()))
+        g->add_msg(_("The %s's barrel spins and fires!"), z->name().c_str());
       // Set up a temporary player to fire this gun
       npc tmp;
       tmp.name = _("The ") + z->name();
 
-      tmp.skillLevel("smg").level(8);
+      tmp.skillLevel("rifle").level(8);
       tmp.skillLevel("gun").level(4);
 
       tmp.recoil = 0;
@@ -1529,13 +1539,21 @@ void mattack::laser(monster *z)
       tmp.str_cur = 16;
       tmp.dex_cur = 8;
       tmp.per_cur = 12;
-      tmp.weapon = item(itypes["v29"], 0);
-      tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["UPS"]);
-      tmp.weapon.charges = 20;
+      tmp.weapon = item(itypes["cerberus_laser"], 0);
+      tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
+      tmp.weapon.charges = 100;
       std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
       g->fire(tmp, g->u.posx, g->u.posy, traj, true);
-      z->ammo -= 1;
       z->add_effect(ME_TARGETED, 3);
+  }
+  else {
+    if (one_in(3)) {
+      if (g->u_see(z->posx(), z->posy()))
+         g->add_msg(_("The %s's barrel spins but nothing happens!"), z->name().c_str());
+    }
+    else if (one_in(4)) {
+      g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
+    }
   }
 }
 

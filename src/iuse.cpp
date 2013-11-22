@@ -4170,6 +4170,34 @@ int iuse::turret(player *p, item *it, bool t)
  return 1;
 }
 
+
+int iuse::turret_laser(player *p, item *it, bool t)
+{
+ int dirx, diry;
+ if(!g->choose_adjacent(_("Place the turret where?"), dirx, diry)) {
+  return 0;
+ }
+ if (!g->is_empty(dirx, diry)) {
+  g->add_msg_if_player(p,_("You cannot place a turret there."));
+  return 0;
+ }
+
+ p->moves -= 100;
+ monster mturret(GetMType("mon_laserturret"), dirx, diry);
+ if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
+     p->skillLevel("computer") < rng(0, 6)) {
+  g->add_msg_if_player(p,_("The laser turret scans you and makes angry beeping noises!"));
+ } else {
+  g->add_msg_if_player(p,_("The laser turret emits an IFF beep as it scans you."));
+  mturret.friendly = -1;
+ }
+ if (!g->is_in_sunlight(mturret.posx(), mturret.posy())) {
+  g->add_msg_if_player(p,_("A flashing LED on the laser turret appears to indicate low light."));
+ }
+ g->add_zombie(mturret);
+ return 1;
+}
+
 int iuse::UPS_off(player *p, item *it, bool t)
 {
  if (it->charges == 0) {
