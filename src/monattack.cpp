@@ -687,7 +687,7 @@ void mattack::fungus(monster *z)
             mondex = g->mon_at(sporex, sporey);
             if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(sporex, sporey) && 
+                    if (g->u_see(sporex, sporey) &&
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
@@ -1337,27 +1337,37 @@ void mattack::smg(monster *z)
     return;
   }
   z->moves -= 150;   // It takes a while
-  if (g->u_see(z->posx(), z->posy()))
-   g->add_msg(_("The %s fires its smg!"), z->name().c_str());
-  npc tmp;
-  tmp.name = _("The ") + z->name();
+  if (z->ammo > 0) {
+    if (g->u_see(z->posx(), z->posy()))
+     g->add_msg(_("The %s fires its smg! %d"), z->name().c_str(), z->ammo);
+    npc tmp;
+    tmp.name = _("The ") + z->name();
 
-  tmp.skillLevel("smg").level(8);
-  tmp.skillLevel("gun").level(4);
+    tmp.skillLevel("smg").level(8);
+    tmp.skillLevel("gun").level(4);
 
-  tmp.recoil = 0;
-  tmp.posx = z->posx();
-  tmp.posy = z->posy();
-  tmp.str_cur = 16;
-  tmp.dex_cur = 8;
-  tmp.per_cur = 12;
-  tmp.weapon = item(itypes["smg_9mm"], 0);
-  tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
-  tmp.weapon.charges = 10;
-  std::vector<point> traj = line_to(z->posx(), z->posy(),
-                                    target->posx(), target->posy(), fire_t);
-  g->fire(tmp, target->posx(), target->posy(), traj, true);
-
+    tmp.recoil = 0;
+    tmp.posx = z->posx();
+    tmp.posy = z->posy();
+    tmp.str_cur = 16;
+    tmp.dex_cur = 8;
+    tmp.per_cur = 12;
+    tmp.weapon = item(itypes["smg_9mm"], 0);
+    tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
+    tmp.weapon.charges = 10;
+    std::vector<point> traj = line_to(z->posx(), z->posy(),
+                                      target->posx(), target->posy(), fire_t);
+    g->fire(tmp, target->posx(), target->posy(), traj, true);
+    z->ammo -= 1;
+  }
+  else {
+    if (one_in(3)) {
+      g->sound(z->posx(), z->posy(), 2, _("a chk!"));
+    }
+    else if (one_in(4)) {
+      g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
+    }
+  }
   return;
  }
 
@@ -1375,27 +1385,39 @@ void mattack::smg(monster *z)
  }
  z->moves -= 150;   // It takes a while
 
- if (g->u_see(z->posx(), z->posy()))
-  g->add_msg(_("The %s fires its smg!"), z->name().c_str());
-// Set up a temporary player to fire this gun
- npc tmp;
- tmp.name = _("The ") + z->name();
+  if (g->u_see(z->posx(), z->posy())) {
+    if (z->ammo > 0) {
+      g->add_msg(_("The %s fires its smg! %d"), z->name().c_str(), z->ammo);
+      // Set up a temporary player to fire this gun
+      npc tmp;
+      tmp.name = _("The ") + z->name();
 
-  tmp.skillLevel("smg").level(8);
-  tmp.skillLevel("gun").level(4);
+      tmp.skillLevel("smg").level(8);
+      tmp.skillLevel("gun").level(4);
 
-  tmp.recoil = 0;
-  tmp.posx = z->posx();
-  tmp.posy = z->posy();
-  tmp.str_cur = 16;
-  tmp.dex_cur = 8;
-  tmp.per_cur = 12;
- tmp.weapon = item(itypes["smg_9mm"], 0);
- tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
- tmp.weapon.charges = 10;
- std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
- g->fire(tmp, g->u.posx, g->u.posy, traj, true);
- z->add_effect(ME_TARGETED, 3);
+      tmp.recoil = 0;
+      tmp.posx = z->posx();
+      tmp.posy = z->posy();
+      tmp.str_cur = 16;
+      tmp.dex_cur = 8;
+      tmp.per_cur = 12;
+      tmp.weapon = item(itypes["smg_9mm"], 0);
+      tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
+      tmp.weapon.charges = 10;
+      std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
+      g->fire(tmp, g->u.posx, g->u.posy, traj, true);
+      z->ammo -= 1;
+      z->add_effect(ME_TARGETED, 3);
+    }
+    else {
+      if (one_in(3)) {
+        g->sound(z->posx(), z->posy(), 2, _("a chk!"));
+      }
+      else if (one_in(4)) {
+        g->sound(z->posx(), z->posy(), 6, _("boop-boop!"));
+      }
+    }
+  }
 }
 
 void mattack::flamethrower(monster *z)

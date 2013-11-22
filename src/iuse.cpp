@@ -4147,6 +4147,7 @@ int iuse::turret(player *p, item *it, bool t)
 
  p->moves -= 100;
  monster mturret(GetMType("mon_turret"), dirx, diry);
+ mturret.ammo = 10;
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 6)) {
   g->add_msg_if_player(p,_("You misprogram the turret; it's hostile!"));
