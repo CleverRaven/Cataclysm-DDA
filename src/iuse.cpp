@@ -520,8 +520,8 @@ int iuse::firstaid(player *p, item *it, bool t)
 int iuse::completefirstaid(player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false) ) {
-        pkill(p, it, t);
-        return it->type->charges_to_use();
+        g->add_msg_if_player(p,_("You finish using the %s."), it->tname().c_str());
+        p->add_disease("pkill1", 120);
     }
     return 0;
 }
