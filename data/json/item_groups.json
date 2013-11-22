@@ -3569,8 +3569,9 @@
         "type" : "item_group",
         "id" : "bots",
     "items":[
-      ["bot_manhack", 1],
-      ["bot_turret", 1]
+      ["bot_manhack", 2],
+      ["bot_turret", 2],
+      ["9mm", 2]
     ]
     },{
         "type" : "item_group",

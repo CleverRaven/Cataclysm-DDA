@@ -829,6 +829,7 @@ void monster::deserialize(JsonIn &jsin)
     data.read_into("plans", plans);
 
     data.read_into("inv", inv);
+    data.read_into("ammo", ammo);
 }
 
 /*
@@ -868,6 +869,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
         }
         json.end_array();
     }
+    json.member("ammo", ammo);
 
     json.end_object();
 }

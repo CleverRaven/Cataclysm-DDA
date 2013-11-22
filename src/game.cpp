@@ -10827,6 +10827,7 @@ bool game::plmove(int dx, int dy)
       remove_zombie(mondex);
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
      }
      return false;
     } else {
