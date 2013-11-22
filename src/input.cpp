@@ -152,8 +152,6 @@ std::string get_input_string_from_file(std::string fname)
 input_manager inp_mngr;
 
 void input_manager::init() {
-    last_mouse_x = last_mouse_y = -1;
-    
     init_keycode_mapping();
 
     std::ifstream data_file;
@@ -569,8 +567,6 @@ input_event input_manager::get_input_event(WINDOW* win)
             rval.type = CATA_INPUT_MOUSE;
             rval.mouse_x = event.x - VIEW_OFFSET_X;
             rval.mouse_y = event.y - VIEW_OFFSET_Y;
-            inp_mngr.last_mouse_x = rval.mouse_x;
-            inp_mngr.last_mouse_y = rval.mouse_y;
             if (event.bstate & BUTTON1_CLICKED) {
                 rval.add_input(MOUSE_BUTTON_LEFT);
             } else if (event.bstate & BUTTON3_CLICKED) {
@@ -607,7 +603,6 @@ bool gamepad_available()
     return false;
 }
 
-// Coordinates just never happen(no mouse input)
 bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
 {
     int view_columns = getmaxx(capture_win);
