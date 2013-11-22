@@ -113,7 +113,6 @@ void game::init_data()
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
     item_controller->init_old(); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
-    init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
     init_construction();         // Set up constructables            (SEE construction.cpp)
     init_autosave();             // Set up autosave

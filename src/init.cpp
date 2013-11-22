@@ -112,6 +112,7 @@ std::vector<std::string> listfiles(std::string const &dirname)
     ret.push_back("data/json/tool_qualities.json");
     ret.push_back("data/json/overmap_terrain.json");
     ret.push_back("data/json/recipes.json");
+    ret.push_back("data/json/traps.json");
 
     return ret;
 }
@@ -159,6 +160,7 @@ void init_data_structures()
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
+    type_function_map["trap"] = new ClassFunctionAccessor<game>(g, &game::load_trap);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
     type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);
