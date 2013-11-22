@@ -4874,7 +4874,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "cooked_burritio",
+  "result": "cooked_burrito",
   "category": "CC_FOOD",
   "skill_used": "cooking",
   "difficulty": 0,
@@ -4891,7 +4891,7 @@
   ],
   "components": [
     [
-      [ "frozen_burritio", 1 ]
+      [ "frozen_burrito", 1 ]
     ]
   ]
 },{
@@ -5159,7 +5159,7 @@
   "components": [
     [
       [ "cheese", 1 ],
-      [ "cheese_spray", 1]
+      [ "can_cheese", 1]
     ],
     [
       [ "nachos", 3 ]
@@ -5233,7 +5233,7 @@
     ],
     [
       [ "cheese", 1 ],
-      [ "cheese_spray", 1]
+      [ "can_cheese", 1]
     ],
     [
       [ "nachos", 3 ]
@@ -5308,7 +5308,7 @@
     ],
     [
       [ "cheese", 1 ],
-      [ "cheese_spray", 1]
+      [ "can_cheese", 1]
     ],
     [
       [ "nachos", 3 ]
@@ -5337,7 +5337,7 @@
   "components": [
     [
       [ "cheese", 1 ],
-      [ "cheese_spray", 1]
+      [ "can_cheese", 1]
     ],
     [
       [ "fries", 3 ]

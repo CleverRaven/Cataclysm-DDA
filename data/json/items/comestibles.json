@@ -3085,8 +3085,8 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "lemon",
-        "name" : "lemon",
+        "id" : "irradiated_lemon",
+        "name" : "irradiated lemon",
         "weight" : 98,
         "color" : "yellow",
         "addiction_type" : "none",
