@@ -224,7 +224,7 @@ private:
     void add_keycode_pair(long ch, const std::string& name);
     void add_gamepad_keycode_pair(long ch, const std::string& name);
 
-    bool should_timeout;
+    int input_timeout;
 };
 
 // Singleton for our input manager.

@@ -337,7 +337,7 @@ void input_manager::set_timeout(int delay)
 {
     timeout(delay);
     // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    should_timeout = delay > 0;
+    input_timeout = delay;
 }
 
 
@@ -556,7 +556,7 @@ input_event input_manager::get_input_event(WINDOW* win)
     int key = get_keypress();
     input_event rval;
     if (key == ERR) {
-        if (should_timeout) {
+        if (input_timeout > 0) {
             rval.type = CATA_INPUT_TIMEOUT;
         } else {
             rval.type = CATA_INPUT_ERROR;
@@ -577,6 +577,10 @@ input_event input_manager::get_input_event(WINDOW* win)
                 rval.add_input(MOUSE_BUTTON_RIGHT);
             } else if (event.bstate & REPORT_MOUSE_POSITION) {
                 rval.add_input(MOUSE_MOVE);
+                if (input_timeout > 0) {
+                    // Mouse movement seems to clear ncurses timeout
+                    set_timeout(input_timeout);
+                }
             } else {
                 rval.type = CATA_INPUT_ERROR;
             }
@@ -588,11 +592,10 @@ input_event input_manager::get_input_event(WINDOW* win)
         rval.type = CATA_INPUT_KEYBOARD;
         rval.add_input(key);
     }
-    should_timeout = false;
 
 #if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
     // De-register ncurses mouse input. Otherwise unmanaged getch() calls will detect mouse input.
-    mousemask(0, NULL);
+    //mousemask(0, NULL);
 #endif
 
     return rval;
