@@ -7113,12 +7113,14 @@ bool player::takeoff(game *g, char let, bool autodrop)
                 if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
                         volume_carried() + w.type->volume) {
                     inv.add_item_keep_invlet(w);
+                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     inv.unsort();
                     taken_off = true;
                 } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                         w.tname(g).c_str())) {
                     g->m.add_item_or_charges(posx, posy, w);
+                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     taken_off = true;
                 }
