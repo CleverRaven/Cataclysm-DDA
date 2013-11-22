@@ -144,6 +144,7 @@ public:
 
  bool has_bionic(bionic_id b) const;
  bool has_active_bionic(bionic_id b) const;
+ bool has_active_optcloak();
  void add_bionic(bionic_id b);
  void charge_power(int amount);
  void power_bionics(game *g);
@@ -334,6 +335,8 @@ public:
  void read(game *g, char let); // Read a book
  void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g); // Checked each turn during DIS_LYING_DOWN
+ void fall_asleep(int duration);
+ void wake_up(const char * message = NULL);
  std::string is_snuggling(game *g);    // Check to see if the player is using floor items to keep warm. If so, return one such item
  float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
@@ -361,6 +364,7 @@ public:
  void practice(const calendar& turn, std::string s, int amount);
 
  void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
+ bool has_activity(game* g, const activity_type type);
  void cancel_activity();
 
  int weight_carried();
@@ -439,7 +443,7 @@ public:
  std::vector<point> &get_auto_move_route();
  action_id get_next_auto_move_direction();
  void shift_destination(int shiftx, int shifty);
- 
+
 // Library functions
  double logistic(double t);
  double logistic_range(int min, int max, int pos);

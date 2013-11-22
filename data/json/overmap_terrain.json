@@ -311,7 +311,7 @@
         "id" : "pool",
         "name" : "pool",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "blue",
         "see_cost" : 2,
         "mondensity" : 2,
         "sidewalk" : true

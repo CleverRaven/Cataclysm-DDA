@@ -203,10 +203,15 @@ bool game::making_would_work(recipe *making)
 
     return false;
 }
+
 bool game::can_make(recipe *r)
 {
-    bool RET_VAL = true;
-    inventory crafting_inv = crafting_inventory(&u);
+     inventory crafting_inv = crafting_inventory(&u);
+     return can_make_with_inventory(r, crafting_inv);
+}
+
+bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
+{
     if(!u.knows_recipe(r))
     {
         return false;
@@ -227,7 +232,7 @@ bool game::can_make(recipe *r)
             quality_iter->available = true;
         } else {
             quality_iter->available = false;
-            RET_VAL = false;
+            return false;
         }
         ++quality_iter;
     }
@@ -264,7 +269,7 @@ bool game::can_make(recipe *r)
         }
         if(!has_tool_in_set)
         {
-            RET_VAL = false;
+            return false;
         }
         ++tool_set_it;
     }
@@ -291,35 +296,28 @@ bool game::can_make(recipe *r)
                 {
                     has_comp_in_set = true;
                     comp.available = 1;
-                }
-                else
-                {
-                    comp.available = -1;
+                    break;
                 }
             }
             else if (crafting_inv.has_amount(type, abs(req)))
             {
                 has_comp_in_set = true;
                 comp.available = 1;
-            }
-            else
-            {
-                comp.available = -1;
+                break;
             }
             ++comp_it;
         }
         if(!has_comp_in_set)
         {
-            RET_VAL = false;
+            return false;
         }
         ++comp_set_it;
     }
-    return check_enough_materials(r, crafting_inv) && RET_VAL;
+    return check_enough_materials(r, crafting_inv);
 }
 
-bool game::check_enough_materials(recipe *r, inventory crafting_inv)
+bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
 {
-    bool RET_VAL = true;
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
     while (comp_set_it != components.end())
@@ -399,7 +397,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         if (!atleast_one_available)
         // this set doesn't have any components available, so the recipe can't be crafted
         {
-            RET_VAL = false;
+            return false;
         }
         ++comp_set_it;
     }
@@ -478,12 +476,12 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         if (!atleast_one_available)
             // this set doesn't have any tools available, so the recipe can't be crafted
         {
-            RET_VAL = false;
+            return false;
         }
         ++tool_set_it;
     }
 
-    return RET_VAL;
+    return true;
 }
 
 void game::craft()
@@ -589,7 +587,7 @@ recipe* game::select_crafting_recipe()
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(current, available, tab,filterstring);
+            pick_recipes(crafting_inv, current, available, tab,filterstring);
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -838,7 +836,7 @@ recipe* game::select_crafting_recipe()
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
                 int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
-                 
+
                 for(int i = 0; i < maxline; i++) {
                     mvwprintz(w_data, i, FULL_SCREEN_WIDTH+1, col, folded[i].c_str() );
                 }
@@ -980,7 +978,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 
 inventory game::crafting_inventory(player *p){
  inventory crafting_inv;
- crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+ crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false);
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
@@ -991,42 +989,16 @@ inventory game::crafting_inventory(player *p){
  return crafting_inv;
 }
 
-void game::pick_recipes(std::vector<recipe*> &current,
+void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab,std::string filter)
 {
+
+    recipe_list this_tab_recipes = recipes[tab];
+
     current.clear();
     available.clear();
 
-    if (filter == "")
-    {
-        add_known_recipes(current, recipes[tab]);
-    }
-    else
-    {
-        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
-        {
-            add_known_recipes(current, iter->second, filter);
-        }
-    }
-
-    for (unsigned i = 0; i < current.size(); i++)
-    {
-        //Check if we have the requisite tools and components
-        if(can_make(current[i]))
-        {
-            available.push_back(true);
-        }
-        else
-        {
-            available.push_back(false);
-        }
-    }
-}
-
-void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
-{
-    std::vector<recipe*> can_craft;
-    for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
+    for (recipe_list::iterator iter = this_tab_recipes.begin(); iter != this_tab_recipes.end(); ++iter)
     {
         if (u.knows_recipe(*iter))
         {
@@ -1034,19 +1006,20 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
             {
                 if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
                 {
-                    if (can_make(*iter))
+                    if (can_make_with_inventory(*iter, crafting_inv))
                     {
-                        can_craft.push_back(*iter);
+                        current.insert(current.begin(), *iter);
+                        available.insert(available.begin(), true);
                     }
                     else
                     {
                         current.push_back(*iter);
+                        available.push_back(false);
                     }
                 }
             }
         }
     }
-    current.insert(current.begin(),can_craft.begin(),can_craft.end());
 }
 
 void game::make_craft(recipe *making)

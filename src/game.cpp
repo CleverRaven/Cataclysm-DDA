@@ -115,7 +115,6 @@ void game::init_data()
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_construction();         // Set up constructables            (SEE construction.cpp)
     init_autosave();             // Set up autosave
     init_diseases();             // Set up disease lookup table
     init_savedata_translation_tables();
@@ -833,7 +832,7 @@ void game::process_activity()
   if (int(turn) % 150 == 0) {
    draw();
   }
-  if (u.activity.type == ACT_WAIT) { // Based on time, not speed
+  if (u.activity.type == ACT_WAIT || u.activity.type == ACT_WAIT_WEATHER) { // Based on time, not speed
    u.activity.moves_left -= 100;
    u.pause(this);
   } else if (u.activity.type == ACT_GAME) {
@@ -1034,6 +1033,7 @@ void game::process_activity()
     break;
 
    case ACT_WAIT:
+   case ACT_WAIT_WEATHER:
     u.activity.continuous = false;
     add_msg(_("You finish waiting."));
     break;
@@ -1071,6 +1071,19 @@ void game::process_activity()
       u.add_memorial_log(_("Reached skill level %d in %s."),
                      new_skill_level, skill->name().c_str());
     }
+    }
+
+    break;
+
+   case ACT_FIRSTAID:
+    {
+      item it = u.inv.item_by_letter(u.activity.invlet);
+      iuse tmp;
+      tmp.completefirstaid(&u, &it, false);
+      u.inv.remove_item_by_charges(u.activity.invlet, 1);
+      // Erase activity and values.
+      u.activity.type = ACT_NULL;
+      u.activity.values.clear();
     }
 
     break;
@@ -1135,7 +1148,8 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
         _(" Stop crafting?"), _(" Stop disassembly?"),
         _(" Stop butchering?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
-        _(" Stop pumping gas?"), _(" Stop training?")
+        _(" Stop pumping gas?"), _(" Stop training?"),
+        _(" Stop waiting?"), _(" Stop using first aid?")
     };
 
     std::string stop_message = s + stop_phrase[u.activity.type] +
@@ -1173,7 +1187,8 @@ bool game::cancel_activity_query(const char* message, ...)
         _(" Stop crafting?"), _(" Stop disassembly?"),
         _(" Stop butchering?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
-        _(" Stop pumping gas?"), _(" Stop training?")
+        _(" Stop pumping gas?"), _(" Stop training?"),
+        _(" Stop waiting?"), _(" Stop using first aid?")
     };
 
     std::string stop_message = s + stop_phrase[u.activity.type];
@@ -1285,6 +1300,10 @@ void game::update_weather()
             levz >= 0 && m.is_outside(u.posx, u.posy))
         {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
+        }
+
+        if (weather != old_weather && u.has_activity(this, ACT_WAIT_WEATHER)) {
+            u.assign_activity(this, ACT_WAIT_WEATHER, 0, 0);
         }
     }
 }
@@ -1568,7 +1587,9 @@ void game::handle_key_blocking_activity() {
             u.activity.type == ACT_BUILD ||
             u.activity.type == ACT_LONGCRAFT ||
             u.activity.type == ACT_REFILL_VEHICLE ||
-            u.activity.type == ACT_WAIT
+            u.activity.type == ACT_WAIT ||
+            u.activity.type == ACT_WAIT_WEATHER ||
+            u.activity.type == ACT_FIRSTAID
         )
     ) {
         timeout(1);
@@ -2566,6 +2587,18 @@ int& game::scent(int x, int y)
 
 void game::update_scent()
 {
+    static point player_last_position = point( u.posx, u.posy );
+    static calendar player_last_moved = turn;
+    // Stop updating scent after X turns of the player not moving.
+    // Once wind is added, need to reset this on wind shifts as well.
+    if( u.posx == player_last_position.x && u.posy == player_last_position.y ) {
+        if( player_last_moved + 1000 < turn ) {
+            return;
+	}
+    } else {
+        player_last_position = point( u.posx, u.posy );
+	player_last_moved = turn;
+    }
  int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
  int scale[SEEX * MAPSIZE][SEEY * MAPSIZE];
  if (!u.has_active_bionic("bio_scent_mask"))
@@ -4073,7 +4106,8 @@ void game::draw_ter(int posx, int posy)
     if (destination_preview.size() > 0) {
         // Draw auto-move preview trail
         point final_destination = destination_preview.back();
-        draw_line(final_destination.x, final_destination.y, destination_preview);
+        point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
+        draw_line(final_destination.x, final_destination.y, center, destination_preview);
     }
 
     wrefresh(w_terrain);
@@ -4525,7 +4559,8 @@ bool game::sees_u(int x, int y, int &t)
  }
 
  return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
-           u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
+           u.has_active_optcloak() || u.has_artifact_with(AEP_INVISIBLE))
+           && m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y)
@@ -5898,12 +5933,25 @@ void game::emp_blast(int x, int y)
  if (mondex != -1) {
   monster &z = _active_monsters[mondex];
   if (z.has_flag(MF_ELECTRONIC)) {
-   add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
-   int dam = dice(10, 10);
-   if (z.hurt(dam))
-    kill_mon(mondex); // TODO: Player's fault?
-   else if (one_in(6))
-    z.make_friendly();
+   // TODO: Add flag to mob instead.
+   if (z.type->id == "mon_turret" && one_in(3)) {
+     add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
+      remove_zombie(mondex);
+      m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+   }
+   else if (z.type->id == "mon_manhack" && one_in(6)) {
+     add_msg(_("The %s flies erratically and drops from the air!"), z.name().c_str());
+     remove_zombie(mondex);
+     m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+   }
+   else {
+      add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
+      int dam = dice(10, 10);
+      if (z.hurt(dam))
+        kill_mon(mondex); // TODO: Player's fault?
+      else if (one_in(6))
+        z.make_friendly();
+    }
   } else
    add_msg(_("The %s is unaffected by the EMP blast."), z.name().c_str());
  }
@@ -6479,6 +6527,7 @@ void game::use_item(char chInput)
   return;
  }
  last_action += ch;
+ refresh_all();
  u.use(this, ch);
 }
 
@@ -6489,7 +6538,6 @@ void game::use_wielded_item()
 
 bool game::choose_adjacent(std::string message, int &x, int &y)
 {
-    refresh_all();
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(w_terrain, 0, 0, query_text.c_str());
@@ -9029,7 +9077,7 @@ int game::move_liquid(item &liquid)
       return -1;
       }
 
-      if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+      if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
       add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
       return -1;
       }
@@ -10786,6 +10834,41 @@ bool game::plmove(int dx, int dy)
      return false;
     }
    }
+   else if (z.type->id == "mon_manhack") {
+    if (query_yn(_("Reprogram the manhack?"))) {
+      int choice = 0;
+      if (z.has_effect(ME_DOCILE))
+        choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
+      else
+        choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
+      switch (choice) {
+      case 1:{
+        if (z.has_effect(ME_DOCILE)) {
+          z.rem_effect(ME_DOCILE);
+          if (one_in(3))
+            add_msg(_("The %s hovers momentarily as it surveys the area."), z.name().c_str());
+        }
+        else {
+          z.add_effect(ME_DOCILE, -1);
+          add_msg(_("The %s ."), z.name().c_str());
+          if (one_in(3))
+            add_msg(_("The %s lets out a whirring noise and starts to follow you."), z.name().c_str());
+        }
+        break;
+      }
+      case 2: {
+        remove_zombie(mondex);
+        m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+        break;
+      }
+      default: {
+        return;
+      }
+      }
+      u.moves -= 100;
+    }
+    return;
+  }
    z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z.name().c_str());
   }
@@ -11934,18 +12017,31 @@ void game::wait()
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");
+    int i = 0;
     as_m.entries.push_back(uimenu_entry(1, true, '1', (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats") ));
     as_m.entries.push_back(uimenu_entry(2, true, '2', (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats") ));
-    as_m.entries.push_back(uimenu_entry(3, true, '3', (bHasWatch) ? _("1 hour") : _("Wait till dawn") ));
-    as_m.entries.push_back(uimenu_entry(4, true, '4', (bHasWatch) ? _("2 hours") : _("Wait till noon") ));
-    as_m.entries.push_back(uimenu_entry(5, true, '5', (bHasWatch) ? _("3 hours") : _("Wait till dusk") ));
-    as_m.entries.push_back(uimenu_entry(6, true, '6', (bHasWatch) ? _("6 hours") : _("Wait till midnight") ));
-    as_m.entries.push_back(uimenu_entry(7, true, '7', _("Exit") ));
+
+    if (bHasWatch) {
+        as_m.entries.push_back(uimenu_entry(3, true, '3', _("1 hour") ));
+        as_m.entries.push_back(uimenu_entry(4, true, '4', _("2 hours") ));
+        as_m.entries.push_back(uimenu_entry(5, true, '5', _("3 hours") ));
+        as_m.entries.push_back(uimenu_entry(6, true, '6', _("6 hours") ));
+    }
+
+    as_m.entries.push_back(uimenu_entry(7, true, 'd', _("Wait till dawn") ));
+    as_m.entries.push_back(uimenu_entry(8, true, 'n', _("Wait till noon") ));
+    as_m.entries.push_back(uimenu_entry(9, true, 'k', _("Wait till dusk") ));
+    as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight") ));
+    as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes") ));
+
+    as_m.entries.push_back(uimenu_entry(++i, true, 'x', _("Exit") ));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     const int iHour = turn.getHour();
 
     int time = 0;
+    activity_type actType = ACT_WAIT;
+
     switch (as_m.ret) {
         case 1:
             time =   5000;
@@ -11954,22 +12050,38 @@ void game::wait()
             time =  30000;
             break;
         case 3:
-            time =  (bHasWatch) ? 60000 : (60000 * ((iHour <= 6) ? 6-iHour : 24-iHour+6));
+            time =  60000;
             break;
         case 4:
-            time = (bHasWatch) ? 120000 : (60000 * ((iHour <= 12) ? 12-iHour : 12-iHour+6));
+            time = 120000;
             break;
         case 5:
-            time = (bHasWatch) ? 180000 : (60000 * ((iHour <= 18) ? 18-iHour : 18-iHour+6));
+            time = 180000;
             break;
         case 6:
-            time = (bHasWatch) ? 360000 : (60000 * ((iHour <= 24) ? 24-iHour : 24-iHour+6));
+            time = 360000;
+            break;
+        case 7:
+            time = 60000 * ((iHour <= 6) ? 6-iHour : 24-iHour+6);
+            break;
+        case 8:
+            time = 60000 * ((iHour <= 12) ? 12-iHour : 12-iHour+6);
+            break;
+        case 9:
+            time = 60000 * ((iHour <= 18) ? 18-iHour : 18-iHour+6);
+            break;
+        case 10:
+            time = 60000 * ((iHour <= 24) ? 24-iHour : 24-iHour+6);
+            break;
+        case 11:
+            time = 999999999;
+            actType = ACT_WAIT_WEATHER;
             break;
         default:
             return;
     }
 
-    u.assign_activity(this, ACT_WAIT, time, 0);
+    u.assign_activity(this, actType, time, 0);
     u.activity.continuous = true;
     u.moves = 0;
 }

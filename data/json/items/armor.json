@@ -1488,7 +1488,7 @@
         "enviromental_protection" : 10,
         "encumbrance" : 2,
         "bashing" : -5,
-        "flags" : ["VARSIZE","WATERPROOF", "HOOD"],
+        "flags" : ["VARSIZE","WATERPROOF", "HOOD", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -1512,7 +1512,7 @@
         "enviromental_protection" : 9,
         "encumbrance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -1536,7 +1536,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 4,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -1560,7 +1560,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 5,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -4932,6 +4932,30 @@
         "coverage" : 65,
         "flags" : ["OVERSIZE", "HOOD"],
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "optical_cloak",
+        "name" : "FB51 optical cloak",
+        "weight" : 1552,
+        "color" : "light_gray",
+        "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
+        "to_hit" : -1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn. You must be carrying a powered-on unified power supply, or UPS, to use it.",
+        "price" : 1500,
+        "material" : ["plastic", "null"],
+        "volume" : 14,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "enviromental_protection" : 4,
+        "encumbrance" : 5,
+        "bashing" : -5,
+        "coverage" : 65,
+        "flags" : ["OVERSIZE", "HOOD", "WATERPROOF"],
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",

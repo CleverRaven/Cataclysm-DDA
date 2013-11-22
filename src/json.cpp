@@ -1542,10 +1542,9 @@ std::string JsonIn::substr(size_t pos, size_t len)
  * represents an ostream of JSON data,
  * allowing easy serialization of c++ datatypes.
  */
-JsonOut::JsonOut(std::ostream *s)
+JsonOut::JsonOut(std::ostream *s, bool pretty)
+    :   stream(s), pretty_print(pretty), need_separator(false), indent_level(0)
 {
-    stream = s;
-    need_separator = false;
     // ensure user's locale doesn't interfere with number format
     stream->imbue(std::locale::classic());
     // scientific format for floating-point numbers
@@ -1556,15 +1555,31 @@ JsonOut::JsonOut(std::ostream *s)
     // but it currently doesn't matter.
 }
 
+void JsonOut::write_indent()
+{
+    const char indent[5] = "    ";
+    for (int i = 0; i < indent_level; ++i) {
+        stream->write(indent, 4);
+    }
+}
+
 void JsonOut::write_separator()
 {
     stream->put(',');
+    if (pretty_print) {
+        stream->put('\n');
+        write_indent();
+    }
     need_separator = false;
 }
 
 void JsonOut::write_member_separator()
 {
-    stream->put(':');
+    if (pretty_print) {
+        stream->write(" : ", 3);
+    } else {
+        stream->put(':');
+    }
     need_separator = false;
 }
 
@@ -1574,11 +1589,21 @@ void JsonOut::start_object()
         write_separator();
     }
     stream->put('{');
+    if (pretty_print) {
+        indent_level += 1;
+        stream->put('\n');
+        write_indent();
+    }
     need_separator = false;
 }
 
 void JsonOut::end_object()
 {
+    if (pretty_print) {
+        indent_level -= 1;
+        stream->put('\n');
+        write_indent();
+    }
     stream->put('}');
     need_separator = true;
 }
@@ -1589,11 +1614,21 @@ void JsonOut::start_array()
         write_separator();
     }
     stream->put('[');
+    if (pretty_print) {
+        indent_level += 1;
+        stream->put('\n');
+        write_indent();
+    }
     need_separator = false;
 }
 
 void JsonOut::end_array()
 {
+    if (pretty_print) {
+        indent_level -= 1;
+        stream->put('\n');
+        write_indent();
+    }
     stream->put(']');
     need_separator = true;
 }
