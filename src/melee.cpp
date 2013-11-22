@@ -1543,9 +1543,9 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
              return npc ? _("<npcname> runs through %s") : _("You run through %s");
           }
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
-            return npc ? _("<npcname> pierces %s") : _("You puncture %s");
+            return npc ? _("<npcname> punctures %s") : _("You puncture %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {
-            return npc ? _("<npcname> stabs at %s") : _("You pierce %s");
+            return npc ? _("<npcname> pierces %s") : _("You pierce %s");
         } else {
             return npc ? _("<npcname> pokes %s") : _("You poke %s");
         }
@@ -1561,9 +1561,9 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
                 return npc ? _("<npcname> slashes %s") : _("You slash %s");
               case 2:
                 if (p.weapon.has_flag("STAB"))
-                  return npc ? _("<npcname> stabs %s") : _("You butcher %s");
+                  return npc ? _("<npcname> mutilates %s") : _("You mutilate %s");
                 else
-                  return npc ? _("<npcname> hacks %s") : _("You maim %s");
+                  return npc ? _("<npcname> maims %s") : _("You maim %s");
             }
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
             if (p.weapon.has_flag("STAB"))
