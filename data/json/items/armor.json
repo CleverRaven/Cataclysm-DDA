@@ -2441,7 +2441,7 @@
         "symbol" : "[",
         "description" : "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
         "price" : 200,
-        "material" : ["cotton"],
+        "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
         "warmth" : 10,
