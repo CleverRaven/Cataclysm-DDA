@@ -5923,7 +5923,7 @@ void game::emp_blast(int x, int y)
      add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
       remove_zombie(mondex);
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
-      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+      m.spawn_item(x, y, "9mm", z.ammo, 0);
    }
    else if (z.type->id == "mon_laserturret" && one_in(3)) {
       add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
@@ -10818,7 +10818,7 @@ bool game::plmove(int dx, int dy)
       remove_zombie(mondex);
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
-      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+      m.spawn_item(x, y, "9mm", z.ammo, 0);
      }
      return false;
     }
