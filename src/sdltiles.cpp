@@ -1054,7 +1054,7 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     //Load the console colors from colors.json
-    std::ifstream colorfile("data/json/colors.json", std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile("data/raw/colors.json", std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(&colorfile);
         char ch;
@@ -1087,7 +1087,7 @@ int curses_start_color(void)
         }
     }
     catch(std::string e){
-        throw "data/json/colors.json: " + e;
+        throw "data/raw/colors.json: " + e;
     }
     if(consolecolors.empty())return 0;
     windowsPalette[0]  = BGR(ccolor("BLACK"));

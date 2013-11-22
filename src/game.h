@@ -305,7 +305,6 @@ class game
 
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
-  std::vector<constructable*> constructions; // The list of constructions
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -471,12 +470,7 @@ class game
   void disassemble(char ch = 0);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
-  void construction_menu();            // See construction.cpp
-  bool player_can_build(player &p, inventory inv, constructable* con,
-                        const int level = -1, bool cont = false,
-                        bool exact_level=false);
-  void place_construction(constructable *con); // See construction.cpp
-  void complete_construction();               // See construction.cpp
+
   bool vehicle_near ();
   void handbrake ();
   void control_vehicle(); // Use vehicle controls  '^'

@@ -144,7 +144,7 @@ private:
  void reset_itypes();
  void init_mtypes(game *g);
  void reset_mtypes();
- void init_constructions(game *g);
+ void init_constructions();
  void reset_constructions();
  void init_recipes(game *g);
  void reset_recipes();
