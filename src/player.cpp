@@ -6967,6 +6967,24 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
+        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("LONG_MUZZLE")))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot fit the %s over your muzzle."), armor->name.c_str());
+            }
+            return false;
+        }
+
+        if (armor->covers & mfb(bp_mouth) && has_trait("MINOTAUR"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot fit the %s over your snout."), armor->name.c_str());
+            }
+            return false;
+        }
+
         if (armor->covers & mfb(bp_feet) && has_trait("HOOVES"))
         {
             if(interactive)
@@ -6985,6 +7003,15 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
+        if (armor->covers & mfb(bp_feet) && has_trait("RAP_TALONS"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("Your talons are much too large for footgear."));
+            }
+            return false;
+        }
+        
         if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
