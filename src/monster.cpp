@@ -44,7 +44,7 @@ monster::monster()
  hallucination = false;
  ignoring = 0;
  keep = 0;
- ammo = 100;      // TODO: Read from file.
+ ammo = 500;      // TODO: Read from file.
 }
 
 monster::monster(mtype *t)

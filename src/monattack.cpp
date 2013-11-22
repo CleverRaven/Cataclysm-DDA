@@ -1339,7 +1339,7 @@ void mattack::smg(monster *z)
   z->moves -= 150;   // It takes a while
   if (z->ammo > 0) {
     if (g->u_see(z->posx(), z->posy()))
-     g->add_msg(_("The %s fires its smg! %d"), z->name().c_str(), z->ammo);
+     g->add_msg(_("The %s fires its smg!"), z->name().c_str());
     npc tmp;
     tmp.name = _("The ") + z->name();
 
@@ -1387,7 +1387,7 @@ void mattack::smg(monster *z)
 
   if (g->u_see(z->posx(), z->posy())) {
     if (z->ammo > 0) {
-      g->add_msg(_("The %s fires its smg! %d"), z->name().c_str(), z->ammo);
+      g->add_msg(_("The %s fires its smg!"), z->name().c_str());
       // Set up a temporary player to fire this gun
       npc tmp;
       tmp.name = _("The ") + z->name();
