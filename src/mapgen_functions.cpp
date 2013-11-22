@@ -90,6 +90,10 @@ mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
   mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
 }
 
+void calculate_mapgen_weights() {
+  // todo
+}
+
 //
 void mapgendata::set_dir(int dir_in, int val)
 {

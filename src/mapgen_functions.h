@@ -85,5 +85,5 @@ void mapgen_lmoe(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 void mapgen_lmoe_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void init_mapgen_builtin_functions();
-
+void calculate_mapgen_weights();
 #endif

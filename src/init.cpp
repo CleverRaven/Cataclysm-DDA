@@ -41,6 +41,7 @@ void init_data_mappings() {
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
+    calculate_mapgen_weights();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
