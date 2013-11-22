@@ -4108,6 +4108,8 @@ void game::draw_ter(int posx, int posy)
         point final_destination = destination_preview.back();
         point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
         draw_line(final_destination.x, final_destination.y, center, destination_preview);
+        mvwputch(w_terrain, POSY + (final_destination.y - (u.posy + u.view_offset_y)),
+            POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
     wrefresh(w_terrain);
