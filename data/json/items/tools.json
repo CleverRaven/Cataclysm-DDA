@@ -2800,6 +2800,32 @@
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]]
   },
+  
+  {
+    "id": "shiv",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "shiv",
+    "description": "This is a crafted hand-made cutting tool made of glass. Its small size makes it easy to use for precision attacks. A shiv will break easily.",
+    "price": 40,
+    "material": ["plastic", "glass"],
+    "flags": "SPEAR",
+    "techniques": "PRECISE",
+    "weight": 18,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 5,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1]]
+  },
 
   {
     "id": "scalpel",
