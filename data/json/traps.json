@@ -69,7 +69,8 @@
         "player_action" : "none",
         "monster_action" : "none",
         "drops" : ["funnel"],
-        "benign" : true
+        "benign" : true,
+        "funnel_radius": 380
     },
     {
         "type" : "trap",
@@ -84,7 +85,8 @@
         "player_action" : "none",
         "monster_action" : "none",
         "drops" : ["makeshift_funnel"],
-        "benign" : true
+        "benign" : true,
+        "funnel_radius": 85
     },
     {
         "type" : "trap",

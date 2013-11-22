@@ -25,6 +25,7 @@ void game::load_trap(JsonObject &jo)
             drops
     );
     new_trap->benign = jo.get_bool("benign", false);
+    new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
     traps.push_back(new_trap);
 }
 
