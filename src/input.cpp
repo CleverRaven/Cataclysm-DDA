@@ -555,19 +555,27 @@ input_event input_manager::get_input_event(WINDOW* win)
 {
     int key = get_keypress();
     input_event rval;
-    if(key == KEY_MOUSE) {
+    if (key == ERR) {
+        if (should_timeout) {
+            rval.type = CATA_INPUT_TIMEOUT;
+        } else {
+            rval.type = CATA_INPUT_ERROR;
+        }
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+    // ncurses mouse handling
+    } else if (key == KEY_MOUSE) {
         MEVENT event;
-        if(getmouse(&event) == OK) {
+        if (getmouse(&event) == OK) {
             rval.type = CATA_INPUT_MOUSE;
             rval.mouse_x = event.x - VIEW_OFFSET_X;
             rval.mouse_y = event.y - VIEW_OFFSET_Y;
             inp_mngr.last_mouse_x = rval.mouse_x;
             inp_mngr.last_mouse_y = rval.mouse_y;
-            if(event.bstate & BUTTON1_CLICKED) {
+            if (event.bstate & BUTTON1_CLICKED) {
                 rval.add_input(MOUSE_BUTTON_LEFT);
-            } else if(event.bstate & BUTTON3_CLICKED) {
+            } else if (event.bstate & BUTTON3_CLICKED) {
                 rval.add_input(MOUSE_BUTTON_RIGHT);
-            } else if(event.bstate & REPORT_MOUSE_POSITION) {
+            } else if (event.bstate & REPORT_MOUSE_POSITION) {
                 rval.add_input(MOUSE_MOVE);
             } else {
                 rval.type = CATA_INPUT_ERROR;
@@ -575,12 +583,7 @@ input_event input_manager::get_input_event(WINDOW* win)
         } else {
             rval.type = CATA_INPUT_ERROR;
         }
-    } else if(key == ERR) {
-        if (should_timeout) {
-            rval.type = CATA_INPUT_TIMEOUT;
-        } else {
-            rval.type = CATA_INPUT_ERROR;
-        }
+#endif
     } else {
         rval.type = CATA_INPUT_KEYBOARD;
         rval.add_input(key);
@@ -588,7 +591,7 @@ input_event input_manager::get_input_event(WINDOW* win)
     should_timeout = false;
 
 #if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-    // De-register ncurses mouse input
+    // De-register ncurses mouse input. Otherwise unmanaged getch() calls will detect mouse input.
     mousemask(0, NULL);
 #endif
 
