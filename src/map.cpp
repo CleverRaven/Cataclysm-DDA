@@ -482,7 +482,7 @@ bool map::vehproceed(game* g){
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             // deep water
-            if(move_cost_ter_furn(px, py) == 0) {
+            if(move_cost_ter_furn(px, py) == 0 && has_flag("SWIMMABLE", px, py)) {
                 submerged_wheels++;
             }
         }
@@ -2819,7 +2819,7 @@ int map::set_field_age(const point p, const field_id t, const int age, bool isof
     field_entry * field_ptr = get_field( p, t );
     if ( field_ptr != NULL ) {
         int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
-        field_ptr->setFieldDensity( adj );
+        field_ptr->setFieldAge( adj );
         return adj;
     }
     return -1;

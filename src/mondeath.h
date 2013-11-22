@@ -24,6 +24,7 @@ public:
     void amigara        (monster *z); // Removes hypnosis if last one
     void thing          (monster *z); // Turn into a full thing
     void explode        (monster *z); // Damaging explosion
+    void broken         (monster *z);  // Broken robot drop
     void ratking        (monster *z); // Cure verminitis
     void kill_breathers (monster *z); // All breathers die
     void smokeburst     (monster *z); // Explode like a huge smoke bomb.

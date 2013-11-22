@@ -1291,7 +1291,8 @@ nc_color player::color()
   return c_pink;
  if (underwater)
   return c_blue;
- if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE))
+ if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
+    (is_wearing("optical_cloak") && (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))))
   return c_dkgray;
  return c_white;
 }
@@ -3181,6 +3182,15 @@ bool player::has_bionic(bionic_id b) const
  return false;
 }
 
+bool player::has_active_optcloak() {
+  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
+      && is_wearing("optical_cloak")) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 bool player::has_active_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
@@ -3625,12 +3635,12 @@ int player::intimidation()
 
 int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
- int painadd = 0;
- if (has_disease("sleep")) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    int painadd = 0;
+    if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  absorb(g, bphurt, dam, cut);
 
@@ -3766,12 +3776,12 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
 {
- int painadd = 0;
- if (has_disease("sleep") && rng(0, dam) > 2) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    int painadd = 0;
+    if (has_disease("sleep") && rng(0, dam) > 2) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  if (dam <= 0)
   return;
@@ -3856,8 +3866,7 @@ void player::hurt(hp_part hurt, int dam)
 {
     int painadd = 0;
     if (has_disease("sleep") && rng(0, dam) > 2) {
-        g->add_msg(_("You wake up!"));
-        rem_disease("sleep");
+        wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
@@ -3974,11 +3983,11 @@ void player::hurtall(int dam)
 
 void player::hitall(game *g, int dam, int vary)
 {
- if (has_disease("sleep")) {
-  g->add_msg(_("You wake up!"));
-  rem_disease("sleep");
- } else if (has_disease("lying_down"))
-  rem_disease("lying_down");
+    if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+    } else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+    }
 
  for (int i = 0; i < num_hp_parts; i++) {
   int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
@@ -4493,6 +4502,7 @@ void player::suffer(game *g)
             illness[i].intensity--;
         }
         if (illness[i].duration <= 0 || illness[i].intensity == 0) {
+            dis_end_msg(*this, illness[i]);
             illness.erase(illness.begin() + i);
             i--;
         }
@@ -4737,11 +4747,12 @@ void player::suffer(game *g)
    oxygen = int(oxygen / 2);
    auto_use = false;
   }
-  if (has_disease("sleep")) {
-   rem_disease("sleep");
-   g->add_msg(_("Your asthma wakes you up!"));
-   auto_use = false;
-  }
+
+        if (has_disease("sleep")) {
+            wake_up(_("Your asthma wakes you up!"));
+            auto_use = false;
+        }
+
   if (auto_use)
    use_charges("inhaler", 1);
   else {
@@ -4763,14 +4774,13 @@ void player::suffer(game *g)
    pain--;
  }
 
- if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
-  g->add_msg(_("The sunlight burns your skin!"));
-  if (has_disease("sleep")) {
-   rem_disease("sleep");
-   g->add_msg(_("You wake up!"));
-  }
-  hurtall(1);
- }
+    if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
+        g->add_msg(_("The sunlight burns your skin!"));
+        if (has_disease("sleep")) {
+            wake_up(_("You wake up!"));
+        }
+        hurtall(1);
+    }
 
  if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
      g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
@@ -5481,6 +5491,30 @@ void player::process_active_items(game *g)
             g->process_artifact(&(worn[i]), this);
         }
     }
+
+  // Drain UPS if using optical cloak.
+  // TODO: Move somewhere else.
+  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
+      && is_wearing("optical_cloak")) {
+    // Drain UPS.
+    if (has_charges("adv_UPS_on", 24)) {
+      use_charges("adv_UPS_on", 24);
+      if (charges_of("adv_UPS_on") < 120 && one_in(3))
+        g->add_msg_if_player(this, _("Your optical cloak flickers for a moment!"));
+    } else if (has_charges("UPS_on", 40)) {
+      use_charges("UPS_on", 40);
+      if (charges_of("UPS_on") < 200 && one_in(3))
+        g->add_msg_if_player(this, _("Your optical cloak flickers for a moment!"));
+    } else {
+      if (has_charges("adv_UPS_on", charges_of("adv_UPS_on"))) {
+          // Drain last power.
+          use_charges("adv_UPS_on", charges_of("adv_UPS_on"));
+      }
+      else {
+        use_charges("UPS_on", charges_of("UPS_on"));
+      }
+    }
+  }
 }
 
 // returns false if the item needs to be removed
@@ -8119,6 +8153,21 @@ bool player::can_sleep(game *g)
  return false;
 }
 
+void player::fall_asleep(int duration)
+{
+    add_disease("sleep", duration);
+}
+
+void player::wake_up(const char * message)
+{
+    rem_disease("sleep");
+    if (message) {
+        g->add_msg_if_player(this, message);
+    } else {
+        g->add_msg_if_player(this, _("You wake up."));
+    }
+}
+
 std::string player::is_snuggling(game *g)
 {
     std::vector<item>& floor_item = g->m.i_at(posx, posy);
@@ -8581,7 +8630,7 @@ int player::resist(body_part bp)
         }
     }
     return ret;
-    
+
     if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
         if (ret > 5) {
@@ -8744,6 +8793,15 @@ void player::assign_activity(game* g, activity_type type, int moves, int index, 
         activity = player_activity(type, moves, index, invlet, name);
     }
     activity.warned_of_proximity = false;
+}
+
+bool player::has_activity(game* g, const activity_type type)
+{
+    if (activity.type == type) {
+        return true;
+    }
+
+    return false;
 }
 
 void player::cancel_activity()
