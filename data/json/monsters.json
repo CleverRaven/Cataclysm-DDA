@@ -3910,7 +3910,7 @@
     "death_function":"DARKMAN",
     "special_attack":"DARKMAN",
     "description":"A gigantic shadow, chaotically changing in shape and volume , two piercing orbs of light dominate what can only be described as its head.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "VIS50"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "NO_BREATHE", "VIS50"]
     },{
         "type" : "MONSTER",
         "id" : "mon_breather_hub",
