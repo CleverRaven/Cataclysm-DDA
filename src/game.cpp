@@ -10828,6 +10828,9 @@ bool game::plmove(int dx, int dy)
       m.spawn_item(x, y, "bot_laserturret", 1, 0, turn);
      }
      return false;
+    }
+   z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
+   add_msg(_("You displace the %s."), z.name().c_str());
    }
    else if (z.type->id == "mon_manhack") {
     if (query_yn(_("Reprogram the manhack?"))) {
@@ -10863,10 +10866,9 @@ bool game::plmove(int dx, int dy)
       u.moves -= 100;
     }
     return false;
-  }
-   z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
+    }
+   z.move_to(this, u.posx, u.posy, true);
    add_msg(_("You displace the %s."), z.name().c_str());
-   }
   }
 
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
