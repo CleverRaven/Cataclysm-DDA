@@ -5611,7 +5611,6 @@
     "description": "This is an old-fashioned farming tool used to cut tall grass. While it may be a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "price": 380,
     "material": ["steel", "plastic"],
-    "flags": "SLICE",
     "weight": 1432,
     "volume": 5,
     "bashing": 2,
