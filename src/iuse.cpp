@@ -6160,16 +6160,17 @@ int iuse::adrenaline_injector(player *p, item *it, bool t)
 
 int iuse::contacts(player *p, item *it, bool t)
 {
+  int duration = rng(80640, 120960); // Around 7 days.
   if(p->has_disease("contacts") && query_yn(_("Replace your current lenses?")) ) {
     p->moves -= 200;
     g->add_msg_if_player(p, _("You replace your current %s."), it->name.c_str());
-    p->add_disease("contacts", 3600);
+    p->add_disease("contacts", duration);
     return it->type->charges_to_use();
   }
   else if(p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC")) {
     p->moves -= 200;
     g->add_msg_if_player(p, _("You put the %s in your eyes."), it->name.c_str());
-    p->add_disease("contacts", 3600);
+    p->add_disease("contacts", duration);
     return it->type->charges_to_use();
   }
   else {
