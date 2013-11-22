@@ -4128,7 +4128,8 @@ int iuse::manhack(player *p, item *it, bool t)
      p->skillLevel("computer") < rng(0, 4)) {
   g->add_msg_if_player(p,_("You misprogram the manhack; it's hostile!"));
  } else {
-  m_manhack.friendly = -1;
+   g->add_msg_if_player(p,_("The manhack flies from your hand and surveys the area!"));
+   m_manhack.friendly = -1;
  }
  g->add_zombie(m_manhack);
  return 1;

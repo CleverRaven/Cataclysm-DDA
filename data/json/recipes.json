@@ -14209,6 +14209,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "broken_manhack",
+  "category": "CC_NONCRAFTC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spike", 2 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bot_turret",
   "category": "CC_MISC",
   "skill_used": "mechanics",

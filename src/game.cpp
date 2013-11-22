@@ -5918,12 +5918,25 @@ void game::emp_blast(int x, int y)
  if (mondex != -1) {
   monster &z = _active_monsters[mondex];
   if (z.has_flag(MF_ELECTRONIC)) {
-   add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
-   int dam = dice(10, 10);
-   if (z.hurt(dam))
-    kill_mon(mondex); // TODO: Player's fault?
-   else if (one_in(6))
-    z.make_friendly();
+   // TODO: Add flag to mob instead.
+   if (z.type->id == "mon_turret" && one_in(3)) {
+     add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
+      remove_zombie(mondex);
+      m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+   }
+   else if (z.type->id == "mon_manhack" && one_in(6)) {
+     add_msg(_("The %s flies erratically and drops from the air!"), z.name().c_str());
+     remove_zombie(mondex);
+     m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+   }
+   else {
+      add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
+      int dam = dice(10, 10);
+      if (z.hurt(dam))
+        kill_mon(mondex); // TODO: Player's fault?
+      else if (one_in(6))
+        z.make_friendly();
+    }
   } else
    add_msg(_("The %s is unaffected by the EMP blast."), z.name().c_str());
  }
@@ -10815,6 +10828,41 @@ bool game::plmove(int dx, int dy)
      add_msg(_("You can't displace your %s."), z.name().c_str());
      return false;
    }
+   else if (z.type->id == "mon_manhack") {
+    if (query_yn(_("Reprogram the manhack?"))) {
+      int choice = 0;
+      if (z.has_effect(ME_DOCILE))
+        choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
+      else
+        choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
+      switch (choice) {
+      case 1:{
+        if (z.has_effect(ME_DOCILE)) {
+          z.rem_effect(ME_DOCILE);
+          if (one_in(3))
+            add_msg(_("The %s hovers momentarily as it surveys the area."), z.name().c_str());
+        }
+        else {
+          z.add_effect(ME_DOCILE, -1);
+          add_msg(_("The %s ."), z.name().c_str());
+          if (one_in(3))
+            add_msg(_("The %s lets out a whirring noise and starts to follow you."), z.name().c_str());
+        }
+        break;
+      }
+      case 2: {
+        remove_zombie(mondex);
+        m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+        break;
+      }
+      default: {
+        return;
+      }
+      }
+      u.moves -= 100;
+    }
+    return;
+  }
    z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z.name().c_str());
    }
