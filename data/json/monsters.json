@@ -4131,7 +4131,7 @@
     "luminance":0.1,
     "hp":10,
     "special_freq":0,
-    "death_function":"NORMAL",
+    "death_function":"BROKEN",
     "special_attack":"NONE",
     "description":"Automated anti-personnel drone, a fist-sized robot surrounded by whirring blades.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "HIT_AND_RUN", "NO_BREATHE", "VIS40"]
