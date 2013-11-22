@@ -51,6 +51,16 @@
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
+        "description" : "Till Soil",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "hoe", "shovel", "e_tool", "primitive_shovel", "digging_stick" ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_terrain" : "t_dirtmound"
+    },{
+        "type" : "construction",
         "description" : "Chop Down Tree",
         "difficulty" : 0,
         "time" : 10,
@@ -607,6 +617,38 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
+    },{
+        "type" : "construction",
+        "description" : "Build Armchair",
+        "difficulty" : 2,
+        "time" : 20,
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 10 ] ],
+            [ [ "nail", 8 ] ],
+            [ [ "blanket", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_armchair"
+    },{
+        "type" : "construction",
+        "description" : "Build Sofa",
+        "difficulty" : 3,
+        "time" : 20,
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
+        ],
+        "components" : [
+            [ [ "2x4", 10 ] ],
+            [ [ "nail", 8 ] ],
+            [ [ "blanket", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_sofa"
     },{
         "type" : "construction",
         "description" : "Build Wood Stove",
