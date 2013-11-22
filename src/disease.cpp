@@ -27,8 +27,8 @@ enum dis_type_enum {
 // Fields
  DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
 // Monsters
- DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF, DI_BLIND,
+ DI_BOOMERED, DI_DARKNESS, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
+ DI_DEAF, DI_BLIND, 
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_POISON, DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -92,6 +92,7 @@ void game::init_diseases() {
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
+    disease_type_lookup["darkness"] = DI_DARKNESS;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
@@ -190,6 +191,9 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_BOOMERED:
         g->add_msg(_("You're covered in bile!"));
+        break;
+    case DI_DARKNESS:
+        g->add_msg(_("A strange darkness takes over your vision!"));
         break;
     case DI_SAP:
         g->add_msg(_("You're coated in sap!"));
@@ -1952,6 +1956,9 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _(
         "Perception - 5\n"
         "Range of Sight: 1;   All sight is tinted magenta.");
+  
+    case DI_DARKNESS:
+        return _("Range of Sight: 4");
 
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");

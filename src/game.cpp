@@ -7128,6 +7128,8 @@ point game::look_around()
   {
    if (u.has_disease("boomered"))
     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
+   else if (u.has_disease("darkness"))
+    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');
    else
     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_ltgray, '#');
    mvwprintw(w_look, 1, 1, _("Bright light."));

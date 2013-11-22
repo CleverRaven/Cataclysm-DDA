@@ -687,7 +687,7 @@ void mattack::fungus(monster *z)
             mondex = g->mon_at(sporex, sporey);
             if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(sporex, sporey) && 
+                    if (g->u_see(sporex, sporey) &&
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
@@ -1670,5 +1670,47 @@ void mattack::parrot(monster *z)
         z->sp_timeout = z->type->sp_freq;  // Reset timer
         const SpeechBubble speech = get_speech( "migo" );
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
+    }
+}
+
+void mattack::darkman(monster *z)
+{
+    int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
+ if (dist > 40 || !g->sees_u(z->posx(), z->posy(), t))
+  return; // Out of range
+ z->sp_timeout = z->type->sp_freq; // Reset timer
+ std::vector<point> free;
+ for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
+  for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
+   if (g->is_empty(x, y))
+    free.push_back(point(x, y));
+  }
+ }
+ int index;
+ monster tmp(GetMType("mon_shadow"));
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq;    // Reset timer
+
+    switch (rng(1, 7)) { // What do we say?
+        case 1: g->add_msg(_("\"Stop it please\"")); break;
+        case 2: g->add_msg(_("\"Let us help you\"")); break;
+        case 3: g->add_msg(_("\" We wish you no harm \"")); break;
+        case 4: g->add_msg(_("\"Do not fear\"")); break;
+        case 5: g->add_msg(_("\"You can but delay your demise\"")); break;
+        case 6: g->add_msg(_("\"We are friendly\"")); break;
+        case 7: g->add_msg(_("\"Please dont\"")); break;
+    }
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 40) {
+        g->u.add_disease("darkness", 100);
+    }
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 40) {
+     if (g->u_see(z->posx(), z->posy()))
+       g->add_msg(_("A shadow splits from the %s!"),
+              z->name().c_str());
+  z->moves -= 10;
+  tmp.spawn(free[index].x, free[index].y);
+  g->add_zombie(tmp);
     }
 }

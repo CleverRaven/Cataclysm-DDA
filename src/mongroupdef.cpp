@@ -339,6 +339,7 @@ void init_translation() {
     monStr2monId["mon_blank"] = mon_blank;
     monStr2monId["mon_gozu"] = mon_gozu;
     monStr2monId["mon_shadow"] = mon_shadow;
+    monStr2monId["mon_darkman"] = mon_darkman;
     monStr2monId["mon_breather_hub"] = mon_breather_hub;
     monStr2monId["mon_breather"] = mon_breather;
     monStr2monId["mon_shadow_snake"] = mon_shadow_snake;

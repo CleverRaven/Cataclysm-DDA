@@ -3328,6 +3328,8 @@ void player::recalc_sight_limits()
     // Set sight_max.
     if (has_disease("blind")) {
         sight_max = 0;
+    }else if (has_disease ("darkness")){
+        sight_max= 5;
     } else if (has_disease("in_pit") ||
             has_disease("boomered") ||
             (underwater && !has_bionic("bio_membrane") &&
@@ -3390,7 +3392,7 @@ int player::clairvoyance()
 
 bool player::sight_impaired()
 {
- return has_disease("boomered") ||
+ return has_disease("boomered") || has_disease("darkness") ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
               && !is_wearing("goggles_swim")) ||
   (has_trait("MYOPIC") && !is_wearing("glasses_eye")
@@ -8159,7 +8161,7 @@ std::string player::is_snuggling(game *g)
 // 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod(game *g)
 {
-    if (has_disease("blind") || has_disease("boomered"))
+    if (has_disease("blind") || has_disease("boomered") || has_disease("darness"))
     {
         return 5;
     }
