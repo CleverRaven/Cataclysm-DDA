@@ -599,7 +599,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         {
             m.shoot(this, tx, ty, dam, false, no_effects);
         }
-        if (m.move_cost(tx, ty) == 0)
+        // Collide with impassable terrain unless it's flagged as liquid
+        if (m.move_cost(tx, ty) == 0 && !m.has_flag("LIQUID", tx, ty))
         {
             if (i > 0)
             {
@@ -616,19 +617,6 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
         {
             m.add_field(this, tx, ty, fd_electricity, rng(2,3));
-        }
-    }
-    if (m.move_cost(tx, ty) == 0)
-    {
-        if (i > 1)
-        {
-            tx = trajectory[i - 2].x;
-            ty = trajectory[i - 2].y;
-        }
-        else
-        {
-            tx = u.posx;
-            ty = u.posy;
         }
     }
     if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
