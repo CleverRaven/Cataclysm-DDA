@@ -5923,6 +5923,7 @@ void game::emp_blast(int x, int y)
      add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
       remove_zombie(mondex);
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
    }
    else if (z.type->id == "mon_laserturret" && one_in(3)) {
       add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
