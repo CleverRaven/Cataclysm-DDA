@@ -7133,6 +7133,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
                                 (worn[j].invlet != let)) {
                             if (autodrop) {
                                 g->m.add_item_or_charges(posx, posy, worn[j]);
+                                g->add_msg(_("You take off your your %s."), worn[j].tname(g).c_str());
                                 worn.erase(worn.begin() + j);
 
                                 // We've invalidated our index into worn[],
@@ -7149,12 +7150,14 @@ bool player::takeoff(game *g, char let, bool autodrop)
                 if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
                         volume_carried() + w.type->volume) {
                     inv.add_item_keep_invlet(w);
+                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     inv.unsort();
                     taken_off = true;
                 } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                         w.tname(g).c_str())) {
                     g->m.add_item_or_charges(posx, posy, w);
+                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     taken_off = true;
                 }
@@ -7310,6 +7313,8 @@ void player::sort_armor(game *g)
             else
                 tmp_str = "";
 
+            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT"))
+                tmp_str += _("It lies close to the skin.\n");
             if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
                 tmp_str += _("It has pockets.\n");
                 if (tmp_worn[leftListIndex]->has_flag("HOOD"))
@@ -8301,6 +8306,9 @@ int player::encumb(body_part bp) {
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
+
+    int skintight = 0;
+
     it_armor* armor;
     for (int i = 0; i < worn.size(); i++)
     {
@@ -8321,11 +8329,19 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 armorenc += armor->encumber;
                 // Fitted clothes will either reduce encumbrance or negate layering.
                 if( worn[i].has_flag( "FIT" ) ) {
-                    if( armor->encumber > 0 ) {
+                    if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
                     } else {
                         layers -= .5;
                     }
+                }
+                if( worn[i].has_flag( "SKINTIGHT" ) && armorenc > 0 && layers > 0) {
+                  // Skintight clothes will negate layering.
+                  // But only if we aren't wearing more than two.
+                  if (skintight < 2) {
+                    skintight++;
+                    layers -= .5;
+                  }
                 }
             }
         }
