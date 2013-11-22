@@ -839,7 +839,7 @@ bool cata_tiles::draw_trap(int x, int y)
         return false;
     }
 
-    std::string tr_name = trap_names[tr_id];
+    const std::string tr_name = g->traps[tr_id]->id;
 
     const int neighborhood[4] = {
         static_cast<int> (g->m.tr_at(x, y + 1)), // south
