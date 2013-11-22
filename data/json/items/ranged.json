@@ -1765,7 +1765,7 @@
     "symbol": "(",
     "color": "magenta",
     "name": "TX-5LR Laser Cannon",
-    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret. Unusable as a on its own without the necessary parts.",
+    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret. Unusable as a weapon on its own without the necessary parts.",
     "price": 50000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["LASER","INCENDIARY"],
