@@ -561,6 +561,7 @@ void construct::done_deconstruct(point p)
       case old_f_makeshift_bed:
       case old_f_bed:
       case old_f_armchair:
+      case old_f_sofa:
         g->m.spawn_item(p.x, p.y, "2x4", 10);
         g->m.spawn_item(p.x, p.y, "rag", rng(10,15));
         g->m.spawn_item(p.x, p.y, "nail", 0, rng(6,8));
