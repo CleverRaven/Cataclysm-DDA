@@ -929,7 +929,11 @@ void vehicle::remove_part (int p)
         }
     }
 
-    parts.erase(parts.begin() + p);
+    if (parts.size() > p)
+        {
+            parts.erase(parts.begin() + p);
+        }  
+
     find_horns ();
     find_lights ();
     find_fuel_tanks ();
@@ -2771,7 +2775,8 @@ void vehicle::unboard_all ()
     }
 }
 
-int vehicle::damage (int p, int dmg, int type, bool aimed)
+
+int vehicle::damage(int p, int dmg, int type, bool aimed)
 {
     if (dmg < 1) {
         return dmg;
@@ -2782,16 +2787,24 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
     {
         bool found_obs = false;
         for (int i = 0; i < pl.size(); i++)
-            if (part_flag (pl[i], "OBSTACLE") &&
-                (!part_flag (pl[i], "OPENABLE") || !parts[pl[i]].open))
-            {
-                found_obs = true;
-                break;
-            }
+        if (part_flag(pl[i], "OBSTACLE") &&
+            (!part_flag(pl[i], "OPENABLE") || !parts[pl[i]].open))
+        {
+            found_obs = true;
+            break;
+        }
         if (!found_obs) // not aimed at this tile and no obstacle here -- fly through
             return dmg;
     }
-    int parm = part_with_feature (p, "ARMOR");
+    int parm = part_with_feature(p, "ARMOR");
+
+
+    if (pl.size() == 0)
+    {
+        return 0;
+    }
+        
+
     int pdm = pl[rng (0, pl.size()-1)];
     int dres;
     if (parm < 0)
