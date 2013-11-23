@@ -8327,7 +8327,6 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     if ( ret < 0 ) {
       ret = 0;
     }
-    debugmsg("Ret = %d", ret);
     return ret;
 }
 
