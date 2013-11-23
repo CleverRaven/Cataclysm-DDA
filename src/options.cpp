@@ -26,7 +26,7 @@ std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, std::string> optionNames;
-
+int iWorldOptPage;
 
 //Default constructor
 cOpt::cOpt() {
@@ -314,6 +314,7 @@ void initOptions() {
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
     vPages.push_back(std::make_pair("debug", _("Debug")));
+    iWorldOptPage = vPages.size();
     vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
@@ -613,9 +614,13 @@ void initOptions() {
     }
 }
 
-void show_options()
+void show_options(bool ingame)
 {
     std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
+    std::map<std::string, cOpt> WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
+    if ( world_generator->active_world == NULL ) {
+        ingame = false;
+    }
 
     const int iTooltipHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT-3-iTooltipHeight;
@@ -655,9 +660,11 @@ void show_options()
     wrefresh(w_options_header);
 
     int iCurrentPage = 0;
+    int iLastPage = 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
     bool bStuffChanged = false;
+    bool bWorldStuffChanged = false;
     char ch = ' ';
 
     std::stringstream sTemp;
@@ -665,6 +672,8 @@ void show_options()
     used_tiles_changed = false;
 
     do {
+        std::map<std::string, cOpt> & cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ? ACTIVE_WORLD_OPTIONS : OPTIONS );
+
         //Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
@@ -696,14 +705,13 @@ void show_options()
             } else {
                 wprintz(w_options, c_yellow, "   ");
             }
+            wprintz(w_options, c_white, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
 
-            wprintz(w_options, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
-
-            if (OPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
+            if (cOPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (OPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
+            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
         }
 
         //Draw Scrollbar
@@ -714,15 +722,25 @@ void show_options()
         for (unsigned i = 0; i < vPages.size(); i++) {
             if (mPageItems[i].size() > 0) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
-                wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
+                if ( ingame && i == iWorldOptPage ) {
+                   wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
+                } else {
+                   wprintz(w_options_header, (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
+                }
                 wprintz(w_options_header, c_white, "]");
                 wputch(w_options_header, c_dkgray, LINE_OXOX);
             }
         }
 
         wrefresh(w_options_header);
-
         fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s", (OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip() + "  #" + OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText()).c_str());
+        if ( iCurrentPage != iLastPage ) {
+            iLastPage = iCurrentPage;
+            if ( ingame && iCurrentPage == iWorldOptPage ) {
+                mvwprintz( w_options_tooltip, 3, 3, c_ltred, "%s", _("Note: ") );
+                wprintz(  w_options_tooltip, c_white, "%s", _("Some of these options may produce unexpected results if changed."));
+            }
+        }
         wrefresh(w_options_tooltip);
 
         wrefresh(w_options);
@@ -744,12 +762,18 @@ void show_options()
                     }
                     break;
                 case 'l': //set to prev value
-                    OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
+                    cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
                     bStuffChanged = true;
+                    if ( iCurrentPage == iWorldOptPage ) {
+                        bWorldStuffChanged = true;
+                    }
                     break;
                 case 'h': //set to next value
-                    OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
+                    cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
                     bStuffChanged = true;
+                    if ( iCurrentPage == iWorldOptPage ) {
+                        bWorldStuffChanged = true;
+                    }
                     break;
                 case '>':
                 case '\t': //Switch to next Page
@@ -776,10 +800,13 @@ void show_options()
 
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
-            save_options();
+            save_options(ingame && bWorldStuffChanged);
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
+            if (ingame && bWorldStuffChanged) {
+                ACTIVE_WORLD_OPTIONS = WOPTIONS_OLD;
+            }
         }
     }
 #ifdef SDLTILES
@@ -840,7 +867,7 @@ std::string options_header()
 ";
 }
 
-void save_options()
+void save_options(bool ingame)
 {
     std::ofstream fout;
     fout.open("data/options.txt");
@@ -851,15 +878,21 @@ void save_options()
     fout << options_header() << std::endl;
 
     for(int j = 0; j < vPages.size(); j++) {
+        bool update_wopt = (ingame && j == iWorldOptPage );
         for(int i = 0; i < mPageItems[j].size(); i++) {
             fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
             fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
             fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
+            if ( update_wopt ) {
+                world_generator->active_world->world_options[ mPageItems[j][i] ] = ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+            }
         }
     }
 
     fout.close();
-
+    if ( ingame ) {
+        world_generator->save_world( world_generator->active_world, false );
+    }
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
 }
