@@ -982,7 +982,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"This black bear's eyes ooze with black fluid, and its flesh is torn and scarred. It shuffles as it walks.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES", "FUR"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"],
     "categories":["WILDLIFE"]
@@ -1703,7 +1703,7 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "BONES", "FUR"]
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_brute",
