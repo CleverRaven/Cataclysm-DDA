@@ -10343,6 +10343,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 }
             }
         }
+        add_spawn("mon_darkman", 1, 8, 10);
 
 
     } else if (terrain_type == "cabin_strange_b") {
