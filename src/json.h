@@ -440,7 +440,7 @@ public:
     bool has_array(const std::string &name);
     bool has_object(const std::string &name);
 
-    // non-fatally set values by reference
+    // non-fatally read values by reference
     // return true if the value was set, false otherwise.
     // return false if the member is not found.
     template <typename T> bool read(const std::string &name, T &t) {
@@ -517,10 +517,16 @@ public:
     bool has_array(int index);
     bool has_object(int index);
 
-    // iteratively set values by reference
+    // iteratively read values by reference
     template <typename T> bool read_next(T &t) {
         verify_index(index);
         jsin->seek(positions[index++]);
+        return jsin->read(t);
+    }
+    // random-access read values by reference
+    template <typename T> bool read(int i, T &t) {
+        verify_index(i);
+        jsin->seek(positions[i]);
         return jsin->read(t);
     }
 };
