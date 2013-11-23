@@ -205,6 +205,7 @@ void Item_factory::init(){
     iuse_function_list["ABSORBENT"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
+    iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
@@ -519,6 +520,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     SUPER_FANCY - Clothing suitable for the most posh of events.
     LIGHT_* - light emission, sets cached int light_emission
     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
+    STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
 
     Container-only flags:
     SEALS

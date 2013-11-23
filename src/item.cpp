@@ -651,6 +651,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to keep you dry in the rain.")));
     }
+    if (is_armor() && has_flag("STURDY"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
+    }
     if (is_armor() && type->id == "rad_badge")
     {
         int i;

@@ -7817,6 +7817,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                        (gun->contents[i].type->id == "improve_sights" ||
                         gun->contents[i].type->id == "red_dot_sight" ||
                         gun->contents[i].type->id == "holo_sight" ||
+                        gun->contents[i].type->id == "pistol_scope" ||
                         gun->contents[i].type->id == "rifle_scope")) {
                 //intentionally leaving laser_sight off the list so that it CAN be used with optics
                 g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
@@ -8525,7 +8526,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
                     if ((diff_bash > arm_bash && !one_in(diff_bash)) ||
-                        (diff_bash == -1 && one_in(50)))
+                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50)))
                     {
                         armor_damaged = true;
                         worn[i].damage++;
@@ -8536,7 +8537,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     if (cut_through)
                     {
                         if ((diff_cut > arm_cut && !one_in(diff_cut)) ||
-                            (diff_cut == -1 && one_in(50)))
+                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50)))
                         {
                             armor_damaged = true;
                             worn[i].damage++;
