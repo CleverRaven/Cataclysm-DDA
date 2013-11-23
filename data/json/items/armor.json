@@ -2342,7 +2342,7 @@
         "to_hit" : 0,
         "storage" : 7,
         "symbol" : "[",
-        "description" : "A plastic coat with two very large pockets. Provides protection from rain and some protection from acid rain.",
+        "description" : "A plastic coat with a hood and two very large pockets. Provides protection from rain and some protection from acid rain.",
         "price" : 100,
         "material" : ["plastic", "cotton"],
         "volume" : 7,
@@ -2352,7 +2352,7 @@
         "enviromental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF"],
+        "flags" : ["VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 2
     },
