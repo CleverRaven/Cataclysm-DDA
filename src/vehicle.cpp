@@ -936,6 +936,12 @@ void vehicle::remove_part (int p)
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
+    
+    if(parts.size() == 0) {
+        g->m.destroy_vehicle(this);
+    } else {
+        g->m.update_vehicle_cache(this, false);
+    }
 }
 
 /**
