@@ -520,8 +520,8 @@ int iuse::firstaid(player *p, item *it, bool t)
 int iuse::completefirstaid(player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false) ) {
-        pkill(p, it, t);
-        return it->type->charges_to_use();
+        g->add_msg_if_player(p,_("You finish using the %s."), it->tname().c_str());
+        p->add_disease("pkill1", 120);
     }
     return 0;
 }
@@ -957,6 +957,12 @@ int iuse::mutagen(player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
         g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
         p->mutate_category(g, "MUTCAT_CHIMERA");
+    } else if( it->has_flag("MUTAGEN_ELFA") ) {
+        g->add_msg_if_player(p, _("Nature is becoming one with you..."));
+        p->mutate_category(g, "MUTCAT_ELFA");
+    } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
+        g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
+        p->mutate_category(g, "MUTCAT_RAPTOR");
     } else {
         if (!one_in(3)) {
             p->mutate(g);
