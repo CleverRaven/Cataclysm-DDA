@@ -6158,6 +6158,23 @@ int iuse::adrenaline_injector(player *p, item *it, bool t)
   return it->type->charges_to_use();
 }
 
+int iuse::jet_injector(player *p, item *it, bool t)
+{
+  if(it->charges == 0) {
+    g->add_msg_if_player(p, _("The jet injector is empty."), it->name.c_str());
+    return 0;
+} else {
+    g->add_msg_if_player(p,_("You inject yourself with the jet injector."));
+    p->add_disease("jetinjector", 200);
+    p->pkill += 20;
+    p->rem_disease("infected");
+    p->rem_disease("bleed");
+    p->radiation += 2;
+    p->healall(5);
+  }
+  return it->type->charges_to_use();
+}
+
 int iuse::talking_doll(player *p, item *it, bool t)
 {
     if(it->charges == 0) {

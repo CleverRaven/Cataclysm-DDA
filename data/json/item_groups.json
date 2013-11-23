@@ -3768,6 +3768,8 @@
       ["heatpack", 60],
       ["pur_tablets", 20],
       ["fungicide", 5],
+      ["rx12_injector", 8],
+      ["ampoule", 12],
       ["quikclot", 10]
     ]
     },{
@@ -4705,6 +4707,8 @@
       ["signal_flare", 25],
       ["militarymap", 4],
       ["quikclot", 20],
+      ["rx12_injector", 5],
+      ["ampoule", 10],
       ["optical_cloak", 1]
     ]
     },{
@@ -4829,6 +4833,8 @@
       ["recipe_medicalmut", 10],
       ["survivormap", 5],
       ["pur_tablets", 20],
+      ["rx12_injector", 5],
+      ["ampoule", 10],
       ["optical_cloak", 2]
     ]
     },{

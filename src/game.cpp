@@ -613,6 +613,11 @@ bool game::do_turn()
         add_msg(_("Your breathing stops completely."));
         u.add_memorial_log(_("Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
+    } else if (u.has_disease("jetinjector") &&
+            u.disease_duration("jetinjector") > 400) {
+        add_msg(_("Your heart suddenly spasms painfully and stops."));
+        u.add_memorial_log(_("Died of a healing stimulant overdose."));
+        u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
     if (u.hunger >= 3000){
