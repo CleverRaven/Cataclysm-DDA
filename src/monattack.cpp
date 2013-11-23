@@ -1675,9 +1675,9 @@ void mattack::parrot(monster *z)
 
 void mattack::darkman(monster *z)
 {
-    int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
- if (dist > 40 || !g->sees_u(z->posx(), z->posy(), t))
-  return; // Out of range
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40) {
+        return;
+        }
  z->sp_timeout = z->type->sp_freq; // Reset timer
  std::vector<point> free;
  for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
@@ -1687,12 +1687,19 @@ void mattack::darkman(monster *z)
   }
  }
  int index;
- monster tmp(GetMType("mon_shadow"));
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40) {
-        return;
+    monster tmp(GetMType("mon_shadow"));
+    z->moves -= 10;
+    index = rng(0,  - 1);
+    tmp.spawn(free[index].x, free[index].y);
+    g->add_zombie(tmp);
+    if (g->u_see(z->posx(), z->posy())) {
+       g->add_msg(_("A shadow splits from the %s!"),
+              z->name().c_str());
+     }
+    int linet;
+    if (!g->sees_u(z->posx(), z->posy(), linet)){
+       return; // Wont do the combat stuff unless it can see you
     }
-    z->sp_timeout = z->type->sp_freq;    // Reset timer
-
     switch (rng(1, 7)) { // What do we say?
         case 1: g->add_msg(_("\"Stop it please\"")); break;
         case 2: g->add_msg(_("\"Let us help you\"")); break;
@@ -1702,15 +1709,5 @@ void mattack::darkman(monster *z)
         case 6: g->add_msg(_("\"We are friendly\"")); break;
         case 7: g->add_msg(_("\"Please dont\"")); break;
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 40) {
-        g->u.add_disease("darkness", 10);
-    }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 40) {
-     if (g->u_see(z->posx(), z->posy()))
-       g->add_msg(_("A shadow splits from the %s!"),
-              z->name().c_str());
-  z->moves -= 10;
-  tmp.spawn(free[index].x, free[index].y);
-  g->add_zombie(tmp);
-    }
+    g->u.add_disease("darkness", 10);
 }
