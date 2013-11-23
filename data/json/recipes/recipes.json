@@ -7684,6 +7684,44 @@
   ]
 },{
         "type" : "recipe",
+  "result": "smores",
+  "category": "CC_FOOD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8],
+      [ "char_smoke", 1],
+      [ "toolset", 1],
+      [ "fire", -1]
+    ],
+    [
+      [ "spear_wood", -1 ],
+      [ "spear_steel", -1 ],
+      [ "pointy_stick", -1 ],
+      [ "skewer", -1 ],
+      [ "javelin", -1 ],
+      [ "javelin_iron", -1 ],
+      [ "spear_knife", -1 ],
+      [ "tongs", -1 ]
+    ],
+  ],
+  "components": [
+    [
+      [ "gramcrackers", 8 ]
+    ],
+    [
+      [ "marshmallow", 8 ]
+    ],
+    [
+      [ "chocolate", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pizza_meat",
   "category": "CC_FOOD",
   "skill_used": "cooking",

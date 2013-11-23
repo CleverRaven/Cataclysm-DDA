@@ -7,6 +7,7 @@
       ["candy", 60],
       ["candy2", 60],
       ["candy3", 60],
+      ["salmaic_powder", 40],
       ["neccowafers", 50],
       ["maltballs", 50],
       ["cookies", 80],
@@ -305,6 +306,8 @@
       ["bread", 14],
       ["cornbread", 7],
       ["crackers", 20],
+      ["gramcrackers", 20],
+      ["marshmallow", 20],
       ["biscuit", 12],
       ["hardtack", 2],
       ["mayonnaise", 35],
@@ -394,6 +397,8 @@
       ["vodka", 20],
       ["apple_cider", 50],
       ["jihelucake", 1],
+      ["cake2", 1],
+      ["cake3", 1],
       ["beer", 60],
       ["pizza_meat", 8],
       ["pizza_veggy", 8],
@@ -809,9 +814,11 @@
       ["chocpretzels", 40],
       ["chocolate", 50],
       ["jerky", 55],
+      ["porkstick", 55],
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
+      ["salmaic_powder", 60],
       ["neccowafers", 80],
       ["maltballs", 80],
       ["mintpatties", 80],
@@ -899,6 +906,7 @@
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
+      ["salmaic_powder", 60],
       ["mintpatties", 60],
       ["maltballs", 60],
       ["neccowafers", 60],
@@ -954,7 +962,9 @@
       ["chocpretzels", 50],
       ["chocolate", 50],
       ["jerky", 55],
+      ["porkstick", 55],
       ["candy", 80],
+      ["salmaic_powder", 60],
       ["mintpatties", 80],
       ["maltballs", 80],
       ["tea_raw", 10],
@@ -1126,6 +1136,8 @@
       ["can_herring", 30],
       ["broth", 15],
       ["crackers", 10],
+      ["gramcrackers", 10],
+      ["marshmallow", 10],
       ["syrup", 15],
       ["coffee_syrup", 10],
       ["soup_veggy", 15],
@@ -1166,6 +1178,8 @@
       ["bread", 14],
       ["cornbread", 7],
       ["crackers", 20],
+      ["gramcrackers", 20],
+      ["marshmallow", 20],
       ["biscuit", 12],
       ["hardtack", 2],
       ["seasoning_salt", 25],
@@ -2758,6 +2772,7 @@
       ["candy", 60],
       ["candy2", 60],
       ["candy3", 60],
+      ["salmaic_powder", 40],
       ["neccowafers", 60],
       ["mintpatties", 60],
       ["backpack", 38],
@@ -4967,6 +4982,7 @@
       ["colamdew", 60],
       ["choc_drink", 30],
       ["jerky", 55],
+      ["porkstick", 55],
       ["ravioli", 25],
       ["can_beans", 40],
       ["can_corn", 35],
@@ -5068,6 +5084,7 @@
       ["whiskey", 16],
       ["bum_wine", 10],
       ["jerky", 55],
+      ["porkstick", 55],
       ["bandages", 50],
       ["caffeine", 25],
       ["oxycodone", 7],
@@ -5253,9 +5270,4 @@
       ["loincloth_leather", 1]
     ]
   }
-<<<<<<< HEAD
-
 ]
-=======
-]
->>>>>>> 0df165bd23e6d3195eb3ac8abc2a2e49fa642773
