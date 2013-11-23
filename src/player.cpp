@@ -1759,15 +1759,15 @@ void player::disp_info(game *g)
       g->weather != WEATHER_SUNNY)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you.\n\
-Strength - 1;    Dexterity - 1;    Intelligence - 1;    Dexterity - 1"));
+Strength - 1;    Dexterity - 1;    Intelligence - 1"));
  } else if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you badly.\n\
-Strength - 2;    Dexterity - 2;    Intelligence - 2;    Dexterity - 2"));
+Strength - 2;    Dexterity - 2;    Intelligence - 2"));
  } else if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you terribly.\n\
-Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
+Strength - 4;    Dexterity - 4;    Intelligence - 4"));
  }
 
  for (int i = 0; i < addictions.size(); i++) {
