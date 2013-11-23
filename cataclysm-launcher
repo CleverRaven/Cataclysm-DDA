@@ -1,3 +1,9 @@
 #!/bin/sh
 DIR=$(dirname $(readlink -f "$0"))
-cd "$DIR" && exec ./cataclysm
+BIN=$(basename "$0")
+
+if [ "$BIN" == "cataclysm-launcher" ]; then
+    BIN=cataclysm
+fi
+
+cd "$DIR" && exec ./$BIN
