@@ -652,6 +652,7 @@
       ["rm103a_pistol", 1],
       ["laser_sight", 15],
       ["rifle_scope", 17],
+      ["pistol_scope", 14],
       ["improve_sights", 20],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
@@ -1952,6 +1953,7 @@
       ["red_dot_sight", 18],
       ["holo_sight", 20],
       ["rifle_scope", 16],
+      ["pistol_scope", 12],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["improve_sights", 20]

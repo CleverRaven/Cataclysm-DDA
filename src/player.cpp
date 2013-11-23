@@ -7817,6 +7817,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                        (gun->contents[i].type->id == "improve_sights" ||
                         gun->contents[i].type->id == "red_dot_sight" ||
                         gun->contents[i].type->id == "holo_sight" ||
+                        gun->contents[i].type->id == "pistol_scope" ||
                         gun->contents[i].type->id == "rifle_scope")) {
                 //intentionally leaving laser_sight off the list so that it CAN be used with optics
                 g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
