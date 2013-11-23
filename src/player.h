@@ -69,10 +69,10 @@ struct stats : public JsonSerializer, public JsonDeserializer
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) {
         JsonObject jo = jsin.get_object();
-        jo.read_into("squares_walked", squares_walked);
-        jo.read_into("damage_taken", damage_taken);
-        jo.read_into("damage_healed", damage_healed);
-        jo.read_into("headshots", headshots);
+        jo.read("squares_walked", squares_walked);
+        jo.read("damage_taken", damage_taken);
+        jo.read("damage_healed", damage_healed);
+        jo.read("headshots", headshots);
     }
 };
 
