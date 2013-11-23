@@ -55,6 +55,7 @@
                 "  x = x + 1",
                 "end",
                 "map:place_items(\"field\", 60, 0, 0, 23, 23, 1, turn)",
+                "map:line_ter(\"t_paper\", 1, 1, 22, 22)",
                 "game.add_msg(\"generated oter=\"..tertype..\" turn=\"..turn)"
               ]
             }
@@ -1542,7 +1543,14 @@
         "color" : "dark_gray",
         "see_cost" : 5,
         "known_up" : true,
-        "mondensity" : 2
+        "mondensity" : 2,
+        "mapgen": [
+            { "type": "builtin", "name": "basement_junk" },
+            { "type": "builtin", "name": "basement_guns" },
+            { "type": "builtin", "name": "basement_survivalist" },
+            { "type": "builtin", "name": "basement_chemlab" },
+            { "type": "builtin", "name": "basement_weed" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "cavern",

@@ -5,6 +5,7 @@
 #include "item.h"
 #include "pldata.h"
 #include "mapgen.h"
+#include "mapgen_functions.h"
 #include "map.h"
 
 #ifdef LUA
