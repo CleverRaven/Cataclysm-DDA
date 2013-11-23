@@ -6170,8 +6170,13 @@ int iuse::jet_injector(player *p, item *it, bool t)
     p->stim += 10;
     p->rem_disease("infected");
     p->rem_disease("bleed");
-    p->radiation += 2;
-    p->healall(5);
+    p->radiation += 4;
+    p->healall(10);
+  }
+
+  if(p->has_disease("jetinjector") &&
+            p->disease_duration("jetinjector") > 200) {
+    g->add_msg_if_player(p,_("Your heart is beating alarmingly fast!"));
   }
   return it->type->charges_to_use();
 }

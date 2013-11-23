@@ -1046,8 +1046,8 @@ void dis_effect(player &p, disease &dis) {
             break;
             
         case DI_JETINJECTOR:
-            if (dis.duration > 150) {
-                // 10 minutes positive effects
+            if (dis.duration > 50) {
+                // 15 minutes positive effects
                 p.str_cur += 1;
                 p.dex_cur += 1;
                 p.per_cur += 1;

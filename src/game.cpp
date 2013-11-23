@@ -615,7 +615,7 @@ bool game::do_turn()
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_disease("jetinjector") &&
             u.disease_duration("jetinjector") > 400) {
-        add_msg(_("Your heart suddenly spasms painfully and stops."));
+        add_msg(_("Your heart spasms painfully and stops."));
         u.add_memorial_log(_("Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
     }
