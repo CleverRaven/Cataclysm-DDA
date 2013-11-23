@@ -329,7 +329,7 @@ void Item_factory::load_ammo(JsonObject& jo)
 {
     it_ammo* ammo_template = new it_ammo();
     ammo_template->type = jo.get_string("ammo_type");
-    ammo_template->casing = jo.get_string("casing", "");
+    ammo_template->casing = jo.get_string("casing", "NULL");
     ammo_template->damage = jo.get_int("damage");
     ammo_template->pierce = jo.get_int("pierce");
     ammo_template->range = jo.get_int("range");
