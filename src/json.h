@@ -14,9 +14,9 @@
  * 
  * Consists of four main JSON manipulation tools:
  * JsonIn - for low-level parsing of an input JSON stream
+ * JsonOut - for outputting JSON
  * JsonObject - convenience-wrapper for reading JSON objects from a JsonIn
  * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
- * JsonOut - for outputting JSON
  * 
  * Generally usage in code will be based around a JsonObject or JsonArray.
  * 
@@ -198,161 +198,13 @@
  */
 
 class JsonIn;
+class JsonOut;
 class JsonObject;
 class JsonArray;
-class JsonOut;
 class JsonSerializer;
 class JsonDeserializer;
 
 bool is_whitespace(char ch); // RFC 4627 compliant
-
-class JsonObject {
-private:
-    std::map<std::string, int> positions;
-    int start;
-    int end;
-    bool final_separator;
-    JsonIn *jsin;
-    int verify_position(const std::string &name,
-                        const bool throw_exception=true);
-
-public:
-    JsonObject(JsonIn *jsin);
-    JsonObject(const JsonObject &jsobj);
-    JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
-    ~JsonObject() { finish(); }
-
-    void finish(); // moves the stream to the end of the object
-    size_t size();
-    bool empty();
-
-    bool has_member(const std::string &name); // true iff named member exists
-    std::set<std::string> get_member_names();
-    std::string str(); // copy object json as string
-    // seek to a value and return a pointer to the JsonIn (member must exist)
-    JsonIn* get_raw(const std::string &name);
-
-    // values by name
-    // variants with no fallback throw an error if the name is not found.
-    // variants with a fallback return the fallback value in stead.
-    bool get_bool(const std::string &name);
-    bool get_bool(const std::string &name, const bool fallback);
-    int get_int(const std::string &name);
-    int get_int(const std::string &name, const int fallback);
-    double get_float(const std::string &name);
-    double get_float(const std::string &name, const double fallback);
-    std::string get_string(const std::string &name);
-    std::string get_string(const std::string &name, const std::string &fallback);
-
-    // containers by name
-    // get_array returns empty array if the member is not found
-    JsonArray get_array(const std::string &name);
-    std::vector<int> get_int_array(const std::string &name);
-    std::vector<std::string> get_string_array(const std::string &name);
-    // get_object returns empty object if not found
-    JsonObject get_object(const std::string &name);
-    // get_tags returns empty set if none found
-    std::set<std::string> get_tags(const std::string &name);
-    // TODO: some sort of get_map(), maybe
-
-    // type checking
-    bool has_null(const std::string &name);
-    bool has_bool(const std::string &name);
-    bool has_int(const std::string &name);
-    bool has_float(const std::string &name);
-    bool has_number(const std::string &name) { return has_float(name); };
-    bool has_string(const std::string &name);
-    bool has_array(const std::string &name);
-    bool has_object(const std::string &name);
-
-    // set values by reference
-    // return true if the value was set, false otherwise.
-    // return false if the member is not found.
-    bool read_into(const std::string &name, bool &b);
-    bool read_into(const std::string &name, int &i);
-    bool read_into(const std::string &name, unsigned int &u);
-    bool read_into(const std::string &name, float &f);
-    bool read_into(const std::string &name, double &d);
-    bool read_into(const std::string &name, std::string &s);
-    bool read_into(const std::string &name, JsonDeserializer &j);
-    template <typename T>
-    bool read_into(const std::string &name, std::vector<T> &v); // see below
-    template <typename T>
-    bool read_into(const std::string &name, std::set<T> &v); // see below
-
-    // useful debug info
-    std::string line_number(); // for occasional use only
-};
-
-class JsonArray {
-private:
-    std::vector<int> positions;
-    int start;
-    int index;
-    int end;
-    bool final_separator;
-    JsonIn *jsin;
-    void verify_index(int i);
-
-public:
-    JsonArray(JsonIn *jsin);
-    JsonArray(const JsonArray &jsarr);
-    JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
-    ~JsonArray() { finish(); }
-
-    void finish(); // move the stream position to the end of the array
-
-    bool has_more(); // true iff more elements may be retrieved with next_*
-    int size();
-    bool empty();
-    std::string str(); // copy array json as string
-
-    // iterative access
-    bool next_bool();
-    int next_int();
-    double next_float();
-    std::string next_string();
-    JsonArray next_array();
-    JsonObject next_object();
-    void skip_value(); // ignore whatever is next
-
-    // static access
-    bool get_bool(int index);
-    int get_int(int index);
-    double get_float(int index);
-    std::string get_string(int index);
-    JsonArray get_array(int index);
-    JsonObject get_object(int index);
-
-    // iterative type checking
-    bool test_null();
-    bool test_bool();
-    bool test_int();
-    bool test_float();
-    bool test_number() { return test_float(); };
-    bool test_string();
-    bool test_array();
-    bool test_object();
-
-    // random-access type checking
-    bool has_null(int index);
-    bool has_bool(int index);
-    bool has_int(int index);
-    bool has_float(int index);
-    bool has_number(int index) { return has_float(index); };
-    bool has_string(int index);
-    bool has_array(int index);
-    bool has_object(int index);
-
-    // iteratively set values by reference
-    bool read_into(bool &b);
-    bool read_into(int &i);
-    bool read_into(unsigned &u);
-    bool read_into(float &f);
-    bool read_into(double &d);
-    bool read_into(std::string &s);
-    bool read_into(JsonDeserializer &j);
-};
 
 
 /* JsonIn */
@@ -400,8 +252,8 @@ public:
     bool get_bool(); // get the next value as a bool
     double get_float(); // get the next value as a double
     std::string get_member_name(); // also strips the ':'
-    JsonObject get_object() { return JsonObject(this); };
-    JsonArray get_array() { return JsonArray(this); };
+    JsonObject get_object();
+    JsonArray get_array();
 
     // container control and iteration
     void start_array(); // verify array start
@@ -418,6 +270,44 @@ public:
     bool test_string();
     bool test_array();
     bool test_object();
+
+    // non-fatal reading into values by reference
+    // returns true if the data was read successfully, false otherwise
+    bool read(bool &b);
+    bool read(int &i);
+    bool read(unsigned int &u);
+    bool read(float &f);
+    bool read(double &d);
+    bool read(std::string &s);
+    bool read(JsonDeserializer &j);
+    // array ~> vector
+    template <typename T> bool read(std::vector<T> &v) {
+        if (!test_array()) { return false; }
+        try {
+            start_array();
+            v.clear();
+            while (!end_array()) {
+                T element;
+                if (read(element)) { v.push_back(element); }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
+    // array ~> set
+    template <typename T> bool read(std::set<T> &v) {
+        if (!test_array()) { return false; }
+        try {
+            start_array();
+            v.clear();
+            while (!end_array()) {
+                T element;
+                if (read(element)) { v.insert(element); }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
 
     // error messages
     std::string line_number(int offset_modifier=0); // for occasional use only
@@ -489,6 +379,153 @@ public:
 };
 
 
+/* JsonObject */
+
+class JsonObject {
+private:
+    std::map<std::string, int> positions;
+    int start;
+    int end;
+    bool final_separator;
+    JsonIn *jsin;
+    int verify_position(const std::string &name,
+                        const bool throw_exception=true);
+
+public:
+    JsonObject(JsonIn *jsin);
+    JsonObject(const JsonObject &jsobj);
+    JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
+    ~JsonObject() { finish(); }
+
+    void finish(); // moves the stream to the end of the object
+    size_t size();
+    bool empty();
+
+    bool has_member(const std::string &name); // true iff named member exists
+    std::set<std::string> get_member_names();
+    std::string str(); // copy object json as string
+    // seek to a value and return a pointer to the JsonIn (member must exist)
+    JsonIn* get_raw(const std::string &name);
+
+    // values by name
+    // variants with no fallback throw an error if the name is not found.
+    // variants with a fallback return the fallback value in stead.
+    bool get_bool(const std::string &name);
+    bool get_bool(const std::string &name, const bool fallback);
+    int get_int(const std::string &name);
+    int get_int(const std::string &name, const int fallback);
+    double get_float(const std::string &name);
+    double get_float(const std::string &name, const double fallback);
+    std::string get_string(const std::string &name);
+    std::string get_string(const std::string &name, const std::string &fallback);
+
+    // containers by name
+    // get_array returns empty array if the member is not found
+    JsonArray get_array(const std::string &name);
+    std::vector<int> get_int_array(const std::string &name);
+    std::vector<std::string> get_string_array(const std::string &name);
+    // get_object returns empty object if not found
+    JsonObject get_object(const std::string &name);
+    // get_tags returns empty set if none found
+    std::set<std::string> get_tags(const std::string &name);
+    // TODO: some sort of get_map(), maybe
+
+    // type checking
+    bool has_null(const std::string &name);
+    bool has_bool(const std::string &name);
+    bool has_int(const std::string &name);
+    bool has_float(const std::string &name);
+    bool has_number(const std::string &name) { return has_float(name); };
+    bool has_string(const std::string &name);
+    bool has_array(const std::string &name);
+    bool has_object(const std::string &name);
+
+    // non-fatally set values by reference
+    // return true if the value was set, false otherwise.
+    // return false if the member is not found.
+    template <typename T> bool read_into(const std::string &name, T &t) {
+        int pos = positions[name];
+        if (pos <= start) { return false; }
+        jsin->seek(pos);
+        return jsin->read(t);
+    }
+
+    // useful debug info
+    std::string line_number(); // for occasional use only
+};
+
+
+/* JsonArray */
+
+class JsonArray {
+private:
+    std::vector<int> positions;
+    int start;
+    int index;
+    int end;
+    bool final_separator;
+    JsonIn *jsin;
+    void verify_index(int i);
+
+public:
+    JsonArray(JsonIn *jsin);
+    JsonArray(const JsonArray &jsarr);
+    JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
+    ~JsonArray() { finish(); }
+
+    void finish(); // move the stream position to the end of the array
+
+    bool has_more(); // true iff more elements may be retrieved with next_*
+    int size();
+    bool empty();
+    std::string str(); // copy array json as string
+
+    // iterative access
+    bool next_bool();
+    int next_int();
+    double next_float();
+    std::string next_string();
+    JsonArray next_array();
+    JsonObject next_object();
+    void skip_value(); // ignore whatever is next
+
+    // static access
+    bool get_bool(int index);
+    int get_int(int index);
+    double get_float(int index);
+    std::string get_string(int index);
+    JsonArray get_array(int index);
+    JsonObject get_object(int index);
+
+    // iterative type checking
+    bool test_null();
+    bool test_bool();
+    bool test_int();
+    bool test_float();
+    bool test_number() { return test_float(); };
+    bool test_string();
+    bool test_array();
+    bool test_object();
+
+    // random-access type checking
+    bool has_null(int index);
+    bool has_bool(int index);
+    bool has_int(int index);
+    bool has_float(int index);
+    bool has_number(int index) { return has_float(index); };
+    bool has_string(int index);
+    bool has_array(int index);
+    bool has_object(int index);
+
+    // iteratively set values by reference
+    template <typename T> bool read_into(T &t) {
+        verify_index(index);
+        jsin->seek(positions[index++]);
+        return jsin->read(t);
+    }
+};
+
+
 // inheritable interface classes for easy serialization
 
 class JsonSerializer {
@@ -519,43 +556,5 @@ public:
         deserialize(jin);
     }
 };
-
-/* compound templates */
-
-// JsonObject named array ~> vector
-template <typename T>
-bool JsonObject::read_into(const std::string &name, std::vector<T> &v)
-{
-    if (!has_array(name)) { return false; }
-    JsonArray ja = get_array(name);
-    v.clear();
-    try {
-        while (ja.has_more()) {
-            T element;
-            if (ja.read_into(element)) {
-                v.push_back(element);
-            }
-        }
-        return true;
-    } catch (std::string e) { return false; }
-}
-
-// JsonObject named array ~> set
-template <typename T>
-bool JsonObject::read_into(const std::string &name, std::set<T> &v)
-{
-    if (!has_array(name)) { return false; }
-    JsonArray ja = get_array(name);
-    v.clear();
-    try {
-        while (ja.has_more()) {
-            T element;
-            if (ja.read_into(element)) {
-                v.insert(element);
-            }
-        }
-        return true;
-    } catch (std::string e) { return false; }
-}
 
 #endif // _JSON_H_
