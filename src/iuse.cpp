@@ -425,6 +425,9 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
       if(p->activity.type != ACT_FIRSTAID) {
         healed = body_window(p, it, item_name, normal_bonus, head_bonus,
                              torso_bonus, bleed, bite, infect, force);
+        if (healed == num_hp_parts) {
+            return num_hp_parts; // canceled
+        }
       }
       // Brick healing if using a first aid kit for the first time.
       // TODO: Base check on something other than the name.
