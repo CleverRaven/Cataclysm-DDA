@@ -7707,11 +7707,11 @@
       [ "javelin_iron", -1 ],
       [ "spear_knife", -1 ],
       [ "tongs", -1 ]
-    ],
+    ]
   ],
   "components": [
     [
-      [ "gramcrackers", 8 ]
+      [ "grahmcrackers", 8 ]
     ],
     [
       [ "marshmallow", 8 ]

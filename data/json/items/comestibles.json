@@ -6767,8 +6767,8 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "gramcrackers",
-        "name" : "gram crackers",
+        "id" : "grahmcrackers",
+        "name" : "grahm crackers",
         "weight" : 56,
         "color" : "brown",
         "addiction_type" : "none",
