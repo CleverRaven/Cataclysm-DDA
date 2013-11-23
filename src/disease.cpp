@@ -259,6 +259,17 @@ void dis_msg(dis_type type_string) {
     }
 }
 
+void dis_end_msg(player &p, disease &dis)
+{
+    switch (disease_type_lookup[dis.type]) {
+    case DI_SLEEP:
+        g->add_msg_if_player(&p, _("You wake up."));
+        break;
+    default:
+        break;
+    }
+}
+
 void dis_remove_memorial(dis_type type_string) {
 
   dis_type_enum type = disease_type_lookup[type_string];
@@ -781,7 +792,7 @@ void dis_effect(player &p, disease &dis) {
                         g->add_msg(_("You use your %s to keep warm."), item_name.c_str());
                     }
                 }
-                p.add_disease("sleep", 6000);
+                p.fall_asleep(6000);
             }
             if (dis.duration == 1 && !p.has_disease("sleep")) {
                 g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
@@ -1119,7 +1130,7 @@ void dis_effect(player &p, disease &dis) {
                     if (!p.is_npc()) {
                         g->add_msg(_("You pass out."));
                     }
-                    p.add_disease("sleep", 1200);
+                    p.fall_asleep(1200);
                     if (one_in(6)) {
                         p.rem_disease("teleglow");
                     }
@@ -2363,7 +2374,7 @@ static void handle_alcohol(player& p, disease& dis) {
     bool readyForNap = one_in(500 - int(dis.duration / 80));
     if (!p.has_disease("sleep") && dis.duration >= 4500 && readyForNap) {
         g->add_msg_if_player(&p,_("You pass out."));
-        p.add_disease("sleep", dis.duration / 2);
+        p.fall_asleep(dis.duration / 2);
     }
 }
 
@@ -2398,8 +2409,7 @@ static void handle_bite_wound(player& p, disease& dis) {
         // Then some pain for 4 hours
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your %s wound feels swollen and painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
@@ -2441,8 +2451,7 @@ static void handle_infected_wound(player& p, disease& dis) {
         // 10 hours bad pain
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your %s wound is incredibly painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
@@ -2456,8 +2465,7 @@ static void handle_infected_wound(player& p, disease& dis) {
         // 8 hours of vomiting + pain
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,
                 _("You feel feverish and nauseous, your %s wound has begun to turn green."),
@@ -2473,8 +2481,7 @@ static void handle_infected_wound(player& p, disease& dis) {
         // 6 hours extreme symptoms
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
                 g->add_msg_if_player(&p,
                         _("You feel terribly weak, standing up is nearly impossible."));
             } else {
@@ -2488,12 +2495,9 @@ static void handle_infected_wound(player& p, disease& dis) {
         }
         p.str_cur -= 3;
         p.dex_cur -= 3;
-        if(one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg(_("You pass out."));
-            }
-            p.add_disease("sleep", 60);
+        if (!p.has_disease("sleep") && one_in(100)) {
+            g->add_msg(_("You pass out."));
+            p.fall_asleep(60);
         }
     } else {
         // Death. 24 hours after infection. Total time, 30 hours including bite.
@@ -2510,8 +2514,7 @@ static void handle_recovery(player& p, disease& dis) {
     if (dis.duration > 52800) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
                 g->add_msg_if_player(&p,
                         _("You feel terribly weak, standing up is nearly impossible."));
             } else {
@@ -2525,18 +2528,14 @@ static void handle_recovery(player& p, disease& dis) {
         }
         p.str_cur -= 3;
         p.dex_cur -= 3;
-        if(one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg(_("You pass out."));
-                p.add_disease("sleep", 60);
-            }
+        if (!p.has_disease("sleep") && one_in(100)) {
+            g->add_msg(_("You pass out."));
+            p.fall_asleep(60);
         }
     } else if (dis.duration > 33600) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,
                 _("You feel feverish and nauseous."));
@@ -2550,8 +2549,7 @@ static void handle_recovery(player& p, disease& dis) {
     } else if (dis.duration > 9600) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your healing wound is incredibly painful."));
             if(p.pain < 24) {
@@ -2563,8 +2561,7 @@ static void handle_recovery(player& p, disease& dis) {
     } else {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
-                p.rem_disease("sleep");
-                g->add_msg_if_player(&p,_("You wake up."));
+                p.wake_up();
             }
             g->add_msg_if_player(&p,_("Your healing wound feels swollen and painful."));
             if(p.pain < 8) {
@@ -2587,8 +2584,7 @@ static void handle_cough(player &p, int loudness) {
         p.hurt(g, bp_torso, -1, 1);
     }
     if (p.has_disease("sleep")) {
-        p.rem_disease("sleep");
-        g->add_msg_if_player(&p,_("You wake up coughing."));
+        p.wake_up(_("You wake up coughing."));
     }
 }
 

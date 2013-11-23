@@ -39,13 +39,6 @@ bool tutorial_game::init(game *g)
  g->u.inv.push_back(item(itypes["lighter"], 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
-// Init the starting map at g location.
- for (int i = 0; i <= MAPSIZE; i += 2) {
-  for (int j = 0; j <= MAPSIZE; j += 2) {
-   tinymap tm(&g->traps);
-   tm.generate(g, g->cur_om, g->levx + i - 1, g->levy + j - 1, 0, int(g->turn));
-  }
- }
 // Start with the overmap revealed
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++)
@@ -53,9 +46,11 @@ bool tutorial_game::init(game *g)
  }
  g->m.load(g, g->levx, g->levy, 0);
  g->levz = 0;
- g->u.posx = SEEX + 2;
- g->u.posy = SEEY + 4;
+ g->u.posx = 2;
+ g->u.posy = 4;
 
+ // This shifts the view to center the players pos
+ g->update_map(g->u.posx, g->u.posy);
  return true;
 }
 

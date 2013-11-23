@@ -123,12 +123,20 @@
         "static_buffs" : [
             {
                 "id" : "krav_maga_static",
-                "name" : "Krav Maga",
+                "name" : "Krav Maga H2H",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
                 "bash_str" : 0.15,
                 "description" : "Slightly increased unarmed damage"
+            },{
+                "id" : "krav_maga_static_edged",
+                "name" : "Krav Maga Edged",
+                "melee_allowed" : true,
+                "min_unarmed" : 0,
+                "buff_duration" : 2,
+                "cut_mult" : 1.2,
+                "description" : "Slightly increased cutting damage"
             }
         ],
         "techniques" : [

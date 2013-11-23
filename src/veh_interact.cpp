@@ -225,14 +225,18 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
  * error code if they are unable to perform it. The return from this function
  * should be passed into the various do_whatever functions further down.
  * @param mode The command the player is trying to perform (ie 'r' for repair).
- * @return 0 if the player has everything they need,
- *         1 if the command can't target that square,
- *         2 if the player lacks tools,
- *         3 if something else obstructs the action,
- *         4 if the player's skill isn't high enough.
+ * @return CAN_DO if the player has everything they need,
+ *         INVALID_TARGET if the command can't target that square,
+ *         LACK_TOOLS if the player lacks tools,
+ *         NOT_FREE if something else obstructs the action,
+ *         LACK_SKILL if the player's skill isn't high enough,
+ *         LOW_MORALE if the player's morale is too low while trying to perform
+ *             an action requiring a minimum morale,
+ *         UNKNOWN_TASK if the requested operation is unrecognized.
  */
 task_reason veh_interact::cant_do (char mode)
 {
+    bool enough_morale = true;
     bool valid_target = false;
     bool has_tools = false;
     bool part_free = true;
@@ -241,10 +245,12 @@ task_reason veh_interact::cant_do (char mode)
 
     switch (mode) {
     case 'i': // install mode
+        enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && (has_welder || has_duct_tape);
         break;
     case 'r': // repair mode
+        enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = need_repair.size() > 0 && cpart >= 0;
         has_tools = has_welder || has_duct_tape;
         break;
@@ -253,6 +259,7 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = has_fuel;
         break;
     case 'o': // remove mode
+        enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
         has_tools = (has_wrench && has_hacksaw) || can_remove_wheel;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
@@ -274,6 +281,9 @@ task_reason veh_interact::cant_do (char mode)
         return UNKNOWN_TASK;
     }
 
+    if( !enough_morale ) {
+        return LOW_MORALE;
+    }
     if( !valid_target ) {
         return INVALID_TARGET;
     }
@@ -292,19 +302,18 @@ task_reason veh_interact::cant_do (char mode)
 /**
  * Handles installing a new part.
  * @param reason INVALID_TARGET if the square can't have anything installed,
- *               LACK_TOOLS if the player is lacking tools.
+ *               LACK_TOOLS if the player is lacking tools,
+ *               LOW_MORALE if the player's morale is too low.
  */
 void veh_interact::do_install(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
-    if (g->u.morale_level() < MIN_MORALE_CRAFT) {
-        // See morale.h
+    switch (reason) {
+    case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
         wrefresh (w_msg);
         return;
-    }
-    switch (reason) {
     case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Cannot install any part here."));
         wrefresh (w_msg);
@@ -385,19 +394,18 @@ void veh_interact::do_install(task_reason reason)
 /**
  * Handles repairing a vehicle part.
  * @param reason INVALID_TARGET if there's no damaged parts in the selected square,
- *               LACK_TOOLS if the player is lacking tools.
+ *               LACK_TOOLS if the player is lacking tools,
+ *               LOW_MORALE if the player's morale is too low.
  */
 void veh_interact::do_repair(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
-    if (g->u.morale_level() < MIN_MORALE_CRAFT) {
-        // See morale.h
+    switch (reason) {
+    case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
         wrefresh (w_msg);
         return;
-    }
-    switch (reason) {
     case INVALID_TARGET:
         if(mostDamagedPart != -1) {
             int p = mostDamagedPart; // for convenience
@@ -501,21 +509,20 @@ void veh_interact::do_refill(task_reason reason)
  * @param reason INVALID_TARGET if there are no parts to remove,
  *               LACK_TOOLS if the player is lacking tools,
  *               NOT_FREE if there's something attached that needs to be removed first,
- *               LACK_SKILL if the player's mechanics skill isn't high enough.
+ *               LACK_SKILL if the player's mechanics skill isn't high enough,
+ *               LOW_MORALE if the player's morale is too low.
  */
 void veh_interact::do_remove(task_reason reason)
 {
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
-    if (g->u.morale_level() < MIN_MORALE_CRAFT) {
-        // See morale.h
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
-        wrefresh (w_msg);
-        return;
-    }
     bool can_hacksaw = has_wrench && has_hacksaw &&
                        g->u.skillLevel("mechanics") >= 2;
     switch (reason) {
+    case LOW_MORALE:
+        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
+        wrefresh (w_msg);
+        return;
     case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("No parts here."));
         wrefresh (w_msg);

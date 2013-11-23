@@ -1929,7 +1929,7 @@
       ["smrifle_primer", 10],
       ["lgrifle_primer", 10],
       ["lead", 10],
-      ["solder", 10],
+      ["solder_wire", 10],
       ["tin", 10],
       ["bismuth", 10],
       ["press", 5],
@@ -3669,6 +3669,7 @@
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
+      ["optical_cloak", 1],
       ["backpack", 38],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -3702,6 +3703,7 @@
       ["mask_gas", 10],
       ["duffelbag", 15],
       ["goggles_nv", 1],
+      ["optical_cloak", 1],
       ["backpack", 38],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -4001,8 +4003,8 @@
       ["bio_lighter", 10],
       ["bio_magnet", 10],
       ["flyer", 10],
-	  ["decoy_elfa", 10],
-	  ["recipe_elfa", 1],
+	    ["decoy_elfa", 10],
+	    ["recipe_elfa", 1],
       ["bio_purifier", 10],
       ["bio_climate", 10],
       ["bio_heatsink", 10],
@@ -4527,7 +4529,7 @@
       ["LAW_Packed", 30],
       ["m3_carlgustav", 1],
       ["gobag", 2],
-	  ["recipe_raptor", 2],
+	    ["recipe_raptor", 2],
       ["84x246mm_he", 3],
       ["84x246mm_hedp", 2],
       ["84x246mm_smoke", 3],
@@ -4541,7 +4543,8 @@
       ["sm_extinguisher", 10],
       ["flaregun", 20],
       ["signal_flare", 25],
-      ["glasses_bal", 10]
+      ["glasses_bal", 10],
+      ["optical_cloak", 1]
     ]
     },{
         "type" : "item_group",
@@ -4701,7 +4704,8 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["militarymap", 4],
-      ["quikclot", 20]
+      ["quikclot", 20],
+      ["optical_cloak", 1]
     ]
     },{
         "type" : "item_group",
@@ -4772,7 +4776,8 @@
       ["chemistry_set", 4],
       ["oxy_powder", 8],
       ["fungicide", 10],
-      ["pur_tablets", 10]
+      ["pur_tablets", 10],
+      ["optical_cloak", 1]
     ]
     },{
         "type" : "item_group",
@@ -4823,7 +4828,8 @@
       ["hazmat_suit", 5],
       ["recipe_medicalmut", 10],
       ["survivormap", 5],
-      ["pur_tablets", 20]
+      ["pur_tablets", 20],
+      ["optical_cloak", 2]
     ]
     },{
         "type" : "item_group",
