@@ -5648,6 +5648,29 @@
     "revert_to": "null",
     "use_action": "AIRHORN"
   },
+
+  {
+    "id": "rx12_injector",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "RX12 jet injector",
+    "description": "The Rivtech RX12 jet injector is a small pistol-shaped device used to inject chemicals through the skin without using a needle.",
+    "price": 1000,
+    "material": ["kevlar", "steel"],
+    "weight": 316,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "ampoule",
+    "revert_to": "null",
+    "use_action": "JET_INJECTOR"
+  },
   {
     "id": "shock_staff",
     "type":"TOOL",
