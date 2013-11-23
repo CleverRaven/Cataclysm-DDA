@@ -328,27 +328,14 @@ bool JsonObject::has_bool(const std::string &name)
     return false;
 }
 
-bool JsonObject::has_int(const std::string &name)
+bool JsonObject::has_number(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
         return false;
     }
     jsin->seek(pos);
-    if (jsin->test_int()) {
-        return true;
-    }
-    return false;
-}
-
-bool JsonObject::has_float(const std::string &name)
-{
-    int pos = verify_position(name, false);
-    if (!pos) {
-        return false;
-    }
-    jsin->seek(pos);
-    if (jsin->test_float()) {
+    if (jsin->test_number()) {
         return true;
     }
     return false;
@@ -571,22 +558,13 @@ bool JsonArray::test_bool()
     return jsin->test_bool();
 }
 
-bool JsonArray::test_int()
+bool JsonArray::test_number()
 {
     if (!has_more()) {
         return false;
     }
     jsin->seek(positions[index]);
-    return jsin->test_int();
-}
-
-bool JsonArray::test_float()
-{
-    if (!has_more()) {
-        return false;
-    }
-    jsin->seek(positions[index]);
-    return jsin->test_float();
+    return jsin->test_number();
 }
 
 bool JsonArray::test_string()
@@ -632,18 +610,11 @@ bool JsonArray::has_bool(int i)
     return jsin->test_bool();
 }
 
-bool JsonArray::has_int(int i)
+bool JsonArray::has_number(int i)
 {
     verify_index(i);
     jsin->seek(positions[i]);
-    return jsin->test_int();
-}
-
-bool JsonArray::has_float(int i)
-{
-    verify_index(i);
-    jsin->seek(positions[i]);
-    return jsin->test_float();
+    return jsin->test_number();
 }
 
 bool JsonArray::has_string(int i)
@@ -1178,35 +1149,8 @@ bool JsonIn::test_bool()
     return false;
 }
 
-bool JsonIn::test_int()
+bool JsonIn::test_number()
 {
-    // we have to parse it to know if it's an integer or not.
-    // well...
-    // technically we could test for the existance of a decimal point,
-    // then add the number of digits after it,
-    // then subtract this from the exponent,
-    // and test if the exponent is greater than -1,
-    // but then we'd /still/ have to adjust for silly cases like 0.000300e4,
-    // which, technically, is an integer.
-    // feel free to implement.
-    eat_whitespace();
-    const int startpos = tell();
-    const char ch = peek();
-    if (ch != '-' && ch != '+' && ch != '.' && (ch < '0' || ch > '9')) {
-        return false;
-    }
-    const double f = get_float();
-    seek(startpos);
-    if (int(f) == f) {
-        return true;
-    }
-    return false;
-}
-
-bool JsonIn::test_float()
-{
-    // considering all numbers to be valid floats.
-    // note that this is thus much easier than testing for an int.
     eat_whitespace();
     const char ch = peek();
     if (ch != '-' && ch != '+' && ch != '.' && (ch < '0' || ch > '9')) {

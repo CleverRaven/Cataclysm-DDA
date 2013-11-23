@@ -264,9 +264,9 @@ public:
     // type testing
     bool test_null();
     bool test_bool();
-    bool test_int();
-    bool test_float();
-    bool test_number() { return test_float(); };
+    bool test_number();
+    bool test_int() { return test_number(); };
+    bool test_float() { return test_number(); };
     bool test_string();
     bool test_array();
     bool test_object();
@@ -433,9 +433,9 @@ public:
     // type checking
     bool has_null(const std::string &name);
     bool has_bool(const std::string &name);
-    bool has_int(const std::string &name);
-    bool has_float(const std::string &name);
-    bool has_number(const std::string &name) { return has_float(name); };
+    bool has_number(const std::string &name);
+    bool has_int(const std::string &name) { return has_number(name); };
+    bool has_float(const std::string &name) { return has_number(name); };
     bool has_string(const std::string &name);
     bool has_array(const std::string &name);
     bool has_object(const std::string &name);
@@ -500,9 +500,9 @@ public:
     // iterative type checking
     bool test_null();
     bool test_bool();
-    bool test_int();
-    bool test_float();
-    bool test_number() { return test_float(); };
+    bool test_number();
+    bool test_int() { return test_number(); };
+    bool test_float() { return test_number(); };
     bool test_string();
     bool test_array();
     bool test_object();
@@ -510,9 +510,9 @@ public:
     // random-access type checking
     bool has_null(int index);
     bool has_bool(int index);
-    bool has_int(int index);
-    bool has_float(int index);
-    bool has_number(int index) { return has_float(index); };
+    bool has_number(int index);
+    bool has_int(int index) { return has_number(index); };
+    bool has_float(int index) { return has_number(index); };
     bool has_string(int index);
     bool has_array(int index);
     bool has_object(int index);
