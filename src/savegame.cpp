@@ -227,6 +227,7 @@ void game::unserialize(std::ifstream & fin)
             run_mode = 1;
         }
         autosafemode = OPTIONS["AUTOSAFEMODE"];
+        safemodeveh = OPTIONS["SAFEMODEVEH"];
         last_target = tmptar;
 
         linebuf="";
