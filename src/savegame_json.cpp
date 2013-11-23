@@ -1014,13 +1014,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
 
     if ( ! item_vars.empty() ) {
-        json.member("item_vars");
-        json.start_object();
-        for (std::map<std::string,std::string>::const_iterator it = item_vars.begin();
-                it != item_vars.end(); ++it) {
-            json.member( it->first, it->second );
-        }
-        json.end_object();
+        json.member( "item_vars", item_vars );
     }
 
     if ( name != type->name ) {

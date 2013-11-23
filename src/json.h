@@ -308,6 +308,21 @@ public:
             return true;
         } catch (std::string e) { return false; }
     }
+    // object ~> map
+    template <typename T> bool read(std::map<std::string,T> &m) {
+        if (!test_object()) { return false; }
+        try {
+            start_object();
+            m.clear();
+            while (!end_object()) {
+                std::string name = get_member_name();
+                T element;
+                if (read(element)) { m[name] = element; }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
 
     // error messages
     std::string line_number(int offset_modifier=0); // for occasional use only
@@ -348,8 +363,7 @@ public:
     void write(const char *cstr) { write(std::string(cstr)); }
     void write(const JsonSerializer &thing);
     // vector ~> array
-    template <typename T> void write(const std::vector<T> &v)
-    {
+    template <typename T> void write(const std::vector<T> &v) {
         start_array();
         for (int i = 0; i < v.size(); ++i) {
             write(v[i]);
@@ -357,14 +371,24 @@ public:
         end_array();
     }
     // set ~> array
-    template <typename T> void write(const std::set<T> &v)
-    {
+    template <typename T> void write(const std::set<T> &v) {
         start_array();
-        typename std::set<T>::iterator it;
+        typename std::set<T>::const_iterator it;
         for (it = v.begin(); it != v.end(); ++it) {
             write(*it);
         }
         end_array();
+    }
+    // map ~> object
+    template <typename T> void write(const std::map<std::string,T> &m) {
+        start_object();
+        typename std::map<std::string,T>::const_iterator it;
+        for (it = m.begin(); it != m.end(); ++it) {
+            write(it->first);
+            write_member_separator();
+            write(it->second);
+        }
+        end_object();
     }
 
     // convenience methods for writing named object members
@@ -375,7 +399,6 @@ public:
         member(name);
         write(value);
     }
-    // map ~> object?
 };
 
 
