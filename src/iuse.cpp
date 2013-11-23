@@ -6167,6 +6167,34 @@ int iuse::adrenaline_injector(player *p, item *it, bool t)
   return it->type->charges_to_use();
 }
 
+int iuse::contacts(player *p, item *it, bool t)
+{
+  int duration = rng(80640, 120960); // Around 7 days.
+  if(p->has_disease("contacts") ) {
+    if ( query_yn(_("Replace your current lenses?")) ) {
+      p->moves -= 200;
+      g->add_msg_if_player(p, _("You replace your current %s."), it->name.c_str());
+      p->rem_disease("contacts");
+      p->add_disease("contacts", duration);
+      return it->type->charges_to_use();
+    }
+    else {
+      g->add_msg_if_player(p, _("You don't do anything with your %s."), it->name.c_str());
+      return 0;
+    }
+  }
+  else if(p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC")) {
+    p->moves -= 200;
+    g->add_msg_if_player(p, _("You put the %s in your eyes."), it->name.c_str());
+    p->add_disease("contacts", duration);
+    return it->type->charges_to_use();
+  }
+  else {
+    g->add_msg_if_player(p, _("Your vision is fine already."));
+    return 0;
+  }
+}
+
 int iuse::talking_doll(player *p, item *it, bool t)
 {
     if(it->charges == 0) {
