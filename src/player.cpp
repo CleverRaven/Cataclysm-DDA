@@ -8278,7 +8278,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
-                    } else {
+                    } else if (layers > 0) {
                         layers -= .5;
                     }
                 }
@@ -8317,6 +8317,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
         ret += 3;
+    }
+    if ( ret < 0 ) {
+      ret = 0;
     }
     return ret;
 }
