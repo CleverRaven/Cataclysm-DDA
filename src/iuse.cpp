@@ -6167,6 +6167,7 @@ int iuse::jet_injector(player *p, item *it, bool t)
     g->add_msg_if_player(p,_("You inject yourself with the jet injector."));
     p->add_disease("jetinjector", 200);
     p->pkill += 20;
+    p->stim += 10;
     p->rem_disease("infected");
     p->rem_disease("bleed");
     p->radiation += 2;

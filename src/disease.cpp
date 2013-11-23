@@ -1377,7 +1377,6 @@ int disease_speed_boost(disease dis)
         case DI_FOODPOISON: return -20;
         case DI_WEBBED:     return -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
-        case DI_JETINJECTOR:return 10;
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
@@ -2134,8 +2133,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
     case DI_JETINJECTOR:
         if (dis.duration > 50)
             return _(
-            "Speed +10;   Strength + 1;   Dexterity + 1;\n"
-            "Perception + 1");
+            "Strength + 1;   Dexterity + 1; Perception + 1");
         else
             return _(
             "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
