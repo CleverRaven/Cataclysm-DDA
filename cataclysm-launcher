@@ -2,8 +2,22 @@
 DIR=$(dirname $(readlink -f "$0"))
 BIN=$(basename "$0")
 
-if [ "$BIN" == "cataclysm-launcher" ]; then
-    BIN=cataclysm
+cd "$DIR" || exit $?
+
+# If name does not match a binary or is this same script, find the right one
+if [ ! -f "$BIN" ] || [ "$BIN" == "$(basename "$(readlink -f "$0")")" ]
+then
+    BIN=
+    for bin in cataclysm-tiles cataclysm
+    do
+	[ -f "$bin" ] && BIN="$bin" && break
+    done
 fi
 
-cd "$DIR" && exec ./$BIN
+if [ "$BIN" ]
+then
+    exec ./$BIN
+else
+    echo "Couldn't find cataclysm game binary in $DIR/"
+    exit 1
+fi
