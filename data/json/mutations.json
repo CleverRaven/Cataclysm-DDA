@@ -1105,7 +1105,7 @@
         "visibility" : 1,
         "ugliness" : 2,
         "description" : "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
-        "changes_to" : ["TAIL_LONG", "TAIL_LIZARD", "TAIL_FIN"]
+        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FIN",
