@@ -631,6 +631,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
     }
+    if (is_armor() && has_flag("SKINTIGHT"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing lies close to the skin and layers easily.")));
+    }
     if (is_armor() && has_flag("POCKETS"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));

@@ -513,11 +513,18 @@ void mdeath::zombie(monster *z) {
         default:
             g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             g->m.put_items_from("shirts", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             if (one_in(5)) {
                 g->m.put_items_from("jackets", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
             if (one_in(15)) {
                 g->m.put_items_from("bags", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(2)) {
+              g->m.put_items_from("female_underwear", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            else {
+              g->m.put_items_from("male_underwear", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
         break;
     }
