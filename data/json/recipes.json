@@ -11381,11 +11381,12 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
+  "tools":[
     [
       [ "needle_bone", 10 ],
       [ "sewing_kit", 10 ]
     ]
+    ],
   "components": [
     [
       [ "jeans", 1 ]
