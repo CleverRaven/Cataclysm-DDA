@@ -518,7 +518,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     SUPER_FANCY - Clothing suitable for the most posh of events.
     LIGHT_* - light emission, sets cached int light_emission
     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
-    REALARMOR - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
+    STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
 
     Container-only flags:
     SEALS
