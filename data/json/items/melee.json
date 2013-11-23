@@ -599,6 +599,22 @@
 
   {
     "type":"GENERIC",
+    "id": "waffleiron",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "waffle iron",
+    "description": "A waffle iron. For making waffles.",
+    "price": 50,
+    "material": "iron",
+    "weight": 2628,
+    "volume": 4,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
+    "type":"GENERIC",
     "id": "teapot",
     "symbol": ")",
     "color": "dark_gray",
