@@ -408,6 +408,7 @@
         "enviromental_protection" : 3,
         "encumbrance" : 1,
         "bashing" : 4,
+        "flags" : ["STURDY"],
         "coverage" : 95,
         "material_thickness" : 5,
         "use_action" : "BOOTS"
@@ -432,7 +433,7 @@
         "enviromental_protection" : 3,
         "encumbrance" : 1,
         "bashing" : 4,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 5,
         "use_action" : "BOOTS"
@@ -1273,6 +1274,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : 2,
+        "flags" : ["STURDY"],
         "coverage" : 90,
         "material_thickness" : 5
     },
@@ -1296,7 +1298,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 3,
         "bashing" : 2,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 5
     },
@@ -2806,6 +2808,7 @@
         "enviromental_protection" : 2,
         "encumbrance" : 1,
         "bashing" : -5,
+        "flags" : ["STURDY"],
         "coverage" : 50,
         "material_thickness" : 5
     },
@@ -3185,6 +3188,7 @@
         "enviromental_protection" : 4,
         "encumbrance" : 1,
         "bashing" : 2,
+        "flags" : ["STURDY"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -3208,7 +3212,7 @@
         "enviromental_protection" : 4,
         "encumbrance" : 2,
         "bashing" : 2,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 90,
         "material_thickness" : 5
     },
@@ -4112,7 +4116,7 @@
         "enviromental_protection" : 4,
         "encumbrance" : 1,
         "bashing" : 2,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "STURDY"],
         "coverage" : 90,
         "material_thickness" : 5
     },
@@ -4136,7 +4140,7 @@
         "enviromental_protection" : 3,
         "encumbrance" : 5,
         "bashing" : 2,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 6
     },
