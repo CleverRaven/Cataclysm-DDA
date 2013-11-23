@@ -6,7 +6,7 @@
 void init_savedata_translation_tables();
 extern std::map<std::string, int> monster_ints;
 #include "enums.h"
-const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit", "mon_deer",
+const std::string legacy_mon_id[127] = {"mon_null", "mon_squirrel", "mon_rabbit", "mon_deer",
     "mon_moose", "mon_wolf", "mon_coyote", "mon_bear", "mon_cougar", "mon_crow", "mon_dog",
     "mon_cat", "mon_ant_larva", "mon_ant", "mon_ant_soldier", "mon_ant_queen", "mon_ant_fungus",
     "mon_fly", "mon_bee", "mon_wasp", "mon_graboid", "mon_worm", "mon_halfworm", "mon_sludge_crawler", "mon_zombie",
