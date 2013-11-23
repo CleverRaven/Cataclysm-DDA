@@ -1969,7 +1969,7 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Range of Sight: 1;   All sight is tinted magenta.");
   
     case DI_DARKNESS:
-        return _("Range of Sight: 4");
+        return _("Range of Sight: 10");
 
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");

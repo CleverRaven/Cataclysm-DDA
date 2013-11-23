@@ -1698,12 +1698,12 @@ void mattack::darkman(monster *z)
         case 2: g->add_msg(_("\"Let us help you\"")); break;
         case 3: g->add_msg(_("\" We wish you no harm \"")); break;
         case 4: g->add_msg(_("\"Do not fear\"")); break;
-        case 5: g->add_msg(_("\"You can but delay your demise\"")); break;
+        case 5: g->add_msg(_("\"We can help you\"")); break;
         case 6: g->add_msg(_("\"We are friendly\"")); break;
         case 7: g->add_msg(_("\"Please dont\"")); break;
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 40) {
-        g->u.add_disease("darkness", 100);
+        g->u.add_disease("darkness", 10);
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 40) {
      if (g->u_see(z->posx(), z->posy()))
