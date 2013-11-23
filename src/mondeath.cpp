@@ -179,6 +179,10 @@ void mdeath::fungus(monster *z) {
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
+                        if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
+                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        return;
+                        }
                     bool hit = false;
                     if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
@@ -197,6 +201,10 @@ void mdeath::fungus(monster *z) {
                     }
                     if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
+                    }
+                    if ((hit = true) && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
+                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        hit = false;
                     }
                     if (hit) {
                         g->add_msg(_("You're covered in tiny spores!"));

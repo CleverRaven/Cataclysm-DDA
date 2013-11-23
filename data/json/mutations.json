@@ -1133,8 +1133,30 @@
         "description" : "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN"],
-        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
-        "category" : ["MUTCAT_CATTLE", "MUTCAT_RAT"]
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE"],
+        "category" : ["MUTCAT_RAT"]
+    },{
+        "type" : "mutation",
+        "id" : "TAIL_CATTLE",
+        "name" : "Cattle Tail",
+        "points" : 2,
+        "visibility" : 6,
+        "ugliness" : 2,
+        "description" : "You have a long tail with a tuft on the end. You find yourself instinctively swatting away flies with it, though it's not as effective at balancing you as you'd like.",
+        "prereqs" : ["TAIL_LONG"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR"],
+        "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "TAIL_RAT",
+        "name" : "Rat Tail",
+        "points" : 1,
+        "visibility" : 6,
+        "ugliness" : 4,
+        "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.",
+        "prereqs" : ["TAIL_LONG"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "TAIL_THICK",
@@ -1144,7 +1166,7 @@
         "ugliness" : 2,
         "description" : "You have a long, thick, lizardlike tail. It helps you balance a bit but also makes a serviceable whip.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING",  "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
         "changes_to" : ["TAIL_CLUB"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -1164,7 +1186,7 @@
         "name" : "Fluffy Tail",
         "points" : 2,
         "visibility" : 7,
-        "description" : "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.",
+        "description" : "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.  However, you find yourself wagging when happy...",
         "prereqs" : ["TAIL_LONG"],
         "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
         "category" : ["MUTCAT_BEAST"]

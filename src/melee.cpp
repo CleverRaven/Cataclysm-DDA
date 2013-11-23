@@ -476,8 +476,10 @@ int player::dodge(game *g)
 
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
-	if (has_trait("TAIL_LIZARD")) {ret+= 2;}
-	if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
+    if (has_trait("TAIL_CATTLE")) {ret+= 1;}
+    if (has_trait("TAIL_RAT")) {ret+= 2;}
+    if (has_trait("TAIL_LIZARD")) {ret+= 1;}
+    if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
     if (has_trait("WINGS_BAT")) {ret -= 3;}
