@@ -447,6 +447,10 @@ void player::deserialize(JsonIn &jsin)
         JsonIn* jip = data.get_raw("inv");
         inv.json_load_items( *jip );
     }
+    if ( data.has_member("invcache") ) {
+        JsonIn* jip = data.get_raw("invcache");
+        inv.json_load_invcache( *jip );
+    }
 
     worn.clear();
     data.read("worn", worn);
