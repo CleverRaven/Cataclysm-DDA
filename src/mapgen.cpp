@@ -31,7 +31,6 @@
 #define MON_RADIUS 3
 
 bool connects_to(oter_id there, int dir_from_here);
-//void house_room(map *m, room_type type, int x1, int y1, int x2, int y2);
 void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
@@ -409,7 +408,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         }
 
 
-    } else  /* F-f-ffuuuuuuuuuuu... */ if (terrain_type == "road_ns" ||
+    } else /* F-f-ffuuuuuuuuuuu... */ if (terrain_type == "road_ns" ||
                terrain_type == "road_ew") {
         mapgen_road_straight(this, terrain_type, facing_data, turn, density);
 
@@ -428,7 +427,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     } else if (terrain_type == "road_nesw" ||
                terrain_type == "road_nesw_manhole") {
         mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
-/*
+
     } else if (terrain_type == "river_center") {
         fill_background(this, t_water_dp);
 
@@ -449,7 +448,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                terrain_type == "river_sw" ||
                terrain_type == "river_nw") {
         mapgen_river_curved(this, terrain_type, facing_data, turn, density);
-*/
+
     } else if (terrain_type == "apartments_con_tower_1_entrance") {
 
         fill_background(this, &grass_or_dirt);
@@ -11812,7 +11811,7 @@ void map::post_process(game *g, unsigned zones)
             for (int i = 0; i < num_corpses; i++) {
                 int x = rng(0, 23), y = rng(0, 23);
                 if (move_cost(x, y) > 0) {
-                    add_corpse(g, this, x, y);
+                    add_corpse(x, y);
                 }
             }
         }
@@ -14025,242 +14024,34 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
         break;
     }
 }
+///////////////////// part of map
 
-void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
-{
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (int i = 0; i < line.size(); i++) {
-        m->ter_set(line[i].x, line[i].y, type);
-    }
-    m->ter_set(x1, y1, type);
+void line(map *m, const ter_id type, int x1, int y1, int x2, int y2) {
+    m->draw_line_ter(type, x1, y1, x2, x2);
+}
+void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
+    m->draw_line_furn(type, x1, y1, x2, x2);
+}
+void fill_background(map *m, ter_id type) {
+    m->draw_fill_background(type);
+}
+void fill_background(map *m, ter_id (*f)()) {
+    m->draw_fill_background(f);
+}
+void square(map *m, ter_id type, int x1, int y1, int x2, int y2) {
+    m->draw_square_ter(type, x1, y1, x2, x2);
+}
+void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
+    m->draw_square_furn(type, x1, y1, x2, x2);
+}
+void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
+    m->draw_square_ter(f, x1, y1, x2, x2);
+}
+void rough_circle(map *m, ter_id type, int x, int y, int rad) {
+    m->draw_rough_circle(type, x, y, rad);
+}
+void add_corpse(game *g, map *m, int x, int y) {
+    m->add_corpse(x, y);
 }
 
-void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2)
-{
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (int i = 0; i < line.size(); i++) {
-        m->furn_set(line[i].x, line[i].y, type);
-    }
-    m->furn_set(x1, y1, type);
-}
-
-void fill_background(map *m, ter_id type)
-{
-    square(m, type, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-}
-
-void fill_background(map *m, ter_id (*f)())
-{
-    square(m, f, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
-}
-
-void square(map *m, ter_id type, int x1, int y1, int x2, int y2)
-{
-    for (int x = x1; x <= x2; x++)
-        for (int y = y1; y <= y2; y++) {
-            m->ter_set(x, y, type);
-        }
-}
-
-void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2)
-{
-    for (int x = x1; x <= x2; x++)
-        for (int y = y1; y <= y2; y++) {
-            m->furn_set(x, y, type);
-        }
-}
-
-void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2)
-{
-    for (int x = x1; x <= x2; x++)
-        for (int y = y1; y <= y2; y++) {
-            m->ter_set(x, y, f());
-        }
-}
-
-void rough_circle(map *m, ter_id type, int x, int y, int rad)
-{
-    for (int i = x - rad; i <= x + rad; i++) {
-        for (int j = y - rad; j <= y + rad; j++) {
-            if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
-                m->ter_set(i, j, type);
-            }
-        }
-    }
-}
-
-void add_corpse(game *g, map *m, int x, int y)
-{
-    item body;
-    body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
-    m->add_item_or_charges(x, y, body);
-    m->put_items_from("shoes",  1, x, y, 0, 0, 0);
-    m->put_items_from("pants",  1, x, y, 0, 0, 0);
-    m->put_items_from("shirts", 1, x, y, 0, 0, 0);
-    if (one_in(6)) {
-        m->put_items_from("jackets", 1, x, y, 0, 0, 0);
-    }
-    if (one_in(15)) {
-        m->put_items_from("bags", 1, x, y, 0, 0, 0);
-    }
-}
-
-/**
- * Adds vehicles to the current submap, selected from a random weighted
- * distribution of possible vehicles. If the road has a pavement, then set the
- * 'city' flag to true to spawn wrecks. If it doesn't (ie, highway or country
- * road,) then set 'city' to false to spawn far fewer vehicles that are out
- * of gas instead of wrecked.
- * @param city Whether or not to spawn city wrecks.
- * @param facing The direction the spawned car should face (multiple of 90).
- */
-void map::add_road_vehicles(bool city, int facing)
-{
-    if (city) {
-        int spawn_type = rng(0, 100);
-        if(spawn_type <= 33) {
-            //Randomly-distributed wrecks
-            int maxwrecks = rng(1, 3);
-            for (int nv = 0; nv < maxwrecks; nv++) {
-                int vx = rng(0, 19);
-                int vy = rng(0, 19);
-                int car_type = rng(1, 100);
-                if (car_type <= 25) {
-                    add_vehicle(g, "car", vx, vy, facing, -1, 1);
-                } else if (car_type <= 30) {
-                    add_vehicle(g, "policecar", vx, vy, facing, -1, 1);
-                } else if (car_type <= 40) {
-                    add_vehicle(g, "ambulance", vx, vy, facing, -1, 1);
-                } else if (car_type <= 45) {
-                    add_vehicle(g, "beetle", vx, vy, facing, -1, 1);
-                } else if (car_type <= 50) {
-                    add_vehicle(g, "scooter", vx, vy, facing, -1, 1);
-                } else if (car_type <= 55) {
-                    add_vehicle(g, "motorcycle", vx, vy, facing, -1, 1);
-                } else if (car_type <= 65) {
-                    add_vehicle(g, "hippie_van", vx, vy, facing, -1, 1);
-                } else if (car_type <= 70) {
-                    add_vehicle(g, "cube_van", vx, vy, facing, -1, 1);
-                } else if (car_type <= 80) {
-                    add_vehicle(g, "electric_car", vx, vy, facing, -1, 1);
-                } else if (car_type <= 90) {
-                    add_vehicle(g, "flatbed_truck", vx, vy, facing, -1, 1);
-                } else if (car_type <= 95) {
-                    add_vehicle(g, "rv", vx, vy, facing, -1, 1);
-                } else {
-                    add_vehicle(g, "motorcycle_sidecart", vx, vy, facing, -1, 1);
-                }
-            }
-        } else if(spawn_type <= 66) {
-            //Parked vehicles
-            int veh_x = 0;
-            int veh_y = 0;
-            if(facing == 0) {
-                veh_x = rng(4, 16);
-                veh_y = 17;
-            } else if(facing == 90) {
-                veh_x = 6;
-                veh_y = rng(4, 16);
-            } else if(facing == 180) {
-                veh_x = rng(4, 16);
-                veh_y = 6;
-            } else if(facing == 270) {
-                veh_x = 17;
-                veh_y = rng(4, 16);
-            }
-            int veh_type = rng(0, 100);
-            if(veh_type <= 70) {
-                add_vehicle(g, "car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 95) {
-                add_vehicle(g, "electric_car", veh_x, veh_y, facing, -1, 1);
-            } else {
-                add_vehicle(g, "policecar", veh_x, veh_y, facing, -1, 1);
-            }
-        } else if(spawn_type <= 99) {
-            //Totally clear section of road
-            return;
-        } else {
-            //Road-blocking obstacle of some kind.
-            int block_type = rng(0, 100);
-            if(block_type <= 75) {
-                //Jack-knifed semi
-                int semi_x = 0;
-                int semi_y = 0;
-                int trailer_x = 0;
-                int trailer_y = 0;
-                if(facing == 0) {
-                    semi_x = rng(0, 16);
-                    semi_y = rng(14, 16);
-                    trailer_x = semi_x + 4;
-                    trailer_y = semi_y - 10;
-                } else if(facing == 90) {
-                    semi_x = rng(0, 8);
-                    semi_y = rng(4, 15);
-                    trailer_x = semi_x + 12;
-                    trailer_y = semi_y + 1;
-                } else if(facing == 180) {
-                    semi_x = rng(4, 16);
-                    semi_y = rng(4, 6);
-                    trailer_x = semi_x - 4;
-                    trailer_y = semi_y + 10;
-                } else {
-                    semi_x = rng(12, 20);
-                    semi_y = rng(5, 16);
-                    trailer_x = semi_x - 12;
-                    trailer_y = semi_y - 1;
-                }
-                add_vehicle(g, "semi_truck", semi_x, semi_y, (facing + 135) % 360, -1, 1);
-                add_vehicle(g, "truck_trailer", trailer_x, trailer_y, (facing + 90) % 360, -1, 1);
-            } else {
-                //Huge pileup of random vehicles
-                std::string next_vehicle;
-                int num_cars = rng(18, 22);
-                bool policecars = block_type >= 95; //Policecar pileup, Blues Brothers style
-                vehicle *last_added_car = NULL;
-                for(int i = 0; i < num_cars; i++) {
-                    if(policecars) {
-                        next_vehicle = "policecar";
-                    } else {
-                        //Random car
-                        int car_type = rng(0, 100);
-                        if(car_type <= 70) {
-                            next_vehicle = "car";
-                        } else if(car_type <= 90) {
-                            next_vehicle = "flatbed_truck";
-                        } else if(car_type <= 95) {
-                            next_vehicle = "cube_van";
-                        } else {
-                            next_vehicle = "hippie_van";
-                        }
-                    }
-                    last_added_car = add_vehicle(g, next_vehicle, rng(4, 16), rng(4, 16), rng(0, 3) * 90, -1, 1);
-                }
-
-                //Hopefully by the last one we've got a giant pileup, so name it
-                if (last_added_car != NULL) {
-                    if(policecars) {
-                        last_added_car->name = _("policecar pile-up");
-                    } else {
-                        last_added_car->name = _("pile-up");
-                    }
-                }
-            }
-        }
-    } else {
-        // spawn regular road out of fuel vehicles
-        if (one_in(40)) {
-            int vx = rng(8, 16);
-            int vy = rng(8, 16);
-            int car_type = rng(1, 10);
-            if (car_type <= 5) {
-                add_vehicle(g, "car", vx, vy, facing, 0, -1);
-            } else if (car_type <= 8) {
-                add_vehicle(g, "flatbed_truck", vx, vy, facing, 0, -1);
-            } else if (car_type <= 9) {
-                add_vehicle(g, "semi_truck", vx, vy, facing, 0, -1);
-            } else {
-                add_vehicle(g, "armored_car", vx, vy, facing, 0, -1);
-            }
-        }
-    }
-}
+/////////

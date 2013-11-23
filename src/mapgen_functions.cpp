@@ -79,6 +79,13 @@ mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
   mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
   mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
   mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
+
+  mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
+  mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
+  mapgen_cfunction_map["basement_guns"] = &mapgen_basement_guns;
+  mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
+  mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
+  mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
 }
 
 void calculate_mapgen_weights() {
@@ -179,7 +186,6 @@ ter_id dirt_or_pile()
   return t_dirtmound;
  return t_dirt;
 }
-
 // helper functions below
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down = false ) {
@@ -3333,4 +3339,112 @@ void mapgen_lmoe_under(map *m, oter_id terrain_type, mapgendata dat, int turn, f
         m->place_items("shelter", 70, 18, 13, 20, 14, false, 0);
         m->place_items("novels", 70, 16, 3, 16, 5, false, 0);
         m->place_items("office", 50, 20, 7, 20, 7, false, 0);
+}
+
+
+///////////////////////////////////////////////////////////
+void mapgen_basement_generic_layout(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    // boxy
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (i == 0 || j == 0 || i == SEEX * 2 - 1 || j == SEEY * 2 - 1) {
+                m->ter_set(i, j, t_rock);
+            } else {
+                m->ter_set(i, j, t_rock_floor);
+            }
+        }
+    }
+    m->ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
+    m->ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
+    line(m, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
+    line(m, t_rock, SEEX + 1, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 2);
+    line(m, t_door_locked, SEEX - 1, SEEY * 2 - 4, SEEX, SEEY * 2 - 4);
+}
+
+void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    // Junk!
+    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
+    m->place_items("bedroom", 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+    m->place_items("home_hw", 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+    m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
+    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
+    m->place_spawns(g, "GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+}
+
+void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    // Weapons cache
+    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
+    for (int i = 2; i < SEEX * 2 - 2; i++) {
+        m->furn_set(i, 1, f_rack);
+        m->furn_set(i, 5, f_rack);
+        m->furn_set(i, 9, f_rack);
+    }
+    m->place_items("allguns", 80, 2, 1, SEEX * 2 - 3, 1, false, 0);
+    m->place_items("ammo",    94, 2, 5, SEEX * 2 - 3, 5, false, 0);
+    m->place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
+    m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
+    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
+    m->place_spawns(g, "GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+}
+
+void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    // Survival Bunker
+    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
+    m->furn_set(1, 1, f_bed);
+    m->furn_set(1, 2, f_bed);
+    m->furn_set(SEEX * 2 - 2, 1, f_bed);
+    m->furn_set(SEEX * 2 - 2, 2, f_bed);
+    for (int i = 1; i < SEEY; i++) {
+        m->furn_set(SEEX - 1, i, f_rack);
+        m->furn_set(SEEX    , i, f_rack);
+    }
+    m->place_items("softdrugs",  86, SEEX - 1,  1, SEEX,  2, false, 0);
+    m->place_items("cannedfood",  92, SEEX - 1,  3, SEEX,  6, false, 0);
+    m->place_items("homeguns",  72, SEEX - 1,  7, SEEX,  7, false, 0);
+    m->place_items("survival_tools", 83, SEEX - 1,  8, SEEX, 10, false, 0);
+    m->place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
+    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
+    m->place_spawns(g, "GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+}
+
+void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    // Chem lab
+    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
+    for (int i = 1; i < SEEY + 4; i++) {
+        m->furn_set(1           , i, f_counter);
+        m->furn_set(SEEX * 2 - 2, i, f_counter);
+    }
+    m->place_items("chem_home", 90,        1, 1,        1, SEEY + 3, false, 0);
+    if (one_in(3)) {
+        m->place_items("chem_home", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
+    } else {
+        m->place_items("electronics", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
+    }
+    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
+    m->place_spawns(g, "GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+}
+
+void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    // Weed grow
+    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
+    line_furn(m, f_counter, 1, 1, 1, SEEY * 2 - 2);
+    line_furn(m, f_counter, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY * 2 - 2);
+    for (int i = 3; i < SEEX * 2 - 3; i += 5) {
+        for (int j = 3; j < 16; j += 5) {
+            square(m, t_dirt, i, j, i + 2, j + 2);
+            int num_weed = rng(0, 4) * rng(0, 1);
+            for (int n = 0; n < num_weed; n++) {
+                int x = rng(i, i + 2), y = rng(j, j + 2);
+                m->spawn_item(x, y, one_in(5) ? "seed_weed" : "weed");
+            }
+        }
+    }
+    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
+    m->place_spawns(g, "GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
