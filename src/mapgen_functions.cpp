@@ -6,16 +6,6 @@
 #include "mapgenformat.h"
 #include "overmap.h"
 
-void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
-void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
-void fill_background(map *m, ter_id type);
-void fill_background(map *m, ter_id (*f)());
-void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
-void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
-void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
-void rough_circle(map *m, ter_id type, int x, int y, int rad);
-void add_corpse(game *g, map *m, int x, int y);
-
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest)
 {

@@ -42,16 +42,6 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2);
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2);
 void mansion_room(map *m, int x1, int y1, int x2, int y2); // pick & build
 
-void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
-void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
-void fill_background(map *m, ter_id type);
-void fill_background(map *m, ter_id (*f)());
-void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
-void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
-void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
-void rough_circle(map *m, ter_id type, int x, int y, int rad);
-void add_corpse(game *g, map *m, int x, int y);
-
 void map::generate(game *g, overmap *om, const int x, const int y, const int z, const int turn)
 {
     dbg(D_INFO) << "map::generate( g[" << g << "], om[" << (void *)om << "], x[" << x << "], "

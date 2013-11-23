@@ -250,7 +250,28 @@ class map
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
  point random_outdoor_tile();
+// mapgen
 
+void draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2);
+void draw_line_ter(const std::string type, int x1, int y1, int x2, int y2);
+void draw_line_furn(furn_id type, int x1, int y1, int x2, int y2);
+void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
+void draw_fill_background(ter_id type);
+void draw_fill_background(std::string type);
+void draw_fill_background(ter_id (*f)());
+
+void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
+void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
+void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
+void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
+void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
+void draw_rough_circle(ter_id type, int x, int y, int rad);
+void draw_rough_circle(std::string type, int x, int y, int rad);
+
+void add_corpse(int x, int y);
+
+
+//
  void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
  void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
