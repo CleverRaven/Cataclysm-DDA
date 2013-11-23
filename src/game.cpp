@@ -2049,13 +2049,15 @@ bool game::handle_action()
 
  switch (act) {
 
-  case ACTION_PAUSE:
-   if (run_mode == 2) // Monsters around and we don't wanna pause
-     add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
-             press_x(ACTION_TOGGLE_SAFEMODE).c_str());
-   else
-    u.pause(this);
-   break;
+    case ACTION_PAUSE:
+        if (run_mode == 2 && !u.controlling_vehicle) {
+            // Monsters around and we don't wanna pause
+            add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
+                    press_x(ACTION_TOGGLE_SAFEMODE).c_str());
+        } else {
+            u.pause(this);
+        }
+        break;
 
   case ACTION_MOVE_N:
    moveCount++;
@@ -10300,14 +10302,8 @@ void game::chat()
     u.moves -= 100;
 }
 
-void game::pldrive(int x, int y) {
-    if (run_mode == 2) { // Monsters around and we don't wanna run
-        add_msg(_("Monster spotted--run mode is on! "
-                    "(%s to turn it off or %s to ignore monster.)"),
-                    press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                    from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
-        return;
-    }
+void game::pldrive(int x, int y)
+{
     int part = -1;
     vehicle *veh = m.veh_at (u.posx, u.posy, part);
     if (!veh) {
@@ -10350,13 +10346,14 @@ void game::pldrive(int x, int y) {
 
 bool game::plmove(int dx, int dy)
 {
- if (run_mode == 2) { // Monsters around and we don't wanna run
-   add_msg(_("Monster spotted--safe mode is on! \
+    if (run_mode == 2) {
+        // Monsters around and we don't wanna run
+        add_msg(_("Monster spotted--safe mode is on! \
 (%s to turn it off or %s to ignore monster.)"),
-           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
-  return false;
- }
+                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+        return false;
+    }
  int x = 0;
  int y = 0;
  if (u.has_disease("stunned")) {
