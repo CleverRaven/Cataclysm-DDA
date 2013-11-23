@@ -3844,7 +3844,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "smores",
-        "name" : "smores",
+        "name" : "s'mores",
         "weight" : 24,
         "color" : "brown",
         "addiction_type" : "none",
@@ -3859,7 +3859,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 2,
-        "description" : "A pair of gramcrackers with some chocolate and a marshmellow between them.",
+        "description" : "A pair of graham crackers with some chocolate and a marshmallow between them.",
         "price" : 80,
         "material" : "veggy",
         "tool" : "null",
@@ -6768,7 +6768,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "grahmcrackers",
-        "name" : "grahm crackers",
+        "name" : "graham crackers",
         "weight" : 56,
         "color" : "brown",
         "addiction_type" : "none",
