@@ -61,72 +61,82 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     // +-------+---------+-------+
     // |         w_stats         |
     // +-------------------------+
-    int winw1 = 12;
-    int winw2 = 35;
-    int winh1 = 4;
-    int winh2 = 12;
-    int winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 4;
-    int winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
-    int winx1 = winw1;
-    int winx2 = winw1 + winw2 + 1;
-    int winy1 = winh1;
-    int winy2 = winh1 + winh2 + 1;
+    //
+    // w_disp (winw1, winh2) expands to take up any extra space
+    //
+    const int gridw = FULL_SCREEN_WIDTH - 2; // exterior borders take 2
+    const int gridh = FULL_SCREEN_HEIGHT - 2; // exterior borders take 2
+    const int winw2 = 32;
+    const int winw3 = 32;
+    const int winw1 = gridw - winw2 - winw3;
+    const int winh1 = 4; // 4 lines for the message window
+    const int winh3 = 5; // 5 lines for the stat window
+    const int winh2 = gridh - winh1 - winh3 - 2; // interior borders take 2
 
     mode_h = 1;
-    mode_w = FULL_SCREEN_WIDTH - 2;
-    msg_h = winh1 - 1;
-    msg_w = FULL_SCREEN_WIDTH - 2;
-    disp_h = winh2 - 1;
+    mode_w = gridw;
+    msg_h = winh1 - mode_h;
+    msg_w = mode_w;
+    disp_h = winh2;
     disp_w = winw1;
-    parts_h = winh2 - 1;
+    parts_h = winh2;
     parts_w = winw2;
-    stats_h = winh3 - 1;
-    stats_w = FULL_SCREEN_WIDTH - 2;
-    list_h = winh2 - 1;
+    stats_h = winh3;
+    stats_w = gridw;
+    list_h = winh2;
     list_w = winw3;
 
-    const int iOffsetX = 1 + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    const int iOffsetY = 1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0);
+    // position within main display
+    const int x1 = 1 + ((TERMX - FULL_SCREEN_WIDTH) / 2);
+    const int y1 = 1 + ((TERMY - FULL_SCREEN_HEIGHT) / 2);
+
+    const int x2 = x1 + winw1 + 1;
+    const int x3 = x2 + winw2 + 1;
+    const int y2 = y1 + winh1 + 1;
+    const int y3 = y2 + winh2 + 1;
 
     page_size = list_h;
 
-    //               h   w    y     x
-    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, -1 + iOffsetY, -1 + iOffsetX );
-    w_grid  = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iOffsetY, iOffsetX );
-    w_mode  = newwin( mode_h,  mode_w,   iOffsetY,                           iOffsetX );
-    w_msg   = newwin( msg_h,   msg_w,    mode_h + iOffsetY,                  iOffsetX );
-    w_disp  = newwin( disp_h,  disp_w,   mode_h + msg_h + 1 + iOffsetY,  iOffsetX );
-    w_parts = newwin( parts_h, parts_w,  mode_h + msg_h + 1 + iOffsetY,  disp_w + 1 + iOffsetX );
-    w_list  = newwin( list_h,  list_w,   mode_h + msg_h + 1 + iOffsetY,
-                      disp_w + 1 + parts_w + 1 + iOffsetX );
-    w_stats = newwin( stats_h, stats_w,  mode_h + msg_h + 1 + disp_h + 1 + iOffsetY, iOffsetX );
-
+    // height, width, y, x
+    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, y1 - 1, x1 - 1 );
+    w_grid  = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, y1, x1 );
+    w_mode  = newwin( mode_h,  mode_w,  y1, x1 );
+    w_msg   = newwin( msg_h,   msg_w,   y1 + mode_h, x1 );
+    w_disp  = newwin( disp_h,  disp_w,  y2, x1 );
+    w_parts = newwin( parts_h, parts_w, y2, x2 );
+    w_list  = newwin( list_h,  list_w,  y2, x3 );
+    w_stats = newwin( stats_h, stats_w, y3, x1 );
 
     wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                       LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
-    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + msg_h + 1, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + msg_h + 1 + disp_h + 1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
-    mvwputch(w_border, mode_h + msg_h + 1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
+    const int gridx1 = winw1;
+    const int gridx2 = winw1 + 1 + winw2;
+    const int gridy1 = winh1;
+    const int gridy2 = winh1 + 1 + winh2;
+
+    mvwputch(w_border, 1 + gridy1, 0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_border, 1 + gridy2, 0, c_dkgray, LINE_XXXO); // |-
+    mvwputch(w_border, 1 + gridy1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
+    mvwputch(w_border, 1 + gridy2, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
 
     wrefresh(w_border);
 
     // Two lines dividing the three middle sections.
-    for (int i = winy1; i < winy2; i++) {
-        mvwputch(w_grid, i, winx2, c_dkgray, LINE_XOXO);
-        mvwputch(w_grid, i, winx1, c_dkgray, LINE_XOXO);
+    for (int i = gridy1; i < gridy2; i++) {
+        mvwputch(w_grid, i, gridx2, c_dkgray, LINE_XOXO);
+        mvwputch(w_grid, i, gridx1, c_dkgray, LINE_XOXO);
     }
     // Two lines dividing the vertical menu sections.
-    for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
-        mvwputch( w_grid, winy1, i, c_dkgray, LINE_OXOX );
-        mvwputch( w_grid, winy2 - 1, i, c_dkgray, LINE_OXOX );
+    for (int i = 0; i < gridw; i++) {
+        mvwputch( w_grid, gridy1, i, c_dkgray, LINE_OXOX );
+        mvwputch( w_grid, gridy2, i, c_dkgray, LINE_OXOX );
     }
     // Fix up the line intersections.
-    mvwputch( w_grid, winy1, winx1, c_dkgray, LINE_OXXX );
-    mvwputch( w_grid, winy1, winx2, c_dkgray, LINE_OXXX );
-    mvwputch( w_grid, winy2 - 1, winx1, c_dkgray, LINE_XXOX );
-    mvwputch( w_grid, winy2 - 1, winx2, c_dkgray, LINE_XXOX );
+    mvwputch( w_grid, gridy1, gridx1, c_dkgray, LINE_OXXX );
+    mvwputch( w_grid, gridy1, gridx2, c_dkgray, LINE_OXXX );
+    mvwputch( w_grid, gridy2, gridx1, c_dkgray, LINE_XXOX );
+    mvwputch( w_grid, gridy2, gridx2, c_dkgray, LINE_XXOX );
 
     wrefresh(w_grid);
 
@@ -974,7 +984,7 @@ void veh_interact::display_mode (char mode)
     x += shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("r<e>name")) + 1;
     std::string backstr = _("<ESC>-back");
     int w = utf8_width(backstr.c_str()) - 2;
-    x = 78 - w; // right text align
+    x = FULL_SCREEN_WIDTH - 2 - w; // right text align
     shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, backstr.c_str());
     wrefresh (w_mode);
 }
