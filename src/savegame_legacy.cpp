@@ -1073,6 +1073,19 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
               furn_key[i] = furnmap[fstr].loadid;
            }
         }
+        // it's a...
+        std::map<int, int> trap_key;
+        std::string trstr;
+        for (int i = 0; i < num_legacy_trap; i++) {
+           trstr = legacy_trap_id[ i ];
+           if ( trapmap.find( trstr ) == trapmap.end() ) {
+              debugmsg("Can't find trap '%s' (%d)",trstr.c_str(), i );
+              trap_key[i] = trapmap["tr_null"];
+           } else {
+              trap_key[i] = trapmap[trstr];
+           }
+        }
+
 
          fin >> num_submaps;
 

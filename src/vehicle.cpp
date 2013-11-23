@@ -2366,91 +2366,84 @@ void vehicle::handle_trap (int x, int y, int part)
     bool wreckit = false;
     std::string msg (_("The %s's %s runs over %s."));
     std::string snd;
-    switch (t)
-    {
-        case tr_bubblewrap:
-            noise = 18;
-            snd = _("Pop!");
-            break;
-        case tr_beartrap:
-        case tr_beartrap_buried:
-            noise = 8;
-            snd = _("SNAP!");
-            wreckit = true;
+    // todo; make trapfuncv?
+
+    if ( t == tr_bubblewrap ) {
+        noise = 18;
+        snd = _("Pop!");
+    } else if ( t == tr_beartrap ||
+                t == tr_beartrap_buried ) {
+        noise = 8;
+        snd = _("SNAP!");
+        wreckit = true;
+        g->m.remove_trap(x, y);
+        g->m.spawn_item(x, y, "beartrap");
+    } else if ( t == tr_nailboard ) {
+        wreckit = true;
+    } else if ( t == tr_blade ) {
+        noise = 1;
+        snd = _("Swinnng!");
+        wreckit = true;
+    } else if ( t == tr_crossbow ) {
+        chance = 30;
+        noise = 1;
+        snd = _("Clank!");
+        wreckit = true;
+        g->m.remove_trap(x, y);
+        g->m.spawn_item(x, y, "crossbow");
+        g->m.spawn_item(x, y, "string_6");
+        if (!one_in(10)) {
+            g->m.spawn_item(x, y, "bolt_steel");
+        }
+    } else if ( t == tr_shotgun_2 ||
+                t == tr_shotgun_1 ) {
+        noise = 60;
+        snd = _("Bang!");
+        chance = 70;
+        wreckit = true;
+        if (t == tr_shotgun_2) {
+            g->m.add_trap(x, y, tr_shotgun_1);
+        } else {
             g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "beartrap");
-            break;
-        case tr_nailboard:
-            wreckit = true;
-            break;
-        case tr_blade:
-            noise = 1;
-            snd = _("Swinnng!");
-            wreckit = true;
-            break;
-        case tr_crossbow:
-            chance = 30;
-            noise = 1;
-            snd = _("Clank!");
-            wreckit = true;
-            g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "crossbow");
+            g->m.spawn_item(x, y, "shotgun_sawn");
             g->m.spawn_item(x, y, "string_6");
-            if (!one_in(10))
-                g->m.spawn_item(x, y, "bolt_steel");
-            break;
-        case tr_shotgun_2:
-        case tr_shotgun_1:
-            noise = 60;
-            snd = _("Bang!");
-            chance = 70;
-            wreckit = true;
-            if (t == tr_shotgun_2)
-                g->m.add_trap(x, y, tr_shotgun_1);
-            else
-            {
-                g->m.remove_trap(x, y);
-                g->m.spawn_item(x, y, "shotgun_sawn");
-                g->m.spawn_item(x, y, "string_6");
-            }
-            break;
-        case tr_landmine_buried:
-        case tr_landmine:
-            expl = 10;
-            shrap = 8;
-            g->m.remove_trap(x, y);
-            break;
-        case tr_boobytrap:
-            expl = 18;
-            shrap = 12;
-            break;
-        case tr_dissector:
-            noise = 10;
-            snd = _("BRZZZAP!");
-            wreckit = true;
-            break;
-        case tr_sinkhole:
-        case tr_pit:
-        case tr_spike_pit:
-        case tr_ledge:
-            wreckit = true;
-            break;
-        case tr_goo:
-        case tr_portal:
-        case tr_telepad:
-        case tr_temple_flood:
-        case tr_temple_toggle:
-            msg.clear();
-        default:;
+        }
+    } else if ( t == tr_landmine_buried ||
+                t == tr_landmine ) {
+        expl = 10;
+        shrap = 8;
+        g->m.remove_trap(x, y);
+    } else if ( t == tr_boobytrap ) {
+        expl = 18;
+        shrap = 12;
+    } else if ( t == tr_dissector ) {
+        noise = 10;
+        snd = _("BRZZZAP!");
+        wreckit = true;
+    } else if ( t == tr_sinkhole ||
+                t == tr_pit ||
+                t == tr_spike_pit ||
+                t == tr_ledge ) {
+        wreckit = true;
+    } else if ( t == tr_goo ||
+                t == tr_portal ||
+                t == tr_telepad ||
+                t == tr_temple_flood ||
+                t == tr_temple_toggle ) {
+        msg.clear();
     }
-    if (msg.size() > 0 && g->u_see(x, y))
+    if (msg.size() > 0 && g->u_see(x, y)) {
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
-    if (noise > 0)
+    }
+    if (noise > 0) {
         g->sound(x, y, noise, snd);
-    if (wreckit && chance >= rng (1, 100))
+    }
+    if (wreckit && chance >= rng (1, 100)) {
         damage (part, 500);
-    if (expl > 0)
+    }
+    if (expl > 0) {
         g->explosion(x, y, expl, shrap, false);
+    }
 }
 
 // total volume of all the things
