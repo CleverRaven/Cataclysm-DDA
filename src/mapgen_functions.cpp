@@ -396,7 +396,7 @@ void mapgen_hive(map *m, mapgendata dat, int turn)
             } else if (rn > 10) {
                 m->ter_set(i, j, t_underbrush);
             } else {
-                m->ter_set(i, j, dirt_or_grass());
+                m->ter_set(i, j, grass_or_dirt());
             }
         }
     }
@@ -554,7 +554,7 @@ void mapgen_spider_pit(map *m, mapgendata dat, int turn)
             } else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance)) {
                 m->ter_set(i, j, t_underbrush);
             } else {
-                m->ter_set(i, j, dirt_or_grass());
+                m->ter_set(i, j, grass_or_dirt());
             }
         }
     }
