@@ -443,7 +443,7 @@ public:
     // non-fatally set values by reference
     // return true if the value was set, false otherwise.
     // return false if the member is not found.
-    template <typename T> bool read_into(const std::string &name, T &t) {
+    template <typename T> bool read(const std::string &name, T &t) {
         int pos = positions[name];
         if (pos <= start) { return false; }
         jsin->seek(pos);
@@ -518,7 +518,7 @@ public:
     bool has_object(int index);
 
     // iteratively set values by reference
-    template <typename T> bool read_into(T &t) {
+    template <typename T> bool read_next(T &t) {
         verify_index(index);
         jsin->seek(positions[index++]);
         return jsin->read(t);
