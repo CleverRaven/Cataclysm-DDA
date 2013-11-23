@@ -930,6 +930,12 @@ int iuse::mutagen(player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
         g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
         p->mutate_category(g, "MUTCAT_CHIMERA");
+    } else if( it->has_flag("MUTAGEN_ALPHA") ) {
+        g->add_msg_if_player(p, _("Nature is becoming one with you..."));
+        p->mutate_category(g, "MUTCAT_ELFA");
+    } else if( it->has_flag("MUTAGEN_ALPHA") ) {
+        g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
+        p->mutate_category(g, "MUTCAT_RAPTOR");
     } else {
         if (!one_in(3)) {
             p->mutate(g);
