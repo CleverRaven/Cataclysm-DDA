@@ -196,12 +196,7 @@ void game::init_ui(){
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
-        // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
-        if (TERMY % 2) {
-            FULL_SCREEN_HEIGHT = 25;
-        } else {
-            FULL_SCREEN_HEIGHT = 24;
-        }
+        FULL_SCREEN_HEIGHT = 25;
 
         // now that TERMX and TERMY are set,
         // check if sidebar style needs to be overridden
