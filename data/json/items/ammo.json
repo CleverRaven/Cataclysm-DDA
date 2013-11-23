@@ -2930,7 +2930,7 @@
         "dispersion" : 0,
         "recoil" : 38,
         "count" : 40,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
@@ -2954,7 +2954,7 @@
         "dispersion" : 0,
         "recoil" : 32,
         "count" : 20,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
@@ -2978,7 +2978,7 @@
         "dispersion" : 6,
         "recoil" : 42,
         "count" : 40,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -3002,7 +3002,7 @@
         "dispersion" : 8,
         "recoil" : 42,
         "count" : 20,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF", "EXPLOSIVE"]
     },
     {   "type" : "AMMO",
@@ -3026,7 +3026,7 @@
         "dispersion" : 8,
         "recoil" : 42,
         "count" : 20,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF", "FRAG"]
     },
     {   "type" : "AMMO",
@@ -3050,7 +3050,7 @@
         "dispersion" : 4,
         "recoil" : 34,
         "count" : 20,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["INCENDIARY", "FLARE", "SMOKE"]
     },
     {   "type" : "AMMO",
@@ -3074,7 +3074,7 @@
         "dispersion" : 8,
         "recoil" : 38,
         "count" : 20,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["INCENDIARY"]
     },
     {   "type" : "AMMO",
@@ -3098,7 +3098,7 @@
         "dispersion" : 8,
         "recoil" : 40,
         "count" : 20,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF", "LARGE_BEANBAG"]
     },
     {   "type" : "AMMO",
@@ -3122,7 +3122,7 @@
         "dispersion" : 4,
         "recoil" : 44,
         "count" : 40,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
@@ -3146,7 +3146,7 @@
         "dispersion" : 8,
         "recoil" : 38,
         "count" : 40,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF", "SHOT"]
     },
     {   "type" : "AMMO",
@@ -3170,7 +3170,7 @@
         "dispersion" : 12,
         "recoil" : 48,
         "count" : 40,
-        "stack_size" : 40,
+        "stack_size" : 20,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
