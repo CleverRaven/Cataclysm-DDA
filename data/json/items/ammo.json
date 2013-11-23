@@ -3193,8 +3193,8 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 1,
-        "stack_size" : 100
+        "count" : 2,
+        "stack_size" : 20
     },
     {   "type" : "AMMO",
         "id" : "50_casing",
