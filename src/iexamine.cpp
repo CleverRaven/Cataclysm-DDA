@@ -625,7 +625,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
     // Should user player::infect, but can't!
     // player::infect needs to be restructured to return a bool indicating success.
     g->add_msg(_("You fall asleep..."));
-    p->add_disease("sleep", 1200);
+    p->fall_asleep(1200);
     g->add_msg(_("Your legs are covered by flower's roots!"));
     p->hurt(g,bp_legs, 0, 4);
     p->moves -=50;

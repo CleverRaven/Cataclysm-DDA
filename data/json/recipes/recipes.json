@@ -780,7 +780,8 @@
   ],
   "components": [
     [
-      [ "rag", 1 ]
+      [ "rag", 1 ],
+      [ "duct_tape", 50 ]
     ],
     [
       [ "spike", 1 ]
@@ -14205,6 +14206,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "broken_manhack",
+  "category": "CC_NONCRAFTC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spike", 2 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bot_turret",
   "category": "CC_MISC",
   "skill_used": "mechanics",
@@ -14722,6 +14753,41 @@
       [ "scrap", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "flask_hip",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 150], ["char_forge", 30]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "scrap", 2 ]
+     ]
+    ]
 },{
         "type" : "recipe",
    "result": "sword_wood",
@@ -16928,7 +16994,7 @@
   "autolearn" : true,
   "tools" : [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
-    [ 
+    [
       ["mold_plastic", -1] ],
     [
       ["hotplate", 10],
@@ -16936,9 +17002,9 @@
       ["fire", -1]
     ]
   ],
-  "components" : [ 
-  [ 
-  ["plastic_chunk", 4] 
+  "components" : [
+  [
+  ["plastic_chunk", 4]
   ],
   [
   [ "scrap", 2 ]
@@ -17188,8 +17254,8 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ 
-     [ 
+  "tools": [
+     [
       ["hammer", -1],
       ["toolset", -1]
      ],

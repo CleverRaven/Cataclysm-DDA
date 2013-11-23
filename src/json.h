@@ -432,12 +432,15 @@ public:
 class JsonOut {
 private:
     std::ostream *stream;
+    bool pretty_print;
     bool need_separator;
+    int indent_level;
 
 public:
-    JsonOut(std::ostream *stream); // TODO: pretty-printing
+    JsonOut(std::ostream *stream, bool pretty_print=false);
 
     // punctuation
+    void write_indent();
     void write_separator();
     void write_member_separator();
     void start_object();

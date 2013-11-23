@@ -16,6 +16,7 @@ class iuse
   int royal_jelly      (player *p, item *it, bool t);
   int bandage          (player *p, item *it, bool t);
   int firstaid         (player *p, item *it, bool t);
+  int completefirstaid (player *p, item *it, bool t);
   int disinfectant     (player *p, item *it, bool t);
   int caff             (player *p, item *it, bool t);
   int atomic_caff      (player *p, item *it, bool t);

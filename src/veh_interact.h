@@ -18,7 +18,8 @@ enum task_reason {
     INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
-    LACK_SKILL //Player doesn't have high enough mechanics skill
+    LACK_SKILL, //Player doesn't have high enough mechanics skill
+    LOW_MORALE // Player has too low morale (for operations that require it)
 };
 
 class vehicle;
