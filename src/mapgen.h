@@ -15,6 +15,7 @@ enum mapgen_function_type {
 class mapgen_function {
     public:
     mapgen_function_type ftype;
+    int weight;
     //virtual building_gen_pointer getfunction() { return NULL; }
     virtual void dummy_() = 0;
     virtual mapgen_function_type function_type() { return ftype;/*MAPGENFUNC_ERROR;*/ };
@@ -26,10 +27,11 @@ class mapgen_function_builtin : public virtual mapgen_function {
     public:
 
     building_gen_pointer fptr;
-    mapgen_function_builtin(building_gen_pointer ptr) : fptr(ptr) {
+    mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : fptr(ptr) {
         ftype = MAPGENFUNC_C;
+        weight = w;
     };
-    mapgen_function_builtin(std::string sptr);
+    mapgen_function_builtin(std::string sptr, int w = 1000);
     virtual void dummy_() {}
 };
 
@@ -37,8 +39,9 @@ class mapgen_function_json : public virtual mapgen_function {
     public:
     virtual void dummy_() {}
     std::vector <std::string> data;
-    mapgen_function_json(std::vector<std::string> s) {
+    mapgen_function_json(std::vector<std::string> s, int w = 1000) {
         ftype = MAPGENFUNC_JSON;
+        weight = w;
         data = s; // dummy test
     }
 };
@@ -47,13 +50,15 @@ class mapgen_function_lua : public virtual mapgen_function {
     public:
     virtual void dummy_() {}
     const std::string scr;
-    mapgen_function_lua(std::string s) : scr(s) {
+    mapgen_function_lua(std::string s, int w = 1000) : scr(s) {
         ftype = MAPGENFUNC_LUA;
-//        scr = s;
+        weight = w;
+        // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
 };
 
 extern std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
+extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
 /// move to building_generation
 enum room_type {

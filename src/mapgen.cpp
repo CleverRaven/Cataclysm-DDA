@@ -289,11 +289,29 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 }
 /////////////
 std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
+std::map<std::string, std::map<int, int> > oter_mapgen_weights;
+
+void calculate_mapgen_weights() {
+    for( std::map<std::string, std::vector<mapgen_function*> >::const_iterator oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
+        int funcnum = 0;
+        int wtotal = 0;
+        oter_mapgen_weights[ oit->first ] = std::map<int, int>();
+        for( std::vector<mapgen_function*>::const_iterator fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
+            int weight = (*fit)->weight;
+            wtotal += weight;
+            oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
+            dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
+            funcnum++;
+        }
+    }
+}
+
 
 /////////////
-mapgen_function_builtin::mapgen_function_builtin(std::string sptr)
+mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
 {
     ftype = MAPGENFUNC_C;
+    weight = w;
     std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find(sptr);
     if ( gptr !=  mapgen_cfunction_map.end() ) {
         fptr = gptr->second;
@@ -389,24 +407,27 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
 
-    std::map<std::string, std::vector<mapgen_function*> >::iterator gptr = oter_mapgen.find( terrain_type.t().id_base );
+    std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( terrain_type.t().id_base );
+    if ( fmapit != oter_mapgen.end() && fmapit->second.size() > 0 ) {
+        //int fidx = rng(0, fmapit->second.size() - 1);
+        std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( terrain_type.t().id_base );
+        int rlast = weightit->second.rbegin()->first;
+        int roll = rng(1, rlast);
+        int fidx = weightit->second.lower_bound( roll )->second;
+        g->add_msg("draw_map: %s (%s): %d/%d roll %d/%d", terrain_type.c_str(), terrain_type.t().id_base.c_str(), fidx+1, fmapit->second.size(), roll, rlast );
 
-    if ( gptr != oter_mapgen.end() && gptr->second.size() > 0 ) {
-        int fld = rng(0, gptr->second.size() - 1);
-        g->add_msg("draw_map: %s (%s): %d/%d",terrain_type.c_str(),terrain_type.t().id_base.c_str(),fld+1,gptr->second.size());
-        if ( gptr->second[fld]->function_type() == MAPGENFUNC_C ) {
-           void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( gptr->second[fld] )->fptr;
+        if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
+           void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;
            gfunction(this, terrain_type, facing_data, turn, density);
-        } else if ( gptr->second[fld]->function_type() == MAPGENFUNC_JSON ) {
-           mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(gptr->second[fld]);
+        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
+           mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
            mapgen_json(this, terrain_type, facing_data, turn, density, mf->data ); // dummy stub todo
-        } else if ( gptr->second[fld]->function_type() == MAPGENFUNC_LUA ) {
-           mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(gptr->second[fld]);
+        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
+           mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
            mapgen_lua(this, terrain_type, facing_data, turn, density, mf->scr );
         } else {
            debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), terrain_type.t().id_base.c_str() );
         }
-
 
     } else /* F-f-ffuuuuuuuuuuu... */ if (terrain_type == "road_ns" ||
                terrain_type == "road_ew") {

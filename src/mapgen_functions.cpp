@@ -87,11 +87,6 @@ mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
   mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
   mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
 }
-
-void calculate_mapgen_weights() {
-  // todo
-}
-
 //
 void mapgendata::set_dir(int dir_in, int val)
 {

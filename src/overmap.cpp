@@ -21,6 +21,7 @@
 #include "input.h"
 #include "json.h"
 #include <queue>
+#include "mapgen.h"
 #define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #ifdef _MSC_VER
@@ -358,7 +359,55 @@ void load_oter(oter_t & oter) {
     otermap[oter.id] = oter;
     oterlist.push_back(oter);
 }
-#include "mapgen.h"
+
+void load_mapgen_function(JsonObject &jio, const std::string id_base) {
+    int mgweight = jio.get_int("weight", 1000);
+    if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
+        return; // nothing
+    } else if ( jio.has_string("type") ) {
+        const std::string mgtype = jio.get_string("type");
+        if ( mgtype == "builtin" ) { // c-function
+            if ( jio.has_string("name") ) {
+                const std::string mgname = jio.get_string("name");
+                if ( mapgen_cfunction_map.find( mgname ) != mapgen_cfunction_map.end() ) {
+                    oter_mapgen[id_base].push_back( new mapgen_function_builtin( mgname, mgweight ) );
+                } else {
+                    debugmsg("oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
+                }
+            } else {
+                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
+            }
+        } else if ( mgtype == "lua" ) { // lua script
+#ifdef LUA
+            if ( jio.has_string("script") ) { // minified into one\nline
+                const std::string mgscript = jio.get_string("script");
+                oter_mapgen[id_base].push_back( new mapgen_function_lua( mgscript, mgweight ) );
+            } else if ( jio.has_array("script") ) { // or 1 line per entry array
+                std::string mgscript = "";
+                JsonArray jascr = jio.get_array("script");
+                while ( jascr.has_more() ) {
+                    mgscript += jascr.next_string();
+                    mgscript += "\n";
+                }
+                oter_mapgen[id_base].push_back( new mapgen_function_lua( mgscript, mgweight ) );
+            // todo; pass dirname current.json, because the latter two are icky
+            // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
+            } else {
+                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
+            }
+#else
+            debugmsg("oter_t[%s]: mapgen entry requires a build with LUA=1.",id_base.c_str() );
+#endif
+        } else if ( mgtype == "json" ) { // todo
+            debugmsg("oter_t[%s]: TODO mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+        } else {
+            debugmsg("oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+        }
+    } else {
+        debugmsg("oter_t[%s]: Invalid mapgen function (missing \"type\" value).", id_base.c_str() );
+    }
+}
+
 void load_overmap_terrain(JsonObject &jo)
 {
     oter_t oter;
@@ -412,58 +461,14 @@ void load_overmap_terrain(JsonObject &jo)
             oter_mapgen[id_base].push_back( new mapgen_function_builtin( id_base ) );
         }
     }
+
     if ( jo.has_array("mapgen") ) {
         JsonArray ja = jo.get_array("mapgen");
         int c=0;
         while ( ja.has_more() ) {
             if ( ja.has_object(c) ) {
                 JsonObject jio = ja.next_object();
-                int mgweight = jio.get_int("weight", 1000);
-                if ( mgweight <= 0 ) {
-                    // nothing
-                } else if ( jio.has_string("type") ) {
-                    std::string mgtype = jio.get_string("type");
-                    if ( mgtype == "builtin" ) { // c-function
-                        if ( jio.has_string("name") ) {
-                            std::string mgname = jio.get_string("name");
-                            if ( mapgen_cfunction_map.find( mgname ) != mapgen_cfunction_map.end() ) {
-                                oter_mapgen[id_base].push_back( new mapgen_function_builtin( mgname ) );
-                            } else {
-                                debugmsg("oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
-                            }
-                        } else {
-                            debugmsg("oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
-                        }
-                    } else if ( mgtype == "lua" ) { // lua script
-#ifdef LUA
-                        if ( jio.has_string("script") ) { // minified into one\nline
-                            std::string mgscript = jio.get_string("script");
-                            oter_mapgen[id_base].push_back( new mapgen_function_lua( mgscript ) );
-                        } else if ( jio.has_array("script") ) { // or 1 line per entry array
-                            std::string mgscript = "";
-                            JsonArray jascr = jio.get_array("script");
-                            while ( jascr.has_more() ) {
-                                mgscript += jascr.next_string();
-                                mgscript += "\n";
-                            }
-                            oter_mapgen[id_base].push_back( new mapgen_function_lua( mgscript ) );
-// todo; pass dirname current.json
-//                        } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
-                        } else {
-                            debugmsg("oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
-                        }
-#else
-                        debugmsg("oter_t[%s]: mapgen entry requires a build with LUA=1.",id_base.c_str() );
-
-#endif
-                    } else if ( mgtype == "json" ) { // todo
-                        debugmsg("oter_t[%s]: TODO mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
-                    } else if ( mgtype != "comment" ) {
-                        debugmsg("oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
-                    }
-                } else {
-                    debugmsg("oter_t[%s]: Invalid mapgen function (missing \"type\" value).", id_base.c_str() );
-                }
+                load_mapgen_function( jio, id_base );
             }
             c++;
         }

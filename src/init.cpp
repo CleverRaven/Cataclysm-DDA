@@ -20,7 +20,7 @@
 #include "tutorial.h"
 #include "overmap.h"
 #include "artifact.h"
-#include "mapgen_functions.h"
+#include "mapgen.h"
 #include "speech.h"
 #include "construction.h"
 
