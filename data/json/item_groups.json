@@ -2832,9 +2832,9 @@
         "type" : "item_group",
         "id" : "pawn",
     "items":[
-	  ["rifle_flint", 5],
-	  ["pistol_flint", 5],
-	  ["flint_ammo", 5]
+      ["rifle_flint", 5],
+      ["pistol_flint", 5],
+      s["flint_ammo", 5],
       ["cigar", 5],
       ["television", 10],
       ["microwave", 5],
