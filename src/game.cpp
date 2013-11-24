@@ -10764,11 +10764,11 @@ bool game::plmove(int dx, int dy)
               int move_penalty = std::min((int)pow(str_req, 2) + 100, 1000);
               u.moves -= move_penalty;
               if (move_penalty > 500) {
-                if (one_in(6)) // Nag only occasionally.
+                if (one_in(3)) // Nag only occasionally.
                   add_msg( _("Moving the heavy %s is taking a lot of time!"), furntype.name.c_str() );
               }
               else if (move_penalty > 200) {
-                if (one_in(6)) // Nag only occasionally.
+                if (one_in(3)) // Nag only occasionally.
                   add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
               }
           }
