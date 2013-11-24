@@ -7871,7 +7871,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
       std::stringstream mods;
       for (int i = 0; i < used->contents.size(); i++) {
         item tmp = used->contents[i];
-        if (used->contents[i] == used->contents.back()
+        if (i == used->contents.size() - 1)
             mods << tmp.name.c_str() << ".";
         else
             mods << tmp.name.c_str() << ", ";

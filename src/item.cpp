@@ -497,12 +497,23 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   } else
    dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
 
-  if (contents.size() > 0)
-   dump->push_back(iteminfo("GUN", "\n"));
+//  if (contents.size() > 0)
+//   dump->push_back(iteminfo("GUN", "\n"));
 
   temp1.str("");
-  for (int i = 0; i < contents.size(); i++)
-   temp1 << "\n+" << contents[i].tname();
+  temp1 << "Mods: ";
+  for (int i = 0; i < contents.size(); i++) {
+     if (i == contents.size() - 1) {
+        if (!(i % 2) && i > 0)
+          temp1 << "\n+       ";
+        temp1 << contents[i].tname() + ".";
+     }
+     else {
+        if (!(i % 2) && i > 0)
+          temp1 << "\n+       ";
+        temp1 << contents[i].tname() + ", ";
+     }
+   }
 
   dump->push_back(iteminfo("GUN", temp1.str()));
 
