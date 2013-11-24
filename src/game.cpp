@@ -8795,7 +8795,7 @@ void game::grab()
         vehicle *veh = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
         if( veh ) {
             add_msg(_("You release the %s."), veh->name.c_str() );
-        } else if ( m.can_move_furniture( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
+        } else if ( m.has_furn( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
             add_msg(_("You release the %s."), m.furnname( u.posx + u.grab_point.x, u.posy + u.grab_point.y ).c_str() );
         }
         u.grab_point.x = 0;
@@ -8810,7 +8810,7 @@ void game::grab()
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
-        } else if ( m.can_move_furniture( grabx, graby, &u ) ) { // If not, grab furniture if present
+        } else if ( m.has_furn( grabx, graby ) ) { // If not, grab furniture if present
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_FURNITURE;
@@ -10734,9 +10734,11 @@ bool game::plmove(int dx, int dy)
               add_msg( _("The %s collides with something."), furntype.name.c_str() );
               u.moves -= 50; // "oh was that your foot? Sorry :-O"
               return false;
-          } else if ( ! m.can_move_furniture( fpos.x, fpos.y, &u ) ) {
-              add_msg(_("The %s is too heavy for you to budge!"), furntype.name.c_str() );
-              u.moves -= 100; // time spent straining and going 'hnngh!'
+          } else if ( ! m.can_move_furniture( fpos.x, fpos.y, &u ) &&
+                     one_in(std::max(20 - furntype.move_str_req - u.str_cur, 1)) ) {
+              add_msg(_("The %s is too heavy for you and you strain yourself trying to move it!"), furntype.name.c_str() );
+              u.moves -= 100;
+              u.pain++; // Hurt ourself.
               return false; // furniture and or obstacle wins.
           } else if ( ! src_item_ok && dst_items > 0 ) {
               add_msg( _("There's stuff in the way.") );
@@ -10752,7 +10754,12 @@ bool game::plmove(int dx, int dy)
               }
           }
 
-          u.moves -= furntype.move_str_req * 10; // t_furn has no weight/friction; this is close enough.
+          int str_req = furntype.move_str_req;
+          u.moves -= str_req * 10;
+          // Additional penalty if we can't comfortably move it.
+          if (m.can_move_furniture(fpos.x, fpos.y, &u)) {
+              u.moves -= std::min((int)pow(str_req, 2) + 100, 500);
+          }
           sound(x, y, furntype.move_str_req * 2, _("a scraping noise"));
 
           m.furn_set(fdest.x, fdest.y, m.furn(fpos.x, fpos.y));    // finally move it.
