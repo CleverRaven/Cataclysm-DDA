@@ -408,6 +408,34 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base) {
     }
 }
 
+/*
+ * load mapgen functions from an overmap_terrain json entry
+ * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
+ */
+void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base, const std::string suffix = "")
+{
+    const std::string fmapkey(id_base + suffix);
+    const std::string jsonkey("mapgen" + suffix);
+    bool default_mapgen = jo.get_bool("default_mapgen", true);
+    if ( default_mapgen ) {
+        if ( mapgen_cfunction_map.find( fmapkey ) != mapgen_cfunction_map.end() ) {
+            oter_mapgen[fmapkey].push_back( new mapgen_function_builtin( fmapkey ) );
+        }
+    }
+
+    if ( jo.has_array( jsonkey ) ) {
+        JsonArray ja = jo.get_array( jsonkey );
+        int c=0;
+        while ( ja.has_more() ) {
+            if ( ja.has_object(c) ) {
+                JsonObject jio = ja.next_object();
+                load_mapgen_function( jio, fmapkey );
+            }
+            c++;
+        }
+    }
+}
+
 void load_overmap_terrain(JsonObject &jo)
 {
     oter_t oter;
@@ -455,24 +483,9 @@ void load_overmap_terrain(JsonObject &jo)
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0,5,"river",5) == 0 || id_base.compare(0,6,"bridge",6) == 0);
 
-    bool default_mapgen = jo.get_bool("default_mapgen", true);
-    if ( default_mapgen ) {
-        if ( mapgen_cfunction_map.find( id_base ) != mapgen_cfunction_map.end() ) {
-            oter_mapgen[id_base].push_back( new mapgen_function_builtin( id_base ) );
-        }
-    }
-
-    if ( jo.has_array("mapgen") ) {
-        JsonArray ja = jo.get_array("mapgen");
-        int c=0;
-        while ( ja.has_more() ) {
-            if ( ja.has_object(c) ) {
-                JsonObject jio = ja.next_object();
-                load_mapgen_function( jio, id_base );
-            }
-            c++;
-        }
-
+    oter.id_mapgen = id_base; // What, another identifier? Whyyy...
+    if ( ! line_drawing ) { // ...oh
+        load_overmap_terrain_mapgens(jo, id_base);
     }
 
     if (line_drawing) {
@@ -481,7 +494,8 @@ void load_overmap_terrain(JsonObject &jo)
         for( int i = start_iid; i < start_iid+12; i++ ) {
             oter.directional_peers.push_back(i);
         }
-
+        oter.id_mapgen = id_base + "_straight";
+        load_overmap_terrain_mapgens(jo, id_base, "_straight");
         oter.id = id_base + "_ns";
         oter.sym = LINE_XOXO;
         load_oter(oter);
@@ -490,6 +504,8 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_OXOX;
         load_oter(oter);
 
+        oter.id_mapgen = id_base + "_curved";
+        load_overmap_terrain_mapgens(jo, id_base, "_curved");
         oter.id = id_base + "_ne";
         oter.sym = LINE_XXOO;
         load_oter(oter);
@@ -502,12 +518,12 @@ void load_overmap_terrain(JsonObject &jo)
         oter.sym = LINE_OOXX;
         load_oter(oter);
 
-
-
         oter.id = id_base + "_wn";
         oter.sym = LINE_XOOX;
         load_oter(oter);
 
+        oter.id_mapgen = id_base + "_tee";
+        load_overmap_terrain_mapgens(jo, id_base, "_tee");
         oter.id = id_base + "_nes";
         oter.sym = LINE_XXXO;
         load_oter(oter);
@@ -525,7 +541,8 @@ void load_overmap_terrain(JsonObject &jo)
         load_oter(oter);
 
 
-
+        oter.id_mapgen = id_base + "_four_way";
+        load_overmap_terrain_mapgens(jo, id_base, "_four_way");
         oter.id = id_base + "_nesw";
         oter.sym = LINE_XXXX;
         load_oter(oter);

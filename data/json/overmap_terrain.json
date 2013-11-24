@@ -135,7 +135,21 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "allow_road" : true
+        "allow_road" : true,
+        "comment" : "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
+        "mapgen_straight": [
+            { "type": "builtin", "name": "road_straight" }
+        ],
+        "mapgen_curved": [
+            { "type": "builtin", "name": "road_curved" }
+        ],
+        "mapgen_tee": [
+            { "type": "builtin", "name": "road_tee" }
+        ],
+        "mapgen_four_way": [
+            { "type": "builtin", "name": "road_four_way" }
+        ]
+
     },{
         "type" : "overmap_terrain",
         "id" : "road_nesw_manhole",
@@ -145,7 +159,10 @@
         "see_cost" : 2,
         "extras" : "road",
         "known_down" : true,
-        "allow_road" : true
+        "allow_road" : true,
+        "mapgen": [
+            { "type": "builtin", "name": "road_four_way" }
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "bridge_ns",

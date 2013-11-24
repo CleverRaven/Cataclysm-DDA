@@ -407,14 +407,16 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
 
-    std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( terrain_type.t().id_base );
+    const std::string function_key = terrain_type.t().id_mapgen;
+
+    std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
     if ( fmapit != oter_mapgen.end() && fmapit->second.size() > 0 ) {
         //int fidx = rng(0, fmapit->second.size() - 1);
-        std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( terrain_type.t().id_base );
+        std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
         int rlast = weightit->second.rbegin()->first;
         int roll = rng(1, rlast);
         int fidx = weightit->second.lower_bound( roll )->second;
-        g->add_msg("draw_map: %s (%s): %d/%d roll %d/%d", terrain_type.c_str(), terrain_type.t().id_base.c_str(), fidx+1, fmapit->second.size(), roll, rlast );
+        g->add_msg("draw_map: %s (%s): %d/%d roll %d/%d", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast );
 
         if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
            void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;
@@ -426,50 +428,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
            mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
            mapgen_lua(this, terrain_type, facing_data, turn, density, mf->scr );
         } else {
-           debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), terrain_type.t().id_base.c_str() );
+           debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), function_key.c_str() );
         }
-
-    } else /* F-f-ffuuuuuuuuuuu... */ if (terrain_type == "road_ns" ||
-               terrain_type == "road_ew") {
-        mapgen_road_straight(this, terrain_type, facing_data, turn, density);
-
-    } else if (terrain_type == "road_ne" ||
-               terrain_type == "road_es" ||
-               terrain_type == "road_sw" ||
-               terrain_type == "road_wn") {
-        mapgen_road_curved(this, terrain_type, facing_data, turn, density);
-
-    } else if (terrain_type == "road_nes" ||
-               terrain_type == "road_new" ||
-               terrain_type == "road_nsw" ||
-               terrain_type == "road_esw") {
-        mapgen_road_tee(this, terrain_type, facing_data, turn, density);
-
-    } else if (terrain_type == "road_nesw" ||
-               terrain_type == "road_nesw_manhole") {
-        mapgen_road_four_way(this, terrain_type, facing_data, turn, density);
-
-    } else if (terrain_type == "river_center") {
-        fill_background(this, t_water_dp);
-
-    } else if (terrain_type == "river_c_not_ne" ||
-               terrain_type == "river_c_not_se" ||
-               terrain_type == "river_c_not_sw" ||
-               terrain_type == "river_c_not_nw") {
-        mapgen_river_curved_not(this, terrain_type, facing_data, turn, density);
-
-    } else if (terrain_type == "river_north" ||
-               terrain_type == "river_east" ||
-               terrain_type == "river_south" ||
-               terrain_type == "river_west") {
-        mapgen_river_straight(this, terrain_type, facing_data, turn, density);
-
-    } else if (terrain_type == "river_ne" ||
-               terrain_type == "river_se" ||
-               terrain_type == "river_sw" ||
-               terrain_type == "river_nw") {
-        mapgen_river_curved(this, terrain_type, facing_data, turn, density);
-
     } else if (terrain_type == "apartments_con_tower_1_entrance") {
 
         fill_background(this, &grass_or_dirt);
@@ -11680,8 +11640,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     } else {
         // not one of the hardcoded ones!
         // load from JSON???
-        debugmsg("Error: tried to generate map for omtype %s, \"%s\" (id_base %s)",
-                 terrain_type.c_str(), otermap[terrain_type].name.c_str(), terrain_type.t().id_base.c_str() );
+        debugmsg("Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
+                 terrain_type.c_str(), otermap[terrain_type].name.c_str(), function_key.c_str() );
         fill_background(this, t_floor);
 
     }}
