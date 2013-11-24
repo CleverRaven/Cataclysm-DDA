@@ -871,9 +871,10 @@ void veh_interact::display_veh ()
  */
 void veh_interact::display_stats ()
 {
+    const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
     bool conf = veh->valid_wheel_config();
-    const int second_column = 29;
-    const int third_column = 56;
+    const int second_column = 29 + (extraw / 3);
+    const int third_column = 56 + (2 * extraw / 3);
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (OPTIONS["USE_METRIC_SPEEDS"] == "km/h") {
