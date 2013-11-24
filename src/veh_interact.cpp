@@ -65,7 +65,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     // winh2 expands to take up extra vertical space,
     // as it's used for lists of things.
     // winw1, winw2 and winw3 share extra space in a 2:1:1 ratio,
-    // but winh2 and winh3 start with more than winh1.
+    // but winw2 and winw3 start with more than winw1.
 
     // main window should also expand to use available display space.
     // expanding to evenly use up half of extra space, for now.
@@ -109,7 +109,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     // height, width, y, x
     WINDOW *w_border = newwin( totalh, totalw, y1 - 1, x1 - 1 );
-    w_grid  = newwin( gridh,   gridw, y1, x1 );
+    w_grid  = newwin( gridh,   gridw,   y1, x1 );
     w_mode  = newwin( mode_h,  mode_w,  y1, x1 );
     w_msg   = newwin( msg_h,   msg_w,   y1 + mode_h, x1 );
     w_disp  = newwin( disp_h,  disp_w,  y2, x1 );
