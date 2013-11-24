@@ -187,7 +187,8 @@
       ["dog_whistle", 5],
       ["dogfood", 10],
       ["catfood", 10],
-      ["nic_gum", 2]
+      ["nic_gum", 2],
+	  ["leathersandals", 40]
     ]
     },{
         "type" : "item_group",
@@ -560,7 +561,8 @@
       ["flask_hip", 5],
       ["tux", 1],
       ["dress_wedding", 1],
-      ["corset", 15]
+      ["corset", 15],
+	  ["leathersandals", 40]
     ]
     },{
         "type" : "item_group",
@@ -1348,7 +1350,8 @@
       ["manual_throw", 12],
       ["protein_powder", 15],
       ["airhorn", 40],
-      ["boots_hiking", 10]
+      ["boots_hiking", 10],
+	  ["leathersandals",10]
     ]
     },{
         "type" : "item_group",
@@ -1588,7 +1591,8 @@
       ["flaregun", 10],
       ["signal_flare", 15],
       ["airhorn", 30],
-      ["quikclot", 10]
+      ["quikclot", 10],
+	  ["leathersandals", 10]
     ]
     },{
         "type" : "item_group",
@@ -1976,7 +1980,8 @@
       ["dress_shoes", 50],
       ["heels", 50],
       ["boots_combat", 10],
-      ["boots_hiking", 20]
+      ["boots_hiking", 20],
+	  ["leathersandals", 40]
     ]
     },{
         "type" : "item_group",
@@ -2985,7 +2990,8 @@
       ["flaregun", 10],
       ["signal_flare", 15],
       ["rm120c", 5],
-      ["knee_pads", 10]
+      ["knee_pads", 10],
+	  ["leathersandals", 10]
     ]
     },{
         "type" : "item_group",
