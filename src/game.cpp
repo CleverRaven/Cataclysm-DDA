@@ -10772,7 +10772,7 @@ bool game::plmove(int dx, int dy)
                   add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
               }
           }
-          sound(x, y, furntype.move_str_req * 2, _("a scraping noise"));
+          sound(x, y, furntype.move_str_req * 2, _("a scraping noise."));
 
           m.furn_set(fdest.x, fdest.y, m.furn(fpos.x, fpos.y));    // finally move it.
           m.furn_set(fpos.x, fpos.y, f_null);
