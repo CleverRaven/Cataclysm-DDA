@@ -118,7 +118,7 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
             chtype bl, chtype br)
 {
     /*
-    ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); wborder(win, ...); wattroff(win, c_customBorderColor);
+    ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); draw_border(win); wattroff(win, c_customBorderColor);
         wattron(win, c_white);
     */
     int i, j;

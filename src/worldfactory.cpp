@@ -417,7 +417,7 @@ WORLDPTR worldfactory::pick_world()
     WINDOW *w_worlds_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY, 1 + iOffsetX);
     WINDOW *w_worlds        = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-    wborder(w_worlds_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(w_worlds_border);
     mvwputch(w_worlds_border, 4, 0, c_dkgray, LINE_XXXO); // |-
     mvwputch(w_worlds_border, 4, 79, c_dkgray, LINE_XOXX); // -|
 

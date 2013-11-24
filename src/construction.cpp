@@ -49,8 +49,7 @@ void construction_menu()
     }
 
     WINDOW *w_con = newwin(iMaxY, FULL_SCREEN_WIDTH, (TERMY > iMaxY) ? (TERMY-iMaxY)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    wborder(w_con, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_con);
     mvwprintz(w_con, 0, 8, c_ltred, _(" Construction "));
 
     mvwputch(w_con,  0, 30, c_ltgray, LINE_OXXX);

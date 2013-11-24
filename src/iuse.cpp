@@ -177,8 +177,7 @@ static hp_part body_window(player *p, item *it, std::string item_name, int norma
                            int bite, int infect, bool force)
 {
     WINDOW* hp_window = newwin(10, 31, (TERMY-10)/2, (TERMX-31)/2);
-    wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                       LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(hp_window);
 
     mvwprintz(hp_window, 1, 1, c_ltred, _("Use %s:"), item_name.c_str());
     nc_color color = c_ltgray;
@@ -1937,8 +1936,7 @@ int iuse::water_purifier(player *p, item *it, bool t)
 int iuse::two_way_radio(player *p, item *it, bool t)
 {
  WINDOW* w = newwin(6, 36, (TERMY-6)/2, (TERMX-36)/2);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w);
 // TODO: More options here.  Thoughts...
 //       > Respond to the SOS of an NPC
 //       > Report something to a faction
@@ -3971,8 +3969,7 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
   return 0;
  }
  WINDOW* w = newwin(5, 41, (TERMY-5)/2, (TERMX-41)/2);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w);
  int mid_x = getmaxx(w) / 2;
  int tmpx = 5;
  mvwprintz(w, 1, 2, c_white,  _("How many do you want to light? (1-%d)"), it->charges);

@@ -2666,8 +2666,7 @@ void player::disp_morale(game *g)
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                         (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
@@ -7208,7 +7207,7 @@ void player::sort_armor(game *g)
 
     // Layout window
     WINDOW *w_sort_armor = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, win_y, win_x);
-    wborder(w_sort_armor, 0, 0, 0, 0, 0, 0, 0, 0);
+    draw_border(w_sort_armor);
     mvwhline(w_sort_armor, 2, 1, 0, FULL_SCREEN_WIDTH-2);
     mvwvline(w_sort_armor, 3, left_w + 1, 0, FULL_SCREEN_HEIGHT-4);
     mvwvline(w_sort_armor, 3, left_w + middle_w + 2, 0, FULL_SCREEN_HEIGHT-4);
@@ -7514,7 +7513,7 @@ Use PageUp/PageDown to scroll the right list.\n \n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart."));
-            wborder(w_sort_armor, 0, 0, 0, 0, 0, 0, 0, 0); // hack to mark whole window for redrawing
+            draw_border(w_sort_armor); // hack to mark whole window for redrawing
             wrefresh(w_sort_armor);
             break;
         }

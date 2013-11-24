@@ -117,8 +117,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     w_list  = newwin( list_h,  list_w,  y2, x3 );
     w_stats = newwin( stats_h, stats_w, y3, x1 );
 
-    wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_border);
 
     const int gridx1 = winw1;
     const int gridx2 = winw1 + 1 + winw2;
