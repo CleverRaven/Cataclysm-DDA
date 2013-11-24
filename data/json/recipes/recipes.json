@@ -20671,4 +20671,68 @@
 	]
   ]
 },
+{
+        "type" : "recipe",
+  "result": "rifle_flint",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+	[
+	  [ "scrap", 1 ]
+	]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "pistol_flint",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+	[
+	  [ "scrap", 1 ]
+	]
+  ]
+}
 ]
