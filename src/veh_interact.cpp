@@ -765,7 +765,9 @@ int veh_interact::part_at (int dx, int dy)
  */
 void veh_interact::move_cursor (int dx, int dy)
 {
-    mvwputch (w_disp, 6, 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
+    const int hw = getmaxx(w_disp) / 2;
+    const int hh = getmaxy(w_disp) / 2;
+    mvwputch (w_disp, hh, hw, cpart >= 0 ? veh->part_color (cpart) : c_black,
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     ddx += dy;
     ddy -= dx;
@@ -783,7 +785,7 @@ void veh_interact::move_cursor (int dx, int dy)
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
-    mvwputch (w_disp, 6, 6, obstruct ? red_background(col) : hilite(col),
+    mvwputch (w_disp, hh, hw, obstruct ? red_background(col) : hilite(col),
               special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     wrefresh (w_disp);
     werase (w_parts);
@@ -845,6 +847,8 @@ void veh_interact::move_cursor (int dx, int dy)
 void veh_interact::display_veh ()
 {
     werase(w_disp);
+    const int hw = getmaxx(w_disp) / 2;
+    const int hh = getmaxy(w_disp) / 2;
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     for (int i = 0; i < structural_parts.size(); i++) {
@@ -857,7 +861,7 @@ void veh_interact::display_veh ()
             col = hilite(col);
             cpart = p;
         }
-        mvwputch (w_disp, 6 + y, 6 + x, col, special_symbol(sym));
+        mvwputch (w_disp, hh + y, hw + x, col, special_symbol(sym));
     }
     wrefresh (w_disp);
 }
@@ -994,7 +998,7 @@ void veh_interact::display_mode (char mode)
     x += shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("r<e>name")) + 1;
     std::string backstr = _("<ESC>-back");
     int w = utf8_width(backstr.c_str()) - 2;
-    x = FULL_SCREEN_WIDTH - 2 - w; // right text align
+    x = getmaxx(w_mode) - w; // right text align
     shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, backstr.c_str());
     wrefresh (w_mode);
 }
