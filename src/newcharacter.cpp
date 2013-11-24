@@ -959,7 +959,7 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
             if (i < prof_skills.size()) {
                 Skill *skill = Skill::skill(prof_skills[i].first);
                 if (skill == NULL) {
-                	debugmsg("Unrecognized skill name %s", prof_skills[i].first.c_str());
+                    continue;  // skip unrecognized skills.
             	}
             	// dirty
                 std::stringstream skill_listing;

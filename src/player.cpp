@@ -3118,7 +3118,6 @@ std::string player::get_highest_category() const // Returns the mutation categor
             sMaxCat = "";  // no category on ties
         }
     }
-    debugmsg("Highest category was %s", sMaxCat.c_str());
     return sMaxCat;
 }
 
