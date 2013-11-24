@@ -193,18 +193,21 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
     message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
-// Handles speed penalties to monster & us, etc
- melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
-
 // Make a rather quiet sound, to alert any nearby monsters
  if (!is_quiet()) // check martial arts silence
   g->sound(posx, posy, 8, "");
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
-    if (g->u_see(z)) {
-        player_hit_message(g, this, message, target_name, dam, critical_hit);
-    }
+ // Handles speed penalties to monster & us, etc
+ std::string specialmsg = melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
+
+  if (g->u_see(z)) {
+      player_hit_message(g, this, message, target_name, dam, critical_hit);
+  }
+
+  if (!specialmsg.empty())
+    g->add_msg(specialmsg.c_str());
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10);
@@ -774,7 +777,7 @@ matec_id player::pick_technique(game *g, monster *z, player *p,
     // don't apply downing techniques to someone who's already downed
     if (downed && tec.down_dur > 0) continue;
 
-    // don't apply disarming techniques to someone without a weapon 
+    // don't apply disarming techniques to someone without a weapon
     //TODO: these are the stat reqs for tec_disarm
     // dice(   dex_cur +    skillLevel("unarmed"),  8) >
     // dice(p->dex_cur + p->skillLevel("melee"),   10))
@@ -1075,11 +1078,13 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  }
 }
 
-void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
+std::string player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                                    int &bash_dam, int &cut_dam, int &stab_dam)
 {
+    std::stringstream dump;
+
     if (z == NULL && p == NULL) {
-        return;
+        return NULL;
     }
     const bool mon = (z != NULL);
     const bool npc = (p != NULL && p->is_npc());
@@ -1227,8 +1232,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) &&
          !z->is_hallucination()) {
-   g->add_msg_if_player(p,_("Your %s gets stuck in %s, pulling it out of your hands!"),
-              weapon.tname().c_str(), target.c_str());
+  if (you)
+    dump << string_format(_("Your %s gets stuck in %s, pulling it our of your hands!"), weapon.tname().c_str(), target.c_str());
   if (mon) {
    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
     z->speed *= .7;
@@ -1245,8 +1250,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
   if (cutting_penalty >= 50 && !z->is_hallucination()) {
-   g->add_msg_if_player(p,_("Your %s gets stuck in %s, but you yank it free."),
-              weapon.tname().c_str(), target.c_str());
+    if (you)
+    dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(), target.c_str());
   }
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
@@ -1260,6 +1265,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   // on-hit effects for martial arts
   ma_onhit_effects();
 
+  return dump.str();
 }
 
 std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
@@ -1386,7 +1392,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         }
         ret.push_back(tmp);
     }
-	
+
     if (has_trait("RAP_TALONS") && one_in(30 - dex_cur - 2 * skillLevel("unarmed"))) {
         special_attack tmp;
         tmp.cut = str_cur * 4;
@@ -1518,7 +1524,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         }
         ret.push_back(tmp);
     }
-	
+
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
             has_trait("ARM_TENTACLES_8")) {
         int num_attacks = 1;
@@ -1572,19 +1578,43 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
     // stabbing weapon or a spear
     if (p.weapon.has_flag("SPEAR") || (p.weapon.has_flag("STAB") && stab_dam > cut_dam)) {
         if (bash_dam + stab_dam + cut_dam >= 30) {
-            return npc ? _("<npcname> impales %s") : _("You impale %s");
+          // More variety.
+          switch(rng(0, 2)) {
+            case 0:
+             return npc ? _("<npcname> impales %s") : _("You impale %s");
+           case 1:
+             return npc ? _("<npcname> gouges %s") : _("You gouge %s");
+           case 2:
+             return npc ? _("<npcname> runs through %s") : _("You run through %s");
+          }
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
-            return npc ? _("<npcname> pierces %s") : _("You pierce %s");
+            return npc ? _("<npcname> punctures %s") : _("You puncture %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {
-            return npc ? _("<npcname> stabs %s") : _("You stab %s");
+            return npc ? _("<npcname> pierces %s") : _("You pierce %s");
         } else {
             return npc ? _("<npcname> pokes %s") : _("You poke %s");
         }
     } else if (p.weapon.is_cutting_weapon()) {  // cutting weapon
         if (bash_dam + stab_dam + cut_dam >= 30) {
-            return npc ? _("<npcname> hacks %s") : _("You hack %s");
+            switch(rng(0, 2)) {
+              case 0:
+                if (p.weapon.has_flag("STAB"))
+                  return npc ? _("<npcname> guts %s") : _("You gut %s");
+                else
+                  return npc ? _("<npcname> chops %s") : _("You chop %s");
+              case 1:
+                return npc ? _("<npcname> slashes %s") : _("You slash %s");
+              case 2:
+                if (p.weapon.has_flag("STAB"))
+                  return npc ? _("<npcname> mutilates %s") : _("You mutilate %s");
+                else
+                  return npc ? _("<npcname> maims %s") : _("You maim %s");
+            }
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
-            return npc ? _("<npcname> slices %s") : _("You slice %s");
+            if (p.weapon.has_flag("STAB"))
+              return npc ? _("<npcname> stabs %s") : _("You stab %s");
+            else
+              return npc ? _("<npcname> slices %s") : _("You slice %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {
             return npc ? _("<npcname> cuts %s") : _("You cut %s");
         } else {
@@ -1592,7 +1622,14 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
         }
     } else {  // bashing weapon (default)
         if (bash_dam + stab_dam + cut_dam >= 30) {
-            return npc ? _("<npcname> clobbers %s") : _("You clobber %s");
+          switch(rng(0, 2)) {
+           case 0:
+             return npc ? _("<npcname> clobbers %s") : _("You clobber %s");
+           case 1:
+             return npc ? _("<npcname> smashes %s") : _("You smash %s");
+           case 2:
+             return npc ? _("<npcname> thrashes %s") : _("You thrash %s");
+          }
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
             return npc ? _("<npcname> batters %s") : _("You batter %s");
         } else if (bash_dam + stab_dam + cut_dam >= 10) {

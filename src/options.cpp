@@ -378,10 +378,16 @@ void initOptions() {
                                              0, 50, 0
                                             );
 
+    OPTIONS["SAFEMODEVEH"] =            cOpt("general", _("Safemode when driving"),
+                                             _("When true, safemode will alert you to hostiles whilst you are driving a vehicle."),
+                                             false
+                                            );
+
     OPTIONS["AUTOSAFEMODE"] =           cOpt("general", _("Auto-safemode on by default"),
                                              _("If true, auto-safemode will be on after starting a new game or loading."),
                                              false
                                             );
+
 
     OPTIONS["AUTOSAFEMODETURNS"] =      cOpt("general", _("Turns to reenable safemode"),
                                              _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
@@ -395,7 +401,7 @@ void initOptions() {
 
     OPTIONS["AUTOSAVE_TURNS"] =         cOpt("general", _("Game turns between autosaves"),
                                              _("Number of game turns between autosaves"),
-                                             1, 30, 5
+                                             1, 1000, 5
                                             );
 
     OPTIONS["AUTOSAVE_MINUTES"] =       cOpt("general", _("Real minutes between autosaves"),

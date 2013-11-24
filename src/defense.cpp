@@ -7,6 +7,7 @@
 #include "overmapbuffer.h"
 #include "crafting.h"
 #include "monstergenerator.h"
+#include "construction.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -26,7 +27,7 @@ std::set<m_flag> monflags_to_add;
 
 std::map<std::string, defense_game_monchanges> montype_changes;
 std::map<std::string, std::vector<int> > original_itype_values;
-std::map<int, std::vector<int> > original_construction_values;
+std::vector<int> original_construction_values;
 std::vector<int> original_recipe_values;
 
 
@@ -72,7 +73,7 @@ bool defense_game::init(game *g)
  g->u.dex_cur = g->u.dex_max;
  init_itypes(g);
  init_mtypes(g);
- init_constructions(g);
+ init_constructions();
  init_recipes(g);
  current_wave = 0;
  hunger = false;
@@ -201,10 +202,8 @@ void defense_game::reset_itypes()
 
 void defense_game::reset_constructions()
 {
-    for (unsigned i = 0; i < g->constructions.size(); i++) {
-        for (unsigned j = 0; j < g->constructions[i]->stages.size(); j++) {
-            g->constructions[i]->stages[j].time = original_construction_values[i][j];
-        }
+    for (unsigned i = 0; i < constructions.size(); i++) {
+        constructions[i]->time = original_construction_values[i];
     }
 }
 
@@ -264,13 +263,11 @@ void defense_game::init_mtypes(game *g)
     }
 }
 
-void defense_game::init_constructions(game *g)
+void defense_game::init_constructions()
 {
-    for (unsigned i = 0; i < g->constructions.size(); i++) {
-        for (unsigned j = 0; j < g->constructions[i]->stages.size(); j++) {
-            original_construction_values[i].push_back(g->constructions[i]->stages[j].time);
-            g->constructions[i]->stages[j].time = 1; // Everything takes 1 minute
-        }
+    for (unsigned i = 0; i < constructions.size(); i++) {
+        original_construction_values.push_back(constructions[i]->time);
+        constructions[i]->time = 1; // Everything takes 1 minute
     }
 }
 

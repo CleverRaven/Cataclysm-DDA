@@ -14,9 +14,9 @@
  * 
  * Consists of four main JSON manipulation tools:
  * JsonIn - for low-level parsing of an input JSON stream
+ * JsonOut - for outputting JSON
  * JsonObject - convenience-wrapper for reading JSON objects from a JsonIn
  * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
- * JsonOut - for outputting JSON
  * 
  * Generally usage in code will be based around a JsonObject or JsonArray.
  * 
@@ -198,13 +198,211 @@
  */
 
 class JsonIn;
+class JsonOut;
 class JsonObject;
 class JsonArray;
-class JsonOut;
 class JsonSerializer;
 class JsonDeserializer;
 
 bool is_whitespace(char ch); // RFC 4627 compliant
+
+
+/* JsonIn */
+
+class JsonIn {
+private:
+    std::istream *stream;
+    bool strict; // throw errors on non-RFC-4627-compliant input
+    bool ate_separator;
+
+    void skip_separator();
+    void skip_pair_separator();
+    void end_value();
+
+public:
+    JsonIn(std::istream *stream, bool strict = true);
+
+    bool get_ate_separator() { return ate_separator; }
+    void set_ate_separator(bool s) { ate_separator = s; }
+
+    int tell(); // get current stream position
+    void seek(int pos); // seek to specified stream position
+    char peek(); // what's the next char gonna be?
+    bool good(); // whether stream is ok
+
+    // advance seek head to the next non-whitespace character
+    void eat_whitespace();
+    // or rewind to the previous one
+    void uneat_whitespace();
+
+    // quick skipping for when values don't have to be parsed
+    void skip_member();
+    void skip_string();
+    void skip_value();
+    void skip_object();
+    void skip_array();
+    void skip_true();
+    void skip_false();
+    void skip_null();
+    void skip_number();
+
+    // data parsing
+    std::string get_string(); // get the next value as a string
+    int get_int(); // get the next value as an int
+    bool get_bool(); // get the next value as a bool
+    double get_float(); // get the next value as a double
+    std::string get_member_name(); // also strips the ':'
+    JsonObject get_object();
+    JsonArray get_array();
+
+    // container control and iteration
+    void start_array(); // verify array start
+    bool end_array(); // returns false if it's not the end
+    void start_object();
+    bool end_object(); // returns false if it's not the end
+
+    // type testing
+    bool test_null();
+    bool test_bool();
+    bool test_number();
+    bool test_int() { return test_number(); };
+    bool test_float() { return test_number(); };
+    bool test_string();
+    bool test_array();
+    bool test_object();
+
+    // non-fatal reading into values by reference
+    // returns true if the data was read successfully, false otherwise
+    bool read(bool &b);
+    bool read(int &i);
+    bool read(unsigned int &u);
+    bool read(float &f);
+    bool read(double &d);
+    bool read(std::string &s);
+    bool read(JsonDeserializer &j);
+    // array ~> vector
+    template <typename T> bool read(std::vector<T> &v) {
+        if (!test_array()) { return false; }
+        try {
+            start_array();
+            v.clear();
+            while (!end_array()) {
+                T element;
+                if (read(element)) { v.push_back(element); }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
+    // array ~> set
+    template <typename T> bool read(std::set<T> &v) {
+        if (!test_array()) { return false; }
+        try {
+            start_array();
+            v.clear();
+            while (!end_array()) {
+                T element;
+                if (read(element)) { v.insert(element); }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
+    // object ~> map
+    template <typename T> bool read(std::map<std::string,T> &m) {
+        if (!test_object()) { return false; }
+        try {
+            start_object();
+            m.clear();
+            while (!end_object()) {
+                std::string name = get_member_name();
+                T element;
+                if (read(element)) { m[name] = element; }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
+
+    // error messages
+    std::string line_number(int offset_modifier=0); // for occasional use only
+    void error(std::string message, int offset=0); // ditto
+    void rewind(int max_lines=-1, int max_chars=-1);
+    std::string substr(size_t pos, size_t len=std::string::npos);
+};
+
+
+/* JsonOut */
+
+class JsonOut {
+private:
+    std::ostream *stream;
+    bool pretty_print;
+    bool need_separator;
+    int indent_level;
+
+public:
+    JsonOut(std::ostream *stream, bool pretty_print=false);
+
+    // punctuation
+    void write_indent();
+    void write_separator();
+    void write_member_separator();
+    void start_object();
+    void end_object();
+    void start_array();
+    void end_array();
+
+    // write data to the output stream as JSON
+    void write_null();
+    void write(const bool &b);
+    void write(const int &i);
+    void write(const unsigned &u);
+    void write(const double &f);
+    void write(const std::string &s);
+    void write(const char *cstr) { write(std::string(cstr)); }
+    void write(const JsonSerializer &thing);
+    // vector ~> array
+    template <typename T> void write(const std::vector<T> &v) {
+        start_array();
+        for (int i = 0; i < v.size(); ++i) {
+            write(v[i]);
+        }
+        end_array();
+    }
+    // set ~> array
+    template <typename T> void write(const std::set<T> &v) {
+        start_array();
+        typename std::set<T>::const_iterator it;
+        for (it = v.begin(); it != v.end(); ++it) {
+            write(*it);
+        }
+        end_array();
+    }
+    // map ~> object
+    template <typename T> void write(const std::map<std::string,T> &m) {
+        start_object();
+        typename std::map<std::string,T>::const_iterator it;
+        for (it = m.begin(); it != m.end(); ++it) {
+            write(it->first);
+            write_member_separator();
+            write(it->second);
+        }
+        end_object();
+    }
+
+    // convenience methods for writing named object members
+    void member(const std::string &name); // TODO: enforce value after
+    void null_member(const std::string &name);
+    template <typename T> void member(const std::string &name, const T &value)
+    {
+        member(name);
+        write(value);
+    }
+};
+
+
+/* JsonObject */
 
 class JsonObject {
 private:
@@ -258,31 +456,29 @@ public:
     // type checking
     bool has_null(const std::string &name);
     bool has_bool(const std::string &name);
-    bool has_int(const std::string &name);
-    bool has_float(const std::string &name);
-    bool has_number(const std::string &name) { return has_float(name); };
+    bool has_number(const std::string &name);
+    bool has_int(const std::string &name) { return has_number(name); };
+    bool has_float(const std::string &name) { return has_number(name); };
     bool has_string(const std::string &name);
     bool has_array(const std::string &name);
     bool has_object(const std::string &name);
 
-    // set values by reference
+    // non-fatally read values by reference
     // return true if the value was set, false otherwise.
     // return false if the member is not found.
-    bool read_into(const std::string &name, bool &b);
-    bool read_into(const std::string &name, int &i);
-    bool read_into(const std::string &name, unsigned int &u);
-    bool read_into(const std::string &name, float &f);
-    bool read_into(const std::string &name, double &d);
-    bool read_into(const std::string &name, std::string &s);
-    bool read_into(const std::string &name, JsonDeserializer &j);
-    template <typename T>
-    bool read_into(const std::string &name, std::vector<T> &v); // see below
-    template <typename T>
-    bool read_into(const std::string &name, std::set<T> &v); // see below
+    template <typename T> bool read(const std::string &name, T &t) {
+        int pos = positions[name];
+        if (pos <= start) { return false; }
+        jsin->seek(pos);
+        return jsin->read(t);
+    }
 
     // useful debug info
     std::string line_number(); // for occasional use only
 };
+
+
+/* JsonArray */
 
 class JsonArray {
 private:
@@ -327,9 +523,9 @@ public:
     // iterative type checking
     bool test_null();
     bool test_bool();
-    bool test_int();
-    bool test_float();
-    bool test_number() { return test_float(); };
+    bool test_number();
+    bool test_int() { return test_number(); };
+    bool test_float() { return test_number(); };
     bool test_string();
     bool test_array();
     bool test_object();
@@ -337,152 +533,25 @@ public:
     // random-access type checking
     bool has_null(int index);
     bool has_bool(int index);
-    bool has_int(int index);
-    bool has_float(int index);
-    bool has_number(int index) { return has_float(index); };
+    bool has_number(int index);
+    bool has_int(int index) { return has_number(index); };
+    bool has_float(int index) { return has_number(index); };
     bool has_string(int index);
     bool has_array(int index);
     bool has_object(int index);
 
-    // iteratively set values by reference
-    bool read_into(bool &b);
-    bool read_into(int &i);
-    bool read_into(unsigned &u);
-    bool read_into(float &f);
-    bool read_into(double &d);
-    bool read_into(std::string &s);
-    bool read_into(JsonDeserializer &j);
-};
-
-
-/* JsonIn */
-
-class JsonIn {
-private:
-    std::istream *stream;
-    bool strict; // throw errors on non-RFC-4627-compliant input
-    bool ate_separator;
-
-    void skip_separator();
-    void skip_pair_separator();
-    void end_value();
-
-public:
-    JsonIn(std::istream *stream, bool strict = true);
-
-    bool get_ate_separator() { return ate_separator; }
-    void set_ate_separator(bool s) { ate_separator = s; }
-
-    int tell(); // get current stream position
-    void seek(int pos); // seek to specified stream position
-    char peek(); // what's the next char gonna be?
-    bool good(); // whether stream is ok
-
-    // advance seek head to the next non-whitespace character
-    void eat_whitespace();
-    // or rewind to the previous one
-    void uneat_whitespace();
-
-    // quick skipping for when values don't have to be parsed
-    void skip_member();
-    void skip_string();
-    void skip_value();
-    void skip_object();
-    void skip_array();
-    void skip_true();
-    void skip_false();
-    void skip_null();
-    void skip_number();
-
-    // data parsing
-    std::string get_string(); // get the next value as a string
-    int get_int(); // get the next value as an int
-    bool get_bool(); // get the next value as a bool
-    double get_float(); // get the next value as a double
-    std::string get_member_name(); // also strips the ':'
-    JsonObject get_object() { return JsonObject(this); };
-    JsonArray get_array() { return JsonArray(this); };
-
-    // container control and iteration
-    void start_array(); // verify array start
-    bool end_array(); // returns false if it's not the end
-    void start_object();
-    bool end_object(); // returns false if it's not the end
-
-    // type testing
-    bool test_null();
-    bool test_bool();
-    bool test_int();
-    bool test_float();
-    bool test_number() { return test_float(); };
-    bool test_string();
-    bool test_array();
-    bool test_object();
-
-    // error messages
-    std::string line_number(int offset_modifier=0); // for occasional use only
-    void error(std::string message, int offset=0); // ditto
-    void rewind(int max_lines=-1, int max_chars=-1);
-    std::string substr(size_t pos, size_t len=std::string::npos);
-};
-
-
-/* JsonOut */
-
-class JsonOut {
-private:
-    std::ostream *stream;
-    bool need_separator;
-
-public:
-    JsonOut(std::ostream *stream); // TODO: pretty-printing
-
-    // punctuation
-    void write_separator();
-    void write_member_separator();
-    void start_object();
-    void end_object();
-    void start_array();
-    void end_array();
-
-    // write data to the output stream as JSON
-    void write_null();
-    void write(const bool &b);
-    void write(const int &i);
-    void write(const unsigned &u);
-    void write(const double &f);
-    void write(const std::string &s);
-    void write(const char *cstr) { write(std::string(cstr)); }
-    void write(const JsonSerializer &thing);
-    // vector ~> array
-    template <typename T> void write(const std::vector<T> &v)
-    {
-        start_array();
-        for (int i = 0; i < v.size(); ++i) {
-            write(v[i]);
-        }
-        end_array();
+    // iteratively read values by reference
+    template <typename T> bool read_next(T &t) {
+        verify_index(index);
+        jsin->seek(positions[index++]);
+        return jsin->read(t);
     }
-    // set ~> array
-    template <typename T> void write(const std::set<T> &v)
-    {
-        start_array();
-        typename std::set<T>::iterator it;
-        for (it = v.begin(); it != v.end(); ++it) {
-            write(*it);
-        }
-        end_array();
+    // random-access read values by reference
+    template <typename T> bool read(int i, T &t) {
+        verify_index(i);
+        jsin->seek(positions[i]);
+        return jsin->read(t);
     }
-
-    // convenience methods for writing named object members
-    void member(const std::string &name); // TODO: enforce value after
-    void null_member(const std::string &name);
-    template <typename T> void member(const std::string &name, const T &value)
-    {
-        member(name);
-        write(value);
-    }
-    // map ~> object?
 };
 
 
@@ -516,43 +585,5 @@ public:
         deserialize(jin);
     }
 };
-
-/* compound templates */
-
-// JsonObject named array ~> vector
-template <typename T>
-bool JsonObject::read_into(const std::string &name, std::vector<T> &v)
-{
-    if (!has_array(name)) { return false; }
-    JsonArray ja = get_array(name);
-    v.clear();
-    try {
-        while (ja.has_more()) {
-            T element;
-            if (ja.read_into(element)) {
-                v.push_back(element);
-            }
-        }
-        return true;
-    } catch (std::string e) { return false; }
-}
-
-// JsonObject named array ~> set
-template <typename T>
-bool JsonObject::read_into(const std::string &name, std::set<T> &v)
-{
-    if (!has_array(name)) { return false; }
-    JsonArray ja = get_array(name);
-    v.clear();
-    try {
-        while (ja.has_more()) {
-            T element;
-            if (ja.read_into(element)) {
-                v.insert(element);
-            }
-        }
-        return true;
-    } catch (std::string e) { return false; }
-}
 
 #endif // _JSON_H_
