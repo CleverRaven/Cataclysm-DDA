@@ -9020,6 +9020,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "floodlight",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "mechanics",
+  "skills_required": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 0,
+  "autolearn": true,
+  "components": [
+    [
+      [ "amplifier", 4 ]
+    ],
+    [
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "soldering_iron",
   "category": "CC_ELECTRONIC",
   "skill_used": "electronics",
