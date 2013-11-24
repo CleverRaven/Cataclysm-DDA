@@ -3114,9 +3114,11 @@ std::string player::get_highest_category() const // Returns the mutation categor
         if (iter->second > iLevel) {
             sMaxCat = iter->first;
             iLevel = iter->second;
+        } else if (iter->second == iLevel) {
+            sMaxCat = "";  // no category on ties
         }
     }
-
+    debugmsg("Highest category was %s", sMaxCat.c_str());
     return sMaxCat;
 }
 

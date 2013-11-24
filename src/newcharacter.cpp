@@ -957,9 +957,13 @@ int set_profession(WINDOW *w, game *g, player *u, character_type type, int &poin
             // clean
             mvwprintz(w_skills, 1 + i, 0, c_ltgray, "                                                  ");
             if (i < prof_skills.size()) {
-                // dirty
+                Skill *skill = Skill::skill(prof_skills[i].first);
+                if (skill == NULL) {
+                	debugmsg("Unrecognized skill name %s", prof_skills[i].first.c_str());
+            	}
+            	// dirty
                 std::stringstream skill_listing;
-                skill_listing << prof_skills[i].first << " (" << prof_skills[i].second << ")";
+                skill_listing << skill->name() << " (" << prof_skills[i].second << ")";
                 mvwprintz(w_skills, 1 + i , 0, c_ltgray, skill_listing.str().c_str());
             }
         }
@@ -1048,12 +1052,10 @@ int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points)
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 40, c_ltgray, "                                    ");
-        if (points >= u->skillLevel(currentSkill) + 1)
-            mvwprintz(w, 3, 30, COL_SKILL_USED, _("Upgrading %s costs %d points"),
-                      currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
-        else
-            mvwprintz(w, 3, 30, c_ltred, _("Upgrading %s costs %d points"),
-                      currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
+        int cost = std::max(1, (u->skillLevel(currentSkill) + 1) / 2);
+        mvwprintz(w, 3, 30, points >= cost ? COL_SKILL_USED : c_ltred,
+                  _("Upgrading %s costs %d points"),
+                  currentSkill->name().c_str(), cost);
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, COL_SKILL_USED,
                        currentSkill->description().c_str());
 
@@ -1134,19 +1136,33 @@ int set_skills(WINDOW *w, game *g, player *u, character_type type, int &points)
                 currentSkill = sorted_skills[cur_pos];
                 break;
             case 'h':
-            case '4':
-                if (u->skillLevel(currentSkill)) {
-                    u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) - 2);
-                    points += u->skillLevel(currentSkill) + 1;
-                }
-                break;
+            case '4': {
+            	SkillLevel& level = u->skillLevel(currentSkill);
+            	if (level) {
+            		if (level == 2) {  // lower 2->0 for 1 point
+            			level.level(0);
+            			points += 1;
+            		} else {
+            			level.level(level - 1);
+            			points += (level + 1) / 2;
+            		}
+            	}
+            	break;
+            }
             case 'l':
-            case '6':
-                if (u->skillLevel(currentSkill) <= 19) {
-                    points -= u->skillLevel(currentSkill) + 1;
-                    u->skillLevel(currentSkill).level(u->skillLevel(currentSkill) + 2);
-                }
-                break;
+            case '6': {
+            	SkillLevel& level = u->skillLevel(currentSkill);
+            	if (level <= 19) {
+            		if (level == 0) {  // raise 0->2 for 1 point
+            			level.level(2);
+            			points -= 1;
+            		} else {
+            			points -= (level + 1) / 2;
+            			level.level(level + 1);
+            		}
+            	}
+            	break;
+            }
             case '<':
                 return -1;
             case '>':
