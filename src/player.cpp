@@ -3345,7 +3345,8 @@ void player::recalc_sight_limits()
                 !has_trait("MEMBRANE") && !is_wearing("goggles_swim"))) {
         sight_max = 1;
     } else if (has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
-            !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal")) {
+            !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal") &&
+            !has_disease("contacts")) {
         sight_max = 4;
     }
 
@@ -3406,7 +3407,8 @@ bool player::sight_impaired()
               && !is_wearing("goggles_swim")) ||
   (has_trait("MYOPIC") && !is_wearing("glasses_eye")
                         && !is_wearing("glasses_monocle")
-                        && !is_wearing("glasses_bifocal"));
+                        && !is_wearing("glasses_bifocal")
+                        && !has_disease("contacts"));
 }
 
 bool player::has_two_arms() const
@@ -7888,7 +7890,7 @@ hint_rating player::rate_action_read(item *it, game *g)
  } else if (book->intel > 0 && has_trait("ILLITERATE")) {
   return HINT_IFFY;
  } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-            && !is_wearing("glasses_bifocal")) {
+            && !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
   return HINT_IFFY;
  }
 
@@ -7914,7 +7916,7 @@ void player::read(game *g, char ch)
 
     // check for traits
     if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-        && !is_wearing("glasses_bifocal"))
+        && !is_wearing("glasses_bifocal") && !has_disease("contacts"))
     {
         g->add_msg(_("Your eyes won't focus without reading glasses."));
         return;

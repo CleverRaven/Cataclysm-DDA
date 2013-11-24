@@ -50,7 +50,9 @@ enum dis_type_enum {
 // Martial arts-related buffs
  DI_MA_BUFF,
 // NPC-only
- DI_CATCH_UP
+ DI_CATCH_UP,
+ // Contact lenses
+ DI_CONTACTS
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
@@ -154,6 +156,7 @@ void game::init_diseases() {
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
+    disease_type_lookup["contacts"] = DI_CONTACTS;
 }
 
 void dis_msg(dis_type type_string) {
@@ -254,6 +257,9 @@ void dis_msg(dis_type type_string) {
     case DI_HEAVYSNARE:
         g->add_msg(_("You are snared."));
         break;
+    case DI_CONTACTS:
+        g->add_msg(_("You can see more clearly."));
+        break;
     default:
         break;
     }
@@ -264,6 +270,9 @@ void dis_end_msg(player &p, disease &dis)
     switch (disease_type_lookup[dis.type]) {
     case DI_SLEEP:
         g->add_msg_if_player(&p, _("You wake up."));
+        break;
+    case DI_CONTACTS:
+        g->add_msg_if_player(&p, _("Your vision starts to blur."));
         break;
     default:
         break;
@@ -1738,6 +1747,8 @@ std::string dis_name(disease& dis)
     }
     case DI_RECOVER: return _("Recovering From Infection");
 
+    case DI_CONTACTS: return _("Contact lenses");
+
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
           if (ma_buffs[dis.buff_id].max_stacks > 1) {
@@ -2182,6 +2193,8 @@ condition, and deals massive damage.");
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
+
+    case DI_CONTACTS: return _("You are wearing contact lenses.");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
