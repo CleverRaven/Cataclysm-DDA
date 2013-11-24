@@ -9452,7 +9452,27 @@ void game::plthrow(char chInput)
      u.i_rem(ch);
  }
 
- u.moves -= 125;
+ // Base move cost on moves per turn of the weapon
+ // and our skill.
+ int move_cost = thrown.attack_time() / 2;
+ int skill_cost = (int)(move_cost / (pow(u.skillLevel("throw"), 3)/400 +1));
+ int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
+
+ move_cost += skill_cost;
+ move_cost += 20 * u.encumb(bp_torso);
+ move_cost -= dexbonus;
+
+ if (u.has_trait("LIGHT_BONES"))
+  move_cost *= .9;
+ if (u.has_trait("HOLLOW_BONES"))
+  move_cost *= .8;
+
+ move_cost -= u.disease_intensity("speed_boost");
+
+ if (move_cost < 25)
+  move_cost = 25;
+
+ u.moves -= move_cost;
  u.practice(turn, "throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
