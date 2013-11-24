@@ -414,6 +414,7 @@ void map::vehmove(game *g)
             vehicle* veh = vehs[v].v;
             veh->gain_moves (abs (veh->velocity));
             veh->power_parts();
+            veh->idle();
         }
     }
 

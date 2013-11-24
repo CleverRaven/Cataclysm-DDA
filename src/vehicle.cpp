@@ -22,7 +22,8 @@ enum vehicle_controls {
  activate_horn,
  release_control,
  control_cancel,
- convert_vehicle
+ convert_vehicle,
+ turn_on_engine
 };
 
 vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
@@ -298,20 +299,21 @@ void vehicle::use_controls()
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
     // Always have this option
-    int curent = 0;
+    int current = 0;
     int letgoent = 0;
 
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
 
-    curent++;
+    current++;
 
     bool has_lights = false;
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
     bool has_tracker = false;
+    bool has_engine = false;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -331,6 +333,9 @@ void vehicle::use_controls()
         else if (part_flag(p, "TRACK")) {
             has_tracker = true;
         }
+        else if (part_flag(p, "ENGINE")) {
+            has_engine = true;
+        }
     }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
@@ -338,21 +343,21 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_lights);
         options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
                                                _("Turn on headlights"), 'h'));
-        curent++;
+        current++;
     }
 
    if (has_overhead_lights) {
        options_choice.push_back(toggle_overhead_lights);
        options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
                                               _("Turn on overhead lights"), 'v'));
-       curent++;
+       current++;
    }
 
     //Honk the horn!
     if (has_horn) {
         options_choice.push_back(activate_horn);
         options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
-        curent++;
+        current++;
     }
 
     // Turrets: off or burst mode
@@ -360,7 +365,7 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_turrets);
         options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
                                                _("Disable turrets"), 't'));
-        curent++;
+        current++;
     }
 
     // Tracking on the overmap
@@ -369,22 +374,30 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
                                                 _("Enable tracking device"), 'g'));
 
-        curent++;
+        current++;
     }
 
     if( !g->u.controlling_vehicle && tags.count("convertible") ) {
         options_choice.push_back(convert_vehicle);
         options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
-        curent++;
+        current++;
     }
 
     // Exit vehicle, if we are in it.
     int vpart;
+    if (has_engine) {
+        options_choice.push_back(turn_on_engine);
+        options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
+                                               _("Turn on the engine"), 'e'));
+        current++;
+    }
+
+    // Exit vehicle, if we are in it.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
         options_choice.push_back(release_control);
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
-        letgoent = curent;
+        letgoent = current;
     }
 
     options_choice.push_back(control_cancel);
@@ -432,6 +445,25 @@ void vehicle::use_controls()
             turret_mode = 0;
         }
         g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
+        break;
+    case turn_on_engine:
+        if (engine_on) {
+          engine_on = false;
+          g->add_msg(_("You turn the engine off."));
+        }
+        else {
+          if (total_power () < 1) {
+            if (total_power (false) < 1)
+                g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+            else
+                g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+          }
+          else {
+            engine_on = true;
+            // TODO: Make chance of success based on engine condition.
+            g->add_msg(_("You turn the engine on."));
+          }
+        }
         break;
     case release_control:
         g->u.controlling_vehicle = false;
@@ -1873,8 +1905,35 @@ void vehicle::charge_battery (int amount)
     }
 }
 
-void vehicle::thrust (int thd)
-{
+
+void vehicle::idle() {
+  if (engine_on && total_power () > 0) {
+    if(one_in(20)) {
+      for (int p = 0; p < parts.size(); p++) {
+            if (part_flag(p, "ENGINE")) {
+                //Charge the battery if the engine has an alternator
+                if(part_flag(p,"ALTERNATOR")) {
+                    charge_battery(part_info(p).power * 0.3);
+                }
+            }
+      }
+      consume_fuel();
+      int sound = noise()/10 + 2;
+      g->sound(global_x(), global_y(), sound, "hummm.");
+
+      if (one_in(10)) {
+        int rdx = rng(0, 2);
+        int rdy = rng(0, 2);
+        g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
+      }
+    }
+  }
+  else {
+    engine_on = false;
+  }
+}
+
+void vehicle::thrust (int thd) {
     if (velocity == 0)
     {
         turn_dir = face.dir();
@@ -1916,6 +1975,11 @@ void vehicle::thrust (int thd)
             cruise_velocity = 0;
             return;
         }
+        else if (!engine_on) {
+          g->add_msg (_("The %s's engine isn't on!"), name.c_str());
+          cruise_velocity = 0;
+          return;
+        }
 
         consume_fuel ();
 
@@ -1926,8 +1990,7 @@ void vehicle::thrust (int thd)
             if (part_flag(p, "ENGINE"))
             {
                 //Charge the battery if the engine has an alternator
-                if(part_flag(p,"ALTERNATOR"))
-                {
+                if(part_flag(p,"ALTERNATOR")) {
                     charge_battery(part_info(p).power * 0.3);
                 }
                 if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)

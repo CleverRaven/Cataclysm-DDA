@@ -382,6 +382,9 @@ public:
 // calculate if it can move using its wheels configuration
     bool valid_wheel_config ();
 
+// idle fuel consumption and battery charge
+    void idle ();
+
 // thrust (1) or brake (-1) vehicle
     void thrust (int thd);
 
@@ -501,6 +504,7 @@ public:
     int velocity;       // vehicle current velocity, mph * 100
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
+    bool engine_on;     // engine on/off
     bool lights_on;     // lights on/off
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
