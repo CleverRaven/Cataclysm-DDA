@@ -24,7 +24,7 @@
 std::string robot_finds_kitten::getmessage(int idx) {
 char rfimessages[MAXMESSAGES][81] =
 {
-    "I pity the fool who mistakes me for kitten!\", sez Mr. T.",
+    "\"I pity the fool who mistakes me for kitten!\", sez Mr. T.",
     "That's just an old tin can.",
     "It's an altar to the horse god.",
     "A box of dancing mechanical pencils. They dance! They sing!",
@@ -466,7 +466,7 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
                 }
                 std::vector<std::string> bogusvstr = foldstring( getmessage(bogus_messages[rfkscreen[check_x][check_y] - 2]), rfkCOLS);
                 for (int c = 0; c < bogusvstr.size(); c++) {
-                    mvwprintw (w, 0, 0, "%s", bogusvstr[c].c_str());
+                    mvwprintw (w, c, 0, "%s", bogusvstr[c].c_str());
                 }
                 wrefresh(w);
             }
