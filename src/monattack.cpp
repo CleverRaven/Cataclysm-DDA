@@ -1761,7 +1761,7 @@ void mattack::bite(monster *z) {
     dam = g->u.hit(g, hit, side, dam, 0);
 
     if (dam > 0) {
-        g->add_msg(_("Your %s is bitten!"), body_part_name(hit, side).c_str());
+        g->add_msg(_("Your %s get bitten!"), body_part_name(hit, side).c_str());
 
         if(one_in(14 - dam)) {
             if (g->u.has_disease("bite", hit, side)) {
@@ -1773,7 +1773,7 @@ void mattack::bite(monster *z) {
             }
         }
     } else {
-        g->add_msg(_("Your %s is bitten, but your armor protects you."), body_part_name(hit, side).c_str());
+        g->add_msg(_("Your %s gets bitten, but your armor protects you."), body_part_name(hit, side).c_str());
     }
 
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
