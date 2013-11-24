@@ -2933,6 +2933,96 @@
   ]
 },{
         "type" : "recipe",
+  "result": "modularvestsuper",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvestsuper", 1]
+    ],
+    [
+      [ "alloy_plate", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularveststeel",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularveststeel", 1]
+    ],
+    [
+      [ "steel_plate", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvestceramic",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvestceramic", 1]
+    ],
+    [
+      [ "ceramic_armor", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvestkevlar",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvestkevlar", 1]
+    ],
+    [
+      [ "kevlar_plate", 8 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "modularvesthard",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "modularvest", 1 ],
+      [ "modularvesthard", 1]
+    ],
+    [
+      [ "hard_plate", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "quiver_large",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
