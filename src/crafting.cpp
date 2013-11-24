@@ -212,6 +212,7 @@ bool game::can_make(recipe *r)
 
 bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
 {
+    bool retval = true;
     if (!u.knows_recipe(r)) {
         return false;
     }
@@ -231,7 +232,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
             quality_iter->available = true;
         } else {
             quality_iter->available = false;
-            return false;
+            retval = false;
         }
         ++quality_iter;
     }
@@ -261,7 +262,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
             ++tool_it;
         }
         if (!has_tool_in_set) {
-            return false;
+            retval = false;
         }
         ++tool_set_it;
     }
@@ -283,25 +284,28 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
                 if (crafting_inv.has_charges(type, req)) {
                     has_comp_in_set = true;
                     comp.available = 1;
-                    break;
+                } else {
+                    comp.available = -1;
                 }
             } else if (crafting_inv.has_amount(type, abs(req))) {
                 has_comp_in_set = true;
                 comp.available = 1;
-                break;
+            } else {
+                comp.available = -1;
             }
             ++comp_it;
         }
-        if(!has_comp_in_set) {
-            return false;
+        if (!has_comp_in_set) {
+            retval = false;
         }
         ++comp_set_it;
     }
-    return check_enough_materials(r, crafting_inv);
+    return check_enough_materials(r, crafting_inv) && retval;
 }
 
 bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
 {
+    bool retval = true;
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
     while (comp_set_it != components.end()) {
@@ -316,12 +320,14 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
                 std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
                 while (tool_set_it != tools.end()) {
                     bool have_enough = false;
+                    bool found_same_type = false;
                     std::vector<component> &set_of_tools = *tool_set_it;
                     std::vector<component>::iterator tool_it = set_of_tools.begin();
                     while(tool_it != set_of_tools.end()) {
                         component &tool = *tool_it;
                         if (tool.available == 1) {
                             if (comp.type == tool.type) {
+                                found_same_type = true;
                                 bool count_by_charges = item_controller->find_template(comp.type)->count_by_charges();
                                 if (count_by_charges) {
                                     int req = comp.count;
@@ -330,7 +336,7 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
                                     } else  {
                                         ++req;
                                     }
-                                    if (crafting_inv.has_charges(comp.type, req))   {
+                                    if (crafting_inv.has_charges(comp.type, req)) {
                                         have_enough = true;
                                     }
                                 } else {
@@ -345,7 +351,9 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
                         }
                         ++tool_it;
                     }
-                    have_enough_in_set = have_enough_in_set && have_enough;
+                    if (found_same_type) {
+                        have_enough_in_set &= have_enough;
+                    }
                     ++tool_set_it;
                 }
                 if (!have_enough_in_set) {
@@ -366,11 +374,10 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
         if (!atleast_one_available) {
             // this set doesn't have any components available,
             // so the recipe can't be crafted
-            return false;
+            retval = false;
         }
         ++comp_set_it;
     }
-
 
     std::vector<std::vector<component> > &tools = r->tools;
     std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
@@ -432,12 +439,12 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
         if (!atleast_one_available) {
             // this set doesn't have any tools available,
             // so the recipe can't be crafted
-            return false;
+            retval = false;
         }
         ++tool_set_it;
     }
 
-    return true;
+    return retval;
 }
 
 void game::craft()
