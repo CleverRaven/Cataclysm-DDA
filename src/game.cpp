@@ -6903,22 +6903,24 @@ void game::examine(int examx, int examy)
         }
     }
 
- int veh_part = 0;
- vehicle *veh = m.veh_at (examx, examy, veh_part);
- if (veh) {
-  int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
-  int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-  int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
-  int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0)
-   pickup(examx, examy, 0);
-  else if (u.in_vehicle)
-   add_msg (_("You can't do that while onboard."));
-  else if (abs(veh->velocity) > 0)
-   add_msg (_("You can't do that on moving vehicle."));
-  else
-   exam_vehicle (*veh, examx, examy);
- }
+    int veh_part = 0;
+    vehicle *veh = m.veh_at (examx, examy, veh_part);
+    if (veh) {
+        int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
+        int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
+        int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
+        int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
+        if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0) {
+            pickup(examx, examy, 0);
+        } else if (u.controlling_vehicle) {
+            add_msg (_("You can't do that while driving."));
+        } else if (abs(veh->velocity) > 0) {
+            add_msg (_("You can't do that on moving vehicle."));
+        } else {
+            exam_vehicle (*veh, examx, examy);
+        }
+    }
 
  if (m.has_flag("CONSOLE", examx, examy)) {
   use_computer(examx, examy);
@@ -9450,7 +9452,27 @@ void game::plthrow(char chInput)
      u.i_rem(ch);
  }
 
- u.moves -= 125;
+ // Base move cost on moves per turn of the weapon
+ // and our skill.
+ int move_cost = thrown.attack_time() / 2;
+ int skill_cost = (int)(move_cost / (pow(u.skillLevel("throw"), 3)/400 +1));
+ int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
+
+ move_cost += skill_cost;
+ move_cost += 20 * u.encumb(bp_torso);
+ move_cost -= dexbonus;
+
+ if (u.has_trait("LIGHT_BONES"))
+  move_cost *= .9;
+ if (u.has_trait("HOLLOW_BONES"))
+  move_cost *= .8;
+
+ move_cost -= u.disease_intensity("speed_boost");
+
+ if (move_cost < 25)
+  move_cost = 25;
+
+ u.moves -= move_cost;
  u.practice(turn, "throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
@@ -9603,11 +9625,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 void game::butcher()
 {
- if (u.in_vehicle)
- {
-     add_msg(_("You can't butcher while driving!"));
-     return;
- }
+    if (u.controlling_vehicle) {
+        add_msg(_("You can't butcher while driving!"));
+        return;
+    }
+
  std::vector<int> corpses;
  for (int i = 0; i < m.i_at(u.posx, u.posy).size(); i++) {
   if (m.i_at(u.posx, u.posy)[i].type->id == "corpse")
