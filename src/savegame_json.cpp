@@ -824,12 +824,15 @@ void monster::deserialize(JsonIn &jsin)
     data.read_into("morale", morale);
     data.read_into("hallucination", hallucination);
     data.read_into("onstairs", onstairs);
-    data.read_into("stairscount", staircount); // really? re: exploitable if not.
+    data.read_into("stairscount", staircount);
 
     data.read_into("plans", plans);
 
     data.read_into("inv", inv);
-    data.read_into("ammo", ammo);
+
+    if ( !data.read_into("ammo", ammo) ) { //If the mob doesn't have an ammo member, initialise it to 100.
+        ammo = 100;
+    }
 }
 
 /*
@@ -858,7 +861,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("morale",morale);
     json.member("hallucination",hallucination);
     json.member("onstairs",onstairs);
-    json.member("stairscount",staircount); // really...  re: exploitable if not.
+    json.member("stairscount",staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
 
