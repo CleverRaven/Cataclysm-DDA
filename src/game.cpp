@@ -10760,11 +10760,17 @@ bool game::plmove(int dx, int dy)
           int str_req = furntype.move_str_req;
           u.moves -= str_req * 10;
           // Additional penalty if we can't comfortably move it.
-          if (m.can_move_furniture(fpos.x, fpos.y, &u)) {
-              int move_penalty = std::min((int)pow(str_req, 2)*2 + 100, 1000);
+          if (!m.can_move_furniture(fpos.x, fpos.y, &u)) {
+              int move_penalty = std::min((int)pow(str_req, 2) + 100, 1000);
               u.moves -= move_penalty;
-              if (move_penalty > 500)
-                add_msg( _("It takes you a while to move the heavy %s."), furntype.name.c_str() );
+              if (move_penalty > 500) {
+                if (one_in(6)) // Nag only occasionally.
+                  add_msg( _("Moving the heavy %s is taking a lot of time!"), furntype.name.c_str() );
+              }
+              else if (move_penalty > 200) {
+                if (one_in(6)) // Nag only occasionally.
+                  add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
+              }
           }
           sound(x, y, furntype.move_str_req * 2, _("a scraping noise"));
 
