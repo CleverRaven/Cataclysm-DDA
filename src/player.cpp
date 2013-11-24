@@ -7691,6 +7691,8 @@ hint_rating player::rate_action_use(item *it)
   return HINT_GOOD;
  } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
   return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
+ } else if (it->is_gun()) {
+   return HINT_GOOD;
  }
 
  return HINT_CANT;
@@ -7865,6 +7867,20 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     } else if (used->is_armor()) {
         wear(g, let);
         return;
+    } else if (used->is_gun()) {
+      std::stringstream mods;
+      for (int i = 0; i < used->contents.size(); i++) {
+        item tmp = used->contents[i];
+        if (used->contents[i] == used->contents.back()
+            mods << tmp.name.c_str() << ".";
+        else
+            mods << tmp.name.c_str() << ", ";
+      }
+      if (!used->contents.empty())
+        g->add_msg(_("You inspect your %s and see the following mods: %s"), used->name.c_str(), mods.str().c_str());
+      else
+        g->add_msg(_("Your %s doesn't appear to be modded."), used->name.c_str());
+      return;
     } else {
         g->add_msg(_("You can't do anything interesting with your %s."),
                    used->tname(g).c_str());
@@ -8111,7 +8127,7 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay || 
+     furn_at_pos == f_sofa || furn_at_pos == f_hay ||
      (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
