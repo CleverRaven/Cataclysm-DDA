@@ -10693,6 +10693,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "boxer_shorts",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shorts_cargo",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
