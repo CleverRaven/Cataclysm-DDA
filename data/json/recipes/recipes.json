@@ -20632,5 +20632,43 @@
       [ "leather", 3 ]
     ]
   ]
-}
+},
+{
+        "type" : "recipe",
+  "result": "flint_ammo",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gunpowder", 600 ]
+    ],
+    [
+      [ "lead", 400 ],
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+    ],
+	  [ "money_bundle", 1 ],
+	  [ "wrapper", 1],
+	  [ "bag_plastic", 1]
+	]
+  ]
+},
 ]
