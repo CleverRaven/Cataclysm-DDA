@@ -867,7 +867,8 @@
       ["choco_coffee_beans", 10],
       ["restaurantmap", 5],
       ["touristmap", 2],
-      ["salt", 10]
+      ["salt", 10],
+	  ["brioche", 50]
     ]
     },{
         "type" : "item_group",
