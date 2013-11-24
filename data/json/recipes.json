@@ -16527,7 +16527,7 @@
   "result": "battleaxe",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
-  "difficulty": 9,
+  "difficulty": 8,
   "time": 480000,
   "reversible": false,
   "autolearn": false,
@@ -16546,8 +16546,8 @@
       ["swage", -1]
       ],
       [
-      ["forge", 450],
-      [ "char_forge", 90]
+      ["forge", 400],
+      [ "char_forge", 80]
       ]
       ],
   "components":
@@ -16564,6 +16564,46 @@
      [
       [ "fur", 2 ],
       [ "leather", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "warhammer",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350],
+      [ "char_forge", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
      ]
     ]
 },{
