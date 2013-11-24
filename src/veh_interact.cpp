@@ -82,7 +82,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     const int gridh = totalh - 2; // exterior borders take 2
     const int winw2 = 32 + (extraw / 4);
     const int winw3 = 32 + (extraw / 4);
-    const int winw1 = gridw - winw2 - winw3;
+    const int winw1 = gridw - winw2 - winw3 - 2; // interior borders take 2
     const int winh1 = 4; // 4 lines for the message window
     const int winh3 = 6; // 6 lines for the stat window
     const int winh2 = gridh - winh1 - winh3 - 2; // interior borders take 2
