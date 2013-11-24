@@ -6903,22 +6903,24 @@ void game::examine(int examx, int examy)
         }
     }
 
- int veh_part = 0;
- vehicle *veh = m.veh_at (examx, examy, veh_part);
- if (veh) {
-  int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
-  int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-  int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
-  int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0)
-   pickup(examx, examy, 0);
-  else if (u.in_vehicle)
-   add_msg (_("You can't do that while onboard."));
-  else if (abs(veh->velocity) > 0)
-   add_msg (_("You can't do that on moving vehicle."));
-  else
-   exam_vehicle (*veh, examx, examy);
- }
+    int veh_part = 0;
+    vehicle *veh = m.veh_at (examx, examy, veh_part);
+    if (veh) {
+        int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
+        int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
+        int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
+        int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
+        if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0) {
+            pickup(examx, examy, 0);
+        } else if (u.controlling_vehicle) {
+            add_msg (_("You can't do that while driving."));
+        } else if (abs(veh->velocity) > 0) {
+            add_msg (_("You can't do that on moving vehicle."));
+        } else {
+            exam_vehicle (*veh, examx, examy);
+        }
+    }
 
  if (m.has_flag("CONSOLE", examx, examy)) {
   use_computer(examx, examy);
