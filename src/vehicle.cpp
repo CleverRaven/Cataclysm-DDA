@@ -1950,7 +1950,9 @@ void vehicle::thrust (int thd)
             g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
         std::string soundmessage;
-        if (smk > 60)
+        if (smk > 80)
+          soundmessage = "ROARRR!";
+        else if (smk > 60)
           soundmessage = "roarrr!";
         else if (smk > 30)
           soundmessage = "vroom!";
