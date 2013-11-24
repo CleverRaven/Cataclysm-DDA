@@ -8814,7 +8814,10 @@ void game::grab()
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_FURNITURE;
-            add_msg(_("You grab the %s."), m.furnname( grabx, graby).c_str() );
+            if (!m.can_move_furniture( grabx, graby, &u ))
+              add_msg(_("You grab the %s. It feels really heavy."), m.furnname( grabx, graby).c_str() );
+            else
+              add_msg(_("You grab the %s."), m.furnname( grabx, graby).c_str() );
         } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
             add_msg(_("There's nothing to grab there!"));
         }
@@ -10734,9 +10737,9 @@ bool game::plmove(int dx, int dy)
               add_msg( _("The %s collides with something."), furntype.name.c_str() );
               u.moves -= 50; // "oh was that your foot? Sorry :-O"
               return false;
-          } else if ( ! m.can_move_furniture( fpos.x, fpos.y, &u ) &&
-                     one_in(std::max(20 - furntype.move_str_req - u.str_cur, 1)) ) {
-              add_msg(_("The %s is too heavy for you and you strain yourself trying to move it!"), furntype.name.c_str() );
+          } else if ( !m.can_move_furniture( fpos.x, fpos.y, &u ) &&
+                     one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
+              add_msg(_("You strain yourself trying to move the heavy %s!"), furntype.name.c_str() );
               u.moves -= 100;
               u.pain++; // Hurt ourself.
               return false; // furniture and or obstacle wins.
@@ -10758,7 +10761,10 @@ bool game::plmove(int dx, int dy)
           u.moves -= str_req * 10;
           // Additional penalty if we can't comfortably move it.
           if (m.can_move_furniture(fpos.x, fpos.y, &u)) {
-              u.moves -= std::min((int)pow(str_req, 2) + 100, 500);
+              int move_penalty = std::min((int)pow(str_req, 2)*2 + 100, 1000);
+              u.moves -= move_penalty;
+              if (move_penalty > 500)
+                add_msg( _("It takes you a while to move the heavy %s."), furntype.name.c_str() );
           }
           sound(x, y, furntype.move_str_req * 2, _("a scraping noise"));
 
