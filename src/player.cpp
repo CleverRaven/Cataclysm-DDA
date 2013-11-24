@@ -7692,7 +7692,10 @@ hint_rating player::rate_action_use(item *it)
  } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
   return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
  } else if (it->is_gun()) {
-   return HINT_GOOD;
+   if (!it->contents.empty())
+    return HINT_GOODY;
+   else
+    return HINT_IFFY;
  }
 
  return HINT_CANT;
