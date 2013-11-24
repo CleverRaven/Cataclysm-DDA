@@ -212,8 +212,7 @@ bool game::can_make(recipe *r)
 
 bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
 {
-    if(!u.knows_recipe(r))
-    {
+    if (!u.knows_recipe(r)) {
         return false;
     }
     // under the assumption that all comp and tool's array contains
@@ -224,7 +223,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
     // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
     std::vector<quality_requirement> &qualities = r->qualities;
     std::vector<quality_requirement>::iterator quality_iter = qualities.begin();
-    while(quality_iter != qualities.end()){
+    while (quality_iter != qualities.end()) {
         std::string id = quality_iter->id;
         int amount = quality_iter->count;
         int level = quality_iter->level;
@@ -240,35 +239,28 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
     // check all tools
     std::vector<std::vector<component> > &tools = r->tools;
     std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
-    while (tool_set_it != tools.end())
-    {
+    while (tool_set_it != tools.end()) {
         std::vector<component> &set_of_tools = *tool_set_it;
         // if current tool is null(size 0), assume that there is no more after it.
-        if(set_of_tools.empty())
-        {
+        if (set_of_tools.empty()) {
             break;
         }
         bool has_tool_in_set = false;
         std::vector<component>::iterator tool_it = set_of_tools.begin();
-        while(tool_it != set_of_tools.end())
-        {
+        while (tool_it != set_of_tools.end()) {
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if((req<= 0 && crafting_inv.has_amount(type, 1)) ||
-               (req > 0 && crafting_inv.has_charges(type, req)))
-            {
+            if ( (req<= 0 && crafting_inv.has_amount(type, 1)) ||
+                 (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
-            }
-            else
-            {
+            } else {
                 tool.available = -1;
             }
             ++tool_it;
         }
-        if(!has_tool_in_set)
-        {
+        if (!has_tool_in_set) {
             return false;
         }
         ++tool_set_it;
@@ -276,39 +268,31 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
     // check all components
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
-    while (comp_set_it != components.end())
-    {
+    while (comp_set_it != components.end()) {
         std::vector<component> &component_choices = *comp_set_it;
-        if(component_choices.empty())
-        {
+        if (component_choices.empty()) {
             break;
         }
         bool has_comp_in_set = false;
         std::vector<component>::iterator comp_it = component_choices.begin();
-        while(comp_it != component_choices.end())
-        {
+        while (comp_it != component_choices.end()) {
             component &comp = *comp_it;
             itype_id type = comp.type;
             int req = comp.count;
-            if (item_controller->find_template(type)->count_by_charges() && req > 0)
-            {
-                if (crafting_inv.has_charges(type, req))
-                {
+            if (item_controller->find_template(type)->count_by_charges() && req > 0) {
+                if (crafting_inv.has_charges(type, req)) {
                     has_comp_in_set = true;
                     comp.available = 1;
                     break;
                 }
-            }
-            else if (crafting_inv.has_amount(type, abs(req)))
-            {
+            } else if (crafting_inv.has_amount(type, abs(req))) {
                 has_comp_in_set = true;
                 comp.available = 1;
                 break;
             }
             ++comp_it;
         }
-        if(!has_comp_in_set)
-        {
+        if(!has_comp_in_set) {
             return false;
         }
         ++comp_set_it;
