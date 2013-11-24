@@ -7871,17 +7871,48 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
         wear(g, let);
         return;
     } else if (used->is_gun()) {
-      std::stringstream mods;
+      // Get weapon mod names.
+      std::vector<std::string> mods;
       for (int i = 0; i < used->contents.size(); i++) {
         item tmp = used->contents[i];
-        if (i == used->contents.size() - 1)
-            mods << tmp.name.c_str() << ".";
-        else
-            mods << tmp.name.c_str() << ", ";
+        mods.push_back(tmp.name);
       }
-      if (!used->contents.empty())
-        g->add_msg(_("You inspect your %s and see the following mods: %s"), used->name.c_str(), mods.str().c_str());
-      else
+      if (!used->contents.empty()) {
+        // Create menu.
+        int choice = -1;
+
+        uimenu kmenu;
+        kmenu.selected = 0;
+        kmenu.text = _("Remove which modification?");
+        for (int i = 0; i < mods.size(); i++) {
+          kmenu.addentry( i, true, -1, mods[i] );
+        }
+        kmenu.addentry( 4, true, 'r', _("Remove all") );
+        kmenu.addentry( 5, true, 'q', _("Cancel") );
+        kmenu.query();
+        choice = kmenu.ret;
+
+        item *weapon = used;
+        if (choice < 4) {
+          remove_gunmod(weapon, choice, g);
+          g->add_msg(_("You remove your %s from your %s."), weapon->contents[choice].name.c_str(), weapon->name.c_str());
+        }
+        else if (choice == 4) {
+          for (int i = 0; i < weapon->contents.size(); i++) {
+            remove_gunmod(weapon, i, g);
+            i--;
+          }
+          g->add_msg(_("You remove all the modifications from your %s."), weapon->name.c_str());
+        }
+        else {
+          g->add_msg(_("Nevermind."));
+          return;
+        }
+        // Removing stuff from a gun takes time.
+        moves -= int(used->reload_time(*this) / 2);
+        return;
+    }
+    else
         g->add_msg(_("Your %s doesn't appear to be modded."), used->name.c_str());
       return;
     } else {
@@ -7889,6 +7920,48 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                    used->tname(g).c_str());
         return;
     }
+}
+
+void player::remove_gunmod(item *weapon, int id, game *g) {
+    item *gunmod = &weapon->contents[id];
+    item newgunmod;
+    item ammo;
+    if (gunmod != NULL && gunmod->charges > 0) {
+      if (gunmod->curammo != NULL) {
+        ammo = item(gunmod->curammo, g->turn);
+      } else {
+        ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
+      }
+      ammo.charges = gunmod->charges;
+      int iter = 0;
+      while ((ammo.invlet == 0 || has_item(ammo.invlet)) && iter < inv_chars.size()) {
+       ammo.invlet = g->nextinv;
+       g->advance_nextinv();
+       iter++;
+      }
+      if (can_pickWeight(ammo.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
+          can_pickVolume(ammo.volume()) && iter < inv_chars.size()) {
+       i_add(ammo, g);
+      } else {
+       g->m.add_item_or_charges(posx, posy, ammo, 1);
+      }
+    }
+    newgunmod = item(itypes[gunmod->type->id], g->turn);
+    int iter = 0;
+    while ((newgunmod.invlet == 0 || has_item(newgunmod.invlet)) && iter < inv_chars.size())
+    {
+        newgunmod.invlet = g->nextinv;
+        g->advance_nextinv();
+        iter++;
+    }
+    if (can_pickWeight(newgunmod.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
+        can_pickVolume(newgunmod.volume()) && iter < inv_chars.size()) {
+     i_add(newgunmod, g);
+    } else {
+     g->m.add_item_or_charges(posx, posy, newgunmod, 1);
+    }
+    weapon->contents.erase(weapon->contents.begin()+id);
+    return;
 }
 
 hint_rating player::rate_action_read(item *it, game *g)
