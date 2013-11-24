@@ -188,7 +188,7 @@
       ["dogfood", 10],
       ["catfood", 10],
       ["nic_gum", 2],
-	  ["leathersandals", 40]
+      ["leathersandals", 40]
     ]
     },{
         "type" : "item_group",
@@ -562,7 +562,7 @@
       ["tux", 1],
       ["dress_wedding", 1],
       ["corset", 15],
-	  ["leathersandals", 40]
+      ["leathersandals", 40]
     ]
     },{
         "type" : "item_group",
@@ -1351,7 +1351,7 @@
       ["protein_powder", 15],
       ["airhorn", 40],
       ["boots_hiking", 10],
-	  ["leathersandals",10]
+      ["leathersandals",10]
     ]
     },{
         "type" : "item_group",
@@ -1592,7 +1592,7 @@
       ["signal_flare", 15],
       ["airhorn", 30],
       ["quikclot", 10],
-	  ["leathersandals", 10]
+      ["leathersandals", 10]
     ]
     },{
         "type" : "item_group",
@@ -1981,7 +1981,7 @@
       ["heels", 50],
       ["boots_combat", 10],
       ["boots_hiking", 20],
-	  ["leathersandals", 40]
+      ["leathersandals", 40]
     ]
     },{
         "type" : "item_group",
@@ -2991,7 +2991,7 @@
       ["signal_flare", 15],
       ["rm120c", 5],
       ["knee_pads", 10],
-	  ["leathersandals", 10]
+      ["leathersandals", 10]
     ]
     },{
         "type" : "item_group",

@@ -389,7 +389,7 @@
         "coverage" : 10,
         "material_thickness" : 1
     },
-	{
+    {
         "type" : "ARMOR",
         "id" : "leathersandals",
         "name" : "leather sandals",
