@@ -6244,9 +6244,10 @@ int iuse::jet_injector(player *p, item *it, bool t)
     p->pkill += 20;
     p->stim += 10;
     p->rem_disease("infected");
+    p->rem_disease("bite");
     p->rem_disease("bleed");
     p->radiation += 4;
-    p->healall(10);
+    p->healall(20);
   }
 
   if(p->has_disease("jetinjector") &&

@@ -1105,7 +1105,7 @@
         "visibility" : 1,
         "ugliness" : 2,
         "description" : "You have a short, stubby tail, like a rabbit's. It serves no purpose.",
-        "changes_to" : ["TAIL_LONG", "TAIL_LIZARD", "TAIL_FIN"]
+        "changes_to" : ["TAIL_LONG", "TAIL_THICK", "TAIL_FIN"]
     },{
         "type" : "mutation",
         "id" : "TAIL_FIN",
@@ -1133,8 +1133,30 @@
         "description" : "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN"],
-        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB"],
-        "category" : ["MUTCAT_CATTLE", "MUTCAT_RAT"]
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE"],
+        "category" : ["MUTCAT_RAT"]
+    },{
+        "type" : "mutation",
+        "id" : "TAIL_CATTLE",
+        "name" : "Cattle Tail",
+        "points" : 2,
+        "visibility" : 6,
+        "ugliness" : 2,
+        "description" : "You have a long tail with a tuft on the end. You find yourself instinctively swatting away flies with it, though it's not as effective at balancing you as you'd like.",
+        "prereqs" : ["TAIL_LONG"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR"],
+        "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "TAIL_RAT",
+        "name" : "Rat Tail",
+        "points" : 1,
+        "visibility" : 6,
+        "ugliness" : 4,
+        "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.",
+        "prereqs" : ["TAIL_LONG"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "TAIL_THICK",
@@ -1144,7 +1166,7 @@
         "ugliness" : 2,
         "description" : "You have a long, thick, lizardlike tail. It helps you balance a bit but also makes a serviceable whip.",
         "prereqs" : ["TAIL_STUB"],
-        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING"],
+        "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING",  "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
         "changes_to" : ["TAIL_CLUB"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -1164,7 +1186,7 @@
         "name" : "Fluffy Tail",
         "points" : 2,
         "visibility" : 7,
-        "description" : "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.",
+        "description" : "You have a long, fluffy-furred tail. It greatly improves your balance, making your ability to dodge much higher.  However, you find yourself wagging when happy...",
         "prereqs" : ["TAIL_LONG"],
         "cancels" : ["TAIL_STING", "TAIL_CLUB", "TAIL_FIN", "TAIL_LIZARD"],
         "category" : ["MUTCAT_BEAST"]
@@ -1291,11 +1313,21 @@
         "leads_to" : ["WEB_WEAVER"]
     },{
         "type" : "mutation",
+        "id" : "WEB_SPINNER",
+        "name" : "Web Spinner",
+        "points" : 3,
+        "description" : "Your body produces and anchors webbing.  Too bad you can't seem to control the process.  There is a chance that you will leave webs in your wake.",
+        "prereqs" : ["WEB_WALKER"],
+        "cancels" : ["SLIMY"],
+        "changes_to" : ["WEB_WEAVER"],
+        "category" : ["MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
         "id" : "WEB_WEAVER",
         "name" : "Web Weaver",
-        "points" : 3,
-        "description" : "Your body produces webs. As you move, there is a chance that you will leave webs in your wake.",
-        "prereqs" : ["WEB_WALKER"],
+        "points" : 5,
+        "description" : "You've developed the necessary anatomy and techniques to control your web-generation.  Use the pause function to spin or enhance webs.",
+        "prereqs" : ["WEB_SPINNER"],
         "cancels" : ["SLIMY"],
         "category" : ["MUTCAT_SPIDER"]
     },{
@@ -1614,6 +1646,48 @@
         "category": ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
+        "id" : "SNOUT",
+        "name" : "Snout",
+        "points" : -1,
+        "visibility" : 4,
+        "ugliness" : 3,
+        "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
+        "changes_to" : ["MINOTAUR", "MUZZLE", "LONG_MUZZLE", "PROBOSCIS"]
+    },{
+        "type" : "mutation",
+        "id" : "MINOTAUR",
+        "name" : "Bovine Snout",
+        "points" : -2,
+        "visibility" : 5,
+        "ugliness" : 6,
+        "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
+        "cancels" : ["MUZZLE", "LONG_MUZZLE", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
+        "id" : "MUZZLE",
+        "name" : "Lupine Muzzle",
+        "points" : -1,
+        "visibility" : 5,
+        "ugliness" : 4,
+        "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
+        "cancels" : ["MINOTAUR", "LONG_MUZZLE", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
+    },{
+        "type" : "mutation",
+        "id" : "LONG_MUZZLE",
+        "name" : "Reptilian Muzzle",
+        "points" : -2,
+        "visibility" : 8,
+        "ugliness" : 8,
+        "description" : "Your face and jaws, well, are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
+        "cancels" : ["MUZZLE", "MINOTAUR", "PROBOSCIS"],
+        "prereqs" : ["SNOUT"],
+        "category" : ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
         "id" : "HOLLOW_BONES",
         "name" : "Hollow Bones",
         "points" : -6,
@@ -1922,6 +1996,20 @@
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+    },{
+
+        "type" : "mutation",
+        "id" : "ARM_FEATHERS",
+        "name" : "Feathered Arms",
+        "points" : -2,
+        "visibility" : 8,
+        "ugliness" : 2,
+        "description" : "Your arms have grown vibrantly colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
+        "category" : ["MUTCAT_RAPTOR"],
+        "wet_protection" : [
+            { "part" : "ARMS", "neutral" : 50 },
+            { "part" : "HANDS", "neutral" : 10 }
+        ]
     },{
         "type" : "mutation",
         "id" : "ARM_TENTACLES",

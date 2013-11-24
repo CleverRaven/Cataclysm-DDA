@@ -243,7 +243,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
   // Drop a shell casing if appropriate.
   itype_id casing_type = curammo->casing;
-  if (casing_type != "NULL") {
+  if (casing_type != "NULL" && !casing_type.empty()) {
    item casing;
    casing.make(itypes[casing_type]);
    // Casing needs a charges of 1 to stack properly with other casings.

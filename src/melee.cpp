@@ -479,8 +479,10 @@ int player::dodge(game *g)
 
     //Mutations
     if (has_trait("TAIL_LONG")) {ret += 2;}
-	if (has_trait("TAIL_LIZARD")) {ret+= 2;}
-	if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
+    if (has_trait("TAIL_CATTLE")) {ret+= 1;}
+    if (has_trait("TAIL_RAT")) {ret+= 2;}
+    if (has_trait("TAIL_LIZARD")) {ret+= 1;}
+    if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
     if (has_trait("WINGS_BAT")) {ret -= 3;}
@@ -1289,8 +1291,12 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         // "you" handled separately
     }
 
-    if (has_trait("FANGS") && !wearing_something_on(bp_mouth) &&
-            one_in(20 - dex_cur - skillLevel("unarmed"))) {
+ //Having lupine or croc jaws makes it much easier to sink your fangs into people
+    if (has_trait("FANGS") && (
+            (!wearing_something_on(bp_mouth) && !has_trait("MUZZLE") && !has_trait("LONG_MUZZLE") &&
+            one_in(20 - dex_cur - skillLevel("unarmed"))) ||
+            (has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) ||
+            (has_trait("LONG_MUZZLE") && one_in(15 - dex_cur - skillLevel("unarmed"))))) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_u) {
@@ -1301,6 +1307,39 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
                                      name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s sinks her fangs into %s!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+
+    if (!has_trait("FANGS") && has_trait("MUZZLE") && one_in(18 - dex_cur - skillLevel("unarmed"))) {
+        special_attack tmp;
+        tmp.cut = 4;
+        if (is_u) {
+            tmp.text = string_format(_("You nip at %s!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s nips and harries %s!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s nips and harries %s!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+
+    if (!has_trait("FANGS") && has_trait("LONG_MUZZLE") &&
+            one_in(18 - dex_cur - skillLevel("unarmed"))) {
+        special_attack tmp;
+        tmp.stab = 18;
+        if (is_u) {
+            tmp.text = string_format(_("You bite a chunk out of %s!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s bites a chunk out of %s!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s bites a chunk out of %s!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
@@ -1692,7 +1731,14 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
 
 int attack_speed(player &u)
 {
- int move_cost = u.weapon.attack_time() + 20 * u.encumb(bp_torso);
+ int move_cost = u.weapon.attack_time() / 2;
+ int skill_cost = (int)(move_cost / (pow(u.skillLevel("melee"), 3)/400 +1));
+ int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
+
+ move_cost += skill_cost;
+ move_cost += 20 * u.encumb(bp_torso);
+ move_cost -= dexbonus;
+
  if (u.has_trait("LIGHT_BONES"))
   move_cost *= .9;
  if (u.has_trait("HOLLOW_BONES"))
