@@ -7693,7 +7693,7 @@ hint_rating player::rate_action_use(item *it)
   return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
  } else if (it->is_gun()) {
    if (!it->contents.empty())
-    return HINT_GOODY;
+    return HINT_GOOD;
    else
     return HINT_IFFY;
  }
