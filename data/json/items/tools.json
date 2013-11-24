@@ -1048,7 +1048,7 @@
     "symbol": "/",
     "color": "red",
     "name": "chainsaw (off)",
-    "description": "This is a lumbering tool moonlighting as weapon of opportunity. Using this item will, if loaded with gas, cause it to turn on, making a very powerful, but slow, unwieldy, and noisy, melee weapon (if wielded).",
+    "description": "This is a lumbering tool moonlighting as weapon of opportunity. If loaded with gas, using this item will cause it to turn on, turning it into a very powerful but unwieldly melee weapon.",
     "price": 350,
     "material": ["iron", "plastic"],
     "techniques": "SWEEP",
@@ -1072,7 +1072,7 @@
     "symbol": "/",
     "color": "red",
     "name": "chainsaw (on)",
-    "description": "This chainsaw is on, and is continuously draining gasoline. Use it to turn it off.",
+    "description": "This chainsaw is on and making a lot of noise. Use it to turn it off.",
     "price": 350,
     "material": ["iron", "plastic"],
     "techniques": "SWEEP",
@@ -1090,7 +1090,54 @@
     "revert_to": "chainsaw_off",
     "use_action": "CHAINSAW_ON"
   },
+  {
+    "id": "carver_off",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "yellow",
+    "name": "electric carver (off)",
+    "description": "An electric meat carver powered by batteries. Two serrated blades that vibrate together to slice just about anything from turkey to ham... even zombies!",
+    "price": 250,
+    "material": ["steel", "plastic"],
+    "weight": 1106,
+    "volume": 6,
+    "bashing": 2,
+    "cutting": 8,
+    "to_hit": 0,
+    "max_charges": 200,
+    "initial_charges": 100,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "CARVER_OFF"
+  },
 
+  {
+    "id": "carver_on",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "yellow",
+    "name": "electric carver (on)",
+    "description": "This carver is on and the blades are buzzing. Use it to turn it off.",
+    "price": 250,
+    "material": ["steel", "plastic"],
+    "flags" : ["CHOP"],
+    "weight": 1106,
+    "volume": 6,
+    "bashing": 2,
+    "cutting": 30,
+    "flags" : ["CHOP", "MESSY"],
+    "to_hit": 0,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "battery",
+    "revert_to": "carver_off",
+    "use_action": "CARVER_ON",
+    "qualities": [["CUT", 1]]
+  },
   {
     "id": "jackhammer",
     "type": "TOOL",
@@ -2242,7 +2289,28 @@
     "revert_to": "null",
     "use_action": "TURRET"
   },
-
+  {
+    "id": "bot_laserturret",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "inactive laser turret",
+    "description": "This is an inactive laser turret. Using this item involves turning it on and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with its revolving laser cannons. It requires sunlight in order to fire.",
+    "price": 6000,
+    "material": ["steel", "plastic"],
+    "weight": 1450,
+    "volume": 12,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "TURRET_LASER"
+  },
   {
     "id": "UPS_off",
     "type": "TOOL",
@@ -3015,7 +3083,7 @@
     "description": "This is a thin sword with an ornate hand guard. It looks like the preferred weapon of gentlemen and swashbucklers. Light and quick, it makes any battle a stylish battle.",
     "price": 980,
     "material": "steel",
-    "flags": "SPEAR",
+    "flags": "STAB",
     "techniques": ["RAPID", "WBLOCK_2", "PRECISE"],
     "weight": 1000,
     "volume": 6,
@@ -4249,7 +4317,7 @@
     "revert_to": "null",
     "use_action": "DIG"
   },
-  
+
   {
     "id": "primitive_knife",
     "type": "TOOL",
@@ -4692,7 +4760,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
-  
+
    {
     "id": "bag_hflesh_vac",
     "type": "TOOL",
@@ -4807,7 +4875,7 @@
     "revert_to": "null",
     "use_action": "DOLLCHAT"
   },
-  
+
   {
     "id": "creepy_doll",
     "type": "TOOL",
@@ -5463,7 +5531,8 @@
     "description": "This stout combat knife features a steel guard to protect the user's knuckles. The guard can also be used for striking or blocking, and the knife can also be used to butcher corpses.",
     "price": 110,
     "material": ["steel", "wood"],
-    "techniques": ["STAB", "WBLOCK_1"],
+    "flags": "STAB",
+    "techniques": ["WBLOCK_1"],
     "weight": 608,
     "volume": 2,
     "bashing": 6,
@@ -5610,7 +5679,6 @@
     "description": "This is an old-fashioned farming tool used to cut tall grass. While it may be a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "price": 380,
     "material": ["steel", "plastic"],
-    "flags": "SLICE",
     "weight": 1432,
     "volume": 5,
     "bashing": 2,
@@ -5646,6 +5714,29 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "AIRHORN"
+  },
+
+  {
+    "id": "rx12_injector",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "RX12 jet injector",
+    "description": "The Rivtech RX12 jet injector is a small pistol-shaped device used to inject chemicals through the skin without using a needle.",
+    "price": 1000,
+    "material": ["kevlar", "steel"],
+    "weight": 316,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 2,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "ampoule",
+    "revert_to": "null",
+    "use_action": "JET_INJECTOR"
   },
   {
     "id": "shock_staff",

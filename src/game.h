@@ -305,7 +305,6 @@ class game
 
   std::map<std::string, vehicle*> vtypes;
   std::vector <trap*> traps;
-  std::vector<constructable*> constructions; // The list of constructions
 
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
@@ -458,25 +457,19 @@ class game
   recipe* select_crafting_recipe();    // See crafting.cpp
   bool making_would_work(recipe *r);   // See crafting.cpp
   bool can_make(recipe *r);            // See crafting.cpp
-    bool check_enough_materials(recipe *r, inventory crafting_inv);
+  bool can_make_with_inventory(recipe *r, const inventory& crafting_inv);            // See crafting.cpp
+    bool check_enough_materials(recipe *r, const inventory& crafting_inv);
   void make_craft(recipe *making);     // See crafting.cpp
   void make_all_craft(recipe *making); // See crafting.cpp
   void complete_craft();               // See crafting.cpp
-  void pick_recipes(std::vector<recipe*> &current,
+  void pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
-  void add_known_recipes(std::vector<recipe*> &current, recipe_list source,
-                             std::string filter = ""); //crafting.cpp
   craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
   craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
   void disassemble(char ch = 0);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
-  void construction_menu();            // See construction.cpp
-  bool player_can_build(player &p, inventory inv, constructable* con,
-                        const int level = -1, bool cont = false,
-                        bool exact_level=false);
-  void place_construction(constructable *con); // See construction.cpp
-  void complete_construction();               // See construction.cpp
+
   bool vehicle_near ();
   void handbrake ();
   void control_vehicle(); // Use vehicle controls  '^'
@@ -592,6 +585,7 @@ class game
   std::vector<int> new_seen_mon;
   int mostseen;  // # of mons seen last turn; if this increases, run_mode++
   bool autosafemode; // is autosafemode enabled?
+  bool safemodeveh; // safemode while driving?
   int turnssincelastmon; // needed for auto run mode
 //  quit_status uquit;    // Set to true if the player quits ('Q')
 

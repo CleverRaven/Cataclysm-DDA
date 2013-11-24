@@ -31,6 +31,9 @@ void NameGenerator::load_name(JsonObject &jo)
     } else if (usage == "city") {
         flags |= nameIsTownName;
         name = pgettext("City Name", name.c_str());
+    } else if (usage == "world") {
+        flags |= nameIsWorldName;
+        name = pgettext("World Name", name.c_str());
     }
 
     // Gender is optional

@@ -115,7 +115,6 @@ void game::init_data()
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
     init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
-    init_construction();         // Set up constructables            (SEE construction.cpp)
     init_autosave();             // Set up autosave
     init_diseases();             // Set up disease lookup table
     init_savedata_translation_tables();
@@ -614,6 +613,11 @@ bool game::do_turn()
         add_msg(_("Your breathing stops completely."));
         u.add_memorial_log(_("Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
+    } else if (u.has_disease("jetinjector") &&
+            u.disease_duration("jetinjector") > 400) {
+        add_msg(_("Your heart spasms painfully and stops."));
+        u.add_memorial_log(_("Died of a healing stimulant overdose."));
+        u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
     if (u.hunger >= 3000){
@@ -1076,6 +1080,19 @@ void game::process_activity()
 
     break;
 
+   case ACT_FIRSTAID:
+    {
+      item it = u.inv.item_by_letter(u.activity.invlet);
+      iuse tmp;
+      tmp.completefirstaid(&u, &it, false);
+      u.inv.remove_item_by_charges(u.activity.invlet, 1);
+      // Erase activity and values.
+      u.activity.type = ACT_NULL;
+      u.activity.values.clear();
+    }
+
+    break;
+
    case ACT_VEHICLE:
     complete_vehicle (this);
     break;
@@ -1136,7 +1153,8 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
         _(" Stop crafting?"), _(" Stop disassembly?"),
         _(" Stop butchering?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
-        _(" Stop pumping gas?"), _(" Stop training?")
+        _(" Stop pumping gas?"), _(" Stop training?"),
+        _(" Stop waiting?"), _(" Stop using first aid?")
     };
 
     std::string stop_message = s + stop_phrase[u.activity.type] +
@@ -1174,7 +1192,8 @@ bool game::cancel_activity_query(const char* message, ...)
         _(" Stop crafting?"), _(" Stop disassembly?"),
         _(" Stop butchering?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
-        _(" Stop pumping gas?"), _(" Stop training?")
+        _(" Stop pumping gas?"), _(" Stop training?"),
+        _(" Stop waiting?"), _(" Stop using first aid?")
     };
 
     std::string stop_message = s + stop_phrase[u.activity.type];
@@ -1574,7 +1593,8 @@ void game::handle_key_blocking_activity() {
             u.activity.type == ACT_LONGCRAFT ||
             u.activity.type == ACT_REFILL_VEHICLE ||
             u.activity.type == ACT_WAIT ||
-            u.activity.type == ACT_WAIT_WEATHER
+            u.activity.type == ACT_WAIT_WEATHER ||
+            u.activity.type == ACT_FIRSTAID
         )
     ) {
         timeout(1);
@@ -2034,13 +2054,15 @@ bool game::handle_action()
 
  switch (act) {
 
-  case ACTION_PAUSE:
-   if (run_mode == 2) // Monsters around and we don't wanna pause
-     add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
-             press_x(ACTION_TOGGLE_SAFEMODE).c_str());
-   else
-    u.pause(this);
-   break;
+    case ACTION_PAUSE:
+        if (run_mode == 2 && (u.controlling_vehicle && safemodeveh) ) {
+            // Monsters around and we don't wanna pause
+            add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
+                    press_x(ACTION_TOGGLE_SAFEMODE).c_str());
+        } else {
+            u.pause(this);
+        }
+        break;
 
   case ACTION_MOVE_N:
    moveCount++;
@@ -2572,6 +2594,18 @@ int& game::scent(int x, int y)
 
 void game::update_scent()
 {
+    static point player_last_position = point( u.posx, u.posy );
+    static calendar player_last_moved = turn;
+    // Stop updating scent after X turns of the player not moving.
+    // Once wind is added, need to reset this on wind shifts as well.
+    if( u.posx == player_last_position.x && u.posy == player_last_position.y ) {
+        if( player_last_moved + 1000 < turn ) {
+            return;
+	}
+    } else {
+        player_last_position = point( u.posx, u.posy );
+	player_last_moved = turn;
+    }
  int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
  int scale[SEEX * MAPSIZE][SEEY * MAPSIZE];
  if (!u.has_active_bionic("bio_scent_mask"))
@@ -4079,7 +4113,8 @@ void game::draw_ter(int posx, int posy)
     if (destination_preview.size() > 0) {
         // Draw auto-move preview trail
         point final_destination = destination_preview.back();
-        draw_line(final_destination.x, final_destination.y, destination_preview);
+        point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
+        draw_line(final_destination.x, final_destination.y, center, destination_preview);
     }
 
     wrefresh(w_terrain);
@@ -4531,7 +4566,8 @@ bool game::sees_u(int x, int y, int &t)
  }
 
  return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
-           u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
+           u.has_active_optcloak() || u.has_artifact_with(AEP_INVISIBLE))
+           && m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y)
@@ -5772,7 +5808,7 @@ void game::use_computer(int x, int y)
  }
 
  if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-     && !u.is_wearing("glasses_bifocal")) {
+     && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
   add_msg(_("You'll need to put on reading glasses before you can see the screen."));
   return;
  }
@@ -5904,12 +5940,31 @@ void game::emp_blast(int x, int y)
  if (mondex != -1) {
   monster &z = _active_monsters[mondex];
   if (z.has_flag(MF_ELECTRONIC)) {
-   add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
-   int dam = dice(10, 10);
-   if (z.hurt(dam))
-    kill_mon(mondex); // TODO: Player's fault?
-   else if (one_in(6))
-    z.make_friendly();
+   // TODO: Add flag to mob instead.
+   if (z.type->id == "mon_turret" && one_in(3)) {
+     add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
+      remove_zombie(mondex);
+      m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+   }
+   else if (z.type->id == "mon_laserturret" && one_in(3)) {
+      add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
+      remove_zombie(mondex);
+      m.spawn_item(x, y, "bot_laserturret", 1, 0, turn);
+   }
+   else if (z.type->id == "mon_manhack" && one_in(6)) {
+     add_msg(_("The %s flies erratically and drops from the air!"), z.name().c_str());
+     remove_zombie(mondex);
+     m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+   }
+   else {
+      add_msg(_("The EMP blast fries the %s!"), z.name().c_str());
+      int dam = dice(10, 10);
+      if (z.hurt(dam))
+        kill_mon(mondex); // TODO: Player's fault?
+      else if (one_in(6))
+        z.make_friendly();
+    }
   } else
    add_msg(_("The %s is unaffected by the EMP blast."), z.name().c_str());
  }
@@ -6485,6 +6540,7 @@ void game::use_item(char chInput)
   return;
  }
  last_action += ch;
+ refresh_all();
  u.use(this, ch);
 }
 
@@ -6495,7 +6551,6 @@ void game::use_wielded_item()
 
 bool game::choose_adjacent(std::string message, int &x, int &y)
 {
-    refresh_all();
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(w_terrain, 0, 0, query_text.c_str());
@@ -6848,22 +6903,24 @@ void game::examine(int examx, int examy)
         }
     }
 
- int veh_part = 0;
- vehicle *veh = m.veh_at (examx, examy, veh_part);
- if (veh) {
-  int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
-  int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-  int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
-  int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0)
-   pickup(examx, examy, 0);
-  else if (u.in_vehicle)
-   add_msg (_("You can't do that while onboard."));
-  else if (abs(veh->velocity) > 0)
-   add_msg (_("You can't do that on moving vehicle."));
-  else
-   exam_vehicle (*veh, examx, examy);
- }
+    int veh_part = 0;
+    vehicle *veh = m.veh_at (examx, examy, veh_part);
+    if (veh) {
+        int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
+        int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
+        int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
+        int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
+        if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0) {
+            pickup(examx, examy, 0);
+        } else if (u.controlling_vehicle) {
+            add_msg (_("You can't do that while driving."));
+        } else if (abs(veh->velocity) > 0) {
+            add_msg (_("You can't do that on moving vehicle."));
+        } else {
+            exam_vehicle (*veh, examx, examy);
+        }
+    }
 
  if (m.has_flag("CONSOLE", examx, examy)) {
   use_computer(examx, examy);
@@ -9039,7 +9096,7 @@ int game::move_liquid(item &liquid)
       return -1;
       }
 
-      if (cont->charges > 0 && cont->curammo->id != liquid.type->id) {
+      if (cont->charges > 0 && cont->curammo != NULL && cont->curammo->id != liquid.type->id) {
       add_msg(_("You can't mix loads in your %s."), cont->tname(this).c_str());
       return -1;
       }
@@ -9399,7 +9456,27 @@ void game::plthrow(char chInput)
      u.i_rem(ch);
  }
 
- u.moves -= 125;
+ // Base move cost on moves per turn of the weapon
+ // and our skill.
+ int move_cost = thrown.attack_time() / 2;
+ int skill_cost = (int)(move_cost / (pow(u.skillLevel("throw"), 3)/400 +1));
+ int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
+
+ move_cost += skill_cost;
+ move_cost += 20 * u.encumb(bp_torso);
+ move_cost -= dexbonus;
+
+ if (u.has_trait("LIGHT_BONES"))
+  move_cost *= .9;
+ if (u.has_trait("HOLLOW_BONES"))
+  move_cost *= .8;
+
+ move_cost -= u.disease_intensity("speed_boost");
+
+ if (move_cost < 25)
+  move_cost = 25;
+
+ u.moves -= move_cost;
  u.practice(turn, "throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
@@ -9552,11 +9629,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 void game::butcher()
 {
- if (u.in_vehicle)
- {
-     add_msg(_("You can't butcher while driving!"));
-     return;
- }
+    if (u.controlling_vehicle) {
+        add_msg(_("You can't butcher while driving!"));
+        return;
+    }
+
  std::vector<int> corpses;
  for (int i = 0; i < m.i_at(u.posx, u.posy).size(); i++) {
   if (m.i_at(u.posx, u.posy)[i].type->id == "corpse")
@@ -10263,7 +10340,7 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
-    if (run_mode == 2) { // Monsters around and we don't wanna run
+    if (run_mode == 2 && safemodeveh) { // Monsters around and we don't wanna run
         add_msg(_("Monster spotted--run mode is on! "
                     "(%s to turn it off or %s to ignore monster.)"),
                     press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
@@ -10312,13 +10389,14 @@ void game::pldrive(int x, int y) {
 
 bool game::plmove(int dx, int dy)
 {
- if (run_mode == 2) { // Monsters around and we don't wanna run
-   add_msg(_("Monster spotted--safe mode is on! \
+    if (run_mode == 2) {
+        // Monsters around and we don't wanna run
+        add_msg(_("Monster spotted--safe mode is on! \
 (%s to turn it off or %s to ignore monster.)"),
-           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
-  return false;
- }
+                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+        return false;
+    }
  int x = 0;
  int y = 0;
  if (u.has_disease("stunned")) {
@@ -10789,13 +10867,59 @@ bool game::plmove(int dx, int dy)
       remove_zombie(mondex);
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+     }
+     return false;
+    }
+    else if (z.type->id == "mon_laserturret") {
+     if (query_yn(_("Deactivate the laser turret?"))) {
+      remove_zombie(mondex);
+      u.moves -= 100;
+      m.spawn_item(x, y, "bot_laserturret", 1, 0, turn);
      }
      return false;
     } else {
      add_msg(_("You can't displace your %s."), z.name().c_str());
      return false;
     }
+   z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
+   add_msg(_("You displace the %s."), z.name().c_str());
    }
+   else if (z.type->id == "mon_manhack") {
+    if (query_yn(_("Reprogram the manhack?"))) {
+      int choice = 0;
+      if (z.has_effect(ME_DOCILE))
+        choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
+      else
+        choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
+      switch (choice) {
+      case 1:{
+        if (z.has_effect(ME_DOCILE)) {
+          z.rem_effect(ME_DOCILE);
+          if (one_in(3))
+            add_msg(_("The %s hovers momentarily as it surveys the area."), z.name().c_str());
+        }
+        else {
+          z.add_effect(ME_DOCILE, -1);
+          add_msg(_("The %s ."), z.name().c_str());
+          if (one_in(3))
+            add_msg(_("The %s lets out a whirring noise and starts to follow you."), z.name().c_str());
+        }
+        break;
+      }
+      case 2: {
+        remove_zombie(mondex);
+        m.spawn_item(x, y, "bot_manhack", 1, 0, turn);
+        break;
+      }
+      default: {
+        return false;
+      }
+      }
+      u.moves -= 100;
+    }
+    return false;
+  }
    z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
    add_msg(_("You displace the %s."), z.name().c_str());
   }

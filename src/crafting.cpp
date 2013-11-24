@@ -203,12 +203,17 @@ bool game::making_would_work(recipe *making)
 
     return false;
 }
+
 bool game::can_make(recipe *r)
 {
-    bool RET_VAL = true;
-    inventory crafting_inv = crafting_inventory(&u);
-    if(!u.knows_recipe(r))
-    {
+     inventory crafting_inv = crafting_inventory(&u);
+     return can_make_with_inventory(r, crafting_inv);
+}
+
+bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
+{
+    bool retval = true;
+    if (!u.knows_recipe(r)) {
         return false;
     }
     // under the assumption that all comp and tool's array contains
@@ -219,7 +224,7 @@ bool game::can_make(recipe *r)
     // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
     std::vector<quality_requirement> &qualities = r->qualities;
     std::vector<quality_requirement>::iterator quality_iter = qualities.begin();
-    while(quality_iter != qualities.end()){
+    while (quality_iter != qualities.end()) {
         std::string id = quality_iter->id;
         int amount = quality_iter->count;
         int level = quality_iter->level;
@@ -227,7 +232,7 @@ bool game::can_make(recipe *r)
             quality_iter->available = true;
         } else {
             quality_iter->available = false;
-            RET_VAL = false;
+            retval = false;
         }
         ++quality_iter;
     }
@@ -235,255 +240,211 @@ bool game::can_make(recipe *r)
     // check all tools
     std::vector<std::vector<component> > &tools = r->tools;
     std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
-    while (tool_set_it != tools.end())
-    {
+    while (tool_set_it != tools.end()) {
         std::vector<component> &set_of_tools = *tool_set_it;
         // if current tool is null(size 0), assume that there is no more after it.
-        if(set_of_tools.empty())
-        {
+        if (set_of_tools.empty()) {
             break;
         }
         bool has_tool_in_set = false;
         std::vector<component>::iterator tool_it = set_of_tools.begin();
-        while(tool_it != set_of_tools.end())
-        {
+        while (tool_it != set_of_tools.end()) {
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if((req<= 0 && crafting_inv.has_amount(type, 1)) ||
-               (req > 0 && crafting_inv.has_charges(type, req)))
-            {
+            if ( (req<= 0 && crafting_inv.has_amount(type, 1)) ||
+                 (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
-            }
-            else
-            {
+            } else {
                 tool.available = -1;
             }
             ++tool_it;
         }
-        if(!has_tool_in_set)
-        {
-            RET_VAL = false;
+        if (!has_tool_in_set) {
+            retval = false;
         }
         ++tool_set_it;
     }
     // check all components
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
-    while (comp_set_it != components.end())
-    {
-        std::vector<component> &set_of_components = *comp_set_it;
-        if(set_of_components.empty())
-        {
+    while (comp_set_it != components.end()) {
+        std::vector<component> &component_choices = *comp_set_it;
+        if (component_choices.empty()) {
             break;
         }
         bool has_comp_in_set = false;
-        std::vector<component>::iterator comp_it = set_of_components.begin();
-        while(comp_it != set_of_components.end())
-        {
+        std::vector<component>::iterator comp_it = component_choices.begin();
+        while (comp_it != component_choices.end()) {
             component &comp = *comp_it;
             itype_id type = comp.type;
             int req = comp.count;
-            if (item_controller->find_template(type)->count_by_charges() && req > 0)
-            {
-                if (crafting_inv.has_charges(type, req))
-                {
+            if (item_controller->find_template(type)->count_by_charges() && req > 0) {
+                if (crafting_inv.has_charges(type, req)) {
                     has_comp_in_set = true;
                     comp.available = 1;
-                }
-                else
-                {
+                } else {
                     comp.available = -1;
                 }
-            }
-            else if (crafting_inv.has_amount(type, abs(req)))
-            {
+            } else if (crafting_inv.has_amount(type, abs(req))) {
                 has_comp_in_set = true;
                 comp.available = 1;
-            }
-            else
-            {
+            } else {
                 comp.available = -1;
             }
             ++comp_it;
         }
-        if(!has_comp_in_set)
-        {
-            RET_VAL = false;
+        if (!has_comp_in_set) {
+            retval = false;
         }
         ++comp_set_it;
     }
-    return check_enough_materials(r, crafting_inv) && RET_VAL;
+    return check_enough_materials(r, crafting_inv) && retval;
 }
 
-bool game::check_enough_materials(recipe *r, inventory crafting_inv)
+bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
 {
-    bool RET_VAL = true;
+    bool retval = true;
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
-    while (comp_set_it != components.end())
-    {
-        std::vector<component> &set_of_components = *comp_set_it;
-        std::vector<component>::iterator comp_it = set_of_components.begin();
+    while (comp_set_it != components.end()) {
+        std::vector<component> &component_choices = *comp_set_it;
+        std::vector<component>::iterator comp_it = component_choices.begin();
         bool atleast_one_available = false;
-        while (comp_it != set_of_components.end())
-        {
+        while (comp_it != component_choices.end()) {
             component &comp = *comp_it;
-            if (comp.available == 1)
-            {
+            if (comp.available == 1) {
                 bool have_enough_in_set = true;
                 std::vector<std::vector<component> > &tools = r->tools;
                 std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
-                while (tool_set_it != tools.end())
-                {
+                while (tool_set_it != tools.end()) {
                     bool have_enough = false;
+                    bool found_same_type = false;
                     std::vector<component> &set_of_tools = *tool_set_it;
                     std::vector<component>::iterator tool_it = set_of_tools.begin();
-                    while(tool_it != set_of_tools.end())
-                    {
+                    while(tool_it != set_of_tools.end()) {
                         component &tool = *tool_it;
-                        if (tool.available == 1)
-                        {
-                            if (comp.type == tool.type)
-                            {
+                        if (tool.available == 1) {
+                            if (comp.type == tool.type) {
+                                found_same_type = true;
                                 bool count_by_charges = item_controller->find_template(comp.type)->count_by_charges();
-                                if (count_by_charges)
-                                {
+                                if (count_by_charges) {
                                     int req = comp.count;
-                                    if (tool.count > 0)
-                                    {
+                                    if (tool.count > 0) {
                                         req += tool.count;
-                                    } else
-                                    {
+                                    } else  {
                                         ++req;
                                     }
-                                    if (crafting_inv.has_charges(comp.type, req))
-                                    {
+                                    if (crafting_inv.has_charges(comp.type, req)) {
                                         have_enough = true;
                                     }
                                 } else {
                                     int req = comp.count + 1;
-                                    if (crafting_inv.has_amount(comp.type, req))
-                                    {
+                                    if (crafting_inv.has_amount(comp.type, req)) {
                                         have_enough = true;
                                     }
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 have_enough = true;
                             }
                         }
                         ++tool_it;
                     }
-                    have_enough_in_set = have_enough_in_set && have_enough;
+                    if (found_same_type) {
+                        have_enough_in_set &= have_enough;
+                    }
                     ++tool_set_it;
                 }
-                if (!have_enough_in_set)
-                // This component can't be used with any tools from one of the sets of tools
-                // which means it's availability should be set to 0 (in inventory, but
-                // not enough for both tool and components).
-                {
+                if (!have_enough_in_set) {
+                    // This component can't be used with any tools
+                    // from one of the sets of tools, which means
+                    // its availability should be set to 0 (in inventory,
+                    // but not enough for both tool and components).
                     comp.available = 0;
                 }
             }
             //Flag that at least one of the components in the set is available
-            if (comp.available == 1)
-            {
+            if (comp.available == 1) {
                 atleast_one_available = true;
             }
             ++comp_it;
         }
 
-        if (!atleast_one_available)
-        // this set doesn't have any components available, so the recipe can't be crafted
-        {
-            RET_VAL = false;
+        if (!atleast_one_available) {
+            // this set doesn't have any components available,
+            // so the recipe can't be crafted
+            retval = false;
         }
         ++comp_set_it;
     }
 
-
     std::vector<std::vector<component> > &tools = r->tools;
     std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
-    while (tool_set_it != tools.end())
-    {
+    while (tool_set_it != tools.end()) {
         std::vector<component> &set_of_tools = *tool_set_it;
         std::vector<component>::iterator tool_it = set_of_tools.begin();
         bool atleast_one_available = false;
-        while (tool_it != set_of_tools.end())
-        {
+        while (tool_it != set_of_tools.end()) {
             component &tool = *tool_it;
-            if (tool.available == 1)
-            {
+            if (tool.available == 1) {
                 bool have_enough_in_set = true;
                 std::vector<std::vector<component> > &components = r->components;
                 std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
-                while (comp_set_it != components.end())
-                {
+                while (comp_set_it != components.end()) {
                     bool have_enough = false, conflict = false;
-                    std::vector<component> &set_of_components = *comp_set_it;
-                    std::vector<component>::iterator comp_it = set_of_components.begin();
-                    while(comp_it != set_of_components.end())
-                    {
+                    std::vector<component> &component_choices = *comp_set_it;
+                    std::vector<component>::iterator comp_it = component_choices.begin();
+                    while(comp_it != component_choices.end()) {
                         component &comp = *comp_it;
-                        if (tool.type == comp.type)
-                        {
-                            if (tool.count > 0)
-                            {
+                        if (tool.type == comp.type) {
+                            if (tool.count > 0) {
                                 int req = comp.count + tool.count;
-                                if (!crafting_inv.has_charges(comp.type, req))
-                                {
+                                if (!crafting_inv.has_charges(comp.type, req)) {
                                     conflict = true;
                                     have_enough = have_enough || false;
                                 }
-                            } else
-                            {
+                            } else {
                                 int req = comp.count + 1;
-                                if (!crafting_inv.has_amount(comp.type, req))
-                                {
+                                if (!crafting_inv.has_amount(comp.type, req)) {
                                     conflict = true;
                                     have_enough = have_enough || false;
                                 }
                             }
-                        } else if (comp.available == 1)
-                        {
+                        } else if (comp.available == 1) {
                             have_enough = true;
                         }
                         ++comp_it;
                     }
-                    if (conflict)
-                    {
+                    if (conflict) {
                         have_enough_in_set = have_enough_in_set && have_enough;
                     }
                     ++comp_set_it;
                 }
-                if (!have_enough_in_set)
-                    // This tool can't be used with any components from one of the sets of components
-                    // which means it's availability should be set to 0 (in inventory, but
-                    // not enough for both tool and components).
-                {
+                if (!have_enough_in_set) {
+                    // This component can't be used with any components
+                    // from one of the sets of components, which means
+                    // its availability should be set to 0 (in inventory,
+                    // but not enough for both tool and components).
                     tool.available = 0;
                 }
             }
             //Flag that at least one of the tools in the set is available
-            if (tool.available == 1)
-            {
+            if (tool.available == 1) {
                 atleast_one_available = true;
             }
             ++tool_it;
         }
 
-        if (!atleast_one_available)
-            // this set doesn't have any tools available, so the recipe can't be crafted
-        {
-            RET_VAL = false;
+        if (!atleast_one_available) {
+            // this set doesn't have any tools available,
+            // so the recipe can't be crafted
+            retval = false;
         }
         ++tool_set_it;
     }
 
-    return RET_VAL;
+    return retval;
 }
 
 void game::craft()
@@ -545,15 +506,23 @@ craft_cat game::prev_craft_cat(craft_cat cat)
 recipe* game::select_crafting_recipe()
 {
     const int headHeight = 3;
-    const int tailHeight = 4;
+    const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
+    bool isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
+
+    const int width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) : FULL_SCREEN_WIDTH;
+    const int wStart = ( TERMX - width ) / 2;
+    const int tailHeight = isWide ? 3 : 4;
     const int dataLines = TERMY - headHeight - tailHeight;
     const int dataHalfLines = dataLines / 2;
     const int dataHeight = TERMY - headHeight;
 
-    WINDOW *w_head = newwin(headHeight, FULL_SCREEN_WIDTH, 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    WINDOW *w_data = newwin(dataHeight, FULL_SCREEN_WIDTH, headHeight, (TERMX  > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    int lastid = -1;
 
+    WINDOW *w_head = newwin(headHeight, width, 0, wStart);
+    WINDOW *w_data = newwin(dataHeight, width, headHeight, wStart);
 
+    const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
+    std::vector<std::string> folded;
     craft_cat tab = "CC_WEAPON";
     std::vector<recipe*> current;
     std::vector<bool> available;
@@ -576,32 +545,43 @@ recipe* game::select_crafting_recipe()
             } else {
                 keepline = false;
             }
+
             draw_recipe_tabs(w_head, tab, (filterstring == "")?false:true);
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(current, available, tab,filterstring);
+            pick_recipes(crafting_inv, current, available, tab,filterstring);
         }
 
         // Clear the screen of recipe data, and draw it anew
         werase(w_data);
-        if (filterstring != "") {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
-        } else {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
-        }
-        mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
 
+        if ( isWide ) {
+            mvwprintz(w_data, dataLines+1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+            wprintz(w_data, c_white, "  ");
+            if (filterstring != "") {
+                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
+            } else {
+                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind"));
+            }
+        } else {
+            if (filterstring != "") {
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
+            } else {
+                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
+            }
+            mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+        }
         // Draw borders
-        for (int i = 1; i < FULL_SCREEN_WIDTH-1; ++i) { // _
+        for (int i = 1; i < width-1; ++i) { // _
             mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
         }
-        for (int i = 1; i < dataHeight-1; ++i) { // |
+        for (int i = 0; i < dataHeight-1; ++i) { // |
             mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w_data, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
+            mvwputch(w_data, i, width-1, c_ltgray, LINE_XOXO);
         }
         mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
-        mvwputch(w_data, dataHeight-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // |_
+        mvwputch(w_data, dataHeight-1, width-1, c_ltgray, LINE_XOOX); // |_
 
         int recmin = 0, recmax = current.size();
         if (recmax > dataLines) {
@@ -702,7 +682,7 @@ recipe* game::select_crafting_recipe()
 
                     std::stringstream qualinfo;
                     qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
-                    ypos += fold_and_print(w_data, ypos, xpos, getmaxx(w_data)-xpos-1, toolcol, qualinfo.str().c_str());
+                    ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH-xpos-1, toolcol, qualinfo.str().c_str());
                 }
                 ypos--;
                 // Loop to print the required tools
@@ -811,6 +791,21 @@ recipe* game::select_crafting_recipe()
                     }
                 }
             }
+
+            if ( isWide ) {
+                if ( lastid != current[line]->id ) {
+                    lastid = current[line]->id;
+                    tmp = item(item_controller->find_template(current[line]->result), 0);
+                    folded = foldstring(tmp.info(true), iInfoWidth);
+                }
+                int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
+
+                for(int i = 0; i < maxline; i++) {
+                    mvwprintz(w_data, i, FULL_SCREEN_WIDTH+1, col, folded[i].c_str() );
+                }
+
+            }
+
         }
 
         //Draw Scrollbar
@@ -917,13 +912,14 @@ recipe* game::select_crafting_recipe()
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
-    for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
+    int width = getmaxx(w);
+    for (int i = 0; i < width; i++)
     {
         mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
     }
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
     if(!filtered)
     {
         draw_tab(w,  2, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
@@ -945,7 +941,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 
 inventory game::crafting_inventory(player *p){
  inventory crafting_inv;
- crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
+ crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false);
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
@@ -956,62 +952,48 @@ inventory game::crafting_inventory(player *p){
  return crafting_inv;
 }
 
-void game::pick_recipes(std::vector<recipe*> &current,
+void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab,std::string filter)
 {
+
+    recipe_list available_recipes;
+
+    if (filter == "") {
+        available_recipes = recipes[tab];
+    } else {
+        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
+        {
+            available_recipes.insert(available_recipes.begin(), iter->second.begin(), iter->second.end());
+        }
+    }
+
     current.clear();
     available.clear();
 
-    if (filter == "")
+    for (recipe_list::iterator iter = available_recipes.begin(); iter != available_recipes.end(); ++iter)
     {
-        add_known_recipes(current, recipes[tab]);
-    }
-    else
-    {
-        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
-        {
-            add_known_recipes(current, iter->second, filter);
-        }
-    }
+        if (!u.knows_recipe(*iter))
+            continue;
 
-    for (unsigned i = 0; i < current.size(); i++)
-    {
-        //Check if we have the requisite tools and components
-        if(can_make(current[i]))
+        if ((*iter)->difficulty < 0 )
+            continue;
+
+
+        if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
+            continue;
+
+
+        if (can_make_with_inventory(*iter, crafting_inv))
         {
-            available.push_back(true);
+            current.insert(current.begin(), *iter);
+            available.insert(available.begin(), true);
         }
         else
         {
+            current.push_back(*iter);
             available.push_back(false);
         }
     }
-}
-
-void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
-{
-    std::vector<recipe*> can_craft;
-    for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
-    {
-        if (u.knows_recipe(*iter))
-        {
-            if ((*iter)->difficulty >= 0 )
-            {
-                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
-                {
-                    if (can_make(*iter))
-                    {
-                        can_craft.push_back(*iter);
-                    }
-                    else
-                    {
-                        current.push_back(*iter);
-                    }
-                }
-            }
-        }
-    }
-    current.insert(current.begin(),can_craft.begin(),can_craft.end());
 }
 
 void game::make_craft(recipe *making)
@@ -1039,7 +1021,7 @@ void game::complete_craft()
 // farsightedness can impose a penalty on electronics and tailoring success
 // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
  if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-     && !u.is_wearing("glasses_bifocal")) {
+     && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
   int main_rank_penalty = 0;
   if (making->skill_used == Skill::skill("electronics")) {
    main_rank_penalty = 2;

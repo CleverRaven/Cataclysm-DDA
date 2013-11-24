@@ -125,6 +125,7 @@ void MonsterGenerator::init_death()
     death_map["AMIGARA"] = &mdeath::amigara;// Removes hypnosis if last one
     death_map["THING"] = &mdeath::thing;// Turn into a full thing
     death_map["EXPLODE"] = &mdeath::explode;// Damaging explosion
+    death_map["BROKEN"] = &mdeath::broken;// Spawns a broken robot.
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
@@ -173,6 +174,7 @@ void MonsterGenerator::init_attack()
     attack_map["PHOTOGRAPH"] = &mattack::photograph;
     attack_map["TAZER"] = &mattack::tazer;
     attack_map["SMG"] = &mattack::smg;
+    attack_map["LASER"] = &mattack::laser;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;

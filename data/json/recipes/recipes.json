@@ -2120,6 +2120,52 @@
   ]
 },{
         "type" : "recipe",
+  "result": "carver_off",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools" : [
+     [ ["mold_plastic", -1] ],
+     [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+     ],
+     [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+     ],
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+     ]
+  ],
+  "components" : [
+     [
+      ["plastic_chunk", 6]
+     ],
+     [
+      ["blade", 2]
+     ],
+     [
+      ["motor", 1]
+     ],
+     [
+      ["power_supply", 1]
+     ],
+     [
+      [ "scrap", 1 ]
+     ],
+     [
+      [ "cable", 5 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "smokebomb",
   "category": "CC_WEAPON",
   "skill_used": "cooking",
@@ -10647,6 +10693,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "boxer_shorts",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "shorts_cargo",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
@@ -10723,6 +10789,89 @@
   "components": [
     [
       [ "rag", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bra",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 2 ]
+    ],
+    [
+      [ "wire", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "undershirt",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "panties",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "briefs",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 2 ]
     ]
   ]
 },{
@@ -11285,6 +11434,29 @@
   "components": [
     [
       [ "jacket_leather", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "shorts_denim",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools":[
+    [
+      [ "needle_bone", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+    ],
+  "components": [
+    [
+      [ "jeans", 1 ]
     ]
   ]
 },{
@@ -14202,6 +14374,42 @@
     [
       [ "power_supply", 1 ],
       [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "broken_manhack",
+  "category": "CC_NONCRAFTC",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spike", 2 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
     ]
   ]
 },{
@@ -14241,6 +14449,59 @@
     [
       [ "power_supply", 1 ],
       [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bot_laserturret",
+  "category": "CC_MISC",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 8 ], [ "computer", 5 ], [ "gun", 3 ]],
+  "difficulty": 8,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cerberus_laser", 3 ],
+      [ "laser_rifle", 3 ],
+      [ "v29_cheap", 3 ],
+      [ "v29", 3 ]
+    ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
+    [
+      [ "motor", 1 ]
+    ],
+    [
+      [ "solar_cell", 4 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 10 ]
     ]
   ]
 },{
@@ -14723,6 +14984,41 @@
       [ "scrap", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "flask_hip",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 150], ["char_forge", 30]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "scrap", 2 ]
+     ]
+    ]
 },{
         "type" : "recipe",
    "result": "sword_wood",
@@ -16929,7 +17225,7 @@
   "autolearn" : true,
   "tools" : [ [ ["rock", -1], ["primitive_hammer", -1],
     ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
-    [ 
+    [
       ["mold_plastic", -1] ],
     [
       ["hotplate", 10],
@@ -16937,9 +17233,9 @@
       ["fire", -1]
     ]
   ],
-  "components" : [ 
-  [ 
-  ["plastic_chunk", 4] 
+  "components" : [
+  [
+  ["plastic_chunk", 4]
   ],
   [
   [ "scrap", 2 ]
@@ -17189,8 +17485,8 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ 
-     [ 
+  "tools": [
+     [
       ["hammer", -1],
       ["toolset", -1]
      ],
@@ -20314,6 +20610,26 @@
     ],
     [
       [ "scrap", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "leathersandals",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 3 ]
     ]
   ]
 }

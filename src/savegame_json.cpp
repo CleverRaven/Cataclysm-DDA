@@ -57,16 +57,16 @@ void player_activity::deserialize(JsonIn &jsin)
     JsonObject data = jsin.get_object();
     int tmptype;
     int tmpinv;
-    if ( !data.read_into( "type", tmptype ) || type >= NUM_ACTIVITIES ) {
+    if ( !data.read( "type", tmptype ) || type >= NUM_ACTIVITIES ) {
         debugmsg( "Bad activity data:\n%s", data.str().c_str() );
     }
     type = activity_type(tmptype);
-    data.read_into( "moves_left", moves_left );
-    data.read_into( "index", index );
-    data.read_into( "invlet", tmpinv );
+    data.read( "moves_left", moves_left );
+    data.read( "index", index );
+    data.read( "invlet", tmpinv );
     invlet = (char)tmpinv;
-    data.read_into( "name", name );
-    data.read_into( "placement", placement );
+    data.read( "name", name );
+    data.read( "placement", placement );
     values = data.get_int_array("values");
     str_values = data.get_string_array("str_values");
 }
@@ -87,10 +87,10 @@ void SkillLevel::deserialize(JsonIn & jsin)
 {
     JsonObject data = jsin.get_object();
     int lastpractice=0;
-    data.read_into( "level", _level );
-    data.read_into( "exercise", _exercise );
-    data.read_into( "istraining", _isTraining );
-    data.read_into( "lastpracticed", lastpractice );
+    data.read( "level", _level );
+    data.read( "exercise", _exercise );
+    data.read( "istraining", _isTraining );
+    data.read( "lastpracticed", lastpractice );
     if(lastpractice == 0) {
         _lastPracticed = HOURS(OPTIONS["INITIAL_TIME"]);
     } else {
@@ -116,30 +116,30 @@ void player::json_load_common_variables(JsonObject & data)
 // }
 // load:
 // for(std::map<std::string, int*>::iterator it...
-//     data.read_into(it->first,it->second);
+//     data.read(it->first,it->second);
 // save:
 // for(...
 //     json.member( it->first, it->second );
-    if(!data.read_into("posx",posx) ) { // uh-oh.
+    if(!data.read("posx",posx) ) { // uh-oh.
          debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
-    data.read_into("posy",posy);
-    data.read_into("str_cur",str_cur);      data.read_into("str_max",str_max);
-    data.read_into("dex_cur",dex_cur);      data.read_into("dex_max",dex_max);
-    data.read_into("int_cur",int_cur);      data.read_into("int_max",int_max);
-    data.read_into("per_cur",per_cur);      data.read_into("per_max",per_max);
-    data.read_into("hunger",hunger);        data.read_into("thirst",thirst);
-    data.read_into("fatigue",fatigue);      data.read_into("stim",stim);
-    data.read_into("pain",pain);            data.read_into("pkill",pkill);
-    data.read_into("radiation",radiation);
-    data.read_into("scent",scent);
-    data.read_into("moves",moves);
-    data.read_into("dodges_left",dodges_left);
-    data.read_into("underwater",underwater);
-    data.read_into("oxygen",oxygen);
-    data.read_into("male",male);
-    data.read_into("cash",cash);
-    data.read_into("recoil",recoil);
+    data.read("posy",posy);
+    data.read("str_cur",str_cur);      data.read("str_max",str_max);
+    data.read("dex_cur",dex_cur);      data.read("dex_max",dex_max);
+    data.read("int_cur",int_cur);      data.read("int_max",int_max);
+    data.read("per_cur",per_cur);      data.read("per_max",per_max);
+    data.read("hunger",hunger);        data.read("thirst",thirst);
+    data.read("fatigue",fatigue);      data.read("stim",stim);
+    data.read("pain",pain);            data.read("pkill",pkill);
+    data.read("radiation",radiation);
+    data.read("scent",scent);
+    data.read("moves",moves);
+    data.read("dodges_left",dodges_left);
+    data.read("underwater",underwater);
+    data.read("oxygen",oxygen);
+    data.read("male",male);
+    data.read("cash",cash);
+    data.read("recoil",recoil);
 
     parray = data.get_array("hp_cur");
     if ( parray.size() == num_hp_parts ) {
@@ -159,15 +159,15 @@ void player::json_load_common_variables(JsonObject & data)
         debugmsg("Error, incompatible hp_max in save file '%s'",parray.str().c_str());
     }
 
-    data.read_into("power_level",power_level);
-    data.read_into("max_power_level",max_power_level);
-    data.read_into("traits",my_traits);
+    data.read("power_level",power_level);
+    data.read("max_power_level",max_power_level);
+    data.read("traits",my_traits);
 
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
             if ( pmap.has_object( (*aSkill)->ident() ) ) {
-                pmap.read_into( (*aSkill)->ident(), skillLevel(*aSkill) );
+                pmap.read( (*aSkill)->ident(), skillLevel(*aSkill) );
             } else {
                  debugmsg("Load (%s) Missing skill %s","",(*aSkill)->ident().c_str() );
             }
@@ -176,10 +176,10 @@ void player::json_load_common_variables(JsonObject & data)
         debugmsg("Skills[] no bueno");
     }
 
-    data.read_into("ma_styles",ma_styles);
-    data.read_into("illness",illness);
-    data.read_into("addictions",addictions);
-    data.read_into("my_bionics",my_bionics);
+    data.read("ma_styles",ma_styles);
+    data.read("illness",illness);
+    data.read("addictions",addictions);
+    data.read("my_bionics",my_bionics);
 }
 
 /*
@@ -358,37 +358,37 @@ void player::deserialize(JsonIn &jsin)
     json_load_common_variables( data );
 
     std::string prof_ident="(null)";
-    if ( data.read_into("profession",prof_ident) && profession::exists(prof_ident) ) {
+    if ( data.read("profession",prof_ident) && profession::exists(prof_ident) ) {
         prof = profession::prof(prof_ident);
     } else {
         debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
     }
 
-    data.read_into("activity",activity);
-    data.read_into("backlog",backlog);
+    data.read("activity",activity);
+    data.read("backlog",backlog);
 
-    data.read_into("driving_recoil",driving_recoil);
-    data.read_into("in_vehicle",in_vehicle);
-    data.read_into("controlling_vehicle",controlling_vehicle);
+    data.read("driving_recoil",driving_recoil);
+    data.read("in_vehicle",in_vehicle);
+    data.read("controlling_vehicle",controlling_vehicle);
 
-    data.read_into("grab_point", grab_point);
+    data.read("grab_point", grab_point);
     std::string grab_typestr="OBJECT_NONE";
     if( grab_point.x != 0 || grab_point.y != 0 ) {
         grab_typestr = "OBJECT_VEHICLE";
-        data.read_into( "grab_type", grab_typestr);
+        data.read( "grab_type", grab_typestr);
     }
 
     if ( obj_type_id.find(grab_typestr) != obj_type_id.end() ) {
         grab_type = (object_type)obj_type_id[grab_typestr];
     }
 
-    data.read_into( "blocks_left", blocks_left);
-    data.read_into( "focus_pool", focus_pool);
-    data.read_into( "style_selected", style_selected );
+    data.read( "blocks_left", blocks_left);
+    data.read( "focus_pool", focus_pool);
+    data.read( "style_selected", style_selected );
 
-    data.read_into( "health", health );
+    data.read( "health", health );
 
-    data.read_into( "mutations", my_mutations );
+    data.read( "mutations", my_mutations );
 
     set_highest_cat_level();
     // testme  drench_mut_calc();
@@ -425,34 +425,38 @@ void player::deserialize(JsonIn &jsin)
         learned_recipes.clear();
         std::string pstr="";
         while ( parray.has_more() ) {
-            if ( parray.read_into(pstr) ) {
+            if ( parray.read_next(pstr) ) {
                 learned_recipes[ pstr ] = recipe_by_name( pstr );
             }
         }
     }
 
-    data.read_into("morale", morale);
+    data.read("morale", morale);
 
-    data.read_into( "active_mission", active_mission );
+    data.read( "active_mission", active_mission );
 
-    data.read_into( "active_missions", active_missions );
-    data.read_into( "failed_missions", failed_missions );
-    data.read_into( "completed_missions", completed_missions );
+    data.read( "active_missions", active_missions );
+    data.read( "failed_missions", failed_missions );
+    data.read( "completed_missions", completed_missions );
 
     stats & pstats = *lifetime_stats();
-    data.read_into("player_stats",pstats);
+    data.read("player_stats",pstats);
 
     inv.clear();
     if ( data.has_member("inv") ) {
         JsonIn* jip = data.get_raw("inv");
         inv.json_load_items( *jip );
     }
+    if ( data.has_member("invcache") ) {
+        JsonIn* jip = data.get_raw("invcache");
+        inv.json_load_invcache( *jip );
+    }
 
     worn.clear();
-    data.read_into("worn", worn);
+    data.read("worn", worn);
 
     weapon.contents.clear();
-    data.read_into("weapon", weapon);
+    data.read("weapon", weapon);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -473,11 +477,11 @@ void npc_combat_rules::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int tmpeng;
-    data.read_into("engagement", tmpeng);
+    data.read("engagement", tmpeng);
     engagement = (combat_engagement)tmpeng;
-    data.read_into( "use_guns", use_guns);
-    data.read_into( "use_grenades", use_grenades);
-    data.read_into( "use_silent", use_silent);
+    data.read( "use_guns", use_guns);
+    data.read( "use_grenades", use_grenades);
+    data.read( "use_silent", use_silent);
 }
 
 void npc_chatbin::serialize(JsonOut &json) const
@@ -500,27 +504,27 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     int tmptopic;
     std::string skill_ident;
 
-    data.read_into("first_topic", tmptopic);
+    data.read("first_topic", tmptopic);
     first_topic = talk_topic(tmptopic);
 
-    if ( data.read_into("skill",skill_ident) ) {
+    if ( data.read("skill",skill_ident) ) {
         skill = Skill::skill(skill_ident);
     }
 
-    data.read_into("tempvalue", tempvalue);
-    data.read_into("mission_selected", mission_selected);
-    data.read_into( "missions", missions );
-    data.read_into( "missions_assigned", missions_assigned );
+    data.read("tempvalue", tempvalue);
+    data.read("mission_selected", mission_selected);
+    data.read( "missions", missions );
+    data.read( "missions_assigned", missions_assigned );
 }
 
 void npc_personality::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int tmpagg, tmpbrav, tmpcol, tmpalt;
-    if ( data.read_into("aggression", tmpagg) &&
-            data.read_into("bravery", tmpbrav) &&
-            data.read_into("collector", tmpcol) &&
-            data.read_into("altruism", tmpalt) ) {
+    if ( data.read("aggression", tmpagg) &&
+            data.read("bravery", tmpbrav) &&
+            data.read("collector", tmpcol) &&
+            data.read("altruism", tmpalt) ) {
         aggression=(signed char)tmpagg;
         bravery=(signed char)tmpbrav;
         collector=(signed char)tmpcol;
@@ -543,12 +547,12 @@ void npc_personality::serialize(JsonOut &json) const
 void npc_opinion::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    data.read_into("trust",trust);
-    data.read_into("fear",fear);
-    data.read_into("value",value);
-    data.read_into("anger",anger);
-    data.read_into("owed",owed);
-    data.read_into("favors",favors);
+    data.read("trust",trust);
+    data.read("fear",fear);
+    data.read("value",value);
+    data.read("anger",anger);
+    data.read("owed",owed);
+    data.read("favors",favors);
 }
 
 void npc_opinion::serialize(JsonOut &json) const
@@ -567,8 +571,8 @@ void npc_favor::deserialize(JsonIn &jsin)
 {
     JsonObject jo = jsin.get_object();
     type = npc_favor_type(jo.get_int("type"));
-    jo.read_into("value", value);
-    jo.read_into("itype_id", item_id);
+    jo.read("value", value);
+    jo.read("itype_id", item_id);
     skill = NULL;
     if (jo.has_int("skill_id")) {
         skill = Skill::skill(jo.get_int("skill_id"));
@@ -600,41 +604,41 @@ void npc::deserialize(JsonIn &jsin)
 
     int misstmp, classtmp, flagstmp, atttmp, tmpid;
 
-    data.read_into("id",tmpid);  setID(tmpid);
-    data.read_into("name",name);
-    data.read_into("marked_for_death", marked_for_death);
-    data.read_into("dead", dead);
-    if ( data.read_into( "myclass", classtmp) ) {
+    data.read("id",tmpid);  setID(tmpid);
+    data.read("name",name);
+    data.read("marked_for_death", marked_for_death);
+    data.read("dead", dead);
+    if ( data.read( "myclass", classtmp) ) {
         myclass = npc_class( classtmp );
     }
 
-    data.read_into("personality", personality);
+    data.read("personality", personality);
 
-    data.read_into("wandx",wandx);
-    data.read_into("wandy",wandy);
-    data.read_into("wandf",wandf);
-    data.read_into("omx",omx);
-    data.read_into("omy",omy);
-    data.read_into("omz",omz);
+    data.read("wandx",wandx);
+    data.read("wandy",wandy);
+    data.read("wandf",wandf);
+    data.read("omx",omx);
+    data.read("omy",omy);
+    data.read("omz",omz);
 
-    data.read_into("mapx",mapx);
-    data.read_into("mapy",mapy);
+    data.read("mapx",mapx);
+    data.read("mapy",mapy);
 
-    data.read_into("plx",plx);
-    data.read_into("ply",ply);
+    data.read("plx",plx);
+    data.read("ply",ply);
 
-    data.read_into("goalx",goalx);
-    data.read_into("goaly",goaly);
-    data.read_into("goalz",goalz);
+    data.read("goalx",goalx);
+    data.read("goaly",goaly);
+    data.read("goalz",goalz);
 
-    if ( data.read_into("mission",misstmp) ) {
+    if ( data.read("mission",misstmp) ) {
         mission = npc_mission( misstmp );
     }
 
-    if ( data.read_into( "flags", flagstmp) ) {
+    if ( data.read( "flags", flagstmp) ) {
         flags = flagstmp;
     }
-    if ( data.read_into( "attitude", atttmp) ) {
+    if ( data.read( "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
     }
 
@@ -645,14 +649,14 @@ void npc::deserialize(JsonIn &jsin)
     }
 
     worn.clear();
-    data.read_into("worn",worn);
+    data.read("worn",worn);
 
     weapon.contents.clear();
-    data.read_into("weapon",weapon);
+    data.read("weapon",weapon);
 
-    data.read_into("op_of_u",op_of_u);
-    data.read_into("chatbin",chatbin);
-    data.read_into("combat_rules",combat_rules);
+    data.read("op_of_u",op_of_u);
+    data.read("chatbin",chatbin);
+    data.read("combat_rules",combat_rules);
 }
 
 /*
@@ -799,36 +803,37 @@ void monster::deserialize(JsonIn &jsin)
     int iidtmp;
     std::string sidtmp;
     // load->str->int
-    if ( ! data.read_into("typeid", sidtmp) ) {
+    if ( ! data.read("typeid", sidtmp) ) {
         // or load->int->str->possibly_shifted_int
-        data.read_into("typeid", iidtmp);
+        data.read("typeid", iidtmp);
         sidtmp = legacy_mon_id[ iidtmp ];
     }
     type = GetMType(sidtmp);
 
-    data.read_into("posx", _posx);
-    data.read_into("posy", _posy);
-    data.read_into("wandx", wandx);
-    data.read_into("wandy", wandy);
-    data.read_into("wandf", wandf);
-    data.read_into("moves", moves);
-    data.read_into("speed", speed);
-    data.read_into("hp", hp);
-    data.read_into("sp_timeout", sp_timeout);
-    data.read_into("friendly", friendly);
-    data.read_into("faction_id", faction_id);
-    data.read_into("mission_id", mission_id);
-    data.read_into("no_extra_death_drops", no_extra_death_drops);
-    data.read_into("dead", dead);
-    data.read_into("anger", anger);
-    data.read_into("morale", morale);
-    data.read_into("hallucination", hallucination);
-    data.read_into("onstairs", onstairs);
-    data.read_into("stairscount", staircount); // really?
+    data.read("posx", _posx);
+    data.read("posy", _posy);
+    data.read("wandx", wandx);
+    data.read("wandy", wandy);
+    data.read("wandf", wandf);
+    data.read("moves", moves);
+    data.read("speed", speed);
+    data.read("hp", hp);
+    data.read("sp_timeout", sp_timeout);
+    data.read("friendly", friendly);
+    data.read("faction_id", faction_id);
+    data.read("mission_id", mission_id);
+    data.read("no_extra_death_drops", no_extra_death_drops);
+    data.read("dead", dead);
+    data.read("anger", anger);
+    data.read("morale", morale);
+    data.read("hallucination", hallucination);
+    data.read("onstairs", onstairs);
+    data.read("stairscount", staircount); // really?
 
-    data.read_into("plans", plans);
+    data.read("plans", plans);
 
-    data.read_into("inv", inv);
+    data.read("inv", inv);
+    if (!data.read("ammo", ammo)) { ammo = 100; }
 }
 
 /*
@@ -857,8 +862,10 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("morale",morale);
     json.member("hallucination",hallucination);
     json.member("onstairs",onstairs);
-    json.member("stairscount",staircount); // really...
+    json.member("stairscount",staircount);
     json.member("plans", plans);
+    json.member("ammo", ammo);
+
 
     if ( save_contents ) {
         json.member("inv");
@@ -886,25 +893,25 @@ void item::deserialize(JsonObject &data)
     std::string corptmp = "null";
     int damtmp = 0;
 
-    if ( ! data.read_into( "typeid", idtmp) ) {
+    if ( ! data.read( "typeid", idtmp) ) {
         debugmsg("Invalid item type: %s ", data.str().c_str() );
         idtmp = "null";
     }
 
-    data.read_into( "charges", charges );
-    data.read_into( "burnt", burnt );
-    data.read_into( "poison", poison );
-    data.read_into( "owned", owned );
+    data.read( "charges", charges );
+    data.read( "burnt", burnt );
+    data.read( "poison", poison );
+    data.read( "owned", owned );
 
-    data.read_into( "bday", bday );
+    data.read( "bday", bday );
 
-    data.read_into( "mode", mode );
-    data.read_into( "mission_id", mission_id );
-    data.read_into( "player_id", player_id );
+    data.read( "mode", mode );
+    data.read( "mission_id", mission_id );
+    data.read( "player_id", player_id );
 
-    if (!data.read_into( "corpse", corptmp )) {
+    if (!data.read( "corpse", corptmp )) {
         int ctmp = -1;
-        data.read_into( "corpse", ctmp );
+        data.read( "corpse", ctmp );
         if (ctmp != -1) {
             corptmp = legacy_mon_id[ctmp];
         } else {
@@ -919,26 +926,26 @@ void item::deserialize(JsonObject &data)
 
     make(itypes[idtmp]);
 
-    if ( ! data.read_into( "name", name ) ) {
+    if ( ! data.read( "name", name ) ) {
         name=type->name;
     }
 
-    data.read_into( "invlet", lettmp );
+    data.read( "invlet", lettmp );
     invlet = char(lettmp);
 
-    data.read_into( "damage", damtmp );
+    data.read( "damage", damtmp );
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
-    data.read_into( "active", active );
+    data.read( "active", active );
 
 
-    data.read_into( "curammo", ammotmp );
+    data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
         curammo = dynamic_cast<it_ammo*>(itypes[ammotmp]);
     } else {
         curammo = NULL;
     }
 
-    data.read_into("item_tags", item_tags);
+    data.read("item_tags", item_tags);
 
     JsonObject pvars = data.get_object("item_vars");
     std::set<std::string> members = pvars.get_member_names();
@@ -950,20 +957,20 @@ void item::deserialize(JsonObject &data)
     }
 
     int tmplum=0;
-    if ( data.read_into("light",tmplum) ) {
+    if ( data.read("light",tmplum) ) {
 
         light=nolight;
         int tmpwidth=0;
         int tmpdir=0;
 
-        data.read_into("light_width",tmpwidth);
-        data.read_into("light_dir",tmpdir);
+        data.read("light_width",tmpwidth);
+        data.read("light_dir",tmpdir);
         light.luminance = tmplum;
         light.width = (short)tmpwidth;
         light.direction = (short)tmpdir;
     }
 
-    data.read_into("contents", contents);
+    data.read("contents", contents);
 }
 
 void item::serialize(JsonOut &json, bool save_contents) const
@@ -1014,13 +1021,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     }
 
     if ( ! item_vars.empty() ) {
-        json.member("item_vars");
-        json.start_object();
-        for (std::map<std::string,std::string>::const_iterator it = item_vars.begin();
-                it != item_vars.end(); ++it) {
-            json.member( it->first, it->second );
-        }
-        json.end_object();
+        json.member( "item_vars", item_vars );
     }
 
     if ( name != type->name ) {
@@ -1058,10 +1059,10 @@ void vehicle_part::deserialize(JsonIn &jsin)
     JsonObject data = jsin.get_object();
     int intpid;
     std::string pid;
-    if ( data.read_into("id_enum", intpid) && intpid < 74 ) {
+    if ( data.read("id_enum", intpid) && intpid < 74 ) {
         pid = legacy_vpart_id[intpid];
     } else {
-        data.read_into("id",pid);
+        data.read("id",pid);
     }
     // if we don't know what type of part it is, it'll cause problems later.
     if (vehicle_part_types.find(pid) == vehicle_part_types.end()) {
@@ -1072,15 +1073,15 @@ void vehicle_part::deserialize(JsonIn &jsin)
         }
     }
     id = pid;
-    data.read_into("mount_dx", mount_dx);
-    data.read_into("mount_dy", mount_dy);
-    data.read_into("hp", hp );
-    data.read_into("amount", amount );
-    data.read_into("blood", blood );
-    data.read_into("bigness", bigness );
-    data.read_into( "flags", flags );
-    data.read_into( "passenger_id", passenger_id );
-    data.read_into("items", items);
+    data.read("mount_dx", mount_dx);
+    data.read("mount_dy", mount_dy);
+    data.read("hp", hp );
+    data.read("amount", amount );
+    data.read("blood", blood );
+    data.read("bigness", bigness );
+    data.read( "flags", flags );
+    data.read( "passenger_id", passenger_id );
+    data.read("items", items);
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1108,30 +1109,30 @@ void vehicle::deserialize(JsonIn &jsin)
 
     int fdir, mdir;
 
-    data.read_into("type", type);
-    data.read_into("posx", posx);
-    data.read_into("posy", posy);
-    data.read_into("levx", levx);
-    data.read_into("levy", levy);
-    data.read_into("om_id", om_id);
-    data.read_into("faceDir", fdir);
-    data.read_into("moveDir", mdir);
-    data.read_into("turn_dir", turn_dir);
-    data.read_into("velocity", velocity);
-    data.read_into("cruise_velocity", cruise_velocity);
-    data.read_into("cruise_on", cruise_on);
-    data.read_into("tracking_on", tracking_on);
-    data.read_into("lights_on", lights_on);
-    data.read_into("overhead_lights_on", overhead_lights_on);
-    data.read_into("skidding", skidding);
-    data.read_into("turret_mode", turret_mode);
-    data.read_into("of_turn_carry", of_turn_carry);
+    data.read("type", type);
+    data.read("posx", posx);
+    data.read("posy", posy);
+    data.read("levx", levx);
+    data.read("levy", levy);
+    data.read("om_id", om_id);
+    data.read("faceDir", fdir);
+    data.read("moveDir", mdir);
+    data.read("turn_dir", turn_dir);
+    data.read("velocity", velocity);
+    data.read("cruise_velocity", cruise_velocity);
+    data.read("cruise_on", cruise_on);
+    data.read("tracking_on", tracking_on);
+    data.read("lights_on", lights_on);
+    data.read("overhead_lights_on", overhead_lights_on);
+    data.read("skidding", skidding);
+    data.read("turret_mode", turret_mode);
+    data.read("of_turn_carry", of_turn_carry);
 
     face.init (fdir);
     move.init (mdir);
-    data.read_into("name",name);
+    data.read("name",name);
 
-    data.read_into("parts", parts);
+    data.read("parts", parts);
 
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
@@ -1145,7 +1146,7 @@ void vehicle::deserialize(JsonIn &jsin)
     insides_dirty = true;
     precalc_mounts (0, face.dir());
 
-    data.read_into("tags",tags);
+    data.read("tags",tags);
 }
 
 void vehicle::serialize(JsonOut &json) const
@@ -1184,11 +1185,11 @@ void mission::deserialize(JsonIn &jsin)
     if (jo.has_member("type_id")) {
         type = &(g->mission_types[jo.get_int("type_id")]);
     }
-    jo.read_into("description", description);
-    jo.read_into("failed", failed);
-    jo.read_into("value", value);
-    jo.read_into("reward", reward);
-    jo.read_into("uid", uid );
+    jo.read("description", description);
+    jo.read("failed", failed);
+    jo.read("value", value);
+    jo.read("reward", reward);
+    jo.read("uid", uid );
     JsonArray ja = jo.get_array("target");
     if (ja.size() == 2) {
         target.x = ja.get_int(0);
@@ -1196,12 +1197,12 @@ void mission::deserialize(JsonIn &jsin)
     }
     follow_up = mission_id(jo.get_int("follow_up", follow_up));
     item_id = itype_id(jo.get_string("item_id", item_id));
-    jo.read_into("deadline", deadline );
-    jo.read_into("step", step );
-    jo.read_into("count", count );
-    jo.read_into("npc_id", npc_id );
-    jo.read_into("good_fac_id", good_fac_id );
-    jo.read_into("bad_fac_id", bad_fac_id );
+    jo.read("deadline", deadline );
+    jo.read("step", step );
+    jo.read("count", count );
+    jo.read("npc_id", npc_id );
+    jo.read("good_fac_id", good_fac_id );
+    jo.read("bad_fac_id", bad_fac_id );
 }
 
 void mission::serialize(JsonOut &json) const
@@ -1238,26 +1239,26 @@ void faction::deserialize(JsonIn &jsin)
 {
     JsonObject jo = jsin.get_object();
 
-    jo.read_into("id", id);
-    jo.read_into("name", name);
+    jo.read("id", id);
+    jo.read("name", name);
     goal = faction_goal(jo.get_int("goal", goal));
     values = jo.get_int("values", values);
     job1 = faction_job(jo.get_int("job1", job1));
     job2 = faction_job(jo.get_int("job2", job2));
-    jo.read_into("likes_u", likes_u);
-    jo.read_into("respects_u", respects_u);
-    jo.read_into("known_by_u", known_by_u);
-    jo.read_into("strength", strength);
-    jo.read_into("sneak", sneak);
-    jo.read_into("crime", crime);
-    jo.read_into("cult", cult);
-    jo.read_into("good", good);
-    jo.read_into("omx", omx);
-    jo.read_into("omy", omy);
-    jo.read_into("mapx", mapx);
-    jo.read_into("mapy", mapy);
-    jo.read_into("size", size);
-    jo.read_into("power", power);
+    jo.read("likes_u", likes_u);
+    jo.read("respects_u", respects_u);
+    jo.read("known_by_u", known_by_u);
+    jo.read("strength", strength);
+    jo.read("sneak", sneak);
+    jo.read("crime", crime);
+    jo.read("cult", cult);
+    jo.read("good", good);
+    jo.read("omx", omx);
+    jo.read("omy", omy);
+    jo.read("mapx", mapx);
+    jo.read("mapy", mapy);
+    jo.read("size", size);
+    jo.read("power", power);
     if (jo.has_array("opinion_of")) {
         opinion_of = jo.get_int_array("opinion_of");
     }
