@@ -15,7 +15,6 @@
 // FILE I/O
 #include <sys/stat.h>
 #include <dirent.h>
-#include "catacharset.h"
 #include "json.h"
 
 #include <string>

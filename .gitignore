@@ -1,5 +1,7 @@
 cataclysm
 cataclysm-tiles
+chkjson
+!src/chkjson
 data/*.template
 save/
 graveyard/

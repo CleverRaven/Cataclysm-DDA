@@ -63,6 +63,7 @@ TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
 W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
+CHKJSON_BIN = chkjson
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
@@ -160,6 +161,7 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
+  CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
@@ -332,11 +334,18 @@ $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
+$(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
+	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+
+json-check: $(CHKJSON_BIN)
+	./$(CHKJSON_BIN)
+
 clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f $(SRC_DIR)/version.h $(LUA_DIR)/catabindings.cpp
+	rm -f $(CHKJSON_BIN)
 
 distclean:
 	rm -rf $(BINDIST_DIR)
