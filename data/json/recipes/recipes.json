@@ -2933,6 +2933,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "leathersandals",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 5 ],
+      [ "sewing_kit", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "quiver_large",
   "category": "CC_ARMOR",
   "skill_used": "tailor",
