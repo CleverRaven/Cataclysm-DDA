@@ -73,7 +73,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     const int extrah = ((TERMY - FULL_SCREEN_HEIGHT) / 4) * 2;
     const int totalw = FULL_SCREEN_WIDTH + extraw;
     const int totalh = FULL_SCREEN_HEIGHT + extrah;
-    
+
     // position within main display
     const int x1 = 1 + ((TERMX - totalw) / 2);
     const int y1 = 1 + ((TERMY - totalh) / 2);
@@ -1330,6 +1330,9 @@ void complete_vehicle (game *g)
                 veh->parts[vehicle_part].amount = 0;
 
                 used_item.put_in(liquid);
+            }
+            // Transfer power back to batteries.
+            if (used_item.typeId() == "small_storage_battery") {
             }
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type != SEL_JACK) { // Changing tires won't make you a car mechanic

@@ -508,7 +508,7 @@ public:
     bool lights_on;     // lights on/off
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
-    bool overhead_lights_on; //emergency vehicle flasher lights on/off
+    bool overhead_lights_on; //circle lights on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
@@ -516,7 +516,8 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
     int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
-    int lights_power;   // total power of components with LIGHT flag
+    int lights_power;   // total power of components with LIGHT or CONE_LIGHT flag
+    int overhead_power;   // total power of components with CIRCLE_LIGHT flag
     int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
 };
 

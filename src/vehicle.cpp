@@ -872,10 +872,13 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     if(part_flag(parts.size()-1,"HORN")) {
         horns.push_back(parts.size() - 1);
     }
-    if(part_flag(parts.size()-1,"LIGHT"))
+    if(part_flag(parts.size()-1,"LIGHT") || part_flag(parts.size()-1,"CONE_LIGHT"))
     {
         lights.push_back(parts.size()-1);
         lights_power += part_info(parts.size()-1).power;
+    }
+    if (part_flag(parts.size()-1,"CIRCLE_LIGHT")) {
+        overhead_power += part_info(parts.size()-1).power;
     }
     if(part_flag(parts.size()-1, "TRACK"))
     {
@@ -1855,7 +1858,9 @@ void vehicle::consume_fuel ()
 void vehicle::power_parts ()//TODO: more categories of powered part!
 {
     int power=0;
+    find_lights();
     if(lights_on)power += lights_power;
+    if(overhead_lights_on)power += overhead_power;
     if(tracking_on)power += tracking_power;
     if(power <= 0)return;
     for(int f=0;f<fuel.size() && power > 0;f++)
@@ -1864,6 +1869,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         {
             if(parts[fuel[f]].amount < power)
             {
+                debugmsg("Current power: %d Subtracting: %d", parts[fuel[f]].amount, power);
                 power -= parts[fuel[f]].amount;
                 parts[fuel[f]].amount = 0;
             }
@@ -1913,7 +1919,7 @@ void vehicle::idle() {
             if (part_flag(p, "ENGINE")) {
                 //Charge the battery if the engine has an alternator
                 if(part_flag(p,"ALTERNATOR")) {
-                    charge_battery(part_info(p).power * 0.3);
+                    charge_battery(part_info(p).power);
                 }
             }
       }
@@ -1991,7 +1997,7 @@ void vehicle::thrust (int thd) {
             {
                 //Charge the battery if the engine has an alternator
                 if(part_flag(p,"ALTERNATOR")) {
-                    charge_battery(part_info(p).power * 0.3);
+                    charge_battery(part_info(p).power);
                 }
                 if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)
                 {
@@ -2743,10 +2749,16 @@ void vehicle::find_horns ()
 void vehicle::find_lights ()
 {
     lights.clear();
+    lights_power = 0;
+    overhead_power = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if(part_flag( p,"LIGHT" )) {
+        if(part_flag( p,"LIGHT" ) || part_flag(p,"CONE_LIGHT") ||
+          part_flag(p,"CIRCLE_LIGHT")) {
             lights.push_back(p);
-            lights_power += part_info(p).power;
+            if(part_flag(p,"CIRCLE_LIGHT"))
+              overhead_power += part_info(p).power;
+            else
+              lights_power += part_info(p).power;
         }
     }
 }
