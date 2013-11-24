@@ -12074,7 +12074,6 @@ void game::wait()
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");
-    int i = 0;
     as_m.entries.push_back(uimenu_entry(1, true, '1', (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats") ));
     as_m.entries.push_back(uimenu_entry(2, true, '2', (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats") ));
 
@@ -12091,7 +12090,7 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight") ));
     as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes") ));
 
-    as_m.entries.push_back(uimenu_entry(++i, true, 'x', _("Exit") ));
+    as_m.entries.push_back(uimenu_entry(12, true, 'x', _("Exit") ));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     const int iHour = turn.getHour();
