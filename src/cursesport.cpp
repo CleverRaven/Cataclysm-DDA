@@ -117,10 +117,6 @@ inline void addedchar(WINDOW *win)
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
             chtype bl, chtype br)
 {
-    /*
-    ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); draw_border(win); wattroff(win, c_customBorderColor);
-        wattron(win, c_white);
-    */
     int i, j;
     int oldx = win->cursorx; //methods below move the cursor, save the value!
     int oldy = win->cursory; //methods below move the cursor, save the value!
