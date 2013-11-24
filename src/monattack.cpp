@@ -1284,8 +1284,9 @@ void mattack::tazer(monster *z)
 void mattack::smg(monster *z)
 {
  // Make sure our ammo isn't weird.
- if (z->ammo > 500) {
-   z->ammo = 500;
+ if (z->ammo > 1000) {
+   z->ammo = 1000;
+   debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->type->name.c_str());
  }
  int t, fire_t = 0;
  if (z->friendly != 0) {   // Attacking monsters, not the player!

@@ -74,6 +74,7 @@ monster::monster(mtype *t)
  unique_name = "";
  hallucination = false;
  ignoring = 0;
+ ammo = 100;
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -103,6 +104,7 @@ monster::monster(mtype *t, int x, int y)
  unique_name = "";
  hallucination = false;
  ignoring = 0;
+ ammo = 100;
 }
 
 monster::~monster()
