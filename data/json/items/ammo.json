@@ -2309,7 +2309,7 @@
         "symbol" : "=",
         "color" : "light_red",
         "description" : "Gasoline is a highly flammable liquid. When under pressure, it has the potential for violent explosion.",
-        "material" : "steel",
+        "material" : "null",
         "volume" : 0,
         "weight" : 1,
         "phase" : "liquid",
