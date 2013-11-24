@@ -89,6 +89,8 @@ class iuse
   int siphon           (player *p, item *it, bool t);
   int chainsaw_off     (player *p, item *it, bool t);
   int chainsaw_on      (player *p, item *it, bool t);
+  int combatsaw_off    (player *p, item *it, bool t);
+  int combatsaw_on     (player *p, item *it, bool t);
   int shishkebab_off   (player *p, item *it, bool t);
   int shishkebab_on    (player *p, item *it, bool t);
   int firemachete_off  (player *p, item *it, bool t);
