@@ -732,7 +732,8 @@ void player::update_bodytemp(game *g)
         }
         else if (furn_at_pos == f_makeshift_bed ||
                  furn_at_pos == f_armchair ||
-                 furn_at_pos == f_sofa)
+                 furn_at_pos == f_sofa||
+                 furn_at_pos == f_hay)
         {
             floor_bedding_warmth += 500;
         }
@@ -1758,15 +1759,15 @@ void player::disp_info(game *g)
       g->weather != WEATHER_SUNNY)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you.\n\
-Strength - 1;    Dexterity - 1;    Intelligence - 1;    Dexterity - 1"));
+Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1"));
  } else if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you badly.\n\
-Strength - 2;    Dexterity - 2;    Intelligence - 2;    Dexterity - 2"));
+Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2"));
  } else if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you terribly.\n\
-Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
+Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  }
 
  for (int i = 0; i < addictions.size(); i++) {
@@ -2322,7 +2323,7 @@ detecting traps and other things of interest."));
     mvwprintz(w_info, 0, 0, c_magenta, _("\
 Melee skill %+d;      Dodge skill %+d;\n\
 Swimming costs %+d movement points;\n\
-Melee attacks cost %+d movement points"), -encumb(bp_torso), -encumb(bp_torso),
+Melee and thrown attacks cost %+d movement points"), -encumb(bp_torso), -encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
    } else if (line == 1) {
     mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
@@ -3344,7 +3345,8 @@ void player::recalc_sight_limits()
                 !has_trait("MEMBRANE") && !is_wearing("goggles_swim"))) {
         sight_max = 1;
     } else if (has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
-            !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal")) {
+            !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal") &&
+            !has_disease("contacts")) {
         sight_max = 4;
     }
 
@@ -3405,7 +3407,8 @@ bool player::sight_impaired()
               && !is_wearing("goggles_swim")) ||
   (has_trait("MYOPIC") && !is_wearing("glasses_eye")
                         && !is_wearing("glasses_monocle")
-                        && !is_wearing("glasses_bifocal"));
+                        && !is_wearing("glasses_bifocal")
+                        && !has_disease("contacts"));
 }
 
 bool player::has_two_arms() const
@@ -4813,7 +4816,7 @@ void player::suffer(game *g)
    g->m.add_field(g, posx, posy, fd_slime, 1);
  }
 
- if (has_trait("WEB_WEAVER") && !in_vehicle && one_in(3)) {
+ if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
    g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
  }
 
@@ -7001,6 +7004,24 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
+        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("LONG_MUZZLE")))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot fit the %s over your muzzle."), armor->name.c_str());
+            }
+            return false;
+        }
+
+        if (armor->covers & mfb(bp_mouth) && has_trait("MINOTAUR"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot fit the %s over your snout."), armor->name.c_str());
+            }
+            return false;
+        }
+
         if (armor->covers & mfb(bp_feet) && has_trait("HOOVES"))
         {
             if(interactive)
@@ -7019,6 +7040,15 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
+        if (armor->covers & mfb(bp_feet) && has_trait("RAP_TALONS"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("Your talons are much too large for footgear."));
+            }
+            return false;
+        }
+        
         if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
@@ -7132,6 +7162,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
                                 (worn[j].invlet != let)) {
                             if (autodrop) {
                                 g->m.add_item_or_charges(posx, posy, worn[j]);
+                                g->add_msg(_("You take off your your %s."), worn[j].tname(g).c_str());
                                 worn.erase(worn.begin() + j);
 
                                 // We've invalidated our index into worn[],
@@ -7148,12 +7179,14 @@ bool player::takeoff(game *g, char let, bool autodrop)
                 if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
                         volume_carried() + w.type->volume) {
                     inv.add_item_keep_invlet(w);
+                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     inv.unsort();
                     taken_off = true;
                 } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                         w.tname(g).c_str())) {
                     g->m.add_item_or_charges(posx, posy, w);
+                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     taken_off = true;
                 }
@@ -7309,6 +7342,8 @@ void player::sort_armor(game *g)
             else
                 tmp_str = "";
 
+            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT"))
+                tmp_str += _("It lies close to the skin.\n");
             if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
                 tmp_str += _("It has pockets.\n");
                 if (tmp_worn[leftListIndex]->has_flag("HOOD"))
@@ -7811,6 +7846,7 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                        (gun->contents[i].type->id == "improve_sights" ||
                         gun->contents[i].type->id == "red_dot_sight" ||
                         gun->contents[i].type->id == "holo_sight" ||
+                        gun->contents[i].type->id == "pistol_scope" ||
                         gun->contents[i].type->id == "rifle_scope")) {
                 //intentionally leaving laser_sight off the list so that it CAN be used with optics
                 g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
@@ -7881,7 +7917,7 @@ hint_rating player::rate_action_read(item *it, game *g)
  } else if (book->intel > 0 && has_trait("ILLITERATE")) {
   return HINT_IFFY;
  } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-            && !is_wearing("glasses_bifocal")) {
+            && !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
   return HINT_IFFY;
  }
 
@@ -7907,7 +7943,7 @@ void player::read(game *g, char ch)
 
     // check for traits
     if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-        && !is_wearing("glasses_bifocal"))
+        && !is_wearing("glasses_bifocal") && !has_disease("contacts"))
     {
         g->add_msg(_("Your eyes won't focus without reading glasses."));
         return;
@@ -8104,7 +8140,8 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-     furn_at_pos == f_sofa ||(veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+     furn_at_pos == f_sofa || furn_at_pos == f_hay || 
+     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
@@ -8131,7 +8168,7 @@ bool player::can_sleep(game *g)
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa)
+     furn_at_pos == f_sofa || furn_at_pos == f_hay)
   sleepy += 4;
  else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair)
@@ -8299,6 +8336,9 @@ int player::encumb(body_part bp) {
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
+
+    int skintight = 0;
+
     it_armor* armor;
     for (int i = 0; i < worn.size(); i++)
     {
@@ -8319,14 +8359,28 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 armorenc += armor->encumber;
                 // Fitted clothes will either reduce encumbrance or negate layering.
                 if( worn[i].has_flag( "FIT" ) ) {
-                    if( armor->encumber > 0 ) {
+                    if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
-                    } else {
+                    } else if (layers > 0) {
                         layers -= .5;
                     }
                 }
+                if( worn[i].has_flag( "SKINTIGHT" ) && layers > 0) {
+                  // Skintight clothes will negate layering.
+                  // But only if we aren't wearing more than two.
+                  if (skintight < 2) {
+                    skintight++;
+                    layers -= .5;
+                  }
+                }
             }
         }
+    }
+    if (armorenc < 0) {
+      armorenc = 0;
+    }
+    if (layers < 0) {
+      layers = 0;
     }
 
     ret += armorenc;
@@ -8348,10 +8402,16 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     if( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
         ret += 1;
     }
+    if( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
+        ret += 2;
+    }
     if (bp == bp_hands &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
         ret += 3;
+    }
+    if ( ret < 0 ) {
+      ret = 0;
     }
     return ret;
 }
@@ -8498,7 +8558,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
                     if ((diff_bash > arm_bash && !one_in(diff_bash)) ||
-                        (diff_bash == -1 && one_in(50)))
+                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50)))
                     {
                         armor_damaged = true;
                         worn[i].damage++;
@@ -8509,7 +8569,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     if (cut_through)
                     {
                         if ((diff_cut > arm_cut && !one_in(diff_cut)) ||
-                            (diff_cut == -1 && one_in(50)))
+                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50)))
                         {
                             armor_damaged = true;
                             worn[i].damage++;
@@ -8581,6 +8641,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     if (has_trait("SLEEK_SCALES"))
         cut -= 1;
     if (has_trait("FEATHERS"))
+        dam--;
+    if (bp == bp_arms && has_trait("ARM_FEATHERS"))
         dam--;
     if (has_trait("FUR"))
         dam--;

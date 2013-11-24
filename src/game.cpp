@@ -613,6 +613,11 @@ bool game::do_turn()
         add_msg(_("Your breathing stops completely."));
         u.add_memorial_log(_("Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
+    } else if (u.has_disease("jetinjector") &&
+            u.disease_duration("jetinjector") > 400) {
+        add_msg(_("Your heart spasms painfully and stops."));
+        u.add_memorial_log(_("Died of a healing stimulant overdose."));
+        u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
     if (u.hunger >= 3000){
@@ -2050,10 +2055,13 @@ bool game::handle_action()
  switch (act) {
 
   case ACTION_PAUSE:
-   if (run_mode == 2) // Monsters around and we don't wanna pause
+   if (run_mode == 2 && (u.controlling_vehicle && safemodeveh) ) { // Monsters around and we don't wanna pause
      add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
-             press_x(ACTION_TOGGLE_SAFEMODE).c_str());
+             press_x(ACTION_TOGGLE_SAFEMODE).c_str());}
    else
+   if (u.has_trait("WEB_WEAVER") && !u.in_vehicle) {
+      g->m.add_field(g, u.posx, u.posy, fd_web, 1); //this adds density to if its not already there.
+      add_msg("You spin some webbing.");}
     u.pause(this);
    break;
 
@@ -2599,80 +2607,66 @@ void game::update_scent()
         player_last_position = point( u.posx, u.posy );
 	player_last_moved = turn;
     }
- int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int scale[SEEX * MAPSIZE][SEEY * MAPSIZE];
+
+
+ int temp_scent;
+ // note: the next two intermediate variables need to be at least [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
+ // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid introducing new bugs.
+ int sum_3_squares_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+ int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+ const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for stability.  This is essentially a decimal number * 1000.
+
  if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
 
+ // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9 times. This cost us an extra loop here, but
+ // it also eliminated a loop at the end, so there is a net performance improvement over the old code. Could probably still be better.
+ // note: this method needs an array that is one square larger on each side in the x direction then the final scent matrix
+ // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
+ for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
+  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+   // remember the sum of the scent values for 3 neighboring squares.
+   sum_3_squares_y[x][y] = grscent[x][y] + grscent[x][y-1] + grscent[x][y+1];
+   // next, remember how many squares we will diffuse gas into.
+   squares_used_y[x][y] =(m.move_cost_ter_furn(x,y-1) > 0   || m.has_flag("BASHABLE",x,y-1)) +
+                                   (m.move_cost_ter_furn(x,y)   > 0   || m.has_flag("BASHABLE",x,y))   +
+                                   (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
+  }
+ }
+ 
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
    const bool is_bashable = m.has_flag("BASHABLE", x, y);
-   newscent[x][y] = 0;
-   scale[x][y] = 1;
    if (move_cost != 0 || is_bashable) {
-    int squares_used = 0;
-    const int this_field = grscent[x][y];
-    /*
-    for (int i = x - 1; i <= x + 1; i++) {
-        for (int j = y - 1; j <= y + 1; j++) {
-           const int scent = grscent[i][j];
-           newscent[x][y] += (scent >= this_field) * scent;
-           squares_used += (scent >= this_field);
-        }
-    }
-    */
-    // Unrolled for performance.  The above block is the rolled up equivalent.
-    newscent[x][y] += grscent[x - 1] [y - 1] * (grscent  [x - 1] [y - 1] >= this_field);
-    squares_used +=   grscent[x - 1] [y - 1] >= this_field;
-    newscent[x][y] += grscent[x - 1] [y]     * (grscent  [x - 1] [y]     >= this_field);
-    squares_used +=   grscent[x - 1] [y]     >= this_field;
-    newscent[x][y] += grscent[x - 1] [y + 1] * (grscent  [x - 1] [y + 1] >= this_field);
-    squares_used +=   grscent[x - 1] [y + 1] >= this_field;
-    newscent[x][y] += grscent[x]     [y - 1] * (grscent  [x]     [y - 1] >= this_field);
-    squares_used +=   grscent[x]     [y - 1] >= this_field;
-    newscent[x][y] += grscent[x]     [y]     * (grscent  [x]     [y]     >= this_field);
-    squares_used +=   grscent[x]     [y]     >= this_field;
-    newscent[x][y] += grscent[x]     [y + 1] * (grscent  [x]     [y + 1] >= this_field);
-    squares_used +=   grscent[x]     [y + 1] >= this_field;
-    newscent[x][y] += grscent[x + 1] [y - 1] * (grscent  [x + 1] [y - 1] >= this_field);
-    squares_used +=   grscent[x + 1] [y - 1] >= this_field;
-    newscent[x][y] += grscent[x + 1] [y]     * (grscent  [x + 1] [y]     >= this_field);
-    squares_used +=   grscent[x + 1] [y]     >= this_field;
-    newscent[x][y] += grscent[x + 1] [y + 1] * (grscent  [x + 1] [y + 1] >= this_field);
-    squares_used +=   grscent[x + 1] [y + 1] >= this_field;
+    // to how many neighboring squares do we diffuse out? (include our own square since we also include our own square when diffusing in)
+    int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
+    // take the old scent and subtract what diffuses out
+    temp_scent = grscent[x][y] * (1000 - squares_used * diffusivity); // it's okay if this is slightly negative
+    // we've already summed neighboring scent values in the y direction in the previous loop.  
+    // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
+    grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
 
-    scale[x][y] += squares_used;
     int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
-    if (fslime > 0 && newscent[x][y] < fslime) {
-        newscent[x][y] = fslime;
+    if (fslime > 0 && grscent[x][y] < fslime) {
+        grscent[x][y] = fslime;
     }
-    if (newscent[x][y] > 10000)
-    {
-     dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
-                  << y << " (" << newscent[x][y] << ")";
-     debugmsg("Wacky scent at %d, %d (%d)", x, y, newscent[x][y]);
-     newscent[x][y] = 0; // Scent should never be higher
+    if (grscent[x][y] > 10000) {
+        dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
+                     << y << " (" << grscent[x][y] << ")";
+        debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
+        grscent[x][y] = 0; // Scent should never be higher
     }
     //Greatly reduce scent for bashable barriers, even more for ductaped barriers
-    if( move_cost == 0 && is_bashable)
-    {
-        if( m.has_flag("REDUCE_SCENT", x, y))
-        {
-            scale[x][y] *= 12;
+    if( move_cost == 0 && is_bashable) {
+        if( m.has_flag("REDUCE_SCENT", x, y)) {
+            grscent[x][y] /= 12;
         } else {
-            scale[x][y] *= 4;
+            grscent[x][y] /= 4;
         }
     }
    }
   }
- }
- // Simultaneously copy the scent values back and scale them down based on factors determined in
- // the first loop.
- for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-     for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-         grscent[x][y] = newscent[x][y] / scale[x][y];
-     }
  }
 }
 
@@ -5801,7 +5795,7 @@ void game::use_computer(int x, int y)
  }
 
  if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-     && !u.is_wearing("glasses_bifocal")) {
+     && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
   add_msg(_("You'll need to put on reading glasses before you can see the screen."));
   return;
  }
@@ -5938,6 +5932,12 @@ void game::emp_blast(int x, int y)
      add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
       remove_zombie(mondex);
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+   }
+   else if (z.type->id == "mon_laserturret" && one_in(3)) {
+      add_msg(_("The %s beeps erratically and deactivates!"), z.name().c_str());
+      remove_zombie(mondex);
+      m.spawn_item(x, y, "bot_laserturret", 1, 0, turn);
    }
    else if (z.type->id == "mon_manhack" && one_in(6)) {
      add_msg(_("The %s flies erratically and drops from the air!"), z.name().c_str());
@@ -6890,22 +6890,24 @@ void game::examine(int examx, int examy)
         }
     }
 
- int veh_part = 0;
- vehicle *veh = m.veh_at (examx, examy, veh_part);
- if (veh) {
-  int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
-  int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-  int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
-  int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
-  if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0)
-   pickup(examx, examy, 0);
-  else if (u.in_vehicle)
-   add_msg (_("You can't do that while onboard."));
-  else if (abs(veh->velocity) > 0)
-   add_msg (_("You can't do that on moving vehicle."));
-  else
-   exam_vehicle (*veh, examx, examy);
- }
+    int veh_part = 0;
+    vehicle *veh = m.veh_at (examx, examy, veh_part);
+    if (veh) {
+        int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
+        int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
+        int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
+        int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
+        if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0) {
+            pickup(examx, examy, 0);
+        } else if (u.controlling_vehicle) {
+            add_msg (_("You can't do that while driving."));
+        } else if (abs(veh->velocity) > 0) {
+            add_msg (_("You can't do that on moving vehicle."));
+        } else {
+            exam_vehicle (*veh, examx, examy);
+        }
+    }
 
  if (m.has_flag("CONSOLE", examx, examy)) {
   use_computer(examx, examy);
@@ -8063,55 +8065,49 @@ int game::list_monsters()
 // Pick up items at (posx, posy).
 void game::pickup(int posx, int posy, int min)
 {
- //min == -1 is Autopickup
+    //min == -1 is Autopickup
 
- if (m.has_flag("SEALED", posx, posy)) return;
+    if (m.has_flag("SEALED", posx, posy)) {
+        return;
+    }
 
- item_exchanges_since_save += 1; // Keeping this simple.
- write_msg();
- if (u.weapon.type->id == "bio_claws_weapon") {
-  if (min != -1)
-   add_msg(_("You cannot pick up items with your claws out!"));
-  return;
- }
- bool weight_is_okay = (u.weight_carried() <= u.weight_capacity());
- bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
- bool from_veh = false;
- int veh_part = 0;
- int k_part = 0;
- int w_part = 0;
- int craft_part = 0;
- vehicle *veh = m.veh_at (posx, posy, veh_part);
- if (min != -1 && veh) {
-  k_part = veh->part_with_feature(veh_part, "KITCHEN");
-  w_part = veh->part_with_feature(veh_part, "WELDRIG");
-  craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
-  veh_part = veh->part_with_feature(veh_part, "CARGO", false);
-  from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
+    item_exchanges_since_save += 1; // Keeping this simple.
+    write_msg();
+    if (u.weapon.type->id == "bio_claws_weapon") {
+        if (min != -1) {
+            add_msg(_("You cannot pick up items with your claws out!"));
+        }
+        return;
+    }
 
-        if(from_veh)
-        {
-            if(!query_yn(_("Get items from %s?"), veh->part_info(veh_part).name.c_str()))
-            {
-                from_veh = false;
-            }
+    bool weight_is_okay = (u.weight_carried() <= u.weight_capacity());
+    bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
+    bool from_veh = false;
+    int veh_part = 0;
+    int k_part = 0;
+    int w_part = 0;
+    int craft_part = 0;
+    vehicle *veh = m.veh_at (posx, posy, veh_part);
+    if (min != -1 && veh) {
+        k_part = veh->part_with_feature(veh_part, "KITCHEN");
+        w_part = veh->part_with_feature(veh_part, "WELDRIG");
+        craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
+        veh_part = veh->part_with_feature(veh_part, "CARGO", false);
+        from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
+
+        if (from_veh && !query_yn(_("Get items from %s?"),
+                                  veh->part_info(veh_part).name.c_str())) {
+            from_veh = false;
         }
 
-        if(!from_veh)
-        {
-
+        if (!from_veh) {
             //Either no cargo to grab, or we declined; what about RV kitchen?
             bool used_feature = false;
-            if (k_part >= 0)
-            {
+            if (k_part >= 0) {
                 int choice = menu(true,
                 _("RV kitchen:"), _("Use the hotplate"), _("Fill a container with water"), _("Have a drink"), _("Examine vehicle"), NULL);
-                switch (choice)
-                {
-                    if (choice == 3)
-                        break;
+                switch (choice) {
                 case 1:
-                {
                     used_feature = true;
                     if (veh->fuel_left("battery") > 0) {
                         //Will be -1 if no battery at all
@@ -8129,48 +8125,33 @@ void game::pickup(int posx, int posy, int min)
                     } else {
                         add_msg(_("The battery is dead."));
                     }
-                }
-                break;
+                    break;
                 case 2:
-                {
                     used_feature = true;
-                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
-                    {
+                    if (veh->fuel_left("water") > 0) { // -1 if no water at all
                         int amt = veh->drain("water", veh->fuel_left("water"));
                         item fill_water(itypes[default_ammo("water")], g->turn);
                         fill_water.charges = amt;
                         int back = g->move_liquid(fill_water);
-                        if(back >= 0)
-                        {
+                        if (back >= 0) {
                             veh->refill("water", back);
-                        }
-                        else
-                        {
+                        } else {
                             veh->refill("water", amt);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         add_msg(_("The water tank is empty."));
                     }
-                }
-                break;
+                    break;
                 case 3:
-                {
                     used_feature = true;
-                    if (veh->fuel_left("water") > 0)   //Will be -1 if no water at all
-                    {
+                    if (veh->fuel_left("water") > 0) { // -1 if no water at all
                         veh->drain("water", 1);
                         item water(itypes["water_clean"], 0);
                         u.consume(this, u.inv.add_item(water).invlet);
                         u.moves -= 250;
-                    }
-
-                    else
-                    {
+                    } else {
                         add_msg(_("The water tank is empty."));
                     }
-                }
                 }
             }
 
@@ -8217,14 +8198,13 @@ void game::pickup(int posx, int posy, int min)
                     }
                 }
             }
-    //If we still haven't done anything, we probably want to examine the vehicle
-    if(!used_feature) {
-      exam_vehicle(*veh, posx, posy);
+
+            //If we still haven't done anything, we probably want to examine the vehicle
+            if(!used_feature) {
+                exam_vehicle(*veh, posx, posy);
+            }
+        }
     }
-
-  }
-
- }
 
     if (!from_veh) {
         bool isEmpty = (m.i_at(posx, posy).size() == 0);
@@ -8243,532 +8223,558 @@ void game::pickup(int posx, int posy, int min)
         if (isEmpty) { return; }
     }
 
- // Not many items, just grab them
- if ((from_veh ? veh->parts[veh_part].items.size() : m.i_at(posx, posy).size() ) <= min && min != -1)
- {
-  int iter = 0;
-  item newit = from_veh ? veh->parts[veh_part].items[0] : m.i_at(posx, posy)[0];
-  if (newit.made_of(LIQUID)) {
-   add_msg(_("You can't pick up a liquid!"));
-   return;
-  }
-  newit.invlet = u.inv.get_invlet_for_item( newit.typeId() );
-  if (newit.invlet == 0) {
-   newit.invlet = nextinv;
-   advance_nextinv();
-  }
-  while (iter <= inv_chars.size() && u.has_item(newit.invlet) &&
-         !u.i_at(newit.invlet).stacks_with(newit)) {
-   newit.invlet = nextinv;
-   iter++;
-   advance_nextinv();
-  }
-  if (iter > inv_chars.size()) {
-   add_msg(_("You're carrying too many items!"));
-   return;
-  } else if (!u.can_pickWeight(newit.weight(), false)) {
-   add_msg(_("The %s is too heavy!"), newit.tname(this).c_str());
-   decrease_nextinv();
-  } else if (!u.can_pickVolume(newit.volume())) {
-   if (u.is_armed()) {
-    if (!u.weapon.has_flag("NO_UNWIELD")) {
-     if (newit.is_armor() && // Armor can be instantly worn
-         query_yn(_("Put on the %s?"), newit.tname(this).c_str())) {
-      if(u.wear_item(this, &newit)){
-       if (from_veh)
-        veh->remove_item (veh_part, 0);
-       else
-        m.i_clear(posx, posy);
-      }
-     } else if (query_yn(_("Drop your %s and pick up %s?"),
-                u.weapon.tname(this).c_str(), newit.tname(this).c_str())) {
-      if (from_veh)
-       veh->remove_item (veh_part, 0);
-      else
-       m.i_clear(posx, posy);
-      m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
-      u.wield(this, u.i_add(newit, this).invlet);
-      u.moves -= 100;
-      add_msg(_("Wielding %c - %s"), newit.invlet, newit.tname(this).c_str());
-     } else
-      decrease_nextinv();
-    } else {
-     add_msg(_("There's no room in your inventory for the %s, and you can't\
- unwield your %s."), newit.tname(this).c_str(), u.weapon.tname(this).c_str());
-     decrease_nextinv();
-    }
-   } else {
-    u.wield(this, u.i_add(newit, this).invlet);
-    if (from_veh)
-     veh->remove_item (veh_part, 0);
-    else
-     m.i_clear(posx, posy);
-    u.moves -= 100;
-    add_msg(_("Wielding %c - %s"), newit.invlet, newit.tname(this).c_str());
-   }
-  } else if (!u.is_armed() &&
-             (u.volume_carried() + newit.volume() > u.volume_capacity() - 2 ||
-              newit.is_weap() || newit.is_gun())) {
-   u.weapon = newit;
-   if (from_veh)
-    veh->remove_item (veh_part, 0);
-   else
-    m.i_clear(posx, posy);
-   u.moves -= 100;
-   add_msg(_("Wielding %c - %s"), newit.invlet, newit.tname(this).c_str());
-  } else {
-   newit = u.i_add(newit, this);
-   if (from_veh)
-    veh->remove_item (veh_part, 0);
-   else
-    m.i_clear(posx, posy);
-   u.moves -= 100;
-   add_msg("%c - %s", newit.invlet, newit.tname(this).c_str());
-  }
-  if (weight_is_okay && u.weight_carried() >= u.weight_capacity())
-   add_msg(_("You're overburdened!"));
-  if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
-   add_msg(_("You struggle to carry such a large volume!"));
-  }
-  return;
- }
+    // which items are we grabbing?
+    std::vector<item> here = from_veh ? veh->parts[veh_part].items : m.i_at(posx, posy);
 
- bool sideStyle = use_narrow_sidebar();
-
- // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
- int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
-
- int itemsH = 12;
- int pickupBorderRows = 3;
-
- // The pickup list may consume the entire terminal, minus space needed for its
- // header/footer and the item info window.
- int minleftover = itemsH + pickupBorderRows;
- if(maxmaxitems > TERMY - minleftover) maxmaxitems = TERMY - minleftover;
-
- const int minmaxitems = sideStyle ? 6 : 9;
-
- std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
- std::vector<bool> getitem;
- getitem.resize(here.size(), false);
-
- int maxitems=here.size();
- maxitems=(maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
-
- int pickupH = maxitems + pickupBorderRows;
- int pickupW = getmaxx(w_messages);
- int pickupY = VIEW_OFFSET_Y;
- int pickupX = getbegx(w_messages);
-
- int itemsW = pickupW;
- int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
- int itemsX = pickupX;
-
- WINDOW* w_pickup    = newwin(pickupH, pickupW, pickupY, pickupX);
- WINDOW* w_item_info = newwin(itemsH,  itemsW,  itemsY,  itemsX);
-
- int ch = ' ';
- int start = 0, cur_it, iter;
- int new_weight = u.weight_carried(), new_volume = u.volume_carried();
- bool update = true;
- mvwprintw(w_pickup, 0,  0, _("PICK UP (, = all)"));
- int selected=0;
- int last_selected=-1;
-
- int itemcount = 0;
- std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
-
- if (min == -1) { //Auto Pickup, select matching items
-    bool bFoundSomething = false;
-
-    //Loop through Items lowest Volume first
-    bool bPickup = false;
-
-    for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
-        for (int i = 0; i < here.size(); i++) {
-            bPickup = false;
-            if (here[i].volume() == iVol) {
-                iNumChecked++;
-
-                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
-                if (OPTIONS["AUTO_PICKUP_ZERO"]) {
-                    if (here[i].volume() == 0 && here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50) {
-                        bPickup = true;
-                    }
-                }
-
-                //Check the Pickup Rules
-                if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
-                    bPickup = true;
-                } else if ( mapAutoPickupItems[here[i].tname(this)] != "false" ) {
-                    //No prematched pickup rule found
-                    //items with damage, (fits) or a container
-                    createPickupRules(here[i].tname(this));
-
-                    if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
-                        bPickup = true;
-                    }
-                }
-            }
-
-            if (bPickup) {
-                getitem[i] = bPickup;
-                bFoundSomething = true;
-            }
+    // Not many items, just grab them
+    if (here.size() <= min && min != -1) {
+        int iter = 0;
+        item newit = here[0];
+        if (newit.made_of(LIQUID)) {
+            add_msg(_("You can't pick up a liquid!"));
+            return;
         }
-    }
+        newit.invlet = u.inv.get_invlet_for_item( newit.typeId() );
+        if (newit.invlet == 0) {
+            newit.invlet = nextinv;
+            advance_nextinv();
+        }
+        while (iter <= inv_chars.size() && u.has_item(newit.invlet) &&
+               !u.i_at(newit.invlet).stacks_with(newit)) {
+            newit.invlet = nextinv;
+            iter++;
+            advance_nextinv();
+        }
+        if (iter > inv_chars.size()) {
+            add_msg(_("You're carrying too many items!"));
+            return;
+        } else if (!u.can_pickWeight(newit.weight(), false)) {
+            add_msg(_("The %s is too heavy!"), newit.tname(this).c_str());
+            decrease_nextinv();
+        } else if (!u.can_pickVolume(newit.volume())) {
+            if (u.is_armed()) {
+                if (!u.weapon.has_flag("NO_UNWIELD")) {
+                    // Armor can be instantly worn
+                    if (newit.is_armor() &&
+                            query_yn(_("Put on the %s?"),
+                                     newit.tname(this).c_str())) {
+                        if (u.wear_item(this, &newit)) {
+                            if (from_veh) {
+                                veh->remove_item (veh_part, 0);
+                            } else {
+                                m.i_clear(posx, posy);
+                            }
+                        }
+                    } else if (query_yn(_("Drop your %s and pick up %s?"),
+                                        u.weapon.tname(this).c_str(),
+                                        newit.tname(this).c_str())) {
+                        if (from_veh) {
+                            veh->remove_item (veh_part, 0);
+                        } else {
+                            m.i_clear(posx, posy);
+                        }
+                        m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                        u.wield(this, u.i_add(newit, this).invlet);
+                        u.moves -= 100;
+                        add_msg(_("Wielding %c - %s"), newit.invlet,
+                                newit.tname(this).c_str());
+                    } else {
+                        decrease_nextinv();
+                    }
+                } else {
+                    add_msg(_("There's no room in your inventory for the %s, \
+and you can't unwield your %s."),
+                            newit.tname(this).c_str(),
+                            u.weapon.tname(this).c_str());
+                    decrease_nextinv();
+                }
+            } else {
+                u.wield(this, u.i_add(newit, this).invlet);
+                if (from_veh) {
+                    veh->remove_item (veh_part, 0);
+                } else {
+                    m.i_clear(posx, posy);
+                }
+                u.moves -= 100;
+                add_msg(_("Wielding %c - %s"), newit.invlet,
+                        newit.tname(this).c_str());
+            }
+        } else if (!u.is_armed() &&
+                   (u.volume_carried() + newit.volume() > u.volume_capacity() - 2 ||
+                    newit.is_weap() || newit.is_gun())) {
+            u.weapon = newit;
+            if (from_veh) {
+                veh->remove_item (veh_part, 0);
+            } else {
+                m.i_clear(posx, posy);
+            }
+            u.moves -= 100;
+            add_msg(_("Wielding %c - %s"), newit.invlet, newit.tname(this).c_str());
+        } else {
+            newit = u.i_add(newit, this);
+            if (from_veh) {
+                veh->remove_item (veh_part, 0);
+            } else {
+                m.i_clear(posx, posy);
+            }
+            u.moves -= 100;
+            add_msg("%c - %s", newit.invlet, newit.tname(this).c_str());
+        }
 
-    if (!bFoundSomething) {
+        if (weight_is_okay && u.weight_carried() >= u.weight_capacity()) {
+            add_msg(_("You're overburdened!"));
+        }
+        if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
+            add_msg(_("You struggle to carry such a large volume!"));
+        }
         return;
     }
- } else {
- // Now print the two lists; those on the ground and about to be added to inv
- // Continue until we hit return or space
-  do {
-   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
-   size_t idx=-1;
-   for (int i = 1; i < pickupH; i++) {
-     mvwprintw(w_pickup, i, 0, "                                                ");
-   }
-   if (ch >= '0' && ch <= '9') {
-       ch = (char)ch - '0';
-       itemcount *= 10;
-       itemcount += ch;
-   } else if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
-    start -= maxitems;
-    selected = start;
-    mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-   } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
-    start += maxitems;
-    selected = start;
-    mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
-   } else if ( ch == KEY_UP ) {
-       selected--;
-       if ( selected < 0 ) {
-           selected = here.size()-1;
-           start = (int)( here.size() / maxitems ) * maxitems;
-           if (start >= here.size()-1) start -= maxitems;
-       } else if ( selected < start ) {
-           start -= maxitems;
-       }
-   } else if ( ch == KEY_DOWN ) {
-       selected++;
-       if ( selected >= here.size() ) {
-           selected=0;
-           start=0;
-       } else if ( selected >= start + maxitems ) {
-           start+=maxitems;
-       }
-   } else if ( selected >= 0 && (
-                  ( ch == KEY_RIGHT && !getitem[selected]) ||
-                  ( ch == KEY_LEFT && getitem[selected] )
-             ) ) {
-       idx = selected;
-   } else if ( ch == '`' ) {
-       std::string ext = string_input_popup(_("Enter 2 letters (case sensitive):"), 2);
-       if(ext.size() == 2) {
-            int p1=pickup_chars.find(ext.at(0));
-            int p2=pickup_chars.find(ext.at(1));
-            if ( p1 != -1 && p2 != -1 ) {
-                 idx=pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
+
+    bool sideStyle = use_narrow_sidebar();
+
+    // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
+    int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
+
+    int itemsH = 12;
+    int pickupBorderRows = 3;
+
+    // The pickup list may consume the entire terminal, minus space needed for its
+    // header/footer and the item info window.
+    int minleftover = itemsH + pickupBorderRows;
+    if(maxmaxitems > TERMY - minleftover) maxmaxitems = TERMY - minleftover;
+
+    const int minmaxitems = sideStyle ? 6 : 9;
+
+    std::vector<bool> getitem;
+    getitem.resize(here.size(), false);
+
+    int maxitems=here.size();
+    maxitems=(maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
+
+    int pickupH = maxitems + pickupBorderRows;
+    int pickupW = getmaxx(w_messages);
+    int pickupY = VIEW_OFFSET_Y;
+    int pickupX = getbegx(w_messages);
+
+    int itemsW = pickupW;
+    int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
+    int itemsX = pickupX;
+
+    WINDOW* w_pickup    = newwin(pickupH, pickupW, pickupY, pickupX);
+    WINDOW* w_item_info = newwin(itemsH,  itemsW,  itemsY,  itemsX);
+
+    int ch = ' ';
+    int start = 0, cur_it, iter;
+    int new_weight = u.weight_carried(), new_volume = u.volume_carried();
+    bool update = true;
+    mvwprintw(w_pickup, 0,  0, _("PICK UP (, = all)"));
+    int selected=0;
+    int last_selected=-1;
+
+    int itemcount = 0;
+    std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
+
+    if (min == -1) { //Auto Pickup, select matching items
+        bool bFoundSomething = false;
+
+        //Loop through Items lowest Volume first
+        bool bPickup = false;
+
+        for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
+            for (int i = 0; i < here.size(); i++) {
+                bPickup = false;
+                if (here[i].volume() == iVol) {
+                    iNumChecked++;
+
+                    //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
+                    if (OPTIONS["AUTO_PICKUP_ZERO"]) {
+                        if (here[i].volume() == 0 && here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50) {
+                            bPickup = true;
+                        }
+                    }
+
+                    //Check the Pickup Rules
+                    if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
+                        bPickup = true;
+                    } else if ( mapAutoPickupItems[here[i].tname(this)] != "false" ) {
+                        //No prematched pickup rule found
+                        //items with damage, (fits) or a container
+                        createPickupRules(here[i].tname(this));
+
+                        if ( mapAutoPickupItems[here[i].tname(this)] == "true" ) {
+                            bPickup = true;
+                        }
+                    }
+                }
+
+                if (bPickup) {
+                    getitem[i] = bPickup;
+                    bFoundSomething = true;
+                }
             }
-       }
-   } else {
-       idx = pickup_chars.find(ch);
-   }
+        }
 
-   if(idx != -1)
-   {
-       if(itemcount != 0 || pickup_count[idx] == 0)
-       {
-           if(itemcount >= here[idx].charges) {
-               // Ignore the count if we pickup the whole stack anyway
-               itemcount = 0;
-           }
-           pickup_count[idx] = itemcount;
-           itemcount = 0;
-
-       }
-   }
-
-   if ( idx < here.size()) {
-    getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
-    if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
-       selected = idx;
-       start = (int)( idx / maxitems ) * maxitems;
-    }
-
-    if (getitem[idx]) {
-        if((pickup_count[idx] != 0) && (pickup_count[idx] < here[idx].charges))
-        {
-            item temp = here[idx].clone();
-            temp.charges = pickup_count[idx];
-            new_weight += temp.weight();
-            new_volume += temp.volume();
-        } else {
-            new_weight += here[idx].weight();
-            new_volume += here[idx].volume();
+        if (!bFoundSomething) {
+            return;
         }
     } else {
-        if((pickup_count[idx] != 0) && (pickup_count[idx] < here[idx].charges))
-        {
-            item temp = here[idx].clone();
-            temp.charges = pickup_count[idx];
-            new_weight -= temp.weight();
-            new_volume -= temp.volume();
-            pickup_count[idx] = 0;
-        } else {
-            new_weight -= here[idx].weight();
-            new_volume -= here[idx].volume();
+        // Now print the two lists; those on the ground and about to be added to inv
+        // Continue until we hit return or space
+        do {
+            static const std::string pickup_chars =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
+            size_t idx=-1;
+            for (int i = 1; i < pickupH; i++) {
+                mvwprintw(w_pickup, i, 0,
+                          "                                                ");
+            }
+            if (ch >= '0' && ch <= '9') {
+                ch = (char)ch - '0';
+                itemcount *= 10;
+                itemcount += ch;
+            } else if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
+                start -= maxitems;
+                selected = start;
+                mvwprintw(w_pickup, maxitems + 2, 0, "         ");
+            } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
+                start += maxitems;
+                selected = start;
+                mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
+            } else if ( ch == KEY_UP ) {
+                selected--;
+                if ( selected < 0 ) {
+                    selected = here.size()-1;
+                    start = (int)( here.size() / maxitems ) * maxitems;
+                    if (start >= here.size()-1) {
+                        start -= maxitems;
+                    }
+                } else if ( selected < start ) {
+                    start -= maxitems;
+                }
+            } else if ( ch == KEY_DOWN ) {
+               selected++;
+               if ( selected >= here.size() ) {
+                   selected=0;
+                   start=0;
+               } else if ( selected >= start + maxitems ) {
+                   start+=maxitems;
+               }
+            } else if ( selected >= 0 && (
+                        ( ch == KEY_RIGHT && !getitem[selected]) ||
+                        ( ch == KEY_LEFT && getitem[selected] )
+                      ) ) {
+                idx = selected;
+            } else if ( ch == '`' ) {
+               std::string ext = string_input_popup(_("Enter 2 letters (case sensitive):"), 2);
+               if(ext.size() == 2) {
+                    int p1=pickup_chars.find(ext.at(0));
+                    int p2=pickup_chars.find(ext.at(1));
+                    if ( p1 != -1 && p2 != -1 ) {
+                         idx=pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
+                    }
+               }
+            } else {
+                idx = pickup_chars.find(ch);
+            }
+
+            if (idx != -1) {
+                if (itemcount != 0 || pickup_count[idx] == 0) {
+                    if (itemcount >= here[idx].charges) {
+                        // Ignore the count if we pickup the whole stack anyway
+                        itemcount = 0;
+                    }
+                    pickup_count[idx] = itemcount;
+                    itemcount = 0;
+                }
+            }
+
+            if ( idx < here.size()) {
+                getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
+                if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
+                    selected = idx;
+                    start = (int)( idx / maxitems ) * maxitems;
+                }
+
+                if (getitem[idx]) {
+                    if (pickup_count[idx] != 0 &&
+                            pickup_count[idx] < here[idx].charges) {
+                        item temp = here[idx].clone();
+                        temp.charges = pickup_count[idx];
+                        new_weight += temp.weight();
+                        new_volume += temp.volume();
+                    } else {
+                        new_weight += here[idx].weight();
+                        new_volume += here[idx].volume();
+                    }
+                } else if (pickup_count[idx] != 0 &&
+                           pickup_count[idx] < here[idx].charges) {
+                    item temp = here[idx].clone();
+                    temp.charges = pickup_count[idx];
+                    new_weight -= temp.weight();
+                    new_volume -= temp.volume();
+                    pickup_count[idx] = 0;
+                } else {
+                    new_weight -= here[idx].weight();
+                    new_volume -= here[idx].volume();
+                }
+                update = true;
+            }
+
+            if ( selected != last_selected ) {
+                last_selected = selected;
+                werase(w_item_info);
+                if ( selected >= 0 && selected <= here.size()-1 ) {
+                    fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
+                }
+                wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].tname(this).c_str() );
+                wrefresh(w_item_info);
+            }
+
+            if (ch == ',') {
+                int count = 0;
+                for (int i = 0; i < here.size(); i++) {
+                    if (getitem[i]) {
+                        count++;
+                    } else {
+                        new_weight += here[i].weight();
+                        new_volume += here[i].volume();
+                    }
+                    getitem[i] = true;
+                }
+                if (count == here.size()) {
+                    for (int i = 0; i < here.size(); i++) {
+                        getitem[i] = false;
+                    }
+                    new_weight = u.weight_carried();
+                    new_volume = u.volume_carried();
+                }
+                update = true;
+            }
+
+            for (cur_it = start; cur_it < start + maxitems; cur_it++) {
+                mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
+                          "                                        ");
+                if (cur_it < here.size()) {
+                    nc_color icolor=here[cur_it].color(&u);
+                    if (cur_it == selected) {
+                        icolor=hilite(icolor);
+                    }
+
+                    if (cur_it < pickup_chars.size() ) {
+                        mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
+                    } else {
+                        int p=cur_it - pickup_chars.size();
+                        int p1=p / pickup_chars.size();
+                        int p2=p % pickup_chars.size();
+                        mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
+                    }
+                    if (getitem[cur_it]) {
+                        if (pickup_count[cur_it] == 0) {
+                            wprintz(w_pickup, c_ltblue, " + ");
+                        } else {
+                            wprintz(w_pickup, c_ltblue, " # ");
+                        }
+                    } else {
+                        wprintw(w_pickup, " - ");
+                    }
+                    wprintz(w_pickup, icolor, here[cur_it].tname(this).c_str());
+                    if (here[cur_it].charges > 0) {
+                        wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
+                    }
+                }
+            }
+
+            int pw = pickupW;
+            const char *unmark = _("[left] Unmark");
+            const char *scroll = _("[up/dn] Scroll");
+            const char *mark   = _("[right] Mark");
+            mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
+            mvwprintw(w_pickup, maxitems + 1, (pw - strlen(scroll)) / 2, scroll);
+            mvwprintw(w_pickup, maxitems + 1,  pw - strlen(mark),        mark);
+            const char *prev = _("[pgup] Prev");
+            const char *all = _("[,] All");
+            const char *next   = _("[pgdn] Next");
+            if (start > 0) {
+                mvwprintw(w_pickup, maxitems + 2, 0, prev);
+            }
+            mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
+            if (cur_it < here.size()) {
+                mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
+            }
+
+            if (update) { // Update weight & volume information
+                update = false;
+                mvwprintw(w_pickup, 0,  7, "                           ");
+                mvwprintz(w_pickup, 0,  9,
+                          (new_weight >= u.weight_capacity() ? c_red : c_white),
+                          _("Wgt %.1f"), u.convert_weight(new_weight));
+                wprintz(w_pickup, c_white, "/%.1f", u.convert_weight(u.weight_capacity()));
+                mvwprintz(w_pickup, 0, 24,
+                          (new_volume > u.volume_capacity() - 2 ? c_red : c_white),
+                          _("Vol %d"), new_volume);
+                wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
+            }
+            wrefresh(w_pickup);
+
+            ch = (int)getch();
+
+        } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+
+        if (ch != '\n') {
+            werase(w_pickup);
+            wrefresh(w_pickup);
+            werase(w_item_info);
+            wrefresh(w_item_info);
+            delwin(w_pickup);
+            delwin(w_item_info);
+            add_msg(_("Never mind."));
+            refresh_all();
+            return;
         }
     }
-    update = true;
-   }
 
-   if ( selected != last_selected ) {
-       last_selected = selected;
-       werase(w_item_info);
-       if ( selected >= 0 && selected <= here.size()-1 ) {
-           fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
-       }
-       wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-       mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].tname(this).c_str() );
-       wrefresh(w_item_info);
-   }
-
-   if (ch == ',') {
-    int count = 0;
+    // At this point we've selected our items, now we add them to our inventory
+    int curmit = 0;
+    bool got_water = false; // Did we try to pick up water?
+    bool offered_swap = false;
+    std::map<std::string, int> mapPickup;
     for (int i = 0; i < here.size(); i++) {
-     if (getitem[i])
-      count++;
-     else {
-      new_weight += here[i].weight();
-      new_volume += here[i].volume();
-     }
-     getitem[i] = true;
-    }
-    if (count == here.size()) {
-     for (int i = 0; i < here.size(); i++)
-      getitem[i] = false;
-     new_weight = u.weight_carried();
-     new_volume = u.volume_carried();
-    }
-    update = true;
-   }
-   for (cur_it = start; cur_it < start + maxitems; cur_it++) {
-    mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
-              "                                        ");
-    if (cur_it < here.size()) {
-     nc_color icolor=here[cur_it].color(&u);
-     if(cur_it == selected) {
-         icolor=hilite(icolor);
-     }
-
-     if (cur_it < pickup_chars.size() ) {
-        mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
-     } else {
-        int p=cur_it - pickup_chars.size();
-        int p1=p / pickup_chars.size();
-        int p2=p % pickup_chars.size();
-        mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
-     }
-     if (getitem[cur_it])
-         if(pickup_count[cur_it] == 0)
-         {
-             wprintz(w_pickup, c_ltblue, " + ");
-         } else {
-             wprintz(w_pickup, c_ltblue, " # ");
-         }
-     else
-      wprintw(w_pickup, " - ");
-     wprintz(w_pickup, icolor, here[cur_it].tname(this).c_str());
-     if (here[cur_it].charges > 0)
-      wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
-    }
-   }
-
-   int pw = pickupW;
-   const char *unmark = _("[left] Unmark");
-   const char *scroll = _("[up/dn] Scroll");
-   const char *mark   = _("[right] Mark");
-   mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
-   mvwprintw(w_pickup, maxitems + 1, (pw - strlen(scroll)) / 2, scroll);
-   mvwprintw(w_pickup, maxitems + 1,  pw - strlen(mark),        mark);
-   const char *prev = _("[pgup] Prev");
-   const char *all = _("[,] All");
-   const char *next   = _("[pgdn] Next");
-   if (start > 0)
-    mvwprintw(w_pickup, maxitems + 2, 0, prev);
-   mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
-   if (cur_it < here.size())
-    mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
-
-   if (update) { // Update weight & volume information
-    update = false;
-    mvwprintw(w_pickup, 0,  7, "                           ");
-    mvwprintz(w_pickup, 0,  9,
-              (new_weight >= u.weight_capacity() ? c_red : c_white),
-              _("Wgt %.1f"), u.convert_weight(new_weight));
-    wprintz(w_pickup, c_white, "/%.1f", u.convert_weight(u.weight_capacity()));
-    mvwprintz(w_pickup, 0, 24,
-              (new_volume > u.volume_capacity() - 2 ? c_red : c_white),
-              _("Vol %d"), new_volume);
-    wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
-   }
-   wrefresh(w_pickup);
-
-   ch = (int)getch();
-
-  } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-  if (ch != '\n') {
-   werase(w_pickup);
-   wrefresh(w_pickup);
-   werase(w_item_info);
-   wrefresh(w_item_info);
-   delwin(w_pickup);
-   delwin(w_item_info);
-   add_msg(_("Never mind."));
-   refresh_all();
-   return;
-  }
- }
-
- // At this point we've selected our items, now we add them to our inventory
- int curmit = 0;
- bool got_water = false; // Did we try to pick up water?
- bool offered_swap = false;
- std::map<std::string, int> mapPickup;
- for (int i = 0; i < here.size(); i++) {
-  iter = 0;
-  // This while loop guarantees the inventory letter won't be a repeat. If it
-  // tries all 52 letters, it fails and we don't pick it up.
-     if (getitem[i] && here[i].made_of(LIQUID)) {
-   got_water = true;
-     } else if (getitem[i]) {
-         bool picked_up = false;
-         item temp = here[i].clone();
-   iter = 0;
-         while (iter < inv_chars.size() &&
-                (here[i].invlet == 0 || (u.has_item(here[i].invlet) &&
+        iter = 0;
+        // This while loop guarantees the inventory letter won't be a repeat. If it
+        // tries all 52 letters, it fails and we don't pick it up.
+        if (getitem[i] && here[i].made_of(LIQUID)) {
+            got_water = true;
+        } else if (getitem[i]) {
+            bool picked_up = false;
+            item temp = here[i].clone();
+            iter = 0;
+            while (iter < inv_chars.size() &&
+                   (here[i].invlet == 0 || (u.has_item(here[i].invlet) &&
                          !u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
-    here[i].invlet = nextinv;
-    iter++;
-    advance_nextinv();
-   }
+                here[i].invlet = nextinv;
+                iter++;
+                advance_nextinv();
+            }
 
-         if(pickup_count[i] != 0) {
-             // Reinserting leftovers happens after item removal to avoid stacking issues.
-       int leftover_charges = here[i].charges - pickup_count[i];
-             if(leftover_charges > 0) {
-           temp.charges = leftover_charges;
-           here[i].charges = pickup_count[i];
-       }
-   }
+            if(pickup_count[i] != 0) {
+                // Reinserting leftovers happens after item removal to avoid stacking issues.
+                int leftover_charges = here[i].charges - pickup_count[i];
+                if (leftover_charges > 0) {
+                    temp.charges = leftover_charges;
+                    here[i].charges = pickup_count[i];
+                }
+            }
 
-   if (iter == inv_chars.size()) {
-    add_msg(_("You're carrying too many items!"));
-    werase(w_pickup);
-    wrefresh(w_pickup);
-    delwin(w_pickup);
-    return;
-   } else if (!u.can_pickWeight(here[i].weight(), false)) {
-    add_msg(_("The %s is too heavy!"), here[i].tname(this).c_str());
-    decrease_nextinv();
-   } else if (!u.can_pickVolume(here[i].volume())) {
-    if (u.is_armed()) {
-     if (!u.weapon.has_flag("NO_UNWIELD")) {
-      if (here[i].is_armor() && // Armor can be instantly worn
-          query_yn(_("Put on the %s?"), here[i].tname(this).c_str())) {
-                         if(u.wear_item(this, &(here[i]))) {
-                             picked_up = true;
-       }
-      } else if (!offered_swap) {
-       if (query_yn(_("Drop your %s and pick up %s?"),
-                u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
-                             picked_up = true;
-        m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
-        u.wield(this, u.i_add(here[i], this).invlet);
-        mapPickup[here[i].tname(this)]++;
-                             add_msg(_("Wielding %c - %s"), u.weapon.invlet,
-                                     u.weapon.tname(this).c_str());
-       }
-       offered_swap = true;
-                     } else {
-       decrease_nextinv();
-                     }
-     } else {
-      add_msg(_("There's no room in your inventory for the %s, and you can't\
-  unwield your %s."), here[i].tname(this).c_str(), u.weapon.tname(this).c_str());
-      decrease_nextinv();
-     }
-    } else {
-     u.wield(this, u.i_add(here[i], this).invlet);
-     mapPickup[here[i].tname(this)]++;
-                 picked_up = true;
+            if (iter == inv_chars.size()) {
+                add_msg(_("You're carrying too many items!"));
+                werase(w_pickup);
+                wrefresh(w_pickup);
+                delwin(w_pickup);
+                return;
+            } else if (!u.can_pickWeight(here[i].weight(), false)) {
+                add_msg(_("The %s is too heavy!"), here[i].tname(this).c_str());
+                decrease_nextinv();
+            } else if (!u.can_pickVolume(here[i].volume())) {
+                if (u.is_armed()) {
+                    if (!u.weapon.has_flag("NO_UNWIELD")) {
+                        // Armor can be instantly worn
+                        if (here[i].is_armor() &&
+                                query_yn(_("Put on the %s?"),
+                                         here[i].tname(this).c_str())) {
+                            if (u.wear_item(this, &(here[i]))) {
+                                picked_up = true;
+                            }
+                        } else if (!offered_swap) {
+                            if (query_yn(_("Drop your %s and pick up %s?"),
+                                         u.weapon.tname(this).c_str(),
+                                         here[i].tname(this).c_str())) {
+                                picked_up = true;
+                                m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+                                u.wield(this, u.i_add(here[i], this).invlet);
+                                mapPickup[here[i].tname(this)]++;
+                                add_msg(_("Wielding %c - %s"), u.weapon.invlet,
+                                        u.weapon.tname(this).c_str());
+                            }
+                            offered_swap = true;
+                        } else {
+                            decrease_nextinv();
+                        }
+                    } else {
+                        add_msg(_("There's no room in your inventory for the %s, and you can't unwield your %s."),
+                                here[i].tname(this).c_str(),
+                                u.weapon.tname(this).c_str());
+                        decrease_nextinv();
+                    }
+                } else {
+                    u.wield(this, u.i_add(here[i], this).invlet);
+                    mapPickup[here[i].tname(this)]++;
+                    picked_up = true;
+                }
+            } else if (!u.is_armed() &&
+                       (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
+                        here[i].is_weap() || here[i].is_gun())) {
+                u.weapon = here[i];
+                picked_up = true;
+            } else {
+                u.i_add(here[i], this);
+                mapPickup[here[i].tname(this)]++;
+                picked_up = true;
+            }
+
+            if (picked_up) {
+                if (from_veh) {
+                    veh->remove_item (veh_part, curmit);
+                } else {
+                    m.i_rem(posx, posy, curmit);
+                }
+                curmit--;
+                u.moves -= 100;
+                if( pickup_count[i] != 0 ) {
+                    bool to_map = !from_veh;
+
+                    if (from_veh) {
+                        to_map = !veh->add_item( veh_part, temp );
+                    }
+                    if (to_map) {
+                        m.add_item_or_charges( posx, posy, temp );
+                    }
+                }
+            }
+        }
+        curmit++;
     }
-   } else if (!u.is_armed() &&
-            (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
-              here[i].is_weap() || here[i].is_gun())) {
-    u.weapon = here[i];
-             picked_up = true;
-   } else {
-    u.i_add(here[i], this);
-    mapPickup[here[i].tname(this)]++;
-             picked_up = true;
-         }
-         if( picked_up ) {
-             if (from_veh) {
-     veh->remove_item (veh_part, curmit);
-             } else {
-     m.i_rem(posx, posy, curmit);
-             }
-             curmit--;
-    u.moves -= 100;
-             if( pickup_count[i] != 0 ) {
-                 bool to_map = !from_veh;
 
-                 if( from_veh ) {
-                     to_map = !veh->add_item( veh_part, temp );
-   }
-                 if( to_map ) {
-                     m.add_item_or_charges( posx, posy, temp );
-  }
-             }
-         }
-     }
-  curmit++;
- }
-
- if (min == -1) { //Auto pickup item message
-     if (!mapPickup.empty()) {
+    // Auto pickup item message
+    // FIXME: i18n
+    if (min == -1 && !mapPickup.empty()) {
         std::stringstream sTemp;
-
-        for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
+        for (std::map<std::string, int>::iterator iter = mapPickup.begin();
+                iter != mapPickup.end(); ++iter) {
             if (sTemp.str() != "") {
                 sTemp << ", ";
             }
-
             sTemp << iter->second << " " << iter->first;
         }
-
         add_msg((_("You pick up: ") + sTemp.str()).c_str());
-     }
- }
+    }
 
- if (got_water)
-  add_msg(_("You can't pick up a liquid!"));
- if (weight_is_okay && u.weight_carried() >= u.weight_capacity())
-  add_msg(_("You're overburdened!"));
- if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
-  add_msg(_("You struggle to carry such a large volume!"));
- }
- werase(w_pickup);
- wrefresh(w_pickup);
- werase(w_item_info);
- wrefresh(w_item_info);
- delwin(w_pickup);
- delwin(w_item_info);
+    if (got_water) {
+        add_msg(_("You can't pick up a liquid!"));
+    }
+    if (weight_is_okay && u.weight_carried() >= u.weight_capacity()) {
+        add_msg(_("You're overburdened!"));
+    }
+    if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
+        add_msg(_("You struggle to carry such a large volume!"));
+    }
+    werase(w_pickup);
+    wrefresh(w_pickup);
+    werase(w_item_info);
+    wrefresh(w_item_info);
+    delwin(w_pickup);
+    delwin(w_item_info);
 }
 
 // Establish or release a grab on a vehicle
@@ -8780,7 +8786,7 @@ void game::grab()
         vehicle *veh = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
         if( veh ) {
             add_msg(_("You release the %s."), veh->name.c_str() );
-        } else if ( m.can_move_furniture( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
+        } else if ( m.has_furn( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
             add_msg(_("You release the %s."), m.furnname( u.posx + u.grab_point.x, u.posy + u.grab_point.y ).c_str() );
         }
         u.grab_point.x = 0;
@@ -8795,11 +8801,14 @@ void game::grab()
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
-        } else if ( m.can_move_furniture( grabx, graby, &u ) ) { // If not, grab furniture if present
+        } else if ( m.has_furn( grabx, graby ) ) { // If not, grab furniture if present
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_FURNITURE;
-            add_msg(_("You grab the %s."), m.furnname( grabx, graby).c_str() );
+            if (!m.can_move_furniture( grabx, graby, &u ))
+              add_msg(_("You grab the %s. It feels really heavy."), m.furnname( grabx, graby).c_str() );
+            else
+              add_msg(_("You grab the %s."), m.furnname( grabx, graby).c_str() );
         } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
             add_msg(_("There's nothing to grab there!"));
         }
@@ -9437,7 +9446,27 @@ void game::plthrow(char chInput)
      u.i_rem(ch);
  }
 
- u.moves -= 125;
+ // Base move cost on moves per turn of the weapon
+ // and our skill.
+ int move_cost = thrown.attack_time() / 2;
+ int skill_cost = (int)(move_cost / (pow(u.skillLevel("throw"), 3)/400 +1));
+ int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
+
+ move_cost += skill_cost;
+ move_cost += 20 * u.encumb(bp_torso);
+ move_cost -= dexbonus;
+
+ if (u.has_trait("LIGHT_BONES"))
+  move_cost *= .9;
+ if (u.has_trait("HOLLOW_BONES"))
+  move_cost *= .8;
+
+ move_cost -= u.disease_intensity("speed_boost");
+
+ if (move_cost < 25)
+  move_cost = 25;
+
+ u.moves -= move_cost;
  u.practice(turn, "throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
@@ -9590,11 +9619,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
 void game::butcher()
 {
- if (u.in_vehicle)
- {
-     add_msg(_("You can't butcher while driving!"));
-     return;
- }
+    if (u.controlling_vehicle) {
+        add_msg(_("You can't butcher while driving!"));
+        return;
+    }
+
  std::vector<int> corpses;
  for (int i = 0; i < m.i_at(u.posx, u.posy).size(); i++) {
   if (m.i_at(u.posx, u.posy)[i].type->id == "corpse")
@@ -10301,7 +10330,7 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
-    if (run_mode == 2) { // Monsters around and we don't wanna run
+    if (run_mode == 2 && safemodeveh) { // Monsters around and we don't wanna run
         add_msg(_("Monster spotted--run mode is on! "
                     "(%s to turn it off or %s to ignore monster.)"),
                     press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
@@ -10350,13 +10379,14 @@ void game::pldrive(int x, int y) {
 
 bool game::plmove(int dx, int dy)
 {
- if (run_mode == 2) { // Monsters around and we don't wanna run
-   add_msg(_("Monster spotted--safe mode is on! \
+    if (run_mode == 2) {
+        // Monsters around and we don't wanna run
+        add_msg(_("Monster spotted--safe mode is on! \
 (%s to turn it off or %s to ignore monster.)"),
-           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
-  return false;
- }
+                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+        return false;
+    }
  int x = 0;
  int y = 0;
  if (u.has_disease("stunned")) {
@@ -10698,9 +10728,11 @@ bool game::plmove(int dx, int dy)
               add_msg( _("The %s collides with something."), furntype.name.c_str() );
               u.moves -= 50; // "oh was that your foot? Sorry :-O"
               return false;
-          } else if ( ! m.can_move_furniture( fpos.x, fpos.y, &u ) ) {
-              add_msg(_("The %s is too heavy for you to budge!"), furntype.name.c_str() );
-              u.moves -= 100; // time spent straining and going 'hnngh!'
+          } else if ( !m.can_move_furniture( fpos.x, fpos.y, &u ) &&
+                     one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
+              add_msg(_("You strain yourself trying to move the heavy %s!"), furntype.name.c_str() );
+              u.moves -= 100;
+              u.pain++; // Hurt ourself.
               return false; // furniture and or obstacle wins.
           } else if ( ! src_item_ok && dst_items > 0 ) {
               add_msg( _("There's stuff in the way.") );
@@ -10716,8 +10748,22 @@ bool game::plmove(int dx, int dy)
               }
           }
 
-          u.moves -= furntype.move_str_req * 10; // t_furn has no weight/friction; this is close enough.
-          sound(x, y, furntype.move_str_req * 2, _("a scraping noise"));
+          int str_req = furntype.move_str_req;
+          u.moves -= str_req * 10;
+          // Additional penalty if we can't comfortably move it.
+          if (!m.can_move_furniture(fpos.x, fpos.y, &u)) {
+              int move_penalty = std::min((int)pow(str_req, 2) + 100, 1000);
+              u.moves -= move_penalty;
+              if (move_penalty > 500) {
+                if (one_in(3)) // Nag only occasionally.
+                  add_msg( _("Moving the heavy %s is taking a lot of time!"), furntype.name.c_str() );
+              }
+              else if (move_penalty > 200) {
+                if (one_in(3)) // Nag only occasionally.
+                  add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
+              }
+          }
+          sound(x, y, furntype.move_str_req * 2, _("a scraping noise."));
 
           m.furn_set(fdest.x, fdest.y, m.furn(fpos.x, fpos.y));    // finally move it.
           m.furn_set(fpos.x, fpos.y, f_null);
@@ -10827,12 +10873,23 @@ bool game::plmove(int dx, int dy)
       remove_zombie(mondex);
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
+      m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+     }
+     return false;
+    }
+    else if (z.type->id == "mon_laserturret") {
+     if (query_yn(_("Deactivate the laser turret?"))) {
+      remove_zombie(mondex);
+      u.moves -= 100;
+      m.spawn_item(x, y, "bot_laserturret", 1, 0, turn);
      }
      return false;
     } else {
      add_msg(_("You can't displace your %s."), z.name().c_str());
      return false;
     }
+   z.move_to(this, u.posx, u.posy, true); // Force the movement even though the player is there right now.
+   add_msg(_("You displace the %s."), z.name().c_str());
    }
    else if (z.type->id == "mon_manhack") {
     if (query_yn(_("Reprogram the manhack?"))) {

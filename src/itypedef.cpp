@@ -364,6 +364,7 @@ std::string ammo_name(ammotype t)
     if( t == "gasoline" )   return _("gasoline");
     if( t == "thread" )     return _("thread");
     if( t == "battery" )    return _("batteries");
+    if( t == "laser_capacitor")return _("charge");
     if( t == "plutonium" )  return _("plutonium");
     if( t == "muscle" )     return _("muscle");
     if( t == "fusion" )     return _("fusion cell");
@@ -379,6 +380,7 @@ std::string ammo_name(ammotype t)
     if( t == "metal_rail" ) return _("ferrous rail projectile");
     if( t == "UPS" )        return _("UPS");
     if( t == "thrown" )     return _("throwing weapon");
+    if( t == "ampoule" )    return _("chemical ampoule");
     if( t == "components" ) return _("components");
     return "XXX";
 }
@@ -428,6 +430,7 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "UPS"  )         return "UPS";
     if( guntype == "components"  )  return "components";
     if( guntype == "thrown"  )      return "thrown";
+    if( guntype == "ampoule"  )     return "ampoule";
     if( guntype == "50"  )          return "50bmg";
     return "null";
 }

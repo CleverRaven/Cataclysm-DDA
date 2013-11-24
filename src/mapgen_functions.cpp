@@ -476,7 +476,7 @@ void mapgen_hive(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             } else if (rn > 10) {
                 m->ter_set(i, j, t_underbrush);
             } else {
-                m->ter_set(i, j, t_dirt);
+                m->ter_set(i, j, grass_or_dirt());
             }
         }
     }
@@ -634,7 +634,7 @@ void mapgen_spider_pit(map *m, oter_id terrain_type, mapgendata dat, int turn, f
             } else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance)) {
                 m->ter_set(i, j, t_underbrush);
             } else {
-                m->ter_set(i, j, t_dirt);
+                m->ter_set(i, j, grass_or_dirt());
             }
         }
     }
@@ -762,7 +762,7 @@ ssss.........yy.........\n\
 ssss..........yy........\n\
 ssss...........yyyyy.yyy\n\
 ssss............yyyy.yyy\n\
-ssss...................\n\
+ssss....................\n\
 ,ssss...................\n\
 ,,ssss..................\n\
 ,,,ssss.................\n\
@@ -773,7 +773,7 @@ ssss...................\n\
 ,,,,,,,,ssssssssssssssss\n\
 ,,,,,,,,,sssssssssssssss\n\
 ,,,,,,,,,,ssssssssssssss\n",
-        mapf::basic_bind(". , y s", t_pavement, t_dirt, t_pavement_y, t_sidewalk),
+        mapf::basic_bind(". , y s", t_pavement, t_null, t_pavement_y, t_sidewalk),
         mapf::basic_bind(". , y s", f_null, f_null, f_null, f_null, f_null));
     } else { //crossroad (turn) in the wilderness
         for (int i=0; i< SEEX * 2; i++) {
@@ -810,7 +810,7 @@ ssss...................\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-        mapf::basic_bind(". , y", t_pavement, t_dirt, t_pavement_y),
+        mapf::basic_bind(". , y", t_pavement, t_null, t_pavement_y),
         mapf::basic_bind(". , y", f_null, f_null, f_null, f_null));
     }
     if (terrain_type == "road_es") {

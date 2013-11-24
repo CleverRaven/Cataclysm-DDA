@@ -69,10 +69,10 @@ struct stats : public JsonSerializer, public JsonDeserializer
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) {
         JsonObject jo = jsin.get_object();
-        jo.read_into("squares_walked", squares_walked);
-        jo.read_into("damage_taken", damage_taken);
-        jo.read_into("damage_healed", damage_healed);
-        jo.read_into("headshots", headshots);
+        jo.read("squares_walked", squares_walked);
+        jo.read("damage_taken", damage_taken);
+        jo.read("damage_healed", damage_healed);
+        jo.read("headshots", headshots);
     }
 };
 
@@ -236,7 +236,7 @@ public:
                         int &bash_dam, int &cut_dam, int &pierce_dam);
 
  std::vector<special_attack> mutation_attacks(monster *z, player *p);
- void melee_special_effects(game *g, monster *z, player *p, bool crit,
+ std::string melee_special_effects(game *g, monster *z, player *p, bool crit,
                             int &bash_dam, int &cut_dam, int &stab_dam);
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc

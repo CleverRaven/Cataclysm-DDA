@@ -3356,6 +3356,9 @@ ff.......|....|WWWWWWWW|\n\
                         break;
                     case 11:
                     case 12:
+                        goods = "mil_hw";
+                        size = 82;
+                        break;
                     case 13:
                         goods = "mil_food";
                         size = 90;

@@ -200,21 +200,21 @@ void game::unserialize(std::ifstream & fin)
     try {
         JsonObject data = jsin.get_object();
 
-        data.read_into("turn",tmpturn);
-        data.read_into("last_target",tmptar);
-        data.read_into("run_mode", tmprun);
-        data.read_into("mostseen", mostseen);
-        data.read_into("nextinv", tmpinv);
+        data.read("turn",tmpturn);
+        data.read("last_target",tmptar);
+        data.read("run_mode", tmprun);
+        data.read("mostseen", mostseen);
+        data.read("nextinv", tmpinv);
         nextinv = (char)tmpinv;
-        data.read_into("next_npc_id", next_npc_id);
-        data.read_into("next_faction_id", next_faction_id);
-        data.read_into("next_mission_id", next_mission_id);
-        data.read_into("nextspawn",tmpspawn);
-        data.read_into("levx",levx);
-        data.read_into("levy",levy);
-        data.read_into("levz",levz);
-        data.read_into("om_x",comx);
-        data.read_into("om_y",comy);
+        data.read("next_npc_id", next_npc_id);
+        data.read("next_faction_id", next_faction_id);
+        data.read("next_mission_id", next_mission_id);
+        data.read("nextspawn",tmpspawn);
+        data.read("levx",levx);
+        data.read("levy",levy);
+        data.read("levz",levz);
+        data.read("om_x",comx);
+        data.read("om_y",comy);
 
         turn = tmpturn;
         nextspawn = tmpspawn;
@@ -227,10 +227,11 @@ void game::unserialize(std::ifstream & fin)
             run_mode = 1;
         }
         autosafemode = OPTIONS["AUTOSAFEMODE"];
+        safemodeveh = OPTIONS["SAFEMODEVEH"];
         last_target = tmptar;
 
         linebuf="";
-        if ( data.read_into("grscent",linebuf) ) {
+        if ( data.read("grscent",linebuf) ) {
             linein.clear();
             linein.str(linebuf);
 
@@ -251,7 +252,7 @@ void game::unserialize(std::ifstream & fin)
         clear_zombies();
         while (vdata.has_more()) {
             monster montmp;
-            vdata.read_into(montmp);
+            vdata.read_next(montmp);
             montmp.setkeep(true);
             add_zombie(montmp);
         }
@@ -260,7 +261,7 @@ void game::unserialize(std::ifstream & fin)
         coming_to_stairs.clear();
         while (vdata.has_more()) {
             monster stairtmp;
-            vdata.read_into(stairtmp);
+            vdata.read_next(stairtmp);
             coming_to_stairs.push_back(stairtmp);
         }
 
@@ -271,7 +272,7 @@ void game::unserialize(std::ifstream & fin)
             kills[*it] = odata.get_int(*it);
         }
 
-        data.read_into("player", u);
+        data.read("player", u);
 
     } catch (std::string jsonerr) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );

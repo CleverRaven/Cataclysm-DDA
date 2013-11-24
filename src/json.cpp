@@ -328,27 +328,14 @@ bool JsonObject::has_bool(const std::string &name)
     return false;
 }
 
-bool JsonObject::has_int(const std::string &name)
+bool JsonObject::has_number(const std::string &name)
 {
     int pos = verify_position(name, false);
     if (!pos) {
         return false;
     }
     jsin->seek(pos);
-    if (jsin->test_int()) {
-        return true;
-    }
-    return false;
-}
-
-bool JsonObject::has_float(const std::string &name)
-{
-    int pos = verify_position(name, false);
-    if (!pos) {
-        return false;
-    }
-    jsin->seek(pos);
-    if (jsin->test_float()) {
+    if (jsin->test_number()) {
         return true;
     }
     return false;
@@ -391,80 +378,6 @@ bool JsonObject::has_object(const std::string &name)
         return true;
     }
     return false;
-}
-
-/* non-fatal value setting by reference */
-
-bool JsonObject::read_into(const std::string &name, bool &b)
-{
-    if (!has_bool(name)) {
-        return false;
-    }
-    b = get_bool(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, int &i)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    i = get_int(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, unsigned int &u)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    u = get_int(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, float &f)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    f = get_float(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, double &d)
-{
-    if (!has_number(name)) {
-        return false;
-    }
-    d = get_float(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, std::string &s)
-{
-    if (!has_string(name)) {
-        return false;
-    }
-    s = get_string(name);
-    return true;
-}
-
-bool JsonObject::read_into(const std::string &name, JsonDeserializer &j)
-{
-    // can't know what type of json object it will deserialize from,
-    // so just try to deserialize, catching any error.
-    // TODO: non-verbose flag for JsonIn errors so try/catch is faster here
-    int pos = verify_position(name, false);
-    if (!pos) {
-        return false;
-    }
-    try {
-        jsin->seek(pos);
-        j.deserialize(*jsin);
-        return true;
-    } catch (std::string e) {
-        return false;
-    }
 }
 
 
@@ -645,22 +558,13 @@ bool JsonArray::test_bool()
     return jsin->test_bool();
 }
 
-bool JsonArray::test_int()
+bool JsonArray::test_number()
 {
     if (!has_more()) {
         return false;
     }
     jsin->seek(positions[index]);
-    return jsin->test_int();
-}
-
-bool JsonArray::test_float()
-{
-    if (!has_more()) {
-        return false;
-    }
-    jsin->seek(positions[index]);
-    return jsin->test_float();
+    return jsin->test_number();
 }
 
 bool JsonArray::test_string()
@@ -706,18 +610,11 @@ bool JsonArray::has_bool(int i)
     return jsin->test_bool();
 }
 
-bool JsonArray::has_int(int i)
+bool JsonArray::has_number(int i)
 {
     verify_index(i);
     jsin->seek(positions[i]);
-    return jsin->test_int();
-}
-
-bool JsonArray::has_float(int i)
-{
-    verify_index(i);
-    jsin->seek(positions[i]);
-    return jsin->test_float();
+    return jsin->test_number();
 }
 
 bool JsonArray::has_string(int i)
@@ -739,80 +636,6 @@ bool JsonArray::has_object(int i)
     verify_index(i);
     jsin->seek(positions[i]);
     return jsin->test_object();
-}
-
-/* iterative value setting by reference */
-
-bool JsonArray::read_into(bool &b)
-{
-    if (!test_bool()) {
-        skip_value();
-        return false;
-    }
-    b = next_bool();
-    return true;
-}
-
-bool JsonArray::read_into(int &i)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    i = next_int();
-    return true;
-}
-
-bool JsonArray::read_into(unsigned &u)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    u = next_int();
-    return true;
-}
-
-bool JsonArray::read_into(float &f)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    f = next_float();
-    return true;
-}
-
-bool JsonArray::read_into(double &d)
-{
-    if (!test_number()) {
-        skip_value();
-        return false;
-    }
-    d = next_float();
-    return true;
-}
-
-bool JsonArray::read_into(std::string &s)
-{
-    if (!test_string()) {
-        skip_value();
-        return false;
-    }
-    s = next_string();
-    return true;
-}
-
-bool JsonArray::read_into(JsonDeserializer &j)
-{
-    try {
-        verify_index(index);
-        jsin->seek(positions[index++]);
-        j.deserialize(*jsin);
-        return true;
-    } catch (std::string e) {
-        return false;
-    }
 }
 
 
@@ -1238,6 +1061,9 @@ bool JsonIn::get_bool()
     throw (std::string)"warnings are silly";
 }
 
+JsonObject JsonIn::get_object() { return JsonObject(this); }
+JsonArray JsonIn::get_array() { return JsonArray(this); }
+
 void JsonIn::start_array()
 {
     eat_whitespace();
@@ -1323,35 +1149,8 @@ bool JsonIn::test_bool()
     return false;
 }
 
-bool JsonIn::test_int()
+bool JsonIn::test_number()
 {
-    // we have to parse it to know if it's an integer or not.
-    // well...
-    // technically we could test for the existance of a decimal point,
-    // then add the number of digits after it,
-    // then subtract this from the exponent,
-    // and test if the exponent is greater than -1,
-    // but then we'd /still/ have to adjust for silly cases like 0.000300e4,
-    // which, technically, is an integer.
-    // feel free to implement.
-    eat_whitespace();
-    const int startpos = tell();
-    const char ch = peek();
-    if (ch != '-' && ch != '+' && ch != '.' && (ch < '0' || ch > '9')) {
-        return false;
-    }
-    const double f = get_float();
-    seek(startpos);
-    if (int(f) == f) {
-        return true;
-    }
-    return false;
-}
-
-bool JsonIn::test_float()
-{
-    // considering all numbers to be valid floats.
-    // note that this is thus much easier than testing for an int.
     eat_whitespace();
     const char ch = peek();
     if (ch != '-' && ch != '+' && ch != '.' && (ch < '0' || ch > '9')) {
@@ -1385,6 +1184,75 @@ bool JsonIn::test_object()
         return true;
     }
     return false;
+}
+
+/* non-fatal value setting by reference */
+
+bool JsonIn::read(bool &b)
+{
+    if (!test_bool()) {
+        return false;
+    }
+    b = get_bool();
+    return true;
+}
+
+bool JsonIn::read(int &i)
+{
+    if (!test_number()) {
+        return false;
+    }
+    i = get_int();
+    return true;
+}
+
+bool JsonIn::read(unsigned int &u)
+{
+    if (!test_number()) {
+        return false;
+    }
+    u = get_int();
+    return true;
+}
+
+bool JsonIn::read(float &f)
+{
+    if (!test_number()) {
+        return false;
+    }
+    f = get_float();
+    return true;
+}
+
+bool JsonIn::read(double &d)
+{
+    if (!test_number()) {
+        return false;
+    }
+    d = get_float();
+    return true;
+}
+
+bool JsonIn::read(std::string &s)
+{
+    if (!test_string()) {
+        return false;
+    }
+    s = get_string();
+    return true;
+}
+
+bool JsonIn::read(JsonDeserializer &j)
+{
+    // can't know what type of json object it will deserialize from,
+    // so just try to deserialize, catching any error.
+    // TODO: non-verbose flag for JsonIn errors so try/catch is faster here
+    try {
+        j.deserialize(*this);
+        return true;
+    } catch (std::string e) {
+        return false;
+    }
 }
 
 /* error display */

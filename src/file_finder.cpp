@@ -27,10 +27,11 @@
         if true, continue searching all child directories from the supplied root_path
         if false, search only the supplied root_path, and stop when the directory contents have been worked through.
 */
-std::vector<std::string> file_finder::get_files_from_path(std::string extension, std::string root_path, bool recursive_search)
+std::vector<std::string> file_finder::get_files_from_path(std::string extension, std::string root_path, bool recursive_search, bool match_extension)
 {
     std::vector<std::string> files;
-
+    const size_t extsz = extension.size();
+    const char * c_extension = extension.c_str();
     // test for empty root path
     if (root_path.empty())
     {
@@ -77,9 +78,8 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
                 }
                 // check to see if it is a file with the appropriate extension
                 std::string tmp = root_file->d_name;
-                if (tmp.find(extension.c_str()) != std::string::npos)
+                if ( tmp.find(c_extension, match_extension ? tmp.size()-extsz : 0 ) != std::string::npos )
                 {
-                    // file with extension found! add to files list with full path
                     std::string fullpath = path + "/" + tmp;
                     files.push_back(fullpath);
                 }

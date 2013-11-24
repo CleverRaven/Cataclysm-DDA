@@ -89,6 +89,8 @@ class iuse
   int siphon           (player *p, item *it, bool t);
   int chainsaw_off     (player *p, item *it, bool t);
   int chainsaw_on      (player *p, item *it, bool t);
+  int carver_off       (player *p, item *it, bool t);
+  int carver_on        (player *p, item *it, bool t);
   int shishkebab_off   (player *p, item *it, bool t);
   int shishkebab_on    (player *p, item *it, bool t);
   int firemachete_off  (player *p, item *it, bool t);
@@ -143,6 +145,7 @@ class iuse
   int portal           (player *p, item *it, bool t);
   int manhack          (player *p, item *it, bool t);
   int turret           (player *p, item *it, bool t);
+  int turret_laser     (player *p, item *it, bool t);
   int UPS_off          (player *p, item *it, bool t);
   int UPS_on           (player *p, item *it, bool t);
   int adv_UPS_off      (player *p, item *it, bool t);
@@ -188,6 +191,8 @@ class iuse
   int unfold_bicycle   (player *p, item *it, bool t);
   int airhorn          (player *p, item *it, bool t);
   int adrenaline_injector (player *p, item *it, bool t);
+  int jet_injector     (player *p, item *it, bool t);
+  int contacts (player *p, item *it, bool t);
   int talking_doll     (player *p, item *it, bool t);
 // MACGUFFINS
   int mcg_note         (player *p, item *it, bool t);

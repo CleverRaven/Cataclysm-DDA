@@ -243,7 +243,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
   // Drop a shell casing if appropriate.
   itype_id casing_type = curammo->casing;
-  if (casing_type != "NULL") {
+  if (casing_type != "NULL" && !casing_type.empty()) {
    item casing;
    casing.make(itypes[casing_type]);
    // Casing needs a charges of 1 to stack properly with other casings.
@@ -599,7 +599,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         {
             m.shoot(this, tx, ty, dam, false, no_effects);
         }
-        if (m.move_cost(tx, ty) == 0)
+        // Collide with impassable terrain unless it's flagged as liquid
+        if (m.move_cost(tx, ty) == 0 && !m.has_flag("LIQUID", tx, ty))
         {
             if (i > 0)
             {
@@ -618,19 +619,6 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             m.add_field(this, tx, ty, fd_electricity, rng(2,3));
         }
     }
-    if (m.move_cost(tx, ty) == 0)
-    {
-        if (i > 1)
-        {
-            tx = trajectory[i - 2].x;
-            ty = trajectory[i - 2].y;
-        }
-        else
-        {
-            tx = u.posx;
-            ty = u.posy;
-        }
-    }
     if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
         rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume())
     {
@@ -642,7 +630,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
     else
     {
-        sound(tx, ty, 8, _("thud."));
+        if(m.has_flag("LIQUID", tx, ty))
+            sound(tx, ty, 10, _("splash!"));
+        else
+            sound(tx, ty, 8, _("thud."));
         m.add_item_or_charges(tx, ty, thrown);
     }
 }

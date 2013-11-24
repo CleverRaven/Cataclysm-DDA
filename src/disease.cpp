@@ -37,7 +37,7 @@ enum dis_type_enum {
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_TOOK_FLUMED, DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH,
+  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
 // Traps
  DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
 // Martial Arts
@@ -50,7 +50,9 @@ enum dis_type_enum {
 // Martial arts-related buffs
  DI_MA_BUFF,
 // NPC-only
- DI_CATCH_UP
+ DI_CATCH_UP,
+ // Contact lenses
+ DI_CONTACTS
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
@@ -126,6 +128,7 @@ void game::init_diseases() {
     disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
     disease_type_lookup["took_flumed"] = DI_TOOK_FLUMED;
     disease_type_lookup["adrenaline"] = DI_ADRENALINE;
+    disease_type_lookup["jetinjector"] = DI_JETINJECTOR;
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
@@ -153,6 +156,7 @@ void game::init_diseases() {
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
+    disease_type_lookup["contacts"] = DI_CONTACTS;
 }
 
 void dis_msg(dis_type type_string) {
@@ -214,6 +218,9 @@ void dis_msg(dis_type type_string) {
     case DI_ADRENALINE:
         g->add_msg(_("You feel a surge of adrenaline!"));
         break;
+    case DI_JETINJECTOR:
+        g->add_msg(_("You feel a rush as the chemicals flow through your body!"));
+        break;
     case DI_ASTHMA:
         g->add_msg(_("You can't breathe... asthma attack!"));
         break;
@@ -250,6 +257,9 @@ void dis_msg(dis_type type_string) {
     case DI_HEAVYSNARE:
         g->add_msg(_("You are snared."));
         break;
+    case DI_CONTACTS:
+        g->add_msg(_("You can see more clearly."));
+        break;
     default:
         break;
     }
@@ -260,6 +270,9 @@ void dis_end_msg(player &p, disease &dis)
     switch (disease_type_lookup[dis.type]) {
     case DI_SLEEP:
         g->add_msg_if_player(&p, _("You wake up."));
+        break;
+    case DI_CONTACTS:
+        g->add_msg_if_player(&p, _("Your vision starts to blur."));
         break;
     default:
         break;
@@ -1040,6 +1053,23 @@ void dis_effect(player &p, disease &dis) {
                 p.per_cur -= 1;
             }
             break;
+            
+        case DI_JETINJECTOR:
+            if (dis.duration > 50) {
+                // 15 minutes positive effects
+                p.str_cur += 1;
+                p.dex_cur += 1;
+                p.per_cur += 1;
+            } else if (dis.duration == 50) {
+                // 5 minutes come-down
+                g->add_msg_if_player(&p,_("The jet injector's chemicals wear off.  You feel AWFUL!"));
+            } else {
+                p.str_cur -= 1;
+                p.dex_cur -= 2;
+                p.int_cur -= 1;
+                p.per_cur -= 2;
+            }
+            break;
 
         case DI_ASTHMA:
             if (dis.duration > 1200) {
@@ -1625,6 +1655,10 @@ std::string dis_name(disease& dis)
     case DI_ADRENALINE:
         if (dis.duration > 150) return _("Adrenaline Rush");
         else return _("Adrenaline Comedown");
+        
+    case DI_JETINJECTOR:
+        if (dis.duration > 150) return _("Chemical Rush");
+        else return _("Chemical Comedown");
 
     case DI_ASTHMA:
         if (dis.duration > 800) return _("Heavy Asthma");
@@ -1712,6 +1746,8 @@ std::string dis_name(disease& dis)
         return status;
     }
     case DI_RECOVER: return _("Recovering From Infection");
+
+    case DI_CONTACTS: return _("Contact lenses");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
@@ -2105,6 +2141,14 @@ Your feet are blistering from the intense heat. It is extremely painful.");
             return _(
             "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1");
 
+    case DI_JETINJECTOR:
+        if (dis.duration > 50)
+            return _(
+            "Strength + 1;   Dexterity + 1; Perception + 1");
+        else
+            return _(
+            "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
+
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
@@ -2149,6 +2193,8 @@ condition, and deals massive damage.");
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
+
+    case DI_CONTACTS: return _("You are wearing contact lenses.");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
