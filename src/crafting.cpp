@@ -203,15 +203,10 @@ bool game::making_would_work(recipe *making)
 
     return false;
 }
-
 bool game::can_make(recipe *r)
 {
-     inventory crafting_inv = crafting_inventory(&u);
-     return can_make_with_inventory(r, crafting_inv);
-}
-
-bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
-{
+    bool RET_VAL = true;
+    inventory crafting_inv = crafting_inventory(&u);
     if(!u.knows_recipe(r))
     {
         return false;
@@ -232,7 +227,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
             quality_iter->available = true;
         } else {
             quality_iter->available = false;
-            return false;
+            RET_VAL = false;
         }
         ++quality_iter;
     }
@@ -269,7 +264,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
         }
         if(!has_tool_in_set)
         {
-            return false;
+            RET_VAL = false;
         }
         ++tool_set_it;
     }
@@ -296,28 +291,35 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
                 {
                     has_comp_in_set = true;
                     comp.available = 1;
-                    break;
+                }
+                else
+                {
+                    comp.available = -1;
                 }
             }
             else if (crafting_inv.has_amount(type, abs(req)))
             {
                 has_comp_in_set = true;
                 comp.available = 1;
-                break;
+            }
+            else
+            {
+                comp.available = -1;
             }
             ++comp_it;
         }
         if(!has_comp_in_set)
         {
-            return false;
+            RET_VAL = false;
         }
         ++comp_set_it;
     }
-    return check_enough_materials(r, crafting_inv);
+    return check_enough_materials(r, crafting_inv) && RET_VAL;
 }
 
-bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
+bool game::check_enough_materials(recipe *r, inventory crafting_inv)
 {
+    bool RET_VAL = true;
     std::vector<std::vector<component> > &components = r->components;
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
     while (comp_set_it != components.end())
@@ -397,7 +399,7 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
         if (!atleast_one_available)
         // this set doesn't have any components available, so the recipe can't be crafted
         {
-            return false;
+            RET_VAL = false;
         }
         ++comp_set_it;
     }
@@ -476,12 +478,12 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
         if (!atleast_one_available)
             // this set doesn't have any tools available, so the recipe can't be crafted
         {
-            return false;
+            RET_VAL = false;
         }
         ++tool_set_it;
     }
 
-    return true;
+    return RET_VAL;
 }
 
 void game::craft()
@@ -543,23 +545,15 @@ craft_cat game::prev_craft_cat(craft_cat cat)
 recipe* game::select_crafting_recipe()
 {
     const int headHeight = 3;
-    const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-    bool isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
-
-    const int width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) : FULL_SCREEN_WIDTH;
-    const int wStart = ( TERMX - width ) / 2;
-    const int tailHeight = isWide ? 3 : 4;
+    const int tailHeight = 4;
     const int dataLines = TERMY - headHeight - tailHeight;
     const int dataHalfLines = dataLines / 2;
     const int dataHeight = TERMY - headHeight;
 
-    int lastid = -1;
+    WINDOW *w_head = newwin(headHeight, FULL_SCREEN_WIDTH, 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w_data = newwin(dataHeight, FULL_SCREEN_WIDTH, headHeight, (TERMX  > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
-    WINDOW *w_head = newwin(headHeight, width, 0, wStart);
-    WINDOW *w_data = newwin(dataHeight, width, headHeight, wStart);
 
-    const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
-    std::vector<std::string> folded;
     craft_cat tab = "CC_WEAPON";
     std::vector<recipe*> current;
     std::vector<bool> available;
@@ -582,43 +576,32 @@ recipe* game::select_crafting_recipe()
             } else {
                 keepline = false;
             }
-
             draw_recipe_tabs(w_head, tab, (filterstring == "")?false:true);
             current.clear();
             available.clear();
             // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(crafting_inv, current, available, tab,filterstring);
+            pick_recipes(current, available, tab,filterstring);
         }
 
         // Clear the screen of recipe data, and draw it anew
         werase(w_data);
-
-        if ( isWide ) {
-            mvwprintz(w_data, dataLines+1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
-            wprintz(w_data, c_white, "  ");
-            if (filterstring != "") {
-                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
-            } else {
-                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind"));
-            }
+        if (filterstring != "") {
+            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
         } else {
-            if (filterstring != "") {
-                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind , [R]eset"));
-            } else {
-                mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
-            }
-            mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+            mvwprintz(w_data, dataLines+1, 5, c_white, _("[?/E]: Describe, [F]ind"));
         }
+        mvwprintz(w_data, dataLines+2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+
         // Draw borders
-        for (int i = 1; i < width-1; ++i) { // _
+        for (int i = 1; i < FULL_SCREEN_WIDTH-1; ++i) { // _
             mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
         }
-        for (int i = 0; i < dataHeight-1; ++i) { // |
+        for (int i = 1; i < dataHeight-1; ++i) { // |
             mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-            mvwputch(w_data, i, width-1, c_ltgray, LINE_XOXO);
+            mvwputch(w_data, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
         }
         mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
-        mvwputch(w_data, dataHeight-1, width-1, c_ltgray, LINE_XOOX); // |_
+        mvwputch(w_data, dataHeight-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // |_
 
         int recmin = 0, recmax = current.size();
         if (recmax > dataLines) {
@@ -719,7 +702,7 @@ recipe* game::select_crafting_recipe()
 
                     std::stringstream qualinfo;
                     qualinfo << string_format(_("Requires %d tools with %s of %d or more."), iter->count, qualities[iter->id].name.c_str(), iter->level);
-                    ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH-xpos-1, toolcol, qualinfo.str().c_str());
+                    ypos += fold_and_print(w_data, ypos, xpos, getmaxx(w_data)-xpos-1, toolcol, qualinfo.str().c_str());
                 }
                 ypos--;
                 // Loop to print the required tools
@@ -828,21 +811,6 @@ recipe* game::select_crafting_recipe()
                     }
                 }
             }
-
-            if ( isWide ) {
-                if ( lastid != current[line]->id ) {
-                    lastid = current[line]->id;
-                    tmp = item(item_controller->find_template(current[line]->result), 0);
-                    folded = foldstring(tmp.info(true), iInfoWidth);
-                }
-                int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
-
-                for(int i = 0; i < maxline; i++) {
-                    mvwprintz(w_data, i, FULL_SCREEN_WIDTH+1, col, folded[i].c_str() );
-                }
-
-            }
-
         }
 
         //Draw Scrollbar
@@ -949,14 +917,13 @@ recipe* game::select_crafting_recipe()
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
-    int width = getmaxx(w);
-    for (int i = 0; i < width; i++)
+    for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
     {
         mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
     }
 
     mvwputch(w, 2,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
     if(!filtered)
     {
         draw_tab(w,  2, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
@@ -978,7 +945,7 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 
 inventory game::crafting_inventory(player *p){
  inventory crafting_inv;
- crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE, false);
+ crafting_inv.form_from_map(this, point(p->posx, p->posy), PICKUP_RANGE);
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
@@ -989,48 +956,62 @@ inventory game::crafting_inventory(player *p){
  return crafting_inv;
 }
 
-void game::pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
+void game::pick_recipes(std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab,std::string filter)
 {
-
-    recipe_list available_recipes;
-
-    if (filter == "") {
-        available_recipes = recipes[tab];
-    } else {
-        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
-        {
-            available_recipes.insert(available_recipes.begin(), iter->second.begin(), iter->second.end());
-        }
-    }
-
     current.clear();
     available.clear();
 
-    for (recipe_list::iterator iter = available_recipes.begin(); iter != available_recipes.end(); ++iter)
+    if (filter == "")
     {
-        if (!u.knows_recipe(*iter))
-            continue;
-
-        if ((*iter)->difficulty < 0 )
-            continue;
-
-
-        if (filter != "" && item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
-            continue;
-
-
-        if (can_make_with_inventory(*iter, crafting_inv))
+        add_known_recipes(current, recipes[tab]);
+    }
+    else
+    {
+        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
         {
-            current.insert(current.begin(), *iter);
-            available.insert(available.begin(), true);
+            add_known_recipes(current, iter->second, filter);
+        }
+    }
+
+    for (unsigned i = 0; i < current.size(); i++)
+    {
+        //Check if we have the requisite tools and components
+        if(can_make(current[i]))
+        {
+            available.push_back(true);
         }
         else
         {
-            current.push_back(*iter);
             available.push_back(false);
         }
     }
+}
+
+void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
+{
+    std::vector<recipe*> can_craft;
+    for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
+    {
+        if (u.knows_recipe(*iter))
+        {
+            if ((*iter)->difficulty >= 0 )
+            {
+                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
+                {
+                    if (can_make(*iter))
+                    {
+                        can_craft.push_back(*iter);
+                    }
+                    else
+                    {
+                        current.push_back(*iter);
+                    }
+                }
+            }
+        }
+    }
+    current.insert(current.begin(),can_craft.begin(),can_craft.end());
 }
 
 void game::make_craft(recipe *making)

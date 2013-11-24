@@ -120,7 +120,5 @@ std::string press_x(action_id act, std::string key_bound_pre,
  // ('Z'ing|zing) (X( or Y)))
 std::string press_x(action_id act, std::string act_desc);
 
-// Helper function to convert co-ordinate delta to a movement direction
-action_id get_movement_direction_from_delta(const int dx, const int dy);
 
 #endif

@@ -482,7 +482,7 @@ bool map::vehproceed(game* g){
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             // deep water
-            if(move_cost_ter_furn(px, py) == 0 && has_flag("SWIMMABLE", px, py)) {
+            if(move_cost_ter_furn(px, py) == 0) {
                 submerged_wheels++;
             }
         }
@@ -2064,7 +2064,7 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, int u
   }
  }
 
-bool map::close_door(const int x, const int y, const bool inside, const bool check_only)
+bool map::close_door(const int x, const int y, const bool inside)
 {
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
@@ -2076,9 +2076,7 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
-     if (!check_only) {
-        ter_set(x, y, termap[ terid ].close );
-     }
+     ter_set(x, y, termap[ terid ].close );
      return true;
  } else if ( furnmap[ furnid ].close.size() > 0 && furnmap[ furnid ].close != "t_null" ) {
      if ( furnmap.find( furnmap[ furnid ].close ) == furnmap.end() ) {
@@ -2088,9 +2086,7 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
-     if (!check_only) {
-         furn_set(x, y, furnmap[ furnid ].close );
-     }
+     furn_set(x, y, furnmap[ furnid ].close );
      return true;
  }
  return false;
@@ -2819,7 +2815,7 @@ int map::set_field_age(const point p, const field_id t, const int age, bool isof
     field_entry * field_ptr = get_field( p, t );
     if ( field_ptr != NULL ) {
         int adj = ( isoffset ? field_ptr->getFieldAge() : 0 ) + age;
-        field_ptr->setFieldAge( adj );
+        field_ptr->setFieldDensity( adj );
         return adj;
     }
     return -1;

@@ -599,8 +599,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         {
             m.shoot(this, tx, ty, dam, false, no_effects);
         }
-        // Collide with impassable terrain unless it's flagged as liquid
-        if (m.move_cost(tx, ty) == 0 && !m.has_flag("LIQUID", tx, ty))
+        if (m.move_cost(tx, ty) == 0)
         {
             if (i > 0)
             {
@@ -619,6 +618,19 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             m.add_field(this, tx, ty, fd_electricity, rng(2,3));
         }
     }
+    if (m.move_cost(tx, ty) == 0)
+    {
+        if (i > 1)
+        {
+            tx = trajectory[i - 2].x;
+            ty = trajectory[i - 2].y;
+        }
+        else
+        {
+            tx = u.posx;
+            ty = u.posy;
+        }
+    }
     if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
         rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume())
     {
@@ -630,10 +642,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
     else
     {
-        if(m.has_flag("LIQUID", tx, ty))
-            sound(tx, ty, 10, _("splash!"));
-        else
-            sound(tx, ty, 8, _("thud."));
+        sound(tx, ty, 8, _("thud."));
         m.add_item_or_charges(tx, ty, thrown);
     }
 }
@@ -845,15 +854,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   // Our coordinates will either be determined by coordinate input(mouse),
   // by a direction key, or by the previous value.
   if (action == "SELECT" && ctxt.get_coordinates(g->w_terrain, tarx, tary)) {
-      if (!OPTIONS["USE_TILES"] && snap_to_target) {
-          // Snap to target doesn't currently work with tiles.
-          tarx += x - u.posx;
-          tary += y - u.posy;
-      }
-      tarx -= x;
-      tary -= y;
-
-
+      tarx = tarx - x;
+      tary = tary - y;
   } else {
     ctxt.get_direction(tarx, tary, action);
     if(tarx == -2) {

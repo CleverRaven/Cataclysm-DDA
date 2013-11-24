@@ -71,14 +71,14 @@ public:
         JsonObject jo = jsin.get_object();
         type = (morale_type)jo.get_int("type_enum");
         std::string tmpitype;
-        if ( jo.read("item_type", tmpitype) &&
+        if ( jo.read_into("item_type", tmpitype) &&
                 itypes.find(tmpitype) != itypes.end() ) {
             item_type = itypes[tmpitype];
         }
-        jo.read("bonus", bonus);
-        jo.read("duration", duration);
-        jo.read("decay_start", decay_start);
-        jo.read("age", age);
+        jo.read_into("bonus", bonus);
+        jo.read_into("duration", duration);
+        jo.read_into("decay_start", decay_start);
+        jo.read_into("age", age);
     }
     using JsonSerializer::serialize;
     void serialize(JsonOut &json) const {

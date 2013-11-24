@@ -422,23 +422,11 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
             }
         }
     } else { // Player--present a menu
-      if(p->activity.type != ACT_FIRSTAID) {
         healed = body_window(p, it, item_name, normal_bonus, head_bonus,
                              torso_bonus, bleed, bite, infect, force);
         if (healed == num_hp_parts) {
-            return num_hp_parts; // canceled
+            return healed;
         }
-      }
-      // Brick healing if using a first aid kit for the first time.
-      // TODO: Base check on something other than the name.
-      if (item_name == "first aid kit" && p->activity.type != ACT_FIRSTAID) {
-          // Cancel and wait for activity completion.
-          return healed;
-      }
-      else if (p->activity.type == ACT_FIRSTAID) {
-        // Completed activity, extract body part from it.
-        healed = (hp_part)p->activity.values[0];
-      }
     }
     p->practice(g->turn, "firstaid", 8);
     int dam = 0;
@@ -497,10 +485,6 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
 int iuse::bandage(player *p, item *it, bool t)
 {
     if( num_hp_parts != use_healing_item(p, it, 3, 1, 4, it->name, 90, 0, 0, false) ) {
-        if (it->type->id != "quikclot") {
-          // Make bandages and rags take arbitrarily longer than hemostatic powder.
-          p->moves -= 100;
-        }
         return it->type->charges_to_use();
     }
     return 0;
@@ -508,23 +492,9 @@ int iuse::bandage(player *p, item *it, bool t)
 
 int iuse::firstaid(player *p, item *it, bool t)
 {
-    // Assign first aid long action.
-    int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
-    if (healed != num_hp_parts) {
-      p->assign_activity(g, ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0, it->invlet, it->name);
-      p->activity.values.push_back(healed);
-      p->moves = 0;
-    }
-
-    return 0;
-}
-
-// Used when finishing the first aid long action.
-int iuse::completefirstaid(player *p, item *it, bool t)
-{
     if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false) ) {
-        g->add_msg_if_player(p,_("You finish using the %s."), it->tname().c_str());
-        p->add_disease("pkill1", 120);
+        pkill(p, it, t);
+        return it->type->charges_to_use();
     }
     return 0;
 }
@@ -960,12 +930,6 @@ int iuse::mutagen(player *p, item *it, bool t) {
     } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
         g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
         p->mutate_category(g, "MUTCAT_CHIMERA");
-    } else if( it->has_flag("MUTAGEN_ELFA") ) {
-        g->add_msg_if_player(p, _("Nature is becoming one with you..."));
-        p->mutate_category(g, "MUTCAT_ELFA");
-    } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
-        g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
-        p->mutate_category(g, "MUTCAT_RAPTOR");
     } else {
         if (!one_in(3)) {
             p->mutate(g);
@@ -2677,6 +2641,34 @@ int iuse::siphon(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::combatsaw_off(player *p, item *it, bool t)
+{
+ p->moves -= 60;
+ if (it->charges > 0) {
+  g->sound(p->posx, p->posy, 30,
+           _("With a snarl, the combat chainsaw screams to life!"));
+  it->make(itypes["combatsaw_on"]);
+  it->active = true;
+ } else {
+  g->add_msg_if_player(p,_("You yank the cord, but nothing happens."));
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::combatsaw_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(12)) {
+   g->sound(p->posx, p->posy, 18, _("Your combat chainsaw growls."));
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your combat chainsaw goes quiet."));
+  it->make(itypes["combatsaw_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
 int iuse::chainsaw_off(player *p, item *it, bool t)
 {
  p->moves -= 80;
@@ -3938,7 +3930,7 @@ int iuse::matchbomb_act(player *p, item *it, bool t) {
 
 int iuse::firecracker_pack(player *p, item *it, bool t)
 {
- if (!p->has_charges("fire", 1)) {
+ if (!p->use_charges_if_avail("fire", 1)) {
   g->add_msg_if_player(p,_("You need a lighter!"));
   return 0;
  }
@@ -3973,14 +3965,12 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
    mvwprintz(w, 2, mid_x, c_white, "%d ", charges); //Trailing space clears the second digit when decreasing from 10 to 9
    wrefresh(w);
   } else if(ch == 'A') {
-   p->use_charges("fire", 1);
    if(charges == it->charges) {
     g->add_msg_if_player(p,_("You light the pack of firecrackers."));
     it->make(itypes["firecracker_pack_act"]);
     it->charges = charges;
     it->bday = g->turn;
     it->active = true;
-    return 0; // don't use any charges at all. it has became a new item
    } else {
     if(charges == 1) {
      g->add_msg_if_player(p,_("You light one firecracker."));
@@ -3992,6 +3982,7 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
      g->add_msg_if_player(p,_("You light a string of %d firecrackers."), charges);
      item new_it = item(itypes["firecracker_pack_act"], int(g->turn));
      new_it.charges = charges;
+     new_it.bday = g->turn;
      new_it.active = true;
      p->i_add(new_it, g);
     }
@@ -4001,7 +3992,7 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
    }
    close = true;
   } else if(ch == 'C') {
-   return 0; // don't use any charges at all
+   close = true;
   }
   if(!close) {
    ch = getch();
@@ -4164,8 +4155,7 @@ int iuse::manhack(player *p, item *it, bool t)
      p->skillLevel("computer") < rng(0, 4)) {
   g->add_msg_if_player(p,_("You misprogram the manhack; it's hostile!"));
  } else {
-   g->add_msg_if_player(p,_("The manhack flies from your hand and surveys the area!"));
-   m_manhack.friendly = -1;
+  m_manhack.friendly = -1;
  }
  g->add_zombie(m_manhack);
  return 1;
@@ -4203,8 +4193,6 @@ int iuse::UPS_off(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You turn the power supply on."));
   if (p->is_wearing("goggles_nv"))
    g->add_msg_if_player(p,_("Your light amp goggles power on."));
-  if (p->is_wearing("optical_cloak"))
-   g->add_msg_if_player(p,_("Your optical cloak flickers as it becomes transparent."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor engages."));
   it->make(itypes["UPS_on"]);
@@ -4230,8 +4218,6 @@ int iuse::UPS_on(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("The UPS powers off with a soft hum."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
-  if (p->is_wearing("optical_cloak"))
-   g->add_msg_if_player(p,_("Your optical cloak flickers for a moment as it becomes opaque."));
   it->make(itypes["UPS_off"]);
   it->active = false;
   return 0;
@@ -4247,9 +4233,6 @@ int iuse::adv_UPS_off(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You turn the power supply on."));
   if (p->is_wearing("goggles_nv")) {
    g->add_msg_if_player(p,_("Your light amp goggles power on."));
-  }
-  if (p->is_wearing("optical_cloak")) {
-   g->add_msg_if_player(p,_("Your optical cloak becomes transparent."));
   }
   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
     g->add_msg_if_player(p, _("Your power armor engages."));
@@ -4276,8 +4259,6 @@ int iuse::adv_UPS_on(player *p, item *it, bool t)
   g->add_msg_if_player(p,_("The advanced UPS powers off with a soft hum."));
   if (p->worn.size() && p->worn[0].type->is_power_armor())
     g->add_msg_if_player(p, _("Your power armor disengages."));
-  if (p->is_wearing("optical_cloak"))
-   g->add_msg_if_player(p,_("Your optical cloak becomes opaque."));
   it->make(itypes["adv_UPS_off"]);
   it->active = false;
  }
@@ -6163,29 +6144,6 @@ int iuse::adrenaline_injector(player *p, item *it, bool t)
   if(p->has_disease("asthma")) {
     p->rem_disease("asthma");
     g->add_msg_if_player(p,_("The adrenaline causes your asthma to clear."));
-  }
-  return it->type->charges_to_use();
-}
-
-int iuse::jet_injector(player *p, item *it, bool t)
-{
-  if(it->charges == 0) {
-    g->add_msg_if_player(p, _("The jet injector is empty."), it->name.c_str());
-    return 0;
-} else {
-    g->add_msg_if_player(p,_("You inject yourself with the jet injector."));
-    p->add_disease("jetinjector", 200);
-    p->pkill += 20;
-    p->stim += 10;
-    p->rem_disease("infected");
-    p->rem_disease("bleed");
-    p->radiation += 4;
-    p->healall(10);
-  }
-
-  if(p->has_disease("jetinjector") &&
-            p->disease_duration("jetinjector") > 200) {
-    g->add_msg_if_player(p,_("Your heart is beating alarmingly fast!"));
   }
   return it->type->charges_to_use();
 }

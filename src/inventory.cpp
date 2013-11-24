@@ -396,7 +396,7 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 }
 
 
-item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
+item& inventory::add_item(item newit, bool keep_invlet)
 {
 //dprint("inv.add_item(%d): [%c] %s", keep_invlet, newit.invlet, newit.typeId().c_str()  );
 
@@ -404,7 +404,7 @@ item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
 
     // Check how many stacks of this type already are in our inventory.
 
-    if(!keep_invlet && assign_invlet) {
+    if(!keep_invlet) {
         // Do we have this item in our inventory favourites cache?
         char temp_invlet = get_invlet_for_item( newit.typeId() );
         if( temp_invlet != 0 ) {
@@ -447,13 +447,13 @@ item& inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
                 iter->push_back(newit);
                 return iter->back();
             }
-            else if (keep_invlet && assign_invlet && it_ref->invlet == newit.invlet)
+            else if (keep_invlet && it_ref->invlet == newit.invlet)
             {
                 assign_empty_invlet(*it_ref);
             }
         }
         // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-        else if (keep_invlet && assign_invlet && it_ref->invlet == newit.invlet)
+        else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
             assign_empty_invlet(*it_ref);
         }
@@ -549,7 +549,7 @@ void inventory::restack(player *p)
     }
 }
 
-void inventory::form_from_map(game *g, point origin, int range, bool assign_invlet)
+void inventory::form_from_map(game *g, point origin, int range)
 {
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {
@@ -562,7 +562,7 @@ void inventory::form_from_map(game *g, point origin, int range, bool assign_invl
    }
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
-     add_item(g->m.i_at(x, y)[i], false, assign_invlet);
+     add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
    ter_id terrain_id = g->m.ter(x, y);
    if ((g->m.field_at(x, y).findField(fd_fire)) || (terrain_id == t_lava)) {

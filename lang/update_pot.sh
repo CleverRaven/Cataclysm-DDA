@@ -23,7 +23,7 @@ then
              --output="lang/po/cataclysm-dda.pot" \
              --keyword="_" \
              --keyword="pgettext:1c,2" \
-             src/*.cpp src/*.h lang/json/*.py
+             *.cpp *.h lang/json/*.py
     # Fix msgfmt errors
     if [ "`head -n1 lang/po/cataclysm-dda.pot`" == "# SOME DESCRIPTIVE TITLE." ]
     then

@@ -255,7 +255,7 @@ class map
  void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
  void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
- bool close_door(const int x, const int y, const bool inside, const bool check_only);
+ bool close_door(const int x, const int y, const bool inside);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
  bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);

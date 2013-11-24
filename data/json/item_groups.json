@@ -124,7 +124,6 @@
       ["meth", 2],
       ["sneakers", 80],
       ["boots", 70],
-      ["knee_high_boots", 10],
       ["boots_combat", 10],
       ["boots_winter", 60],
       ["boots_hiking", 10],
@@ -652,7 +651,6 @@
       ["rm103a_pistol", 1],
       ["laser_sight", 15],
       ["rifle_scope", 17],
-      ["pistol_scope", 14],
       ["improve_sights", 20],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
@@ -666,22 +664,13 @@
       ["jeans", 90],
       ["pants_checkered", 5],
       ["shorts", 70],
-      ["shorts_denim", 50],
       ["pants", 75],
-      ["leather_belt", 30],
       ["pants_leather", 60],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
       ["dress", 70],
       ["sundress", 50],
-      ["camisole", 60],
-      ["bra", 70],
-      ["undershirt", 70],
-      ["boxer_shorts", 50],
-      ["briefs", 40],
-      ["panties", 70],
-      ["boy_shorts", 25],
       ["dress_wedding", 1],
       ["tshirt", 80],
       ["longshirt", 70],
@@ -1299,18 +1288,15 @@
       ["helmet_football", 10],
       ["sneakers", 80],
       ["socks", 70],
-      ["stockings", 20],
       ["tshirt", 80],
       ["longshirt", 70],
       ["tank_top", 50],
-      ["sports_bra", 30],
       ["trunks", 50],
       ["bikini_top", 50],
       ["arm_warmers", 20],
       ["leg_warmers", 20],
-      ["leggings", 20],
+      ["tights", 20],
       ["under_armor", 20],
-      ["under_armor_shorts", 20],
       ["towel", 40],
       ["gloves_fingerless", 20],
       ["mask_hockey", 25],
@@ -1465,7 +1451,6 @@
       ["tshirt", 80],
       ["longshirt", 50],
       ["tank_top", 50],
-      ["sports_bra", 30],
       ["trunks", 50],
       ["bikini_top", 50],
       ["towel", 40],
@@ -1944,7 +1929,7 @@
       ["smrifle_primer", 10],
       ["lgrifle_primer", 10],
       ["lead", 10],
-      ["solder_wire", 10],
+      ["solder", 10],
       ["tin", 10],
       ["bismuth", 10],
       ["press", 5],
@@ -1953,7 +1938,6 @@
       ["red_dot_sight", 18],
       ["holo_sight", 20],
       ["rifle_scope", 16],
-      ["pistol_scope", 12],
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["improve_sights", 20]
@@ -1964,9 +1948,6 @@
     "items":[
       ["sneakers", 80],
       ["socks", 70],
-      ["tights", 20],
-      ["stockings", 20],
-      ["knee_high_boots", 20],
       ["boots", 70],
       ["flip_flops", 35],
       ["lowtops", 45],
@@ -1982,15 +1963,12 @@
       ["jeans", 90],
       ["pants_checkered", 5],
       ["shorts", 70],
-      ["shorts_denim", 35],
       ["pants", 75],
-      ["leather_belt", 30],
       ["pants_leather", 60],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
-      ["leggings", 15],
-      ["under_armor_shorts", 20],
+      ["tights", 20],
       ["dress", 70],
       ["sundress", 50],
       ["dress_wedding", 1]
@@ -2008,8 +1986,7 @@
       ["sweater", 75],
       ["hoodie", 65],
       ["under_armor", 20],
-      ["jersey", 40],
-      ["camisole", 60]
+      ["jersey", 40]
     ]
     },{
         "type" : "item_group",
@@ -2060,30 +2037,12 @@
     ]
     },{
         "type" : "item_group",
-        "id" : "female_underwear",
-    "items":[
-      ["bra", 90],
-      ["panties", 70],
-      ["boy_shorts", 50]
-    ]
-    },{
-        "type" : "item_group",
-        "id" : "male_underwear",
-    "items":[
-      ["undershirt", 30],
-      ["boxer_shorts", 70],
-      ["briefs", 30]
-    ]
-    },{
-        "type" : "item_group",
         "id" : "allclothes",
     "items":[
       ["jeans", 90],
       ["pants_checkered", 5],
       ["shorts", 70],
-      ["shorts_denim", 35],
       ["pants", 75],
-      ["leather_belt", 30],
       ["suit", 60],
       ["tophat", 10],
       ["bowhat", 10],
@@ -2098,13 +2057,6 @@
       ["polo_shirt", 65],
       ["dress_shirt", 60],
       ["tank_top", 50],
-      ["camisole", 30],
-      ["bra", 30],
-      ["undershirt", 30],
-      ["boxer_shorts", 30],
-      ["briefs", 15],
-      ["panties", 30],
-      ["boy_shorts", 25],
       ["sweatshirt", 75],
       ["sweater", 75],
       ["hoodie", 65],
@@ -2127,10 +2079,7 @@
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["under_armor", 20],
-      ["under_armor_shorts", 20],
       ["tights", 20],
-      ["leggings", 20],
-      ["stockings", 20],
       ["balclava", 15],
       ["pants_ski", 60],
       ["long_underpants", 40],
@@ -2292,8 +2241,7 @@
         "id" : "cop_pants",
     "items":[
       ["pants", 75],
-      ["pants_cargo", 70],
-      ["leather_belt", 30]
+      ["pants_cargo", 70]
     ]
     },{
         "type" : "item_group",
@@ -2858,7 +2806,6 @@
       ["petrified_eye", 1],
       ["binoculars", 20],
       ["boots", 70],
-      ["knee_high_boots", 30],
       ["mocassins", 5],
       ["dress_shoes", 50],
       ["heels", 50],
@@ -2870,7 +2817,6 @@
       ["jumpsuit", 20],
       ["dress", 70],
       ["sundress", 50],
-      ["camisole", 60],
       ["dress_shirt", 60],
       ["sweater", 75],
       ["blazer", 35],
@@ -3073,7 +3019,6 @@
       ["jeans", 90],
       ["pants_checkered", 5],
       ["shorts", 70],
-      ["shorts_denim", 35],
       ["tshirt", 80],
       ["longshirt", 70],
       ["sweatshirt", 75],
@@ -3724,7 +3669,6 @@
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
-      ["optical_cloak", 1],
       ["backpack", 38],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -3758,7 +3702,6 @@
       ["mask_gas", 10],
       ["duffelbag", 15],
       ["goggles_nv", 1],
-      ["optical_cloak", 1],
       ["backpack", 38],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -3823,8 +3766,6 @@
       ["heatpack", 60],
       ["pur_tablets", 20],
       ["fungicide", 5],
-      ["rx12_injector", 8],
-      ["ampoule", 12],
       ["quikclot", 10]
     ]
     },{
@@ -4060,8 +4001,8 @@
       ["bio_lighter", 10],
       ["bio_magnet", 10],
       ["flyer", 10],
-	    ["decoy_elfa", 10],
-	    ["recipe_elfa", 1],
+	  ["decoy_elfa", 10],
+	  ["recipe_elfa", 1],
       ["bio_purifier", 10],
       ["bio_climate", 10],
       ["bio_heatsink", 10],
@@ -4586,7 +4527,7 @@
       ["LAW_Packed", 30],
       ["m3_carlgustav", 1],
       ["gobag", 2],
-	    ["recipe_raptor", 2],
+	  ["recipe_raptor", 2],
       ["84x246mm_he", 3],
       ["84x246mm_hedp", 2],
       ["84x246mm_smoke", 3],
@@ -4600,8 +4541,7 @@
       ["sm_extinguisher", 10],
       ["flaregun", 20],
       ["signal_flare", 25],
-      ["glasses_bal", 10],
-      ["optical_cloak", 1]
+      ["glasses_bal", 10]
     ]
     },{
         "type" : "item_group",
@@ -4761,10 +4701,7 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["militarymap", 4],
-      ["quikclot", 20],
-      ["rx12_injector", 5],
-      ["ampoule", 10],
-      ["optical_cloak", 1]
+      ["quikclot", 20]
     ]
     },{
         "type" : "item_group",
@@ -4835,8 +4772,7 @@
       ["chemistry_set", 4],
       ["oxy_powder", 8],
       ["fungicide", 10],
-      ["pur_tablets", 10],
-      ["optical_cloak", 1]
+      ["pur_tablets", 10]
     ]
     },{
         "type" : "item_group",
@@ -4887,10 +4823,7 @@
       ["hazmat_suit", 5],
       ["recipe_medicalmut", 10],
       ["survivormap", 5],
-      ["pur_tablets", 20],
-      ["rx12_injector", 5],
-      ["ampoule", 10],
-      ["optical_cloak", 2]
+      ["pur_tablets", 20]
     ]
     },{
         "type" : "item_group",

@@ -10,8 +10,6 @@ class game;
 
 void dis_msg(dis_type type);
 
-void dis_end_msg(player &p, disease &dis);
-
 void dis_remove_memorial(dis_type type);
 
 void dis_effect(player &p, disease &dis);

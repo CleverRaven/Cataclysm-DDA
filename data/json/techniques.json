@@ -30,7 +30,6 @@
         "name" : "Rapid Strike",
         "min_unarmed" : 0,
         "unarmed_allowed" : true,
-        "melee_allowed" : true,
         "quick" : true,
         "messages" : [
             "You quickly strike %s",

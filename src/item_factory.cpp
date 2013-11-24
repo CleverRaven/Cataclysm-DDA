@@ -109,6 +109,8 @@ void Item_factory::init(){
     iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+    iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
+    iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
     iuse_function_list["SHISHKEBAB_OFF"] = &iuse::shishkebab_off;
     iuse_function_list["SHISHKEBAB_ON"] = &iuse::shishkebab_on;
     iuse_function_list["FIREMACHETE_OFF"] = &iuse::firemachete_off;
@@ -205,7 +207,6 @@ void Item_factory::init(){
     iuse_function_list["ABSORBENT"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
-    iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
@@ -508,9 +509,8 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     /*
     List of current flags
     FIT - Reduces encumbrance by one
-    SKINTIGHT - Reduces layer penalty
     VARSIZE - Can be made to fit via tailoring
-    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
+    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc 
     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
     HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
     RAINPROOF - Works like a raincoat to protect from rain effects
@@ -520,7 +520,6 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     SUPER_FANCY - Clothing suitable for the most posh of events.
     LIGHT_* - light emission, sets cached int light_emission
     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
-    STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
 
     Container-only flags:
     SEALS

@@ -120,8 +120,6 @@ autoextract("vehicles")
 autoextract("techniques", format_strings=True)
 autoextract("tutorial")
 autoextract("tool_qualities")
-autoextract("doll_speech")
-autoextract("overmap_terrain")
 
 # data/json/items/*
 with open(os.path.join(to_folder,"json_items.py"), 'w') as items_jtl:

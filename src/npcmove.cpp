@@ -2016,7 +2016,7 @@ void npc::set_destination(game *g)
                 options.push_back("s_library");
  }
 
- std::string dest_type = options[rng(0, options.size() - 1)];
+ oter_id dest_type = options[rng(0, options.size() - 1)];
 
  int dist = 0;
  point p = g->cur_om->find_closest(point(mapx, mapy), dest_type, dist, false);

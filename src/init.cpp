@@ -1,7 +1,6 @@
 #include "init.h"
 
 #include "json.h"
-#include "file_finder.h"
 
 #include "material.h"
 #include "bionics.h"
@@ -21,7 +20,6 @@
 #include "overmap.h"
 #include "artifact.h"
 #include "speech.h"
-#include "construction.h"
 
 #include <string>
 #include <vector>
@@ -67,6 +65,55 @@ void init_data_mappings() {
              reverse_legacy_furn_id[ i ] = 0;
         }
     }
+}
+
+/* Currently just for loading JSON data from files in data/raw */
+
+// TODO: make this actually load files from the named directory
+std::vector<std::string> listfiles(std::string const &dirname)
+{
+    (void)dirname; //not used yet
+    std::vector<std::string> ret;
+
+    ret.push_back("data/json/materials.json");
+    ret.push_back("data/json/bionics.json");
+    ret.push_back("data/json/professions.json");
+    ret.push_back("data/json/skills.json");
+    ret.push_back("data/json/dreams.json");
+    ret.push_back("data/json/mutations.json");
+    ret.push_back("data/json/snippets.json");
+    ret.push_back("data/json/item_groups.json");
+    ret.push_back("data/json/lab_notes.json");
+    ret.push_back("data/json/hints.json");
+    ret.push_back("data/json/furniture.json");
+    ret.push_back("data/json/terrain.json");
+    ret.push_back("data/json/migo_speech.json");
+    ret.push_back("data/json/doll_speech.json");
+    ret.push_back("data/json/names.json");
+    ret.push_back("data/json/vehicle_parts.json");
+    ret.push_back("data/json/vehicles.json");
+    ret.push_back("data/json/species.json");
+    ret.push_back("data/json/monsters.json");
+    ret.push_back("data/json/monstergroups.json");
+    ret.push_back("data/json/items/ammo.json");
+    ret.push_back("data/json/items/archery.json");
+    ret.push_back("data/json/items/armor.json");
+    ret.push_back("data/json/items/books.json");
+    ret.push_back("data/json/items/comestibles.json");
+    ret.push_back("data/json/items/containers.json");
+    ret.push_back("data/json/items/melee.json");
+    ret.push_back("data/json/items/mods.json");
+    ret.push_back("data/json/items/ranged.json");
+    ret.push_back("data/json/items/tools.json");
+    ret.push_back("data/json/items/vehicle_parts.json");
+    ret.push_back("data/json/techniques.json");
+    ret.push_back("data/json/martialarts.json");
+    ret.push_back("data/json/tutorial.json");
+    ret.push_back("data/json/tool_qualities.json");
+    ret.push_back("data/json/overmap_terrain.json");
+    ret.push_back("data/json/recipes.json");
+
+    return ret;
 }
 
 void load_object(JsonObject &jo)
@@ -134,8 +181,6 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_tutorial_messages);
     type_function_map["overmap_terrain"] =
         new StaticFunctionAccessor(&load_overmap_terrain);
-    type_function_map["construction"] =
-        new StaticFunctionAccessor(&load_construction);
 
     mutations_category[""].clear();
     init_mutation_parts();
@@ -159,8 +204,7 @@ void release_data_structures()
 void load_json_dir(std::string const &dirname)
 {
     // get a list of all files in the directory
-    std::vector<std::string> dir = 
-        file_finder::get_files_from_path(".json", dirname, true);
+    std::vector<std::string> dir = listfiles(dirname);
     // iterate over each file
     std::vector<std::string>::iterator it;
     for (it = dir.begin(); it != dir.end(); it++) {

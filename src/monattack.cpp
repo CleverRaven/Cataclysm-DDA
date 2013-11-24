@@ -687,7 +687,7 @@ void mattack::fungus(monster *z)
             mondex = g->mon_at(sporex, sporey);
             if (g->m.move_cost(sporex, sporey) > 0) {
                 if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(sporex, sporey) &&
+                    if (g->u_see(sporex, sporey) && 
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
                         g->add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());

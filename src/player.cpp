@@ -140,8 +140,6 @@ player::player() : name("")
  sight_boost = 0;
  sight_boost_cap = 0;
  lastrecipe = NULL;
- next_expected_position.x = -1;
- next_expected_position.y = -1;
 
  for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
@@ -732,8 +730,7 @@ void player::update_bodytemp(game *g)
         }
         else if (furn_at_pos == f_makeshift_bed ||
                  furn_at_pos == f_armchair ||
-                 furn_at_pos == f_sofa||
-                 furn_at_pos == f_hay)
+                 furn_at_pos == f_sofa)
         {
             floor_bedding_warmth += 500;
         }
@@ -1292,8 +1289,7 @@ nc_color player::color()
   return c_pink;
  if (underwater)
   return c_blue;
- if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    (is_wearing("optical_cloak") && (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))))
+ if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE))
   return c_dkgray;
  return c_white;
 }
@@ -1759,15 +1755,15 @@ void player::disp_info(game *g)
       g->weather != WEATHER_SUNNY)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you.\n\
-Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1"));
+Strength - 1;    Dexterity - 1;    Intelligence - 1;    Dexterity - 1"));
  } else if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you badly.\n\
-Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2"));
+Strength - 2;    Dexterity - 2;    Intelligence - 2;    Dexterity - 2"));
  } else if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
   effect_name.push_back(_("In Sunlight"));
   effect_text.push_back(_("The sunlight irritates you terribly.\n\
-Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
+Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4"));
  }
 
  for (int i = 0; i < addictions.size(); i++) {
@@ -3183,15 +3179,6 @@ bool player::has_bionic(bionic_id b) const
  return false;
 }
 
-bool player::has_active_optcloak() {
-  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
-      && is_wearing("optical_cloak")) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 bool player::has_active_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
@@ -3636,12 +3623,12 @@ int player::intimidation()
 
 int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
-    int painadd = 0;
-    if (has_disease("sleep")) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
-    }
+ int painadd = 0;
+ if (has_disease("sleep")) {
+  g->add_msg(_("You wake up!"));
+  rem_disease("sleep");
+ } else if (has_disease("lying_down"))
+  rem_disease("lying_down");
 
  absorb(g, bphurt, dam, cut);
 
@@ -3777,12 +3764,12 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
 {
-    int painadd = 0;
-    if (has_disease("sleep") && rng(0, dam) > 2) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
-    }
+ int painadd = 0;
+ if (has_disease("sleep") && rng(0, dam) > 2) {
+  g->add_msg(_("You wake up!"));
+  rem_disease("sleep");
+ } else if (has_disease("lying_down"))
+  rem_disease("lying_down");
 
  if (dam <= 0)
   return;
@@ -3867,7 +3854,8 @@ void player::hurt(hp_part hurt, int dam)
 {
     int painadd = 0;
     if (has_disease("sleep") && rng(0, dam) > 2) {
-        wake_up(_("You wake up!"));
+        g->add_msg(_("You wake up!"));
+        rem_disease("sleep");
     } else if (has_disease("lying_down")) {
         rem_disease("lying_down");
     }
@@ -3984,11 +3972,11 @@ void player::hurtall(int dam)
 
 void player::hitall(game *g, int dam, int vary)
 {
-    if (has_disease("sleep")) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
-    }
+ if (has_disease("sleep")) {
+  g->add_msg(_("You wake up!"));
+  rem_disease("sleep");
+ } else if (has_disease("lying_down"))
+  rem_disease("lying_down");
 
  for (int i = 0; i < num_hp_parts; i++) {
   int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
@@ -4503,7 +4491,6 @@ void player::suffer(game *g)
             illness[i].intensity--;
         }
         if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-            dis_end_msg(*this, illness[i]);
             illness.erase(illness.begin() + i);
             i--;
         }
@@ -4748,12 +4735,11 @@ void player::suffer(game *g)
    oxygen = int(oxygen / 2);
    auto_use = false;
   }
-
-        if (has_disease("sleep")) {
-            wake_up(_("Your asthma wakes you up!"));
-            auto_use = false;
-        }
-
+  if (has_disease("sleep")) {
+   rem_disease("sleep");
+   g->add_msg(_("Your asthma wakes you up!"));
+   auto_use = false;
+  }
   if (auto_use)
    use_charges("inhaler", 1);
   else {
@@ -4775,13 +4761,14 @@ void player::suffer(game *g)
    pain--;
  }
 
-    if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
-        g->add_msg(_("The sunlight burns your skin!"));
-        if (has_disease("sleep")) {
-            wake_up(_("You wake up!"));
-        }
-        hurtall(1);
-    }
+ if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(20)) {
+  g->add_msg(_("The sunlight burns your skin!"));
+  if (has_disease("sleep")) {
+   rem_disease("sleep");
+   g->add_msg(_("You wake up!"));
+  }
+  hurtall(1);
+ }
 
  if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
      g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
@@ -5492,30 +5479,6 @@ void player::process_active_items(game *g)
             g->process_artifact(&(worn[i]), this);
         }
     }
-
-  // Drain UPS if using optical cloak.
-  // TODO: Move somewhere else.
-  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
-      && is_wearing("optical_cloak")) {
-    // Drain UPS.
-    if (has_charges("adv_UPS_on", 24)) {
-      use_charges("adv_UPS_on", 24);
-      if (charges_of("adv_UPS_on") < 120 && one_in(3))
-        g->add_msg_if_player(this, _("Your optical cloak flickers for a moment!"));
-    } else if (has_charges("UPS_on", 40)) {
-      use_charges("UPS_on", 40);
-      if (charges_of("UPS_on") < 200 && one_in(3))
-        g->add_msg_if_player(this, _("Your optical cloak flickers for a moment!"));
-    } else {
-      if (has_charges("adv_UPS_on", charges_of("adv_UPS_on"))) {
-          // Drain last power.
-          use_charges("adv_UPS_on", charges_of("adv_UPS_on"));
-      }
-      else {
-        use_charges("UPS_on", charges_of("UPS_on"));
-      }
-    }
-  }
 }
 
 // returns false if the item needs to be removed
@@ -7133,7 +7096,6 @@ bool player::takeoff(game *g, char let, bool autodrop)
                                 (worn[j].invlet != let)) {
                             if (autodrop) {
                                 g->m.add_item_or_charges(posx, posy, worn[j]);
-                                g->add_msg(_("You take off your your %s."), worn[j].tname(g).c_str());
                                 worn.erase(worn.begin() + j);
 
                                 // We've invalidated our index into worn[],
@@ -7150,14 +7112,12 @@ bool player::takeoff(game *g, char let, bool autodrop)
                 if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage >
                         volume_carried() + w.type->volume) {
                     inv.add_item_keep_invlet(w);
-                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     inv.unsort();
                     taken_off = true;
                 } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                         w.tname(g).c_str())) {
                     g->m.add_item_or_charges(posx, posy, w);
-                    g->add_msg(_("You take off your your %s."), w.tname(g).c_str());
                     worn.erase(worn.begin() + i);
                     taken_off = true;
                 }
@@ -7313,8 +7273,6 @@ void player::sort_armor(game *g)
             else
                 tmp_str = "";
 
-            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT"))
-                tmp_str += _("It lies close to the skin.\n");
             if (tmp_worn[leftListIndex]->has_flag("POCKETS"))
                 tmp_str += _("It has pockets.\n");
                 if (tmp_worn[leftListIndex]->has_flag("HOOD"))
@@ -7817,7 +7775,6 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
                        (gun->contents[i].type->id == "improve_sights" ||
                         gun->contents[i].type->id == "red_dot_sight" ||
                         gun->contents[i].type->id == "holo_sight" ||
-                        gun->contents[i].type->id == "pistol_scope" ||
                         gun->contents[i].type->id == "rifle_scope")) {
                 //intentionally leaving laser_sight off the list so that it CAN be used with optics
                 g->add_msg(_("Your %s can only use one type of optical aiming device at a time."),
@@ -8111,8 +8068,7 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay || 
-     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+     furn_at_pos == f_sofa ||(veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
  else if (ter_at_pos != t_floor)
@@ -8139,7 +8095,7 @@ bool player::can_sleep(game *g)
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay)
+     furn_at_pos == f_sofa)
   sleepy += 4;
  else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair)
@@ -8159,21 +8115,6 @@ bool player::can_sleep(game *g)
  if (sleepy > 0)
   return true;
  return false;
-}
-
-void player::fall_asleep(int duration)
-{
-    add_disease("sleep", duration);
-}
-
-void player::wake_up(const char * message)
-{
-    rem_disease("sleep");
-    if (message) {
-        g->add_msg_if_player(this, message);
-    } else {
-        g->add_msg_if_player(this, _("You wake up."));
-    }
 }
 
 std::string player::is_snuggling(game *g)
@@ -8307,9 +8248,6 @@ int player::encumb(body_part bp) {
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
-
-    int skintight = 0;
-
     it_armor* armor;
     for (int i = 0; i < worn.size(); i++)
     {
@@ -8330,28 +8268,14 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 armorenc += armor->encumber;
                 // Fitted clothes will either reduce encumbrance or negate layering.
                 if( worn[i].has_flag( "FIT" ) ) {
-                    if( armor->encumber > 0 && armorenc > 0 ) {
+                    if( armor->encumber > 0 ) {
                         armorenc--;
-                    } else if (layers > 0) {
+                    } else {
                         layers -= .5;
                     }
                 }
-                if( worn[i].has_flag( "SKINTIGHT" ) && layers > 0) {
-                  // Skintight clothes will negate layering.
-                  // But only if we aren't wearing more than two.
-                  if (skintight < 2) {
-                    skintight++;
-                    layers -= .5;
-                  }
-                }
             }
         }
-    }
-    if (armorenc < 0) {
-      armorenc = 0;
-    }
-    if (layers < 0) {
-      layers = 0;
     }
 
     ret += armorenc;
@@ -8377,9 +8301,6 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
         ret += 3;
-    }
-    if ( ret < 0 ) {
-      ret = 0;
     }
     return ret;
 }
@@ -8526,7 +8447,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
                     if ((diff_bash > arm_bash && !one_in(diff_bash)) ||
-                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50)))
+                        (diff_bash == -1 && one_in(50)))
                     {
                         armor_damaged = true;
                         worn[i].damage++;
@@ -8537,7 +8458,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     if (cut_through)
                     {
                         if ((diff_cut > arm_cut && !one_in(diff_cut)) ||
-                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50)))
+                            (diff_cut == -1 && one_in(50)))
                         {
                             armor_damaged = true;
                             worn[i].damage++;
@@ -8658,7 +8579,7 @@ int player::resist(body_part bp)
         }
     }
     return ret;
-
+    
     if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
         if (ret > 5) {
@@ -8821,15 +8742,6 @@ void player::assign_activity(game* g, activity_type type, int moves, int index, 
         activity = player_activity(type, moves, index, invlet, name);
     }
     activity.warned_of_proximity = false;
-}
-
-bool player::has_activity(game* g, const activity_type type)
-{
-    if (activity.type == type) {
-        return true;
-    }
-
-    return false;
 }
 
 void player::cancel_activity()
@@ -9080,69 +8992,4 @@ void player::environmental_revert_effect()
 
     recalc_sight_limits();
 }
-
-void player::set_destination(const std::vector<point> &route)
-{
-    auto_move_route = route;
-}
-
-void player::clear_destination()
-{
-    auto_move_route.clear();
-    next_expected_position.x = -1;
-    next_expected_position.y = -1;
-}
-
-bool player::has_destination() const
-{
-    return auto_move_route.size() > 0;
-}
-
-std::vector<point> &player::get_auto_move_route()
-{
-    return auto_move_route;
-}
-
-action_id player::get_next_auto_move_direction()
-{
-    if (!has_destination()) {
-        return ACTION_NULL;
-    }
-
-    if (next_expected_position.x != -1) {
-        if (posx != next_expected_position.x || posy != next_expected_position.y) {
-            // We're off course, possibly stumbling or stuck, cancel auto move
-            return ACTION_NULL;
-        }
-    }
-
-    next_expected_position = auto_move_route.front();
-    auto_move_route.erase(auto_move_route.begin());
-
-    int dx = next_expected_position.x - posx;
-    int dy = next_expected_position.y - posy;
-
-    if (abs(dx) > 1 || abs(dy) > 1) {
-        // Should never happen, but check just in case
-        return ACTION_NULL;
-    }
-
-    return get_movement_direction_from_delta(dx, dy);
-}
-
-void player::shift_destination(int shiftx, int shifty)
-{
-    if (next_expected_position.x != -1) {
-        next_expected_position.x += shiftx;
-        next_expected_position.y += shifty;
-    }
-
-    for (std::vector<point>::iterator it = auto_move_route.begin(); it != auto_move_route.end(); it++) {
-        it->x += shiftx;
-        it->y += shifty;
-    }
-}
-
-
-
 // --- End ---

@@ -758,23 +758,3 @@ std::string press_x(action_id act, std::string act_desc)
     }
 }
 
-action_id get_movement_direction_from_delta(const int dx, const int dy)
-{
-    if (dx == 0 && dy == -1) {
-        return ACTION_MOVE_N;
-    } else if (dx == 1 && dy == -1) {
-        return ACTION_MOVE_NE;
-    } else if (dx == 1 && dy == 0) {
-        return ACTION_MOVE_E;
-    } else if (dx == 1 && dy == 1) {
-        return ACTION_MOVE_SE;
-    } else if (dx == 0 && dy == 1) {
-        return ACTION_MOVE_S;
-    } else if (dx == -1 && dy == 1) {
-        return ACTION_MOVE_SW;
-    } else if (dx == -1 && dy == 0) {
-        return ACTION_MOVE_W;
-    } else {
-        return ACTION_MOVE_NW;
-    }
-}

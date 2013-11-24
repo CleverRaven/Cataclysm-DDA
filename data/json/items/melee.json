@@ -430,7 +430,7 @@
     "cutting": 0,
     "to_hit": -6
   },
-
+  
   {
     "type":"GENERIC",
     "id": "reinforced_glass_pane",
@@ -1112,22 +1112,6 @@
 
   {
     "type":"GENERIC",
-    "id": "broken_manhack",
-    "symbol": ",",
-    "color": "green",
-    "name": "broken manhack",
-    "description": "A broken manhack. Much less threatening now that it lies limp on solid ground. Could be gutted for parts.",
-    "price": 300,
-    "material": ["steel", "plastic"],
-    "weight": 300,
-    "volume": 1,
-    "bashing": 6,
-    "cutting": 6,
-    "to_hit": -3
-  },
-
-  {
-    "type":"GENERIC",
     "id": "fan",
     "symbol": ",",
     "color": "light_gray",
@@ -1385,7 +1369,7 @@
     "to_hit": -1
   },
 
-  {
+  { 
     "type":"GENERIC",
     "id":"rock",
     "symbol": "*",
@@ -1451,7 +1435,7 @@
     "cutting": 0,
     "to_hit": 5
   },
-  {
+  { 
     "type":"GENERIC",
     "id":"fertilizer",
     "symbol": "*",
@@ -1466,7 +1450,7 @@
     "cutting": 0,
     "to_hit": 0
   },
-  {
+  { 
     "type":"GENERIC",
     "id": "syringe",
     "symbol": ",",
@@ -1658,7 +1642,7 @@
         "flags" : ["STAB"],
         "price" : 160
     },
-    {
+    { 
     "type":"GENERIC",
     "id": "knuckle_nail",
     "symbol" : "]",
@@ -2322,7 +2306,7 @@
     "type":"GENERIC",
     "id" : "cu_pipe",
     "name" : "copper tubing",
-    "description" : "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available. Useful in a few crafting recipes.",
+    "description" : "A copper tube, too thin to be much use ad a melee weapon, but will do if nothing else is available. Useful in a few crafting recipes.",
     "weight" : 345,
     "to_hit" : -1,
     "color" : "light_red",

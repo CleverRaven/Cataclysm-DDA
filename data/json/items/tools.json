@@ -1092,6 +1092,54 @@
   },
 
   {
+    "id": "combatsaw_off",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "combat chainsaw (off)",
+    "description": "This is a chainsaw that has been lightened, tuned, and extensively modified to be a highly effective weapon. Unfortunately these modifications have rendered it virtually useless as a woodcutting tool.",
+    "price": 950,
+    "material": ["steel", "iron"],
+    "weight": 5122,
+    "volume": 9,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 800,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "gasoline",
+    "revert_to": "null",
+    "use_action": "COMBATSAW_OFF"
+  },
+
+  {
+    "id": "combatsaw_on",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "combat chainsaw (on)",
+    "description": "This combat chainsaw is on, and is continuously draining gasoline. Use it to turn it off.",
+    "price": 950,
+    "material": ["steel", "iron"],
+    "techniques": "SWEEP",
+    "weight": 5122,
+    "volume": 9,
+    "bashing": 8,
+    "cutting": 82,
+    "flags" : ["CHOP", "MESSY", "NON_STUCK"],
+    "to_hit": 1,
+    "max_charges": 800,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "gasoline",
+    "revert_to": "combatsaw_off",
+    "use_action": "COMBATSAW_ON"
+  },
+
+  {
     "id": "jackhammer",
     "type": "TOOL",
     "symbol": ";",
@@ -4249,7 +4297,7 @@
     "revert_to": "null",
     "use_action": "DIG"
   },
-
+  
   {
     "id": "primitive_knife",
     "type": "TOOL",
@@ -4692,7 +4740,7 @@
     "revert_to": "null",
     "use_action": "DEJAR"
   },
-
+  
    {
     "id": "bag_hflesh_vac",
     "type": "TOOL",
@@ -4807,7 +4855,7 @@
     "revert_to": "null",
     "use_action": "DOLLCHAT"
   },
-
+  
   {
     "id": "creepy_doll",
     "type": "TOOL",
@@ -5463,8 +5511,7 @@
     "description": "This stout combat knife features a steel guard to protect the user's knuckles. The guard can also be used for striking or blocking, and the knife can also be used to butcher corpses.",
     "price": 110,
     "material": ["steel", "wood"],
-    "flags": "STAB",
-    "techniques": ["WBLOCK_1"],
+    "techniques": ["STAB", "WBLOCK_1"],
     "weight": 608,
     "volume": 2,
     "bashing": 6,
@@ -5647,29 +5694,6 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "AIRHORN"
-  },
-
-  {
-    "id": "rx12_injector",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": "RX12 jet injector",
-    "description": "The Rivtech RX12 jet injector is a small pistol-shaped device used to inject chemicals through the skin without using a needle.",
-    "price": 1000,
-    "material": ["kevlar", "steel"],
-    "weight": 316,
-    "volume": 2,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 0,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "ampoule",
-    "revert_to": "null",
-    "use_action": "JET_INJECTOR"
   },
   {
     "id": "shock_staff",

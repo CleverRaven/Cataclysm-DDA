@@ -589,10 +589,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "WALL", "BARRICADABLE_DOOR"
-        ],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "open": "t_door_o",
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
@@ -608,8 +605,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "WALL", "BARRICADABLE_DOOR"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
         "bash": {
             "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
@@ -629,10 +625,7 @@
         "symbol": "'",
         "color": "brown",
         "move_cost": 2,
-        "flags": [
-            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
-            "FLAT", "BARRICADABLE_DOOR"
-        ],
+        "flags": ["FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
         "close": "t_door_c"
     },{
         "type" : "terrain",
@@ -641,10 +634,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "WALL", "BARRICADABLE_DOOR"
-        ],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
             "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
             "sound": "crash!",
@@ -663,10 +653,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "OPENCLOSE_INSIDE", "WALL", "BARRICADABLE_DOOR"
-        ],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "WALL"],
         "open": "t_door_o",
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
@@ -899,8 +886,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
-            "DECONSTRUCT", "WALL", "BARRICADABLE_WINDOW"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "WALL"
         ],
         "bash": {
             "str_min": 1, "str_max": 6,
@@ -932,8 +918,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
-            "DECONSTRUCT", "OPENCLOSE_INSIDE", "WALL", "BARRICADABLE_WINDOW"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "WALL"
         ],
         "close": "t_curtains",
         "open": "t_window_open",
@@ -1008,8 +993,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "ALARMED", "NOITEM",
-            "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
         "bash": {
             "str_min": 1, "str_max": 6,
@@ -1040,10 +1024,7 @@
         "symbol": "0",
         "color": "yellow",
         "move_cost": 8,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "WALL",
-            "BARRICADABLE_WINDOW"
-        ]
+        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "WALL"]
     },{
         "type" : "terrain",
         "id" : "t_window_frame",
@@ -1052,9 +1033,7 @@
         "color": "ltcyan",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
-            "WALL", "BARRICADABLE_WINDOW"
-        ]
+            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"]
     },{
         "type" : "terrain",
         "id" : "t_window_boarded",

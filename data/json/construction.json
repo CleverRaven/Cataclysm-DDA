@@ -55,7 +55,7 @@
         "difficulty" : 0,
         "time" : 10,
         "tools" : [
-            [ "ax", "primitive_axe", "chainsaw_on" ]
+            [ "ax", "primitive_axe", "chainsaw_on", "combatsaw_on" ]
         ],
         "pre_terrain" : "t_tree",
         "post_terrain" : "t_dirt",

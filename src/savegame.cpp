@@ -77,7 +77,7 @@ void game::serialize(std::ofstream & fout) {
         // Header
         fout << "# version " << savegame_version << std::endl;
 
-        JsonOut json(&fout, true); // pretty-print
+        JsonOut json(&fout);
 
         json.start_object();
         // basic game state information.
@@ -200,21 +200,21 @@ void game::unserialize(std::ifstream & fin)
     try {
         JsonObject data = jsin.get_object();
 
-        data.read("turn",tmpturn);
-        data.read("last_target",tmptar);
-        data.read("run_mode", tmprun);
-        data.read("mostseen", mostseen);
-        data.read("nextinv", tmpinv);
+        data.read_into("turn",tmpturn);
+        data.read_into("last_target",tmptar);
+        data.read_into("run_mode", tmprun);
+        data.read_into("mostseen", mostseen);
+        data.read_into("nextinv", tmpinv);
         nextinv = (char)tmpinv;
-        data.read("next_npc_id", next_npc_id);
-        data.read("next_faction_id", next_faction_id);
-        data.read("next_mission_id", next_mission_id);
-        data.read("nextspawn",tmpspawn);
-        data.read("levx",levx);
-        data.read("levy",levy);
-        data.read("levz",levz);
-        data.read("om_x",comx);
-        data.read("om_y",comy);
+        data.read_into("next_npc_id", next_npc_id);
+        data.read_into("next_faction_id", next_faction_id);
+        data.read_into("next_mission_id", next_mission_id);
+        data.read_into("nextspawn",tmpspawn);
+        data.read_into("levx",levx);
+        data.read_into("levy",levy);
+        data.read_into("levz",levz);
+        data.read_into("om_x",comx);
+        data.read_into("om_y",comy);
 
         turn = tmpturn;
         nextspawn = tmpspawn;
@@ -230,7 +230,7 @@ void game::unserialize(std::ifstream & fin)
         last_target = tmptar;
 
         linebuf="";
-        if ( data.read("grscent",linebuf) ) {
+        if ( data.read_into("grscent",linebuf) ) {
             linein.clear();
             linein.str(linebuf);
 
@@ -251,7 +251,7 @@ void game::unserialize(std::ifstream & fin)
         clear_zombies();
         while (vdata.has_more()) {
             monster montmp;
-            vdata.read_next(montmp);
+            vdata.read_into(montmp);
             montmp.setkeep(true);
             add_zombie(montmp);
         }
@@ -260,7 +260,7 @@ void game::unserialize(std::ifstream & fin)
         coming_to_stairs.clear();
         while (vdata.has_more()) {
             monster stairtmp;
-            vdata.read_next(stairtmp);
+            vdata.read_into(stairtmp);
             coming_to_stairs.push_back(stairtmp);
         }
 
@@ -271,7 +271,7 @@ void game::unserialize(std::ifstream & fin)
             kills[*it] = odata.get_int(*it);
         }
 
-        data.read("player", u);
+        data.read_into("player", u);
 
     } catch (std::string jsonerr) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );
@@ -661,7 +661,7 @@ void game::unserialize_master(std::ifstream &fin) {
 void game::serialize_master(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     try {
-        JsonOut json(&fout, true); // pretty-print
+        JsonOut json(&fout);
         json.start_object();
 
         json.member("next_mission_id", next_mission_id);

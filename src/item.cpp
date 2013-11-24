@@ -363,7 +363,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
   dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
-  dump->push_back(iteminfo("BASE", (has_flag("SPEAR") || has_flag("STAB") ? _(" Pierce: ") : _(" Cut: ")), "", damage_cut(), true, "", false));
+  dump->push_back(iteminfo("BASE", (has_flag("SPEAR") ? _(" Pierce: ") : _(" Cut: ")), "", damage_cut(), true, "", false));
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
   if ( debug == true ) {
@@ -631,11 +631,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
     }
-    if (is_armor() && has_flag("SKINTIGHT"))
-    {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing lies close to the skin and layers easily.")));
-    }
     if (is_armor() && has_flag("POCKETS"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
@@ -650,11 +645,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to keep you dry in the rain.")));
-    }
-    if (is_armor() && has_flag("STURDY"))
-    {
-        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
-        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
     }
     if (is_armor() && type->id == "rad_badge")
     {
@@ -2428,41 +2418,6 @@ int item::getlight_emit(bool calculate_dimming) const {
 int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const
 {
     error = L_ERR_NONE;
-
-    if (liquid.is_ammo() && (is_tool() || is_gun())) {
-        // for filling up chainsaws, jackhammers and flamethrowers
-        ammotype ammo = "NULL";
-        int max = 0;
-
-        if (is_tool()) {
-            it_tool *tool = dynamic_cast<it_tool *>(type);
-            ammo = tool->ammo;
-            max = tool->max_charges;
-        } else {
-            it_gun *gun = dynamic_cast<it_gun *>(type);
-            ammo = gun->ammo;
-            max = gun->clip;
-        }
-
-        ammotype liquid_type = liquid.ammo_type();
-
-        if (ammo != liquid_type) {
-            error = L_ERR_NOT_CONTAINER;
-            return 0;
-        }
-
-        if (max <= 0 || charges >= max) {
-            error = L_ERR_FULL;
-            return 0;
-        }
-
-        if (charges > 0 && curammo != NULL && curammo->id != liquid.type->id) {
-            error = L_ERR_NO_MIX;
-            return 0;
-        }
-        return max - charges;
-    }
-
     if (!is_container()) {
         error = L_ERR_NOT_CONTAINER;
         return 0;

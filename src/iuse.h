@@ -16,7 +16,6 @@ class iuse
   int royal_jelly      (player *p, item *it, bool t);
   int bandage          (player *p, item *it, bool t);
   int firstaid         (player *p, item *it, bool t);
-  int completefirstaid (player *p, item *it, bool t);
   int disinfectant     (player *p, item *it, bool t);
   int caff             (player *p, item *it, bool t);
   int atomic_caff      (player *p, item *it, bool t);
@@ -89,6 +88,8 @@ class iuse
   int siphon           (player *p, item *it, bool t);
   int chainsaw_off     (player *p, item *it, bool t);
   int chainsaw_on      (player *p, item *it, bool t);
+  int combatsaw_off    (player *p, item *it, bool t);
+  int combatsaw_on     (player *p, item *it, bool t);
   int shishkebab_off   (player *p, item *it, bool t);
   int shishkebab_on    (player *p, item *it, bool t);
   int firemachete_off  (player *p, item *it, bool t);
@@ -188,7 +189,6 @@ class iuse
   int unfold_bicycle   (player *p, item *it, bool t);
   int airhorn          (player *p, item *it, bool t);
   int adrenaline_injector (player *p, item *it, bool t);
-  int jet_injector     (player *p, item *it, bool t);
   int talking_doll     (player *p, item *it, bool t);
 // MACGUFFINS
   int mcg_note         (player *p, item *it, bool t);
