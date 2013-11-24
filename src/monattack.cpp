@@ -696,7 +696,11 @@ void mattack::fungus(monster *z)
                         g->kill_mon(mondex, (z->friendly != 0));
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
-                    // Spores hit the player
+                    // Spores hit the player--is there any hope?
+                    if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
+                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        return;
+                        }
                     bool hit = false;
                     if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
@@ -715,6 +719,10 @@ void mattack::fungus(monster *z)
                     }
                     if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
                         hit = true;
+                    }
+                    if ((hit) && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
+                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        hit = false;
                     }
                     if (hit) {
                         g->add_msg(_("You're covered in tiny spores!"));
@@ -840,6 +848,9 @@ void mattack::dermatik(monster *z)
     int dodge_roll = z->dodge_roll();
     int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
     int player_swat = dice(swat_skill, 10);
+    if (g->u.has_trait("TAIL_CATTLE")) {
+        g->add_msg(_("You swat at the %s with your tail!"), z->name().c_str());
+        player_swat += ((g->u.dex_cur + g->u.skillLevel("unarmed")) / 2);}
     if (player_swat > dodge_roll) {
         g->add_msg(_("The %s lands on you, but you swat it off."), z->name().c_str());
         if (z->hp >= z->type->hp / 2) {
@@ -1743,7 +1754,7 @@ void mattack::bite(monster *z) {
     }
 
     z->sp_timeout = z->type->sp_freq; // Reset timer
-    g->add_msg(_("The %s lunges forward attempting to bite you!"), z->name().c_str());
+    g->add_msg(_("The %s lunges forward!"), z->name().c_str());
     z->moves -= 100;
 
     if (g->u.uncanny_dodge()) { return; }
@@ -1761,7 +1772,7 @@ void mattack::bite(monster *z) {
     dam = g->u.hit(g, hit, side, dam, 0);
 
     if (dam > 0) {
-        g->add_msg(_("Your %s is bitten!"), body_part_name(hit, side).c_str());
+        g->add_msg(_("The %s bites your %s!"), z->name().c_str(), body_part_name(hit, side).c_str());
 
         if(one_in(14 - dam)) {
             if (g->u.has_disease("bite", hit, side)) {
@@ -1773,7 +1784,7 @@ void mattack::bite(monster *z) {
             }
         }
     } else {
-        g->add_msg(_("Your %s is bitten, but your armor protects you."), body_part_name(hit, side).c_str());
+        g->add_msg(_("The %s bites your %s, but your armor protects you."), z->name().c_str(), body_part_name(hit, side).c_str());
     }
 
     g->u.practice(g->turn, "dodge", z->type->melee_skill);

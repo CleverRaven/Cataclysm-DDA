@@ -4816,7 +4816,7 @@ void player::suffer(game *g)
    g->m.add_field(g, posx, posy, fd_slime, 1);
  }
 
- if (has_trait("WEB_WEAVER") && !in_vehicle && one_in(3)) {
+ if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
    g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
  }
 
@@ -7004,6 +7004,24 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
+        if (armor->covers & mfb(bp_mouth) && (has_trait("MUZZLE") || has_trait("LONG_MUZZLE")))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot fit the %s over your muzzle."), armor->name.c_str());
+            }
+            return false;
+        }
+
+        if (armor->covers & mfb(bp_mouth) && has_trait("MINOTAUR"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("You cannot fit the %s over your snout."), armor->name.c_str());
+            }
+            return false;
+        }
+
         if (armor->covers & mfb(bp_feet) && has_trait("HOOVES"))
         {
             if(interactive)
@@ -7022,6 +7040,15 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             return false;
         }
 
+        if (armor->covers & mfb(bp_feet) && has_trait("RAP_TALONS"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("Your talons are much too large for footgear."));
+            }
+            return false;
+        }
+        
         if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
@@ -8375,6 +8402,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     if( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
         ret += 1;
     }
+    if( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
+        ret += 2;
+    }
     if (bp == bp_hands &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
@@ -8611,6 +8641,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     if (has_trait("SLEEK_SCALES"))
         cut -= 1;
     if (has_trait("FEATHERS"))
+        dam--;
+    if (bp == bp_arms && has_trait("ARM_FEATHERS"))
         dam--;
     if (has_trait("FUR"))
         dam--;

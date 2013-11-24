@@ -2054,15 +2054,16 @@ bool game::handle_action()
 
  switch (act) {
 
-    case ACTION_PAUSE:
-        if (run_mode == 2 && (u.controlling_vehicle && safemodeveh) ) {
-            // Monsters around and we don't wanna pause
-            add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
-                    press_x(ACTION_TOGGLE_SAFEMODE).c_str());
-        } else {
-            u.pause(this);
-        }
-        break;
+  case ACTION_PAUSE:
+   if (run_mode == 2 && (u.controlling_vehicle && safemodeveh) ) { // Monsters around and we don't wanna pause
+     add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
+             press_x(ACTION_TOGGLE_SAFEMODE).c_str());}
+   else
+   if (u.has_trait("WEB_WEAVER") && !u.in_vehicle) {
+      g->m.add_field(g, u.posx, u.posy, fd_web, 1); //this adds density to if its not already there.
+      add_msg("You spin some webbing.");}
+    u.pause(this);
+   break;
 
   case ACTION_MOVE_N:
    moveCount++;
@@ -2606,80 +2607,66 @@ void game::update_scent()
         player_last_position = point( u.posx, u.posy );
 	player_last_moved = turn;
     }
- int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int scale[SEEX * MAPSIZE][SEEY * MAPSIZE];
+
+
+ int temp_scent;
+ // note: the next two intermediate variables need to be at least [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
+ // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid introducing new bugs.
+ int sum_3_squares_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+ int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+ const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for stability.  This is essentially a decimal number * 1000.
+
  if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
 
+ // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9 times. This cost us an extra loop here, but
+ // it also eliminated a loop at the end, so there is a net performance improvement over the old code. Could probably still be better.
+ // note: this method needs an array that is one square larger on each side in the x direction then the final scent matrix
+ // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
+ for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
+  for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+   // remember the sum of the scent values for 3 neighboring squares.
+   sum_3_squares_y[x][y] = grscent[x][y] + grscent[x][y-1] + grscent[x][y+1];
+   // next, remember how many squares we will diffuse gas into.
+   squares_used_y[x][y] =(m.move_cost_ter_furn(x,y-1) > 0   || m.has_flag("BASHABLE",x,y-1)) +
+                                   (m.move_cost_ter_furn(x,y)   > 0   || m.has_flag("BASHABLE",x,y))   +
+                                   (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
+  }
+ }
+ 
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
    const bool is_bashable = m.has_flag("BASHABLE", x, y);
-   newscent[x][y] = 0;
-   scale[x][y] = 1;
    if (move_cost != 0 || is_bashable) {
-    int squares_used = 0;
-    const int this_field = grscent[x][y];
-    /*
-    for (int i = x - 1; i <= x + 1; i++) {
-        for (int j = y - 1; j <= y + 1; j++) {
-           const int scent = grscent[i][j];
-           newscent[x][y] += (scent >= this_field) * scent;
-           squares_used += (scent >= this_field);
-        }
-    }
-    */
-    // Unrolled for performance.  The above block is the rolled up equivalent.
-    newscent[x][y] += grscent[x - 1] [y - 1] * (grscent  [x - 1] [y - 1] >= this_field);
-    squares_used +=   grscent[x - 1] [y - 1] >= this_field;
-    newscent[x][y] += grscent[x - 1] [y]     * (grscent  [x - 1] [y]     >= this_field);
-    squares_used +=   grscent[x - 1] [y]     >= this_field;
-    newscent[x][y] += grscent[x - 1] [y + 1] * (grscent  [x - 1] [y + 1] >= this_field);
-    squares_used +=   grscent[x - 1] [y + 1] >= this_field;
-    newscent[x][y] += grscent[x]     [y - 1] * (grscent  [x]     [y - 1] >= this_field);
-    squares_used +=   grscent[x]     [y - 1] >= this_field;
-    newscent[x][y] += grscent[x]     [y]     * (grscent  [x]     [y]     >= this_field);
-    squares_used +=   grscent[x]     [y]     >= this_field;
-    newscent[x][y] += grscent[x]     [y + 1] * (grscent  [x]     [y + 1] >= this_field);
-    squares_used +=   grscent[x]     [y + 1] >= this_field;
-    newscent[x][y] += grscent[x + 1] [y - 1] * (grscent  [x + 1] [y - 1] >= this_field);
-    squares_used +=   grscent[x + 1] [y - 1] >= this_field;
-    newscent[x][y] += grscent[x + 1] [y]     * (grscent  [x + 1] [y]     >= this_field);
-    squares_used +=   grscent[x + 1] [y]     >= this_field;
-    newscent[x][y] += grscent[x + 1] [y + 1] * (grscent  [x + 1] [y + 1] >= this_field);
-    squares_used +=   grscent[x + 1] [y + 1] >= this_field;
+    // to how many neighboring squares do we diffuse out? (include our own square since we also include our own square when diffusing in)
+    int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
+    // take the old scent and subtract what diffuses out
+    temp_scent = grscent[x][y] * (1000 - squares_used * diffusivity); // it's okay if this is slightly negative
+    // we've already summed neighboring scent values in the y direction in the previous loop.  
+    // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
+    grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
 
-    scale[x][y] += squares_used;
     int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
-    if (fslime > 0 && newscent[x][y] < fslime) {
-        newscent[x][y] = fslime;
+    if (fslime > 0 && grscent[x][y] < fslime) {
+        grscent[x][y] = fslime;
     }
-    if (newscent[x][y] > 10000)
-    {
-     dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
-                  << y << " (" << newscent[x][y] << ")";
-     debugmsg("Wacky scent at %d, %d (%d)", x, y, newscent[x][y]);
-     newscent[x][y] = 0; // Scent should never be higher
+    if (grscent[x][y] > 10000) {
+        dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
+                     << y << " (" << grscent[x][y] << ")";
+        debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
+        grscent[x][y] = 0; // Scent should never be higher
     }
     //Greatly reduce scent for bashable barriers, even more for ductaped barriers
-    if( move_cost == 0 && is_bashable)
-    {
-        if( m.has_flag("REDUCE_SCENT", x, y))
-        {
-            scale[x][y] *= 12;
+    if( move_cost == 0 && is_bashable) {
+        if( m.has_flag("REDUCE_SCENT", x, y)) {
+            grscent[x][y] /= 12;
         } else {
-            scale[x][y] *= 4;
+            grscent[x][y] /= 4;
         }
     }
    }
   }
- }
- // Simultaneously copy the scent values back and scale them down based on factors determined in
- // the first loop.
- for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-     for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-         grscent[x][y] = newscent[x][y] / scale[x][y];
-     }
  }
 }
 
@@ -8799,7 +8786,7 @@ void game::grab()
         vehicle *veh = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
         if( veh ) {
             add_msg(_("You release the %s."), veh->name.c_str() );
-        } else if ( m.can_move_furniture( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
+        } else if ( m.has_furn( u.posx + u.grab_point.x, u.posy + u.grab_point.y ) ) {
             add_msg(_("You release the %s."), m.furnname( u.posx + u.grab_point.x, u.posy + u.grab_point.y ).c_str() );
         }
         u.grab_point.x = 0;
@@ -8814,11 +8801,14 @@ void game::grab()
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
-        } else if ( m.can_move_furniture( grabx, graby, &u ) ) { // If not, grab furniture if present
+        } else if ( m.has_furn( grabx, graby ) ) { // If not, grab furniture if present
             u.grab_point.x = grabx - u.posx;
             u.grab_point.y = graby - u.posy;
             u.grab_type = OBJECT_FURNITURE;
-            add_msg(_("You grab the %s."), m.furnname( grabx, graby).c_str() );
+            if (!m.can_move_furniture( grabx, graby, &u ))
+              add_msg(_("You grab the %s. It feels really heavy."), m.furnname( grabx, graby).c_str() );
+            else
+              add_msg(_("You grab the %s."), m.furnname( grabx, graby).c_str() );
         } else { // todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
             add_msg(_("There's nothing to grab there!"));
         }
@@ -10738,9 +10728,11 @@ bool game::plmove(int dx, int dy)
               add_msg( _("The %s collides with something."), furntype.name.c_str() );
               u.moves -= 50; // "oh was that your foot? Sorry :-O"
               return false;
-          } else if ( ! m.can_move_furniture( fpos.x, fpos.y, &u ) ) {
-              add_msg(_("The %s is too heavy for you to budge!"), furntype.name.c_str() );
-              u.moves -= 100; // time spent straining and going 'hnngh!'
+          } else if ( !m.can_move_furniture( fpos.x, fpos.y, &u ) &&
+                     one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
+              add_msg(_("You strain yourself trying to move the heavy %s!"), furntype.name.c_str() );
+              u.moves -= 100;
+              u.pain++; // Hurt ourself.
               return false; // furniture and or obstacle wins.
           } else if ( ! src_item_ok && dst_items > 0 ) {
               add_msg( _("There's stuff in the way.") );
@@ -10756,7 +10748,21 @@ bool game::plmove(int dx, int dy)
               }
           }
 
-          u.moves -= furntype.move_str_req * 10; // t_furn has no weight/friction; this is close enough.
+          int str_req = furntype.move_str_req;
+          u.moves -= str_req * 10;
+          // Additional penalty if we can't comfortably move it.
+          if (!m.can_move_furniture(fpos.x, fpos.y, &u)) {
+              int move_penalty = std::min((int)pow(str_req, 2) + 100, 1000);
+              u.moves -= move_penalty;
+              if (move_penalty > 500) {
+                if (one_in(3)) // Nag only occasionally.
+                  add_msg( _("Moving the heavy %s is taking a lot of time!"), furntype.name.c_str() );
+              }
+              else if (move_penalty > 200) {
+                if (one_in(3)) // Nag only occasionally.
+                  add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
+              }
+          }
           sound(x, y, furntype.move_str_req * 2, _("a scraping noise"));
 
           m.furn_set(fdest.x, fdest.y, m.furn(fpos.x, fpos.y));    // finally move it.
