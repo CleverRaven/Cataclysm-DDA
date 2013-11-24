@@ -124,10 +124,10 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     const int gridy1 = winh1;
     const int gridy2 = winh1 + 1 + winh2;
 
-    mvwputch(w_border, 1 + gridy1, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, 1 + gridy2, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, 1 + gridy1, 1 + gridw, c_dkgray, LINE_XOXX);
-    mvwputch(w_border, 1 + gridy2, 1 + gridw, c_dkgray, LINE_XOXX);
+    mvwputch(w_border, 1 + gridy1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, 1 + gridy2, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, 1 + gridy1, 1 + gridw, BORDER_COLOR, LINE_XOXX);
+    mvwputch(w_border, 1 + gridy2, 1 + gridw, BORDER_COLOR, LINE_XOXX);
 
     wrefresh(w_border);
 
