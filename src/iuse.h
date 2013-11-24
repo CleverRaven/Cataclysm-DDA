@@ -145,6 +145,7 @@ class iuse
   int portal           (player *p, item *it, bool t);
   int manhack          (player *p, item *it, bool t);
   int turret           (player *p, item *it, bool t);
+  int turret_laser     (player *p, item *it, bool t);
   int UPS_off          (player *p, item *it, bool t);
   int UPS_on           (player *p, item *it, bool t);
   int adv_UPS_off      (player *p, item *it, bool t);

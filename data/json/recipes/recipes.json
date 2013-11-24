@@ -14354,6 +14354,9 @@
     [
       [ "power_supply", 1 ],
       [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
     ]
   ]
 },{
@@ -14384,6 +14387,9 @@
     ],
     [
       [ "RAM", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
     ]
   ]
 },{
@@ -14423,6 +14429,59 @@
     [
       [ "power_supply", 1 ],
       [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bot_laserturret",
+  "category": "CC_MISC",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 8 ], [ "computer", 5 ], [ "gun", 3 ]],
+  "difficulty": 8,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cerberus_laser", 3 ],
+      [ "laser_rifle", 3 ],
+      [ "v29_cheap", 3 ],
+      [ "v29", 3 ]
+    ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
+    [
+      [ "motor", 1 ]
+    ],
+    [
+      [ "solar_cell", 4 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 10 ]
     ]
   ]
 },{

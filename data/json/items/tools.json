@@ -2289,7 +2289,28 @@
     "revert_to": "null",
     "use_action": "TURRET"
   },
-
+  {
+    "id": "bot_laserturret",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "inactive laser turret",
+    "description": "This is an inactive laser turret. Using this item involves turning it on and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with its revolving laser cannons. It requires sunlight in order to fire.",
+    "price": 6000,
+    "material": ["steel", "plastic"],
+    "weight": 1450,
+    "volume": 12,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "TURRET_LASER"
+  },
   {
     "id": "UPS_off",
     "type": "TOOL",

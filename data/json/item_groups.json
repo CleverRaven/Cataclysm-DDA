@@ -3630,8 +3630,9 @@
         "type" : "item_group",
         "id" : "bots",
     "items":[
-      ["bot_manhack", 1],
-      ["bot_turret", 1]
+      ["bot_manhack", 2],
+      ["bot_turret", 2],
+      ["9mm", 2]
     ]
     },{
         "type" : "item_group",
@@ -4548,6 +4549,13 @@
       ["9mm", 8]
     ]
     },{
+      "type" : "item_group",
+      "id" : "laserturret",
+      "items":[
+      ["cerberus_laser", 1],
+      ["laser_capacitor", 8]
+    ]
+    },{
         "type" : "item_group",
         "id" : "helicopter",
     "items":[
@@ -4770,7 +4778,8 @@
       ["quikclot", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
-      ["optical_cloak", 1]
+      ["optical_cloak", 1],
+      ["bot_laserturret", 1]
     ]
     },{
         "type" : "item_group",
@@ -4843,7 +4852,8 @@
       ["oxy_powder", 8],
       ["fungicide", 10],
       ["pur_tablets", 10],
-      ["optical_cloak", 1]
+      ["optical_cloak", 1],
+      ["bot_laserturret", 1]
     ]
     },{
         "type" : "item_group",
@@ -4897,7 +4907,8 @@
       ["pur_tablets", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
-      ["optical_cloak", 2]
+      ["optical_cloak", 2],
+      ["bot_laserturret", 2]
     ]
     },{
         "type" : "item_group",

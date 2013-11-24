@@ -236,6 +236,9 @@ class monster : public JsonSerializer, public JsonDeserializer
  bool onstairs;
  int staircount;
 
+ // Ammunition if we use a gun.
+ int ammo;
+
 private:
  std::vector <point> plans;
  int _posx, _posy;

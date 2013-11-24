@@ -833,6 +833,7 @@ void monster::deserialize(JsonIn &jsin)
     data.read("plans", plans);
 
     data.read("inv", inv);
+    if (!data.read("ammo", ammo)) { ammo = 100; }
 }
 
 /*
@@ -861,8 +862,10 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("morale",morale);
     json.member("hallucination",hallucination);
     json.member("onstairs",onstairs);
-    json.member("stairscount",staircount); // really...
+    json.member("stairscount",staircount);
     json.member("plans", plans);
+    json.member("ammo", ammo);
+
 
     if ( save_contents ) {
         json.member("inv");

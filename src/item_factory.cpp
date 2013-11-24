@@ -165,6 +165,7 @@ void Item_factory::init(){
     iuse_function_list["PORTAL"] = &iuse::portal;
     iuse_function_list["MANHACK"] = &iuse::manhack;
     iuse_function_list["TURRET"] = &iuse::turret;
+    iuse_function_list["TURRET_LASER"] = &iuse::turret_laser;
     iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
     iuse_function_list["UPS_ON"] = &iuse::UPS_on;
     iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;

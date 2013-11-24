@@ -4212,11 +4212,52 @@ int iuse::turret(player *p, item *it, bool t)
 
  p->moves -= 100;
  monster mturret(GetMType("mon_turret"), dirx, diry);
+ int ammo = std::min(p->inv.charges_of("9mm"), 500);
+ if (ammo > 0) {
+    char invlet = p->inv.item_by_type("9mm").invlet;
+    p->inv.remove_item_by_charges(invlet, ammo);
+    if (ammo == 1) {
+      g->add_msg_if_player(p,_("You load your only 9mm bullet into the turret."));
+    }
+    else {
+      g->add_msg_if_player(p,_("You load %d x 9mm rounds into the turret."), ammo);
+    }
+ }
+ mturret.ammo = ammo;
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 6)) {
-  g->add_msg_if_player(p,_("You misprogram the turret; it's hostile!"));
+  g->add_msg_if_player(p,_("The turret scans you and makes angry beeping noises!"));
  } else {
+  g->add_msg_if_player(p,_("The turret emits an IFF beep as it scans you."));
   mturret.friendly = -1;
+ }
+ g->add_zombie(mturret);
+ return 1;
+}
+
+
+int iuse::turret_laser(player *p, item *it, bool t)
+{
+ int dirx, diry;
+ if(!g->choose_adjacent(_("Place the turret where?"), dirx, diry)) {
+  return 0;
+ }
+ if (!g->is_empty(dirx, diry)) {
+  g->add_msg_if_player(p,_("You cannot place a turret there."));
+  return 0;
+ }
+
+ p->moves -= 100;
+ monster mturret(GetMType("mon_laserturret"), dirx, diry);
+ if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
+     p->skillLevel("computer") < rng(0, 6)) {
+  g->add_msg_if_player(p,_("The laser turret scans you and makes angry beeping noises!"));
+ } else {
+  g->add_msg_if_player(p,_("The laser turret emits an IFF beep as it scans you."));
+  mturret.friendly = -1;
+ }
+ if (!g->is_in_sunlight(mturret.posx(), mturret.posy())) {
+  g->add_msg_if_player(p,_("A flashing LED on the laser turret appears to indicate low light."));
  }
  g->add_zombie(mturret);
  return 1;
