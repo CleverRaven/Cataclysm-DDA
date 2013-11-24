@@ -34,6 +34,9 @@
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
+// a consistent border colour
+#define BORDER_COLOR c_ltgray
+
 // Display data
 extern int TERMX; // width available for display
 extern int TERMY; // height available for display
