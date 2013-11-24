@@ -2,6 +2,8 @@
 #include "file_finder.h"
 #include "char_validity_check.h"
 
+#include "name.h"
+
 // FILE I/O
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -34,21 +36,7 @@ std::string world_options_header()
 
 std::string get_next_valid_worldname(std::string test, worldfactory *factory)
 {
-    int test_value = 1;
-    std::stringstream test_worldname;
-    const std::string test_world_prefix = test + std::string(1, ' ');
-    bool valid = factory->valid_worldname(test, true);
-    std::string worldname = test;
-    while (!valid){
-        test_worldname.str("");
-        test_worldname << test_world_prefix << test_value;
-        if (factory->valid_worldname(test_worldname.str(), true)){
-            worldname = test_worldname.str();
-            valid = true;
-        }else{
-            ++test_value;
-        }
-    }
+    std::string worldname = Name::get(nameIsWorldName);
 
     return worldname;
 }

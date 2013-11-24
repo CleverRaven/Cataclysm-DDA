@@ -696,7 +696,7 @@ use the vehicle controls, %s to bring up the \"Vehicle Controls\" menu."),
             } break;
 
         case '2':
-            show_options();
+            show_options(true);
             werase(w_help);
             break;
 

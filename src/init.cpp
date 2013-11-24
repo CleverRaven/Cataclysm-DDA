@@ -160,7 +160,7 @@ void load_json_dir(std::string const &dirname)
 {
     // get a list of all files in the directory
     std::vector<std::string> dir = 
-        file_finder::get_files_from_path(".json", dirname, true);
+        file_finder::get_files_from_path(".json", dirname, true, true);
     // iterate over each file
     std::vector<std::string>::iterator it;
     for (it = dir.begin(); it != dir.end(); it++) {
