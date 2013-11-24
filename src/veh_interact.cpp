@@ -62,12 +62,26 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     // |         w_stats         |
     // +-------------------------+
     //
-    // w_disp (winw1, winh2) expands to take up any extra space
-    //
-    const int gridw = FULL_SCREEN_WIDTH - 2; // exterior borders take 2
-    const int gridh = FULL_SCREEN_HEIGHT - 2; // exterior borders take 2
-    const int winw2 = 32;
-    const int winw3 = 32;
+    // winh2 expands to take up extra vertical space,
+    // as it's used for lists of things.
+    // winw1, winw2 and winw3 share extra space in a 2:1:1 ratio,
+    // but winh2 and winh3 start with more than winh1.
+
+    // main window should also expand to use available display space.
+    // expanding to evenly use up half of extra space, for now.
+    const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2;
+    const int extrah = ((TERMY - FULL_SCREEN_HEIGHT) / 4) * 2;
+    const int totalw = FULL_SCREEN_WIDTH + extraw;
+    const int totalh = FULL_SCREEN_HEIGHT + extrah;
+    
+    // position within main display
+    const int x1 = 1 + ((TERMX - totalw) / 2);
+    const int y1 = 1 + ((TERMY - totalh) / 2);
+
+    const int gridw = totalw - 2; // exterior borders take 2
+    const int gridh = totalh - 2; // exterior borders take 2
+    const int winw2 = 32 + (extraw / 4);
+    const int winw3 = 32 + (extraw / 4);
     const int winw1 = gridw - winw2 - winw3;
     const int winh1 = 4; // 4 lines for the message window
     const int winh3 = 5; // 5 lines for the stat window
@@ -86,10 +100,6 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     list_h = winh2;
     list_w = winw3;
 
-    // position within main display
-    const int x1 = 1 + ((TERMX - FULL_SCREEN_WIDTH) / 2);
-    const int y1 = 1 + ((TERMY - FULL_SCREEN_HEIGHT) / 2);
-
     const int x2 = x1 + winw1 + 1;
     const int x3 = x2 + winw2 + 1;
     const int y2 = y1 + winh1 + 1;
@@ -98,8 +108,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     page_size = list_h;
 
     // height, width, y, x
-    WINDOW *w_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, y1 - 1, x1 - 1 );
-    w_grid  = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, y1, x1 );
+    WINDOW *w_border = newwin( totalh, totalw, y1 - 1, x1 - 1 );
+    w_grid  = newwin( gridh,   gridw, y1, x1 );
     w_mode  = newwin( mode_h,  mode_w,  y1, x1 );
     w_msg   = newwin( msg_h,   msg_w,   y1 + mode_h, x1 );
     w_disp  = newwin( disp_h,  disp_w,  y2, x1 );
