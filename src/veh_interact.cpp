@@ -956,8 +956,8 @@ void veh_interact::display_stats ()
         column = second_column + utf8_width(_("Most damaged:  ")) + 1;
         std::string partID = veh->parts[mostDamagedPart].id;
         vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = part.hp / vehicle_part_types[part.id].durability;
-        nc_color damagecolor = getDurabilityColor(damagepercent * 100);
+        int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
+        nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
         fold_and_print(w_stats, 4, column, third_column, damagecolor, "%s", partName.c_str());
     }
