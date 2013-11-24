@@ -5731,7 +5731,7 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": 0,
-    "max_charges": 1,
+    "max_charges": 2,
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 0,
