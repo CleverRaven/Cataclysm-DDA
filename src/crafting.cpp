@@ -278,14 +278,14 @@ bool game::can_make_with_inventory(recipe *r, const inventory& crafting_inv)
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
     while (comp_set_it != components.end())
     {
-        std::vector<component> &set_of_components = *comp_set_it;
-        if(set_of_components.empty())
+        std::vector<component> &component_choices = *comp_set_it;
+        if(component_choices.empty())
         {
             break;
         }
         bool has_comp_in_set = false;
-        std::vector<component>::iterator comp_it = set_of_components.begin();
-        while(comp_it != set_of_components.end())
+        std::vector<component>::iterator comp_it = component_choices.begin();
+        while(comp_it != component_choices.end())
         {
             component &comp = *comp_it;
             itype_id type = comp.type;
@@ -322,10 +322,10 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
     while (comp_set_it != components.end())
     {
-        std::vector<component> &set_of_components = *comp_set_it;
-        std::vector<component>::iterator comp_it = set_of_components.begin();
+        std::vector<component> &component_choices = *comp_set_it;
+        std::vector<component>::iterator comp_it = component_choices.begin();
         bool atleast_one_available = false;
-        while (comp_it != set_of_components.end())
+        while (comp_it != component_choices.end())
         {
             component &comp = *comp_it;
             if (comp.available == 1)
@@ -421,9 +421,9 @@ bool game::check_enough_materials(recipe *r, const inventory& crafting_inv)
                 while (comp_set_it != components.end())
                 {
                     bool have_enough = false, conflict = false;
-                    std::vector<component> &set_of_components = *comp_set_it;
-                    std::vector<component>::iterator comp_it = set_of_components.begin();
-                    while(comp_it != set_of_components.end())
+                    std::vector<component> &component_choices = *comp_set_it;
+                    std::vector<component>::iterator comp_it = component_choices.begin();
+                    while(comp_it != component_choices.end())
                     {
                         component &comp = *comp_it;
                         if (tool.type == comp.type)
