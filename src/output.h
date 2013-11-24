@@ -65,7 +65,7 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 
-void draw_border(WINDOW *w);
+void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
 std::string word_rewrap (const std::string &ins, int width);

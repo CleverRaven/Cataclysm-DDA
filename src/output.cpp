@@ -217,12 +217,12 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     wattroff(w, FG);
 }
 
-void draw_border(WINDOW *w)
+void draw_border(WINDOW *w, nc_color FG)
 {
-    wattron(w, BORDER_COLOR);
+    wattron(w, FG);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wattroff(w, BORDER_COLOR);
+    wattroff(w, FG);
 }
 
 void draw_tabs(WINDOW *w, int active_tab, ...)
