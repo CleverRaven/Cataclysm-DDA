@@ -116,6 +116,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             last_target = tmptar;
 
+            safemodeveh = OPTIONS["SAFEMODEVEH"];
+
             // Next, the scent map.
             parseline();
 
@@ -204,6 +206,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 run_mode = 1;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
+            safemodeveh = OPTIONS["SAFEMODEVEH"];
             last_target = tmptar;
 
             // Next, the scent map.
@@ -320,6 +323,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 run_mode = 1;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
+            safemodeveh = OPTIONS["SAFEMODEVEH"];
             last_target = tmptar;
 
             // Next, the scent map.
@@ -434,6 +438,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          if (OPTIONS["SAFEMODE"] && run_mode == 0)
           run_mode = 1;
          autosafemode = OPTIONS["AUTOSAFEMODE"];
+         safemodeveh = OPTIONS["SAFEMODEVEH"];
          last_target = tmptar;
 
         // Next, the scent map.
@@ -1696,7 +1701,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
 }
 
 
-bool game::unserialize_master_legacy(std::ifstream & fin) { 
+bool game::unserialize_master_legacy(std::ifstream & fin) {
 // First, get the next ID numbers for each of these
  std::string data;
  char junk;
