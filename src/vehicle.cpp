@@ -657,7 +657,7 @@ bool vehicle::can_unmount (int p)
     if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
         return false;
     }
-    
+
     // Can't remove a window with curtains still on it
     if(part_flag(p, "WINDOW") && part_with_feature(p, "CURTAIN") >=0) {
         return false;
@@ -916,7 +916,7 @@ void vehicle::remove_part (int p)
             }
         }
     }
-    
+
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if(part_flag(p, "WINDOW")) {
@@ -936,7 +936,7 @@ void vehicle::remove_part (int p)
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
-    
+
     if(parts.size() == 0) {
         g->m.destroy_vehicle(this);
     } else {
@@ -1949,7 +1949,14 @@ void vehicle::thrust (int thd)
             coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
             g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
-        g->sound(global_x(), global_y(), noise(), "");
+        std::string soundmessage;
+        if (smk > 60)
+          soundmessage = "roarrr!";
+        else if (smk > 30)
+          soundmessage = "vroom!";
+        else
+          soundmessage = "whirrr!";
+        g->sound(global_x(), global_y(), noise(), soundmessage.c_str());
     }
 
     if (skidding)
@@ -2877,7 +2884,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
         }
         return dmg;
     }
-    
+
     int tsh = part_info(p).durability / 10;
     if (tsh > 20) {
         tsh = 20;
