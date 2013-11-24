@@ -1362,7 +1362,8 @@
       ["manual_throw", 12],
       ["protein_powder", 15],
       ["airhorn", 40],
-      ["boots_hiking", 10]
+      ["boots_hiking", 10],
+      ["leathersandals", 10]
     ]
     },{
         "type" : "item_group",
@@ -1462,7 +1463,8 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["airhorn", 20],
-      ["charcoal", 20]
+      ["charcoal", 20],
+      ["leathersandals", 10]
     ]
     },{
         "type" : "item_group",
@@ -1602,7 +1604,8 @@
       ["flaregun", 10],
       ["signal_flare", 15],
       ["airhorn", 30],
-      ["quikclot", 10]
+      ["quikclot", 10],
+      ["leathersandals", 15]
     ]
     },{
         "type" : "item_group",
