@@ -127,8 +127,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     mvwputch(w_border, 1 + gridy1, 0, c_dkgray, LINE_XXXO); // |-
     mvwputch(w_border, 1 + gridy2, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, 1 + gridy1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
-    mvwputch(w_border, 1 + gridy2, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
+    mvwputch(w_border, 1 + gridy1, 1 + gridw, c_dkgray, LINE_XOXX);
+    mvwputch(w_border, 1 + gridy2, 1 + gridw, c_dkgray, LINE_XOXX);
 
     wrefresh(w_border);
 
