@@ -2120,6 +2120,52 @@
   ]
 },{
         "type" : "recipe",
+  "result": "carver_off",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "tools" : [
+     [ ["mold_plastic", -1] ],
+     [
+      ["hotplate", 10],
+      ["toolset", 1],
+      ["fire", -1]
+     ],
+     [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+     ],
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 1 ]
+     ]
+  ],
+  "components" : [
+     [
+      ["plastic_chunk", 6]
+     ],
+     [
+      ["blade", 2]
+     ],
+     [
+      ["motor", 1]
+     ],
+     [
+      ["power_supply", 1]
+     ],
+     [
+      [ "scrap", 1 ]
+     ],
+     [
+      [ "cable", 5 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "smokebomb",
   "category": "CC_WEAPON",
   "skill_used": "cooking",
