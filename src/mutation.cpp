@@ -391,6 +391,10 @@ void mutation_effect(game *g, player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_mouth);
 
+    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "LONG_MUZZLE") {
+        // Push off mouthwear
+        bps.push_back(bp_mouth);
+
     } else if (mut == "HOOVES" || mut == "RAP_TALONS") {
         // Destroy footwear
         destroy = true;

@@ -1516,6 +1516,8 @@ int trial_chance(talk_response response, player *u, npc *p)
    chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
    if (u->has_trait("TRUTHTELLER"))
     chance -= 40;
+   if (u->has_trait("TAIL_FLUFFY"))
+    chance -= 20;
    else if (u->has_trait("LIAR"))
     chance += 40;
    if (u->has_trait("ELFAEYES"))
@@ -1527,6 +1529,8 @@ int trial_chance(talk_response response, player *u, npc *p)
            p->op_of_u.trust * 2 + p->op_of_u.value;
    if (u->has_trait("ELFAEYES"))
     chance += 20;
+   if (u->has_trait("TAIL_FLUFFY"))
+    chance += 10;
    if (u->has_trait("GROWL"))
     chance -= 25;
    if (u->has_trait("HISS"))
@@ -1538,6 +1542,12 @@ int trial_chance(talk_response response, player *u, npc *p)
   case TALK_TRIAL_INTIMIDATE:
    chance += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
            p->personality.bravery * 2;
+   if (u->has_trait("MINOTAUR"))
+    chance += 15;
+   if (u->has_trait("MUZZLE"))
+    chance += 6;
+   if (u->has_trait("LONG_MUZZLE"))
+    chance += 20;
    if (u->has_trait("TERRIFYING"))
     chance += 15;
    if (u->has_trait("ELFAEYES"))
