@@ -1601,7 +1601,7 @@ void game::handle_key_blocking_activity() {
         char ch = input();
         if(ch != ERR) {
             timeout(-1);
-            switch(keymap[ch]){  // should probably make the switch in handle_action() a function
+            switch(action_from_key(ch)) {  // should probably make the switch in handle_action() a function
                 case ACTION_PAUSE:
                     cancel_activity_query(_("Confirm:"));
                     break;
@@ -7924,7 +7924,7 @@ int game::list_monsters()
                     return 1;
                     break;
                 default: {
-                    action_id act = keymap[ch];
+                    action_id act = action_from_key(ch);
                     switch (act) {
                         case ACTION_LOOK: {
                             point recentered=look_around();
