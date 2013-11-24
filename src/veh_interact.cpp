@@ -65,7 +65,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     // winh2 expands to take up extra vertical space,
     // as it's used for lists of things.
     // winw1, winw2 and winw3 share extra space in a 2:1:1 ratio,
-    // but winh2 and winh3 start with more than winh1.
+    // but winw2 and winw3 start with more than winw1.
 
     // main window should also expand to use available display space.
     // expanding to evenly use up half of extra space, for now.
@@ -82,7 +82,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     const int gridh = totalh - 2; // exterior borders take 2
     const int winw2 = 32 + (extraw / 4);
     const int winw3 = 32 + (extraw / 4);
-    const int winw1 = gridw - winw2 - winw3;
+    const int winw1 = gridw - winw2 - winw3 - 2; // interior borders take 2
     const int winh1 = 4; // 4 lines for the message window
     const int winh3 = 6; // 6 lines for the stat window
     const int winh2 = gridh - winh1 - winh3 - 2; // interior borders take 2
@@ -109,7 +109,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     // height, width, y, x
     WINDOW *w_border = newwin( totalh, totalw, y1 - 1, x1 - 1 );
-    w_grid  = newwin( gridh,   gridw, y1, x1 );
+    w_grid  = newwin( gridh,   gridw,   y1, x1 );
     w_mode  = newwin( mode_h,  mode_w,  y1, x1 );
     w_msg   = newwin( msg_h,   msg_w,   y1 + mode_h, x1 );
     w_disp  = newwin( disp_h,  disp_w,  y2, x1 );
@@ -117,18 +117,17 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     w_list  = newwin( list_h,  list_w,  y2, x3 );
     w_stats = newwin( stats_h, stats_w, y3, x1 );
 
-    wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_border);
 
     const int gridx1 = winw1;
     const int gridx2 = winw1 + 1 + winw2;
     const int gridy1 = winh1;
     const int gridy2 = winh1 + 1 + winh2;
 
-    mvwputch(w_border, 1 + gridy1, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, 1 + gridy2, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, 1 + gridy1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
-    mvwputch(w_border, 1 + gridy2, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
+    mvwputch(w_border, 1 + gridy1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, 1 + gridy2, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, 1 + gridy1, 1 + gridw, BORDER_COLOR, LINE_XOXX);
+    mvwputch(w_border, 1 + gridy2, 1 + gridw, BORDER_COLOR, LINE_XOXX);
 
     wrefresh(w_border);
 

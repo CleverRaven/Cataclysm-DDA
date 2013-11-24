@@ -2166,10 +2166,8 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     wattron(w_them, c_yellow);
    else
     wattron(w_you,  c_yellow);
-   wborder(w_them, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-   wborder(w_you,  LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+   draw_border(w_them);
+   draw_border(w_you);
    wattroff(w_them, c_yellow);
    wattroff(w_you,  c_yellow);
    mvwprintz(w_them, 0, 1, (cash < 0 || p->cash >= cash ? c_green : c_red),
@@ -2238,8 +2236,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    update = true;
    w_tmp = newwin(3, 21, 1+(TERMY-FULL_SCREEN_HEIGHT)/2, 30+(TERMX-FULL_SCREEN_WIDTH)/2);
    mvwprintz(w_tmp, 1, 1, c_red, _("Examine which item?"));
-   wborder(w_tmp, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+   draw_border(w_tmp);
    wrefresh(w_tmp);
    help = getch();
    help -= 'a';

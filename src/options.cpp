@@ -639,12 +639,12 @@ void show_options()
     WINDOW* w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY, 1 + iOffsetX);
     WINDOW* w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-    wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-    mvwputch(w_options_border, iTooltipHeight + 1,  0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_options_border, iTooltipHeight + 1, 79, c_dkgray, LINE_XOXX); // -|
+    draw_border(w_options_border);
+    mvwputch(w_options_border, iTooltipHeight + 1,  0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_options_border, iTooltipHeight + 1, 79, BORDER_COLOR, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_dkgray, LINE_XXOX); // _|_
+        mvwputch(w_options_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
     }
 
     mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
@@ -713,7 +713,7 @@ void show_options()
         }
 
         //Draw Scrollbar
-        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2, 0, c_dkgray);
+        draw_scrollbar(w_options_border, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size(), iTooltipHeight+2, 0, BORDER_COLOR);
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");

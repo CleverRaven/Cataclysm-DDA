@@ -385,8 +385,7 @@ void uimenu::setup() {
 
     werase(window);
     wattron(window, border_color);
-    wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(window);
     wattroff(window, border_color);
     if( title.size() > 0 ) {
         mvwprintz(window, 0, 1, border_color, "< ");
@@ -534,8 +533,7 @@ void uimenu::refresh( bool refresh_callback ) {
  */
 void uimenu::redraw( bool redraw_callback ) {
     wattron(window, border_color);
-    wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(window);
     wattroff(window, border_color);
     if( title.size() > 0 ) {
         mvwprintz(window, 0, 1, border_color, "< ");
