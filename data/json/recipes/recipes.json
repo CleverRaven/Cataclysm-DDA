@@ -2120,6 +2120,57 @@
   ]
 },{
         "type" : "recipe",
+  "result": "combatsaw_off",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": ["melee",  2],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      ["welder", 100],
+      ["welder_crude", 150],
+      ["toolset", 4]
+    ]
+  ],
+  "components": [
+    [
+      [ "chainsaw_off", 1 ]
+    ],
+    [
+      [ "metal_tank", 1 ]
+    ],
+    [
+      [ "steel_chunk", 3 ],
+      [ "scrap", 9 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "smokebomb",
   "category": "CC_WEAPON",
   "skill_used": "cooking",
