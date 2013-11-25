@@ -42,6 +42,7 @@ void init_data_mappings() {
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
+    set_trap_ids();
 // temporary (reliable) kludge until switch statements are rewritten
     std::map<std::string, int> legacy_lookup;
     for(int i=0; i< num_legacy_ter;i++) {
@@ -112,6 +113,7 @@ void init_data_structures()
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
+    type_function_map["trap"] = new ClassFunctionAccessor<game>(g, &game::load_trap);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_gun);
     type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller, &Item_factory::load_armor);

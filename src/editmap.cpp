@@ -1087,8 +1087,7 @@ int editmap::edit_trp()
     if ( trsel == -1 ) {
         trsel = cur_trap;
     }
-    std::string trids[num_trap_types];
-    trids[0] = _("-clear-");
+    int num_trap_types = trapmap.size();
     do {
         uphelp("[s/tab] shape select, [m]ove, [v] showall",
                "[enter] change, [t] change/quit, [q]uit", "Traps");
@@ -1102,7 +1101,8 @@ int editmap::edit_trp()
         for ( int t = tshift; t <= tshift + tmax; t++ ) {
             mvwprintz(w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str());
             if ( t < num_trap_types ) {
-                tnam = ( g->traps[t]->name.size() == 0 ? trids[t] : g->traps[t]->name );
+                //tnam = ( g->traps[t]->name.size() == 0 ? trids[t] : g->traps[t]->name );
+                tnam = t == 0 ? _("-clear-") : g->traps[t]->id;
                 mvwputch(w_picktrap, t + 1 - tshift, 2, g->traps[t]->color, g->traps[t]->sym);
                 mvwprintz(w_picktrap, t + 1 - tshift, 4, (trsel == t ? h_white : ( cur_trap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
             }
