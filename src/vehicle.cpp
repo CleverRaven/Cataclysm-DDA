@@ -354,7 +354,7 @@ void vehicle::use_controls()
    if (has_overhead_lights) {
        options_choice.push_back(toggle_overhead_lights);
        options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
-                                              _("Turn on overhead lights"), 'f'));
+                                              _("Turn on overhead lights"), 'v'));
        current++;
    }
 
@@ -377,7 +377,7 @@ void vehicle::use_controls()
     if (has_fridge) {
         options_choice.push_back(toggle_fridge);
         options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
-                                               _("Turn on fridge"), 't'));
+                                               _("Turn on fridge"), 'f'));
         current++;
     }
 
