@@ -1,4 +1,5 @@
 #include "player.h"
+#include "game.h"
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"
@@ -183,13 +184,13 @@ bool ma_requirements::is_valid_player(player& u) {
     mabuff_id buff_id = *it;
     if (!u.has_mabuff(*it)) return false;
   }
-  return ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
+  bool valid = ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing
     && u.skillLevel("cutting") >= min_cutting
-    && u.skillLevel("stabbing") >= min_stabbing
-  ;
+    && u.skillLevel("stabbing") >= min_stabbing;
+  return valid;
 }
 
 

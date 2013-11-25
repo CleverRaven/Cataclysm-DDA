@@ -2632,7 +2632,7 @@ void game::update_scent()
                                    (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
   }
  }
- 
+
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
@@ -2642,7 +2642,7 @@ void game::update_scent()
     int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
     // take the old scent and subtract what diffuses out
     temp_scent = grscent[x][y] * (1000 - squares_used * diffusivity); // it's okay if this is slightly negative
-    // we've already summed neighboring scent values in the y direction in the previous loop.  
+    // we've already summed neighboring scent values in the y direction in the previous loop.
     // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
     grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
 
