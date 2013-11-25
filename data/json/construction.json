@@ -583,7 +583,7 @@
             [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
         ],
         "components" : [
-            [ [ "2x4", 4 ] ],
+            [ [ "2x4", 6 ] ],
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
@@ -597,7 +597,7 @@
             [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
         ],
         "components" : [
-            [ [ "2x4", 2 ] ],
+            [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
