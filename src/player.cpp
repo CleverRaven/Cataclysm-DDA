@@ -7049,7 +7049,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)

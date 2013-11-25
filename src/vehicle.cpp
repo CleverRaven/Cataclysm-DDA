@@ -22,7 +22,9 @@ enum vehicle_controls {
  activate_horn,
  release_control,
  control_cancel,
- convert_vehicle
+ convert_vehicle,
+ toggle_engine,
+ toggle_fridge
 };
 
 vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
@@ -298,20 +300,22 @@ void vehicle::use_controls()
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
     // Always have this option
-    int curent = 0;
+    int current = 0;
     int letgoent = 0;
 
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
 
-    curent++;
+    current++;
 
     bool has_lights = false;
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
     bool has_tracker = false;
+    bool has_engine = false;
+    bool has_fridge = false;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -331,6 +335,12 @@ void vehicle::use_controls()
         else if (part_flag(p, "TRACK")) {
             has_tracker = true;
         }
+        else if (part_flag(p, "ENGINE")) {
+            has_engine = true;
+        }
+        else if (part_flag(p, "FRIDGE")) {
+            has_fridge = true;
+        }
     }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
@@ -338,21 +348,21 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_lights);
         options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
                                                _("Turn on headlights"), 'h'));
-        curent++;
+        current++;
     }
 
    if (has_overhead_lights) {
        options_choice.push_back(toggle_overhead_lights);
        options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
                                               _("Turn on overhead lights"), 'v'));
-       curent++;
+       current++;
    }
 
     //Honk the horn!
     if (has_horn) {
         options_choice.push_back(activate_horn);
         options_message.push_back(uimenu_entry(_("Honk horn"), 'o'));
-        curent++;
+        current++;
     }
 
     // Turrets: off or burst mode
@@ -360,7 +370,15 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_turrets);
         options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
                                                _("Disable turrets"), 't'));
-        curent++;
+        current++;
+    }
+
+    // Turn the fridge on/off
+    if (has_fridge) {
+        options_choice.push_back(toggle_fridge);
+        options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
+                                               _("Turn on fridge"), 'f'));
+        current++;
     }
 
     // Tracking on the overmap
@@ -369,22 +387,30 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry((tracking_on) ? _("Disable tracking device") :
                                                 _("Enable tracking device"), 'g'));
 
-        curent++;
+        current++;
     }
 
     if( !g->u.controlling_vehicle && tags.count("convertible") ) {
         options_choice.push_back(convert_vehicle);
         options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
-        curent++;
+        current++;
     }
 
     // Exit vehicle, if we are in it.
     int vpart;
+    if (has_engine) {
+        options_choice.push_back(toggle_engine);
+        options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
+                                               _("Turn on the engine"), 'e'));
+        current++;
+    }
+
+    // Exit vehicle, if we are in it.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
         options_choice.push_back(release_control);
         options_message.push_back(uimenu_entry(_("Let go of controls"), 'l'));
-        letgoent = curent;
+        letgoent = current;
     }
 
     options_choice.push_back(control_cancel);
@@ -432,6 +458,34 @@ void vehicle::use_controls()
             turret_mode = 0;
         }
         g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
+        break;
+    case toggle_fridge:
+        if( !fridge_on || fuel_left("battery") ) {
+            fridge_on = !fridge_on;
+            g->add_msg((fridge_on) ? _("Fridge turned on") :
+                       _("Fridge turned off"));
+        } else {
+            g->add_msg(_("The fridge won't turn on!"));
+        }
+        break;
+    case toggle_engine:
+        if (engine_on) {
+          engine_on = false;
+          g->add_msg(_("You turn the engine off."));
+        }
+        else {
+          if (total_power () < 1) {
+            if (total_power (false) < 1)
+                g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+            else
+                g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+          }
+          else {
+            engine_on = true;
+            // TODO: Make chance of success based on engine condition.
+            g->add_msg(_("You turn the engine on."));
+          }
+        }
         break;
     case release_control:
         g->u.controlling_vehicle = false;
@@ -840,17 +894,10 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     if(part_flag(parts.size()-1,"HORN")) {
         horns.push_back(parts.size() - 1);
     }
-    if(part_flag(parts.size()-1,"LIGHT"))
-    {
-        lights.push_back(parts.size()-1);
-        lights_power += part_info(parts.size()-1).power;
-    }
-    if(part_flag(parts.size()-1, "TRACK"))
-    {
-        tracking_power += part_info(parts.size()-1).power;
-    }
     if(part_flag(parts.size()-1,"FUEL_TANK"))
         fuel.push_back(parts.size()-1);
+
+    find_power ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -896,10 +943,7 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
 
 void vehicle::remove_part (int p)
 {
-    if(part_flag(p,"LIGHT")) {
-        lights_power -= part_info( parts.size() - 1 ).power;
-    } else if (part_flag(p, "TRACK")) {
-        tracking_power -= part_info( parts.size() - 1 ).power;
+    if (part_flag(p, "TRACK")) {
         // disable tracking if there are no other trackers installed.
         if (tracking_on)
         {
@@ -931,7 +975,7 @@ void vehicle::remove_part (int p)
 
     parts.erase(parts.begin() + p);
     find_horns ();
-    find_lights ();
+    find_power ();
     find_fuel_tanks ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
@@ -1823,31 +1867,36 @@ void vehicle::consume_fuel ()
 void vehicle::power_parts ()//TODO: more categories of powered part!
 {
     int power=0;
-    if(lights_on)power += lights_power;
-    if(tracking_on)power += tracking_power;
-    if(power <= 0)return;
-    for(int f=0;f<fuel.size() && power > 0;f++)
-    {
-        if(part_info(fuel[f]).fuel_type == "battery")
-        {
-            if(parts[fuel[f]].amount < power)
-            {
-                power -= parts[fuel[f]].amount;
-                parts[fuel[f]].amount = 0;
-            }
-            else
-            {
-                parts[fuel[f]].amount -= power;
-                power = 0;
-            }
-        }
+    if(one_in(6)) {   // Use power at the same rate the engine makes power.
+      if(lights_on)power += lights_power;
+      if(overhead_lights_on)power += overhead_power;
+      if(tracking_on)power += tracking_power;
+      if(fridge_on) power += fridge_power;
+      if(power <= 0)return;
+      for(int f=0;f<fuel.size() && power > 0;f++)
+      {
+          if(part_info(fuel[f]).fuel_type == "battery")
+          {
+              if(parts[fuel[f]].amount < power)
+              {
+                  power -= parts[fuel[f]].amount;
+                  parts[fuel[f]].amount = 0;
+              }
+              else
+              {
+                  parts[fuel[f]].amount -= power;
+                  power = 0;
+              }
+          }
+      }
     }
     if(power)
     {
         lights_on = false;
         tracking_on = false;
         overhead_lights_on = false;
-        if(player_in_control(&g->u))
+        fridge_on = false;
+        if(player_in_control(&g->u) || g->u_see(global_x(), global_y()) )
             g->add_msg("The %s's battery dies!",name.c_str());
     }
 }
@@ -1873,8 +1922,53 @@ void vehicle::charge_battery (int amount)
     }
 }
 
-void vehicle::thrust (int thd)
-{
+
+void vehicle::idle() {
+  if (engine_on && total_power () > 0) {
+    if(one_in(6)) {
+        int strn = (int) (strain () * strain() * 100);
+
+        for (int p = 0; p < parts.size(); p++)
+        {
+          if (part_flag(p, "ENGINE"))
+          {
+              //Charge the battery if the engine has an alternator
+              if(part_flag(p,"ALTERNATOR")) {
+                  charge_battery(part_info(p).power);
+              }
+              if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)
+              {
+                  int dmg = rng (strn * 2, strn * 4);
+                  damage_direct (p, dmg, 0);
+                  if(one_in(2))
+                   g->add_msg(_("Your engine emits a high pitched whine."));
+                  else
+                   g->add_msg(_("Your engine emits a loud grinding sound."));
+              }
+          }
+      }
+      consume_fuel();
+      int sound = noise()/10 + 2;
+      g->sound(global_x(), global_y(), sound, "hummm.");
+
+      if (one_in(10)) {
+        int smk = noise (true, true); // Only generate smoke for gas cars.
+        if (smk > 0) {
+          int rdx = rng(0, 2);
+          int rdy = rng(0, 2);
+          g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
+        }
+      }
+    }
+  }
+  else {
+    if (g->u_see(global_x(), global_y()) && engine_on)
+        g->add_msg(_("The engine dies!"));
+    engine_on = false;
+  }
+}
+
+void vehicle::thrust (int thd) {
     if (velocity == 0)
     {
         turn_dir = face.dir();
@@ -1916,6 +2010,11 @@ void vehicle::thrust (int thd)
             cruise_velocity = 0;
             return;
         }
+        else if (!engine_on) {
+          g->add_msg (_("The %s's engine isn't on!"), name.c_str());
+          cruise_velocity = 0;
+          return;
+        }
 
         consume_fuel ();
 
@@ -1926,9 +2025,8 @@ void vehicle::thrust (int thd)
             if (part_flag(p, "ENGINE"))
             {
                 //Charge the battery if the engine has an alternator
-                if(part_flag(p,"ALTERNATOR"))
-                {
-                    charge_battery(part_info(p).power * 0.3);
+                if(part_flag(p,"ALTERNATOR")) {
+                    charge_battery(part_info(p).power);
                 }
                 if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)
                 {
@@ -2670,13 +2768,26 @@ void vehicle::find_horns ()
     }
 }
 
-void vehicle::find_lights ()
+void vehicle::find_power ()
 {
     lights.clear();
+    lights_power = 0;
+    overhead_power = 0;
+    tracking_power = 0;
+    fridge_power = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if(part_flag( p,"LIGHT" )) {
-            lights.push_back(p);
-            lights_power += part_info(p).power;
+        if(part_flag(parts.size()-1,"LIGHT") || part_flag(parts.size()-1,"CONE_LIGHT")) {
+            lights.push_back(parts.size()-1);
+            lights_power += part_info(parts.size()-1).power;
+        }
+        if (part_flag(parts.size()-1,"CIRCLE_LIGHT")) {
+            overhead_power += part_info(parts.size()-1).power;
+        }
+        if(part_flag(parts.size()-1, "TRACK")) {
+            tracking_power += part_info(parts.size()-1).power;
+        }
+        if(part_flag(parts.size()-1, "FRIDGE")) {
+            fridge_power += part_info(parts.size()-1).power;
         }
     }
 }
