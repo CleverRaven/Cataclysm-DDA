@@ -376,7 +376,7 @@ void vehicle::use_controls()
     // Turn the fridge on/off
     if (has_fridge) {
         options_choice.push_back(toggle_fridge);
-        options_message.push_back(uimenu_entry(toggle_fridge ? _("Turn off fridge") :
+        options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
                                                _("Turn on fridge"), 't'));
         current++;
     }
@@ -462,8 +462,8 @@ void vehicle::use_controls()
     case toggle_fridge:
         if( !fridge_on || fuel_left("battery") ) {
             fridge_on = !fridge_on;
-            g->add_msg((fridge_on) ? _("Fridge turned on") :
-                       _("Fridge turned off"));
+            g->add_msg((fridge_on) ? _("Fridge turned off") :
+                       _("Fridge turned on"));
         } else {
             g->add_msg(_("The fridge won't turn on!"));
         }
