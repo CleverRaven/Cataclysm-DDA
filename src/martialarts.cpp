@@ -533,7 +533,7 @@ float player::mabuff_bash_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret += it->intensity * ma_buffs[it->buff_id].bash_mult();
+      ret *= it->intensity * ma_buffs[it->buff_id].bash_mult();
     }
   }
   return ret;
@@ -555,7 +555,7 @@ float player::mabuff_cut_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret += it->intensity * ma_buffs[it->buff_id].cut_mult();
+      ret *= it->intensity * ma_buffs[it->buff_id].cut_mult();
     }
   }
   return ret;
