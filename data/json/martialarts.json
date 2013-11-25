@@ -126,7 +126,6 @@
                 "name" : "Krav Maga H2H",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "buff_duration" : 2,
                 "bash_str" : 0.15,
                 "description" : "Slightly increased unarmed damage"
             },{
@@ -134,7 +133,6 @@
                 "name" : "Krav Maga Edged",
                 "melee_allowed" : true,
                 "min_unarmed" : 0,
-                "buff_duration" : 2,
                 "cut_mult" : 1.2,
                 "description" : "Slightly increased cutting damage"
             }
