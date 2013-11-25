@@ -1869,7 +1869,6 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         {
             if(parts[fuel[f]].amount < power)
             {
-                debugmsg("Current power: %d Subtracting: %d", parts[fuel[f]].amount, power);
                 power -= parts[fuel[f]].amount;
                 parts[fuel[f]].amount = 0;
             }
@@ -1885,7 +1884,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         lights_on = false;
         tracking_on = false;
         overhead_lights_on = false;
-        if(player_in_control(&g->u))
+        if(player_in_control(&g->u) || g->u_see(global_x(), global_y()) )
             g->add_msg("The %s's battery dies!",name.c_str());
     }
 }
@@ -1915,13 +1914,26 @@ void vehicle::charge_battery (int amount)
 void vehicle::idle() {
   if (engine_on && total_power () > 0) {
     if(one_in(20)) {
-      for (int p = 0; p < parts.size(); p++) {
-            if (part_flag(p, "ENGINE")) {
-                //Charge the battery if the engine has an alternator
-                if(part_flag(p,"ALTERNATOR")) {
-                    charge_battery(part_info(p).power);
-                }
-            }
+        int strn = (int) (strain () * strain() * 100);
+
+        for (int p = 0; p < parts.size(); p++)
+        {
+          if (part_flag(p, "ENGINE"))
+          {
+              //Charge the battery if the engine has an alternator
+              if(part_flag(p,"ALTERNATOR")) {
+                  charge_battery(part_info(p).power);
+              }
+              if(fuel_left(part_info(p).fuel_type, true) && parts[p].hp > 0 && rng (1, 100) < strn)
+              {
+                  int dmg = rng (strn * 2, strn * 4);
+                  damage_direct (p, dmg, 0);
+                  if(one_in(2))
+                   g->add_msg(_("Your engine emits a high pitched whine."));
+                  else
+                   g->add_msg(_("Your engine emits a loud grinding sound."));
+              }
+          }
       }
       consume_fuel();
       int sound = noise()/10 + 2;
@@ -1935,6 +1947,8 @@ void vehicle::idle() {
     }
   }
   else {
+    if (g->u_see(global_x(), global_y()) && engine_on)
+        g->add_msg(_("The engine dies!"));
     engine_on = false;
   }
 }

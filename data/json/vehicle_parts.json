@@ -1880,5 +1880,25 @@
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
         ]
+    },{
+            "type" : "vehicle_part",
+        "id" : "floodlight",
+        "name" : "floodlight",
+        "symbol" : "*",
+        "color" : "white",
+        "broken_symbol" : "-",
+        "broken_color" : "dark_blue",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "power" : 3,
+        "bonus" : 600,
+        "item" : "floodlight",
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["CIRCLE_LIGHT"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
     }
 ]
