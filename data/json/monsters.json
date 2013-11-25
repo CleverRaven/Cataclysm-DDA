@@ -1336,7 +1336,7 @@
     "special_attack":"NONE",
     "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
     "flags":["SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN"],
-    "anger_triggers":["HURT", "FRIEND_DIED"]
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
         "id" : "mon_wasp",
