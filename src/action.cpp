@@ -117,6 +117,14 @@ std::vector<char> keys_bound_to(action_id act)
  return ret;
 }
 
+action_id action_from_key(char ch) {
+    const std::map<char, action_id>::const_iterator it = keymap.find(ch);
+    if(it == keymap.end()) {
+        return ACTION_NULL;
+    }
+    return it->second;
+}
+
 void clear_bindings(action_id act)
 {
  std::map<char, action_id>::iterator it;
