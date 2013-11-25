@@ -504,7 +504,14 @@ void initOptions() {
                                              _("Switch between the standard or a narrower and taller sidebar. Requires restart."),
                                              "standard,narrow", "standard"
                                             );
-
+    //~ style of vehicle interaction menu; vertical is old one.
+    optionNames["vertical"] = _("Vertical");
+    optionNames["horizontal"] = _("Horizontal");
+    optionNames["hybrid"] = _("Hybrid");
+    OPTIONS["VEH_MENU_STYLE"] =         cOpt("interface", _("Vehicle menu style"),
+                                             _("Switch between two different styles of vehicle interaction menu or combination of them."),
+                                             "vertical,horizontal,hybrid", "vertical"
+                                            );
     OPTIONS["MOVE_VIEW_OFFSET"] =       cOpt("interface", _("Move view offset"),
                                              _("Move view by how many squares per keypress."),
                                              1, 50, 1

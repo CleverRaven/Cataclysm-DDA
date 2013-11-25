@@ -36,6 +36,7 @@ public:
 private:
     int cpart;
     int page_size;
+    bool vertical_menu;
     WINDOW *w_grid;
     WINDOW *w_mode;
     WINDOW *w_msg;
@@ -43,6 +44,7 @@ private:
     WINDOW *w_parts;
     WINDOW *w_stats;
     WINDOW *w_list;
+    WINDOW *w_name;
 
     int mode_h;
     int mode_w;
@@ -56,6 +58,8 @@ private:
     int stats_w;
     int list_h;
     int list_w;
+    int name_h;
+    int name_w;
 
     vehicle *veh;
     bool has_wrench;
@@ -67,9 +71,9 @@ private:
     bool has_wheel;
     inventory crafting_inv;
 
-    int part_at (int dx, int dy);
-    void move_cursor (int dx, int dy);
-    task_reason cant_do (char mode);
+    int part_at(int dx, int dy);
+    void move_cursor(int dx, int dy);
+    task_reason cant_do(char mode);
 
     void do_install(task_reason reason);
     void do_repair(task_reason reason);
@@ -80,10 +84,13 @@ private:
     void do_tirechange(task_reason reason);
     void do_drain(task_reason reason);
 
-    void display_veh ();
-    void display_stats ();
-    void display_mode (char mode);
-    void display_list (int pos, std::vector<vpart_info> list);
+    void display_grid();
+    void display_veh();
+    void display_stats();
+    void display_name();
+    void display_mode(char mode);
+    void display_list(int pos, std::vector<vpart_info> list);
+    size_t display_esc (WINDOW *w);
 
     void countDurability();
     nc_color getDurabilityColor(const int& dur);
