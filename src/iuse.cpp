@@ -5146,6 +5146,10 @@ int iuse::torch_lit(player *p, item *it, bool t)
             it->active = false;
         }
     }
+    else if(it->charges <= 0)
+    {
+        g->add_msg_if_player(p, _("The %s winks out"), it->tname(g).c_str());
+    }
     else   // Turning it off
     {
         int choice = menu(true,
@@ -5201,6 +5205,10 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
             it->make(itypes["bat"]);
             it->active = false;
         }
+    }
+    else if(it->charges <= 0)
+    {
+        g->add_msg_if_player(p, _("The %s winks out"), it->tname(g).c_str());
     }
     else   // Turning it off
     {

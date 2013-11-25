@@ -5568,6 +5568,7 @@ bool player::process_single_active_item(game *g, item *it)
                 else
                 {
                     it->type = itypes[tmp->revert_to];
+                    it->active = false;
                 }
             }
         }
