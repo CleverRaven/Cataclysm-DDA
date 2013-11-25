@@ -21929,7 +21929,7 @@
     [
       [ "powder_eggs", 15 ]
     ],
-	[
+    [
       [ "sugar", 1 ]
     ],
     [
@@ -21938,6 +21938,108 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "flint_ammo",
+  "category": "CC_AMMO",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 1 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "gunpowder", 600 ]
+    ],
+    [
+      [ "lead", 400 ],
+      [ "gold_small", 400 ],
+      [ "silver_small", 400 ],
+      [ "tin", 400 ],
+      [ "bismuth", 400 ],
+      [ "solder_wire", 400 ]
+    ],
+    [
+      [ "money_bundle", 1 ],
+      [ "wrapper", 1],
+      [ "bag_plastic", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rifle_flint",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+	[
+	  [ "scrap", 1 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "pistol_flint",
+  "category": "CC_WEAPON",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+	[
+	  [ "scrap", 1 ]
+>>>>>>> dda/pr/4663
     ]
   ]
 }
