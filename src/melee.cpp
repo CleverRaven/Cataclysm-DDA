@@ -1260,9 +1260,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
 // Finally, some special effects for martial arts
   // multiply damage by style damage_mults
   bash_dam *= mabuff_bash_mult();
-  debugmsg("Cut damage %d", cut_dam);
   cut_dam *= mabuff_cut_mult();
-  debugmsg("New damage %d", cut_dam);
 
   // on-hit effects for martial arts
   ma_onhit_effects();
