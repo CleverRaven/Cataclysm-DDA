@@ -383,6 +383,8 @@ std::string ammo_name(ammotype t)
     if( t == "thrown" )     return _("throwing weapon");
     if( t == "ampoule" )    return _("chemical ampoule");
     if( t == "components" ) return _("components");
+    if( t == "RPG-7" )      return _("RPG-7");
+    if( t == "dart" )       return _("dart");
     return "XXX";
 }
 
