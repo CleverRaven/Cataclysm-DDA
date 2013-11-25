@@ -1179,10 +1179,7 @@
     "ammo": "gasoline",
     "revert_to": "combatsaw_off",
     "use_action": "COMBATSAW_ON"
-  },
-
->>>>>>> dda/pr/4613
-  {
+  },{
     "id": "jackhammer",
     "type": "TOOL",
     "symbol": ";",
