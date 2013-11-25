@@ -21992,6 +21992,9 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -22007,7 +22010,10 @@
       [ "pipe", 1 ]
     ],
     [
-      [ "2x4", 1 ]
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "rag", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -22024,6 +22030,9 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -22040,6 +22049,9 @@
     ],
     [
       [ "2x4", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
     ],
     [
       [ "scrap", 1 ]
