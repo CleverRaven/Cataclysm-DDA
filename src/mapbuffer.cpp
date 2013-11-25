@@ -114,9 +114,9 @@ void mapbuffer::save()
 
  std::vector<picojson::value> trap_key;
  for( int i=0; i < g->traps.size(); i++ ) {
-     furn_key.push_back( pv( g->traps[i]->id ) );
+     trap_key.push_back( pv( g->traps[i]->id ) );
  }
- metadata["trap_key"] = pv( furn_key );
+ metadata["trap_key"] = pv( trap_key );
 
  fout << pv( metadata ).serialize() << std::endl;
 
