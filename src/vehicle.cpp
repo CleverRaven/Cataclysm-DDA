@@ -353,8 +353,8 @@ void vehicle::use_controls()
 
    if (has_overhead_lights) {
        options_choice.push_back(toggle_overhead_lights);
-       options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
-                                              _("Turn on fridge"), 'f'));
+       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
+                                              _("Turn on overhead lights"), 'f'));
        current++;
    }
 
@@ -376,8 +376,8 @@ void vehicle::use_controls()
     // Turn the fridge on/off
     if (has_fridge) {
         options_choice.push_back(toggle_fridge);
-        options_message.push_back(uimenu_entry(toggle_fridge ? _("Switch turrets to burst mode") :
-                                               _("Disable turrets"), 't'));
+        options_message.push_back(uimenu_entry(toggle_fridge ? _("Turn off fridge") :
+                                               _("Turn on fridge"), 't'));
         current++;
     }
 
@@ -462,7 +462,7 @@ void vehicle::use_controls()
     case toggle_fridge:
         if( !fridge_on || fuel_left("battery") ) {
             fridge_on = !fridge_on;
-            g->add_msg((overhead_lights_on) ? _("Fridge turned on") :
+            g->add_msg((fridge_on) ? _("Fridge turned on") :
                        _("Fridge turned off"));
         } else {
             g->add_msg(_("The fridge won't turn on!"));
