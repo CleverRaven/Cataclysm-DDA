@@ -389,3 +389,22 @@ void init_translation() {
     monStr2monId["mon_zombie_child"] = mon_zombie_child;
 }
 
+void MonsterGroupManager::check_group_definitions()
+{
+    const MonsterGenerator &gen = MonsterGenerator::generator();
+    for(std::map<std::string, MonsterGroup>::const_iterator a = monsterGroupMap.begin();
+        a != monsterGroupMap.end(); ++a) {
+        const MonsterGroup &mg = a->second;
+        if(mg.defaultMonster != "mon_null" && !gen.has_mtype(mg.defaultMonster)) {
+            debugmsg("monster group %s has unknown default monster %s", a->first.c_str(),
+                     mg.defaultMonster.c_str());
+        }
+        for(FreqDef::const_iterator fd = mg.monsters.begin(); fd != mg.monsters.end(); ++fd) {
+            const MonsterGroupEntry &mge = *fd;
+            if(mge.name == "mon_null" || !gen.has_mtype(mge.name)) {
+                // mon_null should not be valid here
+                debugmsg("monster group %s contains unknown monster %s", a->first.c_str(), mge.name.c_str());
+            }
+        }
+    }
+}
