@@ -2677,6 +2677,34 @@ int iuse::siphon(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::combatsaw_off(player *p, item *it, bool t)
+{
+ p->moves -= 60;
+ if (it->charges > 0) {
+  g->sound(p->posx, p->posy, 30,
+           _("With a snarl, the combat chainsaw screams to life!"));
+  it->make(itypes["combatsaw_on"]);
+  it->active = true;
+ } else {
+  g->add_msg_if_player(p,_("You yank the cord, but nothing happens."));
+ }
+ return it->type->charges_to_use();
+}
+
+int iuse::combatsaw_on(player *p, item *it, bool t)
+{
+ if (t) { // Effects while simply on
+  if (one_in(12)) {
+   g->sound(p->posx, p->posy, 18, _("Your combat chainsaw growls."));
+  }
+ } else { // Toggling
+  g->add_msg_if_player(p,_("Your combat chainsaw goes quiet."));
+  it->make(itypes["combatsaw_off"]);
+  it->active = false;
+ }
+ return it->type->charges_to_use();
+}
+
 int iuse::chainsaw_off(player *p, item *it, bool t)
 {
  p->moves -= 80;

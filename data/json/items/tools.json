@@ -1111,9 +1111,7 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "CARVER_OFF"
-  },
-
-  {
+  },{
     "id": "carver_on",
     "type": "TOOL",
     "symbol": "/",
@@ -1137,7 +1135,53 @@
     "revert_to": "carver_off",
     "use_action": "CARVER_ON",
     "qualities": [["CUT", 1]]
+  },{
+    "id": "combatsaw_off",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "combat chainsaw (off)",
+    "description": "This is a chainsaw that has been lightened, tuned, and extensively modified to be a highly effective weapon. Unfortunately these modifications have rendered it much less effective as a woodcutting tool.",
+    "price": 950,
+    "material": ["steel", "iron"],
+    "weight": 5122,
+    "volume": 9,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 800,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "gasoline",
+    "revert_to": "null",
+    "use_action": "COMBATSAW_OFF"
+  },{
+    "id": "combatsaw_on",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "combat chainsaw (on)",
+    "description": "This combat chainsaw is on, and is continuously draining gasoline. Use it to turn it off.",
+    "price": 950,
+    "material": ["steel", "iron"],
+    "techniques": "SWEEP",
+    "weight": 5122,
+    "volume": 9,
+    "bashing": 8,
+    "cutting": 82,
+    "flags" : ["CHOP", "MESSY", "NON_STUCK"],
+    "to_hit": 1,
+    "max_charges": 800,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "gasoline",
+    "revert_to": "combatsaw_off",
+    "use_action": "COMBATSAW_ON"
   },
+
+>>>>>>> dda/pr/4613
   {
     "id": "jackhammer",
     "type": "TOOL",
