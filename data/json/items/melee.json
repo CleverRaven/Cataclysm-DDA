@@ -2160,7 +2160,7 @@
     "bashing": 0,
     "cutting": 16,
     "to_hit": 2,
-    "flags" : ["UNARMED_WEAPON"],
+    "flags" : ["UNARMED_WEAPON", "CHOP"],
     "techniques": ["WBLOCK_1"]
   },
   { "type":"GENERIC",
