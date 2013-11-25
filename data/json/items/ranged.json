@@ -2939,7 +2939,7 @@
     "recoil": 2,
     "durability": 6,
     "burst": 0,
-    "clip_size": 1,
+    "clip_size": 4,
     "reload": 400
   }
 ]
