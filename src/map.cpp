@@ -2423,7 +2423,7 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
                 // Check if it's in a fridge and is food.
                 if (it->is_food() && next_vehicle->part_flag(*part_index, "FRIDGE") &&
                     next_vehicle->fridge_on) {
-                    if (one_in(2)) {
+                    if (!one_in(5)) {
                       it->bday++;
                       it->item_tags.erase("HOT");
                       it->item_counter = 0;
