@@ -520,7 +520,7 @@ public:
     int lights_power;   // total power of components with LIGHT or CONE_LIGHT flag
     int overhead_power;   // total power of components with CIRCLE_LIGHT flag
     int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
-    int fridge_power; // total power consumed by tracking devices (why would you use more than one?)
+    int fridge_power; // total power consumed by fridges
 };
 
 #endif
