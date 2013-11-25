@@ -57,10 +57,20 @@ public:
     void load_gunmod    (JsonObject &jo);
     void load_generic   (JsonObject &jo);
 
+    void load_item_category(JsonObject &jo);
+
+    // compares two categroy names for sorting purpose
+    // Returns true if cat_a should be sorted before cat_b
+    // (cat_a < cat_b).
+    bool compare_category(const std::string &cat_a, const std::string &cat_b);
+
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;
     std::map<Item_tag, Item_group*> m_template_groups;
+
+    typedef std::vector<std::string> CategoryVector;
+    CategoryVector m_categories;
 
     //json data handlers
     use_function use_from_string(std::string name);

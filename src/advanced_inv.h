@@ -32,7 +32,7 @@ struct advanced_inv_listitem {
     int stacks;
     int volume;
     int weight;
-    int cat;
+    std::string cat;
 };
 
 class advanced_inventory_pane {

@@ -235,6 +235,17 @@ void Item_factory::init(){
     bodyparts_list["HANDS"] = mfb(bp_hands);
     bodyparts_list["LEGS"] = mfb(bp_legs);
     bodyparts_list["FEET"] = mfb(bp_feet);
+
+    m_categories.push_back(_("guns"));
+    m_categories.push_back(_("ammo"));
+    m_categories.push_back(_("weapons"));
+    m_categories.push_back(_("tools"));
+    m_categories.push_back(_("clothing"));
+    m_categories.push_back(_("food"));
+    m_categories.push_back(_("drugs"));
+    m_categories.push_back(_("books"));
+    m_categories.push_back(_("mods"));
+    m_categories.push_back(_("other"));
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -508,6 +519,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     new_item_template->melee_dam = jo.get_int("bashing");
     new_item_template->melee_cut = jo.get_int("cutting");
     new_item_template->m_to_hit = jo.get_int("to_hit");
+    new_item_template->category = _(jo.get_string("category", "").c_str());
 
     new_item_template->light_emission = 0;
 
@@ -549,6 +561,16 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
                               use_from_string(jo.get_string("use_action")));
+}
+
+void Item_factory::load_item_category(JsonObject& jo)
+{
+    std::string category_name = _(jo.get_string("name").c_str());
+    CategoryVector::iterator it = std::find(m_categories.begin(), m_categories.end(), category_name);
+    if(it != m_categories.end()) {
+        m_categories.erase(it);
+    }
+    m_categories.push_back(category_name);
 }
 
 void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, itype* new_item_template)
@@ -705,4 +727,18 @@ void Item_factory::set_intvar(std::string tag, unsigned int & var, int min, int 
             var=candidate;
         }
     }
+}
+
+bool Item_factory::compare_category(const std::string &cat_a, const std::string &cat_b) {
+    if(cat_a == cat_b) {
+        return false;
+    }
+    for(size_t i = 0; i < m_categories.size(); i++) {
+        if(m_categories[i] == cat_a) {
+            return true; // a < b
+        } else if(m_categories[i] == cat_b) {
+            return false; // b >= a
+        }
+    }
+    return cat_a < cat_b;
 }

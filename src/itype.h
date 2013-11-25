@@ -133,6 +133,8 @@ struct itype
  std::set<std::string> techniques;
  unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
+ std::string category; // category name or empty for automatic selection
+
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
  virtual bool is_gun()           { return false; }

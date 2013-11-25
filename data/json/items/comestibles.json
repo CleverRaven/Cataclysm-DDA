@@ -111,6 +111,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -20
     },
     {
@@ -140,6 +141,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -1
     },
     {
@@ -1480,6 +1482,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -30
     },
     {
@@ -1509,6 +1512,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -30
     },
     {
@@ -1539,6 +1543,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -30
     },
     {
@@ -1568,6 +1573,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -30
     },
     {
@@ -1597,6 +1603,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -15
     },
     {
@@ -1626,6 +1633,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "category" : "chems",
         "fun" : -30
     },
     {

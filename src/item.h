@@ -82,6 +82,8 @@ public:
  void use();
  bool burn(int amount = 1); // Returns true if destroyed
 
+ std::string get_category() const;
+
 // Firearm specifics
  int reload_time(player &u);
  int clip_size();
