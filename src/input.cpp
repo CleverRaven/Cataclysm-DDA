@@ -389,19 +389,8 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
 const std::string& input_context::handle_input() {
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
-        
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-        // Register for ncurses mouse input
-        mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
-#endif
 
         next_action = inp_mngr.get_input_event(NULL);
-
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-        // De-register from ncurses mouse input
-        mousemask(0, NULL);
-#endif
-        
 
         if (next_action.type == CATA_INPUT_TIMEOUT) {
             return TIMEOUT;
