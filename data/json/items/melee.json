@@ -1745,7 +1745,7 @@
         "name" : "pipe",
         "description" : "A steel pipe, makes a good melee weapon. Useful in a few crafting recipes.",
         "weight" : 1262,
-        "to_hit" : 3,
+        "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
         "material" : ["steel", "null"],

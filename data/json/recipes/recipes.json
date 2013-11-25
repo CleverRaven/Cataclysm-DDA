@@ -7791,7 +7791,7 @@
   "tools": [
     [
       [ "hotplate", 8],
-      [ "char_smoke", 1],
+      [ "char_smoker", 1],
       [ "toolset", 1],
       [ "fire", -1]
     ],
@@ -9952,6 +9952,29 @@
       [ "can_food", 1 ],
       [ "bottle_glass", 1 ],
       [ "bottle_plastic", 1 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "floodlight",
+  "category": "CC_ELECTRONIC",
+  "skill_used": "mechanics",
+  "skills_required": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 0,
+  "autolearn": true,
+  "components": [
+    [
+      [ "amplifier", 4 ]
+    ],
+    [
+      [ "steel_chunk", 2 ],
+      [ "scrap", 6 ]
     ],
     [
       [ "cable", 10 ]
@@ -21950,6 +21973,9 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "press", -1 ]
@@ -21975,7 +22001,8 @@
     [
       [ "money_bundle", 1 ],
       [ "wrapper", 1],
-      [ "bag_plastic", 1 ]
+      [ "bag_plastic", 1 ],
+      [ "paper", 25 ]
     ]
   ]
 },{
@@ -21988,6 +22015,9 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -22003,7 +22033,10 @@
       [ "pipe", 1 ]
     ],
     [
-      [ "2x4", 1 ]
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "rag", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -22020,6 +22053,9 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "hacksaw", -1 ],
@@ -22036,6 +22072,9 @@
     ],
     [
       [ "2x4", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
     ],
     [
       [ "scrap", 1 ]

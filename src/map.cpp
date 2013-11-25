@@ -417,6 +417,7 @@ void map::vehmove(game *g)
             vehicle* veh = vehs[v].v;
             veh->gain_moves (abs (veh->velocity));
             veh->power_parts();
+            veh->idle();
         }
     }
 
@@ -2410,6 +2411,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 
 void map::process_active_items_in_vehicles(game *g, const int nonant)
 {
+    item *it;
     std::vector<vehicle*> *vehicles = &(grid[nonant]->vehicles);
     for (int v = vehicles->size() - 1; v >= 0; v--) {
         vehicle *next_vehicle = (*vehicles)[v];
@@ -2420,7 +2422,14 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
             int mapx = next_vehicle->posx + next_vehicle->parts[*part_index].precalc_dx[0];
             int mapy = next_vehicle->posy + next_vehicle->parts[*part_index].precalc_dy[0];
             for(int n = items_in_part->size() - 1; n >= 0; n--) {
-                if(process_active_item(g, &((*items_in_part)[n]), nonant, mapx, mapy)) {
+                it = &((*items_in_part)[n]);
+                // Check if it's in a fridge and is food.
+                if (it->is_food() && next_vehicle->part_flag(*part_index, "FRIDGE") &&
+                    next_vehicle->fridge_on && it->fridge == 0) {
+                    it->fridge = (int)g->turn;
+                    it->item_counter -= 10;
+                }
+                if(process_active_item(g, it, nonant, mapx, mapy)) {
                     next_vehicle->remove_item(*part_index, n);
                 }
             }
