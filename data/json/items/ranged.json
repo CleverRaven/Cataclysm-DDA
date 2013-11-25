@@ -2865,7 +2865,7 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 450
+    "reload": 1000
   },
    {
     "id": "pistol_flint",
@@ -2885,11 +2885,11 @@
     "to_hit": -1,
     "ranged_damage": -2,
     "range": 3,
-    "dispersion": 14,
-    "recoil": 5,
+    "dispersion": 21,
+    "recoil": 8,
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 350
+    "reload": 800
   }
 ]
