@@ -834,7 +834,7 @@ void game::process_activity()
  item* reloadable;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
-  if (int(turn) % 150 == 0) {
+  if (int(turn) % 50 == 0) {
    draw();
   }
   if (u.activity.type == ACT_WAIT || u.activity.type == ACT_WAIT_WEATHER) { // Based on time, not speed
