@@ -176,7 +176,7 @@ player::player() : name("")
  recalc_sight_limits();
 }
 
-player::player(const player &rhs)
+player::player(const player &rhs): JsonSerializer(), JsonDeserializer()
 {
  *this = rhs;
 }

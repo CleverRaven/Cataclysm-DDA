@@ -151,7 +151,7 @@ public:
   warned_of_proximity = false;
  }
 
- player_activity(const player_activity &copy) : name(copy.name), placement(copy.placement)
+ player_activity(const player_activity &copy) : JsonSerializer(), JsonDeserializer(), name(copy.name), placement(copy.placement)
  {
   type = copy.type;
   moves_left = copy.moves_left;
