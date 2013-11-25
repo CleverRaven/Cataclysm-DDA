@@ -122,7 +122,7 @@ void edit_json( SAVEOBJ *it, game * g )
             fout.open("save/jtest-2j.txt");
             fout << it->serialize();
             fout.close();
-        } 
+        }
         tm.addentry(0,true,'r',"rehash");
         tm.addentry(1,true,'e',"edit");
         tm.addentry(2,true,'d',"dump to save/jtest-*.txt");
@@ -526,7 +526,7 @@ void editmap::update_view(bool update_info)
                      );
             off++; // 3
         }
-        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d"), rl_dist(g->u.posx, g->u.posy, target.x, target.y), g->u_see(target.x, target.y), g->m.light_at(target.x, target.y), veh_in );
+        mvwprintw(w_info, off, 2, _("dist: %d u_see: %d light: %d v_in: %d scent: %d"), rl_dist(g->u.posx, g->u.posy, target.x, target.y), g->u_see(target.x, target.y), g->m.light_at(target.x, target.y), veh_in, g->scent(target.x, target.y) );
         off++; // 3-4
 
         std::string extras = "";
@@ -721,7 +721,7 @@ int editmap::edit_ter()
             for ( int i = 1; i < width-2; i++ ) {
                 mvwaddch(w_pickter, 0, i, LINE_OXOX);
             }
-            
+
             mvwprintw(w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), sel_ter, pttype.name.c_str());
             mvwprintz(w_pickter, off, 2, c_white, _("movecost %d"), pttype.movecost);
             std::string extras = "";
@@ -1623,7 +1623,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             int dnonant = int(target_sub.x + x) + int(target_sub.y + y) * 11; // get the destination submap's grid id
                             int snonant = x + y * 2;                                          // and the source
                             submap *destsm = g->m.grid[dnonant];                              // make direct pointers
-                            submap *srcsm = tmpmap.getsubmap(snonant);                        // 
+                            submap *srcsm = tmpmap.getsubmap(snonant);                        //
 
                             for (int i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
