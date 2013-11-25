@@ -11,6 +11,7 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "item_factory.h"
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
@@ -92,6 +93,8 @@ int main(int argc, char *argv[])
         exit_handler(-999);
     }
     if ( verifyexit ) {
+        item_controller->check_items_of_groups_exist();
+        check_recipe_definitions();
         exit_handler(0);
     }
 

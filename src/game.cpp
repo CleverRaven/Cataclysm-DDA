@@ -118,8 +118,6 @@ void game::init_data()
     init_diseases();             // Set up disease lookup table
     init_savedata_translation_tables();
     inp_mngr.init();            // Load input config JSON
-    item_controller->check_items_of_groups_exist();
-    check_recipe_definitions();
 
     MonsterGenerator::generator().finalize_mtypes();
     finalize_vehicles();
