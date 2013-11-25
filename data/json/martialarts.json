@@ -172,7 +172,7 @@
         "type" : "martial_art",
         "id" : "style_ninjutsu",
         "name" : "Ninjutsu",
-        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is almost entirely silent. It also provides combat bonuses every time you move.",
+        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is almost entirely silent. It also provides small combat bonuses every time you move.",
         "arm_block" : 3,
         "static_buffs" : [
             {
