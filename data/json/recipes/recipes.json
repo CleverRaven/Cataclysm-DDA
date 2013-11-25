@@ -7791,7 +7791,7 @@
   "tools": [
     [
       [ "hotplate", 8],
-      [ "char_smoke", 1],
+      [ "char_smoker", 1],
       [ "toolset", 1],
       [ "fire", -1]
     ],
