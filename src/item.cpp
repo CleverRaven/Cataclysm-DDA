@@ -2033,6 +2033,7 @@ int item::range(player *p)
         }
     }
 
+    if(ret < 0) { ret = 0; }
     return ret;
 }
 
