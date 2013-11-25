@@ -413,11 +413,11 @@ point monster::scent_move(game *g)
 {
  std::vector<point> smoves;
 
- int maxsmell = 10; // Squares with smell 0 are not eligible targets.
- int smell_threshold = 60; // Squares at or above this level are ineligible.
+ int maxsmell = 35; // Squares with smell 0 are not eligible targets.
+ int smell_threshold = 200; // Squares at or above this level are ineligible.
  if (has_flag(MF_KEENNOSE)) {
      maxsmell = 1;
-     smell_threshold = 100;
+     smell_threshold = 400;
  }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
@@ -843,7 +843,7 @@ int monster::bash_at(int x, int y) {
               if ( helpermon.wandx == wandx && helpermon.wandy == wandy && helpermon.has_flag(MF_BASHES) ) {
                  // helpers lined up behind primary basher add full strength, so do those at either shoulder, others add 50%
                  //addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
-                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides); 
+                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
                  // helpers lined up behind primary basher add full strength, others 50%
                  addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
                  mo_bash += addbash;
