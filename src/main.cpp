@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     initscr(); // Initialize ncurses
 #ifdef SDLTILES
     init_tiles();
-#endif // SDLTILES
+#endif
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad(stdscr, true); // Numpad is numbers
