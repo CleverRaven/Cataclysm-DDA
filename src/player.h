@@ -331,6 +331,7 @@ public:
  void sort_armor(game *g);      // re-order armor layering
  void use(game *g, char let); // Use a tool
  void use_wielded(game *g);
+ void remove_gunmod(item *weapon, int id, game *g);
  bool install_bionics(game *g, it_bionic* type); // Install bionics
  void read(game *g, char let); // Read a book
  void try_to_sleep(game *g); // '$' command; adds DIS_LYING_DOWN
