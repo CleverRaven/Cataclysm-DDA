@@ -11124,12 +11124,12 @@
   "autolearn": false,
   "tools": [
     [
-      [ "screwdriver", 20 ],
-      [ "toolset", 2 ]
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
     ],
     [
-      [ "soldering_iron", -1 ],
-      [ "toolset", -1 ]
+      [ "soldering_iron", 20 ],
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
