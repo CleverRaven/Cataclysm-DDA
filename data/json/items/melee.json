@@ -1626,6 +1626,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "warhammer",
+        "name" : "war hammer",
+        "description" : "A medieval hammer made for battle. Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
+        "weight" : 1231,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["BRUTAL"],
+        "volume" : 5,
+        "bashing" : 30,
+        "cutting" : 0,
+        "price" : 160
+    },
+    {
+        "type":"GENERIC",
         "id" : "nailboard",
         "name" : "nail board",
         "description" : "A long piece of wood with several nails through one end; essentially a simple mace. Makes a great melee weapon.",

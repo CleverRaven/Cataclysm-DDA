@@ -16732,6 +16732,90 @@
     ]
 },{
         "type" : "recipe",
+  "result": "battleaxe",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 400],
+      [ "char_forge", 80]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+     ],
+     [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "warhammer",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 8 ]],
+  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350],
+      [ "char_forge", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 2 ],
+     [ "steel_chunk", 8 ],
+     [ "scrap", 24 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "rapier",
   "category": "CC_WEAPON",
   "skill_used": "fabrication",
