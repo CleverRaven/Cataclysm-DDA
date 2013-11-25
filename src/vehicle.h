@@ -432,7 +432,7 @@ public:
 
     void find_horns ();
 
-    void find_lights ();
+    void find_power ();
 
     void find_fuel_tanks ();
 
@@ -509,6 +509,7 @@ public:
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
+    bool fridge_on;     //fridge on/off
     int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
     bool skidding;      // skidding mode
     int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
@@ -519,6 +520,7 @@ public:
     int lights_power;   // total power of components with LIGHT or CONE_LIGHT flag
     int overhead_power;   // total power of components with CIRCLE_LIGHT flag
     int tracking_power; // total power consumed by tracking devices (why would you use more than one?)
+    int fridge_power; // total power consumed by tracking devices (why would you use more than one?)
 };
 
 #endif

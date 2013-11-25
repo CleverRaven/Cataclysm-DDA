@@ -47,7 +47,7 @@
         "durability": 20,
         "item": "veh_tracker",
         "difficulty": 3,
-        "power": 6,
+        "power": 1,
         "flags": [
             "TRACK", "UNMOUNT_ON_DAMAGE"
             ],
@@ -1241,11 +1241,12 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 80,
         "durability" : 100,
+        "power" : 10,
         "size" : 400,
         "item" : "minifridge",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE"],
+        "flags" : ["CARGO", "OBSTACLE", "FRIDGE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 13},
             {"item": "steel_chunk", "min": 8, "max": 13},

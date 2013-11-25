@@ -23,7 +23,8 @@ enum vehicle_controls {
  release_control,
  control_cancel,
  convert_vehicle,
- turn_on_engine
+ toggle_engine,
+ toggle_fridge
 };
 
 vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
@@ -314,6 +315,7 @@ void vehicle::use_controls()
     bool has_turrets = false;
     bool has_tracker = false;
     bool has_engine = false;
+    bool has_fridge = false;
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -336,6 +338,9 @@ void vehicle::use_controls()
         else if (part_flag(p, "ENGINE")) {
             has_engine = true;
         }
+        else if (part_flag(p, "FRIDGE")) {
+            has_fridge = true;
+        }
     }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
@@ -348,8 +353,8 @@ void vehicle::use_controls()
 
    if (has_overhead_lights) {
        options_choice.push_back(toggle_overhead_lights);
-       options_message.push_back(uimenu_entry(overhead_lights_on ? _("Turn off overhead lights") :
-                                              _("Turn on overhead lights"), 'v'));
+       options_message.push_back(uimenu_entry(fridge_on ? _("Turn off fridge") :
+                                              _("Turn on fridge"), 'f'));
        current++;
    }
 
@@ -364,6 +369,14 @@ void vehicle::use_controls()
     if (has_turrets) {
         options_choice.push_back(toggle_turrets);
         options_message.push_back(uimenu_entry((0 == turret_mode) ? _("Switch turrets to burst mode") :
+                                               _("Disable turrets"), 't'));
+        current++;
+    }
+
+    // Turn the fridge on/off
+    if (has_fridge) {
+        options_choice.push_back(toggle_fridge);
+        options_message.push_back(uimenu_entry(toggle_fridge ? _("Switch turrets to burst mode") :
                                                _("Disable turrets"), 't'));
         current++;
     }
@@ -386,7 +399,7 @@ void vehicle::use_controls()
     // Exit vehicle, if we are in it.
     int vpart;
     if (has_engine) {
-        options_choice.push_back(turn_on_engine);
+        options_choice.push_back(toggle_engine);
         options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
                                                _("Turn on the engine"), 'e'));
         current++;
@@ -446,7 +459,16 @@ void vehicle::use_controls()
         }
         g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
         break;
-    case turn_on_engine:
+    case toggle_fridge:
+        if( !fridge_on || fuel_left("battery") ) {
+            fridge_on = !fridge_on;
+            g->add_msg((overhead_lights_on) ? _("Fridge turned on") :
+                       _("Fridge turned off"));
+        } else {
+            g->add_msg(_("The fridge won't turn on!"));
+        }
+        break;
+    case toggle_engine:
         if (engine_on) {
           engine_on = false;
           g->add_msg(_("You turn the engine off."));
@@ -872,20 +894,10 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     if(part_flag(parts.size()-1,"HORN")) {
         horns.push_back(parts.size() - 1);
     }
-    if(part_flag(parts.size()-1,"LIGHT") || part_flag(parts.size()-1,"CONE_LIGHT"))
-    {
-        lights.push_back(parts.size()-1);
-        lights_power += part_info(parts.size()-1).power;
-    }
-    if (part_flag(parts.size()-1,"CIRCLE_LIGHT")) {
-        overhead_power += part_info(parts.size()-1).power;
-    }
-    if(part_flag(parts.size()-1, "TRACK"))
-    {
-        tracking_power += part_info(parts.size()-1).power;
-    }
     if(part_flag(parts.size()-1,"FUEL_TANK"))
         fuel.push_back(parts.size()-1);
+
+    find_power ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -931,10 +943,7 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
 
 void vehicle::remove_part (int p)
 {
-    if(part_flag(p,"LIGHT")) {
-        lights_power -= part_info( parts.size() - 1 ).power;
-    } else if (part_flag(p, "TRACK")) {
-        tracking_power -= part_info( parts.size() - 1 ).power;
+    if (part_flag(p, "TRACK")) {
         // disable tracking if there are no other trackers installed.
         if (tracking_on)
         {
@@ -966,7 +975,7 @@ void vehicle::remove_part (int p)
 
     parts.erase(parts.begin() + p);
     find_horns ();
-    find_lights ();
+    find_power ();
     find_fuel_tanks ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
@@ -1858,10 +1867,10 @@ void vehicle::consume_fuel ()
 void vehicle::power_parts ()//TODO: more categories of powered part!
 {
     int power=0;
-    find_lights();
     if(lights_on)power += lights_power;
     if(overhead_lights_on)power += overhead_power;
     if(tracking_on)power += tracking_power;
+    if(fridge_on) power += fridge_power;
     if(power <= 0)return;
     for(int f=0;f<fuel.size() && power > 0;f++)
     {
@@ -1884,6 +1893,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         lights_on = false;
         tracking_on = false;
         overhead_lights_on = false;
+        fridge_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y()) )
             g->add_msg("The %s's battery dies!",name.c_str());
     }
@@ -2760,19 +2770,26 @@ void vehicle::find_horns ()
     }
 }
 
-void vehicle::find_lights ()
+void vehicle::find_power ()
 {
     lights.clear();
     lights_power = 0;
     overhead_power = 0;
+    tracking_power = 0;
+    fridge_power = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if(part_flag( p,"LIGHT" ) || part_flag(p,"CONE_LIGHT") ||
-          part_flag(p,"CIRCLE_LIGHT")) {
-            lights.push_back(p);
-            if(part_flag(p,"CIRCLE_LIGHT"))
-              overhead_power += part_info(p).power;
-            else
-              lights_power += part_info(p).power;
+        if(part_flag(parts.size()-1,"LIGHT") || part_flag(parts.size()-1,"CONE_LIGHT")) {
+            lights.push_back(parts.size()-1);
+            lights_power += part_info(parts.size()-1).power;
+        }
+        if (part_flag(parts.size()-1,"CIRCLE_LIGHT")) {
+            overhead_power += part_info(parts.size()-1).power;
+        }
+        if(part_flag(parts.size()-1, "TRACK")) {
+            tracking_power += part_info(parts.size()-1).power;
+        }
+        if(part_flag(parts.size()-1, "FRIDGE")) {
+            fridge_power += part_info(parts.size()-1).power;
         }
     }
 }

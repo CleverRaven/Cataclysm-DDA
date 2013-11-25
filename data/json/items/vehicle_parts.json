@@ -260,7 +260,7 @@
         "type": "GENERIC",
         "id": "minifridge",
         "name": "minifridge",
-        "description": "A very small fridge for keeping food cool, but without electricity it's just a very heavy box with shelves inside.",
+        "description": "A very small fridge for keeping food cool.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",

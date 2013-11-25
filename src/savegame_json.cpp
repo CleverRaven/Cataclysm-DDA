@@ -1141,7 +1141,7 @@ void vehicle::deserialize(JsonIn &jsin)
         add_missing_frames();
     }
     find_horns ();
-    find_lights ();
+    find_power ();
     find_fuel_tanks ();
     find_exhaust ();
     insides_dirty = true;
