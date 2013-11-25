@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 
 #if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
     // Register for ncurses mouse input
-    mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
+    mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED, NULL);
 #endif
 
     std::srand(seed);
