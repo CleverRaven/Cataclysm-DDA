@@ -21950,6 +21950,9 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools": [
     [
       [ "press", -1 ]
@@ -21975,7 +21978,8 @@
     [
       [ "money_bundle", 1 ],
       [ "wrapper", 1],
-      [ "bag_plastic", 1 ]
+      [ "bag_plastic", 1 ],
+      [ "paper", 25 ]
     ]
   ]
 },{
