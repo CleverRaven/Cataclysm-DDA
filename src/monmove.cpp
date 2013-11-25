@@ -423,14 +423,11 @@ point monster::scent_move(game *g)
  point pbuff, next(-1, -1);
  unsigned int smell;
  const bool fleeing = is_fleeing(g->u);
- if( !fleeing && g->scent( posx(), posy() ) > smell_threshold ) {
-     return next;
- }
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
    const int nx = posx() + x;
    const int ny = posy() + y;
-   smell = g->scent(nx, ny);
+   smell = MIN(g->scent(nx, ny), smell_threshold);
    int mon = g->mon_at(nx, ny);
    if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
        (can_move_to(g, nx, ny) ||
