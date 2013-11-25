@@ -62,10 +62,20 @@ public:
     // Check that all items referenced in the groups
     // do actually exist (are defined)
     void check_items_of_groups_exist() const;
+    // Check consistency in itype definitions
+    // like: valid material, valid tool
+    void check_itype_definitions() const;
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;
     std::map<Item_tag, Item_group*> m_template_groups;
+
+    // Checks that ammo is listed in ammo_name(),
+    // That there is at least on instance (it_ammo) of
+    // this ammo type defined.
+    // If any of this fails, prints a message to the msg
+    // stream.
+    void check_ammo_type(std::ostream& msg, const std::string &ammo) const;
 
     //json data handlers
     use_function use_from_string(std::string name);
