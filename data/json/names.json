@@ -562,7 +562,6 @@
 { "name" : "Farmington", "usage" : "city", "type":"NAME"},
 { "name" : "Fitchburg", "usage" : "city", "type":"NAME"},
 { "name" : "Fletcher", "usage" : "city", "type":"NAME"},
-{ "name" : "Fomer towns:", "usage" : "city", "type":"NAME"},
 { "name" : "Fort Fairfield", "usage" : "city", "type":"NAME"},
 { "name" : "Foxborough", "usage" : "city", "type":"NAME"},
 { "name" : "Framingham", "usage" : "city", "type":"NAME"},
