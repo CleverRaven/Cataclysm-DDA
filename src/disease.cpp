@@ -1295,7 +1295,6 @@ void dis_effect(player &p, disease &dis) {
               else {
                 p.rem_disease(dis.type);
               }
-              dis.duration -= 1;
             }
             break;
     }

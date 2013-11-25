@@ -292,6 +292,7 @@ void ma_buff::apply_buff(std::vector<disease>& dVec) {
   disease d(id);
   d.duration = buff_duration;
   d.intensity = 1;
+  d.permanent = false;
   dVec.push_back(d);
 }
 
