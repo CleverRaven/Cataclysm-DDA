@@ -503,6 +503,18 @@ craft_cat game::prev_craft_cat(craft_cat cat)
     return NULL;
 }
 
+// return whether any of the listed components have been flagged as available
+bool any_marked_available(const std::vector<component> &comps)
+{
+    for (std::vector<component>::const_iterator it = comps.begin();
+            it != comps.end(); ++it) {
+        if (it->available == 1) {
+            return true;
+        }
+    }
+    return false;
+}
+
 recipe* game::select_crafting_recipe()
 {
     const int headHeight = 3;
@@ -632,7 +644,7 @@ recipe* game::select_crafting_recipe()
         }
         if (!current.empty())
         {
-            nc_color col = (available[line] ? c_white : c_dkgray);
+            nc_color col = (available[line] ? c_white : c_ltgray);
             mvwprintz(w_data, 0, 30, col, _("Skills used: %s"),
                 (current[line]->skill_used == NULL ? "N/A" :
                 current[line]->skill_used->name().c_str()));
@@ -691,11 +703,12 @@ recipe* game::select_crafting_recipe()
                     ypos++;
                     xpos = 32;
                     mvwputch(w_data, ypos, 30, col, '>');
+                    bool has_one = any_marked_available(current[line]->tools[i]);
                     for (unsigned j = 0; j < current[line]->tools[i].size(); j++)
                     {
                         itype_id type = current[line]->tools[i][j].type;
                         int charges = current[line]->tools[i][j].count;
-                        nc_color toolcol = c_red;
+                        nc_color toolcol = has_one ? c_dkgray : c_red;
 
                         if (current[line]->tools[i][j].available == 0)
                         {
@@ -749,11 +762,12 @@ recipe* game::select_crafting_recipe()
                     mvwputch(w_data, ypos, 30, col, '>');
                 }
                 xpos = 32;
+                bool has_one = any_marked_available(current[line]->components[i]);
                 for (unsigned j = 0; j < current[line]->components[i].size(); j++)
                 {
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
-                    nc_color compcol = c_red;
+                    nc_color compcol = has_one ? c_dkgray : c_red;
                     if (current[line]->components[i][j].available == 0)
                     {
                         compcol = c_brown;
