@@ -57,6 +57,7 @@ int player::hit_roll()
 // apply martial arts bonuses
   stat += mabuff_tohit_bonus();
 
+
 // keep the old martial arts mechanics for now
 // Some martial arts use something else to determine hits!
  if(weapon.typeId() == "style_tiger"){

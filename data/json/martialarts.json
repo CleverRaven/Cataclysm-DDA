@@ -188,7 +188,7 @@
             {
                 "id" : "ninjutsu_momentum",
                 "name" : "Momentum shift",
-                "description" : "Increased to-hit and bonus dodges",
+                "description" : "Bonus dodges and increased to-hit",
                 "unarmed_allowed" : true,
                 "melee_allowed" : true,
                 "buff_duration" : 2,
