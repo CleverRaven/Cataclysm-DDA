@@ -5537,6 +5537,9 @@ bool player::process_single_active_item(game *g, item *it)
                     it->active = false;
                 }
             }
+            if (it->fridge > 0) {
+              it->fridge = 0;
+            }
         }
         else if (it->is_food_container())
         {
@@ -7048,7 +7051,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
@@ -8140,7 +8143,7 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay || 
+     furn_at_pos == f_sofa || furn_at_pos == f_hay ||
      (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));

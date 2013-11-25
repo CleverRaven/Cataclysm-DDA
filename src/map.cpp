@@ -2422,12 +2422,9 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
                 it = &((*items_in_part)[n]);
                 // Check if it's in a fridge and is food.
                 if (it->is_food() && next_vehicle->part_flag(*part_index, "FRIDGE") &&
-                    next_vehicle->fridge_on) {
-                    if (!one_in(5)) {
-                      it->bday++;
-                      it->item_tags.erase("HOT");
-                      it->item_counter = 0;
-                    }
+                    next_vehicle->fridge_on && it->fridge == 0) {
+                    it->fridge = (int)g->turn;
+                    it->item_counter -= 10;
                 }
                 if(process_active_item(g, it, nonant, mapx, mapy)) {
                     next_vehicle->remove_item(*part_index, n);
@@ -2459,6 +2456,9 @@ bool map::process_active_item(game* g, item *it, const int nonant, const int i, 
                     it->active = false;
                     grid[nonant]->active_item_count--;
                 }
+            }
+            if (it->fridge > 0) {
+              it->fridge = 0;
             }
         } else if (it->is_food_container()) { // food in containers
             if (it->contents[0].has_flag("HOT")) {

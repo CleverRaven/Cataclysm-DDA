@@ -936,7 +936,7 @@ void item::deserialize(JsonObject &data)
     data.read( "damage", damtmp );
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
     data.read( "active", active );
-
+    data.read( "fridge", fridge );
 
     data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
@@ -1010,6 +1010,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
     if ( mode != "NULL" )    json.member( "mode", mode );
     if ( active == true )    json.member( "active", true );
+    if ( fridge == true )    json.member( "fridge", true );
     if ( corpse != NULL )    json.member( "corpse", corpse->id );
 
     if ( owned != -1 )       json.member( "owned", owned );
