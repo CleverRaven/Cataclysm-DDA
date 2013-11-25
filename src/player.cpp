@@ -2782,9 +2782,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     std::string style = "";
     if (is_armed())
     {
-        if (style_selected == "style_none")
+        if (style_selected == "style_none" || !can_melee())
             style = _("Normal");
-        else if (can_melee())
+        else
             style = martialarts[style_selected].name;
 
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
@@ -7049,7 +7049,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
