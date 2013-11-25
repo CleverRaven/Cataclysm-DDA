@@ -2457,9 +2457,6 @@ bool map::process_active_item(game* g, item *it, const int nonant, const int i, 
                     grid[nonant]->active_item_count--;
                 }
             }
-            if (it->fridge > 0) {
-              it->fridge = 0;
-            }
         } else if (it->is_food_container()) { // food in containers
             if (it->contents[0].has_flag("HOT")) {
                 it->contents[0].item_counter--;

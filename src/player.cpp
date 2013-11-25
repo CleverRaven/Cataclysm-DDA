@@ -5537,9 +5537,6 @@ bool player::process_single_active_item(game *g, item *it)
                     it->active = false;
                 }
             }
-            if (it->fridge > 0) {
-              it->fridge = 0;
-            }
         }
         else if (it->is_food_container())
         {
