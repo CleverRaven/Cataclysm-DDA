@@ -1241,7 +1241,7 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 80,
         "durability" : 100,
-        "power" : 10,
+        "power" : 4,
         "size" : 400,
         "item" : "minifridge",
         "difficulty" : 3,

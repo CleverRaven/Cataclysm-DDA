@@ -462,8 +462,8 @@ void vehicle::use_controls()
     case toggle_fridge:
         if( !fridge_on || fuel_left("battery") ) {
             fridge_on = !fridge_on;
-            g->add_msg((fridge_on) ? _("Fridge turned off") :
-                       _("Fridge turned on"));
+            g->add_msg((fridge_on) ? _("Fridge turned on") :
+                       _("Fridge turned off"));
         } else {
             g->add_msg(_("The fridge won't turn on!"));
         }
@@ -1867,26 +1867,28 @@ void vehicle::consume_fuel ()
 void vehicle::power_parts ()//TODO: more categories of powered part!
 {
     int power=0;
-    if(lights_on)power += lights_power;
-    if(overhead_lights_on)power += overhead_power;
-    if(tracking_on)power += tracking_power;
-    if(fridge_on) power += fridge_power;
-    if(power <= 0)return;
-    for(int f=0;f<fuel.size() && power > 0;f++)
-    {
-        if(part_info(fuel[f]).fuel_type == "battery")
-        {
-            if(parts[fuel[f]].amount < power)
-            {
-                power -= parts[fuel[f]].amount;
-                parts[fuel[f]].amount = 0;
-            }
-            else
-            {
-                parts[fuel[f]].amount -= power;
-                power = 0;
-            }
-        }
+    if(one_in(6)) {   // Use power at the same rate the engine makes power.
+      if(lights_on)power += lights_power;
+      if(overhead_lights_on)power += overhead_power;
+      if(tracking_on)power += tracking_power;
+      if(fridge_on) power += fridge_power;
+      if(power <= 0)return;
+      for(int f=0;f<fuel.size() && power > 0;f++)
+      {
+          if(part_info(fuel[f]).fuel_type == "battery")
+          {
+              if(parts[fuel[f]].amount < power)
+              {
+                  power -= parts[fuel[f]].amount;
+                  parts[fuel[f]].amount = 0;
+              }
+              else
+              {
+                  parts[fuel[f]].amount -= power;
+                  power = 0;
+              }
+          }
+      }
     }
     if(power)
     {
@@ -1923,7 +1925,7 @@ void vehicle::charge_battery (int amount)
 
 void vehicle::idle() {
   if (engine_on && total_power () > 0) {
-    if(one_in(20)) {
+    if(one_in(6)) {
         int strn = (int) (strain () * strain() * 100);
 
         for (int p = 0; p < parts.size(); p++)
@@ -1950,9 +1952,12 @@ void vehicle::idle() {
       g->sound(global_x(), global_y(), sound, "hummm.");
 
       if (one_in(10)) {
-        int rdx = rng(0, 2);
-        int rdy = rng(0, 2);
-        g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
+        int smk = noise (true, true); // Only generate smoke for gas cars.
+        if (smk > 0) {
+          int rdx = rng(0, 2);
+          int rdy = rng(0, 2);
+          g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
+        }
       }
     }
   }
