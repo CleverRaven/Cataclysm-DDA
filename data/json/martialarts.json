@@ -194,7 +194,7 @@
                 "buff_duration" : 2,
                 "max_stacks" : 1,
                 "bonus_dodges" : 1,
-                "hit_dex" : 0.2;
+                "hit_dex" : 0.17;
             }
         ],
         "techniques" : ["tec_ninjutsu_precise"]
