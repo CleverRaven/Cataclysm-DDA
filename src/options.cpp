@@ -483,7 +483,7 @@ void initOptions() {
                                             
     OPTIONS["ITEM_SPAWNRATE"] =         cOpt("world_default", _("Item spawn scaling factor"),
                                              _("A scaling factor that determines density of item spawns."),
-                                             0.00, 99.0, 1.0, 0.1
+                                             0.1, 1.0, 1.0, 0.1
                                             );
 
     OPTIONS["CITY_SIZE"] =              cOpt("world_default", _("Size of cities"),

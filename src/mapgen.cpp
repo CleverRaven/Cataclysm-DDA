@@ -13646,7 +13646,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     chance = 99;
     else if (chance < 1)
     chance = 1;
-    
+
     if (chance >= 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
         return 0;
