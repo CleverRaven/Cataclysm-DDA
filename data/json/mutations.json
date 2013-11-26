@@ -273,6 +273,22 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id": "MARTIAL_ARTS3",
+        "name": "Shaolin Adept",
+        "points": 3,
+        "description": "You have studied the arts of the Shaolin monks. You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
+        "starting_trait": true,
+        "valid": false
+    },{
+        "type" : "mutation",
+        "id": "MARTIAL_ARTS4",
+        "name": "Venom Mob Protege",
+        "points": 3,
+        "description": "You are a pupil of the Venom Clan. You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
+        "starting_trait": true,
+        "valid": false
+    },{
+        "type" : "mutation",
         "id" : "LIAR",
         "name" : "Skilled Liar",
         "points" : 2,

@@ -194,6 +194,8 @@ public:
  int mabuff_dodge_bonus(); // martial arts dodge bonus
  int mabuff_block_bonus(); // martial arts block bonus
  int mabuff_speed_bonus(); // martial arts to-hit bonus
+ int mabuff_arm_bash_bonus(); // martial arts bash armor bonus
+ int mabuff_arm_cut_bonus(); // martial arts cut armor bonus
  float mabuff_bash_mult(); // martial arts bash damage multiplier
  int mabuff_bash_bonus(); // martial arts bash damage bonus, applied after mult
  float mabuff_cut_mult(); // martial arts bash damage multiplier

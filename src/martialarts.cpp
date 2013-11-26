@@ -79,6 +79,9 @@ ma_buff load_buff(JsonObject &jo)
     buff.speed = jo.get_int("speed", 0);
     buff.block = jo.get_int("block", 0);
 
+    buff.arm_bash = jo.get_int("arm_bash", 0);
+    buff.arm_cut = jo.get_int("arm_cut", 0);
+
     buff.bash_stat_mult = jo.get_float("bash_mult", 1.0);
     buff.cut_stat_mult = jo.get_float("cut_mult", 1.0);
 
@@ -350,6 +353,12 @@ int ma_buff::speed_bonus(player& u)
     (void)u; //unused
     return speed;
 }
+int ma_buff::arm_bash_bonus(player& u) {
+  return arm_bash;
+}
+int ma_buff::arm_cut_bonus(player& u) {
+  return arm_cut;
+}
 float ma_buff::bash_mult() {
   return bash_stat_mult;
 }
@@ -571,13 +580,35 @@ int player::mabuff_speed_bonus() {
   }
   return ret;
 }
+int player::mabuff_arm_bash_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      ret += it->intensity * ma_buffs[it->buff_id].arm_bash_bonus(*this);
+    }
+  }
+  return ret;
+}
+int player::mabuff_arm_cut_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      ret += it->intensity * ma_buffs[it->buff_id].arm_cut_bonus(*this);
+    }
+  }
+  return ret;
+}
 float player::mabuff_bash_mult() {
   float ret = 1.f;
   for (std::vector<disease>::iterator it = illness.begin();
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret *= it->intensity * (1-ma_buffs[it->buff_id].bash_mult())+1;
+      ret *= it->intensity * (ma_buffs[it->buff_id].bash_mult()-1)+1;
     }
   }
   return ret;
@@ -599,7 +630,7 @@ float player::mabuff_cut_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret *= it->intensity * (1-ma_buffs[it->buff_id].cut_mult())+1;
+      ret *= it->intensity * (ma_buffs[it->buff_id].cut_mult()-1)+1;
     }
   }
   return ret;

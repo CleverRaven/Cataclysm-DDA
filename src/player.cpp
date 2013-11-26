@@ -8761,6 +8761,11 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         dam *= 1.4;
     if (has_trait("HOLLOW_BONES"))
         dam *= 1.8;
+
+    // apply martial arts armor buffs
+    dam -= mabuff_arm_bash_bonus();
+    cut -= mabuff_arm_cut_bonus();
+
     if (dam < 0)
         dam = 0;
     if (cut < 0)

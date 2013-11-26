@@ -439,11 +439,24 @@
         "static_buffs" : [
             {
                 "id" : "toad_static",
-                "name" : "Toad Armor",
-                "description" : "Perception and intelligence provide a bonus to block.",
+                "name" : "Toad's Iron Skin",
+                "description" : "Gain +2 armor while standing still",
                 "unarmed_allowed" : true,
-                "block_per" : 0.8,
-                "block_int" : 0.8
+                "arm_bash": 2,
+                "arm_cut": 2
+            }
+        ],
+        "onmove_buffs": [
+            {
+                "id" : "toad_armor_dissipate",
+                "name" : "Iron Skin Dissipation",
+                "description" : "Iron skin loses half its bonus per stack",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "arm_bash" : -1,
+                "arm_cut" : -1
             }
         ],
         "techniques" : [

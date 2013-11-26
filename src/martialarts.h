@@ -77,7 +77,7 @@ class ma_technique {
     int hit; // flat bonus to hit
     int bash; // flat bonus to bash
     int cut; // flat bonus to cut
-    int pain; // causes pain
+    int pain; // attacks cause pain
 
     float bash_mult; // bash damage multiplier
     float cut_mult; // cut damage multiplier
@@ -124,6 +124,10 @@ class ma_buff {
     int speed_bonus(player& u);
     int block_bonus(player& u);
 
+    // returns the armor bonus for various armor stats (equivalent to armor)
+    int arm_bash_bonus(player& u);
+    int arm_cut_bonus(player& u);
+
     // returns the stat bonus for the various damage stats (for rolls)
     int bash_bonus(player& u);
     int cut_bonus(player& u);
@@ -151,6 +155,9 @@ class ma_buff {
 
     int dodges_bonus; // extra dodges, like karate
     int blocks_bonus; // extra blocks, like karate
+
+    int arm_bash; // passive bonus to bash armor
+    int arm_cut; // passive bonus to cut armor
 
     int hit; // flat bonus to hit
     int bash; // flat bonus to bash
