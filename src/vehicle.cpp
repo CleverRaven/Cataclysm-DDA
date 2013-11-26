@@ -2068,6 +2068,9 @@ void vehicle::thrust (int thd) {
             soundmessage = "whirrr!";
           g->sound(global_x(), global_y(), noise(), soundmessage.c_str());
         }
+        else {
+          g->sound(global_x(), global_y(), noise(), "");
+        }
     }
 
     if (skidding)

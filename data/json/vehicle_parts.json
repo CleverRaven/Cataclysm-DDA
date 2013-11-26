@@ -1090,7 +1090,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "foot_pedals",
-        "name" : "Foot pedals",
+        "name" : "foot pedals",
         "symbol" : "*",
         "color" : "light_gray",
         "broken_symbol" : "#",
