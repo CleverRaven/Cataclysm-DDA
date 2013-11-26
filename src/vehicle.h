@@ -505,6 +505,7 @@ public:
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
     bool cruise_on;     // cruise control on/off
     bool engine_on;     // engine on/off
+    bool has_pedals;     // has or doesn't have pedals.
     bool lights_on;     // lights on/off
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle

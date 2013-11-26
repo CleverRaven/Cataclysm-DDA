@@ -1102,7 +1102,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE"],
+        "flags" : ["PEDALS", "ENGINE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
