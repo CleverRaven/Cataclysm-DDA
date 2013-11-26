@@ -2606,64 +2606,95 @@ void game::update_scent()
     player_last_moved = turn;
   }
 
- int temp_scent;
- // note: the next two intermediate variables need to be at least [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
- // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid introducing new bugs.
+ // Requires at [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data.
  int sum_3_squares_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
  int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
- const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for stability.  This is essentially a decimal number * 1000.
+ const float diffusivity = 1.0;   // Determines how readily scents will diffuse.
+ const float adding = 1.1;     // How much scent to add for very low scent values in order to keep them longer.
+ const float lossiness = 0.95;   // How much scent to erase when we gain more.
 
- if (!u.has_active_bionic("bio_scent_mask"))
-    grscent[u.posx][u.posy] = u.scent;
-
- // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9 times. This cost us an extra loop here, but
- // it also eliminated a loop at the end, so there is a net performance improvement over the old code. Could probably still be better.
- // note: this method needs an array that is one square larger on each side in the x direction then the final scent matrix
- // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
+ // Determine how many neighbours to diffuse into and the scent values of our neighbours.
   for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
     for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-      // remember the sum of the scent values for 3 neighboring squares.
       sum_3_squares_y[x][y] = grscent[x][y] + grscent[x][y-1] + grscent[x][y+1];
-      // next, remember how many squares we will diffuse gas into.
       squares_used_y[x][y] =(m.move_cost_ter_furn(x,y-1) > 0   || m.has_flag("BASHABLE",x,y-1)) +
                             (m.move_cost_ter_furn(x,y)   > 0   || m.has_flag("BASHABLE",x,y))   +
                             (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
     }
   }
 
+  int squares_lost;   // How many squares we will diffuse into.
+  int squares_gained; // The sum of the squares giving us stuff.
+  int cur_scent;
+  int lost;           // How much to lose based on diffusion.
+  int gained;         // How much we gained.
+  int fslime;
+  int new_scent;
+
+  int move_cost;
+  bool is_bashable;
   for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
     for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-      const int move_cost = m.move_cost_ter_furn(x, y);
-      const bool is_bashable = m.has_flag("BASHABLE", x, y);
-      if (move_cost != 0 || is_bashable) {
-        // to how many neighboring squares do we diffuse out? (include our own square since we also include our own square when diffusing in)
-        int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
-        // take the old scent and subtract what diffuses out
-        temp_scent = grscent[x][y] * std::max((1000 - squares_used * diffusivity), 0);
-        // we've already summed neighboring scent values in the y direction in the previous loop.
-        // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
-        grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
+      move_cost = m.move_cost_ter_furn(x, y);
+      is_bashable = m.has_flag("BASHABLE", x, y);
 
-        int fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
+      if (move_cost != 0 || is_bashable) {
+        squares_lost = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
+        squares_gained = sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y];
+
+        cur_scent = grscent[x][y];
+        lost = (diffusivity * squares_lost * cur_scent) / 8;
+
+        gained = (diffusivity * squares_gained) / 8;
+        gained *= lossiness;
+
+        new_scent = grscent[x][y] + gained - lost;
+        if (new_scent < 10 && one_in(6)) {
+          new_scent *= adding;
+        }
+        grscent[x][y] = new_scent;
+
+        // Add scent back to the player.
+        if (x == u.posx && y == u.posy) {
+          u.scent += (grscent[x][y] * lossiness) / 9;
+        }
+
+        if (grscent[x][y] < 1) {
+          grscent[x][y] = 0;
+        }
+        else if (grscent[x][y] == 1 && one_in(9)) {
+          grscent[x][y] = 0;
+        }
+
+        fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
         if (fslime > 0 && grscent[x][y] < fslime) {
           grscent[x][y] = fslime;
         }
-        if (grscent[x][y] > 10000) {
+        if (grscent[x][y] > 100000) {
           dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
                        << y << " (" << grscent[x][y] << ")";
           debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
           grscent[x][y] = 0; // Scent should never be higher
         }
+        if (u.scent > 100000) {
+          dbg(D_ERROR) << "game:update_scent: Wacky player scent : " << u.scent;
+          debugmsg("Wacky player scent : %d", u.scent);
+          u.scent = 0; // Scent should never be higher
+        }
         //Greatly reduce scent for bashable barriers, even more for ductaped barriers
         if( move_cost == 0 && is_bashable) {
           if( m.has_flag("REDUCE_SCENT", x, y))
-            grscent[x][y] /= 12;
+            grscent[x][y] /= 9;
           else
-            grscent[x][y] /= 4;
+            grscent[x][y] /= 3;
         }
       }
     }
   }
+
+  // Finally, diffuse the player's scent.
+  grscent[u.posx][u.posy] += u.scent * lossiness;
+  u.scent *= lossiness;
 }
 
 bool game::is_game_over()
@@ -10939,6 +10970,9 @@ bool game::plmove(int dx, int dy)
 // Move the player
   u.posx = x;
   u.posy = y;
+// Increase our scent.
+  if (u.scent < u.norm_scent * 2)
+    u.scent *= 1.2;
   if(dx != 0 || dy != 0) {
     u.lifetime_stats()->squares_walked++;
   }
