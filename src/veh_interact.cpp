@@ -401,7 +401,7 @@ void veh_interact::do_install(task_reason reason)
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
-             !(veh->has_pedals() && eng) && !(veh->has_pedals() && pedals)) {
+             !(veh->pedals() && eng) && !(veh->pedals() && install_pedals)) {
             sel_cmd = 'i';
             return;
         } else {
