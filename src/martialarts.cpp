@@ -1,4 +1,5 @@
 #include "player.h"
+#include "game.h"
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"
@@ -183,13 +184,13 @@ bool ma_requirements::is_valid_player(player& u) {
     mabuff_id buff_id = *it;
     if (!u.has_mabuff(*it)) return false;
   }
-  return ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
+  bool valid = ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing
     && u.skillLevel("cutting") >= min_cutting
-    && u.skillLevel("stabbing") >= min_stabbing
-  ;
+    && u.skillLevel("stabbing") >= min_stabbing;
+  return valid;
 }
 
 
@@ -291,6 +292,7 @@ void ma_buff::apply_buff(std::vector<disease>& dVec) {
   disease d(id);
   d.duration = buff_duration;
   d.intensity = 1;
+  d.permanent = false;
   dVec.push_back(d);
 }
 
@@ -532,7 +534,7 @@ float player::mabuff_bash_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret *= it->intensity * (1-ma_buffs[it->buff_id].bash_mult())+1;
+      ret *= it->intensity * ma_buffs[it->buff_id].bash_mult();
     }
   }
   return ret;
@@ -554,7 +556,7 @@ float player::mabuff_cut_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret *= it->intensity * (1-ma_buffs[it->buff_id].cut_mult())+1;
+      ret *= it->intensity * ma_buffs[it->buff_id].cut_mult();
     }
   }
   return ret;

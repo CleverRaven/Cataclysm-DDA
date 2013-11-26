@@ -1053,7 +1053,7 @@ void dis_effect(player &p, disease &dis) {
                 p.per_cur -= 1;
             }
             break;
-            
+
         case DI_JETINJECTOR:
             if (dis.duration > 50) {
                 // 15 minutes positive effects
@@ -1291,6 +1291,9 @@ void dis_effect(player &p, disease &dis) {
               ma_buff b = ma_buffs[dis.buff_id];
               if (b.is_valid_player(p)) {
                 b.apply_player(p);
+              }
+              else {
+                p.rem_disease(dis.type);
               }
             }
             break;
@@ -1655,7 +1658,7 @@ std::string dis_name(disease& dis)
     case DI_ADRENALINE:
         if (dis.duration > 150) return _("Adrenaline Rush");
         else return _("Adrenaline Comedown");
-        
+
     case DI_JETINJECTOR:
         if (dis.duration > 150) return _("Chemical Rush");
         else return _("Chemical Comedown");
@@ -1751,13 +1754,16 @@ std::string dis_name(disease& dis)
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
+          std::stringstream buf;
           if (ma_buffs[dis.buff_id].max_stacks > 1) {
             std::stringstream buf;
             buf << ma_buffs[dis.buff_id].name
               << " (" << dis.intensity << ")";
             return buf.str().c_str();
-          } else
-            return ma_buffs[dis.buff_id].name.c_str();
+          } else {
+             buf << ma_buffs[dis.buff_id].name.c_str();
+             return buf.str().c_str();
+          }
         } else
           return "Invalid martial arts buff";
 
