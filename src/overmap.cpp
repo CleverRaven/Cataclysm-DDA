@@ -398,8 +398,14 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base) {
 #else
             debugmsg("oter_t[%s]: mapgen entry requires a build with LUA=1.",id_base.c_str() );
 #endif
-        } else if ( mgtype == "json" ) { // todo
-            debugmsg("oter_t[%s]: TODO mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+        } else if ( mgtype == "json" ) {
+            if ( jio.has_object("object") ) {
+                JsonObject jo = jio.get_object("object");
+                std::string jstr = jo.str();
+                oter_mapgen[id_base].push_back( new mapgen_function_json( jstr ) );
+            } else {
+                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
+            }
         } else {
             debugmsg("oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
         }
