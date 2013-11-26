@@ -455,15 +455,27 @@ bool player::has_grab_break_tec() {
 }
 
 bool player::can_leg_block() {
-  return (skillLevel("unarmed") >= martialarts[style_selected].leg_block &&
-          martialarts[style_selected].leg_block > -1 &&
-          (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_l] > 0));
+  if (martialarts[style_selected].leg_block < 1)
+    return false;
+  if (skillLevel("unarmed") >= martialarts[style_selected].leg_block &&
+      (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_l] > 0))
+    return true;
+  else
+    return false;
 }
 
 bool player::can_arm_block() {
-  return (skillLevel("unarmed") >= martialarts[style_selected].arm_block &&
-          martialarts[style_selected].arm_block > -1 &&
-          (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_l] > 0));
+  if (martialarts[style_selected].arm_block < 1)
+    return false;
+  if (skillLevel("unarmed") >= martialarts[style_selected].arm_block &&
+      (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_l] > 0))
+    return true;
+  else
+    return false;
+}
+
+bool player::can_block() {
+  return can_arm_block() || can_leg_block();
 }
 
 // event handlers
