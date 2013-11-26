@@ -367,8 +367,9 @@ void veh_interact::do_install(task_reason reason)
         bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
         bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
         bool eng = sel_vpart_info->has_flag("ENGINE");
-        bool pedals = sel_vpart_info->has_flag("PEDALS");
+        bool install_pedals = sel_vpart_info->has_flag("PEDALS");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+        veh->has_pedals = false;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
@@ -376,11 +377,11 @@ void veh_interact::do_install(task_reason reason)
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
         }
-        if (veh->has_pedals() && pedals) {
+        if (veh->pedals() && install_pedals) {
             engine_string = string_format(
                                   _(" You can only install and use one set of foot pedals in your vehicle."));
         }
-        if (veh->has_pedals() && eng) {
+        if (veh->pedals() && eng) {
           engine_string = string_format(
                                   _(" You can't install an engine in a vehicle that uses foot pedals."));
         }

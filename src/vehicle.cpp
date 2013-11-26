@@ -403,7 +403,7 @@ void vehicle::use_controls()
 
     // Toggle engine on/off.
     int vpart;
-    if (!has_pedals() && has_engine) {
+    if (!pedals() && has_engine) {
         options_choice.push_back(toggle_engine);
         options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
                                                _("Turn on the engine"), 'e'));
@@ -1929,7 +1929,7 @@ void vehicle::charge_battery (int amount)
 
 
 void vehicle::idle() {
-  if (engine_on && total_power () > 0 && !has_pedals()) {
+  if (engine_on && total_power () > 0 && !pedals()) {
     if(one_in(6)) {
         int strn = (int) (strain () * strain() * 100);
 
@@ -1958,7 +1958,7 @@ void vehicle::idle() {
 
       if (one_in(10)) {
         int smk = noise (true, true); // Only generate smoke for gas cars.
-        if (smk > 0 && !has_pedals()) {
+        if (smk > 0 && !pedals()) {
           int rdx = rng(0, 2);
           int rdy = rng(0, 2);
           g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
@@ -2015,7 +2015,7 @@ void vehicle::thrust (int thd) {
             cruise_velocity = 0;
             return;
         }
-        else if (!engine_on && !has_pedals()) {
+        else if (!engine_on && !pedals()) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
@@ -2046,14 +2046,14 @@ void vehicle::thrust (int thd) {
         }
         // add sound and smoke
         int smk = noise (true, true);
-        if (smk > 0 && !has_pedals())
+        if (smk > 0 && !pedals())
         {
             int rdx, rdy;
             coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
             g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
         std::string soundmessage;
-        if (!has_pedals()) {
+        if (!pedals()) {
           if (smk > 80)
             soundmessage = "ROARRR!";
           else if (smk > 60)
@@ -2837,7 +2837,7 @@ void vehicle::find_exhaust ()
     exhaust_dx--;
 }
 
-bool vehicle::has_pedals() {
+bool vehicle::pedals() {
   if (has_pedals) {
     return true;
   }
