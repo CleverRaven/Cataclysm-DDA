@@ -97,11 +97,6 @@ class ma_technique {
     float hit_int; // "" int point
     float hit_per; // "" per point
 
-    //defensive
-    int block;
-
-    float bash_resist; // multiplies bash by this (1 - amount)
-    float cut_resist; // "" cut ""
 };
 
 class ma_buff {

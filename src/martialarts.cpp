@@ -40,6 +40,14 @@ void load_technique(JsonObject &jo)
     tec.flaming = jo.get_bool("flaming", false);
     tec.quick = jo.get_bool("quick", false);
 
+    tec.hit = jo.get_int("pain", 0);
+    tec.bash = jo.get_int("bash", 0);
+    tec.cut = jo.get_int("cut", 0);
+    tec.pain = jo.get_int("pain", 0);
+
+    tec.bash_mult = jo.get_float("bash_mult", 1.0);
+    tec.cut_mult = jo.get_float("cut_mult", 1.0);
+
     tec.down_dur = jo.get_int("down_dur", 0);
     tec.stun_dur = jo.get_int("stun_dur", 0);
     tec.knockback_dist = jo.get_int("knockback_dist", 0);
@@ -248,12 +256,6 @@ ma_technique::ma_technique() {
 
   bash_mult = 1.0f; // bash damage multiplier
   cut_mult = 1.0f; // cut damage multiplier
-
-  //defensive
-  block = 0;
-
-  bash_resist = 0.0f; // multiplies bash by this (1 - amount)
-  cut_resist = 0.0f; // "" cut ""
 
 }
 
