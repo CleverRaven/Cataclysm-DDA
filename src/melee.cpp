@@ -183,6 +183,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
   perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+
  if (weapon.has_flag("FLAMING")) {
    z->add_effect(ME_ONFIRE, rng(3, 4));
  }
@@ -197,10 +198,10 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  if (!is_quiet()) // check martial arts silence
   g->sound(posx, posy, 8, "");
 
- int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
-
  // Handles speed penalties to monster & us, etc
  std::string specialmsg = melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
+
+ int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
   if (g->u_see(z)) {
       player_hit_message(g, this, message, target_name, dam, critical_hit);
@@ -845,8 +846,6 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
                                player *p, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
-    (void)cut_dam; //FIXME: this should probably be being used for something
-    (void)stab_dam; //FIXME: this should probably be being used for something
 
     const bool mon = (z != NULL);
     const bool npc = (p != NULL && p->is_npc());
@@ -861,6 +860,14 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
         target = "a bug";
         // "you" handled separately
     }
+
+  bash_dam += technique.bash;
+  cut_dam += technique.cut;
+  stab_dam += technique.cut; // cut affects stab damage too since only one of cut/stab is used
+
+  bash_dam *= technique.bash_mult;
+  cut_dam *= technique.cut_mult;
+  stab_dam *= technique.cut_mult;
 
   int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
@@ -1275,6 +1282,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
   // multiply damage by style damage_mults
   bash_dam *= mabuff_bash_mult();
   cut_dam *= mabuff_cut_mult();
+  stab_dam *= mabuff_cut_mult();
 
   // on-hit effects for martial arts
   ma_onhit_effects();
