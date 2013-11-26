@@ -15607,6 +15607,11 @@ void map::add_extra(map_extra type, game *g)
                 if (one_in(8)) {
                     spawn_item(x, y, "id_military");
                 }
+                if (one_in(2)) {
+                  place_items("male_underwear", 25, x, y, x, y, true, 0);
+                  }
+                else
+                  place_items("female_underwear", 25, x, y, x, y, true, 0);
             }
         }
         place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
@@ -15635,9 +15640,11 @@ void map::add_extra(map_extra type, game *g)
                 place_items("lab_shoes", 25, x, y, x, y, true, 0);
                 place_items("lab_torso", 25, x, y, x, y, true, 0);
                 if (one_in(2)) {
-                place_items("male_underwear", 25, x, y, x, y, true, 0);
-                }
-                else place_items("female_underwear", 25, x, y, x, y, true, 0);
+                  place_items("male_underwear", 25, x, y, x, y, true, 0);
+                  }
+                else {
+                  place_items("female_underwear", 25, x, y, x, y, true, 0);
+                  }
             }
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -15828,9 +15835,9 @@ void map::add_extra(map_extra type, game *g)
                         num_drugs = 0;
                     }
                     spawn_item(x, y, drugtype, 0, drugs_placed);
+                    }
                 }
             }
-        }
     }
     break;
 
