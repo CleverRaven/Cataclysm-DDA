@@ -103,7 +103,6 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.breaks_into.push_back(next_break_entry);
     }
 
-    //Plating shouldn't actually be shown; another part will be.
     //Calculate and cache z-ordering based off of location
     if(next_part.has_flag("ARMOR")) {
         next_part.z_order = -2;
@@ -125,6 +124,9 @@ void game::load_vehiclepart(JsonObject &jo)
     } else if(next_part.location == "roof") {
         //Shouldn't be displayed
         next_part.z_order = -1;
+    } else if(next_part.location == "armor") {
+        //Shouldn't be displayed (the color is used, but not the symbol)
+        next_part.z_order = -2;
     } else {
         //Everything else
         next_part.z_order = 0;
