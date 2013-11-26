@@ -65,8 +65,7 @@ void veh_interact::allocate_windows()
 
     // border window
     WINDOW *w_border = newwin(total_h, total_w, y0, x0);
-    wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_border);
 
     // grid window
     const int grid_w = total_w - 2; // exterior borders take 2
@@ -135,10 +134,10 @@ void veh_interact::allocate_windows()
         stats_y = name_y + name_h;
 
         // match grid lines
-        mvwputch(w_border, h1 + 1, 0, c_ltgray, LINE_XXXO); // |-
-        mvwputch(w_border, h1 + 1, total_w - 1, c_ltgray, LINE_XOXX); // -|
-        mvwputch(w_border, h1 + 1 + disp_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-        mvwputch(w_border, h1 + 1 + disp_h + 1, total_w - 1, c_ltgray, LINE_XOXX); // -|
+        mvwputch(w_border, h1 + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, h1 + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+        mvwputch(w_border, h1 + 1 + disp_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, h1 + 1 + disp_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
     } else {
         //        Horizontal menu:
         // +----------------------------+
@@ -184,11 +183,11 @@ void veh_interact::allocate_windows()
         msg_x   = x0 + 1;
 
         // match grid lines
-        mvwputch(w_border, name_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-        mvwputch(w_border, name_h + 1 + disp_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-        mvwputch(w_border, name_h + 1 + stats_h + 1, 0, c_ltgray, LINE_XXXO); // |-
-        mvwputch(w_border, name_h + 1, total_w - 1, c_ltgray, LINE_XOXX); // -|
-        mvwputch(w_border, name_h + 1 + stats_h + 1, total_w - 1, c_ltgray, LINE_XOXX); // -|
+        mvwputch(w_border, name_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, name_h + 1 + disp_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, name_h + 1 + stats_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, name_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+        mvwputch(w_border, name_h + 1 + stats_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
     }
 
     // make the windows
