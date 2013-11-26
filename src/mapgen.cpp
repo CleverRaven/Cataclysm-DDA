@@ -15622,7 +15622,10 @@ void map::add_extra(map_extra type, game *g)
 
             if (tries < 10) { // We found a valid spot!
                 add_item(x, y, body);
+                spawn_item(x, y, "coat_lab");
+                if (one_in(2)) {
                 spawn_item(x, y, "id_science");
+                }
                 place_items("science", 84, x, y, x, y, true, 0);
             }
         }
