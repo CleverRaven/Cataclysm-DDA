@@ -2901,6 +2901,7 @@
     "description": "A four-barreled, .22 Long Rifle pistol, similar to a derringer or pepperbox, produced by O.F. Mossberg & Sons from 1920 to 1932.",
     "price": 1100,
     "material": ["steel", "wood"],
+    "flags": "RELOAD_ONE",
     "skill": "pistol",
     "ammo": "22",
     "weight": 364,
@@ -2914,8 +2915,8 @@
     "recoil": 2,
     "durability": 6,
     "burst": 0,
-    "clip_size": 1,
-    "reload": 400
+    "clip_size": 4,
+    "reload": 100
   },
    {
     "id": "cop_38",
@@ -2926,6 +2927,7 @@
     "description": "The COP 38 is a four-shot derringer-type pistol chambered for the .38 round. It was designed by Robert Hillberg, based on his earlier work on the Hillberg Insurgency Weapon.",
     "price": 1200,
     "material": ["steel", "wood"],
+    "flags": "RELOAD_ONE",
     "skill": "pistol",
     "ammo": "38",
     "weight": 857,
@@ -2940,6 +2942,6 @@
     "durability": 6,
     "burst": 0,
     "clip_size": 4,
-    "reload": 400
+    "reload": 100
   }
 ]
