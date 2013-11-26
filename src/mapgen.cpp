@@ -13642,8 +13642,9 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 {
 int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
     
-    if (rng(1,100) > lets_spawn)
+    if (rng(1,100) > lets_spawn) {
         return 0;
+}
 
     if (chance >= 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
