@@ -5,9 +5,9 @@
 #include "line.h"
 #include "mapgenformat.h"
 #include "overmap.h"
-
+#include "monstergenerator.h"
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
-                       oter_id northwest, oter_id southeast, oter_id southwest)
+                       oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z)
 {
     t_nesw[0] = north;
     t_nesw[1] = east;
@@ -17,6 +17,8 @@ mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west,
     t_nesw[5] = southeast;
     t_nesw[6] = northwest;
     t_nesw[7] = southwest;
+    t_above = up;
+    zlevel = z;
     n_fac = 0;
     e_fac = 0;
     s_fac = 0;
@@ -25,8 +27,11 @@ mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west,
     se_fac = 0;
     nw_fac = 0;
     sw_fac = 0;
+
+
+
 }
-//
+
 std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
 
 void init_mapgen_builtin_functions() {
@@ -333,7 +338,7 @@ ter_id dirt_or_pile()
   return t_dirtmound;
  return t_dirt;
 }
-// helper functions below
+
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down = false ) {
     if ( north_is_down ) {

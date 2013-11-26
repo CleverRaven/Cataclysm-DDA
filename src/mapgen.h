@@ -38,17 +38,60 @@ class mapgen_function_builtin : public virtual mapgen_function {
     virtual void dummy_() {}
 };
 
-class mapgen_function_json : public virtual mapgen_function {
-    public:
-    virtual void dummy_() {}
-    std::vector <std::string> data;
-    mapgen_function_json(std::vector<std::string> s, int w = 1000) {
-        ftype = MAPGENFUNC_JSON;
-        weight = w;
-        data = s; // dummy test
+/////////////////////////////////////////////////////////////////////////////////
+///// json mapgen (and friends)
+struct jmapgen_int {
+  short val;
+  short valmax;
+  jmapgen_int(int v) : val(v), valmax(v) {}
+  jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
+  jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
+  
+  int get() {
+    return ( val == valmax ? val : rng(val, valmax) );
+  }
+};
+/* todo
+int place_items(items_location loc, const int chance, const int x1, const int y1,
+                  const int x2, const int y2, bool ongrass, const int turn);
+
+void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
+                const int faction_id = -1, const int mission_id = -1,
+                std::string name = "NONE");
+
+*/
+struct jmapgen_spawn_item {
+    jmapgen_int x;
+    jmapgen_int y;
+    std::string itype;
+    jmapgen_int amount;
+    jmapgen_spawn_item( jmapgen_int ix, jmapgen_int iy, std::string iitype, jmapgen_int iamount ) : x(ix), y(iy), itype(iitype), amount(iamount) {}
+    void apply( map * m ) {
+        m->spawn_item( x.get(), y.get(), itype, amount.get() );
     }
 };
 
+class mapgen_function_json : public virtual mapgen_function {
+    public:
+    virtual void dummy_() {}
+    bool setup();
+    void apply(map * m,oter_id id,mapgendata md ,int t,float d);
+    mapgen_function_json(std::string s, int w = 1000) {
+        ftype = MAPGENFUNC_JSON;
+        weight = w;
+        jdata = s;
+        mapgensize = 24;
+        fill_ter = t_null;
+    }
+    std::string jdata;
+    int mapgensize;
+    int fill_ter;
+    terfurn_tile * format;
+    std::vector<jmapgen_spawn_item> spawnitems;
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+///// lua mapgen
 class mapgen_function_lua : public virtual mapgen_function {
     public:
     virtual void dummy_() {}
@@ -59,8 +102,15 @@ class mapgen_function_lua : public virtual mapgen_function {
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
 };
-
+/////////////////////////////////////////////////////////
+///// global per-terrain mapgen function lists
+/*
+ * stores function ref and/or required data
+ */
 extern std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
+/*
+ * random selector list for the nested vector above, as per indivdual mapgen_function_::weight value
+ */
 extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
 /// move to building_generation
@@ -106,7 +156,9 @@ enum room_type {
 };
 
 void house_room(map *m, room_type type, int x1, int y1, int x2, int y2);
-
+// helpful functions
+bool connects_to(oter_id there, int dir);
+// wrappers for map:: functions
 void line(map *m, const ter_id type, int x1, int y1, int x2, int y2);
 void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void fill_background(map *m, ter_id type);
