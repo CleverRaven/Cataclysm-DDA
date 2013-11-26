@@ -156,16 +156,40 @@ void load_martial_art(JsonObject &jo)
         ma.static_buffs.push_back(load_buff(jsobj));
     }
 
+    jsarr = jo.get_array("onmove_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.onmove_buffs.push_back(load_buff(jsobj));
+    }
+
     jsarr = jo.get_array("onhit_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
         ma.onhit_buffs.push_back(load_buff(jsobj));
     }
 
-    jsarr = jo.get_array("onmove_buffs");
+    jsarr = jo.get_array("onattack_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.onmove_buffs.push_back(load_buff(jsobj));
+        ma.onattack_buffs.push_back(load_buff(jsobj));
+    }
+
+    jsarr = jo.get_array("ondodge_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.ondodge_buffs.push_back(load_buff(jsobj));
+    }
+
+    jsarr = jo.get_array("onblock_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.onblock_buffs.push_back(load_buff(jsobj));
+    }
+
+    jsarr = jo.get_array("ongethit_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.onblock_buffs.push_back(load_buff(jsobj));
     }
 
     ma.techniques = jo.get_tags("techniques");
@@ -382,17 +406,30 @@ void martialart::apply_static_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, static_buffs, dVec);
 }
 
+void martialart::apply_onmove_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, onmove_buffs, dVec);
+}
+
 void martialart::apply_onhit_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, onhit_buffs, dVec);
 }
 
-void martialart::apply_onmove_buffs(player& u, std::vector<disease>& dVec) {
-  simultaneous_add(u, onmove_buffs, dVec);
+void martialart::apply_onattack_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, onattack_buffs, dVec);
 }
 
 void martialart::apply_ondodge_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, ondodge_buffs, dVec);
 }
+
+void martialart::apply_onblock_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, onblock_buffs, dVec);
+}
+
+void martialart::apply_ongethit_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, ongethit_buffs, dVec);
+}
+
 
 bool martialart::has_technique(player& u, matec_id tec_id) {
   for (std::set<matec_id>::iterator it = techniques.begin();
@@ -476,9 +513,17 @@ void player::ma_onmove_effects() {
 void player::ma_onhit_effects() {
   martialarts[style_selected].apply_onhit_buffs(*this, illness);
 }
-// ondodge doesn't actually work yet
+void player::ma_onattack_effects() {
+  martialarts[style_selected].apply_onattack_buffs(*this, illness);
+}
 void player::ma_ondodge_effects() {
   martialarts[style_selected].apply_ondodge_buffs(*this, illness);
+}
+void player::ma_onblock_effects() {
+  martialarts[style_selected].apply_onblock_buffs(*this, illness);
+}
+void player::ma_ongethit_effects() {
+  martialarts[style_selected].apply_ongethit_buffs(*this, illness);
 }
 
 // bonuses

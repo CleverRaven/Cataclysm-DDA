@@ -103,7 +103,7 @@
             {
                 "id" : "capoeira_move_buff",
                 "name" : "Capoeira Momentum",
-                "description" : "+2 bash and +1 hit per stack",
+                "description" : "+2 bash and +1 acc per stack",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
                 "buff_duration" : 3,
@@ -210,14 +210,35 @@
         "type" : "martial_art",
         "id" : "style_zui_quan",
         "name" : "Zui Quan",
-        "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  The turn after you successfully attack, you may dodge any number of attacks with no penalty.",
-        "onhit_buffs" : [
+        "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
+        "static_buffs" : [
             {
-                "id" : "zuiquan_hit_buff",
-                "name" : "Drunk Dodging",
-                "description" : "Unlimited dodges after successful hit",
+                "id" : "zuiquan_static",
+                "name" : "Zui Quan",
+                "description" : "Intelligence increases dodging ability",
                 "unarmed_allowed" : true,
-                "dodges_bonus" : 50
+                "dodge_int": 0.12
+            }
+        ],
+        "onattack_buffs" : [
+            {
+                "id" : "zuiquan_attack_buff",
+                "name" : "Drunken Dodging",
+                "description" : "Unlimited dodges after attacking",
+                "buff_duration" : 4,
+                "unarmed_allowed" : true,
+                "dodges_bonus" : 100
+            }
+        ],
+        "ondodge_buffs" : [
+            {
+                "id" : "zuiquan_dodge_buff",
+                "name" : "Counter Strike",
+                "description" : "Extra damage and to-hit after successful dodge",
+                "unarmed_allowed" : true,
+                "max_stacks": 2,
+                "bash_int": 0.2,
+                "hit_int": 0.2
             }
         ],
         "techniques" : [
@@ -233,7 +254,7 @@
         "static_buffs" : [
             {
                 "id" : "crane_static",
-                "name" : "Crane Precision",
+                "name" : "Crane's Precision",
                 "description" : "Damage bonus from dexterity at the cost of damage from strength.",
                 "unarmed_allowed" : true,
                 "bash_str" : -0.2,
@@ -243,7 +264,7 @@
         "onmove_buffs" : [
                   {
                       "id" : "crane_move_buff",
-                      "name" : "Crane Flight",
+                      "name" : "Crane's Flight",
                       "description" : "+2 Dodge",
                       "unarmed_allowed" : true,
                       "min_unarmed" : 2,
@@ -265,7 +286,7 @@
         "static_buffs" : [
             {
                 "id" : "dragon_static",
-                "name" : "Dragon Intelligence",
+                "name" : "Dragon Style",
                 "description" : "Bonus damage from intelligence.",
                 "unarmed_allowed" : true,
                 "bash_int" : 0.8
@@ -274,7 +295,7 @@
         "onmove_buffs" : [
             {
                 "id" : "dragon_move_buff",
-                "name" : "Dragon Flight",
+                "name" : "Dragon's Flight",
                 "description" : "+2 Acc/Dam",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,

@@ -199,11 +199,17 @@ class martialart {
     // modifies a player's "current" stats with various types of bonuses
     void apply_static_buffs(player& u, std::vector<disease>& dVec);
 
-    void apply_onhit_buffs(player& u, std::vector<disease>& dVec);
-
     void apply_onmove_buffs(player& u, std::vector<disease>& dVec);
 
+    void apply_onhit_buffs(player& u, std::vector<disease>& dVec);
+
+    void apply_onattack_buffs(player& u, std::vector<disease>& dVec);
+
     void apply_ondodge_buffs(player& u, std::vector<disease>& dVec);
+
+    void apply_onblock_buffs(player& u, std::vector<disease>& dVec);
+
+    void apply_ongethit_buffs(player& u, std::vector<disease>& dVec);
 
     // determines if a technique is valid or not for this style
     bool has_technique(player& u, matec_id tech);
@@ -219,7 +225,10 @@ class martialart {
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
     std::vector<ma_buff> onmove_buffs;
     std::vector<ma_buff> onhit_buffs;
+    std::vector<ma_buff> onattack_buffs;
     std::vector<ma_buff> ondodge_buffs;
+    std::vector<ma_buff> onblock_buffs;
+    std::vector<ma_buff> ongethit_buffs;
 
 };
 
