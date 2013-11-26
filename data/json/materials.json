@@ -380,7 +380,7 @@
     },{
         "type" : "material",
         "ident" : "superalloy",
-        "name" : "Super Alloy",
+        "name" : "Superalloy",
         "bash_resist" : 6,
         "cut_resist" : 6,
         "bash_dmg_verb" : "dented",

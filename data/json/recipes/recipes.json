@@ -2938,7 +2938,7 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2956,7 +2956,7 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2974,7 +2974,7 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2992,7 +2992,7 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -3010,7 +3010,7 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [
     [
