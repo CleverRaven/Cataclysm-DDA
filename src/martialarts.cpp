@@ -170,8 +170,8 @@ void load_martial_art(JsonObject &jo)
 
     ma.techniques = jo.get_tags("techniques");
 
-    ma.leg_block = jo.get_int("leg_block", 0);
-    ma.arm_block = jo.get_int("arm_block", 0);
+    ma.leg_block = jo.get_int("leg_block", -1);
+    ma.arm_block = jo.get_int("arm_block", -1);
 
     martialarts[ma.id] = ma;
 }
@@ -455,7 +455,7 @@ bool player::has_grab_break_tec() {
 }
 
 bool player::can_leg_block() {
-  if (martialarts[style_selected].leg_block < 1)
+  if (martialarts[style_selected].leg_block < 0)
     return false;
   if (skillLevel("unarmed") >= martialarts[style_selected].leg_block &&
       (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_l] > 0))
@@ -465,7 +465,7 @@ bool player::can_leg_block() {
 }
 
 bool player::can_arm_block() {
-  if (martialarts[style_selected].arm_block < 1)
+  if (martialarts[style_selected].arm_block < 0)
     return false;
   if (skillLevel("unarmed") >= martialarts[style_selected].arm_block &&
       (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_l] > 0))
