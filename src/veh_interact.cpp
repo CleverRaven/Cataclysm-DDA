@@ -353,14 +353,10 @@ void veh_interact::do_install(task_reason reason)
     int pos = 0;
     int engines = 0;
     int dif_eng = 0;
-    veh->has_pedals = false;
     for (int p = 0; p < veh->parts.size(); p++) {
         if (veh->part_flag (p, "ENGINE")) {
             engines++;
             dif_eng = dif_eng / 2 + 12;
-        }
-        if (veh->part_flag (p, "PEDALS")) {
-          veh->has_pedals = true;
         }
     }
     while (true) {
@@ -380,11 +376,11 @@ void veh_interact::do_install(task_reason reason)
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
         }
-        if (veh->has_pedals && pedals) {
+        if (veh->has_pedals() && pedals) {
             engine_string = string_format(
-                                  _(" You can only install and use one set of food pedals in your vehicle."));
+                                  _(" You can only install and use one set of foot pedals in your vehicle."));
         }
-        if (veh->has_pedals && eng) {
+        if (veh->has_pedals() && eng) {
           engine_string = string_format(
                                   _(" You can't install an engine in a vehicle that uses foot pedals."));
         }
@@ -404,7 +400,7 @@ void veh_interact::do_install(task_reason reason)
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
-             !(veh->has_pedals && eng) && !(veh->has_pedals && pedals)) {
+             !(veh->has_pedals() && eng) && !(veh->has_pedals() && pedals)) {
             sel_cmd = 'i';
             return;
         } else {
