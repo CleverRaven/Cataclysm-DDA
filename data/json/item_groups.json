@@ -28,7 +28,7 @@
       ["novel_pulp", 16],
       ["fairy_tales", 20],
       ["mag_comic", 20],
-	  ["candycigarette", 8]
+	  ["candycigarette", 10]
     ]
     },{
         "type" : "item_group",
@@ -870,7 +870,7 @@
       ["popcorn3", 35],
       ["fruit_leather", 25],
       ["kernels", 25],
-	  ["candycigarette", 10]
+	  ["candycigarette", 20]
     ]
     },{
         "type" : "item_group",
