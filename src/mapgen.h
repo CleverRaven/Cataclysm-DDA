@@ -81,7 +81,7 @@ class mapgen_function_json : public virtual mapgen_function {
         weight = w;
         jdata = s;
         mapgensize = 24;
-        fill_ter = t_null;
+        fill_ter = -1;
     }
     std::string jdata;
     int mapgensize;

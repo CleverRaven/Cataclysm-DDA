@@ -396,6 +396,8 @@ bool mapgen_function_json::setup() {
             qualifies = true;
         }
 
+        format = new terfurn_tile[ mapgensize * mapgensize ];
+
         if ( jo.has_array("rows") ) {
 
             if ( ! jo.has_array("terrain") ) {
@@ -452,7 +454,6 @@ bool mapgen_function_json::setup() {
                 err = string_format("setup() format: rows: must have %d rows, not %d",mapgensize,parray.size() ); throw err;
             }
             
-            format = new terfurn_tile[ mapgensize * mapgensize ];
 
             c=0;
             while ( parray.has_more() ) { // hrm
@@ -530,7 +531,7 @@ bool mapgen_function_json::setup() {
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::apply( map * m,oter_id id,mapgendata md ,int t,float d) {
-    formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, t_grass);
+    formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     for( int i=0; i < spawnitems.size(); i++ ) {
         spawnitems[i].apply( m );
         //m->spawn_items( spawnitems[i].x.get(), spawnitems[i].y.get(), spawnitems[i].itype, spawnitems[i].amount.get() );
