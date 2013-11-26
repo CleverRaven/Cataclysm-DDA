@@ -291,7 +291,8 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[1024];
+    char buff[4096];
+//[1024];
     vsprintf(buff, mes, ap);
     va_end(ap);
     fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
