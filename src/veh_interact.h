@@ -129,9 +129,16 @@ private:
     /* Whether or not the player can refuel the vehicle. Probably doesn't need
      * to be precalculated, but can be kept around harmlessly enough. */
     bool has_fuel;
+
+    /* called by exec() */
+    void cache_tool_availability();
+    void allocate_windows();
+    void do_main_loop();
+    void deallocate_windows();
+
 public:
     veh_interact ();
-    void exec (game *gm, vehicle *v, int x, int y);
+    void exec(vehicle *v);
 };
 
 void complete_vehicle (game *g);

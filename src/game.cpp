@@ -6691,7 +6691,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     veh_interact vehint;
     vehint.ddx = cx;
     vehint.ddy = cy;
-    vehint.exec(this, &veh, examx, examy);
+    vehint.exec(&veh);
     if (vehint.sel_cmd != ' ')
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,

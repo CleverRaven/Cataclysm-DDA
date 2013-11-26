@@ -39,13 +39,19 @@ veh_interact::veh_interact ()
 /**
  * Creates a veh_interact window based on the given parameters.
  * @param v The vehicle the player is interacting with.
- * @param x The x-coordinate of the square the player is 'e'xamining.
- * @param y The y-coordinate of the square the player is 'e'xamining.
  */
-void veh_interact::exec (game *gm, vehicle *v, int x, int y)
+void veh_interact::exec(vehicle *v)
 {
     veh = v;
     countDurability();
+    cache_tool_availability();
+    allocate_windows();
+    do_main_loop();
+    deallocate_windows();
+}
+
+void veh_interact::allocate_windows()
+{
     //        winw1   winw2   winw3
     //  winh1       |       |
     //        ------+-------+------
@@ -149,31 +155,10 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     mvwputch( w_grid, gridy2, gridx2, c_dkgray, LINE_XXOX );
 
     wrefresh(w_grid);
+}
 
-    crafting_inv = g->crafting_inventory(&g->u);
-
-    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
-    has_wrench = crafting_inv.has_amount("wrench", 1) ||
-                 crafting_inv.has_amount("toolset", 1);
-    has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
-                  crafting_inv.has_amount("toolset", 1);
-    has_welder = (crafting_inv.has_amount("welder", 1) &&
-                  crafting_inv.has_charges("welder", charges)) ||
-                 (crafting_inv.has_amount("welder_crude", 1) &&
-                  crafting_inv.has_charges("welder_crude", charges_crude)) ||
-                 (crafting_inv.has_amount("toolset", 1) &&
-                  crafting_inv.has_charges("toolset", charges / 20));
-    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
-    has_jack = crafting_inv.has_amount("jack", 1);
-    has_siphon = crafting_inv.has_amount("hose", 1);
-
-    has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
-                crafting_inv.has_amount( "wheel_wide", 1 ) ||
-                crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
-                crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
-                crafting_inv.has_amount( "wheel_small", 1 );
-
+void veh_interact::do_main_loop()
+{
     display_stats ();
     display_veh   ();
     move_cursor (0, 0);
@@ -223,6 +208,10 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
             }
         }
     }
+}
+
+void veh_interact::deallocate_windows()
+{
     werase(w_grid);
     werase(w_mode);
     werase(w_msg);
@@ -239,6 +228,34 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     delwin(w_list);
     erase();
 }
+
+void veh_interact::cache_tool_availability()
+{
+    crafting_inv = g->crafting_inventory(&g->u);
+
+    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    has_wrench = crafting_inv.has_amount("wrench", 1) ||
+                 crafting_inv.has_amount("toolset", 1);
+    has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
+                  crafting_inv.has_amount("toolset", 1);
+    has_welder = (crafting_inv.has_amount("welder", 1) &&
+                  crafting_inv.has_charges("welder", charges)) ||
+                 (crafting_inv.has_amount("welder_crude", 1) &&
+                  crafting_inv.has_charges("welder_crude", charges_crude)) ||
+                 (crafting_inv.has_amount("toolset", 1) &&
+                  crafting_inv.has_charges("toolset", charges / 20));
+    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
+    has_jack = crafting_inv.has_amount("jack", 1);
+    has_siphon = crafting_inv.has_amount("hose", 1);
+
+    has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
+                crafting_inv.has_amount( "wheel_wide", 1 ) ||
+                crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
+                crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
+                crafting_inv.has_amount( "wheel_small", 1 );
+}
+
 
 /**
  * Checks if the player is able to perform some command, and returns a nonzero
