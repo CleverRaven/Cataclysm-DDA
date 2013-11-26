@@ -1270,7 +1270,7 @@ void veh_interact::display_mode(char mode)
 size_t veh_interact::display_esc(WINDOW *win)
 {
     std::string backstr = _("<ESC>-back");
-    size_t pos = getmaxx(win) - utf8_width(backstr.c_str()) - 2;    // right text align
+    size_t pos = getmaxx(win) - utf8_width(backstr.c_str()) + 2;    // right text align
     shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr.c_str());
     wrefresh(win);
     return pos;
