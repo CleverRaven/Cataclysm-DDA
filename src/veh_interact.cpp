@@ -1622,7 +1622,9 @@ void complete_vehicle (game *g)
                 liquid.charges = veh->parts[vehicle_part].amount;
                 veh->parts[vehicle_part].amount = 0;
 
-                used_item.put_in(liquid);
+                if(liquid.charges > 0) {
+                    used_item.put_in(liquid);
+                }
             }
             // Transfer power back to batteries.
             // TODO: Add new flag.
