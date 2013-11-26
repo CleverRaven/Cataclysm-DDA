@@ -15599,6 +15599,10 @@ void map::add_extra(map_extra type, game *g)
 
             if (tries < 10) { // We found a valid spot!
                 add_item(x, y, body);
+                spawn_item(x, y, "pants_army");
+                spawn_item(x, y, "boots_combat");
+                place_items("mil_armor_torso", 20, x, y, x, y, true, 0);
+                place_items("mil_armor_helmet", 20, x, y, x, y, true, 0);
                 place_items("military", 86, x, y, x, y, true, 0);
                 if (one_in(8)) {
                     spawn_item(x, y, "id_military");
@@ -15627,6 +15631,13 @@ void map::add_extra(map_extra type, game *g)
                 spawn_item(x, y, "id_science");
                 }
                 place_items("science", 84, x, y, x, y, true, 0);
+                (if (one_in(2)) {
+                place_items("male_underwear", 20, x, y, x, y, true, 0);
+                }
+                else place_items("female_underwear", 20, x, y, x, y, true, 0);)
+                place_items("lab_pants", 20, x, y, x, y, true, 0);
+                place_items("lab_shoes", 20, x, y, x, y, true, 0);
+                place_items("lab_torso", 20, x, y, x, y, true, 0);
             }
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -15763,6 +15774,12 @@ void map::add_extra(map_extra type, game *g)
 
             if (tries < 10) { // We found a valid spot!
                 add_item(x, y, body);
+                spawn_item(x, y, "pants_cargo");
+                place_items("lab_shoes", 20, x, y, x, y, true, 0);
+                (if (one_in(2)) {
+                place_items("male_underwear", 20, x, y, x, y, true, 0);
+                }
+                else place_items("female_underwear", 20, x, y, x, y, true, 0);)
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
                     add_field(g, x + (j * x_offset), y + (j * y_offset), fd_blood, 1);
