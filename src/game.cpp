@@ -11529,6 +11529,13 @@ void game::vertical_move(int movez, bool force) {
  despawn_monsters();
  clear_zombies();
 
+  // Clear current scents.
+  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+    for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+      grscent[x][y] = 0;
+    }
+  }
+
 // Figure out where we know there are up/down connectors
  std::vector<point> discover;
  for (int x = 0; x < OMAPX; x++) {
