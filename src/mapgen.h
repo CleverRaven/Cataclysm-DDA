@@ -2,8 +2,13 @@
 #define _MAPGEN_H_
 #include <map>
 #include <string>
+#include "mapgenformat.h"
 #include "mapgen_functions.h"
 
+//////////////////////////////////////////////////////////////////////////
+///// function pointer class; provides absract referencing of
+///// map generator functions written in multiple ways for per-terrain
+///// random selection pool
 enum mapgen_function_type {
     MAPGENFUNC_ERROR,
     MAPGENFUNC_C,
@@ -11,21 +16,19 @@ enum mapgen_function_type {
     MAPGENFUNC_JSON,
 };
 
-
 class mapgen_function {
     public:
     mapgen_function_type ftype;
     int weight;
-    //virtual building_gen_pointer getfunction() { return NULL; }
     virtual void dummy_() = 0;
     virtual mapgen_function_type function_type() { return ftype;/*MAPGENFUNC_ERROR;*/ };
-    
 };
 
 
+/////////////////////////////////////////////////////////////////////////////////
+///// builtin mapgen
 class mapgen_function_builtin : public virtual mapgen_function {
     public:
-
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : fptr(ptr) {
         ftype = MAPGENFUNC_C;

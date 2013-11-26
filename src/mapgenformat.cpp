@@ -9,6 +9,33 @@
 #include "output.h"
 
 #include "mapgenformat.h"
+/*
+ * Take array of struct { short; short } and spaw it on a map
+ */
+
+void formatted_set_incredibly_simple( map * m, const terfurn_tile data[], const int width, const int height, const int startx, const int starty, const int defter ) {
+    for ( int y = 0; y < height; y++ ) {
+        const int mul = y * height;
+        for( int x = 0; x < width; x++ ) {
+            const terfurn_tile tdata = data[ mul + x ];
+            if ( tdata.furn != f_null ) {
+                if ( tdata.ter != t_null ) {
+                    m->set(x, y, tdata.ter, tdata.furn);
+                } else if ( defter != -1 ) {
+                    m->set(x, y, defter, tdata.furn);
+                } else {
+                    m->furn_set(x, y, tdata.furn);
+                }
+            } else if ( tdata.ter != t_null ) {
+                m->ter_set(x, y, tdata.ter);
+            } else if ( defter != -1 ) {
+                m->ter_set(x, y, defter);
+            }
+
+        }
+    }
+}
+/////////////////
 
 namespace mapf
 {
