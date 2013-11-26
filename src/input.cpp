@@ -3,6 +3,7 @@
 #include "json.h"
 #include "output.h"
 #include "keypress.h"
+#include "game.h"
 #include <fstream>
 
 /* TODO Replace the hardcoded values with an abstraction layer.
@@ -80,7 +81,7 @@ InputEvent get_input(int ch)
 
 bool is_mouse_enabled()
 {
-#if !(defined TILES || defined SDLTILES)
+#if ((defined _WIN32 || defined WINDOWS) && !(defined SDLTILES || defined TILES))
     return false;
 #else
     return true;
@@ -334,7 +335,7 @@ void input_manager::set_timeout(int delay)
 {
     timeout(delay);
     // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    should_timeout = delay > 0;
+    input_timeout = delay;
 }
 
 
@@ -388,7 +389,19 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
 const std::string& input_context::handle_input() {
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
+        
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+        // Register for ncurses mouse input
+        mousemask(BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL);
+#endif
+
         next_action = inp_mngr.get_input_event(NULL);
+
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+        // De-register from ncurses mouse input
+        mousemask(0, NULL);
+#endif
+        
 
         if (next_action.type == CATA_INPUT_TIMEOUT) {
             return TIMEOUT;
@@ -535,32 +548,76 @@ input_event input_context::get_raw_input()
 }
 
 #ifndef TILES
-    // If we're using curses, we need to provide get_input_event() here.
-    input_event input_manager::get_input_event(WINDOW* win) {
-        int key = get_keypress();
-        input_event rval;
-
-        if(key == ERR) {
-            if (should_timeout) {
-                rval.type = CATA_INPUT_TIMEOUT;
+// If we're using curses, we need to provide get_input_event() here.
+input_event input_manager::get_input_event(WINDOW* win)
+{
+    int key = get_keypress();
+    input_event rval;
+    if (key == ERR) {
+        if (input_timeout > 0) {
+            rval.type = CATA_INPUT_TIMEOUT;
+        } else {
+            rval.type = CATA_INPUT_ERROR;
+        }
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+    // ncurses mouse handling
+    } else if (key == KEY_MOUSE) {
+        MEVENT event;
+        if (getmouse(&event) == OK) {
+            rval.type = CATA_INPUT_MOUSE;
+            rval.mouse_x = event.x - VIEW_OFFSET_X;
+            rval.mouse_y = event.y - VIEW_OFFSET_Y;
+            if (event.bstate & BUTTON1_CLICKED) {
+                rval.add_input(MOUSE_BUTTON_LEFT);
+            } else if (event.bstate & BUTTON3_CLICKED) {
+                rval.add_input(MOUSE_BUTTON_RIGHT);
+            } else if (event.bstate & REPORT_MOUSE_POSITION) {
+                rval.add_input(MOUSE_MOVE);
+                if (input_timeout > 0) {
+                    // Mouse movement seems to clear ncurses timeout
+                    set_timeout(input_timeout);
+                }
             } else {
                 rval.type = CATA_INPUT_ERROR;
             }
         } else {
-            rval.type = CATA_INPUT_KEYBOARD;
-            rval.sequence.push_back(key);
+            rval.type = CATA_INPUT_ERROR;
         }
-        should_timeout = false;
-        return rval;
+#endif
+    } else {
+        rval.type = CATA_INPUT_KEYBOARD;
+        rval.add_input(key);
     }
 
-    // Also specify that we don't have a gamepad plugged in.
-    bool gamepad_available() {
-        return false;
-    }
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+    // De-register ncurses mouse input. Otherwise unmanaged getch() calls will detect mouse input.
+    //mousemask(0, NULL);
+#endif
 
-    // Coordinates just never happen(no mouse input)
-    bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
+    return rval;
+}
+
+// Also specify that we don't have a gamepad plugged in.
+bool gamepad_available()
+{
+    return false;
+}
+
+bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
+{
+    int view_columns = getmaxx(capture_win);
+    int view_rows = getmaxy(capture_win);
+    int win_left = getbegx(capture_win) - VIEW_OFFSET_X;
+    int win_right = win_left + view_columns - 1;
+    int win_top = getbegy(capture_win) - VIEW_OFFSET_Y;
+    int win_bottom = win_top + view_rows - 1;
+    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
         return false;
     }
+    
+    x = g->ter_view_x - ((view_columns/2) - coordinate_x);
+    y = g->ter_view_y - ((view_rows/2) - coordinate_y);
+    
+    return true;
+}
 #endif

@@ -2782,9 +2782,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     std::string style = "";
     if (is_armed())
     {
-        if (style_selected == "style_none")
+        if (style_selected == "style_none" || !can_melee())
             style = _("Normal");
-        else if (can_melee())
+        else
             style = martialarts[style_selected].name;
 
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
@@ -5568,6 +5568,7 @@ bool player::process_single_active_item(game *g, item *it)
                 else
                 {
                     it->type = itypes[tmp->revert_to];
+                    it->active = false;
                 }
             }
         }
@@ -7048,7 +7049,7 @@ bool player::wear_item(game *g, item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
@@ -7720,6 +7721,11 @@ hint_rating player::rate_action_use(item *it)
   return HINT_GOOD;
  } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
   return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
+ } else if (it->is_gun()) {
+   if (!it->contents.empty())
+    return HINT_GOOD;
+   else
+    return HINT_IFFY;
  }
 
  return HINT_CANT;
@@ -7894,11 +7900,98 @@ press 'U' while wielding the unloaded gun."), gun->tname(g).c_str());
     } else if (used->is_armor()) {
         wear(g, let);
         return;
+    } else if (used->is_gun()) {
+      // Get weapon mod names.
+      std::vector<std::string> mods;
+      for (int i = 0; i < used->contents.size(); i++) {
+        item tmp = used->contents[i];
+        mods.push_back(tmp.name);
+      }
+      if (!used->contents.empty()) {
+        // Create menu.
+        int choice = -1;
+
+        uimenu kmenu;
+        kmenu.selected = 0;
+        kmenu.text = _("Remove which modification?");
+        for (int i = 0; i < mods.size(); i++) {
+          kmenu.addentry( i, true, -1, mods[i] );
+        }
+        kmenu.addentry( 4, true, 'r', _("Remove all") );
+        kmenu.addentry( 5, true, 'q', _("Cancel") );
+        kmenu.query();
+        choice = kmenu.ret;
+
+        item *weapon = used;
+        if (choice < 4) {
+          remove_gunmod(weapon, choice, g);
+          g->add_msg(_("You remove your %s from your %s."), weapon->contents[choice].name.c_str(), weapon->name.c_str());
+        }
+        else if (choice == 4) {
+          for (int i = 0; i < weapon->contents.size(); i++) {
+            remove_gunmod(weapon, i, g);
+            i--;
+          }
+          g->add_msg(_("You remove all the modifications from your %s."), weapon->name.c_str());
+        }
+        else {
+          g->add_msg(_("Nevermind."));
+          return;
+        }
+        // Removing stuff from a gun takes time.
+        moves -= int(used->reload_time(*this) / 2);
+        return;
+    }
+    else
+        g->add_msg(_("Your %s doesn't appear to be modded."), used->name.c_str());
+      return;
     } else {
         g->add_msg(_("You can't do anything interesting with your %s."),
                    used->tname(g).c_str());
         return;
     }
+}
+
+void player::remove_gunmod(item *weapon, int id, game *g) {
+    item *gunmod = &weapon->contents[id];
+    item newgunmod;
+    item ammo;
+    if (gunmod != NULL && gunmod->charges > 0) {
+      if (gunmod->curammo != NULL) {
+        ammo = item(gunmod->curammo, g->turn);
+      } else {
+        ammo = item(itypes[default_ammo(weapon->ammo_type())], g->turn);
+      }
+      ammo.charges = gunmod->charges;
+      int iter = 0;
+      while ((ammo.invlet == 0 || has_item(ammo.invlet)) && iter < inv_chars.size()) {
+       ammo.invlet = g->nextinv;
+       g->advance_nextinv();
+       iter++;
+      }
+      if (can_pickWeight(ammo.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
+          can_pickVolume(ammo.volume()) && iter < inv_chars.size()) {
+       i_add(ammo, g);
+      } else {
+       g->m.add_item_or_charges(posx, posy, ammo, 1);
+      }
+    }
+    newgunmod = item(itypes[gunmod->type->id], g->turn);
+    int iter = 0;
+    while ((newgunmod.invlet == 0 || has_item(newgunmod.invlet)) && iter < inv_chars.size())
+    {
+        newgunmod.invlet = g->nextinv;
+        g->advance_nextinv();
+        iter++;
+    }
+    if (can_pickWeight(newgunmod.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
+        can_pickVolume(newgunmod.volume()) && iter < inv_chars.size()) {
+     i_add(newgunmod, g);
+    } else {
+     g->m.add_item_or_charges(posx, posy, newgunmod, 1);
+    }
+    weapon->contents.erase(weapon->contents.begin()+id);
+    return;
 }
 
 hint_rating player::rate_action_read(item *it, game *g)
@@ -8140,7 +8233,7 @@ void player::try_to_sleep(game *g)
  if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
      trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
      trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay || 
+     furn_at_pos == f_sofa || furn_at_pos == f_hay ||
      (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       (veh && veh->part_with_feature (vpart, "BED") >= 0))
   g->add_msg(_("This is a comfortable place to sleep."));
@@ -8298,13 +8391,13 @@ int player::warmth(body_part bp)
     }
 
     // If the player is not wielding anything, check if hands can be put in pockets
-    if(bp == bp_hands && !is_armed() && worn_with_flag("POCKETS"))
+    if(bp == bp_hands && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("POCKETS"))
     {
         ret += 10;
     }
 
     // If the players head is not encumbered, check if hood can be put up
-    if(bp == bp_head && encumb(bp_head) < 1 && worn_with_flag("HOOD"))
+    if(bp == bp_head && encumb(bp_head) < 1 && (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("HOOD"))
     {
         ret += 10;
     }

@@ -65,7 +65,13 @@
         "difficulty" : 0,
         "time" : 10,
         "tools" : [
-            [ "ax", "primitive_axe", "chainsaw_on" ]
+            [
+                "ax",
+                "primitive_axe",
+                "battleaxe",
+                "chainsaw_on",
+                "combatsaw_on"
+            ]
         ],
         "pre_terrain" : "t_tree",
         "post_terrain" : "t_dirt",
@@ -76,7 +82,13 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "ax", "primitive_axe", "chainsaw_on" ]
+            [
+                "ax",
+                "primitive_axe",
+                "battleaxe",
+                "chainsaw_on",
+                "combatsaw_on"
+            ]
         ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
@@ -87,7 +99,7 @@
         "difficulty" : 0,
         "time" : 23,
         "tools" : [
-            [ "ax", "primitive_axe", "chainsaw_on", "saw" ]
+            [ "ax", "primitive_axe", "chainsaw_on", "saw", "battleaxe" ]
         ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
@@ -328,7 +340,7 @@
         "time" : 5,
         "tools" : [
             [ "hammer", "primitive_hammer", "rock", "hatchet",
-              "shovel", "e_tool", "primitive_shovel", "ax", "primitive_axe" ]
+              "shovel", "e_tool", "primitive_shovel", "ax", "primitive_axe", "battleaxe" ]
         ],
         "components" : [
             [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ]
@@ -583,7 +595,7 @@
             [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
         ],
         "components" : [
-            [ [ "2x4", 4 ] ],
+            [ [ "2x4", 6 ] ],
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",
@@ -597,7 +609,7 @@
             [ "hammer", "primitive_hammer", "hatchet", "nailgun" ]
         ],
         "components" : [
-            [ [ "2x4", 2 ] ],
+            [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
         ],
         "pre_special" : "check_empty",

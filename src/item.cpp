@@ -180,6 +180,7 @@ void item::init() {
     mission_id = -1;
     player_id = -1;
     light = nolight;
+    fridge = 0;
 }
 
 void item::make(itype* it)
@@ -363,7 +364,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
   dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
-  dump->push_back(iteminfo("BASE", (has_flag("SPEAR") || has_flag("STAB") ? _(" Pierce: ") : _(" Cut: ")), "", damage_cut(), true, "", false));
+  if (has_flag("SPEAR")) {
+    dump->push_back(iteminfo("BASE", _(" Pierce: "), "", damage_cut(), true, "", false));
+  }
+  else if (has_flag("STAB")) {
+    dump->push_back(iteminfo("BASE", _(" Stab: "), "", damage_cut(), true, "", false));
+  }
+  else {
+    dump->push_back(iteminfo("BASE", _(" Cut: "), "", damage_cut(), true, "", false));
+  }
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
   if ( debug == true ) {
@@ -497,12 +506,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   } else
    dump->push_back(iteminfo("GUN", _("Burst size: "), "", burst_size()));
 
-  if (contents.size() > 0)
-   dump->push_back(iteminfo("GUN", "\n"));
-
   temp1.str("");
-  for (int i = 0; i < contents.size(); i++)
-   temp1 << "\n+" << contents[i].tname();
+  temp1 << "Mods: ";
+  for (int i = 0; i < contents.size(); i++) {
+     if (i == contents.size() - 1) {
+        if (!(i % 2) && i > 0)
+          temp1 << "\n+       ";
+        temp1 << contents[i].tname() + ".";
+     }
+     else {
+        if (!(i % 2) && i > 0)
+          temp1 << "\n+       ";
+        temp1 << contents[i].tname() + ", ";
+     }
+   }
 
   dump->push_back(iteminfo("GUN", temp1.str()));
 
@@ -864,7 +881,7 @@ std::string item::tname(game *g)
     if (food != NULL && g != NULL && food->has_flag("HOT"))
         ret << _(" (hot)");
     if (food != NULL && g != NULL && food_type->spoils != 0 &&
-    int(g->turn) - (int)(food->bday) > food_type->spoils * 600)
+        food->rotten(g))
         ret << _(" (rotten)");
 
     if (has_flag("FIT")) {
@@ -1135,10 +1152,23 @@ int item::has_gunmod(itype_id mod_type)
 
 bool item::rotten(game *g)
 {
+    int expiry;
     if (!is_food() || g == NULL)
         return false;
     it_comest* food = dynamic_cast<it_comest*>(type);
-    return (food->spoils != 0 && int(g->turn) - (int)bday > food->spoils * 600);
+    if (food->spoils != 0) {
+      it_comest* food = dynamic_cast<it_comest*>(type);
+      if (fridge > 0) {
+        // Add the number of turns we should get from refrigeration
+        bday += ((int)g->turn - fridge) * 0.8;
+        fridge = 0;
+      }
+      expiry = (int)g->turn - bday;
+      return (expiry > food->spoils * 600);
+    }
+    else {
+      return false;
+    }
 }
 
 bool item::ready_to_revive(game *g)
@@ -2033,6 +2063,7 @@ int item::range(player *p)
         }
     }
 
+    if(ret < 0) { ret = 0; }
     return ret;
 }
 

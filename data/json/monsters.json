@@ -982,7 +982,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"This black bear's eyes ooze with black fluid, and its flesh is torn and scarred. It shuffles as it walks.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "FUR"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"],
     "categories":["WILDLIFE"]
@@ -1336,7 +1336,7 @@
     "special_attack":"NONE",
     "description":"With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
     "flags":["SMELLS", "VENOM", "FLIES", "STUMBLES", "CHITIN"],
-    "anger_triggers":["HURT", "FRIEND_DIED"]
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
         "id" : "mon_wasp",
@@ -1703,7 +1703,7 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"]
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_brute",

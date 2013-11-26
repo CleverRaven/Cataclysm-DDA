@@ -33,7 +33,7 @@ struct iteminfo{
   std::string sPlus; //number +
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
-  
+
   //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
   iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) {
     sType = sIn0;
@@ -56,7 +56,7 @@ struct iteminfo{
   }
 };
 
-enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT, 
+enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL};
 
 class item : public JsonSerializer, public JsonDeserializer
@@ -190,7 +190,7 @@ public:
  bool is_container() const;
  bool is_watertight_container() const;
  int is_funnel_container(int bigger_than) const;
- 
+
  bool is_tool() const;
  bool is_software() const;
  bool is_macguffin() const;
@@ -214,6 +214,7 @@ public:
  char invlet;           // Inventory letter
  int charges;
  bool active;           // If true, it has active effects to be processed
+ int fridge;           // The turn we entered a fridge.
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created

@@ -2952,7 +2952,10 @@ void overmap::polish(const int z, const std::string &terrain_type)
                     good_road("subway", x, y, z);
                 } else if (check_ot_type("sewer", x, y, z)) {
                     good_road("sewer", x, y, z);
-                } else if (check_ot_type("ants", x, y, z)) {
+                } else if (check_ot_type("ants", x, y, z)
+                        && !check_ot_type("ants_queen", x, y, z)
+                        && !check_ot_type("ants_larvae", x, y, z)
+                        && !check_ot_type("ants_food", x, y, z)) {
                     good_road("ants", x, y, z);
                 } else if (check_ot_type("river", x, y, z)) {
                     good_river(x, y, z);

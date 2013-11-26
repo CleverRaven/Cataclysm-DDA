@@ -260,7 +260,7 @@
         "type": "GENERIC",
         "id": "minifridge",
         "name": "minifridge",
-        "description": "A very small fridge for keeping food cool, but without electricity it's just a very heavy box with shelves inside.",
+        "description": "A very small fridge for keeping food cool.",
         "weight": 31752,
         "to_hit": -8,
         "color": "light_blue",
@@ -466,5 +466,20 @@
         "bashing": 1,
         "cutting": 0,
         "price": 400
+    },
+    {
+        "type":"GENERIC",
+        "id": "floodlight",
+        "name": "floodlight",
+        "description": "A large and heavy light designed to illuminate wide areas.",
+        "weight": 2500,
+        "to_hit": 1,
+        "color": "white",
+        "symbol": ";",
+        "material": ["iron", "plastic"],
+        "volume": 8,
+        "bashing": 5,
+        "cutting": 0,
+        "price": 900
     }
 ]

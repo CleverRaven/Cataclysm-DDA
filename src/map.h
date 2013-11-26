@@ -320,7 +320,11 @@ void add_corpse(int x, int y);
  std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
 
 // Traps
- trap_id tr_at(const int x, const int y);
+ std::string trap_get(const int x, const int y) const;
+ void trap_set(const int x, const int y, const std::string & sid);
+ void trap_set(const int x, const int y, const trap_id id);
+
+ trap_id tr_at(const int x, const int y) const;
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( game *g, const int x, const int y);
  void remove_trap(const int x, const int y);

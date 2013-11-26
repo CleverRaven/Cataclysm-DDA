@@ -3238,5 +3238,28 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 30
+    },
+    {   "type" : "AMMO",
+        "id" : "flint_ammo",
+        "price" : 500,
+        "name" : "flintlock paper pack",
+        "symbol" : "=",
+        "color" : "red",
+        "description" : "A paper package containing gunpowder and a metal ball, usually lead. Intended to be used by flintlock weapons.",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 70,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "ammo_flint",
+        "casing" : "NULL",
+        "damage" : 20,
+        "pierce" : 0,
+        "range" : 12,
+        "dispersion" : 8,
+        "recoil" : 28,
+        "count" : 25,
+        "effects" : ["COOKOFF"]
     }
 ]

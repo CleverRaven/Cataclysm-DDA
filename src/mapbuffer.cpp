@@ -112,6 +112,12 @@ void mapbuffer::save()
  }
  metadata["furniture_key"] = pv( furn_key );
 
+ std::vector<picojson::value> trap_key;
+ for( int i=0; i < g->traps.size(); i++ ) {
+     trap_key.push_back( pv( g->traps[i]->id ) );
+ }
+ metadata["trap_key"] = pv( trap_key );
+
  fout << pv( metadata ).serialize() << std::endl;
 
  int num_saved_submaps = 0;
@@ -319,6 +325,34 @@ void mapbuffer::unserialize(std::ifstream & fin) {
      ind++;
  }
 
+ std::map<int, int> trap_key;
+ std::string trstr;
+ pvect = pgetarray(metadata,"trap_key");
+ ind=0;
+ if ( pvect ) { 
+    for( picojson::array::const_iterator pt = pvect->begin(); pt != pvect->end(); ++pt) {
+        if ( (*pt).is<std::string>() ) {
+            trstr=(*pt).get<std::string>();
+            if ( trapmap.find(trstr) == trapmap.end() ) {
+               debugmsg("Can't find trap '%s' (%d)",trstr.c_str(), ind );
+            } else {
+               trap_key[ind] = trapmap[trstr];
+            }
+        }
+        ind++;
+    }
+ } else { // old, snip when this moves to legacy
+    for (int i = 0; i < num_legacy_trap; i++) {
+       trstr = legacy_trap_id[ i ];
+       if ( trapmap.find( trstr ) == trapmap.end() ) {
+          debugmsg("Can't find trap '%s' (%d)",trstr.c_str(), i );
+          trap_key[i] = trapmap["tr_null"];
+       } else { 
+          trap_key[i] = trapmap[trstr];
+       }
+    }
+ }
+
  while (!fin.eof()) {
   if (num_loaded % 100 == 0)
    popup_nowait(_("Please wait as the map loads [%d/%d]"),
@@ -389,7 +423,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
      sm->active_item_count++;
    } else if (string_identifier == "T") {
     fin >> itx >> ity >> t;
-    sm->trp[itx][ity] = trap_id(t);
+    sm->trp[itx][ity] = trap_id(trap_key[t]);
    } else if (string_identifier == "f") {
     fin >> itx >> ity >> t;
     sm->frn[itx][ity] = furn_id(furn_key[t]);

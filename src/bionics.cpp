@@ -396,6 +396,9 @@ void player::activate_bionic(int b, game *g)
   g->refresh_all();
   g->plfire(false);
   weapon = tmp_item;
+  if(weapon.charges == 1) { // not fired
+   power_level += bionics[bio.id]->power_cost;
+  }
  } else if (bio.id == "bio_laser"){
   tmp_item = weapon;
   weapon = item(itypes["bio_laser_gun"], 0);
@@ -403,6 +406,9 @@ void player::activate_bionic(int b, game *g)
   weapon.charges = 1;
   g->refresh_all();
   g->plfire(false);
+  if(weapon.charges == 1) { // not fired
+   power_level += bionics[bio.id]->power_cost;
+  }
   weapon = tmp_item;
  } else if (bio.id == "bio_emp"){
   if(g->choose_adjacent(_("Create an EMP where?"), dirx, diry))
@@ -506,6 +512,9 @@ void player::activate_bionic(int b, game *g)
   g->refresh_all();
   g->plfire(false);
   weapon = tmp_item;
+  if(weapon.charges == 1) { // not fired
+   power_level += bionics[bio.id]->power_cost;
+  }
  }
 }
 

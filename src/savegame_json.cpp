@@ -936,7 +936,7 @@ void item::deserialize(JsonObject &data)
     data.read( "damage", damtmp );
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
     data.read( "active", active );
-
+    data.read( "fridge", fridge );
 
     data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
@@ -1010,6 +1010,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
     if ( mode != "NULL" )    json.member( "mode", mode );
     if ( active == true )    json.member( "active", true );
+    if ( fridge == true )    json.member( "fridge", true );
     if ( corpse != NULL )    json.member( "corpse", corpse->id );
 
     if ( owned != -1 )       json.member( "owned", owned );
@@ -1121,9 +1122,11 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("velocity", velocity);
     data.read("cruise_velocity", cruise_velocity);
     data.read("cruise_on", cruise_on);
+    data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
     data.read("lights_on", lights_on);
     data.read("overhead_lights_on", overhead_lights_on);
+    data.read("fridge_on", fridge_on);
     data.read("skidding", skidding);
     data.read("turret_mode", turret_mode);
     data.read("of_turn_carry", of_turn_carry);
@@ -1140,7 +1143,7 @@ void vehicle::deserialize(JsonIn &jsin)
         add_missing_frames();
     }
     find_horns ();
-    find_lights ();
+    find_power ();
     find_fuel_tanks ();
     find_exhaust ();
     insides_dirty = true;
@@ -1164,9 +1167,11 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "velocity", velocity );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "cruise_on", cruise_on );
+    json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
     json.member( "lights_on", lights_on );
     json.member( "overhead_lights_on", overhead_lights_on );
+    json.member( "fridge_on", fridge_on );
     json.member( "skidding", skidding );
     json.member( "turret_mode", turret_mode );
     json.member( "of_turn_carry", of_turn_carry );

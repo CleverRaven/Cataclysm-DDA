@@ -4,53 +4,12 @@
 #include "color.h"
 #include "monster.h"
 #include "itype.h"
+#include "json.h"
 #include <string>
 
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the trap_names array in tile_id_data.h
-*/
-enum trap_id {
- tr_null,
- tr_bubblewrap,
- tr_cot,
- tr_brazier,
- tr_funnel,
- tr_makeshift_funnel,
- tr_rollmat,
- tr_fur_rollmat,
- tr_beartrap,
- tr_beartrap_buried,
- tr_nailboard,
- tr_caltrops,
- tr_tripwire,
- tr_crossbow,
- tr_shotgun_2,
- tr_shotgun_1,
- tr_engine,
- tr_blade,
- tr_light_snare,
- tr_heavy_snare,
- tr_landmine,
- tr_landmine_buried,
- tr_telepad,
- tr_goo,
- tr_dissector,
- tr_sinkhole,
- tr_pit,
- tr_spike_pit,
- tr_lava,
- tr_portal,
- tr_ledge,
- tr_boobytrap,
- tr_temple_flood,
- tr_temple_toggle,
- tr_glow,
- tr_hum,
- tr_shadow,
- tr_drain,
- tr_snake,
- num_trap_types
-};
+typedef int trap_id;
+extern std::map<std::string, int> trapmap;
+void set_trap_ids();
 
 struct trap;
 
@@ -117,7 +76,9 @@ struct trapfuncm {
 };
 
 struct trap {
- int id;
+ std::string id;
+ int loadid;
+ std::string ident_string;
  long sym;
  nc_color color;
  std::string name;
@@ -143,13 +104,14 @@ struct trap {
  std::string id;
  */
 
-    trap(int pid, std::string /*string_id*/, std::string pname, nc_color pcolor,
+    trap(std::string string_id, int load_id, std::string pname, nc_color pcolor,
             char psym, int pvisibility, int pavoidance, int pdifficulty,
             void (trapfunc::*pact)(int x, int y),
             void (trapfuncm::*pactm)(monster *, int x, int y),
             std::vector<std::string> keys) {
         //string_id is ignored at the moment, will later replace the id
-        id = pid;
+        id = string_id;
+        loadid = load_id;
         sym = psym;
         color = pcolor;
         name = pname;
@@ -169,5 +131,51 @@ struct trap {
 };
 
 trap_id trap_id_from_string(std::string trap_name);
+
+typedef void (trapfunc::*trap_function)(int, int);
+typedef void (trapfuncm::*trap_function_mon)(monster *, int, int);
+trap_function trap_function_from_string(std::string function_name);
+trap_function_mon trap_function_mon_from_string(std::string function_name);
+
+extern trap_id
+ tr_null,
+ tr_bubblewrap,
+ tr_cot,
+ tr_brazier,
+ tr_funnel,
+ tr_makeshift_funnel,
+ tr_rollmat,
+ tr_fur_rollmat,
+ tr_beartrap,
+ tr_beartrap_buried,
+ tr_nailboard,
+ tr_caltrops,
+ tr_tripwire,
+ tr_crossbow,
+ tr_shotgun_2,
+ tr_shotgun_1,
+ tr_engine,
+ tr_blade,
+ tr_light_snare,
+ tr_heavy_snare,
+ tr_landmine,
+ tr_landmine_buried,
+ tr_telepad,
+ tr_goo,
+ tr_dissector,
+ tr_sinkhole,
+ tr_pit,
+ tr_spike_pit,
+ tr_lava,
+ tr_portal,
+ tr_ledge,
+ tr_boobytrap,
+ tr_temple_flood,
+ tr_temple_toggle,
+ tr_glow,
+ tr_hum,
+ tr_shadow,
+ tr_drain,
+ tr_snake;
 
 #endif

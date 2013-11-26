@@ -113,7 +113,6 @@ void game::init_data()
     init_itypes();               // Set up item types                (SEE itypedef.cpp)
     item_controller->init_old(); //Item manager
     init_monitems();             // Set up the items monsters carry  (SEE monitemsdef.cpp)
-    init_traps();                // Set up the trap types            (SEE trapdef.cpp)
     init_missions();             // Set up mission templates         (SEE missiondef.cpp)
     init_autosave();             // Set up autosave
     init_diseases();             // Set up disease lookup table
@@ -1601,7 +1600,7 @@ void game::handle_key_blocking_activity() {
         char ch = input();
         if(ch != ERR) {
             timeout(-1);
-            switch(keymap[ch]){  // should probably make the switch in handle_action() a function
+            switch(action_from_key(ch)) {  // should probably make the switch in handle_action() a function
                 case ACTION_PAUSE:
                     cancel_activity_query(_("Confirm:"));
                     break;
@@ -1889,7 +1888,7 @@ input_context game::get_player_input(std::string &action)
         inp_mngr.set_timeout(-1);
 
     } else {
-        while (handle_mouseview(ctxt, action)) {;}
+        while (handle_mouseview(ctxt, action));
     }
 
     return ctxt;
@@ -2633,7 +2632,7 @@ void game::update_scent()
                                    (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
   }
  }
- 
+
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
@@ -2643,7 +2642,7 @@ void game::update_scent()
     int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
     // take the old scent and subtract what diffuses out
     temp_scent = grscent[x][y] * (1000 - squares_used * diffusivity); // it's okay if this is slightly negative
-    // we've already summed neighboring scent values in the y direction in the previous loop.  
+    // we've already summed neighboring scent values in the y direction in the previous loop.
     // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
     grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
 
@@ -4102,6 +4101,8 @@ void game::draw_ter(int posx, int posy)
         point final_destination = destination_preview.back();
         point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
         draw_line(final_destination.x, final_destination.y, center, destination_preview);
+        mvwputch(w_terrain, POSY + (final_destination.y - (u.posy + u.view_offset_y)),
+            POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
     wrefresh(w_terrain);
@@ -7924,7 +7925,7 @@ int game::list_monsters()
                     return 1;
                     break;
                 default: {
-                    action_id act = keymap[ch];
+                    action_id act = action_from_key(ch);
                     switch (act) {
                         case ACTION_LOOK: {
                             point recentered=look_around();
@@ -11404,8 +11405,7 @@ void game::vertical_move(int movez, bool force) {
 // Force means we're going down, even if there's no staircase, etc.
 // This happens with sinkholes and the like.
  if (!force && ((movez == -1 && !m.has_flag("GOES_DOWN", u.posx, u.posy)) ||
-                (movez ==  1 && !m.has_flag("GOES_UP",   u.posx, u.posy))) &&
-                !(m.ter(u.posx, u.posy) == t_elevator)) {
+                (movez ==  1 && !m.has_flag("GOES_UP",   u.posx, u.posy)))) {
   if (movez == -1) {
     add_msg(_("You can't go down here!"));
   } else {
@@ -11496,6 +11496,13 @@ void game::vertical_move(int movez, bool force) {
 }
  despawn_monsters();
  clear_zombies();
+
+ // Clear current scents.
+  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+    for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+      grscent[x][y] = 0;
+    }
+  }
 
 // Figure out where we know there are up/down connectors
  std::vector<point> discover;
@@ -12074,7 +12081,6 @@ void game::wait()
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");
-    int i = 0;
     as_m.entries.push_back(uimenu_entry(1, true, '1', (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats") ));
     as_m.entries.push_back(uimenu_entry(2, true, '2', (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats") ));
 
@@ -12091,7 +12097,7 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight") ));
     as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes") ));
 
-    as_m.entries.push_back(uimenu_entry(++i, true, 'x', _("Exit") ));
+    as_m.entries.push_back(uimenu_entry(12, true, 'x', _("Exit") ));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     const int iHour = turn.getHour();

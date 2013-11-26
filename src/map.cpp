@@ -33,10 +33,13 @@ map::map()
     my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
-
-    for (int t = 0; t < num_trap_types; t++) {
+/*
+crashes involving traplocs? move below to the other constructors
+    const int num_traps = g->traps.size(); // dead: num_trap_ids;
+    for (int t = 0; t < num_traps; t++) {
         traplocs[(trap_id) t] = std::set<point>();
     }
+*/
 }
 
 map::map(std::vector<trap*> *trptr)
@@ -414,6 +417,7 @@ void map::vehmove(game *g)
             vehicle* veh = vehs[v].v;
             veh->gain_moves (abs (veh->velocity));
             veh->power_parts();
+            veh->idle();
         }
     }
 
@@ -2407,6 +2411,7 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 
 void map::process_active_items_in_vehicles(game *g, const int nonant)
 {
+    item *it;
     std::vector<vehicle*> *vehicles = &(grid[nonant]->vehicles);
     for (int v = vehicles->size() - 1; v >= 0; v--) {
         vehicle *next_vehicle = (*vehicles)[v];
@@ -2417,7 +2422,14 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
             int mapx = next_vehicle->posx + next_vehicle->parts[*part_index].precalc_dx[0];
             int mapy = next_vehicle->posy + next_vehicle->parts[*part_index].precalc_dy[0];
             for(int n = items_in_part->size() - 1; n >= 0; n--) {
-                if(process_active_item(g, &((*items_in_part)[n]), nonant, mapx, mapy)) {
+                it = &((*items_in_part)[n]);
+                // Check if it's in a fridge and is food.
+                if (it->is_food() && next_vehicle->part_flag(*part_index, "FRIDGE") &&
+                    next_vehicle->fridge_on && it->fridge == 0) {
+                    it->fridge = (int)g->turn;
+                    it->item_counter -= 10;
+                }
+                if(process_active_item(g, it, nonant, mapx, mapy)) {
                     next_vehicle->remove_item(*part_index, n);
                 }
             }
@@ -2670,7 +2682,21 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
  return ret;
 }
 
-trap_id map::tr_at(const int x, const int y)
+std::string map::trap_get(const int x, const int y) const {
+    return g->traps[ tr_at(x, y) ]->id;
+}
+
+void map::trap_set(const int x, const int y, const std::string & sid) {
+    if ( trapmap.find(sid) == trapmap.end() ) {
+        return;
+    }
+    add_trap(x, y, (trap_id)trapmap[ sid ]);
+}
+void map::trap_set(const int x, const int y, const trap_id id) {
+    add_trap(x, y, id);
+}
+// todo: to be consistent with ???_at(...) this should return ref to the actual trap object
+trap_id map::tr_at(const int x, const int y) const
 {
  if (!INBOUNDS(x, y)) {
   return tr_null;
@@ -3133,6 +3159,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
   show_items = false; // Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
+// todo; test using g->traps, test using global traplist
  if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
      u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
   tercol = (*traps)[curr_trap]->color;

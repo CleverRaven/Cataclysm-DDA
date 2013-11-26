@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <locale>
+#include <sstream>
 
 bool trigdist;
 bool use_tiles;
@@ -143,6 +145,7 @@ std::string cOpt::getValue() {
 
     } else if (sType == "float") {
         std::stringstream ssTemp;
+        ssTemp.imbue(std::locale("C"));
         ssTemp.precision(1);
         ssTemp << std::fixed << fSet;
         return ssTemp.str();
@@ -270,8 +273,15 @@ void cOpt::setValue(std::string sSetIn) {
         }
 
     } else if (sType == "float") {
-        fSet = atof(sSetIn.c_str());
-
+        std::istringstream ssTemp(sSetIn);
+        ssTemp.imbue(std::locale("C"));
+        float tmpFloat;
+        ssTemp >> tmpFloat;
+        if(ssTemp) {
+            fSet = tmpFloat;
+        } else {
+            debugmsg("invalid floating point option: %s", sSetIn.c_str());
+        }
         if ( fSet < fMin || fSet > fMax ) {
             fSet = fDefault;
         }
