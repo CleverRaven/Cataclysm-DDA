@@ -15631,13 +15631,13 @@ void map::add_extra(map_extra type, game *g)
                 spawn_item(x, y, "id_science");
                 }
                 place_items("science", 84, x, y, x, y, true, 0);
+                place_items("lab_pants", 20, x, y, x, y, true, 0);
+                place_items("lab_shoes", 20, x, y, x, y, true, 0);
+                place_items("lab_torso", 20, x, y, x, y, true, 0);
                 if (one_in(2)) {
                 place_items("male_underwear", 20, x, y, x, y, true, 0);
                 }
                 else place_items("female_underwear", 20, x, y, x, y, true, 0);
-                place_items("lab_pants", 20, x, y, x, y, true, 0);
-                place_items("lab_shoes", 20, x, y, x, y, true, 0);
-                place_items("lab_torso", 20, x, y, x, y, true, 0);
             }
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
