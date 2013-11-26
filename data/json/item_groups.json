@@ -655,6 +655,8 @@
         "id" : "homeguns",
     "items":[
       ["blowgun", 5],
+      ["moss_brownie", 2],
+      ["cop_38", 4],
       ["rm228", 3],
       ["dart", 5],
       ["22_lr", 9],
@@ -2983,6 +2985,8 @@
       ["rifle_flint", 5],
       ["pistol_flint", 5],
       ["flint_ammo", 5],
+      ["moss_brownie", 5],
+      ["cop_38", 5],
       ["cigar", 5],
       ["television", 10],
       ["microwave", 5],

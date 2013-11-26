@@ -364,7 +364,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
   dump->push_back(iteminfo("BASE", _("   Weight: "), "", g->u.convert_weight(weight()), false, "", true, true));
   dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
-  dump->push_back(iteminfo("BASE", (has_flag("SPEAR") || has_flag("STAB") ? _(" Pierce: ") : _(" Cut: ")), "", damage_cut(), true, "", false));
+  if (has_flag("SPEAR")) {
+    dump->push_back(iteminfo("BASE", _(" Pierce: "), "", damage_cut(), true, "", false));
+  }
+  else if (has_flag("STAB")) {
+    dump->push_back(iteminfo("BASE", _(" Stab: "), "", damage_cut(), true, "", false));
+  }
+  else {
+    dump->push_back(iteminfo("BASE", _(" Cut: "), "", damage_cut(), true, "", false));
+  }
   dump->push_back(iteminfo("BASE", _(" To-hit bonus: "), ((type->m_to_hit > 0) ? "+" : ""), type->m_to_hit, true, ""));
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
   if ( debug == true ) {
@@ -873,7 +881,7 @@ std::string item::tname(game *g)
     if (food != NULL && g != NULL && food->has_flag("HOT"))
         ret << _(" (hot)");
     if (food != NULL && g != NULL && food_type->spoils != 0 &&
-        rotten(g))
+        food->rotten(g))
         ret << _(" (rotten)");
 
     if (has_flag("FIT")) {
