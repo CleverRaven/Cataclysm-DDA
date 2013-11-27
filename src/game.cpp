@@ -1888,7 +1888,7 @@ input_context game::get_player_input(std::string &action)
         inp_mngr.set_timeout(-1);
 
     } else {
-        while (handle_mouseview(ctxt, action));
+        while (handle_mouseview(ctxt, action)) {};
     }
 
     return ctxt;

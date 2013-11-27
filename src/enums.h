@@ -45,7 +45,7 @@ struct point : public JsonSerializer, public JsonDeserializer
     int x;
     int y;
     point(int X = 0, int Y = 0) : x (X), y (Y) {}
-    point(const point &p) : x (p.x), y (p.y) {}
+    point(const point &p) : JsonSerializer(), JsonDeserializer(), x (p.x), y (p.y) {}
     ~point(){}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const {
