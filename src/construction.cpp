@@ -104,13 +104,16 @@ void construction_menu()
    update_info = false;
    std::string current_desc = available[select];
    // Clear out lines for tools & materials
-   for (int i = 2; i < iMaxY-1; i++) {
+   for (int i = 1; i < iMaxY-1; i++) {
     for (int j = 31; j < 79; j++)
      mvwputch(w_con, i, j, c_black, ' ');
    }
 
+   // Print consruction name
+   mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
+
    // Print stages and their requirement
-   int posx = 33, posy = 0;
+   int posx = 33, posy = 1;
    std::vector<construction*> options = constructions_by_desc[current_desc];
    for (unsigned i = 0; i < options.size(); ++i) {
     construction *current_con = options[i];
