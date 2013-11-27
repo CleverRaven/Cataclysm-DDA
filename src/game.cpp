@@ -9450,7 +9450,7 @@ void game::plthrow(char chInput)
  // Base move cost on moves per turn of the weapon
  // and our skill.
  int move_cost = thrown.attack_time() / 2;
- int skill_cost = (int)(move_cost / (pow(u.skillLevel("throw"), 3)/400 +1));
+ int skill_cost = (int)(move_cost / (pow(static_cast<float>(u.skillLevel("throw")), 3.0f)/400 +1));
  int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 
  move_cost += skill_cost;
