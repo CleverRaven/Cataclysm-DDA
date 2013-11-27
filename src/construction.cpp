@@ -58,8 +58,6 @@ void construction_menu()
         mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
     }
 
-    mvwprintz(w_con,  1, 31, c_white, _("Difficulty:"));
-
     wrefresh(w_con);
 
  bool update_info = true;
@@ -95,20 +93,26 @@ void construction_menu()
 
    if (current == select)
     col = hilite(col);
-   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey, available[current].c_str());
+   // print construction name with limited length.
+   // limit(28) = 30(column len) - 2(letter + ' ').
+   mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkey,
+             utf8_substr(available[current].c_str(), 0, 28).c_str());
   }
 
   if (update_info) {
    update_info = false;
    std::string current_desc = available[select];
    // Clear out lines for tools & materials
-   for (int i = 2; i < iMaxY-1; i++) {
+   for (int i = 1; i < iMaxY-1; i++) {
     for (int j = 31; j < 79; j++)
      mvwputch(w_con, i, j, c_black, ' ');
    }
 
+   // Print consruction name
+   mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
+
    // Print stages and their requirement
-   int posx = 33, posy = 0;
+   int posx = 33, posy = 1;
    std::vector<construction*> options = constructions_by_desc[current_desc];
    for (unsigned i = 0; i < options.size(); ++i) {
     construction *current_con = options[i];
@@ -175,7 +179,7 @@ void construction_menu()
         posx = 33;
        }
        mvwprintz(w_con, posy, posx, c_white, _("OR"));
-       posx += 3;
+       posx += utf8_width(_("OR"))+1;
       }
      }
      posy ++;
@@ -219,7 +223,7 @@ void construction_menu()
         posx = 33;
        }
        mvwprintz(w_con, posy, posx, c_white, _("OR"));
-       posx += 3;
+       posx += utf8_width(_("OR"))+1;
       }
      }
      posy ++;
