@@ -360,9 +360,10 @@ void load_oter(oter_t & oter) {
     oterlist.push_back(oter);
 }
 
-void load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
+mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
     int mgweight = jio.get_int("weight", 1000);
     bool isdisabled = false;
+    mapgen_function * ret = NULL;
     if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
         const std::string mgtype = jio.get_string("method");
         if ( default_idx != -1 && mgtype == "builtin" ) {
@@ -373,14 +374,15 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base, int defaul
                 }
             }
         }        
-        return; // nothing
+        return NULL; // nothing
     } else if ( jio.has_string("method") ) {
         const std::string mgtype = jio.get_string("method");
         if ( mgtype == "builtin" ) { // c-function
             if ( jio.has_string("name") ) {
                 const std::string mgname = jio.get_string("name");
                 if ( mapgen_cfunction_map.find( mgname ) != mapgen_cfunction_map.end() ) {
-                    oter_mapgen[id_base].push_back( new mapgen_function_builtin( mgname, mgweight ) );
+                    ret = new mapgen_function_builtin( mgname, mgweight );
+                    oter_mapgen[id_base].push_back( ret ); //new mapgen_function_builtin( mgname, mgweight ) );
                 } else {
                     debugmsg("oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
                 }
@@ -391,7 +393,8 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base, int defaul
 #ifdef LUA
             if ( jio.has_string("script") ) { // minified into one\nline
                 const std::string mgscript = jio.get_string("script");
-                oter_mapgen[id_base].push_back( new mapgen_function_lua( mgscript, mgweight ) );
+                ret = new mapgen_function_lua( mgscript, mgweight );
+                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_lua( mgscript, mgweight ) );
             } else if ( jio.has_array("script") ) { // or 1 line per entry array
                 std::string mgscript = "";
                 JsonArray jascr = jio.get_array("script");
@@ -399,7 +402,8 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base, int defaul
                     mgscript += jascr.next_string();
                     mgscript += "\n";
                 }
-                oter_mapgen[id_base].push_back( new mapgen_function_lua( mgscript, mgweight ) );
+                ret = new mapgen_function_lua( mgscript, mgweight );
+                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_lua( mgscript, mgweight ) );
             // todo; pass dirname current.json, because the latter two are icky
             // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
             } else {
@@ -412,7 +416,8 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base, int defaul
             if ( jio.has_object("object") ) {
                 JsonObject jo = jio.get_object("object");
                 std::string jstr = jo.str();
-                oter_mapgen[id_base].push_back( new mapgen_function_json( jstr ) );
+                ret = new mapgen_function_json( jstr, mgweight );
+                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_json( jstr ) );
             } else {
                 debugmsg("oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
             }
@@ -422,6 +427,7 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base, int defaul
     } else {
         debugmsg("oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").", id_base.c_str() );
     }
+    return ret;
 }
 
 /*

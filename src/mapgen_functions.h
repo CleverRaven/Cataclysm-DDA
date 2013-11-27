@@ -244,5 +244,4 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 
 //
 void init_mapgen_builtin_functions();
-void calculate_mapgen_weights();
 #endif

@@ -294,6 +294,33 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 ///// all sorts of ways to apply our hellish reality to a grid-o-squares
 
 /*
+ * feed bits `o json from standalone file to load_mapgen_function
+ */
+void load_mapgen( JsonObject &jo ) {
+    if ( jo.has_array( "om_terrain" ) ) {
+        std::vector<std::string> mapgenid_list;
+        JsonArray ja = jo.get_array( "om_terrain" );
+        while( ja.has_more() ) {
+            mapgenid_list.push_back( ja.next_string() );
+        }
+        if ( mapgenid_list.size() > 0 ) {
+            std::string mapgenid = mapgenid_list[0];
+            mapgen_function * mgfunc = load_mapgen_function(jo, mapgenid, -1);
+            if ( mgfunc != NULL ) {
+               for( int i=1; i < mapgenid_list.size(); i++ ) {
+                   oter_mapgen[ mapgenid_list[i] ].push_back( mgfunc );
+               }
+            }
+        } else {
+        }
+    } else if ( jo.has_string( "om_terrain" ) ) {
+        load_mapgen_function(jo, jo.get_string("om_terrain"), -1);
+    } else {
+        debugmsg("mapgen entry requires \"om_terrain\": \"something\", or \"om_terrain\": [ \"list\", \"of\" \"somethings\" ]\n%s\n", jo.str().c_str() );
+    }
+}
+
+/*
  * ptr storage.
  */
 std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
@@ -303,6 +330,9 @@ std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
  */
 std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
+/*
+ * setup oter_mapgen_weights which which mapgen uses to diceroll. Also setup mapgen_function_json
+ */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
     for( std::map<std::string, std::vector<mapgen_function*> >::const_iterator oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
         int funcnum = 0;
@@ -312,12 +342,14 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
             //
             int weight = (*fit)->weight;
             if ( weight < 1 ) {
+                dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(1), " << weight << ") = " << wtotal;
                 funcnum++;
                 continue; // rejected!
             }            
             if ( (*fit)->function_type() == MAPGENFUNC_JSON ) {
                 mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(*fit);
                 if ( ! mf->setup() ) {
+                    dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
                     funcnum++;
                     continue; // disqualify! doesn't get to play in the pool
                 }
@@ -331,9 +363,6 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
     }
 }
 
-void load_mapgen( JsonObject &jo ) {
-    
-}
 /////////////////////////////////////////////////////////////////////////////////
 ///// builtin mapgen functions
 
@@ -356,11 +385,12 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
 ///// json mapgen functions
 
 /* same as map's 'nonant' but variable
- * todo; less silly
+ * todo; less silly name
  */
-int wtf_mean_nonant(const int x, const int y, const int mapsize = 24) {
+int wtf_mean_nonant(const int y, const int x, const int mapsize = 24) {
     return ( y * mapsize ) + x;
 }
+
 /*
  * default? N O T H I N G.
  */
@@ -390,11 +420,10 @@ bool load_jmapgen_int( JsonObject &jo, const std::string & tag, short & val1, sh
 
 /*
  * Turn json gobbldigook into machine friendly gobbldigook, for applying
- * basic map 'set' functions, optionally based on one_in(chance) or repeated
+ * basic map 'set' functions, optionally based on one_in(chance) or repeat value
  */
 void mapgen_function_json::setup_setmap( JsonArray &parray ) {
     std::string tmpval="";
-    int tmpid = -1;
     std::string err = "";
     std::map<std::string, jmapgen_setmap_op> setmap_opmap;
     setmap_opmap[ "terrain" ] = JMAPGEN_SETMAP_TER;
@@ -414,8 +443,10 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
             setmap_optype = 0;
         } else if ( pjo.read("line",tmpval ) ) {
             setmap_optype = 100;
-        } else if ( pjo.read("fill",tmpval ) ) {
+            debugmsg("Sorry, set 'line' isn't done yet!");
+        } else if ( pjo.read("square",tmpval ) ) {
             setmap_optype = 200;
+            debugmsg("Sorry, set 'square' isn't done yet!");
         } else {
             err = string_format("No idea what to do with:\n %s \n",pjo.str().c_str() ); throw err;
         }
@@ -478,10 +509,14 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
     }
 
 }
+
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
 bool mapgen_function_json::setup() {
+    if ( is_ready == true ) {
+        return true;
+    }
     std::string err = "";
     if ( jdata.empty() ) {
         return false;
@@ -513,7 +548,7 @@ bool mapgen_function_json::setup() {
         }
 
         format = new terfurn_tile[ mapgensize * mapgensize ];
-
+        // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
 
             if ( ! jo.has_array("terrain") ) {
@@ -521,9 +556,6 @@ bool mapgen_function_json::setup() {
             }
             std::map<int,int> format_terrain;
             std::map<int,int> format_furniture;
-
-
-
             int tmpkey = -1;
             int c=0;
 
@@ -595,13 +627,14 @@ bool mapgen_function_json::setup() {
             qualifies = true;
             
        }
+
+       // No fill_ter? No format? GTFO.
        if ( ! qualifies ) {
            err = "setup() Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)"; throw err; // todo: write TFM.
        }
-       
+
        if ( jo.has_array("spawn_items") ) {
            parray = jo.get_array( "spawn_items");
-           int c=0;
            
            while ( parray.has_more() ) {
                jmapgen_int tmp_x(0,0);
@@ -619,7 +652,11 @@ bool mapgen_function_json::setup() {
                    err = "spawn_items: invalid value for 'x'"; throw err;
                }
                load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
-               jmapgen_spawn_item new_spawn( tmp_x, tmp_y, tmpval, tmp_amt );
+               jmapgen_int tmp_repeat(1,1);
+               int tmp_chance = 1;
+               load_jmapgen_int(jsi, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
+               jsi.read("chance", tmp_chance );
+               jmapgen_spawn_item new_spawn( tmp_x, tmp_y, tmpval, tmp_amt, tmp_chance, tmp_repeat );
                tmpval = "";
                spawnitems.push_back( new_spawn );
            }
@@ -630,8 +667,8 @@ bool mapgen_function_json::setup() {
                try {
                    setup_setmap( parray );
                } catch (std::string smerr) {
-                   debugmsg("Bad JSON mapgen set array, discarding:\n  %s  \n%s", smerr.c_str(), parray.str().c_str() );
-                   return false;
+                   err = string_format("Bad JSON mapgen set array, discarding:\n  %s  \n%s", smerr.c_str(), parray.str().c_str() );
+                   throw err;
                }
            }
        }
@@ -640,48 +677,54 @@ bool mapgen_function_json::setup() {
         return false;
     }
     jdata.clear(); // ssh, we're not -really- a json function <.<
+    is_ready = true;
     return true;
 };
 
-/*
+///// stuff below is the actual in-game mapgeneration (ill)logic
+/* 
  * apply abstracted function call
  */
-bool jmapgen_setmap_point::apply( map * m ) {
-      if ( chance == 1 || one_in( chance ) ) {
-          // todo JMAPGEN_SETLINEMAP_TER,  JMAPGEN_SETSQUAREMAP_TER, etc
-          const int trepeat = repeat.get() + 1;
-          for (int i = 0; i <= trepeat; i++) {
-              switch(op) {
-                  case JMAPGEN_SETMAP_TER: {
-                      m->ter_set( x.get(), y.get(), (ter_id)val.get() );
-                  } break;
-                  case JMAPGEN_SETMAP_FURN: {
-                      m->furn_set( x.get(), y.get(), (furn_id)val.get() );
-                  } break;
-                  case JMAPGEN_SETMAP_TRAP: {
-                      m->trap_set( x.get(), y.get(), (trap_id)val.get() );
-                  } break;
-                  case JMAPGEN_SETMAP_RADIATION: {
-                      
-                  } break;
-              }
-          }
-      }
-      return true;
+bool jmapgen_setmap_point::apply( map *m ) {
+    if ( chance == 1 || one_in( chance ) ) {
+        // todo JMAPGEN_SETLINEMAP_TER,  JMAPGEN_SETSQUAREMAP_TER, etc
+        const int trepeat = repeat.get() + 1;
+        for (int i = 0; i <= trepeat; i++) {
+            switch(op) {
+                case JMAPGEN_SETMAP_TER: {
+                    m->ter_set( x.get(), y.get(), (ter_id)val.get() );
+                }
+                break;
+                case JMAPGEN_SETMAP_FURN: {
+                    m->furn_set( x.get(), y.get(), (furn_id)val.get() );
+                }
+                break;
+                case JMAPGEN_SETMAP_TRAP: {
+                    m->trap_set( x.get(), y.get(), (trap_id)val.get() );
+                }
+                break;
+                case JMAPGEN_SETMAP_RADIATION: {
+
+                } break;
+            }
+        }
+    }
+    return true;
 }
-
-
 
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::apply( map * m,oter_id id,mapgendata md ,int t,float d) {
+void mapgen_function_json::apply( map * m, oter_id terrain_type, mapgendata md, int t, float d ) {
     formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     for( int i=0; i < spawnitems.size(); i++ ) {
         spawnitems[i].apply( m );
     }
     for( int i=0; i < setmap_points.size(); i++ ) {
         setmap_points[i].apply( m );
+    }
+    if ( terrain_type.t().rotates == true ) {
+        mapgen_rotate(m, terrain_type, false );
     }
 }
 
@@ -751,8 +794,6 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int tw = 0;
     int bw = 0;
     int cw = 0;
-    int actual_house_height = 0;
-    int bw_old = 0;
 
     int x = 0;
     int y = 0;

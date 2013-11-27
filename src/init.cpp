@@ -140,6 +140,8 @@ void init_data_structures()
         new StaticFunctionAccessor(&load_overmap_terrain);
     type_function_map["construction"] =
         new StaticFunctionAccessor(&load_construction);
+    type_function_map["mapgen"] =
+        new StaticFunctionAccessor(&load_mapgen);
 
     mutations_category[""].clear();
     init_mutation_parts();

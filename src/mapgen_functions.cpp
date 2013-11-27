@@ -340,7 +340,7 @@ ter_id dirt_or_pile()
 }
 
 
-void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down = false ) {
+void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     if ( north_is_down ) {
         int iid_diff = (int)terrain_type - terrain_type.t().loadid_base + 2;
         if ( iid_diff != 4 ) {
