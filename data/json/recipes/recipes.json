@@ -12924,7 +12924,7 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "tools": [
     [

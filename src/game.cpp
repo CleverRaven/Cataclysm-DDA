@@ -791,7 +791,7 @@ bool game::do_turn()
         u.update_morale();
     }
 
-    if ( u.is_wearing("ear_plugs") || u.is_wearing("hat_noise_cancelling") )
+    if ( u.worn_with_flag("DEAF") )
     {
         // Make the player deaf for one extra turn, so that he is not spammed with warnings
         if (u.disease_duration("deaf") == 1)
@@ -5210,7 +5210,7 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     if (u.has_disease("deaf")) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-        if ((!u.has_bionic("bio_ears") || !u.is_wearing("ear_plugs") || !u.is_wearing("hat_noise_cancelling")) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
+        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
             u.add_disease("deaf", duration);
         }

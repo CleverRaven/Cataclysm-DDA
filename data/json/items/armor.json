@@ -6618,7 +6618,8 @@
         "encumbrance" : 0,
         "bashing" : -5,
         "coverage" : 1,
-        "material_thickness" : 1
+        "material_thickness" : 1,
+        "flags" : "DEAF"
     },
     {
         "type" : "ARMOR",
@@ -6641,7 +6642,8 @@
         "encumbrance" : 2,
         "bashing" : -5,
         "coverage" : 5,
-        "material_thickness" : 1
+        "material_thickness" : 1,
+        "flags" : "DEAF"
     },
     {
         "type" : "ARMOR",
