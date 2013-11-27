@@ -840,8 +840,6 @@ void veh_interact::move_cursor (int dx, int dy)
 {
     const int hw = getmaxx(w_disp) / 2;
     const int hh = getmaxy(w_disp) / 2;
-    mvwputch (w_disp, hh, hw, cpart >= 0 ? veh->part_color (cpart) : c_black,
-              special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
 
     if (vertical_menu) {
         ddx += dy;
@@ -851,6 +849,7 @@ void veh_interact::move_cursor (int dx, int dy)
         ddy -= dy;
     }
     display_veh();
+    // Update the current active component index to the new position.
     cpart = part_at (0, 0);
     int vdx = -ddx;
     int vdy = -ddy;
