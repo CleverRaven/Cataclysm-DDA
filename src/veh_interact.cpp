@@ -164,6 +164,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_amount("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges / 20));
+    has_goggles = crafting_inv.has_amount("goggles_welding",1);
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
     has_jack = crafting_inv.has_amount("jack", 1);
     has_siphon = crafting_inv.has_amount("hose", 1);
@@ -267,12 +268,12 @@ task_reason veh_interact::cant_do (char mode)
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
-        has_tools = has_wrench && (has_welder || has_duct_tape);
+        has_tools = has_wrench && ((has_welder && has_goggles) || has_duct_tape);
         break;
     case 'r': // repair mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = need_repair.size() > 0 && cpart >= 0;
-        has_tools = has_welder || has_duct_tape;
+        has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
     case 'f': // refill mode
         valid_target = (ptank != NULL && ptank->hp > 0);
@@ -340,9 +341,9 @@ void veh_interact::do_install(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder</color> or <color_%3$s>duct tape</color> to install parts."),
+                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder and goggles</color> or <color_%3$s>duct tape</color> to install parts."),
                        has_wrench ? "ltgreen" : "red",
-                       has_welder ? "ltgreen" : "red",
+                       (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
@@ -364,9 +365,11 @@ void veh_interact::do_install(task_reason reason)
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
-        bool has_tools = (has_welder || has_duct_tape) && has_wrench;
+        bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
         bool eng = sel_vpart_info->has_flag("ENGINE");
+        bool install_pedals = sel_vpart_info->has_flag("PEDALS");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+        veh->has_pedals = false;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
@@ -374,13 +377,21 @@ void veh_interact::do_install(task_reason reason)
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
         }
+        if (veh->pedals() && install_pedals) {
+            engine_string = string_format(
+                                  _(" You can only install and use one set of foot pedals in your vehicle."));
+        }
+        if (veh->pedals() && eng) {
+          engine_string = string_format(
+                                  _(" You can't install an engine in a vehicle that uses foot pedals."));
+        }
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
                        has_comps ? "ltgreen" : "red",
                        itypes[itm]->name.c_str(),
                        has_wrench ? "ltgreen" : "red",
-                       has_welder ? "ltgreen" : "red",
+                       (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red",
                        has_skill ? "ltgreen" : "red",
                        sel_vpart_info->difficulty,
@@ -389,7 +400,8 @@ void veh_interact::do_install(task_reason reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2) {
+        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
+             !(veh->pedals() && eng) && !(veh->pedals() && install_pedals)) {
             sel_cmd = 'i';
             return;
         } else {
@@ -442,7 +454,7 @@ void veh_interact::do_repair(task_reason reason)
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need a <color_%1$s>powered welder</color> or <color_%2$s>duct tape</color> to repair."),
-                       has_welder ? "ltgreen" : "red",
+                       (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
