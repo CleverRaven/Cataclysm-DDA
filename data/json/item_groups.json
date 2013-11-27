@@ -27,7 +27,8 @@
       ["story_book", 4],
       ["novel_pulp", 16],
       ["fairy_tales", 20],
-      ["mag_comic", 20]
+      ["mag_comic", 20],
+	  ["candycigarette", 10]
     ]
     },{
         "type" : "item_group",
@@ -655,6 +656,8 @@
         "id" : "homeguns",
     "items":[
       ["blowgun", 5],
+      ["moss_brownie", 2],
+      ["cop_38", 4],
       ["rm228", 3],
       ["dart", 5],
       ["22_lr", 9],
@@ -866,7 +869,8 @@
       ["popcorn2", 35],
       ["popcorn3", 35],
       ["fruit_leather", 25],
-      ["kernels", 25]
+      ["kernels", 25],
+	  ["candycigarette", 20]
     ]
     },{
         "type" : "item_group",
@@ -2983,6 +2987,8 @@
       ["rifle_flint", 5],
       ["pistol_flint", 5],
       ["flint_ammo", 5],
+      ["moss_brownie", 5],
+      ["cop_38", 5],
       ["cigar", 5],
       ["television", 10],
       ["microwave", 5],
