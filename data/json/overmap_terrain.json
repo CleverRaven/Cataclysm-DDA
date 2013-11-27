@@ -33,8 +33,9 @@
         "extras" : "field",
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "field_test", "weight": -1, "comment": "weight < 1 disabbles" },
-            { "type": "lua", "weight": 500, "comment": "Inlined, easier to edit", "script": [
+            { "method": "builtin", "name": "field", "weight": -1, "comment": "weight < 1 disables" },
+            { "method": "builtin", "name": "field_test", "weight": -1, "comment": "weight < 1 disables" },
+            { "method": "lua", "weight": 500, "comment": "Inlined, easier to edit", "script": [
                 "-- tertype, turn = ...",
                 "function g_or_d_or_p()",
                 "  if game.one_in(6) then",
@@ -60,7 +61,7 @@
                 "game.add_msg(\"generated oter=\"..tertype..\" turn=\"..turn)"
               ]
             },
-                    { "type": "json", "object": {
+                    { "method": "json", "object": {
                         "rows":[
                            "000000000000000000000000",
                            "000000000000000000000000",
@@ -104,8 +105,12 @@
                           [ "7", "f_makeshift_bed" ]
                         ],
                         "spawn_items": [
-                           { "type": "prozac", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 1, 23 ] },
-                           { "type": "badge_deputy", "x": 6, "y": 6, "amount": 1 }
+                           { "method": "prozac", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 1, 23 ] },
+                           { "method": "badge_deputy", "x": 6, "y": 6, "amount": 1 }
+                        ],
+                        "set": [
+                           { "set": "trap", "x": [ 0, 23 ], "y": [ 0, 23 ], "id": "tr_beartrap", "chance": 2, "repeat": 35 },
+                           { "set": "terrain", "x": [ 0, 23 ], "y": [ 0, 23 ], "id": "t_water_sh", "repeat": [ 15, 60 ] }
                         ]
                     }, "weight": 2000 }
                 ]
@@ -128,7 +133,7 @@
         "extras" : "field",
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "forest" }
+            { "method": "builtin", "name": "forest" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -140,7 +145,7 @@
         "extras" : "field",
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "forest" }
+            { "method": "builtin", "name": "forest" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -152,7 +157,7 @@
         "extras" : "road",
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "highway" }
+            { "method": "builtin", "name": "highway" }
         ]
 
     },{
@@ -165,7 +170,7 @@
         "extras" : "road",
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "highway" }
+            { "method": "builtin", "name": "highway" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -186,16 +191,16 @@
         "allow_road" : true,
         "comment" : "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
         "mapgen_straight": [
-            { "type": "builtin", "name": "road_straight" }
+            { "method": "builtin", "name": "road_straight" }
         ],
         "mapgen_curved": [
-            { "type": "builtin", "name": "road_curved" }
+            { "method": "builtin", "name": "road_curved" }
         ],
         "mapgen_tee": [
-            { "type": "builtin", "name": "road_tee" }
+            { "method": "builtin", "name": "road_tee" }
         ],
         "mapgen_four_way": [
-            { "type": "builtin", "name": "road_four_way" }
+            { "method": "builtin", "name": "road_four_way" }
         ]
 
     },{
@@ -209,7 +214,7 @@
         "known_down" : true,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "road_four_way" }
+            { "method": "builtin", "name": "road_four_way" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -220,7 +225,7 @@
         "see_cost" : 2,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "bridge" }
+            { "method": "builtin", "name": "bridge" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -231,7 +236,7 @@
         "see_cost" : 2,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "bridge" }
+            { "method": "builtin", "name": "bridge" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -242,7 +247,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_center" }
+            { "method": "builtin", "name": "river_center" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -254,7 +259,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_straight" }
+            { "method": "builtin", "name": "river_straight" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -265,7 +270,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved_not" }
+            { "method": "builtin", "name": "river_curved_not" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -276,7 +281,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved_not" }
+            { "method": "builtin", "name": "river_curved_not" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -287,7 +292,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved_not" }
+            { "method": "builtin", "name": "river_curved_not" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -298,7 +303,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved_not" }
+            { "method": "builtin", "name": "river_curved_not" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -309,7 +314,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved" }
+            { "method": "builtin", "name": "river_curved" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -320,7 +325,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved" }
+            { "method": "builtin", "name": "river_curved" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -331,7 +336,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved" }
+            { "method": "builtin", "name": "river_curved" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -342,7 +347,7 @@
         "see_cost" : 1,
         "allow_road" : true,
         "mapgen": [
-            { "type": "builtin", "name": "river_curved" }
+            { "method": "builtin", "name": "river_curved" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -356,9 +361,9 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "mapgen": [
-            { "type": "builtin", "name": "house_generic_boxy" },
-            { "type": "builtin", "name": "house_generic_big_livingroom" },
-            { "type": "builtin", "name": "house_generic_center_hallway" }
+            { "method": "builtin", "name": "house_generic_boxy" },
+            { "method": "builtin", "name": "house_generic_big_livingroom" },
+            { "method": "builtin", "name": "house_generic_center_hallway" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -372,9 +377,9 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "mapgen": [
-            { "type": "builtin", "name": "house_generic_boxy" },
-            { "type": "builtin", "name": "house_generic_big_livingroom" },
-            { "type": "builtin", "name": "house_generic_center_hallway" }
+            { "method": "builtin", "name": "house_generic_boxy" },
+            { "method": "builtin", "name": "house_generic_big_livingroom" },
+            { "method": "builtin", "name": "house_generic_center_hallway" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -387,7 +392,7 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "mapgen": [
-            { "type": "builtin", "name": "parking_lot" }
+            { "method": "builtin", "name": "parking_lot" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -400,8 +405,8 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "mapgen": [
-            { "type": "builtin", "name": "park_playground", "weight": 500 },
-            { "type": "builtin", "name": "park_basketball", "weight": 1000, "comment": "1000 is default" }
+            { "method": "builtin", "name": "park_playground", "weight": 500 },
+            { "method": "builtin", "name": "park_basketball", "weight": 1000, "comment": "1000 is default" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -540,8 +545,8 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "mapgen": [
-            { "type": "builtin", "name": "church_new_england" },
-            { "type": "builtin", "name": "church_gothic" }
+            { "method": "builtin", "name": "church_new_england" },
+            { "method": "builtin", "name": "church_gothic" }
         ]
     },{
         "type" : "overmap_terrain",
@@ -1611,11 +1616,11 @@
         "known_up" : true,
         "mondensity" : 2,
         "mapgen": [
-            { "type": "builtin", "name": "basement_junk" },
-            { "type": "builtin", "name": "basement_guns" },
-            { "type": "builtin", "name": "basement_survivalist" },
-            { "type": "builtin", "name": "basement_chemlab" },
-            { "type": "builtin", "name": "basement_weed" }
+            { "method": "builtin", "name": "basement_junk" },
+            { "method": "builtin", "name": "basement_guns" },
+            { "method": "builtin", "name": "basement_survivalist" },
+            { "method": "builtin", "name": "basement_chemlab" },
+            { "method": "builtin", "name": "basement_weed" }
         ]
     },{
         "type" : "overmap_terrain",

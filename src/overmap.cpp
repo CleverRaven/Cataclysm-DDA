@@ -360,12 +360,22 @@ void load_oter(oter_t & oter) {
     oterlist.push_back(oter);
 }
 
-void load_mapgen_function(JsonObject &jio, const std::string id_base) {
+void load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
     int mgweight = jio.get_int("weight", 1000);
+    bool isdisabled = false;
     if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
+        const std::string mgtype = jio.get_string("method");
+        if ( default_idx != -1 && mgtype == "builtin" ) {
+            if ( jio.has_string("name") ) {
+                const std::string mgname = jio.get_string("name");
+                if ( mgname == id_base ) {
+                    oter_mapgen[id_base][ default_idx ]->weight = 0;
+                }
+            }
+        }        
         return; // nothing
-    } else if ( jio.has_string("type") ) {
-        const std::string mgtype = jio.get_string("type");
+    } else if ( jio.has_string("method") ) {
+        const std::string mgtype = jio.get_string("method");
         if ( mgtype == "builtin" ) { // c-function
             if ( jio.has_string("name") ) {
                 const std::string mgname = jio.get_string("name");
@@ -410,7 +420,7 @@ void load_mapgen_function(JsonObject &jio, const std::string id_base) {
             debugmsg("oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
         }
     } else {
-        debugmsg("oter_t[%s]: Invalid mapgen function (missing \"type\" value).", id_base.c_str() );
+        debugmsg("oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").", id_base.c_str() );
     }
 }
 
@@ -423,9 +433,11 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base, con
     const std::string fmapkey(id_base + suffix);
     const std::string jsonkey("mapgen" + suffix);
     bool default_mapgen = jo.get_bool("default_mapgen", true);
+    int default_idx = -1;
     if ( default_mapgen ) {
         if ( mapgen_cfunction_map.find( fmapkey ) != mapgen_cfunction_map.end() ) {
             oter_mapgen[fmapkey].push_back( new mapgen_function_builtin( fmapkey ) );
+            default_idx = oter_mapgen[fmapkey].size() - 1;
         }
     }
 
@@ -435,7 +447,7 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base, con
         while ( ja.has_more() ) {
             if ( ja.has_object(c) ) {
                 JsonObject jio = ja.next_object();
-                load_mapgen_function( jio, fmapkey );
+                load_mapgen_function( jio, fmapkey, default_idx );
             }
             c++;
         }
