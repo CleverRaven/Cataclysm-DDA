@@ -15601,17 +15601,13 @@ void map::add_extra(map_extra type, game *g)
                 add_item(x, y, body);
                 spawn_item(x, y, "pants_army");
                 spawn_item(x, y, "boots_combat");
-                place_items("mil_armor_torso", 25, x, y, x, y, true, 0);
-                place_items("mil_armor_helmet", 25, x, y, x, y, true, 0);
+                place_items("mil_armor_torso", 40, x, y, x, y, true, 0);
+                place_items("mil_armor_helmet", 30, x, y, x, y, true, 0);
                 place_items("military", 86, x, y, x, y, true, 0);
                 if (one_in(8)) {
                     spawn_item(x, y, "id_military");
                 }
-                if (one_in(2)) {
-                  place_items("male_underwear", 25, x, y, x, y, true, 0);
-                  }
-                else
-                  place_items("female_underwear", 25, x, y, x, y, true, 0);
+                place_items(one_in(2) ? "male_underwear" : "female_underwear", 40, x, y, x, y, true, 0);
             }
         }
         place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
@@ -15636,15 +15632,10 @@ void map::add_extra(map_extra type, game *g)
                 spawn_item(x, y, "id_science");
                 }
                 place_items("science", 84, x, y, x, y, true, 0);
-                place_items("lab_pants", 25, x, y, x, y, true, 0);
-                place_items("lab_shoes", 25, x, y, x, y, true, 0);
-                place_items("lab_torso", 25, x, y, x, y, true, 0);
-                if (one_in(2)) {
-                  place_items("male_underwear", 25, x, y, x, y, true, 0);
-                  }
-                else {
-                  place_items("female_underwear", 25, x, y, x, y, true, 0);
-                  }
+                place_items("lab_pants", 50, x, y, x, y, true, 0);
+                place_items("lab_shoes", 50, x, y, x, y, true, 0);
+                place_items("lab_torso", 40, x, y, x, y, true, 0);
+                place_items(one_in(2) ? "male_underwear" : "female_underwear", 50, x, y, x, y, true, 0);
             }
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -15787,9 +15778,11 @@ void map::add_extra(map_extra type, game *g)
                 }
                 place_items("drugdealer", 75, x, y, x, y, true, 0);
                 spawn_item(x, y, "pants_cargo");
-                place_items("lab_shoes", 25, x, y, x, y, true, 0);
-                place_items("shirts", 25, x, y, x, y, true, 0);
-                place_items("jackets", 25, x, y, x, y, true, 0);
+                place_items("lab_shoes", 50, x, y, x, y, true, 0);
+                place_items("shirts", 50, x, y, x, y, true, 0);
+                place_items("jackets", 30, x, y, x, y, true, 0);
+                place_items(one_in(2) ? "male_underwear" : "female_underwear", 40, x, y, x, y, true, 0);
+                  }
                 if (a_has_drugs && num_drugs > 0) {
                     int drugs_placed = rng(2, 6);
                     if (drugs_placed > num_drugs) {
@@ -15799,7 +15792,6 @@ void map::add_extra(map_extra type, game *g)
                     spawn_item(x, y, drugtype, 0, drugs_placed);
                 }
             }
-        }
         for (int i = 0; i < num_bodies_b; i++) {
             int x, y, x_offset, y_offset, tries = 0;
             do { // Loop until we find a valid spot to dump a body, or we give up
@@ -15825,9 +15817,10 @@ void map::add_extra(map_extra type, game *g)
                 }
                 place_items("drugdealer", 75, x, y, x, y, true, 0);
                 spawn_item(x, y, "pants_cargo");
-                place_items("lab_shoes", 25, x, y, x, y, true, 0);
-                place_items("shirts", 25, x, y, x, y, true, 0);
+                place_items("lab_shoes", 50, x, y, x, y, true, 0);
+                place_items("shirts", 50, x, y, x, y, true, 0);
                 place_items("jackets", 25, x, y, x, y, true, 0);
+                place_items(one_in(2) ? "male_underwear" : "female_underwear", 40, x, y, x, y, true, 0);
                 if (!a_has_drugs && num_drugs > 0) {
                     int drugs_placed = rng(2, 6);
                     if (drugs_placed > num_drugs) {
