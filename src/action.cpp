@@ -650,7 +650,7 @@ help ?\n\
 # DEBUG FUNCTIONS\n\
 debug_mode ~\n\
 # debug Z\n\
-debug_scent £\n\
+# debug_scent -\n\
 ";
 }
 
