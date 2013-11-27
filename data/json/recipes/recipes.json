@@ -12918,6 +12918,29 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "hat_noise_cancelling",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "cowboy_hat",
   "category": "CC_ARMOR",
