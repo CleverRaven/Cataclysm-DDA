@@ -3840,9 +3840,6 @@ int iuse::gasbomb_act(player *p, item *it, bool t)
  if (t) {
   if (it->charges > 15) {
    g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-  } else if(it->charges > 0) {
-   g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-   return 0;
   } else {
    int junk;
    for (int i = -2; i <= 2; i++) {
@@ -3853,6 +3850,9 @@ int iuse::gasbomb_act(player *p, item *it, bool t)
     }
    }
   }
+ } else if(it->charges > 0) {
+  g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+  return 0;
  } else {
   it->make(itypes["canister_empty"]);
  }
