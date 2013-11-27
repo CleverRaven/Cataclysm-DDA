@@ -34,6 +34,9 @@
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
+// a consistent border colour
+#define BORDER_COLOR c_ltgray
+
 // Display data
 extern int TERMX; // width available for display
 extern int TERMY; // height available for display
@@ -49,6 +52,7 @@ extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 std::vector<std::string> foldstring ( std::string str, int width );
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
+
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
@@ -60,9 +64,11 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
-std::string word_rewrap (const std::string &ins, int width);
+
+void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
+std::string word_rewrap (const std::string &ins, int width);
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
 

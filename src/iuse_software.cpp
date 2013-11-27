@@ -31,8 +31,7 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
     }
     if ( function_name == "robot_finds_kitten" ) {
         WINDOW *bkatwin = newwin(22, 62, (TERMY - 22) / 2, (TERMX - 62) / 2);
-        wborder(bkatwin, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+        draw_border(bkatwin);
         wrefresh(bkatwin);
         WINDOW *katwin = newwin(20, 60, (TERMY - 20) / 2, (TERMX - 60) / 2);
         robot_finds_kitten findkitten(katwin);
