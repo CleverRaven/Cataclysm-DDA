@@ -655,9 +655,13 @@
         "type" : "item_group",
         "id" : "homeguns",
     "items":[
+      ["trex_gun", 1],
+      ["700nx", 1],
+      ["700nx_casing", 1],
       ["blowgun", 5],
       ["moss_brownie", 2],
       ["cop_38", 4],
+      ["arx160", 2],
       ["rm228", 3],
       ["dart", 5],
       ["22_lr", 9],
