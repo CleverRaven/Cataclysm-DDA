@@ -60,6 +60,27 @@ void add_spawn(std::string type, const int count, const int x, const int y, bool
                 std::string name = "NONE");
 
 */
+enum jmapgen_setmap_op {
+    JMAPGEN_SETMAP_TER,
+    JMAPGEN_SETMAP_FURN,
+    JMAPGEN_SETMAP_TRAP,
+    JMAPGEN_SETMAP_RADIATION
+};
+
+struct jmapgen_setmap_point {
+    jmapgen_int x;
+    jmapgen_int y;
+    jmapgen_setmap_op op;
+    jmapgen_int val;
+    int chance;
+    jmapgen_int repeat;
+    jmapgen_setmap_point(
+       jmapgen_int ix, jmapgen_int iy, jmapgen_setmap_op iop, jmapgen_int ival, 
+       int ione_in = 1, jmapgen_int irepeat = jmapgen_int(1,1)
+       ) : x(ix), y(iy), op(iop), val(ival), chance(ione_in), repeat(irepeat) {}
+    bool apply( map * m );
+};
+
 struct jmapgen_spawn_item {
     jmapgen_int x;
     jmapgen_int y;
@@ -74,6 +95,7 @@ struct jmapgen_spawn_item {
 class mapgen_function_json : public virtual mapgen_function {
     public:
     virtual void dummy_() {}
+    void setup_setmap(JsonArray &parray);
     bool setup();
     void apply(map * m,oter_id id,mapgendata md ,int t,float d);
     mapgen_function_json(std::string s, int w = 1000) {
@@ -87,7 +109,10 @@ class mapgen_function_json : public virtual mapgen_function {
     int mapgensize;
     int fill_ter;
     terfurn_tile * format;
+    std::vector<jmapgen_setmap_point> setmap_points;
     std::vector<jmapgen_spawn_item> spawnitems;
+
+    terfurn_tile * tmpgrid; // for dupe checks etc
 };
 
 /////////////////////////////////////////////////////////////////////////////////

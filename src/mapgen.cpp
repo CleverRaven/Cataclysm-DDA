@@ -303,15 +303,18 @@ std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
  */
 std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 
-void calculate_mapgen_weights() { // todo; rename
-
-
+void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
     for( std::map<std::string, std::vector<mapgen_function*> >::const_iterator oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
         int funcnum = 0;
         int wtotal = 0;
         oter_mapgen_weights[ oit->first ] = std::map<int, int>();
         for( std::vector<mapgen_function*>::const_iterator fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
             //
+            int weight = (*fit)->weight;
+            if ( weight < 1 ) {
+                funcnum++;
+                continue; // rejected!
+            }            
             if ( (*fit)->function_type() == MAPGENFUNC_JSON ) {
                 mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(*fit);
                 if ( ! mf->setup() ) {
@@ -320,7 +323,6 @@ void calculate_mapgen_weights() { // todo; rename
                 }
             }
             //
-            int weight = (*fit)->weight;
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
@@ -329,6 +331,9 @@ void calculate_mapgen_weights() { // todo; rename
     }
 }
 
+void load_mapgen( JsonObject &jo ) {
+    
+}
 /////////////////////////////////////////////////////////////////////////////////
 ///// builtin mapgen functions
 
@@ -365,10 +370,119 @@ terfurn_tile::terfurn_tile() {
 }
 
 /*
+ * Take json array or int and set a numeric pair
+ */
+bool load_jmapgen_int( JsonObject &jo, const std::string & tag, short & val1, short & val2 ) {
+    int tmp1; int tmp2;
+    if ( jo.has_array( tag ) ) {
+        JsonArray sparray = jo.get_array( tag );
+        if ( sparray.read(0,tmp1) && sparray.read(1,tmp2) ) {
+           val1 = tmp1;
+           val2 = tmp2;
+           return true;
+        }
+    } else if ( jo.read(tag, tmp1) ) { 
+        val1 = tmp1;
+        return true;
+    }
+    return false;
+}
+
+/*
+ * Turn json gobbldigook into machine friendly gobbldigook, for applying
+ * basic map 'set' functions, optionally based on one_in(chance) or repeated
+ */
+void mapgen_function_json::setup_setmap( JsonArray &parray ) {
+    std::string tmpval="";
+    int tmpid = -1;
+    std::string err = "";
+    std::map<std::string, jmapgen_setmap_op> setmap_opmap;
+    setmap_opmap[ "terrain" ] = JMAPGEN_SETMAP_TER;
+    setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
+    setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
+    setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
+    std::map<std::string, jmapgen_setmap_op>::iterator sm_it;
+    jmapgen_setmap_op tmpop;
+    int setmap_optype = 0;
+    /* shouldn't this be possiblar?
+    while ( jo.has_more() { 
+        pjo = jo.next_object();
+    */
+    while ( parray.has_more() ) {
+        JsonObject pjo = parray.next_object();
+        if ( pjo.read("set",tmpval ) ) {
+            setmap_optype = 0;
+        } else if ( pjo.read("line",tmpval ) ) {
+            setmap_optype = 100;
+        } else if ( pjo.read("fill",tmpval ) ) {
+            setmap_optype = 200;
+        } else {
+            err = string_format("No idea what to do with:\n %s \n",pjo.str().c_str() ); throw err;
+        }
+        
+        sm_it = setmap_opmap.find( tmpval );
+        if ( sm_it == setmap_opmap.end() ) {
+            err = string_format("set: invalid subfunction '%s'",tmpval.c_str() ); throw err;
+        }
+
+        tmpop = sm_it->second;
+        jmapgen_int tmp_x(0,0);
+        jmapgen_int tmp_y(0,0);
+        jmapgen_int tmp_i(0,0);
+        jmapgen_int tmp_repeat(1,1);
+        int tmp_chance = 1;
+        if ( ! load_jmapgen_int(pjo, "x", tmp_x.val, tmp_x.valmax) ) {
+            err = string_format("set %s: bad/missing value for 'x'",tmpval.c_str() ); throw err;
+        }
+        if ( ! load_jmapgen_int(pjo, "y", tmp_y.val, tmp_y.valmax) ) {
+            err = string_format("set %s: bad/missing value for 'y'",tmpval.c_str() ); throw err;
+        }
+        if ( tmpop == JMAPGEN_SETMAP_RADIATION ) {
+            if ( ! load_jmapgen_int(pjo, "amount", tmp_i.val, tmp_i.valmax) ) {
+                err = string_format("set %s: bad/missing value for 'amount'",tmpval.c_str() ); throw err;
+            }
+        } else {
+            if ( ! pjo.has_string("id") ) {
+                err = string_format("set %s: bad/missing value for 'id'",tmpval.c_str() ); throw err;
+            }
+            std::string tmpid = pjo.get_string("id");
+            switch( tmpop ) {
+                case JMAPGEN_SETMAP_TER: {
+                    if ( termap.find( tmpid ) == termap.end() ) {
+                        err = string_format("set %s: no such terrain '%s'",tmpval.c_str(), tmpid.c_str() ); throw err;
+                    }
+                    tmp_i.val = termap[ tmpid ].loadid;
+                } break;
+                case JMAPGEN_SETMAP_FURN: {
+                    if ( furnmap.find( tmpid ) == furnmap.end() ) {
+                        err = string_format("set %s: no such furniture '%s'",tmpval.c_str(), tmpid.c_str() ); throw err;
+                    }
+                    tmp_i.val = furnmap[ tmpid ].loadid;
+                } break;
+                case JMAPGEN_SETMAP_TRAP: {
+                    if ( trapmap.find( tmpid ) == trapmap.end() ) {
+                        err = string_format("set %s: no such trap '%s'",tmpval.c_str(), tmpid.c_str() ); throw err;
+                    }
+                    tmp_i.val = trapmap[ tmpid ];
+                } break;
+            }
+            tmp_i.valmax = tmp_i.val; // todo... support for random furniture? or not.
+        }
+        load_jmapgen_int(pjo, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
+        pjo.read("chance", tmp_chance );
+        jmapgen_setmap_point tmp( tmp_x, tmp_y, tmpop, tmp_i, tmp_chance, tmp_repeat );
+
+        setmap_points.push_back(tmp);
+
+        tmpval = "";
+    }
+
+}
+/*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
 bool mapgen_function_json::setup() {
-    std::string err="";
+    std::string err = "";
     if ( jdata.empty() ) {
         return false;
     }
@@ -377,23 +491,25 @@ bool mapgen_function_json::setup() {
         JsonIn jsin(&iss);
         jsin.eat_whitespace();
         char ch = jsin.peek();
-        if (ch != '{') {
+        if ( ch != '{' ) {
             err = "JSON parse error"; throw err;
         }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
-        std::string tmpter="";
+        std::string tmpval = "";
         JsonArray parray;
         JsonArray sparray;
+        JsonObject pjo;
         // mapgensize = jo.get_int("mapgensize", 24); // eventually..
 
         // something akin to mapgen fill_background. todo: "fill_ter": [ [ "t_ter", chance ], [ "t_or_this", chance ], ..., [ "t_default" ] ]
-        if ( jo.read("fill_ter", tmpter) ) {
-            if ( termap.find( tmpter ) == termap.end() ) {
-                err=string_format("setup() fill_ter: invalid terrain '%s'",tmpter.c_str() ); throw err;
+        if ( jo.read("fill_ter", tmpval) ) {
+            if ( termap.find( tmpval ) == termap.end() ) {
+                err = string_format("setup() fill_ter: invalid terrain '%s'",tmpval.c_str() ); throw err;
             }
-            fill_ter = (int)termap[ tmpter ].loadid;
+            fill_ter = (int)termap[ tmpval ].loadid;
             qualifies = true;
+            tmpval = "";
         }
 
         format = new terfurn_tile[ mapgensize * mapgensize ];
@@ -408,8 +524,7 @@ bool mapgen_function_json::setup() {
 
 
 
-            int tmpkey=-1;
-            std::string tmpval="";
+            int tmpkey = -1;
             int c=0;
 
             // manditory: every character in rows must have matching entry, unless fill_ter is set
@@ -426,6 +541,7 @@ bool mapgen_function_json::setup() {
                     err=string_format("setup() format: terrain: row %d: invalid terrain '%s'",c+1,tmpval.c_str() ); throw err;
                 }
                 format_terrain[ tmpkey ] = termap[tmpval].loadid;
+                tmpval = "";
                 c++;
             }
             // optional.
@@ -443,6 +559,7 @@ bool mapgen_function_json::setup() {
                         err=string_format("setup() format: furniture: row %d: invalid furniture '%s'",c+1,tmpval.c_str() ); throw err;
                     }
                     format_furniture[ tmpkey ] = furnmap[tmpval].loadid;
+                    tmpval = "";
                     c++;
                 }
             }
@@ -472,6 +589,7 @@ bool mapgen_function_json::setup() {
                         format[ wtf_mean_nonant(c, i) ].furn = format_furniture[ tmpkey ];
                     }
                 }
+                tmpval = "";
                 c++;
             }
             qualifies = true;
@@ -480,43 +598,41 @@ bool mapgen_function_json::setup() {
        if ( ! qualifies ) {
            err = "setup() Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)"; throw err; // todo: write TFM.
        }
-
+       
        if ( jo.has_array("spawn_items") ) {
            parray = jo.get_array( "spawn_items");
            int c=0;
            
            while ( parray.has_more() ) {
-               std::string tmpval="";
-               point tmpx(0,0);
-               point tmpy(0,0);
-               point tmpamt(0,0);
+               jmapgen_int tmp_x(0,0);
+               jmapgen_int tmp_y(0,0);
+               jmapgen_int tmp_amt(1,1);
                JsonObject jsi = parray.next_object();
-               if ( ! jsi.has_string("type") || ! jsi.has_member("x") || ! jsi.has_member("y") ) {
-                   err = "spawn_items: syntax error. Must be at least: { \"type\": \"itype\", \"x\": int, \"y\": int }"; throw err;
+               if ( ! jsi.has_string("id") || ! jsi.has_member("x") || ! jsi.has_member("y") ) {
+                   err = "spawn_items: syntax error. Must be at least: { \"id\": \"(itype)\", \"x\": int, \"y\": int }"; throw err;
                }
-               tmpval = jsi.get_string("type");
-               if ( jsi.has_array("x") ) { // todo; move into function
-                   sparray=jsi.get_array("x");
-                   tmpx=point(sparray.get_int(0), sparray.get_int(1));
-               } else { // todo; stricter
-                   tmpx=point(jsi.get_int("x"), jsi.get_int("x"));
+               tmpval = jsi.get_string("id");
+               if ( ! load_jmapgen_int(jsi, "x", tmp_x.val, tmp_x.valmax) ) {
+                   err = "spawn_items: invalid value for 'x'"; throw err;
                }
-               if ( jsi.has_array("y") ) {
-                   sparray=jsi.get_array("y");
-                   tmpy=point(sparray.get_int(0), sparray.get_int(1));
-               } else { // todo; stricter
-                   tmpy=point(jsi.get_int("y"), jsi.get_int("y"));
+               if ( ! load_jmapgen_int(jsi, "y", tmp_y.val, tmp_y.valmax) ) {
+                   err = "spawn_items: invalid value for 'x'"; throw err;
                }
-               if ( jsi.has_array("amount") ) {
-                   sparray=jsi.get_array("amount");
-                   tmpamt=point(sparray.get_int(0), sparray.get_int(1));
-               } else if ( jsi.has_int("amount") ) {
-                   tmpamt=point(jsi.get_int("amount"), jsi.get_int("amount"));
-               } else {
-                   tmpamt=point(1,1);
-               }
-               jmapgen_spawn_item new_spawn( jmapgen_int( tmpx ), jmapgen_int( tmpy ), tmpval, jmapgen_int( tmpamt ) );
+               load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
+               jmapgen_spawn_item new_spawn( tmp_x, tmp_y, tmpval, tmp_amt );
+               tmpval = "";
                spawnitems.push_back( new_spawn );
+           }
+       }
+       if ( jo.has_array("set") ) {
+           parray = jo.get_array("set");
+           if ( parray.size() > 0 ) {
+               try {
+                   setup_setmap( parray );
+               } catch (std::string smerr) {
+                   debugmsg("Bad JSON mapgen set array, discarding:\n  %s  \n%s", smerr.c_str(), parray.str().c_str() );
+                   return false;
+               }
            }
        }
     } catch (std::string e) {
@@ -528,13 +644,44 @@ bool mapgen_function_json::setup() {
 };
 
 /*
+ * apply abstracted function call
+ */
+bool jmapgen_setmap_point::apply( map * m ) {
+      if ( chance == 1 || one_in( chance ) ) {
+          // todo JMAPGEN_SETLINEMAP_TER,  JMAPGEN_SETSQUAREMAP_TER, etc
+          const int trepeat = repeat.get() + 1;
+          for (int i = 0; i <= trepeat; i++) {
+              switch(op) {
+                  case JMAPGEN_SETMAP_TER: {
+                      m->ter_set( x.get(), y.get(), (ter_id)val.get() );
+                  } break;
+                  case JMAPGEN_SETMAP_FURN: {
+                      m->furn_set( x.get(), y.get(), (furn_id)val.get() );
+                  } break;
+                  case JMAPGEN_SETMAP_TRAP: {
+                      m->trap_set( x.get(), y.get(), (trap_id)val.get() );
+                  } break;
+                  case JMAPGEN_SETMAP_RADIATION: {
+                      
+                  } break;
+              }
+          }
+      }
+      return true;
+}
+
+
+
+/*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::apply( map * m,oter_id id,mapgendata md ,int t,float d) {
     formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     for( int i=0; i < spawnitems.size(); i++ ) {
         spawnitems[i].apply( m );
-        //m->spawn_items( spawnitems[i].x.get(), spawnitems[i].y.get(), spawnitems[i].itype, spawnitems[i].amount.get() );
+    }
+    for( int i=0; i < setmap_points.size(); i++ ) {
+        setmap_points[i].apply( m );
     }
 }
 
