@@ -39,7 +39,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["null"]             = &mapgen_null;
     mapgen_cfunction_map["crater"]           = &mapgen_crater;
     mapgen_cfunction_map["field"]            = &mapgen_field;
-    mapgen_cfunction_map["field_test"]       = &mapgen_field_w_puddles;
     mapgen_cfunction_map["dirtlot"]          = &mapgen_dirtlot;
     mapgen_cfunction_map["forest"]           = &mapgen_forest_general;
     mapgen_cfunction_map["hive"]             = &mapgen_hive;
@@ -68,157 +67,52 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["church_gothic"]             = &mapgen_church_gothic;
     mapgen_cfunction_map["s_pharm"]             = &mapgen_pharm;
     mapgen_cfunction_map["office_cubical"]             = &mapgen_office_cubical;
-mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
-mapgen_cfunction_map["s_grocery"] = mapgen_s_grocery;
-mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
-mapgen_cfunction_map["s_electronics"] = mapgen_s_electronics;
-mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
-mapgen_cfunction_map["s_liquor"] = mapgen_s_liquor;
-mapgen_cfunction_map["s_gun"] = mapgen_s_gun;
-mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
-mapgen_cfunction_map["s_library"] = mapgen_s_library;
-mapgen_cfunction_map["s_restaurant"] = mapgen_s_restaurant;
-mapgen_cfunction_map["s_restaurant_fast"] = mapgen_s_restaurant_fast;
-mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
-  mapgen_cfunction_map["shelter"] = &mapgen_shelter;
-  mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
-  mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
-  mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
+    mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
+    mapgen_cfunction_map["s_grocery"] = mapgen_s_grocery;
+    mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
+    mapgen_cfunction_map["s_electronics"] = mapgen_s_electronics;
+    mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
+    mapgen_cfunction_map["s_liquor"] = mapgen_s_liquor;
+    mapgen_cfunction_map["s_gun"] = mapgen_s_gun;
+    mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
+    mapgen_cfunction_map["s_library"] = mapgen_s_library;
+    mapgen_cfunction_map["s_restaurant"] = mapgen_s_restaurant;
+    mapgen_cfunction_map["s_restaurant_fast"] = mapgen_s_restaurant_fast;
+    mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
+    mapgen_cfunction_map["shelter"] = &mapgen_shelter;
+    mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
+    mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
+    mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
 
-  mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
-  mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
-  mapgen_cfunction_map["basement_guns"] = &mapgen_basement_guns;
-  mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
-  mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
-  mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
+    mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
+    mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
+    mapgen_cfunction_map["basement_guns"] = &mapgen_basement_guns;
+    mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
+    mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
+    mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
 
-// autogen.sh
-
-  mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
-/*
-  mapgen_cfunction_map["apartments_con_tower_1_entrance"] = &mapgen_apartments_con_tower_1_entrance;
-  mapgen_cfunction_map["apartments_con_tower_1"] = &mapgen_apartments_con_tower_1;
-  mapgen_cfunction_map["apartments_mod_tower_1_entrance"] = &mapgen_apartments_mod_tower_1_entrance;
-  mapgen_cfunction_map["apartments_mod_tower_1"] = &mapgen_apartments_mod_tower_1;
-  mapgen_cfunction_map["office_tower_1_entrance"] = &mapgen_office_tower_1_entrance;
-  mapgen_cfunction_map["office_tower_1"] = &mapgen_office_tower_1;
-  mapgen_cfunction_map["office_tower_b_entrance"] = &mapgen_office_tower_b_entrance;
-  mapgen_cfunction_map["office_tower_b"] = &mapgen_office_tower_b;
-  mapgen_cfunction_map["cathedral_1_entrance"] = &mapgen_cathedral_1_entrance;
-  mapgen_cfunction_map["cathedral_1"] = &mapgen_cathedral_1;
-  mapgen_cfunction_map["cathedral_b_entrance"] = &mapgen_cathedral_b_entrance;
-  mapgen_cfunction_map["cathedral_b"] = &mapgen_cathedral_b;
-*/
-  mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
-  mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
-  mapgen_cfunction_map["cabin_strange"] = &mapgen_cabin_strange;
-  mapgen_cfunction_map["cabin_strange_b"] = &mapgen_cabin_strange_b;
-  mapgen_cfunction_map["cabin"] = &mapgen_cabin;
-  mapgen_cfunction_map["farm"] = &mapgen_farm;
-  mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
-
-  mapgen_cfunction_map["police"] = &mapgen_police;
-  mapgen_cfunction_map["bank"] = &mapgen_bank;
-  mapgen_cfunction_map["bar"] = &mapgen_bar;
-  mapgen_cfunction_map["pawn"] = &mapgen_pawn;
-  mapgen_cfunction_map["mil_surplus"] = &mapgen_mil_surplus;
-  mapgen_cfunction_map["furniture"] = &mapgen_furniture;
-  mapgen_cfunction_map["abstorefront"] = &mapgen_abstorefront;
-/*
-  mapgen_cfunction_map["megastore_entrance"] = &mapgen_megastore_entrance;
-  mapgen_cfunction_map["megastore"] = &mapgen_megastore;
-  mapgen_cfunction_map["hospital_entrance"] = &mapgen_hospital_entrance;
-  mapgen_cfunction_map["hospital"] = &mapgen_hospital;
-  mapgen_cfunction_map["public_works_entrance"] = &mapgen_public_works_entrance;
-  mapgen_cfunction_map["public_works"] = &mapgen_public_works;
-  mapgen_cfunction_map["school_1"] = &mapgen_school_1;
-  mapgen_cfunction_map["school_2"] = &mapgen_school_2;
-  mapgen_cfunction_map["school_3"] = &mapgen_school_3;
-  mapgen_cfunction_map["school_4"] = &mapgen_school_4;
-  mapgen_cfunction_map["school_5"] = &mapgen_school_5;
-  mapgen_cfunction_map["school_6"] = &mapgen_school_6;
-  mapgen_cfunction_map["school_7"] = &mapgen_school_7;
-  mapgen_cfunction_map["school_8"] = &mapgen_school_8;
-  mapgen_cfunction_map["school_9"] = &mapgen_school_9;
-  mapgen_cfunction_map["prison_1"] = &mapgen_prison_1;
-  mapgen_cfunction_map["prison_2"] = &mapgen_prison_2;
-  mapgen_cfunction_map["prison_3"] = &mapgen_prison_3;
-  mapgen_cfunction_map["prison_4"] = &mapgen_prison_4;
-  mapgen_cfunction_map["prison_5"] = &mapgen_prison_5;
-  mapgen_cfunction_map["prison_6"] = &mapgen_prison_6;
-  mapgen_cfunction_map["prison_7"] = &mapgen_prison_7;
-  mapgen_cfunction_map["prison_8"] = &mapgen_prison_8;
-  mapgen_cfunction_map["prison_9"] = &mapgen_prison_9;
-  mapgen_cfunction_map["prison_b"] = &mapgen_prison_b;
-  mapgen_cfunction_map["prison_b_entrance"] = &mapgen_prison_b_entrance;
-  mapgen_cfunction_map["hotel_tower_1_1"] = &mapgen_hotel_tower_1_1;
-  mapgen_cfunction_map["hotel_tower_1_2"] = &mapgen_hotel_tower_1_2;
-  mapgen_cfunction_map["hotel_tower_1_3"] = &mapgen_hotel_tower_1_3;
-  mapgen_cfunction_map["hotel_tower_1_4"] = &mapgen_hotel_tower_1_4;
-  mapgen_cfunction_map["hotel_tower_1_5"] = &mapgen_hotel_tower_1_5;
-  mapgen_cfunction_map["hotel_tower_1_6"] = &mapgen_hotel_tower_1_6;
-  mapgen_cfunction_map["hotel_tower_1_7"] = &mapgen_hotel_tower_1_7;
-  mapgen_cfunction_map["hotel_tower_1_8"] = &mapgen_hotel_tower_1_8;
-  mapgen_cfunction_map["hotel_tower_1_9"] = &mapgen_hotel_tower_1_9;
-  mapgen_cfunction_map["hotel_tower_b_1"] = &mapgen_hotel_tower_b_1;
-  mapgen_cfunction_map["hotel_tower_b_2"] = &mapgen_hotel_tower_b_2;
-  mapgen_cfunction_map["hotel_tower_b_3"] = &mapgen_hotel_tower_b_3;
-  mapgen_cfunction_map["mansion_entrance"] = &mapgen_mansion_entrance;
-  mapgen_cfunction_map["mansion"] = &mapgen_mansion;
-  mapgen_cfunction_map["fema_entrance"] = &mapgen_fema_entrance;
-  mapgen_cfunction_map["fema"] = &mapgen_fema;
-  mapgen_cfunction_map["station_radio"] = &mapgen_station_radio;
-  mapgen_cfunction_map["lab"] = &mapgen_lab;
-  mapgen_cfunction_map["lab_stairs"] = &mapgen_lab_stairs;
-  mapgen_cfunction_map["lab_core"] = &mapgen_lab_core;
-  mapgen_cfunction_map["lab_finale"] = &mapgen_lab_finale;
-  mapgen_cfunction_map["ice_lab"] = &mapgen_ice_lab;
-  mapgen_cfunction_map["ice_lab_stairs"] = &mapgen_ice_lab_stairs;
-  mapgen_cfunction_map["ice_lab_core"] = &mapgen_ice_lab_core;
-  mapgen_cfunction_map["ice_lab_finale"] = &mapgen_ice_lab_finale;
-  mapgen_cfunction_map["nuke_plant_entrance"] = &mapgen_nuke_plant_entrance;
-  mapgen_cfunction_map["nuke_plant"] = &mapgen_nuke_plant;
-  mapgen_cfunction_map["bunker"] = &mapgen_bunker;
-  mapgen_cfunction_map["outpost"] = &mapgen_outpost;
-  mapgen_cfunction_map["silo"] = &mapgen_silo;
-  mapgen_cfunction_map["silo_finale"] = &mapgen_silo_finale;
-  mapgen_cfunction_map["temple"] = &mapgen_temple;
-  mapgen_cfunction_map["temple_stairs"] = &mapgen_temple_stairs;
-  mapgen_cfunction_map["temple_core"] = &mapgen_temple_core;
-  mapgen_cfunction_map["temple_finale"] = &mapgen_temple_finale;
-  mapgen_cfunction_map["sewage_treatment"] = &mapgen_sewage_treatment;
-  mapgen_cfunction_map["sewage_treatment_hub"] = &mapgen_sewage_treatment_hub;
-  mapgen_cfunction_map["sewage_treatment_under"] = &mapgen_sewage_treatment_under;
-  mapgen_cfunction_map["mine_entrance"] = &mapgen_mine_entrance;
-  mapgen_cfunction_map["mine_shaft"] = &mapgen_mine_shaft;
-  mapgen_cfunction_map["mine"] = &mapgen_mine;
-  mapgen_cfunction_map["mine_down"] = &mapgen_mine_down;
-  mapgen_cfunction_map["mine_finale"] = &mapgen_mine_finale;
-  mapgen_cfunction_map["spiral_hub"] = &mapgen_spiral_hub;
-  mapgen_cfunction_map["spiral"] = &mapgen_spiral;
-  mapgen_cfunction_map["radio_tower"] = &mapgen_radio_tower;
-  mapgen_cfunction_map["toxic_dump"] = &mapgen_toxic_dump;
-  mapgen_cfunction_map["haz_sar_entrance"] = &mapgen_haz_sar_entrance;
-  mapgen_cfunction_map["haz_sar"] = &mapgen_haz_sar;
-  mapgen_cfunction_map["haz_sar_entrance_b1"] = &mapgen_haz_sar_entrance_b1;
-  mapgen_cfunction_map["haz_sar_b1"] = &mapgen_haz_sar_b1;
-*/
-  mapgen_cfunction_map["cave"] = &mapgen_cave;
-  mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
-/*
-  mapgen_cfunction_map["spider_pit_under"] = &mapgen_spider_pit_under;
-  mapgen_cfunction_map["anthill"] = &mapgen_anthill;
-  mapgen_cfunction_map["slimepit"] = &mapgen_slimepit;
-  mapgen_cfunction_map["slimepit_down"] = &mapgen_slimepit_down;
-  mapgen_cfunction_map["triffid_grove"] = &mapgen_triffid_grove;
-  mapgen_cfunction_map["triffid_roots"] = &mapgen_triffid_roots;
-  mapgen_cfunction_map["triffid_finale"] = &mapgen_triffid_finale;
-*/
-  mapgen_cfunction_map["cavern"] = &mapgen_cavern;
-  mapgen_cfunction_map["rock"] = &mapgen_rock;
-  mapgen_cfunction_map["rift"] = &mapgen_rift;
-  mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
-  mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
+    mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
+    mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
+    mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
+    mapgen_cfunction_map["cabin_strange"] = &mapgen_cabin_strange;
+    mapgen_cfunction_map["cabin_strange_b"] = &mapgen_cabin_strange_b;
+    mapgen_cfunction_map["cabin"] = &mapgen_cabin;
+    mapgen_cfunction_map["farm"] = &mapgen_farm;
+    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
+    mapgen_cfunction_map["police"] = &mapgen_police;
+    mapgen_cfunction_map["bank"] = &mapgen_bank;
+    mapgen_cfunction_map["bar"] = &mapgen_bar;
+    mapgen_cfunction_map["pawn"] = &mapgen_pawn;
+    mapgen_cfunction_map["mil_surplus"] = &mapgen_mil_surplus;
+    mapgen_cfunction_map["furniture"] = &mapgen_furniture;
+    mapgen_cfunction_map["abstorefront"] = &mapgen_abstorefront;
+    mapgen_cfunction_map["cave"] = &mapgen_cave;
+    mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
+    mapgen_cfunction_map["cavern"] = &mapgen_cavern;
+    mapgen_cfunction_map["rock"] = &mapgen_rock;
+    mapgen_cfunction_map["rift"] = &mapgen_rift;
+    mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
+    mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
 
     mapgen_cfunction_map["subway_straight"]    = &mapgen_subway_straight;
     mapgen_cfunction_map["subway_curved"]      = &mapgen_subway_curved;
@@ -230,17 +124,114 @@ mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
     mapgen_cfunction_map["sewer_tee"]         = &mapgen_sewer_tee;
     mapgen_cfunction_map["sewer_four_way"]    = &mapgen_sewer_four_way;
 
-
     mapgen_cfunction_map["ants_straight"]    = &mapgen_ants_straight;
     mapgen_cfunction_map["ants_curved"]      = &mapgen_ants_curved;
     mapgen_cfunction_map["ants_tee"]         = &mapgen_ants_tee;
     mapgen_cfunction_map["ants_four_way"]    = &mapgen_ants_four_way;
+    mapgen_cfunction_map["ants_food"] = &mapgen_ants_food;
+    mapgen_cfunction_map["ants_larvae"] = &mapgen_ants_larvae;
+    mapgen_cfunction_map["ants_queen"] = &mapgen_ants_queen;
+/* todo
+    mapgen_cfunction_map["apartments_con_tower_1_entrance"] = &mapgen_apartments_con_tower_1_entrance;
+    mapgen_cfunction_map["apartments_con_tower_1"] = &mapgen_apartments_con_tower_1;
+    mapgen_cfunction_map["apartments_mod_tower_1_entrance"] = &mapgen_apartments_mod_tower_1_entrance;
+    mapgen_cfunction_map["apartments_mod_tower_1"] = &mapgen_apartments_mod_tower_1;
+    mapgen_cfunction_map["office_tower_1_entrance"] = &mapgen_office_tower_1_entrance;
+    mapgen_cfunction_map["office_tower_1"] = &mapgen_office_tower_1;
+    mapgen_cfunction_map["office_tower_b_entrance"] = &mapgen_office_tower_b_entrance;
+    mapgen_cfunction_map["office_tower_b"] = &mapgen_office_tower_b;
+    mapgen_cfunction_map["cathedral_1_entrance"] = &mapgen_cathedral_1_entrance;
+    mapgen_cfunction_map["cathedral_1"] = &mapgen_cathedral_1;
+    mapgen_cfunction_map["cathedral_b_entrance"] = &mapgen_cathedral_b_entrance;
+    mapgen_cfunction_map["cathedral_b"] = &mapgen_cathedral_b;
 
-  mapgen_cfunction_map["ants_food"] = &mapgen_ants_food;
-  mapgen_cfunction_map["ants_larvae"] = &mapgen_ants_larvae;
-  mapgen_cfunction_map["ants_queen"] = &mapgen_ants_queen;
-/*
-  mapgen_cfunction_map["tutorial"] = &mapgen_tutorial;
+    mapgen_cfunction_map["megastore_entrance"] = &mapgen_megastore_entrance;
+    mapgen_cfunction_map["megastore"] = &mapgen_megastore;
+    mapgen_cfunction_map["hospital_entrance"] = &mapgen_hospital_entrance;
+    mapgen_cfunction_map["hospital"] = &mapgen_hospital;
+    mapgen_cfunction_map["public_works_entrance"] = &mapgen_public_works_entrance;
+    mapgen_cfunction_map["public_works"] = &mapgen_public_works;
+    mapgen_cfunction_map["school_1"] = &mapgen_school_1;
+    mapgen_cfunction_map["school_2"] = &mapgen_school_2;
+    mapgen_cfunction_map["school_3"] = &mapgen_school_3;
+    mapgen_cfunction_map["school_4"] = &mapgen_school_4;
+    mapgen_cfunction_map["school_5"] = &mapgen_school_5;
+    mapgen_cfunction_map["school_6"] = &mapgen_school_6;
+    mapgen_cfunction_map["school_7"] = &mapgen_school_7;
+    mapgen_cfunction_map["school_8"] = &mapgen_school_8;
+    mapgen_cfunction_map["school_9"] = &mapgen_school_9;
+    mapgen_cfunction_map["prison_1"] = &mapgen_prison_1;
+    mapgen_cfunction_map["prison_2"] = &mapgen_prison_2;
+    mapgen_cfunction_map["prison_3"] = &mapgen_prison_3;
+    mapgen_cfunction_map["prison_4"] = &mapgen_prison_4;
+    mapgen_cfunction_map["prison_5"] = &mapgen_prison_5;
+    mapgen_cfunction_map["prison_6"] = &mapgen_prison_6;
+    mapgen_cfunction_map["prison_7"] = &mapgen_prison_7;
+    mapgen_cfunction_map["prison_8"] = &mapgen_prison_8;
+    mapgen_cfunction_map["prison_9"] = &mapgen_prison_9;
+    mapgen_cfunction_map["prison_b"] = &mapgen_prison_b;
+    mapgen_cfunction_map["prison_b_entrance"] = &mapgen_prison_b_entrance;
+    mapgen_cfunction_map["hotel_tower_1_1"] = &mapgen_hotel_tower_1_1;
+    mapgen_cfunction_map["hotel_tower_1_2"] = &mapgen_hotel_tower_1_2;
+    mapgen_cfunction_map["hotel_tower_1_3"] = &mapgen_hotel_tower_1_3;
+    mapgen_cfunction_map["hotel_tower_1_4"] = &mapgen_hotel_tower_1_4;
+    mapgen_cfunction_map["hotel_tower_1_5"] = &mapgen_hotel_tower_1_5;
+    mapgen_cfunction_map["hotel_tower_1_6"] = &mapgen_hotel_tower_1_6;
+    mapgen_cfunction_map["hotel_tower_1_7"] = &mapgen_hotel_tower_1_7;
+    mapgen_cfunction_map["hotel_tower_1_8"] = &mapgen_hotel_tower_1_8;
+    mapgen_cfunction_map["hotel_tower_1_9"] = &mapgen_hotel_tower_1_9;
+    mapgen_cfunction_map["hotel_tower_b_1"] = &mapgen_hotel_tower_b_1;
+    mapgen_cfunction_map["hotel_tower_b_2"] = &mapgen_hotel_tower_b_2;
+    mapgen_cfunction_map["hotel_tower_b_3"] = &mapgen_hotel_tower_b_3;
+    mapgen_cfunction_map["mansion_entrance"] = &mapgen_mansion_entrance;
+    mapgen_cfunction_map["mansion"] = &mapgen_mansion;
+    mapgen_cfunction_map["fema_entrance"] = &mapgen_fema_entrance;
+    mapgen_cfunction_map["fema"] = &mapgen_fema;
+    mapgen_cfunction_map["station_radio"] = &mapgen_station_radio;
+    mapgen_cfunction_map["lab"] = &mapgen_lab;
+    mapgen_cfunction_map["lab_stairs"] = &mapgen_lab_stairs;
+    mapgen_cfunction_map["lab_core"] = &mapgen_lab_core;
+    mapgen_cfunction_map["lab_finale"] = &mapgen_lab_finale;
+    mapgen_cfunction_map["ice_lab"] = &mapgen_ice_lab;
+    mapgen_cfunction_map["ice_lab_stairs"] = &mapgen_ice_lab_stairs;
+    mapgen_cfunction_map["ice_lab_core"] = &mapgen_ice_lab_core;
+    mapgen_cfunction_map["ice_lab_finale"] = &mapgen_ice_lab_finale;
+    mapgen_cfunction_map["nuke_plant_entrance"] = &mapgen_nuke_plant_entrance;
+    mapgen_cfunction_map["nuke_plant"] = &mapgen_nuke_plant;
+    mapgen_cfunction_map["bunker"] = &mapgen_bunker;
+    mapgen_cfunction_map["outpost"] = &mapgen_outpost;
+    mapgen_cfunction_map["silo"] = &mapgen_silo;
+    mapgen_cfunction_map["silo_finale"] = &mapgen_silo_finale;
+    mapgen_cfunction_map["temple"] = &mapgen_temple;
+    mapgen_cfunction_map["temple_stairs"] = &mapgen_temple_stairs;
+    mapgen_cfunction_map["temple_core"] = &mapgen_temple_core;
+    mapgen_cfunction_map["temple_finale"] = &mapgen_temple_finale;
+    mapgen_cfunction_map["sewage_treatment"] = &mapgen_sewage_treatment;
+    mapgen_cfunction_map["sewage_treatment_hub"] = &mapgen_sewage_treatment_hub;
+    mapgen_cfunction_map["sewage_treatment_under"] = &mapgen_sewage_treatment_under;
+    mapgen_cfunction_map["mine_entrance"] = &mapgen_mine_entrance;
+    mapgen_cfunction_map["mine_shaft"] = &mapgen_mine_shaft;
+    mapgen_cfunction_map["mine"] = &mapgen_mine;
+    mapgen_cfunction_map["mine_down"] = &mapgen_mine_down;
+    mapgen_cfunction_map["mine_finale"] = &mapgen_mine_finale;
+    mapgen_cfunction_map["spiral_hub"] = &mapgen_spiral_hub;
+    mapgen_cfunction_map["spiral"] = &mapgen_spiral;
+    mapgen_cfunction_map["radio_tower"] = &mapgen_radio_tower;
+    mapgen_cfunction_map["toxic_dump"] = &mapgen_toxic_dump;
+    mapgen_cfunction_map["haz_sar_entrance"] = &mapgen_haz_sar_entrance;
+    mapgen_cfunction_map["haz_sar"] = &mapgen_haz_sar;
+    mapgen_cfunction_map["haz_sar_entrance_b1"] = &mapgen_haz_sar_entrance_b1;
+    mapgen_cfunction_map["haz_sar_b1"] = &mapgen_haz_sar_b1;
+
+    mapgen_cfunction_map["spider_pit_under"] = &mapgen_spider_pit_under;
+    mapgen_cfunction_map["anthill"] = &mapgen_anthill;
+    mapgen_cfunction_map["slimepit"] = &mapgen_slimepit;
+    mapgen_cfunction_map["slimepit_down"] = &mapgen_slimepit_down;
+    mapgen_cfunction_map["triffid_grove"] = &mapgen_triffid_grove;
+    mapgen_cfunction_map["triffid_roots"] = &mapgen_triffid_roots;
+    mapgen_cfunction_map["triffid_finale"] = &mapgen_triffid_finale;
+
+    mapgen_cfunction_map["tutorial"] = &mapgen_tutorial;
 */
 //
 }
@@ -430,19 +421,6 @@ void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         }
     }
     m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
-}
-
-
-void mapgen_field_w_puddles(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    mapgen_field(m, terrain_type, dat, turn, density);
-    for ( int x = 0; x < 24; x++ ) {
-        for ( int y = 0; y < 24; y++ ) {
-            if ( one_in(5) ) {
-                 m->ter_set(x, y, t_water_sh);
-            }
-        }
-    }
 }
 
 void mapgen_dirtlot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)

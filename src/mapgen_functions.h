@@ -46,7 +46,6 @@ ter_id dirt_or_pile();
 void mapgen_null(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_crater(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_field_w_puddles(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_dirtlot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hive(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
