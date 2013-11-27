@@ -10,6 +10,7 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
+#include <iterator>
 #include "catacharset.h"
 #include "translations.h"
 #include "uistate.h"

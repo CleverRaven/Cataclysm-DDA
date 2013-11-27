@@ -4,6 +4,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>
+#include <iterator>
 #include "keypress.h"
 #include "cursesdef.h"
 #include "uistate.h"
