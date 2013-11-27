@@ -863,8 +863,14 @@ void veh_interact::move_cursor (int dx, int dy)
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
+    long sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    if( !vertical_menu ) {
+        // Rotate the symbol if necessary.
+        tileray tdir( 0 );
+        sym = tdir.dir_symbol( sym );
+    }
     mvwputch (w_disp, hh, hw, obstruct ? red_background(col) : hilite(col),
-              special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
+              special_symbol(sym));
     wrefresh (w_disp);
     werase (w_parts);
     veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
@@ -985,6 +991,8 @@ void veh_interact::display_veh ()
             x =   veh->parts[p].mount_dy + ddy;
             y = -(veh->parts[p].mount_dx + ddx);
         } else {
+            tileray tdir( 0 );
+            sym = tdir.dir_symbol( sym );
             x = veh->parts[p].mount_dx + ddx;
             y = veh->parts[p].mount_dy + ddy;
         }
