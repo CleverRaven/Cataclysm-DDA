@@ -2781,8 +2781,7 @@ void game::death_screen()
 
     WINDOW *w_death = newwin(5, 6+sText.size(), (TERMY-5)/2, (TERMX+6-sText.size())/2);
 
-    wborder(w_death, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_death);
 
     mvwprintz(w_death, 2, 3, c_ltred, sText.c_str());
     wrefresh(w_death);
@@ -3603,8 +3602,7 @@ void game::disp_kills()
                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w);
 
  std::vector<mtype *> types;
  std::vector<int> count;
@@ -3716,8 +3714,7 @@ faction* game::list_factions(std::string title)
                          1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
                          MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
- wborder(w_list, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w_list);
 
  int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
  int sel = 0;
@@ -6691,7 +6688,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     veh_interact vehint;
     vehint.ddx = cx;
     vehint.ddy = cy;
-    vehint.exec(this, &veh, examx, examy);
+    vehint.exec(&veh);
     if (vehint.sel_cmd != ' ')
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,
@@ -7151,8 +7148,7 @@ point game::look_around()
  int lookWidth, lookY, lookX;
  get_lookaround_dimensions(lookWidth, lookY, lookX);
  WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, lookX);
- wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w_look);
  mvwprintz(w_look, 1, 1, c_white, _("Looking Around"));
  mvwprintz(w_look, 2, 1, c_white, _("Use directional keys to move the cursor"));
  mvwprintz(w_look, 3, 1, c_white, _("to a nearby square."));
@@ -7192,8 +7188,7 @@ point game::look_around()
       mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
   } else {
       // redraw the border to clear out the marker.
-      wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      draw_border(w_look);
   }
 
   if (m.graffiti_at(lx, ly).contents)
@@ -12203,8 +12198,7 @@ void game::msg_buffer()
  InputEvent input;
  do {
   werase(w);
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+  draw_border(w);
   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, _("Press q to return"));
 
   int line = 1;
