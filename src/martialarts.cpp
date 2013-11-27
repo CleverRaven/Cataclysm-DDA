@@ -612,6 +612,8 @@ float player::mabuff_bash_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
+      // becomes 1.4 instead of 2.4 (which would be a 240% buff)
       ret *= it->intensity * (ma_buffs[it->buff_id].bash_mult()-1)+1;
     }
   }
@@ -634,6 +636,8 @@ float player::mabuff_cut_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
+      // becomes 1.4 instead of 2.4 (which would be a 240% buff)
       ret *= it->intensity * (ma_buffs[it->buff_id].cut_mult()-1)+1;
     }
   }
