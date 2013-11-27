@@ -8446,7 +8446,7 @@ and you can't unwield your %s."),
                 if ( selected < 0 ) {
                     selected = here.size()-1;
                     start = (int)( here.size() / maxitems ) * maxitems;
-                    if (start >= here.size()-1) {
+                    if (start >= here.size()) {
                         start -= maxitems;
                     }
                 } else if ( selected < start ) {
