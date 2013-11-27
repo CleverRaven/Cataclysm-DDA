@@ -2611,7 +2611,7 @@ void game::update_scent()
  int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
  const float diffusivity = 1.0;   // Determines how readily scents will diffuse.
  const float adding = 1.1;     // How much scent to add for very low scent values in order to keep them longer.
- const float lossiness = 0.95;   // How much scent to erase when we gain more.
+ const float lossiness = 0.9;   // How much scent to erase when we gain more.
 
  // Determine how many neighbours to diffuse into and the scent values of our neighbours.
   for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
@@ -2630,6 +2630,7 @@ void game::update_scent()
   int gained;         // How much we gained.
   int fslime;
   int new_scent;
+  bool linger = one_in(6);  // Whether we linger on this iteration.
 
   int move_cost;
   bool is_bashable;
@@ -2646,25 +2647,16 @@ void game::update_scent()
         lost = (diffusivity * squares_lost * cur_scent) / 8;
 
         gained = (diffusivity * squares_gained) / 8;
-        gained *= lossiness;
-
         new_scent = grscent[x][y] + gained - lost;
-        if (new_scent < 10 && one_in(6)) {
+        new_scent *= lossiness;
+
+        if (new_scent < 10 && linger) {
           new_scent *= adding;
         }
+        if (new_scent < 1)
+            new_scent = 0;
+
         grscent[x][y] = new_scent;
-
-        // Add scent back to the player.
-        if (x == u.posx && y == u.posy) {
-          u.scent += (grscent[x][y] * lossiness) / 9;
-        }
-
-        if (grscent[x][y] < 1) {
-          grscent[x][y] = 0;
-        }
-        else if (grscent[x][y] == 1 && one_in(9)) {
-          grscent[x][y] = 0;
-        }
 
         fslime = m.get_field_strength(point(x,y), fd_slime) * 10;
         if (fslime > 0 && grscent[x][y] < fslime) {
@@ -2691,9 +2683,10 @@ void game::update_scent()
       }
     }
   }
-
+  // Add a little from the environment back to the player.
+  u.scent += (grscent[u.posx][u.posy]) / 9;
   // Finally, diffuse the player's scent.
-  grscent[u.posx][u.posy] += u.scent * lossiness;
+  grscent[u.posx][u.posy] += u.scent;
   u.scent *= lossiness;
 }
 
