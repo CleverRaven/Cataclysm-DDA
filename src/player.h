@@ -485,6 +485,7 @@ public:
  unsigned int recoil;
  unsigned int driving_recoil;
  unsigned int scent;
+ unsigned int norm_scent;    // The scent which is normal for us.
  int dodges_left, blocks_left;
  int stim, pain, pkill, radiation;
  int cash;

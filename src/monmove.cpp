@@ -412,20 +412,15 @@ void monster::friendly_move(game *g)
 point monster::scent_move(game *g)
 {
  std::vector<point> smoves;
-
- int maxsmell = 10; // Squares with smell 0 are not eligible targets.
- int smell_threshold = 200; // Squares at or above this level are ineligible.
- if (has_flag(MF_KEENNOSE)) {
+ int smell_scale = 9;
+ int maxsmell = 3 * smell_scale; // Squares with smell 0 are not eligible targets.
+ if (has_flag(MF_KEENNOSE))
      maxsmell = 1;
-     smell_threshold = 400;
- }
- int minsmell = 9999;
+
+ int minsmell = 100000;
  point pbuff, next(-1, -1);
  unsigned int smell;
  const bool fleeing = is_fleeing(g->u);
- if( !fleeing && g->scent( posx(), posy() ) > smell_threshold ) {
-     return next;
- }
  for (int x = -1; x <= 1; x++) {
   for (int y = -1; y <= 1; y++) {
    const int nx = posx() + x;

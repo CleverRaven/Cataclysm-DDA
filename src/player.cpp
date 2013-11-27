@@ -393,21 +393,21 @@ if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
  }
 
 // Set our scent towards the norm
- int norm_scent = 500;
+ int scent_scale = 9;
+ norm_scent = 500;
  if (has_trait("SMELLY"))
   norm_scent = 800;
  if (has_trait("SMELLY2"))
   norm_scent = 1200;
+ norm_scent *= scent_scale;
 
  // Scent increases fast at first, and slows down as it approaches normal levels.
- // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
- // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
  if (scent < rng(0, norm_scent))
-   scent++;
+   scent += norm_scent / 5;
 
- // Unusually high scent decreases steadily until it reaches normal levels.
- if (scent > norm_scent)
-  scent--;
+// Decrease our scent from the biomask.
+ if(has_active_bionic("bio_scent_mask"))
+  scent *= 0.6;
 
 // Give us our movement points for the turn.
  moves += current_speed(g);
