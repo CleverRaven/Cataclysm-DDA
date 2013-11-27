@@ -180,7 +180,7 @@ void construction_menu()
         posx = 33;
        }
        mvwprintz(w_con, posy, posx, c_white, _("OR"));
-       posx += 3;
+       posx += utf8_width(_("OR"))+1;
       }
      }
      posy ++;
@@ -224,7 +224,7 @@ void construction_menu()
         posx = 33;
        }
        mvwprintz(w_con, posy, posx, c_white, _("OR"));
-       posx += 3;
+       posx += utf8_width(_("OR"))+1;
       }
      }
      posy ++;
