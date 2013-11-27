@@ -3537,6 +3537,9 @@ int iuse::pipebomb_act(player *p, item *it, bool t)
  if (t) { // Simple timer effects
   //~ the sound of a lit fuse
   g->sound(pos.x, pos.y, 0, _("ssss...")); // Vol 0 = only heard if you hold it
+ } else if(it->charges > 0) {
+  g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+  return 0;
  } else { // The timer has run down
   if (one_in(10) && g->u_see(pos.x, pos.y)) {
    g->add_msg(_("The pipe bomb fizzles out."));
@@ -3564,6 +3567,9 @@ int iuse::grenade_act(player *p, item *it, bool t)
     }
     if (t) { // Simple timer effects
         g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
     } else { // When that timer runs down...
         g->explosion(pos.x, pos.y, 12, 28, false);
     }
@@ -3587,6 +3593,9 @@ int iuse::granade_act(player *p, item *it, bool t)
     }
     if (t) { // Simple timer effects
         g->sound(pos.x, pos.y, 0, _("Merged!"));  // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
     } else {  // When that timer runs down...
         int effect_roll = rng(1,4);
         switch (effect_roll)
@@ -3713,6 +3722,9 @@ int iuse::flashbang_act(player *p, item *it, bool t)
     }
     if (t) { // Simple timer effects
         g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        return 0;
     } else { // When that timer runs down...
         g->flashbang(pos.x, pos.y);
     }
@@ -3741,6 +3753,9 @@ int iuse::c4armed(player *p, item *it, bool t)
  }
  if (t) { // Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ } else if(it->charges > 0) {
+  g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
+  return 0;
  } else { // When that timer runs down...
   g->explosion(pos.x, pos.y, 40, 3, false);
  }
@@ -3764,6 +3779,9 @@ int iuse::EMPbomb_act(player *p, item *it, bool t)
  }
  if (t) { // Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ } else if(it->charges > 0) {
+  g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+  return 0;
  } else { // When that timer runs down...
   g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
@@ -3791,6 +3809,9 @@ int iuse::scrambler_act(player *p, item *it, bool t)
  }
  if (t) { // Simple timer effects
   g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+ } else if(it->charges > 0) {
+  g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+  return 0;
  } else { // When that timer runs down...
   g->draw_explosion(pos.x, pos.y, 4, c_cyan);
   for (int x = pos.x - 4; x <= pos.x + 4; x++) {
@@ -3819,6 +3840,9 @@ int iuse::gasbomb_act(player *p, item *it, bool t)
  if (t) {
   if (it->charges > 15) {
    g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
+  } else if(it->charges > 0) {
+   g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+   return 0;
   } else {
    int junk;
    for (int i = -2; i <= 2; i++) {
@@ -3851,9 +3875,12 @@ int iuse::smokebomb_act(player *p, item *it, bool t)
   return 0;
  }
  if (t) {
-  if (it->charges > 17)
+  if (it->charges > 17) {
    g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-  else {
+  } else if(it->charges > 0) {
+   g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+   return 0;
+  } else {
    int junk;
    for (int i = -2; i <= 2; i++) {
     for (int j = -2; j <= 2; j++) {
@@ -3963,6 +3990,9 @@ int iuse::dynamite_act(player *p, item *it, bool t)
     if (t) {
         g->sound(pos.x, pos.y, 0, _("ssss..."));
         // When that timer runs down...
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+        return 0;
     } else {
         g->explosion(pos.x, pos.y, 60, 0, false);
     }
@@ -3986,9 +4016,15 @@ int iuse::matchbomb_act(player *p, item *it, bool t) {
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) { return 0; }
     // Simple timer effects
-    if (t) { g->sound(pos.x, pos.y, 0, _("ssss..."));
-     // When that timer runs down...
-    } else { g->explosion(pos.x, pos.y, 24, 0, false); }
+    if (t) { 
+        g->sound(pos.x, pos.y, 0, _("ssss..."));
+    } else if(it->charges > 0) {
+        g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else {
+        // When that timer runs down...
+        g->explosion(pos.x, pos.y, 24, 0, false);
+    }
     return 0;
 }
 
@@ -4110,6 +4146,9 @@ int iuse::firecracker_act(player *p, item *it, bool t)
  }
  if (t) {// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("ssss..."));
+ } else if(it->charges > 0) {
+  g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+  return 0;
  } else {  // When that timer runs down...
   g->sound(pos.x, pos.y, 20, _("Bang!"));
  }
@@ -4141,6 +4180,9 @@ int iuse::mininuke_act(player *p, item *it, bool t)
  }
  if (t) { // Simple timer effects
   g->sound(pos.x, pos.y, 2, _("Tick."));
+ } else if(it->charges > 0) {
+  g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
+  return 0;
  } else { // When that timer runs down...
   g->explosion(pos.x, pos.y, 200, 0, false);
   int junk;
