@@ -61,10 +61,11 @@
           { "set": "terrain", "x": [ 3, 14 ], "y": [ 3, 14 ], "id": "t_wreckage", "repeat": [ 15, 30 ] }
        ]
      },
-     "weight": 200000
+     "weight": 200000,
+   "comment": "The stuff below is not relevent to mapgen, but makes the test amusing"
+
    },
 
-   "comment": "The stuff below is not relevent to mapgen, but makes the test amusing",
 
     {
         "type" : "BOOK",
