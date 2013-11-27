@@ -33,9 +33,9 @@
         "extras" : "field",
         "allow_road" : true,
         "mapgen": [
-            { "method": "builtin", "name": "field", "weight": -1, "comment": "weight < 1 disables" },
+            { "method": "builtin", "name": "field", "weight": 1000, "comment": "weight < 1 disables" },
             { "method": "builtin", "name": "field_test", "weight": -1, "comment": "weight < 1 disables" },
-            { "method": "lua", "weight": 500, "comment": "Inlined, easier to edit", "script": [
+            { "method": "lua", "weight": -500, "comment": "Inlined, easier to edit", "script": [
                 "-- tertype, turn = ...",
                 "function g_or_d_or_p()",
                 "  if game.one_in(6) then",
@@ -56,8 +56,8 @@
                 "  x = x + 1",
                 "end",
                 "map:place_items(\"field\", 60, 0, 0, 23, 23, 1, turn)",
-                "map:square_furn(\"f_mutpoppy\", 10,10,13,13)",
-                "map:line_ter(\"t_paper\", 1, 1, 22, 22)",
+                "--map:square_furn(\"f_mutpoppy\", 10,10,13,13)",
+                "--map:line_ter(\"t_paper\", 1, 1, 22, 22)",
                 "game.add_msg(\"generated oter=\"..tertype..\" turn=\"..turn)"
               ]
             },
@@ -105,14 +105,14 @@
                           [ "7", "f_makeshift_bed" ]
                         ],
                         "spawn_items": [
-                           { "method": "prozac", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 1, 23 ] },
-                           { "method": "badge_deputy", "x": 6, "y": 6, "amount": 1 }
+                           { "id": "prozac", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 1, 23 ] },
+                           { "id": "badge_deputy", "x": 6, "y": 6, "amount": 1 }
                         ],
                         "set": [
                            { "set": "trap", "x": [ 0, 23 ], "y": [ 0, 23 ], "id": "tr_beartrap", "chance": 2, "repeat": 35 },
                            { "set": "terrain", "x": [ 0, 23 ], "y": [ 0, 23 ], "id": "t_water_sh", "repeat": [ 15, 60 ] }
                         ]
-                    }, "weight": 2000 }
+                    }, "weight": -2000 }
                 ]
     },{
         "type" : "overmap_terrain",
