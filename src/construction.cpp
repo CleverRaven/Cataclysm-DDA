@@ -59,8 +59,6 @@ void construction_menu()
         mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
     }
 
-    mvwprintz(w_con,  1, 31, c_white, _("Difficulty:"));
-
     wrefresh(w_con);
 
  bool update_info = true;
