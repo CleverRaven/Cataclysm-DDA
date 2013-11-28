@@ -578,6 +578,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     g->add_msg(_("You dodge the %s."), name().c_str());
                 }
                 p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
+                p.ma_ondodge_effects();
             }
 
             //Successful hit with damage
