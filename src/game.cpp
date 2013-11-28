@@ -1888,7 +1888,7 @@ input_context game::get_player_input(std::string &action)
         inp_mngr.set_timeout(-1);
 
     } else {
-        while (handle_mouseview(ctxt, action));
+        while (handle_mouseview(ctxt, action)) {};
     }
 
     return ctxt;
@@ -8466,7 +8466,7 @@ and you can't unwield your %s."),
                 if ( selected < 0 ) {
                     selected = here.size()-1;
                     start = (int)( here.size() / maxitems ) * maxitems;
-                    if (start >= here.size()-1) {
+                    if (start >= here.size()) {
                         start -= maxitems;
                     }
                 } else if ( selected < start ) {
