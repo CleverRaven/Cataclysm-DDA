@@ -912,6 +912,22 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
+// Calculates the new width of the window, given the number of columns.
+int projected_window_width(int column_count)
+{
+	const int SidebarWidth = (OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55;
+	int newWindowWidth = (SidebarWidth + (OPTIONS["VIEWPORT_X"] * 2 + 1));
+	newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
+
+	return newWindowWidth * fontwidth;
+}
+
+// Calculates the new height of the window, given the number of rows.
+int projected_window_height(int row_count)
+{
+	return (OPTIONS["VIEWPORT_Y"] * 2 + 1) * fontheight;
+}
+
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {

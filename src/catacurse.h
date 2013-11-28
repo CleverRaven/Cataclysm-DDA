@@ -191,6 +191,10 @@ void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW* win);
 int curses_start_color();
+
+int projected_window_width(int column_count);
+int projected_window_height(int row_count);
+
 #ifdef SDLTILES
 void init_tiles();
 #endif
