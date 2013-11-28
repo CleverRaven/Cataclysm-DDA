@@ -1458,14 +1458,14 @@ npc_action npc::scan_new_items(game *g, int target)
 void npc::melee_monster(game *g, int target)
 {
  monster* monhit = &(g->zombie(target));
- int dam = hit_mon(g, monhit);
+ int dam = hit_creature(g, *monhit, true);
  if (monhit->hurt(dam))
   g->kill_mon(target, false);
 }
 
 void npc::melee_player(game *g, player &foe)
 {
- hit_player(g, foe);
+ hit_creature(g, foe, true);
 }
 
 void npc::wield_best_melee(game *g)

@@ -177,6 +177,13 @@ std::string monster::name_with_armor()
  return ret;
 }
 
+std::string monster::disp_name() {
+    return name();
+}
+
+std::string monster::skin_name() {
+    return name_with_armor();
+}
 int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
 {
 // First line of w is the border; the next two are terrain info, and after that
@@ -554,7 +561,28 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
  return ret;
 }
 
-int monster::hit(game *g, player &p, body_part &bp_hit) {
+bool monster::is_on_ground() {
+    return false; //TODO: actually make this work
+}
+
+bool monster::has_weapon() {
+    return false; // monsters will never have weapons, silly
+}
+
+bool monster::block_hit(game *g, creature &t, body_part &bp_hit, int &side,
+            int &bash_dam, int &cut_dam, int &stab_dam) {
+    return false;
+}
+
+//TODO: this is the function that will govern our monster getting hit, much
+//like player.hit(). The other hit is for god knows what, but I'm keeping the
+//name the same to not break every line of code in this project.
+int monster::hit(game*g, body_part bp, int a, int b, int c) {
+    (void)g;(void)bp;(void)a;(void)b;(void)c;
+    return 0;
+}
+
+int monster::hit(game *g, creature &p, body_part &bp_hit) {
  int ret = 0;
  int highest_hit = 0;
 
@@ -609,6 +637,12 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
     }
  ret += dice(type->melee_dice, type->melee_sides);
  return ret;
+}
+
+
+int monster::hit_creature(game *g, creature &p, bool allow_grab = true) {
+    (void)g; (void)p; (void)allow_grab;
+    return 0;
 }
 
 void monster::hit_monster(game *g, int i)
@@ -680,8 +714,9 @@ int monster::dodge()
  return ret;
 }
 
-int monster::dodge_roll()
+int monster::dodge_roll(game* g)
 {
+(void)g; // we need g to maintain interface compatibility
  int numdice = dodge();
 
  switch (type->size) {

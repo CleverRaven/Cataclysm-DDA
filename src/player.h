@@ -1,6 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+#include "creature.h"
 #include "item.h"
 #include "monster.h"
 #include "pldata.h"
@@ -76,7 +77,7 @@ struct stats : public JsonSerializer, public JsonDeserializer
     }
 };
 
-class player : public JsonSerializer, public JsonDeserializer
+class player : public creature, public JsonSerializer, public JsonDeserializer
 {
   std::map<Skill*,SkillLevel> _skills;
 
@@ -95,6 +96,8 @@ public:
 // </newcharacter.cpp>
 
  void pick_name(); // Picks a name from NAMES_*
+ std::string disp_name(); // what to call 'im
+ std::string skin_name(); // what to call 'im
 
  virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
  nc_color color(); // What color to draw us as
@@ -213,10 +216,11 @@ public:
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
+ int hit_creature(game *g, creature &p, bool allow_grab = true);
  int  hit_mon(game *g, monster *z, bool allow_grab = true);
  void hit_player(game *g, player &p, bool allow_grab = true);
 
- bool block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
+ bool block_hit(game *g, creature &t, body_part &bp_hit, int &side,
     int &bash_dam, int &cut_dam, int &stab_dam);
 
  int base_damage(bool real_life = true, int stat = -999);
@@ -233,16 +237,16 @@ public:
  std::vector<matec_id> get_all_techniques();
 
  bool has_technique(matec_id tec);
- matec_id pick_technique(game *g, monster *z, player *p,
+ matec_id pick_technique(game *g, creature &t,
                              bool crit, bool allowgrab);
- void perform_technique(ma_technique technique, game *g, monster *z, player *p,
+ void perform_technique(ma_technique technique, game *g, creature &t,
                        int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
 
- void perform_special_attacks(game *g, monster *z, player *p,
+ void perform_special_attacks(game *g, creature &t,
                         int &bash_dam, int &cut_dam, int &pierce_dam);
 
  std::vector<special_attack> mutation_attacks(monster *z, player *p);
- std::string melee_special_effects(game *g, monster *z, player *p, bool crit,
+ std::string melee_special_effects(game *g, creature &t, bool crit,
                             int &bash_dam, int &cut_dam, int &stab_dam);
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
@@ -362,6 +366,8 @@ public:
  int encumb(body_part bp, double &layers, int &armorenc);
  int armor_bash(body_part bp); // Bashing resistance
  int armor_cut(body_part bp); // Cutting  resistance
+ int armor_bash(); // bodypartless, for creature (for now)
+ int armor_cut();
  int resist(body_part bp); // Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
@@ -436,6 +442,8 @@ public:
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
+ bool has_weapon(); // Has an item with invlet let
+
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
 
@@ -458,6 +466,8 @@ public:
 
 // ---------------VALUES-----------------
  int posx, posy;
+ inline int xpos() { return posx; }
+ inline int ypos() { return posy; }
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle

@@ -847,7 +847,7 @@ void mattack::dermatik(monster *z)
     }
 
     // Can we swat the bug away?
-    int dodge_roll = z->dodge_roll();
+    int dodge_roll = z->dodge_roll(g);
     int swat_skill = (g->u.skillLevel("melee") + g->u.skillLevel("unarmed") * 2) / 3;
     int player_swat = dice(swat_skill, 10);
     if (g->u.has_trait("TAIL_CATTLE")) {

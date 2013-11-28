@@ -46,7 +46,7 @@ struct monster_effect
  monster_effect(monster_effect_type T, int D) : type (T), duration (D) {}
 };
 
-class monster : public JsonSerializer, public JsonDeserializer
+class monster : public creature, public JsonSerializer, public JsonDeserializer
 {
  friend class editmap;
  public:
@@ -64,6 +64,9 @@ class monster : public JsonSerializer, public JsonDeserializer
 // Access
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
+ // the creature-class versions of the above
+ std::string disp_name();
+ std::string skin_name();
  int print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
  char symbol(); // Just our type's symbol; no context
  void draw(WINDOW* w, int plx, int ply, bool inv);
@@ -175,7 +178,17 @@ class monster : public JsonSerializer, public JsonDeserializer
     void process_triggers(game *g); // Process things that anger/scare us
     void process_trigger(monster_trigger trig, int amount); // Single trigger
     int trigger_sum(game *g, std::set<monster_trigger> *triggers);
-    int  hit(game *g, player &p, body_part &bp_hit); // Returns a damage
+
+    bool is_on_ground();
+    bool has_weapon();
+
+    // this first one is the hit from creature. The other hit should be
+    // renamed
+    int hit (game *g, body_part bphurt, int side, int dam, int cut);
+    bool block_hit(game *g, creature &t, body_part &bp_hit, int &side,
+        int &bash_dam, int &cut_dam, int &stab_dam);
+    int hit_creature(game *g, creature &t, bool allow_grab); // Returns a damage
+    int  hit(game *g, creature &t, body_part &bp_hit); // Returns a damage
     void hit_monster(game *g, int i);
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.
@@ -183,7 +196,7 @@ class monster : public JsonSerializer, public JsonDeserializer
     int  armor_cut();   // Natural armor, plus any worn armor
     int  armor_bash();  // Natural armor, plus any worn armor
     int  dodge();       // Natural dodge, or 0 if we're occupied
-    int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
+    int  dodge_roll(game* g);  // For the purposes of comparing to player::hit_roll()
     int  fall_damage(); // How much a fall hurts us
     void die(game *g);
     void drop_items_on_death(game *g);
@@ -227,8 +240,14 @@ class monster : public JsonSerializer, public JsonDeserializer
  bool setpos(const int x, const int y, const bool level_change = false);
  bool setpos(const point &p, const bool level_change = false);
  point pos();
+ // posx and posy are kept to retain backwards compatibility
  inline int posx() const { return _posx; }
  inline int posy() const { return _posy; }
+ // the creature base class uses xpos/ypos to prevent conflict with
+ // player.xpos and player.ypos which are public ints that are literally used
+ // in every single file.
+ int xpos() { return _posx; }
+ int ypos() { return _posy; }
 
  short ignoring;
 

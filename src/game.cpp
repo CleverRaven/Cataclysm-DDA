@@ -10442,7 +10442,7 @@ bool game::plmove(int dx, int dy)
              u.clear_destination();
              return false;
          }
-         int udam = u.hit_mon(this, &z);
+         int udam = u.hit_creature(this, z, true);
          if (z.hurt(udam) || z.is_hallucination()) {
              kill_mon(mondex, true);
          }
@@ -10477,7 +10477,7 @@ bool game::plmove(int dx, int dy)
          return false;
      }
 
-     u.hit_player(this, *active_npc[npcdex]);
+     u.hit_creature(this, *active_npc[npcdex], true);
      active_npc[npcdex]->make_angry();
      if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
          active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
@@ -11877,7 +11877,7 @@ void game::update_stair_monsters() {
                         tries++;
                     }
                     add_msg(_("The %s tried to push you back but failed! It attacks you!"), z.name().c_str());
-                    z.hit_player(this, u, false);
+                    z.hit_creature(this, u, false);
                     u.moves -= 100;
                     return;
                 }
