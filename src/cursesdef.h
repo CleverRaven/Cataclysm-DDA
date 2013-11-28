@@ -7,6 +7,7 @@
     #include "ncurses/curses.h"
 #else
     #include <curses.h>
+    void init_interface();
 #endif
 
 #endif // CURSES_DEF_H
