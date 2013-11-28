@@ -15597,7 +15597,7 @@ void map::add_extra(map_extra type, game *g)
                 tries++;
             } while (tries < 10 && move_cost(x, y) == 0);
 
-            if (tries < 10) { // We found a valid spot!
+            if ((tries < 10) && !(one_in(10))) { // We found a valid spot!
                 add_item(x, y, body);
                 spawn_item(x, y, "pants_army");
                 spawn_item(x, y, "boots_combat");
@@ -15609,6 +15609,8 @@ void map::add_extra(map_extra type, game *g)
                 }
                 place_items(one_in(2) ? "male_underwear" : "female_underwear", 40, x, y, x, y, true, 0);
             }
+            else add_spawn("mon_zombie_soldier", 1, SEEX, SEEY);
+            
         }
         place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
         place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -15625,7 +15627,7 @@ void map::add_extra(map_extra type, game *g)
                 tries++;
             } while (tries < 10 && move_cost(x, y) == 0);
 
-            if (tries < 10) { // We found a valid spot!
+            if ((tries < 10) && !(one_in(10))) { // We found a valid spot!
                 add_item(x, y, body);
                 spawn_item(x, y, "coat_lab");
                 if (one_in(2)) {
@@ -15637,6 +15639,7 @@ void map::add_extra(map_extra type, game *g)
                 place_items("lab_torso", 40, x, y, x, y, true, 0);
                 place_items(one_in(2) ? "male_underwear" : "female_underwear", 50, x, y, x, y, true, 0);
             }
+            else add_spawn("mon_zombie_scientist", 1, SEEX, SEEY);
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }
