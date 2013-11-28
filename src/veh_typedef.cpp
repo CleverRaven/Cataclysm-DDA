@@ -104,9 +104,7 @@ void game::load_vehiclepart(JsonObject &jo)
     }
 
     //Calculate and cache z-ordering based off of location
-    if(next_part.has_flag("ARMOR")) {
-        next_part.z_order = -2;
-    } else if(next_part.location == "on_roof") {
+    if(next_part.location == "on_roof") {
         next_part.z_order = 8;
     } else if(next_part.location == "center") {
         next_part.z_order = 7;
