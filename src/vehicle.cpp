@@ -37,6 +37,8 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     of_turn_carry = 0;
     turret_mode = 0;
     lights_power = 0;
+    overhead_power = 0;
+    fridge_power = 0;
     tracking_power = 0;
     cruise_velocity = 0;
     skidding = false;
@@ -44,7 +46,10 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     lights_on = false;
     tracking_on = false;
     overhead_lights_on = false;
+    fridge_on = false;
     insides_dirty = true;
+    engine_on = false;
+    has_pedals = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -396,9 +401,9 @@ void vehicle::use_controls()
         current++;
     }
 
-    // Exit vehicle, if we are in it.
+    // Toggle engine on/off.
     int vpart;
-    if (has_engine) {
+    if (!pedals() && has_engine) {
         options_choice.push_back(toggle_engine);
         options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
                                                _("Turn on the engine"), 'e'));
@@ -475,10 +480,10 @@ void vehicle::use_controls()
         }
         else {
           if (total_power () < 1) {
-            if (total_power (false) < 1)
-                g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-            else
-                g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              if (total_power (false) < 1)
+                  g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+              else
+                  g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
           }
           else {
             engine_on = true;
@@ -1924,7 +1929,7 @@ void vehicle::charge_battery (int amount)
 
 
 void vehicle::idle() {
-  if (engine_on && total_power () > 0) {
+  if (engine_on && total_power () > 0 && !pedals()) {
     if(one_in(6)) {
         int strn = (int) (strain () * strain() * 100);
 
@@ -1953,7 +1958,7 @@ void vehicle::idle() {
 
       if (one_in(10)) {
         int smk = noise (true, true); // Only generate smoke for gas cars.
-        if (smk > 0) {
+        if (smk > 0 && !pedals()) {
           int rdx = rng(0, 2);
           int rdy = rng(0, 2);
           g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
@@ -2010,7 +2015,7 @@ void vehicle::thrust (int thd) {
             cruise_velocity = 0;
             return;
         }
-        else if (!engine_on) {
+        else if (!engine_on && !pedals()) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
@@ -2041,22 +2046,27 @@ void vehicle::thrust (int thd) {
         }
         // add sound and smoke
         int smk = noise (true, true);
-        if (smk > 0)
+        if (smk > 0 && !pedals())
         {
             int rdx, rdy;
             coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
             g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
         std::string soundmessage;
-        if (smk > 80)
-          soundmessage = "ROARRR!";
-        else if (smk > 60)
-          soundmessage = "roarrr!";
-        else if (smk > 30)
-          soundmessage = "vroom!";
-        else
-          soundmessage = "whirrr!";
-        g->sound(global_x(), global_y(), noise(), soundmessage.c_str());
+        if (!pedals()) {
+          if (smk > 80)
+            soundmessage = "ROARRR!";
+          else if (smk > 60)
+            soundmessage = "roarrr!";
+          else if (smk > 30)
+            soundmessage = "vroom!";
+          else
+            soundmessage = "whirrr!";
+          g->sound(global_x(), global_y(), noise(), soundmessage.c_str());
+        }
+        else {
+          g->sound(global_x(), global_y(), noise(), "");
+        }
     }
 
     if (skidding)
@@ -2825,6 +2835,21 @@ void vehicle::find_exhaust ()
         }
     }
     exhaust_dx--;
+}
+
+bool vehicle::pedals() {
+  if (has_pedals) {
+    return true;
+  }
+  else {
+    for (int p = 0; p < parts.size(); p++) {
+      if (part_flag(p, "PEDALS")) {
+        has_pedals = true;
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 void vehicle::refresh_insides ()

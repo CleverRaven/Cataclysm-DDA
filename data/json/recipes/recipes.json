@@ -1053,6 +1053,9 @@
       ["hacksaw", -1]
       ],
       [
+      [ "goggles_welding", -1 ]
+      ],
+      [
       [ "welder", 20 ],
       [ "welder_crude", 20 ],
       [ "toolset", 2 ]
@@ -2095,6 +2098,9 @@
       [ "toolset", -1 ]
     ],
     [
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
     ],
@@ -2192,6 +2198,9 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "wrench", -1 ],
@@ -7347,7 +7356,7 @@
       [ "lemon", 1 ],
       [ "irradiated_banana", 1],
       [ "banana", 1 ],
-      [ "irradiated_apple", 1 ], 
+      [ "irradiated_apple", 1 ],
       [ "apple", 1 ],
       [ "irradiated_pear", 1 ],
       [ "pear", 1 ],
@@ -11363,6 +11372,9 @@
       [ "toolset", -1 ]
     ],
     [
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
       [ "toolset", 2 ]
@@ -11392,6 +11404,9 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "welder", 35 ],
@@ -19639,7 +19654,7 @@
       [ "hardtack", 8]
     ],
     [
-      [ "ketchup", 4 ], 
+      [ "ketchup", 4 ],
       [ "mustard", 4]
     ],
     [
@@ -19720,7 +19735,7 @@
       [ "bread", 4 ],
       [ "hardtack", 8]
     ],
-    [ 
+    [
       [ "mustard", 4]
     ]
   ]
@@ -20422,6 +20437,9 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "welder", 100],
