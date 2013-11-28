@@ -3840,7 +3840,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
   }
 
   if ( shiftx != 0 || shifty != 0 ) {
-       this_om = &overmap_buffer.get(g, om->pos().x + shiftx, om->pos().y + shifty);
+       this_om = &overmap_buffer.get(om->pos().x + shiftx, om->pos().y + shifty);
   }
 
   tmp_map.generate(g, this_om, newmapx, newmapy, worldz, int(g->turn));

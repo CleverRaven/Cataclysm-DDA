@@ -1527,7 +1527,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             point omp = tz.om_pos;
             point om = tz.abs_om;
 
-            oms[omsx][omsy] = &overmap_buffer.get(g, om.x, om.y );
+            oms[omsx][omsy] = &overmap_buffer.get(om.x, om.y );
             orig_oters[omsx][omsy] = oms[omsx][omsy]->ter(omp.x, omp.y, zlevel);
         }
     }

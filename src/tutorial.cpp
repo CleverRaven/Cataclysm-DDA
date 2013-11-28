@@ -32,7 +32,7 @@ bool tutorial_game::init(game *g)
  g->u.name = _("John Smith");
  g->levx = 100;
  g->levy = 100;
- g->cur_om = &overmap_buffer.get(g, 0, 0);
+ g->cur_om = &overmap_buffer.get(0, 0);
  g->cur_om->make_tutorial();
  g->cur_om->save();
  g->u.toggle_trait("QUICK");

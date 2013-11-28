@@ -400,7 +400,7 @@ void game::start_game(std::string worldname)
 // Init some factions.
  if (!load_master(worldname)) // Master data record contains factions.
   create_factions();
- cur_om = &overmap_buffer.get(this, 0, 0); // We start in the (0,0,0) overmap.
+ cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
 // Find a random house on the map, and set us there.
  cur_om->first_house(levx, levy);
@@ -3289,7 +3289,7 @@ void game::debug()
    break;
 
   case 3: {
-        point tmp = cur_om->draw_overmap(this, levz);
+        point tmp = cur_om->draw_overmap(levz);
         if (tmp.x != -1)
         {
             //First offload the active npcs.
@@ -3606,7 +3606,7 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
- cur_om->draw_overmap(this, levz);
+    cur_om->draw_overmap(levz);
 }
 
 void game::disp_kills()
@@ -11648,7 +11648,7 @@ void game::update_map(int &x, int &y) {
  }
  if (olevx != 0 || olevy != 0) {
   cur_om->save();
-  cur_om = &overmap_buffer.get(this, cur_om->pos().x + olevx, cur_om->pos().y + olevy);
+  cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
  set_adjacent_overmaps();
 
@@ -11715,13 +11715,13 @@ void game::set_adjacent_overmaps(bool from_scratch)
   do_d = true;
 
  if(do_h){
-  om_hori = &overmap_buffer.get(this, diag_posx, cur_om->pos().y);
+  om_hori = &overmap_buffer.get(diag_posx, cur_om->pos().y);
  }
  if(do_v){
-  om_vert = &overmap_buffer.get(this, cur_om->pos().x, diag_posy);
+  om_vert = &overmap_buffer.get(cur_om->pos().x, diag_posy);
  }
  if(do_d){
-  om_diag = &overmap_buffer.get(this, diag_posx, diag_posy);
+  om_diag = &overmap_buffer.get(diag_posx, diag_posy);
  }
 }
 

@@ -144,7 +144,7 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
             overy = (OMAPY * 2 + y) / 2;
             sy = -1;
         }
-        overmap tmp = overmap_buffer.get(g, om->pos().x + sx, om->pos().y + sy);
+        overmap tmp = overmap_buffer.get(om->pos().x + sx, om->pos().y + sy);
         terrain_type = tmp.ter(overx, overy, z);
         //zones = tmp.zones(overx, overy);
         t_above = tmp.ter(overx, overy, z + 1);
@@ -222,80 +222,80 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
         if (overy - 1 >= 0) {
             t_north = om->ter(overx, overy - 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
             t_north = tmp.ter(overx, OMAPY - 1, z);
         }
 
         if (overy - 1 >= 0 && overx + 1 < OMAPX) {
             t_neast = om->ter(overx + 1, overy - 1, z);
         } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
             t_neast = tmp.ter(0, overy - 1, z);
         } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
             t_neast = tmp.ter(overx + 1, OMAPY - 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y - 1);
             t_neast = tmp.ter(0, OMAPY - 1, z);
         }
 
         if (overx + 1 < OMAPX) {
             t_east = om->ter(overx + 1, overy, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
             t_east = tmp.ter(0, overy, z);
         }
 
         if (overy + 1 < OMAPY && overx + 1 < OMAPX) {
             t_seast = om->ter(overx + 1, overy + 1, z);
         } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
             t_seast = tmp.ter(0, overy + 1, z);
         } else if (overx + 1 < OMAPX) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y);
             t_seast = tmp.ter(overx + 1, 0, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x + 1, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x + 1, om->pos().y + 1);
             t_seast = tmp.ter(0, 0, z);
         }
 
         if (overy + 1 < OMAPY) {
             t_south = om->ter(overx, overy + 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
             t_south = tmp.ter(overx, 0, z);
         }
 
         if (overy - 1 >= 0 && overx - 1 >= 0) {
             t_nwest = om->ter(overx - 1, overy - 1, z);
         } else if (overy - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y - 1);
             t_nwest = tmp.ter(OMAPX - 1, overy - 1, z);
         } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
             t_nwest = tmp.ter(overx - 1, OMAPY - 1, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y - 1);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y - 1);
             t_nwest = tmp.ter(OMAPX - 1, OMAPY - 1, z);
         }
 
         if (overx - 1 >= 0) {
             t_west = om->ter(overx - 1, overy, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
             t_west = tmp.ter(OMAPX - 1, overy, z);
         }
 
         if (overy + 1 < OMAPY && overx - 1 >= 0) {
             t_swest = om->ter(overx - 1, overy + 1, z);
         } else if (overy + 1 < OMAPY) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x, om->pos().y + 1);
             t_swest = tmp.ter(OMAPX - 1, overy + 1, z);
         } else if (overx - 1 >= 0) {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y);
             t_swest = tmp.ter(overx - 1, 0, z);
         } else {
-            overmap tmp = overmap_buffer.get(g, om->pos().x - 1, om->pos().y + 1);
+            overmap tmp = overmap_buffer.get(om->pos().x - 1, om->pos().y + 1);
             t_swest = tmp.ter(OMAPX - 1, 0, z);
         }
     }

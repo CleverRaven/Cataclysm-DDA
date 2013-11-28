@@ -506,7 +506,7 @@ overmap::overmap()
 // debugmsg("Warning - null overmap!");
 }
 
-overmap::overmap(game *g, int x, int y)
+overmap::overmap(int x, int y)
  : loc(x, y)
  , prefix()
  , name(g->u.name)
@@ -515,16 +515,16 @@ overmap::overmap(game *g, int x, int y)
  , nullbool(false)
  , nullstr("")
 {
- if (name.empty()) {
-  debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
- }
+    if (name.empty()) {
+        debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
+    }
 
- if (g->has_gametype()) {
-  prefix = special_game_name(g->gametype());
- }
+    if (g->has_gametype()) {
+        prefix = special_game_name(g->gametype());
+    }
 
- init_layers();
- open(g);
+    init_layers();
+    open();
 }
 
 overmap::overmap(overmap const& o)
@@ -760,7 +760,7 @@ int overmap::add_vehicle(vehicle *veh)
     return id;
 }
 
-point overmap::display_notes(game* g, int const z) const
+point overmap::display_notes(int const z) const
 {
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
   debugmsg("overmap::display_notes: Attempting to display notes on overmap for blank layer %d", z);
@@ -827,7 +827,7 @@ point overmap::display_notes(game* g, int const z) const
  return point(-1,-1);
 }
 
-bool overmap::has_npc(game *g, int const x, int const y, int const z) const
+bool overmap::has_npc(int const x, int const y, int const z) const
 {
     //Check if the target overmap square has an npc in it.
     for (int n = 0; n < npcs.size(); n++) {
@@ -845,7 +845,7 @@ bool overmap::has_npc(game *g, int const x, int const y, int const z) const
     return false;
 }
 
-bool overmap::has_vehicle(game *g, int const x, int const y, int const z, bool require_pda) const
+bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pda) const
 {
     // vehicles only spawn at z level 0 (for now)
     if (!z == 0)
@@ -869,7 +869,7 @@ bool overmap::has_vehicle(game *g, int const x, int const y, int const z, bool r
 //     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
 
 //Helper function for the overmap::draw function.
-void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const z)
+void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
 {
     int i = 0, maxnamelength = 0;
     //Check the max namelength of the npcs in the target
@@ -922,7 +922,7 @@ void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const
     mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
-void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int const z)
+void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z)
 {
     if (!z==0) // vehicles only exist on zlevel 0
         return;
@@ -958,7 +958,7 @@ void overmap::print_vehicles(game *g, WINDOW *w, int const x, int const y, int c
     mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
-void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
+void overmap::generate(overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {
  dbg(D_INFO) << "overmap::generate start...";
@@ -1616,7 +1616,7 @@ int overmap::dist_from_city(point p)
  return distance;
 }
 
-void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
+void overmap::draw(WINDOW *w, int z, int &cursx, int &cursy,
                    int &origx, int &origy, signed char &ch, bool blink,
                    overmap &hori, overmap &vert, overmap &diag, input_context* inp_ctxt)
 {
@@ -1658,15 +1658,15 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
   if( offx && loc.x + offx != hori.loc.x )
   {
-      hori = overmap_buffer.get( g, loc.x + offx, loc.y );
+      hori = overmap_buffer.get( loc.x + offx, loc.y );
   }
   if( offy && loc.y + offy != vert.loc.y )
   {
-      vert = overmap_buffer.get( g, loc.x, loc.y + offy );
+      vert = overmap_buffer.get( loc.x, loc.y + offy );
   }
   if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
   {
-      diag = overmap_buffer.get( g, loc.x + offx, loc.y + offy );
+      diag = overmap_buffer.get( loc.x + offx, loc.y + offy );
   }
 
 // Now actually draw the map
@@ -1688,9 +1688,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
          note_text = note(omx, omy, z);
      }
      //Check if there is an npc.
-     npc_here = has_npc(g,omx,omy,z);
+     npc_here = has_npc(omx,omy,z);
      // and a vehicle
-     veh_here = has_vehicle(g,omx,omy,z);
+     veh_here = has_vehicle(omx,omy,z);
 // <Out of bounds placement>
     } else if (omx < 0) {
      omx += OMAPX;
@@ -1698,7 +1698,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy, z);
       see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(g, omx, omy, z);
+      veh_here = diag.has_vehicle(omx, omy, z);
       note_here = diag.has_note(omx, omy, z);
       if (note_here) {
           note_text = diag.note(omx, omy, z);
@@ -1706,7 +1706,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      } else {
       cur_ter = hori.ter(omx, omy, z);
       see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(g, omx, omy, z);
+      veh_here = hori.has_vehicle(omx, omy, z);
       note_here = hori.has_note(omx, omy, z);
       if (note_here) {
           note_text = hori.note(omx, omy, z);
@@ -1718,7 +1718,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
       omy += (omy < 0 ? OMAPY : 0 - OMAPY);
       cur_ter = diag.ter(omx, omy, z);
       see = diag.seen(omx, omy, z);
-      veh_here = diag.has_vehicle(g, omx, omy, z);
+      veh_here = diag.has_vehicle(omx, omy, z);
       note_here = diag.has_note(omx, omy, z);
       if (note_here) {
           note_text = diag.note(omx, omy, z);
@@ -1726,7 +1726,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      } else {
       cur_ter = hori.ter(omx, omy, z);
       see = hori.seen(omx, omy, z);
-      veh_here = hori.has_vehicle(g, omx, omy, z);
+      veh_here = hori.has_vehicle(omx, omy, z);
       note_here = hori.has_note(omx, omy, z);
       if (note_here) {
           note_text = hori.note(omx, omy, z);
@@ -1736,7 +1736,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      omy += OMAPY;
      cur_ter = vert.ter(omx, omy, z);
      see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(g, omx, omy, z);
+     veh_here = vert.has_vehicle(omx, omy, z);
      note_here = vert.has_note(omx, omy, z);
      if (note_here) {
          note_text = vert.note(omx, omy, z);
@@ -1745,7 +1745,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      omy -= OMAPY;
      cur_ter = vert.ter(omx, omy, z);
      see = vert.seen(omx, omy, z);
-     veh_here = vert.has_vehicle(g, omx, omy, z);
+     veh_here = vert.has_vehicle(omx, omy, z);
      note_here = vert.has_note(omx, omy, z);
      if (note_here) {
          note_text = vert.note(omx, omy, z);
@@ -1825,12 +1825,12 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
    mvwputch(w, 0, note_text.length(), c_white, LINE_XOXO);
    mvwprintz(w, 0, 0, c_yellow, note_text.c_str());
-  } else if (has_npc(g, cursx, cursy, z))
+  } else if (has_npc(cursx, cursy, z))
     {
-        print_npcs(g, w, cursx, cursy, z);
-    } else if (has_vehicle(g, cursx, cursy, z))
+        print_npcs(w, cursx, cursy, z);
+    } else if (has_vehicle(cursx, cursy, z))
     {
-        print_vehicles(g, w, cursx, cursy, z);
+        print_vehicles(w, cursx, cursy, z);
     }
 
 
@@ -1884,7 +1884,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(game *g, int zlevel)
+point overmap::draw_overmap(int zlevel)
 {
  WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
  WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
@@ -1915,7 +1915,7 @@ point overmap::draw_overmap(game *g, int zlevel)
  ictxt.register_action("QUIT");
  std::string action;
  do {
-     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+     draw(w_map, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
      action = ictxt.handle_input();
      timeout(BLINK_SPEED); // Enable blinking!
 
@@ -1955,7 +1955,7 @@ point overmap::draw_overmap(game *g, int zlevel)
    timeout(BLINK_SPEED);
   } else if (action == "LIST_NOTES"){
    timeout(-1);
-   point p = display_notes(g, zlevel);
+   point p = display_notes(zlevel);
    if (p.x != -1){
     cursx = p.x;
     cursy = p.y;
@@ -1967,7 +1967,7 @@ point overmap::draw_overmap(game *g, int zlevel)
    timeout(-1);
    std::string term = string_input_popup(_("Search term:"));
    timeout(BLINK_SPEED);
-   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+   draw(w_map, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
    point found = find_note(cursx, cursy, zlevel, term);
    if (found.x == -1) { // Didn't find a note
     std::vector<point> terlist;
@@ -1999,7 +1999,7 @@ point overmap::draw_overmap(game *g, int zlevel)
       }
       cursx = terlist[i].x;
       cursy = terlist[i].y;
-      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
+      draw(w_map, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag, &ictxt);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
      } while(ch != '\n' && ch != ' ' && ch != 'q');
@@ -3577,7 +3577,7 @@ void overmap::place_radios()
 }
 
 
-void overmap::open(game *g)
+void overmap::open()
 {
  std::string const plrfilename = player_filename(loc.x, loc.y);
  std::string const terfilename = terrain_filename(loc.x, loc.y);
@@ -3585,7 +3585,7 @@ void overmap::open(game *g)
 // Set position IDs
  fin.open(terfilename.c_str());
  if (fin.is_open()) {
-   unserialize(g, fin, plrfilename, terfilename);
+   unserialize(fin, plrfilename, terfilename);
    fin.close();
  } else { // No map exists!  Prepare neighbors, and generate one.
   std::vector<overmap*> pointers;
@@ -3595,7 +3595,7 @@ void overmap::open(game *g)
    fin.open(tmpfilename.c_str());
    if (fin.is_open()) {
     fin.close();
-    pointers.push_back(new overmap(g, loc.x, loc.y + i));
+    pointers.push_back(new overmap(loc.x, loc.y + i));
    } else
     pointers.push_back(NULL);
   }
@@ -3605,12 +3605,12 @@ void overmap::open(game *g)
    fin.open(tmpfilename.c_str());
    if (fin.is_open()) {
     fin.close();
-    pointers.push_back(new overmap(g, loc.x + i, loc.y));
+    pointers.push_back(new overmap(loc.x + i, loc.y));
    } else
     pointers.push_back(NULL);
   }
 // pointers looks like (north, south, west, east)
-  generate(g, pointers[0], pointers[3], pointers[1], pointers[2]);
+  generate(pointers[0], pointers[3], pointers[1], pointers[2]);
   for (int i = 0; i < 4; i++)
    delete pointers[i];
   save();

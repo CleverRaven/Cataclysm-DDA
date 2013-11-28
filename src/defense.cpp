@@ -91,7 +91,7 @@ bool defense_game::init(game *g)
  g->u.cash = initial_cash;
  popup_nowait(_("Please wait as the map generates [ 0%]"));
  // TODO: support multiple defence games? clean up old defence game
- g->cur_om = &overmap_buffer.get(g, 0, 0);
+ g->cur_om = &overmap_buffer.get(0, 0);
  init_map(g);
  caravan(g);
  return true;

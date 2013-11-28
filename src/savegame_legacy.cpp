@@ -106,7 +106,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(this, comx, comy);
+            cur_om = &overmap_buffer.get(comx, comy);
             m.load(this, levx, levy, levz);
 
             run_mode = tmprun;
@@ -198,7 +198,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(this, comx, comy);
+            cur_om = &overmap_buffer.get(comx, comy);
             m.load(this, levx, levy, levz);
 
             run_mode = tmprun;
@@ -315,7 +315,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(this, comx, comy);
+            cur_om = &overmap_buffer.get(comx, comy);
             m.load(this, levx, levy, levz);
 
             run_mode = tmprun;
@@ -431,7 +431,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          turn = tmpturn;
          nextspawn = tmpspawn;
 
-         cur_om = &overmap_buffer.get(this, comx, comy);
+         cur_om = &overmap_buffer.get(comx, comy);
          m.load(this, levx, levy, levz);
 
          run_mode = tmprun;
@@ -860,7 +860,7 @@ const char* oter_legacy[num_ter_types] = {
     "tutorial"
 };
 
-bool overmap::unserialize_legacy(game *g, std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
+bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename) {
     switch (savegame_loading_version) {
         case 11:
         case 10:
