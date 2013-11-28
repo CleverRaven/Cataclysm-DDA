@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 
+#include <fstream>
 #include <sstream>
 #include <map>
 #include <set>
@@ -122,7 +123,7 @@ void edit_json( SAVEOBJ *it, game * g )
             fout.open("save/jtest-2j.txt");
             fout << it->serialize();
             fout.close();
-        } 
+        }
         tm.addentry(0,true,'r',"rehash");
         tm.addentry(1,true,'e',"edit");
         tm.addentry(2,true,'d',"dump to save/jtest-*.txt");
@@ -324,6 +325,24 @@ point editmap::edit()
             target_list.clear();
             origin = target;
             target_list.push_back( target);
+        } else  if (ch == 's') { // TODO::DESRIK::Move to own function
+            std::stringstream ss;
+            char buffer[23];
+            for ( int dy = 0; dy < 24; dy++) {
+                for ( int dx = 0; dx < 24; dx++) {
+                    int realy = target.y + dy;
+                    int realx = target.y + dx;
+                    int ter = g->m.ter_at(realx,realy).sym;
+                    buffer[dy] = static_cast<char>(ter);
+                    ss << buffer[dy];
+                }
+            ss << "\n";
+            }
+            std::ofstream buildingDump("buildingDump.txt", std::fstream::out | std::fstream::app);
+            buildingDump << ss.str();
+            ss << "";
+            ss.clear();
+            buildingDump.close();
         } else {
             if ( move_target(input, ch, 1) == true ) {
                 recalc_target(editshape);           // target_list must follow movement
@@ -721,7 +740,7 @@ int editmap::edit_ter()
             for ( int i = 1; i < width-2; i++ ) {
                 mvwaddch(w_pickter, 0, i, LINE_OXOX);
             }
-            
+
             mvwprintw(w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), sel_ter, pttype.name.c_str());
             mvwprintz(w_pickter, off, 2, c_white, _("movecost %d"), pttype.movecost);
             std::string extras = "";
@@ -1623,7 +1642,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             int dnonant = int(target_sub.x + x) + int(target_sub.y + y) * 11; // get the destination submap's grid id
                             int snonant = x + y * 2;                                          // and the source
                             submap *destsm = g->m.grid[dnonant];                              // make direct pointers
-                            submap *srcsm = tmpmap.getsubmap(snonant);                        // 
+                            submap *srcsm = tmpmap.getsubmap(snonant);                        //
 
                             for (int i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
