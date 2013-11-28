@@ -10,58 +10,30 @@
 #include <sstream>
 #include <algorithm>
 
-std::vector<std::string> CATEGORIES;
-
-void init_inventory_categories()
-{
-    CATEGORIES.push_back(_("GROUND:"));
-    CATEGORIES.push_back(_("FIREARMS:"));
-    CATEGORIES.push_back(_("AMMUNITION:"));
-    CATEGORIES.push_back(_("CLOTHING:"));
-    CATEGORIES.push_back(_("FOOD/DRINKS:"));
-    CATEGORIES.push_back(_("TOOLS:"));
-    CATEGORIES.push_back(_("BOOKS:"));
-    CATEGORIES.push_back(_("WEAPONS:"));
-    CATEGORIES.push_back(_("MODS/BIONICS:"));
-    CATEGORIES.push_back(_("MEDICINE/DRUGS:"));
-    CATEGORIES.push_back(_("OTHER:"));
-}
-
-//TODO: make this function not have issues with items that are classed as multiple things
-std::vector<int> find_firsts(invslice &slice)
+std::vector<int> find_firsts(invslice &slice, std::vector<std::string> &CATEGORIES)
 {
     std::vector<int> firsts;
+    CATEGORIES.clear();
+    CATEGORIES.push_back("GROUND:");
+    for (int i = 0; i < slice.size(); i++) {
+        item& it = slice[i]->front();
+        const std::string category = it.get_category();
+        if(std::find(CATEGORIES.begin(), CATEGORIES.end(), category) == CATEGORIES.end()) {
+            CATEGORIES.push_back(category);
+        }
+    }
     for (int i = 0; i < (CATEGORIES.size()-1); i++) {
         firsts.push_back(-1);
     }
 
     for (int i = 0; i < slice.size(); i++) {
         item& it = slice[i]->front();
-        if (firsts[0] == -1 && it.is_gun()) {
-            firsts[0] = i;
-        } else if (firsts[1] == -1 && it.is_ammo()) {
-            firsts[1] = i;
-        } else if (firsts[2] == -1 && it.is_armor()) {
-            firsts[2] = i;
-        } else if (firsts[3] == -1 && it.is_food_container()) {
-            firsts[3] = i;
-        } else if (it.is_food()) {
-            it_comest* comest = dynamic_cast<it_comest*>(it.type);
-            if (firsts[3] == -1 && comest->comesttype != "MED") {
-                firsts[3] = i;
-            } else if (firsts[8] == -1 && comest->comesttype == "MED") {
-                firsts[8] = i;
+        const std::string category = it.get_category();
+        for(size_t j = 0; j < firsts.size(); j++) {
+            if(firsts[j] == -1 && CATEGORIES[j+1] == category) {
+                firsts[j] = i;
+                break;
             }
-        } else if (firsts[4] == -1 && it.is_tool()) {
-            firsts[4] = i;
-        } else if (firsts[5] == -1 && it.is_book()) {
-            firsts[5] = i;
-        } else if (firsts[6] == -1 && it.is_weap()) {
-            firsts[6] = i;
-        } else if (firsts[7] == -1 && (it.is_gunmod() || it.is_bionic())) {
-            firsts[7] = i;
-        } else if (firsts[9] == -1 && it.is_other()) {
-            firsts[9] = i;
         }
     }
 
@@ -160,7 +132,8 @@ char game::inv(inventory& inv, std::string title)
 // Gun, ammo, weapon, armor, food, tool, book, other
 
  invslice slice = inv.slice(0, inv.size());
- std::vector<int> firsts = find_firsts(slice);
+ std::vector<std::string> CATEGORIES;
+ std::vector<int> firsts = find_firsts(slice, CATEGORIES);
 
  int selected =- 1;
  int selected_char = (int)' ';
@@ -318,7 +291,8 @@ std::vector<item> game::multidrop()
  int ch = (int)'.';
  int start = 0, cur_it = 0, max_it;
  invslice stacks = u.inv.slice(0, u.inv.size());
- std::vector<int> firsts = find_firsts(stacks);
+ std::vector<std::string> CATEGORIES;
+ std::vector<int> firsts = find_firsts(stacks, CATEGORIES);
  int selected=-1;
  int selected_char=(int)' ';
  do {
@@ -620,7 +594,8 @@ void game::compare(int iCompareX, int iCompareY)
  std::vector<char> weapon_and_armor; // Always single, not counted
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other
- std::vector<int> first = find_firsts(stacks);
+ std::vector<std::string> CATEGORIES;
+ std::vector<int> first = find_firsts(stacks, CATEGORIES);
  std::vector<int> firsts;
  if (groundsize > 0) {
   firsts.push_back(0);
