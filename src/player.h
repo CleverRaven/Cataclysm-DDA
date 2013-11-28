@@ -180,10 +180,13 @@ public:
  void pause(game *g); // '.' command; pauses & reduces recoil
 
 // martialarts.cpp
+ void ma_static_effects(); // fires all non-triggered martial arts events
  void ma_onmove_effects(); // fires all move-triggered martial arts events
  void ma_onhit_effects(); // fires all hit-triggered martial arts events
+ void ma_onattack_effects(); // fires all attack-triggered martial arts events
  void ma_ondodge_effects(); // fires all dodge-triggered martial arts events
- void ma_static_effects(); // fires all non-triggered martial arts events
+ void ma_onblock_effects(); // fires all block-triggered martial arts events
+ void ma_ongethit_effects(); // fires all get hit-triggered martial arts events
 
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
 
@@ -191,12 +194,15 @@ public:
  int mabuff_dodge_bonus(); // martial arts dodge bonus
  int mabuff_block_bonus(); // martial arts block bonus
  int mabuff_speed_bonus(); // martial arts to-hit bonus
+ int mabuff_arm_bash_bonus(); // martial arts bash armor bonus
+ int mabuff_arm_cut_bonus(); // martial arts cut armor bonus
  float mabuff_bash_mult(); // martial arts bash damage multiplier
  int mabuff_bash_bonus(); // martial arts bash damage bonus, applied after mult
  float mabuff_cut_mult(); // martial arts bash damage multiplier
  int mabuff_cut_bonus(); // martial arts bash damage bonus, applied after mult
  bool is_throw_immune(); // martial arts throw immunity
  bool is_quiet(); // martial arts quiet melee
+
  bool can_melee();
  bool is_on_ground(); // all body parts are available to ground level damage sources
 
