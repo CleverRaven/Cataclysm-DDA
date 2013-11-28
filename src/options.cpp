@@ -5,6 +5,7 @@
 #include "keypress.h"
 #include "translations.h"
 #include "file_finder.h"
+#include "catacurse.h"
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
