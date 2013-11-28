@@ -1689,7 +1689,8 @@
             {"x": 0, "y": 0, "part": "frame_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
-            {"x": 0, "y": 0, "part": "minifridge"}
+            {"x": 0, "y": 0, "part": "minifridge"},
+            {"x": 0, "y": 0, "part": "controls"}
         ]
     },{
         "type" : "vehicle",
@@ -1706,7 +1707,8 @@
             {"x": 0, "y": 0, "part": "kitchen_unit"},
             {"x": 0, "y": 1, "part": "frame_vertical_2"},
             {"x": 0, "y": 1, "part": "wheel_caster"},
-            {"x": 0, "y": 1, "part": "minifridge"}
+            {"x": 0, "y": 1, "part": "minifridge"},
+            {"x": 0, "y": 1, "part": "controls"}
         ]
     },{
         "type" : "vehicle",
