@@ -325,24 +325,8 @@ point editmap::edit()
             target_list.clear();
             origin = target;
             target_list.push_back( target);
-        } else  if (ch == 's') { // TODO::DESRIK::Move to own function
-            std::stringstream ss;
-            char buffer[23];
-            for ( int dy = 0; dy < 24; dy++) {
-                for ( int dx = 0; dx < 24; dx++) {
-                    int realy = target.y + dy;
-                    int realx = target.y + dx;
-                    int ter = g->m.ter_at(realx,realy).sym;
-                    buffer[dy] = static_cast<char>(ter);
-                    ss << buffer[dy];
-                }
-            ss << "\n";
-            }
-            std::ofstream buildingDump("buildingDump.txt", std::fstream::out | std::fstream::app);
-            buildingDump << ss.str();
-            ss << "";
-            ss.clear();
-            buildingDump.close();
+        } else if (ch == 's') { // TODO::DESRIK::Move to own function
+            export_reigion(target.x, target.y);
         } else {
             if ( move_target(input, ch, 1) == true ) {
                 recalc_target(editshape);           // target_list must follow movement
@@ -641,6 +625,39 @@ int get_alt_ter(bool isvert, ter_id sel_ter) {
     return -1;
 }
 
+void editmap::export_reigion(int dx, int dy) {
+    std::stringstream ss;
+    std::stringstream ss2;
+
+    for ( int dy = 0; dy < 24; dy++) {
+        for ( int dx = 0; dx < 24; dx++) {
+            int realy = target.y + dy;
+            int realx = target.y + dx;
+            if (g->m.has_furn(realx,realy)){
+                ss2 << g->m.furn_at(realx,realy).sym << ", ";
+                int fur = g->m.furn_at(realx,realy).sym;
+                ss << static_cast<char>(fur);
+            } else {
+                ss2 << g->m.ter_at(realx,realy).sym << ", ";
+                int ter = g->m.ter_at(realx,realy).sym;
+                ss << static_cast<char>(ter);
+            }
+        }
+    ss << "\n";
+    ss2<< "\n";
+    }
+
+    std::ofstream buildingDump("buildingDump.txt", std::fstream::out | std::fstream::app);
+    std::ofstream buildingDump2("buildingDump2.txt", std::fstream::out | std::fstream::app);
+    buildingDump << ss.str();
+    buildingDump2 << ss2.str();
+    ss << "";
+    ss2 << "";
+    ss.clear();
+    ss2.clear();
+    buildingDump.close();
+    buildingDump2.close();
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// edit terrain type / furniture

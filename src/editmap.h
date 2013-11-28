@@ -41,8 +41,8 @@ class editmap
         point edit();
         void uber_draw_ter( WINDOW * w, map * m );
         void update_view(bool update_info = false);
+        void export_reigion(int dx, int dy);
         int edit_ter();
-
         int edit_fld();
         int edit_trp();
         int edit_itm();
