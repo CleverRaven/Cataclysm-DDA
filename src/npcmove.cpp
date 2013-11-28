@@ -85,7 +85,7 @@ void npc::move(game *g)
   action = method_of_attack(g, target, danger);
 
  else { // No present danger
-  action = address_needs(g, danger);
+  action = address_needs(danger);
   if (g->debugmon)
    debugmsg("address_needs %s", npc_action_name(action).c_str());
   if (action == npc_undecided)
@@ -192,7 +192,7 @@ void npc::execute_action(game *g, npc_action action, int target)
   break;
 
  case npc_escape_item:
-  use_escape_item(g, choose_escape_item(), target);
+  use_escape_item(choose_escape_item());
   break;
 
  case npc_wield_melee:
@@ -501,7 +501,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  if (can_use_gun) {
   if (need_to_reload() && can_reload())
    return npc_reload;
-  if (emergency(danger_assessment(g)) && alt_attack_available(g))
+  if (emergency(danger_assessment(g)) && alt_attack_available())
    return npc_alt_attack;
   if (weapon.is_gun() && (!use_silent || weapon.is_silent()) && weapon.charges > 0) {
    it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
@@ -570,7 +570,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
  return npc_melee;
 }
 
-npc_action npc::address_needs(game *g, int danger)
+npc_action npc::address_needs(int danger)
 {
  if (has_healing_item()) {
   for (int i = 0; i < num_hp_parts; i++) {
@@ -684,7 +684,7 @@ npc_action npc::long_term_goal_action(game *g)
 }
 
 
-bool npc::alt_attack_available(game *g)
+bool npc::alt_attack_available()
 {
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
   if ((!is_following() || combat_rules.use_grenades ||
@@ -721,7 +721,7 @@ signed char npc::choose_escape_item()
  return slice[ret]->front().invlet;
 }
 
-void npc::use_escape_item(game *g, signed char invlet, int target)
+void npc::use_escape_item(signed char invlet)
 {
  if (invlet == 0) {
   debugmsg("%s tried to use item with null invlet", name.c_str());
@@ -1147,7 +1147,7 @@ void npc::avoid_friendly_fire(game *g, int target)
  * We pass a <danger> value of NPC_DANGER_VERY_LOW + 1 so that we won't start
  * eating food (or, god help us, sleeping).
  */
- npc_action action = address_needs(g, NPC_DANGER_VERY_LOW + 1);
+ npc_action action = address_needs(NPC_DANGER_VERY_LOW + 1);
  if (action == npc_undecided)
   move_pause();
  execute_action(g, action, target);
@@ -1535,7 +1535,7 @@ void npc::alt_attack(game *g, int target)
 
 // Are we going to throw this item?
  if (!thrown_item(used))
-  activate_item(g, invlet);
+  activate_item(invlet);
  else { // We are throwing it!
 
   std::vector<point> trajectory;
@@ -1637,7 +1637,7 @@ void npc::alt_attack(game *g, int target)
  } // Done with throwing-item block
 }
 
-void npc::activate_item(game *g, char invlet)
+void npc::activate_item(char invlet)
 {
  item *it = &(inv.item_by_letter(invlet));
  if (it->is_tool()) {
@@ -1961,7 +1961,7 @@ bool npc::has_destination()
  return (goalx >= 0 && goalx < OMAPX && goaly >= 0 && goaly < OMAPY);
 }
 
-void npc::reach_destination(game *g)
+void npc::reach_destination()
 {
  goalx = -1;
  goaly = -1;
@@ -2030,7 +2030,7 @@ void npc::go_to_destination(game *g)
  int sx = (goalx > mapx ? 1 : -1), sy = (goaly > mapy ? 1 : -1);
  if (goalx == mapx && goaly == mapy) { // We're at our desired map square!
   move_pause();
-  reach_destination(g);
+  reach_destination();
  } else {
   if (goalx == mapx)
    sx = 0;

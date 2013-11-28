@@ -378,7 +378,7 @@ public:
  void spawn_at(overmap *o, int posx, int posy, int omz);
  void place_near(game *g, int potentialX, int potentialY);
  Skill* best_skill();
- void starting_weapon(game *g);
+ void starting_weapon();
 
 // Save & load
  virtual void load_legacy(game *g, std::stringstream & dump);// Overloaded from player
@@ -451,7 +451,7 @@ public:
  bool has_painkiller();
  bool took_painkiller();
  void use_painkiller(game *g);
- void activate_item(game *g, char invlet);
+ void activate_item(char invlet);
 
 // Interaction and assessment of the world around us
  int  danger_assessment(game *g);
@@ -478,10 +478,10 @@ public:
                             int &total_danger);
  npc_action method_of_fleeing (game *g, int target);
  npc_action method_of_attack (game *g, int enemy, int danger);
- npc_action address_needs (game *g, int danger);
+ npc_action address_needs (int danger);
  npc_action address_player (game *g);
  npc_action long_term_goal_action(game *g);
- bool alt_attack_available(game *g); // Do we have grenades, molotov, etc?
+ bool alt_attack_available(); // Do we have grenades, molotov, etc?
  signed char  choose_escape_item(); // Returns index of our best escape aid
 
 // Helper functions for ranged combat
@@ -511,7 +511,7 @@ public:
  void melee_player (game *g, player &foe);
  void wield_best_melee (game *g);
  void alt_attack (game *g, int target);
- void use_escape_item (game *g, signed char invlet, int target);
+ void use_escape_item (signed char invlet);
  void heal_player (game *g, player &patient);
  void heal_self  (game *g);
  void take_painkiller (game *g);
@@ -524,7 +524,7 @@ public:
  bool has_destination(); // Do we have a long-term destination?
  void set_destination(game *g); // Pick a place to go
  void go_to_destination(game *g); // Move there; on the micro scale
- void reach_destination(game *g); // We made it!
+ void reach_destination(); // We made it!
 
 // The preceding are in npcmove.cpp
 
