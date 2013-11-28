@@ -4850,7 +4850,12 @@ int game::mon_info(WINDOW *w)
     }
 
     if (newseen > mostseen) {
-        cancel_activity_query(_("Monster spotted!"));
+        if (newseen - mostseen == 1) {
+            monster &m = _active_monsters[new_seen_mon.back()];
+            cancel_activity_query(_("%s spotted!"), m.name().c_str());
+        } else {
+            cancel_activity_query(_("Monsters spotted!"));
+        }
         turnssincelastmon = 0;
         if (run_mode == 1) {
             run_mode = 2; // Stop movement!
