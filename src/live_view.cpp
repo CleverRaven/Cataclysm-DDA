@@ -74,8 +74,7 @@ void live_view::show(const int x, const int y)
     last_height = w_live_view->height;
 #endif
 
-    wborder(w_live_view, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_live_view);
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;

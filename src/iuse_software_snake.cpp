@@ -38,7 +38,7 @@ int snake_game::start_game()
 
     WINDOW* w_snake = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
 
-    wborder(w_snake, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(w_snake);
     mvwprintz(w_snake, 0, FULL_SCREEN_WIDTH-10, c_ltgreen, "q");
     wprintz(w_snake, c_white, "uit");
     mvwprintz(w_snake, 0, (FULL_SCREEN_WIDTH/2)-5, c_white, "S N A K E");

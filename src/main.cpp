@@ -11,6 +11,8 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "item_factory.h"
+#include "monstergenerator.h"
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
@@ -73,9 +75,7 @@ int main(int argc, char *argv[])
     initOptions();
     load_options(); // For getting size options
     initscr(); // Initialize ncurses
-#ifdef SDLTILES
-    init_tiles();
-#endif
+    init_interface();
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad(stdscr, true); // Numpad is numbers
@@ -92,6 +92,11 @@ int main(int argc, char *argv[])
         exit_handler(-999);
     }
     if ( verifyexit ) {
+        item_controller->check_itype_definitions();
+        item_controller->check_items_of_groups_exist();
+        MonsterGenerator::generator().check_monster_definitions();
+        MonsterGroupManager::check_group_definitions();
+        check_recipe_definitions();
         exit_handler(0);
     }
 

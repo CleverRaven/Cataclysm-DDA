@@ -1053,6 +1053,9 @@
       ["hacksaw", -1]
       ],
       [
+      [ "goggles_welding", -1 ]
+      ],
+      [
       [ "welder", 20 ],
       [ "welder_crude", 20 ],
       [ "toolset", 2 ]
@@ -2095,6 +2098,9 @@
       [ "toolset", -1 ]
     ],
     [
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
     ],
@@ -2192,6 +2198,9 @@
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "wrench", -1 ],
@@ -7347,7 +7356,7 @@
       [ "lemon", 1 ],
       [ "irradiated_banana", 1],
       [ "banana", 1 ],
-      [ "irradiated_apple", 1 ], 
+      [ "irradiated_apple", 1 ],
       [ "apple", 1 ],
       [ "irradiated_pear", 1 ],
       [ "pear", 1 ],
@@ -11363,6 +11372,9 @@
       [ "toolset", -1 ]
     ],
     [
+      [ "goggles_welding", -1 ]
+    ],
+    [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
       [ "toolset", 2 ]
@@ -11392,6 +11404,9 @@
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "welder", 35 ],
@@ -12918,6 +12933,29 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "hat_noise_cancelling",
+  "category": "CC_ARMOR",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ],
+    [
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "cowboy_hat",
   "category": "CC_ARMOR",
@@ -14003,6 +14041,55 @@
     ],
     [
       ["cable", 5]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chemlab",
+  "category": "CC_MISC",
+  "skill_used": "fabrication",
+  "skills_required": ["electronics",3],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "rock", -1 ],
+      [ "primitive_hammer", -1 ],
+      [ "hammer", -1 ],
+      [ "hatchet", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "frame", 1 ]
+    ],
+    [
+      [ "chemistry_set", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "cable", 5 ]
     ]
   ]
 },{
@@ -19590,7 +19677,7 @@
       [ "hardtack", 8]
     ],
     [
-      [ "ketchup", 4 ], 
+      [ "ketchup", 4 ],
       [ "mustard", 4]
     ],
     [
@@ -19671,7 +19758,7 @@
       [ "bread", 4 ],
       [ "hardtack", 8]
     ],
-    [ 
+    [
       [ "mustard", 4]
     ]
   ]
@@ -20373,6 +20460,9 @@
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "welder", 100],

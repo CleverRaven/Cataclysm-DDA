@@ -39,141 +39,178 @@ veh_interact::veh_interact ()
 /**
  * Creates a veh_interact window based on the given parameters.
  * @param v The vehicle the player is interacting with.
- * @param x The x-coordinate of the square the player is 'e'xamining.
- * @param y The y-coordinate of the square the player is 'e'xamining.
  */
-void veh_interact::exec (game *gm, vehicle *v, int x, int y)
+void veh_interact::exec(vehicle *v)
 {
     veh = v;
     countDurability();
-    //        winw1   winw2   winw3
-    //  winh1       |       |
-    //        ------+-------+------
-    //  winh2       |       |
-    //        ------+-------+------
-    //  winh3       |       |
-    //
-    // +-------------------------+
-    // |         w_mode          |
-    // |         w_msg           |
-    // +-------+---------+-------+
-    // |w_disp | w_parts | w_list|
-    // +-------+---------+-------+
-    // |         w_stats         |
-    // +-------------------------+
-    //
-    // winh2 expands to take up extra vertical space,
-    // as it's used for lists of things.
-    // winw1, winw2 and winw3 share extra space in a 2:1:1 ratio,
-    // but winh2 and winh3 start with more than winh1.
+    cache_tool_availability();
+    allocate_windows();
+    do_main_loop();
+    deallocate_windows();
+}
 
+void veh_interact::allocate_windows()
+{
     // main window should also expand to use available display space.
     // expanding to evenly use up half of extra space, for now.
-    const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2;
-    const int extrah = ((TERMY - FULL_SCREEN_HEIGHT) / 4) * 2;
-    const int totalw = FULL_SCREEN_WIDTH + extraw;
-    const int totalh = FULL_SCREEN_HEIGHT + extrah;
+    const int extra_w = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2;
+    const int extra_h = ((TERMY - FULL_SCREEN_HEIGHT) / 4) * 2;
+    const int total_w = FULL_SCREEN_WIDTH + extra_w;
+    const int total_h = FULL_SCREEN_HEIGHT + extra_h;
 
-    // position within main display
-    const int x1 = 1 + ((TERMX - totalw) / 2);
-    const int y1 = 1 + ((TERMY - totalh) / 2);
+    // position of window within main display
+    const int x0 = (TERMX - total_w) / 2;
+    const int y0 = (TERMY - total_h) / 2;
 
-    const int gridw = totalw - 2; // exterior borders take 2
-    const int gridh = totalh - 2; // exterior borders take 2
-    const int winw2 = 32 + (extraw / 4);
-    const int winw3 = 32 + (extraw / 4);
-    const int winw1 = gridw - winw2 - winw3;
-    const int winh1 = 4; // 4 lines for the message window
-    const int winh3 = 6; // 6 lines for the stat window
-    const int winh2 = gridh - winh1 - winh3 - 2; // interior borders take 2
+    // border window
+    WINDOW *w_border = newwin(total_h, total_w, y0, x0);
+    draw_border(w_border);
 
-    mode_h = 1;
-    mode_w = gridw;
-    msg_h = winh1 - mode_h;
-    msg_w = mode_w;
-    disp_h = winh2;
-    disp_w = winw1;
-    parts_h = winh2;
-    parts_w = winw2;
-    stats_h = winh3;
-    stats_w = gridw;
-    list_h = winh2;
-    list_w = winw3;
+    // grid window
+    const int grid_w = total_w - 2; // exterior borders take 2
+    const int grid_h = total_h - 2; // exterior borders take 2
+    w_grid = newwin(grid_h, grid_w, y0 + 1, x0 + 1);
 
-    const int x2 = x1 + winw1 + 1;
-    const int x3 = x2 + winw2 + 1;
-    const int y2 = y1 + winh1 + 1;
-    const int y3 = y2 + winh2 + 1;
+    // Define type of menu:
+    std::string menu = OPTIONS["VEH_MENU_STYLE"].getValue();
+    int dir = veh->face.dir();
+    vertical_menu = (menu == "vertical") ||
+                    (menu == "hybrid" && (((dir >= 45) && (dir <= 135)) || ((dir >= 225) && (dir <= 315))));
+
+    int mode_x, mode_y, msg_x, msg_y, disp_x, disp_y, parts_x, parts_y;
+    int stats_x, stats_y, list_x, list_y, name_x, name_y;
+
+    if (vertical_menu) {
+        //         Vertical menu:
+        // +----------------------------+
+        // |           w_mode           |
+        // |           w_msg            |
+        // +--------+---------+---------+
+        // | w_disp | w_parts |  w_list |
+        // +--------+---------+---------+
+        // |          w_name            |
+        // |          w_stats           |
+        // +----------------------------+
+        //
+        // w_disp/w_parts/w_list expand to take up extra height.
+        // w_disp, w_parts and w_list share extra width in a 2:1:1 ratio,
+        // but w_parts and w_list start with more than w_disp.
+
+        const int h1 = 4; // 4 lines for msg + mode
+        const int h3 = 6; // 6 lines for name + stats
+
+        mode_h = 1;
+        mode_w = grid_w;
+        msg_h = h1 - mode_h;
+        msg_w = mode_w;
+
+        name_h = 1;
+        name_w = grid_w;
+        stats_h = h3 - name_h;
+        stats_w = grid_w;
+
+        list_h = grid_h - h3 - h1 - 2; // interior borders take 2
+        list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
+        parts_h = list_h;
+        parts_w = 32 + (extra_w / 4); // uses 1/4 of extra space
+
+        disp_h = list_h;
+        disp_w = grid_w - list_w - parts_w - 2; // interior borders take 2
+
+        mode_x = x0 + 1;
+        mode_y = y0 + 1;
+        msg_x = x0 + 1;
+        msg_y = mode_y + mode_h;
+        disp_x = x0 + 1;
+        disp_y = y0 + 1 + msg_h + mode_h + 1;
+        parts_x = disp_x + disp_w + 1;
+        parts_y = disp_y;
+        list_x = parts_x + parts_w + 1;
+        list_y = disp_y;
+        name_x = x0 + 1;
+        name_y = disp_y + disp_h + 1;
+        stats_x = x0 + 1;
+        stats_y = name_y + name_h;
+
+        // match grid lines
+        mvwputch(w_border, h1 + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, h1 + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+        mvwputch(w_border, h1 + 1 + disp_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, h1 + 1 + disp_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    } else {
+        //        Horizontal menu:
+        // +----------------------------+
+        // |           w_name           |
+        // +------------------+---------+
+        // |      w_disp      |         |
+        // +---------+--------+ w_stats |
+        // | w_parts | w_list |         |
+        // +---------+--------+---------+
+        // |           w_mode           |
+        // |           w_msg            |
+        // +----------------------------+
+        name_h  = 1;
+        name_w  = grid_w;
+        mode_h  = 1;
+        mode_w  = grid_w;
+        msg_h   = 3;
+        msg_w   = grid_w;
+
+        stats_h = grid_h - mode_h - msg_h - name_h - 2;
+        stats_w = 26 + (extra_w / 4);
+
+        disp_h = stats_h / 3;
+        disp_w = grid_w - stats_w - 1;
+        parts_h = stats_h - disp_h - 1;
+        parts_w = disp_w / 2;
+        list_h = parts_h;
+        list_w = disp_w - parts_w - 1;
+
+        name_y  = y0 + 1;
+        name_x  = x0 + 1;
+        disp_y  = name_y + name_h + 1;
+        disp_x  = x0 + 1;
+        parts_y = disp_y + disp_h + 1;
+        parts_x = x0 + 1;
+        list_y  = parts_y;
+        list_x  = x0 + 1 + parts_w + 1;
+        stats_y = disp_y;
+        stats_x = x0 + 1 + disp_w + 1;
+        mode_y  = name_y + name_h + 1 + stats_h + 1;
+        mode_x  = x0 + 1;
+        msg_y   = mode_y + mode_h;
+        msg_x   = x0 + 1;
+
+        // match grid lines
+        mvwputch(w_border, name_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, name_h + 1 + disp_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, name_h + 1 + stats_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(w_border, name_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+        mvwputch(w_border, name_h + 1 + stats_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    }
+
+    // make the windows
+    w_mode  = newwin(mode_h,  mode_w,  mode_y,  mode_x );
+    w_msg   = newwin(msg_h,   msg_w,   msg_y,   msg_x  );
+    w_disp  = newwin(disp_h,  disp_w,  disp_y,  disp_x );
+    w_parts = newwin(parts_h, parts_w, parts_y, parts_x);
+    w_list  = newwin(list_h,  list_w,  list_y,  list_x );
+    w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
+    w_name  = newwin(name_h,  name_w,  name_y,  name_x );
 
     page_size = list_h;
 
-    // height, width, y, x
-    WINDOW *w_border = newwin( totalh, totalw, y1 - 1, x1 - 1 );
-    w_grid  = newwin( gridh,   gridw, y1, x1 );
-    w_mode  = newwin( mode_h,  mode_w,  y1, x1 );
-    w_msg   = newwin( msg_h,   msg_w,   y1 + mode_h, x1 );
-    w_disp  = newwin( disp_h,  disp_w,  y2, x1 );
-    w_parts = newwin( parts_h, parts_w, y2, x2 );
-    w_list  = newwin( list_h,  list_w,  y2, x3 );
-    w_stats = newwin( stats_h, stats_w, y3, x1 );
-
-    wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
-    const int gridx1 = winw1;
-    const int gridx2 = winw1 + 1 + winw2;
-    const int gridy1 = winh1;
-    const int gridy2 = winh1 + 1 + winh2;
-
-    mvwputch(w_border, 1 + gridy1, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, 1 + gridy2, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_border, 1 + gridy1, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
-    mvwputch(w_border, 1 + gridy2, FULL_SCREEN_WIDTH - 1, c_dkgray, LINE_XOXX);
-
     wrefresh(w_border);
+    display_grid();
+    display_name();
+    display_stats();
+    move_cursor(0, 0); // display w_disp & w_parts
+}
 
-    // Two lines dividing the three middle sections.
-    for (int i = gridy1; i < gridy2; i++) {
-        mvwputch(w_grid, i, gridx2, c_dkgray, LINE_XOXO);
-        mvwputch(w_grid, i, gridx1, c_dkgray, LINE_XOXO);
-    }
-    // Two lines dividing the vertical menu sections.
-    for (int i = 0; i < gridw; i++) {
-        mvwputch( w_grid, gridy1, i, c_dkgray, LINE_OXOX );
-        mvwputch( w_grid, gridy2, i, c_dkgray, LINE_OXOX );
-    }
-    // Fix up the line intersections.
-    mvwputch( w_grid, gridy1, gridx1, c_dkgray, LINE_OXXX );
-    mvwputch( w_grid, gridy1, gridx2, c_dkgray, LINE_OXXX );
-    mvwputch( w_grid, gridy2, gridx1, c_dkgray, LINE_XXOX );
-    mvwputch( w_grid, gridy2, gridx2, c_dkgray, LINE_XXOX );
-
-    wrefresh(w_grid);
-
-    crafting_inv = g->crafting_inventory(&g->u);
-
-    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
-    has_wrench = crafting_inv.has_amount("wrench", 1) ||
-                 crafting_inv.has_amount("toolset", 1);
-    has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
-                  crafting_inv.has_amount("toolset", 1);
-    has_welder = (crafting_inv.has_amount("welder", 1) &&
-                  crafting_inv.has_charges("welder", charges)) ||
-                 (crafting_inv.has_amount("welder_crude", 1) &&
-                  crafting_inv.has_charges("welder_crude", charges_crude)) ||
-                 (crafting_inv.has_amount("toolset", 1) &&
-                  crafting_inv.has_charges("toolset", charges / 20));
-    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
-    has_jack = crafting_inv.has_amount("jack", 1);
-    has_siphon = crafting_inv.has_amount("hose", 1);
-
-    has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
-                crafting_inv.has_amount( "wheel_wide", 1 ) ||
-                crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
-                crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
-                crafting_inv.has_amount( "wheel_small", 1 );
-
+void veh_interact::do_main_loop()
+{
+    display_grid();
     display_stats ();
     display_veh   ();
     move_cursor (0, 0);
@@ -181,7 +218,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     while (!finish) {
         char ch = input(); // See keypress.h
         int dx, dy;
-        get_direction (dx, dy, ch);
+        get_direction(dx, dy, ch);
         if (ch == KEY_ESCAPE || ch == 'q' ) {
             finish = true;
         } else {
@@ -189,7 +226,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                 move_cursor(dx, dy);
             } else {
                 task_reason reason = cant_do(ch);
-                display_mode (ch);
+                display_mode(ch);
                 switch (ch) {
                 case 'i':
                     do_install(reason);
@@ -223,6 +260,10 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
             }
         }
     }
+}
+
+void veh_interact::deallocate_windows()
+{
     werase(w_grid);
     werase(w_mode);
     werase(w_msg);
@@ -230,6 +271,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     werase(w_parts);
     werase(w_stats);
     werase(w_list);
+    werase(w_name);
     delwin(w_grid);
     delwin(w_mode);
     delwin(w_msg);
@@ -237,8 +279,38 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     delwin(w_parts);
     delwin(w_stats);
     delwin(w_list);
+    delwin(w_name);
     erase();
 }
+
+void veh_interact::cache_tool_availability()
+{
+    crafting_inv = g->crafting_inventory(&g->u);
+
+    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    has_wrench = crafting_inv.has_amount("wrench", 1) ||
+                 crafting_inv.has_amount("toolset", 1);
+    has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
+                  crafting_inv.has_amount("toolset", 1);
+    has_welder = (crafting_inv.has_amount("welder", 1) &&
+                  crafting_inv.has_charges("welder", charges)) ||
+                 (crafting_inv.has_amount("welder_crude", 1) &&
+                  crafting_inv.has_charges("welder_crude", charges_crude)) ||
+                 (crafting_inv.has_amount("toolset", 1) &&
+                  crafting_inv.has_charges("toolset", charges / 20));
+    has_goggles = crafting_inv.has_amount("goggles_welding",1);
+    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
+    has_jack = crafting_inv.has_amount("jack", 1);
+    has_siphon = crafting_inv.has_amount("hose", 1);
+
+    has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
+                crafting_inv.has_amount( "wheel_wide", 1 ) ||
+                crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
+                crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
+                crafting_inv.has_amount( "wheel_small", 1 );
+}
+
 
 /**
  * Checks if the player is able to perform some command, and returns a nonzero
@@ -267,12 +339,12 @@ task_reason veh_interact::cant_do (char mode)
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
-        has_tools = has_wrench && (has_welder || has_duct_tape);
+        has_tools = has_wrench && ((has_welder && has_goggles) || has_duct_tape);
         break;
     case 'r': // repair mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = need_repair.size() > 0 && cpart >= 0;
-        has_tools = has_welder || has_duct_tape;
+        has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
     case 'f': // refill mode
         valid_target = (ptank != NULL && ptank->hp > 0);
@@ -289,11 +361,11 @@ task_reason veh_interact::cant_do (char mode)
         valid_target = veh->fuel_left("gasoline") > 0;
         has_tools = has_siphon;
         break;
-    case 'c': // Change tire
+    case 'c': // change tire
         valid_target = wheel != NULL;
         has_tools = has_wrench && has_jack && has_wheel;
         break;
-    case 'd': //drain tank
+    case 'd': // drain tank
         valid_target = veh->fuel_left("water") > 0;
         has_tools = has_siphon;
         break;
@@ -340,9 +412,9 @@ void veh_interact::do_install(task_reason reason)
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder</color> or <color_%3$s>duct tape</color> to install parts."),
+                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder and goggles</color> or <color_%3$s>duct tape</color> to install parts."),
                        has_wrench ? "ltgreen" : "red",
-                       has_welder ? "ltgreen" : "red",
+                       (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
@@ -364,9 +436,11 @@ void veh_interact::do_install(task_reason reason)
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
-        bool has_tools = (has_welder || has_duct_tape) && has_wrench;
+        bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
         bool eng = sel_vpart_info->has_flag("ENGINE");
+        bool install_pedals = sel_vpart_info->has_flag("PEDALS");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+        veh->has_pedals = false;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
@@ -374,13 +448,21 @@ void veh_interact::do_install(task_reason reason)
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
         }
+        if (veh->pedals() && install_pedals) {
+            engine_string = string_format(
+                                  _(" You can only install and use one set of foot pedals in your vehicle."));
+        }
+        if (veh->pedals() && eng) {
+          engine_string = string_format(
+                                  _(" You can't install an engine in a vehicle that uses foot pedals."));
+        }
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
                        has_comps ? "ltgreen" : "red",
                        itypes[itm]->name.c_str(),
                        has_wrench ? "ltgreen" : "red",
-                       has_welder ? "ltgreen" : "red",
+                       (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red",
                        has_skill ? "ltgreen" : "red",
                        sel_vpart_info->difficulty,
@@ -389,7 +471,8 @@ void veh_interact::do_install(task_reason reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2) {
+        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
+             !(veh->pedals() && eng) && !(veh->pedals() && install_pedals)) {
             sel_cmd = 'i';
             return;
         } else {
@@ -397,6 +480,7 @@ void veh_interact::do_install(task_reason reason)
                 werase (w_list);
                 wrefresh (w_list);
                 werase (w_msg);
+                wrefresh(w_msg);
                 break;
             }
         }
@@ -442,7 +526,7 @@ void veh_interact::do_repair(task_reason reason)
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need a <color_%1$s>powered welder</color> or <color_%2$s>duct tape</color> to repair."),
-                       has_welder ? "ltgreen" : "red",
+                       (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
@@ -739,10 +823,11 @@ void veh_interact::do_rename(task_reason reason)
             g->cur_om->vehicles[veh->om_id].name = name;
         }
     }
-    werase(w_stats);
-    werase(w_grid);
-    display_stats ();
-    display_veh   ();
+    display_name();
+    display_stats();
+    display_grid();
+    // refresh w_disp & w_part windows:
+    move_cursor(0, 0);
 }
 
 /**
@@ -767,11 +852,16 @@ void veh_interact::move_cursor (int dx, int dy)
 {
     const int hw = getmaxx(w_disp) / 2;
     const int hh = getmaxy(w_disp) / 2;
-    mvwputch (w_disp, hh, hw, cpart >= 0 ? veh->part_color (cpart) : c_black,
-              special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
-    ddx += dy;
-    ddy -= dx;
+
+    if (vertical_menu) {
+        ddx += dy;
+        ddy -= dx;
+    } else {
+        ddx -= dx;
+        ddy -= dy;
+    }
     display_veh();
+    // Update the current active component index to the new position.
     cpart = part_at (0, 0);
     int vdx = -ddx;
     int vdy = -ddy;
@@ -785,8 +875,14 @@ void veh_interact::move_cursor (int dx, int dy)
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
+    long sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    if( !vertical_menu ) {
+        // Rotate the symbol if necessary.
+        tileray tdir( 0 );
+        sym = tdir.dir_symbol( sym );
+    }
     mvwputch (w_disp, hh, hw, obstruct ? red_background(col) : hilite(col),
-              special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
+              special_symbol(sym));
     wrefresh (w_disp);
     werase (w_parts);
     veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
@@ -805,7 +901,7 @@ void veh_interact::move_cursor (int dx, int dy)
     }
 
     //Only build the wheel list once
-    if(wheel_types.empty()) {
+    if (wheel_types.empty()) {
         for (std::map<std::string, vpart_info>::iterator
              part_type_iterator = vehicle_part_types.begin();
              part_type_iterator != vehicle_part_types.end();
@@ -841,8 +937,55 @@ void veh_interact::move_cursor (int dx, int dy)
     display_mode (' ');
 }
 
+void veh_interact::display_grid()
+{
+    const int grid_w = getmaxx(w_grid);
+    if (vertical_menu) {
+        // Two lines dividing the three middle sections.
+        for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); i++) {
+            mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
+            mvwputch(w_grid, i, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XOXO); // |
+        }
+        // Two lines dividing the vertical menu sections.
+        for (int i = 0; i < grid_w; i++) {
+            mvwputch( w_grid, mode_h + msg_h, i, BORDER_COLOR, LINE_OXOX ); // -
+            mvwputch( w_grid, mode_h + msg_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX ); // -
+        }
+        // Fix up the line intersections.
+        mvwputch(w_grid, mode_h + msg_h,              disp_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w, BORDER_COLOR, LINE_XXOX); // _|_
+        mvwputch(w_grid, mode_h + msg_h,              disp_w + 1 + parts_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XXOX); // _|_
+    } else {
+        // Vertical lines
+        for (int i = name_h + 1; i < (name_h + 1 + disp_h + 1 + parts_h); i++) {
+            mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
+        }
+        for (int i = (name_h + 1 + disp_h + 1); i < (name_h + 1 + stats_h); i++) {
+            mvwputch(w_grid, i, parts_w, BORDER_COLOR, LINE_XOXO); // |
+        }     
+        
+        // Two horizontal lines: one after name window, and another after parts window
+        for (int i = 0; i < grid_w; i++) {
+            mvwputch(w_grid, name_h, i, BORDER_COLOR, LINE_OXOX);
+            mvwputch(w_grid, name_h + 1 + stats_h, i, BORDER_COLOR, LINE_OXOX);
+        }
+        // Horizontal line between vehicle/parts windows 
+        for (int i = 0; i < disp_w; i++) {
+            mvwputch(w_grid, name_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX);
+        }
+        // Fix up the line intersections.
+        mvwputch(w_grid, name_h, disp_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, name_h + 1 + disp_h, parts_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, name_h + 1 + disp_h + parts_h + 1, parts_w, BORDER_COLOR, LINE_XXOX);
+        mvwputch(w_grid, name_h + 1 + disp_h, disp_w, BORDER_COLOR, LINE_XOXX); // -|
+        mvwputch(w_grid, name_h + 1 + stats_h, disp_w, BORDER_COLOR, LINE_XXOX );
+    }
+    wrefresh(w_grid);
+}
+
 /**
- * Draws the viewport with the vehicle in it on the left side of the window.
+ * Draws the viewport with the vehicle.
  */
 void veh_interact::display_veh ()
 {
@@ -851,17 +994,29 @@ void veh_interact::display_veh ()
     const int hh = getmaxy(w_disp) / 2;
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
+    int x, y;
     for (int i = 0; i < structural_parts.size(); i++) {
         const int p = structural_parts[i];
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
-        int y = -(veh->parts[p].mount_dx + ddx);
-        int x = veh->parts[p].mount_dy + ddy;
-        if(x == 0 && y == 0) {
+        if (vertical_menu) {
+            x =   veh->parts[p].mount_dy + ddy;
+            y = -(veh->parts[p].mount_dx + ddx);
+        } else {
+            tileray tdir( 0 );
+            sym = tdir.dir_symbol( sym );
+            x = veh->parts[p].mount_dx + ddx;
+            y = veh->parts[p].mount_dy + ddy;
+        }
+        if (x == 0 && y == 0) {
             col = hilite(col);
             cpart = p;
         }
         mvwputch (w_disp, hh + y, hw + x, col, special_symbol(sym));
+    }
+    if (!vertical_menu) {
+        size_t len = utf8_width(_("FWD ->"));
+        mvwprintz(w_disp, 0, disp_w - len, c_dkgray,  _("FWD ->"));
     }
     wrefresh (w_disp);
 }
@@ -869,139 +1024,267 @@ void veh_interact::display_veh ()
 /**
  * Displays the vehicle's stats at the bottom of the window.
  */
-void veh_interact::display_stats ()
+void veh_interact::display_stats()
 {
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
+    int safe_vel_x, safe_vel_y, safe_vel_w;
+    int top_vel_x, top_vel_y, top_vel_w;
+    int acc_x, acc_y, acc_w;
+    int mass_x, mass_y, mass_w;
+    int k_dyn_x, k_dyn_y, k_dyn_w;
+    int k_mass_x, k_mass_y, k_mass_w;
+    int wheels_x, wheels_y, wheels_w;
+    int fuel_use_x, fuel_use_y, fuel_ind_x, fuel_ind_y;
+    int status_x, status_y, status_w;
+    int dmg_prt_x, dmg_prt_y, dmg_prt_w;
+
+    if (vertical_menu) {
+        // Vertical menu
+        //const int second_column = 29 + (extraw / 3);
+        //const int third_column = 56 + (2 * extraw / 3);
+        const int second_column = 34 + (extraw / 3);
+        const int third_column = 63 + (2 * extraw / 3);
+        // Y-coordinates for vertical menu
+        safe_vel_y = 0;
+        top_vel_y  = safe_vel_y + 1;
+        acc_y      = top_vel_y + 1;
+        mass_y     = acc_y + 1;
+        status_y   = mass_y + 1;
+
+        fuel_use_y = 0;
+        k_dyn_y    = fuel_use_y + 1;
+        k_mass_y   = k_dyn_y + 1;
+        dmg_prt_y  = k_mass_y + 1;
+        wheels_y   = dmg_prt_y + 1;
+
+        fuel_ind_y = 0;
+
+        // X-coordinates for vertical menu
+        safe_vel_x = 1;
+        top_vel_x  = 1;
+        acc_x      = 1;
+        mass_x     = 1;
+        status_x   = 1;
+
+        fuel_use_x = second_column;
+        k_dyn_x    = second_column;
+        k_mass_x   = second_column;
+        wheels_x   = second_column;
+        dmg_prt_x  = second_column;
+
+        fuel_ind_x = third_column;
+
+        // Width for vertical menu
+        safe_vel_w = second_column;
+        top_vel_w  = second_column;
+        acc_w      = second_column;
+        mass_w     = second_column;
+        status_w   = second_column;
+
+        k_dyn_w   = third_column - second_column;
+        k_mass_w  = third_column - second_column;
+        wheels_w  = third_column - second_column;
+        dmg_prt_w = third_column - second_column;
+    } else {
+        // Y-coordinates for horizontal menu
+        safe_vel_y = 0;
+        top_vel_y  = safe_vel_y + 1;
+        acc_y      = top_vel_y + 1;
+        mass_y     = acc_y + 1;
+        k_mass_y   = mass_y + 1;
+        k_dyn_y    = k_mass_y + 1;
+        wheels_y   = k_dyn_y + 1;
+        status_y   = wheels_y + 1;
+        dmg_prt_y  = status_y + 1;
+
+        fuel_use_y = dmg_prt_y + 1;
+        fuel_ind_y = fuel_use_y + 1;
+
+        // X-coordinates for horizontal menu
+        safe_vel_x = 1;
+        top_vel_x  = 1;
+        acc_x      = 1;
+        mass_x     = 1;
+        k_dyn_x    = 1;
+        k_mass_x   = 1;
+        wheels_x   = 1;
+        fuel_use_x = 1;
+        fuel_ind_x = 1;
+        status_x   = 1;
+        dmg_prt_x  = 1;
+
+        // Width for horizontal menu
+        const int stats_w = getmaxx(w_stats);
+        safe_vel_w = stats_w - 1;
+        top_vel_w  = stats_w - 1;
+        acc_w      = stats_w - 1;
+        mass_w     = stats_w - 1;
+        k_dyn_w    = stats_w - 1;
+        k_mass_w   = stats_w - 1;
+        wheels_w   = stats_w - 1;
+        status_w   = stats_w - 1;
+        dmg_prt_w  = stats_w - 1;
+    }
     bool conf = veh->valid_wheel_config();
-    const int second_column = 29 + (extraw / 3);
-    const int third_column = 56 + (2 * extraw / 3);
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
-    if (OPTIONS["USE_METRIC_SPEEDS"] == "km/h") {
-        speed_factor *= 1.61;
+    if (speed_units == "km/h") {
+        speed_factor *= 1.61f;
     }
     std::string weight_units = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
-    float weight_factor;
-    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
-        weight_factor = 1;
-    } else {
-        weight_factor = 2.2f;
+    float weight_factor = 1.0f;
+    if (weight_units == "lbs") {
+        weight_factor *= 2.2f;
     }
-    mvwprintz(w_stats, 0, 1, c_ltgray, _("Name: "));
-    mvwprintz(w_stats, 0, 1 + utf8_width(_("Name: ")), c_ltgreen, veh->name.c_str());
-    fold_and_print(w_stats, 1, 1, second_column, c_ltgray,
-                   _("Safe speed:    <color_ltgreen>%3d</color> %s"),
+    fold_and_print(w_stats, safe_vel_y, safe_vel_x, safe_vel_w, c_ltgray,
+                   _("Safe speed:   <color_ltgreen>%3d</color> %s"),
                    int(veh->safe_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, 2, 1, second_column, c_ltgray,
-                   _("Top speed:     <color_ltred>%3d</color> %s"),
+    fold_and_print(w_stats, top_vel_y, top_vel_x, top_vel_w, c_ltgray,
+                   _("Top speed:    <color_ltred>%3d</color> %s"),
                    int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, 3, 1, second_column, c_ltgray,
-                   _("Acceleration:  <color_ltblue>%3d</color> %s/t"),
+    fold_and_print(w_stats, acc_y, acc_x, acc_w, c_ltgray,
+                   _("Acceleration: <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, 4, 1, second_column, c_ltgray,
-                   _("Mass:        <color_ltblue>%5d</color> %s"),
+    fold_and_print(w_stats, mass_y, mass_x, mass_w, c_ltgray,
+                   _("Mass:       <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
     if (conf) {
-        fold_and_print(w_stats, 5, second_column, third_column, c_ltgray,
-                       _("Wheels:         <color_ltgreen>enough</color>"));
+        fold_and_print(w_stats, wheels_y, wheels_x, wheels_w, c_ltgray,
+                       _("Wheels:    <color_ltgreen>enough</color>"));
     } else {
-        fold_and_print(w_stats, 5, second_column, third_column, c_ltgray,
-                       _("Wheels:           <color_ltred>lack</color>"));
+        fold_and_print(w_stats, wheels_y, wheels_x, wheels_w, c_ltgray,
+                       _("Wheels:      <color_ltred>lack</color>"));
     }
 
-    fold_and_print(w_stats, 2, second_column, third_column, c_ltgray,
-                   _("K dynamics:        <color_ltblue>%3d</color>%%"),
+    fold_and_print(w_stats, k_dyn_y, k_dyn_x, k_dyn_w, c_ltgray,
+                   _("K dynamics:   <color_ltblue>%3d</color>%%"),
                    int(veh->k_dynamics() * 100));
-    fold_and_print(w_stats, 3, second_column, third_column, c_ltgray,
-                   _("K mass:            <color_ltblue>%3d</color>%%"),
+    fold_and_print(w_stats, k_mass_y, k_mass_x, k_mass_w, c_ltgray,
+                   _("K mass:       <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    mvwprintz(w_stats, 1, second_column, c_ltgray,  _("Fuel usage (safe): "));
-    int fuel_usage_x = 1 + second_column + utf8_width(_("Fuel usage (safe): "));
+    
+    // "Fuel usage (safe): " is renamed to "Fuel usage: ". 
+    mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray,  _("Fuel usage:     "));
+    fuel_use_x += utf8_width(_("Fuel usage:     "));
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
     nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
     for (int i = 0; i < 3; ++i) {
-        int fuel_usage = veh->basic_consumption (fuel_types[i]);
+        int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
             }
             if (!first) {
-                mvwprintz(w_stats, 1, fuel_usage_x++, c_ltgray, "/");
+                mvwprintz(w_stats, fuel_use_y, fuel_use_x++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, 1, fuel_usage_x++, fuel_colors[i], "%d", fuel_usage);
+            mvwprintz(w_stats, fuel_use_y, fuel_use_x++, fuel_colors[i], "%d", fuel_usage);
             if (fuel_usage > 9) {
-                fuel_usage_x++;
+                fuel_use_x++;
             }
             if (fuel_usage > 99) {
-                fuel_usage_x++;
+                fuel_use_x++;
             }
             first = false;
         }
+        if (first) {
+            mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray, "-"); // no engines
+        }
     }
-    veh->print_fuel_indicator (w_stats, 1, third_column, true, true);
+    veh->print_fuel_indicator (w_stats, fuel_ind_y, fuel_ind_x, true, true);
 
     // Write the overall damage
-    int column = 1;
-
-    mvwprintz(w_stats, 5, 1, c_ltgray, _("Status:  "));
-    column += utf8_width(_("Status:  ")) + 1;
-    fold_and_print(w_stats, 5, column, third_column, totalDurabilityColor, totalDurabilityText.c_str());
+    mvwprintz(w_stats, status_y, status_x, c_ltgray, _("Status:  "));
+    status_x += utf8_width(_("Status: ")) + 1;
+    fold_and_print(w_stats, status_y, status_x, status_w, totalDurabilityColor, totalDurabilityText.c_str());
 
     // Write the most damaged part
     if (mostDamagedPart != -1) {
         std::string partName;
-        mvwprintz(w_stats, 4, second_column, c_ltgray, _("Most damaged:  "));
-        column = second_column + utf8_width(_("Most damaged:  ")) + 1;
+        mvwprintz(w_stats, dmg_prt_y, dmg_prt_x, c_ltgray, _("Most damaged: "));
+        dmg_prt_x += utf8_width(_("Most damaged: ")) + 1;
         std::string partID = veh->parts[mostDamagedPart].id;
         vehicle_part part = veh->parts[mostDamagedPart];
         int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, 4, column, third_column, damagecolor, "%s", partName.c_str());
+        fold_and_print(w_stats, dmg_prt_y, dmg_prt_x, dmg_prt_w, damagecolor, "%s", partName.c_str());
     }
 
-    wrefresh (w_stats);
+    wrefresh(w_stats);
+}
+
+void veh_interact::display_name()
+{
+    werase(w_name);
+    mvwprintz(w_name, 0, 1, c_ltgray, _("Name: "));
+    mvwprintz(w_name, 0, 1 + utf8_width(_("Name: ")), c_ltgreen, veh->name.c_str());
+    if (!vertical_menu) {
+        display_esc(w_name);
+    }
+    wrefresh(w_name);
 }
 
 /**
- * Prints the list of usable commands at the top of the window, and highlights
- * the hotkeys used to activate them.
+ * Prints the list of usable commands, and highlights the hotkeys used to activate them.
  * @param mode What command we are currently using. ' ' for no command.
  */
-void veh_interact::display_mode (char mode)
+void veh_interact::display_mode(char mode)
 {
     werase (w_mode);
-    int x = 1;
-    if (mode == ' ') {
-        bool mi = !cant_do('i');
-        bool mr = !cant_do('r');
-        bool mf = !cant_do('f');
-        bool mo = !cant_do('o');
-        bool ms = !cant_do('s');
-        bool mc = !cant_do('c');
-        x += shortcut_print(w_mode, 0, x, mi ? c_ltgray : c_dkgray, mi ? c_ltgreen : c_green,
-                            _("<i>nstall")) + 1;
-        x += shortcut_print(w_mode, 0, x, mr ? c_ltgray : c_dkgray, mr ? c_ltgreen : c_green,
-                            _("<r>epair")) + 1;
-        x += shortcut_print(w_mode, 0, x, mf ? c_ltgray : c_dkgray, mf ? c_ltgreen : c_green,
-                            _("re<f>ill")) + 1;
-        x += shortcut_print(w_mode, 0, x, mo ? c_ltgray : c_dkgray, mo ? c_ltgreen : c_green,
-                            _("rem<o>ve")) + 1;
-        x += shortcut_print(w_mode, 0, x, ms ? c_ltgray : c_dkgray, ms ? c_ltgreen : c_green,
-                            _("<s>iphon")) + 1;
-        x += shortcut_print(w_mode, 0, x, ms ? c_ltgray : c_dkgray, ms ? c_ltgreen : c_green,
-                            _("<d>rain water")) + 1;
-        x += shortcut_print(w_mode, 0, x, mc ? c_ltgray : c_dkgray, mc ? c_ltgreen : c_green,
-                            _("<c>hange tire")) + 1;
+
+    size_t esc_pos;
+    if (vertical_menu) {
+        esc_pos = display_esc(w_mode);
+    } else {
+        esc_pos = getmaxx(w_mode);
     }
-    x += shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("r<e>name")) + 1;
-    std::string backstr = _("<ESC>-back");
-    int w = utf8_width(backstr.c_str()) - 2;
-    x = getmaxx(w_mode) - w; // right text align
-    shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, backstr.c_str());
+
+    if (mode == ' ') {
+        std::vector<std::string> actions;
+        actions.push_back(_("<i>nstall"));
+        actions.push_back(_("<r>epair"));
+        actions.push_back(_("re<f>ill"));
+        actions.push_back(_("rem<o>ve"));
+        actions.push_back(_("<s>iphon"));
+        actions.push_back(_("<d>rain water"));
+        actions.push_back(_("<c>hange tire"));
+        actions.push_back(_("r<e>name"));
+
+        bool enabled[8];
+        enabled[0] = !cant_do('i');
+        enabled[1] = !cant_do('r');
+        enabled[2] = !cant_do('f');
+        enabled[3] = !cant_do('o');
+        enabled[4] = !cant_do('s');
+        enabled[5] = !cant_do('d');
+        enabled[6] = !cant_do('c');
+        enabled[7] = true;          // 'rename' is always available
+
+        int pos[9];
+        pos[0] = 1;
+        for (size_t i = 0; i < actions.size(); i++) {
+            pos[i+1] = pos[i] + utf8_width(actions[i].c_str()) - 2;
+        }
+        int spacing = int((esc_pos - 1 - pos[actions.size()]) / actions.size());
+        int shift = int((esc_pos - pos[actions.size()] - spacing * (actions.size() - 1)) / 2) - 1;
+        for (size_t i = 0; i < actions.size(); i++) {
+            shortcut_print(w_mode, 0, pos[i] + spacing * i + shift,
+                           enabled[i]? c_ltgray : c_dkgray, enabled[i]? c_ltgreen : c_green,
+                           actions[i].c_str());
+        }
+    }
     wrefresh (w_mode);
+}
+
+size_t veh_interact::display_esc(WINDOW *win)
+{
+    std::string backstr = _("<ESC>-back");
+    size_t pos = getmaxx(win) - utf8_width(backstr.c_str()) + 2;    // right text align
+    shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr.c_str());
+    wrefresh(win);
+    return pos;
 }
 
 /**
@@ -1010,7 +1293,7 @@ void veh_interact::display_mode (char mode)
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  */
-void veh_interact::display_list (int pos, std::vector<vpart_info> list)
+void veh_interact::display_list(int pos, std::vector<vpart_info> list)
 {
     werase (w_list);
     int page = pos / page_size;
@@ -1030,7 +1313,7 @@ void veh_interact::display_list (int pos, std::vector<vpart_info> list)
 void veh_interact::countDurability()
 {
     int sum = 0; // sum of part HP
-    int max = 0; // sum of part max HP, ie durability
+    int max = 0; // sum of part max HP, i.e. durability
     double mostDamaged = 1; // durability ratio of the most damaged part
 
     for (int it = 0; it < veh->parts.size(); it++) {
@@ -1050,7 +1333,7 @@ void veh_interact::countDurability()
     }
 
     double totalDamagePercent = sum / (double)max;
-    durabilityPercent = totalDamagePercent * 100;
+    durabilityPercent = int(totalDamagePercent * 100);
 
     totalDurabilityColor = getDurabilityColor(durabilityPercent);
     totalDurabilityText = getDurabilityDescription(durabilityPercent);

@@ -57,6 +57,7 @@ int player::hit_roll()
 // apply martial arts bonuses
   stat += mabuff_tohit_bonus();
 
+
 // keep the old martial arts mechanics for now
 // Some martial arts use something else to determine hits!
  if(weapon.typeId() == "style_tiger"){
@@ -183,6 +184,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
   perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+
  if (weapon.has_flag("FLAMING")) {
    z->add_effect(ME_ONFIRE, rng(3, 4));
  }
@@ -194,13 +196,15 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
     message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
- if (!is_quiet()) // check martial arts silence
+ if (is_quiet()) // check martial arts silence
+  g->sound(posx, posy, 2, "");
+ else
   g->sound(posx, posy, 8, "");
-
- int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
  // Handles speed penalties to monster & us, etc
  std::string specialmsg = melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
+
+ int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
   if (g->u_see(z)) {
       player_hit_message(g, this, message, target_name, dam, critical_hit);
@@ -226,48 +230,54 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
   healall( rng(dam / 10, dam / 5) );
+
+  ma_onattack_effects(); // trigger martial arts on-attack effects
  return dam;
 }
 
 void player::hit_player(game *g, player &p, bool allow_grab)
 {
- bool is_u = (this == &(g->u)); // Affects how we'll display messages
+  bool is_u = (this == &(g->u)); // Affects how we'll display messages
 
- if (is_u && p.is_npc()) {
-  npc* npcPtr = dynamic_cast<npc*>(&p);
-  npcPtr->make_angry();
- }
+  if (is_u && p.is_npc()) {
+    npc* npcPtr = dynamic_cast<npc*>(&p);
+    npcPtr->make_angry();
+  }
 
-    std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
+  std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
 
 // Divide their dodge roll by 2 if this is a grab
- int target_dodge = (allow_grab ? p.dodge_roll(g) : p.dodge_roll(g) / 2);
- int hit_value = hit_roll() - target_dodge;
- bool missed = (hit_roll() <= 0);
+  int target_dodge = (allow_grab ? p.dodge_roll(g) / 2 : p.dodge_roll(g));
+  int hit_value = hit_roll() - target_dodge;
+  bool missed = (hit_roll() <= 0);
 
- int move_cost = attack_speed(*this);
+  int move_cost = attack_speed(*this);
 
- if (missed) {
-  int stumble_pen = stumble(*this);
-  if (is_u) { // Only display messages if this is the player
-   if (has_miss_recovery_tec())
-    g->add_msg(_("You feint."));
-   else if (stumble_pen >= 60)
-    g->add_msg(_("You miss and stumble with the momentum."));
-   else if (stumble_pen >= 10)
-    g->add_msg(_("You swing wildly and miss."));
-   else
-    g->add_msg(_("You miss."));
+  if (missed) {
+    // trigger on-dodge effects
+    p.ma_ondodge_effects();
+
+    int stumble_pen = stumble(*this);
+    if (is_u) { // Only display messages if this is the player
+      if (has_miss_recovery_tec())
+        g->add_msg(_("You feint."));
+      else if (stumble_pen >= 60)
+        g->add_msg(_("You miss and stumble with the momentum."));
+      else if (stumble_pen >= 10)
+        g->add_msg(_("You swing wildly and miss."));
+      else
+        g->add_msg(_("You miss."));
+    }
+    melee_practice(g->turn, *this, false, unarmed_attack(),
+                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
+                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
+    move_cost += stumble_pen;
+    if (has_miss_recovery_tec())
+      move_cost = rng(move_cost / 3, move_cost);
+    moves -= move_cost;
+    return;
   }
-  melee_practice(g->turn, *this, false, unarmed_attack(),
-                 weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
-                 (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
-  move_cost += stumble_pen;
-  if (has_miss_recovery_tec())
-   move_cost = rng(move_cost / 3, move_cost);
-  moves -= move_cost;
-  return;
- }
+
  moves -= move_cost;
 
  if (p.uncanny_dodge(is_u)) { return; }
@@ -364,6 +374,8 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   } else
    hit_player(g, p, false); // False means a second grab isn't allowed
  }
+
+  ma_onattack_effects(); // trigger martial arts on-attack effects
  /*
  if (tech_def.counters) {
   g->add_msg_if_player(&p, _("Counter-attack!"));
@@ -837,8 +849,6 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
                                player *p, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
-    (void)cut_dam; //FIXME: this should probably be being used for something
-    (void)stab_dam; //FIXME: this should probably be being used for something
 
     const bool mon = (z != NULL);
     const bool npc = (p != NULL && p->is_npc());
@@ -853,6 +863,14 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
         target = "a bug";
         // "you" handled separately
     }
+
+  bash_dam += technique.bash;
+  cut_dam += technique.cut;
+  stab_dam += technique.cut; // cut affects stab damage too since only one of cut/stab is used
+
+  bash_dam *= technique.bash_mult;
+  cut_dam *= technique.cut_mult;
+  stab_dam *= technique.cut_mult;
 
   int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
@@ -963,6 +981,9 @@ bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &s
     (void)z; //FIXME: this should probably be being used for something
     (void)p; //FIXME: this should probably be being used for something
 
+    ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
+    // these fire even if the attack is blocked (you still got hit)
+
     if (blocks_left <= 0) return false;
 
     // if weapon, then extra reduction
@@ -1021,6 +1042,9 @@ bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &s
     }
 
     blocks_left--;
+
+    ma_onblock_effects(); // fire martial arts block-triggered effects
+
     return true;
 }
 
@@ -1261,6 +1285,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
   // multiply damage by style damage_mults
   bash_dam *= mabuff_bash_mult();
   cut_dam *= mabuff_cut_mult();
+  stab_dam *= mabuff_cut_mult();
 
   // on-hit effects for martial arts
   ma_onhit_effects();
@@ -1732,7 +1757,7 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
 int attack_speed(player &u)
 {
  int move_cost = u.weapon.attack_time() / 2;
- int skill_cost = (int)(move_cost / (pow(u.skillLevel("melee"), 3)/400 +1));
+ int skill_cost = (int)(move_cost / (pow(static_cast<float>(u.skillLevel("melee")), 3.0f)/400 +1));
  int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 
  move_cost += skill_cost;

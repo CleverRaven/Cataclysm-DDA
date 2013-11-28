@@ -73,6 +73,42 @@
         "density" : 1
     },{
         "type" : "material",
+        "ident" : "water",
+        "name" : "Water",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 1
+    },{
+        "type" : "material",
+        "ident" : "milk",
+        "name" : "Milk",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 1
+    },{
+        "type" : "material",
         "ident" : "hflesh",
         "name" : "Human Flesh",
         "bash_resist" : 1,
