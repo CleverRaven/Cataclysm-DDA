@@ -87,7 +87,7 @@ void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
-void add_corpse(game *g, map *m, int x, int y);
+void add_corpse(map *m, int x, int y);
 
 void map::generate(game *g, overmap *om, const int x, const int y, const int z, const int turn)
 {
@@ -13563,7 +13563,7 @@ void map::post_process(game *g, unsigned zones)
             for (int i = 0; i < num_corpses; i++) {
                 int x = rng(0, 23), y = rng(0, 23);
                 if (move_cost(x, y) > 0) {
-                    add_corpse(g, this, x, y);
+                    add_corpse(this, x, y);
                 }
             }
         }
