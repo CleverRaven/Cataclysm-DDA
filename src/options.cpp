@@ -480,6 +480,11 @@ void initOptions() {
                                              _("A scaling factor that determines density of monster spawns."),
                                              0.0, 50.0, 1.0, 0.1
                                             );
+                                            
+    OPTIONS["ITEM_SPAWNRATE"] =         cOpt("world_default", _("Item spawn scaling factor"),
+                                             _("A scaling factor that determines density of item spawns."),
+                                             0.1, 1.0, 1.0, 0.1
+                                            );
 
     OPTIONS["CITY_SIZE"] =              cOpt("world_default", _("Size of cities"),
                                              _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),

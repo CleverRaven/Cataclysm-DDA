@@ -57,6 +57,7 @@ int player::hit_roll()
 // apply martial arts bonuses
   stat += mabuff_tohit_bonus();
 
+
 // keep the old martial arts mechanics for now
 // Some martial arts use something else to determine hits!
  if(weapon.typeId() == "style_tiger"){
@@ -194,7 +195,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
     message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
- if (!is_quiet()) // check martial arts silence
+ if (is_quiet()) // check martial arts silence
+  g->sound(posx, posy, 2, "");
+ else
   g->sound(posx, posy, 8, "");
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
