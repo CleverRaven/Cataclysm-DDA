@@ -75,7 +75,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
 
 
 template<class SAVEOBJ>
-void edit_json( SAVEOBJ *it, game * g )
+void edit_json( SAVEOBJ *it )
 {
 
     int tmret = -1;
@@ -1247,7 +1247,7 @@ int editmap::edit_itm()
                     wrefresh(imenu.window);
                     wrefresh(g->w_terrain);
                 } else if ( imenu.ret == imenu_savetest ) {
-                    edit_json(it,g);
+                    edit_json(it);
                 }
             } while(imenu.ret != imenu_exit);
             wrefresh(w_info);
@@ -1277,7 +1277,7 @@ int editmap::edit_mon()
     int ret = 0;
     int mon_index = g->mon_at(target.x, target.y);
     monster * it=&g->zombie(mon_index);
-    edit_json(it,g);
+    edit_json(it);
     return ret;
 }
 
@@ -1287,7 +1287,7 @@ int editmap::edit_veh()
     int ret = 0;
     int veh_part = -1;
     vehicle *it = g->m.veh_at(target.x, target.y, veh_part);
-    edit_json(it,g);
+    edit_json(it);
     return ret;
 }
 
@@ -1396,7 +1396,7 @@ int editmap::edit_npc()
     int ret = 0;
     int npc_index = g->npc_at(target.x, target.y);
     npc * it=g->active_npc[npc_index];
-    edit_json(it,g);
+    edit_json(it);
     return ret;
 }
 

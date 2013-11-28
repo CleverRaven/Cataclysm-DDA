@@ -141,13 +141,13 @@ private:
 
  void setup();
  void refresh_setup(WINDOW *w, int selection);
- void init_itypes(game *g);
+ void init_itypes();
  void reset_itypes();
- void init_mtypes(game *g);
+ void init_mtypes();
  void reset_mtypes();
  void init_constructions();
  void reset_constructions();
- void init_recipes(game *g);
+ void init_recipes();
  void reset_recipes();
  void init_map(game *g);
  std::vector<itype_id> carvan_items(caravan_category cat);
