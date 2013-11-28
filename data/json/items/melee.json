@@ -759,7 +759,7 @@
   },
 
   {
-    "type":"GENERIC",
+    "type":"TOOL",
     "id": "spiral_stone",
     "symbol": "*",
     "color": "light_gray",
@@ -769,9 +769,16 @@
     "material": "stone",
     "weight": 493,
     "volume": 1,
-    "bashing": 6,
+    "bashing": 8,
     "cutting": 0,
-    "to_hit": -1
+    "to_hit": 1,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SPIRAL"
   },
 
   {

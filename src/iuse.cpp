@@ -6384,3 +6384,25 @@ int iuse::talking_doll(player *p, item *it, bool t)
 
     return it->type->charges_to_use();
 }
+
+int iuse::spiral(player *p, item *it, bool t)
+{
+    if(it->charges == 0) {
+        g->add_msg_if_player(p, _("The %s is hollow-feeling."), it->name.c_str());
+        return 0;
+    } else if (p->has_trait("SPIRALLY")) {
+		g->add_msg_if_player(p, _("You're filled with a sudden blood lust!");
+		p->add_disease("spiralrush", 200);
+	} else {
+		g->add_msg_if_player(p, _("Your vision is filled with intricate spirals...");
+		int effect = rng(1, 3);
+		    if (effect == 3) {
+			     if (!p->has_trait("SPIRALLY")) {
+					g->add_msg_if_player(p,_("Your pupils are now full, beautiful spirals!"));
+					p->toggle_mutation("SPIRALLY")};
+			} else {
+				g->add_msg_if_player(p,_("...but only for a moment."));
+		}
+	}
+	return it->type->charges_to_use();
+}

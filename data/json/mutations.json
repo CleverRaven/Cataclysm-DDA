@@ -2094,6 +2094,12 @@
         "wet_protection" : [
             { "part" : "LEGS", "neutral" : 21 },
             { "part" : "FEET", "neutral" : 6 }
-        ]
+	},{
+	        "type" : "mutation",
+        "id" : "SPIRALLY",
+        "name" : "Spiral Eyes",
+        "points" : 4,
+        "description" : "Everything seems to have a circular pattern now. You need to kill something. Something alive!",
+        "valid" : false
     }
 ]
