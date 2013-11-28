@@ -251,6 +251,119 @@ void Item_factory::init_old() {
     }
 }
 
+inline int ammo_type_defined(const std::string &ammo) {
+    if(ammo == "NULL" || ammo == "generic_no_ammo") {
+        return 1; // Known ammo type
+    }
+    if(ammo_name(ammo) != "XXX") {
+        return 1; // Known ammo type
+    }
+    if(!item_controller->has_template(ammo)) {
+        return 0; // Unknown ammo type
+    }
+    return 2; // Unknown from ammo_name, but defined as itype
+}
+
+void Item_factory::check_ammo_type(std::ostream& msg, const std::string &ammo) const {
+    if(ammo == "NULL" || ammo == "generic_no_ammo") {
+        return;
+    }
+    if(ammo_name(ammo) == "XXX") {
+        msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
+    }
+    if(ammo == "UPS") {
+        return;
+    }
+    for(std::map<Item_tag, itype*>::const_iterator it = m_templates.begin(); it != m_templates.end(); ++it) {
+        const it_ammo* ammot = dynamic_cast<const it_ammo*>(it->second);
+        if(ammot == 0) {
+            continue;
+        }
+        if(ammot->type == ammo) {
+            return;
+        }
+    }
+    msg << string_format("there is no actuall ammo of type %s defined", ammo.c_str()) << "\n";
+}
+
+void Item_factory::check_itype_definitions() const {
+    std::ostringstream main_stream;
+    for(std::map<Item_tag, itype*>::const_iterator it = m_templates.begin(); it != m_templates.end(); ++it) {
+        std::ostringstream msg;
+        const itype* type = it->second;
+        if(type->m1 != "null" && !material_type::has_material(type->m1)) {
+            msg << string_format("invalid material %s", type->m1.c_str()) << "\n";
+        }
+        if(type->m2 != "null" && !material_type::has_material(type->m2)) {
+            msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
+        }
+        const it_comest* comest = dynamic_cast<const it_comest*>(type);
+        if(comest != 0) {
+            if(comest->container != "null" && !has_template(comest->container)) {
+                msg << string_format("invalid container property %s", comest->container.c_str()) << "\n";
+            }
+            if(comest->container != "null" && !has_template(comest->tool)) {
+                msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
+            }
+        }
+        const it_ammo* ammo = dynamic_cast<const it_ammo*>(type);
+        if(ammo != 0) {
+            check_ammo_type(msg, ammo->type);
+            if(ammo->casing != "NULL" && !has_template(ammo->casing)) {
+                msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
+            }
+        }
+        const it_gun* gun = dynamic_cast<const it_gun*>(type);
+        if(gun != 0) {
+            check_ammo_type(msg, gun->ammo);
+            if(gun->skill_used == 0) {
+                msg << string_format("uses no skill") << "\n";
+            }
+        }
+        const it_gunmod* gunmod = dynamic_cast<const it_gunmod*>(type);
+        if(gunmod != 0) {
+            check_ammo_type(msg, gunmod->newtype);
+        }
+        const it_tool* tool = dynamic_cast<const it_tool*>(type);
+        if(tool != 0) {
+            if(tool->max_charges != 0 || tool->def_charges != 0) {
+                check_ammo_type(msg, tool->ammo);
+            }
+            if(tool->revert_to != "null" && !has_template(tool->revert_to)) {
+                msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
+            }
+        }
+        if(msg.str().empty()) {
+            continue;
+        }
+        main_stream << "warnings for type " << type->id << ":\n" << msg.str() << "\n";
+        const std::string &buffer = main_stream.str();
+        const size_t lines = std::count(buffer.begin(), buffer.end(), '\n');
+        if(lines > 10) {
+            fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
+            getch();
+            werase(stdscr);
+            main_stream.str(std::string());
+        }
+    }
+    const std::string &buffer = main_stream.str();
+    if(!buffer.empty()) {
+        fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
+        getch();
+        werase(stdscr);
+    }
+}
+
+void Item_factory::check_items_of_groups_exist() const {
+    for(std::map<Item_tag, Item_group*>::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
+        a->second->check_items_exist();
+    }
+}
+
+bool Item_factory::has_template(Item_tag id) const {
+    return m_templates.count(id) > 0;
+}
+
 //Returns the template with the given identification tag
 itype* Item_factory::find_template(const Item_tag id){
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);

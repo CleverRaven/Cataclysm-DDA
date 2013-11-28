@@ -39,7 +39,7 @@ void show_auto_pickup()
     WINDOW* w_auto_pickup_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
     WINDOW* w_auto_pickup = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY, 1 + iOffsetX);
 
-    wborder(w_auto_pickup_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(w_auto_pickup_border);
     mvwputch(w_auto_pickup_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_auto_pickup_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
@@ -141,7 +141,7 @@ void show_auto_pickup()
             wrefresh(w_auto_pickup);
 
         } else if (iCurrentPage == 3) {
-            wborder(w_auto_pickup_options, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+            draw_border(w_auto_pickup_options);
 
             mvwprintz(w_auto_pickup_options, 5, 10, c_white, _("Under construction!"));
 
@@ -235,7 +235,7 @@ void show_auto_pickup()
                                 "")
                             );
 
-                            wborder(w_auto_pickup_help, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+                            draw_border(w_auto_pickup_help);
                             wrefresh(w_auto_pickup_help);
                             vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"), 30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule));
                         } else if (iCurrentCol == 2) {
@@ -338,7 +338,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     WINDOW* w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
     WINDOW* w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
 
-    wborder(w_test_rule_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(w_test_rule_border);
 
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());

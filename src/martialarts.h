@@ -77,7 +77,7 @@ class ma_technique {
     int hit; // flat bonus to hit
     int bash; // flat bonus to bash
     int cut; // flat bonus to cut
-    int pain; // causes pain
+    int pain; // attacks cause pain
 
     float bash_mult; // bash damage multiplier
     float cut_mult; // cut damage multiplier
@@ -97,11 +97,6 @@ class ma_technique {
     float hit_int; // "" int point
     float hit_per; // "" per point
 
-    //defensive
-    int block;
-
-    float bash_resist; // multiplies bash by this (1 - amount)
-    float cut_resist; // "" cut ""
 };
 
 class ma_buff {
@@ -123,6 +118,10 @@ class ma_buff {
     int dodge_bonus(player& u);
     int speed_bonus(player& u);
     int block_bonus(player& u);
+
+    // returns the armor bonus for various armor stats (equivalent to armor)
+    int arm_bash_bonus(player& u);
+    int arm_cut_bonus(player& u);
 
     // returns the stat bonus for the various damage stats (for rolls)
     int bash_bonus(player& u);
@@ -151,6 +150,9 @@ class ma_buff {
 
     int dodges_bonus; // extra dodges, like karate
     int blocks_bonus; // extra blocks, like karate
+
+    int arm_bash; // passive bonus to bash armor
+    int arm_cut; // passive bonus to cut armor
 
     int hit; // flat bonus to hit
     int bash; // flat bonus to bash
@@ -199,11 +201,17 @@ class martialart {
     // modifies a player's "current" stats with various types of bonuses
     void apply_static_buffs(player& u, std::vector<disease>& dVec);
 
-    void apply_onhit_buffs(player& u, std::vector<disease>& dVec);
-
     void apply_onmove_buffs(player& u, std::vector<disease>& dVec);
 
+    void apply_onhit_buffs(player& u, std::vector<disease>& dVec);
+
+    void apply_onattack_buffs(player& u, std::vector<disease>& dVec);
+
     void apply_ondodge_buffs(player& u, std::vector<disease>& dVec);
+
+    void apply_onblock_buffs(player& u, std::vector<disease>& dVec);
+
+    void apply_ongethit_buffs(player& u, std::vector<disease>& dVec);
 
     // determines if a technique is valid or not for this style
     bool has_technique(player& u, matec_id tech);
@@ -219,7 +227,10 @@ class martialart {
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
     std::vector<ma_buff> onmove_buffs;
     std::vector<ma_buff> onhit_buffs;
+    std::vector<ma_buff> onattack_buffs;
     std::vector<ma_buff> ondodge_buffs;
+    std::vector<ma_buff> onblock_buffs;
+    std::vector<ma_buff> ongethit_buffs;
 
 };
 

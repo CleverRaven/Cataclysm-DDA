@@ -10,6 +10,7 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
+#include <iterator>
 #include "catacharset.h"
 #include "translations.h"
 #include "uistate.h"
@@ -722,7 +723,7 @@ void advanced_inventory::display(game * gp, player * pp) {
 
             werase(head);
             {
-                wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+                draw_border(head);
                 int line=1;
                 if( checkshowmsg || showmsg ) {
                   for (int i = g->messages.size() - 1; i >= 0 && line < 4; i--) {
