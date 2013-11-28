@@ -226,8 +226,9 @@ void mattack::boomer(monster *z)
   if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
    g->u.infect("boomered", bp_eyes, 3, 12, false, 1, 1);
   else if (u_see)
-   g->add_msg(_("You dodge it!"));
-  g->u.practice(g->turn, "dodge", 10);
+    g->add_msg(_("You dodge it!"));
+    g->u.practice(g->turn, "dodge", 10);
+    g->u.ma_ondodge_effects();
  }
 }
 
@@ -841,6 +842,7 @@ void mattack::dermatik(monster *z)
         g->add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         z->stumble(g, false);
         g->u.practice(g->turn, "dodge", z->type->melee_skill * 2);
+        g->u.ma_ondodge_effects();
         return;
     }
 
@@ -1012,6 +1014,7 @@ void mattack::tentacle(monster *z)
     {
         g->add_msg(_("You dodge it!"));
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        g->u.ma_ondodge_effects();
         return;
     }
 
@@ -1764,6 +1767,7 @@ void mattack::bite(monster *z) {
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         g->add_msg(_("You dodge it!"));
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        g->u.ma_ondodge_effects();
         return;
     }
 
@@ -1826,6 +1830,7 @@ void mattack::flesh_golem(monster *z)
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         g->add_msg(_("You dodge it!"));
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        g->u.ma_ondodge_effects();
         return;
     }
     body_part hit = random_body_part();

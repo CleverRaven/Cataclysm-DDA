@@ -424,6 +424,21 @@
     },
     {
         "type":"GENERIC",
+        "id" : "chemlab",
+        "name" : "onboard chemistry lab",
+        "description" : "Assembled from a chemistry set attached to a complex wiring harness, it is well suited to most any chemistry project you could imagine. Unable to utilize standard batteries, it requires an external supply of electricity to operate.",
+        "weight" : 19124,
+        "to_hit" : -2,
+        "color" : "yellow",
+        "symbol" : "&",
+        "material" : ["steel", "glass"],
+        "volume" : 92,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 400
+    },
+    {
+        "type":"GENERIC",
         "id": "veh_tracker",
         "name": "vehicle tracking device",
         "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle through your PDA",

@@ -311,6 +311,15 @@ void defense_game::init_map(game *g)
         g->cur_om->ter(50, 49, 0) = "hospital_entrance";
         break;
 
+    case DEFLOC_WORKS:
+        for (int x = 49; x <= 50; x++) {
+            for (int y = 49; y <= 50; y++) {
+                g->cur_om->ter(x, y, 0) = "public_works";
+            }
+        }
+        g->cur_om->ter(50, 49, 0) = "public_works_entrance";
+        break;
+
     case DEFLOC_MALL:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
@@ -844,6 +853,7 @@ std::string defense_location_name(defense_location location)
  switch (location) {
  case DEFLOC_NULL:      return "Nowhere?! (bug in defense.cpp:defense_location_name)";
  case DEFLOC_HOSPITAL:  return _("Hospital");
+ case DEFLOC_WORKS:     return _("Public Works");
  case DEFLOC_MALL:      return _("Megastore");
  case DEFLOC_BAR:       return _("Bar");
  case DEFLOC_MANSION:   return _("Mansion");
@@ -858,6 +868,8 @@ std::string defense_location_description(defense_location location)
   return "NULL Bug. (defense.cpp:defense_location_description)";
  case DEFLOC_HOSPITAL:
   return                 _("One entrance and many rooms.  Some medical supplies.");
+ case DEFLOC_WORKS:
+  return                 _("An easy fortifiable building with lots of useful tools inside.");
  case DEFLOC_MALL:
   return                 _("A large building with various supplies.");
  case DEFLOC_BAR:

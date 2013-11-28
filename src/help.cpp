@@ -24,8 +24,7 @@ void display_help()
                              ACTION_MOVE_W, ACTION_PAUSE, ACTION_MOVE_E,
                              ACTION_MOVE_SW,ACTION_MOVE_S,ACTION_MOVE_SE};
     do {
-        wborder(w_help_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+        draw_border(w_help_border);
 
         mvwprintz(w_help_border, 0, 38, c_ltred, _(" HELP "));
         wrefresh(w_help_border);

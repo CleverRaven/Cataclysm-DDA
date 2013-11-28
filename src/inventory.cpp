@@ -601,6 +601,7 @@ void inventory::form_from_map(game *g, point origin, int range, bool assign_invl
      const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
      const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
      const int forgepart = veh->part_with_feature(vpart, "FORGE");
+     const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
 
      if (kpart >= 0) {
        item hotplate(itypes["hotplate"], 0);
@@ -642,6 +643,15 @@ void inventory::form_from_map(game *g, point origin, int range, bool assign_invl
        item forge(itypes["forge"], 0);
        forge.charges = veh->fuel_left("battery", true);
        add_item(forge);
+       }
+     if (chempart >= 0) {
+       item hotplate(itypes["hotplate"], 0);
+       hotplate.charges = veh->fuel_left("battery", true);
+       add_item(hotplate);
+
+       item chemistry_set(itypes["chemistry_set"], 0);
+       chemistry_set.charges = veh->fuel_left("battery", true);
+       add_item(chemistry_set);
        }
      }
    }
