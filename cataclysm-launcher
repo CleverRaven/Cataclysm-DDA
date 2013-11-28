@@ -5,7 +5,7 @@ BIN=$(basename "$0")
 cd "$DIR" || exit $?
 
 # If name does not match a binary or is this same script, find the right one
-if [ ! -f "$BIN" ] || [ "$BIN" == "$(basename "$(readlink -f "$0")")" ]
+if [ ! -f "$BIN" ] || [ "$BIN" = "$(basename "$(readlink -f "$0")")" ]
 then
     BIN=
     for bin in cataclysm-tiles cataclysm
