@@ -833,7 +833,7 @@ void game::process_activity()
  item* reloadable;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
-  if (int(turn) % 150 == 0) {
+  if (int(turn) % 50 == 0) {
    draw();
   }
   if (u.activity.type == ACT_WAIT || u.activity.type == ACT_WAIT_WEATHER) { // Based on time, not speed
@@ -6689,24 +6689,27 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     vehint.ddx = cx;
     vehint.ddy = cy;
     vehint.exec(&veh);
+    refresh_all();
     if (vehint.sel_cmd != ' ')
-    {                                                        // TODO: different activity times
-        u.activity = player_activity(ACT_VEHICLE,
-                                     vehint.sel_cmd == 'f' || vehint.sel_cmd == 's' ||
-                                     vehint.sel_cmd == 'c' ? 200 : 20000,
-                                     (int) vehint.sel_cmd, 0, "");
+    {
+        // TODO: different activity times
+        u.activity = player_activity( ACT_VEHICLE, vehint.sel_cmd == 'f' ||
+                                      vehint.sel_cmd == 's' ||
+                                      vehint.sel_cmd == 'c' ? 200 : 20000,
+                                      (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
         u.activity.values.push_back (vehint.ddx);   // values[2]
         u.activity.values.push_back (vehint.ddy);   // values[3]
         u.activity.values.push_back (-vehint.ddx);   // values[4]
         u.activity.values.push_back (-vehint.ddy);   // values[5]
-        u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part)); // values[6]
+        // values[6]
+        u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part));
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         if(vehint.sel_vpart_info != NULL) {
-          u.activity.str_values.push_back(vehint.sel_vpart_info->id);
+            u.activity.str_values.push_back(vehint.sel_vpart_info->id);
         } else {
-          u.activity.str_values.push_back("null");
+            u.activity.str_values.push_back("null");
         }
         u.moves = 0;
     }
@@ -10300,6 +10303,7 @@ void game::read()
   add_msg(_("Never mind."));
   return;
  }
+ draw();
  u.read(this, ch);
 }
 
