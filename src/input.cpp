@@ -551,6 +551,7 @@ input_event input_context::get_raw_input()
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event(WINDOW* win)
 {
+    (void)win; // unused
     int key = get_keypress();
     input_event rval;
     if (key == ERR) {

@@ -6698,6 +6698,7 @@ void game::handbrake ()
 
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 {
+    (void)examx; (void)examy; // not currently used
     veh_interact vehint;
     vehint.ddx = cx;
     vehint.ddy = cy;
