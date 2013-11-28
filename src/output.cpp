@@ -217,6 +217,14 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     wattroff(w, FG);
 }
 
+void draw_border(WINDOW *w, nc_color FG)
+{
+    wattron(w, FG);
+    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wattroff(w, FG);
+}
+
 void draw_tabs(WINDOW *w, int active_tab, ...)
 {
     int win_width;
@@ -332,8 +340,7 @@ bool query_yn(const char *mes, ...)
 
     fold_and_print(w, 1, 1, win_width, c_ltred, query.c_str());
 
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     wrefresh(w);
     char ch;
@@ -401,8 +408,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     WINDOW *w = newwin(w_height, iPopupWidth, w_y,
                        ((TERMX > iPopupWidth) ? (TERMX - iPopupWidth) / 2 : 0));
 
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     int endx = iPopupWidth - 3;
 
@@ -601,8 +607,7 @@ char popup_getkey(const char *mes, ...)
     }
     WINDOW *w = newwin(height + 1, width, (TERMY - (height + 1)) / 2,
                        (TERMX > width) ? (TERMX - width) / 2 : 0);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     for(int i = 0; i < folded.size(); i++) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
@@ -663,8 +668,7 @@ void popup_top(const char *mes, ...)
     }
     width += 2;
     WINDOW *w = newwin(height, width, 0, (TERMX > width) ? (TERMX - width) / 2 : 0);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     for(int i = 0; i < folded.size(); i++) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
@@ -705,8 +709,7 @@ void popup(const char *mes, ...)
     }
     WINDOW *w = newwin(height, width, (TERMY - (height + 1)) / 2,
                        (TERMX > width) ? (TERMX - width) / 2 : 0);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     for(int i = 0; i < folded.size(); i++) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
@@ -747,8 +750,8 @@ void popup_nowait(const char *mes, ...)
     }
     WINDOW *w = newwin(height, width, (TERMY - (height + 1)) / 2,
                        (TERMX > width) ? (TERMX - width) / 2 : 0);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
+
     for(int i = 0; i < folded.size(); i++) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
     }
@@ -780,8 +783,7 @@ void full_screen_popup(const char *mes, ...)
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     for(int i = 0; i < folded.size(); i++) {
         mvwprintz(w, i + 1, 2, c_white, folded[i].c_str());
@@ -909,8 +911,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         }
     }
 
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     int ch = (int)' ';
 
