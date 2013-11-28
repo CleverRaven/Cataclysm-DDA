@@ -158,9 +158,9 @@ void veh_interact::allocate_windows()
         msg_w   = grid_w;
 
         stats_h = grid_h - mode_h - msg_h - name_h - 2;
-        stats_w = 30 + (extra_w / 4);
+        stats_w = 26 + (extra_w / 4);
 
-        disp_h = stats_h * 2 / 5;
+        disp_h = stats_h / 3;
         disp_w = grid_w - stats_w - 1;
         parts_h = stats_h - disp_h - 1;
         parts_w = disp_w / 2;
@@ -943,43 +943,43 @@ void veh_interact::display_grid()
     if (vertical_menu) {
         // Two lines dividing the three middle sections.
         for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); i++) {
-            mvwputch(w_grid, i, disp_w, c_dkgray, LINE_XOXO); // |
-            mvwputch(w_grid, i, disp_w + 1 + parts_w, c_dkgray, LINE_XOXO); // |
+            mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
+            mvwputch(w_grid, i, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XOXO); // |
         }
         // Two lines dividing the vertical menu sections.
         for (int i = 0; i < grid_w; i++) {
-            mvwputch( w_grid, mode_h + msg_h, i, c_dkgray, LINE_OXOX ); // -
-            mvwputch( w_grid, mode_h + msg_h + 1 + disp_h, i, c_dkgray, LINE_OXOX ); // -
+            mvwputch( w_grid, mode_h + msg_h, i, BORDER_COLOR, LINE_OXOX ); // -
+            mvwputch( w_grid, mode_h + msg_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX ); // -
         }
         // Fix up the line intersections.
-        mvwputch(w_grid, mode_h + msg_h,              disp_w, c_dkgray, LINE_OXXX);
-        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w, c_dkgray, LINE_XXOX); // _|_
-        mvwputch(w_grid, mode_h + msg_h,              disp_w + 1 + parts_w, c_dkgray, LINE_OXXX);
-        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w + 1 + parts_w, c_dkgray, LINE_XXOX); // _|_
+        mvwputch(w_grid, mode_h + msg_h,              disp_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w, BORDER_COLOR, LINE_XXOX); // _|_
+        mvwputch(w_grid, mode_h + msg_h,              disp_w + 1 + parts_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XXOX); // _|_
     } else {
         // Vertical lines
         for (int i = name_h + 1; i < (name_h + 1 + disp_h + 1 + parts_h); i++) {
-            mvwputch(w_grid, i, disp_w, c_dkgray, LINE_XOXO); // |
+            mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
         }
         for (int i = (name_h + 1 + disp_h + 1); i < (name_h + 1 + stats_h); i++) {
-            mvwputch(w_grid, i, parts_w, c_dkgray, LINE_XOXO); // |
+            mvwputch(w_grid, i, parts_w, BORDER_COLOR, LINE_XOXO); // |
         }     
         
         // Two horizontal lines: one after name window, and another after parts window
         for (int i = 0; i < grid_w; i++) {
-            mvwputch(w_grid, name_h, i, c_dkgray, LINE_OXOX);
-            mvwputch(w_grid, name_h + 1 + stats_h, i, c_dkgray, LINE_OXOX);
+            mvwputch(w_grid, name_h, i, BORDER_COLOR, LINE_OXOX);
+            mvwputch(w_grid, name_h + 1 + stats_h, i, BORDER_COLOR, LINE_OXOX);
         }
         // Horizontal line between vehicle/parts windows 
         for (int i = 0; i < disp_w; i++) {
-            mvwputch(w_grid, name_h + 1 + disp_h, i, c_dkgray, LINE_OXOX); 
+            mvwputch(w_grid, name_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX);
         }
         // Fix up the line intersections.
-        mvwputch(w_grid, name_h, disp_w, c_dkgray, LINE_OXXX);
-        mvwputch(w_grid, name_h + 1 + disp_h, parts_w, c_dkgray, LINE_OXXX);
-        mvwputch(w_grid, name_h + 1 + disp_h + parts_h + 1, parts_w, c_dkgray, LINE_XXOX);
-        mvwputch(w_grid, name_h + 1 + disp_h, disp_w, c_dkgray, LINE_XOXX); // -|
-        mvwputch(w_grid, name_h + 1 + stats_h, disp_w, c_dkgray, LINE_XXOX );
+        mvwputch(w_grid, name_h, disp_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, name_h + 1 + disp_h, parts_w, BORDER_COLOR, LINE_OXXX);
+        mvwputch(w_grid, name_h + 1 + disp_h + parts_h + 1, parts_w, BORDER_COLOR, LINE_XXOX);
+        mvwputch(w_grid, name_h + 1 + disp_h, disp_w, BORDER_COLOR, LINE_XOXX); // -|
+        mvwputch(w_grid, name_h + 1 + stats_h, disp_w, BORDER_COLOR, LINE_XXOX );
     }
     wrefresh(w_grid);
 }
@@ -1017,13 +1017,6 @@ void veh_interact::display_veh ()
     if (!vertical_menu) {
         size_t len = utf8_width(_("FWD ->"));
         mvwprintz(w_disp, 0, disp_w - len, c_dkgray,  _("FWD ->"));
-    /* } else {
-        // not enough space for this arrow
-        size_t len = utf8_width(_("FWD"));
-        mvwprintz(w_disp, 0, disp_w - len, c_dkgray,  _("FWD"));
-        mvwprintz(w_disp, 1, disp_w - 2,   c_dkgray,   _("^ "));
-        mvwprintz(w_disp, 2, disp_w - 2,   c_dkgray,   _("| "));
-    */
     }
     wrefresh (w_disp);
 }
@@ -1320,7 +1313,7 @@ void veh_interact::display_list(int pos, std::vector<vpart_info> list)
 void veh_interact::countDurability()
 {
     int sum = 0; // sum of part HP
-    int max = 0; // sum of part max HP, ie durability
+    int max = 0; // sum of part max HP, i.e. durability
     double mostDamaged = 1; // durability ratio of the most damaged part
 
     for (int it = 0; it < veh->parts.size(); it++) {
@@ -1340,7 +1333,7 @@ void veh_interact::countDurability()
     }
 
     double totalDamagePercent = sum / (double)max;
-    durabilityPercent = totalDamagePercent * 100;
+    durabilityPercent = int(totalDamagePercent * 100);
 
     totalDurabilityColor = getDurabilityColor(durabilityPercent);
     totalDurabilityText = getDurabilityDescription(durabilityPercent);
