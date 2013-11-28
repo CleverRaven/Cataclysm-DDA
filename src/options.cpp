@@ -15,7 +15,7 @@
 #include <string>
 #include <locale>
 #include <sstream>
-
+ 
 bool trigdist;
 bool use_tiles;
 
