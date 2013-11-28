@@ -763,6 +763,7 @@ void show_options(bool ingame)
 
         wrefresh(w_options_header);
 
+#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
 		if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_X")
 		{
 			int new_viewport_x, new_window_width;
@@ -784,6 +785,7 @@ void show_options(bool ingame)
 			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels tall.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_height);
 		}
 		else
+#endif
 		{
 			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str());
 		}
