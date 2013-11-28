@@ -13640,6 +13640,8 @@ void map::place_toilet(int x, int y, int charges)
 int map::place_items(items_location loc, int chance, int x1, int y1,
                      int x2, int y2, bool ongrass, int turn)
 {
+int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
+    
     if (chance >= 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
         return 0;
@@ -13649,6 +13651,11 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     int px, py;
     int item_num = 0;
     while (rng(0, 99) < chance) {
+    
+    if (rng(1,100) > lets_spawn) {
+    continue;
+    } 
+    
         selected_item = item_controller->id_from(loc);
         int tries = 0;
         do {
