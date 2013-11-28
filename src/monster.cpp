@@ -554,7 +554,7 @@ int monster::trigger_sum(game *g, std::set<monster_trigger> *triggers)
  return ret;
 }
 
-int monster::hit(game *g, player &p, body_part &bp_hit) {
+int monster::hit(player &p, body_part &bp_hit) {
  int ret = 0;
  int highest_hit = 0;
 
