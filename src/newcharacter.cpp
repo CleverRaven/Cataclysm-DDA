@@ -314,6 +314,54 @@ bool player::create(game *g, character_type type, std::string tempname)
         ma_styles.push_back(ma_type);
         style_selected = ma_type;
     }
+    if (has_trait("MARTIAL_ARTS3")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
+                         menu(false, _("Pick your style:"), _("Tiger"), _("Crane"), _("Leopard"),
+                              _("Snake"), _("Dragon"), NULL);
+            if (choice == 1) {
+                ma_type = "style_tiger";
+            } else if (choice == 2) {
+                ma_type = "style_crane";
+            } else if (choice == 3) {
+                ma_type = "style_leopard";
+            } else if (choice == 4) {
+                ma_type = "style_snake";
+            } else { // choice == 5
+                ma_type = "style_dragon";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description.c_str());
+            }
+        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected = ma_type;
+    }
+    if (has_trait("MARTIAL_ARTS4")) {
+        matype_id ma_type;
+        do {
+            int choice = (PLTYPE_NOW == type) ? rng(1, 5) :
+                         menu(false, _("Pick your style:"), _("Centipede"), _("Viper"), _("Scorpion"),
+                              _("Lizard"), _("Toad"), NULL);
+            if (choice == 1) {
+                ma_type = "style_centipede";
+            } else if (choice == 2) {
+                ma_type = "style_venom_snake";
+            } else if (choice == 3) {
+                ma_type = "style_scorpion";
+            } else if (choice == 4) {
+                ma_type = "style_lizard";
+            } else { // choice == 5
+                ma_type = "style_toad";
+            }
+            if (PLTYPE_NOW != type) {
+                popup(martialarts[ma_type].description.c_str());
+            }
+        } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
+        ma_styles.push_back(ma_type);
+        style_selected = ma_type;
+    }
 
 
     ret_null = item(itypes["null"], 0);
