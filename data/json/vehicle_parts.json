@@ -1090,7 +1090,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "foot_pedals",
-        "name" : "Foot pedals",
+        "name" : "foot pedals",
         "symbol" : "*",
         "color" : "light_gray",
         "broken_symbol" : "#",
@@ -1102,7 +1102,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE"],
+        "flags" : ["PEDALS", "ENGINE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -1472,6 +1472,28 @@
             {"item": "vac_sealer", "min": 0, "max": 1},
             {"item": "dehydrator", "min": 0, "max": 1},
             {"item": "press", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "chemlab",
+        "name" : "onboard chemistry lab",
+        "symbol" : "&",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "size" : 400,
+        "item" : "chemlab",
+        "difficulty" : 4,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "CHEMLAB"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 4, "max": 7},
+            {"item": "scrap", "min": 4, "max": 7},
+            {"item": "chemistry_set", "min": 0, "max": 1},
+            {"item": "hotplate", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",

@@ -37,6 +37,8 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     of_turn_carry = 0;
     turret_mode = 0;
     lights_power = 0;
+    overhead_power = 0;
+    fridge_power = 0;
     tracking_power = 0;
     cruise_velocity = 0;
     skidding = false;
@@ -44,7 +46,10 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     lights_on = false;
     tracking_on = false;
     overhead_lights_on = false;
+    fridge_on = false;
     insides_dirty = true;
+    engine_on = false;
+    has_pedals = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -145,10 +150,12 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 1% to 7%
     int veh_fuel_mult = init_veh_fuel;
-    if (init_veh_fuel == - 1)
-     veh_fuel_mult = rng (1,7);
-    if (init_veh_fuel > 100)
-     veh_fuel_mult = 100;
+    if (init_veh_fuel == - 1) {
+        veh_fuel_mult = rng (1,7);
+    }
+    if (init_veh_fuel > 100) {
+        veh_fuel_mult = 100;
+    }
 
     // im assuming vehicles only spawn in active maps
     levx = g->levx;
@@ -156,11 +163,12 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
-    //  0 = undamgaed
+    //  0 = undamaged
     //  1 = disabled, destroyed tires OR engine
     int veh_status = -1;
-    if (init_veh_status == 0)
-     veh_status = 0;
+    if (init_veh_status == 0) {
+        veh_status = 0;
+    }
     if (init_veh_status == 1) {
      veh_status = 1;
      if (one_in(2)) {  // either engine or tires are destroyed
@@ -170,19 +178,28 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
      }
     }
 
-    //Turn on lights on some non-mint vehicles
-    if(veh_status != 0 && one_in(20)) {
-        lights_on = true;
-    }
+    //Provide some variety to non-mint vehicles
+    if(veh_status != 0) {
 
-    //Turn flasher/overhead lights on separately (more likely since these are rarer)
-    if(veh_status != 0 && one_in(4)) {
-        overhead_lights_on = true;
-    }
+        //Turn on lights on some vehicles
+        if(one_in(20)) {
+            lights_on = true;
+        }
 
-    //Don't bloodsplatter mint condition vehicles
-    if(veh_status != 0 && one_in(10)) {
-      blood_covered = true;
+        //Turn flasher/overhead lights on separately (more likely since these are rarer)
+        if(one_in(4)) {
+            overhead_lights_on = true;
+        }
+
+        if(one_in(10)) {
+            blood_covered = true;
+        }
+        
+        //Fridge should always start out activated if present
+        if(all_parts_with_feature("FRIDGE").size() > 0) {
+            fridge_on = true;
+        }
+
     }
 
     for (int p = 0; p < parts.size(); p++)
@@ -396,9 +413,9 @@ void vehicle::use_controls()
         current++;
     }
 
-    // Exit vehicle, if we are in it.
+    // Toggle engine on/off.
     int vpart;
-    if (has_engine) {
+    if (!pedals() && has_engine) {
         options_choice.push_back(toggle_engine);
         options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
                                                _("Turn on the engine"), 'e'));
@@ -417,13 +434,14 @@ void vehicle::use_controls()
     options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
 
     uimenu selectmenu;
+    selectmenu.return_invalid = true;
     selectmenu.text = _("Vehicle controls");
     selectmenu.entries = options_message;
     selectmenu.selected = letgoent;
     selectmenu.query();
     int select = selectmenu.ret;
 
-    if (select == UIMENU_INVALID) {
+    if (select < 0) {
         return;
     }
 
@@ -475,10 +493,10 @@ void vehicle::use_controls()
         }
         else {
           if (total_power () < 1) {
-            if (total_power (false) < 1)
-                g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-            else
-                g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+              if (total_power (false) < 1)
+                  g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+              else
+                  g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
           }
           else {
             engine_on = true;
@@ -1924,7 +1942,7 @@ void vehicle::charge_battery (int amount)
 
 
 void vehicle::idle() {
-  if (engine_on && total_power () > 0) {
+  if (engine_on && total_power () > 0 && !pedals()) {
     if(one_in(6)) {
         int strn = (int) (strain () * strain() * 100);
 
@@ -1953,7 +1971,7 @@ void vehicle::idle() {
 
       if (one_in(10)) {
         int smk = noise (true, true); // Only generate smoke for gas cars.
-        if (smk > 0) {
+        if (smk > 0 && !pedals()) {
           int rdx = rng(0, 2);
           int rdy = rng(0, 2);
           g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
@@ -2010,7 +2028,7 @@ void vehicle::thrust (int thd) {
             cruise_velocity = 0;
             return;
         }
-        else if (!engine_on) {
+        else if (!engine_on && !pedals()) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
@@ -2041,22 +2059,27 @@ void vehicle::thrust (int thd) {
         }
         // add sound and smoke
         int smk = noise (true, true);
-        if (smk > 0)
+        if (smk > 0 && !pedals())
         {
             int rdx, rdy;
             coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
             g->m.add_field(g, global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
         std::string soundmessage;
-        if (smk > 80)
-          soundmessage = "ROARRR!";
-        else if (smk > 60)
-          soundmessage = "roarrr!";
-        else if (smk > 30)
-          soundmessage = "vroom!";
-        else
-          soundmessage = "whirrr!";
-        g->sound(global_x(), global_y(), noise(), soundmessage.c_str());
+        if (!pedals()) {
+          if (smk > 80)
+            soundmessage = "ROARRR!";
+          else if (smk > 60)
+            soundmessage = "roarrr!";
+          else if (smk > 30)
+            soundmessage = "vroom!";
+          else
+            soundmessage = "whirrr!";
+          g->sound(global_x(), global_y(), noise(), soundmessage.c_str());
+        }
+        else {
+          g->sound(global_x(), global_y(), noise(), "");
+        }
     }
 
     if (skidding)
@@ -2827,6 +2850,21 @@ void vehicle::find_exhaust ()
     exhaust_dx--;
 }
 
+bool vehicle::pedals() {
+  if (has_pedals) {
+    return true;
+  }
+  else {
+    for (int p = 0; p < parts.size(); p++) {
+      if (part_flag(p, "PEDALS")) {
+        has_pedals = true;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 void vehicle::refresh_insides ()
 {
     insides_dirty = false;
@@ -2934,7 +2972,7 @@ void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
     if (dmg1 < 1) { return; }
     for (int p = 0; p < parts.size(); p++) {
         int distance = 1 + square_dist( parts[p].mount_dx, parts[p].mount_dy, impact.x, impact.y );
-        if( distance > 1 && one_in( distance ) ) {
+        if( distance > 1 && one_in( distance ) && part_info(p).location == "structure" ) {
             damage_direct (p, rng( dmg1, dmg2 ) / (distance * distance), type);
         }
     }

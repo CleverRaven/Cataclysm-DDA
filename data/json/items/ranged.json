@@ -25,32 +25,32 @@
     "clip_size": 100,
     "reload": 450
   },
-        {
-        "id": "nailrifle",
-        "type": "GUN",
-        "symbol": "(",
-        "color": "yellow",
-        "name": "nail rifle",
-        "description": "This is a nailgun that has been jury-rigged to be a more effective weapon with the addition of a short barrel, a stock, and a hand guard.",
-        "price": 200,
-        "material": ["plastic", "steel"],
-        "flags": "MODE_BURST",
-        "skill": "rifle",
-        "ammo": "nail",
-        "weight": 4827,
-        "volume": 10,
-        "bashing": 12,
-        "cutting": 0,
-        "to_hit": -1,
-        "ranged_damage": 2,
-        "range": 3,
-        "dispersion": 22,
-        "recoil": 0,
-        "durability": 8,
-        "burst": 5,
-        "clip_size": 100,
-        "reload": 350
-      },
+  {
+    "id": "nailrifle",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": "nail rifle",
+    "description": "This is a nailgun that has been jury-rigged to be a more effective weapon with the addition of a short barrel, a stock, and a hand guard.",
+    "price": 200,
+    "material": ["plastic", "steel"],
+    "flags": "MODE_BURST",
+    "skill": "rifle",
+    "ammo": "nail",
+    "weight": 4827,
+    "volume": 10,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 2,
+    "range": 3,
+    "dispersion": 22,
+    "recoil": 0,
+    "durability": 8,
+    "burst": 5,
+    "clip_size": 100,
+    "reload": 350
+  },
   {
     "id": "bbgun",
     "type": "GUN",
@@ -76,7 +76,6 @@
     "clip_size": 20,
     "reload": 500
   },
-
   {
     "id": "sling",
     "type": "GUN",
@@ -103,7 +102,6 @@
     "clip_size": 1,
     "reload": 100
   },
-
   {
     "id": "slingshot",
     "type": "GUN",
@@ -130,7 +128,6 @@
     "clip_size": 1,
     "reload": 100
   },
-
   {
     "id": "blowgun",
     "type": "GUN",
@@ -157,7 +154,6 @@
     "clip_size": 1,
     "reload": 100
   },
-
   {
     "id": "rifle_22",
     "type": "GUN",
@@ -183,7 +179,6 @@
     "clip_size": 1,
     "reload": 250
   },
-
   {
     "id": "rifle_9mm",
     "type": "GUN",
@@ -209,7 +204,6 @@
     "clip_size": 1,
     "reload": 250
   },
-
   {
     "id": "smg_9mm",
     "type": "GUN",
@@ -236,7 +230,6 @@
     "clip_size": 10,
     "reload": 400
   },
-
   {
     "id": "smg_45",
     "type": "GUN",
@@ -263,7 +256,6 @@
     "clip_size": 8,
     "reload": 400
   },
-
   {
     "id": "sig_mosquito",
     "type": "GUN",
@@ -289,7 +281,6 @@
     "clip_size": 10,
     "reload": 350
   },
-
   {
     "id": "sw_22",
     "type": "GUN",
@@ -315,7 +306,6 @@
     "clip_size": 10,
     "reload": 300
   },
-
   {
     "id": "glock_19",
     "type": "GUN",
@@ -341,7 +331,6 @@
     "clip_size": 15,
     "reload": 300
   },
-
   {
     "id": "usp_9mm",
     "type": "GUN",
@@ -367,7 +356,6 @@
     "clip_size": 15,
     "reload": 350
   },
-
   {
     "id": "sw_619",
     "type": "GUN",
@@ -394,7 +382,6 @@
     "clip_size": 7,
     "reload": 75
   },
-
   {
     "id": "taurus_38",
     "type": "GUN",
@@ -420,7 +407,6 @@
     "clip_size": 10,
     "reload": 350
   },
-
   {
     "id": "sig_40",
     "type": "GUN",
@@ -446,7 +432,6 @@
     "clip_size": 12,
     "reload": 350
   },
-
   {
     "id": "sw_610",
     "type": "GUN",
@@ -473,7 +458,6 @@
     "clip_size": 6,
     "reload": 60
   },
-
   {
     "id": "sw_500",
     "type": "GUN",
@@ -500,7 +484,6 @@
     "clip_size": 5,
     "reload": 80
   },
-
   {
     "id": "raging_bull",
     "type": "GUN",
@@ -527,7 +510,6 @@
     "clip_size": 5,
     "reload": 80
   },
-
   {
     "id": "ruger_redhawk",
     "type": "GUN",
@@ -554,7 +536,6 @@
     "clip_size": 6,
     "reload": 80
   },
-
   {
     "id": "deagle_44",
     "type": "GUN",
@@ -580,7 +561,6 @@
     "clip_size": 8,
     "reload": 400
   },
-
   {
     "id": "usp_45",
     "type": "GUN",
@@ -606,7 +586,6 @@
     "clip_size": 12,
     "reload": 350
   },
-
   {
     "id": "m1911",
     "type": "GUN",
@@ -632,7 +611,6 @@
     "clip_size": 7,
     "reload": 300
   },
-
   {
     "id": "fn57",
     "type": "GUN",
@@ -658,7 +636,6 @@
     "clip_size": 20,
     "reload": 300
   },
-
   {
     "id": "hk_ucp",
     "type": "GUN",
@@ -684,7 +661,6 @@
     "clip_size": 20,
     "reload": 300
   },
-
   {
     "id": "tokarev",
     "type": "GUN",
@@ -710,7 +686,6 @@
     "clip_size": 8,
     "reload": 300
   },
-
   {
     "id": "shotgun_sawn",
     "type": "GUN",
@@ -737,7 +712,6 @@
     "clip_size": 2,
     "reload": 100
   },
-
   {
     "id": "saiga_sawn",
     "type": "GUN",
@@ -764,7 +738,6 @@
     "clip_size": 10,
     "reload": 100
   },
-
   {
     "id": "shotgun_s",
     "type": "GUN",
@@ -790,7 +763,6 @@
     "clip_size": 1,
     "reload": 100
   },
-
   {
     "id": "shotgun_d",
     "type": "GUN",
@@ -817,7 +789,6 @@
     "clip_size": 2,
     "reload": 100
   },
-
   {
     "id": "remington_870",
     "type": "GUN",
@@ -840,11 +811,10 @@
     "dispersion": 2,
     "recoil": 0,
     "durability": 8,
-    "burst": 3,
+    "burst": 0,
     "clip_size": 6,
     "reload": 100
   },
-
   {
     "id": "mossberg_500",
     "type": "GUN",
@@ -871,7 +841,6 @@
     "clip_size": 8,
     "reload": 80
   },
-
   {
     "id": "saiga_12",
     "type": "GUN",
@@ -898,7 +867,6 @@
     "clip_size": 10,
     "reload": 500
   },
-
   {
     "id": "american_180",
     "type": "GUN",
@@ -925,7 +893,6 @@
     "clip_size": 165,
     "reload": 500
   },
-
   {
     "id": "uzi",
     "type": "GUN",
@@ -952,7 +919,6 @@
     "clip_size": 32,
     "reload": 450
   },
-
   {
     "id": "tec9",
     "type": "GUN",
@@ -979,7 +945,6 @@
     "clip_size": 32,
     "reload": 400
   },
-
   {
     "id": "calico",
     "type": "GUN",
@@ -1006,7 +971,6 @@
     "clip_size": 50,
     "reload": 500
   },
-
   {
     "id": "hk_mp5",
     "type": "GUN",
@@ -1033,7 +997,6 @@
     "clip_size": 30,
     "reload": 400
   },
-
   {
     "id": "mac_10",
     "type": "GUN",
@@ -1060,7 +1023,6 @@
     "clip_size": 30,
     "reload": 450
   },
-
   {
     "id": "hk_ump45",
     "type": "GUN",
@@ -1087,7 +1049,6 @@
     "clip_size": 25,
     "reload": 450
   },
-
   {
     "id": "TDI",
     "type": "GUN",
@@ -1114,7 +1075,6 @@
     "clip_size": 30,
     "reload": 450
   },
-
   {
     "id": "fn_p90",
     "type": "GUN",
@@ -1141,7 +1101,6 @@
     "clip_size": 50,
     "reload": 500
   },
-
   {
     "id": "hk_mp7",
     "type": "GUN",
@@ -1168,7 +1127,6 @@
     "clip_size": 20,
     "reload": 450
   },
-
   {
     "id": "ppsh",
     "type": "GUN",
@@ -1195,7 +1153,6 @@
     "clip_size": 35,
     "reload": 400
   },
-
   {
     "id": "marlin_9a",
     "type": "GUN",
@@ -1222,7 +1179,6 @@
     "clip_size": 19,
     "reload": 90
   },
-
   {
     "id": "ruger_1022",
     "type": "GUN",
@@ -1248,7 +1204,6 @@
     "clip_size": 10,
     "reload": 500
   },
-
   {
     "id": "cx4",
     "type": "GUN",
@@ -1274,7 +1229,6 @@
     "clip_size": 15,
     "reload": 300
   },
-
   {
     "id": "browning_blr",
     "type": "GUN",
@@ -1301,7 +1255,6 @@
     "clip_size": 4,
     "reload": 100
   },
-
   {
     "id": "remington_700",
     "type": "GUN",
@@ -1328,7 +1281,6 @@
     "clip_size": 4,
     "reload": 75
   },
-
   {
     "id": "sks",
     "type": "GUN",
@@ -1354,7 +1306,6 @@
     "clip_size": 10,
     "reload": 450
   },
-
   {
     "id": "m14a",
     "type": "GUN",
@@ -1380,7 +1331,6 @@
     "clip_size": 20,
     "reload": 500
   },
-
   {
     "id": "ruger_mini",
     "type": "GUN",
@@ -1406,7 +1356,6 @@
     "clip_size": 10,
     "reload": 500
   },
-
   {
     "id": "savage_111f",
     "type": "GUN",
@@ -1433,7 +1382,6 @@
     "clip_size": 3,
     "reload": 100
   },
-
   {
     "id": "hk_g3",
     "type": "GUN",
@@ -1460,7 +1408,6 @@
     "clip_size": 20,
     "reload": 550
   },
-
   {
     "id": "hk_g36",
     "type": "GUN",
@@ -1487,7 +1434,6 @@
     "clip_size": 30,
     "reload": 500
   },
-
   {
     "id": "ak47",
     "type": "GUN",
@@ -1514,7 +1460,6 @@
     "clip_size": 30,
     "reload": 475
   },
-
   {
     "id": "fn_fal",
     "type": "GUN",
@@ -1541,7 +1486,6 @@
     "clip_size": 20,
     "reload": 550
   },
-
   {
     "id": "acr",
     "type": "GUN",
@@ -1568,7 +1512,6 @@
     "clip_size": 30,
     "reload": 475
   },
-
   {
     "id": "ar15",
     "type": "GUN",
@@ -1595,7 +1538,6 @@
     "clip_size": 30,
     "reload": 500
   },
-
   {
     "id": "m4a1",
     "type": "GUN",
@@ -1622,7 +1564,6 @@
     "clip_size": 30,
     "reload": 475
   },
-
   {
     "id": "scar_l",
     "type": "GUN",
@@ -1649,7 +1590,6 @@
     "clip_size": 30,
     "reload": 500
   },
-
   {
     "id": "scar_h",
     "type": "GUN",
@@ -1676,7 +1616,6 @@
     "clip_size": 20,
     "reload": 550
   },
-
   {
     "id": "steyr_aug",
     "type": "GUN",
@@ -1703,7 +1642,6 @@
     "clip_size": 30,
     "reload": 550
   },
-
   {
     "id": "m249",
     "type": "GUN",
@@ -1730,7 +1668,6 @@
     "clip_size": 200,
     "reload": 750
   },
-
   {
     "id": "v29",
     "type": "GUN",
@@ -1771,7 +1708,7 @@
     "ammo_effects": ["LASER","INCENDIARY"],
     "skill": "pistol",
     "ammo": "laser_capacitor",
-    "weight": 500,
+    "weight": 5000,
     "volume": 3,
     "bashing": 3,
     "cutting": 0,
@@ -1840,7 +1777,6 @@
     "clip_size": 10,
     "reload": 0
   },
-
   {
     "id": "flamethrower_simple",
     "type": "GUN",
@@ -1867,7 +1803,6 @@
     "clip_size": 800,
     "reload": 800
   },
-
   {
     "id": "flamethrower",
     "type": "GUN",
@@ -1894,7 +1829,6 @@
     "clip_size": 1600,
     "reload": 900
   },
-
   {
     "id": "launcher_simple",
     "type": "GUN",
@@ -1920,7 +1854,6 @@
     "clip_size": 1,
     "reload": 350
   },
-
   {
     "id": "m79",
     "type": "GUN",
@@ -1946,7 +1879,6 @@
     "clip_size": 1,
     "reload": 250
   },
-
   {
     "id": "m320",
     "type": "GUN",
@@ -1972,7 +1904,6 @@
     "clip_size": 1,
     "reload": 150
   },
-
   {
     "id": "mgl",
     "type": "GUN",
@@ -1999,7 +1930,6 @@
     "clip_size": 6,
     "reload": 300
   },
-
   {
     "id": "rm802",
     "type": "GUN",
@@ -2026,7 +1956,6 @@
     "clip_size": 4,
     "reload": 100
   },
-
   {
     "id": "LAW",
     "type": "GUN",
@@ -2053,7 +1982,6 @@
     "clip_size": 1,
     "reload": 150
   },
-
   {
     "id": "coilgun",
     "type": "GUN",
@@ -2080,7 +2008,6 @@
     "clip_size": 100,
     "reload": 600
   },
-
   {
     "id": "hk_g80",
     "type": "GUN",
@@ -2107,7 +2034,6 @@
     "clip_size": 20,
     "reload": 550
   },
-
   {
     "id": "plasma_rifle",
     "type": "GUN",
@@ -2135,7 +2061,6 @@
     "clip_size": 25,
     "reload": 700
   },
-
   {
     "id": "revolver_shotgun",
     "type": "GUN",
@@ -2292,7 +2217,6 @@
     "clip_size": 25,
     "reload": 600
   },
-
   {
     "id": "rm614_lmg",
     "type": "GUN",
@@ -2658,32 +2582,32 @@
     "clip_size": 1,
     "reload": 150
   },
-        {
-        "id": "needlegun",
-        "type": "GUN",
-        "symbol": "(",
-        "color": "dark_gray",
-        "name": "RM216 SPIW",
-        "description": "This light carbine fires 5x50mm armor-piercing flechette cartridges. Classified as a special purpose individual weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world. Designed to be fired in bursts, it excels in close combat.",
-        "price": 200,
-        "material": ["steel", "kevlar"],
-        "flags": "MODE_BURST",
-        "skill": "smg",
-        "ammo": "5x50",
-        "weight": 1602,
-        "volume": 9,
-        "bashing": 12,
-        "cutting": 0,
-        "to_hit": -2,
-        "ranged_damage": 0,
-        "range": 0,
-        "dispersion": 0,
-        "recoil": 0,
-        "durability": 9,
-        "burst": 5,
-        "clip_size": 100,
-        "reload": 600
-      },
+  {
+    "id": "needlegun",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "RM216 SPIW",
+    "description": "This light carbine fires 5x50mm armor-piercing flechette cartridges. Classified as a special purpose individual weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world. Designed to be fired in bursts, it excels in close combat.",
+    "price": 200,
+    "material": ["steel", "kevlar"],
+    "flags": "MODE_BURST",
+    "skill": "smg",
+    "ammo": "5x50",
+    "weight": 1602,
+    "volume": 9,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 0,
+    "recoil": 0,
+    "durability": 9,
+    "burst": 5,
+    "clip_size": 100,
+    "reload": 600
+  },
   {
     "id": "unbio_blaster_gun",
     "type": "GUN",
@@ -2710,7 +2634,7 @@
     "burst": 0,
     "clip_size": 40,
     "reload": 600
-   },
+  },
   {
     "id": "rebar_rifle",
     "type": "GUN",
@@ -2891,5 +2815,109 @@
     "burst": 0,
     "clip_size": 1,
     "reload": 800
+  },
+     {
+    "id": "moss_brownie",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "Mossberg Brownie",
+    "description": "A four-barreled, .22 Long Rifle pistol, similar to a derringer or pepperbox, produced by O.F. Mossberg & Sons from 1920 to 1932.",
+    "price": 1100,
+    "material": ["steel", "wood"],
+    "flags": "RELOAD_ONE",
+    "skill": "pistol",
+    "ammo": "22",
+    "weight": 364,
+    "volume": 3,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 0,
+    "range": 3,
+    "dispersion": 20,
+    "recoil": 2,
+    "durability": 6,
+    "burst": 0,
+    "clip_size": 4,
+    "reload": 100
+  },
+   {
+    "id": "cop_38",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "COP .38",
+    "description": "The COP 38 is a four-shot derringer-type pistol chambered for the .38 round. It was designed by Robert Hillberg, based on his earlier work on the Hillberg Insurgency Weapon.",
+    "price": 1200,
+    "material": ["steel", "wood"],
+    "flags": "RELOAD_ONE",
+    "skill": "pistol",
+    "ammo": "38",
+    "weight": 857,
+    "volume": 3,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": -2,
+    "range": 3,
+    "dispersion": 15,
+    "recoil": 2,
+    "durability": 6,
+    "burst": 0,
+    "clip_size": 4,
+    "reload": 100
+  },
+  {
+    "id": "arx160",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "blue",
+    "name": "Beretta ARX-160",
+    "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine. It failed to replace it, but it is widely used by military all around the world. This version is chambered for 7.62x39mm.",
+    "price": 4500,
+    "material": "steel",
+    "flags": "MODE_BURST",
+    "skill": "rifle",
+    "ammo": "762",
+    "weight": 3000,
+    "volume": 13,
+    "bashing": 11,
+    "cutting": 0,
+    "to_hit": 2,
+    "ranged_damage": 2,
+    "range": 0,
+    "dispersion": 2,
+    "recoil": 4,
+    "durability": 9,
+    "burst": 3,
+    "clip_size": 30,
+    "reload": 400
+  },
+  {
+    "id": "trex_gun",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "light_blue",
+    "name": "T-Rex Elephant gun",
+    "description": "The T-Rex Elephant gun uses the very powerful .700 Nitro Express round, but due to the strength of that round, this gun has a lot of recoil, it has been reinforced, and because of that, is very expensive to produce.",
+    "price": 20000,
+    "material": "steel",
+    "skill": "rifle",
+    "ammo": "700nx",
+    "weight": 8082,
+    "volume": 12,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": 1,
+    "ranged_damage": 30,
+    "range": 0,
+    "dispersion": 4,
+    "recoil": 30,
+    "durability": 8,
+    "burst": 0,
+    "clip_size": 1,
+    "reload": 1000
   }
+  
 ]

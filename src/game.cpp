@@ -790,6 +790,19 @@ bool game::do_turn()
     if (turn % 10 == 0) {
         u.update_morale();
     }
+
+    if ( u.worn_with_flag("DEAF") )
+    {
+        // Make the player deaf for one extra turn, so that he is not spammed with warnings
+        if (u.disease_duration("deaf") == 1)
+        {
+            u.add_disease("deaf", 1);
+        }
+        else
+        {
+            u.add_disease("deaf", 2);
+        }
+    }
     return false;
 }
 
@@ -833,7 +846,7 @@ void game::process_activity()
  item* reloadable;
  bool no_recipes;
  if (u.activity.type != ACT_NULL) {
-  if (int(turn) % 150 == 0) {
+  if (int(turn) % 50 == 0) {
    draw();
   }
   if (u.activity.type == ACT_WAIT || u.activity.type == ACT_WAIT_WEATHER) { // Based on time, not speed
@@ -1888,7 +1901,7 @@ input_context game::get_player_input(std::string &action)
         inp_mngr.set_timeout(-1);
 
     } else {
-        while (handle_mouseview(ctxt, action));
+        while (handle_mouseview(ctxt, action)) {};
     }
 
     return ctxt;
@@ -2632,7 +2645,7 @@ void game::update_scent()
                                    (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
   }
  }
- 
+
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
@@ -2642,7 +2655,7 @@ void game::update_scent()
     int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
     // take the old scent and subtract what diffuses out
     temp_scent = grscent[x][y] * (1000 - squares_used * diffusivity); // it's okay if this is slightly negative
-    // we've already summed neighboring scent values in the y direction in the previous loop.  
+    // we've already summed neighboring scent values in the y direction in the previous loop.
     // Now we do it for the x direction, multiply by diffusion, and this is what diffuses into our current square.
     grscent[x][y] = static_cast<int>(temp_scent + diffusivity * (sum_3_squares_y[x-1][y] + sum_3_squares_y[x][y] + sum_3_squares_y[x+1][y] )) / 1000;
 
@@ -2781,8 +2794,7 @@ void game::death_screen()
 
     WINDOW *w_death = newwin(5, 6+sText.size(), (TERMY-5)/2, (TERMX+6-sText.size())/2);
 
-    wborder(w_death, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w_death);
 
     mvwprintz(w_death, 2, 3, c_ltred, sText.c_str());
     wrefresh(w_death);
@@ -3603,8 +3615,7 @@ void game::disp_kills()
                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w);
 
  std::vector<mtype *> types;
  std::vector<int> count;
@@ -3716,8 +3727,7 @@ faction* game::list_factions(std::string title)
                          1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
                          MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
- wborder(w_list, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w_list);
 
  int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
  int sel = 0;
@@ -5197,7 +5207,7 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     if (u.has_disease("deaf")) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
- if (!u.has_bionic("bio_ears") && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
+        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
             u.add_disease("deaf", duration);
         }
@@ -5207,9 +5217,9 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // Check for deafness
     if (!u.has_bionic("bio_ears") && rng((vol - dist) / 2, (vol - dist)) >= 150) {
-  int duration = (vol - dist - 130) / 4;
-  u.add_disease("deaf", duration);
- }
+        int duration = (vol - dist - 130) / 4;
+        u.add_disease("deaf", duration);
+    }
 
     // See if we need to wake someone up
     if (u.has_disease("sleep")){
@@ -6691,25 +6701,28 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     veh_interact vehint;
     vehint.ddx = cx;
     vehint.ddy = cy;
-    vehint.exec(this, &veh, examx, examy);
+    vehint.exec(&veh);
+    refresh_all();
     if (vehint.sel_cmd != ' ')
-    {                                                        // TODO: different activity times
-        u.activity = player_activity(ACT_VEHICLE,
-                                     vehint.sel_cmd == 'f' || vehint.sel_cmd == 's' ||
-                                     vehint.sel_cmd == 'c' ? 200 : 20000,
-                                     (int) vehint.sel_cmd, 0, "");
+    {
+        // TODO: different activity times
+        u.activity = player_activity( ACT_VEHICLE, vehint.sel_cmd == 'f' ||
+                                      vehint.sel_cmd == 's' ||
+                                      vehint.sel_cmd == 'c' ? 200 : 20000,
+                                      (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
         u.activity.values.push_back (vehint.ddx);   // values[2]
         u.activity.values.push_back (vehint.ddy);   // values[3]
         u.activity.values.push_back (-vehint.ddx);   // values[4]
         u.activity.values.push_back (-vehint.ddy);   // values[5]
-        u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part)); // values[6]
+        // values[6]
+        u.activity.values.push_back (veh.index_of_part(vehint.sel_vehicle_part));
         u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         if(vehint.sel_vpart_info != NULL) {
-          u.activity.str_values.push_back(vehint.sel_vpart_info->id);
+            u.activity.str_values.push_back(vehint.sel_vpart_info->id);
         } else {
-          u.activity.str_values.push_back("null");
+            u.activity.str_values.push_back("null");
         }
         u.moves = 0;
     }
@@ -6898,8 +6911,9 @@ void game::examine(int examx, int examy)
         int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
         int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
         int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
+        int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
-                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0) {
+                || vpkitchen >= 0 || vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
@@ -7151,8 +7165,7 @@ point game::look_around()
  int lookWidth, lookY, lookX;
  get_lookaround_dimensions(lookWidth, lookY, lookX);
  WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, lookX);
- wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w_look);
  mvwprintz(w_look, 1, 1, c_white, _("Looking Around"));
  mvwprintz(w_look, 2, 1, c_white, _("Use directional keys to move the cursor"));
  mvwprintz(w_look, 3, 1, c_white, _("to a nearby square."));
@@ -7192,8 +7205,7 @@ point game::look_around()
       mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
   } else {
       // redraw the border to clear out the marker.
-      wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      draw_border(w_look);
   }
 
   if (m.graffiti_at(lx, ly).contents)
@@ -8088,11 +8100,13 @@ void game::pickup(int posx, int posy, int min)
     int k_part = 0;
     int w_part = 0;
     int craft_part = 0;
+    int chempart = 0;
     vehicle *veh = m.veh_at (posx, posy, veh_part);
     if (min != -1 && veh) {
         k_part = veh->part_with_feature(veh_part, "KITCHEN");
         w_part = veh->part_with_feature(veh_part, "WELDRIG");
         craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
+        chempart = veh->part_with_feature(veh_part, "CHEMLAB");
         veh_part = veh->part_with_feature(veh_part, "CARGO", false);
         from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
@@ -8192,6 +8206,28 @@ void game::pickup(int posx, int posy, int min)
                                 tmptool->use.call( &u, &tmp_purifier, false );
                                 tmp_purifier.charges -= tmptool->charges_per_use;
                                 veh->refill( "battery", tmp_purifier.charges );
+                            }
+                        }
+                    } else {
+                        add_msg(_("The battery is dead."));
+                    }
+                }
+            }
+            
+            if (chempart >= 0) {
+                if (query_yn(_("Use the chemistry lab's hotplate?"))) {
+                    used_feature = true;
+                    if (veh->fuel_left("battery") > 0) {
+                        //Will be -1 if no battery at all
+                        item tmp_hotplate( itypes["hotplate"], 0 );
+                        // Drain a ton of power
+                        tmp_hotplate.charges = veh->drain( "battery", 100 );
+                        if( tmp_hotplate.is_tool() ) {
+                            it_tool * tmptool = static_cast<it_tool*>((&tmp_hotplate)->type);
+                            if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
+                                tmptool->use.call(&u, &tmp_hotplate, false);
+                                tmp_hotplate.charges -= tmptool->charges_per_use;
+                                veh->refill( "battery", tmp_hotplate.charges );
                             }
                         }
                     } else {
@@ -8446,7 +8482,7 @@ and you can't unwield your %s."),
                 if ( selected < 0 ) {
                     selected = here.size()-1;
                     start = (int)( here.size() / maxitems ) * maxitems;
-                    if (start >= here.size()-1) {
+                    if (start >= here.size()) {
                         start -= maxitems;
                     }
                 } else if ( selected < start ) {
@@ -9450,7 +9486,7 @@ void game::plthrow(char chInput)
  // Base move cost on moves per turn of the weapon
  // and our skill.
  int move_cost = thrown.attack_time() / 2;
- int skill_cost = (int)(move_cost / (pow(u.skillLevel("throw"), 3)/400 +1));
+ int skill_cost = (int)(move_cost / (pow(static_cast<float>(u.skillLevel("throw")), 3.0f)/400 +1));
  int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 
  move_cost += skill_cost;
@@ -10280,6 +10316,7 @@ void game::read()
   add_msg(_("Never mind."));
   return;
  }
+ draw();
  u.read(this, ch);
 }
 
@@ -11405,8 +11442,7 @@ void game::vertical_move(int movez, bool force) {
 // Force means we're going down, even if there's no staircase, etc.
 // This happens with sinkholes and the like.
  if (!force && ((movez == -1 && !m.has_flag("GOES_DOWN", u.posx, u.posy)) ||
-                (movez ==  1 && !m.has_flag("GOES_UP",   u.posx, u.posy))) &&
-                !(m.ter(u.posx, u.posy) == t_elevator)) {
+                (movez ==  1 && !m.has_flag("GOES_UP",   u.posx, u.posy)))) {
   if (movez == -1) {
     add_msg(_("You can't go down here!"));
   } else {
@@ -11497,6 +11533,13 @@ void game::vertical_move(int movez, bool force) {
 }
  despawn_monsters();
  clear_zombies();
+
+ // Clear current scents.
+  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
+    for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+      grscent[x][y] = 0;
+    }
+  }
 
 // Figure out where we know there are up/down connectors
  std::vector<point> discover;
@@ -12197,8 +12240,7 @@ void game::msg_buffer()
  InputEvent input;
  do {
   werase(w);
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+  draw_border(w);
   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, _("Press q to return"));
 
   int line = 1;

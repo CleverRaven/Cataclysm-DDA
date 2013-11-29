@@ -772,8 +772,7 @@ point overmap::display_notes(game* g, int const z) const
                           (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                           (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
- wborder(w_notes, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(w_notes);
 
  const int maxitems = 20; // Number of items to show at one time.
  char ch = '.';
@@ -1978,8 +1977,7 @@ point overmap::draw_overmap(game *g, int zlevel)
      //Navigate through results
      do {
       //Draw search box
-      wborder(w_search, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      draw_border(w_search);
       mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
       mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
       mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
@@ -2860,7 +2858,10 @@ void overmap::polish(const int z, const std::string &terrain_type)
                     good_road("subway", x, y, z);
                 } else if (check_ot_type("sewer", x, y, z)) {
                     good_road("sewer", x, y, z);
-                } else if (check_ot_type("ants", x, y, z)) {
+                } else if (check_ot_type("ants", x, y, z)
+                        && !check_ot_type("ants_queen", x, y, z)
+                        && !check_ot_type("ants_larvae", x, y, z)
+                        && !check_ot_type("ants_food", x, y, z)) {
                     good_road("ants", x, y, z);
                 } else if (check_ot_type("river", x, y, z)) {
                     good_river(x, y, z);

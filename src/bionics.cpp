@@ -61,8 +61,7 @@ void player::power_bionics(game *g)
  WINDOW* w_description = newwin(DESCRIPTION_HEIGHT, DESCRIPTION_WIDTH, DESCRIPTION_START_Y, DESCRIPTION_START_X);
 
  werase(wBio);
- wborder(wBio, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ draw_border(wBio);
 
  std::vector <bionic> passive;
  std::vector <bionic> active;
@@ -261,8 +260,7 @@ void player::activate_bionic(int b, game *g)
 // TODO: More stuff here (and bio_blood_filter)
  else if(bio.id == "bio_blood_anal"){
   WINDOW* w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+  draw_border(w);
   if (has_disease("fungus"))
    bad.push_back(_("Fungal Parasite"));
   if (has_disease("dermatik"))

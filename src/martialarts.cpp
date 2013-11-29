@@ -1,4 +1,5 @@
 #include "player.h"
+#include "game.h"
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"
@@ -40,6 +41,14 @@ void load_technique(JsonObject &jo)
     tec.flaming = jo.get_bool("flaming", false);
     tec.quick = jo.get_bool("quick", false);
 
+    tec.hit = jo.get_int("pain", 0);
+    tec.bash = jo.get_int("bash", 0);
+    tec.cut = jo.get_int("cut", 0);
+    tec.pain = jo.get_int("pain", 0);
+
+    tec.bash_mult = jo.get_float("bash_mult", 1.0);
+    tec.cut_mult = jo.get_float("cut_mult", 1.0);
+
     tec.down_dur = jo.get_int("down_dur", 0);
     tec.stun_dur = jo.get_int("stun_dur", 0);
     tec.knockback_dist = jo.get_int("knockback_dist", 0);
@@ -78,6 +87,9 @@ ma_buff load_buff(JsonObject &jo)
     buff.dodge = jo.get_int("dodge", 0);
     buff.speed = jo.get_int("speed", 0);
     buff.block = jo.get_int("block", 0);
+
+    buff.arm_bash = jo.get_int("arm_bash", 0);
+    buff.arm_cut = jo.get_int("arm_cut", 0);
 
     buff.bash_stat_mult = jo.get_float("bash_mult", 1.0);
     buff.cut_stat_mult = jo.get_float("cut_mult", 1.0);
@@ -156,16 +168,40 @@ void load_martial_art(JsonObject &jo)
         ma.static_buffs.push_back(load_buff(jsobj));
     }
 
+    jsarr = jo.get_array("onmove_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.onmove_buffs.push_back(load_buff(jsobj));
+    }
+
     jsarr = jo.get_array("onhit_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
         ma.onhit_buffs.push_back(load_buff(jsobj));
     }
 
-    jsarr = jo.get_array("onmove_buffs");
+    jsarr = jo.get_array("onattack_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.onmove_buffs.push_back(load_buff(jsobj));
+        ma.onattack_buffs.push_back(load_buff(jsobj));
+    }
+
+    jsarr = jo.get_array("ondodge_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.ondodge_buffs.push_back(load_buff(jsobj));
+    }
+
+    jsarr = jo.get_array("onblock_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.onblock_buffs.push_back(load_buff(jsobj));
+    }
+
+    jsarr = jo.get_array("ongethit_buffs");
+    while (jsarr.has_more()) {
+        JsonObject jsobj = jsarr.next_object();
+        ma.onblock_buffs.push_back(load_buff(jsobj));
     }
 
     ma.techniques = jo.get_tags("techniques");
@@ -183,13 +219,13 @@ bool ma_requirements::is_valid_player(player& u) {
     mabuff_id buff_id = *it;
     if (!u.has_mabuff(*it)) return false;
   }
-  return ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
+  bool valid = ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
     && u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing
     && u.skillLevel("cutting") >= min_cutting
-    && u.skillLevel("stabbing") >= min_stabbing
-  ;
+    && u.skillLevel("stabbing") >= min_stabbing;
+  return valid;
 }
 
 
@@ -221,12 +257,6 @@ ma_technique::ma_technique() {
 
   bash_mult = 1.0f; // bash damage multiplier
   cut_mult = 1.0f; // cut damage multiplier
-
-  //defensive
-  block = 0;
-
-  bash_resist = 0.0f; // multiplies bash by this (1 - amount)
-  cut_resist = 0.0f; // "" cut ""
 
 }
 
@@ -291,6 +321,7 @@ void ma_buff::apply_buff(std::vector<disease>& dVec) {
   disease d(id);
   d.duration = buff_duration;
   d.intensity = 1;
+  d.permanent = false;
   dVec.push_back(d);
 }
 
@@ -325,6 +356,12 @@ int ma_buff::speed_bonus(player& u)
 {
     (void)u; //unused
     return speed;
+}
+int ma_buff::arm_bash_bonus(player& u) {
+  return arm_bash;
+}
+int ma_buff::arm_cut_bonus(player& u) {
+  return arm_cut;
 }
 float ma_buff::bash_mult() {
   return bash_stat_mult;
@@ -382,17 +419,30 @@ void martialart::apply_static_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, static_buffs, dVec);
 }
 
+void martialart::apply_onmove_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, onmove_buffs, dVec);
+}
+
 void martialart::apply_onhit_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, onhit_buffs, dVec);
 }
 
-void martialart::apply_onmove_buffs(player& u, std::vector<disease>& dVec) {
-  simultaneous_add(u, onmove_buffs, dVec);
+void martialart::apply_onattack_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, onattack_buffs, dVec);
 }
 
 void martialart::apply_ondodge_buffs(player& u, std::vector<disease>& dVec) {
   simultaneous_add(u, ondodge_buffs, dVec);
 }
+
+void martialart::apply_onblock_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, onblock_buffs, dVec);
+}
+
+void martialart::apply_ongethit_buffs(player& u, std::vector<disease>& dVec) {
+  simultaneous_add(u, ongethit_buffs, dVec);
+}
+
 
 bool martialart::has_technique(player& u, matec_id tec_id) {
   for (std::set<matec_id>::iterator it = techniques.begin();
@@ -488,9 +538,17 @@ void player::ma_onmove_effects() {
 void player::ma_onhit_effects() {
   martialarts[style_selected].apply_onhit_buffs(*this, illness);
 }
-// ondodge doesn't actually work yet
+void player::ma_onattack_effects() {
+  martialarts[style_selected].apply_onattack_buffs(*this, illness);
+}
 void player::ma_ondodge_effects() {
   martialarts[style_selected].apply_ondodge_buffs(*this, illness);
+}
+void player::ma_onblock_effects() {
+  martialarts[style_selected].apply_onblock_buffs(*this, illness);
+}
+void player::ma_ongethit_effects() {
+  martialarts[style_selected].apply_ongethit_buffs(*this, illness);
 }
 
 // bonuses
@@ -538,13 +596,37 @@ int player::mabuff_speed_bonus() {
   }
   return ret;
 }
+int player::mabuff_arm_bash_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      ret += it->intensity * ma_buffs[it->buff_id].arm_bash_bonus(*this);
+    }
+  }
+  return ret;
+}
+int player::mabuff_arm_cut_bonus() {
+  int ret = 0;
+  for (std::vector<disease>::iterator it = illness.begin();
+      it != illness.end(); ++it) {
+    if (it->is_mabuff() &&
+        ma_buffs.find(it->buff_id) != ma_buffs.end()) {
+      ret += it->intensity * ma_buffs[it->buff_id].arm_cut_bonus(*this);
+    }
+  }
+  return ret;
+}
 float player::mabuff_bash_mult() {
   float ret = 1.f;
   for (std::vector<disease>::iterator it = illness.begin();
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret *= it->intensity * (1-ma_buffs[it->buff_id].bash_mult())+1;
+      // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
+      // becomes 1.4 instead of 2.4 (which would be a 240% buff)
+      ret *= it->intensity * (ma_buffs[it->buff_id].bash_mult()-1)+1;
     }
   }
   return ret;
@@ -566,7 +648,9 @@ float player::mabuff_cut_mult() {
       it != illness.end(); ++it) {
     if (it->is_mabuff() &&
         ma_buffs.find(it->buff_id) != ma_buffs.end()) {
-      ret *= it->intensity * (1-ma_buffs[it->buff_id].cut_mult())+1;
+      // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
+      // becomes 1.4 instead of 2.4 (which would be a 240% buff)
+      ret *= it->intensity * (ma_buffs[it->buff_id].cut_mult()-1)+1;
     }
   }
   return ret;

@@ -335,6 +335,7 @@ GUN("bio_lightning", _("Chain Lightning"),  0,c_magenta, "steel", "plastic",
 
 std::string ammo_name(ammotype t)
 {
+    if( t == "700nx")       return _(".700 Nitro Express");
     if( t == "ammo_flint")  return _("flintlock paper pack");
     if( t == "50")          return _(".50 BMG");
     if( t == "nail")        return _("nails");
@@ -383,6 +384,8 @@ std::string ammo_name(ammotype t)
     if( t == "thrown" )     return _("throwing weapon");
     if( t == "ampoule" )    return _("chemical ampoule");
     if( t == "components" ) return _("components");
+    if( t == "RPG-7" )      return _("RPG-7");
+    if( t == "dart" )       return _("dart");
     return "XXX";
 }
 

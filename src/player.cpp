@@ -176,7 +176,7 @@ player::player() : name("")
  recalc_sight_limits();
 }
 
-player::player(const player &rhs)
+player::player(const player &rhs): JsonSerializer(), JsonDeserializer()
 {
  *this = rhs;
 }
@@ -2666,8 +2666,7 @@ void player::disp_morale(game *g)
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                         (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    draw_border(w);
 
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
@@ -2782,9 +2781,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
     std::string style = "";
     if (is_armed())
     {
-        if (style_selected == "style_none")
+        if (style_selected == "style_none" || !can_melee())
             style = _("Normal");
-        else if (can_melee())
+        else
             style = martialarts[style_selected].name;
 
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
@@ -3114,9 +3113,10 @@ std::string player::get_highest_category() const // Returns the mutation categor
         if (iter->second > iLevel) {
             sMaxCat = iter->first;
             iLevel = iter->second;
+        } else if (iter->second == iLevel) {
+            sMaxCat = "";  // no category on ties
         }
     }
-
     return sMaxCat;
 }
 
@@ -5053,7 +5053,8 @@ void player::vomit(game *g)
     rem_disease("sleep");
 }
 
-void player::drench(game *g, int saturation, int flags) {
+void player::drench(game *g, int saturation, int flags)
+{
     if (is_waterproof(flags)) {
         return;
     }
@@ -5139,11 +5140,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (int i = 0; i < mutation_data[*iter].protection.size(); i++) {
-                if (mutation_data[*iter].protection[i].first == it->first) {
-                    ignored += mutation_data[*iter].protection[i].second.x;
-                    neutral += mutation_data[*iter].protection[i].second.y;
-                    good += mutation_data[*iter].protection[i].second.z;
+            for (std::map<std::string,mutation_wet>::iterator wp_iter = mutation_data[*iter].protection.begin(); wp_iter != mutation_data[*iter].protection.end(); ++wp_iter) {
+                if (body_parts[wp_iter->first] == it->first) {
+                    ignored += wp_iter->second.second.x;
+                    neutral += wp_iter->second.second.y;
+                    good += wp_iter->second.second.z;
                 }
             }
         }
@@ -7236,7 +7237,7 @@ void player::sort_armor(game *g)
 
     // Layout window
     WINDOW *w_sort_armor = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, win_y, win_x);
-    wborder(w_sort_armor, 0, 0, 0, 0, 0, 0, 0, 0);
+    draw_border(w_sort_armor);
     mvwhline(w_sort_armor, 2, 1, 0, FULL_SCREEN_WIDTH-2);
     mvwvline(w_sort_armor, 3, left_w + 1, 0, FULL_SCREEN_HEIGHT-4);
     mvwvline(w_sort_armor, 3, left_w + middle_w + 2, 0, FULL_SCREEN_HEIGHT-4);
@@ -7542,7 +7543,7 @@ Use PageUp/PageDown to scroll the right list.\n \n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart."));
-            wborder(w_sort_armor, 0, 0, 0, 0, 0, 0, 0, 0); // hack to mark whole window for redrawing
+            draw_border(w_sort_armor); // hack to mark whole window for redrawing
             wrefresh(w_sort_armor);
             break;
         }
@@ -8761,6 +8762,11 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         dam *= 1.4;
     if (has_trait("HOLLOW_BONES"))
         dam *= 1.8;
+
+    // apply martial arts armor buffs
+    dam -= mabuff_arm_bash_bonus();
+    cut -= mabuff_arm_cut_bonus();
+
     if (dam < 0)
         dam = 0;
     if (cut < 0)
