@@ -175,6 +175,10 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
     return monsters;
 }
 
+bool MonsterGroupManager::isValidMonsterGroup(std::string group) {
+    return ( monsterGroupMap.find(group) != monsterGroupMap.end() );
+}
+
 MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 {
     std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
