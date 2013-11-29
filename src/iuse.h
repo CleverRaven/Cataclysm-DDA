@@ -50,6 +50,7 @@ class iuse
   int marloss          (player *p, item *it, bool t);
   int dogfood          (player *p, item *it, bool t);
   int catfood          (player *p, item *it, bool t);
+  int spiral		   (player *p, item *it, bool t);
 
 // TOOLS
   int lighter          (player *p, item *it, bool t);
@@ -248,3 +249,4 @@ struct use_function {
 
 
 #endif
+

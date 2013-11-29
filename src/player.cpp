@@ -76,6 +76,8 @@ void game::init_morale()
     _("Killed Innocent"),
     _("Killed Friend"),
     _("Guilty about Killing"),
+	_("Spiral Executioner"),
+	_("Spiral Executioner"),
 
     _("Moodswing"),
     _("Read %i"),

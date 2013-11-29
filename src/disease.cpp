@@ -1053,6 +1053,24 @@ void dis_effect(player &p, disease &dis) {
                 p.per_cur -= 1;
             }
             break;
+			
+        case DI_SPIRALRUSH:
+            if (dis.duration > 50) {
+                // long passive boost
+                p.str_cur += 3;
+                p.dex_cur += 1;
+                p.int_cur += 1;
+                p.per_cur += 3;
+            } else if (dis.duration == 50) {
+                // roaring with energy
+                g->add_msg_if_player(&p,_("Your vision is completely overcome with spirals!"));
+            } else {
+                p.str_cur += 4;
+                p.dex_cur += 3;
+                p.int_cur += 3;
+                p.per_cur += 4;
+            }
+            break;
 
         case DI_JETINJECTOR:
             if (dis.duration > 50) {
