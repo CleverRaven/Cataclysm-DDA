@@ -605,6 +605,50 @@
         ]
     },
     {
+        "type": "profession",
+        "ident": "biker",
+        "name": "Biker",
+        "description": "You spent most of your life on a Harley, and it's only natural you spend the rest of it riding one.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 4,
+                "name": "driving"
+            },
+            {
+                "level": 1,
+                "name": "mechanics"
+            }
+        ],
+
+        "items": [
+            "jeans",
+            "tank_top",
+            "chaps_leather",
+            "boots",
+            "bandana",
+            "jacket_leather",
+            "pockknife"
+        ]
+    },
+    {
+        "type": "profession",
+        "ident": "dancer",
+        "name": "Ballroom Dancer",
+        "description": "You used to be a ballroom dancer before the cataclysm, and now you use your skills to save your life.",
+        "points": 0,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": [
+            "tux",
+            "dress_shoes"
+        ]
+    },
+    {
         "type" : "profession",
         "ident": "bionic_thief",
         "name": "Bionic Thief",
@@ -849,4 +893,5 @@
             "golf_club"
         ]
     }
+
 ]
