@@ -770,7 +770,7 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag,
 {
     std::map<Item_tag, unsigned> str2int_map;
     if(flag_type=="bodyparts"){
-      flag_map = body_parts;
+      str2int_map = body_parts;
       set_bitmask_by_string(str2int_map, cur_flags, new_flag);
     }
 
