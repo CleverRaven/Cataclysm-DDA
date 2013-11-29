@@ -654,6 +654,7 @@
     },{
         "type" : "item_group",
         "id" : "homeguns",
+        "guns_with_ammo" : true,
     "items":[
       ["trex_gun", 1],
       ["700nx", 1],
@@ -1028,6 +1029,7 @@
     },{
         "type" : "item_group",
         "id" : "behindcounter",
+        "guns_with_ammo" : true,
     "items":[
       ["aspirin", 85],
       ["caffeine", 25],

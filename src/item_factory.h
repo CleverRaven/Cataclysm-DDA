@@ -37,6 +37,7 @@ public:
     itype* template_from(Item_tag group_tag);
     const Item_tag random_id();
     const Item_tag id_from(Item_tag group_tag);
+    const Item_tag id_from(Item_tag group_tag, bool & with_ammo);
     bool group_contains_item(Item_tag group_tag, Item_tag item);
 
     //Production methods
