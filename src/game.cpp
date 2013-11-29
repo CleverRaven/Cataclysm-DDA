@@ -2637,12 +2637,15 @@ void game::update_scent()
  // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
  for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   // remember the sum of the scent values for 3 neighboring squares.
-   sum_3_squares_y[x][y] = grscent[x][y] + grscent[x][y-1] + grscent[x][y+1];
-   // next, remember how many squares we will diffuse gas into.
-   squares_used_y[x][y] =(m.move_cost_ter_furn(x,y-1) > 0   || m.has_flag("BASHABLE",x,y-1)) +
-                                   (m.move_cost_ter_furn(x,y)   > 0   || m.has_flag("BASHABLE",x,y))   +
-                                   (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
+   // remember the sum of the scent values for the up to 3 neighboring squares that can defuse into.
+   sum_3_squares_y[x][y] = 0;
+   squares_used_y[x][y] = 0;
+   for (int i = y - 1; i <= y + 1; ++i) {
+    if (m.move_cost_ter_furn(x, i) > 0 || m.has_flag("BASHABLE", x, i)) {
+     sum_3_squares_y[x][y] += grscent[x][i];
+     squares_used_y[x][y] += 1;
+    }
+   }
   }
  }
 

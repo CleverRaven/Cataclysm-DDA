@@ -1,7 +1,9 @@
 #ifndef __CATACURSE__
 #define __CATACURSE__
 #if (defined _WIN32 || defined WINDOWS)
+#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0500
+#endif
 #define WIN32_LEAN_AND_MEAN
 #ifndef NOMINMAX
 #define NOMINMAX
