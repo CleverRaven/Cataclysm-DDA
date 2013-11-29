@@ -860,12 +860,12 @@ std::string item::tname(game *g)
     }
     if (food != NULL && g != NULL && food_type->spoils != 0 &&
     int(g->turn) < (int)(food->bday + 100))
-        ret << _(" (fresh)");
+        ret << _("(fresh) ");
     if (food != NULL && g != NULL && food->has_flag("HOT"))
-        ret << _(" (hot)");
+        ret << _("(hot) ");
     if (food != NULL && g != NULL && food_type->spoils != 0 &&
     int(g->turn) - (int)(food->bday) > food_type->spoils * 600)
-        ret << _(" (rotten)");
+        ret << _("(rotten) ");
 
     if (has_flag("FIT")) {
         ret << _(" (fits)");
@@ -878,7 +878,8 @@ std::string item::tname(game *g)
 
     ret.str("");
 
-    ret << damtext << vehtext << burntext << maintext << tagtext;
+    if (tagtext == " (fits)" || ret.str() == " (owned)") { ret << damtext << vehtext << burntext << maintext << tagtext; }
+    else { ret << tagtext << damtext << vehtext << burntext << maintext; }
 
     if (!item_vars.empty()) {
         return "*" + ret.str() + "*";
