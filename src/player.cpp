@@ -303,6 +303,8 @@ player& player::operator= (const player & rhs)
 
 void player::normalize(game *g)
 {
+    creature::normalize(g);
+
  ret_null = item(itypes["null"], 0);
  weapon   = item(itypes["null"], 0);
  style_selected = "style_none";
@@ -330,116 +332,104 @@ std::string player::skin_name() {
 
 void player::reset(game *g)
 {
-// Reset our stats to normal levels
-// Any persistent buffs/debuffs will take place in disease.h,
-// player::suffer(), etc.
- str_cur = str_max;
- dex_cur = dex_max;
- int_cur = int_max;
- per_cur = per_max;
-// We can dodge again!
- dodges_left = 1;
- blocks_left = 1;
-// Didn't just pick something up
- last_item = itype_id("null");
-// Bionic buffs
- if (has_active_bionic("bio_hydraulics"))
-  str_cur += 20;
- if (has_bionic("bio_eye_enhancer"))
-  per_cur += 2;
- if (has_bionic("bio_str_enhancer"))
-  str_cur += 2;
- if (has_bionic("bio_int_enhancer"))
-  int_cur += 2;
-if (has_bionic("bio_dex_enhancer"))
-  dex_cur += 2;
-if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
-     hunger < 100 && (int(g->turn) % 5 == 0)) {
-  hunger += 2;
-  power_level++;
-}
+    // We can dodge again!
+    blocks_left = get_num_blocks();
+    dodges_left = get_num_dodges();
 
-// Trait / mutation buffs
- if (has_trait("THICK_SCALES"))
-  dex_cur -= 2;
- if (has_trait("CHITIN2") || has_trait("CHITIN3"))
-  dex_cur--;
- if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes))
-  per_cur++;
- if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-     has_trait("ARM_TENTACLES_8"))
-  dex_cur++;
-// Pain
- if (pain > pkill) {
-  str_cur  -=     int((pain - pkill) / 15);
-  dex_cur  -=     int((pain - pkill) / 15);
-  per_cur  -=     int((pain - pkill) / 20);
-  int_cur  -= 1 + int((pain - pkill) / 25);
- }
-// Morale
- if (abs(morale_level()) >= 100) {
-  str_cur  += int(morale_level() / 180);
-  dex_cur  += int(morale_level() / 200);
-  per_cur  += int(morale_level() / 125);
-  int_cur  += int(morale_level() / 100);
- }
-// Radiation
- if (radiation > 0) {
-  str_cur  -= int(radiation / 80);
-  dex_cur  -= int(radiation / 110);
-  per_cur  -= int(radiation / 100);
-  int_cur  -= int(radiation / 120);
- }
-// Stimulants
- dex_cur += int(stim / 10);
- per_cur += int(stim /  7);
- int_cur += int(stim /  6);
- if (stim >= 30) {
-  dex_cur -= int(abs(stim - 15) /  8);
-  per_cur -= int(abs(stim - 15) / 12);
-  int_cur -= int(abs(stim - 15) / 14);
- }
+    // Didn't just pick something up
+    last_item = itype_id("null");
+    // Bionic buffs
+    if (has_active_bionic("bio_hydraulics"))
+        mod_str_bonus(20);
+    if (has_bionic("bio_eye_enhancer"))
+        mod_per_bonus(2);
+    if (has_bionic("bio_str_enhancer"))
+        mod_str_bonus(2);
+    if (has_bionic("bio_int_enhancer"))
+        mod_int_bonus(2);
+    if (has_bionic("bio_dex_enhancer"))
+        mod_dex_bonus(2);
+    if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
+            hunger < 100 && (int(g->turn) % 5 == 0)) {
+        hunger += 2;
+        power_level++;
+    }
 
-// Set our scent towards the norm
- int norm_scent = 500;
- if (has_trait("SMELLY"))
-  norm_scent = 800;
- if (has_trait("SMELLY2"))
-  norm_scent = 1200;
+    // Trait / mutation buffs
+    if (has_trait("THICK_SCALES"))
+        mod_dex_bonus(-2);
+    if (has_trait("CHITIN2") || has_trait("CHITIN3"))
+        mod_dex_bonus(-1);
+    if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes))
+        mod_per_bonus(1);
+    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+            has_trait("ARM_TENTACLES_8"))
+        mod_dex_bonus(1);
 
- // Scent increases fast at first, and slows down as it approaches normal levels.
- // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
- // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
- if (scent < rng(0, norm_scent))
-   scent++;
+    // Pain
+    if (pain > pkill) {
+        mod_str_bonus(-int((pain - pkill) / 15));
+        mod_dex_bonus(-int((pain - pkill) / 15));
+        mod_per_bonus(-int((pain - pkill) / 20));
+        mod_int_bonus(-(1 + int((pain - pkill) / 25)));
+    }
+    // Morale
+    if (abs(morale_level()) >= 100) {
+        mod_str_bonus(int(morale_level() / 180));
+        mod_dex_bonus(int(morale_level() / 200));
+        mod_per_bonus(int(morale_level() / 125));
+        mod_int_bonus(int(morale_level() / 100));
+    }
+    // Radiation
+    if (radiation > 0) {
+        mod_str_bonus(-int(radiation / 80));
+        mod_dex_bonus(-int(radiation / 110));
+        mod_per_bonus(-int(radiation / 100));
+        mod_int_bonus(-int(radiation / 120));
+    }
+    // Stimulants
+    mod_dex_bonus(int(stim / 10));
+    mod_per_bonus(int(stim /  7));
+    mod_int_bonus(int(stim /  6));
+    if (stim >= 30) {
+        mod_dex_bonus(-int(abs(stim - 15) /  8));
+        mod_per_bonus(-int(abs(stim - 15) / 12));
+        mod_int_bonus(-int(abs(stim - 15) / 14));
+    }
 
- // Unusually high scent decreases steadily until it reaches normal levels.
- if (scent > norm_scent)
-  scent--;
+    // Set our scent towards the norm
+    int norm_scent = 500;
+    if (has_trait("SMELLY"))
+        norm_scent = 800;
+    if (has_trait("SMELLY2"))
+        norm_scent = 1200;
 
-// Give us our movement points for the turn.
- moves += current_speed(g);
+    // Scent increases fast at first, and slows down as it approaches normal levels.
+    // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
+    // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+    if (scent < rng(0, norm_scent))
+        scent++;
 
-// Apply static martial arts buffs
-  ma_static_effects();
+    // Unusually high scent decreases steadily until it reaches normal levels.
+    if (scent > norm_scent)
+        scent--;
 
-// Floor for our stats.  No stat changes should occur after this!
- if (dex_cur < 0)
-  dex_cur = 0;
- if (str_cur < 0)
-  str_cur = 0;
- if (per_cur < 0)
-  per_cur = 0;
- if (int_cur < 0)
-  int_cur = 0;
+    // Give us our movement points for the turn.
+    moves += current_speed(g);
 
- if (int(g->turn) % 10 == 0) {
-  update_mental_focus();
- }
+    // Apply static martial arts buffs
+    ma_static_effects();
 
- nv_cached = false;
+    if (int(g->turn) % 10 == 0) {
+    update_mental_focus();
+    }
 
- recalc_sight_limits();
+    nv_cached = false;
+
+    recalc_sight_limits();
+
+    creature::reset(g);
+
 }
 
 void player::action_taken()

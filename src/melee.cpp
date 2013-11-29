@@ -366,11 +366,10 @@ int player::dodge(game *g)
     if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
     if (activity.type != ACT_NULL) {return 0;}
 
-    int ret = (dex_cur / 2);
+    int ret = creature::get_dodge();
+    ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
     ret += skillLevel("dodge");
     ret += disease_intensity("dodge_boost");
-    ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
-    ret += int(current_speed(g) / 150); //Faster = small dodge advantage
 
     // add martial arts bonus
     ret += mabuff_dodge_bonus();
@@ -388,24 +387,25 @@ int player::dodge(game *g)
     if (str_max >= 16) {ret--;} // Penalty if we're huge
     else if (str_max <= 5) {ret++;} // Bonus if we're small
 
-    if (dodges_left <= 0) // We already dodged this turn
-    {
-        if (rng(0, skillLevel("dodge") + dex_cur + 15) <= skillLevel("dodge") + dex_cur)
-        {
-            ret = rng(ret/2, ret); //Penalize multiple dodges per turn
-        }
-        else
-        {
-            ret = 0;
-        }
-    }
-    dodges_left--;
     return ret;
+
 }
 
 int player::dodge_roll(game *g)
 {
-    return dice(dodge(g), 10); //Matches NPC and monster dodge_roll functions
+    int dodge_stat = dodge(g);
+
+    if (dodges_left <= 0) { // We already dodged this turn
+        if (rng(0, skillLevel("dodge") + dex_cur + 15) <= skillLevel("dodge") + dex_cur) {
+            dodge_stat = rng(dodge_stat/2, dodge_stat); //Penalize multiple dodges per turn
+        } else {
+            dodge_stat = 0;
+        }
+    }
+    //TODO: maybe move this somewhere, since not all calls to dodge_roll have to be followed by a dodge (although they currently are)
+    dodges_left--;
+
+    return dice(dodge_stat, 10); //Matches NPC and monster dodge_roll functions
 }
 
 int player::base_damage(bool real_life, int stat)
