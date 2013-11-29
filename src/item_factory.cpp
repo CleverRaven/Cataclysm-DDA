@@ -4,6 +4,7 @@
 #include "json.h"
 #include "addiction.h"
 #include "translations.h"
+#include "bodypart.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -226,15 +227,6 @@ void Item_factory::init(){
     // Offensive Techniques
     techniques_list["PRECISE"] = "tec_precise";
     techniques_list["RAPID"] = "tec_rapid";
-
-    bodyparts_list["TORSO"] = mfb(bp_torso);
-    bodyparts_list["HEAD"] = mfb(bp_head);
-    bodyparts_list["EYES"] = mfb(bp_eyes);
-    bodyparts_list["MOUTH"] = mfb(bp_mouth);
-    bodyparts_list["ARMS"] = mfb(bp_arms);
-    bodyparts_list["HANDS"] = mfb(bp_hands);
-    bodyparts_list["LEGS"] = mfb(bp_legs);
-    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -776,10 +768,10 @@ use_function Item_factory::use_from_string(std::string function_name){
 
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
-    std::map<Item_tag, unsigned> flag_map;
+    std::map<Item_tag, unsigned> str2int_map;
     if(flag_type=="bodyparts"){
-      flag_map = bodyparts_list;
-      set_bitmask_by_string(flag_map, cur_flags, new_flag);
+      str2int_map = body_parts;
+      set_bitmask_by_string(str2int_map, cur_flags, new_flag);
     }
 
 }
@@ -789,7 +781,7 @@ void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, 
     std::map<Item_tag, unsigned>::const_iterator found_flag_iter = flag_map.find(new_flag);
     if(found_flag_iter != flag_map.end())
     {
-        cur_bitmask = cur_bitmask | found_flag_iter->second;
+        cur_bitmask = cur_bitmask | mfb(found_flag_iter->second);
     }
     else
     {
