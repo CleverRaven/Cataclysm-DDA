@@ -1,5 +1,106 @@
 [
-   { "type": "mapgen", "om_terrain": [ "outpost", "invalid" ], 
+   { "type": "mapgen", "om_terrain": [ "forest", "forest_thick", "field" ],
+     "weight": -200000,
+     "method": "builtin", "name": "s_restaurant_coffee" },
+   { "type": "mapgen", "om_terrain": [ "forest", "forest_thick", "field" ],
+     "weight": -200000,
+     "method": "json", "object": {
+        "rows":[
+            "   dd                   ",
+            "  ,,,,,,,,,,,,,,,,,,,,  ",
+            " ,_______,____________, ",
+            ",________,_____________,",
+            ",________,_____________,",
+            ",________,_____________,",
+            ",_____#|----w-|-|#_____,",
+            ",_____||erle.x|T||_____,",
+            ",_____|O.....S|.S|_____,",
+            ",_____|e.ccl.c|+-|_____,",
+            ",_____w.......+..|_____,",
+            ",_____|ccccxcc|..%_____,",
+            ",,,,,,|..........+_____,",
+            ",_____|..........%_____,",
+            ",_____%.hh....hh.|_____,",
+            ",_____%.tt....tt.%_____,",
+            ",_____%.tt....tt.%_____,",
+            ",_____|.hh....hh.%_____,",
+            ",__,__|-555++555-|__,__,",
+            ",__,__#ssssssssss#_,,,_,",
+            ",__,__#hthsssshth#__,__,",
+            ",_,,,_#ssssssssss#__,__,",
+            ",__,__#### ss ####__,__,",
+            ",_____ssssssssssss_____,"
+       ],
+        "terrain":{
+            " ": "t_grass",
+            "d": "t_floor",
+            "5": "t_wall_glass_h",
+            "%": "t_wall_glass_v",
+            "O": "t_floor",
+            ",": "t_pavement_y",
+            "_": "t_pavement",
+            "r": "t_floor",
+            "6": "t_console",
+            "x": "t_console_broken",
+            "$": "t_shrub",
+            "^": "t_floor",
+            ".": "t_floor",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "#": "t_shrub",
+            "t": "t_floor",
+            "+": "t_door_glass_c",
+            "=": "t_door_locked_alarm",
+            "D": "t_door_locked",
+            "w": "t_window_domestic",
+            "T": "t_floor",
+            "S": "t_floor",
+            "e": "t_floor",
+            "h": "t_floor",
+            "c": "t_floor",
+            "l": "t_floor",
+            "s": "t_sidewalk"
+        }
+        ,
+        "furniture":{
+            "d": "f_dumpster",
+            "5": "f_null",
+            "%": "f_null",
+            "O": "f_oven",
+            ",": "f_null",
+            "_": "f_null",
+            "r": "f_rack",
+            "6": "f_null",
+            "x": "f_null",
+            "$": "f_null",
+            "^": "f_indoor_plant",
+            ".": "f_null",
+            "-": "f_null",
+            "|": "f_null",
+            "#": "f_null",
+            "t": "f_table",
+            "+": "f_null",
+            "=": "f_null",
+            "D": "f_null",
+            "w": "f_null",
+            "T": "f_toilet",
+            "S": "f_sink",
+            "e": "f_fridge",
+            "h": "f_chair",
+            "c": "f_counter",
+            "l": "f_locker",
+            "s": "f_null"
+        },
+
+       "place_groups": [
+          { "item": "fast_food", "x": [ 8, 8 ], "y": [ 7, 7 ], "chance": 80 },
+          { "item": "fast_food", "x": [ 7, 7 ], "y": [ 9, 9 ], "chance": 70 },
+          { "item": "fast_food", "x": [ 11, 11 ], "y": [ 7, 7 ], "chance": 60 }
+       ]
+     }
+   },
+   { "type": "mapgen", "om_terrain": [ "forest", "forest_thick", "field" ], 
+     "weight": -200000,
      "method": "json", "object": {
        "rows":[
           "000000000000000000000000",
@@ -36,10 +137,10 @@
          "5": "t_wreckage",
          "6": "t_metal",
          "7": "t_rubble",
-         "z": "t_rubblez"
+         "z": "t_rubble"
        },
        "furniture":{
-         "z", "f_makeshift_bed"
+         "z": "f_makeshift_bed"
        },
        "place_groups": [
           { "monster": "GROUP_ZOMBIE", "x": [ 2, 10 ], "y": [ 2, 10 ], "chance": 2 },
@@ -66,7 +167,6 @@
           { "square": "trap", "x": 0, "y":  0, "x2": 10, "y2": 10, "id": "tr_beartrap" }
        ]
      },
-     "weight": 200000,
    "comment": "The stuff below is not relevent to mapgen, but makes the test amusing"
 
    },

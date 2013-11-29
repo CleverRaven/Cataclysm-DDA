@@ -88,22 +88,22 @@
                            "000000000000000000050000",
                            "000000000000000000000000"
                         ],
-                        "terrain":[
-                          [ "0", "t_grass" ],
-                          [ "1", "t_pit" ],
-                          [ "2", "t_ash" ],
-                          [ "3", "t_rubble" ],
-                          [ "4", "t_pit" ],
-                          [ "5", "t_sidewalk" ],
-                          [ "6", "t_sidewalk" ],
-                          [ "7", "t_rubble" ]
-                        ],
-                        "furniture":[
-                          [ "2", "f_makeshift_bed" ],
-                          [ "4", "f_makeshift_bed" ],
-                          [ "6", "f_makeshift_bed" ],
-                          [ "7", "f_makeshift_bed" ]
-                        ],
+                        "terrain": {
+                           "0": "t_grass" ,
+                           "1": "t_pit" ,
+                           "2": "t_ash" ,
+                           "3": "t_rubble" ,
+                           "4": "t_pit" ,
+                           "5": "t_sidewalk" ,
+                           "6": "t_sidewalk" ,
+                           "7": "t_rubble" 
+                        },
+                        "furniture": {
+                           "2": "f_makeshift_bed" ,
+                           "4": "f_makeshift_bed" ,
+                           "6": "f_makeshift_bed" ,
+                           "7": "f_makeshift_bed" 
+                        },
                         "spawn_items": [
                            { "id": "prozac", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 1, 23 ] },
                            { "id": "badge_deputy", "x": 6, "y": 6, "amount": 1 }
