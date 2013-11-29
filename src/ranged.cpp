@@ -968,7 +968,7 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
          stun_strength /= 4;
          break;
      }
-     z.add_effect( ME_STUNNED, rng(stun_strength / 2, stun_strength) );
+     z.add_effect( "effect_stunned", rng(stun_strength / 2, stun_strength) );
  }
 }
 

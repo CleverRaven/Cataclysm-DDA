@@ -49,6 +49,9 @@ struct monster_effect
 class monster : public creature, public JsonSerializer, public JsonDeserializer
 {
  friend class editmap;
+ using creature::add_effect;
+ using creature::has_effect;
+ using creature::remove_effect;
  public:
  monster();
  monster(mtype *t);

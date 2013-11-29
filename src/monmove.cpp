@@ -245,12 +245,12 @@ void monster::move(game *g)
         moves = 0;
         return;
     }
-    if (has_effect(ME_STUNNED)) {
+    if (has_effect("effect_stunned")) {
         stumble(g, false);
         moves = 0;
         return;
     }
-    if (has_effect(ME_DOWNED)) {
+    if (has_effect("effect_downed")) {
         moves = 0;
         return;
     }
@@ -1101,14 +1101,14 @@ void monster::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
   hurt(z->type->size);
-  add_effect(ME_STUNNED, 1);
+  add_effect("effect_stunned", 1);
   if (type->size > 1 + z->type->size) {
    z->knock_back_from(g, posx(), posy()); // Chain reaction!
    z->hurt(type->size);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   } else if (type->size > z->type->size) {
    z->hurt(type->size);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   }
 
   if (u_see)
@@ -1121,7 +1121,7 @@ void monster::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hurt(3);
-  add_effect(ME_STUNNED, 1);
+  add_effect("effect_stunned", 1);
   p->hit(g, bp_torso, -1, type->size, 0);
   if (u_see)
    g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
@@ -1145,7 +1145,7 @@ void monster::knock_back_from(game *g, int x, int y)
 
   } else { // It's some kind of wall.
    hurt(type->size);
-   add_effect(ME_STUNNED, 2);
+   add_effect("effect_stunned", 2);
    if (u_see)
     g->add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());

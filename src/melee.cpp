@@ -657,11 +657,7 @@ matec_id player::pick_technique(game *g, creature &t,
 
     std::vector<matec_id> possible;
 
-    bool downed = false;
-    /* TODO: get this in when effects/diseases are standardized
-    bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
-                    (p && !p->has_disease("downed"))  );
-                    */
+    bool downed = t.has_effect("effect_downed");
 
     // first add non-aoe tecs
     for (std::vector<matec_id>::const_iterator it = all.begin();
@@ -758,25 +754,18 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
         return;
     }
 
-    /* TODO: put all this in when disease/effects merging is done
     if (technique.down_dur > 0) {
-        if (z != NULL && !z->has_flag(MF_FLIES)) {
-        z->add_effect(ME_DOWNED, rng(1, 2));
-        bash_dam += z->fall_damage();
-        } else if (p != NULL && p->weapon.typeId() != "style_judo" &&
-        !p->is_throw_immune()) {
-        p->add_disease("downed", rng(1, 2));
-        bash_dam += 3;
+        if (t.get_throw_resist() == 0) {
+            t.add_effect("effect_downed", rng(1, technique.down_dur));
+            bash_dam += 3;
         }
     }
 
     if (technique.stun_dur > 0) {
-        if (z != NULL)
-        z->add_effect(ME_STUNNED, rng(1, technique.stun_dur));
-        else if (p != NULL)
-        p->add_disease("stunned", rng(1, technique.stun_dur/2));
+        t.add_effect("effect_stunned", rng(1, technique.stun_dur));
     }
 
+    /* TODO: put all this in when disease/effects merging is done
     if (technique.knockback_dist > 0) {
         int kb_offset = rng(
         -technique.knockback_spread,
@@ -1005,10 +994,7 @@ std::string player::melee_special_effects(game *g, creature &t, bool crit,
         if (turns_stunned > 6)
             turns_stunned = 6;
         if (turns_stunned > 0) {
-            if (mon)
-                z->add_effect(ME_STUNNED, turns_stunned);
-            else
-                p->add_disease("stunned", 1 + turns_stunned / 2);
+            t.add_effect("effect_stunned", turns_stunned);
         }
     }
 
@@ -1026,13 +1012,8 @@ std::string player::melee_special_effects(game *g, creature &t, bool crit,
                                      _("<npcname> forces %s to the ground!"),
                                      target.c_str() );
         }
-        if (mon) {
-            z->add_effect(ME_DOWNED, 1);
-            z->moves -= stab_moves / 2;
-        } else {
-            p->add_disease("downed", 1);
-            p->moves -= stab_moves / 2;
-        }
+        t.add_effect("effect_downed", 1);
+        p->moves -= stab_moves / 2;
     } else if (mon) {
         z->moves -= stab_moves;
     } else {

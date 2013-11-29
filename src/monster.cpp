@@ -216,9 +216,9 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
    wprintz(w, h_red, "BUG: Behavior unnamed. (monster.cpp:print_info)");
    break;
  }
- if (has_effect(ME_DOWNED))
+ if (has_effect("effect_downed"))
   wprintz(w, h_white, _("On ground"));
- else if (has_effect(ME_STUNNED))
+ else if (has_effect("effect_stunned"))
   wprintz(w, h_white, _("Stunned"));
  else if (has_effect(ME_BEARTRAP))
   wprintz(w, h_white, _("Trapped"));
@@ -276,7 +276,7 @@ void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect(ME_BEARTRAP) || has_effect(ME_STUNNED) || has_effect(ME_DOWNED))
+ if (has_effect(ME_BEARTRAP) || has_effect("effect_stunned") || has_effect("effect_downed"))
   ret = hilite(ret);
  if (has_effect(ME_ONFIRE))
   ret = red_background(ret);
@@ -704,7 +704,7 @@ int monster::armor_bash()
 
 int monster::dodge()
 {
- if (has_effect(ME_DOWNED))
+ if (has_effect("effect_downed"))
   return 0;
  int ret = type->sk_dodge;
  if (has_effect(ME_BEARTRAP))

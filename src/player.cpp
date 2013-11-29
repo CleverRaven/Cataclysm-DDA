@@ -1260,7 +1260,7 @@ int player::swim_speed()
 bool player::is_on_ground()
 {
     bool on_ground = false;
-    if(has_disease("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
+    if(has_effect("effect_downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
         on_ground = true;
     }
     return  on_ground;
@@ -1284,7 +1284,7 @@ nc_color player::color()
 {
  if (has_disease("onfire"))
   return c_red;
- if (has_disease("stunned"))
+ if (has_effect("effect_stunned"))
   return c_ltblue;
  if (has_disease("boomered"))
   return c_pink;
@@ -4029,14 +4029,14 @@ void player::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
   hit(g, bp_torso, -1, z->type->size, 0);
-  add_disease("stunned", 1);
+  add_effect("effect_stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
    z->hurt((str_max - 6) / 4);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   } else if ((str_max - 6) / 4 == z->type->size) {
    z->hurt((str_max - 6) / 4);
-   z->add_effect(ME_STUNNED, 1);
+   z->add_effect("effect_stunned", 1);
   }
 
   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
@@ -4049,7 +4049,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hit(g, bp_torso, -1, 3, 0);
-  add_disease("stunned", 1);
+  add_effect("effect_stunned", 1);
   p->hit(g, bp_torso, -1, 3, 0);
   g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
@@ -4065,7 +4065,7 @@ void player::knock_back_from(game *g, int x, int y)
 // TODO: NPCs can't swim!
   } else { // It's some kind of wall.
    hurt(g, bp_torso, -1, 3);
-   add_disease("stunned", 2);
+   add_effect("effect_stunned", 2);
    g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
   }
@@ -4522,10 +4522,10 @@ void player::suffer(game *g)
             }
         }
         if (weight_carried() > 4 * weight_capacity()) {
-            if (has_disease("downed")) {
-                add_disease("downed", 1);
+            if (has_effect("effect_downed")) {
+                add_effect("effect_downed", 1);
             } else {
-                add_disease("downed", 2);
+                add_effect("effect_downed", 2);
             }
         }
         int timer = -3600;

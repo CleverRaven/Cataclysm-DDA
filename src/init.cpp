@@ -4,6 +4,7 @@
 #include "file_finder.h"
 
 // can load from json
+#include "effect.h"
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
@@ -136,6 +137,7 @@ void init_data_structures()
     type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
+    type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
     type_function_map["tutorial_messages"] =
         new StaticFunctionAccessor(&load_tutorial_messages);
     type_function_map["overmap_terrain"] =

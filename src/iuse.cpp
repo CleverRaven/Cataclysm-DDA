@@ -5887,7 +5887,7 @@ int iuse::artifact(player *p, item *it, bool t)
     for (int y = p->posy - 8; y <= p->posy + 8; y++) {
      int mondex = g->mon_at(x, y);
      if (mondex != -1)
-      g->zombie(mondex).add_effect(ME_STUNNED, rng(5, 15));
+      g->zombie(mondex).add_effect("effect_stunned", rng(5, 15));
     }
    }
 

@@ -941,7 +941,7 @@ bool npc::can_move_to(game *g, int x, int y)
 void npc::move_to(game *g, int x, int y)
 {
 
- if (has_disease("downed")) {
+ if (has_effect("effect_downed")) {
   moves -= 100;
   return;
  }
@@ -958,7 +958,7 @@ void npc::move_to(game *g, int x, int y)
    recoil = int(recoil / 2);
   }
  }
- if (has_disease("stunned")) {
+ if (has_effect("effect_stunned")) {
   x = rng(posx - 1, posx + 1);
   y = rng(posy - 1, posy + 1);
  }

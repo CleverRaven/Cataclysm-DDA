@@ -47,79 +47,85 @@ class creature
         virtual int armor_bash() = 0;
         virtual int armor_cut() = 0;
 
-        void normalize(game* g); // recreate the creature from scratch
-        void reset(game* g); // prepare the creature for the next turn
+        virtual bool is_player() { return false; }
+
+        virtual void normalize(game* g); // recreate the creature from scratch
+        virtual void reset(game* g); // prepare the creature for the next turn
 
         // should replace both player.add_disease and monster.add_effect
-        void add_effect(std::string eff_id, int dur);
-        void has_effect(std::string eff_id);
+        // these are nonvirtual since otherwise they can't be accessed with
+        // the old add_effect
+        void add_effect(efftype_id eff_id, int dur);
+        void remove_effect(efftype_id eff_id);
+        bool has_effect(efftype_id eff_id);
 
+        virtual void run_effects(); // runs all the effects on the creature
 
         // getters for stats - combat-related stats will all be held within
         // the creature and re-calculated during every normalize() call
 
-        int get_str();
-        int get_dex();
-        int get_per();
-        int get_int();
+        virtual int get_str();
+        virtual int get_dex();
+        virtual int get_per();
+        virtual int get_int();
 
-        int get_str_bonus();
-        int get_dex_bonus();
-        int get_per_bonus();
-        int get_int_bonus();
+        virtual int get_str_bonus();
+        virtual int get_dex_bonus();
+        virtual int get_per_bonus();
+        virtual int get_int_bonus();
 
-        int get_num_blocks();
-        int get_num_dodges();
-        int get_num_blocks_bonus();
-        int get_num_dodges_bonus();
+        virtual int get_num_blocks();
+        virtual int get_num_dodges();
+        virtual int get_num_blocks_bonus();
+        virtual int get_num_dodges_bonus();
 
-        int get_arm_bash_bonus();
-        int get_arm_cut_bonus();
+        virtual int get_arm_bash_bonus();
+        virtual int get_arm_cut_bonus();
 
-        int get_speed();
-        int get_dodge();
+        virtual int get_speed();
+        virtual int get_dodge();
 
-        int get_speed_bonus();
-        int get_dodge_bonus();
-        int get_block_bonus();
-        int get_hit_bonus();
-        int get_bash_bonus();
-        int get_cut_bonus();
+        virtual int get_speed_bonus();
+        virtual int get_dodge_bonus();
+        virtual int get_block_bonus();
+        virtual int get_hit_bonus();
+        virtual int get_bash_bonus();
+        virtual int get_cut_bonus();
 
-        float get_bash_mult();
-        float get_cut_mult();
+        virtual float get_bash_mult();
+        virtual float get_cut_mult();
 
-        bool get_melee_quiet();
-        int get_throw_resist();
+        virtual bool get_melee_quiet();
+        virtual int get_throw_resist();
 
         // setters for stat boni
-        void set_str_bonus(int nstr);
-        void set_dex_bonus(int ndex);
-        void set_per_bonus(int nper);
-        void set_int_bonus(int nint);
-        void mod_str_bonus(int nstr);
-        void mod_dex_bonus(int ndex);
-        void mod_per_bonus(int nper);
-        void mod_int_bonus(int nint);
+        virtual void set_str_bonus(int nstr);
+        virtual void set_dex_bonus(int ndex);
+        virtual void set_per_bonus(int nper);
+        virtual void set_int_bonus(int nint);
+        virtual void mod_str_bonus(int nstr);
+        virtual void mod_dex_bonus(int ndex);
+        virtual void mod_per_bonus(int nper);
+        virtual void mod_int_bonus(int nint);
 
-        void set_num_blocks_bonus(int nblocks);
-        void set_num_dodges_bonus(int ndodges);
+        virtual void set_num_blocks_bonus(int nblocks);
+        virtual void set_num_dodges_bonus(int ndodges);
 
-        void set_arm_bash_bonus(int nbasharm);
-        void set_arm_cut_bonus(int ncutarm);
+        virtual void set_arm_bash_bonus(int nbasharm);
+        virtual void set_arm_cut_bonus(int ncutarm);
 
-        void set_speed_bonus(int nspeed);
-        void set_dodge_bonus(int ndodge);
-        void set_block_bonus(int nblock);
-        void set_hit_bonus(int nhit);
-        void set_bash_bonus(int nbash);
-        void set_cut_bonus(int ncut);
+        virtual void set_speed_bonus(int nspeed);
+        virtual void set_dodge_bonus(int ndodge);
+        virtual void set_block_bonus(int nblock);
+        virtual void set_hit_bonus(int nhit);
+        virtual void set_bash_bonus(int nbash);
+        virtual void set_cut_bonus(int ncut);
 
-        void set_bash_mult(float nbashmult);
-        void set_cut_mult(float ncutmult);
+        virtual void set_bash_mult(float nbashmult);
+        virtual void set_cut_mult(float ncutmult);
 
-        void set_melee_quiet(bool nquiet);
-        void set_throw_resist(int nthrowres);
+        virtual void set_melee_quiet(bool nquiet);
+        virtual void set_throw_resist(int nthrowres);
 
         // innate stats, slowly move these to protected as we rewrite more of
         // the codebase

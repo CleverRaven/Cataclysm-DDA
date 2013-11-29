@@ -1838,7 +1838,7 @@ void mattack::flesh_golem(monster *z)
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(g, hit, side, dam, 0);
     if (one_in(6)) {
-        g->u.add_disease("downed", 30);
+        g->u.add_effect("effect_downed", 30);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }

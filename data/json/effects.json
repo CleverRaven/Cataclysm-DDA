@@ -1,0 +1,371 @@
+[
+    {
+        "type":"effect",
+        "id":"effect_downed",
+        "name": "Downed",
+        "desc": "You're knocked to the ground.  You have to get up before you can move.",
+        "apply_message":"You're knocked to the floor!"
+    },
+    {
+        "type":"effect",
+        "id":"effect_stunned",
+        "name": "Stunned",
+        "apply_message":"You're stunned!"
+        "desc": "Your movement is randomized."
+    },
+    {
+        "type":"effect",
+        "id":"effect_beartrap",
+        "name": "Stuck in beartrap",
+        "desc": "You can't move!"
+    },
+   {
+      "type":"effect",
+      "id":"effect_boomered",
+      "apply_message":"You're covered in bile!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_took_flumed"
+   },
+   {
+      "type":"effect",
+      "id":"effect_in_pit"
+   },
+   {
+      "type":"effect",
+      "id":"effect_pkill2"
+   },
+   {
+      "apply_memorial_log":"Caught on fire.",
+      "type":"effect",
+      "id":"effect_onfire",
+      "remove_memorial_log":"Put out the fire.",
+      "apply_message":"You're on fire!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_null"
+   },
+   {
+      "type":"effect",
+      "id":"effect_webbed",
+      "apply_message":"You're covered in webs!"
+   },
+   {
+      "apply_memorial_log":"Contracted an infection.",
+      "type":"effect",
+      "id":"effect_infected",
+      "remove_memorial_log":"Recovered from an infection... this time.",
+      "apply_message":"Your bite wound feels infected"
+   },
+   {
+      "type":"effect",
+      "id":"effect_spores"
+   },
+   {
+      "type":"effect",
+      "id":"effect_teargas",
+      "apply_message":"You inhale a lungful of tear gas."
+   },
+   {
+      "type":"effect",
+      "id":"effect_visuals"
+   },
+   {
+      "type":"effect",
+      "id":"effect_rat"
+   },
+   {
+      "apply_memorial_log":"Received a deep bite wound.",
+      "type":"effect",
+      "id":"effect_bite",
+      "remove_memorial_log":"Recoverd from a bite wound.",
+      "apply_message":"The bite wound feels really deep..."
+   },
+   {
+      "type":"effect",
+      "id":"effect_ma_buff"
+   },
+   {
+      "type":"effect",
+      "id":"effect_iodine"
+   },
+   {
+      "type":"effect",
+      "id":"effect_shakes"
+   },
+   {
+      "type":"effect",
+      "id":"effect_blisters"
+   },
+   {
+      "type":"effect",
+      "id":"effect_deaf",
+      "apply_message":"You're deafened!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_bleed"
+   },
+   {
+      "type":"effect",
+      "id":"effect_foodpoison"
+   },
+   {
+      "type":"effect",
+      "id":"effect_speed_boost"
+   },
+   {
+      "type":"effect",
+      "id":"effect_slimed",
+      "apply_message":"You're covered in thick goo!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_hallu"
+   },
+   {
+      "type":"effect",
+      "id":"effect_paralyzepoison"
+   },
+   {
+      "type":"effect",
+      "id":"effect_cold"
+   },
+   {
+      "type":"effect",
+      "id":"effect_dermatik"
+   },
+   {
+      "type":"effect",
+      "id":"effect_pkill_l"
+   },
+   {
+      "type":"effect",
+      "id":"effect_frostbite"
+   },
+   {
+      "type":"effect",
+      "id":"effect_sap",
+      "apply_message":"You're coated in sap!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_viper_combo"
+   },
+   {
+      "type":"effect",
+      "id":"effect_poison"
+   },
+   {
+      "apply_memorial_log":"Caught a cold.",
+      "type":"effect",
+      "id":"effect_common_cold",
+      "remove_memorial_log":"Got over the cold.",
+      "apply_message":"You feel a cold coming on..."
+   },
+   {
+      "type":"effect",
+      "id":"effect_alarm_clock"
+   },
+   {
+      "type":"effect",
+      "id":"effect_asked_to_lead"
+   },
+   {
+      "type":"effect",
+      "id":"effect_glare",
+      "apply_message":"The sunlight's glare makes it hard to see."
+   },
+   {
+      "type":"effect",
+      "id":"effect_took_xanax"
+   },
+   {
+      "type":"effect",
+      "id":"effect_evil"
+   },
+   {
+      "type":"effect",
+      "id":"effect_attention"
+   },
+   {
+      "type":"effect",
+      "id":"effect_asked_for_item"
+   },
+   {
+      "type":"effect",
+      "id":"effect_wet",
+      "apply_message":"You're getting soaked!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_jetinjector",
+      "apply_message":"You feel a rush as the chemicals flow through your body!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_adrenaline",
+      "apply_message":"You feel a surge of adrenaline!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_recover"
+   },
+   {
+      "type":"effect",
+      "id":"effect_meth"
+   },
+   {
+      "type":"effect",
+      "id":"effect_dodge_boost"
+   },
+   {
+      "type":"effect",
+      "id":"effect_cig"
+   },
+   {
+      "type":"effect",
+      "id":"effect_grack"
+   },
+   {
+      "remove_memorial_log":"Cured the fungal infection.",
+      "type":"effect",
+      "id":"effect_fungus"
+   },
+   {
+      "type":"effect",
+      "id":"effect_teleglow"
+   },
+   {
+      "type":"effect",
+      "id":"effect_high"
+   },
+   {
+      "remove_message":"Your vision starts to blur.",
+      "type":"effect",
+      "id":"effect_contacts",
+      "apply_message":"You can see more clearly."
+   },
+   {
+      "type":"effect",
+      "id":"effect_formication",
+      "apply_message":"Your skin feels extremely itchy!"
+   },
+   {
+      "apply_memorial_log":"Caught the flu.",
+      "type":"effect",
+      "id":"effect_flu",
+      "remove_memorial_log":"Got over the flu.",
+      "apply_message":"You feel a flu coming on..."
+   },
+   {
+      "type":"effect",
+      "id":"effect_drunk"
+   },
+   {
+      "type":"effect",
+      "id":"effect_took_prozac"
+   },
+   {
+      "type":"effect",
+      "id":"effect_blind",
+      "apply_message":"You're blinded!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_armor_boost"
+   },
+   {
+      "type":"effect",
+      "id":"effect_amigara",
+      "apply_message":"You can't look away from the faultline..."
+   },
+   {
+      "type":"effect",
+      "id":"effect_lying_down",
+      "apply_message":"You lie down to go to sleep..."
+   },
+   {
+      "type":"effect",
+      "id":"effect_heavysnare",
+      "apply_message":"You are snared."
+   },
+   {
+      "type":"effect",
+      "id":"effect_asked_to_follow"
+   },
+   {
+      "type":"effect",
+      "id":"effect_hot"
+   },
+   {
+      "type":"effect",
+      "id":"effect_pkill1"
+   },
+   {
+      "remove_message":"You wake up.",
+      "type":"effect",
+      "id":"effect_sleep"
+   },
+   {
+      "type":"effect",
+      "id":"effect_pkill3"
+   },
+   {
+      "type":"effect",
+      "id":"effect_smoke",
+      "apply_message":"You inhale a lungful of thick smoke."
+   },
+   {
+      "type":"effect",
+      "id":"effect_catch_up"
+   },
+   {
+      "type":"effect",
+      "id":"effect_asthma",
+      "apply_message":"You can't breathe... asthma attack!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_lightsnare",
+      "apply_message":"You are snared."
+   },
+   {
+      "type":"effect",
+      "id":"effect_crushed",
+      "apply_message":"The ceiling collapses on you!"
+   },
+   {
+      "type":"effect",
+      "id":"effect_bouldering",
+      "apply_message":"You are slowed by the rubble."
+   },
+   {
+      "type":"effect",
+      "id":"effect_stemcell_treatment",
+      "apply_message":"It is excruciating."
+   },
+   {
+      "type":"effect",
+      "id":"effect_badpoison"
+   },
+   {
+      "type":"effect",
+      "id":"effect_weed_high",
+      "apply_message":"You feel lightheaded."
+   },
+   {
+      "type":"effect",
+      "id":"effect_infection"
+   },
+   {
+      "type":"effect",
+      "id":"effect_damage_boost"
+   },
+   {
+      "type":"effect",
+      "id":"effect_attack_boost"
+   }
+]

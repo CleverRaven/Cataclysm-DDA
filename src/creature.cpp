@@ -12,6 +12,31 @@ void creature::reset(game *g) {
     // Any persistent buffs/debuffs will take place in disease.h,
     // player::suffer(), etc.
 
+    // First reset all bonuses to 0 and mults to 1.0
+    str_bonus = 0;
+    dex_bonus = 0;
+    per_bonus = 0;
+    int_bonus = 0;
+
+    num_blocks_bonus = 0;
+    num_dodges_bonus = 0;
+
+    arm_bash_bonus = 0;
+    arm_cut_bonus = 0;
+
+    speed_bonus = 0;
+    dodge_bonus = 0;
+    block_bonus = 0;
+    hit_bonus = 0;
+    bash_bonus = 0;
+    cut_bonus = 0;
+
+    bash_mult = 1.0f;
+    cut_mult = 1.0f;
+    melee_quiet = false;
+    throw_resist = 0;
+
+    // then repopulate the bonus fields
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
         it->do_effects(g, *this);
@@ -36,10 +61,14 @@ void creature::reset(game *g) {
  * Effect-related functions
  */
 
-void add_effect(std::string eff_id, int dur) {
+void creature::add_effect(efftype_id eff_id, int dur) {
+    effect new_eff(&effect_types[eff_id], dur);
+    effects.push_back(new_eff);
     return;
 }
-bool has_effect(effect& eff) {
+void creature::run_effects() {
+}
+bool creature::has_effect(efftype_id eff) {
     return true;
 }
 

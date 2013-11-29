@@ -1324,13 +1324,13 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
             if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
-                    z->add_effect(ME_STUNNED, rng(10, 20));
+                    z->add_effect("effect_stunned", rng(10, 20));
                     dam += rng(4, 10);
                 } else if (cur->getFieldDensity() == 2) {
-                    z->add_effect(ME_STUNNED, rng(5, 10));
+                    z->add_effect("effect_stunned", rng(5, 10));
                     dam += rng(2, 5);
                 } else {
-                    z->add_effect(ME_STUNNED, rng(1, 5));
+                    z->add_effect("effect_stunned", rng(1, 5));
                 }
                 if (z->made_of("veggy")) {
                     z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
@@ -1479,15 +1479,15 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
       g->add_msg(_("You are hit by the falling debris!"));
      }
      if (one_in(g->u.dex_cur)) {
-      g->u.add_disease("downed", 2);
+      g->u.add_effect("effect_downed", 2);
      }
      if (one_in(g->u.str_cur)) {
-      g->u.add_disease("stunned", 2);
+      g->u.add_effect("effect_stunned", 2);
      }
     }
     else if (one_in(g->u.str_cur)) {
      g->add_msg(_("You trip as you evade the falling debris!"));
-     g->u.add_disease("downed", 1);
+     g->u.add_effect("effect_downed", 1);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
 //    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
@@ -1507,14 +1507,14 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
       if (one_in(me->dex_cur)) {
-       me->add_disease("downed", 2);
+       me->add_effect("effect_downed", 2);
       }
       if (one_in(me->str_cur)) {
-       me->add_disease("stunned", 2);
+       me->add_effect("effect_stunned", 2);
       }
      }
      else if (one_in(me->str_cur)) {
-      me->add_disease("downed", 1);
+      me->add_effect("effect_downed", 1);
      }
     }
     if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {

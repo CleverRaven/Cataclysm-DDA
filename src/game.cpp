@@ -5438,7 +5438,7 @@ void game::flashbang(int x, int y, bool player_immune)
         monster &z = _active_monsters[i];
         dist = rl_dist(z.posx(), z.posy(), x, y);
         if (dist <= 4) {
-            z.add_effect(ME_STUNNED, 10 - dist);
+            z.add_effect("effect_stunned", 10 - dist);
         }
         if (dist <= 8) {
             if (z.has_flag(MF_SEES) && m.sees(z.posx(), z.posy(), x, y, 8, t)) {
@@ -5526,7 +5526,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         monster *targ = &_active_monsters[zid];
         if (stun > 0)
         {
-            targ->add_effect(ME_STUNNED, stun);
+            targ->add_effect("effect_stunned", stun);
             add_msg(ngettext("%s was stunned for %d turn!",
                              "%s was stunned for %d turns!", stun),
                     targ->name().c_str(), stun);
@@ -5539,9 +5539,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_effect(ME_STUNNED))
+                    if (targ->has_effect("effect_stunned"))
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
                                          force_remaining),
@@ -5549,7 +5549,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     }
                     else
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned for %d turn!",
                                          "%s was stunned for %d turns!",
                                          force_remaining),
@@ -5571,9 +5571,9 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_effect(ME_STUNNED))
+                    if (targ->has_effect("effect_stunned"))
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
                                          force_remaining),
@@ -5581,7 +5581,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     }
                     else
                     {
-                        targ->add_effect(ME_STUNNED, force_remaining);
+                        targ->add_effect("effect_stunned", force_remaining);
                         add_msg(ngettext("%s was stunned for %d turn!",
                                          "%s was stunned for %d turns!",
                                          force_remaining),
@@ -5626,7 +5626,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         npc *targ = active_npc[npc_at(tx, ty)];
         if (stun > 0)
         {
-            targ->add_disease("stunned", stun);
+            targ->add_effect("effect_stunned", stun);
             add_msg(ngettext("%s was stunned for %d turn!",
                              "%s was stunned for %d turns!", stun),
                     targ->name.c_str(), stun);
@@ -5640,10 +5640,10 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_disease("stunned"))
+                    if (targ->has_effect("effect_stunned"))
                     {
-                        targ->add_disease("stunned", force_remaining);
-                        if (targ->has_disease("stunned"))
+                        targ->add_effect("effect_stunned", force_remaining);
+                        if (targ->add_effect("effect_stunned"))
                             add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                              "%s was stunned AGAIN for %d turns!",
                                              force_remaining),
@@ -5651,8 +5651,8 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     }
                     else
                     {
-                        targ->add_disease("stunned", force_remaining);
-                        if (targ->has_disease("stunned"))
+                        targ->add_effect("effect_stunned", force_remaining);
+                        if (targ->has_effect("effect_stunned"))
                             add_msg(ngettext("%s was stunned for %d turn!",
                                              "%s was stunned for %d turns!",
                                              force_remaining),
@@ -5679,7 +5679,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (targ->has_disease("stunned"))
+                    if (targ->has_effect("effect_stunned"))
                     {
                         add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                          "%s was stunned AGAIN for %d turns!",
@@ -5693,7 +5693,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                                          force_remaining),
                                  targ->name.c_str(), force_remaining);
                     }
-                    targ->add_disease("stunned", force_remaining);
+                    targ->add_effect("effectstunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
                 if (mon_at(traj.front().x, traj.front().y) != -1) {
@@ -5721,7 +5721,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
     {
         if (stun > 0)
         {
-            u.add_disease("stunned", stun);
+            u.add_effect("effect_stunned", stun);
             add_msg(_("You were stunned for %d turns!"), stun);
         }
         for(int i = 1; i < traj.size(); i++)
@@ -5733,7 +5733,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (u.has_disease("stunned"))
+                    if (u.has_effect("effect_stunned"))
                     {
                         add_msg(_("You were stunned AGAIN for %d turns!"), force_remaining);
                     }
@@ -5741,7 +5741,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     {
                         add_msg(_("You were stunned for %d turns!"), force_remaining);
                     }
-                    u.add_disease("stunned", force_remaining);
+                    u.add_effect("effect_stunned", force_remaining);
                     if (one_in(2)) u.hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
@@ -5761,7 +5761,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 force_remaining = traj.size() - i;
                 if (stun != 0)
                 {
-                    if (u.has_disease("stunned"))
+                    if (u.has_effect("effect_stunned"))
                     {
                         add_msg(_("You were stunned AGAIN for %d turns!"), force_remaining);
                     }
@@ -5769,7 +5769,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     {
                         add_msg(_("You were stunned for %d turns!"), force_remaining);
                     }
-                    u.add_disease("stunned", force_remaining);
+                    u.add_effect("effect_stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
                 if (mon_at(traj.front().x, traj.front().y) != -1) {
@@ -10427,7 +10427,7 @@ bool game::plmove(int dx, int dy)
     }
  int x = 0;
  int y = 0;
- if (u.has_disease("stunned")) {
+ if (u.has_effect("effect_stunned")) {
   x = rng(u.posx - 1, u.posx + 1);
   y = rng(u.posy - 1, u.posy + 1);
  } else {
@@ -10530,14 +10530,14 @@ bool game::plmove(int dx, int dy)
    u.rem_disease("in_pit");
   }
  }
- if (u.has_disease("downed")) {
+ if (u.has_effect("effect_downed")) {
   if (rng(0, 40) > u.dex_cur + int(u.str_cur / 2)) {
    add_msg(_("You struggle to stand."));
    u.moves -= 100;
    return false;
   } else {
    add_msg(_("You stand up."));
-   u.rem_disease("downed");
+   u.remove_effect("effect_downed");
    u.moves -= 100;
    return false;
   }
@@ -11173,7 +11173,7 @@ bool game::plmove(int dx, int dy)
    plswim(x, y);
   }
  } else { // Invalid move
-  if (u.has_disease("blind") || u.has_disease("stunned")) {
+  if (u.has_disease("blind") || u.has_effect("effect_stunned")) {
 // Only lose movement if we're blind
    add_msg(_("You bump into a %s!"), m.name(x, y).c_str());
    u.moves -= 100;
@@ -11884,7 +11884,7 @@ void game::update_stair_monsters() {
                             u.moves -= 100;
                             // Stumble.
                             if (u.dodge(this) < 12)
-                                u.add_disease("downed", 2);
+                                u.add_effect("effect_downed", 2);
                             return;
                         }
                         tries++;
