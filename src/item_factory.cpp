@@ -402,6 +402,18 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
     }
 }
 
+//Returns a random template name from the list of all templates, and if it should come with ammo
+const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo ) {
+    std::map<Item_tag, Item_group*>::iterator group_iter = m_template_groups.find(group_tag);
+    //If the tag isn't found, just return a reference to missing item.
+    if(group_iter != m_template_groups.end()){
+        with_ammo = group_iter->second->guns_have_ammo();
+        return group_iter->second->get_id();
+    } else {
+        with_ammo = false;
+        return "MISSING_ITEM";
+    }
+}
 
 item Item_factory::create(Item_tag id, int created_at){
     return item(find_template(id), created_at);
@@ -741,6 +753,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     Item_tag group_id = jsobj.get_string("id");
     Item_group *current_group = new Item_group(group_id);
     m_template_groups[group_id] = current_group;
+
+    current_group->m_guns_have_ammo = jsobj.get_bool("guns_have_ammo", false );
 
     JsonArray items = jsobj.get_array("items");
     while (items.has_more()) {
