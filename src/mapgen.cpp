@@ -13592,11 +13592,11 @@ void map::place_spawns(game *g, std::string group, const int chance,
         return;
     }
 
-    if ( MonsterGroupManager::isValidMonsterGroup == false ) {
+    if ( MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
         real_coords rc( this->getabs() );
         overmap * thisom = &overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y );
         oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
-        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_base.c_str() );
         return;
     }
 
@@ -13662,7 +13662,7 @@ int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
         real_coords rc( this->getabs() );
         overmap * thisom = &overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y );
         oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
-        debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)", loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)", loc.c_str(), oid.t().id.c_str(), oid.t().id_base.c_str() );
     }
     int px, py;
     int item_num = 0;

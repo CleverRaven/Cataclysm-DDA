@@ -4,6 +4,7 @@
 #include "json.h"
 #include "addiction.h"
 #include "translations.h"
+#include "bodypart.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -227,14 +228,6 @@ void Item_factory::init(){
     techniques_list["PRECISE"] = "tec_precise";
     techniques_list["RAPID"] = "tec_rapid";
 
-    bodyparts_list["TORSO"] = mfb(bp_torso);
-    bodyparts_list["HEAD"] = mfb(bp_head);
-    bodyparts_list["EYES"] = mfb(bp_eyes);
-    bodyparts_list["MOUTH"] = mfb(bp_mouth);
-    bodyparts_list["ARMS"] = mfb(bp_arms);
-    bodyparts_list["HANDS"] = mfb(bp_hands);
-    bodyparts_list["LEGS"] = mfb(bp_legs);
-    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -690,7 +683,7 @@ void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, i
     }
 }
 
-unsigned Item_factory::flags_from_json(JsonObject& jo, std::string member, std::string flag_type)
+unsigned Item_factory::flags_from_json(JsonObject& jo, const std::string & member, std::string flag_type)
 {
     //If none is found, just use the standard none action
     unsigned flag = 0;
@@ -788,27 +781,19 @@ use_function Item_factory::use_from_string(std::string function_name){
     }
 }
 
-void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
+void Item_factory::set_flag_by_string(unsigned& cur_flags, const std::string & new_flag, const std::string & flag_type)
 {
-    std::map<Item_tag, unsigned> flag_map;
-    if(flag_type=="bodyparts"){
-      flag_map = bodyparts_list;
-      set_bitmask_by_string(flag_map, cur_flags, new_flag);
+    if( flag_type == "bodyparts" ) {
+        // global defined in bodypart.h
+        //std::map<std::string, unsigned> & bp = body_parts;
+        std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
+        if(found_flag_iter != body_parts.end()) {
+            cur_flags = cur_flags | mfb( (unsigned)found_flag_iter->second );
+        } else {
+            debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
+        }
     }
 
-}
-
-void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, unsigned& cur_bitmask, std::string new_flag)
-{
-    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = flag_map.find(new_flag);
-    if(found_flag_iter != flag_map.end())
-    {
-        cur_bitmask = cur_bitmask | found_flag_iter->second;
-    }
-    else
-    {
-        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str());
-    }
 }
 
 phase_id Item_factory::phase_from_tag(Item_tag name){

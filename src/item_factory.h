@@ -85,24 +85,19 @@ private:
     void load_basic_info(JsonObject &jo, itype *new_item);
     void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
     void set_qualities_from_json(JsonObject &jo, std::string member, itype *new_item);
-    unsigned flags_from_json(JsonObject &jo, std::string member, std::string flag_type="");
+    unsigned flags_from_json(JsonObject &jo, const std::string & member, std::string flag_type="");
     void set_material_from_json(JsonObject &jo, std::string member, itype *new_item);
     bool is_mod_target(JsonObject &jo, std::string member, std::string weapon);
 
     void set_intvar(std::string tag, unsigned int & var, int min, int max);
 
     //two convenience functions that just call into set_bitmask_by_string
-    void set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type);
-    //sets a bitmask (cur_bitmask) based on the values of flag_map and new_flag
-    void set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map,
-                               unsigned& cur_bitmask, std::string new_flag);
+    void set_flag_by_string(unsigned& cur_flags, const std::string & new_flag, const std::string & flag_type);
 
     //iuse stuff
     std::map<Item_tag, use_function> iuse_function_list;
     //techniques stuff
     std::map<Item_tag, matec_id> techniques_list;
-    //bodyparts
-    std::map<Item_tag, unsigned> bodyparts_list;
 };
 
 extern Item_factory* item_controller;
