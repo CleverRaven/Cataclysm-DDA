@@ -149,7 +149,7 @@ std::string npc::save_info()
     return serialize(); // also saves contents
 }
 
-void npc::load_info(game *g, std::string data)
+void npc::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -168,7 +168,7 @@ void npc::load_info(game *g, std::string data)
         }
         return;
     } else {
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 

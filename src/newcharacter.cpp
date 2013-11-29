@@ -208,7 +208,7 @@ bool player::create(game *g, character_type type, std::string tempname)
                 }
                 std::string(data);
                 getline(fin, data);
-                load_info(g, data);
+                load_info(data);
                 points = 0;
             }
             break;

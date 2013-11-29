@@ -170,7 +170,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // Finally, the data on the player.
             getline(fin, data);
-            u.load_info(this, data);
+            u.load_info(data);
             u.load_memorial_file( fin );
             // end .sav version 9
 
@@ -257,7 +257,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // Finally, the data on the player.
             getline(fin, data);
-            u.load_info(this, data);
+            u.load_info(data);
             u.load_memorial_file( fin );
 
             // And the player's inventory...
@@ -374,7 +374,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // Finally, the data on the player.
             getline(fin, data);
-            u.load_info(this, data);
+            u.load_info(data);
             u.load_memorial_file( fin );
 
             // And the player's inventory...
@@ -480,7 +480,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
          getline(fin, data);
-         u.load_info(this, data);
+         u.load_info(data);
         // And the player's inventory...
          u.inv.load_invlet_cache( fin );
 
@@ -939,7 +939,7 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                     std::string npcdata;
                     getline(fin, npcdata);
                     npc * tmp = new npc();
-                    tmp->load_info(g, npcdata);
+                    tmp->load_info(npcdata);
                     npcs.push_back(tmp);
                 } else if (datatype == 'P') {
                     // Chomp the invlet_cache, since the npc doesn't use it.
@@ -1148,7 +1148,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             fin >> itx >> ity;
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
-            it_tmp.load_info(databuff, master_game);
+            it_tmp.load_info(databuff);
             sm->itm[itx][ity].push_back(it_tmp);
             if (it_tmp.active)
              sm->active_item_count++;
@@ -1156,7 +1156,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             getline(fin, databuff); // Clear out the endline
             getline(fin, databuff);
             int index = sm->itm[itx][ity].size() - 1;
-            it_tmp.load_info(databuff, master_game);
+            it_tmp.load_info(databuff);
             sm->itm[itx][ity][index].put_in(it_tmp);
             if (it_tmp.active)
              sm->active_item_count++;
@@ -1216,7 +1216,8 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
 ///// old stringstream based class loadgame functions. For saves from < 0.8 to git sep 20 '13
 
 ///// player.h
-void player::load_legacy(game *g, std::stringstream & dump) {
+void player::load_legacy(std::stringstream & dump)
+{
  int inveh, vctrl;
  itype_id styletmp;
  std::string prof_ident;
@@ -1388,7 +1389,7 @@ void player::load_legacy(game *g, std::stringstream & dump) {
 
 
 ///// npc.h
-void npc::load_legacy(game *g, std::stringstream & dump) {
+void npc::load_legacy(std::stringstream & dump) {
     std::string tmpname;
     int deathtmp, deadtmp, classtmp, npc_id;
  dump >> npc_id;
@@ -1578,7 +1579,7 @@ void monster::load_legacy(std::stringstream & dump) {
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars );
 
-void item::load_legacy(game * g, std::stringstream & dump) {
+void item::load_legacy(std::stringstream & dump) {
     clear();
     std::string idtmp, ammotmp, item_tag;
     int lettmp, damtmp, acttmp, corp, tag_count;
@@ -1682,7 +1683,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
             itms++;
             getline(stin, databuff);
             item itm;
-            itm.load_info (databuff, g);
+            itm.load_info(databuff);
             new_part.items.push_back (itm);
             int ncont;
             stin >> ncont; // how many items inside container
@@ -1691,7 +1692,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
             {
                 getline(stin, databuff);
                 item citm;
-                citm.load_info (databuff, g);
+                citm.load_info(databuff);
                 new_part.items[new_part.items.size()-1].put_in (citm);
             }
         }
@@ -1726,7 +1727,7 @@ bool game::unserialize_master_legacy(std::ifstream & fin) {
   fin.get(junk); // Chomp that pesky endline
  for (int i = 0; i < num_missions; i++) {
   mission tmpmiss;
-  tmpmiss.load_info(this, fin);
+  tmpmiss.load_info(fin);
   active_missions.push_back(tmpmiss);
  }
 

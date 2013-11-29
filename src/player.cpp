@@ -1298,7 +1298,7 @@ nc_color player::color()
  return c_white;
 }
 
-void player::load_info(game *g, std::string data)
+void player::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -1317,7 +1317,7 @@ void player::load_info(game *g, std::string data)
         }
         return;
     } else { // old save
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 

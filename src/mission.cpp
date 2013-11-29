@@ -43,7 +43,7 @@ std::string mission::save_info()
  return ret.str();
 }
 
-void mission::load_info(game *g, std::ifstream &data)
+void mission::load_info(std::ifstream &data)
 {
  int type_id, rewtype, reward_id, rew_skill, tmpfollow;
  std::string rew_item, itemid;

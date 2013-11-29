@@ -150,7 +150,8 @@ itype * item::nullitem()
 
 item::item(std::string itemdata, game *g)
 {
- load_info(itemdata, g);
+    (void)g; //unused
+    load_info(itemdata);
 }
 
 item::item(JsonObject &jo)
@@ -324,7 +325,7 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
 }
 
 
-void item::load_info(std::string data, game *g)
+void item::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
@@ -342,7 +343,7 @@ void item::load_info(std::string data, game *g)
         }
         return;
     } else {
-        load_legacy(g, dump);
+        load_legacy(dump);
     }
 }
 

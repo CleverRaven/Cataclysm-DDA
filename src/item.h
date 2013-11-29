@@ -111,8 +111,8 @@ public:
 
  std::string save_info() const; // Formatted for save files
  //
- void load_legacy(game * g, std::stringstream & dump);
- void load_info(std::string data, game *g);
+ void load_legacy(std::stringstream & dump);
+ void load_info(std::string data);
  //std::string info(bool showtext = false); // Formatted for human viewing
  std::string info(bool showtext = false);
  std::string info(bool showtext, std::vector<iteminfo> *dump, game *g = NULL, bool debug = false);

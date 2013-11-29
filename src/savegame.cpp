@@ -431,7 +431,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             std::string npcdata;
             getline(fin, npcdata);
             npc * tmp = new npc();
-            tmp->load_info(g, npcdata);
+            tmp->load_info(npcdata);
             npcs.push_back(tmp);
         } else if (datatype == 'P') {
             // Chomp the invlet_cache, since the npc doesn't use it.

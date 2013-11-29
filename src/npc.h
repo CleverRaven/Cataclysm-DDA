@@ -381,8 +381,8 @@ public:
  void starting_weapon();
 
 // Save & load
- virtual void load_legacy(game *g, std::stringstream & dump);// Overloaded from player
- virtual void load_info(game *g, std::string data);// Overloaded from player
+ virtual void load_legacy(std::stringstream & dump);// Overloaded from player
+ virtual void load_info(std::string data);// Overloaded from player
  virtual std::string save_info();
 
     using player::deserialize;
