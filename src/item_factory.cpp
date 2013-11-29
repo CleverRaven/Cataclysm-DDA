@@ -4,6 +4,7 @@
 #include "json.h"
 #include "addiction.h"
 #include "translations.h"
+#include "bodypart.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
