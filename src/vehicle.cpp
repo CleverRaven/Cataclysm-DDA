@@ -434,13 +434,14 @@ void vehicle::use_controls()
     options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
 
     uimenu selectmenu;
+    selectmenu.return_invalid = true;
     selectmenu.text = _("Vehicle controls");
     selectmenu.entries = options_message;
     selectmenu.selected = letgoent;
     selectmenu.query();
     int select = selectmenu.ret;
 
-    if (select == UIMENU_INVALID) {
+    if (select < 0) {
         return;
     }
 
