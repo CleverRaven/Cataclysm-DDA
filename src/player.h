@@ -91,7 +91,7 @@ public:
  bool create(game *g, character_type type, std::string tempname = "");
  std::string random_good_trait();
  std::string random_bad_trait();
- void normalize(game *g); // Starting set up of HP and inventory
+ void normalize(); // Starting set up of HP and inventory
 // </newcharacter.cpp>
 
  void pick_name(); // Picks a name from NAMES_*
@@ -116,7 +116,7 @@ public:
 
  void memorial( std::ofstream &memorial_file ); // Write out description of player.
  void disp_info(game *g); // '@' key; extended character info
- void disp_morale(game *g); // '%' key; morale info
+ void disp_morale(); // '%' key; morale info
  void disp_status(WINDOW* w, WINDOW *w2, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
@@ -330,11 +330,11 @@ public:
  bool eat(game *g, item *eat, it_comest *comest);
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
- void pick_style(game *g); // Pick a style
+ void pick_style(); // Pick a style
  bool wear(game *g, char let, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
- void sort_armor(game *g);      // re-order armor layering
+ void sort_armor();      // re-order armor layering
  void use(game *g, char let); // Use a tool
  void use_wielded(game *g);
  void remove_gunmod(item *weapon, int id, game *g);
@@ -370,8 +370,8 @@ public:
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
- bool has_activity(game* g, const activity_type type);
+ void assign_activity(activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
+ bool has_activity(const activity_type type);
  void cancel_activity();
 
  int weight_carried();

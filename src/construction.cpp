@@ -451,7 +451,7 @@ void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(g, ACT_BUILD, con->time * 1000, con->id);
+    g->u.assign_activity(ACT_BUILD, con->time * 1000, con->id);
     g->u.moves = 0;
     g->u.activity.placement = choice;
 }

@@ -510,7 +510,7 @@ int iuse::firstaid(player *p, item *it, bool)
     // Assign first aid long action.
     int healed = use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false);
     if (healed != num_hp_parts) {
-      p->assign_activity(g, ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0, it->invlet, it->name);
+      p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel("first aid") + 1), 0, it->invlet, it->name);
       p->activity.values.push_back(healed);
       p->moves = 0;
     }
@@ -4731,7 +4731,7 @@ int iuse::portable_game(player *p, item *it, bool)
         int time = 15000;
 
         g->add_msg_if_player(p, _("You play on your %s for a while."), it->name.c_str());
-        p->assign_activity(g, ACT_GAME, time, -1, it->invlet, "gaming");
+        p->assign_activity(ACT_GAME, time, -1, it->invlet, "gaming");
         p->moves = 0;
 
         std::map<std::string, std::string> game_data;

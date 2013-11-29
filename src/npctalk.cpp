@@ -1883,7 +1883,7 @@ void talk_function::start_training(npc *p)
  else if (!trade(p, cost, _("Pay for training:")))
   return;
 // Then receive it
- g->u.assign_activity(g, ACT_TRAIN, time, p->chatbin.tempvalue, 0, p->chatbin.skill->ident());
+ g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, p->chatbin.skill->ident());
 }
 
 void parse_tags(std::string &phrase, player *u, npc *me)
