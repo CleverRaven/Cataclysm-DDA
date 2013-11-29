@@ -554,7 +554,6 @@ void inventory::form_from_map(game *g, point origin, int range, bool assign_invl
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
-   //int junk;
    if (g->m.has_flag("SEALED", x, y)) {
      continue;
    }
