@@ -772,7 +772,7 @@ void show_options(bool ingame)
 			value_conversion >> new_viewport_x;
 			new_window_width = projected_window_width(new_viewport_x);
 
-			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels wide.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_width);
+			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels wide with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_width);
 		}
 		else if (mPageItems[iCurrentPage][iCurrentLine] == "VIEWPORT_Y")
 		{
@@ -782,7 +782,7 @@ void show_options(bool ingame)
 			value_conversion >> new_viewport_y;
 			new_window_height = projected_window_height(new_viewport_y);
 
-			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels tall.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_height);
+			fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s -- The window will be %d pixels tall with the selected value.", OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(), OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(), new_window_height);
 		}
 		else
 #endif
