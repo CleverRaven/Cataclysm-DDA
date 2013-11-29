@@ -714,12 +714,12 @@
         "cancels" : ["THICK_SCALES", "FEATHERS"],
         "category" : ["MUTCAT_FISH"],
         "wet_protection" : [
-            { "part" : "HEAD", "ignored" : 7 },
-            { "part" : "LEGS", "ignored" : 21 },
-            { "part" : "FEET", "ignored" : 6 },
-            { "part" : "ARMS", "ignored" : 19 },
-            { "part" : "HANDS", "ignored" : 5 },
-            { "part" : "TORSO", "ignored" : 40 }
+            { "part" : "HEAD", "good" : 7 },
+            { "part" : "LEGS", "good" : 21 },
+            { "part" : "FEET", "good" : 6 },
+            { "part" : "ARMS", "good" : 19 },
+            { "part" : "HANDS", "good" : 5 },
+            { "part" : "TORSO", "good" : 40 }
         ]
     },{
         "type" : "mutation",
