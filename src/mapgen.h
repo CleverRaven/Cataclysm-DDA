@@ -40,6 +40,9 @@ class mapgen_function_builtin : public virtual mapgen_function {
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen (and friends)
+/*
+ * Actually a pair of shorts that can rng, for numbers that will never exceed 32768
+ */
 struct jmapgen_int {
   short val;
   short valmax;
@@ -47,38 +50,70 @@ struct jmapgen_int {
   jmapgen_int(int v, int v2) : val(v), valmax(v2) {}
   jmapgen_int( point p ) : val(p.x), valmax(p.y) {}
   
-  int get() {
-    return ( val == valmax ? val : rng(val, valmax) );
+  int get() const {
+      return ( val == valmax ? val : rng(val, valmax) );
   }
 };
-/* todo
-int place_items(items_location loc, const int chance, const int x1, const int y1,
-                  const int x2, const int y2, bool ongrass, const int turn);
 
-void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
-                const int faction_id = -1, const int mission_id = -1,
-                std::string name = "NONE");
-
-*/
 enum jmapgen_setmap_op {
+    JMAPGEN_SETMAP_OPTYPE_POINT = 0,
     JMAPGEN_SETMAP_TER,
     JMAPGEN_SETMAP_FURN,
     JMAPGEN_SETMAP_TRAP,
-    JMAPGEN_SETMAP_RADIATION
+    JMAPGEN_SETMAP_RADIATION,
+    JMAPGEN_SETMAP_OPTYPE_LINE = 100,
+    JMAPGEN_SETMAP_LINE_TER,
+    JMAPGEN_SETMAP_LINE_FURN,
+    JMAPGEN_SETMAP_LINE_TRAP,
+    JMAPGEN_SETMAP_LINE_RADIATION,
+    JMAPGEN_SETMAP_OPTYPE_SQUARE = 200,
+    JMAPGEN_SETMAP_SQUARE_TER,
+    JMAPGEN_SETMAP_SQUARE_FURN,
+    JMAPGEN_SETMAP_SQUARE_TRAP,
+    JMAPGEN_SETMAP_SQUARE_RADIATION
 };
 
-struct jmapgen_setmap_point {
+
+
+struct jmapgen_setmap {
     jmapgen_int x;
     jmapgen_int y;
+    jmapgen_int x2;
+    jmapgen_int y2;
     jmapgen_setmap_op op;
     jmapgen_int val;
     int chance;
     jmapgen_int repeat;
-    jmapgen_setmap_point(
-       jmapgen_int ix, jmapgen_int iy, jmapgen_setmap_op iop, jmapgen_int ival, 
+
+    jmapgen_setmap(
+       jmapgen_int ix, jmapgen_int iy, jmapgen_int ix2, jmapgen_int iy2,
+       jmapgen_setmap_op iop, jmapgen_int ival, 
        int ione_in = 1, jmapgen_int irepeat = jmapgen_int(1,1)
-       ) : x(ix), y(iy), op(iop), val(ival), chance(ione_in), repeat(irepeat) {}
+    ) :
+       x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat)
+    {}
     bool apply( map * m );
+};
+
+/* todo: place_gas_pump, place_toile, add_spawn */
+
+enum jmapgen_place_group_op {
+    JMAPGEN_PLACEGROUP_ITEM,
+    JMAPGEN_PLACEGROUP_MONSTER
+};
+
+struct jmapgen_place_group {
+    jmapgen_int x;
+    jmapgen_int y;
+    std::string gid;
+    jmapgen_place_group_op op;
+    int chance;
+    float density;
+    jmapgen_int repeat;    
+    jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
+        float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1)
+      ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat) { }
+    void apply( map * m, float mdensity, int t );
 };
 
 struct jmapgen_spawn_item {
@@ -88,22 +123,17 @@ struct jmapgen_spawn_item {
     jmapgen_int amount;
     int chance;
     jmapgen_int repeat;
-    jmapgen_spawn_item(
-        jmapgen_int ix, jmapgen_int iy, std::string iitype, jmapgen_int iamount, int ichance = 1, jmapgen_int irepeat = jmapgen_int(1,1) ) : 
-        x(ix), y(iy), itype(iitype), amount(iamount), chance(ichance), repeat(irepeat) {}
-    void apply( map * m ) {
-        if ( chance == 1 || one_in( chance ) ) {
-            const int trepeat = repeat.get() + 1;
-            for (int i = 0; i <= trepeat; i++) {
-                m->spawn_item( x.get(), y.get(), itype, amount.get() );
-            }
-        }
-    }
+    jmapgen_spawn_item( const jmapgen_int ix, jmapgen_int iy, std::string iitype, jmapgen_int iamount, int ichance = 1,
+        jmapgen_int irepeat = jmapgen_int(1,1) ) : 
+      x(ix), y(iy), itype(iitype), amount(iamount), chance(ichance), repeat(irepeat) {}
+    void apply( map * m );
+
 };
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
     virtual void dummy_() {}
+    void setup_place_group(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
     bool setup();
     void apply(map * m,oter_id id,mapgendata md ,int t,float d);
@@ -114,15 +144,18 @@ class mapgen_function_json : public virtual mapgen_function {
         mapgensize = 24;
         fill_ter = -1;
         is_ready = false;
+        do_format = false;
     }
+
     std::string jdata;
     int mapgensize;
     int fill_ter;
     terfurn_tile * format;
-    std::vector<jmapgen_setmap_point> setmap_points;
+    std::vector<jmapgen_setmap> setmap_points;
     std::vector<jmapgen_spawn_item> spawnitems;
+    std::vector<jmapgen_place_group> place_groups;
 
-    terfurn_tile * tmpgrid; // for dupe checks etc
+    bool do_format;
     bool is_ready;
 };
 

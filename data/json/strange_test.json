@@ -27,19 +27,23 @@
           "000000000000000000050000",
           "000000000000000000000000"
        ],
-       "terrain":[
-         [ "0", "t_grass" ],
-         [ "1", "t_pit" ],
-         [ "2", "t_ash" ],
-         [ "3", "t_rubble" ],
-         [ "4", "t_pit" ],
-         [ "5", "t_wreckage" ],
-         [ "6", "t_metal" ],
-         [ "7", "t_rubble" ],
-         [ "z", "t_rubble" ]
-       ],
-       "furniture":[
-         [ "z", "f_makeshift_bed" ]
+       "terrain":{
+         "0": "t_grass" ,
+         "1": "t_pit",
+         "2": "t_ash",
+         "3": "t_rubble",
+         "4": "t_pit",
+         "5": "t_wreckage",
+         "6": "t_metal",
+         "7": "t_rubble",
+         "z": "t_rubblez"
+       },
+       "furniture":{
+         "z", "f_makeshift_bed"
+       },
+       "place_groups": [
+          { "monster": "GROUP_ZOMBIE", "x": [ 2, 10 ], "y": [ 2, 10 ], "chance": 2 },
+          { "item": "livingroom", "x": [ 10, 20 ], "y": [ 10, 20 ], "chance": 50 }
        ],
        "spawn_items": [
           { "id": "gum", "x": [ 0, 23 ], "y": [ 0, 23 ], "amount": [ 10, 20 ], "repeat": 9  },
@@ -58,7 +62,8 @@
        "set": [
           { "set": "terrain", "x": [ 0, 23 ], "y": [ 0, 23 ], "id": "t_dirt", "repeat": [ 15, 60 ] },
           { "set": "terrain", "x": [ 0, 17 ], "y": [ 0, 17 ], "id": "t_metal", "repeat": [ 15, 60 ] },
-          { "set": "terrain", "x": [ 3, 14 ], "y": [ 3, 14 ], "id": "t_wreckage", "repeat": [ 15, 30 ] }
+          { "set": "terrain", "x": [ 3, 14 ], "y": [ 3, 14 ], "id": "t_wreckage", "repeat": [ 15, 30 ] },
+          { "square": "trap", "x": 0, "y":  0, "x2": 10, "y2": 10, "id": "tr_beartrap" }
        ]
      },
      "weight": 200000,
