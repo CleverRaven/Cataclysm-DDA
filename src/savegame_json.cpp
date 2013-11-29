@@ -391,7 +391,7 @@ void player::deserialize(JsonIn &jsin)
     data.read( "mutations", my_mutations );
 
     set_highest_cat_level();
-    // testme  drench_mut_calc();
+    drench_mut_calc();
 
     parray = data.get_array("temp_cur");
     if ( parray.size() == num_bp ) {
