@@ -5053,7 +5053,8 @@ void player::vomit(game *g)
     rem_disease("sleep");
 }
 
-void player::drench(game *g, int saturation, int flags) {
+void player::drench(game *g, int saturation, int flags)
+{
     if (is_waterproof(flags)) {
         return;
     }
@@ -5139,11 +5140,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (int i = 0; i < mutation_data[*iter].protection.size(); i++) {
-                if (mutation_data[*iter].protection[i].first == it->first) {
-                    ignored += mutation_data[*iter].protection[i].second.x;
-                    neutral += mutation_data[*iter].protection[i].second.y;
-                    good += mutation_data[*iter].protection[i].second.z;
+            for (std::map<std::string,mutation_wet>::iterator wp_iter = mutation_data[*iter].protection.begin(); wp_iter != mutation_data[*iter].protection.end(); ++wp_iter) {
+                if (body_parts[wp_iter->first] == it->first) {
+                    ignored += wp_iter->second.second.x;
+                    neutral += wp_iter->second.second.y;
+                    good += wp_iter->second.second.z;
                 }
             }
         }
