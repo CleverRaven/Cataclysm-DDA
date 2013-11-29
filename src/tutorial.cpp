@@ -113,7 +113,7 @@ void tutorial_game::per_turn(game *g)
   add_message(g, LESSON_PICKUP);
 }
 
-void tutorial_game::pre_action(game *g, action_id &act)
+void tutorial_game::pre_action(game *, action_id &)
 {
 }
 

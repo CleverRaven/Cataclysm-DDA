@@ -415,7 +415,7 @@ void map::vehmove(game *g)
         VehicleList vehs = g->m.get_vehicles();
         for(int v = 0; v < vehs.size(); ++v) {
             vehicle* veh = vehs[v].v;
-            veh->gain_moves (abs (veh->velocity));
+            veh->gain_moves();
             veh->power_parts();
             veh->idle();
         }

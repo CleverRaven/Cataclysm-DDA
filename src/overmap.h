@@ -116,7 +116,7 @@ class overmap
                      int &dist, bool must_be_seen);
   std::vector<point> find_all(tripoint origin, const std::string &type,
                               int &dist, bool must_be_seen);
-  std::vector<point> find_terrain(const std::string &term, int cursx, int cursy, int zlevel);
+  std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
   point random_house_in_city(int city_id);
   int dist_from_city(point p);

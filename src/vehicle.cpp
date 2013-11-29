@@ -2712,7 +2712,7 @@ void vehicle::place_spawn_items()
     }
 }
 
-void vehicle::gain_moves (int mp)
+void vehicle::gain_moves()
 {
     if (velocity) {
         of_turn = 1 + of_turn_carry;

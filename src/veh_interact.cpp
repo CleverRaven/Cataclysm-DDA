@@ -816,6 +816,7 @@ void veh_interact::do_drain(task_reason reason)
  */
 void veh_interact::do_rename(task_reason reason)
 {
+    (void)reason; // unused
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);

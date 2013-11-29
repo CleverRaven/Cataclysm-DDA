@@ -241,6 +241,7 @@ class wish_monster_callback: public uimenu_callback
         }
 
         virtual bool key(int key, int entnum, uimenu *menu) {
+            (void)entnum; (void)menu; // unused
             if ( key == 'f' ) {
                 friendly = !friendly;
                 lastent = -2; // force tmp monster regen
@@ -278,6 +279,7 @@ class wish_monster_callback: public uimenu_callback
         }
 
         virtual void refresh(uimenu *menu) {
+            (void)menu; // unused
             wrefresh(w_info);
         }
 
@@ -345,6 +347,7 @@ class wish_item_callback: public uimenu_callback
             incontainer = false;
         }
         virtual bool key(int key, int entnum, uimenu *menu) {
+            (void)entnum; (void)menu; // unused
             if ( key == 'f' ) {
                 incontainer = !incontainer;
                 return true;

@@ -425,7 +425,7 @@ public:
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
-    void gain_moves (int mp);
+    void gain_moves();
 
 // reduces velocity to 0
     void stop ();

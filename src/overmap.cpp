@@ -1550,7 +1550,7 @@ std::vector<point> overmap::find_all(tripoint origin, const std::string &type,
     return res;
 }
 
-std::vector<point> overmap::find_terrain(const std::string &term, int cursx, int cursy, int zlevel)
+std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
     for (int x = 0; x < OMAPX; x++) {
@@ -1971,7 +1971,7 @@ point overmap::draw_overmap(int zlevel)
    point found = find_note(cursx, cursy, zlevel, term);
    if (found.x == -1) { // Didn't find a note
     std::vector<point> terlist;
-    terlist = find_terrain(term, origx, origy, zlevel);
+    terlist = find_terrain(term, zlevel);
     if (terlist.size() != 0){
      int i = 0;
      //Navigate through results
@@ -3869,6 +3869,7 @@ const oter_t & oter_id::t() const {
 
    // ter(...).find("foo");
    int oter_id::find(const std::string &v, const int start, const int end) const {
+       (void)start; (void)end; // TODO?
        return oterlist[_val].id.find(v);//, start, end);
    }
    // ter(...).compare(0, 3, "foo");
