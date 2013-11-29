@@ -93,7 +93,8 @@ static bool fontblending = false;
 //***********************************
 //Tile-version specific functions   *
 //***********************************
-void init_tiles()
+
+void init_interface()
 {
 
     DebugLog() << "Initializing SDL Tiles context\n";

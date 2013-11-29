@@ -150,10 +150,12 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 1% to 7%
     int veh_fuel_mult = init_veh_fuel;
-    if (init_veh_fuel == - 1)
-     veh_fuel_mult = rng (1,7);
-    if (init_veh_fuel > 100)
-     veh_fuel_mult = 100;
+    if (init_veh_fuel == - 1) {
+        veh_fuel_mult = rng (1,7);
+    }
+    if (init_veh_fuel > 100) {
+        veh_fuel_mult = 100;
+    }
 
     // im assuming vehicles only spawn in active maps
     levx = g->levx;
@@ -161,11 +163,12 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
-    //  0 = undamgaed
+    //  0 = undamaged
     //  1 = disabled, destroyed tires OR engine
     int veh_status = -1;
-    if (init_veh_status == 0)
-     veh_status = 0;
+    if (init_veh_status == 0) {
+        veh_status = 0;
+    }
     if (init_veh_status == 1) {
      veh_status = 1;
      if (one_in(2)) {  // either engine or tires are destroyed
@@ -175,19 +178,28 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
      }
     }
 
-    //Turn on lights on some non-mint vehicles
-    if(veh_status != 0 && one_in(20)) {
-        lights_on = true;
-    }
+    //Provide some variety to non-mint vehicles
+    if(veh_status != 0) {
 
-    //Turn flasher/overhead lights on separately (more likely since these are rarer)
-    if(veh_status != 0 && one_in(4)) {
-        overhead_lights_on = true;
-    }
+        //Turn on lights on some vehicles
+        if(one_in(20)) {
+            lights_on = true;
+        }
 
-    //Don't bloodsplatter mint condition vehicles
-    if(veh_status != 0 && one_in(10)) {
-      blood_covered = true;
+        //Turn flasher/overhead lights on separately (more likely since these are rarer)
+        if(one_in(4)) {
+            overhead_lights_on = true;
+        }
+
+        if(one_in(10)) {
+            blood_covered = true;
+        }
+        
+        //Fridge should always start out activated if present
+        if(all_parts_with_feature("FRIDGE").size() > 0) {
+            fridge_on = true;
+        }
+
     }
 
     for (int p = 0; p < parts.size(); p++)
@@ -422,13 +434,14 @@ void vehicle::use_controls()
     options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
 
     uimenu selectmenu;
+    selectmenu.return_invalid = true;
     selectmenu.text = _("Vehicle controls");
     selectmenu.entries = options_message;
     selectmenu.selected = letgoent;
     selectmenu.query();
     int select = selectmenu.ret;
 
-    if (select == UIMENU_INVALID) {
+    if (select < 0) {
         return;
     }
 

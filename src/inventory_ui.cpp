@@ -219,7 +219,10 @@ char game::inv(inventory& inv, std::string title)
    mvwprintw(w_inv, maxitems + 4, 12, _("> More items"));
   wrefresh(w_inv);
 
-  ch = getch();
+  input_context ctxt("INVENTORY");
+  ctxt.register_action("ANY_INPUT");
+  ctxt.handle_input();
+  ch = ctxt.get_raw_input().get_first_input();
 
   if ( ch == KEY_DOWN ) {
     if ( selected < 0 ) {
