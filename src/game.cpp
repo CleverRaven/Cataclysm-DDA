@@ -4903,6 +4903,7 @@ int game::mon_info(WINDOW *w)
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
+    xcoords[2] -= utf8_width(_("East:")) - utf8_width(_("NE:"));//for the alignment of the 1,2,3 rows on the right edge
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
                    : (dangerous[i] ? c_ltred : c_ltgray);
@@ -4969,7 +4970,7 @@ int game::mon_info(WINDOW *w)
                 std::string name = GetMType(sbuff)->name;
 
                 // Move to the next row if necessary. (The +2 is for the "Z ").
-                if (pr.x + 2 + name.length() >= width) {
+                if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
                     pr.y++;
                     pr.x = 0;
                 }
@@ -4988,7 +4989,7 @@ int game::mon_info(WINDOW *w)
                     else if (GetMType(sbuff)->agro > 0)
                         danger = c_ltgray;
                     mvwprintz(w, pr.y, pr.x, danger, name.c_str());
-                    pr.x += name.length() + namesep;
+                    pr.x += utf8_width(name.c_str()) + namesep;
                 }
             }
         }
@@ -8216,7 +8217,7 @@ void game::pickup(int posx, int posy, int min)
                     }
                 }
             }
-            
+
             if (chempart >= 0) {
                 if (query_yn(_("Use the chemistry lab's hotplate?"))) {
                     used_feature = true;
