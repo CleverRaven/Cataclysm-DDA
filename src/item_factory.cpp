@@ -785,7 +785,6 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, const std::string & n
 {
     if( flag_type == "bodyparts" ) {
         // global defined in bodypart.h
-        //std::map<std::string, unsigned> & bp = body_parts;
         std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
         if(found_flag_iter != body_parts.end()) {
             cur_flags = cur_flags | mfb( (unsigned)found_flag_iter->second );
