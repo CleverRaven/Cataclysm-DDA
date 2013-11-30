@@ -5123,10 +5123,10 @@ ff.......|....|WWWWWWWW|\n\
                         size = 85;
                         break;
                     case 11:
-                    case 12:
                         goods = "mil_hw";
                         size = 82;
                         break;
+                    case 12:
                     case 13:
                         goods = "mil_food";
                         size = 90;
