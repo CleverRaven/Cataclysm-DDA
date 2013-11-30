@@ -8,6 +8,30 @@
 - ```GAS```
 - ```PLASMA```
 
+## Body Parts
+
+- ```TORSO```
+- ```HEAD```
+- ```EYES```
+- ```MOUTH```
+- ```ARMS```
+- ```HANDS```
+- ```LEGS```
+- ```FEET```
+
+## Recipes
+
+### Categories
+
+- ```CC_WEAPON```
+- ```CC_AMMO```
+- ```CC_FOOD```
+- ```CC_DRINK```
+- ```CC_CHEM```
+- ```CC_ELECTRONIC```
+- ```CC_ARMOR```
+- ```CC_MISC```
+
 ## Furniture & Terrain
 List of known flags, used in both terrain.json and furniture.json
 
@@ -228,6 +252,116 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FRIEND_DIED``` A monster of the same type died.
 - ```FRIEND_ATTACKED``` A monster of the same type was attacked.
 - ```SOUND``` Heard a sound.
+
+## Monster Groups
+
+### Conditions
+Limit when monsters can spawn.
+
+#### Seasons
+Multiple season conditions will be combined together so that any of those conditions become valid time of year spawn times.
+
+- ```SUMMER```
+- ```WINTER```
+- ```AUTUMN```
+- ```SPRING```
+
+#### Time of day
+Multiple time of day conditions will be combined together so that any of those conditions become valid time of day spawn times.
+
+- ```DAY```
+- ```NIGHT```
+- ```DUSK```
+- ```DAWN```
+
+## Mutations
+
+### Categories
+These branches are also the valid entries for the categories of `dreams` in `dreams.json`
+
+- ```MUTCAT_PLANT``` "You feel much closer to nature."
+- ```MUTCAT_INSECT``` "You hear buzzing, and feel your body harden."
+- ```MUTCAT_SPIDER``` "You feel insidious."
+- ```MUTCAT_SLIME``` "Your body loses all rigidity for a moment."
+- ```MUTCAT_FISH``` "You are overcome by an overwhelming longing for the ocean."
+- ```MUTCAT_RAT``` "You feel a momentary nausea."
+- ```MUTCAT_BEAST``` "Your heart races and you see blood for a moment."
+- ```MUTCAT_CATTLE``` "Your mind and body slow down. You feel peaceful."
+- ```MUTCAT_CEPHALOPOD``` "Your mind is overcome by images of eldritch horrors...and then they pass."
+- ```MUTCAT_BIRD``` "Your body lightens and you long for the sky."
+- ```MUTCAT_LIZARD``` "For a heartbeat, your body cools down."
+- ```MUTCAT_TROGLO``` "You yearn for a cool, dark place to hide."
+- ```MUTCAT_ALPHA``` "You feel...better. Somehow."
+- ```MUTCAT_MEDICAL``` "Your can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."
+- ```MUTCAT_CHIMERA``` "You need to roar, bask, bite, and flap. NOW."
+- ```MUTCAT_ELFA``` "Nature is becoming one with you..."
+- ```MUTCAT_RAPTOR``` "Mmm...sweet bloody flavor...tastes like victory."
+
+## Vehicle Parts
+
+### Fuel types
+
+- ```NULL``` None
+- ```gasoline``` Refined dino.
+- ```battery``` Electrifying.
+- ```plutonium``` 1.21 Gigawatts!
+- ```plasma``` Superheated.
+- ```water``` Clean.
+
+### Flags
+
+- ```NOINSTALL``` Cannot be installed.
+- ```INTERNAL``` Can be mounted inside other parts.
+- ```ANCHOR_POINT``` Allows secure seatbelt attachment.
+- ```OVER``` Can be mounted over other parts.
+- ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
+- ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
+- ```CARGO``` Cargo holding area.
+- ```BELTABLE``` Seatbelt can be attached to this part.
+- ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.
+- ```SEAT``` A seat where the player can sit or sleep.
+- ```TRACK``` Allows the vehicle installed on, to be marked and tracked on a PDA.
+- ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
+- ```BED``` A bed where the player can sleep.
+- ```OPAQUE``` Cannot be seen through.
+- ```OBSTACLE``` Cannot walk through part, unless the part is also 'OPENABLE'.
+- ```AISLE``` Player can move over this part with less speed penalty than normal.
+- ```ROOF``` Covers a section of the vehicle. Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside. Otherwise they're outside.
+- ```OPENABLE``` Can be opened or closed.
+- ```OPENCLOSE_INSIDE```  Can be opened or closed, but only from inside the vehicle.
+- ```WINDOW``` Can see through this part and can install curtains over it.
+- ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
+- ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
+- ```WHEEL``` Counts as a wheel in wheel calculations.
+- ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
+- ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
+- ```ALTERNATOR``` Recharges batteries installed on the vehicle.
+- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it.
+- ```FUEL_TANK``` Storage device for a fuel type.
+- ```FRIDGE``` Can refrigerate items.
+- ```CONTROLS``` Can be used to control the vehicle.
+- ```MUFFLER``` Muffles the noise a vehicle makes while running.
+- ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
+- ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight.
+- ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
+- ```WELDRIG``` Acts as a welder for crafting.
+- ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
+- ```CHEMLAB``` Acts as a chemistry set for crafting.
+- ```FORGE``` Acts as a forge for crafting.
+- ```TURRET``` Is a weapon turret.
+- ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
+- ```CONE_LIGHT``` Projects a cone of light when turned on.
+- ```HORN``` Generates noise when used.
+- ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
+- ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
+- ```ODDTURN``` Only on during odd turns.
+- ```EVENTURN``` Only on during even turns.
+
+## Skills
+
+### Tags
+
+- ```"gun_types"``` Define gun related skills?
 
 ## TODO
 
