@@ -3107,35 +3107,46 @@ void vehicle::fire_turret (int p, bool burst)
     if (!part_flag (p, "TURRET"))
         return;
     it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
-    if (!gun)
+    if (!gun) {
         return;
+    }
     int charges = burst? gun->burst : 1;
     if (!charges)
         charges = 1;
     ammotype amt = part_info (p).fuel_type;
-    if (amt == "gasoline" || amt == "plasma")
+    if (amt == "gasoline" || amt == "plasma" || amt == "battery")
     {
-        if (amt == "gasoline")
+        if (amt == "gasoline") {
             charges = 20; // hacky
+        } else if (amt == "battery") {
+            if (one_in(100)) {
+                charges = rng(5,8); // kaboom
+            } else {
+                charges = rng(1,4);
+            }
+        }
         int fleft = fuel_left (amt);
-        if (fleft < 1)
+        if (fleft < 1) {
             return;
-        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt == "gasoline" ? "gasoline" : "plasma"]);
-        if (!ammo)
+        }
+        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt]);
+        if (!ammo) {
             return;
-        if (fire_turret_internal (p, *gun, *ammo, charges))
-        { // consume fuel
-            if (amt == "plasma")
+        }
+        if (fire_turret_internal (p, *gun, *ammo, charges)) { // consume fuel
+            if (amt == "plasma") {
                 charges *= 10; // hacky, too
-            for (int p = 0; p < parts.size(); p++)
-            {
+            } else if (amt == "battery") {
+                charges *= charges * 5;
+            }
+            for (int p = 0; p < parts.size(); p++) {
                 if (part_flag(p, "FUEL_TANK") &&
-                    part_info(p).fuel_type == amt &&
-                    parts[p].amount > 0)
-                {
+                        part_info(p).fuel_type == amt &&
+                        parts[p].amount > 0) {
                     parts[p].amount -= charges;
-                    if (parts[p].amount < 0)
+                    if (parts[p].amount < 0) {
                         parts[p].amount = 0;
+                    }
                 }
             }
         }

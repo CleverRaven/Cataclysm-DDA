@@ -1590,6 +1590,24 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "laser_gun",
+        "name" : "mounted nx17",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "fuel_type" : "battery",
+        "item" : "nx17",
+        "difficulty" : 7,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "nx17", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "plating_steel",
         "name" : "steel plating",
         "symbol" : ")",
