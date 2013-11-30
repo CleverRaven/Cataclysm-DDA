@@ -50,7 +50,7 @@ void game::init_monitems() {
               "dog_cop", 1, "dog_collar", 1, 
 			  NULL);			  
 			  
-    setvector(&monitems["mon_biollante"], "biollante", 1, " NULL);
+    setvector(&monitems["mon_biollante"], "biollante", 1, NULL);
 
     setvector(&monitems["mon_chud"],
               "subway", 40,"sewer", 20,"trash",  5,"bedroom",  1,
