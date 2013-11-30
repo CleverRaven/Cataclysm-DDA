@@ -568,11 +568,7 @@ fumble less and less. To simply maintain course and speed, hit %s.\n\
 \n\
 It's a good idea to pull the handbrake-\"s\"-when parking, just to be safe.\n\
 If you want to get out, hit the lights, toggle cruise control, or otherwise\n\
-use the vehicle controls, %s to bring up the \"Vehicle Controls\" menu.\n\
-\n\
-Recently, we improved the engine code.  You must now manually turn\n\
-on the engine (and turn it off when finished!), BUT it now charges\n\
-batteries attached to the vehicle."),
+use the vehicle controls, %s to bring up the \"Vehicle Controls\" menu."),
             press_x(ACTION_CONTROL_VEHICLE, _("press "), _("'Vehicle Controls'")).c_str(),
             press_x(ACTION_MOVE_N, _(" "), _("'move_n'")).c_str(),
             press_x(ACTION_MOVE_S, _(" "), _("'move_s'")).c_str(),
