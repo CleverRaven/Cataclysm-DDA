@@ -203,7 +203,7 @@ void item::clear()
 
 bool item::is_null() const
 {
-    return (type == NULL || type->id == "null");
+    return (this == NULL || type == NULL || type->id == "null");
 }
 
 item item::in_its_container(std::map<std::string, itype*> *itypes)
