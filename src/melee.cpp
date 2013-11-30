@@ -39,8 +39,7 @@ bool player::is_armed()
  return (weapon.typeId() != "null");
 }
 
-bool player::unarmed_attack()
-{
+bool player::unarmed_attack() {
  return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
 }
 
@@ -184,6 +183,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Handles effects as well; not done in melee_affect_*
  if (tec_id != "tec_none")
   perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+
  if (weapon.has_flag("FLAMING")) {
    z->add_effect(ME_ONFIRE, rng(3, 4));
  }
@@ -200,10 +200,10 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  else
   g->sound(posx, posy, 8, "");
 
- int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
-
  // Handles speed penalties to monster & us, etc
  std::string specialmsg = melee_special_effects(g, z, this, critical_hit, bash_dam, cut_dam, stab_dam);
+
+ int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
   if (g->u_see(z)) {
       player_hit_message(g, this, message, target_name, dam, critical_hit);
@@ -229,48 +229,54 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
   healall( rng(dam / 10, dam / 5) );
+
+  ma_onattack_effects(); // trigger martial arts on-attack effects
  return dam;
 }
 
 void player::hit_player(game *g, player &p, bool allow_grab)
 {
- bool is_u = (this == &(g->u)); // Affects how we'll display messages
+  bool is_u = (this == &(g->u)); // Affects how we'll display messages
 
- if (is_u && p.is_npc()) {
-  npc* npcPtr = dynamic_cast<npc*>(&p);
-  npcPtr->make_angry();
- }
+  if (is_u && p.is_npc()) {
+    npc* npcPtr = dynamic_cast<npc*>(&p);
+    npcPtr->make_angry();
+  }
 
-    std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
+  std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
 
 // Divide their dodge roll by 2 if this is a grab
- int target_dodge = (allow_grab ? p.dodge_roll(g) : p.dodge_roll(g) / 2);
- int hit_value = hit_roll() - target_dodge;
- bool missed = (hit_roll() <= 0);
+  int target_dodge = (allow_grab ? p.dodge_roll(g) / 2 : p.dodge_roll(g));
+  int hit_value = hit_roll() - target_dodge;
+  bool missed = (hit_roll() <= 0);
 
- int move_cost = attack_speed(*this);
+  int move_cost = attack_speed(*this);
 
- if (missed) {
-  int stumble_pen = stumble(*this);
-  if (is_u) { // Only display messages if this is the player
-   if (has_miss_recovery_tec())
-    g->add_msg(_("You feint."));
-   else if (stumble_pen >= 60)
-    g->add_msg(_("You miss and stumble with the momentum."));
-   else if (stumble_pen >= 10)
-    g->add_msg(_("You swing wildly and miss."));
-   else
-    g->add_msg(_("You miss."));
+  if (missed) {
+    // trigger on-dodge effects
+    p.ma_ondodge_effects();
+
+    int stumble_pen = stumble(*this);
+    if (is_u) { // Only display messages if this is the player
+      if (has_miss_recovery_tec())
+        g->add_msg(_("You feint."));
+      else if (stumble_pen >= 60)
+        g->add_msg(_("You miss and stumble with the momentum."));
+      else if (stumble_pen >= 10)
+        g->add_msg(_("You swing wildly and miss."));
+      else
+        g->add_msg(_("You miss."));
+    }
+    melee_practice(g->turn, *this, false, unarmed_attack(),
+                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
+                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
+    move_cost += stumble_pen;
+    if (has_miss_recovery_tec())
+      move_cost = rng(move_cost / 3, move_cost);
+    moves -= move_cost;
+    return;
   }
-  melee_practice(g->turn, *this, false, unarmed_attack(),
-                 weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
-                 (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
-  move_cost += stumble_pen;
-  if (has_miss_recovery_tec())
-   move_cost = rng(move_cost / 3, move_cost);
-  moves -= move_cost;
-  return;
- }
+
  moves -= move_cost;
 
  if (p.uncanny_dodge(is_u)) { return; }
@@ -306,7 +312,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int cut_dam  = roll_cut_damage(NULL, critical_hit);
  int stab_dam = roll_stab_damage(NULL, critical_hit);
 
- p.block_hit(g, NULL, this, bp_hit, side, bash_dam, cut_dam, stab_dam);
+ p.block_hit(g, bp_hit, side, bash_dam, cut_dam, stab_dam);
 
  if (bash_dam + cut_dam + stab_dam <= 0)
   return; // Defensive technique canceled our attack!
@@ -367,6 +373,8 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   } else
    hit_player(g, p, false); // False means a second grab isn't allowed
  }
+
+  ma_onattack_effects(); // trigger martial arts on-attack effects
  /*
  if (tech_def.counters) {
   g->add_msg_if_player(&p, _("Counter-attack!"));
@@ -840,8 +848,6 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
                                player *p, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &pain)
 {
-    (void)cut_dam; //FIXME: this should probably be being used for something
-    (void)stab_dam; //FIXME: this should probably be being used for something
 
     const bool mon = (z != NULL);
     const bool npc = (p != NULL && p->is_npc());
@@ -856,6 +862,14 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
         target = "a bug";
         // "you" handled separately
     }
+
+  bash_dam += technique.bash;
+  cut_dam += technique.cut;
+  stab_dam += technique.cut; // cut affects stab damage too since only one of cut/stab is used
+
+  bash_dam *= technique.bash_mult;
+  cut_dam *= technique.cut_mult;
+  stab_dam *= technique.cut_mult;
 
   int tarx = (mon ? z->posx() : p->posx), tary = (mon ? z->posy() : p->posy);
 
@@ -960,71 +974,64 @@ bool player::can_weapon_block()
             weapon.has_technique("WBLOCK_3"));
 }
 
-bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &side,
-    int &bash_dam, int &cut_dam, int &stab_dam)
-{
-    (void)z; //FIXME: this should probably be being used for something
-    (void)p; //FIXME: this should probably be being used for something
+bool player::block_hit(game *g, body_part &bp_hit, int &side,
+                       int &bash_dam, int &cut_dam, int &stab_dam) {
+  if (blocks_left < 1)
+      return false;
 
-    if (blocks_left <= 0) return false;
+  if (unarmed_attack() && can_block()) {
+    //Choose which body part to block with
+    if (can_leg_block() && can_arm_block())
+      bp_hit = one_in(2) ? bp_legs : bp_arms;
+    else if (can_leg_block())
+      bp_hit = bp_legs;
+    else
+      bp_hit = bp_arms;
 
-    // if weapon, then extra reduction
-    if (!unarmed_attack() && (can_arm_block() || can_weapon_block())) {
-        float mult = 1.0f;
-        if (weapon.has_technique("WBLOCK_1")) {
-            mult = 0.4;
-        } else if (weapon.has_technique("WBLOCK_2")) {
-            mult = 0.15;
-        } else if (weapon.has_technique("WBLOCK_3")) {
-            mult = 0.05;
-        } else {
-            mult = 0.5; // always at least as good as unarmed
-        }
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
-                _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
-        bash_dam *= mult;
-        cut_dam *= mult;
-        stab_dam *= mult;
-        // then convert cut/stab into bash
-        bash_dam += cut_dam + stab_dam;
-        cut_dam = stab_dam = 0;
+    // Choose what side to block with.
+    if (bp_hit == bp_legs)
+      side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
+    else
+      side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
 
-        bash_dam -= mabuff_block_bonus();
-        bash_dam = bash_dam < 0 ? 0 : bash_dam;
-    } else { // otherwise, unarmed
-        if (!can_arm_block() && !can_leg_block()) {
-            return false;
-        }
+    g->add_msg_player_or_npc( this, _("You block with your %s!"),
+    _("<npcname> blocks with their %s!"),
+    body_part_name(bp_hit, side).c_str());
 
-        //Block with our arms
-        if (can_arm_block()) {
-            bp_hit = bp_arms;
-            if (hp_cur[hp_arm_l] >= hp_cur[hp_arm_r])
-                side = 0;
-            else
-                side = 1;
-        }
+    bash_dam *= .5;
 
-        // if you can both leg & arm block, randomly select arms or legs
-        if (can_leg_block() && (!can_arm_block() || one_in(2))) {
-            bp_hit = bp_legs;
-            if (hp_cur[hp_leg_l] >= hp_cur[hp_leg_r])
-                side = 0;
-            else
-                side = 1;
-        }
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
-                                 _("<npcname> blocks with their %s!"),
-                                 body_part_name(bp_hit, side).c_str());
-
-        bash_dam *= .5;
-
-        bash_dam -= mabuff_block_bonus();
-        bash_dam = bash_dam < 0 ? 0 : bash_dam;
+    bash_dam -= mabuff_block_bonus();
+    bash_dam = bash_dam < 0 ? 0 : bash_dam;
+  }
+  else if (can_arm_block() || can_weapon_block()) {
+    float mult = 1.0f;
+    // If we are using a weapon, apply extra reductions
+    if (weapon.has_technique("WBLOCK_1")) {
+      mult = 0.4;
+    } else if (weapon.has_technique("WBLOCK_2")) {
+      mult = 0.15;
+    } else if (weapon.has_technique("WBLOCK_3")) {
+      mult = 0.05;
+    } else {
+      mult = 0.5; // always at least as good as unarmed
     }
+    g->add_msg_player_or_npc( this, _("You block with your %s!"),
+                _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+    bash_dam *= mult;
+    cut_dam *= mult;
+    stab_dam *= mult;
+    // then convert cut/stab into bash
+    bash_dam += cut_dam + stab_dam;
+    cut_dam = stab_dam = 0;
 
-    blocks_left--;
-    return true;
+    bash_dam -= mabuff_block_bonus();
+    bash_dam = bash_dam < 0 ? 0 : bash_dam;
+  }
+  blocks_left--;
+
+  ma_onblock_effects(); // fire martial arts block-triggered effects
+
+  return true;
 }
 
 void player::perform_special_attacks(game *g, monster *z, player *p,
@@ -1264,6 +1271,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
   // multiply damage by style damage_mults
   bash_dam *= mabuff_bash_mult();
   cut_dam *= mabuff_cut_mult();
+  stab_dam *= mabuff_cut_mult();
 
   // on-hit effects for martial arts
   ma_onhit_effects();

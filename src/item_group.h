@@ -22,6 +22,9 @@ public:
 
     // Does this item group contain the given item?
     bool has_item(const Item_tag item_id);
+    // Check that all items referenced here do actually exist (are defined)
+    // this is not recursive
+    void check_items_exist() const;
 private:
     const Item_tag m_id;
     int m_max_odds;

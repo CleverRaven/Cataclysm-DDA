@@ -811,7 +811,7 @@
     "dispersion": 2,
     "recoil": 0,
     "durability": 8,
-    "burst": 3,
+    "burst": 0,
     "clip_size": 6,
     "reload": 100
   },
@@ -837,7 +837,7 @@
     "dispersion": 5,
     "recoil": -2,
     "durability": 9,
-    "burst": 3,
+    "burst": 0,
     "clip_size": 8,
     "reload": 80
   },

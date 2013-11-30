@@ -668,6 +668,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing is designed to keep you dry in the rain.")));
     }
+    if (is_armor() && has_flag("WATER_FRIENDLY"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing performs well even when soaking wet. This can feel good.")));
+    }
+    if (is_armor() && has_flag("WATERPROOF"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing won't let water through.")));
+    }
     if (is_armor() && has_flag("STURDY"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));

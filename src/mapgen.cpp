@@ -3890,47 +3890,73 @@ ff.......|....|WWWWWWWW|\n\
                 for (int i = 2; i <= 15; i += 13) {
                     items_location goods;
                     int size = 0;
+                    bool HW = 0;
                     switch (rng(1, 14)) {
                     case  1:
                     case  2:
                         goods = "bots";
                         size = 85;
+                        HW = 0;
                         break;
                     case  3:
                     case  4:
                         goods = "launchers";
                         size = 83;
+                        HW = 0;
                         break;
                     case  5:
                     case  6:
                         goods = "mil_rifles";
                         size = 87;
+                        HW = 0;
                         break;
                     case  7:
                     case  8:
                         goods = "grenades";
                         size = 88;
+                        HW = 0;
                         break;
                     case  9:
                     case 10:
                         goods = "mil_armor";
                         size = 85;
+                        HW = 0;
                         break;
                     case 11:
-                    case 12:
                         goods = "mil_hw";
                         size = 82;
+                        HW = 1;
                         break;
+                    case 12:
                     case 13:
                         goods = "mil_food";
                         size = 90;
+                        HW = 0;
                         break;
                     case 14:
                         goods = "bionics_mil";
                         size = 78;
+                        HW = 0;
                         break;
                     }
                     place_items(goods, size, i, j, i + 6, j + 5, false, 0);
+                      if (HW == 1) {
+                        if (one_in(2)) {
+                        spawn_item(i + 2, j + 1, "556", 2);
+                        }
+                        if (one_in(4)) {
+                        spawn_item(i + 2, j + 1, "8mm_fmj", 2);
+                        }
+                        if (one_in(4)) {
+                        spawn_item(i + 2, j + 1, "8mm_inc", 2);
+                        }
+                        if (one_in(5)) {
+                        spawn_item(i + 2, j + 1, "20x66_flechette", 2);
+                        }
+                        if (one_in(5)) {
+                        spawn_item(i + 2, j + 1, "40mm_concussive", 2);
+                        }
+                      }
                 }
             }
             line(this, t_wall_metal_h, 1, 1, SEEX * 2 - 2, 1);
@@ -12190,19 +12216,26 @@ void map::add_extra(map_extra type, game *g)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                add_item(x, y, body);
-                spawn_item(x, y, "pants_army");
-                spawn_item(x, y, "boots_combat");
-                place_items("mil_armor_torso", 40, x, y, x, y, true, 0);
-                place_items("mil_armor_helmet", 30, x, y, x, y, true, 0);
-                place_items("military", 86, x, y, x, y, true, 0);
-                if (one_in(8)) {
-                    spawn_item(x, y, "id_military");
+                if (one_in(10)) { 
+                    add_spawn("mon_zombie_soldier", 1, x, y);
+                } else {
+                    add_item(x, y, body);
+                    spawn_item(x, y, "pants_army");
+                    spawn_item(x, y, "boots_combat");
+                    place_items("mil_armor_torso", 40, x, y, x, y, true, 0);
+                    place_items("mil_armor_helmet", 30, x, y, x, y, true, 0);
+                    place_items("military", 86, x, y, x, y, true, 0);
+                    if( one_in(8) ) {
+                        spawn_item( x, y, "id_military" );
+                    }
+                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
+                                 40, x, y, x, y, true, 0 );
                 }
-                place_items(one_in(2) ? "male_underwear" : "female_underwear", 40, x, y, x, y, true, 0);
             }
+            
         }
-        place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
+        place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
+                     0.1f);//0.1 = 1-5
         place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }
     break;
@@ -12218,16 +12251,21 @@ void map::add_extra(map_extra type, game *g)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                add_item(x, y, body);
-                spawn_item(x, y, "coat_lab");
-                if (one_in(2)) {
-                spawn_item(x, y, "id_science");
+                if (one_in(10)) { 
+                    add_spawn("mon_zombie_scientist", 1, x, y);
+                } else {
+                    add_item(x, y, body);
+                    spawn_item(x, y, "coat_lab");
+                    if (one_in(2)) {
+                        spawn_item(x, y, "id_science");
+                    }
+                    place_items("science", 84, x, y, x, y, true, 0);
+                    place_items("lab_pants", 50, x, y, x, y, true, 0);
+                    place_items("lab_shoes", 50, x, y, x, y, true, 0);
+                    place_items("lab_torso", 40, x, y, x, y, true, 0);
+                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
+                                 50, x, y, x, y, true, 0 );
                 }
-                place_items("science", 84, x, y, x, y, true, 0);
-                place_items("lab_pants", 50, x, y, x, y, true, 0);
-                place_items("lab_shoes", 50, x, y, x, y, true, 0);
-                place_items("lab_torso", 40, x, y, x, y, true, 0);
-                place_items(one_in(2) ? "male_underwear" : "female_underwear", 50, x, y, x, y, true, 0);
             }
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -12363,18 +12401,23 @@ void map::add_extra(map_extra type, game *g)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                add_item(x, y, body);
-                int splatter_range = rng(1, 3);
-                for (int j = 0; j <= splatter_range; j++) {
-                    add_field(g, x + (j * x_offset), y + (j * y_offset), fd_blood, 1);
+                if (one_in(10)) { 
+                    add_spawn("mon_zombie_spitter", 1, x, y);
+                } else {
+                    add_item(x, y, body);
+                    int splatter_range = rng(1, 3);
+                    for (int j = 0; j <= splatter_range; j++) {
+                        add_field(g, x + (j * x_offset), y + (j * y_offset),
+                                  fd_blood, 1);
+                    }
+                    place_items("drugdealer", 75, x, y, x, y, true, 0);
+                    spawn_item(x, y, "pants_cargo");
+                    place_items("lab_shoes", 50, x, y, x, y, true, 0);
+                    place_items("shirts", 50, x, y, x, y, true, 0);
+                    place_items("jackets", 30, x, y, x, y, true, 0);
+                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
+                                 40, x, y, x, y, true, 0 );
                 }
-                place_items("drugdealer", 75, x, y, x, y, true, 0);
-                spawn_item(x, y, "pants_cargo");
-                place_items("lab_shoes", 50, x, y, x, y, true, 0);
-                place_items("shirts", 50, x, y, x, y, true, 0);
-                place_items("jackets", 30, x, y, x, y, true, 0);
-                place_items(one_in(2) ? "male_underwear" : "female_underwear", 40, x, y, x, y, true, 0);
-                  }
                 if (a_has_drugs && num_drugs > 0) {
                     int drugs_placed = rng(2, 6);
                     if (drugs_placed > num_drugs) {
@@ -12384,6 +12427,7 @@ void map::add_extra(map_extra type, game *g)
                     spawn_item(x, y, drugtype, 0, drugs_placed);
                 }
             }
+        }
         for (int i = 0; i < num_bodies_b; i++) {
             int x, y, x_offset, y_offset, tries = 0;
             do { // Loop until we find a valid spot to dump a body, or we give up
@@ -12402,27 +12446,33 @@ void map::add_extra(map_extra type, game *g)
             } while (tries < 10 && move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
-                add_item(x, y, body);
-                int splatter_range = rng(1, 3);
-                for (int j = 0; j <= splatter_range; j++) {
-                    add_field(g, x + (j * x_offset), y + (j * y_offset), fd_blood, 1);
-                }
-                place_items("drugdealer", 75, x, y, x, y, true, 0);
-                spawn_item(x, y, "pants_cargo");
-                place_items("lab_shoes", 50, x, y, x, y, true, 0);
-                place_items("shirts", 50, x, y, x, y, true, 0);
-                place_items("jackets", 25, x, y, x, y, true, 0);
-                place_items(one_in(2) ? "male_underwear" : "female_underwear", 40, x, y, x, y, true, 0);
-                if (!a_has_drugs && num_drugs > 0) {
-                    int drugs_placed = rng(2, 6);
-                    if (drugs_placed > num_drugs) {
-                        drugs_placed = num_drugs;
-                        num_drugs = 0;
+                if (one_in(20)) { 
+                    add_spawn("mon_zombie_smoker", 1, x, y);
+                } else {
+                    add_item(x, y, body);
+                    int splatter_range = rng(1, 3);
+                    for (int j = 0; j <= splatter_range; j++) {
+                        add_field( g, x + (j * x_offset), y + (j * y_offset),
+                                   fd_blood, 1 );
                     }
-                    spawn_item(x, y, drugtype, 0, drugs_placed);
+                    place_items("drugdealer", 75, x, y, x, y, true, 0);
+                    spawn_item(x, y, "pants_cargo");
+                    place_items("lab_shoes", 50, x, y, x, y, true, 0);
+                    place_items("shirts", 50, x, y, x, y, true, 0);
+                    place_items("jackets", 25, x, y, x, y, true, 0);
+                    place_items( one_in(2) ? "male_underwear" : "female_underwear",
+                                 40, x, y, x, y, true, 0 );
+                    if (!a_has_drugs && num_drugs > 0) {
+                        int drugs_placed = rng(2, 6);
+                        if (drugs_placed > num_drugs) {
+                            drugs_placed = num_drugs;
+                            num_drugs = 0;
+                        }
+                        spawn_item(x, y, drugtype, 0, drugs_placed);
                     }
                 }
             }
+        }
     }
     break;
 
@@ -12461,7 +12511,8 @@ void map::add_extra(map_extra type, game *g)
     break;
 
     case mx_portal: {
-        std::string spawncreatures[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+        std::string spawncreatures[5] = {"mon_gelatin", "mon_flaming_eye",
+                                         "mon_kreck", "mon_gracke", "mon_blank"};
         int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {

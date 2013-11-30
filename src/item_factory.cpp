@@ -4,6 +4,7 @@
 #include "json.h"
 #include "addiction.h"
 #include "translations.h"
+#include "bodypart.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -227,14 +228,6 @@ void Item_factory::init(){
     techniques_list["PRECISE"] = "tec_precise";
     techniques_list["RAPID"] = "tec_rapid";
 
-    bodyparts_list["TORSO"] = mfb(bp_torso);
-    bodyparts_list["HEAD"] = mfb(bp_head);
-    bodyparts_list["EYES"] = mfb(bp_eyes);
-    bodyparts_list["MOUTH"] = mfb(bp_mouth);
-    bodyparts_list["ARMS"] = mfb(bp_arms);
-    bodyparts_list["HANDS"] = mfb(bp_hands);
-    bodyparts_list["LEGS"] = mfb(bp_legs);
-    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -249,6 +242,119 @@ void Item_factory::init_old() {
     for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
       standard_itype_ids.push_back(iter->first);
     }
+}
+
+inline int ammo_type_defined(const std::string &ammo) {
+    if(ammo == "NULL" || ammo == "generic_no_ammo") {
+        return 1; // Known ammo type
+    }
+    if(ammo_name(ammo) != "XXX") {
+        return 1; // Known ammo type
+    }
+    if(!item_controller->has_template(ammo)) {
+        return 0; // Unknown ammo type
+    }
+    return 2; // Unknown from ammo_name, but defined as itype
+}
+
+void Item_factory::check_ammo_type(std::ostream& msg, const std::string &ammo) const {
+    if(ammo == "NULL" || ammo == "generic_no_ammo") {
+        return;
+    }
+    if(ammo_name(ammo) == "XXX") {
+        msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
+    }
+    if(ammo == "UPS") {
+        return;
+    }
+    for(std::map<Item_tag, itype*>::const_iterator it = m_templates.begin(); it != m_templates.end(); ++it) {
+        const it_ammo* ammot = dynamic_cast<const it_ammo*>(it->second);
+        if(ammot == 0) {
+            continue;
+        }
+        if(ammot->type == ammo) {
+            return;
+        }
+    }
+    msg << string_format("there is no actuall ammo of type %s defined", ammo.c_str()) << "\n";
+}
+
+void Item_factory::check_itype_definitions() const {
+    std::ostringstream main_stream;
+    for(std::map<Item_tag, itype*>::const_iterator it = m_templates.begin(); it != m_templates.end(); ++it) {
+        std::ostringstream msg;
+        const itype* type = it->second;
+        if(type->m1 != "null" && !material_type::has_material(type->m1)) {
+            msg << string_format("invalid material %s", type->m1.c_str()) << "\n";
+        }
+        if(type->m2 != "null" && !material_type::has_material(type->m2)) {
+            msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
+        }
+        const it_comest* comest = dynamic_cast<const it_comest*>(type);
+        if(comest != 0) {
+            if(comest->container != "null" && !has_template(comest->container)) {
+                msg << string_format("invalid container property %s", comest->container.c_str()) << "\n";
+            }
+            if(comest->container != "null" && !has_template(comest->tool)) {
+                msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
+            }
+        }
+        const it_ammo* ammo = dynamic_cast<const it_ammo*>(type);
+        if(ammo != 0) {
+            check_ammo_type(msg, ammo->type);
+            if(ammo->casing != "NULL" && !has_template(ammo->casing)) {
+                msg << string_format("invalid casing property %s", ammo->casing.c_str()) << "\n";
+            }
+        }
+        const it_gun* gun = dynamic_cast<const it_gun*>(type);
+        if(gun != 0) {
+            check_ammo_type(msg, gun->ammo);
+            if(gun->skill_used == 0) {
+                msg << string_format("uses no skill") << "\n";
+            }
+        }
+        const it_gunmod* gunmod = dynamic_cast<const it_gunmod*>(type);
+        if(gunmod != 0) {
+            check_ammo_type(msg, gunmod->newtype);
+        }
+        const it_tool* tool = dynamic_cast<const it_tool*>(type);
+        if(tool != 0) {
+            if(tool->max_charges != 0 || tool->def_charges != 0) {
+                check_ammo_type(msg, tool->ammo);
+            }
+            if(tool->revert_to != "null" && !has_template(tool->revert_to)) {
+                msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
+            }
+        }
+        if(msg.str().empty()) {
+            continue;
+        }
+        main_stream << "warnings for type " << type->id << ":\n" << msg.str() << "\n";
+        const std::string &buffer = main_stream.str();
+        const size_t lines = std::count(buffer.begin(), buffer.end(), '\n');
+        if(lines > 10) {
+            fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
+            getch();
+            werase(stdscr);
+            main_stream.str(std::string());
+        }
+    }
+    const std::string &buffer = main_stream.str();
+    if(!buffer.empty()) {
+        fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
+        getch();
+        werase(stdscr);
+    }
+}
+
+void Item_factory::check_items_of_groups_exist() const {
+    for(std::map<Item_tag, Item_group*>::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
+        a->second->check_items_exist();
+    }
+}
+
+bool Item_factory::has_template(Item_tag id) const {
+    return m_templates.count(id) > 0;
 }
 
 //Returns the template with the given identification tag
@@ -577,7 +683,7 @@ void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, i
     }
 }
 
-unsigned Item_factory::flags_from_json(JsonObject& jo, std::string member, std::string flag_type)
+unsigned Item_factory::flags_from_json(JsonObject& jo, const std::string & member, std::string flag_type)
 {
     //If none is found, just use the standard none action
     unsigned flag = 0;
@@ -675,27 +781,18 @@ use_function Item_factory::use_from_string(std::string function_name){
     }
 }
 
-void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
+void Item_factory::set_flag_by_string(unsigned& cur_flags, const std::string & new_flag, const std::string & flag_type)
 {
-    std::map<Item_tag, unsigned> flag_map;
-    if(flag_type=="bodyparts"){
-      flag_map = bodyparts_list;
-      set_bitmask_by_string(flag_map, cur_flags, new_flag);
+    if( flag_type == "bodyparts" ) {
+        // global defined in bodypart.h
+        std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
+        if(found_flag_iter != body_parts.end()) {
+            cur_flags = cur_flags | mfb( (unsigned)found_flag_iter->second );
+        } else {
+            debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
+        }
     }
 
-}
-
-void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, unsigned& cur_bitmask, std::string new_flag)
-{
-    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = flag_map.find(new_flag);
-    if(found_flag_iter != flag_map.end())
-    {
-        cur_bitmask = cur_bitmask | found_flag_iter->second;
-    }
-    else
-    {
-        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str());
-    }
 }
 
 phase_id Item_factory::phase_from_tag(Item_tag name){

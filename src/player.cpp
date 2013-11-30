@@ -523,6 +523,9 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
+        if(covered & mfb(bp_eyes)) {
+            bonus += 2;
+        }
 
         if(bonus) {
             add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
@@ -2878,7 +2881,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
     int x = sideStyle ? 37 : 32;
     int y = sideStyle ?  0 :  1;
-    mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    if(has_disease("deaf")) {
+        mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
+    } else {
+        mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    }
     volume = 0;
 
     wmove(w, 2, sideStyle ? 0 : 15);
@@ -4495,21 +4502,30 @@ void player::suffer(game *g)
             }
         }
     }
-    for (int i = 0; i < illness.size(); i++)
+
+    int ill_num = illness.size();
+    for (int i = 0; i < ill_num; i++)
     {
         dis_effect(*this, illness[i]);
-        if (!illness[i].permanent) {
-            illness[i].duration--;
-        }
-        if (illness[i].decay > 0 && one_in(illness[i].decay)) {
-            illness[i].intensity--;
-        }
-        if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-            dis_end_msg(*this, illness[i]);
-            illness.erase(illness.begin() + i);
+        if (ill_num == illness.size()) {
+            if (!illness[i].permanent) {
+                illness[i].duration--;
+            }
+            if (illness[i].decay > 0 && one_in(illness[i].decay)) {
+                illness[i].intensity--;
+            }
+            if (illness[i].duration <= 0 || illness[i].intensity == 0) {
+                dis_end_msg(*this, illness[i]);
+                illness.erase(illness.begin() + i);
+                ill_num--;
+                i--;
+            }
+        } else {
+            ill_num--;
             i--;
         }
     }
+
     if (!has_disease("sleep"))
     {
         if (weight_carried() > weight_capacity())
@@ -5053,7 +5069,8 @@ void player::vomit(game *g)
     rem_disease("sleep");
 }
 
-void player::drench(game *g, int saturation, int flags) {
+void player::drench(game *g, int saturation, int flags)
+{
     if (is_waterproof(flags)) {
         return;
     }
@@ -5139,11 +5156,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (int i = 0; i < mutation_data[*iter].protection.size(); i++) {
-                if (mutation_data[*iter].protection[i].first == it->first) {
-                    ignored += mutation_data[*iter].protection[i].second.x;
-                    neutral += mutation_data[*iter].protection[i].second.y;
-                    good += mutation_data[*iter].protection[i].second.z;
+            for (std::map<std::string,mutation_wet>::iterator wp_iter = mutation_data[*iter].protection.begin(); wp_iter != mutation_data[*iter].protection.end(); ++wp_iter) {
+                if (body_parts[wp_iter->first] == it->first) {
+                    ignored += wp_iter->second.second.x;
+                    neutral += wp_iter->second.second.y;
+                    good += wp_iter->second.second.z;
                 }
             }
         }
@@ -8761,6 +8778,11 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         dam *= 1.4;
     if (has_trait("HOLLOW_BONES"))
         dam *= 1.8;
+
+    // apply martial arts armor buffs
+    dam -= mabuff_arm_bash_bonus();
+    cut -= mabuff_arm_cut_bonus();
+
     if (dam < 0)
         dam = 0;
     if (cut < 0)

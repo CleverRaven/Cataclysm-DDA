@@ -32,7 +32,9 @@
 #ifdef SDLTILES
 #include "SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
+#ifndef strcasecmp
 #define strcasecmp strcmpi
+#endif
 #else
 #include <wordexp.h>
 #if (defined OSX_SDL_FW)
@@ -93,7 +95,8 @@ static bool fontblending = false;
 //***********************************
 //Tile-version specific functions   *
 //***********************************
-void init_tiles()
+
+void init_interface()
 {
 
     DebugLog() << "Initializing SDL Tiles context\n";

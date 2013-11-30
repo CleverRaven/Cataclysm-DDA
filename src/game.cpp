@@ -790,6 +790,19 @@ bool game::do_turn()
     if (turn % 10 == 0) {
         u.update_morale();
     }
+
+    if ( u.worn_with_flag("DEAF") )
+    {
+        // Make the player deaf for one extra turn, so that he is not spammed with warnings
+        if (u.disease_duration("deaf") == 1)
+        {
+            u.add_disease("deaf", 1);
+        }
+        else
+        {
+            u.add_disease("deaf", 2);
+        }
+    }
     return false;
 }
 
@@ -2624,12 +2637,15 @@ void game::update_scent()
  // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
  for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   // remember the sum of the scent values for 3 neighboring squares.
-   sum_3_squares_y[x][y] = grscent[x][y] + grscent[x][y-1] + grscent[x][y+1];
-   // next, remember how many squares we will diffuse gas into.
-   squares_used_y[x][y] =(m.move_cost_ter_furn(x,y-1) > 0   || m.has_flag("BASHABLE",x,y-1)) +
-                                   (m.move_cost_ter_furn(x,y)   > 0   || m.has_flag("BASHABLE",x,y))   +
-                                   (m.move_cost_ter_furn(x,y+1) > 0   || m.has_flag("BASHABLE",x,y+1)) ;
+   // remember the sum of the scent values for the up to 3 neighboring squares that can defuse into.
+   sum_3_squares_y[x][y] = 0;
+   squares_used_y[x][y] = 0;
+   for (int i = y - 1; i <= y + 1; ++i) {
+    if (m.move_cost_ter_furn(x, i) > 0 || m.has_flag("BASHABLE", x, i)) {
+     sum_3_squares_y[x][y] += grscent[x][i];
+     squares_used_y[x][y] += 1;
+    }
+   }
   }
  }
 
@@ -4887,6 +4903,7 @@ int game::mon_info(WINDOW *w)
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
+    xcoords[2] -= utf8_width(_("East:")) - utf8_width(_("NE:"));//for the alignment of the 1,2,3 rows on the right edge
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
                    : (dangerous[i] ? c_ltred : c_ltgray);
@@ -4953,7 +4970,7 @@ int game::mon_info(WINDOW *w)
                 std::string name = GetMType(sbuff)->name;
 
                 // Move to the next row if necessary. (The +2 is for the "Z ").
-                if (pr.x + 2 + name.length() >= width) {
+                if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
                     pr.y++;
                     pr.x = 0;
                 }
@@ -4972,7 +4989,7 @@ int game::mon_info(WINDOW *w)
                     else if (GetMType(sbuff)->agro > 0)
                         danger = c_ltgray;
                     mvwprintz(w, pr.y, pr.x, danger, name.c_str());
-                    pr.x += name.length() + namesep;
+                    pr.x += utf8_width(name.c_str()) + namesep;
                 }
             }
         }
@@ -5194,7 +5211,7 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     if (u.has_disease("deaf")) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
- if (!u.has_bionic("bio_ears") && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
+        if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF")) && rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
             u.add_disease("deaf", duration);
         }
@@ -5204,9 +5221,9 @@ bool game::sound(int x, int y, int vol, std::string description)
 
     // Check for deafness
     if (!u.has_bionic("bio_ears") && rng((vol - dist) / 2, (vol - dist)) >= 150) {
-  int duration = (vol - dist - 130) / 4;
-  u.add_disease("deaf", duration);
- }
+        int duration = (vol - dist - 130) / 4;
+        u.add_disease("deaf", duration);
+    }
 
     // See if we need to wake someone up
     if (u.has_disease("sleep")){
@@ -8200,7 +8217,7 @@ void game::pickup(int posx, int posy, int min)
                     }
                 }
             }
-            
+
             if (chempart >= 0) {
                 if (query_yn(_("Use the chemistry lab's hotplate?"))) {
                     used_feature = true;

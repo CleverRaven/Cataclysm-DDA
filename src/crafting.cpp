@@ -936,14 +936,23 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
     if(!filtered)
     {
-        draw_tab(w,  2, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
-        draw_tab(w, 13, _("AMMO"),    (tab == "CC_AMMO")   ? true : false);
-        draw_tab(w, 21, _("FOOD"),    (tab == "CC_FOOD")   ? true : false);
-        draw_tab(w, 29, _("DRINKS"),  (tab == "CC_DRINK")  ? true : false);
-        draw_tab(w, 39, _("CHEMS"),   (tab == "CC_CHEM")   ? true : false);
-        draw_tab(w, 48, _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
-        draw_tab(w, 63, _("ARMOR"),   (tab == "CC_ARMOR")  ? true : false);
-        draw_tab(w, 72, _("MISC"),    (tab == "CC_MISC")   ? true : false);
+        int pos_x = 2;//draw the tabs on each other
+        int tab_step = 3;//step between tabs, two for tabs border
+        draw_tab(w,  pos_x, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
+        pos_x += utf8_width(_("WEAPONS")) + tab_step;
+        draw_tab(w, pos_x, _("AMMO"),    (tab == "CC_AMMO")   ? true : false);
+        pos_x += utf8_width(_("AMMO")) + tab_step;
+        draw_tab(w, pos_x, _("FOOD"),    (tab == "CC_FOOD")   ? true : false);
+        pos_x += utf8_width(_("FOOD")) + tab_step;
+        draw_tab(w, pos_x, _("DRINKS"),  (tab == "CC_DRINK")  ? true : false);
+        pos_x += utf8_width(_("DRINKS")) + tab_step;
+        draw_tab(w, pos_x, _("CHEMS"),   (tab == "CC_CHEM")   ? true : false);
+        pos_x += utf8_width(_("CHEMS")) + tab_step;
+        draw_tab(w, pos_x, _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
+        pos_x += utf8_width(_("ELECTRONICS")) + tab_step;
+        draw_tab(w, pos_x, _("ARMOR"),   (tab == "CC_ARMOR")  ? true : false);
+        pos_x += utf8_width(_("ARMOR")) + tab_step;
+        draw_tab(w, pos_x, _("MISC"),    (tab == "CC_MISC")   ? true : false);
     }
     else
     {
@@ -1686,4 +1695,35 @@ recipe* recipe_by_name(std::string name)
         }
     }
     return NULL;
+}
+
+static void check_component_list(const std::vector<std::vector<component> > &vec, const std::string &rName)
+{
+    for (std::vector<std::vector<component> >::const_iterator b = vec.begin(); b != vec.end(); b++)
+    {
+        for (std::vector<component>::const_iterator c = b->begin(); c != b->end(); c++)
+        {
+            if (!item_controller->has_template(c->type))
+            {
+                debugmsg("%s in recipe %s is not a valid item template", c->type.c_str(), rName.c_str());
+            }
+        }
+    }
+}
+
+void check_recipe_definitions()
+{
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
+    {
+        for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
+        {
+            const recipe &r = **list_iter;
+            ::check_component_list(r.tools, r.ident);
+            ::check_component_list(r.components, r.ident);
+            if (!item_controller->has_template(r.result))
+            {
+                debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
+            }
+        }
+    }
 }

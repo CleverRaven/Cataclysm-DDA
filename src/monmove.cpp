@@ -578,6 +578,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     g->add_msg(_("You dodge the %s."), name().c_str());
                 }
                 p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
+                p.ma_ondodge_effects();
             }
 
             //Successful hit with damage
@@ -585,7 +586,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             {
                 p.practice(g->turn, "dodge", type->melee_skill);
 
-                if(!p.block_hit(g, this, NULL, bphit, side, dam, cut, stab) && u_see) {
+                if(!p.block_hit(g, bphit, side, dam, cut, stab) && u_see) {
                     if (is_npc) {
                         if( u_see ) {
                             g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
