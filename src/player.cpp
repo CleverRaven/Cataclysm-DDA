@@ -521,6 +521,9 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
+        if(covered & mfb(bp_eyes)) {
+            bonus += 2;
+        }
 
         if(bonus) {
             add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
@@ -2876,7 +2879,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2, game *g)
 
     int x = sideStyle ? 37 : 32;
     int y = sideStyle ?  0 :  1;
-    mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    if(has_disease("deaf")) {
+        mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
+    } else {
+        mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+    }
     volume = 0;
 
     wmove(w, 2, sideStyle ? 0 : 15);
