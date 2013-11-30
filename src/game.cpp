@@ -5442,10 +5442,10 @@ void game::flashbang(int x, int y, bool player_immune)
         }
         if (dist <= 8) {
             if (z.has_flag(MF_SEES) && m.sees(z.posx(), z.posy(), x, y, 8, t)) {
-                z.add_effect(ME_BLIND, 18 - dist);
+                z.add_effect("effect_blind", 18 - dist);
             }
             if (z.has_flag(MF_HEARS)) {
-                z.add_effect(ME_DEAF, 60 - dist * 4);
+                z.add_effect("effect_deaf", 60 - dist * 4);
             }
         }
     }
@@ -5643,7 +5643,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (targ->has_effect("effect_stunned"))
                     {
                         targ->add_effect("effect_stunned", force_remaining);
-                        if (targ->add_effect("effect_stunned"))
+                        if (targ->has_effect("effect_stunned"))
                             add_msg(ngettext("%s was stunned AGAIN for %d turn!",
                                              "%s was stunned AGAIN for %d turns!",
                                              force_remaining),
@@ -9631,7 +9631,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
  if (passtarget != -1) { // We picked a real live target
   last_target = targetindices[passtarget]; // Make it our default for next time
-  zombie(targetindices[passtarget]).add_effect(ME_HIT_BY_PLAYER, 100);
+  zombie(targetindices[passtarget]).add_effect("effect_hit_by_player", 100);
  }
 
  if (u.weapon.mode == "MODE_BURST")
@@ -10932,19 +10932,19 @@ bool game::plmove(int dx, int dy)
    else if (z.type->id == "mon_manhack") {
     if (query_yn(_("Reprogram the manhack?"))) {
       int choice = 0;
-      if (z.has_effect(ME_DOCILE))
+      if (z.has_effect("effect_docile"))
         choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
       else
         choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
       switch (choice) {
       case 1:{
-        if (z.has_effect(ME_DOCILE)) {
-          z.rem_effect(ME_DOCILE);
+        if (z.has_effect("effect_docile")) {
+          z.remove_effect("effect_docile");
           if (one_in(3))
             add_msg(_("The %s hovers momentarily as it surveys the area."), z.name().c_str());
         }
         else {
-          z.add_effect(ME_DOCILE, -1);
+          z.add_effect("effect_docile", -1);
           add_msg(_("The %s ."), z.name().c_str());
           if (one_in(3))
             add_msg(_("The %s lets out a whirring noise and starts to follow you."), z.name().c_str());

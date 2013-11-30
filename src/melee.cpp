@@ -128,11 +128,9 @@ int player::hit_roll()
 
 int player::hit_creature(game *g, creature &t, bool allow_grab) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
-    /*
-    if (is_u) {
-        z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
+    if (!t.is_player()) {
+        t.add_effect("effect_hit_by_player", 100); // Flag as attacked by us
     }
-    */
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
     std::string target_name = t.disp_name();
@@ -214,7 +212,7 @@ int player::hit_creature(game *g, creature &t, bool allow_grab) {
         perform_technique(technique, g, t, bash_dam, cut_dam, stab_dam, pain);
     if (weapon.has_flag("FLAMING")) {
         //TODO: add flaming effect
-        //t->add_effect(ME_ONFIRE, rng(3, 4));
+        //t->add_effect("effect_onfire", rng(3, 4));
     }
     //TODO: add speed defecit/pain
     //t->speed -= int(pain / 2);
@@ -807,7 +805,7 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
                     g->zombie(mondex).die(g);
                 }
                 if (weapon.has_flag("FLAMING"))  { // Add to wide attacks
-                    g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
+                    g->zombie(mondex).add_effect("effect_onfire", rng(3, 4));
                 }
                 std::string temp_target = string_format(_("the %s"), g->zombie(mondex).name().c_str());
                 g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
@@ -955,9 +953,9 @@ void player::perform_special_attacks(game *g, creature &t,
  /* TODO: unify effects/diseases, then fix this
  if (can_poison && has_trait("POISONOUS")) {
   if (z != NULL) {
-   if (!z->has_effect(ME_POISONED))
+   if (!z->has_effect("effect_poisoned"))
     g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
-   z->add_effect(ME_POISONED, 6);
+   z->add_effect("effect_poisoned", 6);
   } else if (p != NULL) {
    if (!p->has_disease("poison"))
     g->add_msg_if_player(p,_("You poison %s!"), target.c_str());

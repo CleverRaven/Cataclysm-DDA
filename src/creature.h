@@ -57,9 +57,10 @@ class creature
         // the old add_effect
         void add_effect(efftype_id eff_id, int dur);
         void remove_effect(efftype_id eff_id);
+        void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id);
 
-        virtual void run_effects(); // runs all the effects on the creature
+        virtual void process_effects(game* g); // runs all the effects on the creature
 
         // getters for stats - combat-related stats will all be held within
         // the creature and re-calculated during every normalize() call

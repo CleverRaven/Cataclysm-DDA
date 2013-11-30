@@ -113,7 +113,7 @@ void monster::plan(game *g, const std::vector<int> &friendlies)
             }
         }
 
-        if (has_effect(ME_DOCILE)) {
+        if (has_effect("effect_docile")) {
             closest = -1;
         }
 
@@ -254,7 +254,7 @@ void monster::move(game *g)
         moves = 0;
         return;
     }
-    if (has_effect(ME_BOULDERING)) {
+    if (has_effect("effect_bouldering")) {
         moves -= 20;
         if (moves < 0) {
             return;
@@ -530,10 +530,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     {
         return;
     }
-    add_effect(ME_HIT_BY_PLAYER, 3); // Make us a valid target for a few turns
+    add_effect("effect_hit_by_player", 3); // Make us a valid target for a few turns
     if (has_flag(MF_HIT_AND_RUN))
     {
-        add_effect(ME_RUN, 4);
+        add_effect("effect_run", 4);
     }
     bool is_npc = p.is_npc();
     bool u_see = (!is_npc || g->u_see(p.posx, p.posy));
@@ -929,7 +929,7 @@ int monster::move_to(game *g, int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect(ME_BEARTRAP)) {
+    if (has_effect("effect_beartrap")) {
         moves = 0;
         return 0;
     }

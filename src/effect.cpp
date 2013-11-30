@@ -1,5 +1,6 @@
 #include "effect.h"
 #include "rng.h"
+#include "output.h"
 #include <map>
 
 std::map<std::string, effect_type> effect_types;
@@ -8,14 +9,42 @@ effect_type::effect_type() {}
 effect_type::effect_type(const effect_type & rhs) {}
 
 effect::effect() {}
-effect::effect(effect_type* peff_type, int dur) {
-    eff_type = peff_type;
-    duration = dur;
+effect::effect(effect_type* peff_type, int dur) :
+    eff_type(peff_type),
+    duration(dur),
+    intensity(1)
+{ }
+
+effect::effect(const effect & rhs) :
+    eff_type(rhs.eff_type),
+    duration(rhs.duration),
+    intensity(rhs.intensity)
+{ }
+
+effect& effect::operator=(const effect &rhs)
+{
+    if (this == &rhs)
+        return *this; // No self-assignment
+
+    eff_type = rhs.eff_type;
+    duration = rhs.duration;
+    intensity = rhs.intensity;
+
+    return *this;
 }
-effect::effect(const effect & rhs) {}
 
 void effect::do_effects(game* g, creature& t) {
     return;
+}
+
+int effect::get_duration() {
+    return duration;
+}
+void effect::set_duration(int dur) {
+    duration = dur;
+}
+void effect::mod_duration(int dur) {
+    duration += dur;
 }
 
 effect_type* effect::get_effect_type() {

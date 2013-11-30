@@ -423,7 +423,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
           // search for monsters in radius 4 around impact site
           if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
               // don't hit targets that have already been hit
-              if (!z.has_effect(ME_BOUNCED) && !z.dead) {
+              if (!z.has_effect("effect_bounced") && !z.dead) {
                   add_msg(_("The attack bounced to %s!"), z.name().c_str());
                   trajectory = line_to(tx, ty, z.posx(), z.posy(), 0);
                   if (weapon->charges > 0) {
@@ -922,24 +922,24 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
 
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
-   z.add_effect(ME_ONFIRE, rng(8, 20));
+   z.add_effect("effect_onfire", rng(8, 20));
   else if (z.made_of("flesh"))
-   z.add_effect(ME_ONFIRE, rng(5, 10));
+   z.add_effect("effect_onfire", rng(5, 10));
  } else if (effects.count("INCENDIARY")) {
 
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
-   z.add_effect(ME_ONFIRE, rng(2, 6));
+   z.add_effect("effect_onfire", rng(2, 6));
   else if (z.made_of("flesh") && one_in(4))
-   z.add_effect(ME_ONFIRE, rng(1, 4));
+   z.add_effect("effect_onfire", rng(1, 4));
 
  } else if (effects.count("IGNITE")) {
 
    if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
-      z.add_effect(ME_ONFIRE, rng(6, 6));
+      z.add_effect("effect_onfire", rng(6, 6));
    else if (z.made_of("flesh"))
-   z.add_effect(ME_ONFIRE, rng(10, 10));
+   z.add_effect("effect_onfire", rng(10, 10));
 
  }
  int stun_strength = 0;
@@ -1169,7 +1169,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
  } else { // Not HARDTOSHOOT
   // Bounce applies whether it does damage or not.
   if (effects.count("BOUNCE")) {
-      mon.add_effect(ME_BOUNCED, 1);
+      mon.add_effect("effect_bounced", 1);
   }
   // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();

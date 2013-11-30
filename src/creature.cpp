@@ -1,4 +1,5 @@
 #include "creature.h"
+#include "output.h"
 
 creature::creature() {};
 
@@ -62,16 +63,39 @@ void creature::reset(game *g) {
  */
 
 void creature::add_effect(efftype_id eff_id, int dur) {
+    // if we have it, then that's okay
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        if (it->get_id() == eff_id) {
+            it->mod_duration(dur);
+            return;
+        }
+    }
+
+    // if we don't already have it then add a new one
+    if (effect_types.find(eff_id) == effect_types.end())
+        debugmsg("herro, can't find %s", eff_id.c_str());
     effect new_eff(&effect_types[eff_id], dur);
     effects.push_back(new_eff);
-    return;
 }
-void creature::run_effects() {
+void creature::clear_effects() {
+    effects.clear();
 }
-bool creature::has_effect(efftype_id eff) {
-    return true;
+void creature::remove_effect(efftype_id rem_id) {
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        if (it->get_id() == rem_id) it = effects.erase(it);
+    }
 }
-
+bool creature::has_effect(efftype_id eff_id) {
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        if (it->get_id() == eff_id) return true;
+    }
+    return false;
+}
+void creature::process_effects(game* g) {
+}
 /*
  * Innate stats getters
  */

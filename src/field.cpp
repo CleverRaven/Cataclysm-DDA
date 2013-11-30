@@ -1286,7 +1286,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                     z->moves -= 20;
                     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
                         !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                        z->add_effect(ME_ONFIRE, rng(3, 8));
+                        z->add_effect("effect_onfire", rng(3, 8));
                     }
                 }
             } else if (cur->getFieldDensity() == 3) {
@@ -1295,7 +1295,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                     z->moves -= 40;
                     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
                         !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                        z->add_effect(ME_ONFIRE, rng(8, 12));
+                        z->add_effect("effect_onfire", rng(8, 12));
                     }
                 }
             }
@@ -1305,7 +1305,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 
         case fd_rubble:
             if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC)) {
-                z->add_effect(ME_BOULDERING, 1);
+                z->add_effect("effect_bouldering", 1);
             }
             break;
 
@@ -1337,7 +1337,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
                     dam += cur->getFieldDensity() * rng(8, 14);
                 }
                 if (z->has_flag(MF_SEES)) {
-                     z->add_effect(ME_BLIND, cur->getFieldDensity() * 8);
+                     z->add_effect("effect_blind", cur->getFieldDensity() * 8);
                 }
             }
             break;

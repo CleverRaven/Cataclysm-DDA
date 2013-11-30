@@ -3685,10 +3685,7 @@ int iuse::granade_act(player *p, item *it, bool t)
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
-                            for (int i = 0; i < g->zombie(mon_hit).effects.size(); i++) {
-                                g->zombie(mon_hit).effects.erase(g->zombie(mon_hit).effects.begin() + i);
-                                i--;
-                            }
+                            g->zombie(mon_hit).clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->environmental_revert_effect();
@@ -4790,14 +4787,14 @@ int iuse::dog_whistle(player *p, item *it, bool t)
  for (int i = 0; i < g->num_zombies(); i++) {
   if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
-   if (g->zombie(i).has_effect(ME_DOCILE)) {
+   if (g->zombie(i).has_effect("effect_docile")) {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
-    g->zombie(i).rem_effect(ME_DOCILE);
+    g->zombie(i).remove_effect("effect_docile");
    } else {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s goes docile."), g->zombie(i).name().c_str());
-    g->zombie(i).add_effect(ME_DOCILE, -1);
+    g->zombie(i).add_effect("effect_docile", -1);
    }
   }
  }

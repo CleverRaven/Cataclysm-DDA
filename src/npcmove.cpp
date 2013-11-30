@@ -424,7 +424,7 @@ void npc::choose_monster_target(game *g, int &enemy, int &danger,
       okay_by_rules = (mon->hp <= average_damage_dealt());
       break;
      case ENGAGE_HIT:
-      okay_by_rules = (mon->has_effect(ME_HIT_BY_PLAYER));
+      okay_by_rules = (mon->has_effect("effect_hit_by_player"));
       break;
     }
    }

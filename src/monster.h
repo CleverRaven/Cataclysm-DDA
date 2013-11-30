@@ -49,9 +49,6 @@ struct monster_effect
 class monster : public creature, public JsonSerializer, public JsonDeserializer
 {
  friend class editmap;
- using creature::add_effect;
- using creature::has_effect;
- using creature::remove_effect;
  public:
  monster();
  monster(mtype *t);
@@ -205,9 +202,6 @@ class monster : public creature, public JsonSerializer, public JsonDeserializer
     void drop_items_on_death(game *g);
 
     // Other
-    void add_effect(monster_effect_type effect, int duration);
-    bool has_effect(monster_effect_type effect); // True if we have the effect
-    void rem_effect(monster_effect_type effect); // Remove a given effect
     void process_effects(game *g); // Process long-term effects
     bool make_fungus();  // Makes this monster into a fungus version
                                 // Returns false if no such monster exists
@@ -220,7 +214,6 @@ class monster : public creature, public JsonSerializer, public JsonDeserializer
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;        // Urge to wander - Increased by sound, decrements each move
  std::vector<item> inv; // Inventory
- std::vector<monster_effect> effects; // Active effects, e.g. on fire
 
 // If we were spawned by the map, store our origin for later use
  int spawnmapx, spawnmapy, spawnposx, spawnposy;

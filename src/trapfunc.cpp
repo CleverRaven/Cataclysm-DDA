@@ -68,7 +68,7 @@ void trapfuncm::beartrap(monster *z, int x, int y)
   g->m.spawn_item(x, y, "beartrap");
  } else {
   z->moves = 0;
-  z->add_effect(ME_BEARTRAP, rng(8, 15));
+  z->add_effect("effect_beartrap", rng(8, 15));
  }
  g->m.remove_trap(x, y);
  item beartrap(itypes["beartrap"], 0);
@@ -323,7 +323,7 @@ void trapfuncm::snare_light(monster *z, int x, int y)
    if(z->hurt(10)){
     g->kill_mon(g->mon_at(x, y));
    } else {
-    z->add_effect(ME_BEARTRAP, -1);
+    z->add_effect("effect_beartrap", -1);
    }
    break;
   case MS_SMALL:
@@ -331,14 +331,14 @@ void trapfuncm::snare_light(monster *z, int x, int y)
     g->add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    z->moves = 0;
-   z->add_effect(ME_BEARTRAP, rng(100, 150));
+   z->add_effect("effect_beartrap", rng(100, 150));
    break;
   case MS_MEDIUM:
    if(seen){
     g->add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    z->moves = 0;
-   z->add_effect(ME_BEARTRAP, rng(20, 30));
+   z->add_effect("effect_beartrap", rng(20, 30));
    break;
   case MS_LARGE:
    if(seen){
@@ -383,7 +383,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, -1);
+    z->add_effect("effect_beartrap", -1);
    }
    break;
   case MS_SMALL:
@@ -394,7 +394,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, -1);
+    z->add_effect("effect_beartrap", -1);
    }
    break;
   case MS_MEDIUM:
@@ -405,7 +405,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, rng(100, 150));
+    z->add_effect("effect_beartrap", rng(100, 150));
    }
    break;
   case MS_LARGE:
@@ -413,7 +413,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->add_msg(_("The %s has been snared!"), z->name().c_str());
    }
     z->moves = 0;
-    z->add_effect(ME_BEARTRAP, rng(20, 30));
+    z->add_effect("effect_beartrap", rng(20, 30));
    break;
   case MS_HUGE:
    if(seen){
@@ -895,7 +895,7 @@ void trapfuncm::hum(monster *z, int x, int y)
   sfx = _("VRMMMMMM");
 
  if (volume >= 150)
-  z->add_effect(ME_DEAF, volume - 140);
+  z->add_effect("effect_deaf", volume - 140);
 
  g->sound(x, y, volume, sfx);
 }

@@ -38,9 +38,14 @@ class effect
         effect();
         effect(effect_type* eff_type, int dur);
         effect(const effect & rhs);
+        effect& operator=(const effect & rhs);
 
         effect_type* get_effect_type();
         void do_effects(game* g, creature& t); // applies the disease's effects
+
+        int get_duration();
+        void set_duration(int dur);
+        void mod_duration(int dur);
 
         efftype_id get_id() {
           return eff_type->id;

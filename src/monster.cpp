@@ -220,7 +220,7 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
   wprintz(w, h_white, _("On ground"));
  else if (has_effect("effect_stunned"))
   wprintz(w, h_white, _("Stunned"));
- else if (has_effect(ME_BEARTRAP))
+ else if (has_effect("effect_beartrap"))
   wprintz(w, h_white, _("Trapped"));
  std::string damage_info;
  nc_color col;
@@ -276,9 +276,9 @@ void monster::draw(WINDOW *w, int plx, int ply, bool inv)
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect(ME_BEARTRAP) || has_effect("effect_stunned") || has_effect("effect_downed"))
+ if (has_effect("effect_beartrap") || has_effect("effect_stunned") || has_effect("effect_downed"))
   ret = hilite(ret);
- if (has_effect(ME_ONFIRE))
+ if (has_effect("effect_onfire"))
   ret = red_background(ret);
  return ret;
 }
@@ -290,12 +290,12 @@ bool monster::has_flag(m_flag f)
 
 bool monster::can_see()
 {
- return has_flag(MF_SEES) && !has_effect(ME_BLIND);
+ return has_flag(MF_SEES) && !has_effect("effect_blind");
 }
 
 bool monster::can_hear()
 {
- return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
+ return has_flag(MF_HEARS) && !has_effect("effect_deaf");
 }
 
 bool monster::can_submerge()
@@ -414,7 +414,7 @@ point monster::move_target()
 
 bool monster::is_fleeing(player &u)
 {
- if (has_effect(ME_RUN))
+ if (has_effect("effect_run"))
   return true;
  monster_attitude att = attitude(&u);
  return (att == MATT_FLEE ||
@@ -425,7 +425,7 @@ monster_attitude monster::attitude(player *u)
 {
  if (friendly != 0)
   return MATT_FRIEND;
- if (has_effect(ME_RUN))
+ if (has_effect("effect_run"))
   return MATT_FLEE;
 
  int effective_anger  = anger;
@@ -707,7 +707,7 @@ int monster::dodge()
  if (has_effect("effect_downed"))
   return 0;
  int ret = type->sk_dodge;
- if (has_effect(ME_BEARTRAP))
+ if (has_effect("effect_beartrap"))
   ret /= 2;
  if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);
@@ -855,69 +855,41 @@ void monster::drop_items_on_death(game *g)
     }
 }
 
-void monster::add_effect(monster_effect_type effect, int duration)
-{
- for (int i = 0; i < effects.size(); i++) {
-  if (effects[i].type == effect) {
-   effects[i].duration += duration;
-   return;
-  }
- }
- effects.push_back(monster_effect(effect, duration));
-}
-
-bool monster::has_effect(monster_effect_type effect)
-{
- for (int i = 0; i < effects.size(); i++) {
-  if (effects[i].type == effect)
-   return true;
- }
- return false;
-}
-
-void monster::rem_effect(monster_effect_type effect)
-{
- for (int i = 0; i < effects.size(); i++) {
-  if (effects[i].type == effect) {
-   effects.erase(effects.begin() + i);
-   i--;
-  }
- }
-}
-
 void monster::process_effects(game *g)
 {
- for (int i = 0; i < effects.size(); i++) {
-  switch (effects[i].type) {
-  case ME_POISONED:
-   speed -= rng(0, 3);
-   hurt(rng(1, 3));
-   break;
+    creature::process_effects(g);
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        std::string id = it->get_id();
+        if (id == "effect_poisoned") {
+            speed -= rng(0, 3);
+            hurt(rng(1, 3));
 
-// MATERIALS-TODO: use fire resistance
-  case ME_ONFIRE:
-   if (made_of("flesh"))
-    hurt(rng(3, 8));
-   if (made_of("veggy"))
-    hurt(rng(10, 20));
-   if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
-       made_of("wool"))
-    hurt(rng(15, 40));
-   break;
+        // MATERIALS-TODO: use fire resistance
+        } else if (id == "effect_onfire") {
+            if (made_of("flesh"))
+                hurt(rng(3, 8));
+            if (made_of("veggy"))
+                hurt(rng(10, 20));
+            if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
+                made_of("wool"))
+                hurt(rng(15, 40));
+        }
 
-  }
-  if (effects[i].duration > 0) {
-   effects[i].duration--;
-   if (g->debugmon)
-    debugmsg("Duration %d", effects[i].duration);
-  }
-  if (effects[i].duration == 0) {
-   if (g->debugmon)
-    debugmsg("Deleting");
-   effects.erase(effects.begin() + i);
-   i--;
-  }
- }
+        if (it->get_duration() > 0) {
+            it->mod_duration(-1);
+        if (g->debugmon)
+            debugmsg("Duration %d", it->get_duration());
+        }
+        if (it->get_duration() == 0) {
+            if (g->debugmon)
+                debugmsg("Deleting");
+            it = effects.erase(it);
+        }
+
+    }
+
+
 }
 
 bool monster::make_fungus()

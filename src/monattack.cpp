@@ -1396,9 +1396,9 @@ void mattack::smg(monster *z)
   return;
  z->sp_timeout = z->type->sp_freq; // Reset timer
 
- if (!z->has_effect(ME_TARGETED)) {
+ if (!z->has_effect("effect_targeted")) {
   g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
-  z->add_effect(ME_TARGETED, 8);
+  z->add_effect("effect_targeted", 8);
   z->moves -= 100;
   return;
  }
@@ -1426,7 +1426,7 @@ void mattack::smg(monster *z)
       std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
       g->fire(tmp, g->u.posx, g->u.posy, traj, true);
       z->ammo -= 1;
-      z->add_effect(ME_TARGETED, 3);
+      z->add_effect("effect_targeted", 3);
     }
     else {
       if (one_in(3)) {
@@ -1535,9 +1535,9 @@ void mattack::laser(monster *z)
   return;
  z->sp_timeout = z->type->sp_freq; // Reset timer
 
- if (!z->has_effect(ME_TARGETED)) {
+ if (!z->has_effect("effect_targeted")) {
   g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
-  z->add_effect(ME_TARGETED, 8);
+  z->add_effect("effect_targeted", 8);
   z->moves -= 100;
   return;
  }
@@ -1563,7 +1563,7 @@ void mattack::laser(monster *z)
       tmp.weapon.charges = 100;
       std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
       g->fire(tmp, g->u.posx, g->u.posy, traj, true);
-      z->add_effect(ME_TARGETED, 3);
+      z->add_effect("effect_targeted", 3);
   }
   else {
     if (one_in(3)) {
