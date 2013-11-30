@@ -120,7 +120,20 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
             }
           }
         }
-        mvwprintz( window, 4, hrightcol, c_ltgreen, "%3.1f %3d", g->u.convert_weight(g->u.weight_carried()), g->u.volume_carried() );
+        nc_color color = c_ltgreen;//red color if overload
+        if (g->u.weight_carried() > g->u.weight_capacity()) {
+        	color = c_red;
+        }
+        mvwprintz( window, 4, hrightcol, color, "%3.1f", g->u.convert_weight(g->u.weight_carried()) );
+		if (g->u.volume_carried() > g->u.volume_capacity() - 2)
+		{
+			color = c_red;
+		}
+		else
+		{
+			color = c_ltgreen;
+		}
+        wprintz(window, color, " %3d", g->u.volume_carried() );
     } else {
         int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
         if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
@@ -1084,7 +1097,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     recalc=true;
 
                     item new_item = (*it);
-                    
+
                     if ( trycharges > 0 ) {
                         new_item.charges = trycharges;
                     }
