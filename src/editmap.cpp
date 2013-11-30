@@ -264,7 +264,7 @@ point editmap::edit()
     target.x = g->u.posx + g->u.view_offset_x;
     target.y = g->u.posy + g->u.view_offset_y;
     int ch;
-    InputEvent input;
+    InputEvent input = Undefined;
 
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 14;

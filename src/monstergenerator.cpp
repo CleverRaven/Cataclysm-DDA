@@ -69,7 +69,7 @@ void MonsterGenerator::set_mtype_flags(mtype *mon)
     monster_trigger ntrig;
     for (std::set<monster_trigger>::iterator trig = mon->anger.begin(); trig != mon->anger.end(); ++trig){
         ntrig = monster_trigger(*trig);
-        mon->bitanger[*trig] = true;
+        mon->bitanger[ntrig] = true;
     }
     for (std::set<monster_trigger>::iterator trig = mon->fear.begin(); trig != mon->fear.end(); ++trig){
         ntrig = monster_trigger(*trig);
