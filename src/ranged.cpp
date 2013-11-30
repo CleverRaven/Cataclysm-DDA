@@ -1152,7 +1152,6 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
         if (u_see_mon)
             g->add_msg(_("The shot passes through the %s without hitting."),
             mon.name().c_str());
-        goodhit = 1;
     } else { // Not HARDTOSHOOT
         // Bounce applies whether it does damage or not.
         if (effects.count("BOUNCE")) {
