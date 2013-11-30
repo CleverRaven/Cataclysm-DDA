@@ -194,7 +194,7 @@
     {
         "type" : "ARMOR",
         "id" : "knee_high_boots",
-        "name" : "boots",
+        "name" : "knee-high boots",
         "weight" : 1520,
         "color" : "dark_gray",
         "covers" : ["FEET", "LEGS"],
