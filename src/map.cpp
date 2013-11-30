@@ -2633,7 +2633,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (chempart >= 0) { // we have a chem_lab, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -3065,7 +3065,8 @@ void map::draw(game *g, WINDOW* w, const point center)
    if (!is_outside(realx, realy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
-   } else if (dist <= light_sight_range) {
+   //and illuminated by source of light
+   } else if (this->light_at(realx, realy) > LL_LOW || dist <= light_sight_range) {
     low_sight_range = std::max(g_light_level, natural_sight_range);
     bRainOutside = true;
    }
