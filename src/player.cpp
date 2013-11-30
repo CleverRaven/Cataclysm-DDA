@@ -140,6 +140,7 @@ player::player() : Character(), name("")
  health = 0;
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
+ start_location = "shelter";
  moves = 100;
  movecounter = 0;
  oxygen = 0;
@@ -228,6 +229,7 @@ player& player::operator= (const player & rhs)
  name = rhs.name;
  male = rhs.male;
  prof = rhs.prof;
+ start_location = rhs.start_location;
 
  sight_max = rhs.sight_max;
  sight_boost = rhs.sight_boost;
