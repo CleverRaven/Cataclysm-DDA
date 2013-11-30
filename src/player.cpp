@@ -37,6 +37,7 @@
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
+static void manage_fire_exposure(player& p, int fireStrength = 1);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
@@ -802,7 +803,7 @@ void player::update_bodytemp(game *g)
         }
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
-        if (has_disease("onfire")) {
+        if (has_effect("effect_onfire")) {
             temp_cur[i] += 250;
         }
         if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
@@ -1285,7 +1286,7 @@ void player::set_underwater(bool u)
 
 nc_color player::color()
 {
- if (has_disease("onfire"))
+ if (has_effect("effect_onfire"))
   return c_red;
  if (has_effect("effect_stunned"))
   return c_ltblue;
@@ -1694,6 +1695,11 @@ void player::disp_info(game *g)
    effect_text.push_back(dis_description(illness[i]));
   }
  }
+    for (std::vector<effect>::iterator it = effects.begin();
+        it != effects.end(); ++it) {
+        effect_name.push_back(it->get_effect_type()->get_name());
+        effect_text.push_back(it->get_effect_type()->get_desc());
+    }
  if (abs(morale_level()) >= 100) {
   bool pos = (morale_level() > 0);
   effect_name.push_back(pos ? _("Elated") : _("Depressed"));
@@ -4469,6 +4475,32 @@ bool player::siphon(game *g, vehicle *veh, ammotype desired_liquid)
     } else {
         return false;
     }
+}
+
+void manage_fire_exposure(player &p, int fireStrength) {
+    // TODO: this should be determined by material properties
+    p.hurtall(3*fireStrength);
+    for (int i = 0; i < p.worn.size(); i++) {
+        item tmp = p.worn[i];
+        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
+        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
+        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
+        if (burnVeggy || burnFabric || burnPlastic) {
+            p.worn.erase(p.worn.begin() + i);
+            i--;
+        }
+    }
+}
+void player::process_effects(game *g) {
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        std::string id = it->get_id();
+        if (id == "effect_onfire") {
+            manage_fire_exposure(*this, 1);
+        }
+    }
+
+    creature::process_effects(g);
 }
 
 void player::suffer(game *g)

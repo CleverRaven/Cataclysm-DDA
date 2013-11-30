@@ -10,6 +10,8 @@ class creature;
 
 class effect_type
 {
+    friend void load_effect_type(JsonObject& jo);
+    friend class effect;
     public:
         effect_type();
         effect_type(const effect_type & rhs);
@@ -17,19 +19,30 @@ class effect_type
 
         efftype_id id;
 
-        std::string apply_message;
-        std::string apply_memorial_log;
-        std::string remove_message;
-        std::string remove_memorial_log;
         /*
         bool is_permanent();
 
         int get_max_intensity();
         */
+        std::string get_name();
+        std::string get_desc();
+
+        std::string get_apply_message();
+        std::string get_apply_memorial_log();
+        std::string get_remove_message();
+        std::string get_remove_memorial_log();
 
     protected:
         int max_intensity;
         bool permanent;
+
+        std::string name;
+        std::string desc;
+
+        std::string apply_message;
+        std::string apply_memorial_log;
+        std::string remove_message;
+        std::string remove_memorial_log;
 };
 
 class effect
@@ -41,7 +54,7 @@ class effect
         effect& operator=(const effect & rhs);
 
         effect_type* get_effect_type();
-        void do_effects(game* g, creature& t); // applies the disease's effects
+        void do_effect(game* g, creature& t); // applies the disease's effects
 
         int get_duration();
         void set_duration(int dur);
@@ -57,8 +70,7 @@ class effect
         int intensity;
 };
 
-void load_effect_type(JsonObject& jo);
-
 extern std::map<std::string, effect_type> effect_types;
 
+void load_effect_type(JsonObject& jo);
 #endif

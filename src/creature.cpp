@@ -44,7 +44,7 @@ void creature::reset(game *g) {
     // then repopulate the bonus fields
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
-        it->do_effects(g, *this);
+        it->do_effect(g, *this);
     }
     str_cur = str_max + get_str_bonus();
     dex_cur = dex_max + get_dex_bonus();
@@ -66,44 +66,47 @@ void creature::reset(game *g) {
  * Effect-related functions
  */
 
-void creature::add_effect(efftype_id eff_id, int dur) {
-    // if we have it, then that's okay
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
-        if (it->get_id() == eff_id) {
-            it->mod_duration(dur);
-            return;
-        }
-    }
 
-    // if we don't already have it then add a new one
-    if (effect_types.find(eff_id) == effect_types.end())
-        debugmsg("herro, can't find %s", eff_id.c_str());
-    effect new_eff(&effect_types[eff_id], dur);
-    effects.push_back(new_eff);
+
+// Some utility functions for effects
+class is_id_functor { // functor for remove/has_effect, give c++11 lambdas pls
+    std::string id;
+    public:
+        is_id_functor(efftype_id rem_id) : id(rem_id) {}
+        bool operator() (effect& e) { return e.get_id() == id; }
+};
+// utility function for process_effects
+bool is_expired_effect(effect& e) { return e.get_duration() <= 0; }
+
+void creature::add_effect(efftype_id eff_id, int dur) {
+    // check if we already have it
+    std::vector<effect>::iterator first_eff =
+        std::find_if(effects.begin(), effects.end(), is_id_functor(eff_id));
+
+    if (first_eff != effects.end()) {
+        // if we do, mod the duration
+        first_eff->mod_duration(dur);
+    } else {
+        // if we don't already have it then add a new one
+        if (effect_types.find(eff_id) == effect_types.end())
+            return;
+        effect new_eff(&effect_types[eff_id], dur);
+        effects.push_back(new_eff);
+    }
 }
 void creature::clear_effects() {
     effects.clear();
 }
 void creature::remove_effect(efftype_id rem_id) {
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
-        if (it->get_id() == rem_id) {
-            it = effects.erase(it);
-            --it;
-        }
-
-    }
+    // remove all effects with this id
+    effects.erase(std::remove_if(effects.begin(), effects.end(),
+                       is_id_functor(rem_id)), effects.end());
 }
 bool creature::has_effect(efftype_id eff_id) {
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
-        if (it->get_id() == eff_id) return true;
-    }
-    return false;
+    // return if any effect in effects has this id
+    return (std::find_if(effects.begin(), effects.end(), is_id_functor(eff_id))
+        != effects.end());
 }
-// utility function for process_effects
-bool is_expired_effect(effect& e) { return e.get_duration() <= 0; }
 void creature::process_effects(game* g) {
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {

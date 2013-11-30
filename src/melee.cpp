@@ -816,11 +816,11 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
                 int cut = roll_cut_damage (NULL, false);
                 g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
                 if (weapon.has_flag("FLAMING")) {// Add to wide attacks
-                    g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+                    g->active_npc[npcdex]->add_effect("effect_onfire", rng(2, 3));
                 }
                 g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npcdex]->name.c_str() );
 
-                g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+                g->active_npc[npcdex]->add_effect("effect_onfire", rng(2, 3));
             }
             }
         }

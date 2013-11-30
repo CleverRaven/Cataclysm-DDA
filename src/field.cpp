@@ -1076,7 +1076,7 @@ void map::step_in_field(int x, int y, game *g)
                     g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
                     g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
                     g->u.hit(g, bp_torso, -1, 4, rng(4, 9));
-                    g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
+                    g->u.add_effect("effect_onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
             break;

@@ -874,14 +874,6 @@ void monster::process_effects(game *g)
                 made_of("wool"))
                 hurt(rng(15, 40));
         }
-
-        if (it->get_duration() == 0) {
-            if (g->debugmon)
-                debugmsg("Deleting");
-            it = effects.erase(it);
-            --it;
-        }
-
     }
 
     creature::process_effects(g);
