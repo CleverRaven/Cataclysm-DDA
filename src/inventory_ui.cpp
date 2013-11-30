@@ -200,7 +200,7 @@ char game::inv(inventory& inv, std::string title)
     if(cur_it==selected) selected_char=(int)it.invlet;
     mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
     mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory() ), " %s",
-              it.tname().c_str());
+              it.display_name().c_str());
     if (slice[cur_it]->size() > 1) {
      wprintw(w_inv, " x %d", slice[cur_it]->size());
     }

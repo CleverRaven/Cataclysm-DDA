@@ -914,6 +914,17 @@ std::string item::tname()
     }
 }
 
+std::string item::display_name()
+{
+    if (charges > 0) {
+        return string_format("%s (%d)", tname().c_str(), charges);
+    } else if (contents.size() == 1 && contents[0].charges > 0) {
+        return string_format("%s (%d)", tname().c_str(), contents[0].charges);
+    } else {
+        return tname();
+    }
+}
+
 nc_color item::color() const
 {
     if( is_null() )

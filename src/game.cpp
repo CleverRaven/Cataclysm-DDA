@@ -11049,32 +11049,36 @@ bool game::plmove(int dx, int dy)
         } else if (!m.i_at(x, y).empty()) {
             std::vector<std::string> names;
             std::vector<size_t> counts;
-            names.push_back(m.i_at(x, y)[0].tname());
             if (m.i_at(x, y)[0].count_by_charges()) {
+                names.push_back(m.i_at(x, y)[0].tname());
                 counts.push_back(m.i_at(x, y)[0].charges);
             } else {
+                names.push_back(m.i_at(x, y)[0].display_name());
                 counts.push_back(1);
             }
             for (int i = 1; i < m.i_at(x, y).size(); i++) {
                 item& tmpitem = m.i_at(x, y)[i];
-                std::string next = tmpitem.tname();
+                std::string next_tname = tmpitem.tname();
+                std::string next_dname = tmpitem.display_name();
+                bool by_charges = tmpitem.count_by_charges();
                 bool got_it = false;
                 for (int i = 0; i < names.size(); ++i) {
-                    if (next == names[i]) {
-                        if (tmpitem.count_by_charges()) {
-                            counts[i] += tmpitem.charges;
-                        } else {
-                            counts[i] += 1;
-                        }
+                    if (by_charges && next_tname == names[i]) {
+                        counts[i] += tmpitem.charges;
+                        got_it = true;
+                        break;
+                    } else if (next_dname == names[i]) {
+                        counts[i] += 1;
                         got_it = true;
                         break;
                     }
                 }
                 if (!got_it) {
-                    names.push_back(next);
                     if (tmpitem.count_by_charges()) {
+                        names.push_back(next_tname);
                         counts.push_back(tmpitem.charges);
                     } else {
+                        names.push_back(next_dname);
                         counts.push_back(1);
                     }
                 }
