@@ -859,8 +859,11 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
     } else if (npc) {
         target = p->name;
     } else {
-        target = "a bug";
         // "you" handled separately
+        //TODO alert the user if this happens
+        //This is done to avoid NULL derefrences
+        debugmsg("no valid target in perform_technique");
+        return;
     }
 
   bash_dam += technique.bash;
