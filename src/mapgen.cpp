@@ -814,16 +814,16 @@ bool jmapgen_setmap::apply( map *m ) {
         for (int i = 0; i < trepeat; i++) {
             switch(op) {
                 case JMAPGEN_SETMAP_TER: {
-                    m->ter_set( x.get(), y.get(), (ter_id)val.get() );
+                    m->ter_set( x.get(), y.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
-                    m->furn_set( x.get(), y.get(), (furn_id)val.get() );
+                    m->furn_set( x.get(), y.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
-                    m->trap_set( x.get(), y.get(), (trap_id)val.get() );
+                    m->trap_set( x.get(), y.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_RADIATION: {
-                    m->radiation( x.get(), y.get() ) = (int)val.get();
+                    m->radiation( x.get(), y.get() ) = val.get();
                 } break;
 
 
