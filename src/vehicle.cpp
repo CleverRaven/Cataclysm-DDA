@@ -413,16 +413,20 @@ void vehicle::use_controls()
         current++;
     }
 
-    // Toggle engine on/off.
+    // Toggle engine on/off, stop driving if we are driving.
     int vpart;
     if (!pedals() && has_engine) {
         options_choice.push_back(toggle_engine);
-        options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
-                                               _("Turn on the engine"), 'e'));
+        if (g->u.controlling_vehicle) {
+            options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
+        } else {
+            options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
+                                                   _("Turn on the engine"), 'e'));
+        }
         current++;
     }
 
-    // Exit vehicle, if we are in it.
+    // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
         options_choice.push_back(release_control);
@@ -487,11 +491,19 @@ void vehicle::use_controls()
         }
         break;
     case toggle_engine:
-        if (engine_on) {
-          engine_on = false;
-          g->add_msg(_("You turn the engine off."));
-        }
-        else {
+        if (g->u.controlling_vehicle) {
+            if (engine_on) {
+                engine_on = false;
+                g->add_msg(_("You turn the engine off and let go of the controls."));
+            } else {
+                g->add_msg(_("You let go of the controls."));
+            }
+            g->u.controlling_vehicle = false;
+            break;
+        } else if (engine_on) {
+            engine_on = false;
+            g->add_msg(_("You turn the engine off."));
+        } else {
           if (total_power () < 1) {
               if (total_power (false) < 1)
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
