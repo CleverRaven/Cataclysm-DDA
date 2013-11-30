@@ -3458,7 +3458,13 @@ void player::pause(game *g)
             recoil = int(recoil / 2);
         }
     }
-
+ 
+    //Web Weavers...weave web
+    if (has_trait("WEB_WEAVER") && !in_vehicle) {
+      g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
+      g->add_msg("You spin some webbing.");
+     }
+      
     // Meditation boost for Toad Style
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
         int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
