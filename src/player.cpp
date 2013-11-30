@@ -523,6 +523,9 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_head)) {
             bonus += 3;
         }
+        if(covered & mfb(bp_eyes)) {
+            bonus += 2;
+        }
 
         if(bonus) {
             add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
