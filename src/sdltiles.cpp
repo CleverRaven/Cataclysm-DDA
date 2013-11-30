@@ -933,8 +933,8 @@ WINDOW *curses_init(void)
         std::ofstream fout;//create data/FONDATA file
 		fout.open("data/FONTDATA");
 		if(fout.is_open()) {
-			fout << "data/font/fixedsys.ttf";
-			fout << fontheight;
+			fout << "data/font/fixedsys.ttf\n";
+			fout << fontheight << "\n";
 			fout << fontwidth;
 		}
     } else {
