@@ -4041,7 +4041,7 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
  tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease"))+1;
  tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<D>ecrease"))+1;
  tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<A>ccept"))+1;
- tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"))+1;
+ shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"))+1;
  wrefresh(w);
  bool close = false;
  int charges = 1;
