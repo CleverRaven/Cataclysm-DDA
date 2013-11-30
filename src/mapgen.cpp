@@ -974,7 +974,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     if ( fmapit != oter_mapgen.end() && fmapit->second.size() > 0 ) {
         // int fidx = rng(0, fmapit->second.size() - 1); // simple unwieghted list
         std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
-        constint rlast = weightit->second.rbegin()->first;
+        const int rlast = weightit->second.rbegin()->first;
         const int roll = rng(1, rlast);
         const int fidx = weightit->second.lower_bound( roll )->second;
         //g->add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );

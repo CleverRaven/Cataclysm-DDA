@@ -31,7 +31,7 @@
         "color" : "brown",
         "see_cost" : 2,
         "extras" : "field",
-        "allow_road" : true,
+        "allow_road" : true
     },{
         "type" : "overmap_terrain",
         "id" : "forest",
@@ -77,7 +77,6 @@
         "mapgen": [
             { "method": "builtin", "name": "highway" }
         ]
-
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ew",
