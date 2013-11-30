@@ -8290,7 +8290,7 @@ void game::pickup(int posx, int posy, int min)
             add_msg(_("You're carrying too many items!"));
             return;
         } else if (!u.can_pickWeight(newit.weight(), false)) {
-            add_msg(_("The %s is too heavy!"), newit.tname().c_str());
+            add_msg(_("The %s is too heavy!"), newit.display_name().c_str());
             decrease_nextinv();
         } else if (!u.can_pickVolume(newit.volume())) {
             if (u.is_armed()) {
@@ -8298,7 +8298,7 @@ void game::pickup(int posx, int posy, int min)
                     // Armor can be instantly worn
                     if (newit.is_armor() &&
                             query_yn(_("Put on the %s?"),
-                                     newit.tname().c_str())) {
+                                     newit.display_name().c_str())) {
                         if (u.wear_item(this, &newit)) {
                             if (from_veh) {
                                 veh->remove_item (veh_part, 0);
@@ -8307,8 +8307,8 @@ void game::pickup(int posx, int posy, int min)
                             }
                         }
                     } else if (query_yn(_("Drop your %s and pick up %s?"),
-                                        u.weapon.tname().c_str(),
-                                        newit.tname().c_str())) {
+                                        u.weapon.display_name().c_str(),
+                                        newit.display_name().c_str())) {
                         if (from_veh) {
                             veh->remove_item (veh_part, 0);
                         } else {
@@ -8318,15 +8318,15 @@ void game::pickup(int posx, int posy, int min)
                         u.wield(this, u.i_add(newit, this).invlet);
                         u.moves -= 100;
                         add_msg(_("Wielding %c - %s"), newit.invlet,
-                                newit.tname().c_str());
+                                newit.display_name().c_str());
                     } else {
                         decrease_nextinv();
                     }
                 } else {
                     add_msg(_("There's no room in your inventory for the %s, \
 and you can't unwield your %s."),
-                            newit.tname().c_str(),
-                            u.weapon.tname().c_str());
+                            newit.display_name().c_str(),
+                            u.weapon.display_name().c_str());
                     decrease_nextinv();
                 }
             } else {
@@ -8338,7 +8338,7 @@ and you can't unwield your %s."),
                 }
                 u.moves -= 100;
                 add_msg(_("Wielding %c - %s"), newit.invlet,
-                        newit.tname().c_str());
+                        newit.display_name().c_str());
             }
         } else if (!u.is_armed() &&
                    (u.volume_carried() + newit.volume() > u.volume_capacity() - 2 ||
@@ -8350,7 +8350,7 @@ and you can't unwield your %s."),
                 m.i_clear(posx, posy);
             }
             u.moves -= 100;
-            add_msg(_("Wielding %c - %s"), newit.invlet, newit.tname().c_str());
+            add_msg(_("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
         } else {
             newit = u.i_add(newit, this);
             if (from_veh) {
@@ -8359,7 +8359,7 @@ and you can't unwield your %s."),
                 m.i_clear(posx, posy);
             }
             u.moves -= 100;
-            add_msg("%c - %s", newit.invlet, newit.tname().c_str());
+            add_msg("%c - %s", newit.invlet, newit.display_name().c_str());
         }
 
         if (weight_is_okay && u.weight_carried() >= u.weight_capacity()) {
@@ -8569,7 +8569,7 @@ and you can't unwield your %s."),
                 }
                 wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-                mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].tname().c_str() );
+                mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].display_name().c_str() );
                 wrefresh(w_item_info);
             }
 
@@ -8620,10 +8620,7 @@ and you can't unwield your %s."),
                     } else {
                         wprintw(w_pickup, " - ");
                     }
-                    wprintz(w_pickup, icolor, here[cur_it].tname().c_str());
-                    if (here[cur_it].charges > 0) {
-                        wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
-                    }
+                    wprintz(w_pickup, icolor, here[cur_it].display_name().c_str());
                 }
             }
 
@@ -8715,7 +8712,7 @@ and you can't unwield your %s."),
                 delwin(w_pickup);
                 return;
             } else if (!u.can_pickWeight(here[i].weight(), false)) {
-                add_msg(_("The %s is too heavy!"), here[i].tname().c_str());
+                add_msg(_("The %s is too heavy!"), here[i].display_name().c_str());
                 decrease_nextinv();
             } else if (!u.can_pickVolume(here[i].volume())) {
                 if (u.is_armed()) {
@@ -8723,20 +8720,20 @@ and you can't unwield your %s."),
                         // Armor can be instantly worn
                         if (here[i].is_armor() &&
                                 query_yn(_("Put on the %s?"),
-                                         here[i].tname().c_str())) {
+                                         here[i].display_name().c_str())) {
                             if (u.wear_item(this, &(here[i]))) {
                                 picked_up = true;
                             }
                         } else if (!offered_swap) {
                             if (query_yn(_("Drop your %s and pick up %s?"),
-                                         u.weapon.tname().c_str(),
-                                         here[i].tname().c_str())) {
+                                         u.weapon.display_name().c_str(),
+                                         here[i].display_name().c_str())) {
                                 picked_up = true;
                                 m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                                 u.wield(this, u.i_add(here[i], this).invlet);
                                 mapPickup[here[i].tname()]++;
                                 add_msg(_("Wielding %c - %s"), u.weapon.invlet,
-                                        u.weapon.tname().c_str());
+                                        u.weapon.display_name().c_str());
                             }
                             offered_swap = true;
                         } else {
@@ -8744,8 +8741,8 @@ and you can't unwield your %s."),
                         }
                     } else {
                         add_msg(_("There's no room in your inventory for the %s, and you can't unwield your %s."),
-                                here[i].tname().c_str(),
-                                u.weapon.tname().c_str());
+                                here[i].display_name().c_str(),
+                                u.weapon.display_name().c_str());
                         decrease_nextinv();
                     }
                 } else {
