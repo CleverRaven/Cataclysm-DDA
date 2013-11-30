@@ -1105,7 +1105,7 @@ bool map::trans(const int x, const int y)
         tertr = veh->part_with_feature(vpart, "OPAQUE") < 0;
         if (!tertr) {
             const int dpart = veh->part_with_feature(vpart, "OPENABLE");
-            if (veh->parts[dpart].open) {
+            if (dpart >= 0 && veh->parts[dpart].open) {
                 tertr = true; // open opaque door
             }
         }
