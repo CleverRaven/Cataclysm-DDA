@@ -5440,15 +5440,16 @@
       ["loincloth_leather", 1]
     ]
 	},{
-        "type" : "item_group",
-        "id" : "dog_cop",
+       "type" : "item_group",
+       "id" : "dog_cop",
     "items":[
-      ["kevlar_harness", 1]
+     ["kevlar_harness", 1]
+	]
 	},{
-        "type" : "item_group",
-        "id" : "dog_collar",
+       "type" : "item_group",
+       "id" : "dog_collar",
     "items":[
-      ["leather_collar", 1]
+     ["leather_collar", 1]
     ]
   }
 ]

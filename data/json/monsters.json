@@ -1758,12 +1758,12 @@
     "special_freq":5,
     "death_function":"NORMAL",
     "special_attack":"BITE",
-    "description":"A zombified version of one of the german shepherd dogs used by police. Its deformed body is encased in a protective kevlar vest.",
+    "description":"A zombified version of one of the german shepherd dog used by law enforcement. Its deformed body is encased in a protective kevlar vest.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"]
     },{
         "type" : "MONSTER",
         "id" : "mon_dog_zombie_rot",
-    "name": "rotwailer",
+    "name": "rotweiler",
     "species":"ZOMBIE",
     "symbol":"d",
     "color":"yellow",
