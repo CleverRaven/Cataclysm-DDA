@@ -2067,7 +2067,7 @@ bool game::handle_action()
  switch (act) {
 
   case ACTION_PAUSE:
-   if (run_mode == 2 && (u.controlling_vehicle && safemodeveh) || !(u.controlling_vehicle)) { // Monsters around and we don't wanna pause
+   if (run_mode == 2 && ((u.controlling_vehicle && safemodeveh) || !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
      add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
              press_x(ACTION_TOGGLE_SAFEMODE).c_str());}
    if (u.has_trait("WEB_WEAVER") && !u.in_vehicle && (run_mode != 2)) {
