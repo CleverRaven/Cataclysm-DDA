@@ -892,6 +892,66 @@
             "sneakers",
             "golf_club"
         ]
+    },
+    {
+        "type": "profession",
+        "ident": "groom",
+        "name": "Groom",
+        "description": "You were about to marry your bride before the cataclysm, now you spend your days searching for her.",
+        "points": 0,
+        "items": [
+            "tux",
+            "dress_shoes"
+        ]
+    },
+    {
+        "type": "profession",
+        "ident": "bride",
+        "name": "Bride",
+        "description": "You chose a bad day for your wedding. You just barely escaped with your wedding dress intact.",
+        "points": 0,
+        "items": [
+            "dress_wedding",
+            "dress_shoes"
+        ]
+    },
+    {
+        "type": "profession",
+        "ident": "punkgirl",
+        "name": "Punk Rock Girl",
+        "description": "The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
+        "points": 0,
+        "items": [
+            "skirt",
+            "corset",
+            "trenchcoat",
+            "gloves_fingerless",
+            "boots_combat",
+            "weed",
+            "rolling_paper",
+            "cig",
+            "mp3",
+            "ref_lighter"
+        ]
+    },
+    {
+        "type": "profession",
+        "ident": "skaboy",
+        "name": "Rudeboy",
+        "description": "The apocalypse has been your psychotic dream come true. Now that the system is dead, it's time to party among the bones of the world!",
+        "points": 0,
+        "items": [
+            "dress_shirt",
+            "skinny_tie",
+            "sunglasses",
+            "pants",
+            "socks",
+            "dress_shoes",
+            "rolling_paper",
+            "cig",
+            "mp3",
+            "ref_lighter"
+        ]
     }
 
 ]
