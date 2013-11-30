@@ -5096,47 +5096,73 @@ ff.......|....|WWWWWWWW|\n\
                 for (int i = 2; i <= 15; i += 13) {
                     items_location goods;
                     int size = 0;
+                    bool HW = 0;
                     switch (rng(1, 14)) {
                     case  1:
                     case  2:
                         goods = "bots";
                         size = 85;
+                        HW = 0;
                         break;
                     case  3:
                     case  4:
                         goods = "launchers";
                         size = 83;
+                        HW = 0;
                         break;
                     case  5:
                     case  6:
                         goods = "mil_rifles";
                         size = 87;
+                        HW = 0;
                         break;
                     case  7:
                     case  8:
                         goods = "grenades";
                         size = 88;
+                        HW = 0;
                         break;
                     case  9:
                     case 10:
                         goods = "mil_armor";
                         size = 85;
+                        HW = 0;
                         break;
                     case 11:
                         goods = "mil_hw";
                         size = 82;
+                        HW = 1;
                         break;
                     case 12:
                     case 13:
                         goods = "mil_food";
                         size = 90;
+                        HW = 0;
                         break;
                     case 14:
                         goods = "bionics_mil";
                         size = 78;
+                        HW = 0;
                         break;
                     }
                     place_items(goods, size, i, j, i + 6, j + 5, false, 0);
+                      if (HW == 1) {
+                        if (one_in(2)) {
+                        spawn_item(i + 2, j + 1, "556", 2);
+                        }
+                        if (one_in(4)) {
+                        spawn_item(i + 2, j + 1, "8mm_fmj", 2);
+                        }
+                        if (one_in(4)) {
+                        spawn_item(i + 2, j + 1, "8mm_inc", 2);
+                        }
+                        if (one_in(5)) {
+                        spawn_item(i + 2, j + 1, "20x66_flechette", 2);
+                        }
+                        if (one_in(5)) {
+                        spawn_item(i + 2, j + 1, "40mm_concussive", 2);
+                        }
+                      }
                 }
             }
             line(this, t_wall_metal_h, 1, 1, SEEX * 2 - 2, 1);
