@@ -71,6 +71,7 @@ class worldfactory
 
         void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
 
+        std::map<std::string, cOpt> get_default_world_options();
         std::map<std::string, cOpt> get_world_options(std::string path);
 };
 
