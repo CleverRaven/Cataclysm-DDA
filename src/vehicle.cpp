@@ -50,6 +50,7 @@ vehicle::vehicle(game *ag, std::string type_id, int init_veh_fuel, int init_veh_
     insides_dirty = true;
     engine_on = false;
     has_pedals = false;
+    parts_dirty = true;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -105,7 +106,7 @@ void vehicle::add_missing_frames()
         std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
 
         if(locations_checked.count(mount_location) == 0) {
-            std::vector<int> parts_here = parts_at_relative(next_x, next_y);
+            std::vector<int> parts_here = parts_at_relative(next_x, next_y, false);
             bool found = false;
             for(std::vector<int>::iterator here = parts_here.begin();
                     here != parts_here.end(); here++) {
@@ -117,7 +118,7 @@ void vehicle::add_missing_frames()
             if(!found) {
                 //No frame here! Install one.
                 vehicle_part new_part;
-                new_part.id = "frame_vertical";
+                new_part.setid("frame_vertical");
                 new_part.mount_dx = next_x;
                 new_part.mount_dy = next_y;
                 new_part.hp = vehicle_part_types["frame_vertical"].durability;
@@ -582,9 +583,10 @@ void vehicle::honk_horn()
 vpart_info& vehicle::part_info (int index)
 {
     if (index >= 0 && index < parts.size()) {
-        return vehicle_part_types[parts[index].id];
+        return vehicle_part_int_types[parts[index].iid];
+        // slow autovivication // vehicle_part_types[parts[index].id];
     } else {
-        return vehicle_part_types["null"];
+        return vehicle_part_int_types[0];//"null"];
     }
 }
 
@@ -609,7 +611,7 @@ int vehicle::part_power (int index){
 
 bool vehicle::has_structural_part(int dx, int dy)
 {
-    std::vector<int> parts_here = parts_at_relative(dx, dy);
+    std::vector<int> parts_here = parts_at_relative(dx, dy, false);
 
     for( std::vector<int>::iterator it = parts_here.begin(); it != parts_here.end(); ++it ) {
         if(part_info(*it).location == "structure" && !part_info(*it).has_flag("PROTRUSION")) {
@@ -640,7 +642,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         return false;
     }
 
-    const std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+    const std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
 
     //First part in an empty square MUST be a structural part
     if(parts_in_square.empty() && part.location != "structure") {
@@ -723,7 +725,7 @@ bool vehicle::can_unmount (int p)
     int dx = parts[p].mount_dx;
     int dy = parts[p].mount_dy;
 
-    std::vector<int> parts_in_square = parts_at_relative(dx, dy);
+    std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
 
     //Can't remove a seat if there's still a seatbelt there
     if(part_flag(p, "BELTABLE") && part_with_feature(p, "SEATBELT") >= 0) {
@@ -768,7 +770,7 @@ bool vehicle::can_unmount (int p)
             for(int i = 0; i < 4; i++) {
                 int next_x = i < 2 ? (i == 0 ? -1 : 1) : 0;
                 int next_y = i < 2 ? 0 : (i == 2 ? -1 : 1);
-                std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y);
+                std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y, false);
                 //Ignore empty squares
                 if(parts_over_there.size() > 0) {
                     //Just need one part from the square to track the x/y
@@ -899,7 +901,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
         return -1;  // no money -- no ski!
     }
     vehicle_part new_part;
-    new_part.id = id;
+    new_part.setid(id);
     new_part.mount_dx = dx;
     new_part.mount_dy = dy;
     new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
@@ -914,6 +916,12 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     }
     if(part_flag(parts.size()-1,"FUEL_TANK"))
         fuel.push_back(parts.size()-1);
+
+    point p(new_part.mount_dx, new_part.mount_dy);
+    if ( relative_parts.find(p) == relative_parts.end() ) {
+        relative_parts[p].clear();
+    }
+    relative_parts[p].push_back(parts.size());
 
     find_power ();
     find_exhaust ();
@@ -995,6 +1003,7 @@ void vehicle::remove_part (int p)
     find_horns ();
     find_power ();
     find_fuel_tanks ();
+    find_parts ();
     find_exhaust ();
     precalc_mounts (0, face.dir());
     insides_dirty = true;
@@ -1041,13 +1050,35 @@ item vehicle::item_from_part( int part )
     return tmp;
 }
 
-std::vector<int> vehicle::parts_at_relative (int dx, int dy)
+std::vector<int> vehicle::parts_at_relative (int dx, int dy, bool use_cache)
 {
     std::vector<int> res;
-    for (int i = 0; i < parts.size(); i++)
-        if (parts[i].mount_dx == dx && parts[i].mount_dy == dy)
-            res.push_back (i);
+    if ( use_cache == false ) {
+        for (int i = 0; i < parts.size(); i++)
+            if (parts[i].mount_dx == dx && parts[i].mount_dy == dy)
+                res.push_back (i);
+    } else {
+        if ( parts_dirty == true ) {
+            find_parts();
+        }
+        if ( relative_parts.find( point(dx, dy) ) != relative_parts.end() ) {
+            res = relative_parts[ point(dx, dy) ];
+        }
+    }
     return res;
+}
+
+int vehicle::part_with_feature (int part, vpart_bitflags flag, bool unbroken) {
+    if (part_flag(part, flag)) {
+        return part;
+    }
+    std::vector<int> parts_here = parts_at_relative(parts[part].mount_dx, parts[part].mount_dy);
+    for (int i = 0; i < parts_here.size(); i++) {
+        if (part_flag(parts_here[i], flag) && (!unbroken || parts[parts_here[i]].hp > 0)) {
+            return parts_here[i];
+        }
+    }
+    return -1;    
 }
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken)
@@ -1085,6 +1116,18 @@ std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, boo
     return parts_found;
 }
 
+std::vector<int> vehicle::all_parts_with_feature(vpart_bitflags feature, bool unbroken)
+{
+    std::vector<int> parts_found;
+    for(int part_index = 0; part_index < parts.size(); part_index++) {
+        if(part_info(part_index).has_flag(feature) &&
+                (!unbroken || parts[part_index].hp > 0)) {
+            parts_found.push_back(part_index);
+        }
+    }
+    return parts_found;
+}
+
 /**
  * Returns all parts in the vehicle that exist in the given location slot. If
  * the empty string is passed in, returns all parts with no slot.
@@ -1105,6 +1148,14 @@ std::vector<int> vehicle::all_parts_at_location(const std::string& location)
 bool vehicle::part_flag (int part, const std::string &flag)
 {
     if (part < 0 || part >= parts.size()) {
+        return false;
+    } else {
+        return part_info(part).has_flag(flag);
+    }
+}
+
+bool vehicle::part_flag( int part, vpart_bitflags flag) {
+   if (part < 0 || part >= parts.size()) {
         return false;
     } else {
         return part_info(part).has_flag(flag);
@@ -2823,6 +2874,18 @@ void vehicle::find_fuel_tanks ()
             fuel.push_back(p);
         }
     }
+}
+
+void vehicle::find_parts () {
+    relative_parts.clear();
+    for (int i = 0; i < parts.size(); i++) {
+        point p(parts[i].mount_dx, parts[i].mount_dy);
+        if ( relative_parts.find(p) == relative_parts.end() ) {
+            relative_parts[p].clear();
+        }
+        relative_parts[p].push_back(i);
+    }
+    parts_dirty = false;
 }
 
 void vehicle::find_exhaust ()
