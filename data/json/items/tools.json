@@ -1,4 +1,29 @@
 [
+
+  {
+    "id": "testflames",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "Flaming Chunk of Steel +2",
+    "description": "HOLY SHIT THIS THING IS ON FIRE",
+    "price": 980,
+    "material": "steel",
+    "flags": ["FIRE", "SLICE", "LIGHT_50", "FLAMING"],
+    "techniques": ["WBLOCK_3"],
+    "weight": 64,
+    "volume": 1,
+    "bashing": 1,
+    "cutting": 1,
+    "to_hit": 100,
+    "max_charges": 50,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+  },
+
   { "id":"lighter",
     "type": "TOOL",
     "symbol": ",",

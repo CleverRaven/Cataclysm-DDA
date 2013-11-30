@@ -1,5 +1,7 @@
 #include "creature.h"
 #include "output.h"
+#include "game.h"
+#include <algorithm>
 
 creature::creature() {};
 
@@ -86,7 +88,11 @@ void creature::clear_effects() {
 void creature::remove_effect(efftype_id rem_id) {
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
-        if (it->get_id() == rem_id) it = effects.erase(it);
+        if (it->get_id() == rem_id) {
+            it = effects.erase(it);
+            --it;
+        }
+
     }
 }
 bool creature::has_effect(efftype_id eff_id) {
@@ -96,7 +102,23 @@ bool creature::has_effect(efftype_id eff_id) {
     }
     return false;
 }
+// utility function for process_effects
+bool is_expired_effect(effect& e) { return e.get_duration() <= 0; }
 void creature::process_effects(game* g) {
+    for (std::vector<effect>::iterator it = effects.begin();
+            it != effects.end(); ++it) {
+        if (it->get_duration() > 0) {
+            it->mod_duration(-1);
+            if (g->debugmon)
+                debugmsg("Duration %d", it->get_duration());
+        }
+    }
+    effects.erase(std::remove_if(effects.begin(), effects.end(),
+                       is_expired_effect), effects.end());
+    /* TODO: use this instead when we switch to c++11 ;)
+    effects.erase(std::remove_if(effects.begin(), effects.end(),
+                       [](effect& e) { return e.get_duration() <= 0; }), effects.end());
+                       */
 }
 /*
  * Innate stats getters

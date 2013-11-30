@@ -8,7 +8,12 @@ std::map<std::string, effect_type> effect_types;
 effect_type::effect_type() {}
 effect_type::effect_type(const effect_type & rhs) {}
 
-effect::effect() {}
+effect::effect() :
+    eff_type(NULL),
+    duration(0),
+    intensity(0)
+{ }
+
 effect::effect(effect_type* peff_type, int dur) :
     eff_type(peff_type),
     duration(dur),

@@ -210,8 +210,7 @@ int player::hit_creature(game *g, creature &t, bool allow_grab) {
     if (tec_id != "tec_none")
         perform_technique(technique, g, t, bash_dam, cut_dam, stab_dam, pain);
     if (weapon.has_flag("FLAMING")) {
-        //TODO: add flaming effect
-        //t->add_effect("effect_onfire", rng(3, 4));
+        t.add_effect("effect_onfire", rng(3, 4));
     }
     //TODO: add speed defecit/pain
     //t->speed -= int(pain / 2);
