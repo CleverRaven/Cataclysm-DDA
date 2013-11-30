@@ -360,76 +360,6 @@ void load_oter(oter_t & oter) {
     oterlist.push_back(oter);
 }
 
-mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
-    int mgweight = jio.get_int("weight", 1000);
-    bool isdisabled = false;
-    mapgen_function * ret = NULL;
-    if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
-        const std::string mgtype = jio.get_string("method");
-        if ( default_idx != -1 && mgtype == "builtin" ) {
-            if ( jio.has_string("name") ) {
-                const std::string mgname = jio.get_string("name");
-                if ( mgname == id_base ) {
-                    oter_mapgen[id_base][ default_idx ]->weight = 0;
-                }
-            }
-        }        
-        return NULL; // nothing
-    } else if ( jio.has_string("method") ) {
-        const std::string mgtype = jio.get_string("method");
-        if ( mgtype == "builtin" ) { // c-function
-            if ( jio.has_string("name") ) {
-                const std::string mgname = jio.get_string("name");
-                if ( mapgen_cfunction_map.find( mgname ) != mapgen_cfunction_map.end() ) {
-                    ret = new mapgen_function_builtin( mgname, mgweight );
-                    oter_mapgen[id_base].push_back( ret ); //new mapgen_function_builtin( mgname, mgweight ) );
-                } else {
-                    debugmsg("oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
-                }
-            } else {
-                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
-            }
-        } else if ( mgtype == "lua" ) { // lua script
-#ifdef LUA
-            if ( jio.has_string("script") ) { // minified into one\nline
-                const std::string mgscript = jio.get_string("script");
-                ret = new mapgen_function_lua( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_lua( mgscript, mgweight ) );
-            } else if ( jio.has_array("script") ) { // or 1 line per entry array
-                std::string mgscript = "";
-                JsonArray jascr = jio.get_array("script");
-                while ( jascr.has_more() ) {
-                    mgscript += jascr.next_string();
-                    mgscript += "\n";
-                }
-                ret = new mapgen_function_lua( mgscript, mgweight );
-                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_lua( mgscript, mgweight ) );
-            // todo; pass dirname current.json, because the latter two are icky
-            // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
-            } else {
-                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
-            }
-#else
-            debugmsg("oter_t[%s]: mapgen entry requires a build with LUA=1.",id_base.c_str() );
-#endif
-        } else if ( mgtype == "json" ) {
-            if ( jio.has_object("object") ) {
-                JsonObject jo = jio.get_object("object");
-                std::string jstr = jo.str();
-                ret = new mapgen_function_json( jstr, mgweight );
-                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_json( jstr ) );
-            } else {
-                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
-            }
-        } else {
-            debugmsg("oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
-        }
-    } else {
-        debugmsg("oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").", id_base.c_str() );
-    }
-    return ret;
-}
-
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
@@ -446,7 +376,6 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base, con
             default_idx = oter_mapgen[fmapkey].size() - 1;
         }
     }
-
     if ( jo.has_array( jsonkey ) ) {
         JsonArray ja = jo.get_array( jsonkey );
         int c=0;

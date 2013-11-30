@@ -356,9 +356,83 @@ mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
-///// 1 - init()
+///// 1 - init():
+
 /*
- * feed bits `o json from standalone file to load_mapgen_function
+ * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
+ */
+
+mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx) {
+    int mgweight = jio.get_int("weight", 1000);
+    mapgen_function * ret = NULL;
+    if ( mgweight <= 0 || jio.get_bool("disabled", false) == true ) {
+        const std::string mgtype = jio.get_string("method");
+        if ( default_idx != -1 && mgtype == "builtin" ) {
+            if ( jio.has_string("name") ) {
+                const std::string mgname = jio.get_string("name");
+                if ( mgname == id_base ) {
+                    oter_mapgen[id_base][ default_idx ]->weight = 0;
+                }
+            }
+        }        
+        return NULL; // nothing
+    } else if ( jio.has_string("method") ) {
+        const std::string mgtype = jio.get_string("method");
+        if ( mgtype == "builtin" ) { // c-function
+            if ( jio.has_string("name") ) {
+                const std::string mgname = jio.get_string("name");
+                if ( mapgen_cfunction_map.find( mgname ) != mapgen_cfunction_map.end() ) {
+                    ret = new mapgen_function_builtin( mgname, mgweight );
+                    oter_mapgen[id_base].push_back( ret ); //new mapgen_function_builtin( mgname, mgweight ) );
+                } else {
+                    debugmsg("oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
+                }
+            } else {
+                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
+            }
+        } else if ( mgtype == "lua" ) { // lua script
+#ifdef LUA
+            if ( jio.has_string("script") ) { // minified into one\nline
+                const std::string mgscript = jio.get_string("script");
+                ret = new mapgen_function_lua( mgscript, mgweight );
+                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_lua( mgscript, mgweight ) );
+            } else if ( jio.has_array("script") ) { // or 1 line per entry array
+                std::string mgscript = "";
+                JsonArray jascr = jio.get_array("script");
+                while ( jascr.has_more() ) {
+                    mgscript += jascr.next_string();
+                    mgscript += "\n";
+                }
+                ret = new mapgen_function_lua( mgscript, mgweight );
+                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_lua( mgscript, mgweight ) );
+            // todo; pass dirname current.json, because the latter two are icky
+            // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
+            } else {
+                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
+            }
+#else
+            debugmsg("oter_t[%s]: mapgen entry requires a build with LUA=1.",id_base.c_str() );
+#endif
+        } else if ( mgtype == "json" ) {
+            if ( jio.has_object("object") ) {
+                JsonObject jo = jio.get_object("object");
+                std::string jstr = jo.str();
+                ret = new mapgen_function_json( jstr, mgweight );
+                oter_mapgen[id_base].push_back( ret ); //new mapgen_function_json( jstr ) );
+            } else {
+                debugmsg("oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
+            }
+        } else {
+            debugmsg("oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+        }
+    } else {
+        debugmsg("oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\", \"lua\", or \"json\").", id_base.c_str() );
+    }
+    return ret;
+}
+
+/*
+ * feed bits `o json from standalone file to load_mapgen_function. (standalone json "type": "mapgen")
  */
 void load_mapgen( JsonObject &jo ) {
     if ( jo.has_array( "om_terrain" ) ) {
@@ -385,7 +459,9 @@ void load_mapgen( JsonObject &jo ) {
     }
 }
 
-///// 2 - end of init()
+/////////////////////////////////////////////////////////////////////////////////
+///// 2 - right after init() finishes parsing all game json and terrain info/etc is set..
+/////   ...parse more json! (mapgen_function_json)
 
 /* same as map's 'nonant' but variable
  * todo; less silly name
@@ -546,6 +622,7 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
              }
          } else {
              parray.throw_error("place_group: syntax error, need \"item\" \"item_group_name\" or \"monster\": \"mon_group_name\" ");
+             return; // even though we're already dead (suppress uninitialized warning from gcc)
          }
 
          if ( ! load_jmapgen_int(jsi, "x", tmp_x.val, tmp_x.valmax) || ! load_jmapgen_int(jsi, "y", tmp_y.val, tmp_y.valmax) ) {
@@ -689,7 +766,7 @@ bool mapgen_function_json::setup() {
                 c++;
             }
             qualifies = true;
-            
+            do_format = true;   
        }
 
        // No fill_ter? No format? GTFO.
@@ -755,8 +832,10 @@ bool mapgen_function_json::setup() {
     return true;
 };
 
-///// 3 - mapgen
+/////////////////////////////////////////////////////////////////////////////////
+///// 3 - mapgen (gameplay)
 ///// stuff below is the actual in-game mapgeneration (ill)logic
+
 /*
  * place_monster, place_item; critters and things according to mon_group / item_group
  */
@@ -792,6 +871,7 @@ void jmapgen_spawn_item::apply( map * m ) {
 
 /* 
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
+ * todo; optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
 bool jmapgen_setmap::apply( map *m ) {
     if ( chance == 1 || one_in( chance ) ) {
@@ -870,8 +950,12 @@ bool jmapgen_setmap::apply( map *m ) {
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::apply( map * m, oter_id terrain_type, mapgendata md, int t, float d ) {
-    
-    formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
+    if ( fill_ter != -1 ) {
+        m->draw_fill_background( fill_ter );
+    }
+    if ( do_format ) {
+        formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
+    }
     for( int i=0; i < spawnitems.size(); i++ ) {
         spawnitems[i].apply( m );
     }
