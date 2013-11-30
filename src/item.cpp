@@ -798,7 +798,7 @@ nc_color item::color_in_inventory()
     return c_white;
 }
 
-std::string item::tname(game *g)
+std::string item::tname()
 {
     std::stringstream ret;
 
