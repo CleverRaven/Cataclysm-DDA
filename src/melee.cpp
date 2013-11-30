@@ -976,6 +976,10 @@ bool player::can_weapon_block()
 
 bool player::block_hit(game *g, body_part &bp_hit, int &side,
                        int &bash_dam, int &cut_dam, int &stab_dam) {
+
+  ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
+  // these fire even if the attack is blocked (you still got hit)
+
   if (blocks_left < 1)
       return false;
 
