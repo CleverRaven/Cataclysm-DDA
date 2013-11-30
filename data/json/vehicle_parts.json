@@ -1591,7 +1591,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "laser_gun",
-        "name" : "mounted nx17",
+        "name" : "mounted NX17",
         "symbol" : "t",
         "color" : "magenta",
         "broken_symbol" : "#",
