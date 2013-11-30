@@ -357,6 +357,84 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```ODDTURN``` Only on during odd turns.
 - ```EVENTURN``` Only on during even turns.
 
+## Ammo
+
+### Ammo type
+The chambering of weapons that this ammo can be loaded into.
+
+- ```nail``` Nail
+- ```BB``` BB
+- ```bolt``` Bolt
+- ```arrow``` Arrow
+- ```pebble``` Pebble
+- ```shot``` Shotshell
+- ```22``` .22LR
+- ```9mm``` 9mm Luger
+- ```762x25``` 7.62x25mm
+- ```38``` .38 Special
+- ```40``` 10mm
+- ```44``` .44 Magnum
+- ```45``` .45 ACP
+- ```454``` .454 Casull
+- ```500``` .500 Magnum
+- ```57``` 57mm
+- ```46``` 46mm
+- ```762``` 7.62x39mm
+- ```223``` .223 Remington
+- ```308``` .308 Winchester
+- ```3006``` 30.06
+- ```40mm``` 40mm Grenade
+- ```66mm``` 66mm HEAT
+- ```84x246mm``` 84x246mm HE
+- ```m235``` M235 TPA (66mm Incendiary Rocket)
+- ```battery``` Battery
+- ```fusion``` Laser Pack
+- ```12mm``` 12mm
+- ```plasma``` Plasma
+- ```plutonium``` Plutonium Cell
+- ```gasoline``` Gasoline
+- ```thread``` Thread
+- ```water``` Water
+- ```charcoal``` Charcoal
+- ```8x40mm``` 8mm Caseless
+- ```20x66mm``` 20x66mm Shot
+- ```5x50``` 5x50 Dart
+- ```signal_flare``` Signal Flare
+- ```mininuke_mod``` Mininuke
+- ```metal_rail``` Rebar Rail
+- ```UPS``` UPS
+- ```components``` Components
+- ```thrown``` Thrown
+- ```ampoule``` Ampoule
+- ```50``` .50 BMG
+
+### Effects
+
+- ```COOKOFF``` Explodes when lit on fire.
+- ```SHOT``` Multiple smaller pellets instead of one singular bullet; less effective against armor but increases chance to hit.
+- ```BOUNCE``` Inflicts target with `ME_BOUNCED` effect.
+- ```EXPLOSIVE``` Explodes without any shrapnel.
+- ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
+- ```EXPLOSIVE_HUGE``` Huge explosion without any shrapnel.
+- ```FRAG``` Small explosion that spreads shrapnel.
+- ```INCENDIARY``` Lights target on fire.
+- ```NAPALM``` Explosion that spreads fire.
+- ```TEARGAS``` Generates a cloud of teargas.
+- ```SMOKE``` Generates a cloud of smoke.
+- ```SMOKE_BIG``` Generates a large cloud of smoke.
+- ```TRAIL``` Creates a trail of smoke.
+- ```FLARE``` Lights the target on fire.
+- ```FLASHBANG``` Blinds and deafens nearby targets.
+- ```ACIDBOMB``` Leaves a pool of acid on detonation.
+- ```FLAME``` Very small explosion that lights fires.
+- ```STREAM``` No effect? Not currently used in source files.
+- ```BEANBAG``` Stuns the target.
+- ```LARGE_BEANBAG``` Heavily stuns the target.
+- ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
+- ```LIGHTNING``` Creates a trail of lightning.
+- ```PLASMA``` Creates a trail of superheated plasma.
+- ```LASER``` Creates a trail of laser (the field type)
+
 ## Skills
 
 ### Tags
@@ -366,3 +444,4 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ## TODO
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
+- `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
