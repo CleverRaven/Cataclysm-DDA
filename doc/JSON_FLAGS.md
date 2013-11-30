@@ -169,49 +169,66 @@ Flags used to describe monsters and define their properties and abilities.
 ### Special attacks
 
 - ```NONE``` No special attack.
-- ```ANTQUEEN```
-- ```SHRIEK```
-- ```RATTLE```
-- ```ACID```
-- ```SHOCKSTORM```
-- ```SMOKECLOUD```
-- ```BOOMER```
-- ```RESURRECT```
-- ```SCIENCE```
-- ```GROWPLANTS```
-- ```GROW_VINE```
-- ```VINE```
-- ```SPIT_SAP```
-- ```TRIFFID_HEARTBEAT```
-- ```FUNGUS```
-- ```FUNGUS_GROWTH```
-- ```FUNGUS_SPROUT```
-- ```LEAP```
-- ```DERMATIK```
-- ```DERMATIK_GROWTH```
-- ```PLANT```
-- ```DISAPPEAR```
-- ```FORMBLOB```
-- ```DOGTHING```
-- ```TENTACLE```
-- ```VORTEX```
-- ```GENE_STING```
-- ```PARA_STING```
-- ```TRIFFID_GROWTH```
-- ```STARE```
-- ```FEAR_PARALYZE```
-- ```PHOTOGRAPH```
-- ```TAZER```
-- ```SMG```
-- ```LASER```
-- ```FLAMETHROWER```
-- ```COPBOT```
-- ```MULTI_ROBOT```
-- ```RATKING```
-- ```GENERATOR```
-- ```UPGRADE```
-- ```BREATHE```
-- ```BITE```
-- ```BRANDISH```
-- ```FLESH_GOLEM```
-- ```PARROT```
+- ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
+- ```SHRIEK``` "a terrible shriek!"
+- ```RATTLE``` "a sibilant rattling sound!"
+- ```ACID``` Spit acid.
+- ```SHOCKSTORM``` Shoots bolts of lightning.
+- ```SMOKECLOUD``` Produces a cloud of smoke.
+- ```BOOMER``` Spit bile.
+- ```RESURRECT``` Revives the dead--again.
+- ```SCIENCE``` Various science/technology related attacks (e.g. manhacks, radioactive beams, etc.)
+- ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
+- ```GROW_VINE``` Grows creeper vines.
+- ```VINE``` Attacks with vine.
+- ```SPIT_SAP``` Spit sap.
+- ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
+- ```FUNGUS``` Releases fungal spores and attempts to infect the player.
+- ```FUNGUS_GROWTH``` Grows a young fungaloid into an adult.
+- ```FUNGUS_SPROUT``` Grows a fungal wall.
+- ```LEAP``` Monster leaps from one point to another.
+- ```DERMATIK``` Attempts to lay dermatik eggs in the player.
+- ```DERMATIK_GROWTH``` Dermatik larva grows into an adult.
+- ```PLANT``` Fungal spores take seed and grow into a fungaloid.
+- ```DISAPPEAR``` Hallucination disappears.
+- ```FORMBLOB``` Spawns blobs?
+- ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
+- ```TENTACLE``` Lashes a tentacle at the player.
+- ```VORTEX``` Forms a vortex/tornado that causes damage and throws creatures around.
+- ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
+- ```PARA_STING``` Shoot a paralyzing dart at the player.
+- ```TRIFFID_GROWTH``` Young triffid grows into an adult.
+- ```STARE``` Stare at the player and inflict teleglow.
+- ```FEAR_PARALYZE``` Paralyze the player with fear.
+- ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
+- ```TAZER``` Shock the player.
+- ```SMG``` SMG turret fires.
+- ```LASER``` Laser turret fires.
+- ```FLAMETHROWER``` Shoots a stream fire.
+- ```COPBOT``` Cop-bot alerts and then tazes the player.
+- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower or SMG depending on distance.
+- ```RATKING``` Inflicts disease `rat`
+- ```GENERATOR``` Regenerates health.
+- ```UPGRADE``` Upgrades a regular zombie into a special zombie.
+- ```BREATHE``` Spawns a `breather`
+- ```BITE``` Bites the player.
+- ```BRANDISH``` Brandish a knife at the player.
+- ```FLESH_GOLEM``` Attack the player with claw, and inflict disease `downed` if the attack connects.
+- ```PARROT``` Parrots the speech defined in `migo_speech.json`
+
+### Anger, Fear & Placation Triggers
+
+- ```NULL``` Source use only?
+- ```STALK``` Increases when following the player.
+- ```MEAT``` Meat or a corpse is nearby.
+- ```PLAYER_WEAK``` The player is hurt.
+- ```PLAYER_CLOSE``` The player gets within a few tiles distance.
+- ```HURT``` The monster is hurt.
+- ```FIRE``` There's a fire nearby.
+- ```FRIEND_DIED``` A monster of the same type died.
+- ```FRIEND_ATTACKED``` A monster of the same type was attacked.
+- ```SOUND``` Heard a sound.
+
+## TODO
+
+- Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
