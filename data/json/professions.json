@@ -447,7 +447,7 @@
         "type": "profession",
         "ident": "bow_hunter",
         "name": "Bow Hunter",
-        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a bow. Why, if the world ended there's nothing you'd want at your side more than your trust bow. So when it did, you made made sure to bring it along.",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a bow. Why, if the world ended there's nothing you'd want at your side more than your trusty bow. So when it did, you made made sure to bring it along.",
         "points": 2,
         "skills": [
             {
@@ -581,7 +581,7 @@
         "type": "profession",
         "ident": "student",
         "name": "Student",
-        "description": "You were a high school student, but you don't think you'll be needing to any more tests any time soon. There might even be something useful in one of these books you've been lugging around all year.",
+        "description": "You were a high school student, but the tests you'll face now will have much higher stakes. There might even be something useful in one of these books you've been lugging around all year.",
         "points": 1,
         "items": [
             "pants",
@@ -688,7 +688,7 @@
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
-        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes. The government has turned you into an infiltration and recon specialist: you have night vision, an alarm and a hacking module powered by your own metabolism.",
+        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes. The government has turned you into an infiltration and recon specialist: you have night vision, an alarm and a hacking module. And it all runs off piles and piles of everyday household batteries.",
         "points": 3,
         "CBMs":[
             "bio_fingerhack",
