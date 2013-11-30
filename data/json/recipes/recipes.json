@@ -890,7 +890,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ]
   ]
 },{
@@ -1937,7 +1938,8 @@
   ],
   "components": [
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "shot_slug", 5 ]
@@ -2015,6 +2017,7 @@
     ],
     [
       [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ],
       [ "string_36", 1 ]
     ],
     [
@@ -2261,7 +2264,8 @@
       [ "can_drink", 1 ]
     ],
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ]
   ]
 },{
@@ -2296,7 +2300,8 @@
       [ "can_drink", 1 ]
     ],
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ]
   ]
 },{
@@ -2955,6 +2960,7 @@
     ],
     [
       [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ],
       [ "string_36", 1 ]
     ],
     [
@@ -3096,7 +3102,8 @@
         ["bolt_steel", 1]
     ],
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
         ["smpistol_primer", 1 ],
@@ -8333,7 +8340,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "veggy_tainted", 3 ]
+      [ "veggy_tainted", 3 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -10440,6 +10448,7 @@
   "components": [
     [
       [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ],
       [ "string_36", 1 ]
     ],
     [
@@ -10478,7 +10487,8 @@
   ],
   "components": [
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "antenna", 1 ]
@@ -10512,7 +10522,8 @@
   ],
   "components": [
     [
-        ["superglue", 1]
+        ["superglue", 1],
+	    ["biollante_bud", 1 ]
     ],
     [
       ["processor", 1]
@@ -11388,7 +11399,8 @@
       [ "wire", 8 ]
     ],
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ]
   ]
 },{
@@ -12852,7 +12864,8 @@
       ],
       [
       [ "duct_tape", 100 ],
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
       ],
       [
       [ "mask_bal", 1 ],
@@ -14663,7 +14676,8 @@
   ],
   "components": [
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "rag", 6 ]
@@ -14967,7 +14981,9 @@
       [ "string_36", 1 ]
     ],
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
+	  
     ]
   ]
 },{
@@ -15130,7 +15146,8 @@
   ],
   "components": [
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "can_food", 1 ],
@@ -15221,6 +15238,7 @@
     ],
     [
       [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ],
       [ "duct_tape", 5 ],
       [ "medical_tape", 3 ]
     ],
@@ -15383,7 +15401,8 @@
   ],
   "components": [
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+	  [ "biollante_bud", 1 ]
     ],
     [
       [ "plut_cell", 1 ]
@@ -16677,7 +16696,8 @@
     ],
     [
         ["duct_tape", 100],
-        ["superglue", 1]
+        ["superglue", 1],
+	    ["biollante_bud", 1 ]
     ],
     [
         [ "2x4", 1],
@@ -16724,7 +16744,8 @@
     ],
     [
       ["duct_tape", 100],
-      ["superglue", 1]
+      ["superglue", 1],
+	  ["biollante_bud", 1 ]
     ],
     [
       ["2x4", 1],
