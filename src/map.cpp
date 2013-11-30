@@ -3755,10 +3755,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
               if ( do_container_check == true ) { // cannot link trap to mapitems
-                  int itvol = it->is_funnel_container(maxvolume); // big
-                  if ( itvol > maxvolume ) {                      // biggest
+                  if ( it->is_funnel_container(maxvolume) > maxvolume ) {                      // biggest
                       biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
-                      itvol = maxvolume;
                   }
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
