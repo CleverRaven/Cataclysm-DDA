@@ -1895,7 +1895,7 @@ int iuse::solder_weld(player *p, item *it, bool t)
                     fix->damage = 0;
                 }
             }
-            return it->type->charges_to_use();
+            return charges_used;
         }
         break;
         case 3:
@@ -4041,7 +4041,7 @@ int iuse::firecracker_pack(player *p, item *it, bool t)
  tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease"))+1;
  tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<D>ecrease"))+1;
  tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<A>ccept"))+1;
- tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"))+1;
+ shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"));
  wrefresh(w);
  bool close = false;
  int charges = 1;
