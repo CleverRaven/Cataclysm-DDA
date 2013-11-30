@@ -19,6 +19,7 @@ CataclysmWin.depend
 CataclysmWin.layout
 *.exe
 *.dll
+WinDepend/
 
 # Visual Studio files
 *.suo

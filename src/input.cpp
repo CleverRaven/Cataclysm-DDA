@@ -587,6 +587,9 @@ bool gamepad_available()
 
 bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
 {
+    if (!coordinate_input_received) {
+        return false;
+    }
     int view_columns = getmaxx(capture_win);
     int view_rows = getmaxy(capture_win);
     int win_left = getbegx(capture_win) - VIEW_OFFSET_X;

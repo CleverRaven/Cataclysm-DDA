@@ -19,6 +19,8 @@ void creature::reset(game *g) {
     per_bonus = 0;
     int_bonus = 0;
 
+    num_blocks = 1;
+    num_dodges = 1;
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 

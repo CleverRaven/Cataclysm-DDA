@@ -39,8 +39,7 @@ bool player::is_armed()
  return (weapon.typeId() != "null");
 }
 
-bool player::unarmed_attack()
-{
+bool player::unarmed_attack() {
  return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
 }
 
@@ -196,7 +195,7 @@ int player::hit_creature(game *g, creature &t, bool allow_grab) {
         target_name = string_format(_("your %s"), bodypart.c_str());
     */
 
-    t.block_hit(g, *this, bp_hit, side, bash_dam, cut_dam, stab_dam);
+    t.block_hit(g, bp_hit, side, bash_dam, cut_dam, stab_dam);
 
     if (bash_dam + cut_dam + stab_dam <= 0)
     return 0; // Defensive technique canceled our attack!
@@ -842,74 +841,68 @@ bool player::can_weapon_block()
             weapon.has_technique("WBLOCK_3"));
 }
 
-bool player::block_hit(game *g, creature &t, body_part &bp_hit, int &side,
-    int &bash_dam, int &cut_dam, int &stab_dam)
-{
-    ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
-    // these fire even if the attack is blocked (you still got hit)
 
-    if (blocks_left <= 0) return false;
+bool player::block_hit(game *g, body_part &bp_hit, int &side,
+                       int &bash_dam, int &cut_dam, int &stab_dam) {
 
-    // if weapon, then extra reduction
-    if (!unarmed_attack() && (can_arm_block() || can_weapon_block())) {
-        float mult = 1.0f;
-        if (weapon.has_technique("WBLOCK_1")) {
-            mult = 0.4;
-        } else if (weapon.has_technique("WBLOCK_2")) {
-            mult = 0.15;
-        } else if (weapon.has_technique("WBLOCK_3")) {
-            mult = 0.05;
-        } else {
-            mult = 0.5; // always at least as good as unarmed
-        }
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
-                _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
-        bash_dam *= mult;
-        cut_dam *= mult;
-        stab_dam *= mult;
-        // then convert cut/stab into bash
-        bash_dam += cut_dam + stab_dam;
-        cut_dam = stab_dam = 0;
+  ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
+  // these fire even if the attack is blocked (you still got hit)
+  if (blocks_left < 1)
+      return false;
 
-        bash_dam -= mabuff_block_bonus();
-        bash_dam = bash_dam < 0 ? 0 : bash_dam;
-    } else { // otherwise, unarmed
-        if (!can_arm_block() && !can_leg_block()) {
-            return false;
-        }
+  if (unarmed_attack() && can_block()) {
+    //Choose which body part to block with
+    if (can_leg_block() && can_arm_block())
+      bp_hit = one_in(2) ? bp_legs : bp_arms;
+    else if (can_leg_block())
+      bp_hit = bp_legs;
+    else
+      bp_hit = bp_arms;
 
-        //Block with our arms
-        if (can_arm_block()) {
-            bp_hit = bp_arms;
-            if (hp_cur[hp_arm_l] >= hp_cur[hp_arm_r])
-                side = 0;
-            else
-                side = 1;
-        }
+    // Choose what side to block with.
+    if (bp_hit == bp_legs)
+      side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
+    else
+      side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
 
-        // if you can both leg & arm block, randomly select arms or legs
-        if (can_leg_block() && (!can_arm_block() || one_in(2))) {
-            bp_hit = bp_legs;
-            if (hp_cur[hp_leg_l] >= hp_cur[hp_leg_r])
-                side = 0;
-            else
-                side = 1;
-        }
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
-                                 _("<npcname> blocks with their %s!"),
-                                 body_part_name(bp_hit, side).c_str());
+    g->add_msg_player_or_npc( this, _("You block with your %s!"),
+    _("<npcname> blocks with their %s!"),
+    body_part_name(bp_hit, side).c_str());
 
-        bash_dam *= .5;
+    bash_dam *= .5;
 
-        bash_dam -= mabuff_block_bonus();
-        bash_dam = bash_dam < 0 ? 0 : bash_dam;
+    bash_dam -= mabuff_block_bonus();
+    bash_dam = bash_dam < 0 ? 0 : bash_dam;
+  }
+  else if (can_arm_block() || can_weapon_block()) {
+    float mult = 1.0f;
+    // If we are using a weapon, apply extra reductions
+    if (weapon.has_technique("WBLOCK_1")) {
+      mult = 0.4;
+    } else if (weapon.has_technique("WBLOCK_2")) {
+      mult = 0.15;
+    } else if (weapon.has_technique("WBLOCK_3")) {
+      mult = 0.05;
+    } else {
+      mult = 0.5; // always at least as good as unarmed
     }
+    g->add_msg_player_or_npc( this, _("You block with your %s!"),
+                _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+    bash_dam *= mult;
+    cut_dam *= mult;
+    stab_dam *= mult;
+    // then convert cut/stab into bash
+    bash_dam += cut_dam + stab_dam;
+    cut_dam = stab_dam = 0;
 
-    blocks_left--;
+    bash_dam -= mabuff_block_bonus();
+    bash_dam = bash_dam < 0 ? 0 : bash_dam;
+  }
+  blocks_left--;
 
-    ma_onblock_effects(); // fire martial arts block-triggered effects
+  ma_onblock_effects(); // fire martial arts block-triggered effects
 
-    return true;
+  return true;
 }
 
 void player::perform_special_attacks(game *g, creature &t,

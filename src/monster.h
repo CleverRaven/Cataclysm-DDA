@@ -185,7 +185,7 @@ class monster : public creature, public JsonSerializer, public JsonDeserializer
     // this first one is the hit from creature. The other hit should be
     // renamed
     int hit (game *g, body_part bphurt, int side, int dam, int cut);
-    bool block_hit(game *g, creature &t, body_part &bp_hit, int &side,
+    bool block_hit(game *g, body_part &bp_hit, int &side,
         int &bash_dam, int &cut_dam, int &stab_dam);
     int hit_creature(game *g, creature &t, bool allow_grab); // Returns a damage
     int  hit(game *g, creature &t, body_part &bp_hit); // Returns a damage

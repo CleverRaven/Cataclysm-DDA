@@ -10,10 +10,12 @@ class Item_group_group;
 
 class Item_group
 {
+friend class Item_factory;
 public:
     Item_group(Item_tag id);
 
     const Item_tag get_id();
+    bool guns_have_ammo();
     const Item_tag get_id(std::vector<Item_tag> recursion_list);
     void add_entry(const Item_tag item_id, int chance);
     void add_group(Item_group*, int chance);
@@ -26,6 +28,7 @@ public:
 private:
     const Item_tag m_id;
     int m_max_odds;
+    bool m_guns_have_ammo;
     std::vector<Item_group_group*> m_groups;
     std::vector<Item_group_entry*> m_entries;
 };

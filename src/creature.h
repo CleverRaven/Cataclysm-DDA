@@ -30,7 +30,7 @@ class creature
         virtual int hit (game *g, body_part bphurt, int side,
                 int dam, int cut) = 0;
 
-        virtual bool block_hit(game *g, creature &t, body_part &bp_hit, int &side,
+        virtual bool block_hit(game *g, body_part &bp_hit, int &side,
             int &bash_dam, int &cut_dam, int &stab_dam) = 0;
 
         virtual bool is_on_ground() = 0;

@@ -936,14 +936,23 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     mvwputch(w, 2, width-1, c_ltgray, LINE_OOXX); // ^|
     if(!filtered)
     {
-        draw_tab(w,  2, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
-        draw_tab(w, 13, _("AMMO"),    (tab == "CC_AMMO")   ? true : false);
-        draw_tab(w, 21, _("FOOD"),    (tab == "CC_FOOD")   ? true : false);
-        draw_tab(w, 29, _("DRINKS"),  (tab == "CC_DRINK")  ? true : false);
-        draw_tab(w, 39, _("CHEMS"),   (tab == "CC_CHEM")   ? true : false);
-        draw_tab(w, 48, _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
-        draw_tab(w, 63, _("ARMOR"),   (tab == "CC_ARMOR")  ? true : false);
-        draw_tab(w, 72, _("MISC"),    (tab == "CC_MISC")   ? true : false);
+        int pos_x = 2;//draw the tabs on each other
+        int tab_step = 3;//step between tabs, two for tabs border
+        draw_tab(w,  pos_x, _("WEAPONS"), (tab == "CC_WEAPON") ? true : false);
+        pos_x += utf8_width(_("WEAPONS")) + tab_step;
+        draw_tab(w, pos_x, _("AMMO"),    (tab == "CC_AMMO")   ? true : false);
+        pos_x += utf8_width(_("AMMO")) + tab_step;
+        draw_tab(w, pos_x, _("FOOD"),    (tab == "CC_FOOD")   ? true : false);
+        pos_x += utf8_width(_("FOOD")) + tab_step;
+        draw_tab(w, pos_x, _("DRINKS"),  (tab == "CC_DRINK")  ? true : false);
+        pos_x += utf8_width(_("DRINKS")) + tab_step;
+        draw_tab(w, pos_x, _("CHEMS"),   (tab == "CC_CHEM")   ? true : false);
+        pos_x += utf8_width(_("CHEMS")) + tab_step;
+        draw_tab(w, pos_x, _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
+        pos_x += utf8_width(_("ELECTRONICS")) + tab_step;
+        draw_tab(w, pos_x, _("ARMOR"),   (tab == "CC_ARMOR")  ? true : false);
+        pos_x += utf8_width(_("ARMOR")) + tab_step;
+        draw_tab(w, pos_x, _("MISC"),    (tab == "CC_MISC")   ? true : false);
     }
     else
     {

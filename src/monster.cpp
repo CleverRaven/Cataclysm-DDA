@@ -569,7 +569,7 @@ bool monster::has_weapon() {
     return false; // monsters will never have weapons, silly
 }
 
-bool monster::block_hit(game *g, creature &t, body_part &bp_hit, int &side,
+bool monster::block_hit(game *g, body_part &bp_hit, int &side,
             int &bash_dam, int &cut_dam, int &stab_dam) {
     return false;
 }

@@ -13592,6 +13592,14 @@ void map::place_spawns(game *g, std::string group, const int chance,
         return;
     }
 
+    if ( MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
+        real_coords rc( this->getabs() );
+        overmap * thisom = &overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y );
+        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_base.c_str() );
+        return;
+    }
+
     float multiplier = ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"];
 
     if( multiplier == 0.0 ) {
@@ -13648,6 +13656,14 @@ int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
     }
 
     Item_tag selected_item;
+    bool guns_have_ammo = false;
+    selected_item = item_controller->id_from(loc, guns_have_ammo);
+    if ( selected_item == "MISSING_ITEM" ) {
+        real_coords rc( this->getabs() );
+        overmap * thisom = &overmap_buffer.get(g, rc.abs_om.x, rc.abs_om.y );
+        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+        debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)", loc.c_str(), oid.t().id.c_str(), oid.t().id_base.c_str() );
+    }
     int px, py;
     int item_num = 0;
     while (rng(0, 99) < chance) {
@@ -13670,12 +13686,12 @@ int lets_spawn = 100 * ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
         if (tries < 20) {
             spawn_item(px, py, selected_item, 1, 0, turn);
             item_num++;
-            // Guns in the home and behind counters are generated with their ammo
-            // TODO: Make this less of a hack
-            if (item_controller->find_template(selected_item)->is_gun() &&
-                (loc == "homeguns" || loc == "behindcounter")) {
-                it_gun *tmpgun = dynamic_cast<it_gun *> (item_controller->find_template(selected_item));
-                spawn_item(px, py, default_ammo(tmpgun->ammo), 1, 0, turn);
+            // Guns in item groups with guns_have_ammo flags are generated with their ammo
+            if ( guns_have_ammo ) {
+                it_gun *maybe_gun = static_cast<it_gun *> (item_controller->find_template(selected_item));
+                if ( maybe_gun != NULL ) {
+                    spawn_item(px, py, default_ammo(maybe_gun->ammo), 1, 0, turn);
+                }
             }
         }
     }
