@@ -1501,7 +1501,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    }
    if (fdnpc != -1) {
     if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
-    if (me->dodge(g) < rng(1, hit_chance) || one_in(me->dodge(g))) {
+    if (me && (me->dodge(g) < rng(1, hit_chance) || one_in(me->dodge(g)))) {
       int how_many_limbs_hit = rng(0, num_hp_parts);
       for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
@@ -1513,11 +1513,11 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
        me->add_effect("effect_stunned", 2);
       }
      }
-     else if (one_in(me->str_cur)) {
+     else if (me && one_in(me->str_cur)) {
       me->add_effect("effect_downed", 1);
      }
     }
-    if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {
+    if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
      me->die(g, false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
     }                                       //Still need to add vehicle damage, but I'm ignoring that for now.

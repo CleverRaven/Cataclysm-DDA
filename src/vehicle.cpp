@@ -2799,18 +2799,19 @@ void vehicle::find_power ()
     tracking_power = 0;
     fridge_power = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if(part_flag(parts.size()-1,"LIGHT") || part_flag(parts.size()-1,"CONE_LIGHT")) {
-            lights.push_back(parts.size()-1);
-            lights_power += part_info(parts.size()-1).power;
+        const vpart_info& vpi = part_info(p);
+        if (vpi.has_flag("LIGHT") || vpi.has_flag("CONE_LIGHT")) {
+            lights.push_back(p);
+            lights_power += vpi.power;
         }
-        if (part_flag(parts.size()-1,"CIRCLE_LIGHT")) {
-            overhead_power += part_info(parts.size()-1).power;
+        if (vpi.has_flag("CIRCLE_LIGHT")) {
+            overhead_power += vpi.power;
         }
-        if(part_flag(parts.size()-1, "TRACK")) {
-            tracking_power += part_info(parts.size()-1).power;
+        if (vpi.has_flag("TRACK")) {
+            tracking_power += vpi.power;
         }
-        if(part_flag(parts.size()-1, "FRIDGE")) {
-            fridge_power += part_info(parts.size()-1).power;
+        if (vpi.has_flag("FRIDGE")) {
+            fridge_power += vpi.power;
         }
     }
 }

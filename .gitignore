@@ -20,6 +20,7 @@ CataclysmWin.layout
 *.exe
 *.dll
 WinDepend/
+data/FONTDATA
 
 # Visual Studio files
 *.suo

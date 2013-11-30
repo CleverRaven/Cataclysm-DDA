@@ -7731,11 +7731,10 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
                                 }
                             }
                         }
-
-                        if (!have_tool)
-                        {
-                           return HINT_IFFY;
-                        }
+                    }
+                    if (!have_tool)
+                    {
+                       return HINT_IFFY;
                     }
                 }
                 // all tools present

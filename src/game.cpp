@@ -6622,7 +6622,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
       min_charges = p_itm->charges;
     }
   }
-  if (it->is_null()) {
+  if (p_itm->is_null() || it->is_null()) {
     return false;
   } else if (test) {
     return true;
@@ -8684,7 +8684,6 @@ and you can't unwield your %s."),
     bool offered_swap = false;
     std::map<std::string, int> mapPickup;
     for (int i = 0; i < here.size(); i++) {
-        iter = 0;
         // This while loop guarantees the inventory letter won't be a repeat. If it
         // tries all 52 letters, it fails and we don't pick it up.
         if (getitem[i] && here[i].made_of(LIQUID)) {

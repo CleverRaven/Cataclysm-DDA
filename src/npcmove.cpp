@@ -477,7 +477,7 @@ npc_action npc::method_of_fleeing(game *g, int enemy)
 
 npc_action npc::method_of_attack(game *g, int target, int danger)
 {
- int tarx = posx, tary = posy;
+ int tarx, tary;
  bool can_use_gun = (!is_following() || combat_rules.use_guns);
  bool use_silent = (is_following() && combat_rules.use_silent);
 
@@ -804,7 +804,7 @@ int npc::confident_range(char invlet)
 
   item *thrown = &(inv.item_by_letter(invlet));
   max = throw_range(invlet); // The max distance we can throw
-  int deviation = 0;
+  deviation = 0;
   if (skillLevel("throw") < 8)
    deviation += 8 - skillLevel("throw");
   else

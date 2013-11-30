@@ -84,7 +84,6 @@ std::string utf16_to_utf8(unsigned ch) {
     } else if (ch <= 0x10FFFF) {
         utf8Bytes = 4;
     } else {
-        utf8Bytes = 3;
         std::stringstream err;
         err << "unknown unicode: " << ch;
         throw err.str();
