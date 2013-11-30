@@ -2473,7 +2473,6 @@ static void handle_bite_wound(player& p, disease& dis) {
 static void handle_infected_wound(player& p, disease& dis) {
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
-
         if(x_in_y(100 + p.health, 864000)) {
             g->add_msg_if_player(&p,_("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
