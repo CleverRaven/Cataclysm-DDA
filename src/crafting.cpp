@@ -745,8 +745,8 @@ recipe* game::select_crafting_recipe()
                             xpos = 32;
                             ypos++;
                             }
-                            mvwprintz(w_data, ypos, xpos, c_white, _("OR "));
-                            xpos += 3;
+                            mvwprintz(w_data, ypos, xpos, c_white, _("%s "), _("OR"));
+                            xpos += utf8_width(_("OR"))+1;
                         }
                     }
                 }
