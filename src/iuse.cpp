@@ -1895,7 +1895,7 @@ int iuse::solder_weld(player *p, item *it, bool t)
                     fix->damage = 0;
                 }
             }
-            return it->type->charges_to_use();
+            return charges_used;
         }
         break;
         case 3:
