@@ -353,6 +353,7 @@ void game::setup()
 
  turnssincelastmon = 0; //Auto safe mode init
  autosafemode = OPTIONS["AUTOSAFEMODE"];
+ safemodeveh = OPTIONS["SAFEMODEVEH"]; //Vehicle safemode check
 
  footsteps.clear();
  footsteps_source.clear();
@@ -2067,7 +2068,7 @@ bool game::handle_action()
  switch (act) {
 
   case ACTION_PAUSE:
-   if (run_mode == 2 && ((safemodeveh || !(u.controlling_vehicle)))) { // Monsters around and we don't wanna pause
+   if (run_mode == 2 && (safemodeveh || !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
      add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
              press_x(ACTION_TOGGLE_SAFEMODE).c_str());}
    else {
