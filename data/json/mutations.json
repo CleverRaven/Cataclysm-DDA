@@ -1151,7 +1151,7 @@
         "description" : "You have a long, graceful tail, like that of a big cat. It improves your balance, making your ability to dodge higher.",
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_THICK", "TAIL_RAPTOR"],
-        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE"]
+        "changes_to" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT"]
     },{
         "type" : "mutation",
         "id" : "TAIL_CATTLE",
