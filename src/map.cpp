@@ -1105,7 +1105,7 @@ bool map::trans(const int x, const int y)
         tertr = !veh->part_with_feature(vpart, VPFLAG_OPAQUE) || veh->parts[vpart].hp <= 0;
         if (!tertr) {
             const int dpart = veh->part_with_feature(vpart, VPFLAG_OPENABLE);
-            if (veh->parts[dpart].open) {
+            if (dpart >= 0 && veh->parts[dpart].open) {
                 tertr = true; // open opaque door
             }
         }
@@ -2633,7 +2633,7 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           if (quantity == 0)
             return ret;
         }
-        
+
         if (chempart >= 0) { // we have a chem_lab, now to see what to drain
           ammotype ftype = "NULL";
 
@@ -3065,7 +3065,8 @@ void map::draw(game *g, WINDOW* w, const point center)
    if (!is_outside(realx, realy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
-   } else if (dist <= light_sight_range) {
+   //and illuminated by source of light
+   } else if (this->light_at(realx, realy) > LL_LOW || dist <= light_sight_range) {
     low_sight_range = std::max(g_light_level, natural_sight_range);
     bRainOutside = true;
    }
@@ -3755,10 +3756,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz,
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
               if ( do_container_check == true ) { // cannot link trap to mapitems
-                  int itvol = it->is_funnel_container(maxvolume); // big
-                  if ( itvol > maxvolume ) {                      // biggest
+                  if ( it->is_funnel_container(maxvolume) > maxvolume ) {                      // biggest
                       biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
-                      itvol = maxvolume;
                   }
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...

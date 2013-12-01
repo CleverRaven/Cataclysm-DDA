@@ -859,8 +859,11 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
     } else if (npc) {
         target = p->name;
     } else {
-        target = "a bug";
         // "you" handled separately
+        //TODO alert the user if this happens
+        //This is done to avoid NULL derefrences
+        debugmsg("no valid target in perform_technique");
+        return;
     }
 
   bash_dam += technique.bash;
@@ -875,7 +878,6 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
 
   if (technique.quick) {
     moves += int(attack_speed(*this) / 2);
-    return;
   }
 // The rest affect our target, and thus depend on z vs. p
 
@@ -976,6 +978,10 @@ bool player::can_weapon_block()
 
 bool player::block_hit(game *g, body_part &bp_hit, int &side,
                        int &bash_dam, int &cut_dam, int &stab_dam) {
+
+  ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
+  // these fire even if the attack is blocked (you still got hit)
+
   if (blocks_left < 1)
       return false;
 

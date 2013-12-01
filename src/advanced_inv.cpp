@@ -107,20 +107,27 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     bool compact=(TERMX<=100);
 
     if(isinventory) {
-        int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
-        if (g->u.convert_weight(g->u.weight_carried()) > 9.9 ) {
-          hrightcol--;
-          if (g->u.convert_weight(g->u.weight_carried()) > 99.9 ) { // not uncommon
-            hrightcol--;
-            if (g->u.convert_weight(g->u.weight_carried()) > 999.9 ) {
-              hrightcol--;
-              if (g->u.convert_weight(g->u.weight_carried()) > 9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
-                hrightcol--;
-              }
-            }
-          }
+        int hrightcol = columns//right align
+			- helper::to_string(g->u.convert_weight(g->u.weight_carried())).length() - 3//"xxx.y/"
+			- helper::to_string(g->u.convert_weight(g->u.weight_capacity())).length() - 3//"xxx.y_"
+			- helper::to_string(g->u.volume_carried()).length() - 1//"xxx/"
+			- helper::to_string(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
+        nc_color color = c_ltgreen;//red color if overload
+        if (g->u.weight_carried() > g->u.weight_capacity()) {
+        	color = c_red;
         }
-        mvwprintz( window, 4, hrightcol, c_ltgreen, "%3.1f %3d", g->u.convert_weight(g->u.weight_carried()), g->u.volume_carried() );
+        mvwprintz( window, 4, hrightcol, color, "%.1f/", g->u.convert_weight(g->u.weight_carried()) );
+        wprintz(window, c_ltgray, "%.1f ", g->u.convert_weight(g->u.weight_capacity()) );
+		if (g->u.volume_carried() > g->u.volume_capacity() - 2)
+		{
+			color = c_red;
+		}
+		else
+		{
+			color = c_ltgreen;
+		}
+        wprintz(window, color, "%d/", g->u.volume_carried() );
+        wprintz(window, c_ltgray, "%d ", g->u.volume_capacity() - 2 );
     } else {
         int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
         if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
@@ -1084,7 +1091,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     recalc=true;
 
                     item new_item = (*it);
-                    
+
                     if ( trycharges > 0 ) {
                         new_item.charges = trycharges;
                     }

@@ -60,6 +60,9 @@ void player_activity::deserialize(JsonIn &jsin)
     if ( !data.read( "type", tmptype ) || type >= NUM_ACTIVITIES ) {
         debugmsg( "Bad activity data:\n%s", data.str().c_str() );
     }
+    if ( !data.read( "invlet", tmpinv)) {
+        debugmsg( "Bad activity data:\n%s", data.str().c_str() );
+    }
     type = activity_type(tmptype);
     data.read( "moves_left", moves_left );
     data.read( "index", index );
