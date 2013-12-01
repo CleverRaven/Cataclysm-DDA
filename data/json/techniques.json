@@ -9,8 +9,7 @@
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
         ],
-        "aoe" : "wide",
-        "quick" : true
+        "aoe" : "wide"
     },{
         "type" : "technique",
         "id" : "BRUTAL",
