@@ -429,8 +429,6 @@ WINDOW *curses_init(void)
         }
     } else {
         getline(fin, typeface);
-        typeface_c = new char [typeface.size()+1];
-        strcpy (typeface_c, typeface.c_str());
         fin >> fontwidth;
         fin >> fontheight;
         if ((fontwidth <= 4) || (fontheight <=4)){
@@ -439,6 +437,8 @@ WINDOW *curses_init(void)
             fontwidth  = 8;
         }
     }
+    typeface_c = new char [typeface.size()+1];
+    strcpy (typeface_c, typeface.c_str());
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
