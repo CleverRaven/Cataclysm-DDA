@@ -44,9 +44,7 @@ void game::init_monitems() {
               "shotguns", 2, "smg", 5, "bots", 1,
               "launchers", 2, "mil_rifles", 10, "grenades", 5,
               "mil_accessories", 10, "mil_food", 5, "bionics_mil", 1,
-              NULL);
-
-    setvector(&monitems["mon_dog_zombie_cop"], "dog_cop", 1, NULL);			  
+              NULL);			  
 			  
     setvector(&monitems["mon_biollante"], "biollante", 1, NULL);
 
@@ -70,4 +68,5 @@ void game::init_monitems() {
     setvector(&monitems["mon_laserturret"], "robots", 10, "laserturret", 1, NULL);
     setvector(&monitems["mon_fungal_fighter"], "fungal_sting", 1, NULL);
     setvector(&monitems["mon_shia"], "shia_stuff", 1, NULL);
+	setvector(&monitems["mon_dog_zombie_cop"], "dog_cop", 1, NULL);
 }

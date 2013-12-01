@@ -1752,7 +1752,7 @@
     "dodge":2,
     "armor_bash":6,
     "armor_cut":6,
-    "item_chance":100,
+    "item_chance":-80,
     "luminance":0,
     "hp":42,
     "special_freq":5,
