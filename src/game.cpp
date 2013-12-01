@@ -10345,6 +10345,12 @@ void game::read()
 
 void game::chat()
 {
+    if(u.has_disease("deaf"))
+    {
+        add_msg(_("You can't chat while deaf!"));
+        return;
+    }
+
     if (active_npc.size() == 0)
     {
         add_msg(_("You talk to yourself for a moment."));
