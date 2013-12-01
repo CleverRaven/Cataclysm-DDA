@@ -1600,10 +1600,14 @@ int vehicle::total_power (bool fueled)
 {
     int pwr = 0;
     int cnt = 0;
+    int part_under_player;
+    g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+    bool player_controlling = player_in_control(&(g->u));
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, "ENGINE") &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == "muscle") &&
+             ((part_info(p).fuel_type == "muscle") && player_controlling &&
+             part_with_feature(part_under_player, "ENGINE") == p)) &&
             parts[p].hp > 0)
         {
             pwr += part_power(p);
