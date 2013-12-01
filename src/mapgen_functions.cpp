@@ -97,8 +97,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["cabin_strange"] = &mapgen_cabin_strange;
     mapgen_cfunction_map["cabin_strange_b"] = &mapgen_cabin_strange_b;
     mapgen_cfunction_map["cabin"] = &mapgen_cabin;
-    mapgen_cfunction_map["farm"] = &mapgen_farm;
-    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
+//    mapgen_cfunction_map["farm"] = &mapgen_farm;
+//    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
     mapgen_cfunction_map["police"] = &mapgen_police;
     mapgen_cfunction_map["bank"] = &mapgen_bank;
     mapgen_cfunction_map["bar"] = &mapgen_bar;
