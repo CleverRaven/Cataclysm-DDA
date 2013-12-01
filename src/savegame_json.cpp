@@ -1076,7 +1076,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
             throw (std::string)"bad vehicle part, id: %s" + pid;
         }
     }
-    id = pid;
+    setid(pid);
     data.read("mount_dx", mount_dx);
     data.read("mount_dy", mount_dy);
     data.read("hp", hp );
@@ -1140,13 +1140,18 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("name",name);
 
     data.read("parts", parts);
-
+/*
+    for(int i=0;i < parts.size();i++ ) {
+       parts[i].setid(parts[i].id);
+    }
+*/
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
     find_horns ();
+    find_parts ();
     find_power ();
     find_fuel_tanks ();
     find_exhaust ();

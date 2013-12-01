@@ -145,6 +145,7 @@ void init_data_structures()
 
     mutations_category[""].clear();
     init_body_parts();
+    init_vpart_bitflag_map();
     init_translation();
     init_martial_arts();
     init_inventory_categories();

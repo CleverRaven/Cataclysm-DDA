@@ -210,7 +210,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
 
- const int seat_part = veh->part_with_feature (part, "BOARDABLE");
+ const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
  if (part < 0) {
   debugmsg ("map::board_vehicle: boarding %s (not boardable)",
             veh->part_info(part).name.c_str());
@@ -243,7 +243,7 @@ void map::unboard_vehicle(const int x, const int y)
   debugmsg ("map::unboard_vehicle: vehicle not found");
   return;
  }
- const int seat_part = veh->part_with_feature (part, "BOARDABLE", false);
+ const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
  if (part < 0) {
   debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
             veh->part_info(part).name.c_str());
@@ -479,7 +479,7 @@ bool map::vehproceed(game* g){
     }
 
     { // sink in water?
-        std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
+        std::vector<int> wheel_indices = veh->all_parts_with_feature(VPFLAG_WHEEL, false);
         int num_wheels = wheel_indices.size(), submerged_wheels = 0;
         for (int w = 0; w < num_wheels; w++) {
             const int p = wheel_indices[w];
@@ -651,11 +651,11 @@ bool map::vehproceed(game* g){
             veh_collision tmp_c = veh_veh_colls[i];
 
             if(veh2 == (vehicle*) tmp_c.target) {
-                int parm1 = veh->part_with_feature (tmp_c.part, "ARMOR");
+                int parm1 = veh->part_with_feature (tmp_c.part, VPFLAG_ARMOR);
                 if (parm1 < 0) {
                     parm1 = tmp_c.part;
                 }
-                int parm2 = veh2->part_with_feature (tmp_c.target_part, "ARMOR");
+                int parm2 = veh2->part_with_feature (tmp_c.target_part, VPFLAG_ARMOR);
                 if (parm2 < 0) {
                     parm2 = tmp_c.target_part;
                 }
@@ -719,7 +719,7 @@ bool map::vehproceed(game* g){
             }
 
             bool throw_from_seat = 0;
-            if (veh->part_with_feature (ppl[ps], "SEATBELT") == -1) {
+            if (veh->part_with_feature (ppl[ps], VPFLAG_SEATBELT) == -1) {
                 throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
             }
 
@@ -1057,11 +1057,11 @@ int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
     int vpart = -1;
     vehicle *veh = veh_at(x, y, vpart);
     if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
-        const int dpart = veh->part_with_feature(vpart, "OBSTACLE");
-        if (dpart >= 0 && (!veh->part_flag(dpart, "OPENABLE") || !veh->parts[dpart].open)) {
+        const int dpart = veh->part_with_feature(vpart, VPFLAG_OBSTACLE);
+        if (dpart >= 0 && (!veh->part_flag(dpart, VPFLAG_OPENABLE) || !veh->parts[dpart].open)) {
         return 0;
         } else {
-            const int ipart = veh->part_with_feature(vpart, "AISLE");
+            const int ipart = veh->part_with_feature(vpart, VPFLAG_AISLE);
             if (ipart >= 0) {
                 return 2;
             }
@@ -1102,9 +1102,9 @@ bool map::trans(const int x, const int y)
     vehicle *veh = veh_at(x, y, vpart);
     bool tertr;
     if (veh) {
-        tertr = veh->part_with_feature(vpart, "OPAQUE") < 0;
+        tertr = !veh->part_with_feature(vpart, VPFLAG_OPAQUE) || veh->parts[vpart].hp <= 0;
         if (!tertr) {
-            const int dpart = veh->part_with_feature(vpart, "OPENABLE");
+            const int dpart = veh->part_with_feature(vpart, VPFLAG_OPENABLE);
             if (dpart >= 0 && veh->parts[dpart].open) {
                 tertr = true; // open opaque door
             }
@@ -1134,14 +1134,15 @@ bool map::trans(const int x, const int y)
     return false; //failsafe block vision
 }
 
-bool map::has_flag(std::string flag, const int x, const int y)
+bool map::has_flag(const std::string & flag, const int x, const int y)
 {
- if ("BASHABLE" == flag) {
+ static const std::string flag_str_BASHABLE = "BASHABLE"; // construct once per runtime, slash delay 90%
+ if (flag_str_BASHABLE == flag) {
   int vpart;
   vehicle *veh = veh_at(x, y, vpart);
   if (veh && veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
-      veh->part_with_feature (vpart, "OBSTACLE") >= 0) {// & it is obstacle...
-   const int p = veh->part_with_feature (vpart, "OPENABLE");
+      veh->part_with_feature (vpart, VPFLAG_OBSTACLE) >= 0) {// & it is obstacle...
+   const int p = veh->part_with_feature (vpart, VPFLAG_OPENABLE);
    if (p < 0 || !veh->parts[p].open) // and not open door
     return true;
   }
@@ -1154,22 +1155,22 @@ bool map::can_put_items(const int x, const int y)
     return !has_flag("NOITEM", x, y) && !has_flag("SEALED", x, y);
 }
 
-bool map::has_flag_ter(std::string flag, const int x, const int y)
+bool map::has_flag_ter(const std::string & flag, const int x, const int y) const
 {
  return terlist[ter(x, y)].has_flag(flag);
 }
 
-bool map::has_flag_furn(std::string flag, const int x, const int y)
+bool map::has_flag_furn(const std::string & flag, const int x, const int y) const
 {
  return furnlist[furn(x, y)].has_flag(flag);
 }
 
-bool map::has_flag_ter_or_furn(std::string flag, const int x, const int y)
+bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const
 {
  return (terlist[ter(x, y)].has_flag(flag) || (furnlist[furn(x, y)].has_flag(flag)));
 }
 
-bool map::has_flag_ter_and_furn(std::string flag, const int x, const int y)
+bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
 {
  return terlist[ter(x, y)].has_flag(flag) && furnlist[furn(x, y)].has_flag(flag);
 }
@@ -2415,7 +2416,7 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
     std::vector<vehicle*> *vehicles = &(grid[nonant]->vehicles);
     for (int v = vehicles->size() - 1; v >= 0; v--) {
         vehicle *next_vehicle = (*vehicles)[v];
-        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature("CARGO", false);
+        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature(VPFLAG_CARGO, false);
         for(std::vector<int>::iterator part_index = cargo_parts.begin();
                 part_index != cargo_parts.end(); part_index++) {
             std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
@@ -2424,7 +2425,7 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
             for(int n = items_in_part->size() - 1; n >= 0; n--) {
                 it = &((*items_in_part)[n]);
                 // Check if it's in a fridge and is food.
-                if (it->is_food() && next_vehicle->part_flag(*part_index, "FRIDGE") &&
+                if (it->is_food() && next_vehicle->part_flag(*part_index, VPFLAG_FRIDGE) &&
                     next_vehicle->fridge_on && it->fridge == 0) {
                     it->fridge = (int)g->turn;
                     it->item_counter -= 10;
@@ -4132,8 +4133,8 @@ void map::build_map_cache(game *g)
     if (vehs[v].v->is_inside(part)) {
      outside_cache[px][py] = false;
     }
-    if (vehs[v].v->part_flag(part, "OPAQUE") && vehs[v].v->parts[part].hp > 0) {
-     int dpart = vehs[v].v->part_with_feature(part , "OPENABLE");
+    if (vehs[v].v->part_flag(part, VPFLAG_OPAQUE) && vehs[v].v->parts[part].hp > 0) {
+     int dpart = vehs[v].v->part_with_feature(part , VPFLAG_OPENABLE);
      if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
       transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
      }
