@@ -4503,25 +4503,18 @@ void player::suffer(game *g)
         }
     }
 
-    int ill_num = illness.size();
-    for (int i = 0; i < ill_num; i++)
+    for (int i = 0; i < illness.size(); i++)
     {
         dis_effect(*this, illness[i]);
-        if (ill_num == illness.size()) {
-            if (!illness[i].permanent) {
-                illness[i].duration--;
-            }
-            if (illness[i].decay > 0 && one_in(illness[i].decay)) {
-                illness[i].intensity--;
-            }
-            if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-                dis_end_msg(*this, illness[i]);
-                illness.erase(illness.begin() + i);
-                ill_num--;
-                i--;
-            }
-        } else {
-            ill_num--;
+        if (!illness[i].permanent) {
+            illness[i].duration--;
+        }
+        if (illness[i].decay > 0 && one_in(illness[i].decay)) {
+            illness[i].intensity--;
+        }
+        if (illness[i].duration <= 0 || illness[i].intensity == 0) {
+            dis_end_msg(*this, illness[i]);
+            illness.erase(illness.begin() + i);
             i--;
         }
     }
