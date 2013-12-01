@@ -1,7 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "creature.h"
+#include "character.h"
 #include "item.h"
 #include "monster.h"
 #include "pldata.h"
@@ -77,7 +77,7 @@ struct stats : public JsonSerializer, public JsonDeserializer
     }
 };
 
-class player : public Creature, public JsonSerializer, public JsonDeserializer
+class player : public Character, public JsonSerializer, public JsonDeserializer
 {
   std::map<Skill*,SkillLevel> _skills;
 

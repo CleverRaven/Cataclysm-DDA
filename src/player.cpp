@@ -91,7 +91,7 @@ void game::init_morale()
     for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
 }
 
-player::player() : Creature(), name("")
+player::player() : Character(), name("")
 {
  id = 0; // Player is 0. NPCs are different.
  view_offset_x = 0;
@@ -177,7 +177,7 @@ player::player() : Creature(), name("")
  recalc_sight_limits();
 }
 
-player::player(const player &rhs): Creature(rhs), JsonSerializer(), JsonDeserializer()
+player::player(const player &rhs): Character(rhs), JsonSerializer(), JsonDeserializer()
 {
  *this = rhs;
 }
