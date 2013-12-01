@@ -499,8 +499,7 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-    std::map<point, std::set<int> > relparts;    //
-    std::map<point, std::vector<int> > relative_parts;    //
+    std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
     std::vector<int> fuel;             // List of fuel tank indices
