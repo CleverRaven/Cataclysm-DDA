@@ -300,7 +300,7 @@ void dis_remove_memorial(dis_type type_string) {
 void dis_effect(player &p, disease &dis) {
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
-    int bonus, psnChance;
+    int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
     bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||

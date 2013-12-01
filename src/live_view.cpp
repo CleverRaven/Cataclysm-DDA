@@ -118,7 +118,7 @@ void live_view::print_items(std::vector<item> &items, int &line) const
 {
     std::map<std::string, int> item_names;
     for (int i = 0; i < items.size(); i++) {
-        std::string name = items[i].tname(g);
+        std::string name = items[i].tname();
         if (item_names.find(name) == item_names.end()) {
             item_names[name] = 0;
         }
