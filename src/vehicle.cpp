@@ -3108,6 +3108,7 @@ void vehicle::fire_turret (int p, bool burst)
         return;
     }
     int charges = burst? gun->burst : 1;
+    std::string whoosh = "";
     if (!charges)
         charges = 1;
     ammotype amt = part_info (p).fuel_type;
@@ -3117,10 +3118,8 @@ void vehicle::fire_turret (int p, bool burst)
             charges = 20; // hacky
         } else if (amt == "battery") {
             if (one_in(100)) {
-                const int gun_x = global_x() + parts[p].precalc_dx[0];
-                const int gun_y = global_y() + parts[p].precalc_dy[0];
                 //~ the sound of a charge-rifle firing a massive ball of plasma
-                g->sound(gun_x, gun_y, 20, _("whoosh!"));
+                whoosh = _("whoosh!");
                 charges = rng(5,8); // kaboom
             } else {
                 charges = rng(1,4);
@@ -3134,7 +3133,8 @@ void vehicle::fire_turret (int p, bool burst)
         if (!ammo) {
             return;
         }
-        if (fire_turret_internal (p, *gun, *ammo, charges)) { // consume fuel
+        if (fire_turret_internal (p, *gun, *ammo, charges, whoosh)) {
+            // consume fuel
             if (amt == "plasma") {
                 charges *= 10; // hacky, too
             } else if (amt == "battery") {
@@ -3172,7 +3172,7 @@ void vehicle::fire_turret (int p, bool burst)
     }
 }
 
-bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges)
+bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];
@@ -3211,6 +3211,11 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
         if( power < 40 ) { return false; }
     }
+    // make a noise, if extra noise is to be made
+    if (extra_sound != "") {
+        g->sound(x, y, 20, extra_sound);
+    }
+    // notify player if player can see the shot
     if( g->u_see(x, y) ) {
         g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
