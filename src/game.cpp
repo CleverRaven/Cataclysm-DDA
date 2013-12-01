@@ -2626,34 +2626,48 @@ void game::update_scent()
  // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid introducing new bugs.
  int sum_3_squares_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
  int  squares_used_y[SEEX * MAPSIZE][SEEY * MAPSIZE]; //intermediate variable
+
+ const static std::string hasflag_str_BASHABLE("BASHABLE"); // only need to assemble this once per runtime vs 14884 times
+ const static std::string hasflag_str_REDUCE_SCENT("REDUCE_SCENT");
+
+ bool can_move_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash move_cost instead of checking 14884 * (3 redundant)
+ bool can_bash_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash bashable instead of checking 14884 * (3 redundant)
+
  const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for stability.  This is essentially a decimal number * 1000.
 
  if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
-
  // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9 times. This cost us an extra loop here, but
  // it also eliminated a loop at the end, so there is a net performance improvement over the old code. Could probably still be better.
  // note: this method needs an array that is one square larger on each side in the x direction then the final scent matrix
  // I think this is fine since SCENT_RADIUS is less than SEEX*MAPSIZE, but if that changes, this may need tweaking.
  for (int x = u.posx - SCENT_RADIUS -1; x <= u.posx + SCENT_RADIUS + 1; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   // remember the sum of the scent values for the up to 3 neighboring squares that can defuse into.
+   // cache expensive flag checks, once per tile.
+   if ( y == u.posy - SCENT_RADIUS ) {  // ..and only once. y-1 y-0, when we are at the top row...
+       for (int i = y - 1; i <= y; ++i) {
+           can_move_here[x][i] = (m.move_cost_ter_furn(x, i) > 0 );
+           can_bash_here[x][i] = m.has_flag(hasflag_str_BASHABLE, x, i);
+       }
+   }
+   can_move_here[x][y+1] = (m.move_cost_ter_furn(x, y+1) > 0 ); // ...means we only need y+1 here for lookahead
+   can_bash_here[x][y+1] = m.has_flag(hasflag_str_BASHABLE, x, y+1);
+
+   // remember the sum of the scent val for the up to 3 neighboring squares that can defuse into.
    sum_3_squares_y[x][y] = 0;
    squares_used_y[x][y] = 0;
    for (int i = y - 1; i <= y + 1; ++i) {
-    if (m.move_cost_ter_furn(x, i) > 0 || m.has_flag("BASHABLE", x, i)) {
+    if ( can_move_here[x][i] == true || can_bash_here[x][i] == true ) { // save 
      sum_3_squares_y[x][y] += grscent[x][i];
      squares_used_y[x][y] += 1;
     }
    }
+
   }
  }
-
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   const int move_cost = m.move_cost_ter_furn(x, y);
-   const bool is_bashable = m.has_flag("BASHABLE", x, y);
-   if (move_cost != 0 || is_bashable) {
+   if (can_move_here[x][y] == true || can_bash_here[x][y] == true) {
     // to how many neighboring squares do we diffuse out? (include our own square since we also include our own square when diffusing in)
     int squares_used = squares_used_y[x-1][y] + squares_used_y[x][y] + squares_used_y[x+1][y];
     // take the old scent and subtract what diffuses out
@@ -2673,8 +2687,8 @@ void game::update_scent()
         grscent[x][y] = 0; // Scent should never be higher
     }
     //Greatly reduce scent for bashable barriers, even more for ductaped barriers
-    if( move_cost == 0 && is_bashable) {
-        if( m.has_flag("REDUCE_SCENT", x, y)) {
+    if( can_move_here[x][y] == false ) { /* always true: can_bash_here[x][y] */
+        if( m.has_flag(hasflag_str_REDUCE_SCENT, x, y)) {
             grscent[x][y] /= 12;
         } else {
             grscent[x][y] /= 4;
