@@ -4503,9 +4503,13 @@ void player::suffer(game *g)
         }
     }
 
-    for (int i = 0; i < illness.size(); i++)
-    {
+    for (int i = 0; i < illness.size(); i++) {
         dis_effect(*this, illness[i]);
+    }
+
+    // Diseases may remove themselves as part of applying (MA buffs do) so do a
+    // separate loop through the remaining ones for duration, decay, etc..
+    for (int i = 0; i < illness.size(); i++) {
         if (!illness[i].permanent) {
             illness[i].duration--;
         }
