@@ -1136,7 +1136,8 @@ bool map::trans(const int x, const int y)
 
 bool map::has_flag(const std::string & flag, const int x, const int y)
 {
- if ("BASHABLE" == flag) {
+ const static std::string flag_str_BASHABLE("BASHABLE"); // construct once per runtime, slash delay 90%
+ if (flag_str_BASHABLE == flag) {
   int vpart;
   vehicle *veh = veh_at(x, y, vpart);
   if (veh && veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
