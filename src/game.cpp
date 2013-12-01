@@ -353,6 +353,7 @@ void game::setup()
 
  turnssincelastmon = 0; //Auto safe mode init
  autosafemode = OPTIONS["AUTOSAFEMODE"];
+ safemodeveh = OPTIONS["SAFEMODEVEH"]; //Vehicle safemode check, in practice didn't trigger when needed
 
  footsteps.clear();
  footsteps_source.clear();
@@ -2067,14 +2068,12 @@ bool game::handle_action()
  switch (act) {
 
   case ACTION_PAUSE:
-   if (run_mode == 2 && (u.controlling_vehicle && safemodeveh) ) { // Monsters around and we don't wanna pause
+   if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) || !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
      add_msg(_("Monster spotted--safe mode is on! (%s to turn it off.)"),
              press_x(ACTION_TOGGLE_SAFEMODE).c_str());}
-   else
-   if (u.has_trait("WEB_WEAVER") && !u.in_vehicle) {
-      g->m.add_field(g, u.posx, u.posy, fd_web, 1); //this adds density to if its not already there.
-      add_msg("You spin some webbing.");}
-    u.pause(this);
+   else {
+       u.pause(this);
+       }
    break;
 
   case ACTION_MOVE_N:
@@ -10371,7 +10370,7 @@ void game::chat()
 }
 
 void game::pldrive(int x, int y) {
-    if (run_mode == 2 && safemodeveh) { // Monsters around and we don't wanna run
+    if (run_mode == 2 && (OPTIONS["SAFEMODEVEH"])) { // Monsters around and we don't wanna run
         add_msg(_("Monster spotted--run mode is on! "
                     "(%s to turn it off or %s to ignore monster.)"),
                     press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
