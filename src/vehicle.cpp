@@ -73,7 +73,7 @@ bool vehicle::player_in_control (player *p)
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
     if (veh == NULL || veh != this)
         return false;
-    return part_with_feature(veh_part, "CONTROLS", false) >= 0 && p->controlling_vehicle;
+    return part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle;
 }
 
 void vehicle::load (std::ifstream &stin)
@@ -1276,7 +1276,7 @@ nc_color vehicle::part_color (int p)
     nc_color col;
 
     //If armoring is present, it colors the visible part
-    int parm = part_with_feature(p, "ARMOR", false);
+    int parm = part_with_feature(p, VPFLAG_ARMOR, false);
     if (parm >= 0) {
         col = part_info(parm).color;
     } else {
@@ -1296,14 +1296,14 @@ nc_color vehicle::part_color (int p)
     }
 
     // curtains turn windshields gray
-    int curtains = part_with_feature(p, "CURTAIN", false);
+    int curtains = part_with_feature(p, VPFLAG_CURTIAN, false);
     if (curtains >= 0) {
-        if (part_with_feature(p, "WINDOW", true) >= 0 && !parts[curtains].open)
+        if (part_with_feature(p, VPFLAG_WINDOW, true) >= 0 && !parts[curtains].open)
             col = part_info(curtains).color;
     }
 
     //Invert colors for cargo parts with stuff in them
-    int cargo_part = part_with_feature(p, "CARGO");
+    int cargo_part = part_with_feature(p, VPFLAG_CARGO);
     if(cargo_part > 0 && !parts[cargo_part].items.empty()) {
         return invert_color(col);
     } else {
@@ -1670,7 +1670,7 @@ int vehicle::solar_power ()
 {
     int pwr = 0;
     for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, "SOLAR_PANEL") && parts[p].hp > 0) {
+        if (part_flag(p, VPFLAG_SOLAR_PANEL) && parts[p].hp > 0) {
             int part_x = global_x() + parts[p].precalc_dx[0];
             int part_y = global_y() + parts[p].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
@@ -1760,7 +1760,7 @@ float vehicle::wheels_area (int *cnt)
 {
     int count = 0;
     int total_area = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     for (int i = 0; i < wheel_indices.size(); i++)
     {
         int p = wheel_indices[i];
@@ -1787,7 +1787,7 @@ float vehicle::k_dynamics ()
     for (int i = 0; i < structure_indices.size(); i++)
     {
         int p = structure_indices[i];
-        int frame_size = part_with_feature(p, "OBSTACLE") ? 30 : 10;
+        int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 30 : 10;
         int pos = parts[p].mount_dy + max_obst / 2;
         if (pos < 0) {
             pos = 0;
@@ -1846,7 +1846,7 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature("WHEEL");
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.size() == 0) {
         //No wheels!
         return false;
@@ -2261,7 +2261,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     }
 
     //Damage armor before damaging any other parts
-    int parm = part_with_feature (part, "ARMOR");
+    int parm = part_with_feature (part, VPFLAG_ARMOR);
     if (parm < 0) {
         parm = part;
     }
@@ -2538,7 +2538,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
 void vehicle::handle_trap (int x, int y, int part)
 {
-    int pwh = part_with_feature (part, "WHEEL");
+    int pwh = part_with_feature (part, VPFLAG_WHEEL);
     if (pwh < 0) {
         return;
     }
@@ -2811,7 +2811,7 @@ void vehicle::gain_moves (int mp)
                 g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
             parts[p].blood--;
         }
-        int p_eng = part_with_feature (p, "ENGINE", false);
+        int p_eng = part_with_feature (p, VPFLAG_ENGINE, false);
         if (p_eng < 0 || parts[p_eng].hp > 0 || parts[p_eng].amount < 1) {
             continue;
         }

@@ -33,7 +33,17 @@ enum vpart_bitflags {
     VPFLAG_OPAQUE,
     VPFLAG_OPENABLE,
     VPFLAG_SEATBELT,
-    VPFLAG_WHEEL
+    VPFLAG_WHEEL,
+
+    VPFLAG_ALTERNATOR, 
+    VPFLAG_ENGINE,
+    VPFLAG_FRIDGE,
+    VPFLAG_FUEL_TANK,
+    VPFLAG_LIGHT, 
+    VPFLAG_WINDOW,
+    VPFLAG_CURTIAN,
+    VPFLAG_CARGO,
+    VPFLAG_SOLAR_PANEL,
 };
 /* Flag info:
  * INTERNAL - Can be mounted inside other parts

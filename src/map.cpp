@@ -719,7 +719,7 @@ bool map::vehproceed(game* g){
             }
 
             bool throw_from_seat = 0;
-            if (veh->part_with_feature (ppl[ps], "SEATBELT") == -1) {
+            if (veh->part_with_feature (ppl[ps], VPFLAG_SEATBELT) == -1) {
                 throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
             }
 
@@ -1058,7 +1058,6 @@ int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle)
     vehicle *veh = veh_at(x, y, vpart);
     if (veh && veh != ignored_vehicle) {  // moving past vehicle cost
         const int dpart = veh->part_with_feature(vpart, VPFLAG_OBSTACLE);
-//"OBSTACLE");
         if (dpart >= 0 && (!veh->part_flag(dpart, VPFLAG_OPENABLE) || !veh->parts[dpart].open)) {
         return 0;
         } else {
@@ -2416,7 +2415,7 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
     std::vector<vehicle*> *vehicles = &(grid[nonant]->vehicles);
     for (int v = vehicles->size() - 1; v >= 0; v--) {
         vehicle *next_vehicle = (*vehicles)[v];
-        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature("CARGO", false);
+        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature(VPFLAG_CARGO, false);
         for(std::vector<int>::iterator part_index = cargo_parts.begin();
                 part_index != cargo_parts.end(); part_index++) {
             std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
@@ -2425,7 +2424,7 @@ void map::process_active_items_in_vehicles(game *g, const int nonant)
             for(int n = items_in_part->size() - 1; n >= 0; n--) {
                 it = &((*items_in_part)[n]);
                 // Check if it's in a fridge and is food.
-                if (it->is_food() && next_vehicle->part_flag(*part_index, "FRIDGE") &&
+                if (it->is_food() && next_vehicle->part_flag(*part_index, VPFLAG_FRIDGE) &&
                     next_vehicle->fridge_on && it->fridge == 0) {
                     it->fridge = (int)g->turn;
                     it->item_counter -= 10;

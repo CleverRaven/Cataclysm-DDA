@@ -250,18 +250,29 @@ void game::finalize_vehicles()
 }
 
 void init_vpart_bitflag_map() {
-    vpart_bitflag_map["ARMOR"]=VPFLAG_ARMOR;
-    vpart_bitflag_map["TRANSPARENT"]=VPFLAG_TRANSPARENT;
-    vpart_bitflag_map["EVENTURN"]=VPFLAG_EVENTURN;
-    vpart_bitflag_map["ODDTURN"]=VPFLAG_ODDTURN;
-    vpart_bitflag_map["CONE_LIGHT"]=VPFLAG_CONE_LIGHT;
-    vpart_bitflag_map["CIRCLE_LIGHT"]=VPFLAG_CIRCLE_LIGHT;   
+    vpart_bitflag_map["ARMOR"]=VPFLAG_ARMOR;               // (!!!) map::draw
+    vpart_bitflag_map["TRANSPARENT"]=VPFLAG_TRANSPARENT;   // (!!!) map::draw
+    vpart_bitflag_map["EVENTURN"]=VPFLAG_EVENTURN;         // (!!!) lightmap
+    vpart_bitflag_map["ODDTURN"]=VPFLAG_ODDTURN;           // ""
+    vpart_bitflag_map["CONE_LIGHT"]=VPFLAG_CONE_LIGHT;     // ""
+    vpart_bitflag_map["CIRCLE_LIGHT"]=VPFLAG_CIRCLE_LIGHT; // ""
     vpart_bitflag_map["BOARDABLE"]=VPFLAG_BOARDABLE;
-    vpart_bitflag_map["AISLE"]=VPFLAG_AISLE;
+    vpart_bitflag_map["AISLE"]=VPFLAG_AISLE;               // (!!!) map::move_cost
     vpart_bitflag_map["CONTROLS"]=VPFLAG_CONTROLS;
-    vpart_bitflag_map["OBSTACLE"]=VPFLAG_OBSTACLE;
-    vpart_bitflag_map["OPAQUE"]=VPFLAG_OPAQUE;
+    vpart_bitflag_map["OBSTACLE"]=VPFLAG_OBSTACLE;         // (!!!) map::move_cost
+    vpart_bitflag_map["OPAQUE"]=VPFLAG_OPAQUE;             // (!!!) map::trans
     vpart_bitflag_map["OPENABLE"]=VPFLAG_OPENABLE;
-    vpart_bitflag_map["SEATBELT"]=VPFLAG_SEATBELT;
+    vpart_bitflag_map["SEATBELT"]=VPFLAG_SEATBELT;         // crashes
     vpart_bitflag_map["WHEEL"]=VPFLAG_WHEEL;
+    vpart_bitflag_map["ALTERNATOR"]=VPFLAG_ALTERNATOR;
+    vpart_bitflag_map["ENGINE"]=VPFLAG_ENGINE;
+    vpart_bitflag_map["FRIDGE"]=    VPFLAG_FRIDGE;
+    vpart_bitflag_map["FUEL_TANK"]= VPFLAG_FUEL_TANK;
+    vpart_bitflag_map["LIGHT"]=     VPFLAG_LIGHT;
+    vpart_bitflag_map["WINDOW"]=     VPFLAG_WINDOW;
+    vpart_bitflag_map["CURTIAN"]=     VPFLAG_CURTIAN;
+    vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;   
+    vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;   
+/*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
+
 }
