@@ -7,6 +7,7 @@
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
+#include "color.h"
 #include <string>
 #include <vector>
 
@@ -168,6 +169,8 @@ class Creature
 
         int pain;
 
+        void draw(WINDOW* w, int plx, int ply, bool inv);
+
     protected:
         std::vector<effect> effects;
 
@@ -202,7 +205,11 @@ class Creature
 
         int grab_resist;
         int throw_resist;
-
+        
+        virtual nc_color symbol_color();
+        virtual nc_color basic_symbol_color();
+        virtual char symbol();
+        virtual bool is_symbol_highlighted();
 };
 
 #endif

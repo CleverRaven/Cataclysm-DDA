@@ -354,5 +354,34 @@ void Creature::set_throw_resist(int nthrowres) {
     throw_resist = nthrowres;
 }
 
+void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted)
+{
+    int draw_x = getmaxx(w)/2 + xpos() - player_x;
+    int draw_y = getmaxy(w)/2 + ypos() - player_y;
+    if(inverted){
+        mvwputch_inv(w, draw_y, draw_x, basic_symbol_color(), symbol());
+    } else if(is_symbol_highlighted()){
+        mvwputch_hi(w, draw_y, draw_x, basic_symbol_color(), symbol());
+    } else {
+        mvwputch(w, draw_y, draw_x, symbol_color(), symbol() );
+    }
+}
 
+nc_color Creature::basic_symbol_color(){
+    return c_ltred;
+}
 
+nc_color Creature::symbol_color()
+{
+    return symbol_color();
+}
+
+bool Creature::is_symbol_highlighted()
+{
+    return false;
+}
+
+char Creature::symbol()
+{
+    return '?';
+}

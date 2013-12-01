@@ -70,8 +70,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  std::string disp_name();
  std::string skin_name();
  int print_info(game *g, WINDOW* w, int vStart = 6, int vLines = 5, int column = 1); // Prints information to w.
- char symbol(); // Just our type's symbol; no context
- void draw(WINDOW* w, int plx, int ply, bool inv);
+
+ // Information on how our symbol should appear
+ nc_color basic_symbol_color();
+ nc_color symbol_color();
+ char symbol();
+ bool is_symbol_inverted();
+ bool is_symbol_highlighted();
+
  nc_color color_with_effects(); // Color with fire, beartrapped, etc.
                                 // Inverts color if inv==true
  bool has_flag(m_flag f); // Returns true if f is set (see mtype.h)

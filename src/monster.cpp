@@ -255,22 +255,22 @@ int monster::print_info(game *g, WINDOW* w, int vStart, int vLines, int column)
 
 char monster::symbol()
 {
- return type->sym;
+    return type->sym;
 }
 
-void monster::draw(WINDOW *w, int plx, int ply, bool inv)
+nc_color monster::basic_symbol_color()
 {
- int x = getmaxx(w)/2 + posx() - plx;
- int y = getmaxy(w)/2 + posy() - ply;
- nc_color color = type->color;
- if (friendly != 0 && !inv)
-  mvwputch_hi(w, y, x, color, type->sym);
- else if (inv)
-  mvwputch_inv(w, y, x, color, type->sym);
- else {
-  color = color_with_effects();
-  mvwputch(w, y, x, color, type->sym);
- }
+    return type->color;
+}
+
+nc_color monster::symbol_color()
+{
+    return color_with_effects();
+}
+
+bool monster::is_symbol_highlighted()
+{
+    return (friendly != 0);
 }
 
 nc_color monster::color_with_effects()
