@@ -76,11 +76,12 @@ public:
 // returns the default container of this item, with this item in it
  item in_its_container(std::map<std::string, itype*> *itypes);
 
- nc_color color(player *u) const;
- nc_color color_in_inventory();
- std::string tname(game *g = NULL); // g needed for rotten-test
- void use();
- bool burn(int amount = 1); // Returns true if destroyed
+    nc_color color(player *u) const;
+    nc_color color_in_inventory();
+    std::string tname(); // item name (includes damage, freshness, etc)
+    std::string display_name(); // name for display (includes charges, etc)
+    void use();
+    bool burn(int amount = 1); // Returns true if destroyed
 
 // Firearm specifics
  int reload_time(player &u);

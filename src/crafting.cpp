@@ -1514,7 +1514,7 @@ void game::disassemble(char ch)
                       return;
                     }
                   }
-                  if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname(this).c_str())))
+                  if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str())))
                   {
                    return;
                   }
@@ -1532,7 +1532,7 @@ void game::disassemble(char ch)
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book())
     {
-       if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname(this).c_str())))
+       if (OPTIONS["QUERY_DISASSEMBLE"] && !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str())))
              return;
         else
         {

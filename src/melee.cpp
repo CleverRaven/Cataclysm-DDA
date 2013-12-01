@@ -1221,7 +1221,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
      g->add_msg_player_or_npc( p, _("Your %s shatters!"), _("<npcname>'s %s shatters!"),
-                               weapon.tname(g).c_str() );
+                               weapon.tname().c_str() );
 
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
