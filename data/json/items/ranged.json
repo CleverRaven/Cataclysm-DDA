@@ -1936,7 +1936,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "RM802 grenade launcher",
-    "description": "The Rivtech RM802 pump-action 40mm grenade launcher is designed to be a step ahead of single-shot grenade launchers by allowing sustained heavy firepower. However, its capacity is limited must be used with careful planning.",
+    "description": "The Rivtech RM802 pump-action 40mm grenade launcher was designed to be a step ahead of single-shot grenade launchers by allowing sustained heavy firepower. However, its capacity is still fairly limited so it must be used with careful planning.",
     "price": 9200,
     "material": ["steel", "kevlar"],
     "flags": ["RELOAD_ONE"],
