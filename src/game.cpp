@@ -2656,7 +2656,7 @@ void game::update_scent()
    sum_3_squares_y[x][y] = 0;
    squares_used_y[x][y] = 0;
    for (int i = y - 1; i <= y + 1; ++i) {
-    if ( can_move_here[x][i] == true || can_bash_here[x][i] == true ) { // save 
+    if ( can_move_here[x][i] == true || can_bash_here[x][i] == true ) { // save
      sum_3_squares_y[x][y] += grscent[x][i];
      squares_used_y[x][y] += 1;
     }
@@ -10935,7 +10935,7 @@ bool game::plmove(int dx, int dy)
       u.moves -= 100;
       m.spawn_item(x, y, "bot_turret", 1, 0, turn);
       if (z.ammo > 0)
-        m.spawn_item(x, y, "9mm", 1, z.ammo, turn);
+        u.inv->add_item_by_type("9mm", 1, z.ammo);
      }
      return false;
     }
