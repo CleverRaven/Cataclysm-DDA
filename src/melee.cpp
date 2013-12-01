@@ -493,7 +493,7 @@ int player::dodge(game *g)
     if (has_trait("TAIL_LONG")) {ret += 2;}
     if (has_trait("TAIL_CATTLE")) {ret+= 1;}
     if (has_trait("TAIL_RAT")) {ret+= 2;}
-    if (has_trait("TAIL_LIZARD")) {ret+= 1;}
+    if (has_trait("TAIL_THICK")) {ret+= 1;}
     if (has_trait("TAIL_RAPTOR")) {ret+= 3;}
     if (has_trait("TAIL_FLUFFY")) {ret += 4;}
     if (has_trait("WHISKERS")) {ret += 1;}
@@ -1534,7 +1534,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
         ret.push_back(tmp);
     }
 
-	    if (has_trait("TAIL_LIZARD") && one_in(3) && one_in(10 - dex_cur)) {
+	    if (has_trait("TAIL_THICK") && one_in(3) && one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 8;
         if (is_u) {
