@@ -184,6 +184,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
 
 ### Special attacks
+Some special attacks are also valid use actions for tools and weapons.
 
 - ```NONE``` No special attack.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
@@ -428,6 +429,38 @@ The chambering of weapons that this ammo can be loaded into.
 - ```PLASMA``` Creates a trail of superheated plasma.
 - ```LASER``` Creates a trail of laser (the field type)
 
+## Techniques
+Techniques may be used by tools, armors, weapons and anything else that can be wielded.
+
+### Offensive
+
+- ```SWEEP``` Criticals may make your enemy fall & miss a turn.
+- ```PRECISE``` Criticals are painful and stun.
+- ```BRUTAL``` Criticals knock the target back.
+- ```GRAB``` Hit may allow a second unarmed attack attempt.
+- ```WIDE``` Attacks adjacent opponents.
+- ```RAPID``` Hits faster.
+- ```FEINT``` Misses take less time.
+- ```THROW``` Attacks may throw your opponent.
+- ```DISARM``` Remove an NPC's weapon.
+- ```FLAMING``` Sets the target on fire.
+
+### Defensive
+
+- ```BLOCK``` Block attacks, reducing them to 25% damage.
+- ```BLOCK_LEGS``` Block attacks, but with your legs.
+- ```WBLOCK_1``` Poor chance to block when wielding this item (e.g. pole).
+- ```WBLOCK_2``` Moderate chance to block when wielding this item (e.g. a weapon made for blocking)
+- ```WBLOCK_3``` Good chance to block when wielding this item (e.g. a shield).
+- ```BREAK``` Break from a grab.
+- ```DEF_THROW``` Throw an enemy that attacks you.
+- ```DEF_DISARM``` Disarm an enemy.
+
+## Qualities
+Qualities, like techniques, may be used by tools, armors, weapons and anything else that can be wielded.
+
+- ```CUT``` Can be used to cut objects.
+
 ## Armor
 
 ### Covers
@@ -442,6 +475,7 @@ The chambering of weapons that this ammo can be loaded into.
 - ```FEET```
 
 ### Flags
+Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
 - ```FIT``` Reduces encumbrance by one.
 - ```VARSIZE``` Can be made to fit via tailoring.
@@ -459,10 +493,6 @@ The chambering of weapons that this ammo can be loaded into.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```DEAF``` Makes the player deaf.
-
-### Techniques
-
-See the section on techniques.
 
 ## Comestibles
 
@@ -554,36 +584,192 @@ See the section on techniques.
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_4``` "You shoot up."
 - ```PKILL_L``` Slow-release painkiller.
-- ```SPEAR``` Deals stabbing damage. The `SPEAR` flag is synonymous with the `STAB` flag.
+
+## Containers
+
+- ```RIGID``` Unused?
+- ```WATERTIGHT``` Can hold liquids.
+- ```SEALS``` Can be resealed.
+
+## Melee
+
+### Flags
+
+- ```SPEAR``` Deals stabbing damage, with a moderate chance of getting stuck. The `SPEAR` flag is synonymous with the `STAB` flag.
+- ```CHOP``` Does cutting damage, with a high chance of getting stuck.
+- ```STAB``` Deals stabbing damage, with a moderate chance of getting stuck. The `STAB` flag is synonymous with the `SPEAR` flag.
+- ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
+- ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
+- ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
+- ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
+- ```NO_UNWIELD``` Cannot unwield this item.
+
+## Guns
+
+- ```MODE_BURST``` Has a burst-fire mode.
+- ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
+- ```RELOAD_ONE``` Only reloads one round at a time.
+- ```NO_AMMO``` Does not directly have a loaded ammo type.
+- ```USE_UPS``` Uses 5 UPS charges per shot, or 3 advanced UPS charges.
+- ```USE_UPS_20``` Uses 20 UPS charges per shot, or 12 advanced UPS charges.
+- ```USE_UPS_40``` Uses 40 UPS charges per shot, or 24 advanced UPS charges.
+- ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
+- ```NO_UNLOAD``` Cannot be unloaded.
+- ```FIRE_50``` Uses 50 shots per firing.
+- ```FIRE_100``` Uses 100 shots per firing.
+- ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
+- ```STR_RELOAD``` Reload speed is affected by strength.
 
 ## Tools
 
-## Techniques
-Techniques may be used by tools, armors, weapons and anything else that can be wielded.
+### Flags
+Melee flags are fully compatible with tool flags, and vice versa.
 
-### Offensive
+- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`).
+- ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
+- ```FIRE``` Counts as a fire for crafting purposes.
+- ```WRAP``` Unused?
 
-- ```SWEEP``` Criticals may make your enemy fall & miss a turn.
-- ```PRECISE``` Criticals are painful and stun.
-- ```BRUTAL``` Criticals knock the target back.
-- ```GRAB``` Hit may allow a second unarmed attack attempt.
-- ```WIDE``` Attacks adjacent opponents.
-- ```RAPID``` Hits faster.
-- ```FEINT``` Misses take less time.
-- ```THROW``` Attacks may throw your opponent.
-- ```DISARM``` Remove an NPC's weapon.
-- ```FLAMING``` Sets the target on fire.
+### Use actions
 
-### Defensive
-
-- ```BLOCK``` Block attacks, reducing them to 25% damage.
-- ```BLOCK_LEGS``` Block attacks, but with your legs.
-- ```WBLOCK_1``` Poor chance to block when wielding this item (e.g. pole).
-- ```WBLOCK_2``` Moderate chance to block when wielding this item (e.g. a weapon made for blocking)
-- ```WBLOCK_3``` Good chance to block when wielding this item (e.g. a shield).
-- ```BREAK``` Break from a grab.
-- ```DEF_THROW``` Throw an enemy that attacks you.
-- ```DEF_DISARM``` Disarm an enemy.
+- ```NONE``` Do nothing.
+- ```LIGHTER``` Light a fire.
+- ```PRIMITIVE_FIRE``` Attempt to light a fire with a high chance of failure.
+- ```SEW``` Sew clothing.
+- ```SCISSORS``` Cut up clothing.
+- ```HAMMER``` Pry boards off of windows, doors and fences.
+- ```EXTINGUISHER``` Put out fires.
+- ```EXTRA_BATTERY``` Doubles the amount of charges a battery-powered item holds.
+- ```GASOLINE_LANTERN_OFF``` Turns the lantern on.
+- ```GASOLINE_LANTERN_ON``` Turns the lantern off.
+- ```LIGHT_OFF``` Turns the light on.
+- ```LIGHT_ON``` Turns the light off.
+- ```LIGHTSTRIP``` Activates the lightstrip.
+- ```LIGHTSTRIP_ACTIVE``` The lightstrip fades and dies.
+- ```GLOWSTICK``` Turn on the glowstick.
+- ```GLOWSTICK_ACTIVE``` The glowstick fades and dies.
+- ```HANDFLARE``` Light the flare.
+- ```HANDFLARE_LIT``` The flare dies out.
+- ```HOTPLATE``` Use the hotplate.
+- ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
+- ```WATER_PURIFIER``` Purify water.
+- ```TWO_WAY_RADIO``` Listen to, or talk to others over the radio.
+- ```RADIO_OFF``` Turn the radio on.
+- ```RADIO_ON``` Turn the radio off.
+- ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
+- ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
+- ```NOISE_EMITTER_ON``` Turn the noise emitter off.
+- ```ROADMAP``` Learn of local common points-of-interest and show roads.
+- ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
+- ```MILITARYMAP``` Learn of local military installations, and show roads.
+- ```RESTAURANTMAP``` Learn of local eateries, and show roads.
+- ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
+- ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
+- ```MAKEMOUND``` Make a mound of dirt.
+- ```DIG``` Dig a hole in the ground.
+- ```SIPHON``` Siphon liquids out of vehicle.
+- ```CHAINSAW_OFF``` Turn the chainsaw on.
+- ```CHAINSAW_ON``` Turn the chainsaw off.
+- ```CARVER_OFF``` Turn the carver on.
+- ```CARVER_ON``` Turn the carver off.
+- ```COMBATSAW_OFF``` Turn the combat-saw on.
+- ```COMBATSAW_ON``` Turn the combat-saw off
+- ```JACKHAMMER``` Bust down walls and other constructions.
+- ```JACQUESHAMMER``` Mr. Gorbachev, tear down this wall!
+- ```SET_TRAP``` Set a trap.
+- ```GEIGER``` Detect local radiation levels.
+- ```TELEPORT``` Teleport.
+- ```CAN_GOO``` Release a little blob buddy.
+- ```PIPEBOMB``` Light a pipebomb.
+- ```PIPEBOMB_ACT``` Let's hope it doesn't fizzle out.
+- ```GRENADE``` Pull the pin on a grenade.
+- ```GRENADE_ACT``` Throw it dummy!
+- ```GRANADE``` Pull the pin on Granade.
+- ```GRANADE_ACT``` Assaults enemies with source code fixes?
+- ```FLASHBANG``` Pull the pin on a flashbang.
+- ```FLASHBANG_ACT``` Hope it doesn't light any fires.
+- ```EMPBOMB``` Pull the pin on an EMP grenade.
+- ```EMPBOMB_ACT``` You may not be a robot, but you probably shouldn't keep holding it.
+- ```SCRAMBLER``` Pull the pin on the scrambler grenade.
+- ```SCRAMBLER_ACT``` I don't even know what this does, so you better get rid of it quick.
+- ```GASBOMB``` Pull the pin on a teargas canister.
+- ```GASBOMB_ACT``` Don't cry or pout, just get rid of it.
+- ```SMOKEBOMB``` Pull the pin on a smoke bomb.
+- ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
+- ```ARROW_FLAMABLE``` Light your arrow and let fly.
+- ```MOLOTOV``` Light the molotov cocktail.
+- ```MOLOTOV_LIT``` Throw it, but don't drop it.
+- ```ACIDBOMB``` Pull the pin on an acid bomb.
+- ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
+- ```DYNAMITE``` Light a stick of dynamite.
+- ```DYNAMITE_ACT``` Sister Sara still needs her mules.
+- ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
+- ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
+- ```FIRECRACKER``` Light a singular firecracker.
+- ```FIRECRACKER_ACT``` The saddest Fourth of July.
+- ```MININUKE``` Set the timer and run. Or hit with a hammer (not really).
+- ```MININUKE_ACT``` If you move quick enough, you might survive long enough to see _The Day After_.
+- ```PHEROMONE``` Makes zombies love you.
+- ```PORTAL``` Create portal traps.
+- ```MANHACK``` Activate a manhack.
+- ```TURRET``` Activate a turret.
+- ```TURRET_LASER``` Activate a laser turret.
+- ```UPS_OFF``` Turn on the UPS.
+- ```UPS_ON``` Turn off the UPS.
+- ```adv_UPS_ON``` Turn on the advanced UPS.
+- ```adv_UPS_OFF``` Turn off the advanced UPS.
+- ```TAZER``` Shock someone or something.
+- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
+- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
+- ```MP3``` Turn the mp3 player on.
+- ```MP3_ON``` Turn the mp3 player off.
+- ```PORTABLE_GAME``` Play games.
+- ```C4``` Arm the C4.
+- ```C4ARMED``` Just set it and forget it (get away from it though)!
+- ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
+- ```VACUTAINER``` Sucks the blood out of things like a robotic vampire.
+- ```KNIFE``` Cut things up.
+- ```FIREMACHETE_OFF``` Turn the fire-machete on.
+- ```FIREMACHETE_ON``` Turn the fire-machete off.
+- ```FIREKATANA_OFF``` Turn the fire-katana on.
+- ```FIREKATANA_ON``` Turn the fire-katana off.
+- ```ZWEIFIRE_OFF``` Turn the zwei-fire on.
+- ```ZWEIFRE_ON``` Turn the zwei-fire off.
+- ```BROADFIRE_OFF``` Turn the broad-fire on.
+- ```BROADFIRE_ON``` Turn the broad-fire off.
+- ```SHISHKEBAB_OFF``` Turn the shishkebab on.
+- ```SHISHKEBAB_ON``` Turn the shshkebab off.
+- ```LUMBER``` Cut logs into planks.
+- ```HACKSAW``` Cut metal into chunks.
+- ```TENT``` Pitch a tent.
+- ```TORCH``` Light a torch.
+- ```TORCH_LIT``` Extinguish the torch.
+- ```BATTLETORCH``` Light the battle torch.
+- ```BATTLETORCH_LIT``` Extinguish the battle torch.
+- ```CANDLE``` Light the candle.
+- ```CANDLE_LIT``` Extinguish the candle.
+- ```BULLET_PULLER``` Pull bullets; says it right on the package.
+- ```BOLTCUTTERS``` Use your town key to gain access anywhere.
+- ```MOP``` Mop up the mess.
+- ```PICKLOCK``` Attempt to pick the lock on doors.
+- ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
+- ```SPRAY_CAN``` Graffiti the town.
+- ```RAG``` Stop the bleeding.
+- ```PDA``` Use your pda.
+- ```PDA_FLASHLIGHT``` Use your pda as a flashlight.
+- ```SHELTER``` Put up a full-blown shelter.
+- ```HEATPACK``` Activate the heatpack and get warm.
+- ```LAW``` Unpack the LAW for firing.
+- ```DEJAR```
+- ```DOLLCHAT``` That creepy doll just keeps on talking.
+- ```ABSORBENT```
+- ```UNFOLD_BICYCLE``` Unfold the folding bicycle.
+- ```MATCHBOMB``` Light the matchbomb.
+- ```MATCHBOMB_ACT``` This thing is so hokey that you might actually be safe just holding onto it.
+- ```HORN_BICYCLE``` Honk the horn.
+- ```RAD_BADGE``` Take the radiation badge out of its protective case to start measuring absorbed dosage.
+- ```AIRHORN``` Sound the horn.
+- ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 
 ## Skills
 
