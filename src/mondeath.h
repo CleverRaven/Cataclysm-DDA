@@ -26,6 +26,7 @@ public:
     void explode        (monster *z); // Damaging explosion
     void broken         (monster *z);  // Broken robot drop
     void ratking        (monster *z); // Cure verminitis
+    void darkman        (monster *z); // sight returns to normal
     void kill_breathers (monster *z); // All breathers die
     void smokeburst     (monster *z); // Explode like a huge smoke bomb.
     void zombie         (monster *z); // generate proper clothing for zombies

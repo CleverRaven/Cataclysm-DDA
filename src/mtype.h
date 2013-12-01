@@ -65,7 +65,7 @@ enum mon_id {
     mon_human_snail, mon_twisted_body, mon_vortex,
     // Subspace monsters
     mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
-    mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
+    mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub, mon_darkman,
     mon_breather, mon_shadow_snake,
     // Cult, lobotomized creatures that are human/undead hybrids
     mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,

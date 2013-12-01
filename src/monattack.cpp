@@ -1852,3 +1852,42 @@ void mattack::parrot(monster *z)
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
     }
 }
+
+void mattack::darkman(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40) {
+        return;
+        }
+ z->sp_timeout = z->type->sp_freq; // Reset timer
+ std::vector<point> free;
+ for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
+  for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
+   if (g->is_empty(x, y))
+    free.push_back(point(x, y));
+  }
+ }
+ int index;
+    monster tmp(GetMType("mon_shadow"));
+    z->moves -= 10;
+    index = rng(0,  - 1);
+    tmp.spawn(free[index].x, free[index].y);
+    g->add_zombie(tmp);
+    if (g->u_see(z->posx(), z->posy())) {
+       g->add_msg(_("A shadow splits from the %s!"),
+              z->name().c_str());
+     }
+    int linet;
+    if (!g->sees_u(z->posx(), z->posy(), linet)){
+       return; // Wont do the combat stuff unless it can see you
+    }
+    switch (rng(1, 7)) { // What do we say?
+        case 1: g->add_msg(_("\"Stop it please\"")); break;
+        case 2: g->add_msg(_("\"Let us help you\"")); break;
+        case 3: g->add_msg(_("\" We wish you no harm \"")); break;
+        case 4: g->add_msg(_("\"Do not fear\"")); break;
+        case 5: g->add_msg(_("\"We can help you\"")); break;
+        case 6: g->add_msg(_("\"We are friendly\"")); break;
+        case 7: g->add_msg(_("\"Please dont\"")); break;
+    }
+    g->u.add_disease("darkness", 10);
+}

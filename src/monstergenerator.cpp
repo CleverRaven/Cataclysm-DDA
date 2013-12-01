@@ -127,6 +127,7 @@ void MonsterGenerator::init_death()
     death_map["EXPLODE"] = &mdeath::explode;// Damaging explosion
     death_map["BROKEN"] = &mdeath::broken;// Spawns a broken robot.
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
+    death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
     death_map["ZOMBIE"] = &mdeath::zombie;// generate proper clothing for zombies
@@ -186,6 +187,8 @@ void MonsterGenerator::init_attack()
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
     attack_map["PARROT"] = &mattack::parrot;
+    attack_map["DARKMAN"] = &mattack::darkman;
+
 }
 
 void MonsterGenerator::init_trigger()

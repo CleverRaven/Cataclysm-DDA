@@ -6,7 +6,7 @@
 void init_savedata_translation_tables();
 extern std::map<std::string, int> monster_ints;
 #include "enums.h"
-const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit", "mon_deer",
+const std::string legacy_mon_id[127] = {"mon_null", "mon_squirrel", "mon_rabbit", "mon_deer",
     "mon_moose", "mon_wolf", "mon_coyote", "mon_bear", "mon_cougar", "mon_crow", "mon_dog",
     "mon_cat", "mon_ant_larva", "mon_ant", "mon_ant_soldier", "mon_ant_queen", "mon_ant_fungus",
     "mon_fly", "mon_bee", "mon_wasp", "mon_graboid", "mon_worm", "mon_halfworm", "mon_sludge_crawler", "mon_zombie",
@@ -25,7 +25,7 @@ const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit"
     "mon_amigara_horror", "mon_dog_thing", "mon_headless_dog_thing", "mon_thing",
     "mon_human_snail", "mon_twisted_body", "mon_vortex", "mon_flying_polyp", "mon_hunting_horror",
     "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke",
-    "mon_blank", "mon_gozu", "mon_shadow", "mon_breather_hub", "mon_breather", "mon_shadow_snake",
+    "mon_blank", "mon_gozu", "mon_shadow", "mon_darkman", "mon_breather_hub", "mon_breather", "mon_shadow_snake",
     "mon_dementia", "mon_homunculus", "mon_blood_sacrifice", "mon_flesh_angel",
     "mon_eyebot", "mon_manhack", "mon_skitterbot", "mon_secubot", "mon_hazmatbot", "mon_copbot", "mon_molebot",
     "mon_tripod", "mon_chickenbot", "mon_tankbot", "mon_turret", "mon_exploder", "mon_hallu_mom",

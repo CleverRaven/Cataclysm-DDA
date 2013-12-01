@@ -160,6 +160,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_blank),
     toString(mon_gozu),
     toString(mon_shadow),
+    toString(mon_darkman),
     toString(mon_breather_hub),
     toString(mon_breather),
     toString(mon_shadow_snake),

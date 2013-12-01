@@ -439,6 +439,12 @@ void mdeath::ratking(monster *z) {
     }
 }
 
+void mdeath::darkman(monster *z) {
+     g->u.rem_disease("darkness");
+     if (g->u_see(z))
+        g->add_msg(_("The %s melts away. And the world returns to normaliity"), z->name().c_str());
+}
+
 void mdeath::smokeburst(monster *z) {
     std::string tmp;
     g->sound(z->posx(), z->posy(), 24, _("a smoker explode!"));

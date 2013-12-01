@@ -3172,9 +3172,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   tercol = c_magenta;
  else if ( u.has_nv() )
   tercol = (bright_light) ? c_white : c_ltgreen;
+ else if (u.has_disease("darkness"))
+  tercol = c_dkgray;
  else if (low_light)
   tercol = c_dkgray;
- else
+ else 
   normal_tercol = true;
  if (move_cost(x, y) == 0 && has_flag("SWIMMABLE", x, y) && !u.is_underwater())
   show_items = false; // Can only see underwater items if WE are underwater
