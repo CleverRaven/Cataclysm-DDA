@@ -3120,6 +3120,8 @@ void vehicle::fire_turret (int p, bool burst)
             charges = 20; // hacky
         } else if (amt == "battery") {
             if (one_in(100)) {
+                //~ the sound of a charge-rifle firing a massive ball of plasma
+                g->sound(parts[p].mount_dx, parts[p].mount_dy, 20, _("whoosh!"));
                 charges = rng(5,8); // kaboom
             } else {
                 charges = rng(1,4);
