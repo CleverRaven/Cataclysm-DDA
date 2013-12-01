@@ -373,10 +373,9 @@ public:
  int encumb(body_part bp, double &layers, int &armorenc);
  int get_armor_bash(body_part bp); // Bashing resistance, from creature
  int get_armor_cut(body_part bp); // Cutting resistance
- // TODO: phase out old armor functions (below)
  int get_armor_bash_base(body_part bp); // Bashing resistance
  int get_armor_cut_base(body_part bp); // Cutting  resistance
- int resist(body_part bp); // Infection &c resistance
+ int get_env_resist(body_part bp); // Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 

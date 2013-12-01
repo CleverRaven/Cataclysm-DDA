@@ -679,6 +679,9 @@ void monster::hit_monster(game *g, int i)
   g->kill_mon(i, (friendly != 0));
 }
 
+void monster::hurt(game*g, body_part bp, int side, int dam) {
+    hurt(dam);
+}
 
 bool monster::hurt(int dam, int real_dam)
 {

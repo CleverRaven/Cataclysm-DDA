@@ -772,7 +772,6 @@ bool game::do_turn()
     update_stair_monsters();
     u.reset(this);
     u.process_active_items(this);
-    u.process_effects(this);
     u.suffer(this);
 
     if (levz >= 0 && !u.is_underwater()) {
@@ -5080,7 +5079,7 @@ void game::monmove()
   }
 
   if (!z.dead) {
-   z.process_effects(this);
+   z.reset(this);
    if (z.hurt(0))
     kill_mon(i, false);
   }
@@ -5141,7 +5140,6 @@ void game::monmove()
    active_npc[i]->die(this);
   else {
    active_npc[i]->reset(this);
-   active_npc[i]->process_effects(this);
    active_npc[i]->suffer(this);
    while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
     turns++;
@@ -10629,12 +10627,12 @@ bool game::plmove(int dx, int dy)
 
         switch (curType) {
             case fd_smoke:
-                dangerous = !(u.resist(bp_mouth) >= 7);
+                dangerous = !(u.get_env_resist(bp_mouth) >= 7);
                 break;
             case fd_tear_gas:
             case fd_toxic_gas:
             case fd_gas_vent:
-                dangerous = !(u.resist(bp_mouth) >= 15);
+                dangerous = !(u.get_env_resist(bp_mouth) >= 15);
                 break;
             default:
                 dangerous = cur->is_dangerous();

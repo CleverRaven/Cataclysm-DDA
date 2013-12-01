@@ -1124,13 +1124,13 @@ void map::step_in_field(int x, int y, game *g)
             // Toxic gas at low levels poisons you.
             // Toxic gas at high levels will cause very nasty poison.
             if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
-                g->u.infect("poison", bp_mouth, 5, 30);
+                g->u.add_env_effect("effect_poison", bp_mouth, 5, 30);
             }
             else if (cur->getFieldDensity() == 3 && !inside)
             {
                 g->u.infect("badpoison", bp_mouth, 5, 30);
             } else if (cur->getFieldDensity() == 1 && (!inside)) {
-                g->u.infect("poison", bp_mouth, 2, 10);
+                g->u.add_env_effect("effect_poison", bp_mouth, 2, 20);
             }
             break;
 

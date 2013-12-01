@@ -899,23 +899,6 @@ void dis_effect(player &p, disease &dis) {
             p.per_cur--;
             break;
 
-        case DI_POISON:
-            psnChance = 150;
-            if (p.has_trait("POISRESIST")) {
-                psnChance *= 6;
-            } else {
-                p.str_cur -= 2;
-                p.dex_cur--;
-            }
-            if (one_in(psnChance)) {
-                g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
-                p.pain++;
-                p.hurt(g, bp_torso, -1, rng(0, 2) * rng(0, 1));
-            }
-            p.per_cur--;
-            p.dex_cur--;
-            break;
-
         case DI_BLEED:
             if (one_in(6 / dis.intensity)) {
                 g->add_msg_player_or_npc( &p, _("You lose some blood."),

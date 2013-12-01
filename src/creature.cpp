@@ -44,10 +44,7 @@ void Creature::reset(game *g) {
     throw_resist = 0;
 
     // then repopulate the bonus fields
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
-        it->do_effect(g, *this);
-    }
+    process_effects(g);
     str_cur = str_max + get_str_bonus();
     dex_cur = dex_max + get_dex_bonus();
     per_cur = per_max + get_per_bonus();
@@ -96,6 +93,13 @@ void Creature::add_effect(efftype_id eff_id, int dur) {
         effects.push_back(new_eff);
     }
 }
+bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur) {
+    if (dice(1, 3) > dice(get_env_resist(vector), 3)) {
+        add_effect(eff_id, dur);
+        return true;
+    } else
+        return false;
+}
 void Creature::clear_effects() {
     effects.clear();
 }
@@ -125,6 +129,12 @@ void Creature::process_effects(game* g) {
                        [](effect& e) { return e.get_duration() <= 0; }), effects.end());
                        */
 }
+
+
+void Creature::mod_pain(int npain) {
+    pain += npain;
+}
+
 /*
  * Innate stats getters
  */
@@ -185,9 +195,10 @@ int Creature::get_num_dodges_bonus() {
     return num_dodges_bonus;
 }
 
-// TODO: implement and actually use these for bash and cut armor,
-// probably needs prototype change to support bodypart
-//
+// currently this is expected to be overridden to actually have use
+int Creature::get_env_resist(body_part bp) {
+    return 0;
+}
 int Creature::get_armor_bash(body_part bp) {
     return armor_bash_bonus;
 }

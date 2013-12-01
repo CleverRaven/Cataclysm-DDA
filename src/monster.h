@@ -195,6 +195,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.
     bool hurt(int dam, int real_dam = 0);
+    // TODO: make this not a shim (possibly need to redo prototype)
+    void hurt(game*g, body_part bp, int side, int dam);
     int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
     int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
     int  dodge();       // Natural dodge, or 0 if we're occupied

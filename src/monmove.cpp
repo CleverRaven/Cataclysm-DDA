@@ -672,7 +672,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     //Monster effects
                     if (dam > 0 && has_flag(MF_VENOM)) {
                         g->add_msg_if_player(&p, _("You're poisoned!"));
-                        p.add_disease("poison", 30);
+                        p.add_effect("effect_poison", 30);
                     } else if (dam > 0 && has_flag(MF_BADVENOM)) {
                         g->add_msg_if_player(&p, _("You feel poison flood your body, wracking you with pain..."));
                         p.add_disease("badpoison", 40);

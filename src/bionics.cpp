@@ -265,7 +265,7 @@ void player::activate_bionic(int b, game *g)
    bad.push_back(_("Fungal Parasite"));
   if (has_disease("dermatik"))
    bad.push_back(_("Insect Parasite"));
-  if (has_disease("poison"))
+  if (has_effect("effect_poison"))
    bad.push_back(_("Poison"));
   if (radiation > 0)
    bad.push_back(_("Irradiated"));
@@ -316,7 +316,7 @@ void player::activate_bionic(int b, game *g)
  } else if(bio.id == "bio_blood_filter"){
   rem_disease("fungus");
   rem_disease("dermatik");
-  rem_disease("poison");
+  remove_effect("effect_poison");
   rem_disease("pkill1");
   rem_disease("pkill2");
   rem_disease("pkill3");

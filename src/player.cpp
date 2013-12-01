@@ -865,7 +865,7 @@ void player::update_bodytemp(game *g)
             blister_count = (has_trait("BARK") ? -100 : 0);
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if (blister_count - 10*resist(body_part(i)) > 20)
+        if (blister_count - 10*get_env_resist(body_part(i)) > 20)
         {
             add_disease("blisters", 1, false, 1, 1, 0, 1, (body_part)i, -1);
         }
@@ -4227,7 +4227,7 @@ bool player::infect(dis_type type, body_part vector, int strength,
         return false;
     }
 
-    if (dice(strength, 3) > dice(resist(vector), 3)) {
+    if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         if (targeted) {
             add_disease(type, duration, permanent, intensity, max_intensity, decay,
                           additive, vector, side, main_parts_only);
@@ -4501,12 +4501,30 @@ void manage_fire_exposure(player &p, int fireStrength) {
     }
 }
 void player::process_effects(game *g) {
+    int psnChance;
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
         std::string id = it->get_id();
         if (id == "effect_onfire") {
             manage_fire_exposure(*this, 1);
+        } else if (id == "effect_poison") {
+            psnChance = 150;
+            if (has_trait("POISRESIST")) {
+                psnChance *= 6;
+            } else {
+                mod_str_bonus(-2);
+                mod_per_bonus(-1);
+            }
+            if (one_in(psnChance)) {
+                g->add_msg_if_player(this,_("You're suddenly wracked with pain!"));
+                mod_pain(1);
+                hurt(g, bp_torso, -1, rng(0, 2) * rng(0, 1));
+            }
+            mod_per_bonus(-1);
+            mod_dex_bonus(-1);
         }
+
+
     }
 
     Creature::process_effects(g);
@@ -6557,7 +6575,7 @@ bool player::eat(game *g, item *eaten, it_comest *comest)
     }
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison >= rng(2, 4)) {
-        add_disease("poison", eaten->poison * 100);
+        add_effect("effect_poison", eaten->poison * 100);
     }
     if (eaten->poison > 0) {
         add_disease("foodpoison", eaten->poison * 300);
@@ -8835,7 +8853,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         cut = 0;
 }
 
-int player::resist(body_part bp)
+int player::get_env_resist(body_part bp)
 {
     int ret = 0;
     for (int i = 0; i < worn.size(); i++) {

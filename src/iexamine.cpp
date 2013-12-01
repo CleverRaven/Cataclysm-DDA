@@ -614,7 +614,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
     return;
   }
 
-  int resist = p->resist(bp_mouth);
+  int resist = p->get_env_resist(bp_mouth);
 
   if (resist < 10) {
     // Can't smell the flowers with a gas mask on!

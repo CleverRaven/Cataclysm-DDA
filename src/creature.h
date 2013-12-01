@@ -60,15 +60,21 @@ class Creature
 
         virtual void die(game* g, Creature* killer) = 0;
 
+        virtual void hurt(game* g, body_part bp, int side, int dam) = 0;
+
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with
         // the old add_effect
         void add_effect(efftype_id eff_id, int dur);
+        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur); // gives chance to save via env resist, returns if successful
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id);
 
         virtual void process_effects(game* g); // runs all the effects on the Creature
+
+        // not-quite-stats, maybe group these with stats later
+        virtual void mod_pain(int npain);
 
         // getters for stats - combat-related stats will all be held within
         // the Creature and re-calculated during every normalize() call
@@ -92,6 +98,8 @@ class Creature
         virtual int get_num_dodges();
         virtual int get_num_blocks_bonus();
         virtual int get_num_dodges_bonus();
+
+        virtual int get_env_resist(body_part bp);
 
         virtual int get_armor_bash(body_part bp);
         virtual int get_armor_cut(body_part bp);
@@ -157,6 +165,8 @@ class Creature
         int dex_cur;
         int per_cur;
         int int_cur;
+
+        int pain;
 
     protected:
         std::vector<effect> effects;
