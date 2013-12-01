@@ -928,8 +928,15 @@ WINDOW *curses_init(void)
     int fontsize = 0; //actuall size
     fin.open("data/FONTDATA");
     if (!fin.is_open()){
-        fontheight=16;
-        fontwidth=8;
+        fontwidth = 8;
+        fontheight = 16;
+        std::ofstream fout;//create data/FONDATA file
+		fout.open("data/FONTDATA");
+		if(fout.is_open()) {
+			fout << "Terminus\n";
+			fout << fontwidth << "\n";
+			fout << fontheight;
+		}
     } else {
         getline(fin, typeface);
         fin >> fontwidth;

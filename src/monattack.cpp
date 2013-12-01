@@ -1598,7 +1598,7 @@ void mattack::flamethrower(monster *z)
         }
         g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
     }
-    if (!g->u.uncanny_dodge()) { g->u.add_disease("onfire", 8); }
+    if (!g->u.uncanny_dodge()) { g->u.add_effect("effect_onfire", 8); }
 }
 
 void mattack::copbot(monster *z)

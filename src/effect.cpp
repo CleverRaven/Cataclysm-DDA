@@ -8,7 +8,31 @@ std::map<std::string, effect_type> effect_types;
 effect_type::effect_type() {}
 effect_type::effect_type(const effect_type & rhs) {}
 
-effect::effect() {}
+std::string effect_type::get_name() {
+    return name;
+}
+std::string effect_type::get_desc() {
+    return desc;
+}
+std::string effect_type::get_apply_message() {
+    return apply_message;
+}
+std::string effect_type::get_apply_memorial_log() {
+    return apply_memorial_log;
+}
+std::string effect_type::get_remove_message() {
+    return remove_message;
+}
+std::string effect_type::get_remove_memorial_log() {
+    return remove_memorial_log;
+}
+
+effect::effect() :
+    eff_type(NULL),
+    duration(0),
+    intensity(0)
+{ }
+
 effect::effect(effect_type* peff_type, int dur) :
     eff_type(peff_type),
     duration(dur),
@@ -33,7 +57,7 @@ effect& effect::operator=(const effect &rhs)
     return *this;
 }
 
-void effect::do_effects(game* g, creature& t) {
+void effect::do_effect(game* g, creature& t) {
     return;
 }
 
@@ -54,6 +78,9 @@ effect_type* effect::get_effect_type() {
 void load_effect_type(JsonObject& jo) {
     effect_type new_etype;
     new_etype.id = jo.get_string("id");
+
+    new_etype.name = jo.get_string("name","");
+    new_etype.desc = jo.get_string("desc","");
 
     new_etype.apply_message = jo.get_string("apply_message","");
     new_etype.remove_message = jo.get_string("remove_message","");

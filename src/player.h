@@ -95,11 +95,14 @@ public:
  void normalize(game *g); // Starting set up of HP and inventory
 // </newcharacter.cpp>
 
- void pick_name(); // Picks a name from NAMES_*
- std::string disp_name(); // what to call 'im
- std::string skin_name(); // what to call 'im
+    void pick_name(); // Picks a name from NAMES_*
+    std::string disp_name(); // what to call 'im
+    std::string skin_name(); // what to call 'im
 
- bool is_player() { return false; }
+    bool is_player() { return false; }
+
+    void process_effects(game *g); // Process long-term effects
+
  virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
  nc_color color(); // What color to draw us as
 

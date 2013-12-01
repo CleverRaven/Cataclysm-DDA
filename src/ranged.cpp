@@ -140,19 +140,6 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  timespec ts;
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;
-
-int trange = rl_dist(p.posx, p.posy, tarx, tary);
-
- if (trange < int(firing->volume / 3) && firing->ammo != "shot")
-  trange = int(firing->volume / 3);
- else if (p.has_bionic("bio_targeting")) {
-  if (trange > LONG_RANGE)
-   trange = int(trange * .65);
-  else
-   trange = int(trange * .8);
- }
- if (firing->skill_used == Skill::skill("rifle") && trange > LONG_RANGE)
-  trange = LONG_RANGE + .6 * (trange - LONG_RANGE);
  bool missed = false;
  int tart;
 
@@ -1155,69 +1142,68 @@ int recoil_add(player &p)
 void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
                    item* weapon, const std::set<std::string> &effects)
 {
- // Gunmods don't have a type, so use the player weapon type.
- it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- std::string message;
- bool u_see_mon = g->u_see(&(mon));
- int adjusted_damage = dam;
- if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - goodhit)) && // Maxes out at 50% chance with perfect hit
-     weapon->curammo->phase != LIQUID && !effects.count("SHOT") && !effects.count("BOUNCE")) {
-  if (u_see_mon)
-   g->add_msg(_("The shot passes through the %s without hitting."),
-           mon.name().c_str());
-  goodhit = 1;
- } else { // Not HARDTOSHOOT
-  // Bounce applies whether it does damage or not.
-  if (effects.count("BOUNCE")) {
-      mon.add_effect("effect_bounced", 1);
-  }
-  // Armor blocks BEFORE any critical effects.
-  int zarm = mon.armor_cut();
-  zarm -= weapon->gun_pierce();
-  if (weapon->curammo->phase == LIQUID)
-   zarm = 0;
-  else if (effects.count("SHOT")) // Shot doesn't penetrate armor well
-   zarm *= rng(2, 3);
-  if (zarm > 0)
-   adjusted_damage -= zarm;
-  if (adjusted_damage <= 0) {
-   if (u_see_mon)
-    g->add_msg(_("The shot reflects off the %s!"),
-            mon.name_with_armor().c_str());
-   adjusted_damage = 0;
-   goodhit = 1;
-  }
-  if (goodhit <= .1 && !mon.has_flag(MF_NOHEAD)) {
-      message = _("Headshot!");
-      adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
-      p.practice(g->turn, firing->skill_used, 5);
-      p.lifetime_stats()->headshots++;
-  } else if (goodhit <= .2) {
-      message = _("Critical!");
-      adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
-      p.practice(g->turn, firing->skill_used, 3);
-  } else if (goodhit <= .4) {
-      message = _("Good hit!");
-      adjusted_damage = rng(adjusted_damage , adjusted_damage * 2);
-      p.practice(g->turn, firing->skill_used, 2);
-  } else if (goodhit <= .6) {
-      adjusted_damage = rng(adjusted_damage / 2, adjusted_damage);
-      p.practice(g->turn, firing->skill_used, 1);
-  } else if (goodhit <= .8) {
-      message = _("Grazing hit.");
-      adjusted_damage = rng(0, adjusted_damage);
-  } else {
-      adjusted_damage = 0;
-  }
+// Gunmods don't have a type, so use the player weapon type.
+    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
+    std::string message;
+    bool u_see_mon = g->u_see(&(mon));
+    int adjusted_damage = dam;
+    if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - goodhit)) && // Maxes out at 50% chance with perfect hit
+    weapon->curammo->phase != LIQUID && !effects.count("SHOT") && !effects.count("BOUNCE")) {
+        if (u_see_mon)
+            g->add_msg(_("The shot passes through the %s without hitting."),
+            mon.name().c_str());
+    } else { // Not HARDTOSHOOT
+        // Bounce applies whether it does damage or not.
+        if (effects.count("BOUNCE")) {
+            mon.add_effect("effect_bounced", 1);
+        }
+        // Armor blocks BEFORE any critical effects.
+        int zarm = mon.armor_cut();
+        zarm -= weapon->gun_pierce();
+        if (weapon->curammo->phase == LIQUID)
+            zarm = 0;
+        else if (effects.count("SHOT")) // Shot doesn't penetrate armor well
+            zarm *= rng(2, 3);
+        if (zarm > 0)
+            adjusted_damage -= zarm;
+        if (adjusted_damage <= 0) {
+            if (u_see_mon)
+                g->add_msg(_("The shot reflects off the %s!"),
+                mon.name_with_armor().c_str());
+            adjusted_damage = 0;
+            goodhit = 1;
+        }
+        if (goodhit <= .1 && !mon.has_flag(MF_NOHEAD)) {
+            message = _("Headshot!");
+            adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
+            p.practice(g->turn, firing->skill_used, 5);
+            p.lifetime_stats()->headshots++;
+        } else if (goodhit <= .2) {
+            message = _("Critical!");
+            adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
+            p.practice(g->turn, firing->skill_used, 3);
+        } else if (goodhit <= .4) {
+            message = _("Good hit!");
+            adjusted_damage = rng(adjusted_damage , adjusted_damage * 2);
+            p.practice(g->turn, firing->skill_used, 2);
+        } else if (goodhit <= .6) {
+            adjusted_damage = rng(adjusted_damage / 2, adjusted_damage);
+            p.practice(g->turn, firing->skill_used, 1);
+        } else if (goodhit <= .8) {
+            message = _("Grazing hit.");
+            adjusted_damage = rng(0, adjusted_damage);
+        } else {
+            adjusted_damage = 0;
+        }
 
-  if(item(weapon->curammo, 0).has_flag("NOGIB"))
-  {
-      adjusted_damage = std::min(adjusted_damage, mon.hp+10);
-  }
+        if(item(weapon->curammo, 0).has_flag("NOGIB"))
+        {
+            adjusted_damage = std::min(adjusted_damage, mon.hp+10);
+        }
 
 // Find the zombie at (x, y) and hurt them, MAYBE kill them!
-    if (adjusted_damage > 0) {
-        switch (mon.type->size) {
+        if (adjusted_damage > 0) {
+            switch (mon.type->size) {
             case MS_TINY:
                 mon.moves -= rng(0, adjusted_damage * 5);
                 break;
@@ -1233,25 +1219,25 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
             case MS_HUGE:
                 mon.moves -= rng(0, adjusted_damage / 5);
                 break;
-        }
-        if (&p == &(g->u) && u_see_mon) {
-            g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(), mon.name().c_str(), adjusted_damage);
-        } else if (u_see_mon) {
-            g->add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
-        }
-        bool bMonDead = mon.hurt(adjusted_damage, dam);
-        if( u_see_mon ) {
-            g->draw_hit_mon(mon.posx(), mon.posy(), mon, bMonDead);
-        }
+            }
+            if (&p == &(g->u) && u_see_mon) {
+                g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(), mon.name().c_str(), adjusted_damage);
+            } else if (u_see_mon) {
+                g->add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
+            }
+            bool bMonDead = mon.hurt(adjusted_damage, dam);
+            if( u_see_mon ) {
+                g->draw_hit_mon(mon.posx(), mon.posy(), mon, bMonDead);
+            }
 
-        if (bMonDead) {
-            g->kill_mon(g->mon_at(mon.posx(), mon.posy()), (&p == &(g->u)));
-        } else if (!effects.empty()) {
-            g->hit_monster_with_flags(mon, effects);
+            if (bMonDead) {
+                g->kill_mon(g->mon_at(mon.posx(), mon.posy()), (&p == &(g->u)));
+            } else if (!effects.empty()) {
+                g->hit_monster_with_flags(mon, effects);
+            }
         }
     }
- }
- dam = adjusted_damage;
+    dam = adjusted_damage;
 }
 
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)

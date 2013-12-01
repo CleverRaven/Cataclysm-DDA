@@ -772,6 +772,7 @@ bool game::do_turn()
     update_stair_monsters();
     u.reset(this);
     u.process_active_items(this);
+    u.process_effects(this);
     u.suffer(this);
 
     if (levz >= 0 && !u.is_underwater()) {
@@ -5135,6 +5136,7 @@ void game::monmove()
    active_npc[i]->die(this);
   else {
    active_npc[i]->reset(this);
+   active_npc[i]->process_effects(this);
    active_npc[i]->suffer(this);
    while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
     turns++;
@@ -6620,7 +6622,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
       min_charges = p_itm->charges;
     }
   }
-  if (it->is_null()) {
+  if (p_itm->is_null() || it->is_null()) {
     return false;
   } else if (test) {
     return true;
@@ -8682,7 +8684,6 @@ and you can't unwield your %s."),
     bool offered_swap = false;
     std::map<std::string, int> mapPickup;
     for (int i = 0; i < here.size(); i++) {
-        iter = 0;
         // This while loop guarantees the inventory letter won't be a repeat. If it
         // tries all 52 letters, it fails and we don't pick it up.
         if (getitem[i] && here[i].made_of(LIQUID)) {
@@ -10899,9 +10900,9 @@ bool game::plmove(int dx, int dy)
   if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE))
    sound(x, y, 40, _("You emit a rattling sound."));
 // If we moved out of the nonant, we need update our map data
-  if (m.has_flag("SWIMMABLE", x, y) && u.has_disease("onfire")) {
+  if (m.has_flag("SWIMMABLE", x, y) && u.has_effect("effect_onfire")) {
    add_msg(_("The water puts out the flames!"));
-   u.rem_disease("onfire");
+   u.remove_effect("effect_onfire");
   }
 // displace is set at the top of this function.
   if (displace) { // We displaced a friendly monster!
@@ -11210,9 +11211,9 @@ void game::plswim(int x, int y)
   debugmsg("Tried to swim in %s!", m.tername(x, y).c_str());
   return;
  }
- if (u.has_disease("onfire")) {
+ if (u.has_effect("effect_onfire")) {
   add_msg(_("The water puts out the flames!"));
-  u.rem_disease("onfire");
+  u.remove_effect("effect_onfire");
  }
  int movecost = u.swim_speed();
  u.practice(turn, "swimming", u.is_underwater() ? 2 : 1);

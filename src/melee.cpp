@@ -210,8 +210,7 @@ int player::hit_creature(game *g, creature &t, bool allow_grab) {
     if (tec_id != "tec_none")
         perform_technique(technique, g, t, bash_dam, cut_dam, stab_dam, pain);
     if (weapon.has_flag("FLAMING")) {
-        //TODO: add flaming effect
-        //t->add_effect("effect_onfire", rng(3, 4));
+        t.add_effect("effect_onfire", rng(3, 4));
     }
     //TODO: add speed defecit/pain
     //t->speed -= int(pain / 2);
@@ -817,11 +816,11 @@ void player::perform_technique(ma_technique technique, game *g, creature &t,
                 int cut = roll_cut_damage (NULL, false);
                 g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
                 if (weapon.has_flag("FLAMING")) {// Add to wide attacks
-                    g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+                    g->active_npc[npcdex]->add_effect("effect_onfire", rng(2, 3));
                 }
                 g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npcdex]->name.c_str() );
 
-                g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+                g->active_npc[npcdex]->add_effect("effect_onfire", rng(2, 3));
             }
             }
         }
@@ -847,6 +846,7 @@ bool player::block_hit(game *g, body_part &bp_hit, int &side,
 
   ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
   // these fire even if the attack is blocked (you still got hit)
+
   if (blocks_left < 1)
       return false;
 

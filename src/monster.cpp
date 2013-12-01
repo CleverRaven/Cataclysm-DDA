@@ -857,7 +857,6 @@ void monster::drop_items_on_death(game *g)
 
 void monster::process_effects(game *g)
 {
-    creature::process_effects(g);
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
         std::string id = it->get_id();
@@ -875,21 +874,9 @@ void monster::process_effects(game *g)
                 made_of("wool"))
                 hurt(rng(15, 40));
         }
-
-        if (it->get_duration() > 0) {
-            it->mod_duration(-1);
-        if (g->debugmon)
-            debugmsg("Duration %d", it->get_duration());
-        }
-        if (it->get_duration() == 0) {
-            if (g->debugmon)
-                debugmsg("Deleting");
-            it = effects.erase(it);
-        }
-
     }
 
-
+    creature::process_effects(g);
 }
 
 bool monster::make_fungus()

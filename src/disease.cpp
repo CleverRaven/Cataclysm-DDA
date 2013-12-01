@@ -24,8 +24,8 @@ enum dis_type_enum {
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
-// Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+// Fields - onfire moved to effects
+ DI_SMOKE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
@@ -59,7 +59,6 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 
 // Todo: Move helper functions into a DiseaseHandler Class.
 // Should standardize parameters so we can make function pointers.
-static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void manage_fungal_infection(player& p, disease& dis);
 static void manage_sleep(player& p, disease& dis);
 
@@ -89,7 +88,6 @@ void game::init_diseases() {
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
     disease_type_lookup["smoke"] = DI_SMOKE;
-    disease_type_lookup["onfire"] = DI_ONFIRE;
     disease_type_lookup["teargas"] = DI_TEARGAS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
@@ -175,10 +173,6 @@ void dis_msg(dis_type type_string) {
     case DI_FLU:
         g->add_msg(_("You feel a flu coming on..."));
         g->u.add_memorial_log(_("Caught the flu."));
-        break;
-    case DI_ONFIRE:
-        g->add_msg(_("You're on fire!"));
-        g->u.add_memorial_log(_("Caught on fire."));
         break;
     case DI_SMOKE:
         g->add_msg(_("You inhale a lungful of thick smoke."));
@@ -289,9 +283,6 @@ void dis_remove_memorial(dis_type type_string) {
       break;
     case DI_FLU:
       g->u.add_memorial_log(_("Got over the flu."));
-      break;
-    case DI_ONFIRE:
-      g->u.add_memorial_log(_("Put out the fire."));
       break;
     case DI_FUNGUS:
       g->u.add_memorial_log(_("Cured the fungal infection."));
@@ -715,10 +706,6 @@ void dis_effect(player &p, disease &dis) {
             if (one_in(3)) {
                 handle_cough(p);
             }
-            break;
-
-        case DI_ONFIRE:
-            manage_fire_exposure(p, 1);
             break;
 
         case DI_CRUSHED:
@@ -1520,7 +1507,6 @@ std::string dis_name(disease& dis)
     case DI_FLU: return _("Influenza");
     case DI_SMOKE: return _("Smoke");
     case DI_TEARGAS: return _("Tear gas");
-    case DI_ONFIRE: return _("On Fire");
     case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
@@ -1975,11 +1961,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         "Occasionally you will cough, costing movement and creating noise.\n"
         "Loss of health - Torso");
 
-    case DI_ONFIRE:
-        return _(
-        "Loss of health - Entire Body\n"
-        "Your clothing and other equipment may be consumed by the flames.");
-
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_BOULDERING:
@@ -2211,21 +2192,6 @@ condition, and deals massive damage.");
     default:;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
-}
-
-void manage_fire_exposure(player &p, int fireStrength) {
-    // TODO: this should be determined by material properties
-    p.hurtall(3*fireStrength);
-    for (int i = 0; i < p.worn.size(); i++) {
-        item tmp = p.worn[i];
-        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
-        if (burnVeggy || burnFabric || burnPlastic) {
-            p.worn.erase(p.worn.begin() + i);
-            i--;
-        }
-    }
 }
 
 void manage_fungal_infection(player& p, disease& dis) {
@@ -2473,13 +2439,6 @@ static void handle_bite_wound(player& p, disease& dis) {
 static void handle_infected_wound(player& p, disease& dis) {
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
-        int recover_factor = 100;
-        if (p.has_disease("recover")) {
-            recover_factor -= std::min(p.disease_duration("recover") / 720, 100);
-        }
-        recover_factor += p.health; // Health still helps if factor is zero
-        recover_factor = std::max(recover_factor, 0); // but can't hurts
-
         if(x_in_y(100 + p.health, 864000)) {
             g->add_msg_if_player(&p,_("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());

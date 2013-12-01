@@ -1861,6 +1861,7 @@ void talk_function::set_engagement_all(game *g, npc *p)
  p->combat_rules.engagement = ENGAGE_ALL;
 }
 
+//TODO currently this does not handle martial art styles correctly
 void talk_function::start_training(game *g, npc *p)
 {
  int cost = 0, time = 0;
