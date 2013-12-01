@@ -4675,7 +4675,7 @@
   "components": [
     [
       [ "meat", 1 ]
-    ]
+    ],
     [
       [ "royal_jelly", 1 ]
     ]
@@ -5084,7 +5084,7 @@
     [
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
-    ]
+    ],
     [
       [ "tongs", -1 ]
     ]
@@ -5095,7 +5095,7 @@
     ],
     [
       [ "soup_mushroom", 1]
-    ]
+    ],
     [
       [ "biscuit", 2],
       [ "bread", 3],
@@ -5124,7 +5124,7 @@
     [
       [ "pot", -1 ],
       [ "rock_pot", -1 ]
-    ]
+    ],
     [
       [ "tongs", -1 ]
     ]
@@ -5135,7 +5135,7 @@
     ],
     [
       [ "soup_mushroom", 1]
-    ]
+    ],
     [
       [ "biscuit", 2],
       [ "bread", 3],
@@ -6441,6 +6441,32 @@
     ],
     [
       [ "vodka", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "waterbooze",
+  "category": "CC_DRINK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water", 10 ]
+    ],
+    [
+      [ "wine_riesling", 15 ],
+      [ "wine_chardonnay", 15 ],
+      [ "wine_cabernet", 15 ],
+      [ "wine_noir", 15 ],
+      [ "whiskey", 15 ],
+      [ "vodka", 15 ],
+      [ "gin", 15 ],
+      [ "rum", 15 ],
+      [ "tequila", 15 ],
+      [ "triple_sec", 15 ]
     ]
   ]
 },{
@@ -8106,11 +8132,11 @@
     ],
     [
       [ "seasoning_italian", 5 ],
-      [ "sauce_red", 1 ],
+      [ "sauce_red", 1 ]
     ],
     [
       [ "cheese", 1 ],
-      [ "can_cheese", 2 ],
+      [ "can_cheese", 2 ]
     ],
     [
       [ "irradiated_tomato", 1 ],
@@ -8119,7 +8145,7 @@
       [ "broccoli", 1 ],
       [ "irradiated_zucchini", 1 ],
       [ "zucchini", 1 ]
-    ]
+    ],
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
@@ -8162,11 +8188,11 @@
     ],
     [
       [ "seasoning_italian", 5 ],
-      [ "sauce_red", 1 ],
+      [ "sauce_red", 1 ]
     ],
     [
       [ "cheese", 1 ],
-      [ "can_cheese", 2 ],
+      [ "can_cheese", 2 ]
     ],
     [
       [ "irradiated_tomato", 1 ],
@@ -8175,7 +8201,7 @@
       [ "broccoli", 1 ],
       [ "irradiated_zucchini", 1 ],
       [ "zucchini", 1 ]
-    ]
+    ],
     [
       [ "human_flesh", 2 ],
       [ "human_canned", 1 ],
@@ -20199,6 +20225,7 @@
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ]
+    ],
     [
       [ "penutbutter", 1 ]
     ]
@@ -20223,6 +20250,7 @@
     [
       [ "honey", 1 ],
       [ "honeybottle", 1 ]
+    ],
     [
       [ "penutbutter", 1 ]
     ]
@@ -20257,7 +20285,7 @@
     ],
     [
       [ "cheese", 1 ],
-      [ "can_cheese", 2 ],
+      [ "can_cheese", 2 ]
     ]
   ]
 },{
